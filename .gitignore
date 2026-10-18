@@ -1,0 +1,6 @@
+node_modules/
+.env
+wallets-public-list.json
+balances-report.json
+last-run-report.json
+*.log
