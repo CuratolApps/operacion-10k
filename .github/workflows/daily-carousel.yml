@@ -12,11 +12,16 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: write
+
 jobs:
   run-daily-carousel:
     name: Carrusel Omnichain 500 Satélites (Sepolia, Base, Arbitrum)
     runs-on: ubuntu-latest
     timeout-minutes: 35
+    permissions:
+      contents: write
 
     steps:
       - name: 📥 Clonar repositorio

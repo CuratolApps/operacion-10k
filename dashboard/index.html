@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operación 10K — Centro de Mando Profesional Glassmorphism 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ====================================================================
+       MARCO MAESTRO DE CRISTAL 100% TRANSPARENTE (97vw x 94vh)
+       Layout Vertical: Top Bar (64px) + 3 Columnas (1fr) + Footer Bar (76px)
+       ==================================================================== -->
+  <div class="master-glass-frame main-glass-panel dashboard-shell">
+
+    <!-- Destellos relucientes en las 4 puntas de cristal pulido -->
+    <div class="crystal-corner-gleam corner-top-left" aria-hidden="true"></div>
+    <div class="crystal-corner-gleam corner-top-right" aria-hidden="true"></div>
+    <div class="crystal-corner-gleam corner-bottom-left" aria-hidden="true"></div>
+    <div class="crystal-corner-gleam corner-bottom-right" aria-hidden="true"></div>
+
+    <!-- ==================================================================
+         FILA 1 (64px): TOP BAR SUPERIOR (BLANCO LECHOSO)
+         ================================================================== -->
+    <header class="crystal-top-header crystal-header">
+      
+      <!-- 1. Identidad: Logo 10K ("we can do it") -->
+      <div class="header-brand-block">
+        <div class="emblem-10k">
+          <span class="emblem-icon">✨</span>
+          <span class="emblem-text">10K</span>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-title">OPERACIÓN 10K</span>
+          <span class="brand-slogan">"WE CAN DO IT"</span>
+        </div>
+      </div>
+
+      <!-- 2. Testigo Maestro: Meta 12,000 USDC (Binance Spot) -->
+      <div class="header-metric-pill goal-metric-pill">
+        <span class="metric-icon">🏆</span>
+        <div class="metric-col">
+          <span class="metric-title">META 12,000 USDC (BINANCE SPOT)</span>
+          <div class="metric-val-row">
+            <span class="metric-curr" id="header-accrued">$1,420.50</span>
+            <span class="metric-target">/ $12,000.00</span>
+          </div>
+        </div>
+        <span class="metric-badge-pct" id="header-pct-chip">11.84%</span>
+      </div>
+
+      <!-- 3. Testigo del Reloj Keep-Up (3 Minutos • 100% REALIZADO) -->
+      <div class="header-metric-pill keepup-metric-pill">
+        <span class="pulse-emerald-dot"></span>
+        <div class="metric-col">
+          <span class="metric-title">RELOJ KEEP-UP (3 MIN)</span>
+          <div class="metric-val-row">
+            <span class="mono-code timer-val" id="header-keepup-clock">02:14</span>
+            <span class="badge-status-realizado">✓ 100% REALIZADO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Reloj UTC en vivo -->
+      <div class="header-utc-pill">
+        <span class="utc-icon">🕒</span>
+        <span class="mono-code" id="header-utc-clock">--:--:-- UTC</span>
+      </div>
+
+    </header>
+
+    <!-- ==================================================================
+         FILA 2 (1fr): CUERPO CENTRAL DE 3 ESPACIOS AJUSTADOS
+         Izquierda (240px) + Mesa de Trabajo (1fr) + Comms 50/50 (350px)
+         ================================================================== -->
+    <div class="dashboard-body-grid central-body-grid">
+
+      <!-- ==============================================================
+           ESPACIO 1: MENÚ LATERAL (CONTENEDOR BLANCO LECHOSO — 240px)
+           ============================================================== -->
+      <nav class="left-vertical-nav left-menu-container">
+        <div class="nav-title-tag">CENTRO DE MANDO</div>
+
+        <!-- 4 Tarjetas de Navegación Compactas y Claras -->
+        <button class="nav-vertical-btn active nav-btn-orange" data-view="view-panorama" onclick="switchView('view-panorama')">
+          <span class="btn-icon">🏛️</span>
+          <div class="btn-text">
+            <span class="btn-main">Mesa Principal</span>
+            <span class="btn-sub">Keep-Up & 3D</span>
+          </div>
+        </button>
+
+        <button class="nav-vertical-btn nav-btn-green" data-view="view-boxes" onclick="switchView('view-boxes')">
+          <span class="btn-icon">📦</span>
+          <div class="btn-text">
+            <span class="btn-main">Inspección de Boxes</span>
+            <span class="btn-sub">B1–B5 • >0.015 ETH</span>
+          </div>
+        </button>
+
+        <button class="nav-vertical-btn nav-btn-yellow" data-view="view-keepup" onclick="switchView('view-keepup')">
+          <span class="btn-icon">⏱️</span>
+          <div class="btn-text">
+            <span class="btn-main">Agenda & Reloj</span>
+            <span class="btn-sub">3 Min • 100% Realizado</span>
+          </div>
+        </button>
+
+        <button class="nav-vertical-btn nav-btn-blue" data-view="view-binance" onclick="switchView('view-binance')">
+          <span class="btn-icon">🏦</span>
+          <div class="btn-text">
+            <span class="btn-main">Bóveda Binance</span>
+            <span class="btn-sub">12K USDC Spot</span>
+          </div>
+        </button>
+
+        <!-- Widget de Seguridad Compacto Inferior -->
+        <div class="nav-security-footer">
+          <div class="sec-status-row">
+            <span class="sec-dot green"></span>
+            <strong>500 Satélites Activos</strong>
+          </div>
+          <div class="sec-detail-row">
+            <span>Regla de Oro:</span>
+            <strong class="text-gold">>0.015 ETH ✓</strong>
+          </div>
+          <div class="sec-detail-row">
+            <span>Red Primaria:</span>
+            <strong>Base Sepolia L2</strong>
+          </div>
+        </div>
+      </nav>
+
+      <!-- ==============================================================
+           ESPACIO 2: PURA MESA DE TRABAJO DINÁMICA (CONTENEDOR BLANCO LECHOSO)
+           ============================================================== -->
+      <main class="center-stage-container workspace-container">
+        <div class="workspace-card" id="centralWorkspaceCard">
+
+          <!-- ------------------------------------------------------------
+               VISTA 1: MESA PRINCIPAL — FLUJO DE TRABAJO VISUAL INTERACTIVO
+               (DÍA 0 ➔ 12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS SVG)
+               ------------------------------------------------------------ -->
+          <section class="stage-view active" id="view-panorama">
+            <div class="visual-pipeline-container">
+
+              <!-- Barra Superior del Pipeline -->
+              <div class="pipeline-header-bar">
+                <div class="pipeline-title-group">
+                  <span class="pipeline-pulse-beacon"></span>
+                  <div class="pipeline-title-col">
+                    <span class="pipeline-main-title">⚡ PIPELINE VISUAL ORQUESTADOR: DÍA 0 ➔ 12,000 USDC</span>
+                    <span class="pipeline-sub-title">FLUJO INTERACTIVO DE IZQUIERDA A DERECHA • CADENCIA 3 MINUTOS • AISLAMIENTO SYBIL 100%</span>
+                  </div>
+                </div>
+                <div class="pipeline-telemetry-badge">
+                  <span class="p-cadence-dot"></span>
+                  <span>FLUJO: <strong id="pipe-cadence-label">1X NORMAL (180s)</strong></span>
+                </div>
+              </div>
+
+              <!-- Lienzo del Flujo: Tuberías SVG + 4 Nodos de Colores -->
+              <!-- Lienzo del Flujo: Tuberías SVG + 4 Nodos en Rejilla Simétrica 2x2 -->
+              <div class="pipeline-canvas-wrap">
+                
+                <!-- Conector SVG de Tuberías Luminosas en 2x2 (01 -> 02 -> 03 -> 04) -->
+                <svg class="pipeline-svg-canvas" id="pipelineSvg" viewBox="0 0 1000 600" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="gradPipe12" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#F97316" />
+                      <stop offset="100%" stop-color="#10B981" />
+                    </linearGradient>
+                    <linearGradient id="gradPipe23" x1="100%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#10B981" />
+                      <stop offset="50%" stop-color="#EAB308" />
+                      <stop offset="100%" stop-color="#F59E0B" />
+                    </linearGradient>
+                    <linearGradient id="gradPipe34" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#F59E0B" />
+                      <stop offset="100%" stop-color="#1D4ED8" />
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Tubería 1 a 2 (Horizontal Superior: 01 Gas -> 02 Keep-Up) -->
+                  <path class="pipe-path pipe-12" id="pipe12" d="M 488 150 L 512 150" stroke="url(#gradPipe12)" stroke-width="5" stroke-linecap="round" />
+                  <!-- Tubería 2 a 3 (Transición S-Curve: 02 Keep-Up -> 03 Cosecha) -->
+                  <path class="pipe-path pipe-23" id="pipe23" d="M 750 292 C 750 335, 250 265, 250 308" stroke="url(#gradPipe23)" stroke-width="4.5" stroke-linecap="round" />
+                  <!-- Tubería 3 a 4 (Horizontal Inferior: 03 Cosecha -> 04 Binance) -->
+                  <path class="pipe-path pipe-34" id="pipe34" d="M 488 450 L 512 450" stroke="url(#gradPipe34)" stroke-width="5" stroke-linecap="round" />
+
+                  <!-- Pulsos de Luz en las Tuberías -->
+                  <circle class="pipe-pulse-dot dot-12" cx="500" cy="150" r="4.5" fill="#FFFFFF"></circle>
+                  <circle class="pipe-pulse-dot dot-23" cx="500" cy="300" r="4.5" fill="#FFFFFF"></circle>
+                  <circle class="pipe-pulse-dot dot-34" cx="500" cy="450" r="4.5" fill="#FFFFFF"></circle>
+                </svg>
+
+                <!-- Cuadrícula Exacta 2x2: 4 Tarjetas del Mismo Tamaño -->
+                <div class="pipeline-nodes-grid pipeline-grid">
+
+                  <!-- 🟧 NODO 1 (ARRIBA IZQUIERDA): DÍA 0 & FLUJO DE GAS -->
+                  <div class="pipeline-node-card node-card-orange" id="nodeGas">
+                    <div class="pnode-header">
+                      <div class="pnode-tag">
+                        <span class="pnode-num">01</span>
+                        <span class="pnode-icon">🟧</span>
+                        <span class="pnode-name">DÍA 0 & GAS</span>
+                      </div>
+                      <span class="pnode-status-pill pill-orange">L1 ➔ L2 ACTIVO</span>
+                    </div>
+
+                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
+                    <div class="pnode-body-split">
+                      <!-- Columna Izquierda: Indicadores de Gwei -->
+                      <div class="pnode-metric-box">
+                        <div class="pnode-metric-row">
+                          <span class="lbl">Ethereum L1:</span>
+                          <strong class="mono-code">1.2 Gwei</strong>
+                        </div>
+                        <div class="pnode-metric-row">
+                          <span class="lbl">Base L2 (250 sat.):</span>
+                          <strong class="mono-code text-white">0.001 Gwei</strong>
+                        </div>
+                        <div class="pnode-metric-row">
+                          <span class="lbl">Arbitrum (250 sat.):</span>
+                          <strong class="mono-code text-white">0.010 Gwei</strong>
+                        </div>
+                      </div>
+
+                      <!-- Columna Derecha: Escudo Regla de Oro -->
+                      <div class="pnode-shield-banner">
+                        <span class="shield-icon">🛡️</span>
+                        <div>
+                          <div class="shield-title">>0.015 ETH INTOCABLE</div>
+                          <div class="shield-desc" id="shieldDescText">500/500 satélites blindados</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Abajo en Fila Horizontal los Dos Botones -->
+                    <div class="pnode-actions actions-row">
+                      <button class="pnode-btn btn-orange-action" id="btnAutoFondear" onclick="triggerAutoFondear()">
+                        <span>⚡ Auto-Fondear Intra-Box</span>
+                      </button>
+                      <button class="pnode-btn btn-outline-white" id="btnShieldToggle" onclick="toggleShield()">
+                        <span id="shieldToggleText">🛡️ Escudo >0.015 ETH: ACTIVO</span>
+                      </button>
+                    </div>
+
+                    <div class="node-port port-right" title="Tubería hacia Motor Keep-Up"></div>
+                  </div>
+
+                  <!-- 🟩 NODO 2 (ARRIBA DERECHA): MOTOR KEEP-UP (3 MIN & 5 BOXES) -->
+                  <div class="pipeline-node-card node-card-green" id="nodeKeepUp">
+                    <div class="node-port port-left" title="Recepción de Gas L1/L2"></div>
+
+                    <div class="pnode-header">
+                      <div class="pnode-tag">
+                        <span class="pnode-num">02</span>
+                        <span class="pnode-icon">🟩</span>
+                        <span class="pnode-name">MOTOR KEEP-UP</span>
+                      </div>
+                      <span class="pnode-status-pill pill-green mono-code" id="pipelineClock">02:14</span>
+                    </div>
+
+                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
+                    <div class="pnode-body-split">
+                      <!-- Columna Izquierda: Barras de Progreso B1 a B5 -->
+                      <div class="pnode-boxes-lanes">
+                        <div class="plane-lane" id="laneB1">
+                          <span class="lane-id">B1</span>
+                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <span class="lane-stat">100% OK</span>
+                        </div>
+                        <div class="plane-lane" id="laneB2">
+                          <span class="lane-id">B2</span>
+                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <span class="lane-stat">100% OK</span>
+                        </div>
+                        <div class="plane-lane" id="laneB3">
+                          <span class="lane-id">B3</span>
+                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <span class="lane-stat">100% OK</span>
+                        </div>
+                        <div class="plane-lane" id="laneB4">
+                          <span class="lane-id">B4</span>
+                          <div class="lane-bar"><div class="lane-fill" style="width: 95%;"></div></div>
+                          <span class="lane-stat">95% Gas</span>
+                        </div>
+                        <div class="plane-lane" id="laneB5">
+                          <span class="lane-id">B5</span>
+                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <span class="lane-stat">100% OK</span>
+                        </div>
+                      </div>
+
+                      <!-- Columna Derecha: Estado de Operación Actual y Sello -->
+                      <div class="pnode-operation-box">
+                        <div class="op-label">OPERACIÓN EN CURSO:</div>
+                        <div class="op-title" id="pipelineOpTitle">Micro-Swaps Lote #22 en Base</div>
+                        <div class="op-seal-badge" id="pipelineOpSeal">✅ 100% REALIZADO</div>
+                      </div>
+                    </div>
+
+                    <!-- Abajo en Fila Horizontal: Botón Forzar Keep-Up + Botones B1-B5 -->
+                    <div class="pnode-actions actions-row">
+                      <button class="pnode-btn btn-green-action" id="btnForceKeepUp" onclick="triggerForceKeepUp()">
+                        <span>▶ Forzar Keep-Up</span>
+                      </button>
+                      <div class="pnode-miniboxes-row">
+                        <span class="minibox-label">PAUSAR:</span>
+                        <button class="minibox-toggle active" id="pboxBtn1" onclick="toggleBoxPause(1)">B1</button>
+                        <button class="minibox-toggle active" id="pboxBtn2" onclick="toggleBoxPause(2)">B2</button>
+                        <button class="minibox-toggle active" id="pboxBtn3" onclick="toggleBoxPause(3)">B3</button>
+                        <button class="minibox-toggle active" id="pboxBtn4" onclick="toggleBoxPause(4)">B4</button>
+                        <button class="minibox-toggle active" id="pboxBtn5" onclick="toggleBoxPause(5)">B5</button>
+                      </div>
+                    </div>
+
+                    <div class="node-port port-bottom" title="Flujo hacia Embudo de Cosecha"></div>
+                  </div>
+
+                  <!-- 🟨 NODO 3 (ABAJO IZQUIERDA): EMBUDO DE COSECHA & FILTRO ANTI-SYBIL -->
+                  <div class="pipeline-node-card node-card-yellow" id="nodeHarvest">
+                    <div class="node-port port-top" title="Recepción de Micro-Swaps de los 5 Boxes"></div>
+
+                    <div class="pnode-header">
+                      <div class="pnode-tag">
+                        <span class="pnode-num">03</span>
+                        <span class="pnode-icon">🟨</span>
+                        <span class="pnode-name">COSECHA & SYBIL</span>
+                      </div>
+                      <span class="pnode-status-pill pill-yellow">0% RASTREO</span>
+                    </div>
+
+                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
+                    <div class="pnode-body-split">
+                      <!-- Columna Izquierda: Balance Acumulado en Carteras -->
+                      <div class="pnode-harvest-accrued">
+                        <span class="h-label">USDC ACUMULADO FLOTA:</span>
+                        <div class="h-amount mono-code" id="pipelineHarvestAccrued">$1,420.50 USDC</div>
+                        <span class="h-sub">En 500 carteras (100% estanco)</span>
+                      </div>
+
+                      <!-- Columna Derecha: Filtros Anti-Sybil -->
+                      <div class="pnode-sybil-specs">
+                        <div class="sybil-spec-item">
+                          <span>Jitter Aleatorio:</span>
+                          <strong class="mono-code">12s – 45s</strong>
+                        </div>
+                        <div class="sybil-spec-item">
+                          <span>Polvo Retenido:</span>
+                          <strong class="mono-code">2.4% – 3.8%</strong>
+                        </div>
+                        <div class="sybil-spec-item">
+                          <span>Aislamiento Inter-Box:</span>
+                          <strong class="text-dark">Estanco 100%</strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Abajo en Fila Horizontal los Dos Botones -->
+                    <div class="pnode-actions actions-row">
+                      <button class="pnode-btn btn-yellow-action" id="btnMulticall" onclick="triggerMulticallScan()">
+                        <span>🔍 Escanear 500 (Multicall3)</span>
+                      </button>
+                      <button class="pnode-btn btn-yellow-secondary" id="btnPrepareBatch" onclick="triggerPrepareBinanceBatch()">
+                        <span>🌾 Preparar Lote a Binance</span>
+                      </button>
+                    </div>
+
+                    <div class="node-port port-right" title="Tubería hacia Bóvedas Binance Spot"></div>
+                  </div>
+
+                  <!-- 🟦 NODO 4 (ABAJO DERECHA): TRAYECTORIA DÍA 0 ➔ META 12,000 USDC -->
+                  <div class="pipeline-node-card node-card-blue" id="nodeBinance">
+                    <div class="node-port port-left" title="Recepción de Fondos Liquidación"></div>
+
+                    <div class="pnode-header">
+                      <div class="pnode-tag">
+                        <span class="pnode-num">04</span>
+                        <span class="pnode-icon">🟦</span>
+                        <span class="pnode-name">BINANCE 12K</span>
+                      </div>
+                      <span class="pnode-status-pill pill-blue mono-code" id="pipelinePctBadge">11.84%</span>
+                    </div>
+
+                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
+                    <div class="pnode-body-split">
+                      <!-- Columna Izquierda: Gráfico de Trayectoria Día 0 a 12K -->
+                      <div class="pnode-canvas-box">
+                        <div class="canvas-legend-row">
+                          <span>DÍA 0 ($0)</span>
+                          <span class="text-gold">HOY ($1.4K)</span>
+                          <span class="text-white">META ($12K)</span>
+                        </div>
+                        <canvas id="pipelineMountainCanvas" width="240" height="52"></canvas>
+                      </div>
+
+                      <!-- Columna Derecha: Hitos y Bóvedas Spot Solo Lectura -->
+                      <div class="pnode-col-right-vaults">
+                        <div class="pnode-milestones-row">
+                          <div class="milestone-badge">
+                            <span class="m-icon">🖥️</span>
+                            <div class="m-col">
+                              <span class="m-name">Nueva PC</span>
+                              <span class="m-target mono-code">$6,000</span>
+                            </div>
+                          </div>
+                          <div class="milestone-badge">
+                            <span class="m-icon">🛠️</span>
+                            <div class="m-col">
+                              <span class="m-name">Cura Tools</span>
+                              <span class="m-target mono-code">$12,000</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="pnode-vaults-mode">
+                          <span>🔒 5 Bóvedas Spot • Modo Solo Lectura</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Abajo en Fila Horizontal: Botón de Verificación -->
+                    <div class="pnode-actions actions-row">
+                      <button class="pnode-btn btn-blue-action" id="btnVerifyBinance" onclick="triggerVerifyBinance()">
+                        <span>🔄 Verificar 5 Direcciones Binance</span>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+            </div>
+          </section>
+
+          <!-- ------------------------------------------------------------
+               VISTA 2: INSPECCIÓN DE BOXES (B1–B5)
+               ------------------------------------------------------------ -->
+          <section class="stage-view" id="view-boxes">
+            <div class="boxes-layout-clean">
+              <div class="boxes-top-strip workspace-subcard card-vibrant-green">
+                <div class="strip-text">
+                  <h3>🛡️ Aislamiento Estricto: 5 Boxes Estancos (100 Satélites por Box)</h3>
+                  <p>Ningún Box cruza fondos con otro. Donaciones y recargas 100% intra-bloque con >0.015 ETH asegurados.</p>
+                </div>
+              </div>
+              <div class="boxes-grid-5" id="boxes-deck-container">
+                <!-- Renderizado dinámico de los 5 boxes con app.js -->
+              </div>
+            </div>
+          </section>
+
+          <!-- ------------------------------------------------------------
+               VISTA 3: AGENDA & RELOJ 3 MINUTOS
+               ------------------------------------------------------------ -->
+          <section class="stage-view" id="view-keepup">
+            <div class="keepup-view-clean">
+              <div class="workspace-subcard keepup-summary-card card-vibrant-green">
+                <div class="keepup-sum-header">
+                  <div>
+                    <h3>⏱️ Secuenciador Keep-Up Cada 3 Minutos</h3>
+                    <p>20 carteras por turno despiertan, firman y sellan la ejecución con jitter aleatorio humano.</p>
+                  </div>
+                  <div class="keepup-timer-box">
+                    <span class="timer-lbl">PRÓXIMO DESPERTAR:</span>
+                    <span class="timer-digits mono-code" id="view-keepup-timer">02:14</span>
+                  </div>
+                </div>
+                <div class="active-turn-track-bar">
+                  <div class="active-turn-track-fill" id="view-keepup-bar" style="width: 45%;"></div>
+                </div>
+              </div>
+              <div class="keepup-slots-full-grid" id="keepup-slots-container">
+                <!-- Renderizado de turnos con insignia 100% REALIZADO -->
+              </div>
+            </div>
+          </section>
+
+          <!-- ------------------------------------------------------------
+               VISTA 4: BÓVEDA BINANCE SPOT (12K USDC)
+               ------------------------------------------------------------ -->
+          <section class="stage-view" id="view-binance">
+            <div class="binance-view-clean">
+              <div class="workspace-subcard binance-head-card card-vibrant-blue">
+                <div class="card-head-simple">
+                  <span class="card-title-pill">🏦 5 BÓVEDAS RECEPTORAS BINANCE SPOT</span>
+                  <span class="safe-badge">🔒 100% Solo Lectura • Cero Claves API</span>
+                </div>
+                <p style="font-size: 11.5px; color: #E0E7FF; margin-top: 4px;">Liquidaciones automáticas en USDC oficial nativo con retención de polvo orgánico (1.5% a 4.0%).</p>
+              </div>
+              <div class="vaults-grid-5" id="vaults-deck-container">
+                <!-- Bóvedas de Binance renderizadas con app.js -->
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+
+      <!-- ==============================================================
+           ESPACIO 3: PANEL BLANCO LECHOSO — COMUNICACIONES & IA (350px)
+           Atrapa las 2 tarjetas simétricas: AURA 10K (50%) + Telegram (50%)
+           ============================================================== -->
+      <aside class="right-comms-container comms-column">
+        <div class="comms-title-tag">COMUNICACIONES & IA</div>
+
+        <!-- 🟦 TARJETA SUPERIOR (50% — AZUL REY — INTELIGENCIA ARTIFICIAL) -->
+        <div class="comms-half-card card-ai-aura">
+          <div class="comms-card-header">
+            <div class="comms-header-title">
+              <span class="comms-icon">🧠</span>
+              <div class="comms-title-col">
+                <span class="comms-name">AURA 10K</span>
+                <span class="comms-sub">Inteligencia Artificial</span>
+              </div>
+            </div>
+            <div class="comms-status-pill ai-online">
+              <span class="status-pulse-dot"></span>
+              <span>Activa</span>
+            </div>
+          </div>
+
+          <!-- Sugerencias Rápidas de Consulta -->
+          <div class="ai-quick-chips">
+            <button class="ai-chip" onclick="askGemini('boxes')">Boxes</button>
+            <button class="ai-chip" onclick="askGemini('gas')">>0.015 ETH</button>
+            <button class="ai-chip" onclick="askGemini('keepup')">Keep-Up</button>
+            <button class="ai-chip" onclick="askGemini('meta')">Meta 12K</button>
+          </div>
+
+          <!-- Área de Conversación con Scroll Interno -->
+          <div class="ai-chat-viewport" id="gemini-chat-log">
+            <div class="gemini-bubble assistant">
+              <strong>✨ AURA 10K:</strong> Centro neural activo. Superviso los 5 Boxes estancos, la Regla >0.015 ETH y el reloj Keep-Up. Escribe abajo para consultar la flota.
+            </div>
+          </div>
+
+          <!-- Input Inferior Exclusivo para IA -->
+          <div class="ai-input-bar">
+            <input type="text" id="chat-input-field" class="ai-text-input" placeholder="Pregunta a AURA 10K..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+            <button class="ai-send-btn" id="chat-send-btn" onclick="sendChatMessage()" title="Enviar mensaje">
+              <span>ENVIAR</span>
+              <span class="send-arrow">➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 🟨 TARJETA INFERIOR (50% — AMARILLO ORO — NOTIFICACIONES DE TELEGRAM) -->
+        <div class="comms-half-card card-tg-live">
+          <div class="comms-card-header tg-header">
+            <div class="comms-header-title">
+              <span class="comms-icon">📡</span>
+              <div class="comms-title-col">
+                <span class="comms-name tg-name">TELEGRAM LIVE</span>
+                <span class="comms-sub tg-sub">Notificaciones Flota</span>
+              </div>
+            </div>
+            <div class="comms-status-pill tg-live-pill">
+              <span class="status-pulse-dot amber"></span>
+              <span>@Operacion10kBot</span>
+            </div>
+          </div>
+
+          <!-- Feed Minuto a Minuto con Scroll Interno Exclusivo -->
+          <div class="tg-feed-viewport">
+            <div class="telegram-feed-stream" id="telegram-stream-box">
+              <!-- Mensajes automáticos y lotes ✅ 100% REALIZADO inyectados por app.js -->
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- ==================================================================
+         FILA 3 (76px): NUEVO FOOTER BAR INFERIOR (BLANCO LECHOSO)
+         Tarjetas Rápidas de los 5 Boxes + Estado de Red RPC & Aislamiento
+         ================================================================== -->
+    <footer class="crystal-footer">
+      
+      <!-- Fila de Tarjetas Rápidas de los 5 Boxes -->
+      <div class="footer-boxes-row">
+        <span class="footer-section-label">MONITOR BOXES:</span>
+
+        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(1);" title="Box 1: 100% OK">
+          <div class="fbox-top">
+            <span class="fbox-dot"></span>
+            <span class="fbox-id">BOX 1</span>
+          </div>
+          <div class="fbox-bottom">
+            <span class="fbox-status">100% OK</span>
+            <span class="fbox-gas mono-code">>0.015 ETH</span>
+          </div>
+        </button>
+
+        <button class="footer-box-card fbox-yellow" onclick="switchView('view-boxes'); activateBox(2);" title="Box 2: 100% OK">
+          <div class="fbox-top">
+            <span class="fbox-dot"></span>
+            <span class="fbox-id">BOX 2</span>
+          </div>
+          <div class="fbox-bottom">
+            <span class="fbox-status">100% OK</span>
+            <span class="fbox-gas mono-code">>0.015 ETH</span>
+          </div>
+        </button>
+
+        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(3);" title="Box 3: 100% OK">
+          <div class="fbox-top">
+            <span class="fbox-dot"></span>
+            <span class="fbox-id">BOX 3</span>
+          </div>
+          <div class="fbox-bottom">
+            <span class="fbox-status">100% OK</span>
+            <span class="fbox-gas mono-code">>0.015 ETH</span>
+          </div>
+        </button>
+
+        <button class="footer-box-card fbox-orange" onclick="switchView('view-boxes'); activateBox(4);" title="Box 4: Ajuste Gas Preventivo">
+          <div class="fbox-top">
+            <span class="fbox-dot"></span>
+            <span class="fbox-id">BOX 4</span>
+          </div>
+          <div class="fbox-bottom">
+            <span class="fbox-status">95% Gas</span>
+            <span class="fbox-gas mono-code">>0.015 ETH</span>
+          </div>
+        </button>
+
+        <button class="footer-box-card fbox-blue" onclick="switchView('view-boxes'); activateBox(5);" title="Box 5: 100% OK">
+          <div class="fbox-top">
+            <span class="fbox-dot"></span>
+            <span class="fbox-id">BOX 5</span>
+          </div>
+          <div class="fbox-bottom">
+            <span class="fbox-status">100% OK</span>
+            <span class="fbox-gas mono-code">>0.015 ETH</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Estado de Redes L2 & Aislamiento Sybil -->
+      <div class="footer-rpc-card">
+        <div class="rpc-item">
+          <span class="rpc-dot base"></span>
+          <span class="rpc-lbl">Base L2:</span>
+          <strong class="mono-code">88ms</strong>
+        </div>
+        <div class="rpc-divider"></div>
+        <div class="rpc-item">
+          <span class="rpc-dot arb"></span>
+          <span class="rpc-lbl">Arbitrum:</span>
+          <strong class="mono-code">95ms</strong>
+        </div>
+        <div class="rpc-divider"></div>
+        <div class="rpc-item">
+          <span class="rpc-shield">🛡️</span>
+          <span class="rpc-lbl">Aislamiento Sybil:</span>
+          <strong class="text-emerald">100%</strong>
+        </div>
+      </div>
+
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

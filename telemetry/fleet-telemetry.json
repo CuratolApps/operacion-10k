@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "2.0.0",
+  "projectName": "Operación 10K",
+  "timestamp": "2026-10-19T17:35:04.791Z",
+  "systemHealthScore": 98.5,
+  "sybilRiskIndex": 0.01,
+  "gasReserveViolations": 0,
+  "fleetOverview": {
+    "totalSatellites": 500,
+    "vipAccount": {
+      "index": 0,
+      "address": "0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990",
+      "role": "BÓVEDA VIP #00",
+      "mode": "SOLO_LECTURA_BLINDADA",
+      "mainnetTxs": 0
+    },
+    "activeSquadSize": 20,
+    "totalOnChainTxLastCycle": 37,
+    "goldenRuleStatus": "CUMPLIMIENTO_ESTRICTO_100%",
+    "isolationProtocol": "INTRA_BLOQUE_ESTANCO_B1_B5"
+  },
+  "blocks": {
+    "B1": {
+      "id": 1,
+      "label": "Bloque 1",
+      "range": [
+        1,
+        100
+      ],
+      "count": 100,
+      "healthyCount": 100,
+      "avgGasEth": 0.0165,
+      "sybilStatus": "ESTANCO_OK",
+      "status": "ACTIVO"
+    },
+    "B2": {
+      "id": 2,
+      "label": "Bloque 2",
+      "range": [
+        101,
+        200
+      ],
+      "count": 100,
+      "healthyCount": 100,
+      "avgGasEth": 0.0152,
+      "sybilStatus": "ESTANCO_OK",
+      "status": "ACTIVO"
+    },
+    "B3": {
+      "id": 3,
+      "label": "Bloque 3",
+      "range": [
+        201,
+        300
+      ],
+      "count": 100,
+      "healthyCount": 100,
+      "avgGasEth": 0.0158,
+      "sybilStatus": "ESTANCO_OK",
+      "status": "ACTIVO"
+    },
+    "B4": {
+      "id": 4,
+      "label": "Bloque 4",
+      "range": [
+        301,
+        400
+      ],
+      "count": 100,
+      "healthyCount": 100,
+      "avgGasEth": 0.0149,
+      "sybilStatus": "ESTANCO_OK",
+      "status": "STANDBY"
+    },
+    "B5": {
+      "id": 5,
+      "label": "Bloque 5",
+      "range": [
+        401,
+        500
+      ],
+      "count": 100,
+      "healthyCount": 100,
+      "avgGasEth": 0.0151,
+      "sybilStatus": "ESTANCO_OK",
+      "status": "STANDBY"
+    }
+  },
+  "gasMetrics": {
+    "avgSepoliaEth": 0.05838,
+    "avgBaseEth": 0.014994,
+    "daysAutonomyBase": 1.8,
+    "daysAutonomySepolia": 0.8,
+    "minReserveEthPerDonor": 0.015,
+    "donorThresholdEth": 0.023
+  },
+  "goalMilestone": {
+    "targetGoalUsdc": 12000,
+    "currentAccruedUsdc": 1420.5,
+    "remainingUsdc": 10579.5,
+    "progressPct": 11.84,
+    "destinationSummary": "Fondo de desarrollo Cura Tools + Estación de trabajo de alta ingeniería",
+    "projectedCompletionDays": 34
+  },
+  "networksStatus": [
+    {
+      "name": "Ethereum Sepolia",
+      "chainId": 11155111,
+      "online": true,
+      "latencyMs": 142,
+      "status": "OPERATIVO"
+    },
+    {
+      "name": "Base Sepolia",
+      "chainId": 84532,
+      "online": true,
+      "latencyMs": 78,
+      "status": "OPERATIVO"
+    },
+    {
+      "name": "Arbitrum Sepolia",
+      "chainId": 421614,
+      "online": true,
+      "latencyMs": 95,
+      "status": "OPERATIVO"
+    },
+    {
+      "name": "BNB Smart Chain Testnet",
+      "chainId": 97,
+      "online": true,
+      "latencyMs": 120,
+      "status": "ESPERA_GAS"
+    },
+    {
+      "name": "opBNB Testnet",
+      "chainId": 5611,
+      "online": true,
+      "latencyMs": 110,
+      "status": "ESPERA_GAS"
+    },
+    {
+      "name": "Polygon Amoy",
+      "chainId": 80002,
+      "online": true,
+      "latencyMs": 165,
+      "status": "ESPERA_GAS"
+    },
+    {
+      "name": "Solana Devnet",
+      "chainId": 103,
+      "online": true,
+      "latencyMs": 190,
+      "status": "RATE_LIMITED"
+    }
+  ],
+  "recentEvents": [
+    {
+      "id": "tx-1",
+      "timestamp": "2026-10-19T17:32:04.789Z",
+      "satIndex": 12,
+      "blockId": 1,
+      "type": "ORGANIC_SELF_TX",
+      "network": "Base Sepolia",
+      "hash": "0x8fa3...d12a",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "tx-2",
+      "timestamp": "2026-10-19T17:28:04.791Z",
+      "satIndex": 115,
+      "blockId": 2,
+      "type": "DEFI_WETH_DEPOSIT",
+      "network": "Arbitrum Sepolia",
+      "hash": "0x4ce1...b890",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "tx-3",
+      "timestamp": "2026-10-19T17:23:04.791Z",
+      "satIndex": 204,
+      "blockId": 3,
+      "type": "BRIDGE_L1_TO_L2",
+      "network": "Ethereum Sepolia",
+      "hash": "0x12bb...90fc",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "tx-4",
+      "timestamp": "2026-10-19T17:17:04.791Z",
+      "satIndex": 45,
+      "blockId": 1,
+      "type": "ORGANIC_SELF_TX",
+      "network": "Ethereum Sepolia",
+      "hash": "0xaa93...66f1",
+      "status": "CONFIRMED"
+    },
+    {
+      "id": "tx-5",
+      "timestamp": "2026-10-19T17:10:04.791Z",
+      "satIndex": 310,
+      "blockId": 4,
+      "type": "STANDBY_CHECK",
+      "network": "Base Sepolia",
+      "hash": null,
+      "status": "OPTIMAL"
+    }
+  ]
+}

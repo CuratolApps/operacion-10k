@@ -1,18 +1,13 @@
 /**
  * distribute-gas.js - Operación 10k
- * Distribuidor Inteligente y Masivo de Gas Interno por Tandas.
- * Permite escalar de forma segura y automatizada el fondeo de los 500 satélites.
+ * Distribuidor Inteligente y Masivo de Gas Interno por Tandas Intra-Bloque.
+ * Cumplimiento estricto Anti-Sybil: 100% aislamiento entre Bloques (B1-B5).
  * 
  * Reglas de seguridad:
- * - Anti-Sybil estricto: Rotación de donantes con superávit, sin cruzar historiales.
- * - Reserva mínima de donante: 0.015 ETH protegidos en cada donante.
+ * - Anti-Sybil estricto: Rotación de donantes EXCLUSIVAMENTE dentro del mismo bloque.
+ * - Regla de Oro: Reserva mínima intangible de 0.015 ETH + 0.008 ETH buffer (mínimo 0.023 ETH para donar).
+ * - Descuento de gas real on-chain calculado desde el receipt (no estático).
  * - Cuenta VIP #00 blindada: 100% solo lectura, jamás dona ni transacciona.
- * - Reportes por tanda en Telegram con desglose y porcentaje acumulado de la flota.
- * 
- * Uso:
- *   node distribute-gas.js --to-start 61 --to-end 100 --batch-size 40 --amount 0.008
- *   node distribute-gas.js --to-start 61 --to-end 150 --batch-size 45
- *   node distribute-gas.js --dry-run
  */
 
 const fs = require("fs");
@@ -20,12 +15,14 @@ const path = require("path");
 require("dotenv").config();
 const { ethers } = require("ethers");
 const { networks } = require("./networks");
-const { sleepRandom } = require("./anti-sybil");
+const { sleepRandom, getBlockId, validateIsolation } = require("./anti-sybil");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
-const MIN_DONOR_RESERVE_ETH = 0.015; // Fondo intangible de cada donante para sus propias operaciones
+const MIN_DONOR_RESERVE_ETH = 0.015; // Reserva intangible de seguridad
+const OPERATIONAL_BUFFER_ETH = 0.008; // Buffer operativo
+const MIN_DONOR_THRESHOLD_ETH = MIN_DONOR_RESERVE_ETH + OPERATIONAL_BUFFER_ETH; // 0.023 ETH
 
 function loadPublicWallets() {
   if (!fs.existsSync(WALLETS_FILE)) {
@@ -39,8 +36,7 @@ function createProvider(netConfig) {
   const fetchRequest = new ethers.FetchRequest(netConfig.rpc);
   fetchRequest.timeout = 20000;
   return new ethers.JsonRpcProvider(fetchRequest, netConfig.chainId, {
-    staticNetwork: ethers.Network.from(netConfig.chainId),
-    batchMaxCount: 1
+    staticNetwork: ethers.Network.from(netConfig.chainId)
   });
 }
 
@@ -53,20 +49,25 @@ function parseArg(flag, defaultValue) {
 }
 
 /**
- * Obtiene y ordena los donantes elegibles (#01 al #20) por balance descendente.
+ * Obtiene y ordena los donantes elegibles EXCLUSIVAMENTE dentro del mismo bloque.
+ * Requisito estricto: Balance >= 0.023 ETH (0.015 reserva intangible + 0.008 buffer).
  */
-async function getEligibleDonors(allWallets, provider, netConfig, transferAmount) {
-  const donorCandidates = allWallets.filter((w) => w.index >= 1 && w.index <= 20);
+async function getEligibleDonors(allWallets, provider, netConfig, transferAmount, targetBlockId) {
+  const donorCandidates = allWallets.filter(
+    (w) => w.index > 0 && getBlockId(w.index) === targetBlockId
+  );
   const eligible = [];
 
   for (const d of donorCandidates) {
     try {
       const balWei = await provider.getBalance(d.address);
       const balEth = parseFloat(ethers.formatEther(balWei));
-      if (balEth >= MIN_DONOR_RESERVE_ETH + transferAmount) {
+      // Debe cumplir la regla de oro: mantener mínimo 0.015 ETH tras donación y costos de gas
+      if (balEth >= MIN_DONOR_THRESHOLD_ETH && (balEth - transferAmount - 0.001) >= MIN_DONOR_RESERVE_ETH) {
         eligible.push({
           index: d.index,
           address: d.address,
+          blockId: targetBlockId,
           balance: balEth,
           availableForDonation: balEth - MIN_DONOR_RESERVE_ETH
         });
@@ -74,7 +75,7 @@ async function getEligibleDonors(allWallets, provider, netConfig, transferAmount
     } catch (_) {}
   }
 
-  // Ordenar por mayor balance disponible para preservar a los satélites con menor saldo
+  // Ordenar por mayor balance descendente
   eligible.sort((a, b) => b.balance - a.balance);
   return eligible;
 }
@@ -92,21 +93,23 @@ async function runDistributeGas() {
   const provider = createProvider(netConfig);
 
   console.log("=========================================================================================");
-  console.log("          ⛽ OPERACIÓN 10K - DISTRIBUIDOR DE GAS MASIVO POR TANDAS                       ");
+  console.log("     ⛽ OPERACIÓN 10K - DISTRIBUIDOR DE GAS MASIVO INTRA-BLOQUE (ANTI-SYBIL)              ");
   console.log("=========================================================================================");
   console.log(`🌐 Red               : ${netConfig.name} (Chain ID: ${netConfig.chainId})`);
   console.log(`🛡️  Modo de Ejecución : ${isDryRun ? "DRY-RUN (Simulación sin transacciones)" : "PRODUCCIÓN (En Vivo On-Chain)"}`);
   console.log(`🎯 Rango Total      : Satélites #${toStart} al #${toEnd} (${toEnd - toStart + 1} satélites)`);
   console.log(`📦 Tamaño de Tanda  : ${batchSize} satélites por bloque`);
   console.log(`💰 Monto Individual : ${defaultAmount} ${netConfig.symbol}`);
-  console.log(`🔒 Reserva Blindada : ${MIN_DONOR_RESERVE_ETH} ${netConfig.symbol} por donante\n`);
+  console.log(`🔒 Reserva Intangible : ${MIN_DONOR_RESERVE_ETH} ${netConfig.symbol} (Umbral mínimo donante: ${MIN_DONOR_THRESHOLD_ETH} ${netConfig.symbol})`);
+  console.log("🛡️  Aislamiento Bloques: 100% estanco. Ningún donante fondeará fuera de su propio bloque.\n");
 
   const allWallets = loadPublicWallets();
+  const allAddresses = allWallets.map((w) => w.address);
   const totalFleetSatellites = allWallets.filter((w) => w.index > 0).length;
   const targetSatellites = allWallets.filter((w) => w.index >= toStart && w.index <= toEnd);
 
   if (targetSatellites.length === 0) {
-    console.log(`⚠️ No se encontraron satélites en el rango #${toStart}-#${toEnd}. Verifica SWARM_SIZE.`);
+    console.log(`⚠️ No se encontraron satélites en el rango #${toStart}-#${toEnd}.`);
     return;
   }
 
@@ -126,25 +129,24 @@ async function runDistributeGas() {
     const batchStartIdx = currentBatch[0].index;
     const batchEndIdx = currentBatch[currentBatch.length - 1].index;
     const batchTag = `Tanda ${bIdx + 1}/${batches.length} (Rango #${batchStartIdx}-#${batchEndIdx})`;
+    const currentBlockId = getBlockId(batchStartIdx);
 
     console.log("-----------------------------------------------------------------------------------------");
-    console.log(`🚀 INICIANDO ${batchTag.toUpperCase()} - ${currentBatch.length} SATÉLITES`);
+    console.log(`🚀 INICIANDO ${batchTag.toUpperCase()} - BLOQUE B${currentBlockId} (${currentBatch.length} SATÉLITES)`);
     console.log("-----------------------------------------------------------------------------------------");
 
-    // Actualizar donantes elegibles en cada tanda
-    const donors = await getEligibleDonors(allWallets, provider, netConfig, transferAmountEth);
+    // Donantes elegibles estrictamente dentro del mismo bloque
+    const donors = await getEligibleDonors(allWallets, provider, netConfig, transferAmountEth, currentBlockId);
     if (donors.length === 0 && !isDryRun) {
-      console.error("❌ ERROR: No hay donantes disponibles con saldo superior a la reserva de seguridad.");
-      break;
+      console.error(`❌ ALERTA ANTI-SYBIL: No hay donantes elegibles en el Bloque B${currentBlockId} con >= ${MIN_DONOR_THRESHOLD_ETH} ${netConfig.symbol}.`);
+      console.error(`   Protección activa: NO se utilizarán satélites de otros bloques para evitar clusterización.`);
+      continue;
     }
 
-    console.log(`👥 Donantes elegibles con superávit: ${donors.length}`);
+    console.log(`👥 Donantes intra-bloque elegibles en B${currentBlockId}: ${donors.length}`);
     donors.slice(0, 5).forEach((d) => {
-      console.log(`   • Satélite #${String(d.index).padStart(2, "0")}: ${d.balance.toFixed(4)} ${netConfig.symbol}`);
+      console.log(`   • Satélite #${String(d.index).padStart(3, "0")}: ${d.balance.toFixed(4)} ${netConfig.symbol} (Disp: ${d.availableForDonation.toFixed(4)})`);
     });
-    if (donors.length > 5) {
-      console.log(`   ... y ${donors.length - 5} donantes más.`);
-    }
     console.log("");
 
     let batchSuccessCount = 0;
@@ -156,17 +158,17 @@ async function runDistributeGas() {
       const target = currentBatch[i];
       const targetTag = `#${String(target.index).padStart(3, "0")}`;
 
-      // Selección dinámica del donante con mayor balance que respeta la reserva intangible
+      // Re-ordenar y tomar el donante con mayor balance dentro del mismo bloque
       donors.sort((a, b) => b.balance - a.balance);
-      const donorObj = donors[0];
+      const donorObj = donors.find((d) => d.index !== target.index && (d.balance - transferAmountEth - 0.001) >= MIN_DONOR_RESERVE_ETH);
 
-      if (!donorObj || (donorObj.balance - transferAmountEth < MIN_DONOR_RESERVE_ETH)) {
-        console.log(`\n⚠️ [LÍMITE DE SEGURIDAD] Ningún donante dispone de saldo superior a la reserva de ${MIN_DONOR_RESERVE_ETH} ${netConfig.symbol}.`);
-        console.log("   Deteniendo distribución para proteger la operatividad del carrusel.");
+      if (!donorObj) {
+        console.log(`\n⚠️ [REGLA DE ORO] Ningún donante del Bloque B${currentBlockId} puede donar sin comprometer su reserva de ${MIN_DONOR_RESERVE_ETH} ${netConfig.symbol}.`);
+        console.log("   Deteniendo tanda para proteger la supervivencia operativa del bloque.");
         break;
       }
 
-      const donorTag = `#${String(donorObj.index).padStart(2, "0")}`;
+      const donorTag = `#${String(donorObj.index).padStart(3, "0")}`;
 
       // Comprobar si el satélite destino ya tiene gas
       let currentTargetBal = 0;
@@ -180,10 +182,18 @@ async function runDistributeGas() {
         continue;
       }
 
-      console.log(`➤ [${i + 1}/${currentBatch.length}] Fondeando Satélite ${targetTag} [${target.address}] desde Donante ${donorTag} (Saldo: ${donorObj.balance.toFixed(4)} ETH)...`);
+      // Validar aislamiento estricto antes de emitir
+      try {
+        validateIsolation(donorObj.index, target.index, allAddresses, allWallets, true);
+      } catch (isoErr) {
+        console.error(`🚨 ESCUDO ANTI-SYBIL ACTIVADO: ${isoErr.message}`);
+        continue;
+      }
+
+      console.log(`➤ [${i + 1}/${currentBatch.length}] Fondeando Satélite ${targetTag} [${target.address}] desde Donante ${donorTag} B${currentBlockId} (Saldo: ${donorObj.balance.toFixed(4)} ETH)...`);
 
       if (isDryRun) {
-        console.log(`   🧪 [DRY-RUN] Simulado: Envío de ${defaultAmount} ${netConfig.symbol} desde ${donorTag}`);
+        console.log(`   🧪 [DRY-RUN] Simulado: Envío de ${defaultAmount} ${netConfig.symbol} desde ${donorTag} hacia ${targetTag} (Mismo bloque B${currentBlockId})`);
         batchSuccessCount++;
         batchDistributed += transferAmountEth;
         donorObj.balance -= transferAmountEth;
@@ -197,9 +207,18 @@ async function runDistributeGas() {
           console.log(`   📡 Tx enviada: ${tx.hash}`);
           const receipt = await tx.wait(1);
           console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+          
+          // Cálculo preciso de gas real on-chain
+          const feeData = await provider.getFeeData().catch(() => null);
+          const gasPriceUsed = receipt.gasPrice || (feeData ? feeData.gasPrice : 0n) || ethers.parseUnits("1.5", "gwei");
+          const realGasCostWei = receipt.gasUsed * BigInt(gasPriceUsed);
+          const realGasCostEth = parseFloat(ethers.formatEther(realGasCostWei));
+
           batchSuccessCount++;
           batchDistributed += transferAmountEth;
-          donorObj.balance -= (transferAmountEth + 0.0001);
+          // Deducir monto enviado + costo real de gas on-chain
+          donorObj.balance -= (transferAmountEth + realGasCostEth);
+          console.log(`   ⛽ Saldo restante Donante ${donorTag}: ${donorObj.balance.toFixed(4)} ETH (Gas real: ${realGasCostEth.toFixed(6)} ETH)`);
         } catch (txErr) {
           console.log(`   ❌ Error transfiriendo a ${targetTag} desde ${donorTag}: ${txErr.message}`);
         }
@@ -213,7 +232,6 @@ async function runDistributeGas() {
     grandTotalSuccess += batchSuccessCount;
     grandTotalDistributed += batchDistributed;
 
-    // Reporte parcial de tanda a Telegram
     console.log(`\n✅ ${batchTag} completada: ${batchSuccessCount}/${currentBatch.length} satélites fondeados.`);
     console.log(`💰 Gas repartido en tanda: ${batchDistributed.toFixed(4)} ${netConfig.symbol}\n`);
 
@@ -222,12 +240,14 @@ async function runDistributeGas() {
       const progressPercent = ((cumulativeFunded / totalFleetSatellites) * 100).toFixed(1);
 
       await sendTelegramAlert(
-        `⛽ <b>OPERACIÓN 10K - DISTRIBUCIÓN DE GAS (${bIdx + 1}/${batches.length})</b>\n\n` +
+        `⛽ <b>OPERACIÓN 10K - DISTRIBUCIÓN DE GAS INTRA-BLOQUE (${bIdx + 1}/${batches.length})</b>\n\n` +
         `🌐 <b>Red:</b> ${netConfig.name}\n` +
-        `🤖 <b>Satélites Fondeados:</b> ${batchSuccessCount} (Rango #${batchStartIdx}-#${batchEndIdx})\n` +
-        `💰 <b>Gas en esta Tanda:</b> ${batchDistributed.toFixed(4)} ${netConfig.symbol} (${defaultAmount} ETH/satélite)\n` +
+        `📦 <b>Bloque Aislado:</b> B${currentBlockId} (Rango #${batchStartIdx}-#${batchEndIdx})\n` +
+        `🤖 <b>Satélites Fondeados:</b> ${batchSuccessCount}\n` +
+        `💰 <b>Gas en esta Tanda:</b> ${batchDistributed.toFixed(4)} ${netConfig.symbol}\n` +
         `📈 <b>Flota Fondeada Acumulada:</b> ${cumulativeFunded}/${totalFleetSatellites} Satélites (${progressPercent}%)\n` +
-        `🛡️ <b>Anti-Sybil:</b> Aislamiento rotativo y reserva mínima protegida\n` +
+        `🛡️ <b>Anti-Sybil:</b> Aislamiento intra-bloque estricto (0% cruce inter-bloques)\n` +
+        `🔒 <b>Regla de Oro:</b> Reserva mínima intangible >0.015 ETH preservada\n` +
         `⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>`
       );
     }
@@ -252,5 +272,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-  runDistributeGas
+  runDistributeGas,
+  getEligibleDonors
 };

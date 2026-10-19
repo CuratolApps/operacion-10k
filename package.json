@@ -11,7 +11,9 @@
     "commander": "node telegram-commander.js",
     "radar": "node radar-hunter.js",
     "harvest": "node harvest-rewards.js",
-    "distribute:gas": "node distribute-gas.js"
+    "distribute:gas": "node distribute-gas.js",
+    "checker": "node balance-checker.js",
+    "telemetry": "node scripts/ai-telemetry-feed.js"
   },
   "keywords": [],
   "author": "",

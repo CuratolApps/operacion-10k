@@ -66,6 +66,12 @@ function runSwarmEngine() {
     process.exit(1);
   }
 
+  if (!process.env.TRUST_WALLET_SEED && fs.existsSync(WALLETS_FILE)) {
+    console.log(`ℹ️ [SWARM ENGINE] TRUST_WALLET_SEED no definida en entorno.`);
+    console.log(`✅ Utilizando lista pública existente verificada: ${WALLETS_FILE}\n`);
+    return JSON.parse(fs.readFileSync(WALLETS_FILE, "utf8"));
+  }
+
   const mnemonic = getMnemonic();
   console.log("✅ Frase semilla validada con éxito (BIP-39).");
   console.log(`🎯 Tamaño de enjambre configurado: ${swarmSize} billeteras (1 VIP + ${swarmSize - 1} Satélites)\n`);

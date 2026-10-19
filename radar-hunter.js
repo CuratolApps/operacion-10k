@@ -15,7 +15,7 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 const { ethers } = require("ethers");
-const { networks, evmTestnets, solanaNetwork } = require("./networks");
+const { networks, evmTestnets, solanaNetwork, createResilientProvider } = require("./networks");
 const { sleepRandom, validateIsolation } = require("./anti-sybil");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
@@ -43,11 +43,7 @@ function loadPublicWallets() {
 }
 
 function createProvider(netConfig) {
-  const fetchRequest = new ethers.FetchRequest(netConfig.rpc);
-  fetchRequest.timeout = 15000;
-  return new ethers.JsonRpcProvider(fetchRequest, netConfig.chainId, {
-    staticNetwork: ethers.Network.from(netConfig.chainId)
-  });
+  return createResilientProvider(netConfig);
 }
 
 function getSigner(index, provider = null) {
@@ -129,7 +125,8 @@ async function runRadarHunter() {
 
     fleetSample.push(satRecord);
 
-    if (baseEth < BASE_RECHARGE_THRESHOLD_ETH && sepEth >= 0.016) {
+    // Regla de Oro: Requiere >= 0.032 ETH (0.015 ETH puente + 0.015 ETH reserva intangible + 0.002 ETH gas L1)
+    if (baseEth < BASE_RECHARGE_THRESHOLD_ETH && sepEth >= 0.032) {
       needsRecharge.push(satRecord);
     }
   }

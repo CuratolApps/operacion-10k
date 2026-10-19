@@ -47,13 +47,10 @@ function loadPublicWallets() {
   return JSON.parse(fs.readFileSync(WALLETS_FILE, "utf8"));
 }
 
+const { createResilientProvider } = require("./networks");
+
 function createProvider(netConfig) {
-  const fetchRequest = new ethers.FetchRequest(netConfig.rpc);
-  fetchRequest.timeout = 15000;
-  return new ethers.JsonRpcProvider(fetchRequest, netConfig.chainId, {
-    staticNetwork: ethers.Network.from(netConfig.chainId),
-    batchMaxCount: 1
-  });
+  return createResilientProvider(netConfig);
 }
 
 function getSigner(index, provider = null) {
@@ -437,7 +434,13 @@ async function executeSwarmOnSolana({ squad, isDryRun }) {
 }
 
 async function runTaskRunner() {
-  const isDryRun = process.argv.includes("--dry-run");
+  const isSeedAvailable = Boolean(process.env.TRUST_WALLET_SEED && process.env.TRUST_WALLET_SEED.trim().length > 0);
+  let isDryRun = process.argv.includes("--dry-run");
+
+  if (!isSeedAvailable && !isDryRun) {
+    console.log("⚠️  [TASK RUNNER] TRUST_WALLET_SEED no detectada en entorno. Conmutando automáticamente a modo simulación (Dry-Run resiliente).");
+    isDryRun = true;
+  }
 
   console.log("=========================================================================================");
   console.log("     🚀 OPERACIÓN 10K - MOTOR ON-CHAIN OMNICHAIN (EVM + SOLANA ESCALABLE 500)            ");
@@ -490,9 +493,9 @@ async function runTaskRunner() {
   // 2. PRUEBA DEL ESCUDO ANTI-SYBIL (Aislamiento entre Satélites)
   // -------------------------------------------------------------------------------------
   try {
-    validateIsolation(satellites[0].address, satellites[1].address, allAddresses);
+    validateIsolation(satellites[0].address, satellites[1].address, allAddresses, allWallets);
   } catch (error) {
-    if (error.message.includes("SYBIL_PROTECTION_TRIGGERED")) {
+    if (error.message.includes("SYBIL_PROTECTION_TRIGGERED") || error.message.includes("SYBIL_BLOCK_CROSSING_PREVENTED")) {
       console.log("🛡️  [ESCUDO ANTI-SYBIL] Protocolo de defensa verificado: Intento cruzado INTERCEPTADO.");
     }
   }

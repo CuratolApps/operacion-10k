@@ -1,0 +1,2270 @@
+/* ==========================================================================
+   OPERACIÓN 10K — ARQUITECTURA UI (PASO 2)
+   Marco Cristal 100% Transparente con 4 Puntas Relucientes
+   Layout Vertical de 3 Filas: Top Bar (64px) + 3 Espacios (1fr) + Footer Bar (76px)
+   Espacio Central: Pura Mesa de Trabajo Dinámica
+   ========================================================================== */
+
+:root {
+  /* Fondo Escenográfico Estudio 3D Mate */
+  --studio-bg: linear-gradient(180deg, #7D8797 0%, #9BA4B4 65%, #CBD2DC 100%);
+
+  /* Panel Maestro Cristal 100% Transparente */
+  --glass-master-bg: rgba(255, 255, 255, 0.01);
+  --glass-master-border: 2px solid rgba(255, 255, 255, 0.65);
+  --glass-master-shadow: 0 30px 60px rgba(15, 23, 42, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.6);
+
+  /* Acabados Blanco Lechoso Profesional */
+  --milky-header-bg: rgba(255, 255, 255, 0.90);
+  --milky-menu-bg: rgba(255, 255, 255, 0.90);
+  --milky-workspace-bg: rgba(255, 255, 255, 0.90);
+  --milky-footer-bg: rgba(255, 255, 255, 0.90);
+
+  /* Colores de Marca */
+  --color-blue-royal: #1D4ED8;
+  --color-blue-dark: #1E3A8A;
+  --color-yellow-light: #FDE047;
+  --color-yellow-amber: #F59E0B;
+  --color-green-emerald: #10B981;
+  --color-green-dark: #059669;
+  --color-orange-vivid: #F97316;
+  --color-orange-dark: #EA580C;
+
+  /* Tipografía */
+  --text-dark: #0F172A;
+  --text-muted: #475569;
+  --text-sub: #64748B;
+  --text-white: #FFFFFF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* CERO SCROLL GLOBAL */
+  background: var(--studio-bg);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  user-select: none;
+}
+
+/* ==========================================================================
+   1. MARCO MAESTRO DE CRISTAL: 100% TRANSPARENTE (97vw x 94vh)
+   Grid Vertical: Top Bar (64px) + 3 Espacios (1fr) + Footer Bar (76px)
+   ========================================================================== */
+.master-glass-frame,
+.main-glass-panel,
+.dashboard-shell {
+  position: relative;
+  z-index: 2;
+  width: 97vw;
+  height: 94vh;
+  margin: 3vh auto;
+  
+  /* 100% Transparente: Cero fondo turbio y cero filtro de neblina */
+  background: var(--glass-master-bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  
+  border-radius: 32px;
+  border: var(--glass-master-border);
+  box-shadow: var(--glass-master-shadow);
+
+  /* Layout Vertical Exacto de 3 Filas */
+  display: grid;
+  grid-template-rows: 64px 1fr 76px;
+  overflow: hidden;
+}
+
+/* 4 Puntas Relucientes en las Esquinas */
+.master-glass-frame::before,
+.main-glass-panel::before,
+.dashboard-shell::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 32px;
+  padding: 2.5px;
+  background: 
+    radial-gradient(circle at 0% 0%, #FFFFFF 0%, rgba(255, 255, 255, 0.95) 4%, rgba(255, 235, 160, 0.6) 10%, transparent 22%),
+    radial-gradient(circle at 100% 0%, #FFFFFF 0%, rgba(255, 255, 255, 0.95) 4%, rgba(200, 240, 255, 0.6) 10%, transparent 22%),
+    radial-gradient(circle at 100% 100%, #FFFFFF 0%, rgba(255, 255, 255, 0.95) 4%, rgba(255, 235, 160, 0.6) 10%, transparent 22%),
+    radial-gradient(circle at 0% 100%, #FFFFFF 0%, rgba(255, 255, 255, 0.95) 4%, rgba(200, 240, 255, 0.6) 10%, transparent 22%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 18px rgba(255, 255, 255, 0.65));
+  z-index: 10;
+}
+
+.master-glass-frame::after,
+.main-glass-panel::after,
+.dashboard-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
+  pointer-events: none;
+  background: 
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.75) 0%, transparent 45px),
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.75) 0%, transparent 45px),
+    radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.75) 0%, transparent 45px),
+    radial-gradient(circle at 0% 100%, rgba(255, 255, 255, 0.75) 0%, transparent 45px);
+  z-index: 11;
+}
+
+/* Nodos Estelares en las 4 Puntas */
+.crystal-corner-gleam {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 12;
+  background: radial-gradient(circle, #FFFFFF 0%, rgba(255, 255, 255, 0.95) 25%, transparent 75%);
+  filter: drop-shadow(0 0 6px #FFFFFF) drop-shadow(0 0 14px rgba(255, 255, 255, 0.9));
+  animation: sparkleGleam 4s ease-in-out infinite alternate;
+}
+
+.corner-top-left { top: 3px; left: 3px; }
+.corner-top-right { top: 3px; right: 3px; animation-delay: -1s; }
+.corner-bottom-left { bottom: 3px; left: 3px; animation-delay: -2s; }
+.corner-bottom-right { bottom: 3px; right: 3px; animation-delay: -3s; }
+
+@keyframes sparkleGleam {
+  0% { opacity: 0.6; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.25); filter: drop-shadow(0 0 8px #FFFFFF) drop-shadow(0 0 20px rgba(255, 245, 220, 0.95)); }
+  100% { opacity: 0.7; transform: scale(0.9); }
+}
+
+/* ==========================================================================
+   FILA 1 (64px): TOP BAR SUPERIOR (BLANCO LECHOSO)
+   ========================================================================== */
+.crystal-top-header,
+.crystal-header {
+  height: 64px;
+  background: var(--milky-header-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1.5px solid #FFFFFF;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 30px 30px 0 0;
+  position: relative;
+  z-index: 5;
+  color: var(--text-dark);
+}
+
+/* Identidad 10K */
+.header-brand-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.emblem-10k {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.94) 0%, rgba(234, 88, 12, 0.98) 100%);
+  border: 1.5px solid rgba(254, 215, 170, 0.9);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.32);
+  padding: 4px 11px;
+  border-radius: 999px;
+  color: #FFFFFF;
+}
+
+.emblem-icon { font-size: 12px; }
+.emblem-text { font-weight: 900; font-size: 13px; letter-spacing: 0.5px; }
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-weight: 800;
+  font-size: 12px;
+  color: #0F172A;
+  line-height: 1.1;
+}
+
+.brand-slogan {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #EA580C;
+  letter-spacing: 0.5px;
+}
+
+/* Píldoras de Métricas del Top Bar */
+.header-metric-pill {
+  padding: 5px 14px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* 🟨 Testigo 12,000 USDC en Amarillo */
+.goal-metric-pill {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.94) 0%, rgba(234, 179, 8, 0.96) 100%) !important;
+  border: 1.5px solid rgba(254, 240, 138, 0.95) !important;
+  box-shadow: 0 6px 16px rgba(202, 138, 4, 0.25), inset 0 1px 8px rgba(255, 255, 255, 0.6) !important;
+  color: #0F172A !important;
+}
+
+.goal-metric-pill .metric-title {
+  color: #713F12 !important;
+  font-weight: 800;
+  font-size: 9px;
+}
+
+.goal-metric-pill .metric-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.goal-metric-pill .metric-curr {
+  color: #0F172A !important;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.goal-metric-pill .metric-target {
+  color: #854D0E !important;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+
+.goal-metric-pill .metric-badge-pct {
+  background: #0F172A !important;
+  color: #FEF08A !important;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+/* 🟩 Testigo Reloj Keep-Up 3 Min en Verde */
+.keepup-metric-pill {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.92) 0%, rgba(5, 150, 105, 0.96) 100%) !important;
+  border: 1.5px solid rgba(167, 243, 208, 0.9) !important;
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.25), inset 0 1px 8px rgba(255, 255, 255, 0.45) !important;
+  color: #FFFFFF !important;
+}
+
+.pulse-emerald-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 8px #FFFFFF;
+  animation: pulseDot 1.6s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.7; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.keepup-metric-pill .metric-title {
+  color: #D1FAE5 !important;
+  font-weight: 800;
+  font-size: 9px;
+}
+
+.keepup-metric-pill .metric-val-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.keepup-metric-pill .timer-val {
+  color: #FFFFFF !important;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.keepup-metric-pill .badge-status-realizado,
+.badge-status-realizado {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+.header-utc-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(15, 23, 42, 0.05);
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #0F172A;
+  border: 1.5px solid rgba(15, 23, 42, 0.1);
+}
+
+.mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ==========================================================================
+   FILA 2 (1fr): CUERPO CENTRAL DE 3 ESPACIOS AJUSTADOS
+   Izquierda (240px) + Mesa de Trabajo (1fr) + Comms (350px)
+   ========================================================================== */
+.dashboard-body-grid,
+.central-body-grid {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 240px 1fr 350px;
+  gap: 16px;
+  padding: 14px 18px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ==============================================================
+   ESPACIO 1: MENÚ LATERAL (CONTENEDOR BLANCO LECHOSO — 240px)
+   ============================================================== */
+.left-vertical-nav,
+.left-menu-container {
+  background: var(--milky-menu-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 22px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  min-height: 0;
+}
+
+.nav-title-tag {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: 0.9px;
+  padding: 2px 6px;
+}
+
+.nav-vertical-btn {
+  padding: 10px 11px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-vertical-btn:hover {
+  transform: translateX(4px) scale(1.02);
+  filter: brightness(1.08);
+}
+
+/* Botón 1: 🟧 Naranja: Mesa Principal (Keep-Up & 3D) */
+.nav-vertical-btn.nav-btn-orange {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.94) 0%, rgba(234, 88, 12, 0.98) 100%);
+  border: 1.5px solid rgba(254, 215, 170, 0.95);
+  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.3), inset 0 1px 8px rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+}
+.nav-vertical-btn.nav-btn-orange .btn-main { color: #FFFFFF; }
+.nav-vertical-btn.nav-btn-orange .btn-sub { color: rgba(255, 255, 255, 0.85); }
+
+/* Botón 2: 🟩 Verde: Inspección de Boxes (B1–B5) */
+.nav-vertical-btn.nav-btn-green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.94) 0%, rgba(5, 150, 105, 0.98) 100%);
+  border: 1.5px solid rgba(167, 243, 208, 0.95);
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.28), inset 0 1px 8px rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+}
+.nav-vertical-btn.nav-btn-green .btn-main { color: #FFFFFF; }
+.nav-vertical-btn.nav-btn-green .btn-sub { color: rgba(255, 255, 255, 0.85); }
+
+/* Botón 3: 🟨 Amarillo: Agenda & Reloj 3 Minutos */
+.nav-vertical-btn.nav-btn-yellow {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.95) 0%, rgba(234, 179, 8, 0.98) 100%);
+  border: 1.5px solid rgba(254, 240, 138, 0.98);
+  box-shadow: 0 6px 16px rgba(202, 138, 4, 0.25), inset 0 1px 8px rgba(255, 255, 255, 0.6);
+  color: #0F172A;
+}
+.nav-vertical-btn.nav-btn-yellow .btn-main { color: #0F172A; }
+.nav-vertical-btn.nav-btn-yellow .btn-sub { color: #713F12; }
+
+/* Botón 4: 🟦 Azul Rey: Bóveda Binance (12K USDC) */
+.nav-vertical-btn.nav-btn-blue {
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.94) 0%, rgba(30, 58, 138, 0.98) 100%);
+  border: 1.5px solid rgba(147, 197, 253, 0.85);
+  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3), inset 0 1px 8px rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+}
+.nav-vertical-btn.nav-btn-blue .btn-main { color: #FFFFFF; }
+.nav-vertical-btn.nav-btn-blue .btn-sub { color: rgba(255, 255, 255, 0.85); }
+
+.btn-icon { font-size: 18px; }
+.btn-text { display: flex; flex-direction: column; }
+.btn-main { font-size: 11.5px; font-weight: 800; }
+.btn-sub { font-size: 9px; font-weight: 600; }
+
+.nav-security-footer {
+  margin-top: auto;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.9) 0%, rgba(234, 88, 12, 0.95) 100%);
+  border: 1.5px solid rgba(254, 215, 170, 0.9);
+  box-shadow: 0 6px 14px rgba(234, 88, 12, 0.22);
+  border-radius: 14px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #FFFFFF;
+}
+
+.sec-status-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+}
+
+.sec-dot.green {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 6px #FFFFFF;
+}
+
+.sec-detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.text-gold { color: #FEF08A; }
+.text-emerald { color: #059669; }
+
+/* ==============================================================
+   ESPACIO 2: PURA MESA DE TRABAJO DINÁMICA (CONTENEDOR BLANCO LECHOSO)
+   ============================================================== */
+.center-stage-container,
+.workspace-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.workspace-card {
+  width: 100%;
+  height: 100%;
+  background: var(--milky-workspace-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.stage-view {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.stage-view.active {
+  display: flex;
+}
+
+/* Sub-tarjetas internas dentro de la Mesa de Trabajo */
+.workspace-subcard {
+  border-radius: 16px;
+  padding: 12px;
+}
+
+/* 🟨 Montaña 3D en Amarillo */
+.mountain-card.card-vibrant-yellow {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.94) 0%, rgba(234, 179, 8, 0.96) 100%) !important;
+  border: 1.5px solid rgba(254, 240, 138, 0.95) !important;
+  box-shadow: 0 8px 20px rgba(202, 138, 4, 0.22), inset 0 1px 8px rgba(255, 255, 255, 0.55) !important;
+  color: #0F172A !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 🟧 Nodos L1 -> L2 en Naranja */
+.nodes-card.card-vibrant-orange {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.92) 0%, rgba(234, 88, 12, 0.96) 100%) !important;
+  border: 1.5px solid rgba(254, 215, 170, 0.9) !important;
+  box-shadow: 0 8px 20px rgba(234, 88, 12, 0.25), inset 0 1px 8px rgba(255, 255, 255, 0.4) !important;
+  color: #FFFFFF !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Vista 1: Panorama 10K */
+.panorama-dynamic-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  min-height: 0;
+}
+
+.panorama-top-row {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.card-head-simple {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title-pill {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+
+.mountain-card .card-title-pill { color: #713F12; }
+.nodes-card .card-title-pill { color: #FFFFFF; }
+
+.pill-legend {
+  font-size: 9px;
+  font-weight: 700;
+  color: #713F12;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2px 6px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dot-gold {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #F59E0B;
+}
+
+.mountain-canvas-box {
+  width: 100%;
+  height: 105px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+#mountainCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mountain-status-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #713F12;
+}
+
+.golden-rule-chip {
+  font-size: 9px;
+  font-weight: 800;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.nodes-mini-stream {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 6px 8px;
+}
+
+.node-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.node-badge {
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 5px;
+  color: #FFFFFF;
+}
+
+.node-badge.eth { background: #1E3A8A; }
+.node-badge.base { background: #0052FF; }
+.node-badge.arb { background: #0284C7; }
+
+.node-desc {
+  font-size: 7.5px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+}
+
+.stream-bridge-anim {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 32px;
+  justify-content: center;
+}
+
+.stream-line-bar {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #FFFFFF 0%, #FBBF24 50%, #FFFFFF 100%);
+  border-radius: 999px;
+}
+
+.stream-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 6px #FFFFFF;
+  animation: streamRun 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.stream-dot.dot-2 {
+  animation-delay: -1.1s;
+  background: #FEF08A;
+}
+
+@keyframes streamRun {
+  0% { left: 0%; opacity: 0; }
+  30% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+.stream-text {
+  font-size: 7.5px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.golden-rule-banner {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 9px;
+  color: #FFFFFF;
+}
+
+/* Fila Inferior: Gran Anillo Concétrico Esmerilado 3D */
+.panorama-center-ring-zone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  position: relative;
+}
+
+.frosted-ring-3d {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+.frosted-ring-3d.ring-vibrant-green {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 70%, transparent 100%);
+  border: 7px solid rgba(16, 185, 129, 0.65);
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.25), inset 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.ring-core-glass.core-vibrant-green {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.98) 100%);
+  border: 2px solid rgba(167, 243, 208, 0.9);
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.35), inset 0 1px 8px rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  text-align: center;
+  position: relative;
+}
+
+.core-logo-badge {
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.core-health-number {
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.core-health-label {
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  opacity: 0.9;
+}
+
+.core-fleet-sub {
+  font-size: 7px;
+  opacity: 0.85;
+  margin-top: 1px;
+}
+
+.core-status-pill {
+  margin-top: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 7.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.core-status-pill .dot-active {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 5px #FFFFFF;
+}
+
+.orbital-hexagon {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  animation: orbitRotate 16s linear infinite;
+}
+
+.orbital-hexagon.hex-blue { top: -12px; background: #1D4ED8; }
+.orbital-hexagon.hex-green { bottom: 15px; left: -12px; background: #059669; }
+.orbital-hexagon.hex-gold { bottom: 15px; right: -12px; background: #D97706; }
+
+.hex-inner { font-size: 11px; }
+
+@keyframes orbitRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Vista 2: Inspección de Boxes */
+.boxes-layout-clean {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.boxes-top-strip.card-vibrant-green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.92) 0%, rgba(5, 150, 105, 0.96) 100%) !important;
+  border: 1.5px solid rgba(167, 243, 208, 0.9) !important;
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.22), inset 0 1px 8px rgba(255, 255, 255, 0.4) !important;
+  color: #FFFFFF !important;
+}
+
+.boxes-top-strip h3 { font-size: 12px; font-weight: 800; margin-bottom: 2px; }
+.boxes-top-strip p { font-size: 10.5px; opacity: 0.9; }
+
+.boxes-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  flex: 1;
+}
+
+.box-card-item {
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+}
+
+.box-card-item:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+}
+
+.box-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.box-name-tag { font-size: 11.5px; font-weight: 900; }
+.box-range-txt { font-size: 8.5px; opacity: 0.85; }
+
+.box-hero-pct {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+.box-status-line {
+  font-size: 9.5px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.box-metrics-mini {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5px;
+  font-size: 9px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 6px;
+}
+
+.box-card-item.box-green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.92) 0%, rgba(5, 150, 105, 0.96) 100%);
+  border: 1.5px solid rgba(167, 243, 208, 0.9);
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.22);
+}
+
+.box-card-item.box-yellow {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.94) 0%, rgba(234, 179, 8, 0.96) 100%);
+  border: 1.5px solid rgba(254, 240, 138, 0.95);
+  color: #0F172A;
+  box-shadow: 0 6px 16px rgba(202, 138, 4, 0.22);
+}
+.box-card-item.box-yellow .box-metrics-mini { border-top-color: rgba(15, 23, 42, 0.2); }
+
+.box-card-item.box-orange {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.92) 0%, rgba(234, 88, 12, 0.96) 100%);
+  border: 1.5px solid rgba(254, 215, 170, 0.9);
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.22);
+}
+
+.box-card-item.box-blue {
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.92) 0%, rgba(30, 58, 138, 0.96) 100%);
+  border: 1.5px solid rgba(147, 197, 253, 0.85);
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.22);
+}
+
+/* Vista 3: Agenda Keep-Up */
+.keepup-view-clean {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.keepup-summary-card.card-vibrant-green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.92) 0%, rgba(5, 150, 105, 0.96) 100%) !important;
+  border: 1.5px solid rgba(167, 243, 208, 0.9) !important;
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.22), inset 0 1px 8px rgba(255, 255, 255, 0.4) !important;
+  color: #FFFFFF !important;
+}
+
+.keepup-sum-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.keepup-sum-header h3 { font-size: 12px; font-weight: 800; }
+.keepup-sum-header p { font-size: 10px; opacity: 0.9; }
+
+.keepup-timer-box {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.timer-lbl { font-size: 8px; font-weight: 800; opacity: 0.9; }
+.timer-digits { font-size: 13px; font-weight: 900; }
+
+.active-turn-track-bar {
+  width: 100%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.active-turn-track-fill {
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.keepup-slots-full-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  flex: 1;
+}
+
+.slot-full-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.92) 0%, rgba(5, 150, 105, 0.96) 100%);
+  border: 1.5px solid rgba(167, 243, 208, 0.9);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.18);
+  border-radius: 12px;
+  padding: 10px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slot-time-title { font-size: 10.5px; font-weight: 900; }
+.slot-box-sub { font-size: 8.5px; opacity: 0.85; margin-top: 1px; }
+
+/* Vista 4: Salida Binance */
+.binance-view-clean {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.binance-head-card.card-vibrant-blue {
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.92) 0%, rgba(30, 58, 138, 0.96) 100%) !important;
+  border: 1.5px solid rgba(147, 197, 253, 0.8) !important;
+  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.22), inset 0 1px 8px rgba(255, 255, 255, 0.35) !important;
+  color: #FFFFFF !important;
+}
+
+.safe-badge {
+  font-size: 9px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.vaults-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  flex: 1;
+}
+
+.vault-item-card {
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.92) 0%, rgba(30, 58, 138, 0.96) 100%);
+  border: 1.5px solid rgba(147, 197, 253, 0.8);
+  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.22);
+  border-radius: 14px;
+  padding: 10px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vault-num { font-size: 9.5px; font-weight: 800; opacity: 0.9; }
+.vault-amt { font-size: 16px; font-weight: 900; }
+.vault-addr { font-size: 7.5px; word-break: break-all; opacity: 0.8; margin-top: auto; }
+
+/* ==============================================================
+   ESPACIO 3: PANEL BLANCO LECHOSO — COMUNICACIONES & IA (350px)
+   ============================================================== */
+.right-comms-container,
+.right-vertical-chat,
+.comms-column {
+  background: var(--milky-workspace-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
+  padding: 14px;
+  display: grid;
+  grid-template-rows: auto 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.comms-title-tag {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: 0.9px;
+  padding: 2px 6px;
+}
+
+.comms-half-card {
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
+
+/* 🟦 TARJETA SUPERIOR: AZUL REY — INTELIGENCIA ARTIFICIAL */
+.card-ai-aura {
+  background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+  border: 1.5px solid #93C5FD;
+  box-shadow: 0 10px 24px rgba(30, 58, 138, 0.3), inset 0 1px 10px rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
+}
+
+/* 🟨 TARJETA INFERIOR: AMARILLO ORO — NOTIFICACIONES TELEGRAM */
+.card-tg-live {
+  background: linear-gradient(135deg, #FDE047 0%, #F59E0B 100%);
+  border: 1.5px solid #FEF08A;
+  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.28), inset 0 1px 10px rgba(255, 255, 255, 0.5);
+  color: #0F172A;
+}
+
+/* Cabeceras de las tarjetas de comunicaciones */
+.comms-card-header {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-ai-aura .comms-card-header {
+  background: rgba(15, 23, 42, 0.25);
+}
+
+.card-tg-live .comms-card-header {
+  background: rgba(255, 255, 255, 0.35);
+  border-bottom-color: rgba(15, 23, 42, 0.12);
+}
+
+.comms-header-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.comms-icon { font-size: 15px; }
+
+.comms-title-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.comms-name {
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  color: #FFFFFF;
+}
+
+.comms-sub {
+  font-size: 8.5px;
+  font-weight: 700;
+  opacity: 0.85;
+  color: #BFDBFE;
+}
+
+.tg-name { color: #0F172A; }
+.tg-sub { color: #713F12; opacity: 1; }
+
+.comms-status-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 8.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ai-online {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(147, 197, 253, 0.4);
+  color: #FFFFFF;
+}
+
+.status-pulse-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 5px #34D399;
+}
+
+.status-pulse-dot.amber {
+  background: #D97706;
+  box-shadow: 0 0 5px #D97706;
+}
+
+.tg-live-pill {
+  background: rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  color: #0F172A;
+}
+
+/* Sugerencias Rápidas de Consulta para IA */
+.ai-quick-chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 6px 10px 2px 10px;
+  flex-shrink: 0;
+}
+
+.ai-chip {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+  padding: 3px 5px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.ai-chip:hover {
+  background: rgba(255, 255, 255, 0.32);
+  transform: translateY(-1px);
+}
+
+/* Área de Conversación IA con Scroll Interno */
+.ai-chat-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ai-chat-viewport::-webkit-scrollbar,
+.tg-feed-viewport::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ai-chat-viewport::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+}
+
+.gemini-bubble {
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 6px 8px;
+  font-size: 9.5px;
+  line-height: 1.35;
+  color: #E2E8F0;
+}
+
+.gemini-bubble strong {
+  color: #FDE68A;
+}
+
+.gemini-bubble.user {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+}
+
+/* Input Inferior Exclusivo para IA */
+.ai-input-bar {
+  padding: 6px 8px;
+  background: rgba(15, 23, 42, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.ai-text-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 7px;
+  padding: 5px 8px;
+  font-family: inherit;
+  font-size: 9.5px;
+  color: #FFFFFF;
+  outline: none;
+}
+
+.ai-text-input::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.ai-send-btn {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.94) 0%, rgba(234, 88, 12, 0.98) 100%) !important;
+  border: 1.5px solid rgba(254, 215, 170, 0.95) !important;
+  box-shadow: 0 3px 10px rgba(234, 88, 12, 0.35) !important;
+  color: #FFFFFF !important;
+  font-family: inherit;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s ease;
+}
+
+.ai-send-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Feed de Telegram con Scroll Interno */
+.tg-feed-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 10px;
+}
+
+.tg-feed-viewport::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.25);
+  border-radius: 999px;
+}
+
+.telegram-feed-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tg-bubble-item {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+}
+
+.tg-bubble-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tg-chip-badge {
+  font-size: 8px;
+  font-weight: 900;
+  background: #10B981;
+  color: #FFFFFF;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.tg-time {
+  font-size: 8px;
+  color: #64748B;
+  font-weight: 700;
+}
+
+.tg-text {
+  font-size: 9.5px;
+  color: #0F172A;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   FILA 3 (76px): NUEVO FOOTER BAR INFERIOR (BLANCO LECHOSO)
+   ========================================================================== */
+.crystal-footer {
+  height: 76px;
+  background: var(--milky-footer-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 2px solid #FFFFFF;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0 0 30px 30px;
+  position: relative;
+  z-index: 5;
+  color: var(--text-dark);
+}
+
+.footer-boxes-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-section-label {
+  font-size: 10px;
+  font-weight: 900;
+  color: #0F172A;
+  letter-spacing: 0.6px;
+  margin-right: 2px;
+}
+
+.footer-box-card {
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.2s ease;
+  border: 1.5px solid;
+}
+
+.footer-box-card:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.footer-box-card .fbox-top {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.footer-box-card .fbox-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.footer-box-card .fbox-id {
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.footer-box-card .fbox-bottom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.92;
+}
+
+/* Colores de las tarjetas rápidas del footer */
+.footer-box-card.fbox-green {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.94) 0%, rgba(5, 150, 105, 0.98) 100%);
+  border-color: rgba(167, 243, 208, 0.9);
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.22);
+}
+
+.footer-box-card.fbox-yellow {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.95) 0%, rgba(234, 179, 8, 0.98) 100%);
+  border-color: rgba(254, 240, 138, 0.95);
+  color: #0F172A;
+  box-shadow: 0 4px 10px rgba(202, 138, 4, 0.22);
+}
+.footer-box-card.fbox-yellow .fbox-dot { background: #0F172A; }
+
+.footer-box-card.fbox-orange {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.94) 0%, rgba(234, 88, 12, 0.98) 100%);
+  border-color: rgba(254, 215, 170, 0.9);
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(234, 88, 12, 0.22);
+}
+
+.footer-box-card.fbox-blue {
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.94) 0%, rgba(30, 58, 138, 0.98) 100%);
+  border-color: rgba(147, 197, 253, 0.85);
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+}
+
+/* Tarjeta RPC y Seguridad del Footer */
+.footer-rpc-card {
+  background: rgba(15, 23, 42, 0.05);
+  border: 1.5px solid rgba(15, 23, 42, 0.1);
+  border-radius: 12px;
+  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.rpc-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rpc-lbl {
+  font-size: 10px;
+  color: #475569;
+}
+
+.rpc-dot.base {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0052FF;
+  box-shadow: 0 0 6px #0052FF;
+}
+
+.rpc-dot.arb {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #28A0F0;
+  box-shadow: 0 0 6px #28A0F0;
+}
+
+.rpc-shield {
+  font-size: 13px;
+}
+
+.rpc-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(15, 23, 42, 0.15);
+}
+
+/* ==========================================================================
+   ARQUITECTURA DE WORKFLOW VISUAL INTERACTIVO — MESA DE TRABAJO CENTRAL
+   (DÍA 0 ➔ 12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS ANIMADAS SVG)
+   ========================================================================== */
+.visual-pipeline-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  gap: 8px;
+}
+
+/* Barra Superior del Pipeline */
+.pipeline-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.05);
+  border: 1.5px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  padding: 6px 14px;
+  flex-shrink: 0;
+}
+
+.pipeline-title-group {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.pipeline-pulse-beacon {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981, 0 0 16px #10B981;
+  animation: beaconPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes beaconPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.3); opacity: 1; filter: brightness(1.2); }
+}
+
+.pipeline-title-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.pipeline-main-title {
+  font-size: 11.5px;
+  font-weight: 900;
+  color: #0F172A;
+  letter-spacing: 0.5px;
+}
+
+.pipeline-sub-title {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: 0.3px;
+}
+
+.pipeline-telemetry-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #0F172A;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+}
+
+.p-cadence-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #F97316;
+  box-shadow: 0 0 5px #F97316;
+  animation: cadenceBlink 1s infinite alternate;
+}
+
+@keyframes cadenceBlink {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* Lienzo de Tuberías y Nodos */
+.pipeline-canvas-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Conector SVG de Tuberías Luminosas en 2x2 */
+.pipeline-svg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.pipe-path {
+  stroke-dasharray: 6 6;
+  animation: pipeFlow 1.6s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
+  transition: all 0.3s ease;
+}
+
+.pipe-path.pulse-fast {
+  stroke-dasharray: 4 4;
+  animation: pipeFlow 0.35s linear infinite !important;
+  stroke-width: 6px !important;
+  filter: drop-shadow(0 0 8px #FFFFFF) drop-shadow(0 0 14px rgba(250, 204, 21, 0.9)) !important;
+}
+
+@keyframes pipeFlow {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: 0; }
+}
+
+.pipe-pulse-dot {
+  filter: drop-shadow(0 0 6px #FFFFFF) drop-shadow(0 0 10px #F59E0B);
+  animation: dotPulse 1.6s ease-in-out infinite alternate;
+}
+
+.pipe-pulse-dot.pulse-fast {
+  animation: dotPulse 0.35s ease-in-out infinite alternate !important;
+  r: 6.5px;
+}
+
+@keyframes dotPulse {
+  0% { opacity: 0.6; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Cuadrícula Exacta 2x2: 4 Tarjetas del Mismo Tamaño */
+.pipeline-nodes-grid,
+.pipeline-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 2px 4px;
+  overflow: hidden;
+}
+
+/* Tarjeta Base de Nodo */
+.pipeline-node-card {
+  position: relative;
+  border-radius: 18px;
+  padding: 9px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  min-height: 0;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.pipeline-node-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Puertos de conexión en los cantos de las tarjetas */
+.node-port {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid #0F172A;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.95), 0 0 14px currentColor;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.node-port.port-left {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.node-port.port-right {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.node-port.port-bottom {
+  bottom: -6px;
+  left: 50%;
+  top: auto;
+  transform: translateX(-50%);
+}
+
+.node-port.port-top {
+  top: -6px;
+  left: 50%;
+  bottom: auto;
+  transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   ACABADOS DE COLOR DE LOS 4 NODOS (NARANJA, VERDE, AMARILLO, AZUL REY)
+   ========================================================================== */
+
+/* 🟧 NODO 1: NARANJA VIBRANTE */
+.node-card-orange {
+  background: linear-gradient(145deg, rgba(249, 115, 22, 0.95) 0%, rgba(234, 88, 12, 0.98) 100%);
+  border: 1.5px solid #FED7AA;
+  color: #FFFFFF;
+  box-shadow: 0 10px 24px rgba(234, 88, 12, 0.28), inset 0 1px 8px rgba(255, 255, 255, 0.45);
+}
+.node-card-orange .node-port { color: #F97316; }
+
+/* 🟩 NODO 2: VERDE ESMERALDA */
+.node-card-green {
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.98) 100%);
+  border: 1.5px solid #A7F3D0;
+  color: #FFFFFF;
+  box-shadow: 0 10px 24px rgba(5, 150, 105, 0.28), inset 0 1px 8px rgba(255, 255, 255, 0.45);
+}
+.node-card-green .node-port { color: #10B981; }
+
+/* 🟨 NODO 3: AMARILLO LUMINOSO */
+.node-card-yellow {
+  background: linear-gradient(145deg, rgba(250, 204, 21, 0.96) 0%, rgba(245, 158, 11, 0.98) 100%);
+  border: 1.5px solid #FEF08A;
+  color: #0F172A;
+  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.26), inset 0 1px 8px rgba(255, 255, 255, 0.6);
+}
+.node-card-yellow .node-port { color: #EAB308; }
+
+/* 🟦 NODO 4: AZUL REY PROFUNDO */
+.node-card-blue {
+  background: linear-gradient(145deg, rgba(29, 78, 216, 0.95) 0%, rgba(30, 58, 138, 0.98) 100%);
+  border: 1.5px solid #BFDBFE;
+  color: #FFFFFF;
+  box-shadow: 0 10px 24px rgba(29, 78, 216, 0.35), inset 0 1px 8px rgba(255, 255, 255, 0.4);
+}
+.node-card-blue .node-port { color: #2563EB; }
+
+/* Cabecera del Nodo */
+.pnode-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.pnode-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pnode-num {
+  font-size: 8.5px;
+  font-weight: 900;
+  opacity: 0.75;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.pnode-icon {
+  font-size: 13px;
+}
+
+.pnode-name {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+}
+
+.pnode-status-pill {
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.pill-orange {
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+}
+
+.pill-green {
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+}
+
+.pill-yellow {
+  background: rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  color: #0F172A;
+}
+
+.pill-blue {
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+}
+
+/* Cuerpo del Nodo: Distribución Horizontal Interna (2 Columnas Paralelas) */
+.pnode-body-split,
+.pnode-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+  font-size: 9.5px;
+}
+
+/* Métricas Nodo 1 */
+.pnode-metric-box {
+  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pnode-metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+}
+
+.pnode-metric-row .lbl {
+  opacity: 0.9;
+  font-weight: 600;
+}
+
+.pnode-shield-banner {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.shield-icon {
+  font-size: 18px;
+}
+
+.shield-title {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  color: #FEF08A;
+}
+
+.shield-desc {
+  font-size: 8.5px;
+  opacity: 0.9;
+  font-weight: 600;
+}
+
+/* Carriles Nodo 2 */
+.pnode-boxes-lanes {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 5px 7px;
+}
+
+.plane-lane {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8.5px;
+}
+
+.lane-id {
+  font-weight: 900;
+  width: 14px;
+}
+
+.lane-bar {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.lane-fill {
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.lane-stat {
+  font-size: 8px;
+  font-weight: 800;
+  width: 44px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.pnode-operation-box {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.op-label {
+  font-size: 8px;
+  font-weight: 800;
+  opacity: 0.85;
+}
+
+.op-title {
+  font-size: 9.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.op-seal-badge {
+  margin-top: 2px;
+  background: #FFFFFF;
+  color: #059669;
+  font-size: 8.5px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 5px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Embudo Cosecha Nodo 3 */
+.pnode-harvest-accrued {
+  background: rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 10px;
+  padding: 6px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.h-label {
+  font-size: 8px;
+  font-weight: 800;
+  color: #713F12;
+}
+
+.h-amount {
+  font-size: 16px;
+  font-weight: 900;
+  color: #0F172A;
+  letter-spacing: 0.5px;
+}
+
+.h-sub {
+  font-size: 8px;
+  font-weight: 700;
+  color: #78350F;
+}
+
+.pnode-sybil-specs {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sybil-spec-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.5px;
+  color: #334155;
+  font-weight: 700;
+}
+
+.sybil-spec-item strong {
+  color: #0F172A;
+}
+
+/* Gráfico y Metas Nodo 4 */
+.pnode-canvas-box {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.canvas-legend-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  opacity: 0.9;
+}
+
+#pipelineMountainCanvas {
+  width: 100%;
+  height: 52px;
+  border-radius: 6px;
+}
+
+.pnode-milestones-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.milestone-badge {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 4px 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.m-icon {
+  font-size: 13px;
+}
+
+.m-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.m-name {
+  font-size: 8px;
+  font-weight: 800;
+  color: #BFDBFE;
+}
+
+.m-target {
+  font-size: 9.5px;
+  font-weight: 900;
+  color: #FEF08A;
+}
+
+.pnode-col-right-vaults {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+  min-height: 0;
+}
+
+.pnode-vaults-mode {
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 3px 6px;
+  text-align: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: #DBEAFE;
+}
+
+/* ==========================================================================
+   BOTONES Y CONTROLES INTERACTIVOS DE LOS 4 NODOS
+   ========================================================================== */
+.pnode-actions {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Fila Horizontal Única para Botones */
+.pnode-actions.actions-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.pnode-actions.actions-row .pnode-btn {
+  flex: 1;
+}
+
+.pnode-actions.actions-row .pnode-miniboxes-row {
+  flex: 1.25;
+  margin-top: 0;
+}
+
+.pnode-btn {
+  width: 100%;
+  border-radius: 9px;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 9.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.pnode-btn:hover {
+  transform: translateY(-1.5px);
+  filter: brightness(1.1);
+}
+
+.pnode-btn:active {
+  transform: scale(0.97);
+}
+
+/* Botón Nodo 1 */
+.btn-orange-action {
+  background: #FFFFFF;
+  border: 1.5px solid #FFFFFF;
+  color: #EA580C;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-white {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+}
+
+/* Botón Nodo 2 */
+.btn-green-action {
+  background: #FFFFFF;
+  border: 1.5px solid #FFFFFF;
+  color: #059669;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.pnode-miniboxes-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  padding: 3px 5px;
+}
+
+.minibox-label {
+  font-size: 7.5px;
+  font-weight: 800;
+  opacity: 0.85;
+}
+
+.minibox-toggle {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.minibox-toggle.active {
+  background: #FFFFFF;
+  color: #059669;
+  font-weight: 900;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+
+.minibox-toggle.paused {
+  background: rgba(239, 68, 68, 0.85);
+  border-color: #FCA5A5;
+  color: #FFFFFF;
+}
+
+/* Botón Nodo 3 */
+.btn-yellow-action {
+  background: #0F172A;
+  border: 1.5px solid #0F172A;
+  color: #FEF08A;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-yellow-secondary {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  color: #0F172A;
+}
+
+/* Botón Nodo 4 */
+.btn-blue-action {
+  background: #FFFFFF;
+  border: 1.5px solid #FFFFFF;
+  color: #1D4ED8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}

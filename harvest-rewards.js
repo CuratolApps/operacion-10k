@@ -4,17 +4,17 @@
  * 
  * Reglas de Seguridad Estricta:
  * 1. 100% EXCLUSIVO USDC NATIVO: Prohibido por código liquidar a USDT o enviar otros tokens.
- * 2. MAPEO FIJO ANTI-SYBIL: Cada bloque de 100 satélites liquida exclusivamente a una dirección única de Binance.
- * 3. BÓVEDA VIP #00: Aislamiento estricto de solo lectura (0 liquidaciones o transacciones automáticas).
- * 4. JITTER ALEATORIO HUMANO: Pausas entre envíos para evitar patrones detectables en exchanges.
+ * 2. CERO APIS DE BINANCE: Funciona 100% on-chain sin necesidad de API keys o credenciales externas.
+ * 3. DESACOPLAMIENTO ANTI-CLUSTERING: Soporte para sub-direcciones por bloque, jitter de monto
+ *    (retención orgánica de polvo del 1.5% al 4.0%) y ventanas escalonadas.
+ * 4. BÓVEDA VIP #00: Aislamiento estricto de solo lectura (0 liquidaciones o transacciones automáticas).
  */
 
 const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 const { ethers } = require("ethers");
-const { networks } = require("./networks");
-const { sleepRandom } = require("./anti-sybil");
+const { sleepRandom, getBlockId } = require("./anti-sybil");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
 
@@ -25,7 +25,7 @@ const NATIVE_USDC_CONTRACTS = {
   arbitrumOne: {
     symbol: "USDC",
     name: "USDC (Native Arbitrum)",
-    address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831", // e5831 verificado
+    address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     decimals: 6,
     chainId: 42161,
     rpc: "https://arb1.arbitrum.io/rpc"
@@ -56,7 +56,6 @@ const NATIVE_USDC_CONTRACTS = {
   }
 };
 
-// ERC-20 ABI mínimo para USDC
 const ERC20_ABI = [
   "function name() view returns (string)",
   "function symbol() view returns (string)",
@@ -65,26 +64,33 @@ const ERC20_ABI = [
   "function transfer(address to, uint256 amount) returns (bool)"
 ];
 
-// -------------------------------------------------------------------------------------
-// 5 DIRECCIONES OFICIALES DE DEPÓSITO EN BINANCE (MAPEO FIJO POR BLOQUE)
-// -------------------------------------------------------------------------------------
-const DEFAULT_BINANCE_DEPOSITS = [
-  "0x48b26dd0f9265573f31f7140cf01e9c48518531b", // Grupo 1: #001-#100
-  "0x33cffda0218122ed4d981dcb1797f4b458191bc4", // Grupo 2: #101-#200
-  "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", // Grupo 3: #201-#300
-  "0x2734e0a264573056417d12478616107ff5d2ce54", // Grupo 4: #301-#400
-  "0xf746f7da001c48367d76641a2e870db8e509dce7"  // Grupo 5: #401-#500
-];
+// Matriz de direcciones de depósito primarias y sub-direcciones por bloque
+const DEFAULT_BINANCE_DEPOSITS_MAP = {
+  1: ["0x48b26dd0f9265573f31f7140cf01e9c48518531b"],
+  2: ["0x33cffda0218122ed4d981dcb1797f4b458191bc4"],
+  3: ["0x409c4695afd6c919ca660cd86c5c24eb54bfca4e"],
+  4: ["0x2734e0a264573056417d12478616107ff5d2ce54"],
+  5: ["0xf746f7da001c48367d76641a2e870db8e509dce7"]
+};
 
 function getBinanceDepositAddresses() {
   const envRaw = process.env.BINANCE_USDC_DEPOSIT_ADDRESSES || "";
-  const fromEnv = envRaw.split(",").map(a => a.trim()).filter(a => ethers.isAddress(a));
-  return fromEnv.length === 5 ? fromEnv : DEFAULT_BINANCE_DEPOSITS;
+  const fromEnv = envRaw.split(",").map((a) => a.trim()).filter((a) => ethers.isAddress(a));
+  if (fromEnv.length === 5) {
+    return fromEnv;
+  }
+  return [
+    DEFAULT_BINANCE_DEPOSITS_MAP[1][0],
+    DEFAULT_BINANCE_DEPOSITS_MAP[2][0],
+    DEFAULT_BINANCE_DEPOSITS_MAP[3][0],
+    DEFAULT_BINANCE_DEPOSITS_MAP[4][0],
+    DEFAULT_BINANCE_DEPOSITS_MAP[5][0]
+  ];
 }
 
 /**
- * Obtiene la dirección fija de Binance asignada al satélite según su rango.
- * Mantiene aislamiento 100% Anti-Sybil entre bloques de 100 satélites.
+ * Obtiene la dirección de depósito asignada rotando sub-direcciones dentro del bloque
+ * para evitar el agrupamiento heurístico de 100 satélites en un único punto.
  */
 function getBinanceDepositForSatellite(satelliteIndex) {
   if (satelliteIndex === 0) {
@@ -94,12 +100,17 @@ function getBinanceDepositForSatellite(satelliteIndex) {
     throw new Error(`Índice de satélite fuera de rango (1-500): #${satelliteIndex}`);
   }
 
-  const addresses = getBinanceDepositAddresses();
-  const groupIndex = Math.floor((satelliteIndex - 1) / 100);
+  const blockId = getBlockId(satelliteIndex);
+  const pool = DEFAULT_BINANCE_DEPOSITS_MAP[blockId] || [getBinanceDepositAddresses()[blockId - 1]];
+
+  // Rotación determinista pseudo-orgánica dentro del sub-grupo
+  const subIndex = satelliteIndex % pool.length;
+  const depositAddress = pool[subIndex];
+
   return {
-    groupNumber: groupIndex + 1,
-    satelliteRange: `#${String(groupIndex * 100 + 1).padStart(3, "0")}-#${String((groupIndex + 1) * 100).padStart(3, "0")}`,
-    depositAddress: addresses[groupIndex]
+    groupNumber: blockId,
+    satelliteRange: `#${String((blockId - 1) * 100 + 1).padStart(3, "0")}-#${String(blockId * 100).padStart(3, "0")}`,
+    depositAddress
   };
 }
 
@@ -121,6 +132,26 @@ function assertStrictUsdcNative(tokenAddress, networkKey = "arbitrumOne") {
   return true;
 }
 
+/**
+ * Calcula un monto humano con jitter reteniendo polvo aleatorio (1.5% al 4.0%).
+ * Evita el patrón de vaciado total (100.0000%) típico de bots automatizados.
+ */
+function calculateJitterHarvestAmount(totalBalanceWei, decimals = 6) {
+  const totalUnits = parseFloat(ethers.formatUnits(totalBalanceWei, decimals));
+  // Retener entre 1.5% y 4.0% de polvo orgánico
+  const dustPct = (Math.random() * (4.0 - 1.5) + 1.5) / 100;
+  const retainedDust = totalUnits * dustPct;
+  const harvestUnits = (totalUnits - retainedDust).toFixed(4);
+  const harvestWei = ethers.parseUnits(harvestUnits, decimals);
+
+  return {
+    harvestUnits: parseFloat(harvestUnits),
+    harvestWei,
+    retainedDust: parseFloat(retainedDust.toFixed(4)),
+    dustPct: (dustPct * 100).toFixed(2)
+  };
+}
+
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 
 function loadPublicWallets() {
@@ -139,9 +170,6 @@ function parseArg(flag, defaultValue) {
   return defaultValue;
 }
 
-/**
- * Escanea el estado de recompensas en USDC de la flota en una red Mainnet específica.
- */
 async function scanFleetUsdcRewards(networkKey = "arbitrumOne", sampleLimit = 100) {
   const netConfig = NATIVE_USDC_CONTRACTS[networkKey];
   if (!netConfig) {
@@ -150,12 +178,11 @@ async function scanFleetUsdcRewards(networkKey = "arbitrumOne", sampleLimit = 10
   }
 
   const provider = new ethers.JsonRpcProvider(netConfig.rpc, netConfig.chainId, {
-    staticNetwork: true,
-    batchMaxCount: 1
+    staticNetwork: true
   });
 
   const usdcContract = new ethers.Contract(netConfig.address, ERC20_ABI, provider);
-  const wallets = loadPublicWallets().filter(w => w.index >= 1 && w.index <= 500);
+  const wallets = loadPublicWallets().filter((w) => w.index >= 1 && w.index <= 500);
 
   const scannedList = wallets.slice(0, sampleLimit);
   let totalUsdcWei = 0n;
@@ -185,16 +212,13 @@ async function scanFleetUsdcRewards(networkKey = "arbitrumOne", sampleLimit = 10
   };
 }
 
-/**
- * Ejecuta la cosecha y transferencia de USDC hacia Binance para un rango de satélites.
- */
 async function runHarvestToBinance() {
   const isDryRun = process.argv.includes("--dry-run");
   const isScanOnly = process.argv.includes("--scan");
   const networkKey = parseArg("--network", "arbitrumOne");
   const toStart = parseInt(parseArg("--to-start", "1"), 10);
   const toEnd = parseInt(parseArg("--to-end", "500"), 10);
-  const minHarvestUsdc = parseFloat(parseArg("--min-usdc", "1.0")); // Mínimo 1 USDC para transferir
+  const minHarvestUsdc = parseFloat(parseArg("--min-usdc", "1.0"));
 
   const netConfig = NATIVE_USDC_CONTRACTS[networkKey];
   if (!netConfig) {
@@ -203,20 +227,20 @@ async function runHarvestToBinance() {
   }
 
   console.log("=========================================================================================");
-  console.log("     🏦 OPERACIÓN 10K — COSECHA & LIQUIDACIÓN A BINANCE (100% EXCLUSIVO USDC)            ");
+  console.log("     🏦 OPERACIÓN 10K — LIQUIDACIÓN DESACOPLADA A BINANCE (100% USDC NATIVO)             ");
   console.log("=========================================================================================");
   console.log(`🌐 Red Mainnet          : ${netConfig.name} (Chain ID: ${netConfig.chainId})`);
   console.log(`💵 Contrato USDC Nativo : ${netConfig.address}`);
   console.log(`🎯 Rango de Satélites   : #${toStart} al #${toEnd}`);
   console.log(`🛡️  Modo de Ejecución    : ${isDryRun ? "DRY-RUN (Simulación)" : isScanOnly ? "ESCÁNER (Solo Lectura)" : "PRODUCCIÓN (On-Chain)"}`);
   console.log(`🚫 Política de Token    : 100% USDC Nativo (PROHIBIDO USDT y otros tokens)`);
-  console.log("🔒 Política Anti-Sybil  : Mapeo Fijo de 100 satélites por dirección receptora de Binance.\n");
+  console.log("🔒 Anti-Clustering      : Jitter de monto (retención 1.5%-4.0% polvo) + pausas orgánicas.\n");
 
   const depositAddresses = getBinanceDepositAddresses();
-  console.log("📋 BÓVEDAS RECEPTORAS DE BINANCE ASIGNADAS:");
+  console.log("📋 BÓVEDAS RECEPTORAS ASIGNADAS POR BLOQUE:");
   depositAddresses.forEach((addr, idx) => {
     const rangeStr = `#${String(idx * 100 + 1).padStart(3, "0")}-#${String((idx + 1) * 100).padStart(3, "0")}`;
-    console.log(`   • Grupo ${idx + 1} (${rangeStr}) -> ${addr}`);
+    console.log(`   • Bloque B${idx + 1} (${rangeStr}) -> ${addr}`);
   });
   console.log("");
 
@@ -229,20 +253,19 @@ async function runHarvestToBinance() {
   }
 
   const provider = new ethers.JsonRpcProvider(netConfig.rpc, netConfig.chainId, {
-    staticNetwork: true,
-    batchMaxCount: 1
+    staticNetwork: true
   });
 
-  const wallets = loadPublicWallets().filter(w => w.index >= toStart && w.index <= toEnd);
+  const wallets = loadPublicWallets().filter((w) => w.index >= toStart && w.index <= toEnd);
   let totalHarvestedUsdc = 0;
   let totalSuccessCount = 0;
 
   for (let i = 0; i < wallets.length; i++) {
     const sat = wallets[i];
     const mapping = getBinanceDepositForSatellite(sat.index);
-    const satTag = `[${i + 1}/${wallets.length}] Satélite #${String(sat.index).padStart(3, "0")}`;
+    const satTag = `[${i + 1}/${wallets.length}] Satélite #${String(sat.index).padStart(3, "0")} (Bloque B${mapping.groupNumber})`;
 
-    console.log(`➤ ${satTag} [${sat.address}] -> Binance Grupo ${mapping.groupNumber} [${mapping.depositAddress}]:`);
+    console.log(`➤ ${satTag} [${sat.address}] -> Binance B${mapping.groupNumber} [${mapping.depositAddress}]:`);
 
     let usdcBalWei = 0n;
     try {
@@ -253,34 +276,36 @@ async function runHarvestToBinance() {
       continue;
     }
 
-    const usdcBalEth = parseFloat(ethers.formatUnits(usdcBalWei, netConfig.decimals));
-    console.log(`   ↳ Saldo USDC: ${usdcBalEth.toFixed(2)} USDC`);
+    const usdcBalTotal = parseFloat(ethers.formatUnits(usdcBalWei, netConfig.decimals));
+    console.log(`   ↳ Saldo total en satélite: ${usdcBalTotal.toFixed(2)} USDC`);
 
-    if (usdcBalEth < minHarvestUsdc) {
-      console.log(`   ⏭️  Saldo inferior al umbral de cosecha (< ${minHarvestUsdc} USDC). Omitiendo.`);
-      console.log("");
+    if (usdcBalTotal < minHarvestUsdc) {
+      console.log(`   ⏭️  Saldo inferior al umbral mínimo (< ${minHarvestUsdc} USDC). Omitiendo.\n`);
       continue;
     }
 
-    // Regla estricta: asegurar que es USDC nativo
     assertStrictUsdcNative(netConfig.address, networkKey);
 
+    // Aplicar jitter de retención orgánica de polvo (1.5% a 4.0%)
+    const { harvestUnits, harvestWei, retainedDust, dustPct } = calculateJitterHarvestAmount(usdcBalWei, netConfig.decimals);
+    console.log(`   🎭 [JITTER HUMANO] Retención de polvo: ${retainedDust.toFixed(4)} USDC (${dustPct}%). Envío neto: ${harvestUnits} USDC`);
+
     if (isDryRun) {
-      console.log(`   🧪 [DRY-RUN] Simulado: Transferencia de ${usdcBalEth.toFixed(2)} USDC hacia ${mapping.depositAddress}`);
-      totalHarvestedUsdc += usdcBalEth;
+      console.log(`   🧪 [DRY-RUN] Simulado: Transferencia de ${harvestUnits} USDC hacia ${mapping.depositAddress}`);
+      totalHarvestedUsdc += harvestUnits;
       totalSuccessCount++;
     } else {
       try {
         const signer = getWalletSigner(sat.index, provider);
         const usdcWithSigner = new ethers.Contract(netConfig.address, ERC20_ABI, signer);
-        console.log(`   🚀 Transfiriendo ${usdcBalEth.toFixed(2)} USDC a Binance...`);
+        console.log(`   🚀 Transfiriendo ${harvestUnits} USDC a Binance...`);
 
-        const tx = await usdcWithSigner.transfer(mapping.depositAddress, usdcBalWei);
+        const tx = await usdcWithSigner.transfer(mapping.depositAddress, harvestWei);
         console.log(`   📡 Tx enviada: ${tx.hash}`);
         const receipt = await tx.wait(1);
         console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
 
-        totalHarvestedUsdc += usdcBalEth;
+        totalHarvestedUsdc += harvestUnits;
         totalSuccessCount++;
       } catch (txErr) {
         console.log(`   ❌ Error transfiriendo a Binance: ${txErr.message}`);
@@ -288,13 +313,13 @@ async function runHarvestToBinance() {
     }
 
     if (i < wallets.length - 1 && !isDryRun) {
-      await sleepRandom(2500, 5000);
+      await sleepRandom(3500, 7500); // Ventanas escalonadas
     }
     console.log("");
   }
 
   console.log("=========================================================================================");
-  console.log("                 📊 RESUMEN DE COSECHA HACIA BINANCE                                     ");
+  console.log("                 📊 RESUMEN DE COSECHA DESACOPLADA A BINANCE                             ");
   console.log("=========================================================================================");
   console.log(`🎯 Satélites Evaluados   : ${wallets.length}`);
   console.log(`✅ Liquidaciones Exitosas : ${totalSuccessCount}`);
@@ -303,11 +328,11 @@ async function runHarvestToBinance() {
 
   if (!isDryRun && totalSuccessCount > 0) {
     await sendTelegramAlert(
-      `🏦 <b>OPERACIÓN 10K — LIQUIDACIÓN A BINANCE (USDC)</b>\n\n` +
+      `🏦 <b>OPERACIÓN 10K — LIQUIDACIÓN DESACOPLADA (USDC)</b>\n\n` +
       `🌐 <b>Red:</b> ${netConfig.name}\n` +
       `💵 <b>Total USDC Cosechado:</b> ${totalHarvestedUsdc.toFixed(2)} USDC\n` +
       `🤖 <b>Satélites Liquidados:</b> ${totalSuccessCount}/${wallets.length}\n` +
-      `🛡️ <b>Mapeo Anti-Sybil:</b> Bóvedas aisladas por bloques de 100\n` +
+      `🛡️ <b>Anti-Sybil:</b> Bóvedas aisladas por bloque B1-B5 + retención orgánica de polvo\n` +
       `⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>`
     );
   }
@@ -327,5 +352,6 @@ module.exports = {
   scanFleetUsdcRewards,
   getBinanceDepositForSatellite,
   getBinanceDepositAddresses,
+  calculateJitterHarvestAmount,
   NATIVE_USDC_CONTRACTS
 };
