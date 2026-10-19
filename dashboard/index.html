@@ -61,10 +61,6 @@
            ESPACIO 1: MONITOR BOXES (COLUMNA IZQUIERDA — 5 TARJETAS PARALELAS)
            ============================================================== -->
       <aside class="left-menu-container monitor-boxes-sidebar" id="boxesLeftColumn">
-        <div class="section-header">
-          <span class="material-symbols-rounded">dns</span>
-          <span>MONITOR BOXES</span>
-        </div>
 
         <!-- 1: BOX 1 #001–#100 -->
         <div class="monitor-card box-monitor-card" id="monitorCard1" onclick="openBoxExplorer(1)" title="Inspeccionar 100 carteras de Box 1">
@@ -188,7 +184,7 @@
               <!-- ========================================================
                    TARJETA 1 (Arriba Izquierda) — CAPITALIZACIÓN & META GLOBAL (12,000 USDC)
                    ======================================================== -->
-              <div class="central-frosted-card" id="cardCapitalization">
+              <div class="central-frosted-card central-card" id="cardCapitalization">
                 <!-- Cabecera -->
                 <div class="cf-card-header">
                   <div class="cf-card-title-wrap">
@@ -201,7 +197,7 @@
                 <!-- Cuerpo -->
                 <div class="cf-card-body">
                   <!-- Ranura 1: Capitalizado (En Bóvedas Binance) -->
-                  <div class="cf-slot">
+                  <div class="cf-slot inner-slot">
                     <div class="cf-slot-info">
                       <span class="cf-slot-label">CAPITALIZADO (EN BÓVEDAS BINANCE):</span>
                       <span class="cf-slot-sub">Consolidado recibido en 5 Bóvedas Spot</span>
@@ -210,7 +206,7 @@
                   </div>
 
                   <!-- Ranura 2: Por Capitalizar (Acumulado hoy en los 500 Bots) -->
-                  <div class="cf-slot">
+                  <div class="cf-slot inner-slot">
                     <div class="cf-slot-info">
                       <span class="cf-slot-label">POR CAPITALIZAR (HOY 500 BOTS):</span>
                       <span class="cf-slot-sub">Acumulado en ciclo actual listo para enviar</span>
@@ -219,7 +215,7 @@
                   </div>
 
                   <!-- Barra Profesional Única de Progreso (12,000 USDC) -->
-                  <div class="cf-progress-section">
+                  <div class="cf-progress-section inner-slot">
                     <div class="cf-progress-labels">
                       <span class="cf-prog-title">META: <strong>$12,000.00 USDC</strong></span>
                       <span class="cf-prog-stat" id="centralProgressPct">11.84%</span>
@@ -238,7 +234,7 @@
               <!-- ========================================================
                    TARJETA 2 (Arriba Derecha) — INVENTARIO GLOBAL DE GAS (500 CARTERAS)
                    ======================================================== -->
-              <div class="central-frosted-card" id="cardGasHealth">
+              <div class="central-frosted-card central-card" id="cardGasHealth">
                 <!-- Cabecera -->
                 <div class="cf-card-header">
                   <div class="cf-card-title-wrap">
@@ -251,7 +247,7 @@
                 <!-- Cuerpo -->
                 <div class="cf-card-body">
                   <!-- Desglose limpio en ranuras esmeriladas -->
-                  <div class="cf-slot">
+                  <div class="cf-slot inner-slot">
                     <div class="cf-slot-network">
                       <span class="cf-network-name">Ethereum Sepolia:</span>
                     </div>
@@ -261,7 +257,7 @@
                     </div>
                   </div>
 
-                  <div class="cf-slot">
+                  <div class="cf-slot inner-slot">
                     <div class="cf-slot-network">
                       <span class="cf-network-name">Base Sepolia:</span>
                     </div>
@@ -271,7 +267,7 @@
                     </div>
                   </div>
 
-                  <div class="cf-slot">
+                  <div class="cf-slot inner-slot">
                     <div class="cf-slot-network">
                       <span class="cf-network-name">Arbitrum / Otras L2:</span>
                     </div>
@@ -292,7 +288,7 @@
               <!-- ========================================================
                    TARJETA 3 (Abajo Izquierda) — RADAR CAZADOR DE OPORTUNIDADES
                    ======================================================== -->
-              <div class="central-frosted-card" id="cardHunterRadar">
+              <div class="central-frosted-card central-card" id="cardHunterRadar">
                 <!-- Cabecera -->
                 <div class="cf-card-header">
                   <div class="cf-card-title-wrap">
@@ -308,7 +304,7 @@
                 <!-- Cuerpo -->
                 <div class="cf-card-body">
                   <!-- Objetivo Activo -->
-                  <div class="cf-slot">
+                  <div class="cf-slot inner-slot">
                     <div class="cf-slot-info">
                       <span class="cf-slot-label">OBJETIVO ACTIVO:</span>
                       <span class="cf-slot-highlight-text" id="hunterActiveTarget">Rotación DeFi WETH / Liquidez L2 (Sepolia • Base • Arbitrum)</span>
@@ -316,7 +312,7 @@
                   </div>
 
                   <!-- Escuadrón Desplegado -->
-                  <div class="cf-slot">
+                  <div class="cf-slot inner-slot">
                     <div class="cf-slot-info">
                       <span class="cf-slot-label">ESCUADRÓN DESPLEGADO:</span>
                       <span class="cf-slot-highlight-text" id="hunterSquadDeploy">20/500 Bots ejecutando sobre oportunidad detectada (60 Txs confirmadas)</span>
@@ -324,7 +320,7 @@
                   </div>
 
                   <!-- Rendimiento Captado Hoy + Estado Escaneo -->
-                  <div class="cf-slot cf-slot-performance">
+                  <div class="cf-slot inner-slot cf-slot-performance">
                     <div class="cf-perf-left">
                       <span class="cf-slot-label">RENDIMIENTO CAPTADO HOY:</span>
                       <span class="cf-val-green-bold" id="hunterDailyCaptured">+$34.20 USDC</span>
@@ -342,7 +338,7 @@
               <!-- ========================================================
                    TARJETA 4 (Abajo Derecha) — CRECIMIENTO DIARIO & PROYECCIÓN 12K
                    ======================================================== -->
-              <div class="central-frosted-card" id="cardGrowthProjection">
+              <div class="central-frosted-card central-card" id="cardGrowthProjection">
                 <!-- Cabecera -->
                 <div class="cf-card-header">
                   <div class="cf-card-title-wrap">
@@ -355,38 +351,38 @@
                 <!-- Cuerpo -->
                 <div class="cf-card-body">
                   <!-- Gráfico de Curva Sencilla (SVG limpio en Verde Mate) -->
-                  <div class="cf-chart-wrap">
+                  <div class="cf-chart-wrap inner-slot">
                     <svg class="cf-growth-svg" viewBox="0 0 380 90" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="curveFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stop-color="#059669" stop-opacity="0.22" />
-                          <stop offset="100%" stop-color="#059669" stop-opacity="0.01" />
+                          <stop offset="0%" stop-color="#34D399" stop-opacity="0.30" />
+                          <stop offset="100%" stop-color="#34D399" stop-opacity="0.02" />
                         </linearGradient>
                       </defs>
                       <!-- Guías horizontales sutiles -->
-                      <line x1="15" y1="18" x2="365" y2="18" stroke="rgba(15, 23, 42, 0.08)" stroke-width="1" stroke-dasharray="3 3" />
-                      <line x1="15" y1="48" x2="365" y2="48" stroke="rgba(15, 23, 42, 0.08)" stroke-width="1" stroke-dasharray="3 3" />
-                      <line x1="15" y1="76" x2="365" y2="76" stroke="rgba(15, 23, 42, 0.12)" stroke-width="1" />
+                      <line x1="15" y1="18" x2="365" y2="18" stroke="rgba(255, 255, 255, 0.20)" stroke-width="1" stroke-dasharray="3 3" />
+                      <line x1="15" y1="48" x2="365" y2="48" stroke="rgba(255, 255, 255, 0.20)" stroke-width="1" stroke-dasharray="3 3" />
+                      <line x1="15" y1="76" x2="365" y2="76" stroke="rgba(255, 255, 255, 0.35)" stroke-width="1" />
 
                       <!-- Área rellena translúcida sutil -->
                       <path d="M 20 76 C 70 73, 120 68, 170 60 C 220 52, 270 40, 310 28 C 335 22, 350 18, 360 16 L 360 76 Z" fill="url(#curveFillGrad)" />
 
-                      <!-- Curva suave en Verde Mate #059669 -->
-                      <path d="M 20 76 C 70 73, 120 68, 170 60 C 220 52, 270 40, 310 28 C 335 22, 350 18, 360 16" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" />
+                      <!-- Curva suave en Verde Esmeralda #34D399 -->
+                      <path d="M 20 76 C 70 73, 120 68, 170 60 C 220 52, 270 40, 310 28 C 335 22, 350 18, 360 16" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" />
 
                       <!-- Punto Actual Hoy -->
-                      <circle cx="360" cy="16" r="3.5" fill="#059669" stroke="#FFFFFF" stroke-width="2" />
-                      <circle cx="360" cy="16" r="6" fill="none" stroke="rgba(5, 150, 105, 0.35)" stroke-width="1.5" />
+                      <circle cx="360" cy="16" r="3.5" fill="#34D399" stroke="#FFFFFF" stroke-width="2" />
+                      <circle cx="360" cy="16" r="6" fill="none" stroke="rgba(52, 211, 153, 0.45)" stroke-width="1.5" />
 
                       <!-- Leyendas en los extremos -->
-                      <text x="22" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" fill="#64748B">DÍA 1 ($0)</text>
-                      <text x="180" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" fill="#64748B" text-anchor="middle">DÍA 7 (ACTUAL)</text>
-                      <text x="360" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" fill="#059669" text-anchor="end">META ($12,000)</text>
+                      <text x="22" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" fill="#E2E8F0">DÍA 1 ($0)</text>
+                      <text x="180" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" fill="#E2E8F0" text-anchor="middle">DÍA 7 (ACTUAL)</text>
+                      <text x="360" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" fill="#34D399" text-anchor="end">META ($12,000)</text>
                     </svg>
                   </div>
 
                   <!-- Métricas de Proyección Estadística -->
-                  <div class="cf-projection-metrics">
+                  <div class="cf-projection-metrics inner-slot">
                     <div class="cf-metric-row">
                       <span class="cf-metric-lbl">Promedio Diario Actual:</span>
                       <strong class="cf-val-green-bold" id="projDailyAverage">+$202.93 USDC / día</strong>
@@ -450,10 +446,6 @@
            ESPACIO 3: BÓVEDAS RECEPTORAS BINANCE (COLUMNA DERECHA — 5 TARJETAS)
            ============================================================== -->
       <aside class="right-comms-container binance-vaults-sidebar" id="binanceRightColumn">
-        <div class="section-header">
-          <span class="material-symbols-rounded">account_balance</span>
-          <span>BÓVEDAS RECEPTORAS BINANCE</span>
-        </div>
 
         <!-- 1: Bóveda Binance #1 • Box 1 -->
         <div class="vault-card" id="vaultCard1" onclick="openBoxExplorer(1)" title="Inspeccionar Box 1 (#001–#100)">

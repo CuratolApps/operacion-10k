@@ -533,11 +533,11 @@ function openBoxExplorer(boxId) {
     subEl.textContent = `100 Carteras en Supervisión • Cero Cruce Sybil • Depósitos Directos a Binance`;
   }
 
-  // Resaltar tarjeta correspondiente en el Monitor Izquierdo y en el Footer Bar
+  // Resaltar tarjeta correspondiente en el Monitor Izquierdo sin desplazarla
   document.querySelectorAll(".monitor-card").forEach((mcard, idx) => {
     if (idx + 1 === currentBoxId) {
-      mcard.style.transform = "translateY(-2px)";
-      mcard.style.boxShadow = "0 8px 22px rgba(15, 23, 42, 0.25)";
+      mcard.style.transform = "none";
+      mcard.style.boxShadow = "0 8px 22px rgba(15, 23, 42, 0.20)";
     } else {
       mcard.style.transform = "none";
       mcard.style.boxShadow = "";

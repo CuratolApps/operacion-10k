@@ -346,62 +346,52 @@ html, body {
    ============================================================== */
 .left-menu-container,
 .right-comms-container {
+  display: grid !important;
+  grid-template-rows: repeat(5, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  padding: 0 !important;
+  height: 100% !important;
+  align-items: stretch !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  padding: 4px 6px !important;
-  display: grid;
-  grid-template-rows: 24px repeat(5, minmax(0, 1fr));
-  gap: 10px;
-  height: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
-/* Títulos grabados directamente sobre el chasis */
+/* Títulos grabados directamente sobre el chasis (ocultos al tomar altura completa) */
 .section-header,
 .vaults-header {
-  color: #1E293B !important;
-  font-size: 0.72rem !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75), 0 -1px 0 rgba(15, 23, 42, 0.15) !important;
-  padding-left: 4px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  line-height: 24px;
-}
-
-.section-header .material-symbols-rounded,
-.vaults-header .material-symbols-rounded {
-  font-size: 17px;
-  color: #1E293B !important;
+  display: none !important;
 }
 
 /* ==============================================================
-   TARJETAS FLOTANTES EN VIDRIO ESMERILADO 3D (MONITOR BOXES & BÓVEDAS BINANCE)
+   TARJETAS EN BLANCO PURO SATINADO / LECHOSO & CERO MOVIMIENTO (REGLAS 2 Y 3)
    ============================================================== */
-.vault-card,
 .box-monitor-card,
-.monitor-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(241, 245, 249, 0.68) 100%) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.98) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.9) !important;
-  border-right: 1px solid rgba(203, 213, 225, 0.7) !important;
-  border-bottom: 1.5px solid rgba(148, 163, 184, 0.55) !important;
+.vault-card,
+.central-card,
+.pipeline-card,
+.monitor-card,
+.central-frosted-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border: 1px solid #FFFFFF !important;
   box-shadow: 
-    0 10px 22px -6px rgba(15, 23, 42, 0.14),
-    0 4px 8px -2px rgba(15, 23, 42, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
-  border-radius: 14px;
-  padding: 8px 12px;
+    0 4px 12px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 #FFFFFF !important;
+  border-radius: 14px !important;
   color: #0F172A !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.box-monitor-card,
+.vault-card,
+.monitor-card {
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -410,17 +400,23 @@ html, body {
   overflow: hidden;
   box-sizing: border-box;
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.vault-card:hover,
 .box-monitor-card:hover,
-.monitor-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 14px 28px -6px rgba(15, 23, 42, 0.18),
-    0 6px 12px -2px rgba(15, 23, 42, 0.10),
-    inset 0 1px 1px rgba(255, 255, 255, 0.98) !important;
+.vault-card:hover,
+.central-card:hover,
+.pipeline-card:hover,
+.monitor-card:hover,
+.central-frosted-card:hover,
+.box-monitor-card:active,
+.vault-card:active,
+.central-card:active,
+.pipeline-card:active,
+.monitor-card:active,
+.central-frosted-card:active {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Fila 1: Título y Rango */
@@ -454,17 +450,17 @@ html, body {
   white-space: nowrap;
 }
 
-/* Fila 2: Caja Interna del Código (0x...) y Estado del Box Biselado en Vidrio */
+/* Fila 2: Cajas Internas (Códigos y Ranuras) en Gris Pizarra Satinado (Regla 4) */
 .vault-address-bar,
 .box-status-bar,
-.card-white-bar {
-  background: rgba(255, 255, 255, 0.55) !important;
-  border-top: 1px solid rgba(148, 163, 184, 0.35) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.95) !important;
-  border-left: 1px solid rgba(203, 213, 225, 0.45) !important;
-  border-right: 1px solid rgba(203, 213, 225, 0.45) !important;
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06) !important;
-  border-radius: 8px;
+.card-white-bar,
+.inner-slot,
+.status-pill {
+  background: linear-gradient(180deg, #64748B 0%, #475569 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.25) !important;
+  border-radius: 8px !important;
+  color: #FFFFFF !important;
   padding: 4px 8px;
   display: flex;
   align-items: center;
@@ -479,11 +475,20 @@ html, body {
   justify-content: center;
 }
 
+.vault-address-full,
+.box-status-bar span,
+.box-status-bar,
+.vault-address-bar span,
+.copy-btn,
+.copy-btn .material-symbols-rounded,
+.bar-status-text {
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+
 .vault-address-full {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.57rem !important; /* Ajustado para que los 42 caracteres entren completos sin cortarse */
-  font-weight: 500;
-  color: #0F172A !important;
   letter-spacing: -0.25px;
   white-space: nowrap;
   overflow: hidden;
@@ -493,8 +498,6 @@ html, body {
 .bar-status-text {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.60rem;
-  font-weight: 600;
-  color: #0F172A !important;
   letter-spacing: -0.2px;
   white-space: nowrap;
 }
@@ -502,22 +505,25 @@ html, body {
 .copy-btn {
   background: transparent;
   border: none;
-  color: #0F172A !important;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2px;
-  transition: transform 0.15s ease;
+  transform: none !important;
+  transition: none !important;
+  color: #FFFFFF !important;
 }
 
-.copy-btn:hover {
-  transform: scale(1.15);
+.copy-btn:hover,
+.copy-btn:active {
+  transform: none !important;
+  color: #FFFFFF !important;
 }
 
 .copy-btn .material-symbols-rounded {
   font-size: 15px;
-  color: #0F172A !important;
+  color: #FFFFFF !important;
 }
 
 /* Fila 3: Inferior Izquierda / Derecha */
@@ -1397,22 +1403,17 @@ html, body {
   overflow: hidden;
 }
 
-/* Tarjeta Base Central en Vidrio Esmerilado 3D Flotante */
-.central-frosted-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(241, 245, 249, 0.68) 100%) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.98) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.9) !important;
-  border-right: 1px solid rgba(203, 213, 225, 0.7) !important;
-  border-bottom: 1.5px solid rgba(148, 163, 184, 0.55) !important;
+/* Tarjeta Base Central en Blanco Puro Satinado / Lechoso (Reglas 2 y 3) */
+.central-frosted-card,
+.central-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border: 1px solid #FFFFFF !important;
   box-shadow: 
-    0 10px 22px -6px rgba(15, 23, 42, 0.14),
-    0 4px 8px -2px rgba(15, 23, 42, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
-  border-radius: 16px;
-  padding: 12px 14px;
+    0 4px 12px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 #FFFFFF !important;
+  border-radius: 14px !important;
   color: #0F172A !important;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1420,15 +1421,18 @@ html, body {
   min-height: 0;
   overflow: hidden;
   box-sizing: border-box;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
-.central-frosted-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 14px 28px -6px rgba(15, 23, 42, 0.18),
-    0 6px 12px -2px rgba(15, 23, 42, 0.10),
-    inset 0 1px 1px rgba(255, 255, 255, 0.98) !important;
+.central-frosted-card:hover,
+.central-card:hover,
+.central-frosted-card:active,
+.central-card:active {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Cabecera de la Tarjeta */
@@ -1520,21 +1524,25 @@ html, body {
   gap: 7px;
 }
 
-/* Ranuras Interiores Biseladas en Vidrio Esmerilado */
+/* Ranuras Interiores Biseladas en Pizarra Satinada (Regla 4) */
+.cf-slot,
+.cf-progress-section,
+.cf-chart-wrap,
+.cf-projection-metrics {
+  background: linear-gradient(180deg, #64748B 0%, #475569 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.25) !important;
+  border-radius: 8px !important;
+  color: #FFFFFF !important;
+  box-sizing: border-box;
+}
+
 .cf-slot {
-  background: rgba(255, 255, 255, 0.55);
-  border-top: 1px solid rgba(148, 163, 184, 0.35);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.95);
-  border-left: 1px solid rgba(203, 213, 225, 0.45);
-  border-right: 1px solid rgba(203, 213, 225, 0.45);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.05);
-  border-radius: 10px;
   padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  box-sizing: border-box;
 }
 
 .cf-slot-info {
@@ -1544,56 +1552,67 @@ html, body {
   min-width: 0;
 }
 
-.cf-slot-label {
-  font-size: 0.58rem;
-  font-weight: 800;
-  color: #0F172A;
-  letter-spacing: 0.3px;
+.cf-slot-label,
+.cf-slot-sub,
+.cf-slot-highlight-text,
+.cf-network-name,
+.cf-metric-lbl,
+.cf-prog-title,
+.cf-progress-footer,
+.cf-prog-remaining,
+.cf-progress-labels span {
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
 }
 
 .cf-slot-sub {
+  color: rgba(255, 255, 255, 0.85) !important;
   font-size: 0.54rem;
-  font-weight: 600;
-  color: #64748B;
 }
 
 .cf-slot-highlight-text {
   font-size: 0.62rem;
-  font-weight: 700;
-  color: #0F172A;
   line-height: 1.25;
 }
 
-/* Valores Clave en Verde Mate en Negrita (#059669) y Negro Negrita (#0F172A) */
-.cf-val-green-bold {
-  color: #059669 !important;
+/* Valores Clave en Ranuras: Verde Esmeralda Eléctrico (#34D399) y Blanco Puro (#FFFFFF) */
+.cf-val-green-bold,
+.cf-prog-stat,
+#centralProgressPct,
+#centralCapitalizedAmount,
+#hunterDailyCaptured,
+#projDailyAverage {
+  color: #34D399 !important;
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 0.82rem !important;
   font-weight: 800 !important;
   letter-spacing: -0.2px;
   white-space: nowrap;
-  text-shadow: none !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important;
 }
 
-.cf-val-black-bold {
-  color: #0F172A !important;
+.cf-val-black-bold,
+.cf-slot-metrics strong,
+.cf-progress-footer strong,
+.cf-prog-title strong,
+.cf-projection-metrics strong,
+#centralRemainingAmount,
+#centralPendingAmount,
+#metricEthL1,
+#metricBaseL2,
+#metricArbL2,
+#projEstimatedDays {
+  color: #FFFFFF !important;
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 0.78rem !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   letter-spacing: -0.2px;
   white-space: nowrap;
-  text-shadow: none !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
 }
 
 /* Barra Profesional Única de Progreso (Tarjeta 1) */
 .cf-progress-section {
-  background: rgba(255, 255, 255, 0.55);
-  border-top: 1px solid rgba(148, 163, 184, 0.35);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.95);
-  border-left: 1px solid rgba(203, 213, 225, 0.45);
-  border-right: 1px solid rgba(203, 213, 225, 0.45);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.05);
-  border-radius: 10px;
   padding: 7px 10px;
   display: flex;
   flex-direction: column;
@@ -1606,28 +1625,23 @@ html, body {
   align-items: center;
   font-size: 0.62rem;
   font-weight: 700;
-  color: #0F172A;
-}
-
-.cf-prog-stat {
-  font-weight: 800;
-  color: #059669;
+  color: #FFFFFF !important;
 }
 
 .cf-progress-track {
   width: 100%;
   height: 7px;
-  background: rgba(15, 23, 42, 0.08);
+  background: rgba(15, 23, 42, 0.45);
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.12);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .cf-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #059669 0%, #10B981 100%);
+  background: linear-gradient(90deg, #10B981 0%, #34D399 100%);
   border-radius: 999px;
-  box-shadow: 0 1px 3px rgba(5, 150, 105, 0.35);
+  box-shadow: 0 1px 4px rgba(52, 211, 153, 0.45);
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1636,11 +1650,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   font-size: 0.57rem;
-  color: #64748B;
-}
-
-.cf-progress-footer strong {
-  color: #0F172A;
+  color: #FFFFFF !important;
 }
 
 /* Tarjeta 2: Redes y Estado de Gas */
@@ -1653,7 +1663,7 @@ html, body {
 .cf-network-name {
   font-size: 0.62rem;
   font-weight: 700;
-  color: #0F172A;
+  color: #FFFFFF !important;
 }
 
 .cf-slot-metrics {
@@ -1719,13 +1729,13 @@ html, body {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: rgba(5, 150, 105, 0.12);
-  border: 1px solid rgba(5, 150, 105, 0.25);
+  background: rgba(52, 211, 153, 0.20);
+  border: 1px solid rgba(52, 211, 153, 0.45);
   border-radius: 999px;
   padding: 3px 9px;
   font-size: 0.58rem;
   font-weight: 800;
-  color: #059669;
+  color: #34D399;
   letter-spacing: 0.25px;
 }
 
@@ -1740,13 +1750,6 @@ html, body {
 
 /* Tarjeta 4: Crecimiento y Proyección 12K */
 .cf-chart-wrap {
-  background: rgba(255, 255, 255, 0.55);
-  border-top: 1px solid rgba(148, 163, 184, 0.35);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.95);
-  border-left: 1px solid rgba(203, 213, 225, 0.45);
-  border-right: 1px solid rgba(203, 213, 225, 0.45);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.05);
-  border-radius: 10px;
   padding: 5px 8px;
   display: flex;
   flex-direction: column;
@@ -1761,13 +1764,6 @@ html, body {
 }
 
 .cf-projection-metrics {
-  background: rgba(255, 255, 255, 0.55);
-  border-top: 1px solid rgba(148, 163, 184, 0.35);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.95);
-  border-left: 1px solid rgba(203, 213, 225, 0.45);
-  border-right: 1px solid rgba(203, 213, 225, 0.45);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.05);
-  border-radius: 10px;
   padding: 6px 10px;
   display: flex;
   flex-direction: column;
@@ -1783,5 +1779,5 @@ html, body {
 
 .cf-metric-lbl {
   font-weight: 700;
-  color: #475569;
+  color: #FFFFFF !important;
 }
