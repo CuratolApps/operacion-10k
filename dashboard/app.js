@@ -255,18 +255,42 @@ function logToAuraAndTelegram(auraHtml, tgBadge, tgText) {
   }
 }
 
+const GITHUB_RAW_TELEMETRY = "https://raw.githubusercontent.com/CuratolApps/operacion-10k/main/telemetry/fleet-telemetry.json";
+
 async function pollTelemetry() {
   try {
-    const paths = ["../telemetry/fleet-telemetry.json", "telemetry/fleet-telemetry.json", "/telemetry/fleet-telemetry.json"];
-    let data = null;
-    for (const p of paths) {
+    const timestampQuery = "?t=" + Date.now();
+    const localPaths = ["../telemetry/fleet-telemetry.json", "telemetry/fleet-telemetry.json", "/telemetry/fleet-telemetry.json"];
+
+    const fetchJson = async (url) => {
       try {
-        const res = await fetch(p + "?t=" + Date.now());
-        if (res.ok) {
-          data = await res.json();
-          break;
-        }
+        const res = await fetch(url + timestampQuery, { cache: "no-store" });
+        if (res.ok) return await res.json();
       } catch (_) {}
+      return null;
+    };
+
+    // 1. Consultar archivo local y remoto en paralelo
+    const localPromise = (async () => {
+      for (const p of localPaths) {
+        const res = await fetchJson(p);
+        if (res) return res;
+      }
+      return null;
+    })();
+
+    const remotePromise = fetchJson(GITHUB_RAW_TELEMETRY);
+
+    const [localData, remoteData] = await Promise.all([localPromise, remotePromise]);
+
+    // 2. Seleccionar la telemetría más reciente según su timestamp
+    let data = null;
+    if (localData && remoteData) {
+      const localTime = new Date(localData.timestamp || 0).getTime();
+      const remoteTime = new Date(remoteData.timestamp || 0).getTime();
+      data = remoteTime >= localTime ? remoteData : localData;
+    } else {
+      data = remoteData || localData;
     }
 
     if (data) {
