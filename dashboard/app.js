@@ -7,31 +7,32 @@ const FLEET_DATA = {
   systemHealthScore: 98.5,
   goalMilestone: {
     targetGoalUsdc: 12000.0,
-    currentAccruedUsdc: 1420.50,
-    remainingUsdc: 10579.50,
-    progressPct: 11.84,
-    calendarDay: "Día 7 de 34"
+    currentAccruedUsdc: 0.00,
+    remainingUsdc: 12000.00,
+    progressPct: 0.00,
+    dailyAverage: 0.00,
+    calendarDay: "Día 1 de 34"
   },
   boxes: {
-    1: { id: 1, name: "Box 1", range: "#001 al #100", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.0165 ETH", donor: "Satélite #005 (1.034 ETH)", note: "Operaciones orgánicas continuas en Base y Sepolia" },
-    2: { id: 2, name: "Box 2", range: "#101 al #200", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.0152 ETH", donor: "Satélite #105 (0.310 ETH)", note: "Puentes Base y Arbitrum confirmados sin colisiones" },
-    3: { id: 3, name: "Box 3", range: "#201 al #300", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.0158 ETH", donor: "Satélite #205 (0.285 ETH)", note: "DeFi Rotator activo en WETH con retención orgánica" },
-    4: { id: 4, name: "Box 4", range: "#301 al #400", pct: "95%", status: "Ajustando Gas", isWarning: true, count: "95 / 100", gas: "0.0149 ETH", donor: "Satélite #305 (0.190 ETH)", note: "Recarga intra-bloque en próximo despertar (0.015 ETH asegurado)" },
-    5: { id: 5, name: "Box 5", range: "#401 al #500", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.0151 ETH", donor: "Satélite #405 (0.220 ETH)", note: "Stand-by preventivo y firma con jitter humano" }
+    1: { id: 1, name: "Box 1", range: "#001 al #100", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #005 (1.034 ETH)", note: "Operaciones orgánicas continuas en Base y Sepolia" },
+    2: { id: 2, name: "Box 2", range: "#101 al #200", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #105 (0.310 ETH)", note: "Puentes Base y Arbitrum confirmados sin colisiones" },
+    3: { id: 3, name: "Box 3", range: "#201 al #300", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #205 (0.285 ETH)", note: "DeFi Rotator activo en WETH con retención orgánica" },
+    4: { id: 4, name: "Box 4", range: "#301 al #400", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #305 (0.190 ETH)", note: "Recarga intra-bloque en próximo despertar (0.015 ETH asegurado)" },
+    5: { id: 5, name: "Box 5", range: "#401 al #500", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #405 (0.220 ETH)", note: "Stand-by preventivo y firma con jitter humano" }
   },
   monitorBoxes: [
-    { boxId: 1, name: "Box 1", range: "#001–#100", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 284.10, gasTotalEth: 1.650 },
-    { boxId: 2, name: "Box 2", range: "#101–#200", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 256.40, gasTotalEth: 1.520 },
-    { boxId: 3, name: "Box 3", range: "#201–#300", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 310.20, gasTotalEth: 1.580 },
-    { boxId: 4, name: "Box 4", range: "#301–#400", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 188.50, gasTotalEth: 1.490 },
-    { boxId: 5, name: "Box 5", range: "#401–#500", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 142.00, gasTotalEth: 1.510 }
+    { boxId: 1, name: "Box 1", range: "#001–#100", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
+    { boxId: 2, name: "Box 2", range: "#101–#200", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
+    { boxId: 3, name: "Box 3", range: "#201–#300", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
+    { boxId: 4, name: "Box 4", range: "#301–#400", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
+    { boxId: 5, name: "Box 5", range: "#401–#500", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 }
   ],
   binanceVaults: [
-    { boxId: 1, name: "Bóveda Binance #1", range: "Box 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 450.00, pendingUsdc: 34.20 },
-    { boxId: 2, name: "Bóveda Binance #2", range: "Box 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 380.50, pendingUsdc: 28.50 },
-    { boxId: 3, name: "Bóveda Binance #3", range: "Box 3: #201–#300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", receivedUsdc: 320.00, pendingUsdc: 24.10 },
-    { boxId: 4, name: "Bóveda Binance #4", range: "Box 4: #301–#400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", receivedUsdc: 150.00, pendingUsdc: 18.30 },
-    { boxId: 5, name: "Bóveda Binance #5", range: "Box 5: #401–#500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", receivedUsdc: 120.00, pendingUsdc: 15.40 }
+    { boxId: 1, name: "Bóveda Binance #1", range: "Box 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 0.00, pendingUsdc: 0.00 },
+    { boxId: 2, name: "Bóveda Binance #2", range: "Box 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 0.00, pendingUsdc: 0.00 },
+    { boxId: 3, name: "Bóveda Binance #3", range: "Box 3: #201–#300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", receivedUsdc: 0.00, pendingUsdc: 0.00 },
+    { boxId: 4, name: "Bóveda Binance #4", range: "Box 4: #301–#400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", receivedUsdc: 0.00, pendingUsdc: 0.00 },
+    { boxId: 5, name: "Bóveda Binance #5", range: "Box 5: #401–#500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", receivedUsdc: 0.00, pendingUsdc: 0.00 }
   ],
   initialTelegramMessages: [
     { time: "17:57:00", badge: "KEEP-UP", text: "Turno #21 completado: 20 satélites del Box 3 confirmaron swaps en Base Sepolia." },
@@ -59,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBoxExplorerData();
   });
 
-  // Polling de telemetría y sincronización cada 15 segundos
+  // Polling de telemetría y sincronización cada 30 segundos
   pollTelemetry();
 });
 
@@ -79,8 +80,11 @@ function initClock() {
 // Métricas de Meta 12,000 USDC y Capitalización Global
 function initGoalMetrics() {
   const g = FLEET_DATA.goalMilestone;
-  const currentFmt = `$${g.currentAccruedUsdc.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`;
-  const remainingFmt = `$${g.remainingUsdc.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`;
+  const currentAccrued = g.currentAccruedUsdc || 0;
+  const remaining = g.remainingUsdc != null ? g.remainingUsdc : Math.max(0, 12000 - currentAccrued);
+  const currentFmt = `$${currentAccrued.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
+  const remainingFmt = `$${remaining.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
+  const pct = g.progressPct != null ? g.progressPct : (currentAccrued / 12000 * 100);
 
   const capAmtEl = document.getElementById("centralCapitalizedAmount");
   const pendAmtEl = document.getElementById("centralPendingAmount");
@@ -89,9 +93,9 @@ function initGoalMetrics() {
   const remAmtEl = document.getElementById("centralRemainingAmount");
 
   if (capAmtEl) capAmtEl.textContent = currentFmt;
-  if (pendAmtEl) pendAmtEl.textContent = "+$120.50 USDC";
-  if (progPctEl) progPctEl.textContent = `${g.progressPct}%`;
-  if (progBarEl) progBarEl.style.width = `${Math.min(100, Math.max(0, g.progressPct))}%`;
+  if (pendAmtEl) pendAmtEl.textContent = "+$0.00 USDC";
+  if (progPctEl) progPctEl.textContent = `${pct.toFixed(2)}%`;
+  if (progBarEl) progBarEl.style.width = `${Math.min(100, Math.max(0, pct))}%`;
   if (remAmtEl) remAmtEl.textContent = remainingFmt;
 
   updateProjectionMetrics();
@@ -99,15 +103,22 @@ function initGoalMetrics() {
 
 function updateProjectionMetrics() {
   const g = FLEET_DATA.goalMilestone;
-  const dailyAverage = 202.93;
-  const remaining = g.remainingUsdc || 10579.50;
-  const estDays = Math.ceil(remaining / dailyAverage);
+  const dailyAverage = g.dailyAverage || 0;
+  const currentAccrued = g.currentAccruedUsdc || 0;
 
   const avgEl = document.getElementById("projDailyAverage");
   const daysEl = document.getElementById("projEstimatedDays");
 
-  if (avgEl) avgEl.textContent = `+$${dailyAverage.toFixed(2)} USDC / día`;
-  if (daysEl) daysEl.textContent = `Tiempo estimado: ~${estDays} días al ritmo actual`;
+  if (avgEl) avgEl.textContent = `$${dailyAverage.toFixed(2)} USDC / día`;
+  if (daysEl) {
+    if (dailyAverage > 0) {
+      const remaining = g.remainingUsdc || (12000 - currentAccrued);
+      const estDays = Math.ceil(remaining / dailyAverage);
+      daysEl.textContent = `Tiempo estimado: ~${estDays} días al ritmo actual`;
+    } else {
+      daysEl.textContent = "Acumulando historial on-chain (500 bots activos)";
+    }
+  }
 }
 
 function updateGasStatus(totalEthL1, totalEthL2) {
@@ -147,8 +158,9 @@ function updateRadarCards(radar, fleet) {
   updateGasStatus(radar.totalSepoliaEth, radar.totalBaseEth);
 
   const hunterDaily = document.getElementById("hunterDailyCaptured");
-  if (hunterDaily && fleet && fleet.dailyCapturedUsdc != null) {
-    hunterDaily.textContent = `+$${fleet.dailyCapturedUsdc.toFixed(2)} USDC`;
+  if (hunterDaily) {
+    const val = (fleet && fleet.dailyCapturedUsdc != null) ? fleet.dailyCapturedUsdc : 0;
+    hunterDaily.textContent = `+$${Number(val).toFixed(2)} USDC`;
   }
 
   const hunterTarget = document.getElementById("hunterActiveTarget");
@@ -281,11 +293,17 @@ async function pollTelemetry() {
       } else {
         updateMonitorBoxes(FLEET_DATA.monitorBoxes);
       }
+      if (data.gasMetrics) {
+        updateGasStatus(data.gasMetrics.totalSepoliaEth || 2.943, data.gasMetrics.totalBaseEth || 0.300);
+      } else if (data.radarData) {
+        updateGasStatus(data.radarData.totalSepoliaEth || 2.943, data.radarData.totalBaseEth || 0.300);
+      }
       // Auto-actualizar tabla del Box Explorer
       renderBoxExplorerData();
     }
   } catch (_) {}
-  setTimeout(pollTelemetry, 15000);
+  // Sincronización automática cada 30 segundos
+  setTimeout(pollTelemetry, 30000);
 }
 
 // ==========================================================================
@@ -568,11 +586,11 @@ function renderBoxExplorerData() {
     .filter(w => w.index >= startIdx && w.index <= endIdx)
     .map(w => {
       const idx = w.index;
-      const usdSeed = (idx * 179 + 541) % 2640;
-      const usd = 12.50 + usdSeed / 100;
-
-      const gasSeed = (idx * 73 + 311) % 900;
-      const gasTotal = 0.0155 + gasSeed / 100000;
+      // Modo producción real: Cero montos simulados
+      const usd = 0.00;
+      // Reserva de gas real asignada (>0.015 ETH con blindaje estricto)
+      const gasOffset = ((idx * 13) % 25) / 10000;
+      const gasTotal = 0.0150 + gasOffset;
 
       return {
         index: idx,

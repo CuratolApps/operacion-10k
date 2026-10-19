@@ -67,8 +67,8 @@ jobs:
         run: |
           git config user.name "Operacion10K-Bot"
           git config user.email "bot@curatools.io"
-          git add telemetry/fleet-telemetry.json dashboard/ last-run-report.json radar-report.json || true
-          git diff --staged --quiet || (git commit -m "chore(telemetry): auto-update fleet status [skip ci]" && git pull --rebase origin main && git push origin main) || true
+          git add telemetry/fleet-telemetry.json radar-report.json || true
+          git diff --staged --quiet || (git commit -m "chore(telemetry): live sync [skip ci]" && git pull --rebase origin main && git push origin main) || true
 
       - name: 📦 Guardar Artefacto de Telemetría
         uses: actions/upload-artifact@v4
