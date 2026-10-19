@@ -150,6 +150,16 @@ function updateRadarCards(radar, fleet) {
   if (hunterDaily && fleet && fleet.dailyCapturedUsdc != null) {
     hunterDaily.textContent = `+$${fleet.dailyCapturedUsdc.toFixed(2)} USDC`;
   }
+
+  const hunterTarget = document.getElementById("hunterActiveTarget");
+  if (hunterTarget && radar.activeTarget) {
+    hunterTarget.textContent = radar.activeTarget;
+  }
+
+  const hunterSquad = document.getElementById("hunterSquadDeploy");
+  if (hunterSquad && radar.squadDeploy) {
+    hunterSquad.textContent = radar.squadDeploy;
+  }
 }
 
 function renderTelegramAlerts(alerts) {

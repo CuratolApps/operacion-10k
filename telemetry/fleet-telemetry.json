@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-19T18:24:28.057Z",
+  "timestamp": "2026-10-19T21:47:35.097Z",
   "systemHealthScore": 98.5,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -44,6 +44,53 @@
       {
         "name": "WPOL Amoy",
         "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9"
+      }
+    ],
+    "activeTarget": "Rotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum)",
+    "squadDeploy": "20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)",
+    "lastHunterScan": "2026-10-19T21:47:35.097Z",
+    "networksStatus": [
+      {
+        "name": "Ethereum Sepolia",
+        "chainId": 11155111,
+        "online": true,
+        "blockNumber": 11950929,
+        "latencyMs": 497
+      },
+      {
+        "name": "Base Sepolia",
+        "chainId": 84532,
+        "online": true,
+        "blockNumber": 48339082,
+        "latencyMs": 525
+      },
+      {
+        "name": "Arbitrum Sepolia",
+        "chainId": 421614,
+        "online": true,
+        "blockNumber": 320855165,
+        "latencyMs": 531
+      },
+      {
+        "name": "Optimism Sepolia",
+        "chainId": 11155420,
+        "online": true,
+        "blockNumber": 50321957,
+        "latencyMs": 668
+      },
+      {
+        "name": "BSC Testnet",
+        "chainId": 97,
+        "online": true,
+        "blockNumber": 137773098,
+        "latencyMs": 1301
+      },
+      {
+        "name": "Polygon Amoy",
+        "chainId": 80002,
+        "online": true,
+        "blockNumber": 50623895,
+        "latencyMs": 667
       }
     ]
   },
@@ -285,6 +332,20 @@
     }
   ],
   "recentTelegramAlerts": [
+    {
+      "id": "vanguard-1792446455108",
+      "timestamp": "2026-10-19T21:47:35.108Z",
+      "timeFormatted": "21:47:35 UTC",
+      "rawHtml": "🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>\n⏱️ <code>21:47:35 UTC</code>\n\n🌐 <b>ESTADO DE REDES ACTIVAS:</b>\n   • <b>Ethereum Sepolia:</b> En línea (Bloque 11,950,929 • 497ms)\n   • <b>Base Sepolia:</b> En línea (Bloque 48,339,082 • 525ms)\n   • <b>Arbitrum Sepolia:</b> En línea (Bloque 320,855,165 • 531ms)\n   • <b>Optimism Sepolia:</b> En línea (Bloque 50,321,957 • 668ms)\n   • <b>BSC Testnet:</b> En línea (Bloque 137,773,098 • 1301ms)\n   • <b>Polygon Amoy:</b> En línea (Bloque 50,623,895 • 667ms)\n\n📦 <b>SALUD DE LOS 5 BOXES (500 CARTERAS):</b>\n   • <b>Box 1 (#001–#100):</b> 100/100 Bots Activos • >0.015 ETH OK\n   • <b>Box 2 (#101–#200):</b> 100/100 Bots Activos • >0.015 ETH OK\n   • <b>Box 3 (#201–#300):</b> 100/100 Bots Activos • >0.015 ETH OK\n   • <b>Box 4 (#301–#400):</b> 100/100 Bots Activos 🎯 <b>[TURNO ACTIVO]</b>\n   • <b>Box 5 (#401–#500):</b> 100/100 Bots Activos • >0.015 ETH OK\n\n🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>\nRotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum)\n\n⚡ <b>ESCUADRÓN DESPLEGADO:</b>\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 <b>RENDIMIENTO CAPTADO HOY:</b> +$34.20 USDC\n📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil",
+      "textPlain": "🦅 10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES\n⏱️ 21:47:35 UTC\n\n🌐 ESTADO DE REDES ACTIVAS:\n   • Ethereum Sepolia: En línea (Bloque 11,950,929 • 497ms)\n   • Base Sepolia: En línea (Bloque 48,339,082 • 525ms)\n   • Arbitrum Sepolia: En línea (Bloque 320,855,165 • 531ms)\n   • Optimism Sepolia: En línea (Bloque 50,321,957 • 668ms)\n   • BSC Testnet: En línea (Bloque 137,773,098 • 1301ms)\n   • Polygon Amoy: En línea (Bloque 50,623,895 • 667ms)\n\n📦 SALUD DE LOS 5 BOXES (500 CARTERAS):\n   • Box 1 (#001–#100): 100/100 Bots Activos • >0.015 ETH OK\n   • Box 2 (#101–#200): 100/100 Bots Activos • >0.015 ETH OK\n   • Box 3 (#201–#300): 100/100 Bots Activos • >0.015 ETH OK\n   • Box 4 (#301–#400): 100/100 Bots Activos 🎯 [TURNO ACTIVO]\n   • Box 5 (#401–#500): 100/100 Bots Activos • >0.015 ETH OK\n\n🎯 OBJETIVO DE CAZA ACTIVO:\nRotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum)\n\n⚡ ESCUADRÓN DESPLEGADO:\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 RENDIMIENTO CAPTADO HOY: +$34.20 USDC\n📡 ESTADO: Escaneo activo 24/7 sin colisiones Sybil"
+    },
+    {
+      "id": "vanguard-1792446450606",
+      "timestamp": "2026-10-19T21:47:30.606Z",
+      "timeFormatted": "21:47:30 UTC",
+      "rawHtml": "🎯 <b>10K VANGUARD HUNTER EN LÍNEA</b> — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando.",
+      "textPlain": "🎯 10K VANGUARD HUNTER EN LÍNEA — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando."
+    },
     {
       "id": "tg-1792433800320-856",
       "timestamp": "2026-10-19T18:16:40.320Z",

@@ -2,8 +2,8 @@ name: Operación 10k - Swarm Engine Automation
 
 on:
   schedule:
-    # Despierta automáticamente CADA HORA en el minuto 17 (24 veces al día)
-    - cron: '17 * * * *'
+    # Despierta automáticamente CADA 30 MINUTOS en el minuto 17 y 47 (48 veces al día)
+    - cron: '17,47 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -51,6 +51,7 @@ jobs:
           SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}
         run: |
           node swarm-engine.js --only-generate || true
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
@@ -59,6 +60,7 @@ jobs:
             node task-runner.js || true
           fi
           node radar-hunter.js || true
+          node vanguard-hunter.js || true
           node scripts/ai-telemetry-feed.js || true
 
       - name: 💾 Sincronizar Telemetría al Dashboard
