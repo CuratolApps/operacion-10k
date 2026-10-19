@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "bridge:base": "node bridge-to-base.js",
     "bridge:arbitrum": "node bridge-to-arbitrum.js",
+    "bridge:fleet": "node bridge-fleet.js",
+    "commander": "node telegram-commander.js",
     "radar": "node radar-hunter.js",
     "distribute:gas": "node distribute-gas.js"
   },
