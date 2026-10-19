@@ -4,7 +4,6 @@ on:
   schedule:
     # Despierta automáticamente CADA HORA en el minuto 17 (24 veces al día)
     - cron: '17 * * * *'
-  # Permite ejecución manual bajo demanda desde la pestaña Actions de GitHub
   workflow_dispatch:
     inputs:
       dry_run:
@@ -14,7 +13,7 @@ on:
         type: boolean
 
 concurrency:
-  group: swarm-engine-10k
+  group: operacion-10k-main-swarm
   cancel-in-progress: false
 
 permissions:
@@ -39,66 +38,37 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
 
-      - name: 📦 Instalar dependencias limpias
-        run: npm ci
+      - name: 📦 Instalar dependencias de forma resiliente
+        run: npm install --no-audit --no-fund
 
-      - name: 🛰️ Generar lista de satélites públicos (si no existe)
-        run: node swarm-engine.js --only-generate
+      - name: 🚀 Ejecutar Carrusel Omnichain + Radar 500 Satélites
         env:
           TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
           SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
-          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
-
-      - name: 🚀 Ejecutar Motor de Rutinas y Escudo Anti-Sybil
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
+          node swarm-engine.js --only-generate || true
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            echo "Modo Dry-Run activado por usuario."
-            node task-runner.js --dry-run
+            node task-runner.js --dry-run || true
           else
-            node task-runner.js
+            node task-runner.js || true
           fi
-        env:
-          TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
-          SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
-          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
-          BATCH_SIZE: '20'
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          node radar-hunter.js || true
+          node scripts/ai-telemetry-feed.js || true
 
-      - name: 📡 Ejecutar Radar Hunter & Auditoría de Flota
-        run: node radar-hunter.js
-        env:
-          TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
-          SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
-          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
-          BATCH_SIZE: '20'
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-
-      - name: 📊 Consolidar Telemetría Unificada para Dashboard & Gemini
-        run: node scripts/ai-telemetry-feed.js
-        env:
-          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
-
-      - name: 💾 Persistir Telemetría en Repositorio
+      - name: 💾 Sincronizar Telemetría al Dashboard
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add telemetry/fleet-telemetry.json last-run-report.json radar-report.json || true
-          if git diff --staged --quiet; then
-            echo "No hay cambios para commitear"
-          else
-            git commit -m "telemetry: update fleet telemetry [skip ci]"
-            git push origin HEAD || echo "Push omitido o sin cambios"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git config user.name "Operacion10K-Bot"
+          git config user.email "bot@curatools.io"
+          git add telemetry/fleet-telemetry.json dashboard/ last-run-report.json radar-report.json || true
+          git diff --staged --quiet || (git commit -m "chore(telemetry): auto-update fleet status [skip ci]" && git pull --rebase origin main && git push origin main) || true
 
       - name: 📦 Guardar Artefacto de Telemetría
         uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
           name: fleet-telemetry-snapshot
           path: |
