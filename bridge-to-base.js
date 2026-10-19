@@ -48,26 +48,38 @@ function createProvider(netConfig) {
   });
 }
 
+function parseArg(flag, defaultValue) {
+  const idx = process.argv.indexOf(flag);
+  if (idx !== -1 && idx + 1 < process.argv.length) {
+    return process.argv[idx + 1];
+  }
+  return defaultValue;
+}
+
 async function runAutoBridge() {
   const isDryRun = process.argv.includes("--dry-run");
+  const toStart = parseInt(parseArg("--to-start", "1"), 10);
+  const toEnd = parseInt(parseArg("--to-end", "500"), 10);
+  const depositAmountStr = parseArg("--amount", BRIDGE_DEPOSIT_ETH);
 
   console.log("=========================================================================================");
   console.log("     🌉 OPERACIÓN 10K - EXPANSIÓN MULTI-RED: AUTO-BRIDGE A BASE SEPOLIA (L1 -> L2)     ");
   console.log("=========================================================================================");
   console.log(`🛡️  Modo de ejecución: ${isDryRun ? "DRY-RUN (Simulación sin transacciones reales)" : "PRODUCCIÓN (Transacciones On-Chain en vivo)"}`);
   console.log(`🎯 Contrato Oficial L1StandardBridge: ${BASE_SEPOLIA_L1_BRIDGE}`);
-  console.log(`💰 Monto por Satélite: ${BRIDGE_DEPOSIT_ETH} ETH`);
+  console.log(`🎯 Rango de Satélites: #${toStart} al #${toEnd}`);
+  console.log(`💰 Monto por Satélite: ${depositAmountStr} ETH`);
   console.log(`⚡ Umbral de Exclusión: >= ${BRIDGE_THRESHOLD_ETH} ETH en Base Sepolia`);
   console.log("🔒 Política Anti-Sybil: Aislamiento 100% individual. Cada satélite fondea su propia dirección L2.\n");
 
   const allWallets = loadPublicWallets();
   const allAddresses = allWallets.map((w) => w.address);
 
-  // Filtrar exclusivamente los 20 satélites (#01 al #20)
-  const satellites = allWallets.filter((w) => w.index >= 1 && w.index <= 20);
+  // Filtrar satélites dentro del rango solicitado
+  const satellites = allWallets.filter((w) => w.index >= toStart && w.index <= toEnd);
 
   if (satellites.length === 0) {
-    console.error("❌ ERROR: No se encontraron satélites (#01 al #20) en wallets-public-list.json");
+    console.error(`❌ ERROR: No se encontraron satélites en el rango #${toStart}-#${toEnd}`);
     process.exit(1);
   }
 
@@ -97,7 +109,7 @@ async function runAutoBridge() {
     details: []
   };
 
-  const depositWei = ethers.parseEther(BRIDGE_DEPOSIT_ETH);
+  const depositWei = ethers.parseEther(depositAmountStr);
 
   for (let i = 0; i < satellites.length; i++) {
     const sat = satellites[i];
@@ -127,9 +139,9 @@ async function runAutoBridge() {
         const sepBalEth = parseFloat(ethers.formatEther(sepBalWei));
         console.log(`   ↳ Saldo disponible en Ethereum Sepolia: ${sepBalEth.toFixed(6)} ETH`);
 
-        // Estimar si le alcanza para depositar 0.015 ETH + gas
+        // Estimar si le alcanza para depositar depositAmountStr ETH + gas
         if (sepBalWei < depositWei) {
-          console.log(`   ⚠️ [FONDOS INSUFICIENTES] Necesita al menos ${BRIDGE_DEPOSIT_ETH} SepETH.`);
+          console.log(`   ⚠️ [FONDOS INSUFICIENTES] Necesita al menos ${depositAmountStr} SepETH.`);
           results.insufficientFunds++;
           results.details.push({
             index: sat.index,
@@ -145,7 +157,7 @@ async function runAutoBridge() {
           validateIsolation(signer.address, signer.address, allAddresses);
 
           if (isDryRun) {
-            console.log(`   🧪 [DRY-RUN] Simulación: Se enviaría ${BRIDGE_DEPOSIT_ETH} ETH al L1StandardBridge.`);
+            console.log(`   🧪 [DRY-RUN] Simulación: Se enviaría ${depositAmountStr} ETH al L1StandardBridge.`);
             console.log(`      Destino en Base Sepolia: ${signer.address} (100% Aislado)`);
             results.successfullyBridged++;
             results.details.push({

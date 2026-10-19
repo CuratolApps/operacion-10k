@@ -47,26 +47,38 @@ function createProvider(netConfig) {
   });
 }
 
+function parseArg(flag, defaultValue) {
+  const idx = process.argv.indexOf(flag);
+  if (idx !== -1 && idx + 1 < process.argv.length) {
+    return process.argv[idx + 1];
+  }
+  return defaultValue;
+}
+
 async function runAutoBridgeArbitrum() {
   const isDryRun = process.argv.includes("--dry-run");
+  const toStart = parseInt(parseArg("--to-start", "1"), 10);
+  const toEnd = parseInt(parseArg("--to-end", "500"), 10);
+  const depositAmountStr = parseArg("--amount", BRIDGE_DEPOSIT_ETH);
 
   console.log("=========================================================================================");
   console.log("   🌉 OPERACIÓN 10K - EXPANSIÓN MULTI-RED: AUTO-BRIDGE A ARBITRUM SEPOLIA (L1 -> L2)    ");
   console.log("=========================================================================================");
   console.log(`🛡️  Modo de ejecución: ${isDryRun ? "DRY-RUN (Simulación sin transacciones reales)" : "PRODUCCIÓN (Transacciones On-Chain en vivo)"}`);
   console.log(`🎯 Contrato Oficial Delayed Inbox L1: ${ARBITRUM_SEPOLIA_INBOX}`);
-  console.log(`💰 Monto por Satélite: ${BRIDGE_DEPOSIT_ETH} ETH`);
+  console.log(`🎯 Rango de Satélites: #${toStart} al #${toEnd}`);
+  console.log(`💰 Monto por Satélite: ${depositAmountStr} ETH`);
   console.log(`⚡ Umbral de Exclusión: >= ${BRIDGE_THRESHOLD_ETH} ETH en Arbitrum Sepolia`);
   console.log("🔒 Política Anti-Sybil: Aislamiento 100% individual. Cada satélite fondea su propia dirección L2.\n");
 
   const allWallets = loadPublicWallets();
   const allAddresses = allWallets.map((w) => w.address);
 
-  // Satélites #01 al #20
-  const satellites = allWallets.filter((w) => w.index >= 1 && w.index <= 20);
+  // Filtrar satélites dentro del rango solicitado
+  const satellites = allWallets.filter((w) => w.index >= toStart && w.index <= toEnd);
 
   if (satellites.length === 0) {
-    console.error("❌ ERROR: No se encontraron satélites (#01 al #20) en wallets-public-list.json");
+    console.error(`❌ ERROR: No se encontraron satélites en el rango #${toStart}-#${toEnd}`);
     process.exit(1);
   }
 
@@ -86,8 +98,8 @@ async function runAutoBridgeArbitrum() {
     process.exit(1);
   }
 
-  const depositWei = ethers.parseEther(BRIDGE_DEPOSIT_ETH);
-  const minRequiredL1 = depositWei + ethers.parseEther("0.001");
+  const depositWei = ethers.parseEther(depositAmountStr);
+  const minRequiredL1 = depositWei + ethers.parseEther("0.0005");
 
   let successCount = 0;
   let skippedCount = 0;
@@ -136,9 +148,9 @@ async function runAutoBridgeArbitrum() {
     validateIsolation(sat.address, ARBITRUM_SEPOLIA_INBOX, allAddresses);
 
     if (isDryRun) {
-      console.log(`   🧪 [DRY-RUN] Simulado: Depósito de ${BRIDGE_DEPOSIT_ETH} ETH en Delayed Inbox`);
+      console.log(`   🧪 [DRY-RUN] Simulado: Depósito de ${depositAmountStr} ETH en Delayed Inbox`);
       successCount++;
-      totalBridged += parseFloat(BRIDGE_DEPOSIT_ETH);
+      totalBridged += parseFloat(depositAmountStr);
     } else {
       try {
         const signer = getWalletSigner(sat.index, sepoliaProvider);
@@ -154,7 +166,7 @@ async function runAutoBridgeArbitrum() {
         const receipt = await tx.wait(1);
         console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas usado: ${receipt.gasUsed.toString()})`);
         successCount++;
-        totalBridged += parseFloat(BRIDGE_DEPOSIT_ETH);
+        totalBridged += parseFloat(depositAmountStr);
       } catch (txErr) {
         console.log(`   ❌ Error al ejecutar puente: ${txErr.message}`);
       }

@@ -156,11 +156,19 @@ async function runDistributeGas() {
       const target = currentBatch[i];
       const targetTag = `#${String(target.index).padStart(3, "0")}`;
 
-      // Rotación inteligente de donantes priorizando mayor saldo
-      const donorObj = donors[i % donors.length];
+      // Selección dinámica del donante con mayor balance que respeta la reserva intangible
+      donors.sort((a, b) => b.balance - a.balance);
+      const donorObj = donors[0];
+
+      if (!donorObj || (donorObj.balance - transferAmountEth < MIN_DONOR_RESERVE_ETH)) {
+        console.log(`\n⚠️ [LÍMITE DE SEGURIDAD] Ningún donante dispone de saldo superior a la reserva de ${MIN_DONOR_RESERVE_ETH} ${netConfig.symbol}.`);
+        console.log("   Deteniendo distribución para proteger la operatividad del carrusel.");
+        break;
+      }
+
       const donorTag = `#${String(donorObj.index).padStart(2, "0")}`;
 
-      // Comprobar si ya tiene gas
+      // Comprobar si el satélite destino ya tiene gas
       let currentTargetBal = 0;
       try {
         const bWei = await provider.getBalance(target.address);
@@ -172,12 +180,13 @@ async function runDistributeGas() {
         continue;
       }
 
-      console.log(`➤ [${i + 1}/${currentBatch.length}] Fondeando Satélite ${targetTag} [${target.address}] desde Donante ${donorTag}...`);
+      console.log(`➤ [${i + 1}/${currentBatch.length}] Fondeando Satélite ${targetTag} [${target.address}] desde Donante ${donorTag} (Saldo: ${donorObj.balance.toFixed(4)} ETH)...`);
 
       if (isDryRun) {
         console.log(`   🧪 [DRY-RUN] Simulado: Envío de ${defaultAmount} ${netConfig.symbol} desde ${donorTag}`);
         batchSuccessCount++;
         batchDistributed += transferAmountEth;
+        donorObj.balance -= transferAmountEth;
       } else {
         try {
           const signer = getWalletSigner(donorObj.index, provider);
