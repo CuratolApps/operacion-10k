@@ -19,6 +19,13 @@ const FLEET_DATA = {
     4: { id: 4, name: "Box 4", range: "#301 al #400", pct: "95%", status: "Ajustando Gas", isWarning: true, count: "95 / 100", gas: "0.0149 ETH", donor: "Satélite #305 (0.190 ETH)", note: "Recarga intra-bloque en próximo despertar (0.015 ETH asegurado)" },
     5: { id: 5, name: "Box 5", range: "#401 al #500", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.0151 ETH", donor: "Satélite #405 (0.220 ETH)", note: "Stand-by preventivo y firma con jitter humano" }
   },
+  monitorBoxes: [
+    { boxId: 1, name: "BOX 1", range: "#001–#100", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 284.10, gasTotalEth: 1.650 },
+    { boxId: 2, name: "BOX 2", range: "#101–#200", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 256.40, gasTotalEth: 1.520 },
+    { boxId: 3, name: "BOX 3", range: "#201–#300", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 310.20, gasTotalEth: 1.580 },
+    { boxId: 4, name: "BOX 4", range: "#301–#400", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 188.50, gasTotalEth: 1.490 },
+    { boxId: 5, name: "BOX 5", range: "#401–#500", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 142.00, gasTotalEth: 1.510 }
+  ],
   binanceVaults: [
     { boxId: 1, name: "BÓVEDA BINANCE #1", range: "BOX 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 450.00, pendingUsdc: 34.20 },
     { boxId: 2, name: "BÓVEDA BINANCE #2", range: "BOX 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 380.50, pendingUsdc: 28.50 },
@@ -46,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPipelineMountainCanvas();
   renderBoxes();
   renderBinanceVaults();
+  updateMonitorBoxes(FLEET_DATA.monitorBoxes);
   updateBinanceVaultCards(FLEET_DATA.binanceVaults);
 
   // Cargar lista de 500 carteras para el explorador
@@ -96,7 +104,7 @@ function updateRadarCards(radar, fleet) {
   if (arbL2 && fleet) arbL2.textContent = `${fleet.totalOnChainTxLastCycle || 60} txs OK`;
   if (shieldDesc) shieldDesc.textContent = "100% Blindado (500/500 Satélites)";
   if (opTitle) opTitle.textContent = "20/500 Satélites • 60 Tx Confirmadas";
-  if (opSeal) opSeal.textContent = "⚡ 100% REALIZADO";
+  if (opSeal) opSeal.textContent = " 100% REALIZADO";
 }
 
 function renderTelegramAlerts(alerts) {
@@ -212,6 +220,12 @@ async function pollTelemetry() {
       } else {
         updateBinanceVaultCards(FLEET_DATA.binanceVaults);
       }
+      if (data.monitorBoxes && data.monitorBoxes.length > 0) {
+        FLEET_DATA.monitorBoxes = data.monitorBoxes;
+        updateMonitorBoxes(data.monitorBoxes);
+      } else {
+        updateMonitorBoxes(FLEET_DATA.monitorBoxes);
+      }
       // Auto-actualizar tabla del Box Explorer
       renderBoxExplorerData();
     }
@@ -320,7 +334,7 @@ function renderKeepUpSlots(now, baseMin, turnIndex, secondsInWindow) {
   container.innerHTML = slots.map(s => {
     let badgeHtml = "";
     if (s.done) {
-      badgeHtml = `<span class="badge-status-realizado">✓ 100% REALIZADO</span>`;
+      badgeHtml = `<span class="badge-status-realizado"> 100% REALIZADO</span>`;
     } else if (s.active) {
       badgeHtml = `<span style="background: rgba(37, 99, 235, 0.15); color: #2563EB; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 999px;">EN EJECUCIÓN (${((secondsInWindow / 180) * 100).toFixed(0)}%)</span>`;
     } else {
@@ -452,7 +466,7 @@ async function loadWalletsData() {
     for (let i = 0; i <= 500; i++) {
       allWalletsData.push({
         index: i,
-        role: i === 0 ? "👑 VIP #00" : `🤖 SATELITE #${String(i).padStart(2, "0")}`,
+        role: i === 0 ? " VIP #00" : ` SATELITE #${String(i).padStart(2, "0")}`,
         address: i === 0 ? "0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990" : `0x${((i * 123456789) >>> 0).toString(16).padStart(8, 'a')}${((i * 987654321) >>> 0).toString(16).padStart(8, 'b')}cE8Cbc54a051C071801`.slice(0, 42)
       });
     }
@@ -463,51 +477,28 @@ function openBoxExplorer(boxId) {
   currentBoxId = boxId || 1;
   switchView("view-boxes");
 
-  // Actualizar botones de pestaña B1 - B5
-  for (let b = 1; b <= 5; b++) {
-    const tab = document.getElementById(`tabBox${b}`);
-    if (tab) tab.classList.toggle("active", b === currentBoxId);
-  }
-
-  // Actualizar Título y Subtítulo
   const startIdx = (currentBoxId - 1) * 100 + 1;
   const endIdx = currentBoxId * 100;
   const titleEl = document.getElementById("boxExpTitle");
   const subEl = document.getElementById("boxExpSubtitle");
   if (titleEl) {
-    titleEl.textContent = `📦 EXPLORADOR BOX ${currentBoxId} — CARTERAS #${String(startIdx).padStart(3, "0")} A #${String(endIdx).padStart(3, "0")}`;
+    titleEl.textContent = `BOX ${currentBoxId} — CARTERAS #${String(startIdx).padStart(3, "0")} A #${String(endIdx).padStart(3, "0")}`;
   }
   if (subEl) {
-    subEl.textContent = `Aislamiento Bóveda Binance #${currentBoxId} • Inspección On-Chain en Tiempo Real (Estanco 100%)`;
+    subEl.textContent = `100 Carteras en Supervisión • Cero Cruce Sybil • Depósitos Directos a Binance`;
   }
 
-  // Resaltar tarjeta correspondiente en el Footer Bar
-  document.querySelectorAll(".footer-box-card").forEach((fcard, idx) => {
+  // Resaltar tarjeta correspondiente en el Monitor Izquierdo y en el Footer Bar
+  document.querySelectorAll(".monitor-card").forEach((mcard, idx) => {
     if (idx + 1 === currentBoxId) {
-      fcard.style.transform = "translateY(-3px) scale(1.04)";
-      fcard.style.filter = "brightness(1.15)";
+      mcard.style.transform = "translateY(-2px)";
+      mcard.style.boxShadow = "0 8px 22px rgba(15, 23, 42, 0.25)";
     } else {
-      fcard.style.transform = "none";
-      fcard.style.filter = "none";
+      mcard.style.transform = "none";
+      mcard.style.boxShadow = "";
     }
   });
 
-  renderBoxExplorerData();
-}
-
-function setBoxSort(sortType) {
-  currentBoxSort = sortType;
-  const map = { usd: "btnSortUsd", gas: "btnSortGas", num: "btnSortNum" };
-  Object.keys(map).forEach(k => {
-    const btn = document.getElementById(map[k]);
-    if (btn) btn.classList.toggle("active", k === sortType);
-  });
-  renderBoxExplorerData();
-}
-
-function filterBoxWallets() {
-  const input = document.getElementById("boxSearchInput");
-  currentBoxSearch = input ? input.value.trim().toLowerCase() : "";
   renderBoxExplorerData();
 }
 
@@ -522,137 +513,46 @@ function renderBoxExplorerData() {
     .filter(w => w.index >= startIdx && w.index <= endIdx)
     .map(w => {
       const idx = w.index;
-      // Generación USD determinista realista ($12.50 a $38.90 USD)
       const usdSeed = (idx * 179 + 541) % 2640;
       const usd = 12.50 + usdSeed / 100;
 
-      // Gas total (>0.015 ETH asegurado: 0.0155 a 0.0245 ETH)
       const gasSeed = (idx * 73 + 311) % 900;
       const gasTotal = 0.0155 + gasSeed / 100000;
-      const gasSep = (gasTotal * 0.72).toFixed(4);
-      const gasBase = (gasTotal * 0.20).toFixed(4);
-      const gasArb = (gasTotal * 0.08).toFixed(4);
-
-      // Txs y último Keep-Up
-      const txs = 20 + ((idx * 17) % 35);
-      const minsAgo = ((idx * 3) % 28) + 1;
-      const lastKeepUp = `Hace ${minsAgo}m • 100% OK`;
-
-      // Destino Binance Spot
-      const isReadySweep = usd >= 28.0;
-      const binanceStatus = isReadySweep ? "Listo para Barrido" : "Acumulando";
 
       return {
         index: idx,
         botLabel: `#${String(idx).padStart(3, "0")}`,
         address: w.address,
-        health: gasTotal >= 0.015 ? "OPTIMA" : "RECARGANDO",
         gasTotal,
-        gasSep,
-        gasBase,
-        gasArb,
-        txs,
-        lastKeepUp,
-        usd,
-        usdFormatted: `$${usd.toFixed(2)} USD`,
-        binanceVault: `Bóveda Spot #${currentBoxId}`,
-        binanceStatus,
-        isReadySweep
+        usd
       };
     });
 
-  // Identificar Top 10 por generación USD
-  const sortedByUsd = [...boxWallets].sort((a, b) => b.usd - a.usd);
-  const top10Indices = new Set(sortedByUsd.slice(0, 10).map(w => w.index));
-  const leaderBot = sortedByUsd[0] || { botLabel: `#${startIdx}`, usd: 34.80 };
-
-  // Totales del Box
-  const boxTotalGas = boxWallets.reduce((acc, w) => acc + w.gasTotal, 0);
-  const boxTotalUsd = boxWallets.reduce((acc, w) => acc + w.usd, 0);
-
-  // Actualizar los 4 KPIs del Box
-  const kpiActive = document.getElementById("boxKpiActive");
-  const kpiLeader = document.getElementById("boxKpiLeader");
-  const kpiGas = document.getElementById("boxKpiGas");
-  const kpiVault = document.getElementById("boxKpiVault");
-  const kpiVaultSub = document.getElementById("boxKpiVaultSub");
-
-  if (kpiActive) kpiActive.textContent = `${boxWallets.length} / 100`;
-  if (kpiLeader) kpiLeader.textContent = `${leaderBot.botLabel} ($${leaderBot.usd.toFixed(2)} USD)`;
-  if (kpiGas) kpiGas.textContent = `${boxTotalGas.toFixed(3)} ETH`;
-  if (kpiVault) kpiVault.textContent = `$${boxTotalUsd.toFixed(2)} USDC`;
-  if (kpiVaultSub) kpiVaultSub.textContent = `Destino: Bóveda Binance Spot #${currentBoxId}`;
-
-  // Ordenar según criterio seleccionado
-  let displayList = [...boxWallets];
-  if (currentBoxSort === "usd") {
-    displayList.sort((a, b) => b.usd - a.usd);
-  } else if (currentBoxSort === "gas") {
-    displayList.sort((a, b) => b.gasTotal - a.gasTotal);
-  } else if (currentBoxSort === "num") {
-    displayList.sort((a, b) => a.index - b.index);
-  }
-
-  // Filtrar si hay búsqueda
-  if (currentBoxSearch) {
-    displayList = displayList.filter(w =>
-      w.botLabel.toLowerCase().includes(currentBoxSearch) ||
-      w.address.toLowerCase().includes(currentBoxSearch) ||
-      String(w.index).includes(currentBoxSearch)
-    );
-  }
-
-  // Renderizar la tabla de 100 filas
   const tbody = document.getElementById("boxWalletsTableBody");
   if (!tbody) return;
 
-  if (displayList.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px; color: #64748B;">No se encontraron carteras con el filtro "${currentBoxSearch}".</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = displayList.map(w => {
-    const isTop = top10Indices.has(w.index);
-    const shortAddr = w.address.slice(0, 6) + "..." + w.address.slice(-4);
+  tbody.innerHTML = boxWallets.map(w => {
     return `
-      <tr class="${isTop ? 'top-ranked' : ''}">
-        <td>
-          <div class="bot-tag-cell">
-            ${isTop ? '<span class="bot-crown" title="Top 10 Generador de este Box">🏆</span>' : ''}
-            <span>${w.botLabel}</span>
-          </div>
+      <tr>
+        <td class="td-bot-idx">
+          <span class="bot-num-chip">${w.botLabel}</span>
         </td>
-        <td>
-          <div class="addr-code-chip">
-            <span title="${w.address}">${shortAddr}</span>
-            <button class="addr-copy-icon" onclick="copyWalletAddress('${w.address}', this)" title="Copiar dirección completa">
-              <span class="material-symbols-rounded" style="font-size: 14px;">content_copy</span>
+        <td class="td-addr">
+          <div class="addr-white-box" onclick="copyWalletAddress('${w.address}', this.querySelector('.clean-copy-btn'))" title="Clic para copiar dirección">
+            <span class="addr-mono-text">${w.address}</span>
+            <button class="clean-copy-btn" type="button" title="Copiar dirección">
+              <span class="material-symbols-rounded">content_copy</span>
             </button>
           </div>
         </td>
-        <td>
-          <span class="badge-health-opt">🟢 ÓPTIMA (&gt;0.015 ETH)</span>
-        </td>
-        <td>
-          <div class="gas-breakdown-cell">
-            <span class="gas-badge" title="Sepolia L1">${w.gasSep} L1</span>
-            <span class="gas-badge" title="Base Sepolia">${w.gasBase} Base</span>
-            <span class="gas-badge" title="Arbitrum Sepolia">${w.gasArb} Arb</span>
+        <td class="td-health-gas">
+          <div class="health-gas-wrap">
+            <span class="shield-badge">&gt;0.015 ETH OK</span>
+            <span class="gas-amount">${w.gasTotal.toFixed(4)} ETH</span>
           </div>
         </td>
-        <td>
-          <div class="tx-stat-cell">
-            <strong>${w.txs} Txs</strong>
-            <span class="tx-real-badge">${w.lastKeepUp}</span>
-          </div>
-        </td>
-        <td>
-          <span class="usd-cell-val ${isTop ? 'is-top' : ''}">${w.usdFormatted}</span>
-        </td>
-        <td>
-          <span class="dest-binance-chip ${w.isReadySweep ? 'ready' : ''}">
-            ${w.binanceVault}: ${w.binanceStatus}
-          </span>
+        <td class="td-usd-gen">
+          <span class="usd-green-val">$${w.usd.toFixed(2)} USDC</span>
         </td>
       </tr>
     `;
@@ -683,12 +583,32 @@ function copyWalletAddress(addr, btn) {
 }
 
 function renderBoxes() {
-  // Mantener compatibilidad si se invoca
   renderBoxExplorerData();
 }
 
 // ==========================================================================
-// RENDERIZADO Y ACTUALIZACIÓN DE LAS 5 BÓVEDAS BINANCE SPOT
+// RENDERIZADO Y ACTUALIZACIÓN DE MONITOR BOXES (COLUMNA IZQUIERDA)
+// ==========================================================================
+function updateMonitorBoxes(boxesData) {
+  const data = boxesData || FLEET_DATA.monitorBoxes;
+  if (!data) return;
+
+  data.forEach((b, idx) => {
+    const boxNum = b.boxId || (idx + 1);
+    const genEl = document.getElementById(`boxGenerated${boxNum}`);
+    const gasEl = document.getElementById(`boxGas${boxNum}`);
+
+    if (genEl && b.generatedUsdc != null) {
+      genEl.textContent = `$${b.generatedUsdc.toFixed(2)} USDC`;
+    }
+    if (gasEl && b.gasTotalEth != null) {
+      gasEl.textContent = `${b.gasTotalEth.toFixed(3)} ETH`;
+    }
+  });
+}
+
+// ==========================================================================
+// RENDERIZADO Y ACTUALIZACIÓN DE LAS 5 BÓVEDAS BINANCE SPOT (COLUMNA DERECHA)
 // ==========================================================================
 function renderBinanceVaults() {
   const container = document.getElementById("vaults-deck-container");
@@ -732,13 +652,9 @@ function updateBinanceVaultCards(vaultsData) {
       if (fullAddrEl) {
         fullAddrEl.textContent = v.address;
       }
-      const addrBar = cardEl.querySelector(".vault-address-bar");
+      const addrBar = cardEl.querySelector(".card-white-bar") || cardEl.querySelector(".vault-address-bar");
       if (addrBar) {
         addrBar.setAttribute("onclick", `event.stopPropagation(); copyWalletAddress('${v.address}', this.querySelector('.copy-btn'))`);
-      }
-      const legacyAddrText = cardEl.querySelector(".bcard-addr-text");
-      if (legacyAddrText) {
-        legacyAddrText.textContent = v.address;
       }
     }
   });
@@ -758,7 +674,7 @@ function sendChatMessage() {}
 // ARQUITECTURA DE WORKFLOW VISUAL INTERACTIVO — MESA DE TRABAJO CENTRAL
 // ==========================================================================
 
-// 1. Gráfico de Trayectoria Día 0 ➔ Meta 12,000 USDC en Nodo 4
+// 1. Gráfico de Trayectoria Día 0  Meta 12,000 USDC en Nodo 4
 function initPipelineMountainCanvas() {
   const canvas = document.getElementById("pipelineMountainCanvas");
   if (!canvas) return;
@@ -876,7 +792,7 @@ function speedUpPipes(durationMs = 3500) {
   paths.forEach(p => p.classList.add("pulse-fast"));
   dots.forEach(d => d.classList.add("pulse-fast"));
   if (label) {
-    label.textContent = "⚡ 3X RÁPIDO (ACELERADO)";
+    label.textContent = " 3X RÁPIDO (ACELERADO)";
     label.style.color = "#EA580C";
   }
 
@@ -912,7 +828,7 @@ function logToAuraAndTelegram(auraHtml, tgBadge, tgMsg) {
 // CONTROLES INTERACTIVOS DE LOS 4 NODOS
 // ==========================================================================
 
-// 🟧 NODO 1: Auto-Fondear Intra-Box
+//  NODO 1: Auto-Fondear Intra-Box
 function triggerAutoFondear() {
   speedUpPipes(4000);
   
@@ -927,7 +843,7 @@ function triggerAutoFondear() {
   }
 
   logToAuraAndTelegram(
-    `<strong>✨ AURA 10K:</strong> Protocolo <strong>Auto-Fondear Intra-Box</strong> activado exitosamente.<br>
+    `<strong> AURA 10K:</strong> Protocolo <strong>Auto-Fondear Intra-Box</strong> activado exitosamente.<br>
      • Se redistribuyeron <strong>0.08 ETH</strong> desde el Satélite Donante #005 hacia satélites receptores en Base y Arbitrum.<br>
      • <strong>Regla de Oro:</strong> >0.015 ETH blindada al 100% sin traspasar fronteras de Box.`,
     "GAS AUTO",
@@ -935,7 +851,7 @@ function triggerAutoFondear() {
   );
 }
 
-// 🟧 NODO 1: Toggle Escudo Regla de Oro
+//  NODO 1: Toggle Escudo Regla de Oro
 let shieldActive = true;
 function toggleShield() {
   speedUpPipes(2500);
@@ -945,19 +861,19 @@ function toggleShield() {
   const descText = document.getElementById("shieldDescText");
 
   if (shieldActive) {
-    if (btnText) btnText.textContent = "🛡️ Escudo >0.015 ETH: ACTIVO";
+    if (btnText) btnText.textContent = "️ Escudo >0.015 ETH: ACTIVO";
     if (descText) descText.textContent = "500/500 satélites blindados";
     logToAuraAndTelegram(
-      `<strong>✨ AURA 10K:</strong> Escudo <strong>Regla de Oro >0.015 ETH: REACTIVADO</strong>.<br>
+      `<strong> AURA 10K:</strong> Escudo <strong>Regla de Oro >0.015 ETH: REACTIVADO</strong>.<br>
        Bloqueo estricto contra gas agotado: ninguna cartera ejecutará swap si su balance cae por debajo de 0.015 ETH.`,
       "ESCUDO ACTIVO",
       "Escudo >0.015 ETH restablecido en 500 carteras. Aislamiento y protección al 100%."
     );
   } else {
-    if (btnText) btnText.textContent = "⚠️ Escudo: MODO TOLERANCIA";
+    if (btnText) btnText.textContent = "️ Escudo: MODO TOLERANCIA";
     if (descText) descText.textContent = "Monitoreo preventivo manual";
     logToAuraAndTelegram(
-      `<strong>✨ AURA 10K:</strong> Escudo puesto en <strong>MODO TOLERANCIA TEMPORAL</strong>.<br>
+      `<strong> AURA 10K:</strong> Escudo puesto en <strong>MODO TOLERANCIA TEMPORAL</strong>.<br>
        Permitiendo micro-swaps con umbral dinámico ajustado a 0.012 ETH por 1 turno antes de recarga obligatoria.`,
       "ESCUDO WARN",
       "Escudo >0.015 ETH en tolerancia temporal: supervisión activa de saldos por AURA 10K."
@@ -965,7 +881,7 @@ function toggleShield() {
   }
 }
 
-// 🟩 NODO 2: Forzar Keep-Up Manual
+//  NODO 2: Forzar Keep-Up Manual
 function triggerForceKeepUp() {
   speedUpPipes(4500);
 
@@ -978,7 +894,7 @@ function triggerForceKeepUp() {
     setTimeout(() => { btn.style.transform = ""; }, 250);
   }
 
-  if (opTitle) opTitle.textContent = "⚡ Forzando Micro-Swaps inmediatos en Base Sepolia";
+  if (opTitle) opTitle.textContent = " Forzando Micro-Swaps inmediatos en Base Sepolia";
   if (opSeal) {
     opSeal.textContent = "⏳ EJECUTANDO TURNO...";
     opSeal.style.color = "#D97706";
@@ -987,22 +903,22 @@ function triggerForceKeepUp() {
   setTimeout(() => {
     if (opTitle) opTitle.textContent = "Micro-Swaps Lote #23 en Base (Completado)";
     if (opSeal) {
-      opSeal.textContent = "✅ 100% REALIZADO";
+      opSeal.textContent = " 100% REALIZADO";
       opSeal.style.color = "#059669";
     }
   }, 1200);
 
   logToAuraAndTelegram(
-    `<strong>✨ AURA 10K:</strong> <strong>Turno Manual Keep-Up</strong> disparado.<br>
+    `<strong> AURA 10K:</strong> <strong>Turno Manual Keep-Up</strong> disparado.<br>
      • 20 Satélites activados inmediatamente con jitter humano aleatorio (14s).<br>
      • Verificación de bloque on-chain completada sin colisión de transacciones.<br>
-     • Sello emitido: <strong>✅ 100% REALIZADO</strong>.`,
+     • Sello emitido: <strong> 100% REALIZADO</strong>.`,
     "KEEP-UP FORZADO",
     "Turno adelantado forzado con éxito: 20/20 txs on-chain selladas en Base Sepolia (100% REALIZADO)."
   );
 }
 
-// 🟩 NODO 2: Toggle Pausa Individual de Boxes (B1..B5)
+//  NODO 2: Toggle Pausa Individual de Boxes (B1..B5)
 const boxPauseStates = { 1: false, 2: false, 3: false, 4: false, 5: false };
 function toggleBoxPause(boxId) {
   speedUpPipes(2000);
@@ -1030,14 +946,14 @@ function toggleBoxPause(boxId) {
 
   const statusWord = isPaused ? "PAUSADO" : "REANUDADO";
   logToAuraAndTelegram(
-    `<strong>✨ AURA 10K:</strong> Box ${boxId} ${statusWord}.<br>
+    `<strong> AURA 10K:</strong> Box ${boxId} ${statusWord}.<br>
      ${isPaused ? "100 satélites en stand-by seguro. Los otros 4 boxes continúan su cadencia normal." : "100 satélites reconectados a la cadencia Keep-Up de 3 minutos."}`,
     isPaused ? `BOX ${boxId} PAUSA` : `BOX ${boxId} OK`,
     `Box ${boxId} ${statusWord} por el operador. Aislamiento inter-box preservado.`
   );
 }
 
-// 🟨 NODO 3: Escanear 500 Carteras con Multicall3
+//  NODO 3: Escanear 500 Carteras con Multicall3
 let multicallScans = 0;
 function triggerMulticallScan() {
   speedUpPipes(4000);
@@ -1053,7 +969,7 @@ function triggerMulticallScan() {
   }
 
   logToAuraAndTelegram(
-    `<strong>✨ AURA 10K:</strong> Escaneo <strong>Multicall3</strong> completado en las 500 carteras satélite.<br>
+    `<strong> AURA 10K:</strong> Escaneo <strong>Multicall3</strong> completado en las 500 carteras satélite.<br>
      • Cero correlaciones o alertas Sybil detectadas en RPC Base y Arbitrum.<br>
      • Saldo consolidado verificado: <strong>${formatted}</strong>.<br>
      • Polvo orgánico retenido promedio: <strong>3.1%</strong>.`,
@@ -1062,7 +978,7 @@ function triggerMulticallScan() {
   );
 }
 
-// 🟨 NODO 3: Preparar Lote a Binance
+//  NODO 3: Preparar Lote a Binance
 function triggerPrepareBinanceBatch() {
   speedUpPipes(4500);
 
@@ -1073,7 +989,7 @@ function triggerPrepareBinanceBatch() {
   }
 
   logToAuraAndTelegram(
-    `<strong>✨ AURA 10K:</strong> <strong>Lote de Liquidación a Binance</strong> preparado.<br>
+    `<strong> AURA 10K:</strong> <strong>Lote de Liquidación a Binance</strong> preparado.<br>
      • Ventana de jitter asignada: <strong>12s – 45s</strong> con retardo estocástico.<br>
      • Envíos fraccionados hacia las 5 Bóvedas de Depósito Spot de Binance.<br>
      • Cumplimiento estricto: cero cruce entre Boxes y cero re-utilización de gas.`,
@@ -1082,7 +998,7 @@ function triggerPrepareBinanceBatch() {
   );
 }
 
-// 🟦 NODO 4: Verificar 5 Direcciones Binance Spot (Solo Lectura)
+//  NODO 4: Verificar 5 Direcciones Binance Spot (Solo Lectura)
 function triggerVerifyBinance() {
   speedUpPipes(3500);
   initPipelineMountainCanvas();
@@ -1094,7 +1010,7 @@ function triggerVerifyBinance() {
   }
 
   logToAuraAndTelegram(
-    `<strong>✨ AURA 10K:</strong> <strong>5 Bóvedas Binance Spot verificadas</strong> en modo Solo Lectura.<br>
+    `<strong> AURA 10K:</strong> <strong>5 Bóvedas Binance Spot verificadas</strong> en modo Solo Lectura.<br>
      • Saldos auditados: <strong>$1,420.50 USDC</strong> (11.84% hacia la meta de 12,000 USDC).<br>
      • <strong>Hito 1 (Nueva PC):</strong> $1,420.50 / $6,000.00 USDC.<br>
      • <strong>Hito 2 (Cura Tools):</strong> $1,420.50 / $12,000.00 USDC.<br>

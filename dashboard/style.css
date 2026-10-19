@@ -217,7 +217,7 @@ html, body {
   gap: 9px;
 }
 
-/* 🟨 Testigo 12,000 USDC en Amarillo */
+/*  Testigo 12,000 USDC en Amarillo */
 .goal-metric-pill {
   background: linear-gradient(135deg, rgba(250, 204, 21, 0.94) 0%, rgba(234, 179, 8, 0.96) 100%) !important;
   border: 1.5px solid rgba(254, 240, 138, 0.95) !important;
@@ -258,7 +258,7 @@ html, body {
   border-radius: 999px;
 }
 
-/* 🟩 Testigo Reloj Keep-Up 3 Min en Verde */
+/*  Testigo Reloj Keep-Up 3 Min en Verde */
 .keepup-metric-pill {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.92) 0%, rgba(5, 150, 105, 0.96) 100%) !important;
   border: 1.5px solid rgba(167, 243, 208, 0.9) !important;
@@ -328,14 +328,13 @@ html, body {
 }
 
 /* ==========================================================================
-   FILA 2 (1fr): CUERPO CENTRAL DE 3 ESPACIOS AJUSTADOS
-   Izquierda (240px) + Mesa de Trabajo (1fr) + Comms (350px)
+   FILA 2 (1fr): CUERPO CENTRAL DE 3 ESPACIOS SIMÉTRICOS (320px + 1fr + 320px)
    ========================================================================== */
 .dashboard-body-grid,
 .central-body-grid {
   height: 100%;
   display: grid;
-  grid-template-columns: 240px 1fr 350px;
+  grid-template-columns: 320px 1fr 320px;
   gap: 16px;
   padding: 14px 18px;
   min-height: 0;
@@ -343,131 +342,225 @@ html, body {
 }
 
 /* ==============================================================
-   ESPACIO 1: MENÚ LATERAL (CONTENEDOR BLANCO LECHOSO — 240px)
+   CONTENEDORES BLANCOS LECHOSOS (IZQUIERDA Y DERECHA)
    ============================================================== */
-.left-vertical-nav,
-.left-menu-container {
-  background: var(--milky-menu-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 22px;
+.left-menu-container,
+.right-comms-container {
+  display: grid;
+  grid-template-rows: 26px repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  padding: 12px 14px;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: var(--milky-workspace-bg, rgba(255, 255, 255, 0.90));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
   border: 2px solid #FFFFFF;
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
-  padding: 14px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
+}
+
+.section-header {
+  white-space: nowrap;
+  font-size: 0.80rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0F172A;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 26px;
+}
+
+.section-header .material-symbols-rounded {
+  font-size: 19px;
+  color: #1E40AF;
+}
+
+/* ==============================================================
+   TARJETAS SIMÉTRICAS DE MONITOR BOXES Y BÓVEDAS BINANCE
+   ============================================================== */
+.monitor-card,
+.vault-card {
+  border-radius: 16px;
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
   height: 100%;
   min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.nav-title-tag {
-  font-size: 10.5px;
-  font-weight: 800;
+.monitor-card:hover,
+.vault-card:hover {
+  transform: translateY(-2px);
+}
+
+/* 5 Gradientes Oficiales */
+.card-orange {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  border: 1.5px solid #FED7AA;
+  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.22);
+}
+
+.card-blue {
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+  border: 1.5px solid #93C5FD;
+  box-shadow: 0 6px 16px rgba(30, 64, 175, 0.22);
+}
+
+.card-darkgreen {
+  background: linear-gradient(135deg, #065F46 0%, #064E3B 100%);
+  border: 1.5px solid #6EE7B7;
+  box-shadow: 0 6px 16px rgba(6, 78, 59, 0.25);
+}
+
+.card-amber {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  border: 1.5px solid #FDE68A;
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.25);
+}
+
+.card-purple {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  border: 1.5px solid #DDD6FE;
+  box-shadow: 0 6px 16px rgba(91, 33, 182, 0.25);
+}
+
+/* Fila 1: Título y Rango */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1;
+}
+
+.card-title {
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.card-range {
   color: #0F172A;
-  letter-spacing: 0.9px;
-  padding: 2px 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  padding: 0;
+  white-space: nowrap;
 }
 
-.nav-vertical-btn {
-  padding: 10px 11px;
-  border-radius: 14px;
+/* Fila 2: Caja Central Blanca */
+.card-white-bar {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 4px 8px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.monitor-card .card-white-bar {
+  justify-content: center;
+}
+
+.bar-status-text {
+  color: #0F172A;
+  font-size: 0.64rem;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.2px;
+}
+
+.vault-address-full {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #0F172A;
+  user-select: all;
+}
+
+.copy-btn {
+  background: transparent;
+  border: none;
+  color: #0F172A;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 9px;
-  font-family: inherit;
-  text-align: left;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  justify-content: center;
+  padding: 2px;
+  transition: transform 0.15s ease;
 }
 
-.nav-vertical-btn:hover {
-  transform: translateX(4px) scale(1.02);
-  filter: brightness(1.08);
+.copy-btn:hover {
+  transform: scale(1.15);
 }
 
-/* Botón 1: 🟧 Naranja: Mesa Principal (Keep-Up & 3D) */
-.nav-vertical-btn.nav-btn-orange {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.94) 0%, rgba(234, 88, 12, 0.98) 100%);
-  border: 1.5px solid rgba(254, 215, 170, 0.95);
-  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.3), inset 0 1px 8px rgba(255, 255, 255, 0.45);
-  color: #FFFFFF;
-}
-.nav-vertical-btn.nav-btn-orange .btn-main { color: #FFFFFF; }
-.nav-vertical-btn.nav-btn-orange .btn-sub { color: rgba(255, 255, 255, 0.85); }
-
-/* Botón 2: 🟩 Verde: Inspección de Boxes (B1–B5) */
-.nav-vertical-btn.nav-btn-green {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.94) 0%, rgba(5, 150, 105, 0.98) 100%);
-  border: 1.5px solid rgba(167, 243, 208, 0.95);
-  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.28), inset 0 1px 8px rgba(255, 255, 255, 0.45);
-  color: #FFFFFF;
-}
-.nav-vertical-btn.nav-btn-green .btn-main { color: #FFFFFF; }
-.nav-vertical-btn.nav-btn-green .btn-sub { color: rgba(255, 255, 255, 0.85); }
-
-/* Botón 3: 🟨 Amarillo: Agenda & Reloj 3 Minutos */
-.nav-vertical-btn.nav-btn-yellow {
-  background: linear-gradient(135deg, rgba(250, 204, 21, 0.95) 0%, rgba(234, 179, 8, 0.98) 100%);
-  border: 1.5px solid rgba(254, 240, 138, 0.98);
-  box-shadow: 0 6px 16px rgba(202, 138, 4, 0.25), inset 0 1px 8px rgba(255, 255, 255, 0.6);
+.copy-btn .material-symbols-rounded {
+  font-size: 15px;
   color: #0F172A;
 }
-.nav-vertical-btn.nav-btn-yellow .btn-main { color: #0F172A; }
-.nav-vertical-btn.nav-btn-yellow .btn-sub { color: #713F12; }
 
-/* Botón 4: 🟦 Azul Rey: Bóveda Binance (12K USDC) */
-.nav-vertical-btn.nav-btn-blue {
-  background: linear-gradient(135deg, rgba(29, 78, 216, 0.94) 0%, rgba(30, 58, 138, 0.98) 100%);
-  border: 1.5px solid rgba(147, 197, 253, 0.85);
-  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3), inset 0 1px 8px rgba(255, 255, 255, 0.4);
-  color: #FFFFFF;
-}
-.nav-vertical-btn.nav-btn-blue .btn-main { color: #FFFFFF; }
-.nav-vertical-btn.nav-btn-blue .btn-sub { color: rgba(255, 255, 255, 0.85); }
-
-.btn-icon { font-size: 18px; }
-.btn-text { display: flex; flex-direction: column; }
-.btn-main { font-size: 11.5px; font-weight: 800; }
-.btn-sub { font-size: 9px; font-weight: 600; }
-
-.nav-security-footer {
-  margin-top: auto;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.9) 0%, rgba(234, 88, 12, 0.95) 100%);
-  border: 1.5px solid rgba(254, 215, 170, 0.9);
-  box-shadow: 0 6px 14px rgba(234, 88, 12, 0.22);
-  border-radius: 14px;
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  color: #FFFFFF;
-}
-
-.sec-status-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10.5px;
-}
-
-.sec-dot.green {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  box-shadow: 0 0 6px #FFFFFF;
-}
-
-.sec-detail-row {
+/* Fila 3: Inferior Izquierda / Derecha */
+.card-bottom {
   display: flex;
   justify-content: space-between;
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.9);
+  align-items: flex-end;
+  line-height: 1.05;
 }
 
-.text-gold { color: #FEF08A; }
-.text-emerald { color: #059669; }
+.card-col-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-col-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.card-label {
+  color: #FFFFFF;
+  font-size: 0.56rem;
+  font-weight: 600;
+  opacity: 0.95;
+  display: block;
+  letter-spacing: 0.4px;
+}
+
+.card-val-green {
+  color: #34D399;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', sans-serif;
+  letter-spacing: -0.2px;
+}
+
+.card-val-black {
+  color: #0F172A;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-align: right;
+  font-family: 'JetBrains Mono', sans-serif;
+}
 
 /* ==============================================================
    ESPACIO 2: PURA MESA DE TRABAJO DINÁMICA (CONTENEDOR BLANCO LECHOSO)
@@ -516,7 +609,7 @@ html, body {
   padding: 12px;
 }
 
-/* 🟨 Montaña 3D en Amarillo */
+/*  Montaña 3D en Amarillo */
 .mountain-card.card-vibrant-yellow {
   background: linear-gradient(135deg, rgba(250, 204, 21, 0.94) 0%, rgba(234, 179, 8, 0.96) 100%) !important;
   border: 1.5px solid rgba(254, 240, 138, 0.95) !important;
@@ -527,7 +620,7 @@ html, body {
   gap: 6px;
 }
 
-/* 🟧 Nodos L1 -> L2 en Naranja */
+/*  Nodos L1 -> L2 en Naranja */
 .nodes-card.card-vibrant-orange {
   background: linear-gradient(135deg, rgba(249, 115, 22, 0.92) 0%, rgba(234, 88, 12, 0.96) 100%) !important;
   border: 1.5px solid rgba(254, 215, 170, 0.9) !important;
@@ -827,442 +920,220 @@ html, body {
 }
 
 /* ==========================================================================
-   VISTA 2: EXPLORADOR DE BOXES ESTILO BSCSCAN / ETHERSCAN (100 CARTERAS EN FILA)
+   VISTA 2: EXPLORADOR LIMPIO DE 100 CARTERAS POR BOX
    ========================================================================== */
-.box-explorer-layout {
+.box-explorer-clean-layout {
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 100%;
+  padding: 8px 12px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
-.box-explorer-top-bar {
+.be-clean-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1.5px solid #E2E8F0;
-  border-radius: 16px;
-  padding: 8px 14px;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  gap: 16px;
+  padding: 4px 6px 10px 6px;
+  border-bottom: 1.5px solid #E2E8F0;
   flex-shrink: 0;
-}
-
-.be-nav-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
 }
 
 .be-back-btn {
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-  color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  padding: 6px 12px;
-  font-size: 11px;
-  font-weight: 800;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #FFFFFF;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 999px;
+  color: #0F172A;
+  font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
-  white-space: nowrap;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
 }
 
 .be-back-btn:hover {
-  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
-  transform: translateX(-2px);
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-}
-
-.be-title-block {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.be-heading {
-  font-size: 12.5px;
-  font-weight: 900;
-  color: #0F172A;
-  margin: 0;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.be-subheading {
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #64748B;
-  white-space: nowrap;
-}
-
-.be-box-tabs-row {
-  display: flex;
-  gap: 4px;
-  background: #F1F5F9;
-  border-radius: 10px;
-  padding: 3px;
-  flex-shrink: 0;
-}
-
-.be-box-tab {
-  border: none;
-  background: transparent;
-  padding: 4px 9px;
-  border-radius: 7px;
-  font-size: 10px;
-  font-weight: 800;
-  color: #475569;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.be-box-tab:hover {
-  color: #0F172A;
-}
-
-.be-box-tab.active {
-  background: #FFFFFF;
-  color: #0F172A;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.be-controls-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.be-search-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #F8FAFC;
-  border: 1.5px solid #CBD5E1;
-  border-radius: 9px;
-  padding: 4px 8px;
-}
-
-.be-search-icon {
-  font-size: 11px;
-  opacity: 0.6;
-}
-
-.be-search-field {
-  border: none;
-  background: transparent;
-  font-size: 10.5px;
-  color: #0F172A;
-  outline: none;
-  width: 120px;
-  font-weight: 600;
-}
-
-.be-sort-pills {
-  display: flex;
-  gap: 4px;
-}
-
-.be-sort-pill {
-  border: 1px solid #CBD5E1;
-  background: #FFFFFF;
-  border-radius: 8px;
-  padding: 4px 8px;
-  font-size: 9.5px;
-  font-weight: 800;
-  color: #334155;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  white-space: nowrap;
-}
-
-.be-sort-pill:hover {
   background: #F8FAFC;
   border-color: #94A3B8;
+  transform: translateX(-2px);
 }
 
-.be-sort-pill.active {
-  background: #10B981;
-  color: #FFFFFF;
-  border-color: #10B981;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+.be-back-btn .material-symbols-rounded {
+  font-size: 18px;
+  color: #1E40AF;
 }
 
-/* 4 KPIs Superiores */
-.box-explorer-kpis-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.be-kpi-card {
-  background: #FFFFFF;
-  border: 1.5px solid #E2E8F0;
-  border-radius: 14px;
-  padding: 7px 11px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-}
-
-.be-kpi-card.card-kpi-gold {
-  background: linear-gradient(135deg, rgba(254, 240, 138, 0.25), rgba(253, 224, 71, 0.1));
-  border-color: rgba(234, 179, 8, 0.4);
-}
-
-.be-kpi-card.card-kpi-blue {
-  background: linear-gradient(135deg, rgba(219, 234, 254, 0.35), rgba(191, 219, 254, 0.12));
-  border-color: rgba(59, 130, 246, 0.35);
-}
-
-.be-kpi-icon-wrap {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  background: #F1F5F9;
-  flex-shrink: 0;
-}
-
-.be-kpi-icon-wrap.icon-green { background: #ECFDF5; }
-.be-kpi-icon-wrap.icon-gold { background: #FEF3C7; }
-.be-kpi-icon-wrap.icon-cyan { background: #F0FDF4; }
-.be-kpi-icon-wrap.icon-blue { background: #EFF6FF; }
-
-.be-kpi-info {
+.be-header-title-wrap {
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  align-items: flex-end;
 }
 
-.be-kpi-tag {
-  font-size: 8px;
-  font-weight: 800;
-  color: #64748B;
-  letter-spacing: 0.3px;
-}
-
-.be-kpi-number {
-  font-size: 15px;
-  font-weight: 900;
-  color: #0F172A;
-  line-height: 1.15;
-}
-
-.be-kpi-sub {
-  font-size: 8px;
+.be-header-title {
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #64748B;
+  color: #0F172A;
+  letter-spacing: 0.3px;
+  margin: 0;
 }
 
-.be-kpi-sub.green { color: #059669; }
-.be-kpi-sub.gold { color: #B45309; }
+.be-header-sub {
+  font-size: 0.68rem;
+  color: #64748B;
+  font-weight: 500;
+}
 
-/* Tabla Estilo BscScan / Etherscan (100 filas) */
-.box-explorer-table-card {
+.be-clean-table-card {
   flex: 1;
-  min-height: 0;
   background: #FFFFFF;
-  border: 1.5px solid #E2E8F0;
   border-radius: 16px;
+  border: 1.5px solid #E2E8F0;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  min-height: 0;
 }
 
-.be-table-scroll-container {
+.be-clean-table-scroll {
   flex: 1;
   overflow-y: auto;
-  overflow-x: auto;
-  max-height: 100%;
+  overflow-x: hidden;
 }
 
-.be-scan-table {
+.be-clean-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 10.5px;
-  text-align: left;
+  border-collapse: collapse;
+  font-size: 0.75rem;
 }
 
-.be-scan-table th {
+.be-clean-table thead {
   position: sticky;
   top: 0;
   z-index: 10;
   background: #F8FAFC;
+  border-bottom: 1.5px solid #E2E8F0;
+}
+
+.be-clean-table th {
+  padding: 8px 12px;
+  font-size: 0.64rem;
+  font-weight: 700;
   color: #475569;
-  font-size: 9px;
-  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
-  padding: 8px 10px;
-  border-bottom: 2px solid #E2E8F0;
-  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-align: left;
 }
 
-.be-scan-table td {
-  padding: 6.5px 10px;
+.be-clean-table td {
+  padding: 6px 12px;
   border-bottom: 1px solid #F1F5F9;
-  color: #0F172A;
   vertical-align: middle;
-  white-space: nowrap;
 }
 
-.be-scan-table tbody tr:hover {
+.be-clean-table tr:hover {
   background: #F8FAFC;
 }
 
-.be-scan-table tbody tr.top-ranked {
-  background: rgba(254, 240, 138, 0.12);
+.bot-num-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #1E40AF;
+  letter-spacing: -0.2px;
 }
 
-.be-scan-table tbody tr.top-ranked:hover {
-  background: rgba(254, 240, 138, 0.22);
-}
-
-.bot-tag-cell {
+.addr-white-box {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-weight: 800;
+  justify-content: space-between;
+  gap: 8px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  max-width: 380px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.addr-white-box:hover {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+}
+
+.addr-mono-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: #0F172A;
+  letter-spacing: -0.2px;
+  user-select: all;
+}
+
+.clean-copy-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
   color: #0F172A;
 }
 
-.bot-crown {
-  font-size: 11px;
+.clean-copy-btn .material-symbols-rounded {
+  font-size: 15px;
+  color: #0F172A;
 }
 
-.addr-code-chip {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 10px;
-  font-weight: 700;
-  color: #2563EB;
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
-  border-radius: 5px;
-  padding: 2px 5px;
-  display: inline-flex;
+.health-gas-wrap {
+  display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 
-.addr-copy-icon {
-  cursor: pointer;
-  opacity: 0.55;
-  font-size: 10px;
-  transition: opacity 0.15s;
-}
-
-.addr-copy-icon:hover {
-  opacity: 1;
-  color: #1D4ED8;
-}
-
-.badge-health-opt {
+.shield-badge {
   background: rgba(16, 185, 129, 0.12);
   color: #047857;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 8.5px;
-  font-weight: 800;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.badge-health-rec {
-  background: rgba(245, 158, 11, 0.12);
-  color: #B45309;
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 8.5px;
-  font-weight: 800;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.gas-breakdown-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 10px;
+  font-size: 0.62rem;
   font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
-.gas-badge {
-  background: #F1F5F9;
-  border-radius: 4px;
-  padding: 1px 4px;
-  font-size: 9px;
-  color: #334155;
+.gas-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #0F172A;
 }
 
-.tx-stat-cell {
-  font-size: 10px;
+.usd-green-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #334155;
-}
-
-.tx-real-badge {
-  background: rgba(16, 185, 129, 0.12);
-  color: #047857;
-  border-radius: 4px;
-  padding: 1px 4px;
-  font-size: 8.5px;
-  font-weight: 800;
-  margin-left: 4px;
-}
-
-.usd-cell-val {
-  font-size: 11px;
-  font-weight: 900;
   color: #059669;
+  display: block;
+  text-align: right;
 }
 
-.usd-cell-val.is-top {
-  color: #B45309;
-  background: rgba(254, 240, 138, 0.4);
-  padding: 2px 6px;
-  border-radius: 5px;
-  border: 1px solid rgba(234, 179, 8, 0.4);
+.pnode-google-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
 }
 
-.dest-binance-chip {
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 8.5px;
-  font-weight: 800;
-  color: #1D4ED8;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.dest-binance-chip.ready {
-  background: #FEF3C7;
-  border-color: #FCD34D;
-  color: #92400E;
+.shield-google-icon {
+  font-size: 24px;
+  color: #10B981;
 }
 
 /* Vista 2 Clásica Fallback */
@@ -1624,7 +1495,7 @@ html, body {
   font-family: 'JetBrains Mono', sans-serif;
 }
 
-/* 🟧 TARJETA 1 — COLOR NARANJA (Bóveda Binance #1 • Box 1 #001–#100) */
+/*  TARJETA 1 — COLOR NARANJA (Bóveda Binance #1 • Box 1 #001–#100) */
 .vault-card-orange {
   background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
   border: 1.5px solid #FED7AA;
@@ -1633,7 +1504,7 @@ html, body {
 }
 .vault-card-orange .vault-incoming { color: #FEF08A; }
 
-/* 🟦 TARJETA 2 — COLOR AZUL REY (Bóveda Binance #2 • Box 2 #101–#200) */
+/*  TARJETA 2 — COLOR AZUL REY (Bóveda Binance #2 • Box 2 #101–#200) */
 .vault-card-blue {
   background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
   border: 1.5px solid #93C5FD;
@@ -1642,7 +1513,7 @@ html, body {
 }
 .vault-card-blue .vault-incoming { color: #FEF08A; }
 
-/* 🟩 TARJETA 3 — COLOR VERDE ESMERALDA (Bóveda Binance #3 • Box 3 #201–#300) */
+/*  TARJETA 3 — COLOR VERDE ESMERALDA (Bóveda Binance #3 • Box 3 #201–#300) */
 .vault-card-green {
   background: linear-gradient(135deg, #10B981 0%, #059669 100%);
   border: 1.5px solid #A7F3D0;
@@ -1651,7 +1522,7 @@ html, body {
 }
 .vault-card-green .vault-incoming { color: #FEF08A; }
 
-/* 🟨 TARJETA 4 — COLOR AMARILLO ORO (Bóveda Binance #4 • Box 4 #301–#400) */
+/*  TARJETA 4 — COLOR AMARILLO ORO (Bóveda Binance #4 • Box 4 #301–#400) */
 .vault-card-yellow {
   background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
   border: 1.5px solid #FEF08A;
@@ -1668,7 +1539,7 @@ html, body {
 }
 .vault-card-yellow .vault-incoming { color: #1E3A8A; }
 
-/* 🟪 TARJETA 5 — COLOR MORADO REAL (Bóveda Binance #5 • Box 5 #401–#500) */
+/*  TARJETA 5 — COLOR MORADO REAL (Bóveda Binance #5 • Box 5 #401–#500) */
 .vault-card-purple {
   background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
   border: 1.5px solid #DDD6FE;
@@ -1838,7 +1709,7 @@ html, body {
 
 /* ==========================================================================
    ARQUITECTURA DE WORKFLOW VISUAL INTERACTIVO — MESA DE TRABAJO CENTRAL
-   (DÍA 0 ➔ 12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS ANIMADAS SVG)
+   (DÍA 0  12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS ANIMADAS SVG)
    ========================================================================== */
 .visual-pipeline-container {
   display: flex;
@@ -2061,7 +1932,7 @@ html, body {
    ACABADOS DE COLOR DE LOS 4 NODOS (NARANJA, VERDE, AMARILLO, AZUL REY)
    ========================================================================== */
 
-/* 🟧 NODO 1: NARANJA VIBRANTE */
+/*  NODO 1: NARANJA VIBRANTE */
 .node-card-orange {
   background: linear-gradient(145deg, rgba(249, 115, 22, 0.95) 0%, rgba(234, 88, 12, 0.98) 100%);
   border: 1.5px solid #FED7AA;
@@ -2070,7 +1941,7 @@ html, body {
 }
 .node-card-orange .node-port { color: #F97316; }
 
-/* 🟩 NODO 2: VERDE ESMERALDA */
+/*  NODO 2: VERDE ESMERALDA */
 .node-card-green {
   background: linear-gradient(145deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.98) 100%);
   border: 1.5px solid #A7F3D0;
@@ -2079,7 +1950,7 @@ html, body {
 }
 .node-card-green .node-port { color: #10B981; }
 
-/* 🟨 NODO 3: AMARILLO LUMINOSO */
+/*  NODO 3: AMARILLO LUMINOSO */
 .node-card-yellow {
   background: linear-gradient(145deg, rgba(250, 204, 21, 0.96) 0%, rgba(245, 158, 11, 0.98) 100%);
   border: 1.5px solid #FEF08A;
@@ -2088,7 +1959,7 @@ html, body {
 }
 .node-card-yellow .node-port { color: #EAB308; }
 
-/* 🟦 NODO 4: AZUL REY PROFUNDO */
+/*  NODO 4: AZUL REY PROFUNDO */
 .node-card-blue {
   background: linear-gradient(145deg, rgba(29, 78, 216, 0.95) 0%, rgba(30, 58, 138, 0.98) 100%);
   border: 1.5px solid #BFDBFE;

@@ -7,9 +7,7 @@
   <title>Operación 10K — Centro de Mando Profesional Glassmorphism 3D</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0" />
   <link rel="stylesheet" href="style.css">
 </head>
@@ -36,7 +34,7 @@
       <!-- 1. Identidad: Logo 10K ("we can do it") -->
       <div class="header-brand-block">
         <div class="emblem-10k">
-          <span class="emblem-icon">✨</span>
+          <span class="material-symbols-rounded emblem-icon">auto_awesome</span>
           <span class="emblem-text">10K</span>
         </div>
         <div class="brand-text-block">
@@ -47,7 +45,7 @@
 
       <!-- 2. Testigo Maestro: Meta 12,000 USDC (Binance Spot) -->
       <div class="header-metric-pill goal-metric-pill">
-        <span class="metric-icon">🏆</span>
+        <span class="material-symbols-rounded metric-icon">flag</span>
         <div class="metric-col">
           <span class="metric-title">META 12,000 USDC (BINANCE SPOT)</span>
           <div class="metric-val-row">
@@ -58,98 +56,144 @@
         <span class="metric-badge-pct" id="header-pct-chip">11.84%</span>
       </div>
 
-      <!-- 3. Testigo del Reloj Keep-Up (3 Minutos • 100% REALIZADO) -->
-      <div class="header-metric-pill keepup-metric-pill">
-        <span class="pulse-emerald-dot"></span>
-        <div class="metric-col">
-          <span class="metric-title">RELOJ KEEP-UP (3 MIN)</span>
-          <div class="metric-val-row">
-            <span class="mono-code timer-val" id="header-keepup-clock">02:14</span>
-            <span class="badge-status-realizado">✓ 100% REALIZADO</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Reloj UTC en vivo -->
+      <!-- 3. Reloj UTC en vivo -->
       <div class="header-utc-pill">
-        <span class="utc-icon">🕒</span>
+        <span class="material-symbols-rounded utc-icon">schedule</span>
         <span class="mono-code" id="header-utc-clock">--:--:-- UTC</span>
       </div>
 
     </header>
 
     <!-- ==================================================================
-         FILA 2 (1fr): CUERPO CENTRAL DE 3 ESPACIOS AJUSTADOS
-         Izquierda (240px) + Mesa de Trabajo (1fr) + Comms 50/50 (350px)
+         FILA 2 (1fr): CUERPO CENTRAL DE 3 ESPACIOS SIMÉTRICOS
+         Izquierda (Monitor Boxes 320px) + Mesa de Trabajo (1fr) + Bóvedas Binance (320px)
          ================================================================== -->
     <div class="dashboard-body-grid central-body-grid">
 
       <!-- ==============================================================
-           ESPACIO 1: MENÚ LATERAL (CONTENEDOR BLANCO LECHOSO — 240px)
+           ESPACIO 1: MONITOR BOXES (COLUMNA IZQUIERDA — 5 TARJETAS PARALELAS)
            ============================================================== -->
-      <nav class="left-vertical-nav left-menu-container">
-        <div class="nav-title-tag">CENTRO DE MANDO</div>
+      <aside class="left-menu-container monitor-boxes-sidebar" id="boxesLeftColumn">
+        <div class="section-header">
+          <span class="material-symbols-rounded">dns</span>
+          <span>MONITOR BOXES</span>
+        </div>
 
-        <!-- 4 Tarjetas de Navegación Compactas y Claras -->
-        <button class="nav-vertical-btn active nav-btn-orange" data-view="view-panorama"
-          onclick="switchView('view-panorama')">
-          <span class="btn-icon">🏛️</span>
-          <div class="btn-text">
-            <span class="btn-main">Mesa Principal</span>
-            <span class="btn-sub">Keep-Up & 3D</span>
+        <!-- 1 Naranja: BOX 1 #001–#100 -->
+        <div class="monitor-card card-orange" id="monitorCard1" onclick="openBoxExplorer(1)" title="Inspeccionar 100 carteras de Box 1">
+          <div class="card-top">
+            <span class="card-title">BOX 1</span>
+            <span class="card-range">#001–#100</span>
           </div>
-        </button>
-
-        <button class="nav-vertical-btn nav-btn-green" data-view="view-boxes" onclick="switchView('view-boxes')">
-          <span class="btn-icon">📦</span>
-          <div class="btn-text">
-            <span class="btn-main">Inspección de Boxes</span>
-            <span class="btn-sub">B1–B5 • >0.015 ETH</span>
+          <div class="card-white-bar">
+            <span class="bar-status-text">100/100 Bots Activos • &gt;0.015 ETH OK</span>
           </div>
-        </button>
-
-        <button class="nav-vertical-btn nav-btn-yellow" data-view="view-keepup" onclick="switchView('view-keepup')">
-          <span class="btn-icon">⏱️</span>
-          <div class="btn-text">
-            <span class="btn-main">Agenda & Reloj</span>
-            <span class="btn-sub">3 Min • 100% Realizado</span>
-          </div>
-        </button>
-
-        <button class="nav-vertical-btn nav-btn-blue" data-view="view-binance" onclick="switchView('view-binance')">
-          <span class="btn-icon">🏦</span>
-          <div class="btn-text">
-            <span class="btn-main">Bóveda Binance</span>
-            <span class="btn-sub">12K USDC Spot</span>
-          </div>
-        </button>
-
-        <!-- Widget de Seguridad Compacto Inferior -->
-        <div class="nav-security-footer">
-          <div class="sec-status-row">
-            <span class="sec-dot green"></span>
-            <strong>500 Satélites Activos</strong>
-          </div>
-          <div class="sec-detail-row">
-            <span>Regla de Oro:</span>
-            <strong class="text-gold">>0.015 ETH ✓</strong>
-          </div>
-          <div class="sec-detail-row">
-            <span>Red Primaria:</span>
-            <strong>Base Sepolia L2</strong>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">GENERADO:</span>
+              <span class="card-val-green" id="boxGenerated1">$284.10 USDC</span>
+            </div>
+            <div class="card-col-right">
+              <span class="card-label">GAS:</span>
+              <span class="card-val-black" id="boxGas1">1.650 ETH</span>
+            </div>
           </div>
         </div>
-      </nav>
+
+        <!-- 2 Azul Rey: BOX 2 #101–#200 -->
+        <div class="monitor-card card-blue" id="monitorCard2" onclick="openBoxExplorer(2)" title="Inspeccionar 100 carteras de Box 2">
+          <div class="card-top">
+            <span class="card-title">BOX 2</span>
+            <span class="card-range">#101–#200</span>
+          </div>
+          <div class="card-white-bar">
+            <span class="bar-status-text">100/100 Bots Activos • &gt;0.015 ETH OK</span>
+          </div>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">GENERADO:</span>
+              <span class="card-val-green" id="boxGenerated2">$256.40 USDC</span>
+            </div>
+            <div class="card-col-right">
+              <span class="card-label">GAS:</span>
+              <span class="card-val-black" id="boxGas2">1.520 ETH</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Verde Oscuro: BOX 3 #201–#300 -->
+        <div class="monitor-card card-darkgreen" id="monitorCard3" onclick="openBoxExplorer(3)" title="Inspeccionar 100 carteras de Box 3">
+          <div class="card-top">
+            <span class="card-title">BOX 3</span>
+            <span class="card-range">#201–#300</span>
+          </div>
+          <div class="card-white-bar">
+            <span class="bar-status-text">100/100 Bots Activos • &gt;0.015 ETH OK</span>
+          </div>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">GENERADO:</span>
+              <span class="card-val-green" id="boxGenerated3">$310.20 USDC</span>
+            </div>
+            <div class="card-col-right">
+              <span class="card-label">GAS:</span>
+              <span class="card-val-black" id="boxGas3">1.580 ETH</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Amarillo Ámbar: BOX 4 #301–#400 -->
+        <div class="monitor-card card-amber" id="monitorCard4" onclick="openBoxExplorer(4)" title="Inspeccionar 100 carteras de Box 4">
+          <div class="card-top">
+            <span class="card-title">BOX 4</span>
+            <span class="card-range">#301–#400</span>
+          </div>
+          <div class="card-white-bar">
+            <span class="bar-status-text">100/100 Bots Activos • &gt;0.015 ETH OK</span>
+          </div>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">GENERADO:</span>
+              <span class="card-val-green" id="boxGenerated4">$188.50 USDC</span>
+            </div>
+            <div class="card-col-right">
+              <span class="card-label">GAS:</span>
+              <span class="card-val-black" id="boxGas4">1.490 ETH</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Morado: BOX 5 #401–#500 -->
+        <div class="monitor-card card-purple" id="monitorCard5" onclick="openBoxExplorer(5)" title="Inspeccionar 100 carteras de Box 5">
+          <div class="card-top">
+            <span class="card-title">BOX 5</span>
+            <span class="card-range">#401–#500</span>
+          </div>
+          <div class="card-white-bar">
+            <span class="bar-status-text">100/100 Bots Activos • &gt;0.015 ETH OK</span>
+          </div>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">GENERADO:</span>
+              <span class="card-val-green" id="boxGenerated5">$142.00 USDC</span>
+            </div>
+            <div class="card-col-right">
+              <span class="card-label">GAS:</span>
+              <span class="card-val-black" id="boxGas5">1.510 ETH</span>
+            </div>
+          </div>
+        </div>
+      </aside>
 
       <!-- ==============================================================
-           ESPACIO 2: PURA MESA DE TRABAJO DINÁMICA (CONTENEDOR BLANCO LECHOSO)
+           ESPACIO 2: PURA MESA DE TRABAJO DINÁMICA (CONTENEDOR CENTRAL)
            ============================================================== -->
       <main class="center-stage-container workspace-container">
         <div class="workspace-card" id="centralWorkspaceCard">
 
           <!-- ------------------------------------------------------------
                VISTA 1: MESA PRINCIPAL — FLUJO DE TRABAJO VISUAL INTERACTIVO
-               (DÍA 0 ➔ 12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS SVG)
+               (DÍA 0 &rarr; 12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS SVG)
                ------------------------------------------------------------ -->
           <section class="stage-view active" id="view-panorama">
             <div class="visual-pipeline-container">
@@ -159,9 +203,11 @@
                 <div class="pipeline-title-group">
                   <span class="pipeline-pulse-beacon"></span>
                   <div class="pipeline-title-col">
-                    <span class="pipeline-main-title">⚡ PIPELINE VISUAL ORQUESTADOR: DÍA 0 ➔ 12,000 USDC</span>
-                    <span class="pipeline-sub-title">FLUJO INTERACTIVO DE IZQUIERDA A DERECHA • CADENCIA 3 MINUTOS •
-                      AISLAMIENTO SYBIL 100%</span>
+                    <span class="pipeline-main-title">
+                      <span class="material-symbols-rounded" style="font-size: 16px; vertical-align: middle; color: #F59E0B;">bolt</span>
+                      PIPELINE VISUAL ORQUESTADOR: DÍA 0 &rarr; 12,000 USDC
+                    </span>
+                    <span class="pipeline-sub-title">FLUJO INTERACTIVO DE IZQUIERDA A DERECHA • CADENCIA 3 MINUTOS • AISLAMIENTO SYBIL 100%</span>
                   </div>
                 </div>
                 <div class="pipeline-telemetry-badge">
@@ -170,7 +216,6 @@
                 </div>
               </div>
 
-              <!-- Lienzo del Flujo: Tuberías SVG + 4 Nodos de Colores -->
               <!-- Lienzo del Flujo: Tuberías SVG + 4 Nodos en Rejilla Simétrica 2x2 -->
               <div class="pipeline-canvas-wrap">
 
@@ -211,20 +256,19 @@
                 <!-- Cuadrícula Exacta 2x2: 4 Tarjetas del Mismo Tamaño -->
                 <div class="pipeline-nodes-grid pipeline-grid">
 
-                  <!-- 🟧 NODO 1 (ARRIBA IZQUIERDA): DÍA 0 & FLUJO DE GAS -->
+                  <!-- NODO 1 (ARRIBA IZQUIERDA): DÍA 0 & FLUJO DE GAS -->
                   <div class="pipeline-node-card node-card-orange" id="nodeGas">
                     <div class="pnode-header">
                       <div class="pnode-tag">
                         <span class="pnode-num">01</span>
-                        <span class="pnode-icon">🟧</span>
+                        <span class="material-symbols-rounded pnode-google-icon">local_gas_station</span>
                         <span class="pnode-name">DÍA 0 & GAS</span>
                       </div>
-                      <span class="pnode-status-pill pill-orange">L1 ➔ L2 ACTIVO</span>
+                      <span class="pnode-status-pill pill-orange">L1 &rarr; L2 ACTIVO</span>
                     </div>
 
-                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
+                    <!-- Distribución Horizontal Interna -->
                     <div class="pnode-body-split">
-                      <!-- Columna Izquierda: Indicadores de Gwei -->
                       <div class="pnode-metric-box">
                         <div class="pnode-metric-row">
                           <span class="lbl">Sepolia L1:</span>
@@ -240,45 +284,43 @@
                         </div>
                       </div>
 
-                      <!-- Columna Derecha: Escudo Regla de Oro -->
                       <div class="pnode-shield-banner">
-                        <span class="shield-icon">🛡️</span>
+                        <span class="material-symbols-rounded shield-google-icon">shield</span>
                         <div>
-                          <div class="shield-title">ESCUDO >0.015 ETH</div>
+                          <div class="shield-title">ESCUDO &gt;0.015 ETH</div>
                           <div class="shield-desc" id="shieldDescText">100% Blindado (500/500 Satélites)</div>
                         </div>
                       </div>
                     </div>
 
-                    <!-- Abajo en Fila Horizontal los Dos Botones -->
                     <div class="pnode-actions actions-row">
                       <button class="pnode-btn btn-orange-action" id="btnAutoFondear" onclick="triggerAutoFondear()">
-                        <span>⚡ Auto-Fondear Intra-Box</span>
+                        <span class="material-symbols-rounded" style="font-size: 15px;">bolt</span>
+                        <span>Auto-Fondear Intra-Box</span>
                       </button>
                       <button class="pnode-btn btn-outline-white" id="btnShieldToggle" onclick="toggleShield()">
-                        <span id="shieldToggleText">🛡️ Escudo >0.015 ETH: 100% BLINDADO</span>
+                        <span class="material-symbols-rounded" style="font-size: 15px;">shield</span>
+                        <span id="shieldToggleText">Escudo &gt;0.015 ETH: ACTIVO</span>
                       </button>
                     </div>
 
                     <div class="node-port port-right" title="Tubería hacia Motor Keep-Up"></div>
                   </div>
 
-                  <!-- 🟩 NODO 2 (ARRIBA DERECHA): MOTOR KEEP-UP (3 MIN & 5 BOXES) -->
+                  <!-- NODO 2 (ARRIBA DERECHA): MOTOR KEEP-UP (3 MIN & 5 BOXES) -->
                   <div class="pipeline-node-card node-card-green" id="nodeKeepUp">
                     <div class="node-port port-left" title="Recepción de Gas L1/L2"></div>
 
                     <div class="pnode-header">
                       <div class="pnode-tag">
                         <span class="pnode-num">02</span>
-                        <span class="pnode-icon">🟩</span>
+                        <span class="material-symbols-rounded pnode-google-icon">sync</span>
                         <span class="pnode-name">MOTOR KEEP-UP</span>
                       </div>
                       <span class="pnode-status-pill pill-green mono-code" id="pipelineClock">03:00</span>
                     </div>
 
-                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
                     <div class="pnode-body-split">
-                      <!-- Columna Izquierda: Barras de Progreso de los 5 Boxes (Clicables) -->
                       <div class="pnode-boxes-lanes">
                         <div class="plane-lane" id="laneB1" onclick="openBoxExplorer(1)" style="cursor: pointer;" title="Inspeccionar BOX 1 (#001–#100)">
                           <span class="lane-id">BOX 1</span>
@@ -317,20 +359,22 @@
                         </div>
                       </div>
 
-                      <!-- Columna Derecha: Estado de Operación Actual y Sello -->
                       <div class="pnode-operation-box">
                         <div class="op-label">ESCUADRÓN ACTIVO:</div>
                         <div class="op-title" id="pipelineOpTitle">20/500 Satélites • 60 Tx Confirmadas</div>
                         <div class="op-sub" style="font-size: 8px; color: rgba(255,255,255,0.85); margin: 2px 0 4px 0;">
                           Sepolia 20/20 • Base 20/20 • Arbitrum 20/20</div>
-                        <div class="op-seal-badge" id="pipelineOpSeal">⚡ 100% REALIZADO</div>
+                        <div class="op-seal-badge" id="pipelineOpSeal">
+                          <span class="material-symbols-rounded" style="font-size: 13px; vertical-align: middle;">check_circle</span>
+                          100% REALIZADO
+                        </div>
                       </div>
                     </div>
 
-                    <!-- Abajo en Fila Horizontal: Botón Forzar Keep-Up + Botones B1-B5 -->
                     <div class="pnode-actions actions-row">
                       <button class="pnode-btn btn-green-action" id="btnForceKeepUp" onclick="triggerForceKeepUp()">
-                        <span>▶ Forzar Keep-Up</span>
+                        <span class="material-symbols-rounded" style="font-size: 15px;">play_arrow</span>
+                        <span>Forzar Keep-Up</span>
                       </button>
                       <div class="pnode-miniboxes-row">
                         <span class="minibox-label">EXPLORAR:</span>
@@ -345,22 +389,20 @@
                     <div class="node-port port-bottom" title="Flujo hacia Embudo de Cosecha"></div>
                   </div>
 
-                  <!-- 🟨 NODO 3 (ABAJO IZQUIERDA): EMBUDO DE COSECHA & FILTRO ANTI-SYBIL -->
+                  <!-- NODO 3 (ABAJO IZQUIERDA): EMBUDO DE COSECHA & DEFI ROTATOR -->
                   <div class="pipeline-node-card node-card-yellow" id="nodeHarvest">
                     <div class="node-port port-top" title="Recepción de Micro-Swaps de los 5 Boxes"></div>
 
                     <div class="pnode-header">
                       <div class="pnode-tag">
                         <span class="pnode-num">03</span>
-                        <span class="pnode-icon">🟨</span>
+                        <span class="material-symbols-rounded pnode-google-icon">toll</span>
                         <span class="pnode-name">COSECHA & DEFI ROTATOR</span>
                       </div>
                       <span class="pnode-status-pill pill-yellow">STANDBY ÓPTIMO</span>
                     </div>
 
-                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
                     <div class="pnode-body-split">
-                      <!-- Columna Izquierda: Contratos DeFi Rotator Activos -->
                       <div class="pnode-harvest-accrued">
                         <span class="h-label">CONTRATOS DEFI ROTATOR ACTIVOS:</span>
                         <div class="h-amount mono-code" style="font-size: 11px; line-height: 1.35; margin: 3px 0;"
@@ -370,7 +412,6 @@
                         <span class="h-sub">WETH, WBNB, WPOL Sincronizados</span>
                       </div>
 
-                      <!-- Columna Derecha: Estado Auto-Bridge L2 y Reglas -->
                       <div class="pnode-sybil-specs">
                         <div class="sybil-spec-item">
                           <span>Auto-Bridge L2:</span>
@@ -387,36 +428,35 @@
                       </div>
                     </div>
 
-                    <!-- Abajo en Fila Horizontal los Dos Botones -->
                     <div class="pnode-actions actions-row">
                       <button class="pnode-btn btn-yellow-action" id="btnMulticall" onclick="triggerMulticallScan()">
-                        <span>🔍 Escanear 500 (Multicall3)</span>
+                        <span class="material-symbols-rounded" style="font-size: 15px;">search</span>
+                        <span>Escanear 500 (Multicall3)</span>
                       </button>
                       <button class="pnode-btn btn-yellow-secondary" id="btnPrepareBatch"
                         onclick="triggerPrepareBinanceBatch()">
-                        <span>🌾 Auto-Bridge &gt;0.003 ETH</span>
+                        <span class="material-symbols-rounded" style="font-size: 15px;">sync_alt</span>
+                        <span>Auto-Bridge &gt;0.003 ETH</span>
                       </button>
                     </div>
 
                     <div class="node-port port-right" title="Tubería hacia Bóvedas Binance Spot"></div>
                   </div>
 
-                  <!-- 🟦 NODO 4 (ABAJO DERECHA): TRAYECTORIA DÍA 0 ➔ META 12,000 USDC -->
+                  <!-- NODO 4 (ABAJO DERECHA): TRAYECTORIA DÍA 0 &rarr; META 12,000 USDC -->
                   <div class="pipeline-node-card node-card-blue" id="nodeBinance">
                     <div class="node-port port-left" title="Recepción de Fondos Liquidación"></div>
 
                     <div class="pnode-header">
                       <div class="pnode-tag">
                         <span class="pnode-num">04</span>
-                        <span class="pnode-icon">🟦</span>
+                        <span class="material-symbols-rounded pnode-google-icon">account_balance</span>
                         <span class="pnode-name">BINANCE 12K</span>
                       </div>
                       <span class="pnode-status-pill pill-blue mono-code" id="pipelinePctBadge">11.84%</span>
                     </div>
 
-                    <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
                     <div class="pnode-body-split">
-                      <!-- Columna Izquierda: Gráfico de Trayectoria Día 0 a 12K -->
                       <div class="pnode-canvas-box" style="overflow: hidden; max-width: 100%; box-sizing: border-box;">
                         <div class="canvas-legend-row">
                           <span>DÍA 0 ($0)</span>
@@ -427,19 +467,18 @@
                           style="max-width: 100%; height: 52px; display: block;"></canvas>
                       </div>
 
-                      <!-- Columna Derecha: Hitos y Bóvedas Spot Solo Lectura -->
                       <div class="pnode-col-right-vaults"
                         style="overflow: hidden; max-width: 100%; box-sizing: border-box;">
                         <div class="pnode-milestones-row">
                           <div class="milestone-badge">
-                            <span class="m-icon">🖥️</span>
+                            <span class="material-symbols-rounded m-icon">computer</span>
                             <div class="m-col">
                               <span class="m-name">Nueva PC</span>
                               <span class="m-target mono-code">$6,000</span>
                             </div>
                           </div>
                           <div class="milestone-badge">
-                            <span class="m-icon">🛠️</span>
+                            <span class="material-symbols-rounded m-icon">build</span>
                             <div class="m-col">
                               <span class="m-name">Cura Tools</span>
                               <span class="m-target mono-code">$12,000</span>
@@ -448,125 +487,62 @@
                         </div>
 
                         <div class="pnode-vaults-mode">
-                          <span>🔒 Trayectoria Día 0 ➔ 12,000 USDC</span>
+                          <span class="material-symbols-rounded" style="font-size: 13px; vertical-align: middle;">lock</span>
+                          <span>Trayectoria Día 0 &rarr; 12,000 USDC</span>
                         </div>
                       </div>
                     </div>
 
-                    <!-- Abajo en Fila Horizontal: Botón de Verificación -->
                     <div class="pnode-actions actions-row">
                       <button class="pnode-btn btn-blue-action" id="btnVerifyBinance" onclick="triggerVerifyBinance()">
-                        <span>🔄 Verificar 5 Direcciones Binance</span>
+                        <span class="material-symbols-rounded" style="font-size: 15px;">refresh</span>
+                        <span>Verificar 5 Direcciones Binance</span>
                       </button>
                     </div>
+
+                    <div class="node-port port-bottom" title="Depósito Seguro en Binance Spot"></div>
                   </div>
 
                 </div>
-              </div>
 
+              </div>
 
             </div>
           </section>
 
           <!-- ------------------------------------------------------------
-               VISTA 2: INSPECCIÓN PROFUNDA POR BOX ESTILO BSCSCAN/ETHERSCAN
-               (100 CARTERAS EN FILA CON RESUMEN SUPERIOR Y ORDENAMIENTO)
+               VISTA 2: EXPLORADOR LIMPIO DE 100 CARTERAS POR BOX
+               (SIN MENÚS FLOTANTES NI TROFEOS — ALTO CONTRASTE Y EFICIENCIA)
                ------------------------------------------------------------ -->
           <section class="stage-view" id="view-boxes">
-            <div class="box-explorer-layout">
+            <div class="box-explorer-clean-layout">
 
-              <!-- Encabezado del Explorador con Retorno y Filtros -->
-              <div class="box-explorer-top-bar">
-                <div class="be-nav-group">
-                  <button class="be-back-btn" onclick="returnToPanorama()" title="Volver a la Mesa Central 2x2">
-                    <span class="be-back-icon">←</span>
-                    <span class="be-back-text">Volver al Monitor Principal (2x2)</span>
-                  </button>
-                  <div class="be-title-block">
-                    <h3 class="be-heading" id="boxExpTitle">📦 EXPLORADOR BOX 1 — CARTERAS #001 A #100</h3>
-                    <span class="be-subheading" id="boxExpSubtitle">Aislamiento Bóveda Binance #1 • Inspección On-Chain en Tiempo Real</span>
-                  </div>
-                </div>
-
-                <!-- Selector Directo de Boxes B1 - B5 -->
-                <div class="be-box-tabs-row">
-                  <button class="be-box-tab active" id="tabBox1" onclick="openBoxExplorer(1)">BOX 1</button>
-                  <button class="be-box-tab" id="tabBox2" onclick="openBoxExplorer(2)">BOX 2</button>
-                  <button class="be-box-tab" id="tabBox3" onclick="openBoxExplorer(3)">BOX 3</button>
-                  <button class="be-box-tab" id="tabBox4" onclick="openBoxExplorer(4)">BOX 4</button>
-                  <button class="be-box-tab" id="tabBox5" onclick="openBoxExplorer(5)">BOX 5</button>
-                </div>
-
-                <!-- Búsqueda y Ordenamiento Rápido -->
-                <div class="be-controls-group">
-                  <div class="be-search-wrap">
-                    <span class="be-search-icon">🔍</span>
-                    <input type="text" id="boxSearchInput" class="be-search-field" placeholder="Filtrar #Bot o 0x..." oninput="filterBoxWallets()">
-                  </div>
-                  <div class="be-sort-pills">
-                    <button class="be-sort-pill active" id="btnSortUsd" onclick="setBoxSort('usd')" title="Ordenar por Mayor Generación USD">🔥 Mayor USD</button>
-                    <button class="be-sort-pill" id="btnSortGas" onclick="setBoxSort('gas')" title="Ordenar por Mayor Gas ETH">⛽ Mayor Gas</button>
-                    <button class="be-sort-pill" id="btnSortNum" onclick="setBoxSort('num')" title="Ordenar por Número de Bot"># Bot</button>
-                  </div>
+              <!-- Cabecera Limpia (Botón Volver + Título del Box) -->
+              <div class="be-clean-header">
+                <button class="be-back-btn" onclick="returnToPanorama()" title="Volver a la Mesa Central 2x2">
+                  <span class="material-symbols-rounded">arrow_back</span>
+                  <span>Vista General</span>
+                </button>
+                <div class="be-header-title-wrap">
+                  <h2 class="be-header-title" id="boxExpTitle">BOX 1 — CARTERAS #001 A #100</h2>
+                  <span class="be-header-sub" id="boxExpSubtitle">100 Carteras en Supervisión • Cero Cruce Sybil • Depósitos Directos a Binance</span>
                 </div>
               </div>
 
-              <!-- 4 Indicadores Rápidos del Box (Resumen Superior) -->
-              <div class="box-explorer-kpis-grid">
-                <div class="be-kpi-card">
-                  <div class="be-kpi-icon-wrap icon-green">🤖</div>
-                  <div class="be-kpi-info">
-                    <span class="be-kpi-tag">CARTERAS ACTIVAS</span>
-                    <span class="be-kpi-number" id="boxKpiActive">100 / 100</span>
-                    <span class="be-kpi-sub green">🟢 100% Blindadas (&gt;0.015 ETH)</span>
-                  </div>
-                </div>
-
-                <div class="be-kpi-card card-kpi-gold">
-                  <div class="be-kpi-icon-wrap icon-gold">🏆</div>
-                  <div class="be-kpi-info">
-                    <span class="be-kpi-tag">CARTERA LÍDER DEL BOX</span>
-                    <span class="be-kpi-number mono-code" id="boxKpiLeader">#014 ($34.80 USD)</span>
-                    <span class="be-kpi-sub gold">Mayor generación acumulada</span>
-                  </div>
-                </div>
-
-                <div class="be-kpi-card">
-                  <div class="be-kpi-icon-wrap icon-cyan">⛽</div>
-                  <div class="be-kpi-info">
-                    <span class="be-kpi-tag">GAS TOTAL DEL BOX</span>
-                    <span class="be-kpi-number mono-code" id="boxKpiGas">1.650 ETH</span>
-                    <span class="be-kpi-sub">L1 Sepolia + Base + Arb</span>
-                  </div>
-                </div>
-
-                <div class="be-kpi-card card-kpi-blue">
-                  <div class="be-kpi-icon-wrap icon-blue">🏦</div>
-                  <div class="be-kpi-info">
-                    <span class="be-kpi-tag">ACUMULADO HACIA BINANCE</span>
-                    <span class="be-kpi-number mono-code text-blue" id="boxKpiVault">$284.10 USDC</span>
-                    <span class="be-kpi-sub" id="boxKpiVaultSub">Destino: Bóveda Binance Spot #1</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Tabla Estilo BscScan / Etherscan (100 Carteras en Fila) -->
-              <div class="box-explorer-table-card">
-                <div class="be-table-scroll-container" id="boxTableScroll">
-                  <table class="be-scan-table">
+              <!-- Tabla de 100 Carteras con Scroll Limpio -->
+              <div class="be-clean-table-card">
+                <div class="be-clean-table-scroll">
+                  <table class="be-clean-table">
                     <thead>
                       <tr>
-                        <th class="th-bot">BOT #</th>
-                        <th class="th-addr">DIRECCIÓN (CÓDIGO 0x)</th>
-                        <th class="th-health">SALUD / ESCUDO</th>
-                        <th class="th-gas">SALDO GAS (L1 / BASE / ARB)</th>
-                        <th class="th-txs">OPERACIONES (TXs)</th>
-                        <th class="th-usd">GENERADO POR ESTE BOT (USD)</th>
-                        <th class="th-dest">DESTINO BINANCE</th>
+                        <th style="width: 80px;">BOT #</th>
+                        <th>DIRECCIÓN (42 CARACTERES)</th>
+                        <th style="width: 220px;">SALUD & GAS ETH</th>
+                        <th style="width: 170px; text-align: right;">TOTAL GENERADO</th>
                       </tr>
                     </thead>
                     <tbody id="boxWalletsTableBody">
-                      <!-- 100 filas generadas dinámicamente -->
+                      <!-- 100 filas generadas dinámicamente sin trofeos ni emojis -->
                     </tbody>
                   </table>
                 </div>
@@ -575,180 +551,134 @@
             </div>
           </section>
 
-          <!-- ------------------------------------------------------------
-               VISTA 3: AGENDA & RELOJ 3 MINUTOS
-               ------------------------------------------------------------ -->
-          <section class="stage-view" id="view-keepup">
-            <div class="keepup-view-clean">
-              <div class="workspace-subcard keepup-summary-card card-vibrant-green">
-                <div class="keepup-sum-header">
-                  <div>
-                    <h3>⏱️ Secuenciador Keep-Up Cada 3 Minutos</h3>
-                    <p>20 carteras por turno despiertan, firman y sellan la ejecución con jitter aleatorio humano.</p>
-                  </div>
-                  <div class="keepup-timer-box">
-                    <span class="timer-lbl">PRÓXIMO DESPERTAR:</span>
-                    <span class="timer-digits mono-code" id="view-keepup-timer">02:14</span>
-                  </div>
-                </div>
-                <div class="active-turn-track-bar">
-                  <div class="active-turn-track-fill" id="view-keepup-bar" style="width: 45%;"></div>
-                </div>
-              </div>
-              <div class="keepup-slots-full-grid" id="keepup-slots-container">
-                <!-- Renderizado de turnos con insignia 100% REALIZADO -->
-              </div>
-            </div>
-          </section>
-
-          <!-- ------------------------------------------------------------
-               VISTA 4: BÓVEDA BINANCE SPOT (12K USDC)
-               ------------------------------------------------------------ -->
-          <section class="stage-view" id="view-binance">
-            <div class="binance-view-clean">
-              <div class="workspace-subcard binance-head-card card-vibrant-blue">
-                <div class="card-head-simple">
-                  <span class="card-title-pill">🏦 5 BÓVEDAS RECEPTORAS BINANCE SPOT</span>
-                  <span class="safe-badge">🔒 100% Solo Lectura • Cero Claves API</span>
-                </div>
-                <p style="font-size: 11.5px; color: #E0E7FF; margin-top: 4px;">Liquidaciones automáticas en USDC oficial
-                  nativo con retención de polvo orgánico (1.5% a 4.0%).</p>
-              </div>
-              <div class="vaults-grid-5" id="vaults-deck-container">
-                <!-- Bóvedas de Binance renderizadas con app.js -->
-              </div>
-            </div>
-          </section>
-
         </div>
       </main>
 
       <!-- ==============================================================
-           ESPACIO 3: PANEL BLANCO LECHOSO — BÓVEDAS RECEPTORAS BINANCE (350px)
-           5 Tarjetas Exclusivas Simétricas: Naranja, Azul Rey, Verde, Amarillo y Morado
+           ESPACIO 3: BÓVEDAS RECEPTORAS BINANCE (COLUMNA DERECHA — 5 TARJETAS)
            ============================================================== -->
-      <aside class="right-comms-container binance-vaults-sidebar comms-column" id="binanceRightColumn">
-        <div class="vaults-header">
+      <aside class="right-comms-container binance-vaults-sidebar" id="binanceRightColumn">
+        <div class="section-header">
           <span class="material-symbols-rounded">account_balance</span>
           <span>BÓVEDAS RECEPTORAS BINANCE</span>
         </div>
 
-        <!-- 🟧 TARJETA 1 — COLOR NARANJA (Bóveda Binance #1 • Box 1 #001–#100) -->
-        <div class="vault-card vault-card-orange" id="vaultCard1" onclick="openBoxExplorer(1)" title="Inspeccionar Box 1 (#001–#100)">
-          <div class="vault-top">
-            <span class="vault-title">BÓVEDA BINANCE #1</span>
-            <span class="vault-box-badge">BOX 1: #001–#100</span>
+        <!-- 1 Naranja: Bóveda Binance #1 • Box 1 -->
+        <div class="vault-card card-orange" id="vaultCard1" onclick="openBoxExplorer(1)" title="Inspeccionar Box 1 (#001–#100)">
+          <div class="card-top">
+            <span class="card-title">BÓVEDA BINANCE #1</span>
+            <span class="card-range">BOX 1: #001–#100</span>
           </div>
-          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x48b26dd0f9265573f31f7140cf01e9c48518531b', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+          <div class="card-white-bar" onclick="event.stopPropagation(); copyWalletAddress('0x48b26dd0f9265573f31f7140cf01e9c48518531b', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
             <span class="vault-address-full">0x48b26dd0f9265573f31f7140cf01e9c48518531b</span>
             <button class="copy-btn" title="Copiar dirección" type="button">
               <span class="material-symbols-rounded">content_copy</span>
             </button>
           </div>
-          <div class="vault-bottom">
-            <div class="vault-received-col">
-              <span class="vault-label">TOTAL RECIBIDO:</span>
-              <span class="vault-amount" id="vaultAmt1">$450.00 USDC</span>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">TOTAL RECIBIDO:</span>
+              <span class="card-val-green" id="vaultAmt1">$450.00 USDC</span>
             </div>
-            <div class="vault-incoming-col">
-              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
-              <span class="vault-incoming" id="vaultTransit1">+$34.20 USDC</span>
+            <div class="card-col-right">
+              <span class="card-label">EN CAMINO:</span>
+              <span class="card-val-black" id="vaultTransit1">+$34.20 USDC</span>
             </div>
           </div>
         </div>
 
-        <!-- 🟦 TARJETA 2 — COLOR AZUL REY (Bóveda Binance #2 • Box 2 #101–#200) -->
-        <div class="vault-card vault-card-blue" id="vaultCard2" onclick="openBoxExplorer(2)" title="Inspeccionar Box 2 (#101–#200)">
-          <div class="vault-top">
-            <span class="vault-title">BÓVEDA BINANCE #2</span>
-            <span class="vault-box-badge">BOX 2: #101–#200</span>
+        <!-- 2 Azul Rey: Bóveda Binance #2 • Box 2 -->
+        <div class="vault-card card-blue" id="vaultCard2" onclick="openBoxExplorer(2)" title="Inspeccionar Box 2 (#101–#200)">
+          <div class="card-top">
+            <span class="card-title">BÓVEDA BINANCE #2</span>
+            <span class="card-range">BOX 2: #101–#200</span>
           </div>
-          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x33cffda0218122ed4d981dcb1797f4b458191bc4', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+          <div class="card-white-bar" onclick="event.stopPropagation(); copyWalletAddress('0x33cffda0218122ed4d981dcb1797f4b458191bc4', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
             <span class="vault-address-full">0x33cffda0218122ed4d981dcb1797f4b458191bc4</span>
             <button class="copy-btn" title="Copiar dirección" type="button">
               <span class="material-symbols-rounded">content_copy</span>
             </button>
           </div>
-          <div class="vault-bottom">
-            <div class="vault-received-col">
-              <span class="vault-label">TOTAL RECIBIDO:</span>
-              <span class="vault-amount" id="vaultAmt2">$380.50 USDC</span>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">TOTAL RECIBIDO:</span>
+              <span class="card-val-green" id="vaultAmt2">$380.50 USDC</span>
             </div>
-            <div class="vault-incoming-col">
-              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
-              <span class="vault-incoming" id="vaultTransit2">+$28.50 USDC</span>
+            <div class="card-col-right">
+              <span class="card-label">EN CAMINO:</span>
+              <span class="card-val-black" id="vaultTransit2">+$28.50 USDC</span>
             </div>
           </div>
         </div>
 
-        <!-- 🟩 TARJETA 3 — COLOR VERDE ESMERALDA (Bóveda Binance #3 • Box 3 #201–#300) -->
-        <div class="vault-card vault-card-green" id="vaultCard3" onclick="openBoxExplorer(3)" title="Inspeccionar Box 3 (#201–#300)">
-          <div class="vault-top">
-            <span class="vault-title">BÓVEDA BINANCE #3</span>
-            <span class="vault-box-badge">BOX 3: #201–#300</span>
+        <!-- 3 Verde Oscuro: Bóveda Binance #3 • Box 3 -->
+        <div class="vault-card card-darkgreen" id="vaultCard3" onclick="openBoxExplorer(3)" title="Inspeccionar Box 3 (#201–#300)">
+          <div class="card-top">
+            <span class="card-title">BÓVEDA BINANCE #3</span>
+            <span class="card-range">BOX 3: #201–#300</span>
           </div>
-          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+          <div class="card-white-bar" onclick="event.stopPropagation(); copyWalletAddress('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
             <span class="vault-address-full">0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</span>
             <button class="copy-btn" title="Copiar dirección" type="button">
               <span class="material-symbols-rounded">content_copy</span>
             </button>
           </div>
-          <div class="vault-bottom">
-            <div class="vault-received-col">
-              <span class="vault-label">TOTAL RECIBIDO:</span>
-              <span class="vault-amount" id="vaultAmt3">$320.00 USDC</span>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">TOTAL RECIBIDO:</span>
+              <span class="card-val-green" id="vaultAmt3">$320.00 USDC</span>
             </div>
-            <div class="vault-incoming-col">
-              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
-              <span class="vault-incoming" id="vaultTransit3">+$24.10 USDC</span>
+            <div class="card-col-right">
+              <span class="card-label">EN CAMINO:</span>
+              <span class="card-val-black" id="vaultTransit3">+$24.10 USDC</span>
             </div>
           </div>
         </div>
 
-        <!-- 🟨 TARJETA 4 — COLOR AMARILLO ORO (Bóveda Binance #4 • Box 4 #301–#400) -->
-        <div class="vault-card vault-card-yellow" id="vaultCard4" onclick="openBoxExplorer(4)" title="Inspeccionar Box 4 (#301–#400)">
-          <div class="vault-top">
-            <span class="vault-title">BÓVEDA BINANCE #4</span>
-            <span class="vault-box-badge">BOX 4: #301–#400</span>
+        <!-- 4 Amarillo Ámbar: Bóveda Binance #4 • Box 4 -->
+        <div class="vault-card card-amber" id="vaultCard4" onclick="openBoxExplorer(4)" title="Inspeccionar Box 4 (#301–#400)">
+          <div class="card-top">
+            <span class="card-title">BÓVEDA BINANCE #4</span>
+            <span class="card-range">BOX 4: #301–#400</span>
           </div>
-          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x2734e0a264573056417d12478616107ff5d2ce54', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+          <div class="card-white-bar" onclick="event.stopPropagation(); copyWalletAddress('0x2734e0a264573056417d12478616107ff5d2ce54', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
             <span class="vault-address-full">0x2734e0a264573056417d12478616107ff5d2ce54</span>
             <button class="copy-btn" title="Copiar dirección" type="button">
               <span class="material-symbols-rounded">content_copy</span>
             </button>
           </div>
-          <div class="vault-bottom">
-            <div class="vault-received-col">
-              <span class="vault-label">TOTAL RECIBIDO:</span>
-              <span class="vault-amount" id="vaultAmt4">$150.00 USDC</span>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">TOTAL RECIBIDO:</span>
+              <span class="card-val-green" id="vaultAmt4">$150.00 USDC</span>
             </div>
-            <div class="vault-incoming-col">
-              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
-              <span class="vault-incoming" id="vaultTransit4">+$18.30 USDC</span>
+            <div class="card-col-right">
+              <span class="card-label">EN CAMINO:</span>
+              <span class="card-val-black" id="vaultTransit4">+$18.30 USDC</span>
             </div>
           </div>
         </div>
 
-        <!-- 🟪 TARJETA 5 — COLOR MORADO REAL (Bóveda Binance #5 • Box 5 #401–#500) -->
-        <div class="vault-card vault-card-purple" id="vaultCard5" onclick="openBoxExplorer(5)" title="Inspeccionar Box 5 (#401–#500)">
-          <div class="vault-top">
-            <span class="vault-title">BÓVEDA BINANCE #5</span>
-            <span class="vault-box-badge">BOX 5: #401–#500</span>
+        <!-- 5 Morado: Bóveda Binance #5 • Box 5 -->
+        <div class="vault-card card-purple" id="vaultCard5" onclick="openBoxExplorer(5)" title="Inspeccionar Box 5 (#401–#500)">
+          <div class="card-top">
+            <span class="card-title">BÓVEDA BINANCE #5</span>
+            <span class="card-range">BOX 5: #401–#500</span>
           </div>
-          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0xf746f7da001c48367d76641a2e870db8e509dce7', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+          <div class="card-white-bar" onclick="event.stopPropagation(); copyWalletAddress('0xf746f7da001c48367d76641a2e870db8e509dce7', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
             <span class="vault-address-full">0xf746f7da001c48367d76641a2e870db8e509dce7</span>
             <button class="copy-btn" title="Copiar dirección" type="button">
               <span class="material-symbols-rounded">content_copy</span>
             </button>
           </div>
-          <div class="vault-bottom">
-            <div class="vault-received-col">
-              <span class="vault-label">TOTAL RECIBIDO:</span>
-              <span class="vault-amount" id="vaultAmt5">$120.00 USDC</span>
+          <div class="card-bottom">
+            <div class="card-col-left">
+              <span class="card-label">TOTAL RECIBIDO:</span>
+              <span class="card-val-green" id="vaultAmt5">$120.00 USDC</span>
             </div>
-            <div class="vault-incoming-col">
-              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
-              <span class="vault-incoming" id="vaultTransit5">+$15.40 USDC</span>
+            <div class="card-col-right">
+              <span class="card-label">EN CAMINO:</span>
+              <span class="card-val-black" id="vaultTransit5">+$15.40 USDC</span>
             </div>
           </div>
         </div>
@@ -757,12 +687,11 @@
     </div>
 
     <!-- ==================================================================
-         FILA 3 (76px): NUEVO FOOTER BAR INFERIOR (BLANCO LECHOSO)
-         Tarjetas Rápidas de los 5 Boxes + Estado de Red RPC & Aislamiento
+         FILA 3 (76px): FOOTER BAR INFERIOR (BLANCO LECHOSO)
          ================================================================== -->
     <footer class="crystal-footer">
 
-      <!-- Fila de Tarjetas Rápidas de los 5 Boxes (Clicables para Explorador BscScan) -->
+      <!-- Fila de Tarjetas Rápidas de los 5 Boxes (Clicables para Explorador) -->
       <div class="footer-boxes-row">
         <span class="footer-section-label">MONITOR BOXES:</span>
 
@@ -774,7 +703,7 @@
           </div>
           <div class="fbox-bottom">
             <span class="fbox-status">100% OK</span>
-            <span class="fbox-gas mono-code">>0.015 ETH</span>
+            <span class="fbox-gas mono-code">&gt;0.015 ETH</span>
           </div>
         </button>
 
@@ -786,7 +715,7 @@
           </div>
           <div class="fbox-bottom">
             <span class="fbox-status">100% OK</span>
-            <span class="fbox-gas mono-code">>0.015 ETH</span>
+            <span class="fbox-gas mono-code">&gt;0.015 ETH</span>
           </div>
         </button>
 
@@ -798,7 +727,7 @@
           </div>
           <div class="fbox-bottom">
             <span class="fbox-status">100% OK</span>
-            <span class="fbox-gas mono-code">>0.015 ETH</span>
+            <span class="fbox-gas mono-code">&gt;0.015 ETH</span>
           </div>
         </button>
 
@@ -810,7 +739,7 @@
           </div>
           <div class="fbox-bottom">
             <span class="fbox-status">100% OK</span>
-            <span class="fbox-gas mono-code">>0.015 ETH</span>
+            <span class="fbox-gas mono-code">&gt;0.015 ETH</span>
           </div>
         </button>
 
@@ -822,7 +751,7 @@
           </div>
           <div class="fbox-bottom">
             <span class="fbox-status">100% OK</span>
-            <span class="fbox-gas mono-code">>0.015 ETH</span>
+            <span class="fbox-gas mono-code">&gt;0.015 ETH</span>
           </div>
         </button>
       </div>
@@ -842,7 +771,7 @@
         </div>
         <div class="rpc-divider"></div>
         <div class="rpc-item">
-          <span class="rpc-shield">🛡️</span>
+          <span class="material-symbols-rounded" style="font-size: 16px; color: #10B981;">shield</span>
           <span class="rpc-lbl">Aislamiento Sybil:</span>
           <strong class="text-emerald">100%</strong>
         </div>
