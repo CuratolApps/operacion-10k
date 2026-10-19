@@ -19,6 +19,9 @@ concurrency:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   run-swarm:
     name: Ejecutar Ronda de Enjambre Multi-Red
@@ -34,10 +37,10 @@ jobs:
           fetch-depth: 1
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ⚙️ Configurar Node.js 22 LTS
+      - name: ⚙️ Configurar Node.js 24 LTS
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
 
       - name: 📦 Instalar dependencias de forma resiliente
         run: npm install --no-audit --no-fund
