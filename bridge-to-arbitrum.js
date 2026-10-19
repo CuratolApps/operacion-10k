@@ -60,6 +60,8 @@ async function runAutoBridgeArbitrum() {
   const toStart = parseInt(parseArg("--to-start", "1"), 10);
   const toEnd = parseInt(parseArg("--to-end", "500"), 10);
   const depositAmountStr = parseArg("--amount", BRIDGE_DEPOSIT_ETH);
+  const depositAmountEth = parseFloat(depositAmountStr);
+  const thresholdEth = parseFloat(parseArg("--threshold", String(Math.min(BRIDGE_THRESHOLD_ETH, depositAmountEth * 0.8))));
 
   console.log("=========================================================================================");
   console.log("   🌉 OPERACIÓN 10K - EXPANSIÓN MULTI-RED: AUTO-BRIDGE A ARBITRUM SEPOLIA (L1 -> L2)    ");
@@ -68,7 +70,7 @@ async function runAutoBridgeArbitrum() {
   console.log(`🎯 Contrato Oficial Delayed Inbox L1: ${ARBITRUM_SEPOLIA_INBOX}`);
   console.log(`🎯 Rango de Satélites: #${toStart} al #${toEnd}`);
   console.log(`💰 Monto por Satélite: ${depositAmountStr} ETH`);
-  console.log(`⚡ Umbral de Exclusión: >= ${BRIDGE_THRESHOLD_ETH} ETH en Arbitrum Sepolia`);
+  console.log(`⚡ Umbral de Exclusión: >= ${thresholdEth.toFixed(4)} ETH en Arbitrum Sepolia`);
   console.log("🔒 Política Anti-Sybil: Aislamiento 100% individual. Cada satélite fondea su propia dirección L2.\n");
 
   const allWallets = loadPublicWallets();
@@ -119,8 +121,8 @@ async function runAutoBridgeArbitrum() {
 
     console.log(`   Saldo en Arbitrum Sepolia : ${arbBalanceEth.toFixed(6)} ETH`);
 
-    if (arbBalanceEth >= BRIDGE_THRESHOLD_ETH) {
-      console.log(`   ⏭️  OMITIDO: Saldo suficiente en Arbitrum (>= ${BRIDGE_THRESHOLD_ETH} ETH).`);
+    if (arbBalanceEth >= thresholdEth) {
+      console.log(`   ⏭️  OMITIDO: Saldo suficiente en Arbitrum (>= ${thresholdEth.toFixed(4)} ETH).`);
       skippedCount++;
       console.log("");
       continue;

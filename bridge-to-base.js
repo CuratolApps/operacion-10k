@@ -61,6 +61,8 @@ async function runAutoBridge() {
   const toStart = parseInt(parseArg("--to-start", "1"), 10);
   const toEnd = parseInt(parseArg("--to-end", "500"), 10);
   const depositAmountStr = parseArg("--amount", BRIDGE_DEPOSIT_ETH);
+  const depositAmountEth = parseFloat(depositAmountStr);
+  const thresholdEth = parseFloat(parseArg("--threshold", String(Math.min(BRIDGE_THRESHOLD_ETH, depositAmountEth * 0.8))));
 
   console.log("=========================================================================================");
   console.log("     🌉 OPERACIÓN 10K - EXPANSIÓN MULTI-RED: AUTO-BRIDGE A BASE SEPOLIA (L1 -> L2)     ");
@@ -69,7 +71,7 @@ async function runAutoBridge() {
   console.log(`🎯 Contrato Oficial L1StandardBridge: ${BASE_SEPOLIA_L1_BRIDGE}`);
   console.log(`🎯 Rango de Satélites: #${toStart} al #${toEnd}`);
   console.log(`💰 Monto por Satélite: ${depositAmountStr} ETH`);
-  console.log(`⚡ Umbral de Exclusión: >= ${BRIDGE_THRESHOLD_ETH} ETH en Base Sepolia`);
+  console.log(`⚡ Umbral de Exclusión: >= ${thresholdEth.toFixed(4)} ETH en Base Sepolia`);
   console.log("🔒 Política Anti-Sybil: Aislamiento 100% individual. Cada satélite fondea su propia dirección L2.\n");
 
   const allWallets = loadPublicWallets();
@@ -124,8 +126,8 @@ async function runAutoBridge() {
       const baseBalEth = parseFloat(ethers.formatEther(baseBalWei));
       console.log(`   ↳ Saldo actual en Base Sepolia: ${baseBalEth.toFixed(6)} ETH`);
 
-      if (baseBalEth >= BRIDGE_THRESHOLD_ETH) {
-        console.log(`   ⏭️  [OMITIDO] Ya dispone de >= ${BRIDGE_THRESHOLD_ETH} ETH en Base Sepolia.`);
+      if (baseBalEth >= thresholdEth) {
+        console.log(`   ⏭️  [OMITIDO] Ya dispone de >= ${thresholdEth.toFixed(4)} ETH en Base Sepolia.`);
         results.alreadyFunded++;
         results.details.push({
           index: sat.index,
@@ -166,7 +168,7 @@ async function runAutoBridge() {
               status: "DRY_RUN_SUCCESS"
             });
           } else {
-            console.log(`   🚀 Ejecutando depósito de ${BRIDGE_DEPOSIT_ETH} ETH al L1StandardBridge...`);
+            console.log(`   🚀 Ejecutando depósito de ${depositAmountStr} ETH al L1StandardBridge...`);
             const bridgeContract = new ethers.Contract(BASE_SEPOLIA_L1_BRIDGE, L1_BRIDGE_ABI, signer);
 
             // bridgeETHTo envía los fondos a la misma dirección del satélite en Base Sepolia
@@ -208,9 +210,9 @@ async function runAutoBridge() {
       });
     }
 
-    // 4. Jitter aleatorio Anti-Sybil de 3 a 7 segundos entre cada satélite (excepto el último)
-    if (i < satellites.length - 1) {
-      await sleepRandom(3000, 7000);
+    // 4. Jitter aleatorio Anti-Sybil de 1.5 a 3.5 segundos entre cada satélite (excepto el último)
+    if (i < satellites.length - 1 && !isDryRun) {
+      await sleepRandom(1500, 3500);
     }
   }
 
