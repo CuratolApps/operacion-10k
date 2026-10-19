@@ -119,16 +119,26 @@ async function sendTelegramAlert(messageText, customChatId = null) {
 async function notifyRoundSummary(summaryData) {
   const modeBadge = summaryData.executionMode === "DRY-RUN" ? "🧪 <b>[DRY-RUN SIMULACIÓN]</b>" : "⚡ <b>[PRODUCCIÓN EN VIVO]</b>";
   
+  const sepSuccess = summaryData.sepoliaSuccessCount ?? summaryData.successCount ?? 0;
+  const sepTotal = summaryData.sepoliaTotal ?? summaryData.totalSatellites ?? 20;
+  const baseSuccess = summaryData.baseSuccessCount ?? 0;
+  const baseTotal = summaryData.baseTotal ?? summaryData.totalSatellites ?? 20;
+  const totalOnChain = (summaryData.totalOnChainTx != null) ? summaryData.totalOnChainTx : (sepSuccess + baseSuccess);
+  const totalTarget = sepTotal + baseTotal;
+
   const text = `
 🚀 <b>OPERACIÓN 10K - REPORTE DE RONDA</b>
 ${modeBadge}
 
-🌐 <b>Red Objetivo:</b> ${summaryData.targetTestnet || "Ethereum Sepolia"}
 👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)
 🤖 <b>Satélites Evaluados:</b> ${summaryData.totalSatellites || 20}
-✅ <b>Transacciones On-Chain:</b> ${summaryData.successCount || 0}
-⚠️ <b>Pendientes de Faucet:</b> ${summaryData.pendingFaucetCount || 0}
-🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (Aislamiento verificado)
+
+🌐 <b>Desglose Multi-Red:</b>
+   • <b>Ethereum Sepolia:</b> ${sepSuccess}/${sepTotal} txs exitosas
+   • <b>Base Sepolia:</b> ${baseSuccess}/${baseTotal} txs exitosas
+
+⚡ <b>Total Transacciones On-Chain:</b> ${totalOnChain} / ${totalTarget}
+🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (Aislamiento verificado en ambas redes)
 
 ⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>
 `.trim();

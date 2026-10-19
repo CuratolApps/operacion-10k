@@ -94,11 +94,21 @@ function getWalletSigner(index, provider = null) {
   return provider ? wallet.connect(provider) : wallet;
 }
 
-if (require.main === module) {
-  runSwarmEngine();
-}
-
 module.exports = {
   runSwarmEngine,
   getWalletSigner
 };
+
+if (require.main === module) {
+  runSwarmEngine();
+
+  // Si no se pasa el flag --only-generate, ejecuta la ronda Multi-Red automáticamente
+  if (!process.argv.includes("--only-generate")) {
+    console.log("⚡ [SWARM ENGINE] Iniciando ejecución de la ronda multi-red...\n");
+    const { runTaskRunner } = require("./task-runner");
+    runTaskRunner().catch((err) => {
+      console.error("❌ Fallo crítico en ejecución del enjambre:", err);
+      process.exit(1);
+    });
+  }
+}

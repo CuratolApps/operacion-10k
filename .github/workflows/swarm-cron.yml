@@ -33,7 +33,7 @@ jobs:
         run: npm ci
 
       - name: 🛰️ Generar lista de satélites públicos (si no existe)
-        run: node swarm-engine.js
+        run: node swarm-engine.js --only-generate
         env:
           TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
           SWARM_SIZE: ${{ secrets.SWARM_SIZE || '21' }}

@@ -8,7 +8,7 @@ const networks = {
   ethereumSepolia: {
     id: "ethereumSepolia",
     name: "Ethereum Sepolia",
-    rpc: "https://ethereum-sepolia-rpc.publicnode.com",
+    rpc: "https://sepolia.drpc.org",
     chainId: 11155111,
     symbol: "ETH",
     category: "Testnet (Escuadrón A/B)"

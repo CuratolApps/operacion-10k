@@ -3,4 +3,5 @@ node_modules/
 wallets-public-list.json
 balances-report.json
 last-run-report.json
+bridge-base-report.json
 *.log
