@@ -49,6 +49,7 @@ jobs:
         env:
           TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
           SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
+          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '500' }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}

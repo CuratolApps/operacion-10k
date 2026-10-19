@@ -71,14 +71,17 @@ async function runRadarHunter() {
 
   const sepoliaProvider = createProvider(networks.ethereumSepolia);
   const baseSepoliaProvider = createProvider(networks.baseSepolia);
+  const arbSepoliaProvider = createProvider(networks.arbitrumSepolia);
 
   console.log(`🔍 Auditando saldos de la flota (${satellites.length} satélites)...`);
 
   let totalSepoliaEth = 0;
   let totalBaseEth = 0;
+  let totalArbEth = 0;
   let minBaseEth = Infinity;
   let minBaseSat = null;
   let minSepEth = Infinity;
+  let minArbEth = Infinity;
 
   const needsRecharge = [];
   const fleetSample = [];
@@ -92,20 +95,24 @@ async function runRadarHunter() {
 
     let sepEth = 0;
     let baseEth = 0;
+    let arbEth = 0;
 
     try {
-      const [sepWei, baseWei] = await Promise.all([
+      const [sepWei, baseWei, arbWei] = await Promise.all([
         sepoliaProvider.getBalance(sat.address).catch(() => 0n),
-        baseSepoliaProvider.getBalance(sat.address).catch(() => 0n)
+        baseSepoliaProvider.getBalance(sat.address).catch(() => 0n),
+        arbSepoliaProvider.getBalance(sat.address).catch(() => 0n)
       ]);
       sepEth = parseFloat(ethers.formatEther(sepWei));
       baseEth = parseFloat(ethers.formatEther(baseWei));
+      arbEth = parseFloat(ethers.formatEther(arbWei));
     } catch (err) {
       console.log(`   ⚠️ Error de lectura para Satélite ${satTag}: ${err.message}`);
     }
 
     totalSepoliaEth += sepEth;
     totalBaseEth += baseEth;
+    totalArbEth += arbEth;
 
     if (baseEth < minBaseEth) {
       minBaseEth = baseEth;
@@ -114,12 +121,16 @@ async function runRadarHunter() {
     if (sepEth < minSepEth) {
       minSepEth = sepEth;
     }
+    if (arbEth < minArbEth) {
+      minArbEth = arbEth;
+    }
 
     const satRecord = {
       index: sat.index,
       address: sat.address,
       sepoliaEth: sepEth,
       baseEth: baseEth,
+      arbEth: arbEth,
       status: baseEth >= BASE_RECHARGE_THRESHOLD_ETH ? "OPTIMAL" : "LOW_GAS"
     };
 
@@ -133,6 +144,7 @@ async function runRadarHunter() {
 
   const avgSepoliaEth = totalSepoliaEth / auditedSatellites.length;
   const avgBaseEth = totalBaseEth / auditedSatellites.length;
+  const avgArbEth = totalArbEth / auditedSatellites.length;
 
   const roundsRemainingBase = Math.floor(minBaseEth / ESTIMATED_ETH_PER_ROUND);
   const daysAutonomyBase = (roundsRemainingBase / ROUNDS_PER_DAY).toFixed(1);
@@ -140,14 +152,19 @@ async function runRadarHunter() {
   const roundsRemainingSepolia = Math.floor(minSepEth / ESTIMATED_ETH_PER_ROUND);
   const daysAutonomySepolia = (roundsRemainingSepolia / ROUNDS_PER_DAY).toFixed(1);
 
+  const roundsRemainingArb = Math.floor(minArbEth / ESTIMATED_ETH_PER_ROUND);
+  const daysAutonomyArb = (roundsRemainingArb / ROUNDS_PER_DAY).toFixed(1);
+
   console.log("\n-----------------------------------------------------------------------------------------");
   console.log("📊 RESULTADOS DE SALUD DE FLOTA:");
   console.log("-----------------------------------------------------------------------------------------");
   console.log(`• Ethereum Sepolia (Total / Promedio) : ${totalSepoliaEth.toFixed(4)} ETH / ${avgSepoliaEth.toFixed(4)} ETH`);
   console.log(`• Base Sepolia (Total / Promedio)     : ${totalBaseEth.toFixed(4)} ETH / ${avgBaseEth.toFixed(4)} ETH`);
+  console.log(`• Arbitrum Sepolia (Total / Promedio) : ${totalArbEth.toFixed(4)} ETH / ${avgArbEth.toFixed(4)} ETH`);
   console.log(`• Satélite Menor Saldo Base          : ${minBaseSat} (${minBaseEth.toFixed(6)} ETH)`);
   console.log(`• Autonomía Estimada en Base Sepolia  : ~${roundsRemainingBase} rondas (~${daysAutonomyBase} días @ 24x/día)`);
   console.log(`• Autonomía Estimada en Sepolia L1   : ~${roundsRemainingSepolia} rondas (~${daysAutonomySepolia} días @ 24x/día)`);
+  console.log(`• Autonomía Estimada en Arbitrum     : ~${roundsRemainingArb} rondas (~${daysAutonomyArb} días @ 24x/día)`);
   console.log("-----------------------------------------------------------------------------------------\n");
 
   // -------------------------------------------------------------------------------------
@@ -259,17 +276,19 @@ async function runRadarHunter() {
     : `🟢 <b>STANDBY ÓPTIMO:</b> Flota 100% abastecida (> ${BASE_RECHARGE_THRESHOLD_ETH} ETH)`;
 
   const radarTelegramMessage = `
-📡 <b>OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA</b>
+📡 <b>OPERACIÓN 10K — RADAR DE SALUD DE FLOTA Y GAS</b>
 
 ⛽ <b>Salud de Gas & Autonomía (Carrusel 24x/día):</b>
    • <b>Ethereum Sepolia:</b> ${totalSepoliaEth.toFixed(3)} ETH total (~${daysAutonomySepolia} días)
    • <b>Base Sepolia:</b> ${totalBaseEth.toFixed(3)} ETH total (~${daysAutonomyBase} días)
+   • <b>Arbitrum Sepolia:</b> ${totalArbEth.toFixed(3)} ETH total (~${daysAutonomyArb} días)
    • <b>Otras Redes EVM:</b> 0 Gas ⏳ (En espera de distribución)
    • <b>Solana Devnet:</b> 0 SOL ⏳ (En espera de airdrop)
 
 🏦 <b>Contratos DeFi Activos (Rotator):</b>
    • <b>WETH Sepolia:</b> <code>0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14</code>
    • <b>WETH Base:</b> <code>0x4200000000000000000000000000000000000006</code>
+   • <b>WETH Arbitrum:</b> <code>0x980B62Da83eFf3D4576C647993b0c1D7faf17c73</code>
    • <b>WBNB BSC:</b> <code>0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd</code>
    • <b>WPOL Amoy:</b> <code>0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9</code>
 

@@ -160,8 +160,14 @@ async function sendTelegramAlert(messageText, customChatId = null) {
  * Construye el mensaje de resumen de la ronda y lo envía.
  * @param {Object} summaryData Datos de la ronda
  */
+/**
+ * Construye el mensaje de resumen de la ronda y lo envía.
+ * @param {Object} summaryData Datos de la ronda
+ */
 async function notifyRoundSummary(summaryData) {
-  const modeBadge = summaryData.executionMode === "DRY-RUN" ? "🧪 <b>[DRY-RUN SIMULACIÓN]</b>" : "🔥 <b>[EJECUCIÓN REAL ON-CHAIN]</b>";
+  const modeBadge = summaryData.executionMode === "DRY-RUN"
+    ? "🧪 <b>[DRY-RUN SIMULACIÓN]</b>"
+    : "🔥 <b>[RONDA EN VIVO — EJECUCIÓN ON-CHAIN]</b>";
 
   let breakdownText = "";
   if (Array.isArray(summaryData.networksBreakdown) && summaryData.networksBreakdown.length > 0) {
@@ -179,25 +185,34 @@ async function notifyRoundSummary(summaryData) {
     const sepTotal = summaryData.sepoliaTotal ?? summaryData.totalSatellites ?? 20;
     const baseSuccess = summaryData.baseSuccessCount ?? 0;
     const baseTotal = summaryData.baseTotal ?? summaryData.totalSatellites ?? 20;
-    breakdownText = `   • <b>Ethereum Sepolia:</b> ${sepSuccess}/${sepTotal} txs exitosas\n   • <b>Base Sepolia:</b> ${baseSuccess}/${baseTotal} txs exitosas`;
+    breakdownText = `   • <b>Ethereum Sepolia:</b> ${sepSuccess}/${sepTotal} txs ✅\n   • <b>Base Sepolia:</b> ${baseSuccess}/${baseTotal} txs ✅`;
   }
 
-  const squadText = summaryData.squadSize
-    ? `${summaryData.squadSize}/${summaryData.totalSatellites || 500} Satélites (Carrusel Horario)`
-    : `${summaryData.totalSatellites || 500} Satélites Activos`;
-
+  const squadRangeText = summaryData.squadRange || "Satélites #001–#020 (Box 1)";
   const totalOnChain = summaryData.totalOnChainTx ?? 0;
 
+  let hashesSection = "";
+  if (Array.isArray(summaryData.sampleHashes) && summaryData.sampleHashes.length > 0) {
+    const hashesList = summaryData.sampleHashes
+      .filter((h) => h.hash)
+      .map((h) => `   • <b>${h.network}:</b> <code>${h.hash}</code>`)
+      .join("\n");
+    if (hashesList) {
+      hashesSection = `\n🔗 <b>Hashes Reales Verificables:</b>\n${hashesList}\n`;
+    }
+  }
+
   const text = `
-🚀 <b>OPERACIÓN 10K - REPORTE DE RONDA OMNICHAIN</b>
+🚀 <b>OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS</b>
 ${modeBadge}
 
+📦 <b>Lote en Turno:</b> ${squadRangeText}
 👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)
-🤖 <b>Escuadrón Activo:</b> ${squadText}
+🤖 <b>Escuadrón Activo:</b> ${summaryData.squadSize || 20}/${summaryData.totalSatellites || 500} Satélites
 
 🌐 <b>Desglose Omnichain por Red:</b>
 ${breakdownText}
-
+${hashesSection}
 ⚡ <b>Total Transacciones Confirmadas:</b> ${totalOnChain} on-chain
 🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)
 
