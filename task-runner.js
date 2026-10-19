@@ -8,6 +8,8 @@
  * Regla de seguridad: Aislamiento total de VIP #00 (Monitoreo ultra-seguro / 0 Tx automatizadas en Mainnet).
  */
 
+require("dotenv").config();
+
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");

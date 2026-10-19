@@ -226,15 +226,15 @@
                       <!-- Columna Izquierda: Indicadores de Gwei -->
                       <div class="pnode-metric-box">
                         <div class="pnode-metric-row">
-                          <span class="lbl">Ethereum Sepolia:</span>
-                          <strong class="mono-code" id="metricEthL1">2.943 ETH</strong>
+                          <span class="lbl">Sepolia L1:</span>
+                          <strong class="mono-code" id="metricEthL1">2.943 ETH (~1.3 días)</strong>
                         </div>
                         <div class="pnode-metric-row">
-                          <span class="lbl">Base Sepolia:</span>
-                          <strong class="mono-code text-white" id="metricBaseL2">0.300 ETH</strong>
+                          <span class="lbl">Base L2:</span>
+                          <strong class="mono-code text-white" id="metricBaseL2">0.300 ETH (~1.8 días)</strong>
                         </div>
                         <div class="pnode-metric-row">
-                          <span class="lbl">Arbitrum Sepolia:</span>
+                          <span class="lbl">Arbitrum L2:</span>
                           <strong class="mono-code text-white" id="metricArbL2">20 txs OK</strong>
                         </div>
                       </div>
@@ -243,8 +243,8 @@
                       <div class="pnode-shield-banner">
                         <span class="shield-icon">🛡️</span>
                         <div>
-                          <div class="shield-title">>0.015 ETH INTOCABLE</div>
-                          <div class="shield-desc" id="shieldDescText">500/500 satélites blindados</div>
+                          <div class="shield-title">ESCUDO >0.015 ETH</div>
+                          <div class="shield-desc" id="shieldDescText">100% Blindado (500/500 Satélites)</div>
                         </div>
                       </div>
                     </div>
@@ -255,7 +255,7 @@
                         <span>⚡ Auto-Fondear Intra-Box</span>
                       </button>
                       <button class="pnode-btn btn-outline-white" id="btnShieldToggle" onclick="toggleShield()">
-                        <span id="shieldToggleText">🛡️ Escudo >0.015 ETH: ACTIVO</span>
+                        <span id="shieldToggleText">🛡️ Escudo >0.015 ETH: 100% BLINDADO</span>
                       </button>
                     </div>
 
@@ -272,55 +272,57 @@
                         <span class="pnode-icon">🟩</span>
                         <span class="pnode-name">MOTOR KEEP-UP</span>
                       </div>
-                      <span class="pnode-status-pill pill-green mono-code" id="pipelineClock">02:14</span>
+                      <span class="pnode-status-pill pill-green mono-code" id="pipelineClock">03:00</span>
                     </div>
 
                     <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
                     <div class="pnode-body-split">
-                      <!-- Columna Izquierda: Barras de Progreso B1 a B5 -->
+                      <!-- Columna Izquierda: Barras de Progreso de los 5 Boxes (Clicables) -->
                       <div class="pnode-boxes-lanes">
-                        <div class="plane-lane" id="laneB1">
-                          <span class="lane-id">B1</span>
+                        <div class="plane-lane" id="laneB1" onclick="openBoxExplorer(1)" style="cursor: pointer;" title="Inspeccionar BOX 1 (#001–#100)">
+                          <span class="lane-id">BOX 1</span>
                           <div class="lane-bar">
                             <div class="lane-fill" style="width: 100%;"></div>
                           </div>
-                          <span class="lane-stat">100% OK</span>
+                          <span class="lane-stat">100/100 OK</span>
                         </div>
-                        <div class="plane-lane" id="laneB2">
-                          <span class="lane-id">B2</span>
+                        <div class="plane-lane" id="laneB2" onclick="openBoxExplorer(2)" style="cursor: pointer;" title="Inspeccionar BOX 2 (#101–#200)">
+                          <span class="lane-id">BOX 2</span>
                           <div class="lane-bar">
                             <div class="lane-fill" style="width: 100%;"></div>
                           </div>
-                          <span class="lane-stat">100% OK</span>
+                          <span class="lane-stat">100/100 OK</span>
                         </div>
-                        <div class="plane-lane" id="laneB3">
-                          <span class="lane-id">B3</span>
+                        <div class="plane-lane" id="laneB3" onclick="openBoxExplorer(3)" style="cursor: pointer;" title="Inspeccionar BOX 3 (#201–#300)">
+                          <span class="lane-id">BOX 3</span>
                           <div class="lane-bar">
                             <div class="lane-fill" style="width: 100%;"></div>
                           </div>
-                          <span class="lane-stat">100% OK</span>
+                          <span class="lane-stat">100/100 OK</span>
                         </div>
-                        <div class="plane-lane" id="laneB4">
-                          <span class="lane-id">B4</span>
-                          <div class="lane-bar">
-                            <div class="lane-fill" style="width: 95%;"></div>
-                          </div>
-                          <span class="lane-stat">95% Gas</span>
-                        </div>
-                        <div class="plane-lane" id="laneB5">
-                          <span class="lane-id">B5</span>
+                        <div class="plane-lane" id="laneB4" onclick="openBoxExplorer(4)" style="cursor: pointer;" title="Inspeccionar BOX 4 (#301–#400)">
+                          <span class="lane-id">BOX 4</span>
                           <div class="lane-bar">
                             <div class="lane-fill" style="width: 100%;"></div>
                           </div>
-                          <span class="lane-stat">100% OK</span>
+                          <span class="lane-stat">100/100 OK</span>
+                        </div>
+                        <div class="plane-lane" id="laneB5" onclick="openBoxExplorer(5)" style="cursor: pointer;" title="Inspeccionar BOX 5 (#401–#500)">
+                          <span class="lane-id">BOX 5</span>
+                          <div class="lane-bar">
+                            <div class="lane-fill" style="width: 100%;"></div>
+                          </div>
+                          <span class="lane-stat">100/100 OK</span>
                         </div>
                       </div>
 
                       <!-- Columna Derecha: Estado de Operación Actual y Sello -->
                       <div class="pnode-operation-box">
-                        <div class="op-label">OPERACIÓN EN CURSO:</div>
-                        <div class="op-title" id="pipelineOpTitle">Micro-Swaps Lote #22 en Base</div>
-                        <div class="op-seal-badge" id="pipelineOpSeal">✅ 100% REALIZADO</div>
+                        <div class="op-label">ESCUADRÓN ACTIVO:</div>
+                        <div class="op-title" id="pipelineOpTitle">20/500 Satélites • 60 Tx Confirmadas</div>
+                        <div class="op-sub" style="font-size: 8px; color: rgba(255,255,255,0.85); margin: 2px 0 4px 0;">
+                          Sepolia 20/20 • Base 20/20 • Arbitrum 20/20</div>
+                        <div class="op-seal-badge" id="pipelineOpSeal">⚡ 100% REALIZADO</div>
                       </div>
                     </div>
 
@@ -330,12 +332,12 @@
                         <span>▶ Forzar Keep-Up</span>
                       </button>
                       <div class="pnode-miniboxes-row">
-                        <span class="minibox-label">PAUSAR:</span>
-                        <button class="minibox-toggle active" id="pboxBtn1" onclick="toggleBoxPause(1)">B1</button>
-                        <button class="minibox-toggle active" id="pboxBtn2" onclick="toggleBoxPause(2)">B2</button>
-                        <button class="minibox-toggle active" id="pboxBtn3" onclick="toggleBoxPause(3)">B3</button>
-                        <button class="minibox-toggle active" id="pboxBtn4" onclick="toggleBoxPause(4)">B4</button>
-                        <button class="minibox-toggle active" id="pboxBtn5" onclick="toggleBoxPause(5)">B5</button>
+                        <span class="minibox-label">EXPLORAR:</span>
+                        <button class="minibox-toggle active" id="pboxBtn1" onclick="openBoxExplorer(1)" title="Explorador Box 1 (#001–#100)">B1</button>
+                        <button class="minibox-toggle active" id="pboxBtn2" onclick="openBoxExplorer(2)" title="Explorador Box 2 (#101–#200)">B2</button>
+                        <button class="minibox-toggle active" id="pboxBtn3" onclick="openBoxExplorer(3)" title="Explorador Box 3 (#201–#300)">B3</button>
+                        <button class="minibox-toggle active" id="pboxBtn4" onclick="openBoxExplorer(4)" title="Explorador Box 4 (#301–#400)">B4</button>
+                        <button class="minibox-toggle active" id="pboxBtn5" onclick="openBoxExplorer(5)" title="Explorador Box 5 (#401–#500)">B5</button>
                       </div>
                     </div>
 
@@ -350,33 +352,36 @@
                       <div class="pnode-tag">
                         <span class="pnode-num">03</span>
                         <span class="pnode-icon">🟨</span>
-                        <span class="pnode-name">COSECHA & SYBIL</span>
+                        <span class="pnode-name">COSECHA & DEFI ROTATOR</span>
                       </div>
-                      <span class="pnode-status-pill pill-yellow">0% RASTREO</span>
+                      <span class="pnode-status-pill pill-yellow">STANDBY ÓPTIMO</span>
                     </div>
 
                     <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
                     <div class="pnode-body-split">
-                      <!-- Columna Izquierda: Balance Acumulado en Carteras -->
+                      <!-- Columna Izquierda: Contratos DeFi Rotator Activos -->
                       <div class="pnode-harvest-accrued">
-                        <span class="h-label">USDC ACUMULADO FLOTA:</span>
-                        <div class="h-amount mono-code" id="pipelineHarvestAccrued">$1,420.50 USDC</div>
-                        <span class="h-sub">En 500 carteras (100% estanco)</span>
+                        <span class="h-label">CONTRATOS DEFI ROTATOR ACTIVOS:</span>
+                        <div class="h-amount mono-code" style="font-size: 11px; line-height: 1.35; margin: 3px 0;"
+                          id="pipelineDefiContracts">
+                          WETH Sepolia / Base<br />BSC / Amoy
+                        </div>
+                        <span class="h-sub">WETH, WBNB, WPOL Sincronizados</span>
                       </div>
 
-                      <!-- Columna Derecha: Filtros Anti-Sybil -->
+                      <!-- Columna Derecha: Estado Auto-Bridge L2 y Reglas -->
                       <div class="pnode-sybil-specs">
                         <div class="sybil-spec-item">
-                          <span>Jitter Aleatorio:</span>
-                          <strong class="mono-code">12s – 45s</strong>
+                          <span>Auto-Bridge L2:</span>
+                          <strong class="mono-code" style="color: #047857;">STANDBY ÓPTIMO</strong>
                         </div>
                         <div class="sybil-spec-item">
-                          <span>Polvo Retenido:</span>
-                          <strong class="mono-code">2.4% – 3.8%</strong>
+                          <span>Umbral de Puente:</span>
+                          <strong class="mono-code">&gt;0.003 ETH</strong>
                         </div>
                         <div class="sybil-spec-item">
-                          <span>Aislamiento Inter-Box:</span>
-                          <strong class="text-dark">Estanco 100%</strong>
+                          <span>Aislamiento Sybil:</span>
+                          <strong class="text-dark">100% Blindado</strong>
                         </div>
                       </div>
                     </div>
@@ -388,7 +393,7 @@
                       </button>
                       <button class="pnode-btn btn-yellow-secondary" id="btnPrepareBatch"
                         onclick="triggerPrepareBinanceBatch()">
-                        <span>🌾 Preparar Lote a Binance</span>
+                        <span>🌾 Auto-Bridge &gt;0.003 ETH</span>
                       </button>
                     </div>
 
@@ -411,17 +416,19 @@
                     <!-- Distribución Horizontal Interna: 2 Columnas Paralelas -->
                     <div class="pnode-body-split">
                       <!-- Columna Izquierda: Gráfico de Trayectoria Día 0 a 12K -->
-                      <div class="pnode-canvas-box">
+                      <div class="pnode-canvas-box" style="overflow: hidden; max-width: 100%; box-sizing: border-box;">
                         <div class="canvas-legend-row">
                           <span>DÍA 0 ($0)</span>
                           <span class="text-gold">HOY ($1.4K)</span>
                           <span class="text-white">META ($12K)</span>
                         </div>
-                        <canvas id="pipelineMountainCanvas" width="240" height="52"></canvas>
+                        <canvas id="pipelineMountainCanvas" width="220" height="52"
+                          style="max-width: 100%; height: 52px; display: block;"></canvas>
                       </div>
 
                       <!-- Columna Derecha: Hitos y Bóvedas Spot Solo Lectura -->
-                      <div class="pnode-col-right-vaults">
+                      <div class="pnode-col-right-vaults"
+                        style="overflow: hidden; max-width: 100%; box-sizing: border-box;">
                         <div class="pnode-milestones-row">
                           <div class="milestone-badge">
                             <span class="m-icon">🖥️</span>
@@ -440,7 +447,7 @@
                         </div>
 
                         <div class="pnode-vaults-mode">
-                          <span>🔒 5 Bóvedas Spot • Modo Solo Lectura</span>
+                          <span>🔒 Trayectoria Día 0 ➔ 12,000 USDC</span>
                         </div>
                       </div>
                     </div>
@@ -461,20 +468,109 @@
           </section>
 
           <!-- ------------------------------------------------------------
-               VISTA 2: INSPECCIÓN DE BOXES (B1–B5)
+               VISTA 2: INSPECCIÓN PROFUNDA POR BOX ESTILO BSCSCAN/ETHERSCAN
+               (100 CARTERAS EN FILA CON RESUMEN SUPERIOR Y ORDENAMIENTO)
                ------------------------------------------------------------ -->
           <section class="stage-view" id="view-boxes">
-            <div class="boxes-layout-clean">
-              <div class="boxes-top-strip workspace-subcard card-vibrant-green">
-                <div class="strip-text">
-                  <h3>🛡️ Aislamiento Estricto: 5 Boxes Estancos (100 Satélites por Box)</h3>
-                  <p>Ningún Box cruza fondos con otro. Donaciones y recargas 100% intra-bloque con >0.015 ETH
-                    asegurados.</p>
+            <div class="box-explorer-layout">
+
+              <!-- Encabezado del Explorador con Retorno y Filtros -->
+              <div class="box-explorer-top-bar">
+                <div class="be-nav-group">
+                  <button class="be-back-btn" onclick="returnToPanorama()" title="Volver a la Mesa Central 2x2">
+                    <span class="be-back-icon">←</span>
+                    <span class="be-back-text">Volver al Monitor Principal (2x2)</span>
+                  </button>
+                  <div class="be-title-block">
+                    <h3 class="be-heading" id="boxExpTitle">📦 EXPLORADOR BOX 1 — CARTERAS #001 A #100</h3>
+                    <span class="be-subheading" id="boxExpSubtitle">Aislamiento Bóveda Binance #1 • Inspección On-Chain en Tiempo Real</span>
+                  </div>
+                </div>
+
+                <!-- Selector Directo de Boxes B1 - B5 -->
+                <div class="be-box-tabs-row">
+                  <button class="be-box-tab active" id="tabBox1" onclick="openBoxExplorer(1)">BOX 1</button>
+                  <button class="be-box-tab" id="tabBox2" onclick="openBoxExplorer(2)">BOX 2</button>
+                  <button class="be-box-tab" id="tabBox3" onclick="openBoxExplorer(3)">BOX 3</button>
+                  <button class="be-box-tab" id="tabBox4" onclick="openBoxExplorer(4)">BOX 4</button>
+                  <button class="be-box-tab" id="tabBox5" onclick="openBoxExplorer(5)">BOX 5</button>
+                </div>
+
+                <!-- Búsqueda y Ordenamiento Rápido -->
+                <div class="be-controls-group">
+                  <div class="be-search-wrap">
+                    <span class="be-search-icon">🔍</span>
+                    <input type="text" id="boxSearchInput" class="be-search-field" placeholder="Filtrar #Bot o 0x..." oninput="filterBoxWallets()">
+                  </div>
+                  <div class="be-sort-pills">
+                    <button class="be-sort-pill active" id="btnSortUsd" onclick="setBoxSort('usd')" title="Ordenar por Mayor Generación USD">🔥 Mayor USD</button>
+                    <button class="be-sort-pill" id="btnSortGas" onclick="setBoxSort('gas')" title="Ordenar por Mayor Gas ETH">⛽ Mayor Gas</button>
+                    <button class="be-sort-pill" id="btnSortNum" onclick="setBoxSort('num')" title="Ordenar por Número de Bot"># Bot</button>
+                  </div>
                 </div>
               </div>
-              <div class="boxes-grid-5" id="boxes-deck-container">
-                <!-- Renderizado dinámico de los 5 boxes con app.js -->
+
+              <!-- 4 Indicadores Rápidos del Box (Resumen Superior) -->
+              <div class="box-explorer-kpis-grid">
+                <div class="be-kpi-card">
+                  <div class="be-kpi-icon-wrap icon-green">🤖</div>
+                  <div class="be-kpi-info">
+                    <span class="be-kpi-tag">CARTERAS ACTIVAS</span>
+                    <span class="be-kpi-number" id="boxKpiActive">100 / 100</span>
+                    <span class="be-kpi-sub green">🟢 100% Blindadas (&gt;0.015 ETH)</span>
+                  </div>
+                </div>
+
+                <div class="be-kpi-card card-kpi-gold">
+                  <div class="be-kpi-icon-wrap icon-gold">🏆</div>
+                  <div class="be-kpi-info">
+                    <span class="be-kpi-tag">CARTERA LÍDER DEL BOX</span>
+                    <span class="be-kpi-number mono-code" id="boxKpiLeader">#014 ($34.80 USD)</span>
+                    <span class="be-kpi-sub gold">Mayor generación acumulada</span>
+                  </div>
+                </div>
+
+                <div class="be-kpi-card">
+                  <div class="be-kpi-icon-wrap icon-cyan">⛽</div>
+                  <div class="be-kpi-info">
+                    <span class="be-kpi-tag">GAS TOTAL DEL BOX</span>
+                    <span class="be-kpi-number mono-code" id="boxKpiGas">1.650 ETH</span>
+                    <span class="be-kpi-sub">L1 Sepolia + Base + Arb</span>
+                  </div>
+                </div>
+
+                <div class="be-kpi-card card-kpi-blue">
+                  <div class="be-kpi-icon-wrap icon-blue">🏦</div>
+                  <div class="be-kpi-info">
+                    <span class="be-kpi-tag">ACUMULADO HACIA BINANCE</span>
+                    <span class="be-kpi-number mono-code text-blue" id="boxKpiVault">$284.10 USDC</span>
+                    <span class="be-kpi-sub" id="boxKpiVaultSub">Destino: Bóveda Binance Spot #1</span>
+                  </div>
+                </div>
               </div>
+
+              <!-- Tabla Estilo BscScan / Etherscan (100 Carteras en Fila) -->
+              <div class="box-explorer-table-card">
+                <div class="be-table-scroll-container" id="boxTableScroll">
+                  <table class="be-scan-table">
+                    <thead>
+                      <tr>
+                        <th class="th-bot">BOT #</th>
+                        <th class="th-addr">DIRECCIÓN (CÓDIGO 0x)</th>
+                        <th class="th-health">SALUD / ESCUDO</th>
+                        <th class="th-gas">SALDO GAS (L1 / BASE / ARB)</th>
+                        <th class="th-txs">OPERACIONES (TXs)</th>
+                        <th class="th-usd">GENERADO POR ESTE BOT (USD)</th>
+                        <th class="th-dest">DESTINO BINANCE</th>
+                      </tr>
+                    </thead>
+                    <tbody id="boxWalletsTableBody">
+                      <!-- 100 filas generadas dinámicamente -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
             </div>
           </section>
 
@@ -595,7 +691,54 @@
           <!-- Feed Minuto a Minuto con Scroll Interno Exclusivo -->
           <div class="tg-feed-viewport">
             <div class="telegram-feed-stream" id="telegram-stream-box">
-              <!-- Mensajes automáticos y lotes ✅ 100% REALIZADO inyectados por app.js -->
+              <!-- Reporte 1: Radar de Inteligencia -->
+              <div class="tg-bubble-item" style="border-left: 3.5px solid #3B82F6;">
+                <div class="tg-bubble-top">
+                  <span class="tg-chip-badge" style="background: #3B82F6;">RADAR EN VIVO</span>
+                  <span class="tg-time mono-code">17:54:16 UTC</span>
+                </div>
+                <div class="tg-text" style="font-size: 9px; line-height: 1.45; color: #0F172A;">
+                  📡 <b>OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA</b><br><br>
+                  ⛽ <b>Salud de Gas &amp; Autonomía (Carrusel 24x/día):</b><br>
+                  &nbsp;&nbsp;• <b>Ethereum Sepolia:</b> 2.943 ETH total (~1.3 días)<br>
+                  &nbsp;&nbsp;• <b>Base Sepolia:</b> 0.300 ETH total (~1.8 días)<br>
+                  &nbsp;&nbsp;• <b>Otras Redes EVM:</b> 0 Gas ⏳ (En espera de distribución)<br>
+                  &nbsp;&nbsp;• <b>Solana Devnet:</b> 0 SOL ⏳ (En espera de airdrop)<br><br>
+                  🏦 <b>Contratos DeFi Activos (Rotator):</b><br>
+                  &nbsp;&nbsp;• <b>WETH Sepolia:</b> <code>0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14</code><br>
+                  &nbsp;&nbsp;• <b>WETH Base:</b> <code>0x4200000000000000000000000000000000000006</code><br>
+                  &nbsp;&nbsp;• <b>WBNB BSC:</b> <code>0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd</code><br>
+                  &nbsp;&nbsp;• <b>WPOL Amoy:</b> <code>0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9</code><br><br>
+                  🌉 <b>Estado del Auto-Bridge L2:</b><br>
+                  &nbsp;&nbsp;🟢 <b>STANDBY ÓPTIMO:</b> Flota 100% abastecida (&gt; 0.003 ETH)<br><br>
+                  👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx automatizadas)<br>
+                  🤖 <b>Flota Total:</b> 500 Satélites sincronizados
+                </div>
+              </div>
+
+              <!-- Reporte 2: Ronda Omnichain -->
+              <div class="tg-bubble-item" style="border-left: 3.5px solid #10B981;">
+                <div class="tg-bubble-top">
+                  <span class="tg-chip-badge" style="background: #10B981;">100% REALIZADO</span>
+                  <span class="tg-time mono-code">17:51:10 UTC</span>
+                </div>
+                <div class="tg-text" style="font-size: 9px; line-height: 1.45; color: #0F172A;">
+                  🚀 <b>OPERACIÓN 10K - REPORTE DE RONDA OMNICHAIN</b><br>
+                  🔥 <b>[EJECUCIÓN REAL ON-CHAIN]</b><br><br>
+                  👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)<br>
+                  🤖 <b>Escuadrón Activo:</b> 20/500 Satélites (Carrusel Horario)<br><br>
+                  🌐 <b>Desglose Omnichain por Red:</b><br>
+                  &nbsp;&nbsp;• <b>Ethereum Sepolia:</b> 20/20 txs ✅<br>
+                  &nbsp;&nbsp;• <b>Base Sepolia:</b> 20/20 txs ✅<br>
+                  &nbsp;&nbsp;• <b>Arbitrum Sepolia:</b> 20/20 txs ✅<br>
+                  &nbsp;&nbsp;• <b>BNB Smart Chain Testnet:</b> 0 Gas ⏳<br>
+                  &nbsp;&nbsp;• <b>Polygon Amoy:</b> 0 Gas ⏳<br>
+                  &nbsp;&nbsp;• <b>opBNB Testnet:</b> 0 Gas ⏳<br>
+                  &nbsp;&nbsp;• <b>Solana Devnet:</b> 0 SOL ⏳<br><br>
+                  ⚡ <b>Total Transacciones Confirmadas:</b> 60 on-chain<br>
+                  🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -610,12 +753,12 @@
          ================================================================== -->
     <footer class="crystal-footer">
 
-      <!-- Fila de Tarjetas Rápidas de los 5 Boxes -->
+      <!-- Fila de Tarjetas Rápidas de los 5 Boxes (Clicables para Explorador BscScan) -->
       <div class="footer-boxes-row">
         <span class="footer-section-label">MONITOR BOXES:</span>
 
-        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(1);"
-          title="Box 1: 100% OK">
+        <button class="footer-box-card fbox-green" onclick="openBoxExplorer(1);"
+          title="Abrir Explorador Box 1 (Carteras #001–#100)" style="cursor: pointer;">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 1</span>
@@ -626,8 +769,8 @@
           </div>
         </button>
 
-        <button class="footer-box-card fbox-yellow" onclick="switchView('view-boxes'); activateBox(2);"
-          title="Box 2: 100% OK">
+        <button class="footer-box-card fbox-yellow" onclick="openBoxExplorer(2);"
+          title="Abrir Explorador Box 2 (Carteras #101–#200)" style="cursor: pointer;">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 2</span>
@@ -638,8 +781,8 @@
           </div>
         </button>
 
-        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(3);"
-          title="Box 3: 100% OK">
+        <button class="footer-box-card fbox-green" onclick="openBoxExplorer(3);"
+          title="Abrir Explorador Box 3 (Carteras #201–#300)" style="cursor: pointer;">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 3</span>
@@ -650,20 +793,20 @@
           </div>
         </button>
 
-        <button class="footer-box-card fbox-orange" onclick="switchView('view-boxes'); activateBox(4);"
-          title="Box 4: Ajuste Gas Preventivo">
+        <button class="footer-box-card fbox-orange" onclick="openBoxExplorer(4);"
+          title="Abrir Explorador Box 4 (Carteras #301–#400)" style="cursor: pointer;">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 4</span>
           </div>
           <div class="fbox-bottom">
-            <span class="fbox-status">95% Gas</span>
+            <span class="fbox-status">100% OK</span>
             <span class="fbox-gas mono-code">>0.015 ETH</span>
           </div>
         </button>
 
-        <button class="footer-box-card fbox-blue" onclick="switchView('view-boxes'); activateBox(5);"
-          title="Box 5: 100% OK">
+        <button class="footer-box-card fbox-blue" onclick="openBoxExplorer(5);"
+          title="Abrir Explorador Box 5 (Carteras #401–#500)" style="cursor: pointer;">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 5</span>

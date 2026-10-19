@@ -16,7 +16,7 @@
     },
     "activeSquadSize": 20,
     "totalOnChainTxLastCycle": 60,
-    "executionMode": "DRY-RUN",
+    "executionMode": "PRODUCCION",
     "goldenRuleStatus": "CUMPLIMIENTO_ESTRICTO_100%",
     "isolationProtocol": "INTRA_BLOQUE_ESTANCO_B1_B5"
   },

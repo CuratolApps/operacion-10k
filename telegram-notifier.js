@@ -154,7 +154,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
  * @param {Object} summaryData Datos de la ronda
  */
 async function notifyRoundSummary(summaryData) {
-  const modeBadge = summaryData.executionMode === "DRY-RUN" ? "🧪 <b>[DRY-RUN SIMULACIÓN]</b>" : "⚡ <b>[PRODUCCIÓN EN VIVO]</b>";
+  const modeBadge = summaryData.executionMode === "DRY-RUN" ? "🧪 <b>[DRY-RUN SIMULACIÓN]</b>" : "🔥 <b>[EJECUCIÓN REAL ON-CHAIN]</b>";
 
   let breakdownText = "";
   if (Array.isArray(summaryData.networksBreakdown) && summaryData.networksBreakdown.length > 0) {
