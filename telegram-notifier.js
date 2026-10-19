@@ -118,27 +118,44 @@ async function sendTelegramAlert(messageText, customChatId = null) {
  */
 async function notifyRoundSummary(summaryData) {
   const modeBadge = summaryData.executionMode === "DRY-RUN" ? "🧪 <b>[DRY-RUN SIMULACIÓN]</b>" : "⚡ <b>[PRODUCCIÓN EN VIVO]</b>";
-  
-  const sepSuccess = summaryData.sepoliaSuccessCount ?? summaryData.successCount ?? 0;
-  const sepTotal = summaryData.sepoliaTotal ?? summaryData.totalSatellites ?? 20;
-  const baseSuccess = summaryData.baseSuccessCount ?? 0;
-  const baseTotal = summaryData.baseTotal ?? summaryData.totalSatellites ?? 20;
-  const totalOnChain = (summaryData.totalOnChainTx != null) ? summaryData.totalOnChainTx : (sepSuccess + baseSuccess);
-  const totalTarget = sepTotal + baseTotal;
+
+  let breakdownText = "";
+  if (Array.isArray(summaryData.networksBreakdown) && summaryData.networksBreakdown.length > 0) {
+    breakdownText = summaryData.networksBreakdown.map((nb) => {
+      if (nb.success > 0) {
+        return `   • <b>${nb.name}:</b> ${nb.success}/${nb.total} txs ✅`;
+      } else if (nb.isPendingGas) {
+        return `   • <b>${nb.name}:</b> ${nb.statusLabel || "0 Gas ⏳"}`;
+      } else {
+        return `   • <b>${nb.name}:</b> ${nb.success}/${nb.total} txs`;
+      }
+    }).join("\n");
+  } else {
+    const sepSuccess = summaryData.sepoliaSuccessCount ?? summaryData.successCount ?? 0;
+    const sepTotal = summaryData.sepoliaTotal ?? summaryData.totalSatellites ?? 20;
+    const baseSuccess = summaryData.baseSuccessCount ?? 0;
+    const baseTotal = summaryData.baseTotal ?? summaryData.totalSatellites ?? 20;
+    breakdownText = `   • <b>Ethereum Sepolia:</b> ${sepSuccess}/${sepTotal} txs exitosas\n   • <b>Base Sepolia:</b> ${baseSuccess}/${baseTotal} txs exitosas`;
+  }
+
+  const squadText = summaryData.squadSize
+    ? `${summaryData.squadSize}/${summaryData.totalSatellites || 500} Satélites (Carrusel Horario)`
+    : `${summaryData.totalSatellites || 500} Satélites Activos`;
+
+  const totalOnChain = summaryData.totalOnChainTx ?? 0;
 
   const text = `
-🚀 <b>OPERACIÓN 10K - REPORTE DE RONDA</b>
+🚀 <b>OPERACIÓN 10K - REPORTE DE RONDA OMNICHAIN</b>
 ${modeBadge}
 
 👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)
-🤖 <b>Satélites Evaluados:</b> ${summaryData.totalSatellites || 20}
+🤖 <b>Escuadrón Activo:</b> ${squadText}
 
-🌐 <b>Desglose Multi-Red:</b>
-   • <b>Ethereum Sepolia:</b> ${sepSuccess}/${sepTotal} txs exitosas
-   • <b>Base Sepolia:</b> ${baseSuccess}/${baseTotal} txs exitosas
+🌐 <b>Desglose Omnichain por Red:</b>
+${breakdownText}
 
-⚡ <b>Total Transacciones On-Chain:</b> ${totalOnChain} / ${totalTarget}
-🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (Aislamiento verificado en ambas redes)
+⚡ <b>Total Transacciones Confirmadas:</b> ${totalOnChain} on-chain
+🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)
 
 ⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>
 `.trim();

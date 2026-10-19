@@ -1,0 +1,63 @@
+name: Operación 10k - Swarm Engine Automation
+
+on:
+  schedule:
+    # Despierta automáticamente CADA HORA en el minuto 17 (24 veces al día)
+    - cron: '17 * * * *'
+  # Permite ejecución manual bajo demanda desde la pestaña Actions de GitHub
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Ejecutar en modo simulación (Dry-Run)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  run-swarm:
+    name: Ejecutar Ronda de Enjambre Multi-Red
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Instalar dependencias limpias
+        run: npm ci
+
+      - name: 🛰️ Generar lista de satélites públicos (si no existe)
+        run: node swarm-engine.js --only-generate
+        env:
+          TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
+
+      - name: 🚀 Ejecutar Motor de Rutinas y Escudo Anti-Sybil
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            echo "Modo Dry-Run activado por usuario."
+            node task-runner.js --dry-run
+          else
+            node task-runner.js
+          fi
+        env:
+          TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
+          BATCH_SIZE: '20'
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: 📡 Ejecutar Radar Hunter & Auditoría de Flota
+        run: node radar-hunter.js
+        env:
+          TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
+          BATCH_SIZE: '20'
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}

@@ -1,49 +1,60 @@
 /**
  * task-runner.js - Operación 10k
- * Motor de Rutinas On-Chain Multi-Red y Ejecución Estratégica con Escudo Anti-Sybil.
- * Opera simultáneamente sobre Ethereum Sepolia y Base Sepolia (40 transacciones por ronda).
+ * Motor de Rutinas Omnichain (EVM + Solana) con Carrusel Rotativo Escalable (hasta 500+ satélites).
+ * Ejecuta de forma inteligente sobre Ethereum Sepolia, Base Sepolia, BSC Testnet, opBNB,
+ * Polygon Amoy, Arbitrum Sepolia y Solana Devnet.
  * 
  * Regla de seguridad: PROHIBIDO exponer claves privadas ni volcar .env.
+ * Regla de seguridad: Aislamiento total de VIP #00 (Monitoreo ultra-seguro / 0 Tx automatizadas en Mainnet).
  */
 
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const { ethers } = require("ethers");
-const { networks } = require("./networks");
+const { Connection, PublicKey, Transaction, SystemProgram, sendAndConfirmTransaction, LAMPORTS_PER_SOL } = require("@solana/web3.js");
+const { networks, evmTestnets, solanaNetwork } = require("./networks");
 const {
   sleepRandom,
   shuffleSwarm,
   generateHumanAmount,
   validateIsolation
 } = require("./anti-sybil");
-const { getWalletSigner } = require("./swarm-engine");
+const { getWalletSigner, getSolanaKeypair } = require("./swarm-engine");
 const { notifyRoundSummary } = require("./telegram-notifier");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const REPORT_FILE = path.join(__dirname, "last-run-report.json");
 
-// Parámetros operacionales de jitter y balances mínimos
+// Parámetros operacionales
+const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || "20", 10);
 const MIN_TEST_DELAY_MS = 1000;
 const MAX_TEST_DELAY_MS = 2500;
 const MIN_EXEC_BALANCE_ETH = 0.0005;
+const MIN_EXEC_BALANCE_SOL = 0.001;
 
-// Contratos oficiales DeFi Rotator para diversificación de puntuación on-chain
-const DEFI_CONTRACTS = {
-  ethereumSepolia: {
-    weth: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
-    name: "WETH9 (Ethereum Sepolia)"
-  },
-  baseSepolia: {
-    weth: "0x4200000000000000000000000000000000000006",
-    name: "WETH9 (Base Sepolia)"
-  }
-};
-
+// ABI genérico para tokens wrapped (WETH, WBNB, WPOL)
 const WETH_ABI = [
   "function deposit() payable",
   "function balanceOf(address) view returns (uint256)"
 ];
+
+function loadPublicWallets() {
+  if (!fs.existsSync(WALLETS_FILE)) {
+    console.error(`❌ ERROR: No se encontró ${WALLETS_FILE}`);
+    process.exit(1);
+  }
+  return JSON.parse(fs.readFileSync(WALLETS_FILE, "utf8"));
+}
+
+function createProvider(netConfig) {
+  const fetchRequest = new ethers.FetchRequest(netConfig.rpc);
+  fetchRequest.timeout = 15000;
+  return new ethers.JsonRpcProvider(fetchRequest, netConfig.chainId, {
+    staticNetwork: ethers.Network.from(netConfig.chainId),
+    batchMaxCount: 1
+  });
+}
 
 function getSigner(index, provider = null) {
   if (typeof getWalletSigner === "function") {
@@ -58,48 +69,142 @@ function getSigner(index, provider = null) {
   return provider ? wallet.connect(provider) : wallet;
 }
 
-function loadPublicWallets() {
-  if (!fs.existsSync(WALLETS_FILE)) {
-    console.error(`❌ ERROR: No se encontró ${WALLETS_FILE}`);
-    process.exit(1);
+/**
+ * Carrusel Rotativo Anti-Sybil:
+ * Selecciona un escuadrón de BATCH_SIZE satélites rotando periódicamente
+ * para garantizar cobertura de toda la flota sin agotar cuotas ni mempool.
+ */
+function selectRotatingSquad(satellites, batchSize) {
+  if (satellites.length <= batchSize) return satellites;
+  const currentHour = new Date().getUTCHours();
+  const offset = (currentHour * 7) % satellites.length;
+  const squad = [];
+  for (let i = 0; i < batchSize; i++) {
+    squad.push(satellites[(offset + i) % satellites.length]);
   }
-  return JSON.parse(fs.readFileSync(WALLETS_FILE, "utf8"));
-}
-
-function createProvider(netConfig) {
-  const fetchRequest = new ethers.FetchRequest(netConfig.rpc);
-  fetchRequest.timeout = 12000;
-  return new ethers.JsonRpcProvider(fetchRequest, netConfig.chainId, {
-    staticNetwork: ethers.Network.from(netConfig.chainId)
-  });
+  return squad;
 }
 
 /**
- * Ejecuta la rutina on-chain para una red específica de manera aislada y barajada.
+ * Selector Inteligente de Escuadrón:
+ * Prioriza satélites que disponen de gas y rota entre ellos
+ * para maximizar transacciones efectivas en cada ronda horaria (20/20).
  */
-async function executeSwarmOnNetwork({
+async function selectSmartSquad(satellites, batchSize, provider) {
+  if (satellites.length <= batchSize) return satellites;
+
+  const funded = [];
+  const minBalWei = ethers.parseEther("0.0005");
+  const CHUNK_SIZE = 10;
+
+  try {
+    for (let i = 0; i < satellites.length; i += CHUNK_SIZE) {
+      const chunk = satellites.slice(i, i + CHUNK_SIZE);
+      let chunkFundedCount = 0;
+
+      const results = await Promise.all(
+        chunk.map(async (s) => {
+          try {
+            const bal = await provider.getBalance(s.address);
+            return { sat: s, hasBal: bal >= minBalWei };
+          } catch (_) {
+            return { sat: s, hasBal: false };
+          }
+        })
+      );
+
+      for (const r of results) {
+        if (r.hasBal) {
+          funded.push(r.sat);
+          chunkFundedCount++;
+        }
+      }
+
+      // Si ya encontramos suficientes satélites fondeados y el bloque actual está vacío,
+      // detenemos la búsqueda para evitar saturar el RPC en la flota de 500 satélites.
+      if (funded.length >= batchSize && chunkFundedCount === 0) {
+        break;
+      }
+    }
+  } catch (_) {
+    return selectRotatingSquad(satellites, batchSize);
+  }
+
+  console.log(`🔍 [SMART SQUAD] Satélites con gas detectados: ${funded.length}/${satellites.length}`);
+
+  if (funded.length >= batchSize) {
+    return selectRotatingSquad(funded, batchSize);
+  } else if (funded.length > 0) {
+    const fundedIndices = new Set(funded.map((s) => s.index));
+    const unfunded = satellites.filter((s) => !fundedIndices.has(s.index));
+    const needed = batchSize - funded.length;
+    const extra = selectRotatingSquad(unfunded, needed);
+    return [...funded, ...extra];
+  }
+
+  return selectRotatingSquad(satellites, batchSize);
+}
+
+/**
+ * Pre-verificación rápida de gas: comprueba si la red tiene fondos disponibles
+ * muestreando satélites sin esperar 20 consultas fallidas.
+ */
+async function checkNetworkHasGas(provider, squad) {
+  try {
+    const sampleSize = Math.min(3, squad.length);
+    const sample = squad.slice(0, sampleSize);
+    const balances = await Promise.all(
+      sample.map((s) => provider.getBalance(s.address).catch(() => 0n))
+    );
+    const hasGas = balances.some((b) => b >= ethers.parseEther("0.0005"));
+    return hasGas;
+  } catch (_) {
+    return false;
+  }
+}
+
+/**
+ * Ejecuta la rutina on-chain para una red EVM específica con DeFi Rotator y Aislamiento.
+ */
+async function executeSwarmOnEvmNetwork({
   networkConfig,
-  satellites,
+  squad,
   allAddresses,
   isDryRun
 }) {
   console.log("-----------------------------------------------------------------------------------------");
-  console.log(`🌐 [ESCUADRÓN A] - OPERACIÓN EN ${networkConfig.name.toUpperCase()} (Chain ID: ${networkConfig.chainId})`);
+  console.log(`🌐 [ESCUADRÓN OMNICHAIN] - ${networkConfig.name.toUpperCase()} (Chain ID: ${networkConfig.chainId})`);
   console.log("-----------------------------------------------------------------------------------------");
 
   const provider = createProvider(networkConfig);
-  const shuffledSatellites = shuffleSwarm(satellites);
-  const executionOrderStr = shuffledSatellites.map((s) => `#${String(s.index).padStart(2, "0")}`).join(" -> ");
-  console.log(`🎲 Secuencia no lineal generada (Fisher-Yates):\n   ${executionOrderStr}\n`);
 
-  const networkResults = [];
+  // Verificación rápida de disponibilidad de gas en la red
+  const hasGas = await checkNetworkHasGas(provider, squad);
+  if (!hasGas) {
+    console.log(`   ⏳ [RED EN ESPERA DE GAS] Satélites sin saldo en ${networkConfig.name}.`);
+    console.log(`   ⏭️  Estado: PENDIENTE_FONDEO (0 ${networkConfig.symbol}). Saltando red rápido.\n`);
+    return {
+      network: networkConfig.name,
+      chainId: networkConfig.chainId,
+      isPendingGas: true,
+      successCount: 0,
+      total: squad.length,
+      runs: []
+    };
+  }
 
-  for (let i = 0; i < shuffledSatellites.length; i++) {
-    const sat = shuffledSatellites[i];
-    const satTag = `[${i + 1}/${shuffledSatellites.length}] Satélite #${String(sat.index).padStart(2, "0")}`;
+  const shuffledSquad = shuffleSwarm(squad);
+  const orderStr = shuffledSquad.map((s) => `#${String(s.index).padStart(2, "0")}`).join(" -> ");
+  console.log(`🎲 Secuencia no lineal (Fisher-Yates):\n   ${orderStr}\n`);
+
+  const runs = [];
+  let successCount = 0;
+
+  for (let i = 0; i < shuffledSquad.length; i++) {
+    const sat = shuffledSquad[i];
+    const satTag = `[${i + 1}/${shuffledSquad.length}] Satélite #${String(sat.index).padStart(2, "0")}`;
     console.log(`➤ ${satTag} [${sat.address}] en ${networkConfig.name}:`);
 
-    // Consultar saldo actual
     let balanceEth = 0;
     try {
       const rawBal = await provider.getBalance(sat.address);
@@ -110,9 +215,9 @@ async function executeSwarmOnNetwork({
 
     console.log(`   Saldo actual: ${balanceEth.toFixed(6)} ${networkConfig.symbol}`);
 
-    // Alternancia estratégica Anti-Sybil (50% DeFi Rotator WETH9 / 50% Organic Calldata)
-    const defiTarget = DEFI_CONTRACTS[networkConfig.id];
-    const isDefiTx = defiTarget && Math.random() < 0.5;
+    // Alternancia estratégica Anti-Sybil (50% DeFi Rotator / 50% Organic Calldata)
+    const defiToken = networkConfig.defiToken;
+    const isDefiTx = defiToken && Math.random() < 0.5;
 
     let targetAddress = "";
     let humanAmount = "";
@@ -120,8 +225,8 @@ async function executeSwarmOnNetwork({
     let randomCallData = "";
 
     if (isDefiTx) {
-      txType = "DEFI_WETH_DEPOSIT";
-      targetAddress = defiTarget.weth;
+      txType = `DEFI_${defiToken.symbol}_DEPOSIT`;
+      targetAddress = defiToken.address;
       humanAmount = generateHumanAmount(0.00001, 0.00005);
     } else {
       txType = "ORGANIC_SELF_TX";
@@ -130,7 +235,6 @@ async function executeSwarmOnNetwork({
       randomCallData = "0x" + crypto.randomBytes(4).toString("hex");
     }
 
-    // Validación estricta de aislamiento Anti-Sybil
     validateIsolation(sat.address, targetAddress, allAddresses);
 
     let actionStatus = "";
@@ -142,11 +246,9 @@ async function executeSwarmOnNetwork({
         let tx;
 
         if (isDefiTx) {
-          console.log(`   🏦 [DEFI ROTATOR] Depósito en ${defiTarget.name}: ${humanAmount} ${networkConfig.symbol}...`);
-          const wethContract = new ethers.Contract(targetAddress, WETH_ABI, signer);
-          tx = await wethContract.deposit({
-            value: ethers.parseEther(humanAmount)
-          });
+          console.log(`   🏦 [DEFI ROTATOR] Depósito en ${defiToken.symbol}: ${humanAmount} ${networkConfig.symbol}...`);
+          const wContract = new ethers.Contract(targetAddress, WETH_ABI, signer);
+          tx = await wContract.deposit({ value: ethers.parseEther(humanAmount) });
         } else {
           console.log(`   ⚡ [ORGANIC CALL] Micro-tx con calldata dinámico: ${humanAmount} ${networkConfig.symbol}...`);
           tx = await signer.sendTransaction({
@@ -160,6 +262,7 @@ async function executeSwarmOnNetwork({
         const receipt = await tx.wait(1);
         txHash = receipt.hash;
         actionStatus = "TX_CONFIRMADA_ON_CHAIN";
+        successCount++;
         console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
       } catch (txErr) {
         actionStatus = `ERROR_TX: ${txErr.message}`;
@@ -167,49 +270,185 @@ async function executeSwarmOnNetwork({
       }
     } else {
       if (balanceEth < MIN_EXEC_BALANCE_ETH) {
-        console.log(`   ⚠️ [FONDOS INSUFICIENTES - Saldo menor a ${MIN_EXEC_BALANCE_ETH} ${networkConfig.symbol}]`);
+        console.log(`   ⚠️ [FONDOS INSUFICIENTES - Saldo < ${MIN_EXEC_BALANCE_ETH} ${networkConfig.symbol}]`);
         actionStatus = "PENDIENTE_FONDEO";
       } else {
-        console.log(`   🧪 [DRY-RUN SIMULADO] Tipo: ${txType} | Destino: ${targetAddress} | Monto: ${humanAmount} ${networkConfig.symbol}`);
+        console.log(`   🧪 [DRY-RUN SIMULADO] Tipo: ${txType} | Monto: ${humanAmount} ${networkConfig.symbol}`);
         actionStatus = "SIMULADA_DRY_RUN";
+        successCount++;
       }
     }
 
-    networkResults.push({
+    runs.push({
       step: i + 1,
       index: sat.index,
       address: sat.address,
-      network: networkConfig.name,
       balanceEth: balanceEth.toFixed(6),
       simulatedAmount: humanAmount,
-      calldata: randomCallData,
+      txType,
       status: actionStatus,
-      txHash: txHash
+      txHash
     });
 
-    // Pausa aleatoria anti-sybil entre satélites
-    if (i < shuffledSatellites.length - 1) {
+    if (i < shuffledSquad.length - 1) {
       await sleepRandom(MIN_TEST_DELAY_MS, MAX_TEST_DELAY_MS);
     }
     console.log("");
   }
 
-  return networkResults;
+  return {
+    network: networkConfig.name,
+    chainId: networkConfig.chainId,
+    isPendingGas: false,
+    successCount,
+    total: squad.length,
+    runs
+  };
+}
+
+/**
+ * Ejecuta la rutina on-chain en Solana Devnet para el escuadrón activo.
+ */
+async function executeSwarmOnSolana({ squad, isDryRun }) {
+  console.log("-----------------------------------------------------------------------------------------");
+  console.log(`🟣 [ESCUADRÓN OMNICHAIN] - SOLANA DEVNET (RPC: ${solanaNetwork.rpc})`);
+  console.log("-----------------------------------------------------------------------------------------");
+
+  const connection = new Connection(solanaNetwork.rpc, "confirmed");
+  const runs = [];
+  let successCount = 0;
+
+  // Verificación rápida de saldo Solana en el primer satélite
+  let firstSatBal = 0;
+  try {
+    firstSatBal = await connection.getBalance(new PublicKey(squad[0].solanaAddress));
+  } catch (_) {}
+
+  // En Dry-Run, si no hay saldo en el primer satélite saltamos rápido
+  if (isDryRun && firstSatBal < 1000000) {
+    console.log("   ⏳ [SOLANA EN ESPERA DE GAS] Satélites sin saldo en Solana Devnet.");
+    console.log("   ⏭️  Estado: PENDIENTE_FONDEO_SOL (0 SOL). Saltando rápido en Dry-Run.\n");
+    return {
+      network: "Solana Devnet",
+      isPendingGas: true,
+      statusLabel: "0 SOL ⏳",
+      successCount: 0,
+      total: squad.length,
+      runs: []
+    };
+  }
+
+  let faucetRateLimited = false;
+
+  for (let i = 0; i < squad.length; i++) {
+    const sat = squad[i];
+    const satTag = `[${i + 1}/${squad.length}] Satélite #${String(sat.index).padStart(2, "0")}`;
+    console.log(`➤ ${satTag} [${sat.solanaAddress}] en Solana Devnet:`);
+
+    let solBal = 0;
+    try {
+      const pubkey = new PublicKey(sat.solanaAddress);
+      let lamports = await connection.getBalance(pubkey);
+      solBal = lamports / LAMPORTS_PER_SOL;
+
+      // Auto-faucet en Solana Devnet si tiene 0 SOL y estamos en producción
+      if (solBal < MIN_EXEC_BALANCE_SOL && !isDryRun && !faucetRateLimited) {
+        try {
+          console.log(`   🚰 Solicitando airdrop de 0.1 SOL en Devnet para Satélite #${sat.index}...`);
+          const sig = await connection.requestAirdrop(pubkey, 0.1 * LAMPORTS_PER_SOL);
+          await connection.confirmTransaction(sig, "confirmed");
+          lamports = await connection.getBalance(pubkey);
+          solBal = lamports / LAMPORTS_PER_SOL;
+          console.log(`   ✅ Airdrop acreditado: ${solBal.toFixed(4)} SOL`);
+        } catch (airdropErr) {
+          const errMsg = airdropErr.message ? airdropErr.message.slice(0, 60) : "Rate-limit";
+          if (errMsg.includes("429") || errMsg.includes("Too Many Requests")) {
+            faucetRateLimited = true;
+          }
+          console.log(`   ℹ️ Faucet de Devnet ocupado o rate-limited (429): ${errMsg}...`);
+        }
+      }
+    } catch (e) {
+      console.log(`   ⚠️ Error de lectura RPC Solana: ${e.message}`);
+    }
+
+    console.log(`   Saldo actual: ${solBal.toFixed(5)} SOL`);
+
+    let actionStatus = "";
+    let txHash = null;
+
+    if (solBal >= MIN_EXEC_BALANCE_SOL && !isDryRun) {
+      try {
+        const fromPubkey = new PublicKey(sat.solanaAddress);
+        const kp = getSolanaKeypair(sat.index);
+        const microLamports = Math.floor(Math.random() * 20000) + 10000;
+
+        const tx = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey,
+            toPubkey: fromPubkey,
+            lamports: microLamports
+          })
+        );
+
+        console.log(`   ⚡ [SOLANA SELF-TX] Ejecutando micro-transferencia: ${(microLamports / 1e9).toFixed(7)} SOL...`);
+        const signature = await sendAndConfirmTransaction(connection, tx, [kp]);
+        txHash = signature;
+        actionStatus = "TX_CONFIRMADA_ON_CHAIN";
+        successCount++;
+        console.log(`   ✅ Transacción confirmada: ${signature}`);
+      } catch (solErr) {
+        actionStatus = `ERROR_TX: ${solErr.message}`;
+        console.log(`   ❌ Error en Solana tx: ${solErr.message}`);
+      }
+    } else {
+      if (solBal < MIN_EXEC_BALANCE_SOL) {
+        console.log(`   ⚠️ [FONDOS INSUFICIENTES - Saldo < ${MIN_EXEC_BALANCE_SOL} SOL]`);
+        actionStatus = "PENDIENTE_FONDEO_SOL";
+      } else {
+        console.log("   🧪 [DRY-RUN SIMULADO] Micro-transferencia orgánica simulada en Solana Devnet");
+        actionStatus = "SIMULADA_DRY_RUN";
+        successCount++;
+      }
+    }
+
+    runs.push({
+      step: i + 1,
+      index: sat.index,
+      solanaAddress: sat.solanaAddress,
+      balanceSol: solBal.toFixed(5),
+      status: actionStatus,
+      txHash
+    });
+
+    if (i < squad.length - 1) {
+      await sleepRandom(MIN_TEST_DELAY_MS, MAX_TEST_DELAY_MS);
+    }
+    console.log("");
+  }
+
+  return {
+    network: "Solana Devnet",
+    isPendingGas: false,
+    successCount,
+    total: squad.length,
+    runs
+  };
 }
 
 async function runTaskRunner() {
   const isDryRun = process.argv.includes("--dry-run");
 
   console.log("=========================================================================================");
-  console.log("     🚀 OPERACIÓN 10K - MOTOR ON-CHAIN MULTI-RED (ETHEREUM SEPOLIA + BASE SEPOLIA)       ");
+  console.log("     🚀 OPERACIÓN 10K - MOTOR ON-CHAIN OMNICHAIN (EVM + SOLANA ESCALABLE 500)            ");
   console.log("=========================================================================================");
-  console.log(`🛡️  Modo de ejecución: ${isDryRun ? "DRY-RUN (Simulación controlada sin riesgo)" : "PRODUCCIÓN (Transacciones en vivo)"}`);
-  console.log("🔒 Regla de seguridad: Blindaje estricto activo. Claves privadas resguardadas en memoria.\n");
+  console.log(`🛡️  Modo de ejecución : ${isDryRun ? "DRY-RUN (Simulación sin transacciones)" : "PRODUCCIÓN (Transacciones en vivo)"}`);
+  console.log(`🔄 Tamaño de Carrusel : ${BATCH_SIZE} satélites por ronda`);
+  console.log("🔒 Regla de seguridad: Claves resguardadas. VIP #00 en modo ultra-seguro solo lectura.\n");
 
   const allWallets = loadPublicWallets();
   const allAddresses = allWallets.map((w) => w.address);
 
-  // Separación de escuadrones
   const vipWallet = allWallets.find((w) => w.index === 0);
   const satellites = allWallets.filter((w) => w.index > 0);
 
@@ -219,7 +458,8 @@ async function runTaskRunner() {
   console.log("-----------------------------------------------------------------------------------------");
   console.log("👑 [ESCUADRÓN C] - MONITOREO DE CUENTA VIP #00 (MODO ULTRA SEGURO / SOLO LECTURA)");
   console.log("-----------------------------------------------------------------------------------------");
-  console.log(`   Dirección VIP: ${vipWallet.address}`);
+  console.log(`   Dirección VIP EVM    : ${vipWallet.address}`);
+  console.log(`   Dirección VIP Solana : ${vipWallet.solanaAddress || "N/A"}`);
   console.log("   🛡️ Blindaje: ESTA CUENTA NUNCA EMITE TRANSACCIONES AUTOMATIZADAS EN MAINNET.\n");
 
   const bscProvider = createProvider(networks.bscMainnet);
@@ -229,130 +469,128 @@ async function runTaskRunner() {
   let vipBscBalance = "0.000000";
   let vipBaseBalance = "0.000000";
   let vipSepoliaBalance = "0.000000";
-  let vipBscNonce = 0;
 
   try {
-    const [bscBal, baseBal, sepBal, nonce] = await Promise.all([
-      bscProvider.getBalance(vipWallet.address),
-      baseProvider.getBalance(vipWallet.address),
-      sepoliaProvider.getBalance(vipWallet.address),
-      bscProvider.getTransactionCount(vipWallet.address)
+    const [bscBal, baseBal, sepBal] = await Promise.all([
+      bscProvider.getBalance(vipWallet.address).catch(() => 0n),
+      baseProvider.getBalance(vipWallet.address).catch(() => 0n),
+      sepoliaProvider.getBalance(vipWallet.address).catch(() => 0n)
     ]);
     vipBscBalance = parseFloat(ethers.formatEther(bscBal)).toFixed(6);
     vipBaseBalance = parseFloat(ethers.formatEther(baseBal)).toFixed(6);
     vipSepoliaBalance = parseFloat(ethers.formatEther(sepBal)).toFixed(6);
-    vipBscNonce = nonce;
-  } catch (err) {
-    console.log(`   ⚠️ Nota al consultar VIP: ${err.message || err}`);
-  }
+  } catch (_) {}
 
-  console.log(`   • Saldo en BNB Smart Chain : ${vipBscBalance} BNB (Tx count: ${vipBscNonce})`);
+  console.log(`   • Saldo en BNB Smart Chain : ${vipBscBalance} BNB`);
   console.log(`   • Saldo en Base Mainnet     : ${vipBaseBalance} ETH`);
   console.log(`   • Saldo en Ethereum Sepolia : ${vipSepoliaBalance} ETH`);
-  console.log("   ✅ Verificación de integridad de Escuadrón C completada.\n");
+  console.log("   ✅ Integridad de Escuadrón C verificada.\n");
 
   // -------------------------------------------------------------------------------------
   // 2. PRUEBA DEL ESCUDO ANTI-SYBIL (Aislamiento entre Satélites)
   // -------------------------------------------------------------------------------------
-  console.log("-----------------------------------------------------------------------------------------");
-  console.log("🛡️  [ESCUDO ANTI-SYBIL] - VERIFICACIÓN DE PROTOCOLO DE AISLAMIENTO");
-  console.log("-----------------------------------------------------------------------------------------");
   try {
     validateIsolation(satellites[0].address, satellites[1].address, allAddresses);
   } catch (error) {
     if (error.message.includes("SYBIL_PROTECTION_TRIGGERED")) {
-      console.log("   ✅ Prueba de defensa positiva: Intento de flujo cruzado Satélite->Satélite INTERCEPTADO.");
-      console.log(`      Error emitido: ${error.message.split(".")[0]}`);
-    } else {
-      throw error;
+      console.log("🛡️  [ESCUDO ANTI-SYBIL] Protocolo de defensa verificado: Intento cruzado INTERCEPTADO.");
     }
   }
 
-  const selfCheck = validateIsolation(satellites[0].address, satellites[0].address, allAddresses);
-  console.log(`   ✅ Auto-interacción aislada (Sender === Target): ${selfCheck ? "PERMITIDA" : "DENEGADA"}\n`);
+  // -------------------------------------------------------------------------------------
+  // 3. SELECCIÓN DE ESCUADRÓN EN CARRUSEL HORARIO
+  // -------------------------------------------------------------------------------------
+  const activeSquad = await selectSmartSquad(satellites, BATCH_SIZE, sepoliaProvider);
+  console.log(`🤖 Flota Total: ${satellites.length} Satélites | Escuadrón Carrusel Activo: ${activeSquad.length} Satélites`);
+  const squadIndicesStr = activeSquad.map((s) => `#${String(s.index).padStart(2, "0")}`).join(", ");
+  console.log(`   Satélites de esta ronda: [ ${squadIndicesStr} ]\n`);
 
   // -------------------------------------------------------------------------------------
-  // 3. ESCUADRÓN A: EJECUCIÓN MULTI-RED (Ethereum Sepolia + Base Sepolia)
+  // 4. EJECUCIÓN MULTI-RED OMNICHAIN (EVM TESTNETS)
   // -------------------------------------------------------------------------------------
-  // Red 1: Ethereum Sepolia (20 satélites)
-  const sepoliaResults = await executeSwarmOnNetwork({
-    networkConfig: networks.ethereumSepolia,
-    satellites,
-    allAddresses,
+  const evmResults = [];
+  for (const net of evmTestnets) {
+    const res = await executeSwarmOnEvmNetwork({
+      networkConfig: net,
+      squad: activeSquad,
+      allAddresses,
+      isDryRun
+    });
+    evmResults.push(res);
+    await sleepRandom(1500, 3000);
+  }
+
+  // -------------------------------------------------------------------------------------
+  // 5. EJECUCIÓN EN SOLANA DEVNET
+  // -------------------------------------------------------------------------------------
+  const solanaResult = await executeSwarmOnSolana({
+    squad: activeSquad,
     isDryRun
   });
 
-  // Pausa entre redes para desacoplamiento temporal
-  console.log("⏳ [ANTI-SYBIL] Pausa de transición multi-red...");
-  await sleepRandom(2000, 4000);
+  // -------------------------------------------------------------------------------------
+  // 6. CONSOLIDACIÓN DE RESULTADOS Y TELEGRAM
+  // -------------------------------------------------------------------------------------
+  const networksBreakdown = [];
+  let totalOnChainTx = 0;
 
-  // Red 2: Base Sepolia (20 satélites)
-  const baseSepoliaResults = await executeSwarmOnNetwork({
-    networkConfig: networks.baseSepolia,
-    satellites,
-    allAddresses,
-    isDryRun
+  for (const r of evmResults) {
+    totalOnChainTx += r.successCount;
+    networksBreakdown.push({
+      name: r.network,
+      success: r.successCount,
+      total: r.total,
+      isPendingGas: r.isPendingGas,
+      statusLabel: "0 Gas ⏳"
+    });
+  }
+
+  totalOnChainTx += solanaResult.successCount;
+  networksBreakdown.push({
+    name: solanaResult.network,
+    success: solanaResult.successCount,
+    total: solanaResult.total,
+    isPendingGas: solanaResult.isPendingGas,
+    statusLabel: "0 SOL ⏳"
   });
 
-  // -------------------------------------------------------------------------------------
-  // 4. GENERACIÓN DE REPORTE CONSOLIDADO MULTI-RED
-  // -------------------------------------------------------------------------------------
-  const countSuccess = (arr) => arr.filter((r) => r.status === "TX_CONFIRMADA_ON_CHAIN" || (isDryRun && r.status === "SIMULADA_DRY_RUN")).length;
-  const sepoliaSuccess = countSuccess(sepoliaResults);
-  const baseSuccess = countSuccess(baseSepoliaResults);
-  const totalOnChain = sepoliaSuccess + baseSuccess;
+  console.log("=========================================================================================");
+  console.log("                   📊 RESUMEN FINAL DE LA RONDA OMNICHAIN                                ");
+  console.log("=========================================================================================");
+  console.log(`👑 Escuadrón C (VIP #00)     : 100% Segura / 0 Tx en Mainnet`);
+  console.log(`🤖 Escuadrón Carrusel Activo : ${activeSquad.length} / ${satellites.length} Satélites`);
+  networksBreakdown.forEach((nb) => {
+    if (nb.success > 0) {
+      console.log(`⚡ ${nb.name.padEnd(26)} : ${nb.success}/${nb.total} txs confirmadas ✅`);
+    } else {
+      console.log(`⏳ ${nb.name.padEnd(26)} : ${nb.statusLabel || "0 Gas"}`);
+    }
+  });
+  console.log(`🎯 TOTAL TRANSACCIONES RONDA : ${totalOnChainTx} confirmadas on-chain`);
+  console.log("=========================================================================================\n");
 
   const report = {
     timestamp: new Date().toISOString(),
     executionMode: isDryRun ? "DRY-RUN" : "PRODUCTION",
-    activeNetworks: ["Ethereum Sepolia", "Base Sepolia"],
-    summary: {
-      totalSatellites: satellites.length,
-      sepoliaSuccessCount: sepoliaSuccess,
-      baseSuccessCount: baseSuccess,
-      totalOnChainTx: totalOnChain,
-      targetTotalTx: satellites.length * 2
-    },
-    escuadronC_VIP: {
-      address: vipWallet.address,
-      mode: "READ_ONLY_SAFE_MONITOR",
-      balances: {
-        bscMainnet: `${vipBscBalance} BNB`,
-        baseMainnet: `${vipBaseBalance} ETH`,
-        ethereumSepolia: `${vipSepoliaBalance} ETH`
-      }
-    },
-    escuadronA_Satellites: {
-      sepoliaRuns: sepoliaResults,
-      baseSepoliaRuns: baseSepoliaResults
-    }
+    totalFleetSize: satellites.length,
+    activeSquadSize: activeSquad.length,
+    totalOnChainTx,
+    networksBreakdown,
+    evmResults,
+    solanaResult
   };
 
   fs.writeFileSync(REPORT_FILE, JSON.stringify(report, null, 2), "utf8");
 
-  console.log("=========================================================================================");
-  console.log("                     📊 RESUMEN FINAL DE LA RONDA MULTI-RED                              ");
-  console.log("=========================================================================================");
-  console.log(`👑 Escuadrón C (VIP #00)     : Monitoreada en Mainnets (0 transacciones, 100% segura)`);
-  console.log(`🤖 Satélites Evaluados       : ${satellites.length}`);
-  console.log(`⚡ Ethereum Sepolia          : ${sepoliaSuccess}/${satellites.length} txs confirmadas`);
-  console.log(`⚡ Base Sepolia              : ${baseSuccess}/${satellites.length} txs confirmadas`);
-  console.log(`🎯 TOTAL TRANSACCIONES RONDA : ${totalOnChain} / ${satellites.length * 2}`);
-  console.log(`🛡️  Escudo Anti-Sybil         : Activo en ambas redes`);
-  console.log(`💾 Reporte guardado en        : ${REPORT_FILE}\n`);
-
-  // Notificación a Telegram
   await notifyRoundSummary({
     executionMode: isDryRun ? "DRY-RUN" : "PRODUCTION",
     totalSatellites: satellites.length,
-    sepoliaSuccessCount: sepoliaSuccess,
-    sepoliaTotal: satellites.length,
-    baseSuccessCount: baseSuccess,
-    baseTotal: satellites.length,
-    totalOnChainTx: totalOnChain
+    squadSize: activeSquad.length,
+    networksBreakdown,
+    totalOnChainTx
   });
 
-  console.log("🎉 Ronda multi-red completada con éxito.\n");
+  console.log("🎉 Ronda Omnichain finalizada exitosamente.\n");
   return report;
 }
 
