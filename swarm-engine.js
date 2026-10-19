@@ -17,13 +17,13 @@ const { Keypair } = require("@solana/web3.js");
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 
 function getMnemonic() {
-  const rawSeed = process.env.TRUST_WALLET_SEED;
+  const rawSeed = process.env.TRUST_WALLET_SEED || process.env.SWARM_MNEMONIC;
   if (!rawSeed) {
-    throw new Error("❌ TRUST_WALLET_SEED no está definida en el archivo .env");
+    throw new Error("❌ Ni TRUST_WALLET_SEED ni SWARM_MNEMONIC están definidas en el entorno");
   }
   const seedPhrase = rawSeed.trim().replace(/\s+/g, " ");
   if (!ethers.Mnemonic.isValidMnemonic(seedPhrase)) {
-    throw new Error("❌ La frase mnemónica en .env NO es válida según el estándar BIP-39.");
+    throw new Error("❌ La frase mnemónica en el entorno NO es válida según el estándar BIP-39.");
   }
   return ethers.Mnemonic.fromPhrase(seedPhrase);
 }

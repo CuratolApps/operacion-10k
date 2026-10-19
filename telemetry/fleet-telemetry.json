@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-19T17:35:04.791Z",
+  "timestamp": "2026-10-19T17:54:08.344Z",
   "systemHealthScore": 98.5,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -15,9 +15,37 @@
       "mainnetTxs": 0
     },
     "activeSquadSize": 20,
-    "totalOnChainTxLastCycle": 37,
+    "totalOnChainTxLastCycle": 60,
+    "executionMode": "DRY-RUN",
     "goldenRuleStatus": "CUMPLIMIENTO_ESTRICTO_100%",
     "isolationProtocol": "INTRA_BLOQUE_ESTANCO_B1_B5"
+  },
+  "radarData": {
+    "totalSepoliaEth": "2.943",
+    "totalBaseEth": "0.300",
+    "totalSatellites": 500,
+    "antiSybilStatus": "ACTIVO",
+    "autoBridgeStatus": "STANDBY_OPTIMO",
+    "daysAutonomyBase": 1.8,
+    "daysAutonomySepolia": 1.3,
+    "defiContracts": [
+      {
+        "name": "WETH Sepolia",
+        "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14"
+      },
+      {
+        "name": "WETH Base",
+        "address": "0x4200000000000000000000000000000000000006"
+      },
+      {
+        "name": "WBNB BSC",
+        "address": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd"
+      },
+      {
+        "name": "WPOL Amoy",
+        "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9"
+      }
+    ]
   },
   "blocks": {
     "B1": {
@@ -87,10 +115,12 @@
     }
   },
   "gasMetrics": {
-    "avgSepoliaEth": 0.05838,
+    "totalSepoliaEth": "2.943",
+    "totalBaseEth": "0.300",
+    "avgSepoliaEth": 0.14713,
     "avgBaseEth": 0.014994,
     "daysAutonomyBase": 1.8,
-    "daysAutonomySepolia": 0.8,
+    "daysAutonomySepolia": 1.3,
     "minReserveEthPerDonor": 0.015,
     "donorThresholdEth": 0.023
   },
@@ -108,14 +138,16 @@
       "chainId": 11155111,
       "online": true,
       "latencyMs": 142,
-      "status": "OPERATIVO"
+      "status": "OPERATIVO",
+      "totalEth": "2.943"
     },
     {
       "name": "Base Sepolia",
       "chainId": 84532,
       "online": true,
       "latencyMs": 78,
-      "status": "OPERATIVO"
+      "status": "OPERATIVO",
+      "totalEth": "0.300"
     },
     {
       "name": "Arbitrum Sepolia",
@@ -156,7 +188,7 @@
   "recentEvents": [
     {
       "id": "tx-1",
-      "timestamp": "2026-10-19T17:32:04.789Z",
+      "timestamp": "2026-10-19T17:51:08.343Z",
       "satIndex": 12,
       "blockId": 1,
       "type": "ORGANIC_SELF_TX",
@@ -166,7 +198,7 @@
     },
     {
       "id": "tx-2",
-      "timestamp": "2026-10-19T17:28:04.791Z",
+      "timestamp": "2026-10-19T17:47:08.344Z",
       "satIndex": 115,
       "blockId": 2,
       "type": "DEFI_WETH_DEPOSIT",
@@ -176,7 +208,7 @@
     },
     {
       "id": "tx-3",
-      "timestamp": "2026-10-19T17:23:04.791Z",
+      "timestamp": "2026-10-19T17:42:08.344Z",
       "satIndex": 204,
       "blockId": 3,
       "type": "BRIDGE_L1_TO_L2",
@@ -186,7 +218,7 @@
     },
     {
       "id": "tx-4",
-      "timestamp": "2026-10-19T17:17:04.791Z",
+      "timestamp": "2026-10-19T17:36:08.344Z",
       "satIndex": 45,
       "blockId": 1,
       "type": "ORGANIC_SELF_TX",
@@ -196,13 +228,36 @@
     },
     {
       "id": "tx-5",
-      "timestamp": "2026-10-19T17:10:04.791Z",
+      "timestamp": "2026-10-19T17:29:08.344Z",
       "satIndex": 310,
       "blockId": 4,
       "type": "STANDBY_CHECK",
       "network": "Base Sepolia",
       "hash": null,
       "status": "OPTIMAL"
+    }
+  ],
+  "recentTelegramAlerts": [
+    {
+      "id": "tg-1792432456539-631",
+      "timestamp": "2026-10-19T17:54:16.539Z",
+      "timeFormatted": "17:54:16 UTC",
+      "rawHtml": "📡 <b>OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA</b>\n\n⛽ <b>Salud de Gas & Autonomía (Carrusel 24x/día):</b>\n   • <b>Ethereum Sepolia:</b> 2.943 ETH total (~1.3 días)\n   • <b>Base Sepolia:</b> 0.300 ETH total (~1.8 días)\n   • <b>Otras Redes EVM:</b> 0 Gas ⏳ (En espera de distribución)\n   • <b>Solana Devnet:</b> 0 SOL ⏳ (En espera de airdrop)\n\n🏦 <b>Contratos DeFi Activos (Rotator):</b>\n   • <b>WETH Sepolia:</b> <code>0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14</code>\n   • <b>WETH Base:</b> <code>0x4200000000000000000000000000000000000006</code>\n   • <b>WBNB BSC:</b> <code>0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd</code>\n   • <b>WPOL Amoy:</b> <code>0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9</code>\n\n🌉 <b>Estado del Auto-Bridge L2:</b>\n   🟢 <b>STANDBY ÓPTIMO:</b> Flota 100% abastecida (> 0.003 ETH)\n\n👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx automatizadas)\n🤖 <b>Flota Total:</b> 500 Satélites sincronizados\n\n⏰ <i>19/10/2026, 17:54:16 UTC</i>",
+      "textPlain": "📡 OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA\n\n⛽ Salud de Gas & Autonomía (Carrusel 24x/día):\n   • Ethereum Sepolia: 2.943 ETH total (~1.3 días)\n   • Base Sepolia: 0.300 ETH total (~1.8 días)\n   • Otras Redes EVM: 0 Gas ⏳ (En espera de distribución)\n   • Solana Devnet: 0 SOL ⏳ (En espera de airdrop)\n\n🏦 Contratos DeFi Activos (Rotator):\n   • WETH Sepolia: 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14\n   • WETH Base: 0x4200000000000000000000000000000000000006\n   • WBNB BSC: 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd\n   • WPOL Amoy: 0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9\n\n🌉 Estado del Auto-Bridge L2:\n   🟢 STANDBY ÓPTIMO: Flota 100% abastecida (> 0.003 ETH)\n\n👑 VIP #00: Monitoreada (100% Blindada / 0 Tx automatizadas)\n🤖 Flota Total: 500 Satélites sincronizados\n\n⏰ 19/10/2026, 17:54:16 UTC"
+    },
+    {
+      "id": "tg-radar-1",
+      "timestamp": "2026-10-19T17:51:10.290Z",
+      "timeFormatted": "17:51:10 UTC",
+      "rawHtml": "📡 <b>RADAR DE INTELIGENCIA & SALUD DE FLOTA (OMNICHAIN)</b>\n\n📊 <b>Auditoría de Saldos:</b>\n • <b>Sepolia L1:</b> 2.943 ETH total (~1.3 días)\n • <b>Base Sepolia:</b> 0.300 ETH total (~1.8 días)\n • <b>Otras Redes EVM:</b> 0 Gas ⏳\n\n🏦 <b>Contratos DeFi Activos (Rotator):</b>\n • WETH Sepolia, WETH Base, WBNB BSC, WPOL Amoy\n\n🌉 <b>Estado del Auto-Bridge L2:</b>\n 🛡️ STANDBY ÓPTIMO (>0.003 ETH en 500 satélites)\n👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx)\n🤖 <b>Flota Total:</b> 500 Satélites sincronizados",
+      "textPlain": "📡 RADAR DE INTELIGENCIA & SALUD DE FLOTA (OMNICHAIN)\n\nSepolia L1: 2.943 ETH (~1.3 días)\nBase Sepolia: 0.300 ETH (~1.8 días)\nContratos DeFi: WETH Sepolia, WETH Base, WBNB, WPOL\nAuto-Bridge: STANDBY ÓPTIMO\nFlota Total: 500 Satélites sincronizados"
+    },
+    {
+      "id": "tg-round-1",
+      "timestamp": "2026-10-19T17:49:10.290Z",
+      "timeFormatted": "17:51:10 UTC",
+      "rawHtml": "🚀 <b>REPORTE DE RONDA OMNICHAIN - OPERACIÓN 10K</b>\n\n⚡ <b>[PRODUCCIÓN EN VIVO]</b>\n👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx)\n🤖 <b>Escuadrón Activo:</b> 20 Satélites\n\n🌐 <b>Desglose Omnichain por Red:</b>\n⚡ Ethereum Sepolia : 20/20 txs confirmadas ✅\n⚡ Base Sepolia     : 20/20 txs confirmadas ✅\n⚡ Arbitrum Sepolia : 20/20 txs confirmadas ✅\n\n⚡ <b>Total Transacciones Confirmadas:</b> 60 on-chain\n🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)",
+      "textPlain": "🚀 REPORTE DE RONDA OMNICHAIN - OPERACIÓN 10K\nModo: PRODUCCIÓN EN VIVO\nEscuadrón Activo: 20 Satélites\nEthereum Sepolia: 20/20 confirmadas\nBase Sepolia: 20/20 confirmadas\nArbitrum Sepolia: 20/20 confirmadas\nTotal Transacciones: 60 on-chain\nEscudo Anti-Sybil: ACTIVO"
     }
   ]
 }

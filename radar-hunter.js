@@ -50,9 +50,9 @@ function getSigner(index, provider = null) {
   if (typeof getWalletSigner === "function") {
     return getWalletSigner(index, provider);
   }
-  const rawSeed = process.env.TRUST_WALLET_SEED;
+  const rawSeed = process.env.TRUST_WALLET_SEED || process.env.SWARM_MNEMONIC;
   if (!rawSeed) {
-    throw new Error("TRUST_WALLET_SEED no está definida en .env");
+    throw new Error("TRUST_WALLET_SEED ni SWARM_MNEMONIC están definidas en el entorno");
   }
   const mnemonic = ethers.Mnemonic.fromPhrase(rawSeed.trim().replace(/\s+/g, " "));
   const wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`);

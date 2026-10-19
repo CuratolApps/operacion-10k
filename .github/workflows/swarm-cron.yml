@@ -48,6 +48,7 @@ jobs:
         run: node swarm-engine.js --only-generate
         env:
           TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+          SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
           SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
 
       - name: 🚀 Ejecutar Motor de Rutinas y Escudo Anti-Sybil
@@ -60,6 +61,7 @@ jobs:
           fi
         env:
           TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+          SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
           SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
           BATCH_SIZE: '20'
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -69,6 +71,7 @@ jobs:
         run: node radar-hunter.js
         env:
           TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+          SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
           SWARM_SIZE: ${{ secrets.SWARM_SIZE || '501' }}
           BATCH_SIZE: '20'
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

@@ -57,9 +57,9 @@ function getSigner(index, provider = null) {
   if (typeof getWalletSigner === "function") {
     return getWalletSigner(index, provider);
   }
-  const rawSeed = process.env.TRUST_WALLET_SEED;
+  const rawSeed = process.env.TRUST_WALLET_SEED || process.env.SWARM_MNEMONIC;
   if (!rawSeed) {
-    throw new Error("TRUST_WALLET_SEED no está definida en .env");
+    throw new Error("TRUST_WALLET_SEED ni SWARM_MNEMONIC están definidas en el entorno");
   }
   const mnemonic = ethers.Mnemonic.fromPhrase(rawSeed.trim().replace(/\s+/g, " "));
   const wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`);
@@ -434,15 +434,16 @@ async function executeSwarmOnSolana({ squad, isDryRun }) {
 }
 
 async function runTaskRunner() {
+  const seedString = process.env.TRUST_WALLET_SEED || process.env.SWARM_MNEMONIC || "";
   let isSeedValid = false;
-  if (process.env.TRUST_WALLET_SEED) {
-    const raw = process.env.TRUST_WALLET_SEED.trim().replace(/\s+/g, " ");
+  if (seedString.trim().length > 0) {
+    const raw = seedString.trim().replace(/\s+/g, " ");
     isSeedValid = ethers.Mnemonic.isValidMnemonic(raw);
   }
   let isDryRun = process.argv.includes("--dry-run");
 
   if (!isSeedValid && !isDryRun) {
-    console.log("⚠️  [TASK RUNNER] TRUST_WALLET_SEED no detectada o inválida (BIP-39). Conmutando automáticamente a modo simulación (Dry-Run resiliente).");
+    console.log("⚠️  [TASK RUNNER] Semilla (TRUST_WALLET_SEED / SWARM_MNEMONIC) no detectada o inválida (BIP-39). Conmutando automáticamente a modo simulación (Dry-Run resiliente).");
     isDryRun = true;
   }
 

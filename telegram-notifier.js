@@ -6,6 +6,42 @@
  */
 
 require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
+
+const ALERTS_LOG_FILE = path.join(__dirname, "telemetry", "telegram-alerts.json");
+const FLEET_TELEMETRY_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+
+function recordTelegramAlert(text) {
+  try {
+    const dir = path.join(__dirname, "telemetry");
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+    let alerts = [];
+    if (fs.existsSync(ALERTS_LOG_FILE)) {
+      try { alerts = JSON.parse(fs.readFileSync(ALERTS_LOG_FILE, "utf8")); } catch (_) {}
+    }
+    const now = new Date();
+    const newEntry = {
+      id: "tg-" + Date.now() + "-" + Math.floor(Math.random() * 1000),
+      timestamp: now.toISOString(),
+      timeFormatted: now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC",
+      rawHtml: text,
+      textPlain: text.replace(/<[^>]*>/g, "")
+    };
+    alerts.unshift(newEntry);
+    if (alerts.length > 30) alerts = alerts.slice(0, 30);
+    fs.writeFileSync(ALERTS_LOG_FILE, JSON.stringify(alerts, null, 2), "utf8");
+
+    if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
+      try {
+        const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
+        tel.recentTelegramAlerts = alerts;
+        fs.writeFileSync(FLEET_TELEMETRY_FILE, JSON.stringify(tel, null, 2), "utf8");
+      } catch (_) {}
+    }
+  } catch (_) {}
+}
 
 function getCleanToken() {
   const raw = process.env.TELEGRAM_BOT_TOKEN || "";
@@ -65,10 +101,11 @@ async function resolveChatId(token = null, timeoutSeconds = 0) {
  * @returns {Promise<boolean>} true si se envió con éxito
  */
 async function sendTelegramAlert(messageText, customChatId = null) {
+  recordTelegramAlert(messageText);
   const token = getCleanToken();
 
   if (!token) {
-    console.log("ℹ️ [Telegram no configurado aún - Saltando alerta móvil]");
+    console.log("ℹ️ [Telegram no configurado aún - Alerta guardada en telemetría local]");
     return false;
   }
 
