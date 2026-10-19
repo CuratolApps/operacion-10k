@@ -10,6 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0" />
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -627,129 +628,127 @@
            5 Tarjetas Exclusivas Simétricas: Naranja, Azul Rey, Verde, Amarillo y Morado
            ============================================================== -->
       <aside class="right-comms-container binance-vaults-sidebar comms-column" id="binanceRightColumn">
-        <div class="comms-title-tag">🏦 BÓVEDAS RECEPTORAS BINANCE (5 DIRECCIONES)</div>
+        <div class="vaults-header">
+          <span class="material-symbols-rounded">account_balance</span>
+          <span>BÓVEDAS RECEPTORAS BINANCE</span>
+        </div>
 
         <!-- 🟧 TARJETA 1 — COLOR NARANJA (Bóveda Binance #1 • Box 1 #001–#100) -->
-        <div class="binance-vault-card vault-card-orange" id="vaultCard1" onclick="openBoxExplorer(1)" title="Inspeccionar Box 1 (#001–#100)">
-          <div class="bcard-top-row">
-            <span class="bcard-vault-name">BÓVEDA BINANCE #1</span>
-            <span class="bcard-box-badge">BOX 1: #001–#100</span>
+        <div class="vault-card vault-card-orange" id="vaultCard1" onclick="openBoxExplorer(1)" title="Inspeccionar Box 1 (#001–#100)">
+          <div class="vault-top">
+            <span class="vault-title">BÓVEDA BINANCE #1</span>
+            <span class="vault-box-badge">BOX 1: #001–#100</span>
           </div>
-          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x48b26dd0f9265573f31f7140cf01e9c48518531b', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
-            <div class="bcard-addr-left">
-              <span class="bcard-addr-icon">🔑</span>
-              <span class="bcard-addr-text mono-code">0x48b26dd0...8518531b</span>
-            </div>
-            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x48b26dd0f9265573f31f7140cf01e9c48518531b', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+            <span class="vault-address-full">0x48b26dd0f9265573f31f7140cf01e9c48518531b</span>
+            <button class="copy-btn" title="Copiar dirección" type="button">
+              <span class="material-symbols-rounded">content_copy</span>
+            </button>
           </div>
-          <div class="bcard-bottom-row">
-            <div class="bcard-received-block">
-              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
-              <span class="bcard-received-amt" id="vaultAmt1">$450.00 USDC</span>
+          <div class="vault-bottom">
+            <div class="vault-received-col">
+              <span class="vault-label">TOTAL RECIBIDO:</span>
+              <span class="vault-amount" id="vaultAmt1">$450.00 USDC</span>
             </div>
-            <div class="bcard-transit-block">
-              <span class="bcard-transit-lbl">EN CAMINO:</span>
-              <span class="bcard-transit-amt" id="vaultTransit1">+$34.20 USDC</span>
+            <div class="vault-incoming-col">
+              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
+              <span class="vault-incoming" id="vaultTransit1">+$34.20 USDC</span>
             </div>
           </div>
         </div>
 
         <!-- 🟦 TARJETA 2 — COLOR AZUL REY (Bóveda Binance #2 • Box 2 #101–#200) -->
-        <div class="binance-vault-card vault-card-blue" id="vaultCard2" onclick="openBoxExplorer(2)" title="Inspeccionar Box 2 (#101–#200)">
-          <div class="bcard-top-row">
-            <span class="bcard-vault-name">BÓVEDA BINANCE #2</span>
-            <span class="bcard-box-badge">BOX 2: #101–#200</span>
+        <div class="vault-card vault-card-blue" id="vaultCard2" onclick="openBoxExplorer(2)" title="Inspeccionar Box 2 (#101–#200)">
+          <div class="vault-top">
+            <span class="vault-title">BÓVEDA BINANCE #2</span>
+            <span class="vault-box-badge">BOX 2: #101–#200</span>
           </div>
-          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x33cffda0218122ed4d981dcb1797f4b458191bc4', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
-            <div class="bcard-addr-left">
-              <span class="bcard-addr-icon">🔑</span>
-              <span class="bcard-addr-text mono-code">0x33cffda0...458191bc4</span>
-            </div>
-            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x33cffda0218122ed4d981dcb1797f4b458191bc4', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+            <span class="vault-address-full">0x33cffda0218122ed4d981dcb1797f4b458191bc4</span>
+            <button class="copy-btn" title="Copiar dirección" type="button">
+              <span class="material-symbols-rounded">content_copy</span>
+            </button>
           </div>
-          <div class="bcard-bottom-row">
-            <div class="bcard-received-block">
-              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
-              <span class="bcard-received-amt" id="vaultAmt2">$380.50 USDC</span>
+          <div class="vault-bottom">
+            <div class="vault-received-col">
+              <span class="vault-label">TOTAL RECIBIDO:</span>
+              <span class="vault-amount" id="vaultAmt2">$380.50 USDC</span>
             </div>
-            <div class="bcard-transit-block">
-              <span class="bcard-transit-lbl">EN CAMINO:</span>
-              <span class="bcard-transit-amt" id="vaultTransit2">+$28.50 USDC</span>
+            <div class="vault-incoming-col">
+              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
+              <span class="vault-incoming" id="vaultTransit2">+$28.50 USDC</span>
             </div>
           </div>
         </div>
 
         <!-- 🟩 TARJETA 3 — COLOR VERDE ESMERALDA (Bóveda Binance #3 • Box 3 #201–#300) -->
-        <div class="binance-vault-card vault-card-green" id="vaultCard3" onclick="openBoxExplorer(3)" title="Inspeccionar Box 3 (#201–#300)">
-          <div class="bcard-top-row">
-            <span class="bcard-vault-name">BÓVEDA BINANCE #3</span>
-            <span class="bcard-box-badge">BOX 3: #201–#300</span>
+        <div class="vault-card vault-card-green" id="vaultCard3" onclick="openBoxExplorer(3)" title="Inspeccionar Box 3 (#201–#300)">
+          <div class="vault-top">
+            <span class="vault-title">BÓVEDA BINANCE #3</span>
+            <span class="vault-box-badge">BOX 3: #201–#300</span>
           </div>
-          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
-            <div class="bcard-addr-left">
-              <span class="bcard-addr-icon">🔑</span>
-              <span class="bcard-addr-text mono-code">0x409c4695...eb54bfca4e</span>
-            </div>
-            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+            <span class="vault-address-full">0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</span>
+            <button class="copy-btn" title="Copiar dirección" type="button">
+              <span class="material-symbols-rounded">content_copy</span>
+            </button>
           </div>
-          <div class="bcard-bottom-row">
-            <div class="bcard-received-block">
-              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
-              <span class="bcard-received-amt" id="vaultAmt3">$320.00 USDC</span>
+          <div class="vault-bottom">
+            <div class="vault-received-col">
+              <span class="vault-label">TOTAL RECIBIDO:</span>
+              <span class="vault-amount" id="vaultAmt3">$320.00 USDC</span>
             </div>
-            <div class="bcard-transit-block">
-              <span class="bcard-transit-lbl">EN CAMINO:</span>
-              <span class="bcard-transit-amt" id="vaultTransit3">+$24.10 USDC</span>
+            <div class="vault-incoming-col">
+              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
+              <span class="vault-incoming" id="vaultTransit3">+$24.10 USDC</span>
             </div>
           </div>
         </div>
 
         <!-- 🟨 TARJETA 4 — COLOR AMARILLO ORO (Bóveda Binance #4 • Box 4 #301–#400) -->
-        <div class="binance-vault-card vault-card-yellow" id="vaultCard4" onclick="openBoxExplorer(4)" title="Inspeccionar Box 4 (#301–#400)">
-          <div class="bcard-top-row">
-            <span class="bcard-vault-name">BÓVEDA BINANCE #4</span>
-            <span class="bcard-box-badge">BOX 4: #301–#400</span>
+        <div class="vault-card vault-card-yellow" id="vaultCard4" onclick="openBoxExplorer(4)" title="Inspeccionar Box 4 (#301–#400)">
+          <div class="vault-top">
+            <span class="vault-title">BÓVEDA BINANCE #4</span>
+            <span class="vault-box-badge">BOX 4: #301–#400</span>
           </div>
-          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x2734e0a264573056417d12478616107ff5d2ce54', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
-            <div class="bcard-addr-left">
-              <span class="bcard-addr-icon">🔑</span>
-              <span class="bcard-addr-text mono-code">0x2734e0a2...ff5d2ce54</span>
-            </div>
-            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0x2734e0a264573056417d12478616107ff5d2ce54', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+            <span class="vault-address-full">0x2734e0a264573056417d12478616107ff5d2ce54</span>
+            <button class="copy-btn" title="Copiar dirección" type="button">
+              <span class="material-symbols-rounded">content_copy</span>
+            </button>
           </div>
-          <div class="bcard-bottom-row">
-            <div class="bcard-received-block">
-              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
-              <span class="bcard-received-amt" id="vaultAmt4">$150.00 USDC</span>
+          <div class="vault-bottom">
+            <div class="vault-received-col">
+              <span class="vault-label">TOTAL RECIBIDO:</span>
+              <span class="vault-amount" id="vaultAmt4">$150.00 USDC</span>
             </div>
-            <div class="bcard-transit-block">
-              <span class="bcard-transit-lbl">EN CAMINO:</span>
-              <span class="bcard-transit-amt" id="vaultTransit4">+$18.30 USDC</span>
+            <div class="vault-incoming-col">
+              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
+              <span class="vault-incoming" id="vaultTransit4">+$18.30 USDC</span>
             </div>
           </div>
         </div>
 
         <!-- 🟪 TARJETA 5 — COLOR MORADO REAL (Bóveda Binance #5 • Box 5 #401–#500) -->
-        <div class="binance-vault-card vault-card-purple" id="vaultCard5" onclick="openBoxExplorer(5)" title="Inspeccionar Box 5 (#401–#500)">
-          <div class="bcard-top-row">
-            <span class="bcard-vault-name">BÓVEDA BINANCE #5</span>
-            <span class="bcard-box-badge">BOX 5: #401–#500</span>
+        <div class="vault-card vault-card-purple" id="vaultCard5" onclick="openBoxExplorer(5)" title="Inspeccionar Box 5 (#401–#500)">
+          <div class="vault-top">
+            <span class="vault-title">BÓVEDA BINANCE #5</span>
+            <span class="vault-box-badge">BOX 5: #401–#500</span>
           </div>
-          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0xf746f7da001c48367d76641a2e870db8e509dce7', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
-            <div class="bcard-addr-left">
-              <span class="bcard-addr-icon">🔑</span>
-              <span class="bcard-addr-text mono-code">0xf746f7da...8e509dce7</span>
-            </div>
-            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          <div class="vault-address-bar" onclick="event.stopPropagation(); copyWalletAddress('0xf746f7da001c48367d76641a2e870db8e509dce7', this.querySelector('.copy-btn'))" title="Clic para copiar dirección de depósito">
+            <span class="vault-address-full">0xf746f7da001c48367d76641a2e870db8e509dce7</span>
+            <button class="copy-btn" title="Copiar dirección" type="button">
+              <span class="material-symbols-rounded">content_copy</span>
+            </button>
           </div>
-          <div class="bcard-bottom-row">
-            <div class="bcard-received-block">
-              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
-              <span class="bcard-received-amt" id="vaultAmt5">$120.00 USDC</span>
+          <div class="vault-bottom">
+            <div class="vault-received-col">
+              <span class="vault-label">TOTAL RECIBIDO:</span>
+              <span class="vault-amount" id="vaultAmt5">$120.00 USDC</span>
             </div>
-            <div class="bcard-transit-block">
-              <span class="bcard-transit-lbl">EN CAMINO:</span>
-              <span class="bcard-transit-amt" id="vaultTransit5">+$15.40 USDC</span>
+            <div class="vault-incoming-col">
+              <span class="vault-label" style="text-align: right;">EN CAMINO:</span>
+              <span class="vault-incoming" id="vaultTransit5">+$15.40 USDC</span>
             </div>
           </div>
         </div>

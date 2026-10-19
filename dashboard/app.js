@@ -625,7 +625,9 @@ function renderBoxExplorerData() {
         <td>
           <div class="addr-code-chip">
             <span title="${w.address}">${shortAddr}</span>
-            <button class="addr-copy-icon" onclick="copyWalletAddress('${w.address}', this)" title="Copiar dirección completa">📋</button>
+            <button class="addr-copy-icon" onclick="copyWalletAddress('${w.address}', this)" title="Copiar dirección completa">
+              <span class="material-symbols-rounded" style="font-size: 14px;">content_copy</span>
+            </button>
           </div>
         </td>
         <td>
@@ -660,9 +662,18 @@ function renderBoxExplorerData() {
 function copyWalletAddress(addr, btn) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(addr).then(() => {
-      const orig = btn.innerHTML;
-      btn.innerHTML = "✅";
-      setTimeout(() => { btn.innerHTML = orig; }, 1400);
+      if (btn) {
+        const icon = btn.querySelector ? btn.querySelector(".material-symbols-rounded") : null;
+        if (icon) {
+          const prev = icon.textContent;
+          icon.textContent = "check";
+          setTimeout(() => { icon.textContent = prev; }, 1400);
+        } else {
+          const orig = btn.innerHTML;
+          btn.innerHTML = `<span class="material-symbols-rounded" style="font-size:15px;">check</span>`;
+          setTimeout(() => { btn.innerHTML = orig; }, 1400);
+        }
+      }
     }).catch(() => {
       prompt("Dirección:", addr);
     });
@@ -717,13 +728,17 @@ function updateBinanceVaultCards(vaultsData) {
     }
 
     if (v.address && cardEl) {
-      const addrText = cardEl.querySelector(".bcard-addr-text");
-      if (addrText) {
-        addrText.textContent = `${v.address.slice(0, 10)}...${v.address.slice(-8)}`;
+      const fullAddrEl = cardEl.querySelector(".vault-address-full");
+      if (fullAddrEl) {
+        fullAddrEl.textContent = v.address;
       }
-      const pill = cardEl.querySelector(".bcard-addr-pill");
-      if (pill) {
-        pill.setAttribute("onclick", `event.stopPropagation(); copyWalletAddress('${v.address}', this.querySelector('.bcard-copy-btn'))`);
+      const addrBar = cardEl.querySelector(".vault-address-bar");
+      if (addrBar) {
+        addrBar.setAttribute("onclick", `event.stopPropagation(); copyWalletAddress('${v.address}', this.querySelector('.copy-btn'))`);
+      }
+      const legacyAddrText = cardEl.querySelector(".bcard-addr-text");
+      if (legacyAddrText) {
+        legacyAddrText.textContent = v.address;
       }
     }
   });
