@@ -77,15 +77,22 @@ async function resolveChatId(token = null, timeoutSeconds = 0) {
 
     const data = await res.json();
     if (data.ok && Array.isArray(data.result) && data.result.length > 0) {
+      // Prioridad 1 estricta: Buscar chats de grupo o supergrupo (ID negativo)
       for (let i = data.result.length - 1; i >= 0; i--) {
         const update = data.result[i];
         const msg = update.message || update.channel_post || update.edited_message;
         if (msg && msg.chat && msg.chat.id) {
-          cachedChatId = String(msg.chat.id);
-          console.log(`📱 [TELEGRAM] Chat ID detectado automáticamente: ${cachedChatId}`);
-          return cachedChatId;
+          const cid = String(msg.chat.id);
+          if (cid.startsWith("-") || msg.chat.type === "group" || msg.chat.type === "supergroup") {
+            cachedChatId = cid;
+            console.log(`📱 [TELEGRAM] Grupo de Mando detectado automáticamente: [CHAT_ID: ${cachedChatId.slice(0, 5)}***]`);
+            return cachedChatId;
+          }
         }
       }
+
+      // Si no hay grupo registrado en los eventos recientes
+      console.log(`⚠️ [TELEGRAM] No se detectó un grupo en los eventos recientes. Configura TELEGRAM_CHAT_ID en .env.`);
     }
   } catch (err) {
     console.log(`⚠️ [TELEGRAM] Error al consultar getUpdates: ${err.message}`);
