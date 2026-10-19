@@ -28,6 +28,23 @@ const MIN_TEST_DELAY_MS = 1000;
 const MAX_TEST_DELAY_MS = 2500;
 const MIN_EXEC_BALANCE_ETH = 0.0005;
 
+// Contratos oficiales DeFi Rotator para diversificación de puntuación on-chain
+const DEFI_CONTRACTS = {
+  ethereumSepolia: {
+    weth: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
+    name: "WETH9 (Ethereum Sepolia)"
+  },
+  baseSepolia: {
+    weth: "0x4200000000000000000000000000000000000006",
+    name: "WETH9 (Base Sepolia)"
+  }
+};
+
+const WETH_ABI = [
+  "function deposit() payable",
+  "function balanceOf(address) view returns (uint256)"
+];
+
 function getSigner(index, provider = null) {
   if (typeof getWalletSigner === "function") {
     return getWalletSigner(index, provider);
@@ -93,10 +110,25 @@ async function executeSwarmOnNetwork({
 
     console.log(`   Saldo actual: ${balanceEth.toFixed(6)} ${networkConfig.symbol}`);
 
-    // Monto humano irregular y calldata
-    const humanAmount = generateHumanAmount(0.0001, 0.0004);
-    const randomCallData = "0x" + crypto.randomBytes(4).toString("hex");
-    const targetAddress = sat.address;
+    // Alternancia estratégica Anti-Sybil (50% DeFi Rotator WETH9 / 50% Organic Calldata)
+    const defiTarget = DEFI_CONTRACTS[networkConfig.id];
+    const isDefiTx = defiTarget && Math.random() < 0.5;
+
+    let targetAddress = "";
+    let humanAmount = "";
+    let txType = "";
+    let randomCallData = "";
+
+    if (isDefiTx) {
+      txType = "DEFI_WETH_DEPOSIT";
+      targetAddress = defiTarget.weth;
+      humanAmount = generateHumanAmount(0.00001, 0.00005);
+    } else {
+      txType = "ORGANIC_SELF_TX";
+      targetAddress = sat.address;
+      humanAmount = generateHumanAmount(0.0001, 0.0004);
+      randomCallData = "0x" + crypto.randomBytes(4).toString("hex");
+    }
 
     // Validación estricta de aislamiento Anti-Sybil
     validateIsolation(sat.address, targetAddress, allAddresses);
@@ -105,14 +137,25 @@ async function executeSwarmOnNetwork({
     let txHash = null;
 
     if (balanceEth >= MIN_EXEC_BALANCE_ETH && !isDryRun) {
-      console.log(`   ⚡ Ejecutando transacción orgánica: ${humanAmount} ${networkConfig.symbol}...`);
       try {
         const signer = getSigner(sat.index, provider);
-        const tx = await signer.sendTransaction({
-          to: targetAddress,
-          value: ethers.parseEther(humanAmount),
-          data: randomCallData
-        });
+        let tx;
+
+        if (isDefiTx) {
+          console.log(`   🏦 [DEFI ROTATOR] Depósito en ${defiTarget.name}: ${humanAmount} ${networkConfig.symbol}...`);
+          const wethContract = new ethers.Contract(targetAddress, WETH_ABI, signer);
+          tx = await wethContract.deposit({
+            value: ethers.parseEther(humanAmount)
+          });
+        } else {
+          console.log(`   ⚡ [ORGANIC CALL] Micro-tx con calldata dinámico: ${humanAmount} ${networkConfig.symbol}...`);
+          tx = await signer.sendTransaction({
+            to: targetAddress,
+            value: ethers.parseEther(humanAmount),
+            data: randomCallData
+          });
+        }
+
         console.log(`   🚀 Transacción enviada: ${tx.hash}`);
         const receipt = await tx.wait(1);
         txHash = receipt.hash;
@@ -127,7 +170,7 @@ async function executeSwarmOnNetwork({
         console.log(`   ⚠️ [FONDOS INSUFICIENTES - Saldo menor a ${MIN_EXEC_BALANCE_ETH} ${networkConfig.symbol}]`);
         actionStatus = "PENDIENTE_FONDEO";
       } else {
-        console.log(`   🧪 [DRY-RUN SIMULADO] Destino aislado: ${targetAddress} | Monto: ${humanAmount} ${networkConfig.symbol}`);
+        console.log(`   🧪 [DRY-RUN SIMULADO] Tipo: ${txType} | Destino: ${targetAddress} | Monto: ${humanAmount} ${networkConfig.symbol}`);
         actionStatus = "SIMULADA_DRY_RUN";
       }
     }

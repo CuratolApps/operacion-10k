@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bridge:base": "node bridge-to-base.js"
+    "bridge:base": "node bridge-to-base.js",
+    "radar": "node radar-hunter.js"
   },
   "keywords": [],
   "author": "",

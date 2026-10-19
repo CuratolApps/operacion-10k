@@ -51,3 +51,11 @@ jobs:
           SWARM_SIZE: ${{ secrets.SWARM_SIZE || '21' }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: 📡 Ejecutar Radar Hunter & Auditoría de Flota
+        run: node radar-hunter.js
+        env:
+          TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '21' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}

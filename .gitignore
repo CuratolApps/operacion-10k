@@ -4,4 +4,5 @@ wallets-public-list.json
 balances-report.json
 last-run-report.json
 bridge-base-report.json
+radar-report.json
 *.log
