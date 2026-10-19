@@ -380,12 +380,26 @@ html, body {
 }
 
 /* ==============================================================
-   TARJETAS SIMÉTRICAS DE MONITOR BOXES Y BÓVEDAS BINANCE
+   TARJETAS SIMÉTRICAS EN VIDRIO ESMERILADO 3D (MONITOR BOXES & BÓVEDAS BINANCE)
+   Cero Colores de Fondo • Relieve Táctil • Texto 100% Negro • Montos en Verde Fosforescente
    ============================================================== */
-.monitor-card,
-.vault-card {
-  border-radius: 16px;
+.vault-card,
+.box-monitor-card,
+.monitor-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.65) 0%, rgba(241, 245, 249, 0.42) 100%) !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-right: 1px solid rgba(203, 213, 225, 0.6) !important;
+  border-bottom: 1.5px solid rgba(148, 163, 184, 0.45) !important;
+  box-shadow: 
+    0 6px 16px -4px rgba(15, 23, 42, 0.07),
+    0 2px 4px -1px rgba(15, 23, 42, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  border-radius: 14px;
   padding: 8px 12px;
+  color: #0F172A !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -397,43 +411,17 @@ html, body {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.monitor-card:hover,
-.vault-card:hover {
+.vault-card:hover,
+.box-monitor-card:hover,
+.monitor-card:hover {
   transform: translateY(-2px);
+  box-shadow: 
+    0 10px 22px -4px rgba(15, 23, 42, 0.10),
+    0 4px 6px -1px rgba(15, 23, 42, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
 }
 
-/* 5 Gradientes Oficiales */
-.card-orange {
-  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
-  border: 1.5px solid #FED7AA;
-  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.22);
-}
-
-.card-blue {
-  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
-  border: 1.5px solid #93C5FD;
-  box-shadow: 0 6px 16px rgba(30, 64, 175, 0.22);
-}
-
-.card-darkgreen {
-  background: linear-gradient(135deg, #065F46 0%, #064E3B 100%);
-  border: 1.5px solid #6EE7B7;
-  box-shadow: 0 6px 16px rgba(6, 78, 59, 0.25);
-}
-
-.card-amber {
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-  border: 1.5px solid #FDE68A;
-  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.25);
-}
-
-.card-purple {
-  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
-  border: 1.5px solid #DDD6FE;
-  box-shadow: 0 6px 16px rgba(91, 33, 182, 0.25);
-}
-
-/* Fila 1: Título y Rango */
+/* Fila 1: Título y Rango (Todo en Negro #0F172A) */
 .card-top {
   display: flex;
   justify-content: space-between;
@@ -442,65 +430,72 @@ html, body {
 }
 
 .card-title {
-  color: #FFFFFF;
+  color: #0F172A !important;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
 .card-range {
-  color: #0F172A;
+  color: #0F172A !important;
   font-size: 0.68rem;
   font-weight: 700;
-  background: none;
-  border: none;
-  padding: 0;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
   white-space: nowrap;
 }
 
-/* Fila 2: Caja Central Blanca */
+/* Fila 2: Caja Interna del Código (0x...) y Estado del Box Biselado en Vidrio */
+.vault-address-bar,
+.box-status-bar,
 .card-white-bar {
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.55) !important;
+  border-top: 1px solid rgba(148, 163, 184, 0.35) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border-left: 1px solid rgba(203, 213, 225, 0.45) !important;
+  border-right: 1px solid rgba(203, 213, 225, 0.45) !important;
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06) !important;
   border-radius: 8px;
   padding: 4px 8px;
-  width: 100%;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  width: 100%;
+  box-sizing: border-box;
 }
 
+.box-status-bar,
 .monitor-card .card-white-bar {
   justify-content: center;
 }
 
-.bar-status-text {
-  color: #0F172A;
-  font-size: 0.64rem;
-  font-weight: 600;
-  white-space: nowrap;
+.vault-address-full {
   font-family: 'JetBrains Mono', monospace;
-  letter-spacing: -0.2px;
+  font-size: 0.57rem !important; /* Ajustado para que los 42 caracteres entren completos sin cortarse */
+  font-weight: 500;
+  color: #0F172A !important;
+  letter-spacing: -0.25px;
+  white-space: nowrap;
+  overflow: hidden;
+  user-select: all;
 }
 
-.vault-address-full {
+.bar-status-text {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.62rem;
   font-weight: 600;
+  color: #0F172A !important;
   letter-spacing: -0.2px;
   white-space: nowrap;
-  overflow: hidden;
-  color: #0F172A;
-  user-select: all;
 }
 
 .copy-btn {
   background: transparent;
   border: none;
-  color: #0F172A;
+  color: #0F172A !important;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -515,7 +510,7 @@ html, body {
 
 .copy-btn .material-symbols-rounded {
   font-size: 15px;
-  color: #0F172A;
+  color: #0F172A !important;
 }
 
 /* Fila 3: Inferior Izquierda / Derecha */
@@ -538,28 +533,35 @@ html, body {
 }
 
 .card-label {
-  color: #FFFFFF;
+  color: #0F172A !important;
   font-size: 0.56rem;
-  font-weight: 600;
-  opacity: 0.95;
+  font-weight: 700;
+  opacity: 0.85;
   display: block;
   letter-spacing: 0.4px;
 }
 
-.card-val-green {
-  color: #34D399;
-  font-size: 0.82rem;
-  font-weight: 600;
-  font-family: 'JetBrains Mono', sans-serif;
-  letter-spacing: -0.2px;
+/* Montos de Gas y En Camino en Negro */
+.card-val-black {
+  color: #0F172A !important;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-.card-val-black {
-  color: #0F172A;
-  font-size: 0.74rem;
-  font-weight: 600;
-  text-align: right;
-  font-family: 'JetBrains Mono', sans-serif;
+/* ÚNICAMENTE en Verde Fosforescente Brillante (que alumbre sobre el vidrio) */
+.vault-amount,
+.box-generated-amount,
+.card-val-green {
+  color: #00FF66 !important;
+  font-weight: 700 !important;
+  font-size: 0.84rem !important;
+  font-family: 'JetBrains Mono', monospace;
+  /* Sombra de contraste fino para que el verde fosforescente alumbre sobre el vidrio claro */
+  text-shadow: 
+    0 0 10px rgba(0, 255, 102, 0.55),
+    0 1px 2px rgba(15, 23, 42, 0.45) !important;
 }
 
 /* ==============================================================
