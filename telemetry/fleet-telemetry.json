@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-19T18:16:48.905Z",
+  "timestamp": "2026-10-19T18:24:28.057Z",
   "systemHealthScore": 98.5,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -132,6 +132,53 @@
     "destinationSummary": "Fondo de desarrollo Cura Tools + Estación de trabajo de alta ingeniería",
     "projectedCompletionDays": 34
   },
+  "binanceVaults": [
+    {
+      "boxId": 1,
+      "name": "BÓVEDA BINANCE #1",
+      "range": "BOX 1: #001–#100",
+      "address": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+      "receivedUsdc": 450,
+      "pendingUsdc": 34.2,
+      "status": "ACUMULANDO"
+    },
+    {
+      "boxId": 2,
+      "name": "BÓVEDA BINANCE #2",
+      "range": "BOX 2: #101–#200",
+      "address": "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
+      "receivedUsdc": 380.5,
+      "pendingUsdc": 28.5,
+      "status": "ACUMULANDO"
+    },
+    {
+      "boxId": 3,
+      "name": "BÓVEDA BINANCE #3",
+      "range": "BOX 3: #201–#300",
+      "address": "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e",
+      "receivedUsdc": 320,
+      "pendingUsdc": 24.1,
+      "status": "ACUMULANDO"
+    },
+    {
+      "boxId": 4,
+      "name": "BÓVEDA BINANCE #4",
+      "range": "BOX 4: #301–#400",
+      "address": "0x2734e0a264573056417d12478616107ff5d2ce54",
+      "receivedUsdc": 150,
+      "pendingUsdc": 18.3,
+      "status": "LISTO_BARRIDO"
+    },
+    {
+      "boxId": 5,
+      "name": "BÓVEDA BINANCE #5",
+      "range": "BOX 5: #401–#500",
+      "address": "0xf746f7da001c48367d76641a2e870db8e509dce7",
+      "receivedUsdc": 120,
+      "pendingUsdc": 15.4,
+      "status": "ACUMULANDO"
+    }
+  ],
   "networksStatus": [
     {
       "name": "Ethereum Sepolia",
@@ -188,7 +235,7 @@
   "recentEvents": [
     {
       "id": "tx-1",
-      "timestamp": "2026-10-19T18:13:48.904Z",
+      "timestamp": "2026-10-19T18:21:28.056Z",
       "satIndex": 12,
       "blockId": 1,
       "type": "ORGANIC_SELF_TX",
@@ -198,7 +245,7 @@
     },
     {
       "id": "tx-2",
-      "timestamp": "2026-10-19T18:09:48.905Z",
+      "timestamp": "2026-10-19T18:17:28.057Z",
       "satIndex": 115,
       "blockId": 2,
       "type": "DEFI_WETH_DEPOSIT",
@@ -208,7 +255,7 @@
     },
     {
       "id": "tx-3",
-      "timestamp": "2026-10-19T18:04:48.905Z",
+      "timestamp": "2026-10-19T18:12:28.057Z",
       "satIndex": 204,
       "blockId": 3,
       "type": "BRIDGE_L1_TO_L2",
@@ -218,7 +265,7 @@
     },
     {
       "id": "tx-4",
-      "timestamp": "2026-10-19T17:58:48.905Z",
+      "timestamp": "2026-10-19T18:06:28.057Z",
       "satIndex": 45,
       "blockId": 1,
       "type": "ORGANIC_SELF_TX",
@@ -228,7 +275,7 @@
     },
     {
       "id": "tx-5",
-      "timestamp": "2026-10-19T17:51:48.905Z",
+      "timestamp": "2026-10-19T17:59:28.057Z",
       "satIndex": 310,
       "blockId": 4,
       "type": "STANDBY_CHECK",

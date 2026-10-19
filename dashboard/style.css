@@ -1462,10 +1462,11 @@ html, body {
 .vault-addr { font-size: 7.5px; word-break: break-all; opacity: 0.8; margin-top: auto; }
 
 /* ==============================================================
-   ESPACIO 3: PANEL BLANCO LECHOSO — COMUNICACIONES & IA (350px)
+   ESPACIO 3: PANEL BLANCO LECHOSO — BÓVEDAS RECEPTORAS BINANCE (350px)
+   Rejilla vertical de 5 filas exactas (grid-template-rows: auto repeat(5, 1fr))
    ============================================================== */
 .right-comms-container,
-.right-vertical-chat,
+.binance-vaults-sidebar,
 .comms-column {
   background: var(--milky-workspace-bg);
   backdrop-filter: blur(20px);
@@ -1473,306 +1474,279 @@ html, body {
   border-radius: 24px;
   border: 2px solid #FFFFFF;
   box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
-  padding: 14px;
+  padding: 12px;
   display: grid;
-  grid-template-rows: auto 1fr 1fr;
-  gap: 12px;
+  grid-template-rows: auto repeat(5, 1fr);
+  gap: 10px;
   width: 100%;
   height: 100%;
   overflow: hidden;
   min-height: 0;
+  box-sizing: border-box;
 }
 
 .comms-title-tag {
-  font-size: 10.5px;
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 900;
   color: #0F172A;
-  letter-spacing: 0.9px;
-  padding: 2px 6px;
+  letter-spacing: 0.6px;
+  padding: 2px 4px 4px 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
 }
 
-.comms-half-card {
-  border-radius: 18px;
+/* 5 Tarjetas Apiladas Simétricamente */
+.binance-vault-card {
+  border-radius: 16px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   overflow: hidden;
   min-height: 0;
   position: relative;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
 }
 
-/* 🟦 TARJETA SUPERIOR: AZUL REY — INTELIGENCIA ARTIFICIAL */
-.card-ai-aura {
-  background: linear-gradient(135deg, #1D4ED8 0%, #1E3A8A 100%);
+.binance-vault-card:hover {
+  transform: translateY(-2px);
+}
+
+/* 🟧 TARJETA 1 — COLOR NARANJA (Bóveda Binance #1 • Box 1 #001–#100) */
+.vault-card-orange {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  border: 1.5px solid #FED7AA;
+  color: #FFFFFF;
+  box-shadow: 0 8px 18px rgba(234, 88, 12, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+.vault-card-orange:hover {
+  box-shadow: 0 12px 24px rgba(234, 88, 12, 0.35), inset 0 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+/* 🟦 TARJETA 2 — COLOR AZUL REY (Bóveda Binance #2 • Box 2 #101–#200) */
+.vault-card-blue {
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
   border: 1.5px solid #93C5FD;
-  box-shadow: 0 10px 24px rgba(30, 58, 138, 0.3), inset 0 1px 10px rgba(255, 255, 255, 0.3);
   color: #FFFFFF;
+  box-shadow: 0 8px 18px rgba(30, 64, 175, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+.vault-card-blue:hover {
+  box-shadow: 0 12px 24px rgba(30, 64, 175, 0.35), inset 0 1px 3px rgba(255, 255, 255, 0.5);
 }
 
-/* 🟨 TARJETA INFERIOR: AMARILLO ORO — NOTIFICACIONES TELEGRAM */
-.card-tg-live {
-  background: linear-gradient(135deg, #FDE047 0%, #F59E0B 100%);
+/* 🟩 TARJETA 3 — COLOR VERDE ESMERALDA (Bóveda Binance #3 • Box 3 #201–#300) */
+.vault-card-green {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  border: 1.5px solid #A7F3D0;
+  color: #FFFFFF;
+  box-shadow: 0 8px 18px rgba(5, 150, 105, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+.vault-card-green:hover {
+  box-shadow: 0 12px 24px rgba(5, 150, 105, 0.35), inset 0 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+/* 🟨 TARJETA 4 — COLOR AMARILLO ORO (Bóveda Binance #4 • Box 4 #301–#400) */
+.vault-card-yellow {
+  background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
   border: 1.5px solid #FEF08A;
-  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.28), inset 0 1px 10px rgba(255, 255, 255, 0.5);
   color: #0F172A;
+  box-shadow: 0 8px 18px rgba(234, 179, 8, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+.vault-card-yellow:hover {
+  box-shadow: 0 12px 24px rgba(234, 179, 8, 0.38), inset 0 1px 3px rgba(255, 255, 255, 0.8);
 }
 
-/* Cabeceras de las tarjetas de comunicaciones */
-.comms-card-header {
-  padding: 8px 12px;
+/* 🟪 TARJETA 5 — COLOR MORADO REAL (Bóveda Binance #5 • Box 5 #401–#500) */
+.vault-card-purple {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  border: 1.5px solid #DDD6FE;
+  color: #FFFFFF;
+  box-shadow: 0 8px 18px rgba(109, 40, 217, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+.vault-card-purple:hover {
+  box-shadow: 0 12px 24px rgba(109, 40, 217, 0.35), inset 0 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+/* Fila Superior */
+.bcard-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  gap: 8px;
+  line-height: 1.1;
 }
 
-.card-ai-aura .comms-card-header {
-  background: rgba(15, 23, 42, 0.25);
-}
-
-.card-tg-live .comms-card-header {
-  background: rgba(255, 255, 255, 0.35);
-  border-bottom-color: rgba(15, 23, 42, 0.12);
-}
-
-.comms-header-title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.comms-icon { font-size: 15px; }
-
-.comms-title-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.comms-name {
-  font-size: 11.5px;
+.bcard-vault-name {
+  font-size: 11px;
   font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.bcard-box-badge {
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 2.5px 7px;
+  border-radius: 999px;
   letter-spacing: 0.4px;
-  color: #FFFFFF;
+  white-space: nowrap;
 }
 
-.comms-sub {
-  font-size: 8.5px;
-  font-weight: 700;
-  opacity: 0.85;
-  color: #BFDBFE;
-}
-
-.tg-name { color: #0F172A; }
-.tg-sub { color: #713F12; opacity: 1; }
-
-.comms-status-pill {
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 8.5px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.ai-online {
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(147, 197, 253, 0.4);
-  color: #FFFFFF;
-}
-
-.status-pulse-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #34D399;
-  box-shadow: 0 0 5px #34D399;
-}
-
-.status-pulse-dot.amber {
-  background: #D97706;
-  box-shadow: 0 0 5px #D97706;
-}
-
-.tg-live-pill {
-  background: rgba(15, 23, 42, 0.12);
-  border: 1px solid rgba(15, 23, 42, 0.15);
-  color: #0F172A;
-}
-
-/* Sugerencias Rápidas de Consulta para IA */
-.ai-quick-chips {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  padding: 6px 10px 2px 10px;
-  flex-shrink: 0;
-}
-
-.ai-chip {
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: #FFFFFF;
-  padding: 3px 5px;
-  border-radius: 7px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 8.5px;
-  font-weight: 700;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.ai-chip:hover {
-  background: rgba(255, 255, 255, 0.32);
-  transform: translateY(-1px);
-}
-
-/* Área de Conversación IA con Scroll Interno */
-.ai-chat-viewport {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 6px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.ai-chat-viewport::-webkit-scrollbar,
-.tg-feed-viewport::-webkit-scrollbar {
-  width: 4px;
-}
-
-.ai-chat-viewport::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 999px;
-}
-
-.gemini-bubble {
-  background: rgba(15, 23, 42, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  padding: 6px 8px;
-  font-size: 9.5px;
-  line-height: 1.35;
-  color: #E2E8F0;
-}
-
-.gemini-bubble strong {
-  color: #FDE68A;
-}
-
-.gemini-bubble.user {
+.vault-card-orange .bcard-box-badge,
+.vault-card-blue .bcard-box-badge,
+.vault-card-green .bcard-box-badge,
+.vault-card-purple .bcard-box-badge {
   background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.4);
   color: #FFFFFF;
-}
-
-/* Input Inferior Exclusivo para IA */
-.ai-input-bar {
-  padding: 6px 8px;
-  background: rgba(15, 23, 42, 0.4);
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  display: flex;
-  gap: 5px;
-  flex-shrink: 0;
-}
-
-.ai-text-input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 7px;
-  padding: 5px 8px;
-  font-family: inherit;
-  font-size: 9.5px;
-  color: #FFFFFF;
-  outline: none;
 }
 
-.ai-text-input::placeholder {
-  color: rgba(255, 255, 255, 0.65);
+.vault-card-yellow .bcard-box-badge {
+  background: rgba(15, 23, 42, 0.12);
+  color: #0F172A;
+  border: 1px solid rgba(15, 23, 42, 0.2);
 }
 
-.ai-send-btn {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.94) 0%, rgba(234, 88, 12, 0.98) 100%) !important;
-  border: 1.5px solid rgba(254, 215, 170, 0.95) !important;
-  box-shadow: 0 3px 10px rgba(234, 88, 12, 0.35) !important;
-  color: #FFFFFF !important;
-  font-family: inherit;
-  font-size: 9.5px;
-  font-weight: 800;
-  padding: 5px 10px;
-  border-radius: 7px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  transition: all 0.2s ease;
-}
-
-.ai-send-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-/* Feed de Telegram con Scroll Interno */
-.tg-feed-viewport {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 8px 10px;
-}
-
-.tg-feed-viewport::-webkit-scrollbar-thumb {
-  background: rgba(15, 23, 42, 0.25);
-  border-radius: 999px;
-}
-
-.telegram-feed-stream {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.tg-bubble-item {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid #FFFFFF;
-  border-radius: 10px;
-  padding: 6px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
-}
-
-.tg-bubble-top {
+/* Centro: Píldora translúcida para la dirección 0x */
+.bcard-addr-pill {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 5px 9px;
+  border-radius: 8px;
+  margin: 3px 0;
+  transition: all 0.15s ease;
+  user-select: all;
 }
 
-.tg-chip-badge {
-  font-size: 8px;
-  font-weight: 900;
-  background: #10B981;
+.vault-card-orange .bcard-addr-pill,
+.vault-card-blue .bcard-addr-pill,
+.vault-card-green .bcard-addr-pill,
+.vault-card-purple .bcard-addr-pill {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   color: #FFFFFF;
-  padding: 1px 5px;
-  border-radius: 4px;
 }
 
-.tg-time {
-  font-size: 8px;
-  color: #64748B;
-  font-weight: 700;
+.vault-card-orange .bcard-addr-pill:hover,
+.vault-card-blue .bcard-addr-pill:hover,
+.vault-card-green .bcard-addr-pill:hover,
+.vault-card-purple .bcard-addr-pill:hover {
+  background: rgba(0, 0, 0, 0.34);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
-.tg-text {
-  font-size: 9.5px;
+.vault-card-yellow .bcard-addr-pill {
+  background: rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.16);
   color: #0F172A;
-  font-weight: 600;
-  line-height: 1.3;
+}
+
+.vault-card-yellow .bcard-addr-pill:hover {
+  background: rgba(15, 23, 42, 0.14);
+  border-color: rgba(15, 23, 42, 0.28);
+}
+
+.bcard-addr-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.bcard-addr-icon {
+  font-size: 10px;
+  opacity: 0.85;
+}
+
+.bcard-addr-text {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bcard-copy-btn {
+  font-size: 11px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  transition: transform 0.15s ease;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.bcard-copy-btn:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+/* Fila Inferior: Total Recibido + En Camino */
+.bcard-bottom-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  line-height: 1.1;
+}
+
+.bcard-received-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bcard-received-lbl {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+.bcard-received-amt {
+  font-size: 14.5px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  font-family: 'JetBrains Mono', 'Inter', sans-serif;
+}
+
+.bcard-transit-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.bcard-transit-lbl {
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.bcard-transit-amt {
+  font-size: 10px;
+  font-weight: 800;
+  opacity: 0.95;
+  font-family: 'JetBrains Mono', 'Inter', sans-serif;
+}
+
+.vault-card-orange .bcard-transit-amt,
+.vault-card-blue .bcard-transit-amt,
+.vault-card-green .bcard-transit-amt,
+.vault-card-purple .bcard-transit-amt {
+  color: #FEF08A;
+}
+
+.vault-card-yellow .bcard-transit-amt {
+  color: #1E3A8A;
 }
 
 /* ==========================================================================

@@ -623,126 +623,136 @@
       </main>
 
       <!-- ==============================================================
-           ESPACIO 3: PANEL BLANCO LECHOSO — COMUNICACIONES & IA (350px)
-           Atrapa las 2 tarjetas simétricas: AURA 10K (50%) + Telegram (50%)
+           ESPACIO 3: PANEL BLANCO LECHOSO — BÓVEDAS RECEPTORAS BINANCE (350px)
+           5 Tarjetas Exclusivas Simétricas: Naranja, Azul Rey, Verde, Amarillo y Morado
            ============================================================== -->
-      <aside class="right-comms-container comms-column">
-        <div class="comms-title-tag">COMUNICACIONES & IA</div>
+      <aside class="right-comms-container binance-vaults-sidebar comms-column" id="binanceRightColumn">
+        <div class="comms-title-tag">🏦 BÓVEDAS RECEPTORAS BINANCE (5 DIRECCIONES)</div>
 
-        <!-- 🟦 TARJETA SUPERIOR (50% — AZUL REY — INTELIGENCIA ARTIFICIAL) -->
-        <div class="comms-half-card card-ai-aura">
-          <div class="comms-card-header">
-            <div class="comms-header-title">
-              <span class="comms-icon">🧠</span>
-              <div class="comms-title-col">
-                <span class="comms-name">AURA 10K</span>
-                <span class="comms-sub">Inteligencia Artificial</span>
-              </div>
-            </div>
-            <div class="comms-status-pill ai-online">
-              <span class="status-pulse-dot"></span>
-              <span>Activa</span>
-            </div>
+        <!-- 🟧 TARJETA 1 — COLOR NARANJA (Bóveda Binance #1 • Box 1 #001–#100) -->
+        <div class="binance-vault-card vault-card-orange" id="vaultCard1" onclick="openBoxExplorer(1)" title="Inspeccionar Box 1 (#001–#100)">
+          <div class="bcard-top-row">
+            <span class="bcard-vault-name">BÓVEDA BINANCE #1</span>
+            <span class="bcard-box-badge">BOX 1: #001–#100</span>
           </div>
-
-          <!-- Sugerencias Rápidas de Consulta -->
-          <div class="ai-quick-chips">
-            <button class="ai-chip" onclick="askGemini('boxes')">Boxes</button>
-            <button class="ai-chip" onclick="askGemini('gas')">>0.015 ETH</button>
-            <button class="ai-chip" onclick="askGemini('keepup')">Keep-Up</button>
-            <button class="ai-chip" onclick="askGemini('meta')">Meta 12K</button>
-          </div>
-
-          <!-- Área de Conversación con Scroll Interno -->
-          <div class="ai-chat-viewport" id="gemini-chat-log">
-            <div class="gemini-bubble assistant">
-              <strong>✨ AURA 10K:</strong> Centro neural activo. Superviso los 5 Boxes estancos, la Regla >0.015 ETH y
-              el reloj Keep-Up. Escribe abajo para consultar la flota.
+          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x48b26dd0f9265573f31f7140cf01e9c48518531b', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
+            <div class="bcard-addr-left">
+              <span class="bcard-addr-icon">🔑</span>
+              <span class="bcard-addr-text mono-code">0x48b26dd0...8518531b</span>
             </div>
+            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
           </div>
-
-          <!-- Input Inferior Exclusivo para IA -->
-          <div class="ai-input-bar">
-            <input type="text" id="chat-input-field" class="ai-text-input" placeholder="Pregunta a AURA 10K..."
-              onkeydown="if(event.key==='Enter') sendChatMessage()">
-            <button class="ai-send-btn" id="chat-send-btn" onclick="sendChatMessage()" title="Enviar mensaje">
-              <span>ENVIAR</span>
-              <span class="send-arrow">➔</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 🟨 TARJETA INFERIOR (50% — AMARILLO ORO — NOTIFICACIONES DE TELEGRAM) -->
-        <div class="comms-half-card card-tg-live">
-          <div class="comms-card-header tg-header">
-            <div class="comms-header-title">
-              <span class="comms-icon">📡</span>
-              <div class="comms-title-col">
-                <span class="comms-name tg-name">TELEGRAM LIVE</span>
-                <span class="comms-sub tg-sub">Notificaciones Flota</span>
-              </div>
+          <div class="bcard-bottom-row">
+            <div class="bcard-received-block">
+              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
+              <span class="bcard-received-amt" id="vaultAmt1">$450.00 USDC</span>
             </div>
-            <div class="comms-status-pill tg-live-pill">
-              <span class="status-pulse-dot amber"></span>
-              <span>@Operacion10kBot</span>
-            </div>
-          </div>
-
-          <!-- Feed Minuto a Minuto con Scroll Interno Exclusivo -->
-          <div class="tg-feed-viewport">
-            <div class="telegram-feed-stream" id="telegram-stream-box">
-              <!-- Reporte 1: Radar de Inteligencia -->
-              <div class="tg-bubble-item" style="border-left: 3.5px solid #3B82F6;">
-                <div class="tg-bubble-top">
-                  <span class="tg-chip-badge" style="background: #3B82F6;">RADAR EN VIVO</span>
-                  <span class="tg-time mono-code">17:54:16 UTC</span>
-                </div>
-                <div class="tg-text" style="font-size: 9px; line-height: 1.45; color: #0F172A;">
-                  📡 <b>OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA</b><br><br>
-                  ⛽ <b>Salud de Gas &amp; Autonomía (Carrusel 24x/día):</b><br>
-                  &nbsp;&nbsp;• <b>Ethereum Sepolia:</b> 2.943 ETH total (~1.3 días)<br>
-                  &nbsp;&nbsp;• <b>Base Sepolia:</b> 0.300 ETH total (~1.8 días)<br>
-                  &nbsp;&nbsp;• <b>Otras Redes EVM:</b> 0 Gas ⏳ (En espera de distribución)<br>
-                  &nbsp;&nbsp;• <b>Solana Devnet:</b> 0 SOL ⏳ (En espera de airdrop)<br><br>
-                  🏦 <b>Contratos DeFi Activos (Rotator):</b><br>
-                  &nbsp;&nbsp;• <b>WETH Sepolia:</b> <code>0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14</code><br>
-                  &nbsp;&nbsp;• <b>WETH Base:</b> <code>0x4200000000000000000000000000000000000006</code><br>
-                  &nbsp;&nbsp;• <b>WBNB BSC:</b> <code>0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd</code><br>
-                  &nbsp;&nbsp;• <b>WPOL Amoy:</b> <code>0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9</code><br><br>
-                  🌉 <b>Estado del Auto-Bridge L2:</b><br>
-                  &nbsp;&nbsp;🟢 <b>STANDBY ÓPTIMO:</b> Flota 100% abastecida (&gt; 0.003 ETH)<br><br>
-                  👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx automatizadas)<br>
-                  🤖 <b>Flota Total:</b> 500 Satélites sincronizados
-                </div>
-              </div>
-
-              <!-- Reporte 2: Ronda Omnichain -->
-              <div class="tg-bubble-item" style="border-left: 3.5px solid #10B981;">
-                <div class="tg-bubble-top">
-                  <span class="tg-chip-badge" style="background: #10B981;">100% REALIZADO</span>
-                  <span class="tg-time mono-code">17:51:10 UTC</span>
-                </div>
-                <div class="tg-text" style="font-size: 9px; line-height: 1.45; color: #0F172A;">
-                  🚀 <b>OPERACIÓN 10K - REPORTE DE RONDA OMNICHAIN</b><br>
-                  🔥 <b>[EJECUCIÓN REAL ON-CHAIN]</b><br><br>
-                  👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)<br>
-                  🤖 <b>Escuadrón Activo:</b> 20/500 Satélites (Carrusel Horario)<br><br>
-                  🌐 <b>Desglose Omnichain por Red:</b><br>
-                  &nbsp;&nbsp;• <b>Ethereum Sepolia:</b> 20/20 txs ✅<br>
-                  &nbsp;&nbsp;• <b>Base Sepolia:</b> 20/20 txs ✅<br>
-                  &nbsp;&nbsp;• <b>Arbitrum Sepolia:</b> 20/20 txs ✅<br>
-                  &nbsp;&nbsp;• <b>BNB Smart Chain Testnet:</b> 0 Gas ⏳<br>
-                  &nbsp;&nbsp;• <b>Polygon Amoy:</b> 0 Gas ⏳<br>
-                  &nbsp;&nbsp;• <b>opBNB Testnet:</b> 0 Gas ⏳<br>
-                  &nbsp;&nbsp;• <b>Solana Devnet:</b> 0 SOL ⏳<br><br>
-                  ⚡ <b>Total Transacciones Confirmadas:</b> 60 on-chain<br>
-                  🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)
-                </div>
-              </div>
+            <div class="bcard-transit-block">
+              <span class="bcard-transit-lbl">EN CAMINO:</span>
+              <span class="bcard-transit-amt" id="vaultTransit1">+$34.20 USDC</span>
             </div>
           </div>
         </div>
 
+        <!-- 🟦 TARJETA 2 — COLOR AZUL REY (Bóveda Binance #2 • Box 2 #101–#200) -->
+        <div class="binance-vault-card vault-card-blue" id="vaultCard2" onclick="openBoxExplorer(2)" title="Inspeccionar Box 2 (#101–#200)">
+          <div class="bcard-top-row">
+            <span class="bcard-vault-name">BÓVEDA BINANCE #2</span>
+            <span class="bcard-box-badge">BOX 2: #101–#200</span>
+          </div>
+          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x33cffda0218122ed4d981dcb1797f4b458191bc4', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
+            <div class="bcard-addr-left">
+              <span class="bcard-addr-icon">🔑</span>
+              <span class="bcard-addr-text mono-code">0x33cffda0...458191bc4</span>
+            </div>
+            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          </div>
+          <div class="bcard-bottom-row">
+            <div class="bcard-received-block">
+              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
+              <span class="bcard-received-amt" id="vaultAmt2">$380.50 USDC</span>
+            </div>
+            <div class="bcard-transit-block">
+              <span class="bcard-transit-lbl">EN CAMINO:</span>
+              <span class="bcard-transit-amt" id="vaultTransit2">+$28.50 USDC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🟩 TARJETA 3 — COLOR VERDE ESMERALDA (Bóveda Binance #3 • Box 3 #201–#300) -->
+        <div class="binance-vault-card vault-card-green" id="vaultCard3" onclick="openBoxExplorer(3)" title="Inspeccionar Box 3 (#201–#300)">
+          <div class="bcard-top-row">
+            <span class="bcard-vault-name">BÓVEDA BINANCE #3</span>
+            <span class="bcard-box-badge">BOX 3: #201–#300</span>
+          </div>
+          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
+            <div class="bcard-addr-left">
+              <span class="bcard-addr-icon">🔑</span>
+              <span class="bcard-addr-text mono-code">0x409c4695...eb54bfca4e</span>
+            </div>
+            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          </div>
+          <div class="bcard-bottom-row">
+            <div class="bcard-received-block">
+              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
+              <span class="bcard-received-amt" id="vaultAmt3">$320.00 USDC</span>
+            </div>
+            <div class="bcard-transit-block">
+              <span class="bcard-transit-lbl">EN CAMINO:</span>
+              <span class="bcard-transit-amt" id="vaultTransit3">+$24.10 USDC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🟨 TARJETA 4 — COLOR AMARILLO ORO (Bóveda Binance #4 • Box 4 #301–#400) -->
+        <div class="binance-vault-card vault-card-yellow" id="vaultCard4" onclick="openBoxExplorer(4)" title="Inspeccionar Box 4 (#301–#400)">
+          <div class="bcard-top-row">
+            <span class="bcard-vault-name">BÓVEDA BINANCE #4</span>
+            <span class="bcard-box-badge">BOX 4: #301–#400</span>
+          </div>
+          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0x2734e0a264573056417d12478616107ff5d2ce54', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
+            <div class="bcard-addr-left">
+              <span class="bcard-addr-icon">🔑</span>
+              <span class="bcard-addr-text mono-code">0x2734e0a2...ff5d2ce54</span>
+            </div>
+            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          </div>
+          <div class="bcard-bottom-row">
+            <div class="bcard-received-block">
+              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
+              <span class="bcard-received-amt" id="vaultAmt4">$150.00 USDC</span>
+            </div>
+            <div class="bcard-transit-block">
+              <span class="bcard-transit-lbl">EN CAMINO:</span>
+              <span class="bcard-transit-amt" id="vaultTransit4">+$18.30 USDC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🟪 TARJETA 5 — COLOR MORADO REAL (Bóveda Binance #5 • Box 5 #401–#500) -->
+        <div class="binance-vault-card vault-card-purple" id="vaultCard5" onclick="openBoxExplorer(5)" title="Inspeccionar Box 5 (#401–#500)">
+          <div class="bcard-top-row">
+            <span class="bcard-vault-name">BÓVEDA BINANCE #5</span>
+            <span class="bcard-box-badge">BOX 5: #401–#500</span>
+          </div>
+          <div class="bcard-addr-pill" onclick="event.stopPropagation(); copyWalletAddress('0xf746f7da001c48367d76641a2e870db8e509dce7', this.querySelector('.bcard-copy-btn'))" title="Clic para copiar dirección de depósito">
+            <div class="bcard-addr-left">
+              <span class="bcard-addr-icon">🔑</span>
+              <span class="bcard-addr-text mono-code">0xf746f7da...8e509dce7</span>
+            </div>
+            <span class="bcard-copy-btn" title="Copiar dirección">📋</span>
+          </div>
+          <div class="bcard-bottom-row">
+            <div class="bcard-received-block">
+              <span class="bcard-received-lbl">TOTAL RECIBIDO:</span>
+              <span class="bcard-received-amt" id="vaultAmt5">$120.00 USDC</span>
+            </div>
+            <div class="bcard-transit-block">
+              <span class="bcard-transit-lbl">EN CAMINO:</span>
+              <span class="bcard-transit-amt" id="vaultTransit5">+$15.40 USDC</span>
+            </div>
+          </div>
+        </div>
       </aside>
 
     </div>

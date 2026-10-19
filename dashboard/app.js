@@ -20,11 +20,11 @@ const FLEET_DATA = {
     5: { id: 5, name: "Box 5", range: "#401 al #500", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.0151 ETH", donor: "Satélite #405 (0.220 ETH)", note: "Stand-by preventivo y firma con jitter humano" }
   },
   binanceVaults: [
-    { boxId: 1, range: "#001 al #100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", usdc: 450.00 },
-    { boxId: 2, range: "#101 al #200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", usdc: 380.50 },
-    { boxId: 3, range: "#201 al #300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", usdc: 320.00 },
-    { boxId: 4, range: "#301 al #400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", usdc: 150.00 },
-    { boxId: 5, range: "#401 al #500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", usdc: 120.00 }
+    { boxId: 1, name: "BÓVEDA BINANCE #1", range: "BOX 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 450.00, pendingUsdc: 34.20 },
+    { boxId: 2, name: "BÓVEDA BINANCE #2", range: "BOX 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 380.50, pendingUsdc: 28.50 },
+    { boxId: 3, name: "BÓVEDA BINANCE #3", range: "BOX 3: #201–#300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", receivedUsdc: 320.00, pendingUsdc: 24.10 },
+    { boxId: 4, name: "BÓVEDA BINANCE #4", range: "BOX 4: #301–#400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", receivedUsdc: 150.00, pendingUsdc: 18.30 },
+    { boxId: 5, name: "BÓVEDA BINANCE #5", range: "BOX 5: #401–#500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", receivedUsdc: 120.00, pendingUsdc: 15.40 }
   ],
   initialTelegramMessages: [
     { time: "17:57:00", badge: "KEEP-UP", text: "Turno #21 completado: 20 satélites del Box 3 confirmaron swaps en Base Sepolia." },
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPipelineMountainCanvas();
   renderBoxes();
   renderBinanceVaults();
-  initTelegramFeed();
+  updateBinanceVaultCards(FLEET_DATA.binanceVaults);
 
   // Cargar lista de 500 carteras para el explorador
   loadWalletsData().then(() => {
@@ -205,6 +205,12 @@ async function pollTelemetry() {
       if (data.recentTelegramAlerts && data.recentTelegramAlerts.length > 0) {
         FLEET_DATA.telegramAlerts = data.recentTelegramAlerts;
         renderTelegramAlerts(data.recentTelegramAlerts);
+      }
+      if (data.binanceVaults && data.binanceVaults.length > 0) {
+        FLEET_DATA.binanceVaults = data.binanceVaults;
+        updateBinanceVaultCards(data.binanceVaults);
+      } else {
+        updateBinanceVaultCards(FLEET_DATA.binanceVaults);
       }
       // Auto-actualizar tabla del Box Explorer
       renderBoxExplorerData();
@@ -671,144 +677,67 @@ function renderBoxes() {
 }
 
 // ==========================================================================
-// RENDERIZADO DE LAS 5 BÓVEDAS BINANCE SPOT
+// RENDERIZADO Y ACTUALIZACIÓN DE LAS 5 BÓVEDAS BINANCE SPOT
 // ==========================================================================
 function renderBinanceVaults() {
   const container = document.getElementById("vaults-deck-container");
   if (!container) return;
 
-  container.innerHTML = FLEET_DATA.binanceVaults.map(v => `
-    <div class="vault-item-card">
-      <span class="vault-num">BÓVEDA BOX ${v.boxId}</span>
-      <span class="vault-amt">$${v.usdc.toFixed(2)} USDC</span>
-      <span style="font-size: 9.5px; color: #475569;">Para satélites ${v.range}</span>
-      <span class="vault-addr mono-code">${v.address}</span>
-    </div>
-  `).join("");
+  container.innerHTML = FLEET_DATA.binanceVaults.map(v => {
+    const received = v.receivedUsdc != null ? v.receivedUsdc : (v.usdc != null ? v.usdc : 0);
+    return `
+      <div class="vault-item-card">
+        <span class="vault-num">BÓVEDA BOX ${v.boxId}</span>
+        <span class="vault-amt">$${received.toFixed(2)} USDC</span>
+        <span style="font-size: 9.5px; color: #475569;">Para satélites ${v.range}</span>
+        <span class="vault-addr mono-code">${v.address}</span>
+      </div>
+    `;
+  }).join("");
 }
 
-// ==========================================================================
-// COLUMNA DE COMUNICACIONES SIMÉTRICA (AURA 10K IA + TELEGRAM LIVE)
-// ==========================================================================
-function initTelegramFeed() {
-  const feed = document.getElementById("telegram-stream-box");
-  if (!feed) return;
+function updateBinanceVaultCards(vaultsData) {
+  const vaults = (vaultsData && vaultsData.length === 5) ? vaultsData : FLEET_DATA.binanceVaults;
+  if (!vaults) return;
 
-  feed.innerHTML = "";
-  FLEET_DATA.initialTelegramMessages.forEach(msg => {
-    addTelegramMessage(msg.time, msg.badge, msg.text);
-  });
+  vaults.forEach((v, idx) => {
+    const boxNum = v.boxId || (idx + 1);
+    const amtEl = document.getElementById(`vaultAmt${boxNum}`);
+    const transitEl = document.getElementById(`vaultTransit${boxNum}`);
+    const cardEl = document.getElementById(`vaultCard${boxNum}`);
 
-  setInterval(() => {
-    const samples = [
-      { badge: "100% REALIZADO", text: "Turno Keep-Up completado con 100% de éxito: 20 satélites firmaron a tiempo." },
-      { badge: "TX CONFIRMADA", text: "Satélite #092 (Box 1) confirmó micro-interacción orgánica en Base Sepolia." },
-      { badge: "PUENTE L1-L2", text: "Satélite #155 (Box 2) confirmó puente L1->L2 hacia Arbitrum Sepolia." },
-      { badge: "REGLA DE ORO", text: "Radar Hunter: Regla de Oro >0.015 ETH verificada en 5 Boxes. Cero violaciones." },
-      { badge: "100% REALIZADO", text: "Lote de 20 carteras sellado: 100% de firmas on-chain validadas." },
-      { badge: "HARVEST USDC", text: "Liquidación automática: Retención de 3.2% de polvo orgánico aplicada." }
-    ];
-    const item = samples[Math.floor(Math.random() * samples.length)];
-    const now = new Date().toTimeString().slice(0, 8);
-    addTelegramMessage(now, item.badge, item.text);
-  }, 14000);
-}
+    const received = v.receivedUsdc != null ? v.receivedUsdc : (v.usdc != null ? v.usdc : 0);
+    const pending = v.pendingUsdc != null ? v.pendingUsdc : 0;
 
-function addTelegramMessage(time, badge, text) {
-  const feed = document.getElementById("telegram-stream-box");
-  if (!feed) return;
-
-  const item = document.createElement("div");
-  item.className = "tg-bubble-item";
-  
-  const isRealizado = badge.includes("100%");
-  const badgeStyle = isRealizado ? "background: #10B981; color: #FFFFFF;" : "background: #0284C7; color: #FFFFFF;";
-
-  item.innerHTML = `
-    <div class="tg-bubble-top">
-      <span class="tg-chip-badge" style="${badgeStyle}">[${badge}]</span>
-      <span class="tg-time mono-code">${time} UTC</span>
-    </div>
-    <p class="tg-text">${text}</p>
-  `;
-  feed.prepend(item);
-
-  if (feed.children.length > 35) {
-    feed.removeChild(feed.lastChild);
-  }
-}
-
-// Asistente AURA 10K IA Residente
-function askGemini(topic) {
-  const log = document.getElementById("gemini-chat-log");
-  if (!log) return;
-
-  const userBubble = document.createElement("div");
-  userBubble.className = "gemini-bubble user";
-  
-  let userText = "";
-  if (topic === "boxes") userText = "¿Cómo van los 5 Boxes?";
-  else if (topic === "gas") userText = "¿Cómo está la Regla de Oro >0.015 ETH?";
-  else if (topic === "keepup") userText = "¿Cómo funciona el reloj Keep-Up?";
-  else if (topic === "meta") userText = "¿Cuánto falta para los 12,000 USDC?";
-
-  userBubble.innerHTML = `<strong>Tú:</strong> ${userText}`;
-  log.appendChild(userBubble);
-
-  const assistantBubble = document.createElement("div");
-  assistantBubble.className = "gemini-bubble assistant";
-  assistantBubble.innerHTML = `<em>AURA 10K analizando la telemetría...</em>`;
-  log.appendChild(assistantBubble);
-  log.scrollTop = log.scrollHeight;
-
-  setTimeout(() => {
-    let reply = "";
-    if (topic === "boxes") {
-      reply = `<strong>✨ AURA 10K:</strong> Los 5 Boxes operan estancos con 100 satélites cada uno. B1, B2, B3 y B5 al 100%. B4 en ajuste preventivo con donante #305 activo.`;
-    } else if (topic === "gas") {
-      reply = `<strong>✨ AURA 10K:</strong> La Regla de Oro (>0.015 ETH) se respeta estrictamente en las 500 carteras. Donaciones exclusivamente intra-box para blindar contra rastreo Sybil.`;
-    } else if (topic === "keepup") {
-      reply = `<strong>✨ AURA 10K:</strong> El secuenciador despierta 20 satélites cada 3 minutos exactos con jitter humano aleatorio. Cada turno completado se sella con <strong>✓ 100% REALIZADO</strong>.`;
-    } else if (topic === "meta") {
-      reply = `<strong>✨ AURA 10K:</strong> Acumulado: <strong>$1,420.50 USDC (11.84%)</strong>. Faltan $10,579.50 USDC hacia el Fondo Cura Tools y la Nueva PC. Cima prevista para el Día 34.`;
+    if (amtEl) {
+      amtEl.textContent = `$${received.toFixed(2)} USDC`;
+    }
+    if (transitEl) {
+      transitEl.textContent = `+$${pending.toFixed(2)} USDC`;
     }
 
-    assistantBubble.innerHTML = reply;
-    log.scrollTop = log.scrollHeight;
-  }, 300);
+    if (v.address && cardEl) {
+      const addrText = cardEl.querySelector(".bcard-addr-text");
+      if (addrText) {
+        addrText.textContent = `${v.address.slice(0, 10)}...${v.address.slice(-8)}`;
+      }
+      const pill = cardEl.querySelector(".bcard-addr-pill");
+      if (pill) {
+        pill.setAttribute("onclick", `event.stopPropagation(); copyWalletAddress('${v.address}', this.querySelector('.bcard-copy-btn'))`);
+      }
+    }
+  });
 }
 
-function sendChatMessage() {
-  const input = document.getElementById("chat-input-field");
-  const query = input?.value.trim();
-  if (!query) return;
-
-  const log = document.getElementById("gemini-chat-log");
-  if (!log) return;
-
-  const userBubble = document.createElement("div");
-  userBubble.className = "gemini-bubble user";
-  userBubble.innerHTML = `<strong>Tú:</strong> ${query}`;
-  log.appendChild(userBubble);
-
-  const assistantBubble = document.createElement("div");
-  assistantBubble.className = "gemini-bubble assistant";
-  assistantBubble.innerHTML = `<em>AURA 10K consultando el estado de la flota...</em>`;
-  log.appendChild(assistantBubble);
-
-  if (input) input.value = "";
-  log.scrollTop = log.scrollHeight;
-
-  setTimeout(() => {
-    assistantBubble.innerHTML = `
-      <strong>✨ AURA 10K:</strong> Telemetría en tiempo real sobre <em>"${query}"</em>:<br>
-      • Salud global: <strong>98.5%</strong> con cero fallos de bloque.<br>
-      • Cadencia Keep-Up: sincronizada a 3 min en Base y Arbitrum Sepolia.<br>
-      • Todos los turnos sellados con <strong>✓ 100% REALIZADO</strong>.
-    `;
-    log.scrollTop = log.scrollHeight;
-  }, 350);
+function logToAuraAndTelegram(auraHtml, tgBadge, tgText) {
+  console.log(`[Operación 10K] ${tgBadge}: ${tgText}`);
 }
+
+// Handlers de compatibilidad
+function initTelegramFeed() {}
+function addTelegramMessage() {}
+function askGemini() {}
+function sendChatMessage() {}
 
 // ==========================================================================
 // ARQUITECTURA DE WORKFLOW VISUAL INTERACTIVO — MESA DE TRABAJO CENTRAL

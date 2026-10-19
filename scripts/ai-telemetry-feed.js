@@ -181,6 +181,13 @@ function generateUnifiedTelemetry() {
       destinationSummary: "Fondo de desarrollo Cura Tools + Estación de trabajo de alta ingeniería",
       projectedCompletionDays: 34
     },
+    binanceVaults: [
+      { boxId: 1, name: "BÓVEDA BINANCE #1", range: "BOX 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 450.00, pendingUsdc: 34.20, status: "ACUMULANDO" },
+      { boxId: 2, name: "BÓVEDA BINANCE #2", range: "BOX 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 380.50, pendingUsdc: 28.50, status: "ACUMULANDO" },
+      { boxId: 3, name: "BÓVEDA BINANCE #3", range: "BOX 3: #201–#300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", receivedUsdc: 320.00, pendingUsdc: 24.10, status: "ACUMULANDO" },
+      { boxId: 4, name: "BÓVEDA BINANCE #4", range: "BOX 4: #301–#400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", receivedUsdc: 150.00, pendingUsdc: 18.30, status: "LISTO_BARRIDO" },
+      { boxId: 5, name: "BÓVEDA BINANCE #5", range: "BOX 5: #401–#500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", receivedUsdc: 120.00, pendingUsdc: 15.40, status: "ACUMULANDO" }
+    ],
     networksStatus,
     recentEvents,
     recentTelegramAlerts
