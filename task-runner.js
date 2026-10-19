@@ -434,11 +434,15 @@ async function executeSwarmOnSolana({ squad, isDryRun }) {
 }
 
 async function runTaskRunner() {
-  const isSeedAvailable = Boolean(process.env.TRUST_WALLET_SEED && process.env.TRUST_WALLET_SEED.trim().length > 0);
+  let isSeedValid = false;
+  if (process.env.TRUST_WALLET_SEED) {
+    const raw = process.env.TRUST_WALLET_SEED.trim().replace(/\s+/g, " ");
+    isSeedValid = ethers.Mnemonic.isValidMnemonic(raw);
+  }
   let isDryRun = process.argv.includes("--dry-run");
 
-  if (!isSeedAvailable && !isDryRun) {
-    console.log("⚠️  [TASK RUNNER] TRUST_WALLET_SEED no detectada en entorno. Conmutando automáticamente a modo simulación (Dry-Run resiliente).");
+  if (!isSeedValid && !isDryRun) {
+    console.log("⚠️  [TASK RUNNER] TRUST_WALLET_SEED no detectada o inválida (BIP-39). Conmutando automáticamente a modo simulación (Dry-Run resiliente).");
     isDryRun = true;
   }
 

@@ -18,7 +18,7 @@ permissions:
 jobs:
   run-daily-carousel:
     name: Carrusel Omnichain 500 Satélites (Sepolia, Base, Arbitrum)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     permissions:
       contents: write
@@ -26,11 +26,13 @@ jobs:
     steps:
       - name: 📥 Clonar repositorio
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ⚙️ Configurar Node.js 20
+      - name: ⚙️ Configurar Node.js 22 LTS
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '22'
           cache: 'npm'
 
       - name: 📦 Instalar dependencias limpias

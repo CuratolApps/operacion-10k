@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Operación 10K — Centro de Mando Profesional Glassmorphism 3D</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- ====================================================================
@@ -27,7 +31,7 @@
          FILA 1 (64px): TOP BAR SUPERIOR (BLANCO LECHOSO)
          ================================================================== -->
     <header class="crystal-top-header crystal-header">
-      
+
       <!-- 1. Identidad: Logo 10K ("we can do it") -->
       <div class="header-brand-block">
         <div class="emblem-10k">
@@ -86,7 +90,8 @@
         <div class="nav-title-tag">CENTRO DE MANDO</div>
 
         <!-- 4 Tarjetas de Navegación Compactas y Claras -->
-        <button class="nav-vertical-btn active nav-btn-orange" data-view="view-panorama" onclick="switchView('view-panorama')">
+        <button class="nav-vertical-btn active nav-btn-orange" data-view="view-panorama"
+          onclick="switchView('view-panorama')">
           <span class="btn-icon">🏛️</span>
           <div class="btn-text">
             <span class="btn-main">Mesa Principal</span>
@@ -154,7 +159,8 @@
                   <span class="pipeline-pulse-beacon"></span>
                   <div class="pipeline-title-col">
                     <span class="pipeline-main-title">⚡ PIPELINE VISUAL ORQUESTADOR: DÍA 0 ➔ 12,000 USDC</span>
-                    <span class="pipeline-sub-title">FLUJO INTERACTIVO DE IZQUIERDA A DERECHA • CADENCIA 3 MINUTOS • AISLAMIENTO SYBIL 100%</span>
+                    <span class="pipeline-sub-title">FLUJO INTERACTIVO DE IZQUIERDA A DERECHA • CADENCIA 3 MINUTOS •
+                      AISLAMIENTO SYBIL 100%</span>
                   </div>
                 </div>
                 <div class="pipeline-telemetry-badge">
@@ -166,7 +172,7 @@
               <!-- Lienzo del Flujo: Tuberías SVG + 4 Nodos de Colores -->
               <!-- Lienzo del Flujo: Tuberías SVG + 4 Nodos en Rejilla Simétrica 2x2 -->
               <div class="pipeline-canvas-wrap">
-                
+
                 <!-- Conector SVG de Tuberías Luminosas en 2x2 (01 -> 02 -> 03 -> 04) -->
                 <svg class="pipeline-svg-canvas" id="pipelineSvg" viewBox="0 0 1000 600" preserveAspectRatio="none">
                   <defs>
@@ -186,11 +192,14 @@
                   </defs>
 
                   <!-- Tubería 1 a 2 (Horizontal Superior: 01 Gas -> 02 Keep-Up) -->
-                  <path class="pipe-path pipe-12" id="pipe12" d="M 488 150 L 512 150" stroke="url(#gradPipe12)" stroke-width="5" stroke-linecap="round" />
+                  <path class="pipe-path pipe-12" id="pipe12" d="M 488 150 L 512 150" stroke="url(#gradPipe12)"
+                    stroke-width="5" stroke-linecap="round" />
                   <!-- Tubería 2 a 3 (Transición S-Curve: 02 Keep-Up -> 03 Cosecha) -->
-                  <path class="pipe-path pipe-23" id="pipe23" d="M 750 292 C 750 335, 250 265, 250 308" stroke="url(#gradPipe23)" stroke-width="4.5" stroke-linecap="round" />
+                  <path class="pipe-path pipe-23" id="pipe23" d="M 750 292 C 750 335, 250 265, 250 308"
+                    stroke="url(#gradPipe23)" stroke-width="4.5" stroke-linecap="round" />
                   <!-- Tubería 3 a 4 (Horizontal Inferior: 03 Cosecha -> 04 Binance) -->
-                  <path class="pipe-path pipe-34" id="pipe34" d="M 488 450 L 512 450" stroke="url(#gradPipe34)" stroke-width="5" stroke-linecap="round" />
+                  <path class="pipe-path pipe-34" id="pipe34" d="M 488 450 L 512 450" stroke="url(#gradPipe34)"
+                    stroke-width="5" stroke-linecap="round" />
 
                   <!-- Pulsos de Luz en las Tuberías -->
                   <circle class="pipe-pulse-dot dot-12" cx="500" cy="150" r="4.5" fill="#FFFFFF"></circle>
@@ -272,27 +281,37 @@
                       <div class="pnode-boxes-lanes">
                         <div class="plane-lane" id="laneB1">
                           <span class="lane-id">B1</span>
-                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <div class="lane-bar">
+                            <div class="lane-fill" style="width: 100%;"></div>
+                          </div>
                           <span class="lane-stat">100% OK</span>
                         </div>
                         <div class="plane-lane" id="laneB2">
                           <span class="lane-id">B2</span>
-                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <div class="lane-bar">
+                            <div class="lane-fill" style="width: 100%;"></div>
+                          </div>
                           <span class="lane-stat">100% OK</span>
                         </div>
                         <div class="plane-lane" id="laneB3">
                           <span class="lane-id">B3</span>
-                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <div class="lane-bar">
+                            <div class="lane-fill" style="width: 100%;"></div>
+                          </div>
                           <span class="lane-stat">100% OK</span>
                         </div>
                         <div class="plane-lane" id="laneB4">
                           <span class="lane-id">B4</span>
-                          <div class="lane-bar"><div class="lane-fill" style="width: 95%;"></div></div>
+                          <div class="lane-bar">
+                            <div class="lane-fill" style="width: 95%;"></div>
+                          </div>
                           <span class="lane-stat">95% Gas</span>
                         </div>
                         <div class="plane-lane" id="laneB5">
                           <span class="lane-id">B5</span>
-                          <div class="lane-bar"><div class="lane-fill" style="width: 100%;"></div></div>
+                          <div class="lane-bar">
+                            <div class="lane-fill" style="width: 100%;"></div>
+                          </div>
                           <span class="lane-stat">100% OK</span>
                         </div>
                       </div>
@@ -367,7 +386,8 @@
                       <button class="pnode-btn btn-yellow-action" id="btnMulticall" onclick="triggerMulticallScan()">
                         <span>🔍 Escanear 500 (Multicall3)</span>
                       </button>
-                      <button class="pnode-btn btn-yellow-secondary" id="btnPrepareBatch" onclick="triggerPrepareBinanceBatch()">
+                      <button class="pnode-btn btn-yellow-secondary" id="btnPrepareBatch"
+                        onclick="triggerPrepareBinanceBatch()">
                         <span>🌾 Preparar Lote a Binance</span>
                       </button>
                     </div>
@@ -448,7 +468,8 @@
               <div class="boxes-top-strip workspace-subcard card-vibrant-green">
                 <div class="strip-text">
                   <h3>🛡️ Aislamiento Estricto: 5 Boxes Estancos (100 Satélites por Box)</h3>
-                  <p>Ningún Box cruza fondos con otro. Donaciones y recargas 100% intra-bloque con >0.015 ETH asegurados.</p>
+                  <p>Ningún Box cruza fondos con otro. Donaciones y recargas 100% intra-bloque con >0.015 ETH
+                    asegurados.</p>
                 </div>
               </div>
               <div class="boxes-grid-5" id="boxes-deck-container">
@@ -493,7 +514,8 @@
                   <span class="card-title-pill">🏦 5 BÓVEDAS RECEPTORAS BINANCE SPOT</span>
                   <span class="safe-badge">🔒 100% Solo Lectura • Cero Claves API</span>
                 </div>
-                <p style="font-size: 11.5px; color: #E0E7FF; margin-top: 4px;">Liquidaciones automáticas en USDC oficial nativo con retención de polvo orgánico (1.5% a 4.0%).</p>
+                <p style="font-size: 11.5px; color: #E0E7FF; margin-top: 4px;">Liquidaciones automáticas en USDC oficial
+                  nativo con retención de polvo orgánico (1.5% a 4.0%).</p>
               </div>
               <div class="vaults-grid-5" id="vaults-deck-container">
                 <!-- Bóvedas de Binance renderizadas con app.js -->
@@ -538,13 +560,15 @@
           <!-- Área de Conversación con Scroll Interno -->
           <div class="ai-chat-viewport" id="gemini-chat-log">
             <div class="gemini-bubble assistant">
-              <strong>✨ AURA 10K:</strong> Centro neural activo. Superviso los 5 Boxes estancos, la Regla >0.015 ETH y el reloj Keep-Up. Escribe abajo para consultar la flota.
+              <strong>✨ AURA 10K:</strong> Centro neural activo. Superviso los 5 Boxes estancos, la Regla >0.015 ETH y
+              el reloj Keep-Up. Escribe abajo para consultar la flota.
             </div>
           </div>
 
           <!-- Input Inferior Exclusivo para IA -->
           <div class="ai-input-bar">
-            <input type="text" id="chat-input-field" class="ai-text-input" placeholder="Pregunta a AURA 10K..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+            <input type="text" id="chat-input-field" class="ai-text-input" placeholder="Pregunta a AURA 10K..."
+              onkeydown="if(event.key==='Enter') sendChatMessage()">
             <button class="ai-send-btn" id="chat-send-btn" onclick="sendChatMessage()" title="Enviar mensaje">
               <span>ENVIAR</span>
               <span class="send-arrow">➔</span>
@@ -585,12 +609,13 @@
          Tarjetas Rápidas de los 5 Boxes + Estado de Red RPC & Aislamiento
          ================================================================== -->
     <footer class="crystal-footer">
-      
+
       <!-- Fila de Tarjetas Rápidas de los 5 Boxes -->
       <div class="footer-boxes-row">
         <span class="footer-section-label">MONITOR BOXES:</span>
 
-        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(1);" title="Box 1: 100% OK">
+        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(1);"
+          title="Box 1: 100% OK">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 1</span>
@@ -601,7 +626,8 @@
           </div>
         </button>
 
-        <button class="footer-box-card fbox-yellow" onclick="switchView('view-boxes'); activateBox(2);" title="Box 2: 100% OK">
+        <button class="footer-box-card fbox-yellow" onclick="switchView('view-boxes'); activateBox(2);"
+          title="Box 2: 100% OK">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 2</span>
@@ -612,7 +638,8 @@
           </div>
         </button>
 
-        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(3);" title="Box 3: 100% OK">
+        <button class="footer-box-card fbox-green" onclick="switchView('view-boxes'); activateBox(3);"
+          title="Box 3: 100% OK">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 3</span>
@@ -623,7 +650,8 @@
           </div>
         </button>
 
-        <button class="footer-box-card fbox-orange" onclick="switchView('view-boxes'); activateBox(4);" title="Box 4: Ajuste Gas Preventivo">
+        <button class="footer-box-card fbox-orange" onclick="switchView('view-boxes'); activateBox(4);"
+          title="Box 4: Ajuste Gas Preventivo">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 4</span>
@@ -634,7 +662,8 @@
           </div>
         </button>
 
-        <button class="footer-box-card fbox-blue" onclick="switchView('view-boxes'); activateBox(5);" title="Box 5: 100% OK">
+        <button class="footer-box-card fbox-blue" onclick="switchView('view-boxes'); activateBox(5);"
+          title="Box 5: 100% OK">
           <div class="fbox-top">
             <span class="fbox-dot"></span>
             <span class="fbox-id">BOX 5</span>
@@ -673,4 +702,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>
