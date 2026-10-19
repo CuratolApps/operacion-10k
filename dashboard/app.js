@@ -48,9 +48,7 @@ const FLEET_DATA = {
 document.addEventListener("DOMContentLoaded", () => {
   initClock();
   initGoalMetrics();
-  initKeepUpSequencer();
-  initMountainCanvas();
-  initPipelineMountainCanvas();
+  updateGasStatus(2.943, 0.300);
   renderBoxes();
   renderBinanceVaults();
   updateMonitorBoxes(FLEET_DATA.monitorBoxes);
@@ -78,16 +76,62 @@ function initClock() {
   setInterval(tick, 1000);
 }
 
-// Métricas de Meta 12,000 USDC
+// Métricas de Meta 12,000 USDC y Capitalización Global
 function initGoalMetrics() {
   const g = FLEET_DATA.goalMilestone;
-  const currentFmt = `$${g.currentAccruedUsdc.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+  const currentFmt = `$${g.currentAccruedUsdc.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`;
+  const remainingFmt = `$${g.remainingUsdc.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`;
 
-  const headerAccrued = document.getElementById("header-accrued");
-  const headerPct = document.getElementById("header-pct-chip");
+  const capAmtEl = document.getElementById("centralCapitalizedAmount");
+  const pendAmtEl = document.getElementById("centralPendingAmount");
+  const progPctEl = document.getElementById("centralProgressPct");
+  const progBarEl = document.getElementById("centralProgressBar");
+  const remAmtEl = document.getElementById("centralRemainingAmount");
 
-  if (headerAccrued) headerAccrued.textContent = currentFmt;
-  if (headerPct) headerPct.textContent = `${g.progressPct}%`;
+  if (capAmtEl) capAmtEl.textContent = currentFmt;
+  if (pendAmtEl) pendAmtEl.textContent = "+$120.50 USDC";
+  if (progPctEl) progPctEl.textContent = `${g.progressPct}%`;
+  if (progBarEl) progBarEl.style.width = `${Math.min(100, Math.max(0, g.progressPct))}%`;
+  if (remAmtEl) remAmtEl.textContent = remainingFmt;
+
+  updateProjectionMetrics();
+}
+
+function updateProjectionMetrics() {
+  const g = FLEET_DATA.goalMilestone;
+  const dailyAverage = 202.93;
+  const remaining = g.remainingUsdc || 10579.50;
+  const estDays = Math.ceil(remaining / dailyAverage);
+
+  const avgEl = document.getElementById("projDailyAverage");
+  const daysEl = document.getElementById("projEstimatedDays");
+
+  if (avgEl) avgEl.textContent = `+$${dailyAverage.toFixed(2)} USDC / día`;
+  if (daysEl) daysEl.textContent = `Tiempo estimado: ~${estDays} Días al ritmo actual`;
+}
+
+function updateGasStatus(totalEthL1, totalEthL2) {
+  const ethL1Val = typeof totalEthL1 === "number" ? totalEthL1 : parseFloat(totalEthL1) || 2.943;
+  const ethL2Val = typeof totalEthL2 === "number" ? totalEthL2 : parseFloat(totalEthL2) || 0.300;
+
+  const alertBox = document.getElementById("gasStatusAlertBox");
+  const statusLabel = document.getElementById("gasStatusLabel");
+  const statusIcon = document.getElementById("gasStatusIcon");
+
+  // Alerta si L1 < 0.5 ETH o L2 < 0.05 ETH
+  const isLowGas = ethL1Val < 0.5 || ethL2Val < 0.05;
+
+  if (alertBox && statusLabel && statusIcon) {
+    if (isLowGas) {
+      alertBox.className = "cf-gas-status-box status-warning";
+      statusIcon.textContent = "warning";
+      statusLabel.textContent = "RECARGAR GAS: BUSCAR FONDEO L1/L2";
+    } else {
+      alertBox.className = "cf-gas-status-box status-optimal";
+      statusIcon.textContent = "check_circle";
+      statusLabel.textContent = "ESTADO: TANQUE ÓPTIMO — SIN RECARGA REQUERIDA";
+    }
+  }
 }
 
 function updateRadarCards(radar, fleet) {
@@ -95,16 +139,17 @@ function updateRadarCards(radar, fleet) {
   const ethL1 = document.getElementById("metricEthL1");
   const baseL2 = document.getElementById("metricBaseL2");
   const arbL2 = document.getElementById("metricArbL2");
-  const shieldDesc = document.getElementById("shieldDescText");
-  const opTitle = document.getElementById("pipelineOpTitle");
-  const opSeal = document.getElementById("pipelineOpSeal");
 
-  if (ethL1) ethL1.textContent = `${radar.totalSepoliaEth || "2.943"} ETH (~1.3 días)`;
-  if (baseL2) baseL2.textContent = `${radar.totalBaseEth || "0.300"} ETH (~1.8 días)`;
-  if (arbL2 && fleet) arbL2.textContent = `${fleet.totalOnChainTxLastCycle || 60} txs OK`;
-  if (shieldDesc) shieldDesc.textContent = "100% Blindado (500/500 Satélites)";
-  if (opTitle) opTitle.textContent = "20/500 Satélites • 60 Tx Confirmadas";
-  if (opSeal) opSeal.textContent = " 100% REALIZADO";
+  if (ethL1) ethL1.textContent = `${radar.totalSepoliaEth || "2.943"} ETH`;
+  if (baseL2) baseL2.textContent = `${radar.totalBaseEth || "0.300"} ETH`;
+  if (arbL2) arbL2.textContent = "Operativo";
+
+  updateGasStatus(radar.totalSepoliaEth, radar.totalBaseEth);
+
+  const hunterDaily = document.getElementById("hunterDailyCaptured");
+  if (hunterDaily && fleet && fleet.dailyCapturedUsdc != null) {
+    hunterDaily.textContent = `+$${fleet.dailyCapturedUsdc.toFixed(2)} USDC`;
+  }
 }
 
 function renderTelegramAlerts(alerts) {

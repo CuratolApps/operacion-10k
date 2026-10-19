@@ -43,20 +43,7 @@
         </div>
       </div>
 
-      <!-- 2. Testigo Maestro: Meta 12,000 USDC (Binance Spot) -->
-      <div class="header-metric-pill goal-metric-pill">
-        <span class="material-symbols-rounded metric-icon">flag</span>
-        <div class="metric-col">
-          <span class="metric-title">META 12,000 USDC (BINANCE SPOT)</span>
-          <div class="metric-val-row">
-            <span class="metric-curr" id="header-accrued">$1,420.50</span>
-            <span class="metric-target">/ $12,000.00</span>
-          </div>
-        </div>
-        <span class="metric-badge-pct" id="header-pct-chip">11.84%</span>
-      </div>
-
-      <!-- 3. Reloj UTC en vivo -->
+      <!-- Reloj UTC en vivo (Limpio a la Derecha) -->
       <div class="header-utc-pill">
         <span class="material-symbols-rounded utc-icon">schedule</span>
         <span class="mono-code" id="header-utc-clock">--:--:-- UTC</span>
@@ -196,315 +183,220 @@
                (DÍA 0 &rarr; 12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS SVG)
                ------------------------------------------------------------ -->
           <section class="stage-view active" id="view-panorama">
-            <div class="visual-pipeline-container">
+            <div class="central-floating-grid">
 
-              <!-- Barra Superior del Pipeline -->
-              <div class="pipeline-header-bar">
-                <div class="pipeline-title-group">
-                  <span class="pipeline-pulse-beacon"></span>
-                  <div class="pipeline-title-col">
-                    <span class="pipeline-main-title">
-                      <span class="material-symbols-rounded" style="font-size: 16px; vertical-align: middle; color: #F59E0B;">bolt</span>
-                      PIPELINE VISUAL ORQUESTADOR: DÍA 0 &rarr; 12,000 USDC
-                    </span>
-                    <span class="pipeline-sub-title">FLUJO INTERACTIVO DE IZQUIERDA A DERECHA • CADENCIA 3 MINUTOS • AISLAMIENTO SYBIL 100%</span>
+              <!-- ========================================================
+                   TARJETA 1 (Arriba Izquierda) — CAPITALIZACIÓN & META GLOBAL (12,000 USDC)
+                   ======================================================== -->
+              <div class="central-frosted-card" id="cardCapitalization">
+                <!-- Cabecera -->
+                <div class="cf-card-header">
+                  <div class="cf-card-title-wrap">
+                    <span class="material-symbols-rounded cf-title-icon">flag</span>
+                    <span class="cf-card-title">CAPITALIZACIÓN &amp; META GLOBAL</span>
                   </div>
+                  <span class="cf-badge-meta">META: 12,000 USDC</span>
                 </div>
-                <div class="pipeline-telemetry-badge">
-                  <span class="p-cadence-dot"></span>
-                  <span>FLUJO: <strong id="pipe-cadence-label">1X NORMAL (180s)</strong></span>
+
+                <!-- Cuerpo -->
+                <div class="cf-card-body">
+                  <!-- Ranura 1: Capitalizado (En Bóvedas Binance) -->
+                  <div class="cf-slot">
+                    <div class="cf-slot-info">
+                      <span class="cf-slot-label">CAPITALIZADO (EN BÓVEDAS BINANCE):</span>
+                      <span class="cf-slot-sub">Consolidado recibido en 5 Bóvedas Spot</span>
+                    </div>
+                    <span class="cf-val-green-bold" id="centralCapitalizedAmount">$1,420.50 USDC</span>
+                  </div>
+
+                  <!-- Ranura 2: Por Capitalizar (Acumulado hoy en los 500 Bots) -->
+                  <div class="cf-slot">
+                    <div class="cf-slot-info">
+                      <span class="cf-slot-label">POR CAPITALIZAR (HOY 500 BOTS):</span>
+                      <span class="cf-slot-sub">Acumulado en ciclo actual listo para enviar</span>
+                    </div>
+                    <span class="cf-val-black-bold" id="centralPendingAmount">+$120.50 USDC</span>
+                  </div>
+
+                  <!-- Barra Profesional Única de Progreso (12,000 USDC) -->
+                  <div class="cf-progress-section">
+                    <div class="cf-progress-labels">
+                      <span class="cf-prog-title">META: <strong>$12,000.00 USDC</strong></span>
+                      <span class="cf-prog-stat" id="centralProgressPct">11.84%</span>
+                    </div>
+                    <div class="cf-progress-track">
+                      <div class="cf-progress-bar" id="centralProgressBar" style="width: 11.84%;"></div>
+                    </div>
+                    <div class="cf-progress-footer">
+                      <span class="cf-prog-remaining">Restante: <strong class="mono-code" id="centralRemainingAmount">$10,579.50 USDC</strong></span>
+                      <span class="cf-prog-status">Fondeo Binance Spot</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- Lienzo del Flujo: Tuberías SVG + 4 Nodos en Rejilla Simétrica 2x2 -->
-              <div class="pipeline-canvas-wrap">
-
-                <!-- Conector SVG de Tuberías Luminosas en 2x2 (01 -> 02 -> 03 -> 04) -->
-                <svg class="pipeline-svg-canvas" id="pipelineSvg" viewBox="0 0 1000 600" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="gradPipe12" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="#F97316" />
-                      <stop offset="100%" stop-color="#10B981" />
-                    </linearGradient>
-                    <linearGradient id="gradPipe23" x1="100%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color="#10B981" />
-                      <stop offset="50%" stop-color="#EAB308" />
-                      <stop offset="100%" stop-color="#F59E0B" />
-                    </linearGradient>
-                    <linearGradient id="gradPipe34" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="#F59E0B" />
-                      <stop offset="100%" stop-color="#1D4ED8" />
-                    </linearGradient>
-                  </defs>
-
-                  <!-- Tubería 1 a 2 (Horizontal Superior: 01 Gas -> 02 Keep-Up) -->
-                  <path class="pipe-path pipe-12" id="pipe12" d="M 488 150 L 512 150" stroke="url(#gradPipe12)"
-                    stroke-width="5" stroke-linecap="round" />
-                  <!-- Tubería 2 a 3 (Transición S-Curve: 02 Keep-Up -> 03 Cosecha) -->
-                  <path class="pipe-path pipe-23" id="pipe23" d="M 750 292 C 750 335, 250 265, 250 308"
-                    stroke="url(#gradPipe23)" stroke-width="4.5" stroke-linecap="round" />
-                  <!-- Tubería 3 a 4 (Horizontal Inferior: 03 Cosecha -> 04 Binance) -->
-                  <path class="pipe-path pipe-34" id="pipe34" d="M 488 450 L 512 450" stroke="url(#gradPipe34)"
-                    stroke-width="5" stroke-linecap="round" />
-
-                  <!-- Pulsos de Luz en las Tuberías -->
-                  <circle class="pipe-pulse-dot dot-12" cx="500" cy="150" r="4.5" fill="#FFFFFF"></circle>
-                  <circle class="pipe-pulse-dot dot-23" cx="500" cy="300" r="4.5" fill="#FFFFFF"></circle>
-                  <circle class="pipe-pulse-dot dot-34" cx="500" cy="450" r="4.5" fill="#FFFFFF"></circle>
-                </svg>
-
-                <!-- Cuadrícula Exacta 2x2: 4 Tarjetas del Mismo Tamaño -->
-                <div class="pipeline-nodes-grid pipeline-grid">
-
-                  <!-- NODO 1 (ARRIBA IZQUIERDA): DÍA 0 & FLUJO DE GAS -->
-                  <div class="pipeline-node-card node-card-orange" id="nodeGas">
-                    <div class="pnode-header">
-                      <div class="pnode-tag">
-                        <span class="pnode-num">01</span>
-                        <span class="material-symbols-rounded pnode-google-icon">local_gas_station</span>
-                        <span class="pnode-name">DÍA 0 & GAS</span>
-                      </div>
-                      <span class="pnode-status-pill pill-orange">L1 &rarr; L2 ACTIVO</span>
-                    </div>
-
-                    <!-- Distribución Horizontal Interna -->
-                    <div class="pnode-body-split">
-                      <div class="pnode-metric-box">
-                        <div class="pnode-metric-row">
-                          <span class="lbl">Sepolia L1:</span>
-                          <strong class="mono-code" id="metricEthL1">2.943 ETH (~1.3 días)</strong>
-                        </div>
-                        <div class="pnode-metric-row">
-                          <span class="lbl">Base L2:</span>
-                          <strong class="mono-code text-white" id="metricBaseL2">0.300 ETH (~1.8 días)</strong>
-                        </div>
-                        <div class="pnode-metric-row">
-                          <span class="lbl">Arbitrum L2:</span>
-                          <strong class="mono-code text-white" id="metricArbL2">20 txs OK</strong>
-                        </div>
-                      </div>
-
-                      <div class="pnode-shield-banner">
-                        <span class="material-symbols-rounded shield-google-icon">shield</span>
-                        <div>
-                          <div class="shield-title">ESCUDO &gt;0.015 ETH</div>
-                          <div class="shield-desc" id="shieldDescText">100% Blindado (500/500 Satélites)</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="pnode-actions actions-row">
-                      <button class="pnode-btn btn-orange-action" id="btnAutoFondear" onclick="triggerAutoFondear()">
-                        <span class="material-symbols-rounded" style="font-size: 15px;">bolt</span>
-                        <span>Auto-Fondear Intra-Box</span>
-                      </button>
-                      <button class="pnode-btn btn-outline-white" id="btnShieldToggle" onclick="toggleShield()">
-                        <span class="material-symbols-rounded" style="font-size: 15px;">shield</span>
-                        <span id="shieldToggleText">Escudo &gt;0.015 ETH: ACTIVO</span>
-                      </button>
-                    </div>
-
-                    <div class="node-port port-right" title="Tubería hacia Motor Keep-Up"></div>
+              <!-- ========================================================
+                   TARJETA 2 (Arriba Derecha) — INVENTARIO GLOBAL DE GAS (500 CARTERAS)
+                   ======================================================== -->
+              <div class="central-frosted-card" id="cardGasHealth">
+                <!-- Cabecera -->
+                <div class="cf-card-header">
+                  <div class="cf-card-title-wrap">
+                    <span class="material-symbols-rounded cf-title-icon">local_gas_station</span>
+                    <span class="cf-card-title">INVENTARIO GLOBAL DE GAS (500 CARTERAS)</span>
                   </div>
-
-                  <!-- NODO 2 (ARRIBA DERECHA): MOTOR KEEP-UP (3 MIN & 5 BOXES) -->
-                  <div class="pipeline-node-card node-card-green" id="nodeKeepUp">
-                    <div class="node-port port-left" title="Recepción de Gas L1/L2"></div>
-
-                    <div class="pnode-header">
-                      <div class="pnode-tag">
-                        <span class="pnode-num">02</span>
-                        <span class="material-symbols-rounded pnode-google-icon">sync</span>
-                        <span class="pnode-name">MOTOR KEEP-UP</span>
-                      </div>
-                      <span class="pnode-status-pill pill-green mono-code" id="pipelineClock">03:00</span>
-                    </div>
-
-                    <div class="pnode-body-split">
-                      <div class="pnode-boxes-lanes">
-                        <div class="plane-lane" id="laneB1" onclick="openBoxExplorer(1)" style="cursor: pointer;" title="Inspeccionar BOX 1 (#001–#100)">
-                          <span class="lane-id">BOX 1</span>
-                          <div class="lane-bar">
-                            <div class="lane-fill" style="width: 100%;"></div>
-                          </div>
-                          <span class="lane-stat">100/100 OK</span>
-                        </div>
-                        <div class="plane-lane" id="laneB2" onclick="openBoxExplorer(2)" style="cursor: pointer;" title="Inspeccionar BOX 2 (#101–#200)">
-                          <span class="lane-id">BOX 2</span>
-                          <div class="lane-bar">
-                            <div class="lane-fill" style="width: 100%;"></div>
-                          </div>
-                          <span class="lane-stat">100/100 OK</span>
-                        </div>
-                        <div class="plane-lane" id="laneB3" onclick="openBoxExplorer(3)" style="cursor: pointer;" title="Inspeccionar BOX 3 (#201–#300)">
-                          <span class="lane-id">BOX 3</span>
-                          <div class="lane-bar">
-                            <div class="lane-fill" style="width: 100%;"></div>
-                          </div>
-                          <span class="lane-stat">100/100 OK</span>
-                        </div>
-                        <div class="plane-lane" id="laneB4" onclick="openBoxExplorer(4)" style="cursor: pointer;" title="Inspeccionar BOX 4 (#301–#400)">
-                          <span class="lane-id">BOX 4</span>
-                          <div class="lane-bar">
-                            <div class="lane-fill" style="width: 100%;"></div>
-                          </div>
-                          <span class="lane-stat">100/100 OK</span>
-                        </div>
-                        <div class="plane-lane" id="laneB5" onclick="openBoxExplorer(5)" style="cursor: pointer;" title="Inspeccionar BOX 5 (#401–#500)">
-                          <span class="lane-id">BOX 5</span>
-                          <div class="lane-bar">
-                            <div class="lane-fill" style="width: 100%;"></div>
-                          </div>
-                          <span class="lane-stat">100/100 OK</span>
-                        </div>
-                      </div>
-
-                      <div class="pnode-operation-box">
-                        <div class="op-label">ESCUADRÓN ACTIVO:</div>
-                        <div class="op-title" id="pipelineOpTitle">20/500 Satélites • 60 Tx Confirmadas</div>
-                        <div class="op-sub" style="font-size: 8px; color: rgba(255,255,255,0.85); margin: 2px 0 4px 0;">
-                          Sepolia 20/20 • Base 20/20 • Arbitrum 20/20</div>
-                        <div class="op-seal-badge" id="pipelineOpSeal">
-                          <span class="material-symbols-rounded" style="font-size: 13px; vertical-align: middle;">check_circle</span>
-                          100% REALIZADO
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="pnode-actions actions-row">
-                      <button class="pnode-btn btn-green-action" id="btnForceKeepUp" onclick="triggerForceKeepUp()">
-                        <span class="material-symbols-rounded" style="font-size: 15px;">play_arrow</span>
-                        <span>Forzar Keep-Up</span>
-                      </button>
-                      <div class="pnode-miniboxes-row">
-                        <span class="minibox-label">EXPLORAR:</span>
-                        <button class="minibox-toggle active" id="pboxBtn1" onclick="openBoxExplorer(1)" title="Explorador Box 1 (#001–#100)">B1</button>
-                        <button class="minibox-toggle active" id="pboxBtn2" onclick="openBoxExplorer(2)" title="Explorador Box 2 (#101–#200)">B2</button>
-                        <button class="minibox-toggle active" id="pboxBtn3" onclick="openBoxExplorer(3)" title="Explorador Box 3 (#201–#300)">B3</button>
-                        <button class="minibox-toggle active" id="pboxBtn4" onclick="openBoxExplorer(4)" title="Explorador Box 4 (#301–#400)">B4</button>
-                        <button class="minibox-toggle active" id="pboxBtn5" onclick="openBoxExplorer(5)" title="Explorador Box 5 (#401–#500)">B5</button>
-                      </div>
-                    </div>
-
-                    <div class="node-port port-bottom" title="Flujo hacia Embudo de Cosecha"></div>
-                  </div>
-
-                  <!-- NODO 3 (ABAJO IZQUIERDA): EMBUDO DE COSECHA & DEFI ROTATOR -->
-                  <div class="pipeline-node-card node-card-yellow" id="nodeHarvest">
-                    <div class="node-port port-top" title="Recepción de Micro-Swaps de los 5 Boxes"></div>
-
-                    <div class="pnode-header">
-                      <div class="pnode-tag">
-                        <span class="pnode-num">03</span>
-                        <span class="material-symbols-rounded pnode-google-icon">toll</span>
-                        <span class="pnode-name">COSECHA & DEFI ROTATOR</span>
-                      </div>
-                      <span class="pnode-status-pill pill-yellow">STANDBY ÓPTIMO</span>
-                    </div>
-
-                    <div class="pnode-body-split">
-                      <div class="pnode-harvest-accrued">
-                        <span class="h-label">CONTRATOS DEFI ROTATOR ACTIVOS:</span>
-                        <div class="h-amount mono-code" style="font-size: 11px; line-height: 1.35; margin: 3px 0;"
-                          id="pipelineDefiContracts">
-                          WETH Sepolia / Base<br />BSC / Amoy
-                        </div>
-                        <span class="h-sub">WETH, WBNB, WPOL Sincronizados</span>
-                      </div>
-
-                      <div class="pnode-sybil-specs">
-                        <div class="sybil-spec-item">
-                          <span>Auto-Bridge L2:</span>
-                          <strong class="mono-code" style="color: #047857;">STANDBY ÓPTIMO</strong>
-                        </div>
-                        <div class="sybil-spec-item">
-                          <span>Umbral de Puente:</span>
-                          <strong class="mono-code">&gt;0.003 ETH</strong>
-                        </div>
-                        <div class="sybil-spec-item">
-                          <span>Aislamiento Sybil:</span>
-                          <strong class="text-dark">100% Blindado</strong>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="pnode-actions actions-row">
-                      <button class="pnode-btn btn-yellow-action" id="btnMulticall" onclick="triggerMulticallScan()">
-                        <span class="material-symbols-rounded" style="font-size: 15px;">search</span>
-                        <span>Escanear 500 (Multicall3)</span>
-                      </button>
-                      <button class="pnode-btn btn-yellow-secondary" id="btnPrepareBatch"
-                        onclick="triggerPrepareBinanceBatch()">
-                        <span class="material-symbols-rounded" style="font-size: 15px;">sync_alt</span>
-                        <span>Auto-Bridge &gt;0.003 ETH</span>
-                      </button>
-                    </div>
-
-                    <div class="node-port port-right" title="Tubería hacia Bóvedas Binance Spot"></div>
-                  </div>
-
-                  <!-- NODO 4 (ABAJO DERECHA): TRAYECTORIA DÍA 0 &rarr; META 12,000 USDC -->
-                  <div class="pipeline-node-card node-card-blue" id="nodeBinance">
-                    <div class="node-port port-left" title="Recepción de Fondos Liquidación"></div>
-
-                    <div class="pnode-header">
-                      <div class="pnode-tag">
-                        <span class="pnode-num">04</span>
-                        <span class="material-symbols-rounded pnode-google-icon">account_balance</span>
-                        <span class="pnode-name">BINANCE 12K</span>
-                      </div>
-                      <span class="pnode-status-pill pill-blue mono-code" id="pipelinePctBadge">11.84%</span>
-                    </div>
-
-                    <div class="pnode-body-split">
-                      <div class="pnode-canvas-box" style="overflow: hidden; max-width: 100%; box-sizing: border-box;">
-                        <div class="canvas-legend-row">
-                          <span>DÍA 0 ($0)</span>
-                          <span class="text-gold">HOY ($1.4K)</span>
-                          <span class="text-white">META ($12K)</span>
-                        </div>
-                        <canvas id="pipelineMountainCanvas" width="220" height="52"
-                          style="max-width: 100%; height: 52px; display: block;"></canvas>
-                      </div>
-
-                      <div class="pnode-col-right-vaults"
-                        style="overflow: hidden; max-width: 100%; box-sizing: border-box;">
-                        <div class="pnode-milestones-row">
-                          <div class="milestone-badge">
-                            <span class="material-symbols-rounded m-icon">computer</span>
-                            <div class="m-col">
-                              <span class="m-name">Nueva PC</span>
-                              <span class="m-target mono-code">$6,000</span>
-                            </div>
-                          </div>
-                          <div class="milestone-badge">
-                            <span class="material-symbols-rounded m-icon">build</span>
-                            <div class="m-col">
-                              <span class="m-name">Cura Tools</span>
-                              <span class="m-target mono-code">$12,000</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="pnode-vaults-mode">
-                          <span class="material-symbols-rounded" style="font-size: 13px; vertical-align: middle;">lock</span>
-                          <span>Trayectoria Día 0 &rarr; 12,000 USDC</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="pnode-actions actions-row">
-                      <button class="pnode-btn btn-blue-action" id="btnVerifyBinance" onclick="triggerVerifyBinance()">
-                        <span class="material-symbols-rounded" style="font-size: 15px;">refresh</span>
-                        <span>Verificar 5 Direcciones Binance</span>
-                      </button>
-                    </div>
-
-                    <div class="node-port port-bottom" title="Depósito Seguro en Binance Spot"></div>
-                  </div>
-
+                  <span class="cf-badge-neutral">500 CARTERAS</span>
                 </div>
 
+                <!-- Cuerpo -->
+                <div class="cf-card-body">
+                  <!-- Desglose limpio en ranuras esmeriladas -->
+                  <div class="cf-slot">
+                    <div class="cf-slot-network">
+                      <span class="cf-network-name">Ethereum Sepolia:</span>
+                    </div>
+                    <div class="cf-slot-metrics">
+                      <strong class="cf-val-black-bold" id="metricEthL1">2.943 ETH</strong>
+                      <span class="cf-slot-sub">(~1.3 días de autonomía)</span>
+                    </div>
+                  </div>
+
+                  <div class="cf-slot">
+                    <div class="cf-slot-network">
+                      <span class="cf-network-name">Base Sepolia:</span>
+                    </div>
+                    <div class="cf-slot-metrics">
+                      <strong class="cf-val-black-bold" id="metricBaseL2">0.300 ETH</strong>
+                      <span class="cf-slot-sub">(~1.8 días de autonomía)</span>
+                    </div>
+                  </div>
+
+                  <div class="cf-slot">
+                    <div class="cf-slot-network">
+                      <span class="cf-network-name">Arbitrum / Otras L2:</span>
+                    </div>
+                    <div class="cf-slot-metrics">
+                      <strong class="cf-val-black-bold" id="metricArbL2">Operativo</strong>
+                      <span class="cf-slot-sub">(Reserva &gt;0.015 ETH blindada)</span>
+                    </div>
+                  </div>
+
+                  <!-- Caja de Estado / Alerta de Gas Inferior -->
+                  <div class="cf-gas-status-box status-optimal" id="gasStatusAlertBox">
+                    <span class="material-symbols-rounded cf-status-icon" id="gasStatusIcon">check_circle</span>
+                    <span class="cf-status-text" id="gasStatusLabel">ESTADO: TANQUE ÓPTIMO — SIN RECARGA REQUERIDA</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ========================================================
+                   TARJETA 3 (Abajo Izquierda) — RADAR CAZADOR DE OPORTUNIDADES
+                   ======================================================== -->
+              <div class="central-frosted-card" id="cardHunterRadar">
+                <!-- Cabecera -->
+                <div class="cf-card-header">
+                  <div class="cf-card-title-wrap">
+                    <span class="material-symbols-rounded cf-title-icon">radar</span>
+                    <span class="cf-card-title">RADAR CAZADOR DE OPORTUNIDADES</span>
+                  </div>
+                  <span class="cf-badge-pulse">
+                    <span class="cf-pulse-green"></span>
+                    <span>EN VIVO</span>
+                  </span>
+                </div>
+
+                <!-- Cuerpo -->
+                <div class="cf-card-body">
+                  <!-- Objetivo Activo -->
+                  <div class="cf-slot">
+                    <div class="cf-slot-info">
+                      <span class="cf-slot-label">OBJETIVO ACTIVO:</span>
+                      <span class="cf-slot-highlight-text" id="hunterActiveTarget">Rotación DeFi WETH / Liquidez L2 (Sepolia • Base • Arbitrum)</span>
+                    </div>
+                  </div>
+
+                  <!-- Escuadrón Desplegado -->
+                  <div class="cf-slot">
+                    <div class="cf-slot-info">
+                      <span class="cf-slot-label">ESCUADRÓN DESPLEGADO:</span>
+                      <span class="cf-slot-highlight-text" id="hunterSquadDeploy">20/500 Bots ejecutando sobre oportunidad detectada (60 Txs confirmadas)</span>
+                    </div>
+                  </div>
+
+                  <!-- Rendimiento Captado Hoy + Estado Escaneo -->
+                  <div class="cf-slot cf-slot-performance">
+                    <div class="cf-perf-left">
+                      <span class="cf-slot-label">RENDIMIENTO CAPTADO HOY:</span>
+                      <span class="cf-val-green-bold" id="hunterDailyCaptured">+$34.20 USDC</span>
+                    </div>
+                    <div class="cf-perf-right">
+                      <div class="cf-scan-active-pill">
+                        <span class="material-symbols-rounded" style="font-size: 14px;">sync</span>
+                        <span>ESCANEO ACTIVO 24/7</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ========================================================
+                   TARJETA 4 (Abajo Derecha) — CRECIMIENTO DIARIO & PROYECCIÓN 12K
+                   ======================================================== -->
+              <div class="central-frosted-card" id="cardGrowthProjection">
+                <!-- Cabecera -->
+                <div class="cf-card-header">
+                  <div class="cf-card-title-wrap">
+                    <span class="material-symbols-rounded cf-title-icon">trending_up</span>
+                    <span class="cf-card-title">CRECIMIENTO DIARIO &amp; PROYECCIÓN 12K</span>
+                  </div>
+                  <span class="cf-badge-neutral">TRAYECTORIA ACTIVA</span>
+                </div>
+
+                <!-- Cuerpo -->
+                <div class="cf-card-body">
+                  <!-- Gráfico de Curva Sencilla (SVG limpio en Verde Mate) -->
+                  <div class="cf-chart-wrap">
+                    <svg class="cf-growth-svg" viewBox="0 0 380 90" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="curveFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#059669" stop-opacity="0.22" />
+                          <stop offset="100%" stop-color="#059669" stop-opacity="0.01" />
+                        </linearGradient>
+                      </defs>
+                      <!-- Guías horizontales sutiles -->
+                      <line x1="15" y1="18" x2="365" y2="18" stroke="rgba(15, 23, 42, 0.08)" stroke-width="1" stroke-dasharray="3 3" />
+                      <line x1="15" y1="48" x2="365" y2="48" stroke="rgba(15, 23, 42, 0.08)" stroke-width="1" stroke-dasharray="3 3" />
+                      <line x1="15" y1="76" x2="365" y2="76" stroke="rgba(15, 23, 42, 0.12)" stroke-width="1" />
+
+                      <!-- Área rellena translúcida sutil -->
+                      <path d="M 20 76 C 70 73, 120 68, 170 60 C 220 52, 270 40, 310 28 C 335 22, 350 18, 360 16 L 360 76 Z" fill="url(#curveFillGrad)" />
+
+                      <!-- Curva suave en Verde Mate #059669 -->
+                      <path d="M 20 76 C 70 73, 120 68, 170 60 C 220 52, 270 40, 310 28 C 335 22, 350 18, 360 16" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" />
+
+                      <!-- Punto Actual Hoy -->
+                      <circle cx="360" cy="16" r="3.5" fill="#059669" stroke="#FFFFFF" stroke-width="2" />
+                      <circle cx="360" cy="16" r="6" fill="none" stroke="rgba(5, 150, 105, 0.35)" stroke-width="1.5" />
+
+                      <!-- Leyendas en los extremos -->
+                      <text x="22" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" fill="#64748B">DÍA 1 ($0)</text>
+                      <text x="180" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" fill="#64748B" text-anchor="middle">DÍA 7 (ACTUAL)</text>
+                      <text x="360" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" fill="#059669" text-anchor="end">META ($12,000)</text>
+                    </svg>
+                  </div>
+
+                  <!-- Métricas de Proyección Estadística -->
+                  <div class="cf-projection-metrics">
+                    <div class="cf-metric-row">
+                      <span class="cf-metric-lbl">Promedio Diario Actual:</span>
+                      <strong class="cf-val-green-bold" id="projDailyAverage">+$202.93 USDC / día</strong>
+                    </div>
+                    <div class="cf-metric-row">
+                      <span class="cf-metric-lbl">Proyección 12,000 USDC:</span>
+                      <strong class="cf-val-black-bold" id="projEstimatedDays">Tiempo estimado: ~52 Días al ritmo actual</strong>
+                    </div>
+                  </div>
+                </div>
               </div>
 
             </div>
