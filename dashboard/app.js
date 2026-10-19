@@ -20,18 +20,18 @@ const FLEET_DATA = {
     5: { id: 5, name: "Box 5", range: "#401 al #500", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.0151 ETH", donor: "Satélite #405 (0.220 ETH)", note: "Stand-by preventivo y firma con jitter humano" }
   },
   monitorBoxes: [
-    { boxId: 1, name: "BOX 1", range: "#001–#100", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 284.10, gasTotalEth: 1.650 },
-    { boxId: 2, name: "BOX 2", range: "#101–#200", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 256.40, gasTotalEth: 1.520 },
-    { boxId: 3, name: "BOX 3", range: "#201–#300", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 310.20, gasTotalEth: 1.580 },
-    { boxId: 4, name: "BOX 4", range: "#301–#400", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 188.50, gasTotalEth: 1.490 },
-    { boxId: 5, name: "BOX 5", range: "#401–#500", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 142.00, gasTotalEth: 1.510 }
+    { boxId: 1, name: "Box 1", range: "#001–#100", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 284.10, gasTotalEth: 1.650 },
+    { boxId: 2, name: "Box 2", range: "#101–#200", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 256.40, gasTotalEth: 1.520 },
+    { boxId: 3, name: "Box 3", range: "#201–#300", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 310.20, gasTotalEth: 1.580 },
+    { boxId: 4, name: "Box 4", range: "#301–#400", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 188.50, gasTotalEth: 1.490 },
+    { boxId: 5, name: "Box 5", range: "#401–#500", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 142.00, gasTotalEth: 1.510 }
   ],
   binanceVaults: [
-    { boxId: 1, name: "BÓVEDA BINANCE #1", range: "BOX 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 450.00, pendingUsdc: 34.20 },
-    { boxId: 2, name: "BÓVEDA BINANCE #2", range: "BOX 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 380.50, pendingUsdc: 28.50 },
-    { boxId: 3, name: "BÓVEDA BINANCE #3", range: "BOX 3: #201–#300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", receivedUsdc: 320.00, pendingUsdc: 24.10 },
-    { boxId: 4, name: "BÓVEDA BINANCE #4", range: "BOX 4: #301–#400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", receivedUsdc: 150.00, pendingUsdc: 18.30 },
-    { boxId: 5, name: "BÓVEDA BINANCE #5", range: "BOX 5: #401–#500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", receivedUsdc: 120.00, pendingUsdc: 15.40 }
+    { boxId: 1, name: "Bóveda Binance #1", range: "Box 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 450.00, pendingUsdc: 34.20 },
+    { boxId: 2, name: "Bóveda Binance #2", range: "Box 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 380.50, pendingUsdc: 28.50 },
+    { boxId: 3, name: "Bóveda Binance #3", range: "Box 3: #201–#300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", receivedUsdc: 320.00, pendingUsdc: 24.10 },
+    { boxId: 4, name: "Bóveda Binance #4", range: "Box 4: #301–#400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", receivedUsdc: 150.00, pendingUsdc: 18.30 },
+    { boxId: 5, name: "Bóveda Binance #5", range: "Box 5: #401–#500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", receivedUsdc: 120.00, pendingUsdc: 15.40 }
   ],
   initialTelegramMessages: [
     { time: "17:57:00", badge: "KEEP-UP", text: "Turno #21 completado: 20 satélites del Box 3 confirmaron swaps en Base Sepolia." },
@@ -107,7 +107,7 @@ function updateProjectionMetrics() {
   const daysEl = document.getElementById("projEstimatedDays");
 
   if (avgEl) avgEl.textContent = `+$${dailyAverage.toFixed(2)} USDC / día`;
-  if (daysEl) daysEl.textContent = `Tiempo estimado: ~${estDays} Días al ritmo actual`;
+  if (daysEl) daysEl.textContent = `Tiempo estimado: ~${estDays} días al ritmo actual`;
 }
 
 function updateGasStatus(totalEthL1, totalEthL2) {
@@ -125,11 +125,11 @@ function updateGasStatus(totalEthL1, totalEthL2) {
     if (isLowGas) {
       alertBox.className = "cf-gas-status-box status-warning";
       statusIcon.textContent = "warning";
-      statusLabel.textContent = "RECARGAR GAS: BUSCAR FONDEO L1/L2";
+      statusLabel.textContent = "Recargar gas: buscar fondeo L1/L2";
     } else {
       alertBox.className = "cf-gas-status-box status-optimal";
       statusIcon.textContent = "check_circle";
-      statusLabel.textContent = "ESTADO: TANQUE ÓPTIMO — SIN RECARGA REQUERIDA";
+      statusLabel.textContent = "Estado: Tanque óptimo — sin recarga requerida";
     }
   }
 }
@@ -527,7 +527,7 @@ function openBoxExplorer(boxId) {
   const titleEl = document.getElementById("boxExpTitle");
   const subEl = document.getElementById("boxExpSubtitle");
   if (titleEl) {
-    titleEl.textContent = `BOX ${currentBoxId} — CARTERAS #${String(startIdx).padStart(3, "0")} A #${String(endIdx).padStart(3, "0")}`;
+    titleEl.textContent = `Box ${currentBoxId} — Carteras #${String(startIdx).padStart(3, "0")} a #${String(endIdx).padStart(3, "0")}`;
   }
   if (subEl) {
     subEl.textContent = `100 Carteras en Supervisión • Cero Cruce Sybil • Depósitos Directos a Binance`;
@@ -663,7 +663,7 @@ function renderBinanceVaults() {
     const received = v.receivedUsdc != null ? v.receivedUsdc : (v.usdc != null ? v.usdc : 0);
     return `
       <div class="vault-item-card">
-        <span class="vault-num">BÓVEDA BOX ${v.boxId}</span>
+        <span class="vault-num">Bóveda Box ${v.boxId}</span>
         <span class="vault-amt">$${received.toFixed(2)} USDC</span>
         <span style="font-size: 9.5px; color: #475569;">Para satélites ${v.range}</span>
         <span class="vault-addr mono-code">${v.address}</span>

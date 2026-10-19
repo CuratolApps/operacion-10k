@@ -476,7 +476,7 @@ body::before {
   font-size: 0.70rem !important;
   font-weight: 700 !important;
   color: #0F172A !important;
-  text-transform: uppercase;
+  text-transform: none !important;
   letter-spacing: 0.3px;
 }
 
@@ -1115,7 +1115,7 @@ body::before {
   font-size: 0.64rem;
   font-weight: 700;
   color: #475569;
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.5px;
   text-align: left;
 }
@@ -1481,12 +1481,17 @@ body::before {
   animation: none !important;
 }
 
-/* Cabecera de la Tarjeta */
+/* Cabecera de la Tarjeta y Blindaje de Encuadre */
+.card-header,
+.central-card-header,
 .cf-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  margin-bottom: 6px !important;
   flex-shrink: 0;
   line-height: 1.2;
 }
@@ -1495,59 +1500,65 @@ body::before {
   display: flex;
   align-items: center;
   gap: 7px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .cf-title-icon {
   font-size: 18px;
   color: #0F172A !important;
+  flex-shrink: 0;
 }
 
+.card-title,
+.central-card-title,
 .cf-card-title {
-  font-size: 0.72rem !important;
-  font-weight: 800 !important;
+  font-size: 0.74rem !important;
+  font-weight: 700 !important;
   color: #0F172A !important;
-  text-transform: uppercase;
-  letter-spacing: 0.35px;
+  text-transform: none !important;
   white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 /* Badges / Chips en Vidrio (Encuadre en 1 Línea) */
+.header-badge,
+.status-badge,
+.live-badge,
+.cf-badge-meta,
+.cf-badge-neutral,
+.cf-badge-pulse {
+  font-size: 0.60rem !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  text-transform: none !important;
+}
+
 .cf-badge-meta {
-  font-size: 0.62rem;
-  font-weight: 800;
   color: #059669;
   background: rgba(5, 150, 105, 0.10);
   border: 1px solid rgba(5, 150, 105, 0.25);
-  padding: 3px 10px !important;
-  border-radius: 999px;
   letter-spacing: 0.3px;
-  white-space: nowrap !important;
 }
 
 .cf-badge-neutral {
-  font-size: 0.60rem;
-  font-weight: 700;
   color: #475569;
   background: rgba(15, 23, 42, 0.05);
   border: 1px solid rgba(15, 23, 42, 0.10);
-  padding: 3px 8px !important;
-  border-radius: 999px;
   letter-spacing: 0.2px;
-  white-space: nowrap !important;
 }
 
 .cf-badge-pulse {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.60rem;
-  font-weight: 800;
   color: #059669;
   background: rgba(5, 150, 105, 0.10);
   border: 1px solid rgba(5, 150, 105, 0.25);
-  padding: 2px 8px;
-  border-radius: 999px;
-  white-space: nowrap !important;
 }
 
 .cf-pulse-green {
@@ -1602,27 +1613,23 @@ body::before {
   min-width: 0;
 }
 
-.cf-slot-label,
-.cf-slot-sub,
-.cf-slot-highlight-text,
-.cf-network-name,
-.cf-metric-lbl,
-.cf-prog-title,
-.cf-progress-footer,
-.cf-prog-remaining,
-.cf-progress-labels span {
+.cf-slot-label {
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
   color: #FFFFFF !important;
-  font-weight: 500 !important;
+  white-space: nowrap !important;
 }
 
 .cf-slot-sub {
   color: rgba(255, 255, 255, 0.85) !important;
-  font-size: 0.54rem;
+  font-size: 0.58rem !important;
+  white-space: nowrap !important;
 }
 
 .cf-slot-highlight-text {
   font-size: 0.62rem;
   line-height: 1.25;
+  color: #FFFFFF !important;
 }
 
 /* Valores Clave en Ranuras: Verde Esmeralda Eléctrico (#34D399) y Blanco Puro (#FFFFFF) */
@@ -1675,12 +1682,13 @@ body::before {
 }
 
 .cf-progress-labels {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
   font-size: 0.62rem;
   font-weight: 700;
   color: #FFFFFF !important;
+  width: 100% !important;
 }
 
 .cf-progress-track {
@@ -1701,11 +1709,12 @@ body::before {
 }
 
 .cf-progress-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
   font-size: 0.57rem;
   color: #FFFFFF !important;
+  width: 100% !important;
 }
 
 /* Tarjeta 2: Redes y Estado de Gas */
@@ -1762,6 +1771,7 @@ body::before {
   font-weight: 800;
   letter-spacing: 0.35px;
   color: inherit;
+  text-transform: none !important;
 }
 
 /* Tarjeta 3: Radar Performance */
@@ -1787,12 +1797,13 @@ body::before {
   background: rgba(52, 211, 153, 0.20);
   border: 1px solid rgba(52, 211, 153, 0.45);
   border-radius: 999px;
-  padding: 4px 10px !important;
-  font-size: 0.62rem !important;
-  font-weight: 800;
+  padding: 3px 8px !important;
+  font-size: 0.60rem !important;
+  font-weight: 600;
   color: #34D399;
   letter-spacing: 0.25px;
   white-space: nowrap !important;
+  text-transform: none !important;
 }
 
 .cf-scan-active-pill .material-symbols-rounded {
