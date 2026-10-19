@@ -77,9 +77,9 @@ html, body {
   border: var(--glass-master-border);
   box-shadow: var(--glass-master-shadow);
 
-  /* Layout Vertical Exacto de 3 Filas */
+  /* Layout Vertical Exacto de 2 Filas (Top Bar + Cuerpo Principal) */
   display: grid;
-  grid-template-rows: 64px 1fr 76px;
+  grid-template-rows: auto minmax(0, 1fr);
   overflow: hidden;
 }
 
@@ -342,61 +342,63 @@ html, body {
 }
 
 /* ==============================================================
-   CONTENEDORES BLANCOS LECHOSOS (IZQUIERDA Y DERECHA)
+   CONTENEDORES 100% TRANSPARENTES (TARJETAS FLOTANTES Y TÍTULOS EN CHASIS)
    ============================================================== */
 .left-menu-container,
 .right-comms-container {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 4px 6px !important;
   display: grid;
-  grid-template-rows: 26px repeat(5, minmax(0, 1fr));
+  grid-template-rows: 24px repeat(5, minmax(0, 1fr));
   gap: 10px;
-  padding: 12px 14px;
   height: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  background: var(--milky-workspace-bg, rgba(255, 255, 255, 0.90));
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
 }
 
-.section-header {
-  white-space: nowrap;
-  font-size: 0.80rem;
-  font-weight: 700;
+/* Títulos grabados directamente sobre el chasis */
+.section-header,
+.vaults-header {
+  color: #1E293B !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75), 0 -1px 0 rgba(15, 23, 42, 0.15) !important;
+  padding-left: 4px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #0F172A;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 26px;
+  gap: 6px;
+  line-height: 24px;
 }
 
-.section-header .material-symbols-rounded {
-  font-size: 19px;
-  color: #1E40AF;
+.section-header .material-symbols-rounded,
+.vaults-header .material-symbols-rounded {
+  font-size: 17px;
+  color: #1E293B !important;
 }
 
 /* ==============================================================
-   TARJETAS SIMÉTRICAS EN VIDRIO ESMERILADO 3D (MONITOR BOXES & BÓVEDAS BINANCE)
-   Cero Colores de Fondo • Relieve Táctil • Texto 100% Negro • Montos en Verde Fosforescente
+   TARJETAS FLOTANTES EN VIDRIO ESMERILADO 3D (MONITOR BOXES & BÓVEDAS BINANCE)
    ============================================================== */
 .vault-card,
 .box-monitor-card,
 .monitor-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.65) 0%, rgba(241, 245, 249, 0.42) 100%) !important;
-  backdrop-filter: blur(16px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.95) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.85) !important;
-  border-right: 1px solid rgba(203, 213, 225, 0.6) !important;
-  border-bottom: 1.5px solid rgba(148, 163, 184, 0.45) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.82) 0%, rgba(241, 245, 249, 0.68) 100%) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.98) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.9) !important;
+  border-right: 1px solid rgba(203, 213, 225, 0.7) !important;
+  border-bottom: 1.5px solid rgba(148, 163, 184, 0.55) !important;
   box-shadow: 
-    0 6px 16px -4px rgba(15, 23, 42, 0.07),
-    0 2px 4px -1px rgba(15, 23, 42, 0.04),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+    0 10px 22px -6px rgba(15, 23, 42, 0.14),
+    0 4px 8px -2px rgba(15, 23, 42, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
   border-radius: 14px;
   padding: 8px 12px;
   color: #0F172A !important;
@@ -416,31 +418,36 @@ html, body {
 .monitor-card:hover {
   transform: translateY(-2px);
   box-shadow: 
-    0 10px 22px -4px rgba(15, 23, 42, 0.10),
-    0 4px 6px -1px rgba(15, 23, 42, 0.06),
-    inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
+    0 14px 28px -6px rgba(15, 23, 42, 0.18),
+    0 6px 12px -2px rgba(15, 23, 42, 0.10),
+    inset 0 1px 1px rgba(255, 255, 255, 0.98) !important;
 }
 
-/* Fila 1: Título y Rango (Todo en Negro #0F172A) */
-.card-top {
+/* Fila 1: Título y Rango */
+.card-top,
+.vault-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   line-height: 1;
 }
 
-.card-title {
+.card-title,
+.vault-title,
+.box-title {
+  font-size: 0.70rem !important;
+  font-weight: 700 !important;
   color: #0F172A !important;
-  font-size: 0.75rem;
-  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
-.card-range {
-  color: #0F172A !important;
-  font-size: 0.68rem;
-  font-weight: 700;
+.card-range,
+.vault-box-ref,
+.box-range-ref {
+  font-size: 0.62rem !important;
+  font-weight: 600 !important;
+  color: #1E293B !important;
   background: none !important;
   border: none !important;
   padding: 0 !important;
@@ -485,7 +492,7 @@ html, body {
 
 .bar-status-text {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
+  font-size: 0.60rem;
   font-weight: 600;
   color: #0F172A !important;
   letter-spacing: -0.2px;
@@ -514,27 +521,31 @@ html, body {
 }
 
 /* Fila 3: Inferior Izquierda / Derecha */
-.card-bottom {
+.card-bottom,
+.vault-bottom {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   line-height: 1.05;
 }
 
-.card-col-left {
+.card-col-left,
+.vault-received-col {
   display: flex;
   flex-direction: column;
 }
 
-.card-col-right {
+.card-col-right,
+.vault-incoming-col {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.card-label {
+.card-label,
+.vault-label {
   color: #0F172A !important;
-  font-size: 0.56rem;
+  font-size: 0.54rem;
   font-weight: 700;
   opacity: 0.85;
   display: block;
@@ -542,26 +553,27 @@ html, body {
 }
 
 /* Montos de Gas y En Camino en Negro */
+.vault-incoming,
+.box-gas-amount,
 .card-val-black {
   color: #0F172A !important;
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
   text-align: right;
-  font-family: 'JetBrains Mono', monospace;
 }
 
-/* ÚNICAMENTE en Verde Fosforescente Brillante (que alumbre sobre el vidrio) */
+/* 1. Verde Mate en Negrita Elegante (Sin Brillo / Sin Text-Shadow) */
 .vault-amount,
 .box-generated-amount,
 .card-val-green {
-  color: #00FF66 !important;
+  color: #059669 !important; /* Verde mate elegante */
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.72rem !important;
   font-weight: 700 !important;
-  font-size: 0.84rem !important;
-  font-family: 'JetBrains Mono', monospace;
-  /* Sombra de contraste fino para que el verde fosforescente alumbre sobre el vidrio claro */
-  text-shadow: 
-    0 0 10px rgba(0, 255, 102, 0.55),
-    0 1px 2px rgba(15, 23, 42, 0.45) !important;
+  text-shadow: none !important;
+  letter-spacing: -0.1px;
 }
 
 /* ==============================================================
@@ -1334,379 +1346,15 @@ html, body {
 .vault-amt { font-size: 16px; font-weight: 900; }
 .vault-addr { font-size: 7.5px; word-break: break-all; opacity: 0.8; margin-top: auto; }
 
-/* ==============================================================
-   ESPACIO 3: PANEL BLANCO LECHOSO — BÓVEDAS RECEPTORAS BINANCE (350px)
-   ============================================================== */
-.right-comms-container {
-  display: grid;
-  grid-template-rows: 26px repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  padding: 12px 14px;
-  height: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-  background: var(--milky-workspace-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
-}
-
-.vaults-header {
-  white-space: nowrap;
-  font-size: 0.82rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #0F172A;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 26px;
-}
-
-.vaults-header .material-symbols-rounded {
-  font-size: 19px;
-  color: #1E40AF;
-}
-
-.vault-card {
-  border-radius: 16px;
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  min-height: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-  cursor: pointer;
-}
-
-.vault-card:hover {
-  transform: translateY(-2px);
-}
-
-/* Fila 1: Título + Badge del Box */
-.vault-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  line-height: 1;
-}
-
-.vault-title {
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.vault-box-badge {
-  font-size: 0.64rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.22);
-  white-space: nowrap;
-}
-
-/* Fila 2: Barra con Dirección 0x Completa + Icono Google Copiar */
-.vault-address-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  background: rgba(15, 23, 42, 0.22);
-  padding: 4px 8px;
-  border-radius: 8px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.vault-address-full {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: -0.2px;
-  white-space: nowrap;
-  overflow: hidden;
-  user-select: all;
-}
-
-.copy-btn {
-  background: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-  transition: transform 0.15s ease, opacity 0.15s ease, color 0.15s ease;
-}
-
-.copy-btn:hover {
-  transform: scale(1.15);
-}
-
-.copy-btn .material-symbols-rounded {
-  font-size: 15px;
-}
-
-/* Fila 3: Total Recibido y En Camino (100% visibles adentro sin cortarse) */
-.vault-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  line-height: 1.05;
-}
-
-.vault-received-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.vault-incoming-col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.vault-label {
-  font-size: 0.56rem;
-  font-weight: 700;
-  opacity: 0.88;
-  display: block;
-  letter-spacing: 0.4px;
-}
-
-.vault-amount {
-  font-size: 0.92rem;
-  font-weight: 900;
-  font-family: 'JetBrains Mono', sans-serif;
-  letter-spacing: -0.3px;
-}
-
-.vault-incoming {
-  font-size: 0.74rem;
-  font-weight: 800;
-  text-align: right;
-  font-family: 'JetBrains Mono', sans-serif;
-}
-
-/*  TARJETA 1 — COLOR NARANJA (Bóveda Binance #1 • Box 1 #001–#100) */
-.vault-card-orange {
-  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
-  border: 1.5px solid #FED7AA;
-  color: #FFFFFF;
-  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-}
-.vault-card-orange .vault-incoming { color: #FEF08A; }
-
-/*  TARJETA 2 — COLOR AZUL REY (Bóveda Binance #2 • Box 2 #101–#200) */
-.vault-card-blue {
-  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
-  border: 1.5px solid #93C5FD;
-  color: #FFFFFF;
-  box-shadow: 0 6px 16px rgba(30, 64, 175, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-}
-.vault-card-blue .vault-incoming { color: #FEF08A; }
-
-/*  TARJETA 3 — COLOR VERDE ESMERALDA (Bóveda Binance #3 • Box 3 #201–#300) */
-.vault-card-green {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  border: 1.5px solid #A7F3D0;
-  color: #FFFFFF;
-  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-}
-.vault-card-green .vault-incoming { color: #FEF08A; }
-
-/*  TARJETA 4 — COLOR AMARILLO ORO (Bóveda Binance #4 • Box 4 #301–#400) */
-.vault-card-yellow {
-  background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
-  border: 1.5px solid #FEF08A;
-  color: #0F172A;
-  box-shadow: 0 6px 16px rgba(234, 179, 8, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.6);
-}
-.vault-card-yellow .vault-box-badge {
-  background: rgba(15, 23, 42, 0.12);
-  color: #0F172A;
-}
-.vault-card-yellow .vault-address-bar {
-  background: rgba(15, 23, 42, 0.10);
-  color: #0F172A;
-}
-.vault-card-yellow .vault-incoming { color: #1E3A8A; }
-
-/*  TARJETA 5 — COLOR MORADO REAL (Bóveda Binance #5 • Box 5 #401–#500) */
-.vault-card-purple {
-  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
-  border: 1.5px solid #DDD6FE;
-  color: #FFFFFF;
-  box-shadow: 0 6px 16px rgba(109, 40, 217, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-}
-.vault-card-purple .vault-incoming { color: #FEF08A; }
-
 /* ==========================================================================
-   FILA 3 (76px): NUEVO FOOTER BAR INFERIOR (BLANCO LECHOSO)
+   BARRA INFERIOR (FOOTER BAR) ELIMINADA POR COMPLETO
    ========================================================================== */
-.crystal-footer {
-  height: 76px;
-  background: var(--milky-footer-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 2px solid #FFFFFF;
-  padding: 0 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 0 0 30px 30px;
-  position: relative;
-  z-index: 5;
-  color: var(--text-dark);
-}
-
-.footer-boxes-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-section-label {
-  font-size: 10px;
-  font-weight: 900;
-  color: #0F172A;
-  letter-spacing: 0.6px;
-  margin-right: 2px;
-}
-
-.footer-box-card {
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: inherit;
-  text-align: left;
-  transition: all 0.2s ease;
-  border: 1.5px solid;
-}
-
-.footer-box-card:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.08);
-}
-
-.footer-box-card .fbox-top {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.footer-box-card .fbox-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-}
-
-.footer-box-card .fbox-id {
-  font-size: 11px;
-  font-weight: 900;
-}
-
-.footer-box-card .fbox-bottom {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 9px;
-  font-weight: 700;
-  opacity: 0.92;
-}
-
-/* Colores de las tarjetas rápidas del footer */
-.footer-box-card.fbox-green {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.94) 0%, rgba(5, 150, 105, 0.98) 100%);
-  border-color: rgba(167, 243, 208, 0.9);
-  color: #FFFFFF;
-  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.22);
-}
-
-.footer-box-card.fbox-yellow {
-  background: linear-gradient(135deg, rgba(250, 204, 21, 0.95) 0%, rgba(234, 179, 8, 0.98) 100%);
-  border-color: rgba(254, 240, 138, 0.95);
-  color: #0F172A;
-  box-shadow: 0 4px 10px rgba(202, 138, 4, 0.22);
-}
-.footer-box-card.fbox-yellow .fbox-dot { background: #0F172A; }
-
-.footer-box-card.fbox-orange {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.94) 0%, rgba(234, 88, 12, 0.98) 100%);
-  border-color: rgba(254, 215, 170, 0.9);
-  color: #FFFFFF;
-  box-shadow: 0 4px 10px rgba(234, 88, 12, 0.22);
-}
-
-.footer-box-card.fbox-blue {
-  background: linear-gradient(135deg, rgba(29, 78, 216, 0.94) 0%, rgba(30, 58, 138, 0.98) 100%);
-  border-color: rgba(147, 197, 253, 0.85);
-  color: #FFFFFF;
-  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
-}
-
-/* Tarjeta RPC y Seguridad del Footer */
+.crystal-footer,
+.footer-bar,
+.footer-boxes-row,
+.footer-box-card,
 .footer-rpc-card {
-  background: rgba(15, 23, 42, 0.05);
-  border: 1.5px solid rgba(15, 23, 42, 0.1);
-  border-radius: 12px;
-  padding: 7px 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #0F172A;
-}
-
-.rpc-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.rpc-lbl {
-  font-size: 10px;
-  color: #475569;
-}
-
-.rpc-dot.base {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #0052FF;
-  box-shadow: 0 0 6px #0052FF;
-}
-
-.rpc-dot.arb {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #28A0F0;
-  box-shadow: 0 0 6px #28A0F0;
-}
-
-.rpc-shield {
-  font-size: 13px;
-}
-
-.rpc-divider {
-  width: 1px;
-  height: 16px;
-  background: rgba(15, 23, 42, 0.15);
+  display: none !important;
 }
 
 /* ==========================================================================
