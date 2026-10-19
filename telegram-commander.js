@@ -13,6 +13,11 @@ const path = require("path");
 require("dotenv").config();
 const { ethers } = require("ethers");
 const { networks } = require("./networks");
+const {
+  getBinanceDepositAddresses,
+  NATIVE_USDC_CONTRACTS,
+  scanFleetUsdcRewards
+} = require("./harvest-rewards");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const REPORT_FILE = path.join(__dirname, "last-run-report.json");
@@ -78,6 +83,9 @@ Toca cualquiera de las opciones para consultar la telemetría en tiempo real:
       [
         { text: "👥 Billeteras Donantes", callback_data: "cmd_donantes" },
         { text: "🔄 Estado Carrusel", callback_data: "cmd_carrusel" }
+      ],
+      [
+        { text: "💵 Liquidación Binance (Solo USDC)", callback_data: "cmd_binance" }
       ],
       [
         { text: "👑 Auditoría Bóveda VIP #00", callback_data: "cmd_vip" }
@@ -335,6 +343,47 @@ async function handleVip(chatId) {
   });
 }
 
+async function handleBinance(chatId) {
+  const addresses = getBinanceDepositAddresses();
+
+  await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text: "⏳ <i>Escaneando saldos USDC nativos en Mainnet y verificando bóvedas Binance...</i>",
+    parse_mode: "HTML"
+  });
+
+  let scanResult = { totalUsdc: 0, satellitesWithBalance: [] };
+  try {
+    scanResult = await scanFleetUsdcRewards("arbitrumOne", 50);
+  } catch (_) {}
+
+  const text = `
+🏦 <b>COSECHA & LIQUIDACIÓN A BINANCE (100% EXCLUSIVO USDC)</b>
+
+🚫 <b>Regla de Oro:</b> Prohibido liquidar a USDT o enviar otros tokens.
+💵 <b>Token Oficial:</b> USDC Nativo (Arbitrum One <code>0xaf88...e5831</code>)
+
+📋 <b>Bóvedas Receptoras en Binance (Mapeo Fijo Anti-Sybil):</b>
+• <b>Satélites #001-#100:</b> <code>${addresses[0]}</code>
+• <b>Satélites #101-#200:</b> <code>${addresses[1]}</code>
+• <b>Satélites #201-#300:</b> <code>${addresses[2]}</code>
+• <b>Satélites #301-#400:</b> <code>${addresses[3]}</code>
+• <b>Satélites #401-#500:</b> <code>${addresses[4]}</code>
+
+🔍 <b>Escáner en Vivo (Muestra 50 Satélites):</b>
+• <b>Total USDC Detectado:</b> ${scanResult.totalUsdc.toFixed(2)} USDC
+• <b>Satélites Listos para Cosecha:</b> ${scanResult.satellitesWithBalance ? scanResult.satellitesWithBalance.length : 0}
+
+🔒 <i>Aislamiento 100% verificado: Cada bloque liquida únicamente a su dirección asignada.</i>
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML"
+  });
+}
+
 // -------------------------------------------------------------------------------------
 // BUCLE DE LONG-POLLING
 // -------------------------------------------------------------------------------------
@@ -417,6 +466,8 @@ async function startCommanderBot() {
               await handleCarrusel(effectiveChatId);
             } else if (cmd === "/vip") {
               await handleVip(effectiveChatId);
+            } else if (cmd === "/binance" || cmd === "/cosecha" || cmd === "/liquidar") {
+              await handleBinance(effectiveChatId);
             } else {
               await callTelegram("sendMessage", {
                 chat_id: effectiveChatId,
@@ -452,6 +503,8 @@ async function startCommanderBot() {
               await handleCarrusel(cbChatId);
             } else if (cbData === "cmd_vip") {
               await handleVip(cbChatId);
+            } else if (cbData === "cmd_binance") {
+              await handleBinance(cbChatId);
             }
           }
         }

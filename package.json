@@ -10,6 +10,7 @@
     "bridge:fleet": "node bridge-fleet.js",
     "commander": "node telegram-commander.js",
     "radar": "node radar-hunter.js",
+    "harvest": "node harvest-rewards.js",
     "distribute:gas": "node distribute-gas.js"
   },
   "keywords": [],
