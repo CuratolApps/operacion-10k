@@ -17,7 +17,7 @@ const networks = {
     id: "ethereumSepolia",
     name: "Ethereum Sepolia",
     rpc: "https://sepolia.drpc.org",
-    fallbackRpc: "https://ethereum-sepolia-rpc.publicnode.com",
+    fallbackRpc: "https://1rpc.io/sepolia",
     chainId: 11155111,
     symbol: "ETH",
     category: "Testnet EVM",

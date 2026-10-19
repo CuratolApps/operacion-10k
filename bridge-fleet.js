@@ -55,6 +55,25 @@ function createProvider(netConfig) {
   });
 }
 
+process.on("unhandledRejection", (reason) => {
+  console.log("⚠️ [UNHANDLED REJECTION]", reason?.message || reason);
+});
+
+async function withRetry(fn, maxRetries = 3, baseDelayMs = 1200) {
+  let lastErr;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      if (attempt < maxRetries) {
+        await new Promise((r) => setTimeout(r, baseDelayMs * attempt));
+      }
+    }
+  }
+  throw lastErr;
+}
+
 function parseArg(flag, defaultValue) {
   const idx = process.argv.indexOf(flag);
   if (idx !== -1 && idx + 1 < process.argv.length) {
@@ -154,8 +173,8 @@ async function runBridgeFleet() {
       let arbBal = 0;
       try {
         const [bWei, aWei] = await Promise.all([
-          baseProvider.getBalance(sat.address).catch(() => 0n),
-          arbProvider.getBalance(sat.address).catch(() => 0n)
+          withRetry(() => baseProvider.getBalance(sat.address), 2, 800).catch(() => 0n),
+          withRetry(() => arbProvider.getBalance(sat.address), 2, 800).catch(() => 0n)
         ]);
         baseBal = parseFloat(ethers.formatEther(bWei));
         arbBal = parseFloat(ethers.formatEther(aWei));
@@ -175,7 +194,7 @@ async function runBridgeFleet() {
       // 2. Verificar saldo en Ethereum Sepolia
       let sepBalWei = 0n;
       try {
-        sepBalWei = await sepoliaProvider.getBalance(sat.address);
+        sepBalWei = await withRetry(() => sepoliaProvider.getBalance(sat.address), 3, 1000);
       } catch (_) {}
       let sepBalEth = parseFloat(ethers.formatEther(sepBalWei));
       console.log(`   ↳ Saldo en L1 Sepolia: ${sepBalEth.toFixed(5)} ETH`);
@@ -188,7 +207,7 @@ async function runBridgeFleet() {
       if (sepBalWei < minRequiredL1Wei && !isDryRun) {
         console.log(`   ⚠️ Saldo bajo en L1 (< ${(parseFloat(ethers.formatEther(minRequiredL1Wei))).toFixed(4)} ETH). Activando recarga de reserva...`);
         try {
-          const donorBalWei = await sepoliaProvider.getBalance(emergencyDonorObj.address);
+          const donorBalWei = await withRetry(() => sepoliaProvider.getBalance(emergencyDonorObj.address), 3, 1000);
           const donorBalEth = parseFloat(ethers.formatEther(donorBalWei));
           if (donorBalEth - 0.004 > MIN_DONOR_RESERVE_ETH) {
             const donorSigner = getWalletSigner(emergencyDonorObj.index, sepoliaProvider);
@@ -196,9 +215,9 @@ async function runBridgeFleet() {
               to: sat.address,
               value: ethers.parseEther("0.004")
             });
-            await refillTx.wait(1);
+            await refillTx.wait(1).catch(() => {});
             console.log(`   ⛽ Recarga de 0.004 ETH acreditada desde Donante #${emergencyDonorObj.index}`);
-            sepBalWei = await sepoliaProvider.getBalance(sat.address);
+            sepBalWei = await withRetry(() => sepoliaProvider.getBalance(sat.address), 2, 800).catch(() => ethers.parseEther("0.004"));
           } else {
             console.log(`   ⚠️ Donante de emergencia en nivel de reserva mínimo (${donorBalEth.toFixed(4)} ETH).`);
           }
@@ -226,8 +245,12 @@ async function runBridgeFleet() {
               { value: depositWei }
             );
             console.log(`   📡 Tx Base enviada: ${tx.hash}`);
-            const receipt = await tx.wait(1);
-            console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+            try {
+              const receipt = await tx.wait(1);
+              console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+            } catch (waitErr) {
+              console.log(`   ⚠️ Espera de bloque (Tx emitida en mempool): ${waitErr.message.slice(0, 80)}`);
+            }
             batchBaseSuccess++;
           } catch (bErr) {
             console.log(`   ❌ Error al puentear a Base Sepolia: ${bErr.message}`);
@@ -253,8 +276,12 @@ async function runBridgeFleet() {
               data: DEPOSIT_ETH_SELECTOR
             });
             console.log(`   📡 Tx Arbitrum enviada: ${tx.hash}`);
-            const receipt = await tx.wait(1);
-            console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+            try {
+              const receipt = await tx.wait(1);
+              console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+            } catch (waitErr) {
+              console.log(`   ⚠️ Espera de bloque (Tx emitida en mempool): ${waitErr.message.slice(0, 80)}`);
+            }
             batchArbSuccess++;
           } catch (aErr) {
             console.log(`   ❌ Error al puentear a Arbitrum: ${aErr.message}`);
@@ -263,6 +290,8 @@ async function runBridgeFleet() {
       } else {
         console.log(`   ⏭️  Arbitrum Sepolia omitido (saldo >= ${skipThresholdEth.toFixed(4)} ETH)`);
       }
+
+      await new Promise((r) => setTimeout(r, 600));
 
       if (i < currentBatch.length - 1 && !isDryRun) {
         await sleepRandom(2000, 4000);

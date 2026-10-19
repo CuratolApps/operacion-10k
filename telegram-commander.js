@@ -524,5 +524,7 @@ if (require.main === module) {
 }
 
 module.exports = {
-  startCommanderBot
+  startCommanderBot,
+  sendMenu,
+  handleBinance
 };
