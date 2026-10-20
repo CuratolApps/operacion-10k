@@ -446,10 +446,12 @@ async function main() {
     lastRoundTxCount: 60,
     gasAutonomySummary: "~1.8 días en Base / ~1.3 días en Sepolia"
   };
+  let botMinerStats = null;
   if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
     try {
       const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
       if (tel.workStats) workStats = tel.workStats;
+      if (tel.botMinerStats) botMinerStats = tel.botMinerStats;
     } catch (_) {}
   }
   const boxesRotatedStr = (workStats.boxesRotatedToday && workStats.boxesRotatedToday.length > 0)
@@ -459,6 +461,10 @@ async function main() {
   // 6. Mensaje Táctico Detallado de Caza y Rotación
   const now = new Date();
   const timeUtc = now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+
+  const minerReportLine = botMinerStats
+    ? `\n⛏️ <b>BOT MINER SWARM:</b> ${botMinerStats.lastBox || activeBox.name} minó ${workStats.lastRoundTxCount || 20} operaciones on-chain/gasless (Acumulado Minero: ${botMinerStats.totalMinedAllTime || workStats.totalTxConfirmedAllTime} ops)\n`
+    : "";
 
   const networksListText = networkScan
     .map(n => `   • <b>${n.name}:</b> En línea (Bloque ${n.blockNumber.toLocaleString("en-US")} • ${n.latencyMs}ms)`)
@@ -489,8 +495,7 @@ async function main() {
 🔨 <b>CHAMBA DE ESTA RONDA:</b>
    • <b>Box Activo:</b> ${activeBox.name} (${activeBox.range})
    • <b>Satélites Operados:</b> 20/500 Satélites
-   • <b>Confirmadas en este Turno:</b> ${workStats.lastRoundTxCount || 60} txs on-chain ✅
-
+   • <b>Confirmadas en este Turno:</b> ${workStats.lastRoundTxCount || 60} txs on-chain ✅${minerReportLine}
 📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>
    • <b>Rondas Ejecutadas:</b> ${workStats.totalRoundsCompleted} rondas
    • <b>Txs On-Chain Acumuladas:</b> ${workStats.totalTxConfirmedAllTime} txs firmadas

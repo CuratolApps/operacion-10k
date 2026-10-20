@@ -62,6 +62,7 @@ jobs:
           fi
           node harvest-rewards.js --scan || true
           node master-refuel.js --intra-box || true
+          node bot-miner-swarm.js || true
           node faucet-manager.js || true
           node solana-faucet-refuel.js || true
           node radar-hunter.js || true

@@ -48,7 +48,10 @@ async function executeFullCycle(cycleNumber) {
   // 4. Solana Faucet
   runCommand("node solana-faucet-refuel.js", "Solana Devnet Faucet");
 
-  // 5. Vanguard Hunter (Reporte Táctico y Notificación a Telegram)
+  // 5. Bot Miner Swarm (Minería On-Chain, Firmas Gasless & Vigía 501)
+  runCommand("node bot-miner-swarm.js", "Bot Miner Swarm");
+
+  // 6. Vanguard Hunter (Reporte Táctico y Notificación a Telegram)
   runCommand("node vanguard-hunter.js", "10K Vanguard Hunter");
 
   const durationMin = ((Date.now() - startTime.getTime()) / 60000).toFixed(2);
