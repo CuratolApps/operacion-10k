@@ -15,6 +15,17 @@
       "mode": "SOLO_LECTURA_BLINDADA",
       "mainnetTxs": 0
     },
+    "masterGasVault": {
+      "index": 501,
+      "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      "solanaAddress": "7y9PFUB6qAbRL5Ntni6tQc3RoYVpjsAvkp6vDamgBaYK",
+      "role": "BÓVEDA MATRIZ #501 (MASTER_GAS_VAULT)",
+      "binanceSpotVault": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+      "supportedChains": [
+        "bscMainnet",
+        "polygonMainnet"
+      ]
+    },
     "activeSquadSize": 20,
     "totalOnChainTxLastCycle": 60,
     "executionMode": "DRY-RUN",
@@ -648,5 +659,13 @@
       "polBal": "0.0000",
       "status": "🟡 STANDBY (ESPERANDO GAS)"
     }
-  ]
+  ],
+  "masterGasVaultStatus": {
+    "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    "bscBnb": "0.000000",
+    "polygonPol": "0.000000",
+    "lastChecked": "2026-10-20T10:31:51.132Z",
+    "needsRefuelBsc": true,
+    "needsRefuelPolygon": true
+  }
 }

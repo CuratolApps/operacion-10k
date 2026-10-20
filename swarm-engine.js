@@ -59,8 +59,9 @@ function runSwarmEngine() {
   console.log("=========================================================================================\n");
 
   const rawSize = process.env.SWARM_SIZE;
-  // Por defecto 501 (1 VIP #00 + 500 Satélites)
-  const swarmSize = parseInt(rawSize || "501", 10);
+  // Flota completa: 1 VIP (#00) + 500 Satélites (#001-#500) + 1 Bóveda Matriz (#501) = 502 billeteras
+  const targetSize = parseInt(rawSize || "502", 10);
+  const swarmSize = targetSize < 502 ? 502 : targetSize;
   if (isNaN(swarmSize) || swarmSize <= 0) {
     console.error("❌ ERROR: SWARM_SIZE debe ser un número entero mayor a 0.");
     process.exit(1);
@@ -70,7 +71,7 @@ function runSwarmEngine() {
   try {
     mnemonic = getMnemonic();
     console.log("✅ Frase semilla validada con éxito (BIP-39).");
-    console.log(`🎯 Tamaño de enjambre configurado: ${swarmSize} billeteras (1 VIP + ${swarmSize - 1} Satélites)\n`);
+    console.log(`🎯 Tamaño de enjambre configurado: ${swarmSize} billeteras (1 VIP + 500 Satélites + Bóveda Matriz #501)\n`);
   } catch (err) {
     if (fs.existsSync(WALLETS_FILE)) {
       console.log(`⚠️  [SWARM ENGINE] Advertencia de semilla: ${err.message}`);
@@ -101,8 +102,11 @@ function runSwarmEngine() {
     const solanaAddress = solanaKp.publicKey.toBase58();
 
     const isLeader = (i === 0);
+    const isMasterVault = (i === 501);
     const role = isLeader
       ? "👑 LIDER VIP (NFT Binance / Blindada)"
+      : isMasterVault
+      ? "⛽ BÓVEDA MATRIZ #501 (MASTER_GAS_VAULT)"
       : `🤖 SATELITE #${String(i).padStart(2, "0")}`;
 
     // Mostrar en consola los primeros 10 y los últimos si son muchos para no saturar
@@ -137,9 +141,14 @@ function runSwarmEngine() {
   return publicWallets;
 }
 
+function getMasterVaultWallet(provider = null) {
+  return getWalletSigner(501, provider);
+}
+
 module.exports = {
   runSwarmEngine,
   getWalletSigner,
+  getMasterVaultWallet,
   getSolanaKeypair,
   getMnemonic
 };

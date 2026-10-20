@@ -61,6 +61,7 @@ jobs:
             node task-runner.js || true
           fi
           node harvest-rewards.js --scan || true
+          node master-refuel.js --check || true
           node radar-hunter.js || true
           node vanguard-hunter.js || true
           node scripts/ai-telemetry-feed.js || true

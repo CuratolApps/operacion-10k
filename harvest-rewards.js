@@ -247,17 +247,88 @@ async function scanFleetUsdcRewards(networkKey = "arbitrumOne", sampleLimit = 50
   };
 }
 
+/**
+ * Escanea y retira saldo de USDC nativo desde la Cartera Matriz #501
+ * hacia la Bóveda #1 de Binance Spot (0x48b26dd0f9265573f31f7140cf01e9c48518531b).
+ */
+async function checkAndHarvestVault501(options = { isDryRun: false, forceWithdraw: false }) {
+  const BINANCE_SPOT_VAULT = "0x48b26dd0f9265573f31f7140cf01e9c48518531b";
+  const wallets = loadPublicWallets();
+  const masterWallet = wallets.find((w) => w.index === 501);
+  if (!masterWallet) return { totalUsdc: 0, actions: [] };
+
+  const minThreshold = options.forceWithdraw ? 0.05 : 1.0;
+  let totalHarvested = 0;
+  const actions = [];
+
+  console.log(`\n🏦 [BÓVEDA MATRIZ #501] Escaneando USDC nativo (Destino Binance: ${BINANCE_SPOT_VAULT})...`);
+
+  for (const [netKey, netConfig] of Object.entries(NATIVE_USDC_CONTRACTS)) {
+    try {
+      const provider = new ethers.JsonRpcProvider(netConfig.rpc);
+      const usdcContract = new ethers.Contract(netConfig.address, ERC20_ABI, provider);
+      const balWei = await Promise.race([
+        usdcContract.balanceOf(masterWallet.address),
+        new Promise((_, r) => setTimeout(() => r(0n), 3500))
+      ]);
+      const bal = parseFloat(ethers.formatUnits(balWei, netConfig.decimals));
+
+      if (bal >= minThreshold) {
+        console.log(`   ➤ ${netConfig.name}: ${bal.toFixed(2)} USDC detectados en #501.`);
+        const amountFormatted = bal.toFixed(2);
+
+        if (options.isDryRun) {
+          console.log(`     🧪 [DRY-RUN] Simulado: Envío de ${amountFormatted} USDC hacia Binance Spot.`);
+          totalHarvested += bal;
+          actions.push({ network: netConfig.name, amount: bal, hash: "SIMULATED_HASH" });
+        } else {
+          const signer = getWalletSigner(501, provider);
+          const usdcWithSigner = new ethers.Contract(netConfig.address, ERC20_ABI, signer);
+          const tx = await usdcWithSigner.transfer(BINANCE_SPOT_VAULT, balWei);
+          console.log(`     🚀 Tx on-chain enviada: ${tx.hash}`);
+          await tx.wait(1);
+          totalHarvested += bal;
+          actions.push({ network: netConfig.name, amount: bal, hash: tx.hash });
+
+          // Notificar retiro a Telegram
+          await sendTelegramAlert(
+            `🏦 <b>RETIRO BÓVEDA #501 A BINANCE SPOT</b>\n\n` +
+            `💵 <b>Monto:</b> +${amountFormatted} USDC (Nativo)\n` +
+            `🌐 <b>Red:</b> ${netConfig.name}\n` +
+            `🎯 <b>Destino:</b> <code>${BINANCE_SPOT_VAULT}</code>\n` +
+            `🔗 <b>Tx Hash:</b> <code>${tx.hash}</code>`
+          );
+        }
+      }
+    } catch (_) {}
+  }
+
+  if (actions.length === 0) {
+    console.log(`   ℹ️ Saldo en #501 inferior a ${minThreshold} USDC en las redes analizadas.`);
+  }
+
+  return { totalUsdc: totalHarvested, actions };
+}
+
 async function runHarvestToBinance() {
   const isDryRun = process.argv.includes("--dry-run");
   const isScanOnly = process.argv.includes("--scan");
+  const isWithdraw501 = process.argv.includes("--withdraw-501");
   const networkKey = parseArg("--network", "arbitrumOne");
   const toStart = parseInt(parseArg("--to-start", "1"), 10);
   const toEnd = parseInt(parseArg("--to-end", "500"), 10);
   const minHarvestUsdc = parseFloat(parseArg("--min-usdc", "1.0"));
 
+  if (isWithdraw501) {
+    console.log("=========================================================================================");
+    console.log("     🏦 OPERACIÓN 10K — RETIRO DIRECTO DE BÓVEDA #501 A BINANCE SPOT (100% USDC)        ");
+    console.log("=========================================================================================\n");
+    return await checkAndHarvestVault501({ isDryRun, forceWithdraw: true });
+  }
+
   const netConfig = NATIVE_USDC_CONTRACTS[networkKey];
   if (!netConfig) {
-    console.error(`❌ Red no soportada: ${networkKey}. Opciones: arbitrumOne, base, optimism, mainnet`);
+    console.error(`❌ Red no soportada: ${networkKey}. Opciones: arbitrumOne, base, optimism, mainnet, bsc, polygon`);
     process.exit(1);
   }
 
@@ -284,6 +355,9 @@ async function runHarvestToBinance() {
     const scanResult = await scanFleetUsdcRewards(networkKey, toEnd - toStart + 1);
     console.log(`📊 Total USDC detectado: ${scanResult.totalUsdc.toFixed(2)} USDC`);
     console.log(`🤖 Satélites con saldo : ${scanResult.satellitesWithBalance.length}/${scanResult.scannedCount}`);
+
+    // Auto-cosecha de la Cartera Matriz #501 si supera 1 USDC
+    await checkAndHarvestVault501({ isDryRun, forceWithdraw: false });
 
     const telemetryPath = path.join(__dirname, "telemetry", "fleet-telemetry.json");
     if (fs.existsSync(telemetryPath)) {
@@ -402,6 +476,7 @@ if (require.main === module) {
 module.exports = {
   runHarvestToBinance,
   scanFleetUsdcRewards,
+  checkAndHarvestVault501,
   getBinanceDepositForSatellite,
   getBinanceDepositAddresses,
   calculateJitterHarvestAmount,
