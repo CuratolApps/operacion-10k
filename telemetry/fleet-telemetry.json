@@ -408,6 +408,13 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1792493188910-653",
+      "timestamp": "2026-10-20T10:46:28.910Z",
+      "timeFormatted": "10:46:28 UTC",
+      "rawHtml": "🏦 <b>CARTERA MATRIZ #501 REGISTRADA (MASTER_GAS_VAULT)</b>\n\n⛽ <b>Dirección EVM (BSC / Polygon):</b>\n<code>0xD4D12077a61118372f7a367319fb11922Beb3743</code>\n\n🟣 <b>Dirección Solana:</b>\n<code>7y9PFUB6qAbRL5Ntni6tQc3RoYVpjsAvkp6vDamgBaYK</code>\n\n🎯 <b>Salida Directa a Binance Spot:</b>\n<code>0x48b26dd0f9265573f31f7140cf01e9c48518531b</code>\n\n🚀 <i>Sincronizado a GitHub (Commit 831cc57) con auto-refuel y liquidación USDC activa.</i>",
+      "textPlain": "🏦 CARTERA MATRIZ #501 REGISTRADA (MASTER_GAS_VAULT)\n\n⛽ Dirección EVM (BSC / Polygon):\n0xD4D12077a61118372f7a367319fb11922Beb3743\n\n🟣 Dirección Solana:\n7y9PFUB6qAbRL5Ntni6tQc3RoYVpjsAvkp6vDamgBaYK\n\n🎯 Salida Directa a Binance Spot:\n0x48b26dd0f9265573f31f7140cf01e9c48518531b\n\n🚀 Sincronizado a GitHub (Commit 831cc57) con auto-refuel y liquidación USDC activa."
+    },
+    {
       "id": "vanguard-1792491150806",
       "timestamp": "2026-10-20T10:12:30.806Z",
       "timeFormatted": "10:12:30 UTC",
@@ -609,13 +616,6 @@
       "timeFormatted": "17:54:16 UTC",
       "rawHtml": "📡 <b>OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA</b>\n\n⛽ <b>Salud de Gas & Autonomía (Carrusel 24x/día):</b>\n   • <b>Ethereum Sepolia:</b> 2.943 ETH total (~1.3 días)\n   • <b>Base Sepolia:</b> 0.300 ETH total (~1.8 días)\n   • <b>Otras Redes EVM:</b> 0 Gas ⏳ (En espera de distribución)\n   • <b>Solana Devnet:</b> 0 SOL ⏳ (En espera de airdrop)\n\n🏦 <b>Contratos DeFi Activos (Rotator):</b>\n   • <b>WETH Sepolia:</b> <code>0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14</code>\n   • <b>WETH Base:</b> <code>0x4200000000000000000000000000000000000006</code>\n   • <b>WBNB BSC:</b> <code>0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd</code>\n   • <b>WPOL Amoy:</b> <code>0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9</code>\n\n🌉 <b>Estado del Auto-Bridge L2:</b>\n   🟢 <b>STANDBY ÓPTIMO:</b> Flota 100% abastecida (> 0.003 ETH)\n\n👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx automatizadas)\n🤖 <b>Flota Total:</b> 500 Satélites sincronizados\n\n⏰ <i>19/10/2026, 17:54:16 UTC</i>",
       "textPlain": "📡 OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA\n\n⛽ Salud de Gas & Autonomía (Carrusel 24x/día):\n   • Ethereum Sepolia: 2.943 ETH total (~1.3 días)\n   • Base Sepolia: 0.300 ETH total (~1.8 días)\n   • Otras Redes EVM: 0 Gas ⏳ (En espera de distribución)\n   • Solana Devnet: 0 SOL ⏳ (En espera de airdrop)\n\n🏦 Contratos DeFi Activos (Rotator):\n   • WETH Sepolia: 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14\n   • WETH Base: 0x4200000000000000000000000000000000000006\n   • WBNB BSC: 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd\n   • WPOL Amoy: 0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9\n\n🌉 Estado del Auto-Bridge L2:\n   🟢 STANDBY ÓPTIMO: Flota 100% abastecida (> 0.003 ETH)\n\n👑 VIP #00: Monitoreada (100% Blindada / 0 Tx automatizadas)\n🤖 Flota Total: 500 Satélites sincronizados\n\n⏰ 19/10/2026, 17:54:16 UTC"
-    },
-    {
-      "id": "tg-radar-1",
-      "timestamp": "2026-10-19T17:51:10.290Z",
-      "timeFormatted": "17:51:10 UTC",
-      "rawHtml": "📡 <b>RADAR DE INTELIGENCIA & SALUD DE FLOTA (OMNICHAIN)</b>\n\n📊 <b>Auditoría de Saldos:</b>\n • <b>Sepolia L1:</b> 2.943 ETH total (~1.3 días)\n • <b>Base Sepolia:</b> 0.300 ETH total (~1.8 días)\n • <b>Otras Redes EVM:</b> 0 Gas ⏳\n\n🏦 <b>Contratos DeFi Activos (Rotator):</b>\n • WETH Sepolia, WETH Base, WBNB BSC, WPOL Amoy\n\n🌉 <b>Estado del Auto-Bridge L2:</b>\n 🛡️ STANDBY ÓPTIMO (>0.003 ETH en 500 satélites)\n👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx)\n🤖 <b>Flota Total:</b> 500 Satélites sincronizados",
-      "textPlain": "📡 RADAR DE INTELIGENCIA & SALUD DE FLOTA (OMNICHAIN)\n\nSepolia L1: 2.943 ETH (~1.3 días)\nBase Sepolia: 0.300 ETH (~1.8 días)\nContratos DeFi: WETH Sepolia, WETH Base, WBNB, WPOL\nAuto-Bridge: STANDBY ÓPTIMO\nFlota Total: 500 Satélites sincronizados"
     }
   ],
   "headersSurveillance": [
