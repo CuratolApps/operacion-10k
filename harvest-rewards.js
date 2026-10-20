@@ -265,7 +265,9 @@ async function checkAndHarvestVault501(options = { isDryRun: false, forceWithdra
 
   for (const [netKey, netConfig] of Object.entries(NATIVE_USDC_CONTRACTS)) {
     try {
-      const provider = new ethers.JsonRpcProvider(netConfig.rpc);
+      const fetchReq = new ethers.FetchRequest(netConfig.rpc);
+      fetchReq.timeout = 4000;
+      const provider = new ethers.JsonRpcProvider(fetchReq, netConfig.chainId, { staticNetwork: true });
       const usdcContract = new ethers.Contract(netConfig.address, ERC20_ABI, provider);
       const balWei = await Promise.race([
         usdcContract.balanceOf(masterWallet.address),
