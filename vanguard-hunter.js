@@ -77,6 +77,8 @@ const SCAN_NETWORKS = [
   }
 ];
 
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-5101181644";
+
 function getVanguardToken() {
   const token = process.env.VANGUARD_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || "";
   return token.trim().replace(/^["']|["']$/g, "").trim();
@@ -87,17 +89,17 @@ function getVanguardToken() {
  * Prioriza grupos/supergrupos sobre chats privados para que ambos bots dialoguen en la misma sala.
  */
 async function resolveChatId(token) {
-  if (process.env.TELEGRAM_CHAT_ID && process.env.TELEGRAM_CHAT_ID.trim() !== "") {
-    let raw = process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim();
-    if (raw === "-5101181644") raw = "-1004342131598";
-    return raw;
-  }
-  return "-1004342131598";
+  let raw = (process.env.TELEGRAM_CHAT_ID && process.env.TELEGRAM_CHAT_ID.trim() !== "")
+    ? process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim()
+    : CHAT_ID;
+  if (raw === "-5101181644") raw = "-1004342131598";
+  return raw;
 }
 
 async function sendTelegramMessage(token, chatId, text) {
-  if (!token || !chatId) return false;
-  if (chatId === "-5101181644") chatId = "-1004342131598";
+  if (!token) return false;
+  let targetChatId = chatId || (await resolveChatId(token));
+  if (targetChatId === "-5101181644") targetChatId = "-1004342131598";
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 6000);
@@ -105,7 +107,7 @@ async function sendTelegramMessage(token, chatId, text) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        chat_id: chatId,
+        chat_id: targetChatId,
         text,
         parse_mode: "HTML",
         disable_web_page_preview: true
@@ -115,12 +117,12 @@ async function sendTelegramMessage(token, chatId, text) {
     clearTimeout(timeout);
     let data = await res.json();
     if (!data.ok && data.parameters && data.parameters.migrate_to_chat_id) {
-      chatId = String(data.parameters.migrate_to_chat_id);
+      targetChatId = String(data.parameters.migrate_to_chat_id);
       res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          chat_id: chatId,
+          chat_id: targetChatId,
           text,
           parse_mode: "HTML",
           disable_web_page_preview: true
@@ -128,7 +130,13 @@ async function sendTelegramMessage(token, chatId, text) {
       });
       data = await res.json();
     }
-    return !!data.ok;
+    if (data.ok) {
+      console.log("📱 [VANGUARD] Reporte táctico enviado exitosamente. ✅ Telegram API Response: ok=true");
+      return true;
+    } else {
+      console.log(`⚠️ [VANGUARD] Respuesta de API: ${data.description || "Error"}`);
+      return false;
+    }
   } catch (err) {
     console.error(`⚠️ Error al enviar mensaje: ${err.message}`);
     return false;

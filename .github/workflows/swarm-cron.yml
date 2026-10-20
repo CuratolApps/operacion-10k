@@ -29,6 +29,13 @@ jobs:
     timeout-minutes: 25
     permissions:
       contents: write
+    env:
+      TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
+      SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
+      SWARM_SIZE: ${{ secrets.SWARM_SIZE || '500' }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '-5101181644' }}
+      VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}
 
     steps:
       - name: 📥 Clonar repositorio
@@ -46,13 +53,6 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: 🚀 Ejecutar Carrusel Omnichain + Radar 500 Satélites
-        env:
-          TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
-          SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
-          SWARM_SIZE: ${{ secrets.SWARM_SIZE || '500' }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}
         run: |
           node swarm-engine.js --only-generate || true
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then

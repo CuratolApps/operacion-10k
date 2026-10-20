@@ -43,6 +43,8 @@ function recordTelegramAlert(text) {
   } catch (_) {}
 }
 
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-5101181644";
+
 function getCleanToken() {
   const raw = process.env.TELEGRAM_BOT_TOKEN || "";
   return raw.trim().replace(/^["']|["']$/g, "").trim();
@@ -58,13 +60,12 @@ let cachedChatId = null;
 async function resolveChatId(token = null, timeoutSeconds = 0) {
   if (cachedChatId) return cachedChatId;
 
-  if (process.env.TELEGRAM_CHAT_ID && process.env.TELEGRAM_CHAT_ID.trim() !== "") {
-    let raw = process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim();
-    if (raw === "-5101181644") raw = "-1004342131598";
-    cachedChatId = raw;
-    return cachedChatId;
-  }
-  cachedChatId = "-1004342131598";
+  let raw = (process.env.TELEGRAM_CHAT_ID && process.env.TELEGRAM_CHAT_ID.trim() !== "")
+    ? process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim()
+    : CHAT_ID;
+
+  if (raw === "-5101181644") raw = "-1004342131598";
+  cachedChatId = raw;
   return cachedChatId;
 }
 
@@ -128,7 +129,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
     }
 
     if (result.ok) {
-      console.log("📱 [TELEGRAM] Alerta móvil enviada exitosamente.");
+      console.log("📱 [TELEGRAM] Alerta móvil enviada exitosamente. ✅ Telegram API Response: ok=true");
       return true;
     } else {
       console.log(`⚠️ [TELEGRAM] Respuesta de API: ${result.description || "Error desconocido"}`);

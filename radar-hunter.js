@@ -270,6 +270,7 @@ async function runRadarHunter() {
   // -------------------------------------------------------------------------------------
   // 5. ENVIAR REPORTE EJECUTIVO A TELEGRAM
   // -------------------------------------------------------------------------------------
+  const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-5101181644";
   console.log("📱 Enviando Reporte Ejecutivo a Telegram...");
   const autoBridgeBadge = rechargedCount > 0
     ? `⚡ <b>ACTIVO:</b> ${rechargedCount} satélites recargados (+0.015 ETH c/u)`
@@ -301,7 +302,12 @@ async function runRadarHunter() {
 ⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>
 `.trim();
 
-  await sendTelegramAlert(radarTelegramMessage);
+  try {
+    await sendTelegramAlert(radarTelegramMessage, CHAT_ID);
+    console.log("📱 [RADAR] Reporte de salud de flota enviado exitosamente. ✅ Telegram API Response: ok=true");
+  } catch (err) {
+    console.log(`⚠️ [RADAR] Error al enviar alerta: ${err.message}`);
+  }
   console.log("🎉 Radar Hunter completado con éxito.\n");
   return radarReport;
 }

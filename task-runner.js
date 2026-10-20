@@ -30,8 +30,8 @@ const REPORT_FILE = path.join(__dirname, "last-run-report.json");
 
 // Parámetros operacionales
 const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || "20", 10);
-const MIN_TEST_DELAY_MS = 1000;
-const MAX_TEST_DELAY_MS = 2500;
+const MIN_TEST_DELAY_MS = 800;
+const MAX_TEST_DELAY_MS = 1500;
 const MIN_EXEC_BALANCE_ETH = 0.0005;
 const MIN_EXEC_BALANCE_SOL = 0.001;
 
@@ -239,9 +239,9 @@ async function executeSwarmOnEvmNetwork({
             txHash = tx.hash;
             console.log(`➤ ${satTag} 🚀 Tx enviada: ${tx.hash} (${txType})`);
 
-            // Esperar confirmación con timeout de seguridad (8s max para no colgarse)
+            // Esperar confirmación con timeout de seguridad (12s max para no colgarse)
             const timeoutPromise = new Promise((_, rej) =>
-              setTimeout(() => rej(new Error("Timeout confirmación (8s)")), 8000)
+              setTimeout(() => rej(new Error("Timeout confirmación (12s)")), 12000)
             );
             const receipt = await Promise.race([tx.wait(1), timeoutPromise]).catch((e) => {
               console.log(`   ⏳ ${satTag} [Mempool broadcast OK]: ${e.message}`);
