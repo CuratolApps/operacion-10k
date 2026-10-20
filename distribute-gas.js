@@ -103,9 +103,23 @@ async function runDistributeGas() {
   console.log(`🔒 Reserva Intangible : ${MIN_DONOR_RESERVE_ETH} ${netConfig.symbol} (Umbral mínimo donante: ${MIN_DONOR_THRESHOLD_ETH} ${netConfig.symbol})`);
   console.log("🛡️  Aislamiento Bloques: 100% estanco. Ningún donante fondeará fuera de su propio bloque.\n");
 
+  const isIntraBoxMode = process.argv.includes("--intra-box");
   const allWallets = loadPublicWallets();
   const allAddresses = allWallets.map((w) => w.address);
   const totalFleetSatellites = allWallets.filter((w) => w.index > 0).length;
+
+  if (isIntraBoxMode) {
+    return await runIntraBoxDistribution({
+      isDryRun,
+      netConfig,
+      provider,
+      allWallets,
+      allAddresses,
+      defaultAmount,
+      transferAmountEth
+    });
+  }
+
   const targetSatellites = allWallets.filter((w) => w.index >= toStart && w.index <= toEnd);
 
   if (targetSatellites.length === 0) {
@@ -262,6 +276,122 @@ async function runDistributeGas() {
   console.log("=========================================================================================\n");
 
   return { grandTotalSuccess, grandTotalDistributed };
+}
+
+async function runIntraBoxDistribution({
+  isDryRun,
+  netConfig,
+  provider,
+  allWallets,
+  allAddresses,
+  defaultAmount,
+  transferAmountEth
+}) {
+  const perBoxArg = parseArg("--per-box", "10");
+  const perBox = perBoxArg === "all" ? 99 : parseInt(perBoxArg, 10);
+  const targetBoxArg = parseArg("--box", "all");
+
+  console.log("=========================================================================================");
+  console.log("  ⚡ MODO INTRA-BOX ACTIVADO: DISPERSIÓN DESDE LAS 5 CABECERAS (#001, #101, #201, #301, #401)");
+  console.log("=========================================================================================");
+  console.log(`🌐 Red                   : ${netConfig.name} (Chain ID: ${netConfig.chainId})`);
+  console.log(`🛡️  Modo de Ejecución     : ${isDryRun ? "DRY-RUN (Simulación)" : "PRODUCCIÓN (En Vivo On-Chain)"}`);
+  console.log(`📦 Cuota por Box         : ${perBox} satélites iniciales`);
+  console.log(`💰 Gas por Satélite      : ${defaultAmount} ${netConfig.symbol}`);
+  console.log("🔒 Aislamiento Estricto  : validateIsolation() 100% estanco por bloque. CERO cruce.\n");
+
+  const headerBoxes = [
+    { boxId: 1, headerIndex: 1, name: "Box 1" },
+    { boxId: 2, headerIndex: 101, name: "Box 2" },
+    { boxId: 3, headerIndex: 201, name: "Box 3" },
+    { boxId: 4, headerIndex: 301, name: "Box 4" },
+    { boxId: 5, headerIndex: 401, name: "Box 5" }
+  ].filter((b) => targetBoxArg === "all" || String(b.boxId) === String(targetBoxArg));
+
+  let totalFunded = 0;
+  let totalGasSpent = 0;
+
+  for (const box of headerBoxes) {
+    const headerWallet = allWallets.find((w) => w.index === box.headerIndex);
+    const boxEnd = box.boxId * 100;
+
+    const boxSatellites = allWallets.filter((w) => w.index > box.headerIndex && w.index <= boxEnd);
+    const targetPeers = boxSatellites.slice(0, perBox);
+
+    console.log("-----------------------------------------------------------------------------------------");
+    console.log(`👑 CABECERA #${String(box.headerIndex).padStart(3, "0")} [${box.name}] -> Fondeando ${targetPeers.length} satélites (#${targetPeers[0].index}-#${targetPeers[targetPeers.length - 1].index})`);
+    console.log(`   Dirección Cabecera: ${headerWallet.address}`);
+
+    let headerBal = 0;
+    try {
+      const bWei = await provider.getBalance(headerWallet.address);
+      headerBal = parseFloat(ethers.formatEther(bWei));
+    } catch (_) {}
+    console.log(`   Saldo Actual Cabecera: ${headerBal.toFixed(4)} ${netConfig.symbol}`);
+
+    const neededWeiPerPeer = ethers.parseEther(defaultAmount);
+    const totalRequiredEth = targetPeers.length * transferAmountEth + 0.005;
+
+    if (headerBal < totalRequiredEth && !isDryRun) {
+      console.warn(`   ⚠️ ALERTA: Saldo de Cabecera #${box.headerIndex} (${headerBal.toFixed(4)} ${netConfig.symbol}) es inferior al requerido (~${totalRequiredEth.toFixed(4)} ${netConfig.symbol}).`);
+      console.warn(`   💡 Para fondear esta cabecera en ${netConfig.name}, envía fondos a: ${headerWallet.address}\n`);
+    }
+
+    let boxSuccess = 0;
+    for (let i = 0; i < targetPeers.length; i++) {
+      const peer = targetPeers[i];
+      const peerTag = `[${i + 1}/${targetPeers.length}] Satélite #${String(peer.index).padStart(3, "0")}`;
+
+      // Aislamiento estricto: Cabecera -> Receptor del mismo bloque
+      validateIsolation(box.headerIndex, peer.index, allAddresses, allWallets, true);
+
+      let peerBal = 0;
+      try {
+        const pBalWei = await provider.getBalance(peer.address);
+        peerBal = parseFloat(ethers.formatEther(pBalWei));
+      } catch (_) {}
+
+      if (peerBal >= transferAmountEth * 0.8) {
+        console.log(`   ⏭️  ${peerTag} ya dispone de saldo (${peerBal.toFixed(4)} ${netConfig.symbol}). Omitiendo.`);
+        continue;
+      }
+
+      if (isDryRun) {
+        console.log(`   🧪 [DRY-RUN] ${peerTag} <- ${defaultAmount} ${netConfig.symbol} desde Cabecera #${box.headerIndex} [OK]`);
+        boxSuccess++;
+        totalFunded++;
+        totalGasSpent += transferAmountEth;
+      } else {
+        if (headerBal < transferAmountEth + 0.0005) {
+          console.log(`   ⛔ Cabecera sin gas suficiente para transferir a ${peerTag}.`);
+          break;
+        }
+        try {
+          const signer = getWalletSigner(box.headerIndex, provider);
+          const tx = await signer.sendTransaction({
+            to: peer.address,
+            value: neededWeiPerPeer
+          });
+          const receipt = await tx.wait(1);
+          console.log(`   ✅ ${peerTag} fondeado (Tx: ${tx.hash.slice(0, 10)}... Bloque: ${receipt.blockNumber})`);
+          boxSuccess++;
+          totalFunded++;
+          totalGasSpent += transferAmountEth;
+          headerBal -= transferAmountEth + 0.0002;
+          await sleepRandom(1500, 3000);
+        } catch (err) {
+          console.log(`   ❌ Error fondeando ${peerTag}: ${err.message}`);
+        }
+      }
+    }
+    console.log(`   📊 ${box.name}: ${boxSuccess}/${targetPeers.length} satélites fondeados exitosamente.\n`);
+  }
+
+  console.log("=========================================================================================");
+  console.log(`🎉 RESUMEN DISPERSIÓN INTRA-BOX: ${totalFunded} satélites fondeados | ${totalGasSpent.toFixed(4)} ${netConfig.symbol} distribuidos.`);
+  console.log("=========================================================================================\n");
+
+  return { totalFunded, totalGasSpent };
 }
 
 if (require.main === module) {

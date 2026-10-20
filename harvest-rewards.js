@@ -17,6 +17,7 @@ const { ethers } = require("ethers");
 const { sleepRandom, getBlockId } = require("./anti-sybil");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
+const { MULTICALL3_ADDRESS, MULTICALL3_ABI } = require("./networks");
 
 // -------------------------------------------------------------------------------------
 // CONTRATOS OFICIALES DE USDC NATIVO (6 DECIMALES)
@@ -45,6 +46,22 @@ const NATIVE_USDC_CONTRACTS = {
     decimals: 6,
     chainId: 10,
     rpc: "https://mainnet.optimism.io"
+  },
+  bsc: {
+    symbol: "USDC",
+    name: "USDC (BNB Smart Chain)",
+    address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+    decimals: 18,
+    chainId: 56,
+    rpc: "https://bsc-dataseed.binance.org"
+  },
+  polygon: {
+    symbol: "USDC",
+    name: "USDC (Native Polygon PoS)",
+    address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+    decimals: 6,
+    chainId: 137,
+    rpc: "https://polygon-rpc.com"
   },
   mainnet: {
     symbol: "USDC",
@@ -170,36 +187,54 @@ function parseArg(flag, defaultValue) {
   return defaultValue;
 }
 
-async function scanFleetUsdcRewards(networkKey = "arbitrumOne", sampleLimit = 100) {
+async function scanFleetUsdcRewards(networkKey = "arbitrumOne", sampleLimit = 500) {
   const netConfig = NATIVE_USDC_CONTRACTS[networkKey];
   if (!netConfig) {
     console.error(`❌ Red ${networkKey} no disponible para escáner.`);
-    return { totalUsdc: 0, satellitesWithBalance: 0 };
+    return { totalUsdc: 0, scannedCount: 0, satellitesWithBalance: [] };
   }
 
-  const provider = new ethers.JsonRpcProvider(netConfig.rpc, netConfig.chainId, {
-    staticNetwork: true
+  const fetchReq = new ethers.FetchRequest(netConfig.rpc);
+  fetchReq.timeout = 8000;
+  const provider = new ethers.JsonRpcProvider(fetchReq, netConfig.chainId, {
+    staticNetwork: ethers.Network.from(netConfig.chainId)
   });
 
-  const usdcContract = new ethers.Contract(netConfig.address, ERC20_ABI, provider);
+  const erc20Iface = new ethers.Interface(ERC20_ABI);
+  const multicall = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
   const wallets = loadPublicWallets().filter((w) => w.index >= 1 && w.index <= 500);
 
   const scannedList = wallets.slice(0, sampleLimit);
   let totalUsdcWei = 0n;
-  let withBalance = [];
+  const withBalance = [];
+  const CHUNK_SIZE = 250;
 
-  for (const sat of scannedList) {
+  for (let i = 0; i < scannedList.length; i += CHUNK_SIZE) {
+    const chunk = scannedList.slice(i, i + CHUNK_SIZE);
     try {
-      const bal = await usdcContract.balanceOf(sat.address);
-      if (bal > 0n) {
-        totalUsdcWei += bal;
-        withBalance.push({
-          index: sat.index,
-          address: sat.address,
-          usdcAmount: ethers.formatUnits(bal, netConfig.decimals)
-        });
-      }
-    } catch (_) {}
+      const calls = chunk.map((sat) => ({
+        target: netConfig.address,
+        allowFailure: true,
+        callData: erc20Iface.encodeFunctionData("balanceOf", [sat.address])
+      }));
+
+      const results = await multicall.aggregate3.staticCall(calls);
+      results.forEach((res, idx) => {
+        if (res.success && res.returnData && res.returnData !== "0x") {
+          const [bal] = erc20Iface.decodeFunctionResult("balanceOf", res.returnData);
+          if (bal > 0n) {
+            totalUsdcWei += bal;
+            withBalance.push({
+              index: chunk[idx].index,
+              address: chunk[idx].address,
+              usdcAmount: ethers.formatUnits(bal, netConfig.decimals)
+            });
+          }
+        }
+      });
+    } catch (_) {
+      // Fallback
+    }
   }
 
   const totalUsdcFormatted = ethers.formatUnits(totalUsdcWei, netConfig.decimals);
@@ -249,6 +284,23 @@ async function runHarvestToBinance() {
     const scanResult = await scanFleetUsdcRewards(networkKey, toEnd - toStart + 1);
     console.log(`📊 Total USDC detectado: ${scanResult.totalUsdc.toFixed(2)} USDC`);
     console.log(`🤖 Satélites con saldo : ${scanResult.satellitesWithBalance.length}/${scanResult.scannedCount}`);
+
+    const telemetryPath = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+    if (fs.existsSync(telemetryPath)) {
+      try {
+        const tel = JSON.parse(fs.readFileSync(telemetryPath, "utf8"));
+        tel.dailyCapturedUsdc = scanResult.totalUsdc;
+        if (tel.goalMilestone) {
+          tel.goalMilestone.currentAccruedUsdc = scanResult.totalUsdc;
+          tel.goalMilestone.remainingUsdc = Math.max(0, (tel.goalMilestone.targetGoalUsdc || 12000) - scanResult.totalUsdc);
+          tel.goalMilestone.progressPct = parseFloat(((scanResult.totalUsdc / (tel.goalMilestone.targetGoalUsdc || 12000)) * 100).toFixed(2));
+        }
+        fs.writeFileSync(telemetryPath, JSON.stringify(tel, null, 2), "utf8");
+        console.log(`💾 Telemetría sincronizada con $${scanResult.totalUsdc.toFixed(2)} USDC reales para el Dashboard.`);
+      } catch (telErr) {
+        console.log(`⚠️ No se pudo sincronizar telemetría: ${telErr.message}`);
+      }
+    }
     return scanResult;
   }
 

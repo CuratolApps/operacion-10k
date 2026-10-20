@@ -23,6 +23,7 @@ const { sendTelegramAlert } = require("./telegram-notifier");
 // Contratos oficiales L1
 const BASE_SEPOLIA_L1_BRIDGE = "0xfd0Bf71F60660E2f608ed56e1659C450eB113120";
 const ARBITRUM_SEPOLIA_INBOX = "0xaAe29B0366299461418F5324a79Afc425BE5ae21";
+const OPTIMISM_SEPOLIA_L1_BRIDGE = "0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1";
 const DEPOSIT_ETH_SELECTOR = "0x439370b1";
 const MIN_GAS_LIMIT_L2 = 200000;
 
@@ -86,6 +87,11 @@ async function runBridgeFleet() {
   const depositEth = parseFloat(depositStr);
   const skipThresholdEth = depositEth * 0.8; // 0.0012 ETH
 
+  const targetNet = parseArg("--network", "all").toLowerCase();
+  const includeBase = targetNet === "all" || targetNet === "base";
+  const includeArb = targetNet === "all" || targetNet === "arbitrum";
+  const includeOp = targetNet === "all" || targetNet === "optimism" || process.argv.includes("--include-optimism");
+
   const allWallets = loadPublicWallets();
   const allAddresses = allWallets.map((w) => w.address);
   const totalFleet = allWallets.filter((w) => w.index > 0).length;
@@ -93,11 +99,11 @@ async function runBridgeFleet() {
   console.log("=========================================================================================");
   console.log("     🌉 OPERACIÓN 10K - AUTO-BRIDGE MULTICALL3 & AISLAMIENTO ESTRICTO (L1 -> L2)        ");
   console.log("=========================================================================================");
-  console.log(`🌐 Redes Destino      : Base Sepolia & Arbitrum Sepolia`);
+  console.log(`🌐 Redes Destino      : ${[includeBase ? "Base Sepolia" : null, includeArb ? "Arbitrum Sepolia" : null, includeOp ? "Optimism Sepolia" : null].filter(Boolean).join(" & ")}`);
   console.log(`🛡️  Modo de Ejecución  : ${isDryRun ? "DRY-RUN (Simulación)" : "PRODUCCIÓN (On-Chain en vivo)"}`);
   console.log(`🎯 Rango Solicitado   : Satélites #${toStart} al #${toEnd} (${toEnd - toStart + 1} satélites)`);
   console.log(`📦 Tamaño de Lote     : ${batchSize} satélites`);
-  console.log(`💰 Monto por Red      : ${depositStr} ETH por puente (${(depositEth * 2).toFixed(4)} ETH total)`);
+  console.log(`💰 Monto por Red      : ${depositStr} ETH por puente`);
   console.log(`⚡ Umbral de Exclusión: >= ${skipThresholdEth.toFixed(4)} ETH en L2`);
   console.log("🔒 Política Anti-Sybil: Aislamiento 100% individual y donaciones estrictamente intra-bloque.\n");
 
@@ -111,17 +117,21 @@ async function runBridgeFleet() {
   const sepoliaProvider = createResilientProvider(networks.ethereumSepolia);
   const baseProvider = createResilientProvider(networks.baseSepolia);
   const arbProvider = createResilientProvider(networks.arbitrumSepolia);
+  const opProvider = createResilientProvider(networks.optimismSepolia);
 
   console.log("📡 Verificando conexión RPC resiliente:");
   try {
-    const [bSep, bBase, bArb] = await Promise.all([
+    const rpcChecks = [
       sepoliaProvider.getBlockNumber(),
-      baseProvider.getBlockNumber(),
-      arbProvider.getBlockNumber()
-    ]);
+      includeBase ? baseProvider.getBlockNumber() : Promise.resolve("N/A"),
+      includeArb ? arbProvider.getBlockNumber() : Promise.resolve("N/A"),
+      includeOp ? opProvider.getBlockNumber() : Promise.resolve("N/A")
+    ];
+    const [bSep, bBase, bArb, bOp] = await Promise.all(rpcChecks);
     console.log(`   • Ethereum Sepolia (L1) : Bloque #${bSep} 🟢 ONLINE`);
-    console.log(`   • Base Sepolia (L2)     : Bloque #${bBase} 🟢 ONLINE`);
-    console.log(`   • Arbitrum Sepolia (L2) : Bloque #${bArb} 🟢 ONLINE\n`);
+    if (includeBase) console.log(`   • Base Sepolia (L2)     : Bloque #${bBase} 🟢 ONLINE`);
+    if (includeArb) console.log(`   • Arbitrum Sepolia (L2) : Bloque #${bArb} 🟢 ONLINE`);
+    if (includeOp) console.log(`   • Optimism Sepolia (L2) : Bloque #${bOp} 🟢 ONLINE\n`);
   } catch (err) {
     console.error(`❌ Error conectando a RPCs: ${err.message}`);
     process.exit(1);
@@ -137,6 +147,7 @@ async function runBridgeFleet() {
 
   let grandTotalBaseBridged = 0;
   let grandTotalArbBridged = 0;
+  let grandTotalOpBridged = 0;
 
   for (let bIdx = 0; bIdx < batches.length; bIdx++) {
     const currentBatch = batches[bIdx];
@@ -149,19 +160,20 @@ async function runBridgeFleet() {
     console.log(`🚀 INICIANDO ${batchTag.toUpperCase()} - ${currentBatch.length} SATÉLITES`);
     console.log("-----------------------------------------------------------------------------------------");
 
-    // 🚀 LECTURA MASIVA ULTRA-RÁPIDA VÍA MULTICALL3 PARA EL LOTE COMPLETO
     console.log(`⚡ Ejecutando escaneo Multicall3 para los ${currentBatch.length} satélites del lote...`);
     const batchAddresses = currentBatch.map((s) => s.address);
 
-    const [baseBalances, arbBalances, sepBalances] = await Promise.all([
-      fetchEthBalancesBatch(baseProvider, batchAddresses),
-      fetchEthBalancesBatch(arbProvider, batchAddresses),
+    const [baseBalances, arbBalances, opBalances, sepBalances] = await Promise.all([
+      includeBase ? fetchEthBalancesBatch(baseProvider, batchAddresses) : Promise.resolve({}),
+      includeArb ? fetchEthBalancesBatch(arbProvider, batchAddresses) : Promise.resolve({}),
+      includeOp ? fetchEthBalancesBatch(opProvider, batchAddresses) : Promise.resolve({}),
       fetchEthBalancesBatch(sepoliaProvider, batchAddresses)
     ]);
-    console.log("   ✅ Saldos de Base, Arbitrum y Sepolia capturados en 3 llamadas batch.\n");
+    console.log("   ✅ Saldos L2 y Sepolia capturados en batch con Multicall3.\n");
 
     let batchBaseSuccess = 0;
     let batchArbSuccess = 0;
+    let batchOpSuccess = 0;
 
     for (let i = 0; i < currentBatch.length; i++) {
       const sat = currentBatch[i];
@@ -171,29 +183,32 @@ async function runBridgeFleet() {
       const addrLower = sat.address.toLowerCase();
       const baseBalWei = baseBalances[addrLower] || 0n;
       const arbBalWei = arbBalances[addrLower] || 0n;
+      const opBalWei = opBalances[addrLower] || 0n;
       let sepBalWei = sepBalances[addrLower] || 0n;
 
       const baseBal = parseFloat(ethers.formatEther(baseBalWei));
       const arbBal = parseFloat(ethers.formatEther(arbBalWei));
+      const opBal = parseFloat(ethers.formatEther(opBalWei));
       let sepBalEth = parseFloat(ethers.formatEther(sepBalWei));
 
-      const needsBase = baseBal < skipThresholdEth;
-      const needsArb = arbBal < skipThresholdEth;
+      const needsBase = includeBase && baseBal < skipThresholdEth;
+      const needsArb = includeArb && arbBal < skipThresholdEth;
+      const needsOp = includeOp && opBal < skipThresholdEth;
 
-      console.log(`   ↳ Saldos L2: Base = ${baseBal.toFixed(5)} ETH | Arbitrum = ${arbBal.toFixed(5)} ETH`);
+      console.log(`   ↳ Saldos L2: Base = ${baseBal.toFixed(5)} | Arb = ${arbBal.toFixed(5)} | OP = ${opBal.toFixed(5)} ETH`);
       console.log(`   ↳ Saldo en L1 Sepolia: ${sepBalEth.toFixed(5)} ETH`);
 
-      if (!needsBase && !needsArb) {
-        console.log(`   ⏭️  OMITIDO: Saldo suficiente en ambas L2.\n`);
+      if (!needsBase && !needsArb && !needsOp) {
+        console.log(`   ⏭️  OMITIDO: Saldo suficiente en las L2 seleccionadas.\n`);
         continue;
       }
 
-      const neededPuentes = (needsBase ? 1 : 0) + (needsArb ? 1 : 0);
+      const neededPuentes = (needsBase ? 1 : 0) + (needsArb ? 1 : 0) + (needsOp ? 1 : 0);
       const minRequiredL1Wei = ethers.parseEther(String(neededPuentes * depositEth + 0.0008));
 
       // Si falta gas en L1, buscar donante ESTRICTAMENTE dentro del mismo bloque
       if (sepBalWei < minRequiredL1Wei && !isDryRun) {
-        console.log(`   ⚠️ Saldo bajo en L1 (< ${depositEth} ETH). Buscando donante dentro del Bloque B${blockId}...`);
+        console.log(`   ⚠️ Saldo bajo en L1 (< ${neededPuentes * depositEth} ETH). Buscando donante dentro del Bloque B${blockId}...`);
         const intraDonor = await findIntraBlockDonor(sat, allWallets, sepoliaProvider, minRequiredL1Wei);
 
         if (intraDonor) {
@@ -245,8 +260,6 @@ async function runBridgeFleet() {
           }
         }
         if (!isDryRun) await sleepRandom(1500, 3000);
-      } else {
-        console.log(`   ⏭️  Base Sepolia omitido (saldo >= ${skipThresholdEth.toFixed(4)} ETH)`);
       }
 
       // --- PUENTE 2: ARBITRUM SEPOLIA ---
@@ -271,8 +284,34 @@ async function runBridgeFleet() {
             console.log(`   ❌ Error al puentear a Arbitrum: ${aErr.message}`);
           }
         }
-      } else {
-        console.log(`   ⏭️  Arbitrum Sepolia omitido (saldo >= ${skipThresholdEth.toFixed(4)} ETH)`);
+        if (!isDryRun) await sleepRandom(1500, 3000);
+      }
+
+      // --- PUENTE 3: OPTIMISM SEPOLIA ---
+      if (needsOp) {
+        validateIsolation(sat.address, sat.address, allAddresses, allWallets);
+        if (isDryRun) {
+          console.log(`   🧪 [DRY-RUN] Simulado: Puente de ${depositStr} ETH a Optimism Sepolia L1StandardBridge`);
+          batchOpSuccess++;
+        } else {
+          try {
+            console.log(`   🚀 Enviando ${depositStr} ETH a Optimism Sepolia L1StandardBridge...`);
+            const opBridgeContract = new ethers.Contract(OPTIMISM_SEPOLIA_L1_BRIDGE, L1_BRIDGE_ABI, signer);
+            const tx = await opBridgeContract.bridgeETHTo(
+              sat.address,
+              MIN_GAS_LIMIT_L2,
+              "0x",
+              { value: depositWei }
+            );
+            console.log(`   📡 Tx Optimism enviada: ${tx.hash}`);
+            const receipt = await tx.wait(1);
+            console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+            batchOpSuccess++;
+          } catch (opErr) {
+            console.log(`   ❌ Error al puentear a Optimism Sepolia: ${opErr.message}`);
+          }
+        }
+        if (!isDryRun) await sleepRandom(1500, 3000);
       }
 
       if (i < currentBatch.length - 1 && !isDryRun) {
@@ -283,20 +322,23 @@ async function runBridgeFleet() {
 
     grandTotalBaseBridged += batchBaseSuccess;
     grandTotalArbBridged += batchArbSuccess;
+    grandTotalOpBridged += batchOpSuccess;
 
     console.log(`\n✅ ${batchTag} completado:`);
-    console.log(`   • Base Sepolia     : ${batchBaseSuccess}/${currentBatch.length} satélites fondeados`);
-    console.log(`   • Arbitrum Sepolia : ${batchArbSuccess}/${currentBatch.length} satélites fondeados\n`);
+    if (includeBase) console.log(`   • Base Sepolia     : ${batchBaseSuccess}/${currentBatch.length} satélites fondeados`);
+    if (includeArb) console.log(`   • Arbitrum Sepolia : ${batchArbSuccess}/${currentBatch.length} satélites fondeados`);
+    if (includeOp) console.log(`   • Optimism Sepolia : ${batchOpSuccess}/${currentBatch.length} satélites fondeados\n`);
 
-    if (!isDryRun && (batchBaseSuccess > 0 || batchArbSuccess > 0)) {
+    if (!isDryRun && (batchBaseSuccess > 0 || batchArbSuccess > 0 || batchOpSuccess > 0)) {
       const cumulativeCovered = endIdx;
       const progressPercent = ((cumulativeCovered / totalFleet) * 100).toFixed(1);
 
       await sendTelegramAlert(
         `🌉 <b>OPERACIÓN 10K - AUTO-BRIDGE L1->L2 (${bIdx + 1}/${batches.length})</b>\n\n` +
         `📦 <b>Lote:</b> #${startIdx} al #${endIdx} [Bloque B${blockId}]\n` +
-        `🔵 <b>Base Sepolia:</b> ${batchBaseSuccess} puenteados exitosamente\n` +
-        `🟠 <b>Arbitrum Sepolia:</b> ${batchArbSuccess} puenteados exitosamente\n` +
+        (includeBase ? `🔵 <b>Base Sepolia:</b> ${batchBaseSuccess} puenteados\n` : "") +
+        (includeArb ? `🟠 <b>Arbitrum Sepolia:</b> ${batchArbSuccess} puenteados\n` : "") +
+        (includeOp ? `🔴 <b>Optimism Sepolia:</b> ${batchOpSuccess} puenteados\n` : "") +
         `💰 <b>Monto por Satélite:</b> ${depositStr} ETH por red\n` +
         `📈 <b>Progreso Acumulado:</b> ${cumulativeCovered}/${totalFleet} Satélites (${progressPercent}%)\n` +
         `🛡️ <b>Anti-Sybil:</b> Aislamiento intra-bloque estricto (0% cruce inter-bloques)\n` +
@@ -310,11 +352,12 @@ async function runBridgeFleet() {
   console.log("                   📊 RESUMEN FINAL AUTO-BRIDGE MULTI-RED                               ");
   console.log("=========================================================================================");
   console.log(`🎯 Rango Evaluado              : #${toStart} al #${toEnd}`);
-  console.log(`🔵 Total Base Sepolia Cruzados : ${grandTotalBaseBridged}`);
-  console.log(`🟠 Total Arbitrum Cruzados     : ${grandTotalArbBridged}`);
+  if (includeBase) console.log(`🔵 Total Base Sepolia Cruzados : ${grandTotalBaseBridged}`);
+  if (includeArb) console.log(`🟠 Total Arbitrum Cruzados     : ${grandTotalArbBridged}`);
+  if (includeOp) console.log(`🔴 Total Optimism Cruzados     : ${grandTotalOpBridged}`);
   console.log("=========================================================================================\n");
 
-  return { grandTotalBaseBridged, grandTotalArbBridged };
+  return { grandTotalBaseBridged, grandTotalArbBridged, grandTotalOpBridged };
 }
 
 if (require.main === module) {

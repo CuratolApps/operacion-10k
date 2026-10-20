@@ -22,7 +22,7 @@ const networks = {
   ethereumSepolia: {
     id: "ethereumSepolia",
     name: "Ethereum Sepolia",
-    rpc: "https://ethereum-sepolia-rpc.publicnode.com",
+    rpc: "https://sepolia.drpc.org",
     fallbackRpc: "https://1rpc.io/sepolia",
     chainId: 11155111,
     symbol: "ETH",
@@ -86,14 +86,27 @@ const networks = {
   arbitrumSepolia: {
     id: "arbitrumSepolia",
     name: "Arbitrum Sepolia",
-    rpc: "https://sepolia-rollup.arbitrum.io/rpc",
-    fallbackRpc: "https://arbitrum-sepolia.drpc.org",
+    rpc: "https://arbitrum-sepolia.drpc.org",
+    fallbackRpc: "https://sepolia-rollup.arbitrum.io/rpc",
     chainId: 421614,
     symbol: "ETH",
     category: "Testnet EVM",
     defiToken: {
       symbol: "WETH",
       address: "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73"
+    }
+  },
+  optimismSepolia: {
+    id: "optimismSepolia",
+    name: "Optimism Sepolia",
+    rpc: "https://sepolia.optimism.io",
+    fallbackRpc: "https://optimism-sepolia.drpc.org",
+    chainId: 11155420,
+    symbol: "ETH",
+    category: "Testnet EVM",
+    defiToken: {
+      symbol: "WETH",
+      address: "0x4200000000000000000000000000000000000006"
     }
   },
 
@@ -110,15 +123,43 @@ const networks = {
   },
 
   // -------------------------------------------------------------------------------------
-  // MAINNETS (ESCUADRÓN C: CUENTA #00 VIP - MODO SOLO LECTURA / MONITOREO)
+  // MAINNETS ECONÓMICAS PREPARADAS (BSC, POLYGON, BASE)
   // -------------------------------------------------------------------------------------
   bscMainnet: {
     id: "bscMainnet",
     name: "BNB Smart Chain",
     rpc: "https://bsc-dataseed.binance.org",
+    fallbackRpc: "https://binance.llamarpc.com",
     chainId: 56,
     symbol: "BNB",
-    category: "Mainnet (Escuadrón C)"
+    category: "Mainnet",
+    defiToken: {
+      symbol: "WBNB",
+      address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+    },
+    usdcToken: {
+      symbol: "USDC",
+      address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+      decimals: 18
+    }
+  },
+  polygonMainnet: {
+    id: "polygonMainnet",
+    name: "Polygon PoS",
+    rpc: "https://polygon-rpc.com",
+    fallbackRpc: "https://rpc.ankr.com/polygon",
+    chainId: 137,
+    symbol: "POL",
+    category: "Mainnet",
+    defiToken: {
+      symbol: "WPOL",
+      address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+    },
+    usdcToken: {
+      symbol: "USDC",
+      address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+      decimals: 6
+    }
   },
   baseMainnet: {
     id: "baseMainnet",
@@ -126,7 +167,12 @@ const networks = {
     rpc: "https://mainnet.base.org",
     chainId: 8453,
     symbol: "ETH",
-    category: "Mainnet (Escuadrón C)"
+    category: "Mainnet (Escuadrón C)",
+    usdcToken: {
+      symbol: "USDC",
+      address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      decimals: 6
+    }
   }
 };
 
@@ -193,7 +239,7 @@ async function fetchEthBalancesBatch(provider, addresses) {
         callData: iface.encodeFunctionData("getEthBalance", [addr])
       }));
 
-      const results = await multicall.aggregate3(calls);
+      const results = await multicall.aggregate3.staticCall(calls);
       results.forEach((res, idx) => {
         const addr = chunk[idx];
         if (res.success && res.returnData && res.returnData !== "0x") {

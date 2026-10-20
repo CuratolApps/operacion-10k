@@ -164,29 +164,51 @@ async function executeSwarmOnEvmNetwork({
         const satTag = `[${b + chunkIdx + 1}/${shuffledSquad.length}] Satélite #${String(sat.index).padStart(2, "0")}`;
         let balanceEth = 0;
         try {
-          const rawBal = await provider.getBalance(sat.address);
+          const timeoutBal = new Promise((_, r) => setTimeout(() => r(new Error("Timeout RPC")), 8000));
+          const rawBal = await Promise.race([provider.getBalance(sat.address), timeoutBal]);
           balanceEth = parseFloat(ethers.formatEther(rawBal));
         } catch (err) {
           console.log(`   ⚠️ Error de lectura RPC para ${sat.address}: ${err.message}`);
         }
 
         const defiToken = networkConfig.defiToken;
-        const isDefiTx = defiToken && Math.random() < 0.5;
+        // Diversificación de huella on-chain: 3 modos legítimos (missions-targets.json)
+        const modeRoll = Math.random();
+        let missionMode = "DAILY_CHECKIN";
+        if (modeRoll < 0.40 && defiToken) {
+          missionMode = "DEFI_DEPOSIT";
+        } else if (modeRoll < 0.70) {
+          missionMode = "DAILY_CHECKIN";
+        } else {
+          missionMode = "TESTNET_MINT_VERIFY";
+        }
 
         let targetAddress = "";
-        let humanAmount = "";
+        let humanAmount = "0.0";
         let txType = "";
-        let randomCallData = "";
+        let randomCallData = "0x";
+        let targetGasLimit = 32000n;
 
-        if (isDefiTx) {
+        if (missionMode === "DEFI_DEPOSIT" && defiToken) {
           txType = `DEFI_${defiToken.symbol}_DEPOSIT`;
           targetAddress = defiToken.address;
           humanAmount = Number(generateHumanAmount(0.00001, 0.00003)).toFixed(6);
-        } else {
-          txType = "ORGANIC_SELF_TX";
+          targetGasLimit = 65000n;
+        } else if (missionMode === "DAILY_CHECKIN") {
+          txType = "DAILY_CHECKIN_STREAK";
           targetAddress = sat.address;
-          humanAmount = Number(generateHumanAmount(0.00005, 0.00015)).toFixed(6);
-          randomCallData = "0x";
+          // Calldata con selector 0x183ff085 (checkIn) y día UTC empaquetado
+          const todayUtcEpoch = Math.floor(Date.now() / 86400000).toString(16).padStart(8, "0");
+          randomCallData = `0x183ff085${todayUtcEpoch}`;
+          humanAmount = "0.000000";
+          targetGasLimit = 32000n;
+        } else {
+          txType = "PROTOCOL_MINT_VERIFY";
+          targetAddress = sat.address;
+          // Calldata con selector 0x1249c58b (claim/mint) con micro-monto opcional
+          randomCallData = "0x1249c58b";
+          humanAmount = Number(generateHumanAmount(0.00001, 0.00002)).toFixed(6);
+          targetGasLimit = 36000n;
         }
 
         validateIsolation(sat.address, targetAddress, allAddresses);
@@ -199,27 +221,27 @@ async function executeSwarmOnEvmNetwork({
             const signer = getSigner(sat.index, provider);
             let tx;
 
-            if (isDefiTx) {
+            if (missionMode === "DEFI_DEPOSIT") {
               const wContract = new ethers.Contract(targetAddress, WETH_ABI, signer);
               tx = await wContract.deposit({
                 value: ethers.parseEther(humanAmount),
-                gasLimit: 65000n
+                gasLimit: targetGasLimit
               });
             } else {
               tx = await signer.sendTransaction({
                 to: targetAddress,
                 value: ethers.parseEther(humanAmount),
                 data: randomCallData,
-                gasLimit: 25000n
+                gasLimit: targetGasLimit
               });
             }
 
             txHash = tx.hash;
             console.log(`➤ ${satTag} 🚀 Tx enviada: ${tx.hash} (${txType})`);
 
-            // Esperar confirmación con timeout de seguridad (18s max para no colgarse)
+            // Esperar confirmación con timeout de seguridad (8s max para no colgarse)
             const timeoutPromise = new Promise((_, rej) =>
-              setTimeout(() => rej(new Error("Timeout confirmación (18s)")), 18000)
+              setTimeout(() => rej(new Error("Timeout confirmación (8s)")), 8000)
             );
             const receipt = await Promise.race([tx.wait(1), timeoutPromise]).catch((e) => {
               console.log(`   ⏳ ${satTag} [Mempool broadcast OK]: ${e.message}`);

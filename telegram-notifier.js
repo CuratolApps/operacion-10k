@@ -59,46 +59,13 @@ async function resolveChatId(token = null, timeoutSeconds = 0) {
   if (cachedChatId) return cachedChatId;
 
   if (process.env.TELEGRAM_CHAT_ID && process.env.TELEGRAM_CHAT_ID.trim() !== "") {
-    cachedChatId = process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim();
+    let raw = process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim();
+    if (raw === "-5101181644") raw = "-1004342131598";
+    cachedChatId = raw;
     return cachedChatId;
   }
-
-  const activeToken = token || getCleanToken();
-  if (!activeToken) return null;
-
-  const endpoint = `https://api.telegram.org/bot${activeToken}/getUpdates?timeout=${timeoutSeconds}&limit=100`;
-  try {
-    const controller = new AbortController();
-    const abortTimeout = (timeoutSeconds + 5) * 1000;
-    const timeoutId = setTimeout(() => controller.abort(), abortTimeout);
-
-    const res = await fetch(endpoint, { signal: controller.signal });
-    clearTimeout(timeoutId);
-
-    const data = await res.json();
-    if (data.ok && Array.isArray(data.result) && data.result.length > 0) {
-      // Prioridad 1 estricta: Buscar chats de grupo o supergrupo (ID negativo)
-      for (let i = data.result.length - 1; i >= 0; i--) {
-        const update = data.result[i];
-        const msg = update.message || update.channel_post || update.edited_message;
-        if (msg && msg.chat && msg.chat.id) {
-          const cid = String(msg.chat.id);
-          if (cid.startsWith("-") || msg.chat.type === "group" || msg.chat.type === "supergroup") {
-            cachedChatId = cid;
-            console.log(`📱 [TELEGRAM] Grupo de Mando detectado automáticamente: [CHAT_ID: ${cachedChatId.slice(0, 5)}***]`);
-            return cachedChatId;
-          }
-        }
-      }
-
-      // Si no hay grupo registrado en los eventos recientes
-      console.log(`⚠️ [TELEGRAM] No se detectó un grupo en los eventos recientes. Configura TELEGRAM_CHAT_ID en .env.`);
-    }
-  } catch (err) {
-    console.log(`⚠️ [TELEGRAM] Error al consultar getUpdates: ${err.message}`);
-  }
-
-  return null;
+  cachedChatId = "-1004342131598";
+  return cachedChatId;
 }
 
 /**
@@ -116,7 +83,8 @@ async function sendTelegramAlert(messageText, customChatId = null) {
     return false;
   }
 
-  const chatId = customChatId || (await resolveChatId(token));
+  let chatId = customChatId || (await resolveChatId(token));
+  if (chatId === "-5101181644") chatId = "-1004342131598";
   if (!chatId) {
     console.log("ℹ️ [No se pudo detectar el Chat ID. Envía un mensaje al bot en Telegram primero]");
     return false;
@@ -128,7 +96,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-    const response = await fetch(endpoint, {
+    let response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -142,7 +110,23 @@ async function sendTelegramAlert(messageText, customChatId = null) {
 
     clearTimeout(timeoutId);
 
-    const result = await response.json();
+    let result = await response.json();
+    if (!result.ok && result.parameters && result.parameters.migrate_to_chat_id) {
+      chatId = String(result.parameters.migrate_to_chat_id);
+      cachedChatId = chatId;
+      response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: messageText,
+          parse_mode: "HTML",
+          disable_web_page_preview: true
+        })
+      });
+      result = await response.json();
+    }
+
     if (result.ok) {
       console.log("📱 [TELEGRAM] Alerta móvil enviada exitosamente.");
       return true;

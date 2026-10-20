@@ -13,3 +13,4 @@ last-run-report.json
 bridge-base-report.json
 radar-report.json
 *.log
+scratch/

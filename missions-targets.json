@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "2.1.0",
+  "project": "Operación 10K — Omnichain Swarm Missions",
+  "lastUpdated": "2026-10-20T09:20:00Z",
+  "description": "Catálogo maestro de misiones on-chain reales y diversificación de huella para la flota de 500 satélites.",
+  "executionRules": {
+    "antiSybilJitterMs": [1200, 2800],
+    "maxGasGwei": 50,
+    "isolationEnforced": true,
+    "vipVaultUntouchable": true
+  },
+  "missions": {
+    "DEFI_DEPOSIT": {
+      "id": "DEFI_DEPOSIT",
+      "name": "DeFi Liquidity Wrapping (WETH / WBNB / WPOL)",
+      "category": "DeFi Interaction",
+      "description": "Envoltura de activo nativo a token Wrapped estándar (WETH9/WBNB/WPOL) mediante la función oficial deposit().",
+      "functionSignature": "deposit()",
+      "selector": "0xd0e30db0",
+      "gasLimit": 65000,
+      "amountRangeEth": [0.00001, 0.00003],
+      "contracts": {
+        "11155111": { "symbol": "WETH9", "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14", "network": "Ethereum Sepolia" },
+        "84532": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Base Sepolia" },
+        "421614": { "symbol": "WETH", "address": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73", "network": "Arbitrum Sepolia" },
+        "11155420": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Optimism Sepolia" },
+        "97": { "symbol": "WBNB", "address": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd", "network": "BSC Testnet" },
+        "80002": { "symbol": "WPOL", "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9", "network": "Polygon Amoy" },
+        "56": { "symbol": "WBNB", "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "network": "BNB Smart Chain Mainnet" },
+        "137": { "symbol": "WPOL", "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", "network": "Polygon Mainnet" }
+      }
+    },
+    "DAILY_CHECKIN": {
+      "id": "DAILY_CHECKIN",
+      "name": "Prueba de Asistencia On-Chain (Daily Streak Check-In)",
+      "category": "Account Activity & Reputation",
+      "description": "Registro diario inmutable de actividad con selector 0x183ff085 y timestamp UTC empaquetado; genera historial transaccional legítimo a costo casi nulo de gas.",
+      "functionSignature": "checkIn()",
+      "selector": "0x183ff085",
+      "gasLimit": 32000,
+      "amountNative": "0.0",
+      "supportsDynamicCalldata": true
+    },
+    "TESTNET_MINT_VERIFY": {
+      "id": "TESTNET_MINT_VERIFY",
+      "name": "Protocol Activity / Free Mint Verification",
+      "category": "NFT & Smart Contract Interaction",
+      "description": "Llamada con payload de interacción (0x1249c58b / claim / mintVerification) para simular participación en campañas y airdrops de ecosistemas.",
+      "functionSignature": "mint()",
+      "selector": "0x1249c58b",
+      "gasLimit": 45000,
+      "amountNative": "0.0"
+    },
+    "SOLANA_ACTIVITY": {
+      "id": "SOLANA_ACTIVITY",
+      "name": "Solana Devnet Faucet & Ping Verification",
+      "category": "Non-EVM Activity",
+      "description": "Solicitud controlada de fondos faucet (requestAirdrop) y transacciones memo auto-referenciadas para validar operatividad de las direcciones Solana.",
+      "solAmount": 0.05,
+      "silentRateLimit": true
+    }
+  }
+}
