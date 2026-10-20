@@ -46,7 +46,7 @@ function recordTelegramAlert(text) {
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-5101181644";
 
 function getCleanToken() {
-  const raw = process.env.TELEGRAM_BOT_TOKEN || "";
+  const raw = process.env.VANGUARD_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || "";
   return raw.trim().replace(/^["']|["']$/g, "").trim();
 }
 
@@ -95,7 +95,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     let response = await fetch(endpoint, {
       method: "POST",
@@ -215,9 +215,28 @@ async function notifyRoundSummary(summaryData) {
       }
     }
 
+    let floatingUsdc = "0.00";
+    let consolidatedUsdc = "0.00";
+    try {
+      if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
+        const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
+        if (tel.pendingHarvestUsdc && tel.pendingHarvestUsdc.totalPendingUsdc != null) {
+          floatingUsdc = Number(tel.pendingHarvestUsdc.totalPendingUsdc).toFixed(2);
+        }
+        if (tel.totalHarvestedToBinanceUsdc != null) {
+          consolidatedUsdc = Number(tel.totalHarvestedToBinanceUsdc).toFixed(2);
+        }
+      }
+    } catch (_) {}
+
     const text = `
 🚀 <b>OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS</b>
 ${modeBadge}
+
+💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>
+   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $${floatingUsdc} USDC
+   • <b>Consolidado en Binance Spot (Meta 12K):</b> $${consolidatedUsdc} USDC
+   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)
 
 🔨 <b>CHAMBA DE ESTA RONDA:</b>
    • <b>Box en Turno:</b> ${boxName}

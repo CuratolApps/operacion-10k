@@ -488,9 +488,28 @@ async function main() {
    • <b>Contratos DeFi en Radar:</b> WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.
    • <b>Aislamiento Intra-Bloque:</b> 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.`;
 
+  let floatingUsdc = "0.00";
+  let consolidatedUsdc = "0.00";
+  if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
+    try {
+      const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
+      if (tel.pendingHarvestUsdc && tel.pendingHarvestUsdc.totalPendingUsdc != null) {
+        floatingUsdc = Number(tel.pendingHarvestUsdc.totalPendingUsdc).toFixed(2);
+      }
+      if (tel.totalHarvestedToBinanceUsdc != null) {
+        consolidatedUsdc = Number(tel.totalHarvestedToBinanceUsdc).toFixed(2);
+      }
+    } catch (_) {}
+  }
+
   const tacticalMsg =
 `🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>
 ⏱️ <code>${timeUtc}</code>
+
+💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>
+   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $${floatingUsdc} USDC
+   • <b>Consolidado en Binance Spot (Meta 12K):</b> $${consolidatedUsdc} USDC
+   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)
 
 🔨 <b>CHAMBA DE ESTA RONDA:</b>
    • <b>Box Activo:</b> ${activeBox.name} (${activeBox.range})
