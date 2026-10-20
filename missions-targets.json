@@ -1,63 +1,199 @@
 {
-  "schemaVersion": "2.1.0",
-  "project": "Operación 10K — Omnichain Swarm Missions",
-  "lastUpdated": "2026-10-20T09:20:00Z",
-  "description": "Catálogo maestro de misiones on-chain reales y diversificación de huella para la flota de 500 satélites.",
+  "schemaVersion": "2.2.0",
+  "project": "Operación 10K — Omnichain Swarm Opportunities & Missions",
+  "lastUpdated": "2026-10-20T21:15:00Z",
+  "description": "Catálogo dinámico maestro de misiones on-chain y off-chain a costo $0.00 para los 500 satélites en 5 Boxes.",
   "executionRules": {
     "antiSybilJitterMs": [1200, 2800],
     "maxGasGwei": 50,
     "isolationEnforced": true,
-    "vipVaultUntouchable": true
+    "vipVaultUntouchable": true,
+    "zeroGasRequiredForVectors": ["gasless_airdrop_quests"],
+    "costCategory": "$0.00 Costo de Capital"
   },
-  "missions": {
-    "DEFI_DEPOSIT": {
-      "id": "DEFI_DEPOSIT",
-      "name": "DeFi Liquidity Wrapping (WETH / WBNB / WPOL)",
-      "category": "DeFi Interaction",
-      "description": "Envoltura de activo nativo a token Wrapped estándar (WETH9/WBNB/WPOL) mediante la función oficial deposit().",
-      "functionSignature": "deposit()",
-      "selector": "0xd0e30db0",
-      "gasLimit": 65000,
-      "amountRangeEth": [0.00001, 0.00003],
-      "contracts": {
-        "11155111": { "symbol": "WETH9", "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14", "network": "Ethereum Sepolia" },
-        "84532": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Base Sepolia" },
-        "421614": { "symbol": "WETH", "address": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73", "network": "Arbitrum Sepolia" },
-        "11155420": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Optimism Sepolia" },
-        "97": { "symbol": "WBNB", "address": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd", "network": "BSC Testnet" },
-        "80002": { "symbol": "WPOL", "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9", "network": "Polygon Amoy" },
-        "56": { "symbol": "WBNB", "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "network": "BNB Smart Chain Mainnet" },
-        "137": { "symbol": "WPOL", "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", "network": "Polygon Mainnet" }
-      }
-    },
-    "DAILY_CHECKIN": {
-      "id": "DAILY_CHECKIN",
-      "name": "Prueba de Asistencia On-Chain (Daily Streak Check-In)",
-      "category": "Account Activity & Reputation",
-      "description": "Registro diario inmutable de actividad con selector 0x183ff085 y timestamp UTC empaquetado; genera historial transaccional legítimo a costo casi nulo de gas.",
-      "functionSignature": "checkIn()",
+  "vectors": {
+    "daily_checkins": {
+      "id": "VECTOR_1_DAILY_CHECKINS",
+      "name": "Vector 1: Asistencia Diaria & Daily Streak (On-Chain Check-In)",
+      "description": "Registro de asistencia inmutable con selector 0x183ff085 y timestamp UTC empaquetado; huella activa diaria con costo casi nulo de gas.",
       "selector": "0x183ff085",
+      "functionSignature": "checkIn(uint32)",
       "gasLimit": 32000,
-      "amountNative": "0.0",
-      "supportsDynamicCalldata": true
+      "amountNative": "0.000000",
+      "activeChains": [
+        {
+          "chainId": 11155111,
+          "network": "ethereumSepolia",
+          "name": "Ethereum Sepolia",
+          "status": "ACTIVE_ONLINE",
+          "targetAddress": "SELF_CONTRACT",
+          "payloadType": "UTC_EPOCH_PACKED"
+        },
+        {
+          "chainId": 84532,
+          "network": "baseSepolia",
+          "name": "Base Sepolia",
+          "status": "ACTIVE_ONLINE",
+          "targetAddress": "SELF_CONTRACT",
+          "payloadType": "UTC_EPOCH_PACKED"
+        },
+        {
+          "chainId": 421614,
+          "network": "arbitrumSepolia",
+          "name": "Arbitrum Sepolia",
+          "status": "ACTIVE_ONLINE",
+          "targetAddress": "SELF_CONTRACT",
+          "payloadType": "UTC_EPOCH_PACKED"
+        },
+        {
+          "chainId": 11155420,
+          "network": "optimismSepolia",
+          "name": "Optimism Sepolia",
+          "status": "ACTIVE_ONLINE",
+          "targetAddress": "SELF_CONTRACT",
+          "payloadType": "UTC_EPOCH_PACKED"
+        },
+        {
+          "chainId": 56,
+          "network": "bscMainnet",
+          "name": "BNB Smart Chain Mainnet",
+          "status": "STANDBY_VAULT_501",
+          "targetAddress": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+          "payloadType": "UTC_EPOCH_PACKED"
+        },
+        {
+          "chainId": 137,
+          "network": "polygonMainnet",
+          "name": "Polygon PoS Mainnet",
+          "status": "STANDBY_VAULT_501",
+          "targetAddress": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "payloadType": "UTC_EPOCH_PACKED"
+        }
+      ]
     },
-    "TESTNET_MINT_VERIFY": {
-      "id": "TESTNET_MINT_VERIFY",
-      "name": "Protocol Activity / Free Mint Verification",
-      "category": "NFT & Smart Contract Interaction",
-      "description": "Llamada con payload de interacción (0x1249c58b / claim / mintVerification) para simular participación en campañas y airdrops de ecosistemas.",
-      "functionSignature": "mint()",
-      "selector": "0x1249c58b",
-      "gasLimit": 45000,
-      "amountNative": "0.0"
+    "testnet_free_mints_and_defi": {
+      "id": "VECTOR_2_TESTNET_DEFI_MINTS",
+      "name": "Vector 2: DeFi Wrapping, Free Mints & Solana Activity",
+      "description": "Interacciones rotativas con contratos verificados DeFi (WETH deposit/wrap), acuñación gratuita de actividad y transferencias memo en Solana Devnet.",
+      "gasLimitRange": [36000, 65000],
+      "actions": [
+        {
+          "type": "DEFI_WETH_WRAP",
+          "name": "Envoltura de Liquidez WETH9 / WBNB / WPOL",
+          "functionSignature": "deposit()",
+          "selector": "0xd0e30db0",
+          "amountRangeEth": [0.00001, 0.00003],
+          "contracts": {
+            "11155111": { "symbol": "WETH9", "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14", "network": "Ethereum Sepolia" },
+            "84532": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Base Sepolia" },
+            "421614": { "symbol": "WETH", "address": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73", "network": "Arbitrum Sepolia" },
+            "11155420": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Optimism Sepolia" },
+            "97": { "symbol": "WBNB", "address": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd", "network": "BSC Testnet" },
+            "80002": { "symbol": "WPOL", "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9", "network": "Polygon Amoy" },
+            "56": { "symbol": "WBNB", "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "network": "BSC Mainnet" },
+            "137": { "symbol": "WPOL", "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", "network": "Polygon Mainnet" }
+          }
+        },
+        {
+          "type": "FREE_MINT_VERIFY",
+          "name": "Protocol Activity & Free Mint Simulation",
+          "functionSignature": "mint()",
+          "selector": "0x1249c58b",
+          "amountRangeEth": [0.00001, 0.00002],
+          "targetAddress": "SELF_CONTRACT"
+        },
+        {
+          "type": "SOLANA_ORGANIC_TX",
+          "name": "Solana Devnet Faucet & Ping Memo",
+          "network": "solanaDevnet",
+          "solAmount": 0.05,
+          "memoTag": "OP10K-SWARM-PING"
+        }
+      ]
     },
-    "SOLANA_ACTIVITY": {
-      "id": "SOLANA_ACTIVITY",
-      "name": "Solana Devnet Faucet & Ping Verification",
-      "category": "Non-EVM Activity",
-      "description": "Solicitud controlada de fondos faucet (requestAirdrop) y transacciones memo auto-referenciadas para validar operatividad de las direcciones Solana.",
-      "solAmount": 0.05,
-      "silentRateLimit": true
+    "gasless_airdrop_quests": {
+      "id": "VECTOR_3_GASLESS_QUESTS",
+      "name": "Vector 3: Campañas Airdrop Gasless (EIP-712 & Personal Sign $0.00)",
+      "description": "Campañas de firma criptográfica off-chain a costo $0.00 de gas para calificación masiva de la flota en campañas multi-chain.",
+      "costGas": 0,
+      "campaigns": [
+        {
+          "campaignId": "L0_CROSS_CHAIN_PROOF",
+          "name": "LayerZero Omnichain Verification Proof",
+          "standard": "EIP-712",
+          "domain": {
+            "name": "LayerZero-Omnichain-Quests",
+            "version": "2",
+            "chainId": 84532,
+            "verifyingContract": "0x4200000000000000000000000000000000000006"
+          },
+          "primaryType": "OmnichainProof",
+          "types": {
+            "OmnichainProof": [
+              { "name": "satellite", "type": "address" },
+              { "name": "boxId", "type": "uint256" },
+              { "name": "nonce", "type": "uint256" },
+              { "name": "campaign", "type": "string" }
+            ]
+          }
+        },
+        {
+          "campaignId": "LINEA_VOYAGE_PASSPORT",
+          "name": "Linea Voyage Gasless Check-In",
+          "standard": "EIP-712",
+          "domain": {
+            "name": "Linea-Voyage-Quest-Portal",
+            "version": "1",
+            "chainId": 11155111,
+            "verifyingContract": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14"
+          },
+          "primaryType": "VoyageAttendance",
+          "types": {
+            "VoyageAttendance": [
+              { "name": "explorer", "type": "address" },
+              { "name": "boxCluster", "type": "uint256" },
+              { "name": "timestamp", "type": "uint256" }
+            ]
+          }
+        },
+        {
+          "campaignId": "ZKSYNC_ERA_REPUTATION",
+          "name": "zkSync Era Fleet Reputation Sign",
+          "standard": "personal_sign",
+          "messageTemplate": "Operacion10K::zkSyncEra::ReputationScoreVerification::Satellite_{INDEX}::Timestamp_{TIMESTAMP}"
+        },
+        {
+          "campaignId": "SCROLL_SESSIONS_CREDENTIAL",
+          "name": "Scroll Sessions Marks Eligibility Proof",
+          "standard": "EIP-712",
+          "domain": {
+            "name": "Scroll-Marks-Session-Verifier",
+            "version": "1",
+            "chainId": 421614,
+            "verifyingContract": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73"
+          },
+          "primaryType": "SessionClaim",
+          "types": {
+            "SessionClaim": [
+              { "name": "hunter", "type": "address" },
+              { "name": "boxTier", "type": "uint256" },
+              { "name": "streakDay", "type": "uint256" }
+            ]
+          }
+        },
+        {
+          "campaignId": "OP_SUPERCHAIN_ACTIVITY",
+          "name": "Optimism Superchain Activity Attestation",
+          "standard": "personal_sign",
+          "messageTemplate": "SuperchainAttestation::OP10K::Box_{BOX}::Wallet_{ADDRESS}::Date_{DATE}"
+        }
+      ]
     }
+  },
+  "summary": {
+    "totalActiveCampaigns": 14,
+    "vectorsCount": 3,
+    "boxCoverage": "Box 1 a Box 5 (500 Satélites)",
+    "cost": "$0.00 USDC / 0 Capital Risk"
   }
 }

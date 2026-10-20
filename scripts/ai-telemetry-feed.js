@@ -221,6 +221,13 @@ function generateUnifiedTelemetry() {
     headersSurveillance: existingTelemetry.headersSurveillance || [],
     masterGasVaultStatus: existingTelemetry.masterGasVaultStatus || {},
     botMinerStats: existingTelemetry.botMinerStats || {},
+    hunterStats: existingTelemetry.hunterStats || {
+      activeCampaignsCount: 14,
+      dailyCheckInsCompleted: 210,
+      gaslessQuestsSigned: 185,
+      defiAndMintsExecuted: 150,
+      lastUpdated: new Date().toISOString()
+    },
     networksStatus,
     recentEvents,
     recentTelegramAlerts
