@@ -61,7 +61,7 @@ jobs:
             node task-runner.js || true
           fi
           node harvest-rewards.js --scan || true
-          node master-refuel.js --check || true
+          node master-refuel.js --intra-box || true
           node solana-faucet-refuel.js || true
           node radar-hunter.js || true
           node vanguard-hunter.js || true

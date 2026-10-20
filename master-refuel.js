@@ -14,7 +14,70 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const { ethers } = require("ethers");
-const { networks } = require("./networks");
+const { networks, createResilientProvider } = require("./networks");
+const { validateIsolation, sleepRandom } = require("./anti-sybil");
+
+async function runIntraBoxDistribution(wallets, isDryRun) {
+  const isIntraBox = process.argv.includes("--intra-box");
+  if (!isIntraBox) return;
+
+  console.log("-----------------------------------------------------------------------------------------");
+  console.log("🛡️  [DISPERSIÓN INTRA-BOX] Evaluando saldos en 5 Cabeceras hacia satélites de su Box...");
+  console.log("-----------------------------------------------------------------------------------------");
+
+  const allAddresses = wallets.map(w => w.address);
+  const targets = [
+    { network: "bscMainnet", symbol: "BNB", netConfig: networks.bscMainnet, minHeaderBal: 0.002, satTargetAmount: 0.00015 },
+    { network: "polygonMainnet", symbol: "POL", netConfig: networks.polygonMainnet, minHeaderBal: 1.0, satTargetAmount: 0.08 }
+  ];
+
+  for (const t of targets) {
+    const provider = createResilientProvider(t.netConfig);
+
+    for (const h of BOX_HEADERS) {
+      const headerWallet = wallets.find(w => w.index === h.headerIndex);
+      if (!headerWallet) continue;
+
+      const headerBal = await fetchBalanceQuick((t.netConfig.rpc || t.netConfig.fallbackRpc), headerWallet.address);
+      if (headerBal < t.minHeaderBal) continue;
+
+      console.log(`📦 Box ${h.box} (${h.id}): Saldo en ${t.symbol} = ${headerBal.toFixed(5)}. Dispersando intra-bloque...`);
+
+      const boxSatellites = wallets.filter(w => {
+        const boxNumber = Math.floor((w.index - 1) / 100) + 1;
+        return boxNumber === h.box && w.index !== h.headerIndex && w.index !== 0 && w.index !== 501;
+      });
+
+      const toFund = boxSatellites.slice(0, 10);
+      let signer = null;
+      if (!isDryRun) {
+        signer = getWalletSigner(h.headerIndex, provider);
+      }
+
+      for (const sat of toFund) {
+        try {
+          validateIsolation(headerWallet.address, sat.address, allAddresses, wallets);
+          const jitter = (Math.random() - 0.5) * 0.04;
+          const sendAmount = (t.satTargetAmount * (1 + jitter)).toFixed(5);
+
+          console.log(`   ↳ [Box ${h.box}] ${h.id} -> Satélite #${String(sat.index).padStart(3, "0")}: +${sendAmount} ${t.symbol}`);
+
+          if (!isDryRun && signer) {
+            const tx = await signer.sendTransaction({
+              to: sat.address,
+              value: ethers.parseEther(sendAmount)
+            });
+            console.log(`     ✅ Tx on-chain: ${tx.hash}`);
+            await tx.wait(1);
+            await sleepRandom(400, 900);
+          }
+        } catch (err) {
+          console.log(`     ⚠️ Satélite #${sat.index}: ${err.message}`);
+        }
+      }
+    }
+  }
+}
 const { getMasterVaultWallet, getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
 
@@ -118,6 +181,7 @@ async function runMasterRefuel() {
     console.log("ℹ️  [MASTER STANDBY] Bóveda Matriz #501 en espera de fondeo externo.");
     console.log("   Para activar la flota en Mainnet, deposita BNB (BSC) o POL (Polygon) en:");
     console.log(`   👉 ${masterAddress}\n`);
+    await runIntraBoxDistribution(wallets, isDryRun);
     return { status: "STANDBY", bscBalance, polBalance };
   }
 
@@ -128,7 +192,7 @@ async function runMasterRefuel() {
 
   for (const t of tasks) {
     console.log(`🚀 [DISPERSIÓN MATRIZ] Iniciando recarga hacia las 5 Cabeceras en ${t.network} (${t.symbol})...`);
-    const provider = new ethers.JsonRpcProvider(t.netConfig.rpcUrls[0]);
+    const provider = createResilientProvider(t.netConfig);
     let signer = null;
     if (!isDryRun) {
       signer = getMasterVaultWallet(provider);
@@ -165,6 +229,28 @@ async function runMasterRefuel() {
     console.log(`✨ Recarga de Cabeceras completada en ${t.network}.\n`);
   }
 
+  // Dispersión intra-box si se especificó el flag
+  await runIntraBoxDistribution(wallets, isDryRun);
+
+  // Cargar estadísticas acumuladas para Telegram
+  let statsText = "";
+  if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
+    try {
+      const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
+      if (tel.workStats) {
+        const ws = tel.workStats;
+        statsText = `
+📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>
+   • <b>Rondas Ejecutadas:</b> ${ws.totalRoundsCompleted} rondas
+   • <b>Txs On-Chain Acumuladas:</b> ${ws.totalTxConfirmedAllTime} txs firmadas
+   • <b>Txs Confirmadas Hoy:</b> ${ws.todayTxConfirmed} txs
+   • <b>Boxes Rotados Hoy:</b> ${(ws.boxesRotatedToday || []).join(", ")}
+   • <b>Autonomía de Gas:</b> ${ws.gasAutonomySummary || "~1.8 días en Base / ~1.3 días en Sepolia"}
+`;
+      }
+    } catch (_) {}
+  }
+
   // Notificación a Telegram
   const alertText = `
 ⛽ <b>OPERACIÓN 10K — AUTO-RECARGA DE GAS DESDE BÓVEDA #501</b>
@@ -173,6 +259,8 @@ async function runMasterRefuel() {
 👑 <b>5 Cabeceras Fondeadas:</b> #001 (B1), #101 (B2), #201 (B3), #301 (B4), #401 (B5)
 ⚡ <b>Redes Procesadas:</b> ${tasks.map(t => `${t.network} (${t.symbol})`).join(", ")}
 🔒 <b>Seguridad:</b> Aislamiento estanco intra-bloque preservado.
+${statsText}
+⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>
 `.trim();
 
   await sendTelegramAlert(alertText);

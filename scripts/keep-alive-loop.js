@@ -42,8 +42,8 @@ async function executeFullCycle(cycleNumber) {
   // 2. Escaneo de Cosechas
   runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
 
-  // 3. Chequeo de Bóveda Matriz #501
-  runCommand("node master-refuel.js --check", "Chequeo Bóveda Matriz #501");
+  // 3. Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box
+  runCommand("node master-refuel.js --intra-box", "Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box");
 
   // 4. Solana Faucet
   runCommand("node solana-faucet-refuel.js", "Solana Devnet Faucet");
