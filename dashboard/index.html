@@ -300,18 +300,18 @@
               </div>
 
               <!-- ========================================================
-                   TARJETA 3 (Abajo Izquierda) — Radar cazador de oportunidades
+                   TARJETA 3 (Abajo Izquierda) — Radar cazador & Granja Bitcoin L2
                    ======================================================== -->
               <div class="central-frosted-card central-card" id="cardHunterRadar">
                 <!-- Cabecera -->
                 <div class="cf-card-header central-card-header card-header">
                   <div class="cf-card-title-wrap">
                     <span class="material-symbols-rounded cf-title-icon">radar</span>
-                    <span class="cf-card-title central-card-title card-title">Radar cazador de oportunidades</span>
+                    <span class="cf-card-title central-card-title card-title">Radar cazador &amp; Granja Bitcoin L2</span>
                   </div>
                   <span class="cf-badge-pulse header-badge status-badge live-badge">
                     <span class="cf-pulse-green"></span>
-                    <span>En vivo</span>
+                    <span id="hunterCampaignsBadge">16 campañas ($0)</span>
                   </span>
                 </div>
 
@@ -320,18 +320,36 @@
                   <!-- Objetivo Activo -->
                   <div class="cf-slot inner-slot">
                     <div class="cf-slot-info">
-                      <span class="cf-slot-label">Objetivo activo:</span>
-                      <span class="cf-slot-highlight-text" id="hunterActiveTarget">Rotación DeFi WETH / liquidez L2
-                        (Sepolia • Base • Arbitrum)</span>
+                      <span class="cf-slot-label">Objetivo activo &amp; Bitcoin L2:</span>
+                      <span class="cf-slot-highlight-text" id="hunterActiveTarget">Rotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum • OP)</span>
                     </div>
                   </div>
 
-                  <!-- Escuadrón Desplegado -->
+                  <!-- Métricas de Campañas y Granja Bitcoin L2 (Lomo 2 & 3) -->
                   <div class="cf-slot inner-slot">
-                    <div class="cf-slot-info">
-                      <span class="cf-slot-label">Escuadrón desplegado:</span>
-                      <span class="cf-slot-highlight-text" id="hunterSquadDeploy">20/500 bots ejecutando sobre
-                        oportunidad detectada (60 txs confirmadas)</span>
+                    <div class="cf-slot-info" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
+                      <div>
+                        <span class="cf-slot-label">Check-Ins / Gasless:</span>
+                        <span class="cf-slot-sub" id="hunterCheckinsStat">210 / 185 firmas</span>
+                      </div>
+                      <div>
+                        <span class="cf-slot-label">₿ Granja Bitcoin L2:</span>
+                        <span class="cf-val-green-bold" id="hunterBtcL2Stat">6,000 pts (Citrea/Goat)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Vigía Bóveda #501 & Txs Globales -->
+                  <div class="cf-slot inner-slot">
+                    <div class="cf-slot-info" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
+                      <div>
+                        <span class="cf-slot-label">Txs on-chain acumuladas:</span>
+                        <strong class="cf-val-black-bold" id="fleetTotalTxsStat">1,045 txs</strong>
+                      </div>
+                      <div>
+                        <span class="cf-slot-label">Vigía Bóveda #501:</span>
+                        <span class="cf-slot-sub" id="vault501VigiaStat">⏳ En espera gas CEX</span>
+                      </div>
                     </div>
                   </div>
 
@@ -344,7 +362,7 @@
                     <div class="cf-perf-right">
                       <div class="cf-scan-active-pill">
                         <span class="material-symbols-rounded" style="font-size: 14px;">sync</span>
-                        <span>Escaneo activo 24/7</span>
+                        <span id="hunterScanPillText">Escaneo activo 24/7</span>
                       </div>
                     </div>
                   </div>

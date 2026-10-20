@@ -111,6 +111,36 @@ const networks = {
   },
 
   // -------------------------------------------------------------------------------------
+  // BITCOIN L2 TESTNETS (EVM) GRATUITAS
+  // -------------------------------------------------------------------------------------
+  citreaTestnet: {
+    id: "citreaTestnet",
+    name: "Citrea Bitcoin ZK-Rollup Testnet",
+    rpc: "https://rpc.testnet.citrea.xyz",
+    fallbackRpc: "https://citrea-testnet.rpc.thirdweb.com",
+    chainId: 5115,
+    symbol: "cBTC",
+    category: "Bitcoin L2 EVM",
+    defiToken: {
+      symbol: "WcBTC",
+      address: "0x8a920F65319c321714F4B8487771B437c35F1225"
+    }
+  },
+  goatTestnet: {
+    id: "goatTestnet",
+    name: "Goat Network Bitcoin L2 Testnet",
+    rpc: "https://rpc.testnet3.goat.network",
+    fallbackRpc: "https://goat-testnet.rpc.thirdweb.com",
+    chainId: 48816,
+    symbol: "BTC",
+    category: "Bitcoin L2 EVM",
+    defiToken: {
+      symbol: "WBTC",
+      address: "0x265538D4F3Fd6189912C09c62c2f6d4d1264cEc3"
+    }
+  },
+
+  // -------------------------------------------------------------------------------------
   // NON-EVM TESTNETS
   // -------------------------------------------------------------------------------------
   solanaDevnet: {
@@ -146,8 +176,8 @@ const networks = {
   polygonMainnet: {
     id: "polygonMainnet",
     name: "Polygon PoS",
-    rpc: "https://polygon-rpc.com",
-    fallbackRpc: "https://rpc.ankr.com/polygon",
+    rpc: "https://polygon-bor-rpc.publicnode.com",
+    fallbackRpc: "https://1rpc.io/matic",
     chainId: 137,
     symbol: "POL",
     category: "Mainnet",

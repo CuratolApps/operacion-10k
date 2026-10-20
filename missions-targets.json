@@ -188,12 +188,83 @@
           "messageTemplate": "SuperchainAttestation::OP10K::Box_{BOX}::Wallet_{ADDRESS}::Date_{DATE}"
         }
       ]
+    },
+    "bitcoin_l2_farm": {
+      "id": "VECTOR_4_BITCOIN_L2_FARM",
+      "name": "Vector 4: Granja Bitcoin L2 (Citrea ZK & Goat BTC EVM $0.00)",
+      "description": "Misiones de firma criptográfica EIP-712 y ejecución on-chain opcional sobre Bitcoin L2 EVM (Citrea y Goat Network) a costo $0.00 de capital.",
+      "costGas": 0,
+      "networks": [
+        {
+          "id": "citreaTestnet",
+          "name": "Citrea Bitcoin ZK-Rollup Testnet",
+          "chainId": 5115,
+          "symbol": "cBTC",
+          "rpc": "https://rpc.testnet.citrea.xyz"
+        },
+        {
+          "id": "goatTestnet",
+          "name": "Goat Network Bitcoin L2 Testnet",
+          "chainId": 48816,
+          "symbol": "BTC",
+          "rpc": "https://rpc.testnet3.goat.network"
+        }
+      ],
+      "campaigns": [
+        {
+          "campaignId": "CITREA_ZK_ROLLUP_QUEST",
+          "name": "Citrea ZK-Rollup Bitcoin Verification Quest",
+          "chain": "citreaTestnet",
+          "chainId": 5115,
+          "standard": "EIP-712",
+          "pointsPerExecution": 25,
+          "domain": {
+            "name": "Citrea-ZK-Rollup-Farm",
+            "version": "1",
+            "chainId": 5115,
+            "verifyingContract": "0x8A920f65319C321714F4B8487771b437C35F1225"
+          },
+          "primaryType": "BitcoinL2Attestation",
+          "types": {
+            "BitcoinL2Attestation": [
+              { "name": "satellite", "type": "address" },
+              { "name": "boxId", "type": "uint256" },
+              { "name": "cbtcRewardAllocation", "type": "uint256" },
+              { "name": "timestamp", "type": "uint256" }
+            ]
+          }
+        },
+        {
+          "campaignId": "GOAT_BTC_L2_STREAK",
+          "name": "Goat Network BTC L2 Daily Farm Streak",
+          "chain": "goatTestnet",
+          "chainId": 48816,
+          "standard": "EIP-712",
+          "pointsPerExecution": 25,
+          "domain": {
+            "name": "Goat-Bitcoin-L2-Streak",
+            "version": "1",
+            "chainId": 48816,
+            "verifyingContract": "0x265538d4F3Fd6189912c09c62C2F6D4d1264cEC3"
+          },
+          "primaryType": "GoatStreakProof",
+          "types": {
+            "GoatStreakProof": [
+              { "name": "operator", "type": "address" },
+              { "name": "boxCluster", "type": "uint256" },
+              { "name": "btcEpoch", "type": "uint256" },
+              { "name": "cycleNonce", "type": "uint256" }
+            ]
+          }
+        }
+      ]
     }
   },
   "summary": {
-    "totalActiveCampaigns": 14,
-    "vectorsCount": 3,
+    "totalActiveCampaigns": 16,
+    "vectorsCount": 4,
     "boxCoverage": "Box 1 a Box 5 (500 Satélites)",
-    "cost": "$0.00 USDC / 0 Capital Risk"
+    "cost": "$0.00 USDC / 0 Capital Risk",
+    "bitcoinL2Supported": ["Citrea ZK-Rollup (5115)", "Goat Network L2 (48816)"]
   }
 }

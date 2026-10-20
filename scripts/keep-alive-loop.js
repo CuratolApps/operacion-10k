@@ -36,23 +36,26 @@ async function executeFullCycle(cycleNumber) {
   console.log(`🔁 INICIANDO CICLO DE RESPALDO LOCAL #${cycleNumber} — ${startTime.toISOString()}`);
   console.log("=========================================================================================");
 
-  // 1. Task Runner (Ronda Omnichain)
-  runCommand("node task-runner.js", "Task Runner Omnichain");
-
-  // 2. Escaneo de Cosechas
-  runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
-
-  // 3. Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box
-  runCommand("node master-refuel.js --intra-box", "Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box");
-
-  // 4. Solana Faucet
+  // 1. Solana Devnet Faucet Refuel
   runCommand("node solana-faucet-refuel.js", "Solana Devnet Faucet");
 
-  // 5. Bot Miner Swarm (Minería On-Chain, Firmas Gasless & Vigía 501)
+  // 2. Task Runner (Ronda Omnichain)
+  runCommand("node task-runner.js", "Task Runner Omnichain");
+
+  // 3. Bot Miner Swarm (Minería On-Chain, Firmas Gasless, Granja Bitcoin L2 & Vigía 501)
   runCommand("node bot-miner-swarm.js", "Bot Miner Swarm");
+
+  // 4. Escaneo de Cosechas (Embudo USDC a Binance)
+  runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
+
+  // 5. Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box
+  runCommand("node master-refuel.js --intra-box", "Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box");
 
   // 6. Vanguard Hunter (Reporte Táctico y Notificación a Telegram)
   runCommand("node vanguard-hunter.js", "10K Vanguard Hunter");
+
+  // 7. Sincronización AI Telemetry Feed
+  runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync");
 
   const durationMin = ((Date.now() - startTime.getTime()) / 60000).toFixed(2);
   console.log("\n=========================================================================================");

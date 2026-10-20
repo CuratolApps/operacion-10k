@@ -55,17 +55,15 @@ jobs:
       - name: 🚀 Ejecutar Carrusel Omnichain + Radar 500 Satélites
         run: |
           node swarm-engine.js --only-generate || true
+          node solana-faucet-refuel.js || true
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             node task-runner.js --dry-run || true
           else
             node task-runner.js || true
           fi
+          node bot-miner-swarm.js || true
           node harvest-rewards.js --scan || true
           node master-refuel.js --intra-box || true
-          node bot-miner-swarm.js || true
-          node faucet-manager.js || true
-          node solana-faucet-refuel.js || true
-          node radar-hunter.js || true
           node vanguard-hunter.js || true
           node scripts/ai-telemetry-feed.js || true
 
