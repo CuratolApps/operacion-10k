@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-20T10:12:30.799Z",
+  "timestamp": "2026-10-20T12:17:29.247Z",
   "systemHealthScore": 98.5,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -27,11 +27,27 @@
       ]
     },
     "activeSquadSize": 20,
-    "totalOnChainTxLastCycle": 60,
-    "executionMode": "DRY-RUN",
+    "totalOnChainTxLastCycle": 36,
+    "executionMode": "PRODUCTION",
     "goldenRuleStatus": "CUMPLIMIENTO_ESTRICTO_100%",
     "isolationProtocol": "INTRA_BLOQUE_ESTANCO_B1_B5",
-    "activeLote": "Satélites #301–#320 (Box 4)"
+    "activeLote": "Satélites #221–#240 (Box 3)"
+  },
+  "workStats": {
+    "totalRoundsCompleted": 11,
+    "totalTxConfirmedAllTime": 636,
+    "todayTxConfirmed": 216,
+    "todayDate": "2026-10-20",
+    "boxesRotatedToday": [
+      "Box 1",
+      "Box 2",
+      "Box 3",
+      "Box 4"
+    ],
+    "lastRoundTimestamp": "2026-10-20T12:17:16.537Z",
+    "lastRoundTxCount": 36,
+    "activeSquadRange": "Satélites #221–#240 (Box 3)",
+    "gasAutonomySummary": "~1.8 días en Base / ~1.3 días en Sepolia"
   },
   "radarData": {
     "totalSepoliaEth": "2.943",
@@ -61,63 +77,63 @@
         "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9"
       }
     ],
-    "lastHunterScan": "2026-10-20T10:12:30.799Z",
+    "lastHunterScan": "2026-10-20T12:17:29.247Z",
     "networksStatus": [
       {
         "name": "Ethereum Sepolia",
         "chainId": 11155111,
         "online": true,
-        "blockNumber": 11954617,
-        "latencyMs": 156
+        "blockNumber": 11955240,
+        "latencyMs": 213
       },
       {
         "name": "Base Sepolia",
         "chainId": 84532,
         "online": true,
-        "blockNumber": 48361430,
+        "blockNumber": 48365179,
         "latencyMs": 252
       },
       {
         "name": "Arbitrum Sepolia",
         "chainId": 421614,
         "online": true,
-        "blockNumber": 321025725,
-        "latencyMs": 232
+        "blockNumber": 321054819,
+        "latencyMs": 258
       },
       {
         "name": "Optimism Sepolia",
         "chainId": 11155420,
         "online": true,
-        "blockNumber": 50344304,
-        "latencyMs": 262
+        "blockNumber": 50348053,
+        "latencyMs": 368
       },
       {
         "name": "BSC Mainnet",
         "chainId": 56,
         "online": true,
-        "blockNumber": 128728063,
-        "latencyMs": 272
+        "blockNumber": 128744719,
+        "latencyMs": 323
       },
       {
         "name": "Polygon Mainnet",
         "chainId": 137,
         "online": true,
-        "blockNumber": 896245574,
-        "latencyMs": 201
+        "blockNumber": 896249324,
+        "latencyMs": 151
       },
       {
         "name": "BSC Testnet",
         "chainId": 97,
         "online": true,
-        "blockNumber": 137869046,
-        "latencyMs": 631
+        "blockNumber": 137885348,
+        "latencyMs": 610
       },
       {
         "name": "Polygon Amoy",
         "chainId": 80002,
         "online": true,
-        "blockNumber": 50668589,
-        "latencyMs": 175
+        "blockNumber": 50676087,
+        "latencyMs": 269
       }
     ]
   },
@@ -408,6 +424,27 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "vanguard-1792498649256",
+      "timestamp": "2026-10-20T12:17:29.256Z",
+      "timeFormatted": "12:17:29 UTC",
+      "rawHtml": "🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>\n⏱️ <code>12:17:29 UTC</code>\n\n🔨 <b>CHAMBA DE ESTA RONDA:</b>\n   • <b>Box Activo:</b> Box 3 (#201–#300)\n   • <b>Satélites Operados:</b> 20/500 Satélites\n   • <b>Confirmadas en este Turno:</b> 36 txs on-chain ✅\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 11 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 636 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 216 txs\n   • <b>Boxes Rotados Hoy:</b> Box 1, Box 2, Box 3, Box 4\n   • <b>Autonomía de Gas:</b> ~1.8 días en Base / ~1.3 días en Sepolia\n\n🌐 <b>ESTADO DE REDES ACTIVAS:</b>\n   • <b>Ethereum Sepolia:</b> En línea (Bloque 11,955,240 • 213ms)\n   • <b>Base Sepolia:</b> En línea (Bloque 48,365,179 • 252ms)\n   • <b>Arbitrum Sepolia:</b> En línea (Bloque 321,054,819 • 258ms)\n   • <b>Optimism Sepolia:</b> En línea (Bloque 50,348,053 • 368ms)\n   • <b>BSC Mainnet:</b> En línea (Bloque 128,744,719 • 323ms)\n   • <b>Polygon Mainnet:</b> En línea (Bloque 896,249,324 • 151ms)\n   • <b>BSC Testnet:</b> En línea (Bloque 137,885,348 • 610ms)\n   • <b>Polygon Amoy:</b> En línea (Bloque 50,676,087 • 269ms)\n\n🌉 <b>COBERTURA DE PUENTES L2 (5 BOXES):</b>\n   • <b>Box 1 (#001–#100):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 2 (#101–#200):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 3 (#201–#300):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 4 (#301–#400):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 5 (#401–#500):</b> Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 <b>VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):</b>\n   • <b>Cabecera #001 (Box 1):</b> <code>0xb750...D40F</code>\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • <b>Cabecera #101 (Box 2):</b> <code>0x5682...adBA</code>\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • <b>Cabecera #201 (Box 3):</b> <code>0x2810...6A7C</code>\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • <b>Cabecera #301 (Box 4):</b> <code>0xEb6a...Ca0f</code>\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • <b>Cabecera #401 (Box 5):</b> <code>0x4C71...d070</code>\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n\n🔍 <b>HALLAZGOS EN ESTA RONDA:</b>\n   • <b>Ruta Óptima de Ejecución:</b> Polygon Mainnet detectada con menor latencia (151ms).\n   • <b>Rotación del Escuadrón:</b> Box 3 (#201–#300) en turno operativo sin alertas de colisión.\n   • <b>Contratos DeFi en Radar:</b> WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • <b>Aislamiento Intra-Bloque:</b> 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>\nRotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum • OP)\n\n⚡ <b>ESCUADRÓN DESPLEGADO:</b>\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 <b>RENDIMIENTO CAPTADO HOY:</b> +$0.00 USDC\n📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil",
+      "textPlain": "🦅 10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES\n⏱️ 12:17:29 UTC\n\n🔨 CHAMBA DE ESTA RONDA:\n   • Box Activo: Box 3 (#201–#300)\n   • Satélites Operados: 20/500 Satélites\n   • Confirmadas en este Turno: 36 txs on-chain ✅\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 11 rondas\n   • Txs On-Chain Acumuladas: 636 txs firmadas\n   • Txs Confirmadas Hoy: 216 txs\n   • Boxes Rotados Hoy: Box 1, Box 2, Box 3, Box 4\n   • Autonomía de Gas: ~1.8 días en Base / ~1.3 días en Sepolia\n\n🌐 ESTADO DE REDES ACTIVAS:\n   • Ethereum Sepolia: En línea (Bloque 11,955,240 • 213ms)\n   • Base Sepolia: En línea (Bloque 48,365,179 • 252ms)\n   • Arbitrum Sepolia: En línea (Bloque 321,054,819 • 258ms)\n   • Optimism Sepolia: En línea (Bloque 50,348,053 • 368ms)\n   • BSC Mainnet: En línea (Bloque 128,744,719 • 323ms)\n   • Polygon Mainnet: En línea (Bloque 896,249,324 • 151ms)\n   • BSC Testnet: En línea (Bloque 137,885,348 • 610ms)\n   • Polygon Amoy: En línea (Bloque 50,676,087 • 269ms)\n\n🌉 COBERTURA DE PUENTES L2 (5 BOXES):\n   • Box 1 (#001–#100): Base 100/100 | Arb 100/100 🟢\n   • Box 2 (#101–#200): Base 100/100 | Arb 100/100 🟢\n   • Box 3 (#201–#300): Base 100/100 | Arb 100/100 🟢\n   • Box 4 (#301–#400): Base 100/100 | Arb 100/100 🟢\n   • Box 5 (#401–#500): Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):\n   • Cabecera #001 (Box 1): 0xb750...D40F\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • Cabecera #101 (Box 2): 0x5682...adBA\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • Cabecera #201 (Box 3): 0x2810...6A7C\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • Cabecera #301 (Box 4): 0xEb6a...Ca0f\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n   • Cabecera #401 (Box 5): 0x4C71...d070\n     ↳ 0.0000 BNB | 0.0000 POL 🟡 STANDBY (ESPERANDO GAS)\n\n🔍 HALLAZGOS EN ESTA RONDA:\n   • Ruta Óptima de Ejecución: Polygon Mainnet detectada con menor latencia (151ms).\n   • Rotación del Escuadrón: Box 3 (#201–#300) en turno operativo sin alertas de colisión.\n   • Contratos DeFi en Radar: WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • Aislamiento Intra-Bloque: 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 OBJETIVO DE CAZA ACTIVO:\nRotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum • OP)\n\n⚡ ESCUADRÓN DESPLEGADO:\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 RENDIMIENTO CAPTADO HOY: +$0.00 USDC\n📡 ESTADO: Escaneo activo 24/7 sin colisiones Sybil"
+    },
+    {
+      "id": "vanguard-1792498646435",
+      "timestamp": "2026-10-20T12:17:26.435Z",
+      "timeFormatted": "12:17:26 UTC",
+      "rawHtml": "🎯 <b>10K VANGUARD HUNTER EN LÍNEA</b> — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando.",
+      "textPlain": "🎯 10K VANGUARD HUNTER EN LÍNEA — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando."
+    },
+    {
+      "id": "tg-1792498636559-716",
+      "timestamp": "2026-10-20T12:17:16.559Z",
+      "timeFormatted": "12:17:16 UTC",
+      "rawHtml": "🚀 <b>OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS</b>\n🔥 <b>[RONDA EN VIVO — EJECUCIÓN ON-CHAIN]</b>\n\n🔨 <b>CHAMBA DE ESTA RONDA:</b>\n   • <b>Box en Turno:</b> Box 3\n   • <b>Lote Asignado:</b> Satélites #221–#240 (Box 3)\n   • <b>Satélites Operados:</b> 20/501 Satélites\n   • <b>Confirmadas en este Turno:</b> 36 txs on-chain ✅\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 11 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 636 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 216 txs\n   • <b>Boxes Rotados Hoy:</b> Box 1, Box 2, Box 3, Box 4\n   • <b>Autonomía de Gas:</b> ~1.8 días en Base / ~1.3 días en Sepolia\n\n👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)\n\n🌐 <b>Desglose Omnichain por Red:</b>\n   • <b>Ethereum Sepolia:</b> 10/20 txs ✅\n   • <b>Base Sepolia:</b> 20/20 txs ✅\n   • <b>Arbitrum Sepolia:</b> 6/20 txs ✅\n   • <b>BNB Smart Chain Testnet:</b> 0 Gas ⏳\n   • <b>opBNB Testnet:</b> 0 Gas ⏳\n   • <b>Polygon Amoy Testnet:</b> 0 Gas ⏳\n   • <b>Solana Devnet:</b> 0 SOL ⏳\n\n🔗 <b>Hashes Reales Verificables:</b>\n   • <b>Sepolia:</b> <code>0xfada4af06fad22f6d786fef7992b86bb5b97f555172b965b7689b9c474f367fb</code>\n   • <b>Base:</b> <code>0xbdd1f60ab6c04b782b998812bb6059bfb5cdd25110da6c316ae5a688df488c83</code>\n   • <b>Arbitrum:</b> <code>0xaf443de84a1d722275cc079b049d2ef3896010895d087348b217e7304f856279</code>\n\n⚡ <b>Total Transacciones Confirmadas:</b> 36 on-chain\n🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)\n\n⏰ <i>20/10/2026, 12:17:16 UTC</i>",
+      "textPlain": "🚀 OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS\n🔥 [RONDA EN VIVO — EJECUCIÓN ON-CHAIN]\n\n🔨 CHAMBA DE ESTA RONDA:\n   • Box en Turno: Box 3\n   • Lote Asignado: Satélites #221–#240 (Box 3)\n   • Satélites Operados: 20/501 Satélites\n   • Confirmadas en este Turno: 36 txs on-chain ✅\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 11 rondas\n   • Txs On-Chain Acumuladas: 636 txs firmadas\n   • Txs Confirmadas Hoy: 216 txs\n   • Boxes Rotados Hoy: Box 1, Box 2, Box 3, Box 4\n   • Autonomía de Gas: ~1.8 días en Base / ~1.3 días en Sepolia\n\n👑 VIP #00: Monitoreada (100% Segura / 0 Tx en Mainnet)\n\n🌐 Desglose Omnichain por Red:\n   • Ethereum Sepolia: 10/20 txs ✅\n   • Base Sepolia: 20/20 txs ✅\n   • Arbitrum Sepolia: 6/20 txs ✅\n   • BNB Smart Chain Testnet: 0 Gas ⏳\n   • opBNB Testnet: 0 Gas ⏳\n   • Polygon Amoy Testnet: 0 Gas ⏳\n   • Solana Devnet: 0 SOL ⏳\n\n🔗 Hashes Reales Verificables:\n   • Sepolia: 0xfada4af06fad22f6d786fef7992b86bb5b97f555172b965b7689b9c474f367fb\n   • Base: 0xbdd1f60ab6c04b782b998812bb6059bfb5cdd25110da6c316ae5a688df488c83\n   • Arbitrum: 0xaf443de84a1d722275cc079b049d2ef3896010895d087348b217e7304f856279\n\n⚡ Total Transacciones Confirmadas: 36 on-chain\n🛡️ Escudo Anti-Sybil: ACTIVO (DeFi Rotator + Aislamiento 100%)\n\n⏰ 20/10/2026, 12:17:16 UTC"
+    },
+    {
       "id": "tg-1792493188910-653",
       "timestamp": "2026-10-20T10:46:28.910Z",
       "timeFormatted": "10:46:28 UTC",
@@ -595,27 +632,6 @@
       "timeFormatted": "21:47:35 UTC",
       "rawHtml": "🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>\n⏱️ <code>21:47:35 UTC</code>\n\n🌐 <b>ESTADO DE REDES ACTIVAS:</b>\n   • <b>Ethereum Sepolia:</b> En línea (Bloque 11,950,929 • 497ms)\n   • <b>Base Sepolia:</b> En línea (Bloque 48,339,082 • 525ms)\n   • <b>Arbitrum Sepolia:</b> En línea (Bloque 320,855,165 • 531ms)\n   • <b>Optimism Sepolia:</b> En línea (Bloque 50,321,957 • 668ms)\n   • <b>BSC Testnet:</b> En línea (Bloque 137,773,098 • 1301ms)\n   • <b>Polygon Amoy:</b> En línea (Bloque 50,623,895 • 667ms)\n\n📦 <b>SALUD DE LOS 5 BOXES (500 CARTERAS):</b>\n   • <b>Box 1 (#001–#100):</b> 100/100 Bots Activos • >0.015 ETH OK\n   • <b>Box 2 (#101–#200):</b> 100/100 Bots Activos • >0.015 ETH OK\n   • <b>Box 3 (#201–#300):</b> 100/100 Bots Activos • >0.015 ETH OK\n   • <b>Box 4 (#301–#400):</b> 100/100 Bots Activos 🎯 <b>[TURNO ACTIVO]</b>\n   • <b>Box 5 (#401–#500):</b> 100/100 Bots Activos • >0.015 ETH OK\n\n🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>\nRotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum)\n\n⚡ <b>ESCUADRÓN DESPLEGADO:</b>\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 <b>RENDIMIENTO CAPTADO HOY:</b> +$34.20 USDC\n📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil",
       "textPlain": "🦅 10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES\n⏱️ 21:47:35 UTC\n\n🌐 ESTADO DE REDES ACTIVAS:\n   • Ethereum Sepolia: En línea (Bloque 11,950,929 • 497ms)\n   • Base Sepolia: En línea (Bloque 48,339,082 • 525ms)\n   • Arbitrum Sepolia: En línea (Bloque 320,855,165 • 531ms)\n   • Optimism Sepolia: En línea (Bloque 50,321,957 • 668ms)\n   • BSC Testnet: En línea (Bloque 137,773,098 • 1301ms)\n   • Polygon Amoy: En línea (Bloque 50,623,895 • 667ms)\n\n📦 SALUD DE LOS 5 BOXES (500 CARTERAS):\n   • Box 1 (#001–#100): 100/100 Bots Activos • >0.015 ETH OK\n   • Box 2 (#101–#200): 100/100 Bots Activos • >0.015 ETH OK\n   • Box 3 (#201–#300): 100/100 Bots Activos • >0.015 ETH OK\n   • Box 4 (#301–#400): 100/100 Bots Activos 🎯 [TURNO ACTIVO]\n   • Box 5 (#401–#500): 100/100 Bots Activos • >0.015 ETH OK\n\n🎯 OBJETIVO DE CAZA ACTIVO:\nRotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum)\n\n⚡ ESCUADRÓN DESPLEGADO:\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 RENDIMIENTO CAPTADO HOY: +$34.20 USDC\n📡 ESTADO: Escaneo activo 24/7 sin colisiones Sybil"
-    },
-    {
-      "id": "vanguard-1792446450606",
-      "timestamp": "2026-10-19T21:47:30.606Z",
-      "timeFormatted": "21:47:30 UTC",
-      "rawHtml": "🎯 <b>10K VANGUARD HUNTER EN LÍNEA</b> — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando.",
-      "textPlain": "🎯 10K VANGUARD HUNTER EN LÍNEA — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando."
-    },
-    {
-      "id": "tg-1792433800320-856",
-      "timestamp": "2026-10-19T18:16:40.320Z",
-      "timeFormatted": "18:16:40 UTC",
-      "rawHtml": "🚀 <b>OPERACIÓN 10K - REPORTE DE RONDA OMNICHAIN</b>\n🔥 <b>[EJECUCIÓN REAL ON-CHAIN]</b>\n\n👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)\n🤖 <b>Escuadrón Activo:</b> 20/500 Satélites (Carrusel Horario)\n\n🌐 <b>Desglose Omnichain por Red:</b>\n   • <b>Ethereum Sepolia:</b> 20/20 txs ✅\n   • <b>Base Sepolia:</b> 20/20 txs ✅\n   • <b>BNB Smart Chain Testnet:</b> 0 Gas ⏳\n   • <b>opBNB Testnet:</b> 0 Gas ⏳\n   • <b>Polygon Amoy Testnet:</b> 0 Gas ⏳\n   • <b>Arbitrum Sepolia:</b> 20/20 txs ✅\n   • <b>Solana Devnet:</b> 0/20 txs\n\n⚡ <b>Total Transacciones Confirmadas:</b> 60 on-chain\n🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)\n\n⏰ <i>19/10/2026, 18:16:40 UTC</i>",
-      "textPlain": "🚀 OPERACIÓN 10K - REPORTE DE RONDA OMNICHAIN\n🔥 [EJECUCIÓN REAL ON-CHAIN]\n\n👑 VIP #00: Monitoreada (100% Segura / 0 Tx en Mainnet)\n🤖 Escuadrón Activo: 20/500 Satélites (Carrusel Horario)\n\n🌐 Desglose Omnichain por Red:\n   • Ethereum Sepolia: 20/20 txs ✅\n   • Base Sepolia: 20/20 txs ✅\n   • BNB Smart Chain Testnet: 0 Gas ⏳\n   • opBNB Testnet: 0 Gas ⏳\n   • Polygon Amoy Testnet: 0 Gas ⏳\n   • Arbitrum Sepolia: 20/20 txs ✅\n   • Solana Devnet: 0/20 txs\n\n⚡ Total Transacciones Confirmadas: 60 on-chain\n🛡️ Escudo Anti-Sybil: ACTIVO (DeFi Rotator + Aislamiento 100%)\n\n⏰ 19/10/2026, 18:16:40 UTC"
-    },
-    {
-      "id": "tg-1792432456539-631",
-      "timestamp": "2026-10-19T17:54:16.539Z",
-      "timeFormatted": "17:54:16 UTC",
-      "rawHtml": "📡 <b>OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA</b>\n\n⛽ <b>Salud de Gas & Autonomía (Carrusel 24x/día):</b>\n   • <b>Ethereum Sepolia:</b> 2.943 ETH total (~1.3 días)\n   • <b>Base Sepolia:</b> 0.300 ETH total (~1.8 días)\n   • <b>Otras Redes EVM:</b> 0 Gas ⏳ (En espera de distribución)\n   • <b>Solana Devnet:</b> 0 SOL ⏳ (En espera de airdrop)\n\n🏦 <b>Contratos DeFi Activos (Rotator):</b>\n   • <b>WETH Sepolia:</b> <code>0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14</code>\n   • <b>WETH Base:</b> <code>0x4200000000000000000000000000000000000006</code>\n   • <b>WBNB BSC:</b> <code>0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd</code>\n   • <b>WPOL Amoy:</b> <code>0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9</code>\n\n🌉 <b>Estado del Auto-Bridge L2:</b>\n   🟢 <b>STANDBY ÓPTIMO:</b> Flota 100% abastecida (> 0.003 ETH)\n\n👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx automatizadas)\n🤖 <b>Flota Total:</b> 500 Satélites sincronizados\n\n⏰ <i>19/10/2026, 17:54:16 UTC</i>",
-      "textPlain": "📡 OPERACIÓN 10K - RADAR DE INTELIGENCIA Y SALUD DE FLOTA\n\n⛽ Salud de Gas & Autonomía (Carrusel 24x/día):\n   • Ethereum Sepolia: 2.943 ETH total (~1.3 días)\n   • Base Sepolia: 0.300 ETH total (~1.8 días)\n   • Otras Redes EVM: 0 Gas ⏳ (En espera de distribución)\n   • Solana Devnet: 0 SOL ⏳ (En espera de airdrop)\n\n🏦 Contratos DeFi Activos (Rotator):\n   • WETH Sepolia: 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14\n   • WETH Base: 0x4200000000000000000000000000000000000006\n   • WBNB BSC: 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd\n   • WPOL Amoy: 0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9\n\n🌉 Estado del Auto-Bridge L2:\n   🟢 STANDBY ÓPTIMO: Flota 100% abastecida (> 0.003 ETH)\n\n👑 VIP #00: Monitoreada (100% Blindada / 0 Tx automatizadas)\n🤖 Flota Total: 500 Satélites sincronizados\n\n⏰ 19/10/2026, 17:54:16 UTC"
     }
   ],
   "headersSurveillance": [
