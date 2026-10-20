@@ -204,12 +204,12 @@ async function runBridgeFleet() {
       }
 
       const neededPuentes = (needsBase ? 1 : 0) + (needsArb ? 1 : 0) + (needsOp ? 1 : 0);
-      const minRequiredL1Wei = ethers.parseEther(String(neededPuentes * depositEth + 0.0008));
+      const minSingleBridgeWei = depositWei + ethers.parseEther("0.0003");
 
-      // Si falta gas en L1, buscar donante ESTRICTAMENTE dentro del mismo bloque
-      if (sepBalWei < minRequiredL1Wei && !isDryRun) {
-        console.log(`   ⚠️ Saldo bajo en L1 (< ${neededPuentes * depositEth} ETH). Buscando donante dentro del Bloque B${blockId}...`);
-        const intraDonor = await findIntraBlockDonor(sat, allWallets, sepoliaProvider, minRequiredL1Wei);
+      // Si falta gas incluso para 1 solo puente, intentar buscar donante dentro del mismo bloque
+      if (sepBalWei < minSingleBridgeWei && !isDryRun) {
+        console.log(`   ⚠️ Saldo bajo en L1 (< ${depositEth + 0.0003} ETH). Buscando donante dentro del Bloque B${blockId}...`);
+        const intraDonor = await findIntraBlockDonor(sat, allWallets, sepoliaProvider, minSingleBridgeWei);
 
         if (intraDonor) {
           try {
@@ -234,6 +234,16 @@ async function runBridgeFleet() {
       }
 
       const signer = getWalletSigner(sat.index, sepoliaProvider);
+
+      // Función auxiliar para verificar si el satélite tiene gas suficiente para el siguiente puente
+      async function canAffordBridge() {
+        try {
+          const currentBal = await sepoliaProvider.getBalance(sat.address);
+          return currentBal >= minSingleBridgeWei;
+        } catch {
+          return false;
+        }
+      }
 
       // --- PUENTE 1: BASE SEPOLIA ---
       if (needsBase) {
@@ -264,54 +274,62 @@ async function runBridgeFleet() {
 
       // --- PUENTE 2: ARBITRUM SEPOLIA ---
       if (needsArb) {
-        validateIsolation(sat.address, ARBITRUM_SEPOLIA_INBOX, allAddresses, allWallets);
-        if (isDryRun) {
-          console.log(`   🧪 [DRY-RUN] Simulado: Puente de ${depositStr} ETH a Arbitrum Delayed Inbox`);
-          batchArbSuccess++;
+        if (!isDryRun && !(await canAffordBridge())) {
+          console.log(`   ℹ️ Saldo en L1 insuficiente para Arbitrum (${depositStr} ETH necesario). Reserva preservada.`);
         } else {
-          try {
-            console.log(`   🚀 Enviando ${depositStr} ETH a Arbitrum Delayed Inbox...`);
-            const tx = await signer.sendTransaction({
-              to: ARBITRUM_SEPOLIA_INBOX,
-              value: depositWei,
-              data: DEPOSIT_ETH_SELECTOR
-            });
-            console.log(`   📡 Tx Arbitrum enviada: ${tx.hash}`);
-            const receipt = await tx.wait(1);
-            console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+          validateIsolation(sat.address, ARBITRUM_SEPOLIA_INBOX, allAddresses, allWallets);
+          if (isDryRun) {
+            console.log(`   🧪 [DRY-RUN] Simulado: Puente de ${depositStr} ETH a Arbitrum Delayed Inbox`);
             batchArbSuccess++;
-          } catch (aErr) {
-            console.log(`   ❌ Error al puentear a Arbitrum: ${aErr.message}`);
+          } else {
+            try {
+              console.log(`   🚀 Enviando ${depositStr} ETH a Arbitrum Delayed Inbox...`);
+              const tx = await signer.sendTransaction({
+                to: ARBITRUM_SEPOLIA_INBOX,
+                value: depositWei,
+                data: DEPOSIT_ETH_SELECTOR
+              });
+              console.log(`   📡 Tx Arbitrum enviada: ${tx.hash}`);
+              const receipt = await tx.wait(1);
+              console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+              batchArbSuccess++;
+            } catch (aErr) {
+              console.log(`   ❌ Error al puentear a Arbitrum: ${aErr.message}`);
+            }
           }
+          if (!isDryRun) await sleepRandom(1500, 3000);
         }
-        if (!isDryRun) await sleepRandom(1500, 3000);
       }
 
       // --- PUENTE 3: OPTIMISM SEPOLIA ---
       if (needsOp) {
-        validateIsolation(sat.address, sat.address, allAddresses, allWallets);
-        if (isDryRun) {
-          console.log(`   🧪 [DRY-RUN] Simulado: Puente de ${depositStr} ETH a Optimism Sepolia L1StandardBridge`);
-          batchOpSuccess++;
+        if (!isDryRun && !(await canAffordBridge())) {
+          console.log(`   ℹ️ Saldo en L1 insuficiente para Optimism (${depositStr} ETH necesario). Reserva preservada.`);
         } else {
-          try {
-            console.log(`   🚀 Enviando ${depositStr} ETH a Optimism Sepolia L1StandardBridge...`);
-            const opBridgeContract = new ethers.Contract(OPTIMISM_SEPOLIA_L1_BRIDGE, L1_BRIDGE_ABI, signer);
-            const tx = await opBridgeContract.bridgeETHTo(
-              sat.address,
-              MIN_GAS_LIMIT_L2,
-              "0x",
-              { value: depositWei }
-            );
-            console.log(`   📡 Tx Optimism enviada: ${tx.hash}`);
-            const receipt = await tx.wait(1);
-            console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+          validateIsolation(sat.address, sat.address, allAddresses, allWallets);
+          if (isDryRun) {
+            console.log(`   🧪 [DRY-RUN] Simulado: Puente de ${depositStr} ETH a Optimism Sepolia L1StandardBridge`);
             batchOpSuccess++;
-          } catch (opErr) {
-            console.log(`   ❌ Error al puentear a Optimism Sepolia: ${opErr.message}`);
+          } else {
+            try {
+              console.log(`   🚀 Enviando ${depositStr} ETH a Optimism Sepolia L1StandardBridge...`);
+              const opBridgeContract = new ethers.Contract(OPTIMISM_SEPOLIA_L1_BRIDGE, L1_BRIDGE_ABI, signer);
+              const tx = await opBridgeContract.bridgeETHTo(
+                sat.address,
+                MIN_GAS_LIMIT_L2,
+                "0x",
+                { value: depositWei }
+              );
+              console.log(`   📡 Tx Optimism enviada: ${tx.hash}`);
+              const receipt = await tx.wait(1);
+              console.log(`   ✅ Confirmada en bloque #${receipt.blockNumber} (Gas: ${receipt.gasUsed.toString()})`);
+              batchOpSuccess++;
+            } catch (opErr) {
+              console.log(`   ❌ Error al puentear a Optimism Sepolia: ${opErr.message}`);
+            }
           }
+          if (!isDryRun) await sleepRandom(1500, 3000);
         }
-        if (!isDryRun) await sleepRandom(1500, 3000);
       }
 
       if (i < currentBatch.length - 1 && !isDryRun) {

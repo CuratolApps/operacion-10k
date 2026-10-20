@@ -84,8 +84,8 @@ const { sendTelegramAlert } = require("./telegram-notifier");
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const FLEET_TELEMETRY_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
 
-const MIN_BNB_TRIGGER = 0.005;
-const MIN_POL_TRIGGER = 2.0;
+const MIN_BNB_TRIGGER = 0.002;
+const MIN_POL_TRIGGER = 1.0;
 
 const BOX_HEADERS = [
   { box: 1, headerIndex: 1, id: "#001" },
@@ -178,11 +178,11 @@ async function runMasterRefuel() {
   }
 
   if (tasks.length === 0) {
-    console.log("ℹ️  [MASTER STANDBY] Bóveda Matriz #501 en espera de fondeo externo.");
-    console.log("   Para activar la flota en Mainnet, deposita BNB (BSC) o POL (Polygon) en:");
-    console.log(`   👉 ${masterAddress}\n`);
+    console.log("🛡️  [VIGÍA 72H - STANDBY] Bóveda Matriz #501 vigilando liberación de fondos desde Kraken.");
+    console.log(`   Saldos actuales: ${bscBalance.toFixed(5)} BNB en BSC | ${polBalance.toFixed(5)} POL en Polygon.`);
+    console.log(`   Esperando: 0.02006 BNB y 116.38 POL en 👉 ${masterAddress}\n`);
     await runIntraBoxDistribution(wallets, isDryRun);
-    return { status: "STANDBY", bscBalance, polBalance };
+    return { status: "STANDBY_72H", bscBalance, polBalance };
   }
 
   if (isCheckOnly) {
@@ -251,14 +251,24 @@ async function runMasterRefuel() {
     } catch (_) {}
   }
 
-  // Notificación a Telegram
+  // Notificación de Celebración a Telegram
   const alertText = `
-⛽ <b>OPERACIÓN 10K — AUTO-RECARGA DE GAS DESDE BÓVEDA #501</b>
+🎉 🚨 <b>¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!</b>
+⛽ <b>FONDOS DE KRAKEN LIBERADOS EN MAINNET</b>
 
 🏦 <b>Bóveda Matriz #501:</b> <code>${masterAddress}</code>
-👑 <b>5 Cabeceras Fondeadas:</b> #001 (B1), #101 (B2), #201 (B3), #301 (B4), #401 (B5)
-⚡ <b>Redes Procesadas:</b> ${tasks.map(t => `${t.network} (${t.symbol})`).join(", ")}
-🔒 <b>Seguridad:</b> Aislamiento estanco intra-bloque preservado.
+💰 <b>Fondos Capturados:</b>
+${tasks.map(t => `   • <b>${t.network}:</b> +${t.balance.toFixed(5)} ${t.symbol} ✅`).join("\n")}
+
+👑 <b>5 Cabeceras Fondeadas Automáticamente:</b>
+   • Cabecera #001 (Box 1)
+   • Cabecera #101 (Box 2)
+   • Cabecera #201 (Box 3)
+   • Cabecera #301 (Box 4)
+   • Cabecera #401 (Box 5)
+
+🛡️ <b>Dispersión Intra-Box:</b> Activa hacia satélites de cada Box.
+🔒 <b>Seguridad:</b> Aislamiento estanco intra-bloque 100% preservado.
 ${statsText}
 ⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>
 `.trim();

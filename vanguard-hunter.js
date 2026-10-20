@@ -31,7 +31,7 @@ const SCAN_NETWORKS = [
     id: "ethereumSepolia",
     name: "Ethereum Sepolia",
     chainId: 11155111,
-    rpcs: ["https://sepolia.drpc.org", "https://1rpc.io/sepolia", "https://rpc.sepolia.org"]
+    rpcs: ["https://ethereum-sepolia-rpc.publicnode.com", "https://1rpc.io/sepolia", "https://rpc.sepolia.org"]
   },
   {
     id: "baseSepolia",
@@ -43,13 +43,13 @@ const SCAN_NETWORKS = [
     id: "arbitrumSepolia",
     name: "Arbitrum Sepolia",
     chainId: 421614,
-    rpcs: ["https://sepolia-rollup.arbitrum.io/rpc", "https://arbitrum-sepolia.drpc.org"]
+    rpcs: ["https://sepolia-rollup.arbitrum.io/rpc", "https://arbitrum-sepolia-rpc.publicnode.com"]
   },
   {
     id: "optimismSepolia",
     name: "Optimism Sepolia",
     chainId: 11155420,
-    rpcs: ["https://sepolia.optimism.io", "https://optimism-sepolia.drpc.org"]
+    rpcs: ["https://sepolia.optimism.io", "https://optimism-sepolia-rpc.publicnode.com"]
   },
   {
     id: "bscMainnet",
@@ -73,7 +73,7 @@ const SCAN_NETWORKS = [
     id: "polygonAmoy",
     name: "Polygon Amoy",
     chainId: 80002,
-    rpcs: ["https://polygon-amoy.drpc.org", "https://80002.rpc.thirdweb.com"]
+    rpcs: ["https://rpc-amoy.polygon.technology", "https://80002.rpc.thirdweb.com"]
   }
 ];
 

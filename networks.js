@@ -22,7 +22,7 @@ const networks = {
   ethereumSepolia: {
     id: "ethereumSepolia",
     name: "Ethereum Sepolia",
-    rpc: "https://sepolia.drpc.org",
+    rpc: "https://ethereum-sepolia-rpc.publicnode.com",
     fallbackRpc: "https://1rpc.io/sepolia",
     chainId: 11155111,
     symbol: "ETH",
@@ -73,7 +73,7 @@ const networks = {
   polygonAmoy: {
     id: "polygonAmoy",
     name: "Polygon Amoy Testnet",
-    rpc: "https://polygon-amoy.drpc.org",
+    rpc: "https://rpc-amoy.polygon.technology",
     fallbackRpc: "https://80002.rpc.thirdweb.com",
     chainId: 80002,
     symbol: "POL",
@@ -86,8 +86,8 @@ const networks = {
   arbitrumSepolia: {
     id: "arbitrumSepolia",
     name: "Arbitrum Sepolia",
-    rpc: "https://arbitrum-sepolia.drpc.org",
-    fallbackRpc: "https://sepolia-rollup.arbitrum.io/rpc",
+    rpc: "https://sepolia-rollup.arbitrum.io/rpc",
+    fallbackRpc: "https://arbitrum-sepolia-rpc.publicnode.com",
     chainId: 421614,
     symbol: "ETH",
     category: "Testnet EVM",
@@ -100,7 +100,7 @@ const networks = {
     id: "optimismSepolia",
     name: "Optimism Sepolia",
     rpc: "https://sepolia.optimism.io",
-    fallbackRpc: "https://optimism-sepolia.drpc.org",
+    fallbackRpc: "https://optimism-sepolia-rpc.publicnode.com",
     chainId: 11155420,
     symbol: "ETH",
     category: "Testnet EVM",

@@ -30,18 +30,53 @@ function createProvider(netConfig) {
 }
 
 /**
- * Función de reclamo automático vía HTTP para faucets públicos sin captcha.
+ * Función de reclamo automático vía HTTP para faucets públicos sin login ni captcha obligatorio.
+ * Soporta Polygon Amoy, BNB Testnet, Sepolia y Solana Devnet.
  * Maneja timeouts y respuestas fallidas con resiliencia sin detener el enjambre.
  */
 async function attemptPublicFaucetClaim(walletAddress, networkName) {
-  // Endpoints públicos de prueba con rotación y timeout seguro
-  const endpoints = [
-    {
+  const netLower = (networkName || "").toLowerCase();
+  const endpoints = [];
+
+  if (netLower.includes("amoy") || netLower.includes("polygon")) {
+    endpoints.push(
+      {
+        url: "https://faucet.polygon.technology/api/claim",
+        method: "POST",
+        headers: { "Content-Type": "application/json", "User-Agent": "Mozilla/5.0" },
+        body: { network: "amoy", address: walletAddress, token: "maticToken" }
+      },
+      {
+        url: "https://api.faucet.chainstack.com/v1/polygon-amoy",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: { address: walletAddress }
+      }
+    );
+  } else if (netLower.includes("bnb") || netLower.includes("bsc")) {
+    endpoints.push(
+      {
+        url: "https://faucet.quicknode.com/api/claim",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: { address: walletAddress, network: "binance-smart-chain-testnet" }
+      },
+      {
+        url: "https://testnet.binance.org/faucet-smart/api",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: { tier: 0, symbol: "BNB", address: walletAddress }
+      }
+    );
+  } else {
+    // Sepolia / Base Sepolia fallback
+    endpoints.push({
       url: "https://faucet.quicknode.com/api/claim",
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: { address: walletAddress, network: networkName }
-    }
-  ];
+    });
+  }
 
   for (const ep of endpoints) {
     try {
@@ -50,21 +85,38 @@ async function attemptPublicFaucetClaim(walletAddress, networkName) {
 
       const response = await fetch(ep.url, {
         method: ep.method,
-        headers: { "Content-Type": "application/json" },
+        headers: ep.headers,
         body: JSON.stringify(ep.body),
         signal: controller.signal
       });
       clearTimeout(timeoutId);
 
       if (response.ok) {
-        return { success: true, message: "Claim emitido exitosamente" };
+        return { success: true, message: `Claim emitido exitosamente a ${ep.url}` };
       }
-    } catch (err) {
-      // Los faucets públicos suelen requerir PoW o captcha; se continúa sin interrumpir
+    } catch {
+      // Ignorar fallos de endpoints individuales y probar el siguiente
     }
   }
 
-  return { success: false, message: "Requiere verificación PoW/Captcha o faucet manual" };
+  return { success: false, message: "Endpoints directos en rate limit o protegidos por Cloudflare/PoW" };
+}
+
+/**
+ * Auto-bridge asistido para Box 5 (#405-#500)
+ * Transfiere fracciones de los 0.485 ETH acumulados en L1 Sepolia hacia Base, Arbitrum y Optimism Sepolia.
+ */
+async function autoBridgeBox5(startIdx = 405, endIdx = 500, amount = "0.0012") {
+  const { execSync } = require("child_process");
+  console.log(`\n🌉 [AUTO-BRIDGE BOX 5] Activando puente omnichain progresivo (#${startIdx}-#${endIdx})...`);
+  try {
+    const cmd = `node bridge-fleet.js --to-start ${startIdx} --to-end ${endIdx} --amount ${amount} --network all --batch-size 20`;
+    execSync(cmd, { stdio: "inherit", cwd: __dirname });
+    return { success: true };
+  } catch (err) {
+    console.warn(`⚠️ Aviso en autoBridgeBox5: ${err.message}`);
+    return { success: false, error: err.message };
+  }
 }
 
 async function runFaucetManager() {
@@ -185,13 +237,21 @@ async function runFaucetManager() {
 }
 
 if (require.main === module) {
-  runFaucetManager().catch((err) => {
-    console.error("❌ Error en faucet-manager:", err);
-    process.exit(1);
-  });
+  if (process.argv.includes("--auto-bridge-box5")) {
+    autoBridgeBox5().catch((err) => {
+      console.error("❌ Error en autoBridgeBox5:", err);
+      process.exit(1);
+    });
+  } else {
+    runFaucetManager().catch((err) => {
+      console.error("❌ Error en faucet-manager:", err);
+      process.exit(1);
+    });
+  }
 }
 
 module.exports = {
   runFaucetManager,
-  attemptPublicFaucetClaim
+  attemptPublicFaucetClaim,
+  autoBridgeBox5
 };
