@@ -29,8 +29,7 @@ const { getSatelliteDNA } = require("./autonomous-brain-lomo5");
 const {
   MAINNET_MIN_EXEC,
   MAX_MAINNET_SATS_PER_ROUND,
-  isCooldownFree,
-  claimDailySlot,
+  claimSatellites,
   selectFundedSatellites
 } = require("./mainnet-gas-shield");
 
@@ -230,8 +229,8 @@ async function runBotMinerSwarm() {
   // 🛡️ MINERÍA MAINNET BLINDADA (BSC & POLYGON) — MODO AHORRO DE GAS REAL
   //  • Cabeceras #001/#101/#201/#301/#401 y Bóveda #501 EXCLUIDAS (tanques nodriza).
   //  • Umbral por red: BSC >= 0.00008 BNB | Polygon >= 0.005 POL.
-  //  • Máx. 5 satélites por red y 1 turno por día UTC (cooldown persistido en git).
-  //  • El turno se consume ANTES de enviar. En --dry-run no se envía ni se consume.
+  //  • Cada satélite: máx. 1 tx con gas cada 24 h por red (cooldown compartido). Máx. 5 por red y ronda.
+  //  • El uso se registra ANTES de enviar. En --dry-run no se envía ni se registra.
   // ---------------------------------------------------------------------------------
   const mainnetPlans = [
     {
@@ -257,15 +256,11 @@ async function runBotMinerSwarm() {
   ];
 
   console.log("-----------------------------------------------------------------------------------------");
-  console.log(`🛡️ [GAS-SHIELD MAINNET] Máx. ${MAX_MAINNET_SATS_PER_ROUND} satélites/red · 1 turno por día UTC · cabeceras y #501 reservadas`);
+  console.log(`🛡️ [GAS-SHIELD MAINNET] Máx. ${MAX_MAINNET_SATS_PER_ROUND} satélites/red · cooldown 24h por satélite · cabeceras y #501 reservadas`);
   console.log("-----------------------------------------------------------------------------------------");
 
   for (const plan of mainnetPlans) {
     const minGate = MAINNET_MIN_EXEC[plan.key];
-    if (!isDryRun && !isCooldownFree("bot-miner", plan.key)) {
-      console.log(`   🛡️ [${plan.label}] Cooldown 24h activo (turno UTC ya consumido). 0 gas esta ronda.`);
-      continue;
-    }
 
     let sel;
     try {
@@ -281,7 +276,11 @@ async function runBotMinerSwarm() {
     }
 
     if (sel.squad.length === 0) {
-      console.log(`   ⏳ [${plan.label}] Sin satélites >= ${minGate} ${plan.symbol} (cabeceras excluidas).`);
+      if (sel.fundedCount > 0) {
+        console.log(`   🛡️ [${plan.label}] ${sel.cooldownCount} satélites fondeados, todos en cooldown 24h. 0 gas esta ronda.`);
+      } else {
+        console.log(`   ⏳ [${plan.label}] Sin satélites >= ${minGate} ${plan.symbol} (cabeceras excluidas).`);
+      }
       continue;
     }
 
@@ -293,7 +292,7 @@ async function runBotMinerSwarm() {
       continue;
     }
 
-    claimDailySlot("bot-miner", plan.key, { satellites: sel.squad.map((s) => s.index) });
+    claimSatellites(plan.key, sel.squad.map((s) => s.index), "bot-miner");
 
     for (const msat of sel.squad) {
       const mTag = `[${plan.label}] Satélite #${String(msat.index).padStart(3, "0")}`;

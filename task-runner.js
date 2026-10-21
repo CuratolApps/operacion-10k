@@ -58,8 +58,7 @@ const {
   isMainnetKey,
   isProtectedIndex,
   getMinExec,
-  isCooldownFree,
-  claimDailySlot,
+  claimSatellites,
   selectFundedSatellites
 } = require("./mainnet-gas-shield");
 
@@ -122,8 +121,8 @@ async function selectFundedMainnetSquad(provider, networkConfig, satellites, bat
     });
     const squadRange = sel.fundedCount === 0
       ? "Sin satélites fondeados (cabeceras y #501 excluidas)"
-      : `${sel.squad.length} de ${sel.fundedCount} satélites fondeados (>= ${sel.minExec} ${networkConfig.symbol}, cabeceras excluidas)`;
-    return { squad: sel.squad, fundedCount: sel.fundedCount, squadRange };
+      : `${sel.squad.length} de ${sel.eligibleCount} elegibles (${sel.fundedCount} fondeados >= ${sel.minExec} ${networkConfig.symbol}, ${sel.cooldownCount} en cooldown 24h, cabeceras excluidas)`;
+    return { squad: sel.squad, fundedCount: sel.fundedCount, eligibleCount: sel.eligibleCount, cooldownCount: sel.cooldownCount, squadRange };
   } catch (err) {
     console.log(`   ⚠️ No se pudo leer saldos en lote para selección mainnet: ${err.message}`);
     return { squad: [], fundedCount: 0, squadRange: "Lectura de saldos fallida" };
@@ -674,29 +673,29 @@ async function runTaskRunner() {
   for (const net of targetEvmNetworks) {
     let netSquad = activeSquad;
     if (isMainnetKey(net.id)) {
-      // MODO AHORRO MAINNET: 1 turno por día UTC, máx. 5 satélites, sin cabeceras ni #501.
-      if (!isDryRun && !isCooldownFree("task-runner", net.id)) {
-        console.log(`🛡️  [${net.name}] Cooldown 24h activo (turno UTC ya consumido). Sin gasto de gas esta ronda.\n`);
+      // MODO AHORRO MAINNET: cada satélite máx. 1 tx con gas cada 24 h por red, máx. 5 por ronda, sin cabeceras ni #501.
+      const mainnetProvider = createProvider(net);
+      const sel = await selectFundedMainnetSquad(mainnetProvider, net, satellites, BATCH_SIZE);
+      netSquad = sel.squad;
+      console.log(`🎯 [${net.name}] Selector mainnet: ${sel.squadRange}`);
+      if (netSquad.length === 0 && sel.fundedCount > 0) {
+        console.log(`🛡️  [${net.name}] Todos los satélites fondeados están en cooldown 24h. Sin gasto de gas esta ronda.\n`);
         evmResults.push({
           network: net.name,
           chainId: net.chainId,
           isPendingGas: true,
-          statusLabel: "Cooldown 24h 🛡️ (ahorro de gas)",
+          statusLabel: `Cooldown 24h 🛡️ (${sel.cooldownCount} sat. en espera, 0 gas)`,
           successCount: 0,
           total: 0,
           runs: []
         });
         continue;
       }
-      const mainnetProvider = createProvider(net);
-      const sel = await selectFundedMainnetSquad(mainnetProvider, net, satellites, BATCH_SIZE);
-      netSquad = sel.squad;
-      console.log(`🎯 [${net.name}] Selector mainnet: ${sel.squadRange}`);
       if (netSquad.length > 0) {
         console.log(`   Satélites fondeados en turno: [ ${netSquad.map((s) => `#${String(s.index).padStart(2, "0")}`).join(", ")} ]\n`);
-        // Se consume el turno ANTES de enviar: si el proceso muere a mitad no se repite el gasto.
+        // Se registra el uso ANTES de enviar: si el proceso muere a mitad no se repite el gasto.
         if (!isDryRun) {
-          claimDailySlot("task-runner", net.id, { satellites: netSquad.map((s) => s.index) });
+          claimSatellites(net.id, netSquad.map((s) => s.index), "task-runner");
         }
       }
     }

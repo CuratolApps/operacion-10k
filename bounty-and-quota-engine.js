@@ -34,8 +34,7 @@ const { sendTelegramAlert } = require("./telegram-notifier");
 const { networks, createResilientProvider } = require("./networks");
 const {
   MAX_MAINNET_SATS_PER_ROUND,
-  isCooldownFree,
-  claimDailySlot,
+  claimSatellites,
   selectFundedSatellites
 } = require("./mainnet-gas-shield");
 
@@ -226,29 +225,29 @@ async function executeMainnetBountyRadar(options = { isDryRun: false }) {
   let mainnetBountyTxsToday = 0;
   const executedActions = [];
 
-  // 🛡️ GAS-SHIELD: las Cabeceras (#001/#101/#201/#301/#401) y la Bóveda #501 están RESERVADAS como
-  // tanques nodriza y nunca emiten tx repetitivas. Solo satélites fondeados (>= 0.005 POL),
-  // máx. 5 y 1 turno por día UTC. El turno se consume antes de enviar (no en dry-run).
+  // 🛡️ GAS-SHIELD: las Cabeceras (#001/#101/#201/#301/#401), VIP #00 y la Bóveda #501 están RESERVADAS
+  // como tanques nodriza y nunca emiten tx repetitivas. Solo satélites fondeados (>= 0.005 POL) que
+  // cumplieron 24 h desde su último tx con gas, máx. 5. El uso se registra antes de enviar (no en dry-run).
   let candidateIndices = [];
   const polNetKey = "polygonMainnet";
-  if (!options.isDryRun && !isCooldownFree("bounty-radar", polNetKey)) {
-    console.log("   🛡️ [POLYGON] Cooldown 24h activo (turno UTC ya consumido). 0 gas esta ronda.");
-  } else {
-    try {
-      const sel = await selectFundedSatellites({
-        provider: createResilientProvider(networks.polygonMainnet),
-        satellites: wallets.filter(w => w.index >= 1 && w.index <= 500),
-        networkKey: polNetKey,
-        max: MAX_MAINNET_SATS_PER_ROUND
-      });
-      candidateIndices = sel.squad.map(s => s.index);
-      console.log(`   🎯 Satélites fondeados en turno (cabeceras excluidas): ${candidateIndices.length ? candidateIndices.map(i => `#${i}`).join(", ") : "ninguno"}`);
-      if (!options.isDryRun && candidateIndices.length > 0) {
-        claimDailySlot("bounty-radar", polNetKey, { satellites: candidateIndices });
-      }
-    } catch (selErr) {
-      console.log(`   ⚠️ No se pudo leer saldos en lote: ${selErr.message}`);
+  try {
+    const sel = await selectFundedSatellites({
+      provider: createResilientProvider(networks.polygonMainnet),
+      satellites: wallets.filter(w => w.index >= 1 && w.index <= 500),
+      networkKey: polNetKey,
+      max: MAX_MAINNET_SATS_PER_ROUND
+    });
+    candidateIndices = sel.squad.map(s => s.index);
+    if (candidateIndices.length === 0 && sel.fundedCount > 0) {
+      console.log(`   🛡️ [POLYGON] ${sel.cooldownCount} satélites fondeados, todos en cooldown 24h. 0 gas esta ronda.`);
+    } else {
+      console.log(`   🎯 Satélites elegibles en turno (cabeceras excluidas): ${candidateIndices.length ? candidateIndices.map(i => `#${i}`).join(", ") : "ninguno"}`);
     }
+    if (!options.isDryRun && candidateIndices.length > 0) {
+      claimSatellites(polNetKey, candidateIndices, "bounty-radar");
+    }
+  } catch (selErr) {
+    console.log(`   ⚠️ No se pudo leer saldos en lote: ${selErr.message}`);
   }
 
   for (const idx of candidateIndices) {
