@@ -604,9 +604,10 @@ async function runTaskRunner() {
   console.log(`   Satélites de esta ronda: [ ${squadIndicesStr} ]\n`);
 
   // -------------------------------------------------------------------------------------
-  // 4. EJECUCIÓN MULTI-RED OMNICHAIN (ETHEREUM SEPOLIA, BASE SEPOLIA Y ARBITRUM SEPOLIA)
+  // 4. EJECUCIÓN MULTI-RED OMNICHAIN (POLYGON POS MAINNET, ETHEREUM SEPOLIA, BASE, ARBITRUM)
   // -------------------------------------------------------------------------------------
   const targetEvmNetworks = [
+    networks.polygonMainnet,
     networks.ethereumSepolia,
     networks.baseSepolia,
     networks.arbitrumSepolia
@@ -679,6 +680,8 @@ async function runTaskRunner() {
 
   // Extraer hashes reales verificables para el reporte de Telegram
   const sampleHashes = [];
+  const polRun = evmResults.find((r) => r.network === "Polygon PoS")?.runs?.find((x) => x.txHash);
+  if (polRun && polRun.txHash) sampleHashes.push({ network: "Polygon PoS", hash: polRun.txHash });
   const sepRun = evmResults.find((r) => r.network === "Ethereum Sepolia")?.runs?.find((x) => x.txHash);
   if (sepRun && sepRun.txHash) sampleHashes.push({ network: "Sepolia", hash: sepRun.txHash });
   const baseRun = evmResults.find((r) => r.network === "Base Sepolia")?.runs?.find((x) => x.txHash);

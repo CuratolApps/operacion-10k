@@ -28,7 +28,7 @@ async function runIntraBoxDistribution(wallets, isDryRun) {
   const allAddresses = wallets.map(w => w.address);
   const targets = [
     { network: "bscMainnet", symbol: "BNB", netConfig: networks.bscMainnet, minHeaderBal: 0.002, satTargetAmount: 0.00015 },
-    { network: "polygonMainnet", symbol: "POL", netConfig: networks.polygonMainnet, minHeaderBal: 1.0, satTargetAmount: 0.08 }
+    { network: "polygonMainnet", symbol: "POL", netConfig: networks.polygonMainnet, minHeaderBal: 1.0, satTargetAmount: 0.25 }
   ];
 
   for (const t of targets) {
@@ -38,7 +38,8 @@ async function runIntraBoxDistribution(wallets, isDryRun) {
       const headerWallet = wallets.find(w => w.index === h.headerIndex);
       if (!headerWallet) continue;
 
-      const headerBal = await fetchBalanceQuick((t.netConfig.rpc || t.netConfig.fallbackRpc), headerWallet.address);
+      const headerRpc = (t.netConfig.rpc || t.netConfig.fallbackRpc);
+      const headerBal = await fetchBalanceQuick(headerRpc, headerWallet.address);
       if (headerBal < t.minHeaderBal) continue;
 
       console.log(`📦 Box ${h.box} (${h.id}): Saldo en ${t.symbol} = ${headerBal.toFixed(5)}. Dispersando intra-bloque...`);
@@ -50,26 +51,41 @@ async function runIntraBoxDistribution(wallets, isDryRun) {
 
       const toFund = boxSatellites.slice(0, 10);
       let signer = null;
+      let headerNonce = 0;
       if (!isDryRun) {
         signer = getWalletSigner(h.headerIndex, provider);
+        headerNonce = await provider.getTransactionCount(headerWallet.address, "latest");
       }
 
       for (const sat of toFund) {
         try {
-          validateIsolation(headerWallet.address, sat.address, allAddresses, wallets);
+          validateIsolation(headerWallet.address, sat.address, allAddresses, wallets, true);
           const jitter = (Math.random() - 0.5) * 0.04;
-          const sendAmount = (t.satTargetAmount * (1 + jitter)).toFixed(5);
+          const sendAmount = (t.satTargetAmount * (1 + jitter)).toFixed(4);
 
           console.log(`   ↳ [Box ${h.box}] ${h.id} -> Satélite #${String(sat.index).padStart(3, "0")}: +${sendAmount} ${t.symbol}`);
 
           if (!isDryRun && signer) {
-            const tx = await signer.sendTransaction({
+            const feeData = await provider.getFeeData().catch(() => null);
+            const txOpts = {
               to: sat.address,
-              value: ethers.parseEther(sendAmount)
-            });
+              value: ethers.parseEther(sendAmount),
+              nonce: headerNonce
+            };
+            if (t.symbol === "POL" && feeData) {
+              txOpts.maxPriorityFeePerGas = ethers.parseUnits("35", "gwei");
+              txOpts.maxFeePerGas = feeData.maxFeePerGas ? (feeData.maxFeePerGas * 125n / 100n) : ethers.parseUnits("400", "gwei");
+            }
+            const tx = await signer.sendTransaction(txOpts);
+            headerNonce++;
             console.log(`     ✅ Tx on-chain: ${tx.hash}`);
-            await tx.wait(1);
-            await sleepRandom(400, 900);
+            try {
+              await Promise.race([
+                tx.wait(1),
+                new Promise((resolve) => setTimeout(resolve, 5000))
+              ]);
+            } catch (_) {}
+            await sleepRandom(1000, 1800);
           }
         } catch (err) {
           console.log(`     ⚠️ Satélite #${sat.index}: ${err.message}`);
@@ -144,9 +160,11 @@ async function runMasterRefuel() {
   console.log(`🏦 Dirección Cartera Matriz #501 : ${masterAddress}`);
   console.log(`🛡️  Modo Operativo                : ${isCheckOnly ? "CHEQUEO (SOLO LECTURA)" : isDryRun ? "SIMULACIÓN (DRY-RUN)" : "PRODUCCIÓN EN VIVO"}\n`);
 
-  // Monitoreo en BSC Mainnet y Polygon Mainnet
-  const bscBalance = await fetchBalanceQuick("https://binance.llamarpc.com", masterAddress);
-  const polBalance = await fetchBalanceQuick("https://polygon.llamarpc.com", masterAddress);
+  // Monitoreo en BSC Mainnet y Polygon Mainnet con RPCs resilientes
+  const bscRpc = (networks.bscMainnet && networks.bscMainnet.rpc) || "https://bsc-dataseed.binance.org";
+  const polRpc = (networks.polygonMainnet && networks.polygonMainnet.rpc) || "https://polygon-bor-rpc.publicnode.com";
+  const bscBalance = await fetchBalanceQuick(bscRpc, masterAddress);
+  const polBalance = await fetchBalanceQuick(polRpc, masterAddress);
 
   console.log(`📊 SALDOS EN BÓVEDA MATRIZ #501:`);
   console.log(`   • BNB (BSC Mainnet)     : ${bscBalance.toFixed(6)} BNB (Umbral auto-recarga: > ${MIN_BNB_TRIGGER} BNB)`);
@@ -163,7 +181,8 @@ async function runMasterRefuel() {
         polygonPol: polBalance.toFixed(6),
         lastChecked: new Date().toISOString(),
         needsRefuelBsc: bscBalance < MIN_BNB_TRIGGER,
-        needsRefuelPolygon: polBalance < MIN_POL_TRIGGER
+        needsRefuelPolygon: polBalance < MIN_POL_TRIGGER,
+        status: polBalance >= MIN_POL_TRIGGER ? "🟢 ACTIVA Y FONDEADA" : "⏳ En espera de desbloqueo CEX (72h)"
       };
       fs.writeFileSync(FLEET_TELEMETRY_FILE, JSON.stringify(tel, null, 2), "utf8");
     } catch (_) {}
@@ -198,28 +217,60 @@ async function runMasterRefuel() {
       signer = getMasterVaultWallet(provider);
     }
 
-    // Reservar 8% para comisiones de la #501, dividir 92% entre 5 cabeceras (~18.4% cada una)
-    const available = t.balance * 0.92;
-    const baseShare = available / 5;
+    // Reserva de seguridad en #501 (~10 POL) y distribución equitativa (~25 POL por Box)
+    let baseShare;
+    if (t.symbol === "POL" && t.balance >= 50) {
+      const reserve = 10.174;
+      const distributable = Math.max(0, t.balance - reserve);
+      baseShare = distributable / 5;
+    } else {
+      const available = t.balance * 0.92;
+      baseShare = available / 5;
+    }
+
+    let currentNonce = 0;
+    if (!isDryRun && signer) {
+      currentNonce = await provider.getTransactionCount(masterAddress, "latest");
+    }
 
     for (const h of BOX_HEADERS) {
       const targetWallet = wallets.find((w) => w.index === h.headerIndex);
       if (!targetWallet) continue;
 
-      // Jitter gaussiano leve de +/- 3%
-      const jitter = (Math.random() - 0.5) * 0.06;
-      const shareWithJitter = (baseShare * (1 + jitter)).toFixed(5);
+      const currentTargetBal = await fetchBalanceQuick(t.netConfig.rpc || t.netConfig.fallbackRpc, targetWallet.address);
+      if (currentTargetBal >= 10.0) {
+        console.log(`   ➤ Cabecera Box ${h.box} (${h.id} - ${targetWallet.address.slice(0, 8)}...): Ya fondeada con ${currentTargetBal.toFixed(4)} ${t.symbol} ✅`);
+        continue;
+      }
+
+      // Jitter gaussiano leve (+/- 0.5%)
+      const jitter = (Math.random() - 0.5) * 0.01;
+      const shareWithJitter = (baseShare * (1 + jitter)).toFixed(4);
 
       console.log(`   ➤ Cabecera Box ${h.box} (${h.id} - ${targetWallet.address.slice(0, 8)}...): +${shareWithJitter} ${t.symbol}`);
 
       if (!isDryRun && signer) {
         try {
-          const tx = await signer.sendTransaction({
+          const feeData = await provider.getFeeData().catch(() => null);
+          const txOpts = {
             to: targetWallet.address,
-            value: ethers.parseEther(shareWithJitter)
-          });
+            value: ethers.parseEther(shareWithJitter),
+            nonce: currentNonce
+          };
+          if (t.symbol === "POL" && feeData) {
+            txOpts.maxPriorityFeePerGas = ethers.parseUnits("35", "gwei");
+            txOpts.maxFeePerGas = feeData.maxFeePerGas ? (feeData.maxFeePerGas * 125n / 100n) : ethers.parseUnits("400", "gwei");
+          }
+          const tx = await signer.sendTransaction(txOpts);
+          currentNonce++;
           console.log(`     ✅ Tx on-chain: ${tx.hash}`);
-          await tx.wait(1);
+          try {
+            await Promise.race([
+              tx.wait(1),
+              new Promise((resolve) => setTimeout(resolve, 6000))
+            ]);
+          } catch (_) {}
+          await sleepRandom(2000, 3000);
         } catch (err) {
           console.log(`     ❌ Error tx: ${err.message}`);
         }

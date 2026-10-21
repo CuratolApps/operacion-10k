@@ -62,7 +62,7 @@ const SCAN_NETWORKS = [
     id: "polygonMainnet",
     name: "Polygon Mainnet",
     chainId: 137,
-    rpcs: ["https://polygon.llamarpc.com", "https://polygon-bor-rpc.publicnode.com"]
+    rpcs: ["https://polygon-bor-rpc.publicnode.com", "https://1rpc.io/matic"]
   },
   {
     id: "citreaTestnet",
@@ -251,7 +251,7 @@ async function scanHeadersSurveillance() {
     if (addr) {
       [bscBal, polBal] = await Promise.all([
         fetchEthBalanceQuick("https://binance.llamarpc.com", addr),
-        fetchEthBalanceQuick("https://polygon.llamarpc.com", addr)
+        fetchEthBalanceQuick("https://polygon-bor-rpc.publicnode.com", addr)
       ]);
     }
 

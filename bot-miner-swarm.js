@@ -158,8 +158,8 @@ async function runBotMinerSwarm() {
   console.log("🏦 [VIGÍA BÓVEDA #501] Monitoreo en BSC Mainnet (56) y Polygon Mainnet (137)...");
   console.log("-----------------------------------------------------------------------------------------");
 
-  const bscBal = await fetchBalanceQuick("https://binance.llamarpc.com", VAULT_501_ADDRESS);
-  const polBal = await fetchBalanceQuick("https://polygon.llamarpc.com", VAULT_501_ADDRESS);
+  const bscBal = await fetchBalanceQuick(networks.bscMainnet.rpc, VAULT_501_ADDRESS);
+  const polBal = await fetchBalanceQuick(networks.polygonMainnet.rpc, VAULT_501_ADDRESS);
 
   let vault501StatusText = "⏳ En espera de desbloqueo CEX (72h)";
   let isFundsDetected = bscBal >= MIN_BNB_TRIGGER || polBal >= MIN_POL_TRIGGER;
@@ -169,13 +169,8 @@ async function runBotMinerSwarm() {
   console.log(`   • Saldo Polygon  : ${polBal.toFixed(6)} POL`);
 
   if (isFundsDetected) {
-    console.log("   🎉 ¡FONDOS DETECTADOS EN BÓVEDA #501! Ejecutando dispersión automática...");
-    vault501StatusText = `🎉 Fondos Recibidos (+${bscBal.toFixed(4)} BNB / +${polBal.toFixed(2)} POL)`;
-    try {
-      await runMasterRefuel();
-    } catch (e) {
-      console.warn("   ⚠️ Aviso en dispersión de #501:", e.message);
-    }
+    console.log("   🎉 ¡FONDOS DETECTADOS EN BÓVEDA #501! Bóveda matriz y cabeceras fondeadas.");
+    vault501StatusText = `🟢 ACTIVA Y FONDEADA (${polBal.toFixed(2)} POL)`;
   } else {
     console.log(`   • Estado         : ${vault501StatusText} (0.02006 BNB / 116.38 POL en tránsito)\n`);
   }
@@ -212,6 +207,7 @@ async function runBotMinerSwarm() {
   const baseProvider = createResilientProvider(networks.baseSepolia);
   const arbProvider = createResilientProvider(networks.arbitrumSepolia);
   const opProvider = createResilientProvider(networks.optimismSepolia);
+  const polProvider = createResilientProvider(networks.polygonMainnet);
 
   let onChainMinedCount = 0;
   let gaslessMinedCount = 0;
@@ -227,9 +223,14 @@ async function runBotMinerSwarm() {
 
     // Consultar saldos rápidos
     let sepBal = 0;
+    let satPolBal = 0;
     try {
       const b = await sepProvider.getBalance(sat.address);
       sepBal = parseFloat(ethers.formatEther(b));
+    } catch (_) {}
+    try {
+      const bPol = await polProvider.getBalance(sat.address);
+      satPolBal = parseFloat(ethers.formatEther(bPol));
     } catch (_) {}
 
     // Auto-Bridge progresivo para Box 5 si le faltan L2s
@@ -240,6 +241,31 @@ async function runBotMinerSwarm() {
         onChainMinedCount++;
         minedTxHashes.push({ net: bridgeResult.network, hash: bridgeResult.hash, type: "L2_BRIDGE" });
         console.log(`   ${satTag}: 🌉 Auto-Bridge L2 confirmado (${bridgeResult.network}) -> ${bridgeResult.hash.slice(0, 14)}...`);
+      }
+    }
+
+    // Minería On-Chain en Polygon Mainnet si tiene saldo POL (> 0.05 POL)
+    if (satPolBal >= 0.05 && !isDryRun) {
+      try {
+        const signer = getWalletSigner(sat.index, polProvider);
+        const wpolContract = new ethers.Contract(networks.polygonMainnet.defiToken.address, MINER_CONTRACT_ABI, signer);
+        console.log(`   ${satTag}: ⛏️ Minando on-chain en Polygon (WPOL.deposit 0.01 POL)...`);
+        const feeData = await polProvider.getFeeData().catch(() => null);
+        const txOpts = {
+          value: ethers.parseEther("0.01")
+        };
+        if (feeData) {
+          txOpts.maxPriorityFeePerGas = ethers.parseUnits("35", "gwei");
+          txOpts.maxFeePerGas = feeData.maxFeePerGas ? (feeData.maxFeePerGas * 125n / 100n) : ethers.parseUnits("400", "gwei");
+        }
+        const tx = await wpolContract.deposit(txOpts);
+        onChainMinedCount++;
+        minedTxHashes.push({ net: "Polygon PoS", hash: tx.hash, type: "WPOL_MINT" });
+        console.log(`   ${satTag}: ✅ Minería Polygon confirmada tx: ${tx.hash.slice(0, 14)}...`);
+        minerStats.boxPoints[currentBoxKey] = (minerStats.boxPoints[currentBoxKey] || 0) + 150;
+        await sleepRandom(800, 1600);
+      } catch (pErr) {
+        console.log(`   ${satTag}: ⚠️ Aviso minería Polygon: ${pErr.message}`);
       }
     }
 
@@ -268,7 +294,7 @@ async function runBotMinerSwarm() {
       } catch (mErr) {
         // Fallback a firma gasless si falló o dio timeout
       }
-    } else {
+    } else if (satPolBal < 0.05) {
       // Minería Gasless Vector 3 (si no tuvo gas suficiente para on-chain)
       try {
         const signer = getWalletSigner(sat.index, sepProvider);
