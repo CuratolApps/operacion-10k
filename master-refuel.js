@@ -121,27 +121,31 @@ const BOX_HEADERS = [
   { box: 5, headerIndex: 401, id: "#401" }
 ];
 
-async function fetchBalanceQuick(rpcUrl, address) {
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 4000);
-    const res = await fetch(rpcUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "eth_getBalance",
-        params: [address, "latest"]
-      }),
-      signal: controller.signal
-    });
-    clearTimeout(timeout);
-    const data = await res.json();
-    if (data && data.result) {
-      return parseFloat(ethers.formatEther(BigInt(data.result)));
-    }
-  } catch (_) {}
+async function fetchBalanceQuick(rpcInput, address) {
+  const rpcs = Array.isArray(rpcInput) ? rpcInput : [rpcInput];
+  for (const rpcUrl of rpcs) {
+    if (!rpcUrl) continue;
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch(rpcUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "eth_getBalance",
+          params: [address, "latest"]
+        }),
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+      const data = await res.json();
+      if (data && data.result) {
+        return parseFloat(ethers.formatEther(BigInt(data.result)));
+      }
+    } catch (_) {}
+  }
   return 0.0;
 }
 
@@ -171,10 +175,10 @@ async function runMasterRefuel() {
   console.log(`🛡️  Modo Operativo                : ${isCheckOnly ? "CHEQUEO (SOLO LECTURA)" : isDryRun ? "SIMULACIÓN (DRY-RUN)" : "PRODUCCIÓN EN VIVO"}\n`);
 
   // Monitoreo en BSC Mainnet y Polygon Mainnet con RPCs resilientes
-  const bscRpc = (networks.bscMainnet && networks.bscMainnet.rpc) || "https://bsc-dataseed.binance.org";
-  const polRpc = (networks.polygonMainnet && networks.polygonMainnet.rpc) || "https://polygon-bor-rpc.publicnode.com";
-  const bscBalance = await fetchBalanceQuick(bscRpc, masterAddress);
-  const polBalance = await fetchBalanceQuick(polRpc, masterAddress);
+  const bscRpcs = networks.bscMainnet?.backupRpcs || ["https://bsc-dataseed.binance.org", "https://bsc-rpc.publicnode.com", "https://1rpc.io/bnb"];
+  const polRpcs = networks.polygonMainnet?.backupRpcs || ["https://1rpc.io/matic", "https://polygon-bor-rpc.publicnode.com", "https://polygon-rpc.com"];
+  const bscBalance = await fetchBalanceQuick(bscRpcs, masterAddress);
+  const polBalance = await fetchBalanceQuick(polRpcs, masterAddress);
 
   console.log(`📊 SALDOS EN BÓVEDA MATRIZ #501:`);
   console.log(`   • BNB (BSC Mainnet)     : ${bscBalance.toFixed(6)} BNB (Umbral auto-recarga: > ${MIN_BNB_TRIGGER} BNB)`);

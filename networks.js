@@ -159,7 +159,13 @@ const networks = {
     id: "bscMainnet",
     name: "BNB Smart Chain",
     rpc: "https://bsc-dataseed.binance.org",
-    fallbackRpc: "https://binance.llamarpc.com",
+    fallbackRpc: "https://bsc-rpc.publicnode.com",
+    backupRpcs: [
+      "https://bsc-dataseed.binance.org",
+      "https://bsc-rpc.publicnode.com",
+      "https://1rpc.io/bnb",
+      "https://binance.llamarpc.com"
+    ],
     chainId: 56,
     symbol: "BNB",
     category: "Mainnet",
@@ -177,7 +183,13 @@ const networks = {
     id: "polygonMainnet",
     name: "Polygon PoS",
     rpc: "https://polygon-bor-rpc.publicnode.com",
-    fallbackRpc: "https://1rpc.io/matic",
+    fallbackRpc: "https://polygon-rpc.com",
+    backupRpcs: [
+      "https://1rpc.io/matic",
+      "https://polygon-bor-rpc.publicnode.com",
+      "https://polygon-rpc.com",
+      "https://polygon.llamarpc.com"
+    ],
     chainId: 137,
     symbol: "POL",
     category: "Mainnet",
@@ -297,6 +309,9 @@ const evmTestnets = Object.values(networks).filter(
   (n) => n.category === "Testnet EVM"
 );
 
+const BSC_MAINNET_RPCS = networks.bscMainnet.backupRpcs;
+const POLYGON_MAINNET_RPCS = networks.polygonMainnet.backupRpcs;
+
 module.exports = {
   networks,
   networkList: Object.values(networks),
@@ -305,5 +320,7 @@ module.exports = {
   MULTICALL3_ADDRESS,
   MULTICALL3_ABI,
   createResilientProvider,
-  fetchEthBalancesBatch
+  fetchEthBalancesBatch,
+  BSC_MAINNET_RPCS,
+  POLYGON_MAINNET_RPCS
 };
