@@ -36,6 +36,12 @@ jobs:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '-5101181644' }}
       VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}
+      X_API_KEY: ${{ secrets.X_API_KEY }}
+      X_API_SECRET: ${{ secrets.X_API_SECRET }}
+      X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+      X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+      X_CLIENT_ID: ${{ secrets.X_CLIENT_ID }}
+      X_CLIENT_SECRET: ${{ secrets.X_CLIENT_SECRET }}
 
     steps:
       - name: 📥 Clonar repositorio
@@ -67,6 +73,7 @@ jobs:
           node harvest-rewards.js --scan || true
           node master-refuel.js --intra-box || true
           node vanguard-hunter.js || true
+          node x-autonomous-agent.js || true
           node scripts/ai-telemetry-feed.js || true
 
       - name: 💾 Sincronizar Telemetría al Dashboard
