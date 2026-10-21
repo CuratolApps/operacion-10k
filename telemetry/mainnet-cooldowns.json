@@ -19,6 +19,46 @@
     "6": {
       "lastTxAt": "2026-10-21T13:13:18.257Z",
       "routine": "gamefi"
+    },
+    "7": {
+      "lastTxAt": "2026-10-21T17:40:22.874Z",
+      "routine": "task-runner"
+    },
+    "8": {
+      "lastTxAt": "2026-10-21T17:40:22.874Z",
+      "routine": "task-runner"
+    },
+    "9": {
+      "lastTxAt": "2026-10-21T17:40:22.874Z",
+      "routine": "task-runner"
+    },
+    "10": {
+      "lastTxAt": "2026-10-21T17:40:22.874Z",
+      "routine": "task-runner"
+    },
+    "11": {
+      "lastTxAt": "2026-10-21T17:40:22.874Z",
+      "routine": "task-runner"
+    },
+    "102": {
+      "lastTxAt": "2026-10-21T17:42:37.143Z",
+      "routine": "bot-miner"
+    },
+    "103": {
+      "lastTxAt": "2026-10-21T17:42:37.143Z",
+      "routine": "bot-miner"
+    },
+    "104": {
+      "lastTxAt": "2026-10-21T17:42:37.143Z",
+      "routine": "bot-miner"
+    },
+    "105": {
+      "lastTxAt": "2026-10-21T17:42:37.143Z",
+      "routine": "bot-miner"
+    },
+    "106": {
+      "lastTxAt": "2026-10-21T17:42:37.143Z",
+      "routine": "bot-miner"
     }
   },
   "polygonMainnet": {
@@ -41,6 +81,66 @@
     "6": {
       "lastTxAt": "2026-10-21T13:14:11.892Z",
       "routine": "gamefi"
+    },
+    "7": {
+      "lastTxAt": "2026-10-21T17:40:37.029Z",
+      "routine": "task-runner"
+    },
+    "8": {
+      "lastTxAt": "2026-10-21T17:40:37.029Z",
+      "routine": "task-runner"
+    },
+    "9": {
+      "lastTxAt": "2026-10-21T17:40:37.029Z",
+      "routine": "task-runner"
+    },
+    "10": {
+      "lastTxAt": "2026-10-21T17:40:37.029Z",
+      "routine": "task-runner"
+    },
+    "11": {
+      "lastTxAt": "2026-10-21T17:40:37.029Z",
+      "routine": "task-runner"
+    },
+    "102": {
+      "lastTxAt": "2026-10-21T17:42:44.020Z",
+      "routine": "bot-miner"
+    },
+    "103": {
+      "lastTxAt": "2026-10-21T17:42:44.020Z",
+      "routine": "bot-miner"
+    },
+    "104": {
+      "lastTxAt": "2026-10-21T17:42:44.020Z",
+      "routine": "bot-miner"
+    },
+    "105": {
+      "lastTxAt": "2026-10-21T17:42:44.020Z",
+      "routine": "bot-miner"
+    },
+    "106": {
+      "lastTxAt": "2026-10-21T17:42:44.020Z",
+      "routine": "bot-miner"
+    },
+    "107": {
+      "lastTxAt": "2026-10-21T17:46:55.301Z",
+      "routine": "bounty-radar"
+    },
+    "108": {
+      "lastTxAt": "2026-10-21T17:46:55.301Z",
+      "routine": "bounty-radar"
+    },
+    "109": {
+      "lastTxAt": "2026-10-21T17:46:55.301Z",
+      "routine": "bounty-radar"
+    },
+    "110": {
+      "lastTxAt": "2026-10-21T17:46:55.301Z",
+      "routine": "bounty-radar"
+    },
+    "111": {
+      "lastTxAt": "2026-10-21T17:46:55.301Z",
+      "routine": "bounty-radar"
     },
     "209": {
       "lastTxAt": "2026-10-21T12:40:00.000Z",
