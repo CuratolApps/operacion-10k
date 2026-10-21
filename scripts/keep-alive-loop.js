@@ -48,6 +48,9 @@ async function executeFullCycle(cycleNumber) {
   // 3.5. Motor Lomo 4: ROI Gas $50, Velocímetro $5.50/bot & Bounties Mainnet
   runCommand("node bounty-and-quota-engine.js", "Bounty & Quota Engine (Lomo 4)");
 
+  // 3.8. Motor Lomo 5: Cerebro Autónomo, ADN Anti-Sybil & Auto-Liquidador DEX a USDC
+  runCommand("node autonomous-brain-lomo5.js", "Cerebro Autónomo & Anti-Sybil (Lomo 5)");
+
   // 4. Escaneo de Cosechas (Embudo USDC a Binance)
   runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
 

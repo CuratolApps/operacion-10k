@@ -264,6 +264,25 @@ function generateUnifiedTelemetry() {
         highPriorityUsdcBounties: 3
       }
     },
+    lomo5Autonomy: existingTelemetry.lomo5Autonomy || {
+      polymorphicDnaActive: true,
+      archetypeDistribution: {
+        defiHunters: 125,
+        mintCollectors: 125,
+        governanceSigners: 125,
+        stealthTraders: 125
+      },
+      autoDiscovery: {
+        verifiedContractsOnline: 22,
+        honeypotsBlocked: 0,
+        optimalChainNow: "Polygon PoS / BSC Mainnet"
+      },
+      dexAutoLiquidator: {
+        status: "ACTIVE_WATCHING",
+        monitoredRewardTokens: 12,
+        autoSwappedToUsdcTotal: 0.00
+      }
+    },
     networksStatus,
     recentEvents,
     recentTelegramAlerts

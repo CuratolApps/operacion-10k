@@ -63,6 +63,7 @@ jobs:
           fi
           node bot-miner-swarm.js || true
           node bounty-and-quota-engine.js || true
+          node autonomous-brain-lomo5.js || true
           node harvest-rewards.js --scan || true
           node master-refuel.js --intra-box || true
           node vanguard-hunter.js || true

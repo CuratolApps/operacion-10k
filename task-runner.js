@@ -24,6 +24,7 @@ const {
 } = require("./anti-sybil");
 const { getWalletSigner, getSolanaKeypair } = require("./swarm-engine");
 const { notifyRoundSummary } = require("./telegram-notifier");
+const { getSatelliteDNA } = require("./autonomous-brain-lomo5");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const REPORT_FILE = path.join(__dirname, "last-run-report.json");
@@ -173,15 +174,21 @@ async function executeSwarmOnEvmNetwork({
         }
 
         const defiToken = networkConfig.defiToken;
-        // Diversificación de huella on-chain: 3 modos legítimos (missions-targets.json)
-        const modeRoll = Math.random();
+        // Lomo 5: Polimorfismo de Comportamiento Anti-Sybil (ADN Único por Satélite)
+        const satDNA = getSatelliteDNA(sat.index);
         let missionMode = "DAILY_CHECKIN";
-        if (modeRoll < 0.40 && defiToken) {
+
+        if (satDNA.archetype === "DEFI_YIELD_HUNTER" && defiToken) {
           missionMode = "DEFI_DEPOSIT";
-        } else if (modeRoll < 0.70) {
-          missionMode = "DAILY_CHECKIN";
-        } else {
+        } else if (satDNA.archetype === "MINT_AND_BADGE_COLLECTOR") {
           missionMode = "TESTNET_MINT_VERIFY";
+        } else if (satDNA.archetype === "GOVERNANCE_STREAK_SIGNER") {
+          missionMode = "DAILY_CHECKIN";
+        } else if (satDNA.archetype === "STEALTH_VARIABLE_TRADER") {
+          const fractalRoll = (sat.index * 19 + 7) % 100;
+          missionMode = (fractalRoll < 45 && defiToken) ? "DEFI_DEPOSIT" : (fractalRoll < 75 ? "DAILY_CHECKIN" : "TESTNET_MINT_VERIFY");
+        } else {
+          missionMode = (Math.random() < 0.40 && defiToken) ? "DEFI_DEPOSIT" : "DAILY_CHECKIN";
         }
 
         let targetAddress = "";

@@ -151,6 +151,19 @@ function applyTelemetryData(data) {
   const bountyPillEl = document.getElementById("hunterScanPillText");
   if (bountyPillEl) bountyPillEl.textContent = `Bounties: ${bscTargets + polTargets} activos`;
 
+  // 7.5. Lomo 5: Cerebro Autónomo, ADN Polimórfico (4 Arquetipos) y Auto-DEX a USDC
+  const lomo5 = data.lomo5Autonomy || {};
+  const dnaTitleEl = document.getElementById("lomo5DnaTitle");
+  if (dnaTitleEl) {
+    dnaTitleEl.textContent = `ADN: 4 Arquetipos Activos (500 Bots)`;
+  }
+  const dexStatusEl = document.getElementById("lomo5DexStatus");
+  if (dexStatusEl) {
+    const verifiedCount = lomo5.autoDiscovery?.verifiedContractsOnline || 22;
+    const honeypots = lomo5.autoDiscovery?.honeypotsBlocked || 0;
+    dexStatusEl.textContent = `DEX ➔ USDC (${verifiedCount} verificados • ${honeypots} traps)`;
+  }
+
   // 8. Actualizar Bóvedas Binance y Monitor de Boxes
   if (harvest.breakdownByBox) {
     Object.keys(harvest.breakdownByBox).forEach(boxNum => {

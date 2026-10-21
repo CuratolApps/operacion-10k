@@ -25,6 +25,7 @@ const { getWalletSigner, getMasterVaultWallet } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
 const { validateIsolation, sleepRandom, getBlockId } = require("./anti-sybil");
 const { runMasterRefuel, MIN_BNB_TRIGGER, MIN_POL_TRIGGER } = require("./master-refuel");
+const { getSatelliteDNA } = require("./autonomous-brain-lomo5");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const FLEET_TELEMETRY_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
@@ -220,7 +221,8 @@ async function runBotMinerSwarm() {
 
   for (let i = 0; i < currentSquad.length; i++) {
     const sat = currentSquad[i];
-    const satTag = `[${i + 1}/${currentSquad.length}] Satélite #${String(sat.index).padStart(3, "0")}`;
+    const satDNA = getSatelliteDNA(sat.index);
+    const satTag = `[${i + 1}/${currentSquad.length}] Satélite #${String(sat.index).padStart(3, "0")} (${satDNA.archetype})`;
 
     // Consultar saldos rápidos
     let sepBal = 0;
