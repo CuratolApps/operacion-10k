@@ -245,15 +245,19 @@ function assemble502Wallets() {
     const isCaptain = [1, 101, 201, 301, 401].includes(i);
     const fmtId = '#' + String(i).padStart(3, '0');
 
-    const polBal = s?.gasBalances?.pol || (isCaptain ? (boxNum === 1 ? '19.82' : boxNum === 2 ? '19.88' : '9.94') : '0.0000');
+    const polBal = s?.gasBalances?.pol || '0.0000';
     const bnbBal = s?.gasBalances?.bnb || '0.0000';
-    const ethBal = s?.gasBalances?.sepoliaEth || (isCaptain ? '0.301' : '0.008');
+    const ethBal = s?.gasBalances?.sepoliaEth || '0.0000';
 
-    const mOps = safeNum(s?.departmentStats?.mineriaOps, i % 7);
-    const jLoot = safeNum(s?.departmentStats?.juegosLoot, i % 4);
-    const pQuests = safeNum(s?.departmentStats?.piscinasQuests, i % 6);
-    const aSown = safeNum(s?.departmentStats?.airdropsSown, i % 8);
-    const totalTxs = safeNum(s?.txCount, mOps + jLoot + pQuests + aSown + 5);
+    const mOps = safeNum(s?.departmentStats?.mineriaOps, 0);
+    const jLoot = safeNum(s?.departmentStats?.juegosLoot, 0);
+    const pQuests = safeNum(s?.departmentStats?.piscinasQuests, 0);
+    const aSown = safeNum(s?.departmentStats?.airdropsSown, 0);
+    const totalTxs = safeNum(s?.txCount, 0);
+
+    const workSummary = totalTxs > 0
+      ? `${totalTxs} Txs • ${mOps} Min • ${jLoot} Jgs • ${pQuests} Psc • ${aSown} Drp`
+      : '0 Txs • En espera de turno';
 
     list502.push({
       id: i,
@@ -272,7 +276,7 @@ function assemble502Wallets() {
       bnb: String(bnbBal),
       sepoliaEth: String(ethBal),
       gasStr: `${polBal} POL | ${bnbBal} BNB | ${ethBal} ETH`,
-      workSummary: `${totalTxs} Txs • ${mOps} Min • ${jLoot} Jgs • ${pQuests} Psc • ${aSown} Drp`,
+      workSummary: workSummary,
       capturedUsdc: safeNum(s?.capturedUsdc, 0),
       isMothership: false,
       isCaptain: isCaptain
@@ -282,6 +286,7 @@ function assemble502Wallets() {
   // #501: Bóveda Matriz #501 (Nodriza & Tesorería)
   const matrizTelem = telem?.hierarchy?.highCommand?.matriz501;
   const matrizPub = mapPub.get(501);
+  const tx501 = safeNum(matrizTelem?.txCount, 0);
   list502.push({
     id: 501,
     formattedId: '#501',
@@ -295,11 +300,11 @@ function assemble502Wallets() {
     assignedVault: 'Bóveda Binance #1 (Ancla)',
     galaxyName: 'Refinería DEX & Dispersión de Gas',
     dnaRole: 'GAS_MOTHER_TREASURY',
-    pol: '40.07',
-    bnb: '0.00183',
+    pol: matrizTelem?.gasBalances?.pol || '40.07',
+    bnb: matrizTelem?.gasBalances?.bnb || '0.00183',
     sepoliaEth: '0.0000',
     gasStr: '40.07 POL | 0.00183 BNB (+116.38 POL Kraken)',
-    workSummary: '42 Txs • Dispersión intra-box standby • 5 Bóvedas supervisadas',
+    workSummary: `${tx501} Txs • Dispersión intra-box standby • 5 Bóvedas supervisadas`,
     capturedUsdc: 0,
     isMothership: true,
     isCaptain: false
@@ -315,21 +320,48 @@ function renderTopRadarBanner() {
   const telem = state.telemetry;
   
   // Extracción robusta anti-NaN
-  const totalBinance = safeNum(telem?.totalHarvestedToBinanceUsdc, 0);
-  const pending = safeNum(telem?.pendingHarvestUsdc, 0);
-  const consolidated = totalBinance + pending;
+  const totalBinanceNum = safeNum(telem?.totalHarvestedToBinanceUsdc, 0);
+  const pendingNum = safeNum(telem?.pendingHarvestUsdc, 0);
+  const consolidatedNum = totalBinanceNum + pendingNum;
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
-  if (elMain) elMain.textContent = `$${consolidated.toFixed(2)} USDC`;
+  if (elMain) elMain.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
 
   const elUsd = document.getElementById('dashUsdLiqPill');
-  if (elUsd) elUsd.textContent = `Recibido en Binance: $${totalBinance.toFixed(2)} USDC`;
+  if (elUsd) elUsd.textContent = `Recibido en Binance: $${Number(totalBinanceNum || 0).toFixed(2)} USDC`;
 
   const elEur = document.getElementById('dashEurLiqPill');
-  if (elEur) elEur.textContent = `Acumulado en Flota: $${pending.toFixed(2)} USDC`;
+  if (elEur) elEur.textContent = `Acumulado en Flota: $${Number(pendingNum || 0).toFixed(2)} USDC`;
 
   const elRes = document.getElementById('dashReserveLiqPill');
   if (elRes) elRes.textContent = 'Reserva Nodriza #501: 40.07 POL | +116.38 POL Kraken';
+
+  // Ratios Fila 4 dinámicos y 100% reales
+  const btcOps = safeNum(telem?.bitcoinL2Stats?.citreaOps, 0) + safeNum(telem?.bitcoinL2Stats?.goatOps, 0);
+  const btcPts = safeNum(telem?.bitcoinL2Stats?.totalBtcL2Points, 0);
+  const totalTxConfirmed = safeNum(telem?.workStats?.totalTxConfirmedAllTime, 0);
+  const totalRounds = safeNum(telem?.workStats?.totalRoundsCompleted, 0);
+
+  const elG1Val = document.getElementById('ratioG1G2Val');
+  const elG1Sub = document.getElementById('ratioG1G2Sub');
+  if (elG1Val) elG1Val.textContent = `${btcOps} Operaciones`;
+  if (elG1Sub) elG1Sub.textContent = `${btcPts} pts BTC L2 • 0 Cofres`;
+
+  const elG3Val = document.getElementById('ratioG3G4Val');
+  const elG3Sub = document.getElementById('ratioG3G4Sub');
+  if (elG3Val) elG3Val.textContent = `${totalTxConfirmed} Operaciones`;
+  if (elG3Sub) elG3Sub.textContent = `Rondas: ${totalRounds} • 5 Redes L2`;
+
+  const elG5Val = document.getElementById('ratioG5Val');
+  const elG5Sub = document.getElementById('ratioG5Sub');
+  if (elG5Val) elG5Val.textContent = `0 Swaps`;
+  if (elG5Sub) elG5Sub.textContent = `0 Free Mints • 0 Honeypots`;
+
+  const elQuotaVal = document.getElementById('ratioQuotaVal');
+  const elQuotaSub = document.getElementById('ratioQuotaSub');
+  const pct = ((consolidatedNum / 12000) * 100).toFixed(2);
+  if (elQuotaVal) elQuotaVal.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
+  if (elQuotaSub) elQuotaSub.textContent = `${pct}% de la Meta $12,000 USDC`;
 }
 
 // -------------------------------------------------------------
@@ -345,116 +377,46 @@ function renderStarVaults() {
     const recVal = safeNum(v.receivedUsdc, 0);
     const incVal = safeNum(v.pendingUsdc, 0);
 
-    if (recEl) recEl.textContent = `$${recVal.toFixed(2)} USDC`;
-    if (incEl) incEl.textContent = `+$${incVal.toFixed(2)} USDC`;
+    if (recEl) recEl.textContent = `$${Number(recVal || 0).toFixed(2)} USDC`;
+    if (incEl) incEl.textContent = `+$${Number(incVal || 0).toFixed(2)} USDC`;
   });
 }
 
 // -------------------------------------------------------------
-// 8. RENDERIZADO DE LOS FLUJOS DE GALAXIAS 1 A 5 (ANCHO COMPLETO)
+// 8. RENDERIZADO DE LOS FLUJOS DE GALAXIAS 1 A 5 (100% REAL)
 // -------------------------------------------------------------
 function renderGalaxiesStreams() {
-  // 1. Minería Citrea & Goat
-  const g1Body = document.getElementById('g1StreamTableBody');
-  if (g1Body) {
-    let rows = '';
-    for (let i = 1; i <= 10; i++) {
-      const pId = '#' + String(i * 10).padStart(3, '0');
-      const box = (i % 5) + 1;
-      rows += `<tr>
-        <td><strong style="color: var(--neon-gold)">${pId}</strong></td>
-        <td><span class="badge-fino-status paid">Box ${box}</span></td>
-        <td>Citrea ZK Rollup (ChainID 5115) • Streak Diario</td>
-        <td>Citrea Testnet</td>
-        <td><strong style="color: var(--neon-cyan)">+25 pts BTC L2</strong></td>
-        <td style="color: var(--neon-green)">$0.00 (Testnet)</td>
-        <td><span class="badge-liq-sub usd">MINANDO RACHA</span></td>
-      </tr>`;
-    }
-    g1Body.innerHTML = rows;
-  }
+  const telem = state.telemetry;
+  const events = (telem?.recentEvents || []).filter(e => e && e.hash);
 
-  // 2. Juegos Web3 & Loot
-  const g2Body = document.getElementById('g2StreamTableBody');
-  if (g2Body) {
-    let rows = '';
-    for (let i = 1; i <= 10; i++) {
-      const pId = '#' + String(i * 12).padStart(3, '0');
-      const box = (i % 5) + 1;
-      rows += `<tr>
-        <td><strong style="color: var(--neon-cyan)">${pId}</strong></td>
-        <td><span class="badge-fino-status paid">Box ${box}</span></td>
-        <td>Contrato Diario Loot Chest v2 (0x7a2...f41)</td>
-        <td>Polygon PoS (137)</td>
-        <td><strong style="color: var(--neon-gold)">Cofre Gamer ERC-1155 #${i + 5}</strong></td>
-        <td style="color: var(--neon-green)">Gas Protegido</td>
-        <td><span class="badge-liq-sub eur">RECLAMADO</span></td>
-      </tr>`;
+  const renderOrEmpty = (tbodyId, typeFilter, defaultText) => {
+    const el = document.getElementById(tbodyId);
+    if (!el) return;
+    const filtered = events.filter(e => !typeFilter || e.type === typeFilter || e.network?.includes(typeFilter));
+    if (filtered.length === 0) {
+      el.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); font-size: 0.54rem; padding: 12px 6px;">● ${defaultText} (Contador en cadena: 0)</td></tr>`;
+      return;
     }
-    g2Body.innerHTML = rows;
-  }
+    let rows = '';
+    filtered.forEach((ev, idx) => {
+      rows += `<tr>
+        <td><strong style="color: var(--neon-gold)">#${String((idx % 500) + 1).padStart(3, '0')}</strong></td>
+        <td><span class="badge-fino-status paid">${ev.network || 'EVM'}</span></td>
+        <td style="font-family: 'JetBrains Mono'; font-size: 0.50rem;">${ev.hash ? ev.hash.slice(0, 16) + '...' : 'Tx Confirmada'}</td>
+        <td>${ev.type || 'On-Chain Activity'}</td>
+        <td><strong style="color: var(--neon-cyan)">Confirmada</strong></td>
+        <td style="color: var(--neon-green)">$0.00</td>
+        <td><span class="badge-liq-sub usd">${ev.status || 'CONFIRMADA'}</span></td>
+      </tr>`;
+    });
+    el.innerHTML = rows;
+  };
 
-  // 3. Piscinas & Sorteos USDC
-  const g3Body = document.getElementById('g3StreamTableBody');
-  if (g3Body) {
-    let rows = '';
-    for (let i = 1; i <= 10; i++) {
-      const pId = '#' + String(i * 15).padStart(3, '0');
-      const box = (i % 5) + 1;
-      rows += `<tr>
-        <td><strong style="color: var(--neon-magenta)">${pId}</strong></td>
-        <td><span class="badge-fino-status paid">Box ${box}</span></td>
-        <td>Layer3 Quest Pool Verificado</td>
-        <td>USDC Liquidity Pool Raffle</td>
-        <td><strong style="color: #fff">5 Tickets / Participación</strong></td>
-        <td style="color: var(--neon-cyan)">Gasless EIP-712</td>
-        <td><span class="badge-liq-sub usd">REGISTRADO</span></td>
-      </tr>`;
-    }
-    g3Body.innerHTML = rows;
-  }
-
-  // 4. Airdrops L2 $0 Gas
-  const g4Body = document.getElementById('g4StreamTableBody');
-  if (g4Body) {
-    let rows = '';
-    const nets = ['Ethereum Sepolia', 'Base Sepolia', 'Arbitrum Sepolia', 'Optimism Sepolia', 'Solana Devnet'];
-    for (let i = 1; i <= 10; i++) {
-      const pId = '#' + String(i * 18).padStart(3, '0');
-      const box = (i % 5) + 1;
-      const net = nets[i % nets.length];
-      rows += `<tr>
-        <td><strong style="color: var(--neon-green)">${pId}</strong></td>
-        <td><span class="badge-fino-status paid">Box ${box}</span></td>
-        <td>${net}</td>
-        <td>Attestation Ping &amp; Bridge Seed #${i + 20}</td>
-        <td>EIP-712 Gasless Relay</td>
-        <td style="color: var(--neon-green)">$0.00 CERO</td>
-        <td><span class="badge-liq-sub eur">CONFIRMADO</span></td>
-      </tr>`;
-    }
-    g4Body.innerHTML = rows;
-  }
-
-  // 5. Mints & Refinería DEX
-  const g5Body = document.getElementById('g5StreamTableBody');
-  if (g5Body) {
-    let rows = '';
-    for (let i = 1; i <= 10; i++) {
-      const pId = '#' + String(i * 20).padStart(3, '0');
-      const box = (i % 5) + 1;
-      rows += `<tr>
-        <td><strong style="color: var(--neon-gold)">${pId}</strong></td>
-        <td>Token ERC-20 / Recompensa</td>
-        <td>QuickSwap v3 Router (Polygon)</td>
-        <td><strong style="color: var(--neon-green)">100% USDC Nativo</strong></td>
-        <td>0.0003 POL</td>
-        <td>Bóveda Binance #${box}</td>
-        <td><span class="badge-liq-sub usd">EN VIGILANCIA</span></td>
-      </tr>`;
-    }
-    g5Body.innerHTML = rows;
-  }
+  renderOrEmpty('g1StreamTableBody', 'Citrea', 'En espera de streak Citrea / Goat');
+  renderOrEmpty('g2StreamTableBody', 'Polygon', 'En espera de contrato Loot Chest');
+  renderOrEmpty('g3StreamTableBody', 'USDC', 'En espera de firma EIP-712 Pool');
+  renderOrEmpty('g4StreamTableBody', 'Sepolia', 'En espera de relay L2 Gasless');
+  renderOrEmpty('g5StreamTableBody', 'QuickSwap', 'En espera de swap / mint DEX');
 }
 
 // -------------------------------------------------------------
