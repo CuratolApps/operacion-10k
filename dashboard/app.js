@@ -1,5 +1,5 @@
 /**
- * OPERACIÓN 10K — MOTOR DE TELEMETRÍA ORBITAL
+ * OPERACIÓN 12K — SISTEMA ORBITAL // WE CAN DO IT
  * 100% Modo Observación Pasiva • Tablas a Ancho Completo • 5 Bóvedas Binance
  */
 
@@ -13,6 +13,26 @@ const state = {
   registrySearch: '',
   expandedWalletId: null
 };
+
+// -------------------------------------------------------------
+// HELPER PARA NÚMEROS SEGUROS (NUNCA RETORNA NaN)
+// -------------------------------------------------------------
+function safeNum(val, def = 0) {
+  if (val === null || val === undefined) return def;
+  if (typeof val === 'number') return isNaN(val) ? def : val;
+  if (typeof val === 'string') {
+    const parsed = parseFloat(val.replace(/[^0-9.-]/g, ''));
+    return isNaN(parsed) ? def : parsed;
+  }
+  if (typeof val === 'object') {
+    // Si viene como objeto tipo { totalPendingUsdc: 0 }
+    if ('totalPendingUsdc' in val) return safeNum(val.totalPendingUsdc, def);
+    if ('totalUsdc' in val) return safeNum(val.totalUsdc, def);
+    if ('totalHarvested' in val) return safeNum(val.totalHarvested, def);
+    if ('value' in val) return safeNum(val.value, def);
+  }
+  return def;
+}
 
 // -------------------------------------------------------------
 // 1. RELOJ EN VIVO (UTC)
@@ -158,9 +178,22 @@ async function loadOrbitalData() {
   }
 }
 
-function refreshOrbitalData() {
+// BOTÓN "SINCRONIZAR" CON ANIMACIÓN DE GIRO 600MS
+async function refreshOrbitalData() {
+  const iconSidebar = document.getElementById('syncIconSidebar');
+  const iconVaults = document.getElementById('syncIconVaults');
+  
+  if (iconSidebar) iconSidebar.classList.add('spin-anim');
+  if (iconVaults) iconVaults.classList.add('spin-anim');
+
   showToast('Sincronizando telemetría en tiempo real...');
-  loadOrbitalData();
+  await loadOrbitalData();
+
+  setTimeout(() => {
+    if (iconSidebar) iconSidebar.classList.remove('spin-anim');
+    if (iconVaults) iconVaults.classList.remove('spin-anim');
+    showToast('Telemetría sincronizada con éxito');
+  }, 600);
 }
 
 // -------------------------------------------------------------
@@ -174,21 +207,21 @@ function assemble502Wallets() {
 
   const list502 = [];
 
-  // #000: Bóveda VIP #00 (Comandante Supremo)
+  // #000: Bóveda Principal #00
   const vipTelem = telem?.hierarchy?.highCommand?.vip00;
   const vipPub = mapPub.get(0);
   list502.push({
     id: 0,
     formattedId: '#000',
-    name: 'BÓVEDA VIP #00 (COMANDANTE SUPREMO)',
-    rank: '👑 Comandante Supremo (Alto Mando)',
-    cluster: 'Alto Mando VIP',
+    name: 'BÓVEDA PRINCIPAL #00',
+    rank: '👑 Bóveda Principal #00',
+    cluster: 'Reserva Blindada',
     boxId: 0,
     evmAddress: vipPub?.address || vipTelem?.evmAddress || '0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990',
     solanaAddress: vipPub?.solanaAddress || vipTelem?.solanaAddress || '8araHYNYkJAbeDa6NntrnUMdy2VEtU8NaZYkhKuV2gPL',
     derivationPath: "m/44'/60'/0'/0/0",
     assignedVault: 'Blindada (Solo Lectura)',
-    galaxyName: 'Supervisión General 10K',
+    galaxyName: 'Supervisión General 12K',
     dnaRole: 'SUPREME_COMMANDER',
     pol: '0.0000',
     bnb: '0.0000',
@@ -216,11 +249,11 @@ function assemble502Wallets() {
     const bnbBal = s?.gasBalances?.bnb || '0.0000';
     const ethBal = s?.gasBalances?.sepoliaEth || (isCaptain ? '0.301' : '0.008');
 
-    const mOps = s?.departmentStats?.mineriaOps || (i % 7);
-    const jLoot = s?.departmentStats?.juegosLoot || (i % 4);
-    const pQuests = s?.departmentStats?.piscinasQuests || (i % 6);
-    const aSown = s?.departmentStats?.airdropsSown || (i % 8);
-    const totalTxs = s?.txCount || (mOps + jLoot + pQuests + aSown + 5);
+    const mOps = safeNum(s?.departmentStats?.mineriaOps, i % 7);
+    const jLoot = safeNum(s?.departmentStats?.juegosLoot, i % 4);
+    const pQuests = safeNum(s?.departmentStats?.piscinasQuests, i % 6);
+    const aSown = safeNum(s?.departmentStats?.airdropsSown, i % 8);
+    const totalTxs = safeNum(s?.txCount, mOps + jLoot + pQuests + aSown + 5);
 
     list502.push({
       id: i,
@@ -235,12 +268,12 @@ function assemble502Wallets() {
       assignedVault: s?.binanceVault || `Bóveda Binance #${boxNum}`,
       galaxyName: s?.currentDepartment?.name || `Galaxia 0${(i % 5) + 1}`,
       dnaRole: s?.dnaRole || 'DEFI_YIELD_HUNTER',
-      pol: polBal,
-      bnb: bnbBal,
-      sepoliaEth: ethBal,
+      pol: String(polBal),
+      bnb: String(bnbBal),
+      sepoliaEth: String(ethBal),
       gasStr: `${polBal} POL | ${bnbBal} BNB | ${ethBal} ETH`,
       workSummary: `${totalTxs} Txs • ${mOps} Min • ${jLoot} Jgs • ${pQuests} Psc • ${aSown} Drp`,
-      capturedUsdc: s?.capturedUsdc || 0,
+      capturedUsdc: safeNum(s?.capturedUsdc, 0),
       isMothership: false,
       isCaptain: isCaptain
     });
@@ -276,12 +309,14 @@ function assemble502Wallets() {
 }
 
 // -------------------------------------------------------------
-// 6. RENDERIZADO DEL RADAR Y METAS (FILA 1)
+// 6. RENDERIZADO DEL RADAR Y METAS (FILA 1 — ZERO NaN)
 // -------------------------------------------------------------
 function renderTopRadarBanner() {
   const telem = state.telemetry;
-  const totalBinance = Number(telem?.totalHarvestedToBinanceUsdc || 0);
-  const pending = Number(telem?.pendingHarvestUsdc || 0);
+  
+  // Extracción robusta anti-NaN
+  const totalBinance = safeNum(telem?.totalHarvestedToBinanceUsdc, 0);
+  const pending = safeNum(telem?.pendingHarvestUsdc, 0);
   const consolidated = totalBinance + pending;
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
@@ -307,8 +342,11 @@ function renderStarVaults() {
   vaults.forEach((v, idx) => {
     const recEl = document.getElementById(`vaultRec${idx + 1}`);
     const incEl = document.getElementById(`vaultInc${idx + 1}`);
-    if (recEl) recEl.textContent = `$${Number(v.receivedUsdc || 0).toFixed(2)} USDC`;
-    if (incEl) incEl.textContent = `+$${Number(v.pendingUsdc || 0).toFixed(2)} USDC`;
+    const recVal = safeNum(v.receivedUsdc, 0);
+    const incVal = safeNum(v.pendingUsdc, 0);
+
+    if (recEl) recEl.textContent = `$${recVal.toFixed(2)} USDC`;
+    if (incEl) incEl.textContent = `+$${incVal.toFixed(2)} USDC`;
   });
 }
 
@@ -468,7 +506,7 @@ function renderSatelliteRegistry() {
       <td><span class="badge-fino-status paid" style="font-size: 0.46rem;">${w.galaxyName}</span></td>
       <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: #fff;">${w.gasStr}</td>
       <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${w.workSummary}</td>
-      <td><strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.64rem;">$${Number(w.capturedUsdc || 0).toFixed(2)} USDC</strong></td>
+      <td><strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.64rem;">$${safeNum(w.capturedUsdc, 0).toFixed(2)} USDC</strong></td>
       <td style="text-align: center;">
         <button class="btn-mini-copy" onclick="event.stopPropagation(); toggleWalletDetail(${w.id})" title="Desplegar Solana y detalles">
           <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" style="width: 11px; height: 11px;"></i>

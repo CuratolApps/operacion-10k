@@ -3,13 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OPERACIÓN 10K // CENTRO DE TELEMETRÍA ORBITAL (502 BILLETERAS)</title>
+  <title>OPERACIÓN 12K // SISTEMA ORBITAL • WE CAN DO IT</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Forzar ocultamiento estricto de scrollbars */
+    * {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      width: 0px !important;
+      height: 0px !important;
+      display: none !important;
+      background: transparent !important;
+    }
+  </style>
 </head>
 <body class="notranslate">
   <div class="ambient-orb orb-left"></div>
@@ -19,10 +32,10 @@
   <header class="hq-header-bar">
     <div class="header-module-info">
       <div class="header-brand-group">
-        <span class="brand-title-infinity">OPERACIÓN 10K</span>
+        <span class="brand-title-infinity">OPERACIÓN 12K</span>
         <span class="brand-title-version">NEXUS</span>
         <span class="header-divider">//</span>
-        <span class="header-node-name">CENTRO DE TELEMETRÍA ORBITAL</span>
+        <span class="header-node-name">SISTEMA ORBITAL // WE CAN DO IT</span>
       </div>
       <span class="header-subtitle">&lt; MONITOR EN VIVO DE LAS 502 CARTERAS • 6 GALAXIAS DE EXTRACCIÓN • META $12,000 USDC &gt;</span>
     </div>
@@ -40,86 +53,81 @@
 
       <button class="btn-return-hq" onclick="switchFinopsView('satellite-registry')">
         <i data-lucide="satellite" style="width: 12px; height: 12px;"></i>
-        <span>🛰️ Censo 502 Carteras</span>
+        <span>Censo 502 Carteras</span>
       </button>
     </div>
   </header>
 
   <!-- GRID PRINCIPAL (3 COLUMNAS ZERO-SCROLL) -->
   <div class="workspace-grid-layout">
-    <!-- COLUMNA 1: MENÚ IZQUIERDO (220px) -->
+    <!-- COLUMNA 1: MENÚ IZQUIERDO (220px) — 7 TARJETAS TÁCTICAS -->
     <aside class="glass-panel-3d sidebar-nav-panel">
-      <div>
+      <div class="sidebar-top-section">
         <div class="sidebar-brand">
           <div>
-            <span class="brand-name-side">CURATOLAPPS</span>
-            <span class="brand-version-side">ORBITAL</span>
-            <span class="brand-eco">MOTHERSHIP // CENTRO DE MANDO</span>
+            <span class="brand-name-side">OPERACIÓN 12K</span>
+            <span class="brand-version-side">NEXUS</span>
+            <span class="brand-eco">SISTEMA ORBITAL // WE CAN DO IT</span>
           </div>
         </div>
 
-        <div class="sidebar-menu-wrapper">
-          <div class="node-context-box" style="margin-bottom: 4px;">
-            <strong>MÓDULO: SATURACIÓN X500</strong>
-            <span style="color: var(--neon-green)">● 502 Billeteras Indexadas &amp; Blindadas</span>
-          </div>
-
-          <span class="sidebar-menu-title">ESTACIONES DE TELEMETRÍA</span>
-          <ul class="finops-nav-list" id="finopsSubmenu">
-            <li>
-              <button class="finops-nav-btn active" data-view="orbital-dashboard">
-                <i data-lucide="layout-grid"></i>
-                <span>📊 Tablero Principal</span>
-              </button>
-            </li>
-            <li>
-              <button class="finops-nav-btn" data-view="galaxy-mining">
-                <i data-lucide="cpu"></i>
-                <span>⛏️ 1. Minería &amp; Bitcoin L2</span>
-              </button>
-            </li>
-            <li>
-              <button class="finops-nav-btn" data-view="galaxy-gaming">
-                <i data-lucide="gamepad-2"></i>
-                <span>🎮 2. Juegos &amp; Metaverso</span>
-              </button>
-            </li>
-            <li>
-              <button class="finops-nav-btn" data-view="galaxy-pools">
-                <i data-lucide="coins"></i>
-                <span>🦊 3. Piscinas &amp; Sorteos USDC</span>
-              </button>
-            </li>
-            <li>
-              <button class="finops-nav-btn" data-view="galaxy-airdrops">
-                <i data-lucide="send"></i>
-                <span>🪂 4. Airdrops L2 ($0 Gas)</span>
-              </button>
-            </li>
-            <li>
-              <button class="finops-nav-btn" data-view="galaxy-refinery">
-                <i data-lucide="repeat"></i>
-                <span>🌾 5. Mints &amp; Refinería USDC</span>
-              </button>
-            </li>
-            <li>
-              <button class="finops-nav-btn" data-view="satellite-registry">
-                <i data-lucide="satellite"></i>
-                <span>🛰️ 6. Las 502 Carteras (Censo)</span>
-              </button>
-            </li>
-          </ul>
+        <div class="node-context-box" style="margin-top: 4px;">
+          <strong>MÓDULO: SATURACIÓN X500</strong>
+          <span style="color: var(--neon-green)">● 502 Billeteras Indexadas &amp; Blindadas</span>
         </div>
       </div>
 
-      <div>
-        <div class="node-context-box" style="margin-bottom: 6px; font-size: 0.52rem;">
-          <strong style="color: var(--neon-gold)">ALTO MANDO BLINDADO</strong>
-          <span>Líder #00: <strong style="color: #fff">0x87e3...3990</strong> (Solo Lectura)</span>
-          <span>Nodriza #501: <strong style="color: var(--neon-cyan)">40.07 POL</strong> | 0.0018 BNB</span>
-        </div>
-        <button class="btn-sidebar-logout" onclick="refreshOrbitalData()">
-          <i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i>
+      <!-- 7 BOTONES COMO TARJETAS TÁCTICAS LLENANDO EL ALTO -->
+      <div class="sidebar-menu-wrapper">
+        <ul class="finops-nav-list" id="finopsSubmenu">
+          <li>
+            <button class="finops-nav-btn active" data-view="orbital-dashboard">
+              <i data-lucide="layout-grid"></i>
+              <span>Tablero Principal</span>
+            </button>
+          </li>
+          <li>
+            <button class="finops-nav-btn" data-view="galaxy-mining">
+              <i data-lucide="cpu"></i>
+              <span>1. Minería &amp; Bitcoin L2</span>
+            </button>
+          </li>
+          <li>
+            <button class="finops-nav-btn" data-view="galaxy-gaming">
+              <i data-lucide="gamepad-2"></i>
+              <span>2. Juegos &amp; Metaverso</span>
+            </button>
+          </li>
+          <li>
+            <button class="finops-nav-btn" data-view="galaxy-pools">
+              <i data-lucide="coins"></i>
+              <span>3. Piscinas &amp; Sorteos USDC</span>
+            </button>
+          </li>
+          <li>
+            <button class="finops-nav-btn" data-view="galaxy-airdrops">
+              <i data-lucide="send"></i>
+              <span>4. Airdrops L2 ($0 Gas)</span>
+            </button>
+          </li>
+          <li>
+            <button class="finops-nav-btn" data-view="galaxy-refinery">
+              <i data-lucide="repeat"></i>
+              <span>5. Mints &amp; Refinería USDC</span>
+            </button>
+          </li>
+          <li>
+            <button class="finops-nav-btn" data-view="satellite-registry">
+              <i data-lucide="satellite"></i>
+              <span>6. Las 502 Carteras (Censo)</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-bottom-section">
+        <button class="btn-sidebar-logout" id="btnSyncSidebar" onclick="refreshOrbitalData()">
+          <i data-lucide="refresh-cw" id="syncIconSidebar" style="width: 12px; height: 12px;"></i>
           <span>Sincronizar Telemetría</span>
         </button>
       </div>
@@ -157,7 +165,7 @@
             </div>
           </div>
 
-          <!-- FILA 2 — 4 TARJETAS DE SALUD & GAS (SPARKLINE SVG) -->
+          <!-- FILA 2 — 4 TARJETAS DE SALUD & GAS (SIN SPARKLINES, SUBTÍTULOS EN 1 LÍNEA) -->
           <div class="market-trend-grid-4x1">
             <!-- TARJETA 1: NODRIZA #501 -->
             <div class="market-trend-card btc" id="card-mothership" onclick="inspectDossierById(501)" style="cursor: pointer;" title="Abrir expediente de la Nodriza #501">
@@ -165,14 +173,9 @@
                 <span class="mkt-trend-name">NODRIZA #501 (TESORERÍA)</span>
                 <span class="mkt-trend-badge pos">GAS HUB</span>
               </div>
-              <div class="mkt-trend-body">
-                <div>
-                  <span class="mkt-trend-price" style="color: var(--neon-gold)">40.07 POL</span>
-                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0xD4D1...3743 • 0.0018 BNB (+116 POL Kraken)</div>
-                </div>
-                <svg class="mkt-sparkline-svg" viewBox="0 0 60 20">
-                  <path d="M 0,15 Q 15,4 30,10 T 60,3" fill="none" stroke="var(--neon-gold)" stroke-width="1.8" stroke-linecap="round" />
-                </svg>
+              <div class="mkt-trend-body" style="display: block;">
+                <span class="mkt-trend-price" style="color: var(--neon-gold); display: block;">40.07 POL</span>
+                <div class="mkt-sub-single-line">0xD4D1...3743 • 0.0018 BNB • +116.38 POL Kraken</div>
               </div>
             </div>
 
@@ -182,14 +185,9 @@
                 <span class="mkt-trend-name">GAS FLOTA MAINNET</span>
                 <span class="mkt-trend-badge pos">55/500 ARMADOS</span>
               </div>
-              <div class="mkt-trend-body">
-                <div>
-                  <span class="mkt-trend-price" style="color: var(--neon-cyan)">94.30 POL</span>
-                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0.0347 BNB Mainnet • Protección 168h</div>
-                </div>
-                <svg class="mkt-sparkline-svg" viewBox="0 0 60 20">
-                  <path d="M 0,16 Q 20,6 40,8 T 60,2" fill="none" stroke="var(--neon-cyan)" stroke-width="1.8" stroke-linecap="round" />
-                </svg>
+              <div class="mkt-trend-body" style="display: block;">
+                <span class="mkt-trend-price" style="color: var(--neon-cyan); display: block;">94.30 POL</span>
+                <div class="mkt-sub-single-line">0.0347 BNB Mainnet • Protección 168h</div>
               </div>
             </div>
 
@@ -199,159 +197,134 @@
                 <span class="mkt-trend-name">GAS FLOTA TESTNET</span>
                 <span class="mkt-trend-badge pos">100% ARMADO</span>
               </div>
-              <div class="mkt-trend-body">
-                <div>
-                  <span class="mkt-trend-price" style="color: var(--neon-green)">5.950 ETH</span>
-                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Sepolia 4.26 | Base 0.93 | Arb 0.71</div>
-                </div>
-                <svg class="mkt-sparkline-svg" viewBox="0 0 60 20">
-                  <path d="M 0,18 Q 15,10 35,4 T 60,1" fill="none" stroke="var(--neon-green)" stroke-width="1.8" stroke-linecap="round" />
-                </svg>
+              <div class="mkt-trend-body" style="display: block;">
+                <span class="mkt-trend-price" style="color: var(--neon-green); display: block;">5.950 ETH</span>
+                <div class="mkt-sub-single-line">Sepolia 4.26 | Base 0.93 | Arb 0.71</div>
               </div>
             </div>
 
-            <!-- TARJETA 4: BÓVEDA VIP #00 -->
-            <div class="market-trend-card googl" id="card-prime-core" onclick="inspectDossierById(0)" style="cursor: pointer;" title="Abrir expediente de Bóveda VIP #00">
+            <!-- TARJETA 4: BÓVEDA PRINCIPAL #00 -->
+            <div class="market-trend-card googl" id="card-prime-core" onclick="inspectDossierById(0)" style="cursor: pointer;" title="Abrir expediente de Bóveda Principal #00">
               <div class="mkt-trend-top">
-                <span class="mkt-trend-name">BÓVEDA VIP #00 (ALTO MANDO)</span>
-                <span class="mkt-trend-badge pos">100% BLINDADA</span>
+                <span class="mkt-trend-name">BÓVEDA PRINCIPAL #00</span>
+                <span class="mkt-trend-badge pos" style="color: var(--neon-magenta); border-color: rgba(255, 0, 230, 0.4); background: rgba(255, 0, 230, 0.12);">RESERVA BLINDADA</span>
               </div>
-              <div class="mkt-trend-body">
-                <div>
-                  <span class="mkt-trend-price" style="color: var(--neon-magenta)">SOLO LECTURA</span>
-                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0x87e3...3990 • Comandante Supremo</div>
-                </div>
-                <svg class="mkt-sparkline-svg" viewBox="0 0 60 20">
-                  <path d="M 0,12 Q 25,18 45,6 T 60,3" fill="none" stroke="var(--neon-magenta)" stroke-width="1.8" stroke-linecap="round" />
-                </svg>
+              <div class="mkt-trend-body" style="display: block;">
+                <span class="mkt-trend-price" style="color: var(--neon-magenta); display: block;">100% BLINDADA</span>
+                <div class="mkt-sub-single-line">0x87e3...3990 • Solo Lectura Blindada</div>
               </div>
             </div>
           </div>
 
-          <!-- FILA 3 — LAS 5 FLOTAS / BOXES 1 AL 5 (AL HACER CLIC ABRE SUS 100 CARTERAS) -->
+          <!-- FILA 3 — LAS 5 FLOTAS / BOXES 1 AL 5 (ENCABEZADOS LIMPIOS EN 1 LÍNEA) -->
           <div class="credit-card-channels-grid">
             <!-- BOX 1 -->
             <div class="cyber-credit-card play" onclick="openConstellationProbes(1)" title="Clic para ver las 100 carteras del Box 1">
-              <div class="card-logo-row">
-                <div class="store-logo-wrap">
+              <div class="box-header-row">
+                <div class="box-header-title">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-cyan)"></i>
-                  <span class="store-brand-title">BOX 1 (#001–#100)</span>
+                  <span>BOX 1</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-cyan); border-color: rgba(33, 199, 205, 0.4);">&lt; 100 BOTS &gt;</span>
+                <span class="box-header-range" style="color: var(--neon-cyan);">#001 - #100</span>
               </div>
-              <div class="card-main-balance-col">
-                <span class="card-balance-tag">Gas Capitán #001</span>
-                <div class="card-balance-val" style="color: var(--neon-cyan); font-size: 0.95rem;">19.82 POL</div>
+              <div class="box-squadron-row">
+                <span style="color: var(--text-muted)">Escuadrón:</span> Minería &amp; BTC L2
               </div>
-              <div class="card-footer-metrics">
-                <div class="card-sub-metric">
-                  <span class="card-sub-tag">Bóveda Destino</span>
-                  <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #1</span>
-                </div>
-                <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Ver Carteras</span>
-                  <span class="card-sub-num" style="color: var(--neon-green)">100 Activas →</span>
-                </div>
+              <div class="box-gas-row">
+                <span style="font-size: 0.50rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Gas Capitán:</span>
+                <span style="font-size: 0.86rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--neon-cyan);">19.82 POL</span>
+              </div>
+              <div class="box-footer-row">
+                <span style="font-size: 0.52rem; color: #fff; font-family: 'JetBrains Mono', monospace;">Bóveda: Binance #1</span>
+                <span style="font-size: 0.52rem; color: var(--neon-green); font-weight: 800; font-family: 'JetBrains Mono', monospace;">100 Activas →</span>
               </div>
             </div>
 
             <!-- BOX 2 -->
             <div class="cyber-credit-card amazon" onclick="openConstellationProbes(2)" title="Clic para ver las 100 carteras del Box 2">
-              <div class="card-logo-row">
-                <div class="store-logo-wrap">
+              <div class="box-header-row">
+                <div class="box-header-title">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-gold)"></i>
-                  <span class="store-brand-title">BOX 2 (#101–#200)</span>
+                  <span>BOX 2</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-gold); border-color: rgba(255, 183, 3, 0.4);">&lt; 100 BOTS &gt;</span>
+                <span class="box-header-range" style="color: var(--neon-gold);">#101 - #200</span>
               </div>
-              <div class="card-main-balance-col">
-                <span class="card-balance-tag">Gas Capitán #101</span>
-                <div class="card-balance-val" style="color: var(--neon-gold); font-size: 0.95rem;">19.88 POL</div>
+              <div class="box-squadron-row">
+                <span style="color: var(--text-muted)">Escuadrón:</span> Juegos &amp; Metaverso
               </div>
-              <div class="card-footer-metrics">
-                <div class="card-sub-metric">
-                  <span class="card-sub-tag">Bóveda Destino</span>
-                  <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #2</span>
-                </div>
-                <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Ver Carteras</span>
-                  <span class="card-sub-num" style="color: var(--neon-gold)">100 Activas →</span>
-                </div>
+              <div class="box-gas-row">
+                <span style="font-size: 0.50rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Gas Capitán:</span>
+                <span style="font-size: 0.86rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--neon-gold);">19.88 POL</span>
+              </div>
+              <div class="box-footer-row">
+                <span style="font-size: 0.52rem; color: #fff; font-family: 'JetBrains Mono', monospace;">Bóveda: Binance #2</span>
+                <span style="font-size: 0.52rem; color: var(--neon-gold); font-weight: 800; font-family: 'JetBrains Mono', monospace;">100 Activas →</span>
               </div>
             </div>
 
             <!-- BOX 3 -->
             <div class="cyber-credit-card web" onclick="openConstellationProbes(3)" title="Clic para ver las 100 carteras del Box 3">
-              <div class="card-logo-row">
-                <div class="store-logo-wrap">
+              <div class="box-header-row">
+                <div class="box-header-title">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-magenta)"></i>
-                  <span class="store-brand-title">BOX 3 (#201–#300)</span>
+                  <span>BOX 3</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-magenta); border-color: rgba(255, 0, 230, 0.4);">&lt; 100 BOTS &gt;</span>
+                <span class="box-header-range" style="color: var(--neon-magenta);">#201 - #300</span>
               </div>
-              <div class="card-main-balance-col">
-                <span class="card-balance-tag">Gas Capitán #201</span>
-                <div class="card-balance-val" style="color: var(--neon-magenta); font-size: 0.95rem;">9.93 POL</div>
+              <div class="box-squadron-row">
+                <span style="color: var(--text-muted)">Escuadrón:</span> Piscinas &amp; Sorteos USDC
               </div>
-              <div class="card-footer-metrics">
-                <div class="card-sub-metric">
-                  <span class="card-sub-tag">Bóveda Destino</span>
-                  <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #3</span>
-                </div>
-                <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Ver Carteras</span>
-                  <span class="card-sub-num" style="color: var(--neon-magenta)">100 Activas →</span>
-                </div>
+              <div class="box-gas-row">
+                <span style="font-size: 0.50rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Gas Capitán:</span>
+                <span style="font-size: 0.86rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--neon-magenta);">9.93 POL</span>
+              </div>
+              <div class="box-footer-row">
+                <span style="font-size: 0.52rem; color: #fff; font-family: 'JetBrains Mono', monospace;">Bóveda: Binance #3</span>
+                <span style="font-size: 0.52rem; color: var(--neon-magenta); font-weight: 800; font-family: 'JetBrains Mono', monospace;">100 Activas →</span>
               </div>
             </div>
 
             <!-- BOX 4 -->
             <div class="cyber-credit-card play" onclick="openConstellationProbes(4)" title="Clic para ver las 100 carteras del Box 4">
-              <div class="card-logo-row">
-                <div class="store-logo-wrap">
+              <div class="box-header-row">
+                <div class="box-header-title">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-green)"></i>
-                  <span class="store-brand-title">BOX 4 (#301–#400)</span>
+                  <span>BOX 4</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-green); border-color: rgba(57, 255, 20, 0.4);">&lt; 100 BOTS &gt;</span>
+                <span class="box-header-range" style="color: var(--neon-green);">#301 - #400</span>
               </div>
-              <div class="card-main-balance-col">
-                <span class="card-balance-tag">Gas Capitán #301</span>
-                <div class="card-balance-val" style="color: var(--neon-green); font-size: 0.95rem;">9.95 POL</div>
+              <div class="box-squadron-row">
+                <span style="color: var(--text-muted)">Escuadrón:</span> Airdrops L2 ($0 Gas)
               </div>
-              <div class="card-footer-metrics">
-                <div class="card-sub-metric">
-                  <span class="card-sub-tag">Bóveda Destino</span>
-                  <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #4</span>
-                </div>
-                <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Ver Carteras</span>
-                  <span class="card-sub-num" style="color: var(--neon-green)">100 Activas →</span>
-                </div>
+              <div class="box-gas-row">
+                <span style="font-size: 0.50rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Gas Capitán:</span>
+                <span style="font-size: 0.86rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--neon-green);">9.95 POL</span>
+              </div>
+              <div class="box-footer-row">
+                <span style="font-size: 0.52rem; color: #fff; font-family: 'JetBrains Mono', monospace;">Bóveda: Binance #4</span>
+                <span style="font-size: 0.52rem; color: var(--neon-green); font-weight: 800; font-family: 'JetBrains Mono', monospace;">100 Activas →</span>
               </div>
             </div>
 
             <!-- BOX 5 -->
             <div class="cyber-credit-card amazon" onclick="openConstellationProbes(5)" title="Clic para ver las 100 carteras del Box 5">
-              <div class="card-logo-row">
-                <div class="store-logo-wrap">
+              <div class="box-header-row">
+                <div class="box-header-title">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-purple)"></i>
-                  <span class="store-brand-title">BOX 5 (#401–#500)</span>
+                  <span>BOX 5</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-purple); border-color: rgba(176, 38, 255, 0.4);">&lt; 100 BOTS &gt;</span>
+                <span class="box-header-range" style="color: var(--neon-purple);">#401 - #500</span>
               </div>
-              <div class="card-main-balance-col">
-                <span class="card-balance-tag">Gas Capitán #401</span>
-                <div class="card-balance-val" style="color: var(--neon-purple); font-size: 0.95rem;">9.94 POL</div>
+              <div class="box-squadron-row">
+                <span style="color: var(--text-muted)">Escuadrón:</span> Mints &amp; Refinería USDC
               </div>
-              <div class="card-footer-metrics">
-                <div class="card-sub-metric">
-                  <span class="card-sub-tag">Bóveda Destino</span>
-                  <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #5</span>
-                </div>
-                <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Ver Carteras</span>
-                  <span class="card-sub-num" style="color: var(--neon-purple)">100 Activas →</span>
-                </div>
+              <div class="box-gas-row">
+                <span style="font-size: 0.50rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Gas Capitán:</span>
+                <span style="font-size: 0.86rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--neon-purple);">9.94 POL</span>
+              </div>
+              <div class="box-footer-row">
+                <span style="font-size: 0.52rem; color: #fff; font-family: 'JetBrains Mono', monospace;">Bóveda: Binance #5</span>
+                <span style="font-size: 0.52rem; color: var(--neon-purple); font-weight: 800; font-family: 'JetBrains Mono', monospace;">100 Activas →</span>
               </div>
             </div>
           </div>
@@ -770,10 +743,10 @@
         </div>
       </section>
 
-      <!-- FOOTER -->
+      <!-- FOOTER DEL SISTEMA -->
       <footer class="hub-footer">
-        <span>OPERACIÓN 10K // MONITOR DE SATURACIÓN X500 (502 BILLETERAS ACTIVAS)</span>
-        <span style="color: var(--neon-gold)">CURATOLAPPS • WE CAN DO IT // ARQUITECTURA ZERO-SCROLL DE ALTA PRECISIÓN</span>
+        <span>OPERACIÓN 12K // MONITOR DE SATURACIÓN X500 (502 BILLETERAS ACTIVAS)</span>
+        <span style="color: var(--neon-gold)">SISTEMA ORBITAL // WE CAN DO IT • ARQUITECTURA ZERO-SCROLL</span>
       </footer>
     </main>
 
@@ -801,7 +774,7 @@
         </div>
 
         <button class="btn-chat-action" type="button" title="Sincronizar Bóvedas" onclick="refreshOrbitalData()">
-          <i data-lucide="refresh-cw" style="width: 11px; height: 11px;"></i>
+          <i data-lucide="refresh-cw" id="syncIconVaults" style="width: 11px; height: 11px;"></i>
           <span>Sync</span>
         </button>
       </div>

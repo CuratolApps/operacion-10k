@@ -59,6 +59,46 @@
     "106": {
       "lastTxAt": "2026-10-21T17:42:37.143Z",
       "routine": "bot-miner"
+    },
+    "107": {
+      "lastTxAt": "2026-10-21T18:42:23.818Z",
+      "routine": "task-runner"
+    },
+    "108": {
+      "lastTxAt": "2026-10-21T18:42:23.818Z",
+      "routine": "task-runner"
+    },
+    "109": {
+      "lastTxAt": "2026-10-21T18:42:23.818Z",
+      "routine": "task-runner"
+    },
+    "110": {
+      "lastTxAt": "2026-10-21T18:42:23.818Z",
+      "routine": "task-runner"
+    },
+    "111": {
+      "lastTxAt": "2026-10-21T18:42:23.818Z",
+      "routine": "task-runner"
+    },
+    "202": {
+      "lastTxAt": "2026-10-21T18:45:03.511Z",
+      "routine": "bot-miner"
+    },
+    "203": {
+      "lastTxAt": "2026-10-21T18:45:03.511Z",
+      "routine": "bot-miner"
+    },
+    "204": {
+      "lastTxAt": "2026-10-21T18:45:03.511Z",
+      "routine": "bot-miner"
+    },
+    "205": {
+      "lastTxAt": "2026-10-21T18:45:03.511Z",
+      "routine": "bot-miner"
+    },
+    "206": {
+      "lastTxAt": "2026-10-21T18:45:03.511Z",
+      "routine": "bot-miner"
     }
   },
   "polygonMainnet": {
@@ -142,6 +182,34 @@
       "lastTxAt": "2026-10-21T17:46:55.301Z",
       "routine": "bounty-radar"
     },
+    "202": {
+      "lastTxAt": "2026-10-21T18:42:41.098Z",
+      "routine": "task-runner"
+    },
+    "203": {
+      "lastTxAt": "2026-10-21T18:42:41.098Z",
+      "routine": "task-runner"
+    },
+    "204": {
+      "lastTxAt": "2026-10-21T18:42:41.098Z",
+      "routine": "task-runner"
+    },
+    "205": {
+      "lastTxAt": "2026-10-21T18:42:41.098Z",
+      "routine": "task-runner"
+    },
+    "206": {
+      "lastTxAt": "2026-10-21T18:42:41.098Z",
+      "routine": "task-runner"
+    },
+    "207": {
+      "lastTxAt": "2026-10-21T18:45:15.513Z",
+      "routine": "bot-miner"
+    },
+    "208": {
+      "lastTxAt": "2026-10-21T18:45:15.513Z",
+      "routine": "bot-miner"
+    },
     "209": {
       "lastTxAt": "2026-10-21T12:40:00.000Z",
       "routine": "task-runner"
@@ -213,6 +281,18 @@
     "406": {
       "lastTxAt": "2026-10-21T12:40:00.000Z",
       "routine": "task-runner"
+    },
+    "407": {
+      "lastTxAt": "2026-10-21T18:45:15.513Z",
+      "routine": "bot-miner"
+    },
+    "408": {
+      "lastTxAt": "2026-10-21T18:45:15.513Z",
+      "routine": "bot-miner"
+    },
+    "409": {
+      "lastTxAt": "2026-10-21T18:45:15.513Z",
+      "routine": "bot-miner"
     }
   }
 }
