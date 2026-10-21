@@ -134,7 +134,7 @@ async function rebrandProfile(client) {
     // 1. Datos institucionales del perfil
     const profilePayload = {
       name: "YoZapata ⚡ On-Chain Alpha & Web3",
-      description: "🛰️ On-Chain Intelligence & Autonomous Web3 Infrastructure. ⚡ Tracking DeFi, L2 Airdrops, Free Mints & Liquidity across Base, Arbitrum, Polygon & BNB. 🛠️ 10K Lab",
+      description: "🛰️ On-Chain Intelligence & Autonomous Systems.\n⚡ Rastreando Fronteras Web3, L2s, Liquidez & DeFi.\n🛠️ Building the Future of Decentralized Infrastructure.",
       location: "Omnichain • Base / Polygon / BNB",
       url: "https://github.com/CuratolApps"
     };
@@ -376,7 +376,7 @@ async function publishOnChainAlpha(client, currentUser, options = {}) {
       `👑 <b>CIRUGÍA DE PERFIL COMPLETADA EN X:</b>`,
       `   • <b>Cuenta:</b> @${currentUser.username} (ID: ${currentUser.id})`,
       `   • <b>Nombre:</b> YoZapata ⚡ On-Chain Alpha & Web3 ✅`,
-      `   • <b>Bio:</b> 🛰️ On-Chain Intelligence & Autonomous Web3... ✅`,
+      `   • <b>Bio:</b> 🛰️ On-Chain Intelligence & Autonomous Systems... ✅`,
       `   • <b>Ubicación:</b> Omnichain • Base / Polygon / BNB ✅`,
       `   • <b>URL:</b> https://github.com/CuratolApps ✅`,
       `   • <b>Avatar Oficial 10K:</b> Actualizado en vivo (400x400) ✅`,
