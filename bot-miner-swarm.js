@@ -627,7 +627,7 @@ async function runBotMinerSwarm() {
 if (require.main === module) {
   runBotMinerSwarm().catch((err) => {
     console.error("❌ Error en bot-miner-swarm:", err);
-    process.exit(0); // Exit 0 para no frenar pipeline
+    process.exit(1); // El workflow registra el fallo (::error::) y continúa la ronda; no se oculta con exit 0.
   });
 }
 

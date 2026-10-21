@@ -249,6 +249,15 @@ async function generateUnifiedTelemetry() {
     lastUpdated: new Date().toISOString()
   };
 
+  // 11. GameFi + Competencias USDC (escrito por gamefi-and-competitions.js): se PRESERVA y se
+  //     refresca el cooldown 24h por satélite directamente del archivo de estado.
+  const shieldMod = require("../mainnet-gas-shield");
+  const gamefiAndCompetitions = {
+    ...(existingTelemetry.gamefiAndCompetitions || {}),
+    mainnetCooldown: shieldMod.getCooldownSummary(),
+    protectedHeaders: { indexes: shieldMod.HEADER_INDEXES, vault: shieldMod.VAULT_INDEX, policy: "EXCLUIDAS_DEL_GASTO_REPETITIVO_EN_MAINNET" }
+  };
+
   const payload = {
     schemaVersion: "2.0.0",
     projectName: "Operación 10K",
@@ -427,7 +436,8 @@ async function generateUnifiedTelemetry() {
     networksStatus,
     recentEvents,
     recentTelegramAlerts,
-    lomo6SocialX
+    lomo6SocialX,
+    gamefiAndCompetitions
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(payload, null, 2), "utf8");

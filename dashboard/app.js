@@ -71,6 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function applyTelemetryData(data) {
   if (!data) return;
 
+  renderGamefiAndCompetitions(data);
+
   // 1. Embudo Cosechador & Modo Honesto ($0.00 inicial)
   const harvest = data.pendingHarvestUsdc || {};
   const pendingUsdc = Number(harvest.totalPendingUsdc || 0);
@@ -398,6 +400,71 @@ function logToAuraAndTelegram(auraHtml, tgBadge, tgText) {
       </div>
     `;
     tgContainer.insertBefore(item, tgContainer.firstChild);
+  }
+}
+
+// ==========================================================================
+// JUEGOS & COMPETENCIAS USDC + COOLDOWN MAINNET 24h + SALDOS ON-CHAIN (datos reales)
+// ==========================================================================
+function renderGamefiAndCompetitions(data) {
+  const set = (id, txt, title) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = txt;
+    if (title !== undefined) el.title = title;
+  };
+  const g = data.gamefiAndCompetitions || {};
+
+  // Competencias reales (estado por fuente; una fuente caída no aporta campañas)
+  const comp = g.competitions;
+  if (comp) {
+    const okSrc = (comp.sources || []).filter((s) => s.ok).length;
+    const detail = (comp.sources || []).map((s) => `${s.id}: ${s.ok ? s.matched + " activas" : s.error}`).join(" | ");
+    set("gamefiCompStat", `${comp.activeCount} activas · ${okSrc}/${(comp.sources || []).length} fuentes`, detail);
+  } else {
+    set("gamefiCompStat", "Sin escaneo aún");
+  }
+
+  // Cooldown Mainnet 24h por satélite
+  const cd = g.mainnetCooldown;
+  if (cd && cd.networks) {
+    const gfNets = (g.gamefi && g.gamefi.networks) || {};
+    const part = (key, label) => {
+      const n = cd.networks[key] || {};
+      const funded = gfNets[key] && gfNets[key].fundedCount != null ? gfNets[key].fundedCount : "?";
+      return `${label} ${n.inCooldown ?? 0}/${funded}`;
+    };
+    const next = Object.values(cd.networks).map((n) => n.nextReadyAt).filter(Boolean).sort()[0];
+    set("gamefiCooldownStat", `${part("bscMainnet", "BSC")} · ${part("polygonMainnet", "POL")}`,
+      `Máx. ${cd.maxSatsPerRound} satélites por red y ronda · próximo libre: ${next || "ahora"}`);
+  }
+
+  // 5 Cabeceras (saldos exactos on-chain)
+  const headers = (data.headersSurveillance || []).filter((h) => h.box > 0);
+  if (headers.length) {
+    const bnb = headers.map((h) => Number(h.bscBal));
+    const pol = headers.map((h) => Number(h.polBal));
+    const range = (arr, d) => `${Math.min(...arr).toFixed(d)}–${Math.max(...arr).toFixed(d)}`;
+    set("gamefiHeadersStat", `${headers.length}/5 · BNB ${range(bnb, 5)} · POL ${range(pol, 2)}`,
+      headers.map((h) => `${h.id}: ${h.bscBal} BNB · ${h.polBal} POL`).join("\n"));
+  }
+
+  // Saldos on-chain del snapshot, con su antigüedad visible
+  const snap = data.onchainSnapshot;
+  if (snap && snap.networks && Object.keys(snap.networks).length) {
+    const n = snap.networks;
+    const fmt = (v, d) => (v == null ? "?" : Number(v).toFixed(d));
+    const bsc = n.bscMainnet && n.bscMainnet.online ? `BSC ${fmt(n.bscMainnet.totalNative, 4)} BNB` : "BSC sin lectura";
+    const pol = n.polygonMainnet && n.polygonMainnet.online ? `POL ${fmt(n.polygonMainnet.totalNative, 2)}` : "POL sin lectura";
+    let age = "";
+    if (snap.timestamp) {
+      const mins = Math.max(0, Math.round((Date.now() - new Date(snap.timestamp).getTime()) / 60000));
+      age = ` · hace ${mins} min`;
+    }
+    const full = Object.entries(n)
+      .map(([k, v]) => `${k}: ${v.online ? fmt(v.totalNative, 4) + " (" + v.satellitesUsable + " usables)" : "sin lectura"}`)
+      .join("\n");
+    set("onchainBalancesStat", `${bsc} · ${pol}${age}`, `Snapshot ${snap.timestamp || "?"}\n${full}`);
   }
 }
 

@@ -1,14 +1,14 @@
 {
   "schemaVersion": "2.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-21T13:00:04.130Z",
+  "timestamp": "2026-10-21T13:16:40.736Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 1,
   "dailyCapturedUsdc": 0,
   "onchainSnapshot": {
     "source": "live-onchain",
-    "timestamp": "2026-10-21T12:59:57.110Z",
+    "timestamp": "2026-10-21T13:16:36.873Z",
     "minUsableNative": 0.0005,
     "networks": {
       "baseSepolia": {
@@ -19,14 +19,6 @@
         "satellitesUsable": 450,
         "satellitesZero": 50
       },
-      "optimismSepolia": {
-        "online": true,
-        "rpc": "sepolia.optimism.io",
-        "totalNative": 0.0552,
-        "satellitesWithGas": 46,
-        "satellitesUsable": 46,
-        "satellitesZero": 454
-      },
       "ethereumSepolia": {
         "online": true,
         "rpc": "sepolia.drpc.org",
@@ -34,6 +26,14 @@
         "satellitesWithGas": 500,
         "satellitesUsable": 500,
         "satellitesZero": 0
+      },
+      "optimismSepolia": {
+        "online": true,
+        "rpc": "sepolia.optimism.io",
+        "totalNative": 0.0552,
+        "satellitesWithGas": 46,
+        "satellitesUsable": 46,
+        "satellitesZero": 454
       },
       "arbitrumSepolia": {
         "online": true,
@@ -46,7 +46,7 @@
       "bscMainnet": {
         "online": true,
         "rpc": "bsc-dataseed.binance.org",
-        "totalNative": 0.034592,
+        "totalNative": 0.034531,
         "satellitesWithGas": 55,
         "satellitesUsable": 5,
         "satellitesZero": 445
@@ -54,7 +54,7 @@
       "polygonMainnet": {
         "online": true,
         "rpc": "polygon.drpc.org",
-        "totalNative": 94.027287,
+        "totalNative": 93.958372,
         "satellitesWithGas": 55,
         "satellitesUsable": 55,
         "satellitesZero": 445
@@ -399,7 +399,7 @@
     "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "bscBnb": "0.001833",
     "polygonPol": "40.069073",
-    "lastChecked": "2026-10-21T13:00:04.130Z",
+    "lastChecked": "2026-10-21T13:16:40.734Z",
     "needsRefuelBsc": true,
     "needsRefuelPolygon": false,
     "status": "🟡 BSC BAJO — POLYGON OK",
@@ -507,8 +507,8 @@
       "name": "Ethereum Sepolia",
       "chainId": 11155111,
       "online": true,
-      "latencyMs": 215,
-      "blockNumber": 11962570,
+      "latencyMs": 264,
+      "blockNumber": 11962654,
       "status": "OPERATIVO",
       "totalEth": "4.258",
       "satellitesWithGas": 500
@@ -517,8 +517,8 @@
       "name": "Base Sepolia",
       "chainId": 84532,
       "online": true,
-      "latencyMs": 276,
-      "blockNumber": 48409655,
+      "latencyMs": 318,
+      "blockNumber": 48410155,
       "status": "OPERATIVO",
       "totalEth": "0.928",
       "satellitesWithGas": 450
@@ -527,8 +527,8 @@
       "name": "Arbitrum Sepolia",
       "chainId": 421614,
       "online": true,
-      "latencyMs": 4854,
-      "blockNumber": 321400628,
+      "latencyMs": 783,
+      "blockNumber": 321404463,
       "status": "OPERATIVO",
       "totalEth": "0.707",
       "satellitesWithGas": 450
@@ -537,8 +537,8 @@
       "name": "Optimism Sepolia",
       "chainId": 11155420,
       "online": true,
-      "latencyMs": 323,
-      "blockNumber": 50392529,
+      "latencyMs": 458,
+      "blockNumber": 50393029,
       "status": "OPERATIVO",
       "totalEth": "0.055",
       "satellitesWithGas": 46
@@ -547,20 +547,20 @@
       "name": "BNB Smart Chain",
       "chainId": 56,
       "online": true,
-      "latencyMs": 366,
-      "blockNumber": 128942267,
+      "latencyMs": 431,
+      "blockNumber": 128944489,
       "status": "OPERATIVO",
-      "totalNative": 0.03459184359999999,
+      "totalNative": 0.03453058409999999,
       "satellitesUsable": 5
     },
     {
       "name": "Polygon PoS",
       "chainId": 137,
       "online": true,
-      "latencyMs": 226,
-      "blockNumber": 95921489,
+      "latencyMs": 234,
+      "blockNumber": 95922155,
       "status": "OPERATIVO",
-      "totalNative": 94.02728682137686,
+      "totalNative": 93.958371794592,
       "satellitesUsable": 55
     },
     {
@@ -819,7 +819,7 @@
     "gamingTweetsDeleted": 0,
     "cooldownHours": 6,
     "status": "PAUSED_FOR_REVIEW",
-    "lastUpdated": "2026-10-21T13:00:04.130Z",
+    "lastUpdated": "2026-10-21T13:16:40.734Z",
     "name": "YoZapata",
     "url": "https://x.com/yozapata",
     "verifiedProfile": {
@@ -833,5 +833,381 @@
     },
     "autonomousQueueActive": false,
     "pausedReason": "Revisión temporal de la cuenta en X. Sin llamadas a la API ni credenciales en CI."
+  },
+  "gamefiAndCompetitions": {
+    "updatedAt": "2026-10-21T13:15:56.295Z",
+    "mode": "PRODUCCION",
+    "competitions": {
+      "fetchedAt": "2026-10-21T13:13:16.284Z",
+      "activeCount": 42,
+      "byToken": {
+        "POL": 2,
+        "USDC": 40,
+        "BNB": 1
+      },
+      "bySource": {
+        "galxe": 4,
+        "superteam": 5,
+        "immunefi": 33
+      },
+      "sources": [
+        {
+          "id": "galxe",
+          "ok": true,
+          "matched": 4,
+          "error": null
+        },
+        {
+          "id": "superteam",
+          "ok": true,
+          "matched": 5,
+          "error": null
+        },
+        {
+          "id": "immunefi",
+          "ok": true,
+          "matched": 33,
+          "error": null
+        }
+      ],
+      "top": [
+        {
+          "source": "galxe",
+          "id": "GC5S6tmhp9",
+          "title": "Chapter 3 Starting now! Mint Apelion Bro and Earn a guaranteed 270 Polygon ($50)",
+          "rewardTokens": [
+            "POL"
+          ],
+          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
+          "chains": [
+            "Polygon"
+          ],
+          "deadline": null,
+          "participants": 1287,
+          "url": "https://app.galxe.com/quest/AlienApeInvasionClub/GC5S6tmhp9"
+        },
+        {
+          "source": "galxe",
+          "id": "GCBektoi1e",
+          "title": "Swap on Ethereum with QuickSwap Liquidity Hub 🔄 $4,000 Prize Pool",
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
+          "chains": [
+            "Polygon"
+          ],
+          "deadline": null,
+          "participants": 7,
+          "url": "https://app.galxe.com/quest/QuickSwapDEX/GCBektoi1e"
+        },
+        {
+          "source": "galxe",
+          "id": "GCBSJtVVf7",
+          "title": "Thanksgiving Day 2024",
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
+          "chains": [
+            "BSC"
+          ],
+          "deadline": null,
+          "participants": 3,
+          "url": "https://app.galxe.com/quest/alpacafinance/GCBSJtVVf7"
+        },
+        {
+          "source": "galxe",
+          "id": "GCaR7tv28S",
+          "title": "BNB Chain 4 YA NFT",
+          "rewardTokens": [
+            "BNB"
+          ],
+          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
+          "chains": [
+            "BSC"
+          ],
+          "deadline": null,
+          "participants": 872,
+          "url": "https://app.galxe.com/quest/bnbchain/GCaR7tv28S"
+        },
+        {
+          "source": "superteam",
+          "id": "e3bcf553-958f-4b26-8c1b-799476ceb873",
+          "title": "Vaultline Security Audit Grants for Colosseum Projects: Up to 4,000 USDC Each",
+          "reward": {
+            "amount": 40000,
+            "token": "USDC"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo token estructurado de la API",
+          "chains": [
+            "Solana (pago en USDC; no requiere gas EVM)"
+          ],
+          "deadline": "2026-10-31T21:59:59.000Z",
+          "participants": 79,
+          "url": "https://earn.superteam.fun/listing/vaultline-security-audit-grants-for-colosseum-projects-up-to-4000-usdc-each"
+        },
+        {
+          "source": "superteam",
+          "id": "f4336524-b7ef-412c-bdb8-05f8420a0c2e",
+          "title": "Redesign Your Favourite App on Solana",
+          "reward": {
+            "amount": 1500,
+            "token": "USDC"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo token estructurado de la API",
+          "chains": [
+            "Solana (pago en USDC; no requiere gas EVM)"
+          ],
+          "deadline": "2026-10-23T18:29:59.999Z",
+          "participants": 28,
+          "url": "https://earn.superteam.fun/listing/redesign-your-favourite-app-on-solana"
+        },
+        {
+          "source": "superteam",
+          "id": "c207e17e-225d-405e-a03c-708ef99a6921",
+          "title": "Launch & Trade on Daejin: Write a Twitter Thread and Create a Market",
+          "reward": {
+            "amount": 620,
+            "token": "USDC"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo token estructurado de la API",
+          "chains": [
+            "Solana (pago en USDC; no requiere gas EVM)"
+          ],
+          "deadline": "2026-10-23T21:59:59.000Z",
+          "participants": 28,
+          "url": "https://earn.superteam.fun/listing/launch-and-trade-on-daejin-write-a-twitter-thread-and-create-a-market"
+        },
+        {
+          "source": "superteam",
+          "id": "c7a39025-a619-405c-8f0f-ff5e1b34622e",
+          "title": "Write a thread on $CHIMP Fair Launch - Part 1",
+          "reward": {
+            "amount": 500,
+            "token": "USDC"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo token estructurado de la API",
+          "chains": [
+            "Solana (pago en USDC; no requiere gas EVM)"
+          ],
+          "deadline": "2026-11-14T18:29:59.000Z",
+          "participants": 243,
+          "url": "https://earn.superteam.fun/listing/chimp-on-metaplex"
+        }
+      ]
+    },
+    "gamefi": {
+      "lastRunAt": "2026-10-21T13:15:56.295Z",
+      "networks": {
+        "bscMainnet": {
+          "fundedCount": 50,
+          "eligibleCount": 50,
+          "cooldownCount": 0,
+          "targetsVerified": 1,
+          "targetsChecked": 1,
+          "targets": [
+            {
+              "id": "wbnb-deposit-bsc",
+              "verified": true,
+              "hasBytecode": true,
+              "reason": null
+            }
+          ],
+          "satellitesSelected": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "txConfirmed": 5,
+          "txPending": 0,
+          "txFailed": 0,
+          "skipped": null
+        },
+        "polygonMainnet": {
+          "fundedCount": 50,
+          "eligibleCount": 32,
+          "cooldownCount": 18,
+          "targetsVerified": 1,
+          "targetsChecked": 1,
+          "targets": [
+            {
+              "id": "wpol-deposit-polygon",
+              "verified": true,
+              "hasBytecode": true,
+              "reason": null
+            }
+          ],
+          "satellitesSelected": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "txConfirmed": 5,
+          "txPending": 0,
+          "txFailed": 0,
+          "skipped": null
+        }
+      },
+      "recentTxs": [
+        {
+          "satellite": 2,
+          "target": "wbnb-deposit-bsc",
+          "address": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
+          "status": "CONFIRMADA",
+          "hash": "0xbe18b66923f30a9d1974fec627c496eb59838be530b50401687d5091515f8b9f",
+          "at": "2026-10-21T13:13:18.259Z",
+          "blockNumber": 128944049,
+          "gasUsed": "45038",
+          "network": "bscMainnet"
+        },
+        {
+          "satellite": 3,
+          "target": "wbnb-deposit-bsc",
+          "address": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
+          "status": "CONFIRMADA",
+          "hash": "0x86d0f9d6a41d3dfc52033662e9eb7665f4c458abefad90ffdebef3a575e2b776",
+          "at": "2026-10-21T13:13:30.121Z",
+          "blockNumber": 128944076,
+          "gasUsed": "45038",
+          "network": "bscMainnet"
+        },
+        {
+          "satellite": 4,
+          "target": "wbnb-deposit-bsc",
+          "address": "0x447bE3C9a8E97ca371d7cD8d8AEFd562fd15c582",
+          "status": "CONFIRMADA",
+          "hash": "0x5b6b892f2004e849bfcb8a54eef0c99d1a6b06247e589894b0003f77e5334173",
+          "at": "2026-10-21T13:13:40.741Z",
+          "blockNumber": 128944099,
+          "gasUsed": "45038",
+          "network": "bscMainnet"
+        },
+        {
+          "satellite": 5,
+          "target": "wbnb-deposit-bsc",
+          "address": "0xD6Bf034E659fD3D3188951536B55B37e7537Af11",
+          "status": "CONFIRMADA",
+          "hash": "0x9dda746ac71846be71d75716f021c3ca9bc016b8b3a0c824ed681251ced8d7c8",
+          "at": "2026-10-21T13:13:49.535Z",
+          "blockNumber": 128944119,
+          "gasUsed": "45038",
+          "network": "bscMainnet"
+        },
+        {
+          "satellite": 6,
+          "target": "wbnb-deposit-bsc",
+          "address": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
+          "status": "CONFIRMADA",
+          "hash": "0x2ccf6557d8b5388439e5d321fd3c9450e1883be08e9dc5d5739f858c5fc03f92",
+          "at": "2026-10-21T13:13:58.144Z",
+          "blockNumber": 128944138,
+          "gasUsed": "45038",
+          "network": "bscMainnet"
+        },
+        {
+          "satellite": 2,
+          "target": "wpol-deposit-polygon",
+          "address": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
+          "status": "CONFIRMADA",
+          "hash": "0x926065d4fe95f7fe61d5e4420badc8018bf36cb89d06f2e1c85b23674c03d2d1",
+          "at": "2026-10-21T13:14:11.893Z",
+          "blockNumber": 95922059,
+          "gasUsed": "48401",
+          "network": "polygonMainnet"
+        },
+        {
+          "satellite": 3,
+          "target": "wpol-deposit-polygon",
+          "address": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
+          "status": "CONFIRMADA",
+          "hash": "0xf76c80c9c51194fe31be885aed02824ea31d8b49689f84be4ea65a769569a924",
+          "at": "2026-10-21T13:14:40.463Z",
+          "blockNumber": 95922078,
+          "gasUsed": "48401",
+          "network": "polygonMainnet"
+        },
+        {
+          "satellite": 4,
+          "target": "wpol-deposit-polygon",
+          "address": "0x447bE3C9a8E97ca371d7cD8d8AEFd562fd15c582",
+          "status": "CONFIRMADA",
+          "hash": "0xaea71e4eea5f66d7259c162cd724216ba1b5a2163cead05bc205aeddf207e7ba",
+          "at": "2026-10-21T13:15:01.825Z",
+          "blockNumber": 95922092,
+          "gasUsed": "48401",
+          "network": "polygonMainnet"
+        },
+        {
+          "satellite": 5,
+          "target": "wpol-deposit-polygon",
+          "address": "0xD6Bf034E659fD3D3188951536B55B37e7537Af11",
+          "status": "CONFIRMADA",
+          "hash": "0x4bd3749b194ba483449a4b2bec4c37c11d3a6df8f1348b7ea7b2897995af58a3",
+          "at": "2026-10-21T13:15:16.448Z",
+          "blockNumber": 95922102,
+          "gasUsed": "30461",
+          "network": "polygonMainnet"
+        },
+        {
+          "satellite": 6,
+          "target": "wpol-deposit-polygon",
+          "address": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
+          "status": "CONFIRMADA",
+          "hash": "0xb638ac37912a980ae4873fcb4c25523094175d4d3578aab465d2a35077150cad",
+          "at": "2026-10-21T13:15:37.287Z",
+          "blockNumber": 95922116,
+          "gasUsed": "48401",
+          "network": "polygonMainnet"
+        }
+      ]
+    },
+    "mainnetCooldown": {
+      "cooldownHours": 24,
+      "maxSatsPerRound": 5,
+      "networks": {
+        "bscMainnet": {
+          "minExecNative": 0.00008,
+          "trackedSatellites": 5,
+          "inCooldown": 5,
+          "nextReadyAt": "2026-10-22T13:13:18.257Z",
+          "lastTxAt": "2026-10-21T13:13:18.257Z"
+        },
+        "polygonMainnet": {
+          "minExecNative": 0.005,
+          "trackedSatellites": 23,
+          "inCooldown": 23,
+          "nextReadyAt": "2026-10-22T12:40:00.000Z",
+          "lastTxAt": "2026-10-21T13:14:11.892Z"
+        }
+      }
+    },
+    "protectedHeaders": {
+      "indexes": [
+        1,
+        101,
+        201,
+        301,
+        401
+      ],
+      "vault": 501,
+      "policy": "EXCLUIDAS_DEL_GASTO_REPETITIVO_EN_MAINNET"
+    }
   }
 }

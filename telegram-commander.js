@@ -88,6 +88,9 @@ Toca cualquiera de las opciones para consultar la telemetría en tiempo real:
         { text: "💵 Liquidación Binance (Solo USDC)", callback_data: "cmd_binance" }
       ],
       [
+        { text: "🎮 Juegos & Competencias USDC", callback_data: "cmd_juegos" }
+      ],
+      [
         { text: "👑 Auditoría Bóveda VIP #00", callback_data: "cmd_vip" }
       ]
     ]
@@ -392,6 +395,83 @@ async function handleBinance(chatId) {
 }
 
 // -------------------------------------------------------------------------------------
+// JUEGOS & COMPETENCIAS USDC (lectura local: 0 gas, sin llamadas on-chain)
+// -------------------------------------------------------------------------------------
+function escHtml(s) {
+  return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function readJsonLocal(file) {
+  try {
+    if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch (_) {}
+  return null;
+}
+
+async function handleJuegos(chatId) {
+  const comp = readJsonLocal(path.join(__dirname, "telemetry", "competitions-live.json"));
+  const fleet = readJsonLocal(path.join(__dirname, "telemetry", "fleet-telemetry.json")) || {};
+  const gf = (fleet.gamefiAndCompetitions && fleet.gamefiAndCompetitions.gamefi) || null;
+  const shield = require("./mainnet-gas-shield");
+  const cd = shield.getCooldownSummary();
+
+  const fmtUtc = (iso) => (iso ? new Date(iso).toISOString().replace("T", " ").slice(0, 16) + " UTC" : "—");
+
+  let compBlock;
+  if (!comp) {
+    compBlock = "⚠️ Aún no hay escaneo (<code>telemetry/competitions-live.json</code> no existe). Se genera en cada ronda.";
+  } else {
+    const srcLines = (comp.sources || [])
+      .map((s) => `   ${s.ok ? "🟢" : "🔴"} ${escHtml(s.id)}: ${s.ok ? `${s.matched} activas` : escHtml(s.error)}`)
+      .join("\n");
+    const top = (comp.items || []).slice(0, 6).map((it) => {
+      const reward = it.reward ? `${it.reward.amount ?? "?"} ${escHtml(it.reward.token)}` : it.rewardTokens.join("/");
+      const end = it.deadline ? ` · hasta ${it.deadline.slice(0, 10)}` : "";
+      return `• <a href="${escHtml(it.url)}">${escHtml(String(it.title).slice(0, 70))}</a>\n   💰 ${reward} · ${escHtml(it.source)}${end}`;
+    });
+    compBlock = `📡 <b>Competencias activas (USDC / POL / BNB):</b> ${comp.totals.activeCompetitions}\n${srcLines}\n\n${top.join("\n") || "Sin oportunidades que cumplan el filtro ahora mismo."}\n🕒 Escaneo: ${fmtUtc(comp.fetchedAt)}`;
+  }
+
+  const netLabel = { bscMainnet: "BSC", polygonMainnet: "Polygon" };
+  const cdLines = Object.entries(cd.networks).map(([k, n]) => {
+    const g = gf && gf.networks ? gf.networks[k] : null;
+    const funded = g && g.fundedCount != null ? g.fundedCount : "?";
+    return `   • <b>${netLabel[k]}</b> (mín ${n.minExecNative}): ${n.inCooldown} en cooldown 24h de ${funded} fondeados · próximo libre: ${fmtUtc(n.nextReadyAt)}`;
+  });
+
+  const headers = (fleet.headersSurveillance || []).filter((h) => h.box > 0);
+  const headerLines = headers.length
+    ? headers.map((h) => `   • ${escHtml(h.id)}: ${escHtml(h.bscBal)} BNB · ${escHtml(h.polBal)} POL`).join("\n")
+    : "   (sin lectura on-chain todavía)";
+
+  const lastTx = gf && Array.isArray(gf.recentTxs) && gf.recentTxs.length ? gf.recentTxs[0] : null;
+  const gfLine = lastTx
+    ? `Última tx GameFi: #${lastTx.satellite} · ${escHtml(lastTx.status)} · <code>${escHtml(String(lastTx.hash).slice(0, 18))}...</code>`
+    : "Sin transacciones GameFi registradas aún.";
+
+  const text = `
+🎮 <b>JUEGOS &amp; COMPETENCIAS USDC — OPERACIÓN 10K</b>
+
+${compBlock}
+
+⏳ <b>Cooldown Mainnet 24h por satélite</b> (máx. ${cd.maxSatsPerRound}/ronda):
+${cdLines.join("\n")}
+
+🛡️ <b>Gas protegido de las 5 Cabeceras</b> (excluidas del gasto repetitivo):
+${headerLines}
+
+🎲 ${gfLine}
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML",
+    disable_web_page_preview: true
+  });
+}
+
+// -------------------------------------------------------------------------------------
 // BUCLE DE LONG-POLLING
 // -------------------------------------------------------------------------------------
 async function startCommanderBot() {
@@ -475,6 +555,8 @@ async function startCommanderBot() {
               await handleVip(effectiveChatId);
             } else if (cmd === "/binance" || cmd === "/cosecha" || cmd === "/liquidar") {
               await handleBinance(effectiveChatId);
+            } else if (cmd === "/juegos" || cmd === "/competencias") {
+              await handleJuegos(effectiveChatId);
             } else {
               await callTelegram("sendMessage", {
                 chat_id: effectiveChatId,
@@ -512,6 +594,8 @@ async function startCommanderBot() {
               await handleVip(cbChatId);
             } else if (cbData === "cmd_binance") {
               await handleBinance(cbChatId);
+            } else if (cbData === "cmd_juegos") {
+              await handleJuegos(cbChatId);
             }
           }
         }
@@ -533,5 +617,6 @@ if (require.main === module) {
 module.exports = {
   startCommanderBot,
   sendMenu,
-  handleBinance
+  handleBinance,
+  handleJuegos
 };

@@ -54,22 +54,51 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: 🚀 Ejecutar Carrusel Omnichain + Radar 500 Satélites
+        shell: bash
         run: |
-          node swarm-engine.js --only-generate || true
-          node solana-faucet-refuel.js || true
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            node task-runner.js --force-dry-run || true
+          FAILED=""
+          # Sin '|| true' silencioso: un fallo queda como anotación ::error:: visible en los logs.
+          # La ronda continúa (para no perder telemetría ni el estado del cooldown) y el job falla al final.
+          run_critical() {
+            echo "::group::▶ $*"
+            if "$@"; then code=0; else code=$?; fi
+            echo "::endgroup::"
+            if [ "$code" -ne 0 ]; then
+              echo "::error title=Paso crítico falló::$* (exit $code)"
+              FAILED="$FAILED | $*"
+            fi
+          }
+          run_soft() {
+            echo "::group::▶ $*"
+            if "$@"; then code=0; else code=$?; fi
+            echo "::endgroup::"
+            if [ "$code" -ne 0 ]; then echo "::warning title=Paso opcional falló::$* (exit $code)"; fi
+          }
+
+          DRY=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then DRY="--dry-run"; fi
+
+          run_soft node swarm-engine.js --only-generate
+          run_soft node solana-faucet-refuel.js
+          if [ -n "$DRY" ]; then
+            run_critical node task-runner.js --force-dry-run
           else
-            node task-runner.js || true
+            run_critical node task-runner.js
           fi
-          node bot-miner-swarm.js || true
-          node bounty-and-quota-engine.js || true
-          node autonomous-brain-lomo5.js || true
-          node harvest-rewards.js --scan || true
-          node master-refuel.js --intra-box || true
-          node vanguard-hunter.js || true
-          # node x-autonomous-agent.js || true # PAUSADO TEMPORALMENTE: revisión preventiva de cuenta en @yozapata
-          node scripts/ai-telemetry-feed.js || true
+          run_critical node bot-miner-swarm.js $DRY
+          run_critical node bounty-and-quota-engine.js $DRY
+          run_soft node autonomous-brain-lomo5.js
+          run_critical node gamefi-and-competitions.js $DRY
+          run_critical node harvest-rewards.js --scan
+          run_critical node master-refuel.js --intra-box
+          run_soft node vanguard-hunter.js
+          # node x-autonomous-agent.js # PAUSADO TEMPORALMENTE: revisión preventiva de cuenta en @yozapata
+          run_critical node scripts/ai-telemetry-feed.js
+
+          if [ -n "$FAILED" ]; then
+            echo "::error title=Ronda con errores::Pasos críticos con fallo:$FAILED"
+            exit 1
+          fi
 
       - name: 💾 Sincronizar Telemetría al Dashboard
         if: always()
