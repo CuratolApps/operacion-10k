@@ -53,6 +53,15 @@ function loadPublicWallets() {
 }
 
 const { createResilientProvider } = require("./networks");
+const {
+  MAX_MAINNET_SATS_PER_ROUND,
+  isMainnetKey,
+  isProtectedIndex,
+  getMinExec,
+  isCooldownFree,
+  claimDailySlot,
+  selectFundedSatellites
+} = require("./mainnet-gas-shield");
 
 function createProvider(netConfig) {
   return createResilientProvider(netConfig);
@@ -97,33 +106,24 @@ function selectSquadAndBox(satellites, batchSize = 20) {
 }
 
 /**
- * Selección de escuadrón para MAINNET (BSC / Polygon):
- * 1) lee en lote (Multicall3) el saldo real de los satélites,
- * 2) filtra solo los que tienen saldo >= MIN_EXEC_BALANCE_ETH,
- * 3) rota el lote activo (carrusel de 30 min) ÚNICAMENTE entre esos satélites fondeados.
- * Así nunca se sortean satélites con 0 gas (el fallo que dejaba 0/20 en mainnet).
+ * Selección de escuadrón para MAINNET (BSC / Polygon) con ESCUDO DE GAS:
+ * 1) lee en lote (Multicall3) el saldo real de los satélites (0 gas),
+ * 2) EXCLUYE cabeceras (#001/#101/#201/#301/#401) y Bóveda #501 (tanques nodriza),
+ * 3) filtra por el mínimo de la red (BSC 0.00008 BNB / Polygon 0.005 POL),
+ * 4) toma como MÁXIMO 5 satélites, rotando por día UTC.
  */
-async function selectFundedMainnetSquad(provider, satellites, batchSize = 20) {
+async function selectFundedMainnetSquad(provider, networkConfig, satellites, batchSize = 20) {
   try {
-    const balances = await fetchEthBalancesBatch(provider, satellites.map((s) => s.address));
-    const minWei = ethers.parseEther(String(MIN_EXEC_BALANCE_ETH));
-    const funded = satellites
-      .filter((s) => s.index >= 1 && s.index <= 500) // excluye Bóveda Matriz #501 (MASTER_GAS_VAULT)
-      .filter((s) => (balances[s.address.toLowerCase()] ?? 0n) >= minWei)
-      .sort((a, b) => a.index - b.index);
-
-    if (funded.length === 0) {
-      return { squad: [], fundedCount: 0, squadRange: "Sin satélites fondeados" };
-    }
-
-    const roundIndex = Math.floor(Date.now() / (1000 * 60 * 30));
-    const size = Math.min(batchSize, funded.length);
-    const start = (roundIndex * size) % funded.length;
-    const squad = [];
-    for (let i = 0; i < size; i++) squad.push(funded[(start + i) % funded.length]);
-
-    const squadRange = `${squad.length} de ${funded.length} satélites fondeados (>= ${MIN_EXEC_BALANCE_ETH})`;
-    return { squad, fundedCount: funded.length, squadRange };
+    const sel = await selectFundedSatellites({
+      provider,
+      satellites,
+      networkKey: networkConfig.id,
+      max: Math.min(batchSize, MAX_MAINNET_SATS_PER_ROUND)
+    });
+    const squadRange = sel.fundedCount === 0
+      ? "Sin satélites fondeados (cabeceras y #501 excluidas)"
+      : `${sel.squad.length} de ${sel.fundedCount} satélites fondeados (>= ${sel.minExec} ${networkConfig.symbol}, cabeceras excluidas)`;
+    return { squad: sel.squad, fundedCount: sel.fundedCount, squadRange };
   } catch (err) {
     console.log(`   ⚠️ No se pudo leer saldos en lote para selección mainnet: ${err.message}`);
     return { squad: [], fundedCount: 0, squadRange: "Lectura de saldos fallida" };
@@ -132,15 +132,17 @@ async function selectFundedMainnetSquad(provider, satellites, batchSize = 20) {
 
 /**
  * Pre-verificación rápida de gas: comprueba si la red tiene fondos disponibles.
+ * `minGasEth` permite un umbral propio por red (Mainnet); por defecto 0.0003.
  */
-async function checkNetworkHasGas(provider, squad) {
+async function checkNetworkHasGas(provider, squad, minGasEth = 0.0003) {
   try {
     const sampleSize = Math.min(2, squad.length);
     const sample = squad.slice(0, sampleSize);
     const balances = await Promise.all(
       sample.map((s) => provider.getBalance(s.address).catch(() => 0n))
     );
-    const hasGas = balances.some((b) => b >= ethers.parseEther("0.0003"));
+    const minWei = ethers.parseEther(String(minGasEth));
+    const hasGas = balances.some((b) => b >= minWei);
     return hasGas;
   } catch (_) {
     return false;
@@ -162,8 +164,15 @@ async function executeSwarmOnEvmNetwork({
 
   const provider = createProvider(networkConfig);
 
+  // ESCUDO MAINNET: umbral propio por red y defensa en profundidad (nunca cabeceras ni #501, máx. 5).
+  const isMainnetNet = isMainnetKey(networkConfig.id);
+  const minExecEth = getMinExec(networkConfig.id, MIN_EXEC_BALANCE_ETH);
+  if (isMainnetNet) {
+    squad = squad.filter((s) => !isProtectedIndex(s.index)).slice(0, MAX_MAINNET_SATS_PER_ROUND);
+  }
+
   // Verificación rápida de disponibilidad de gas en la red
-  const hasGas = await checkNetworkHasGas(provider, squad);
+  const hasGas = await checkNetworkHasGas(provider, squad, isMainnetNet ? minExecEth : 0.0003);
   if (!hasGas) {
     console.log(`   ⏳ [RED EN ESPERA DE GAS] Satélites sin saldo en ${networkConfig.name}.`);
     console.log(`   ⏭️  Estado: PENDIENTE_FONDEO (0 ${networkConfig.symbol}). Saltando red rápido.\n`);
@@ -258,7 +267,7 @@ async function executeSwarmOnEvmNetwork({
         let actionStatus = "";
         let txHash = null;
 
-        if (balanceEth >= MIN_EXEC_BALANCE_ETH && !isDryRun) {
+        if (balanceEth >= minExecEth && !isDryRun) {
           try {
             const signer = getSigner(sat.index, provider);
             let tx;
@@ -320,7 +329,7 @@ async function executeSwarmOnEvmNetwork({
             };
           }
         } else {
-          if (balanceEth < MIN_EXEC_BALANCE_ETH && !isDryRun) {
+          if (balanceEth < minExecEth && !isDryRun) {
             // FIRMA GASLESS EIP-712 / RELAYER VERIFICABLE (Cero costo de gas)
             try {
               const signer = getSigner(sat.index, provider);
@@ -664,14 +673,31 @@ async function runTaskRunner() {
   const evmResults = [];
   for (const net of targetEvmNetworks) {
     let netSquad = activeSquad;
-    if (net.category && net.category.startsWith("Mainnet")) {
-      // BSC / Polygon: lote activo SOLO entre satélites con saldo real >= MIN_EXEC_BALANCE
+    if (isMainnetKey(net.id)) {
+      // MODO AHORRO MAINNET: 1 turno por día UTC, máx. 5 satélites, sin cabeceras ni #501.
+      if (!isDryRun && !isCooldownFree("task-runner", net.id)) {
+        console.log(`🛡️  [${net.name}] Cooldown 24h activo (turno UTC ya consumido). Sin gasto de gas esta ronda.\n`);
+        evmResults.push({
+          network: net.name,
+          chainId: net.chainId,
+          isPendingGas: true,
+          statusLabel: "Cooldown 24h 🛡️ (ahorro de gas)",
+          successCount: 0,
+          total: 0,
+          runs: []
+        });
+        continue;
+      }
       const mainnetProvider = createProvider(net);
-      const sel = await selectFundedMainnetSquad(mainnetProvider, satellites, BATCH_SIZE);
+      const sel = await selectFundedMainnetSquad(mainnetProvider, net, satellites, BATCH_SIZE);
       netSquad = sel.squad;
       console.log(`🎯 [${net.name}] Selector mainnet: ${sel.squadRange}`);
       if (netSquad.length > 0) {
         console.log(`   Satélites fondeados en turno: [ ${netSquad.map((s) => `#${String(s.index).padStart(2, "0")}`).join(", ")} ]\n`);
+        // Se consume el turno ANTES de enviar: si el proceso muere a mitad no se repite el gasto.
+        if (!isDryRun) {
+          claimDailySlot("task-runner", net.id, { satellites: netSquad.map((s) => s.index) });
+        }
       }
     }
     const res = await executeSwarmOnEvmNetwork({

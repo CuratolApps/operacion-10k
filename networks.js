@@ -237,9 +237,10 @@ function createResilientProvider(netConfig) {
   const mk = (url) => {
     const fr = new ethers.FetchRequest(url);
     fr.timeout = 18000;
-    return new ethers.JsonRpcProvider(fr, netConfig.chainId, {
-      staticNetwork: ethers.Network.from(netConfig.chainId)
-    });
+    const opts = { staticNetwork: ethers.Network.from(netConfig.chainId) };
+    // drpc (plan gratuito) rechaza lotes JSON-RPC de >3 peticiones -> sin batching.
+    if (/drpc\.org/i.test(url)) opts.batchMaxCount = 1;
+    return new ethers.JsonRpcProvider(fr, netConfig.chainId, opts);
   };
 
   if (urls.length === 1) return mk(urls[0]);

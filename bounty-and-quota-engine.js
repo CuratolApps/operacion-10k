@@ -31,6 +31,13 @@ const { ethers } = require("ethers");
 const { validateIsolation, sleepRandom, getBlockId } = require("./anti-sybil");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
+const { networks, createResilientProvider } = require("./networks");
+const {
+  MAX_MAINNET_SATS_PER_ROUND,
+  isCooldownFree,
+  claimDailySlot,
+  selectFundedSatellites
+} = require("./mainnet-gas-shield");
 
 const ROOT_DIR = __dirname;
 const WALLETS_FILE = path.join(ROOT_DIR, "wallets-public-list.json");
@@ -219,8 +226,30 @@ async function executeMainnetBountyRadar(options = { isDryRun: false }) {
   let mainnetBountyTxsToday = 0;
   const executedActions = [];
 
-  // Cabeceras de bloque (#001, #101, #201, #301, #401) que ya tienen POL
-  const candidateIndices = [1, 101, 201, 301, 401];
+  // 🛡️ GAS-SHIELD: las Cabeceras (#001/#101/#201/#301/#401) y la Bóveda #501 están RESERVADAS como
+  // tanques nodriza y nunca emiten tx repetitivas. Solo satélites fondeados (>= 0.005 POL),
+  // máx. 5 y 1 turno por día UTC. El turno se consume antes de enviar (no en dry-run).
+  let candidateIndices = [];
+  const polNetKey = "polygonMainnet";
+  if (!options.isDryRun && !isCooldownFree("bounty-radar", polNetKey)) {
+    console.log("   🛡️ [POLYGON] Cooldown 24h activo (turno UTC ya consumido). 0 gas esta ronda.");
+  } else {
+    try {
+      const sel = await selectFundedSatellites({
+        provider: createResilientProvider(networks.polygonMainnet),
+        satellites: wallets.filter(w => w.index >= 1 && w.index <= 500),
+        networkKey: polNetKey,
+        max: MAX_MAINNET_SATS_PER_ROUND
+      });
+      candidateIndices = sel.squad.map(s => s.index);
+      console.log(`   🎯 Satélites fondeados en turno (cabeceras excluidas): ${candidateIndices.length ? candidateIndices.map(i => `#${i}`).join(", ") : "ninguno"}`);
+      if (!options.isDryRun && candidateIndices.length > 0) {
+        claimDailySlot("bounty-radar", polNetKey, { satellites: candidateIndices });
+      }
+    } catch (selErr) {
+      console.log(`   ⚠️ No se pudo leer saldos en lote: ${selErr.message}`);
+    }
+  }
 
   for (const idx of candidateIndices) {
     const sat = wallets.find(w => w.index === idx);
@@ -270,9 +299,9 @@ async function executeMainnetBountyRadar(options = { isDryRun: false }) {
             mainnetBountyTxsToday++;
             executedActions.push({ satIndex: sat.index, network: "Polygon PoS", target: target.name, hash: tx.hash });
           } catch (txErr) {
-            console.warn(`      ⚠️ Tx no confirmada (fallback simulado seguro): ${txErr.message}`);
-            mainnetBountyTxsToday++;
-            executedActions.push({ satIndex: sat.index, network: "Polygon PoS", target: target.name, hash: "SIMULATED_RESERVE" });
+            // Sin hash inventado: una tx fallida NO se contabiliza como realizada.
+            console.warn(`      ⚠️ Tx no enviada: ${txErr.message}`);
+            executedActions.push({ satIndex: sat.index, network: "Polygon PoS", target: target.name, error: String(txErr.message).slice(0, 80) });
           }
         }
       } else {
@@ -286,7 +315,7 @@ async function executeMainnetBountyRadar(options = { isDryRun: false }) {
   const bountyRadarMetrics = {
     bscActiveTargets: MAINNET_BOUNTY_TARGETS.bsc.length,
     polygonActiveTargets: MAINNET_BOUNTY_TARGETS.polygon.length,
-    mainnetBountyTxsToday: Math.max(mainnetBountyTxsToday, 5),
+    mainnetBountyTxsToday,
     highPriorityUsdcBounties: 3,
     status: "🟢 8 objetivos activos en caza (BSC + Polygon)",
     usdcCampaigns: [

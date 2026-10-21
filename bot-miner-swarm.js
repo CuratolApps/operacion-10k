@@ -26,6 +26,13 @@ const { sendTelegramAlert } = require("./telegram-notifier");
 const { validateIsolation, sleepRandom, getBlockId } = require("./anti-sybil");
 const { runMasterRefuel, MIN_BNB_TRIGGER, MIN_POL_TRIGGER } = require("./master-refuel");
 const { getSatelliteDNA } = require("./autonomous-brain-lomo5");
+const {
+  MAINNET_MIN_EXEC,
+  MAX_MAINNET_SATS_PER_ROUND,
+  isCooldownFree,
+  claimDailySlot,
+  selectFundedSatellites
+} = require("./mainnet-gas-shield");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const FLEET_TELEMETRY_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
@@ -219,6 +226,102 @@ async function runBotMinerSwarm() {
   let btcL2PointsGained = 0;
   const minedTxHashes = [];
 
+  // ---------------------------------------------------------------------------------
+  // 🛡️ MINERÍA MAINNET BLINDADA (BSC & POLYGON) — MODO AHORRO DE GAS REAL
+  //  • Cabeceras #001/#101/#201/#301/#401 y Bóveda #501 EXCLUIDAS (tanques nodriza).
+  //  • Umbral por red: BSC >= 0.00008 BNB | Polygon >= 0.005 POL.
+  //  • Máx. 5 satélites por red y 1 turno por día UTC (cooldown persistido en git).
+  //  • El turno se consume ANTES de enviar. En --dry-run no se envía ni se consume.
+  // ---------------------------------------------------------------------------------
+  const mainnetPlans = [
+    {
+      key: "bscMainnet",
+      provider: bscProvider,
+      label: "BSC",
+      netName: "BSC Mainnet",
+      txType: "WBNB_MINT",
+      symbol: "BNB",
+      deposit: "0.00001",
+      contractAddress: networks.bscMainnet.defiToken.address
+    },
+    {
+      key: "polygonMainnet",
+      provider: polProvider,
+      label: "Polygon",
+      netName: "Polygon PoS",
+      txType: "WPOL_MINT",
+      symbol: "POL",
+      deposit: "0.001",
+      contractAddress: networks.polygonMainnet.defiToken.address
+    }
+  ];
+
+  console.log("-----------------------------------------------------------------------------------------");
+  console.log(`🛡️ [GAS-SHIELD MAINNET] Máx. ${MAX_MAINNET_SATS_PER_ROUND} satélites/red · 1 turno por día UTC · cabeceras y #501 reservadas`);
+  console.log("-----------------------------------------------------------------------------------------");
+
+  for (const plan of mainnetPlans) {
+    const minGate = MAINNET_MIN_EXEC[plan.key];
+    if (!isDryRun && !isCooldownFree("bot-miner", plan.key)) {
+      console.log(`   🛡️ [${plan.label}] Cooldown 24h activo (turno UTC ya consumido). 0 gas esta ronda.`);
+      continue;
+    }
+
+    let sel;
+    try {
+      sel = await selectFundedSatellites({
+        provider: plan.provider,
+        satellites: allSatellites,
+        networkKey: plan.key,
+        max: MAX_MAINNET_SATS_PER_ROUND
+      });
+    } catch (selErr) {
+      console.log(`   ⚠️ [${plan.label}] No se pudo leer saldos en lote: ${selErr.message}`);
+      continue;
+    }
+
+    if (sel.squad.length === 0) {
+      console.log(`   ⏳ [${plan.label}] Sin satélites >= ${minGate} ${plan.symbol} (cabeceras excluidas).`);
+      continue;
+    }
+
+    const tag = sel.squad.map((s) => `#${String(s.index).padStart(3, "0")}`).join(", ");
+    console.log(`   🎯 [${plan.label}] ${sel.squad.length} de ${sel.fundedCount} fondeados (>= ${minGate} ${plan.symbol}): [ ${tag} ]`);
+
+    if (isDryRun) {
+      console.log(`   🧪 [DRY-RUN][${plan.label}] Sin transacciones ni consumo de turno.`);
+      continue;
+    }
+
+    claimDailySlot("bot-miner", plan.key, { satellites: sel.squad.map((s) => s.index) });
+
+    for (const msat of sel.squad) {
+      const mTag = `[${plan.label}] Satélite #${String(msat.index).padStart(3, "0")}`;
+      const mBoxKey = `box${Math.floor((msat.index - 1) / 100) + 1}`;
+      try {
+        const signer = getWalletSigner(msat.index, plan.provider);
+        const wrapped = new ethers.Contract(plan.contractAddress, MINER_CONTRACT_ABI, signer);
+        console.log(`   ${mTag}: ⛏️ Minando on-chain (${plan.txType} deposit ${plan.deposit} ${plan.symbol})...`);
+        const feeData = await plan.provider.getFeeData().catch(() => null);
+        const txOpts = { value: ethers.parseEther(plan.deposit) };
+        if (plan.key === "bscMainnet") {
+          if (feeData && feeData.gasPrice) txOpts.gasPrice = feeData.gasPrice;
+        } else if (feeData) {
+          txOpts.maxPriorityFeePerGas = ethers.parseUnits("35", "gwei");
+          txOpts.maxFeePerGas = feeData.maxFeePerGas ? (feeData.maxFeePerGas * 125n / 100n) : ethers.parseUnits("400", "gwei");
+        }
+        const tx = await wrapped.deposit(txOpts);
+        onChainMinedCount++;
+        minedTxHashes.push({ net: plan.netName, hash: tx.hash, type: plan.txType });
+        console.log(`   ${mTag}: ✅ Minería ${plan.label} enviada tx: ${tx.hash.slice(0, 14)}...`);
+        minerStats.boxPoints[mBoxKey] = (minerStats.boxPoints[mBoxKey] || 0) + 150;
+        await sleepRandom(800, 1600);
+      } catch (mnErr) {
+        console.log(`   ${mTag}: ⚠️ Aviso minería ${plan.label}: ${mnErr.message}`);
+      }
+    }
+  }
+
   for (let i = 0; i < currentSquad.length; i++) {
     const sat = currentSquad[i];
     const satDNA = getSatelliteDNA(sat.index);
@@ -252,54 +355,8 @@ async function runBotMinerSwarm() {
       }
     }
 
-    // Minería On-Chain en BSC Mainnet si tiene saldo BNB (> 0.00008 BNB)
-    if (satBnbBal >= 0.00008 && !isDryRun) {
-      try {
-        const signer = getWalletSigner(sat.index, bscProvider);
-        const wbnbContract = new ethers.Contract(networks.bscMainnet.defiToken.address, MINER_CONTRACT_ABI, signer);
-        console.log(`   ${satTag}: ⛏️ Minando on-chain en BSC (WBNB.deposit 0.00001 BNB)...`);
-        const feeData = await bscProvider.getFeeData().catch(() => null);
-        const txOpts = {
-          value: ethers.parseEther("0.00001")
-        };
-        if (feeData && feeData.gasPrice) {
-          txOpts.gasPrice = feeData.gasPrice;
-        }
-        const tx = await wbnbContract.deposit(txOpts);
-        onChainMinedCount++;
-        minedTxHashes.push({ net: "BSC Mainnet", hash: tx.hash, type: "WBNB_MINT" });
-        console.log(`   ${satTag}: ✅ Minería BSC confirmada tx: ${tx.hash.slice(0, 14)}...`);
-        minerStats.boxPoints[currentBoxKey] = (minerStats.boxPoints[currentBoxKey] || 0) + 150;
-        await sleepRandom(800, 1600);
-      } catch (bErr) {
-        console.log(`   ${satTag}: ⚠️ Aviso minería BSC: ${bErr.message}`);
-      }
-    }
-
-    // Minería On-Chain en Polygon Mainnet si tiene saldo POL (> 0.05 POL)
-    if (satPolBal >= 0.05 && !isDryRun) {
-      try {
-        const signer = getWalletSigner(sat.index, polProvider);
-        const wpolContract = new ethers.Contract(networks.polygonMainnet.defiToken.address, MINER_CONTRACT_ABI, signer);
-        console.log(`   ${satTag}: ⛏️ Minando on-chain en Polygon (WPOL.deposit 0.01 POL)...`);
-        const feeData = await polProvider.getFeeData().catch(() => null);
-        const txOpts = {
-          value: ethers.parseEther("0.01")
-        };
-        if (feeData) {
-          txOpts.maxPriorityFeePerGas = ethers.parseUnits("35", "gwei");
-          txOpts.maxFeePerGas = feeData.maxFeePerGas ? (feeData.maxFeePerGas * 125n / 100n) : ethers.parseUnits("400", "gwei");
-        }
-        const tx = await wpolContract.deposit(txOpts);
-        onChainMinedCount++;
-        minedTxHashes.push({ net: "Polygon PoS", hash: tx.hash, type: "WPOL_MINT" });
-        console.log(`   ${satTag}: ✅ Minería Polygon confirmada tx: ${tx.hash.slice(0, 14)}...`);
-        minerStats.boxPoints[currentBoxKey] = (minerStats.boxPoints[currentBoxKey] || 0) + 150;
-        await sleepRandom(800, 1600);
-      } catch (pErr) {
-        console.log(`   ${satTag}: ⚠️ Aviso minería Polygon: ${pErr.message}`);
-      }
-    }
+    // (La minería on-chain de BSC/Polygon Mainnet corre en la sección GAS-SHIELD previa al bucle:
+    //  sin cabeceras, máx. 5 satélites por red y 1 turno por día UTC.)
 
     // Minería On-Chain en Sepolia si tiene gas (> 0.0002 ETH)
     if (sepBal >= 0.0002 && !isDryRun) {
@@ -326,7 +383,7 @@ async function runBotMinerSwarm() {
       } catch (mErr) {
         // Fallback a firma gasless si falló o dio timeout
       }
-    } else if (satPolBal < 0.05 && satBnbBal < 0.00008) {
+    } else if (satPolBal < MAINNET_MIN_EXEC.polygonMainnet && satBnbBal < MAINNET_MIN_EXEC.bscMainnet) {
       // Minería Gasless Vector 3 (si no tuvo gas suficiente para on-chain)
       try {
         const signer = getWalletSigner(sat.index, sepProvider);
