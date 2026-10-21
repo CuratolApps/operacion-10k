@@ -59,9 +59,17 @@ async function runIntraBoxDistribution(wallets, isDryRun) {
 
       for (const sat of toFund) {
         try {
+          const satRpc = (t.netConfig.rpc || t.netConfig.fallbackRpc);
+          const satBal = await fetchBalanceQuick(satRpc, sat.address);
+          const satAlreadyFunded = (t.symbol === "POL" && satBal >= 0.1) || (t.symbol === "BNB" && satBal >= 0.0001);
+          if (satAlreadyFunded) {
+            console.log(`   ↳ [Box ${h.box}] ${h.id} -> Satélite #${String(sat.index).padStart(3, "0")}: Ya fondeado (${satBal} ${t.symbol}) ✅`);
+            continue;
+          }
+
           validateIsolation(headerWallet.address, sat.address, allAddresses, wallets, true);
           const jitter = (Math.random() - 0.5) * 0.04;
-          const sendAmount = (t.satTargetAmount * (1 + jitter)).toFixed(4);
+          const sendAmount = t.symbol === "BNB" ? (t.satTargetAmount * (1 + jitter)).toFixed(6) : (t.satTargetAmount * (1 + jitter)).toFixed(4);
 
           console.log(`   ↳ [Box ${h.box}] ${h.id} -> Satélite #${String(sat.index).padStart(3, "0")}: +${sendAmount} ${t.symbol}`);
 
@@ -75,6 +83,8 @@ async function runIntraBoxDistribution(wallets, isDryRun) {
             if (t.symbol === "POL" && feeData) {
               txOpts.maxPriorityFeePerGas = ethers.parseUnits("35", "gwei");
               txOpts.maxFeePerGas = feeData.maxFeePerGas ? (feeData.maxFeePerGas * 125n / 100n) : ethers.parseUnits("400", "gwei");
+            } else if (t.symbol === "BNB" && feeData && feeData.gasPrice) {
+              txOpts.gasPrice = feeData.gasPrice;
             }
             const tx = await signer.sendTransaction(txOpts);
             headerNonce++;
@@ -182,7 +192,7 @@ async function runMasterRefuel() {
         lastChecked: new Date().toISOString(),
         needsRefuelBsc: bscBalance < MIN_BNB_TRIGGER,
         needsRefuelPolygon: polBalance < MIN_POL_TRIGGER,
-        status: polBalance >= MIN_POL_TRIGGER ? "🟢 ACTIVA Y FONDEADA" : "⏳ En espera de desbloqueo CEX (72h)"
+        status: (polBalance >= MIN_POL_TRIGGER || bscBalance >= MIN_BNB_TRIGGER) ? "🟢 ACTIVA Y FONDEADA (BSC + POLYGON)" : "⏳ En espera de desbloqueo CEX (72h)"
       };
       fs.writeFileSync(FLEET_TELEMETRY_FILE, JSON.stringify(tel, null, 2), "utf8");
     } catch (_) {}
@@ -217,12 +227,16 @@ async function runMasterRefuel() {
       signer = getMasterVaultWallet(provider);
     }
 
-    // Reserva de seguridad en #501 (~10 POL) y distribución equitativa (~25 POL por Box)
+    // Reserva de seguridad en #501 (~10 POL o ~0.004 BNB) y distribución equitativa
     let baseShare;
     if (t.symbol === "POL" && t.balance >= 50) {
       const reserve = 10.174;
       const distributable = Math.max(0, t.balance - reserve);
       baseShare = distributable / 5;
+    } else if (t.symbol === "BNB" && t.balance >= 0.01) {
+      const reserve = 0.00409814;
+      const distributable = Math.max(0, t.balance - reserve);
+      baseShare = distributable / 5; // ~0.0065 BNB por Cabecera
     } else {
       const available = t.balance * 0.92;
       baseShare = available / 5;
@@ -238,14 +252,15 @@ async function runMasterRefuel() {
       if (!targetWallet) continue;
 
       const currentTargetBal = await fetchBalanceQuick(t.netConfig.rpc || t.netConfig.fallbackRpc, targetWallet.address);
-      if (currentTargetBal >= 10.0) {
-        console.log(`   ➤ Cabecera Box ${h.box} (${h.id} - ${targetWallet.address.slice(0, 8)}...): Ya fondeada con ${currentTargetBal.toFixed(4)} ${t.symbol} ✅`);
+      const isAlreadyFunded = (t.symbol === "POL" && currentTargetBal >= 5.0) || (t.symbol === "BNB" && currentTargetBal >= 0.005);
+      if (isAlreadyFunded) {
+        console.log(`   ➤ Cabecera Box ${h.box} (${h.id} - ${targetWallet.address.slice(0, 8)}...): Ya fondeada con ${currentTargetBal.toFixed(5)} ${t.symbol} ✅`);
         continue;
       }
 
       // Jitter gaussiano leve (+/- 0.5%)
       const jitter = (Math.random() - 0.5) * 0.01;
-      const shareWithJitter = (baseShare * (1 + jitter)).toFixed(4);
+      const shareWithJitter = t.symbol === "BNB" ? (baseShare * (1 + jitter)).toFixed(6) : (baseShare * (1 + jitter)).toFixed(4);
 
       console.log(`   ➤ Cabecera Box ${h.box} (${h.id} - ${targetWallet.address.slice(0, 8)}...): +${shareWithJitter} ${t.symbol}`);
 
@@ -260,6 +275,8 @@ async function runMasterRefuel() {
           if (t.symbol === "POL" && feeData) {
             txOpts.maxPriorityFeePerGas = ethers.parseUnits("35", "gwei");
             txOpts.maxFeePerGas = feeData.maxFeePerGas ? (feeData.maxFeePerGas * 125n / 100n) : ethers.parseUnits("400", "gwei");
+          } else if (t.symbol === "BNB" && feeData && feeData.gasPrice) {
+            txOpts.gasPrice = feeData.gasPrice;
           }
           const tx = await signer.sendTransaction(txOpts);
           currentNonce++;

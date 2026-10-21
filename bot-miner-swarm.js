@@ -170,7 +170,7 @@ async function runBotMinerSwarm() {
 
   if (isFundsDetected) {
     console.log("   🎉 ¡FONDOS DETECTADOS EN BÓVEDA #501! Bóveda matriz y cabeceras fondeadas.");
-    vault501StatusText = `🟢 ACTIVA Y FONDEADA (${polBal.toFixed(2)} POL)`;
+    vault501StatusText = `🟢 ACTIVA Y FONDEADA (${bscBal.toFixed(4)} BNB • ${polBal.toFixed(2)} POL)`;
   } else {
     console.log(`   • Estado         : ${vault501StatusText} (0.02006 BNB / 116.38 POL en tránsito)\n`);
   }
@@ -208,6 +208,7 @@ async function runBotMinerSwarm() {
   const arbProvider = createResilientProvider(networks.arbitrumSepolia);
   const opProvider = createResilientProvider(networks.optimismSepolia);
   const polProvider = createResilientProvider(networks.polygonMainnet);
+  const bscProvider = createResilientProvider(networks.bscMainnet);
 
   let onChainMinedCount = 0;
   let gaslessMinedCount = 0;
@@ -224,6 +225,7 @@ async function runBotMinerSwarm() {
     // Consultar saldos rápidos
     let sepBal = 0;
     let satPolBal = 0;
+    let satBnbBal = 0;
     try {
       const b = await sepProvider.getBalance(sat.address);
       sepBal = parseFloat(ethers.formatEther(b));
@@ -231,6 +233,10 @@ async function runBotMinerSwarm() {
     try {
       const bPol = await polProvider.getBalance(sat.address);
       satPolBal = parseFloat(ethers.formatEther(bPol));
+    } catch (_) {}
+    try {
+      const bBnb = await bscProvider.getBalance(sat.address);
+      satBnbBal = parseFloat(ethers.formatEther(bBnb));
     } catch (_) {}
 
     // Auto-Bridge progresivo para Box 5 si le faltan L2s
@@ -241,6 +247,30 @@ async function runBotMinerSwarm() {
         onChainMinedCount++;
         minedTxHashes.push({ net: bridgeResult.network, hash: bridgeResult.hash, type: "L2_BRIDGE" });
         console.log(`   ${satTag}: 🌉 Auto-Bridge L2 confirmado (${bridgeResult.network}) -> ${bridgeResult.hash.slice(0, 14)}...`);
+      }
+    }
+
+    // Minería On-Chain en BSC Mainnet si tiene saldo BNB (> 0.00008 BNB)
+    if (satBnbBal >= 0.00008 && !isDryRun) {
+      try {
+        const signer = getWalletSigner(sat.index, bscProvider);
+        const wbnbContract = new ethers.Contract(networks.bscMainnet.defiToken.address, MINER_CONTRACT_ABI, signer);
+        console.log(`   ${satTag}: ⛏️ Minando on-chain en BSC (WBNB.deposit 0.00001 BNB)...`);
+        const feeData = await bscProvider.getFeeData().catch(() => null);
+        const txOpts = {
+          value: ethers.parseEther("0.00001")
+        };
+        if (feeData && feeData.gasPrice) {
+          txOpts.gasPrice = feeData.gasPrice;
+        }
+        const tx = await wbnbContract.deposit(txOpts);
+        onChainMinedCount++;
+        minedTxHashes.push({ net: "BSC Mainnet", hash: tx.hash, type: "WBNB_MINT" });
+        console.log(`   ${satTag}: ✅ Minería BSC confirmada tx: ${tx.hash.slice(0, 14)}...`);
+        minerStats.boxPoints[currentBoxKey] = (minerStats.boxPoints[currentBoxKey] || 0) + 150;
+        await sleepRandom(800, 1600);
+      } catch (bErr) {
+        console.log(`   ${satTag}: ⚠️ Aviso minería BSC: ${bErr.message}`);
       }
     }
 
@@ -294,7 +324,7 @@ async function runBotMinerSwarm() {
       } catch (mErr) {
         // Fallback a firma gasless si falló o dio timeout
       }
-    } else if (satPolBal < 0.05) {
+    } else if (satPolBal < 0.05 && satBnbBal < 0.00008) {
       // Minería Gasless Vector 3 (si no tuvo gas suficiente para on-chain)
       try {
         const signer = getWalletSigner(sat.index, sepProvider);

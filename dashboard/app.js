@@ -132,7 +132,8 @@ async function pollTelemetry() {
     // 6. Vigía Bóveda #501
     const vigiaEl = document.getElementById("vault501VigiaStat");
     if (vigiaEl) {
-      vigiaEl.textContent = "⏳ En espera gas CEX (72h)";
+      const vStatus = data.masterGasVaultStatus?.status || (data.masterGasVaultStatus?.bscBnb > 0.002 || data.masterGasVaultStatus?.polygonPol > 1.0 ? "🟢 ACTIVA Y FONDEADA (BSC + POLYGON)" : "⏳ En espera gas CEX (72h)");
+      vigiaEl.textContent = vStatus;
     }
 
     // 7. Actualizar Bóvedas Binance y Monitor de Boxes

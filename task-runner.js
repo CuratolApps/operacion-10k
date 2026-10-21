@@ -604,9 +604,10 @@ async function runTaskRunner() {
   console.log(`   Satélites de esta ronda: [ ${squadIndicesStr} ]\n`);
 
   // -------------------------------------------------------------------------------------
-  // 4. EJECUCIÓN MULTI-RED OMNICHAIN (POLYGON POS MAINNET, ETHEREUM SEPOLIA, BASE, ARBITRUM)
+  // 4. EJECUCIÓN MULTI-RED OMNICHAIN (BSC MAINNET, POLYGON POS MAINNET, SEPOLIA, BASE, ARBITRUM)
   // -------------------------------------------------------------------------------------
   const targetEvmNetworks = [
+    networks.bscMainnet,
     networks.polygonMainnet,
     networks.ethereumSepolia,
     networks.baseSepolia,
