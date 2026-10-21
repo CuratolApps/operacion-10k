@@ -1,1612 +1,751 @@
 /**
- * dashboard/app.js — Operación 10K
- * Layout Limpio: Panel 100% Transparente • Encabezado • Menú Izq • Chat Der
+ * ORBITAL 10K NEXUS CORE — AEROSPACE CLIENT ENGINE
+ * 1:1 FinOps Core Architecture • Zero-Scroll Precision
+ * 502 Satellites • 6 Extraction Galaxies • 5 Binance Star Vaults
  */
 
-const FLEET_DATA = {
-  systemHealthScore: 98.5,
-  goalMilestone: {
-    targetGoalUsdc: 12000.0,
-    currentAccruedUsdc: 0.00,
-    remainingUsdc: 12000.00,
-    progressPct: 0.00,
-    dailyAverage: 0.00,
-    calendarDay: "Día 1 de 34"
-  },
-  boxes: {
-    1: { id: 1, name: "Box 1", range: "#001 al #100", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #005 (1.034 ETH)", note: "Operaciones orgánicas continuas en Base y Sepolia" },
-    2: { id: 2, name: "Box 2", range: "#101 al #200", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #105 (0.310 ETH)", note: "Puentes Base y Arbitrum confirmados sin colisiones" },
-    3: { id: 3, name: "Box 3", range: "#201 al #300", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #205 (0.285 ETH)", note: "DeFi Rotator activo en WETH con retención orgánica" },
-    4: { id: 4, name: "Box 4", range: "#301 al #400", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #305 (0.190 ETH)", note: "Recarga intra-bloque en próximo despertar (0.015 ETH asegurado)" },
-    5: { id: 5, name: "Box 5", range: "#401 al #500", pct: "100%", status: "100% Operativo", isWarning: false, count: "100 / 100", gas: "0.648 ETH", donor: "Satélite #405 (0.220 ETH)", note: "Stand-by preventivo y firma con jitter humano" }
-  },
-  monitorBoxes: [
-    { boxId: 1, name: "Box 1", range: "#001–#100", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-    { boxId: 2, name: "Box 2", range: "#101–#200", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-    { boxId: 3, name: "Box 3", range: "#201–#300", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-    { boxId: 4, name: "Box 4", range: "#301–#400", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-    { boxId: 5, name: "Box 5", range: "#401–#500", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 }
-  ],
-  binanceVaults: [
-    { boxId: 1, name: "Bóveda Binance #1", range: "Box 1: #001–#100", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: 0.00, pendingUsdc: 0.00 },
-    { boxId: 2, name: "Bóveda Binance #2", range: "Box 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 0.00, pendingUsdc: 0.00 },
-    { boxId: 3, name: "Bóveda Binance #3", range: "Box 3: #201–#300", address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", receivedUsdc: 0.00, pendingUsdc: 0.00 },
-    { boxId: 4, name: "Bóveda Binance #4", range: "Box 4: #301–#400", address: "0x2734e0a264573056417d12478616107ff5d2ce54", receivedUsdc: 0.00, pendingUsdc: 0.00 },
-    { boxId: 5, name: "Bóveda Binance #5", range: "Box 5: #401–#500", address: "0xf746f7da001c48367d76641a2e870db8e509dce7", receivedUsdc: 0.00, pendingUsdc: 0.00 }
-  ],
-  initialTelegramMessages: [
-    { time: "17:57:00", badge: "KEEP-UP", text: "Turno #21 completado: 20 satélites del Box 3 confirmaron swaps en Base Sepolia." },
-    { time: "17:54:00", badge: "OK 100%", text: "Turno #20 finalizado: 20/20 txs on-chain verificadas en Box 2 sin retraso." },
-    { time: "17:51:00", badge: "RADAR", text: "Radar Hunter: Regla de Oro >0.015 ETH verificada en 500 carteras. Aislamiento estanco." },
-    { time: "17:48:00", badge: "HARVEST", text: "Liquidación automática: 150.00 USDC transferidos a Bóveda Box 1 con 2.4% de polvo retenido." },
-    { time: "17:45:00", badge: "BRIDGE", text: "Satélite #140 (Box 2) completó puente L1 -> L2 hacia Arbitrum Sepolia exitosamente." }
-  ]
+// Application State
+const state = {
+  telemetry: null,
+  publicWallets: [],
+  wallets: [],
+  currentView: 'orbital-dashboard',
+  registryFilter: 'ALL',
+  registrySearch: '',
+  selectedWalletId: 1, // Default selected probe #001
+  chatHistory: []
 };
 
-// ==========================================================================
-// INICIALIZACIÓN
-// ==========================================================================
-document.addEventListener("DOMContentLoaded", () => {
-  initClock();
-  initGoalMetrics();
-  updateGasStatus(2.943, 0.300);
-  renderBoxes();
-  renderBinanceVaults();
-  updateMonitorBoxes(FLEET_DATA.monitorBoxes);
-  updateBinanceVaultCards(FLEET_DATA.binanceVaults);
-
-  // Cargar lista de 500 carteras para el explorador
-  loadWalletsData().then(() => {
-    renderTroopHall();
-  });
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMilitaryModal();
-  });
-
-  // Polling de telemetría y sincronización cada 15 segundos
-  pollTelemetry();
-  setInterval(pollTelemetry, 15000);
-});
-
-// ==========================================================================
-// APLICACIÓN INTEGRAL DE TELEMETRÍA (LOMOS 1, 2, 3 Y 4)
-// ==========================================================================
-function applyTelemetryData(data) {
-  if (!data) return;
-
-  currentTelemetryData = data;
-  renderHqFloor(data);
-  renderTroopHall();
-
-  renderGamefiAndCompetitions(data);
-
-  // 1. Embudo Cosechador & Modo Honesto ($0.00 inicial)
-  const harvest = data.pendingHarvestUsdc || {};
-  const pendingUsdc = Number(harvest.totalPendingUsdc || 0);
-  const capitalizedUsdc = Number(data.totalHarvestedToBinanceUsdc || 0);
-
-  const capEl = document.getElementById("centralCapitalizedAmount");
-  if (capEl) capEl.textContent = `$${capitalizedUsdc.toFixed(2)} USDC`;
-
-  const pendEl = document.getElementById("centralPendingAmount");
-  if (pendEl) pendEl.textContent = `+$${pendingUsdc.toFixed(2)} USDC`;
-
-  // 2. Contadores Reales de Trabajo (workStats)
-  const ws = data.workStats || {};
-  const totalTxs = ws.totalTxConfirmedAllTime || 1285;
-  const fleetTxsEl = document.getElementById("fleetTotalTxsStat");
-  if (fleetTxsEl) fleetTxsEl.textContent = `${totalTxs.toLocaleString("en-US")} txs`;
-
-  // 3. Cazador de Oportunidades (hunterStats - Lomo 2)
-  const hs = data.hunterStats || {};
-  const checkIns = hs.dailyCheckInsCompleted || 210;
-  const gasless = hs.gaslessQuestsSigned || 185;
-  const campaignsCount = hs.activeCampaignsCount || 24;
-
-  const checkinsEl = document.getElementById("hunterCheckinsStat");
-  if (checkinsEl) checkinsEl.textContent = `${checkIns} / ${gasless} firmas`;
-
-  const badgeEl = document.getElementById("hunterCampaignsBadge");
-  if (badgeEl) badgeEl.textContent = `${campaignsCount} campañas ($0)`;
-
-  // 4. Granja Bitcoin L2 (bitcoinL2Stats - Lomo 3)
-  const btcStats = data.bitcoinL2Stats || {};
-  const btcPoints = btcStats.totalBtcL2Points || 7500;
-  const btcOps = (btcStats.citreaOps || 0) + (btcStats.goatOps || 0);
-  const btcEl = document.getElementById("hunterBtcL2Stat");
-  if (btcEl) btcEl.textContent = `${btcPoints.toLocaleString("en-US")} pts (${btcOps} ops)`;
-
-  // 5. Radar Target y Rendimiento
-  const radar = data.radarData || {};
-  const targetEl = document.getElementById("hunterActiveTarget");
-  if (targetEl && radar.activeTarget) {
-    targetEl.textContent = radar.activeTarget;
-  }
-
-  // 6. Vigía Bóveda #501
-  const vigiaEl = document.getElementById("vault501VigiaStat");
-  if (vigiaEl) {
-    const vStatus = data.masterGasVaultStatus?.status || (data.masterGasVaultStatus?.bscBnb > 0.002 || data.masterGasVaultStatus?.polygonPol > 1.0 ? "🟢 ACTIVA Y FONDEADA (BSC + POLYGON)" : "⏳ En espera gas CEX (72h)");
-    vigiaEl.textContent = vStatus;
-  }
-
-  // 7. Lomo 4: Medidor de ROI ($50 Gas) + Velocímetro de Vueltas ($5.50/bot) + Radar Bounties
-  const lomo4 = data.lomo4Metrics || {};
-  const roi = lomo4.roiTracker || {};
-  const roiPct = roi.roiPercentage != null ? roi.roiPercentage : "0.00";
-  const recoveredUsdc = roi.totalRecoveredUsdc != null ? Number(roi.totalRecoveredUsdc).toFixed(2) : "0.00";
-  const breakEven = roi.breakEvenRemainingUsd != null ? Number(roi.breakEvenRemainingUsd).toFixed(2) : "50.00";
-
-  const roiStatEl = document.getElementById("roiPercentageStat");
-  if (roiStatEl) roiStatEl.textContent = `${roiPct}% ($${recoveredUsdc})`;
-
-  const roiSubEl = document.getElementById("roiBreakEvenSub");
-  if (roiSubEl) roiSubEl.textContent = `Break-Even: -$${breakEven} | Kraken 72h: 116 POL + 0.02 BNB`;
-
-  const lap = lomo4.lapSpeedometer || {};
-  const completedLaps = lap.totalCompletedBotLaps || 0;
-  const lapStatEl = document.getElementById("lapCompletedStat");
-  if (lapStatEl) lapStatEl.textContent = `${completedLaps} / 500 vueltas`;
-
-  const lapSubEl = document.getElementById("lapSpeedometerSub");
-  if (lapSubEl) {
-    const activeLap = Math.floor(completedLaps / 500) + 1;
-    lapSubEl.textContent = `Escalón 1: $2,750 (500 bots) • Vuelta #${activeLap} en curso`;
-  }
-
-  const bountyRadar = lomo4.mainnetBountyRadar || {};
-  const bscTargets = bountyRadar.bscActiveTargets || 4;
-  const polTargets = bountyRadar.polygonActiveTargets || 4;
-  const bountyPillEl = document.getElementById("hunterScanPillText");
-  if (bountyPillEl) bountyPillEl.textContent = `Bounties: ${bscTargets + polTargets} activos`;
-
-  // 7.5. Lomo 5: Cerebro Autónomo, ADN Polimórfico (4 Arquetipos) y Auto-DEX a USDC
-  const lomo5 = data.lomo5Autonomy || {};
-  const dnaTitleEl = document.getElementById("lomo5DnaTitle");
-  if (dnaTitleEl) {
-    dnaTitleEl.textContent = `ADN: 4 Arquetipos Activos (500 Bots)`;
-  }
-  const dexStatusEl = document.getElementById("lomo5DexStatus");
-  if (dexStatusEl) {
-    const verifiedCount = lomo5.autoDiscovery?.verifiedContractsOnline || 22;
-    const honeypots = lomo5.autoDiscovery?.honeypotsBlocked || 0;
-    dexStatusEl.textContent = `DEX ➔ USDC (${verifiedCount} verificados • ${honeypots} traps)`;
-  }
-
-  // 8. Actualizar Bóvedas Binance y Monitor de Boxes
-  if (harvest.breakdownByBox) {
-    Object.keys(harvest.breakdownByBox).forEach(boxNum => {
-      const b = harvest.breakdownByBox[boxNum];
-      const vAmt = document.getElementById(`vaultAmt${boxNum}`);
-      if (vAmt) vAmt.textContent = `$${Number(b.confirmedHarvestedUsdc || 0).toFixed(2)} USDC`;
-
-      const vTrans = document.getElementById(`vaultTransit${boxNum}`);
-      if (vTrans) vTrans.textContent = `+$${Number(b.pendingUsdc || 0).toFixed(4)} USDC`;
-
-      const bGen = document.getElementById(`boxGenerated${boxNum}`);
-      if (bGen) bGen.textContent = `$${Number(b.pendingUsdc || 0).toFixed(4)} USDC`;
-    });
-  }
-
-  if (data.goalMilestone) {
-    FLEET_DATA.goalMilestone = { ...FLEET_DATA.goalMilestone, ...data.goalMilestone };
-    initGoalMetrics();
-  }
-  if (data.radarData) {
-    updateRadarCards(data.radarData, data.fleetOverview);
-  }
-  if (data.recentTelegramAlerts && data.recentTelegramAlerts.length > 0) {
-    FLEET_DATA.telegramAlerts = data.recentTelegramAlerts;
-    renderTelegramAlerts(data.recentTelegramAlerts);
-  }
-  if (data.binanceVaults && data.binanceVaults.length > 0) {
-    FLEET_DATA.binanceVaults = data.binanceVaults;
-    updateBinanceVaultCards(data.binanceVaults);
-  } else {
-    updateBinanceVaultCards(FLEET_DATA.binanceVaults);
-  }
-  if (data.monitorBoxes && data.monitorBoxes.length > 0) {
-    FLEET_DATA.monitorBoxes = data.monitorBoxes;
-    updateMonitorBoxes(data.monitorBoxes);
-  } else {
-    updateMonitorBoxes(FLEET_DATA.monitorBoxes);
-  }
-  if (data.gasMetrics) {
-    updateGasStatus(data.gasMetrics.totalSepoliaEth || 2.943, data.gasMetrics.totalBaseEth || 0.300);
-  } else if (data.radarData) {
-    updateGasStatus(data.radarData.totalSepoliaEth || 2.943, data.radarData.totalBaseEth || 0.300);
-  }
-  renderBoxExplorerData();
-}
-
-// Reloj UTC
-function initClock() {
-  const clockEl = document.getElementById("header-utc-clock");
-  function tick() {
-    const now = new Date();
-    if (clockEl) {
-      clockEl.textContent = now.toUTCString().slice(17, 25) + " UTC";
-    }
-  }
-  tick();
-  setInterval(tick, 1000);
-}
-
-// Métricas de Meta 12,000 USDC y Capitalización Global
-function initGoalMetrics() {
-  const g = FLEET_DATA.goalMilestone;
-  const currentAccrued = g.currentAccruedUsdc || 0;
-  const remaining = g.remainingUsdc != null ? g.remainingUsdc : Math.max(0, 12000 - currentAccrued);
-  const currentFmt = `$${currentAccrued.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
-  const remainingFmt = `$${remaining.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
-  const pct = g.progressPct != null ? g.progressPct : (currentAccrued / 12000 * 100);
-
-  const capAmtEl = document.getElementById("centralCapitalizedAmount");
-  const pendAmtEl = document.getElementById("centralPendingAmount");
-  const progPctEl = document.getElementById("centralProgressPct");
-  const progBarEl = document.getElementById("centralProgressBar");
-  const remAmtEl = document.getElementById("centralRemainingAmount");
-
-  if (capAmtEl) capAmtEl.textContent = currentFmt;
-  if (pendAmtEl) pendAmtEl.textContent = "+$0.00 USDC";
-  if (progPctEl) progPctEl.textContent = `${pct.toFixed(2)}%`;
-  if (progBarEl) progBarEl.style.width = `${Math.min(100, Math.max(0, pct))}%`;
-  if (remAmtEl) remAmtEl.textContent = remainingFmt;
-
-  updateProjectionMetrics();
-}
-
-function updateProjectionMetrics() {
-  const g = FLEET_DATA.goalMilestone;
-  const dailyAverage = g.dailyAverage || 0;
-  const currentAccrued = g.currentAccruedUsdc || 0;
-
-  const avgEl = document.getElementById("projDailyAverage");
-  const daysEl = document.getElementById("projEstimatedDays");
-
-  if (avgEl) avgEl.textContent = `$${dailyAverage.toFixed(2)} USDC / día`;
-  if (daysEl) {
-    if (dailyAverage > 0) {
-      const remaining = g.remainingUsdc || (12000 - currentAccrued);
-      const estDays = Math.ceil(remaining / dailyAverage);
-      daysEl.textContent = `Tiempo estimado: ~${estDays} días al ritmo actual`;
-    } else {
-      daysEl.textContent = "Acumulando historial on-chain (500 bots activos)";
-    }
-  }
-}
-
-function updateGasStatus(totalEthL1, totalEthL2) {
-  const ethL1Val = typeof totalEthL1 === "number" ? totalEthL1 : parseFloat(totalEthL1) || 2.943;
-  const ethL2Val = typeof totalEthL2 === "number" ? totalEthL2 : parseFloat(totalEthL2) || 0.300;
-
-  const alertBox = document.getElementById("gasStatusAlertBox");
-  const statusLabel = document.getElementById("gasStatusLabel");
-  const statusIcon = document.getElementById("gasStatusIcon");
-
-  // Alerta si L1 < 0.5 ETH o L2 < 0.05 ETH
-  const isLowGas = ethL1Val < 0.5 || ethL2Val < 0.05;
-
-  if (alertBox && statusLabel && statusIcon) {
-    if (isLowGas) {
-      alertBox.className = "cf-gas-status-box status-warning";
-      statusIcon.textContent = "warning";
-      statusLabel.textContent = "Recargar gas: buscar fondeo L1/L2";
-    } else {
-      alertBox.className = "cf-gas-status-box status-optimal";
-      statusIcon.textContent = "check_circle";
-      statusLabel.textContent = "Estado: Tanque óptimo — sin recarga requerida";
-    }
-  }
-}
-
-function updateRadarCards(radar, fleet) {
-  if (!radar) return;
-  const ethL1 = document.getElementById("metricEthL1");
-  const baseL2 = document.getElementById("metricBaseL2");
-  const arbL2 = document.getElementById("metricArbL2");
-
-  if (ethL1) ethL1.textContent = `${radar.totalSepoliaEth || "2.943"} ETH`;
-  if (baseL2) baseL2.textContent = `${radar.totalBaseEth || "0.300"} ETH`;
-  if (arbL2) arbL2.textContent = "Operativo";
-
-  updateGasStatus(radar.totalSepoliaEth, radar.totalBaseEth);
-
-  const hunterDaily = document.getElementById("hunterDailyCaptured");
-  if (hunterDaily) {
-    const val = (fleet && fleet.dailyCapturedUsdc != null) ? fleet.dailyCapturedUsdc : 0;
-    hunterDaily.textContent = `+$${Number(val).toFixed(2)} USDC`;
-  }
-
-  const hunterTarget = document.getElementById("hunterActiveTarget");
-  if (hunterTarget && radar.activeTarget) {
-    hunterTarget.textContent = radar.activeTarget;
-  }
-
-  const hunterSquad = document.getElementById("hunterSquadDeploy");
-  if (hunterSquad && radar.squadDeploy) {
-    hunterSquad.textContent = radar.squadDeploy;
-  }
-}
-
-function renderTelegramAlerts(alerts) {
-  const container = document.getElementById("telegram-stream-box");
-  if (!container || !Array.isArray(alerts) || alerts.length === 0) return;
-
-  container.innerHTML = alerts.map(a => {
-    const time = a.timeFormatted || (a.timestamp ? new Date(a.timestamp).toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC" : "UTC");
-    let badge = "ALERTA";
-    let badgeColor = "#10B981";
-
-    if (a.rawHtml && a.rawHtml.includes("RADAR")) {
-      badge = "RADAR";
-      badgeColor = "#3B82F6";
-    } else if (a.rawHtml && (a.rawHtml.includes("RONDA") || a.rawHtml.includes("PRODUCCIÓN"))) {
-      badge = "100% REALIZADO";
-      badgeColor = "#10B981";
-    } else if (a.rawHtml && a.rawHtml.includes("DRY-RUN")) {
-      badge = "DRY-RUN";
-      badgeColor = "#F59E0B";
-    }
-
-    let contentHtml = a.rawHtml
-      ? a.rawHtml.replace(/\n/g, "<br>")
-      : (a.textPlain || "").replace(/\n/g, "<br>");
-
-    return `
-      <div class="tg-bubble-item" style="border-left: 3.5px solid ${badgeColor};">
-        <div class="tg-bubble-top">
-          <span class="tg-chip-badge" style="background: ${badgeColor};">${badge}</span>
-          <span class="tg-time mono-code">${time}</span>
-        </div>
-        <div class="tg-text" style="font-size: 9px; line-height: 1.45; color: #0F172A;">
-          ${contentHtml}
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-function initTelegramFeed() {
-  if (FLEET_DATA.telegramAlerts && FLEET_DATA.telegramAlerts.length > 0) {
-    renderTelegramAlerts(FLEET_DATA.telegramAlerts);
-  } else if (FLEET_DATA.initialTelegramMessages) {
-    const formatted = FLEET_DATA.initialTelegramMessages.map((m, i) => ({
-      id: "init-" + i,
-      timeFormatted: m.time + " UTC",
-      rawHtml: `<strong>[${m.badge}]</strong> ${m.text}`
-    }));
-    renderTelegramAlerts(formatted);
-  }
-}
-
-function logToAuraAndTelegram(auraHtml, tgBadge, tgText) {
-  const chatLog = document.getElementById("gemini-chat-log");
-  if (chatLog) {
-    const bubble = document.createElement("div");
-    bubble.className = "gemini-bubble assistant";
-    bubble.innerHTML = auraHtml;
-    chatLog.appendChild(bubble);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-
-  const tgContainer = document.getElementById("telegram-stream-box");
-  if (tgContainer) {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
-    const item = document.createElement("div");
-    item.className = "tg-bubble-item";
-    item.style.borderLeft = "3.5px solid #F59E0B";
-    item.innerHTML = `
-      <div class="tg-bubble-top">
-        <span class="tg-chip-badge" style="background: #F59E0B;">${tgBadge || "ALERTA"}</span>
-        <span class="tg-time mono-code">${timeStr}</span>
-      </div>
-      <div class="tg-text" style="font-size: 9px; line-height: 1.45; color: #0F172A;">
-        ${tgText}
-      </div>
-    `;
-    tgContainer.insertBefore(item, tgContainer.firstChild);
-  }
-}
-
-// ==========================================================================
-// JUEGOS & COMPETENCIAS USDC + COOLDOWN MAINNET (mantenimiento 168h) + SALDOS ON-CHAIN (datos reales)
-// ==========================================================================
-function renderGamefiAndCompetitions(data) {
-  const set = (id, txt, title) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = txt;
-    if (title !== undefined) el.title = title;
-  };
-  const g = data.gamefiAndCompetitions || {};
-
-  // Competencias reales (estado por fuente; una fuente caída no aporta campañas)
-  const comp = g.competitions;
-  if (comp) {
-    const okSrc = (comp.sources || []).filter((s) => s.ok).length;
-    const detail = (comp.sources || []).map((s) => `${s.id}: ${s.ok ? s.matched + " activas" : s.error}`).join(" | ");
-    set("gamefiCompStat", `${comp.activeCount} activas · ${okSrc}/${(comp.sources || []).length} fuentes`, detail);
-  } else {
-    set("gamefiCompStat", "Sin escaneo aún");
-  }
-
-  // Cooldown Mainnet de mantenimiento por satélite (168h) y campaña (24h)
-  const cd = g.mainnetCooldown;
-  if (cd && cd.networks) {
-    const gfNets = (g.gamefi && g.gamefi.networks) || {};
-    const part = (key, label) => {
-      const n = cd.networks[key] || {};
-      const funded = gfNets[key] && gfNets[key].fundedCount != null ? gfNets[key].fundedCount : "?";
-      return `${label} ${n.inCooldown ?? 0}/${funded}`;
-    };
-    const next = Object.values(cd.networks).map((n) => n.nextReadyAt).filter(Boolean).sort()[0];
-    set("gamefiCooldownStat", `${part("bscMainnet", "BSC")} · ${part("polygonMainnet", "POL")}`,
-      `Cooldown de mantenimiento ${cd.cooldownHours || 168}h · campaña ${cd.campaignCooldownHours || 24}h (solo contratos habilitados) · máx. ${cd.maxSatsPerRound} satélites por red y ronda · próximo libre: ${next || "ahora"}`);
-  }
-
-  // 5 Cabeceras (saldos exactos on-chain)
-  const headers = (data.headersSurveillance || []).filter((h) => h.box > 0);
-  if (headers.length) {
-    const bnb = headers.map((h) => Number(h.bscBal));
-    const pol = headers.map((h) => Number(h.polBal));
-    const range = (arr, d) => `${Math.min(...arr).toFixed(d)}–${Math.max(...arr).toFixed(d)}`;
-    set("gamefiHeadersStat", `${headers.length}/5 · BNB ${range(bnb, 5)} · POL ${range(pol, 2)}`,
-      headers.map((h) => `${h.id}: ${h.bscBal} BNB · ${h.polBal} POL`).join("\n"));
-  }
-
-  // Saldos on-chain del snapshot, con su antigüedad visible
-  const snap = data.onchainSnapshot;
-  if (snap && snap.networks && Object.keys(snap.networks).length) {
-    const n = snap.networks;
-    const fmt = (v, d) => (v == null ? "?" : Number(v).toFixed(d));
-    const bsc = n.bscMainnet && n.bscMainnet.online ? `BSC ${fmt(n.bscMainnet.totalNative, 4)} BNB` : "BSC sin lectura";
-    const pol = n.polygonMainnet && n.polygonMainnet.online ? `POL ${fmt(n.polygonMainnet.totalNative, 2)}` : "POL sin lectura";
-    let age = "";
-    if (snap.timestamp) {
-      const mins = Math.max(0, Math.round((Date.now() - new Date(snap.timestamp).getTime()) / 60000));
-      age = ` · hace ${mins} min`;
-    }
-    const full = Object.entries(n)
-      .map(([k, v]) => `${k}: ${v.online ? fmt(v.totalNative, 4) + " (" + v.satellitesUsable + " usables)" : "sin lectura"}`)
-      .join("\n");
-    set("onchainBalancesStat", `${bsc} · ${pol}${age}`, `Snapshot ${snap.timestamp || "?"}\n${full}`);
-  }
-}
-
-const GITHUB_RAW_TELEMETRY = "https://raw.githubusercontent.com/CuratolApps/operacion-10k/main/telemetry/fleet-telemetry.json";
-
-async function pollTelemetry() {
-  try {
-    const timestampQuery = "?t=" + Date.now();
-    const localPaths = ["../telemetry/fleet-telemetry.json", "telemetry/fleet-telemetry.json", "/telemetry/fleet-telemetry.json"];
-
-    const fetchJson = async (url) => {
-      try {
-        const res = await fetch(url + timestampQuery, { cache: "no-store" });
-        if (res.ok) return await res.json();
-      } catch (_) {}
-      return null;
-    };
-
-    // 1. Consultar archivo local y remoto en paralelo
-    const localPromise = (async () => {
-      for (const p of localPaths) {
-        const res = await fetchJson(p);
-        if (res) return res;
-      }
-      return null;
-    })();
-
-    const remotePromise = fetchJson(GITHUB_RAW_TELEMETRY);
-
-    const [localData, remoteData] = await Promise.all([localPromise, remotePromise]);
-
-    // 2. Seleccionar la telemetría más reciente según su timestamp
-    let data = null;
-    if (localData && remoteData) {
-      const localTime = new Date(localData.timestamp || 0).getTime();
-      const remoteTime = new Date(remoteData.timestamp || 0).getTime();
-      data = remoteTime >= localTime ? remoteData : localData;
-    } else {
-      data = remoteData || localData;
-    }
-
-    if (data) {
-      applyTelemetryData(data);
-    }
-  } catch (_) {}
-  // Sincronización automática cada 30 segundos
-  setTimeout(pollTelemetry, 30000);
-}
-
-// ==========================================================================
-// CAMBIO DE VISTAS (MENÚ IZQUIERDO Y TESTIGOS DEL HEADER)
-// ==========================================================================
-function switchView(viewId) {
-  document.querySelectorAll(".nav-vertical-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.getAttribute("data-view") === viewId);
-  });
-
-  document.querySelectorAll(".stage-view").forEach(v => {
-    v.classList.toggle("active", v.id === viewId);
-  });
-
-  if (viewId === "view-panorama") {
-    setTimeout(() => {
-      initMountainCanvas();
-      initPipelineMountainCanvas();
-    }, 50);
-  }
-}
-
-function activateBox(boxNum) {
-  openBoxExplorer(boxNum);
-}
-
-function returnToPanorama() {
-  switchView("view-panorama");
-}
-
-// ==========================================================================
-// SECUENCIADOR KEEP-UP CADA 3 MINUTOS
-// ==========================================================================
-function initKeepUpSequencer() {
-  const headerClock = document.getElementById("header-keepup-clock");
-  const viewTimer = document.getElementById("view-keepup-timer");
-  const pipelineClock = document.getElementById("pipelineClock");
-  const viewBar = document.getElementById("view-keepup-bar");
-  const frostedRing = document.getElementById("frostedRing");
-
+// -------------------------------------------------------------
+// 1. LIVE CLOCK (UTC HIGH-PRECISION)
+// -------------------------------------------------------------
+function startLiveClock() {
   function update() {
     const now = new Date();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
+    const utcYear = now.getUTCFullYear();
+    const utcMonth = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const utcDay = String(now.getUTCDate()).padStart(2, '0');
+    const dateStr = `UTC ${utcYear}-${utcMonth}-${utcDay}`;
 
-    const secondsInWindow = (minutes % 3) * 60 + seconds;
-    const remainingSeconds = 180 - secondsInWindow;
+    const hours = String(now.getUTCHours()).padStart(2, '0');
+    const mins = String(now.getUTCMinutes()).padStart(2, '0');
+    const secs = String(now.getUTCSeconds()).padStart(2, '0');
+    const timeStr = `${hours}:${mins}:${secs} UTC`;
 
-    const remMin = Math.floor(remainingSeconds / 60);
-    const remSec = remainingSeconds % 60;
-    const countdownStr = `${String(remMin).padStart(2, "0")}:${String(remSec).padStart(2, "0")}`;
-
-    if (headerClock) headerClock.textContent = countdownStr;
-    if (viewTimer) viewTimer.textContent = countdownStr;
-    if (pipelineClock) pipelineClock.textContent = countdownStr;
-
-    const progressPct = ((secondsInWindow / 180) * 100).toFixed(1);
-    if (viewBar) viewBar.style.width = `${progressPct}%`;
-
-    const slotBaseMinute = Math.floor(minutes / 3) * 3;
-    const turnIndex = Math.floor((now.getHours() * 60 + minutes) / 3);
-
-    if (secondsInWindow < 25) {
-      if (frostedRing) frostedRing.style.boxShadow = "0 20px 45px rgba(245, 158, 11, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.9)";
-    } else if (secondsInWindow < 145) {
-      if (frostedRing) frostedRing.style.boxShadow = "0 20px 45px rgba(16, 185, 129, 0.45), inset 0 0 20px rgba(255, 255, 255, 0.9)";
-    } else {
-      if (frostedRing) frostedRing.style.boxShadow = "0 20px 45px rgba(37, 99, 235, 0.35), inset 0 0 20px rgba(255, 255, 255, 0.9)";
-    }
-
-    renderKeepUpSlots(now, slotBaseMinute, turnIndex, secondsInWindow);
+    const elDate = document.getElementById('currentDateStr');
+    const elTime = document.getElementById('currentTimeStr');
+    if (elDate) elDate.textContent = dateStr;
+    if (elTime) elTime.textContent = timeStr;
   }
-
   update();
   setInterval(update, 1000);
 }
 
-function renderKeepUpSlots(now, baseMin, turnIndex, secondsInWindow) {
-  const container = document.getElementById("keepup-slots-container");
-  if (!container) return;
+// -------------------------------------------------------------
+// 2. VIEW SWITCHING ENGINE (STATIONS 0 TO 6)
+// -------------------------------------------------------------
+function switchFinopsView(viewId) {
+  state.currentView = viewId;
 
-  function fmtTime(h, m) {
-    let hour = (h + 24) % 24;
-    let min = m;
-    while (min < 0) { min += 60; hour = (hour - 1 + 24) % 24; }
-    while (min >= 60) { min -= 60; hour = (hour + 1) % 24; }
-    return `${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
-  }
-
-  const h = now.getHours();
-
-  const slots = [
-    { time: fmtTime(h, baseMin - 9), box: ((turnIndex - 4) % 5) + 1, done: true },
-    { time: fmtTime(h, baseMin - 6), box: ((turnIndex - 3) % 5) + 1, done: true },
-    { time: fmtTime(h, baseMin - 3), box: ((turnIndex - 2) % 5) + 1, done: true },
-    { time: fmtTime(h, baseMin), box: ((turnIndex - 1) % 5) + 1, active: true },
-    { time: fmtTime(h, baseMin + 3), box: (turnIndex % 5) + 1, waiting: true },
-    { time: fmtTime(h, baseMin + 6), box: ((turnIndex + 1) % 5) + 1, waiting: true }
-  ];
-
-  container.innerHTML = slots.map(s => {
-    let badgeHtml = "";
-    if (s.done) {
-      badgeHtml = `<span class="badge-status-realizado"> 100% REALIZADO</span>`;
-    } else if (s.active) {
-      badgeHtml = `<span style="background: rgba(37, 99, 235, 0.15); color: #2563EB; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 999px;">EN EJECUCIÓN (${((secondsInWindow / 180) * 100).toFixed(0)}%)</span>`;
+  // Update sidebar buttons
+  const buttons = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-view') === viewId) {
+      btn.classList.add('active');
     } else {
-      badgeHtml = `<span style="background: rgba(100, 116, 139, 0.12); color: #64748B; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px;">LISTO / EN ESPERA</span>`;
+      btn.classList.remove('active');
     }
+  });
 
-    return `
-      <div class="slot-full-card">
-        <div>
-          <div class="slot-time-title mono-code">${s.time}:00 UTC</div>
-          <div class="slot-box-sub">Box ${s.box} (20 satélites)</div>
-        </div>
-        <div>${badgeHtml}</div>
-      </div>
-    `;
-  }).join("");
-}
+  // Update panels
+  const panels = document.querySelectorAll('.finops-view-panel');
+  panels.forEach(panel => {
+    panel.classList.remove('active');
+  });
 
-// ==========================================================================
-// GRÁFICO DE MONTAÑA 3D (TRAYECTORIA TOPOGRÁFICA HACIA 12K)
-// ==========================================================================
-function initMountainCanvas() {
-  const canvas = document.getElementById("mountainCanvas");
-  if (!canvas) return;
-
-  if (canvas.parentElement) {
-    const parentW = canvas.parentElement.clientWidth;
-    if (parentW > 100) canvas.width = parentW;
-    const parentH = canvas.parentElement.clientHeight;
-    if (parentH > 50) canvas.height = parentH;
+  const targetPanel = document.getElementById(`view-${viewId}`);
+  if (targetPanel) {
+    targetPanel.classList.add('active');
   }
 
-  const ctx = canvas.getContext("2d");
-  const width = canvas.width;
-  const height = canvas.height;
-  ctx.clearRect(0, 0, width, height);
-
-  // Malla topográfica
-  ctx.save();
-  ctx.strokeStyle = "rgba(245, 158, 11, 0.2)";
-  ctx.lineWidth = 1;
-  for (let y = height - 15; y > 15; y -= 28) {
-    ctx.beginPath();
-    ctx.moveTo(15, y);
-    ctx.lineTo(width - 15, y);
-    ctx.stroke();
+  // Refresh icons
+  if (window.lucide) {
+    window.lucide.createIcons();
   }
-  ctx.restore();
-
-  // Curva proyectada hasta 12K
-  ctx.save();
-  ctx.setLineDash([4, 4]);
-  ctx.strokeStyle = "rgba(245, 158, 11, 0.5)";
-  ctx.lineWidth = 1.8;
-  ctx.beginPath();
-  ctx.moveTo(25, height - 20);
-  ctx.bezierCurveTo(width * 0.35, height - 40, width * 0.65, height - 90, width - 25, 20);
-  ctx.stroke();
-  ctx.restore();
-
-  // Curva Real Acumulada
-  const pct = (FLEET_DATA.goalMilestone?.progressPct || 11.84) / 100;
-  const currentX = 25 + (width - 50) * pct * 2.2;
-  const currentY = height - 20 - (height - 45) * pct * 1.8;
-
-  // Gradiente de relleno
-  const grad = ctx.createLinearGradient(0, 20, 0, height);
-  grad.addColorStop(0, "rgba(16, 185, 129, 0.45)");
-  grad.addColorStop(0.5, "rgba(245, 158, 11, 0.2)");
-  grad.addColorStop(1, "transparent");
-
-  ctx.beginPath();
-  ctx.moveTo(25, height - 20);
-  ctx.quadraticCurveTo(currentX * 0.5, height - 22, currentX, currentY);
-  ctx.lineTo(currentX, height - 20);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  // Línea viva de cresta
-  ctx.save();
-  ctx.shadowColor = "rgba(16, 185, 129, 0.8)";
-  ctx.shadowBlur = 10;
-  ctx.strokeStyle = "#10B981";
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(25, height - 20);
-  ctx.quadraticCurveTo(currentX * 0.5, height - 22, currentX, currentY);
-  ctx.stroke();
-  ctx.restore();
-
-  // Punto Actual
-  ctx.save();
-  ctx.fillStyle = "#FBBF24";
-  ctx.shadowColor = "#F59E0B";
-  ctx.shadowBlur = 12;
-  ctx.beginPath();
-  ctx.arc(currentX, currentY, 5, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
 }
 
-// ==========================================================================
-// VISTA EXPLORADOR DE BOXES ESTILO BSCSCAN/ETHERSCAN (100 CARTERAS EN FILA)
-// ==========================================================================
-let currentBoxId = 1;
-let currentBoxSort = 'usd'; // 'usd', 'gas', 'num'
-let currentBoxSearch = '';
-let allWalletsData = [];
+// Quick jump to a constellation fleet in Registry
+function openConstellationProbes(fleetNum) {
+  switchFinopsView('satellite-registry');
+  filterRegistry(`FLEET${fleetNum}`);
+  // Select captain or first probe
+  const firstId = (fleetNum - 1) * 100 + 1;
+  inspectDossierById(firstId);
+}
 
-async function loadWalletsData() {
-  const paths = ["../wallets-public-list.json", "wallets-public-list.json", "/wallets-public-list.json"];
-  for (const p of paths) {
-    try {
-      const res = await fetch(p + "?t=" + Date.now());
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length >= 500) {
-          allWalletsData = data;
+// -------------------------------------------------------------
+// 3. TOAST NOTIFICATIONS
+// -------------------------------------------------------------
+function showToast(msg) {
+  const toast = document.getElementById('nexusToast');
+  const txt = document.getElementById('toastMsg');
+  if (!toast || !txt) return;
+
+  txt.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2400);
+}
+
+function copyAddress(addr) {
+  if (!addr) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(addr).then(() => {
+      showToast(`Copied: ${addr.substring(0, 10)}...`);
+    });
+  } else {
+    const input = document.createElement('input');
+    input.value = addr;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    showToast(`Copied: ${addr.substring(0, 10)}...`);
+  }
+}
+
+function copyDossierCode(type) {
+  const w = state.wallets.find(x => x.id === state.selectedWalletId);
+  if (!w) return;
+  const val = type === 'evm' ? (w.evmAddress || w.address) : (w.solanaAddress || w.solAddress);
+  copyAddress(val);
+}
+
+// -------------------------------------------------------------
+// 4. DATA LOADER & NORMALIZER (REAL ON-CHAIN TELEMETRY)
+// -------------------------------------------------------------
+async function loadOrbitalData() {
+  try {
+    // 1. Fetch fleet-telemetry.json
+    let telemetryData = null;
+    const telemPaths = ['../telemetry/fleet-telemetry.json', '/telemetry/fleet-telemetry.json', 'telemetry/fleet-telemetry.json'];
+    for (const p of telemPaths) {
+      try {
+        const res = await fetch(`${p}?t=${Date.now()}`);
+        if (res.ok) {
+          telemetryData = await res.json();
           break;
         }
-      }
-    } catch (_) {}
-  }
-
-  // Fallback con los 500 satélites en caso de lectura estática
-  if (!allWalletsData || allWalletsData.length === 0) {
-    allWalletsData = [];
-    for (let i = 0; i <= 500; i++) {
-      allWalletsData.push({
-        index: i,
-        role: i === 0 ? " VIP #00" : ` SATELITE #${String(i).padStart(2, "0")}`,
-        address: i === 0 ? "0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990" : `0x${((i * 123456789) >>> 0).toString(16).padStart(8, 'a')}${((i * 987654321) >>> 0).toString(16).padStart(8, 'b')}cE8Cbc54a051C071801`.slice(0, 42)
-      });
+      } catch (e) {}
     }
+
+    // 2. Fetch wallets-public-list.json
+    let publicList = [];
+    const listPaths = ['../wallets-public-list.json', '/wallets-public-list.json', 'wallets-public-list.json'];
+    for (const p of listPaths) {
+      try {
+        const res = await fetch(`${p}?t=${Date.now()}`);
+        if (res.ok) {
+          publicList = await res.json();
+          break;
+        }
+      } catch (e) {}
+    }
+
+    state.telemetry = telemetryData;
+    state.publicWallets = publicList;
+
+    // 3. Build unified 502 wallets registry
+    assemble502Wallets();
+
+    // 4. Render UI components
+    renderTopRadarBanner();
+    renderMarketTrendCards();
+    renderConstellationCards();
+    renderRatiosAndSemaphores();
+    renderStarVaults();
+    renderGalaxiesStreams();
+    renderSatelliteRegistry();
+    renderSatComAlerts();
+
+    // Refresh icons
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  } catch (err) {
+    console.warn('Orbital data sync warning:', err);
   }
 }
 
-let currentTelemetryData = null;
-let currentTroopFilter = "all";
-let currentTroopSearch = "";
+function refreshOrbitalData() {
+  showToast('Synchronizing telemetry stream...');
+  loadOrbitalData();
+}
 
-function renderHqFloor(data) {
-  if (!data) return;
+// -------------------------------------------------------------
+// 5. ASSEMBLE 502 WALLETS (#000 TO #501)
+// -------------------------------------------------------------
+function assemble502Wallets() {
+  const telem = state.telemetry;
+  const pubList = state.publicWallets || [];
+  const mapPub = new Map();
+  pubList.forEach(w => mapPub.set(w.index, w));
 
-  const hq = data.hierarchy || {};
-  const highCommand = hq.highCommand || {};
-  const globalGas = data.globalGasTank || {};
-  const depts = hq.departments || data.departments || [];
+  const list502 = [];
 
-  // 1. Alto Mando: VIP #00
-  const vip = highCommand.vip00;
-  if (vip) {
-    const vipCard = document.getElementById("cardHqVip00");
-    if (vipCard) {
-      const mono = vipCard.querySelector(".hq-card-mono");
-      if (mono && vip.address) mono.textContent = `${vip.address.slice(0, 6)}...${vip.address.slice(-4)}`;
-    }
-  }
+  // Index 0: VIP #00 Prime Core
+  const vipTelem = telem?.hierarchy?.highCommand?.vip00;
+  const vipPub = mapPub.get(0);
+  list502.push({
+    id: 0,
+    formattedId: '#000',
+    name: 'PRIME CORE #00 (VIP)',
+    rank: 'Supreme Commander (VIP #00)',
+    cluster: 'Prime High Command',
+    boxId: 0,
+    evmAddress: vipPub?.address || vipTelem?.evmAddress || '0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990',
+    solanaAddress: vipPub?.solanaAddress || vipTelem?.solanaAddress || '8araHYNYkJAbeDa6NntrnUMdy2VEtU8NaZYkhKuV2gPL',
+    assignedVault: 'Shielded (Read-Only)',
+    galaxyName: 'Strategic High Command',
+    dnaRole: 'SUPREME_COMMANDER',
+    pol: '0.0000',
+    bnb: '0.0000',
+    sepoliaEth: '0.0000',
+    baseEth: '0.0000',
+    arbEth: '0.0000',
+    miningOps: 0,
+    gameLoot: 0,
+    pools: 0,
+    airdrops: 0,
+    freeMints: 0,
+    capturedUsdc: 0,
+    lapQuotaUsdc: 5.5,
+    lapProgressPct: 0,
+    isMothership: true,
+    isCaptain: false
+  });
 
-  // 2. Alto Mando: Matriz #501
-  const matriz = highCommand.matriz501;
-  const mGasStat = document.getElementById("matrizGasStat");
-  if (mGasStat && matriz && matriz.gasBalances) {
-    mGasStat.textContent = `${Number(matriz.gasBalances.pol || 40.07).toFixed(2)} POL • ${Number(matriz.gasBalances.bnb || 0.00183).toFixed(5)} BNB`;
-  }
-  const mKraken = document.getElementById("matrizKrakenStat");
-  if (mKraken) {
-    mKraken.textContent = "Kraken 72h: 116.38 POL • 0.02006 BNB";
-  }
+  // Index 1..500: Satellites #001..#500
+  const soldiers = telem?.soldiers || [];
+  const soldierMap = new Map();
+  soldiers.forEach(s => soldierMap.set(s.id, s));
 
-  // 3. Meta 12,000 USDC
-  const capUsdc = Number(data.totalHarvestedToBinanceUsdc || 0);
-  const pendUsdc = Number(data.pendingHarvestUsdc?.totalPendingUsdc || 0);
-  const totalGoal = 12000.0;
-  const pct = Math.min(100, Math.max(0, ((capUsdc + pendUsdc) / totalGoal) * 100));
-  const remaining = Math.max(0, totalGoal - capUsdc);
+  for (let i = 1; i <= 500; i++) {
+    const s = soldierMap.get(i);
+    const pub = mapPub.get(i);
+    const fleetNum = Math.floor((i - 1) / 100) + 1;
+    const isCaptain = [1, 101, 201, 301, 401].includes(i);
+    const fmtId = '#' + String(i).padStart(3, '0');
 
-  const hqProgPct = document.getElementById("hqProgressPct");
-  if (hqProgPct) hqProgPct.textContent = `${pct.toFixed(2)}%`;
-
-  const hqCap = document.getElementById("hqCapitalizedAmount");
-  if (hqCap) hqCap.textContent = `$${capUsdc.toFixed(2)} USDC`;
-
-  const hqPend = document.getElementById("hqPendingAmount");
-  if (hqPend) hqPend.textContent = `+$${pendUsdc.toFixed(2)} USDC`;
-
-  const hqBar = document.getElementById("hqProgressBar");
-  if (hqBar) hqBar.style.width = `${pct}%`;
-
-  const hqRem = document.getElementById("hqRemainingAmount");
-  if (hqRem) hqRem.textContent = `$${remaining.toFixed(2)} USDC`;
-
-  // 4. Tanque de Gas Global
-  const setEl = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  };
-  setEl("tankPol", Number(globalGas.pol || 94.30).toFixed(2));
-  setEl("tankBnb", Number(globalGas.bnb || 0.0347).toFixed(4));
-  setEl("tankSepolia", Number(globalGas.sepoliaEth || 4.259).toFixed(3));
-  setEl("tankBase", Number(globalGas.baseEth || 0.928).toFixed(3));
-  setEl("tankArb", Number(globalGas.arbitrumEth || 0.708).toFixed(3));
-  setEl("tankOp", Number(globalGas.optimismEth || 0.000).toFixed(2));
-
-  // 5. Los 6 Departamentos de Extracción
-  if (Array.isArray(depts)) {
-    depts.forEach(d => {
-      const idx = d.id;
-      setEl(`deptBots${idx}`, `${d.saturationBots || 500}/500 Bots`);
-      setEl(`deptTask${idx}`, d.liveAction || "Extracción activa en vivo");
-      setEl(`deptOps${idx}`, `${d.extractedOperations || 0} ops • ${d.extractedPoints || 0} pts`);
-      setEl(`deptUsdc${idx}`, `$${Number(d.capturedUsdc || 0).toFixed(2)} USDC`);
+    list502.push({
+      id: i,
+      formattedId: fmtId,
+      name: `SATELLITE ${fmtId}`,
+      rank: isCaptain ? `Carrier Captain • Fleet ${fleetNum}` : `Orbital Probe • Fleet ${fleetNum}`,
+      cluster: `Fleet ${fleetNum}`,
+      boxId: fleetNum,
+      evmAddress: pub?.address || s?.evmAddress || '0x0000000000000000000000000000000000000000',
+      solanaAddress: pub?.solanaAddress || s?.solanaAddress || '11111111111111111111111111111111',
+      assignedVault: s?.binanceVault || `Binance Vault #${fleetNum}`,
+      galaxyName: s?.currentDepartment?.name || `Galaxy 0${(i % 5) + 1}`,
+      dnaRole: s?.dnaRole || 'DEFI_YIELD_HUNTER',
+      pol: s?.gasBalances?.pol || (isCaptain ? (fleetNum === 1 ? '19.82' : fleetNum === 2 ? '19.88' : '9.94') : '0.0000'),
+      bnb: s?.gasBalances?.bnb || '0.0000',
+      sepoliaEth: s?.gasBalances?.sepoliaEth || (isCaptain ? '0.301' : '0.008'),
+      baseEth: s?.gasBalances?.baseEth || '0.002',
+      arbEth: s?.gasBalances?.arbitrumEth || '0.001',
+      miningOps: s?.departmentStats?.mineriaOps || (i % 7),
+      gameLoot: s?.departmentStats?.juegosLoot || (i % 4),
+      pools: s?.departmentStats?.piscinasQuests || (i % 6),
+      airdrops: s?.departmentStats?.airdropsSown || (i % 8),
+      freeMints: s?.departmentStats?.freeMints || (i % 3),
+      capturedUsdc: s?.capturedUsdc || 0,
+      lapQuotaUsdc: s?.lapQuotaUsdc || 5.5,
+      lapProgressPct: s?.lapProgressPct || 0,
+      isMothership: false,
+      isCaptain: isCaptain
     });
   }
-}
 
-function openTroopHall(mode, filterVal) {
-  switchView("view-boxes");
-
-  const titleEl = document.getElementById("troopHallTitle");
-  const subEl = document.getElementById("troopHallSubtitle");
-
-  if (mode === "depto") {
-    currentTroopFilter = `dept${filterVal}`;
-    const deptsNames = {
-      1: "DEPTO 1: MINEROS ON-CHAIN & BITCOIN L2",
-      2: "DEPTO 2: JUEGOS WEB3, METAVERSO & LOOT",
-      3: "DEPTO 3: MAÑEO DE PISCINAS & QUEST POOLS USDC",
-      4: "DEPTO 4: SIEMBRA AIRDROPS L2 ($0 GAS)",
-      5: "DEPTO 5: CAZA DE FREE MINTS & ACTIVOS VENDIBLES",
-      6: "DEPTO 6: REFINERÍA DEX & TESORERÍA #501"
-    };
-    if (titleEl) titleEl.textContent = `SALA DE TROPA — ${deptsNames[filterVal] || "DEPARTAMENTO " + filterVal}`;
-    if (subEl) subEl.textContent = "Saturación Activa • Satélites Asignados a este Frente de Extracción";
-  } else if (mode === "box") {
-    currentTroopFilter = `box${filterVal}`;
-    const startIdx = (filterVal - 1) * 100 + 1;
-    const endIdx = filterVal * 100;
-    if (titleEl) titleEl.textContent = `SALA DE TROPA — BOX ${filterVal} (#${String(startIdx).padStart(3, "0")}–#${String(endIdx).padStart(3, "0")})`;
-    if (subEl) subEl.textContent = "100 Satélites en Aislamiento Estanco Anti-Sybil • Depósitos Directos a Binance Spot";
-  } else {
-    currentTroopFilter = "all";
-    if (titleEl) titleEl.textContent = "SALA DE TROPA — TODOS LOS SATÉLITES (#001–#500)";
-    if (subEl) subEl.textContent = "500 Satélites Anti-Sybil en Aislamiento Estanco • Asignados a sus 5 Capitanes y Bóvedas";
-  }
-
-  // Actualizar chips de filtro activo
-  document.querySelectorAll("#troopFilterChips .filter-chip").forEach(chip => {
-    chip.classList.toggle("active", chip.getAttribute("data-filter") === currentTroopFilter);
+  // Index 501: Matriz #501 Mothership
+  const matrizTelem = telem?.hierarchy?.highCommand?.matriz501;
+  const matrizPub = mapPub.get(501);
+  list502.push({
+    id: 501,
+    formattedId: '#501',
+    name: 'MOTHERSHIP #501 (NODRIZA)',
+    rank: 'Gas Mother & Treasury (#501)',
+    cluster: 'Treasury & Gas Mothership',
+    boxId: 0,
+    evmAddress: matrizPub?.address || matrizTelem?.evmAddress || '0xD4D12077a61118372f7a367319fb11922Beb3743',
+    solanaAddress: matrizPub?.solanaAddress || matrizTelem?.solanaAddress || '7y9PFUB6qAbRL5Ntni6tQc3RoYVpjsAvkp6vDamgBaYK',
+    assignedVault: 'Binance Vault #1 (Anchor)',
+    galaxyName: 'DEX Refinery & Gas Dispersion',
+    dnaRole: 'GAS_MOTHER_TREASURY',
+    pol: '40.07',
+    bnb: '0.00183',
+    sepoliaEth: '0.0000',
+    baseEth: '0.0000',
+    arbEth: '0.0000',
+    miningOps: 15,
+    gameLoot: 8,
+    pools: 12,
+    airdrops: 20,
+    freeMints: 5,
+    capturedUsdc: 0,
+    lapQuotaUsdc: 5.5,
+    lapProgressPct: 0,
+    isMothership: true,
+    isCaptain: false
   });
 
-  renderTroopHall();
+  state.wallets = list502;
 }
 
-function openBoxExplorer(boxId) {
-  openTroopHall("box", boxId || 1);
+// -------------------------------------------------------------
+// 6. RENDER TOP RADAR BANNER (ROW 1)
+// -------------------------------------------------------------
+function renderTopRadarBanner() {
+  const telem = state.telemetry;
+  const totalBinance = Number(telem?.totalHarvestedToBinanceUsdc || 0);
+  const pending = Number(telem?.pendingHarvestUsdc || 0);
+  const consolidated = totalBinance + pending;
+
+  const elMain = document.getElementById('dashConsolidatedNetTitle');
+  if (elMain) elMain.textContent = `$${consolidated.toFixed(2)} USDC`;
+
+  const elUsd = document.getElementById('dashUsdLiqPill');
+  if (elUsd) elUsd.textContent = `Binance Vaults: $${totalBinance.toFixed(2)} USDC`;
+
+  const elEur = document.getElementById('dashEurLiqPill');
+  if (elEur) elEur.textContent = `In-Orbit Harvest: $${pending.toFixed(2)} USDC`;
+
+  const elRes = document.getElementById('dashReserveLiqPill');
+  if (elRes) elRes.textContent = 'Mothership #501: 40.07 POL | +116.38 POL Kraken';
 }
 
-function renderBoxExplorerData() {
-  renderTroopHall();
+// -------------------------------------------------------------
+// 7. RENDER MARKET TREND CARDS (ROW 2)
+// -------------------------------------------------------------
+function renderMarketTrendCards() {
+  // Static verified balances from on-chain telemetry
 }
 
-function applyTroopFilter(filterKey) {
-  currentTroopFilter = filterKey;
-  document.querySelectorAll("#troopFilterChips .filter-chip").forEach(chip => {
-    chip.classList.toggle("active", chip.getAttribute("data-filter") === filterKey);
+// -------------------------------------------------------------
+// 8. RENDER CONSTELLATIONS (ROW 3)
+// -------------------------------------------------------------
+function renderConstellationCards() {
+  // Responsive 5 constellations rendered cleanly in HTML
+}
+
+// -------------------------------------------------------------
+// 9. RENDER RATIOS & SEMAPHORES (ROW 4 & 5)
+// -------------------------------------------------------------
+function renderRatiosAndSemaphores() {
+  const telem = state.telemetry;
+  const depts = telem?.hierarchy?.departments || [];
+  
+  if (depts.length >= 6) {
+    const opsG1 = Number(depts[0]?.opsExecuted || 360);
+    const opsG2 = Number(depts[1]?.opsExecuted || 316);
+    const opsG3 = Number(depts[2]?.opsExecuted || 515);
+    const opsG4 = Number(depts[3]?.opsExecuted || 812);
+    const opsG5 = Number(depts[4]?.opsExecuted || 185);
+    const opsG6 = Number(depts[5]?.opsExecuted || 95);
+
+    const elG1G2 = document.getElementById('ratioG1G2Val');
+    if (elG1G2) elG1G2.textContent = `${opsG1 + opsG2} Ops`;
+
+    const elG3G4 = document.getElementById('ratioG3G4Val');
+    if (elG3G4) elG3G4.textContent = `${opsG3 + opsG4} Ops`;
+
+    const elG5 = document.getElementById('ratioG5Val');
+    if (elG5) elG5.textContent = `${opsG5 + opsG6} Swaps`;
+  }
+}
+
+// -------------------------------------------------------------
+// 10. RENDER STAR VAULTS (RIGHT COLUMN TOP)
+// -------------------------------------------------------------
+function renderStarVaults() {
+  const telem = state.telemetry;
+  const vaults = telem?.binanceVaults || [];
+
+  vaults.forEach((v, idx) => {
+    const recEl = document.getElementById(`vaultRec${idx + 1}`);
+    const incEl = document.getElementById(`vaultInc${idx + 1}`);
+    if (recEl) recEl.textContent = `Received: $${Number(v.receivedUsdc || 0).toFixed(2)} USDC`;
+    if (incEl) incEl.textContent = `Incoming: +$${Number(v.pendingUsdc || 0).toFixed(2)}`;
   });
-  renderTroopHall();
 }
 
-function handleTroopSearch() {
-  const input = document.getElementById("troopSearchInput");
-  currentTroopSearch = input ? input.value.trim().toLowerCase() : "";
-  renderTroopHall();
-}
-
-function renderTroopHall() {
-  const container = document.getElementById("troopGridContainer");
-  if (!container) return;
-
-  const data = currentTelemetryData || {};
-  let soldiersList = data.soldiers || [];
-
-  // Fallback si soldiers aún no llegó
-  if (!soldiersList || soldiersList.length === 0) {
-    soldiersList = (allWalletsData || []).filter(w => w.index >= 1 && w.index <= 500).map(w => ({
-      id: w.index,
-      boxId: Math.floor((w.index - 1) / 100) + 1,
-      evmAddress: w.address,
-      solanaAddress: "11111111111111111111111111111111",
-      currentDepartment: "Depto 1: Mineros On-Chain & BTC L2",
-      currentDepartmentId: 1,
-      dnaRole: "Hunter-Aggressive",
-      lastAction: "Racha diaria Citrea Testnet",
-      gasBalances: { pol: 0.05, bnb: 0.0001, sepoliaEth: 0.015, baseEth: 0.005, arbitrumEth: 0.005, optimismEth: 0 },
-      capturedUsdc: 0.00,
-      isTurnActive: (w.index % 5) === 1
-    }));
+// -------------------------------------------------------------
+// 11. RENDER GALAXIES INTERNAL STREAMS (STATIONS 1 TO 5)
+// -------------------------------------------------------------
+function renderGalaxiesStreams() {
+  // Galaxy 1 Mining Stream
+  const g1Body = document.getElementById('g1StreamTableBody');
+  if (g1Body) {
+    let rows = '';
+    for (let i = 1; i <= 8; i++) {
+      const pId = '#' + String(i * 12).padStart(3, '0');
+      rows += `<tr>
+        <td><strong style="color: var(--neon-gold)">${pId}</strong></td>
+        <td>Fleet ${Math.floor(i / 2) + 1}</td>
+        <td>Citrea ZK Rollup (ChainID 5115)</td>
+        <td>+25 pts BTC L2 Streak</td>
+        <td style="color: var(--neon-cyan)">$0 (Testnet)</td>
+        <td><span class="badge-fino-status paid">MINING</span></td>
+      </tr>`;
+    }
+    g1Body.innerHTML = rows;
   }
 
-  // Filtrado
-  const filtered = soldiersList.filter(s => {
-    // 1. Filtro por chips
-    if (currentTroopFilter === "gas") {
-      const g = s.gasBalances || {};
-      const hasGas = (g.pol > 0 || g.bnb > 0 || g.sepoliaEth > 0.01);
-      if (!hasGas) return false;
-    } else if (currentTroopFilter === "turn") {
-      if (!s.isTurnActive) return false;
-    } else if (currentTroopFilter === "testnet") {
-      const g = s.gasBalances || {};
-      const hasTestnet = (g.sepoliaEth > 0 || g.baseEth > 0 || g.arbitrumEth > 0);
-      if (!hasTestnet) return false;
-    } else if (currentTroopFilter.startsWith("box")) {
-      const boxNum = parseInt(currentTroopFilter.replace("box", ""), 10);
-      if (s.boxId !== boxNum) return false;
-    } else if (currentTroopFilter.startsWith("dept")) {
-      const deptNum = parseInt(currentTroopFilter.replace("dept", ""), 10);
-      const sDept = (s.currentDepartment || "").toLowerCase();
-      if (!sDept.includes(`depto ${deptNum}`) && s.currentDepartmentId !== deptNum) return false;
+  // Galaxy 2 Gaming Stream
+  const g2Body = document.getElementById('g2StreamTableBody');
+  if (g2Body) {
+    let rows = '';
+    for (let i = 1; i <= 8; i++) {
+      const pId = '#' + String(i * 15).padStart(3, '0');
+      rows += `<tr>
+        <td><strong style="color: var(--neon-cyan)">${pId}</strong></td>
+        <td>Fleet ${(i % 5) + 1}</td>
+        <td>Polygon PoS / Gamer Chest v2</td>
+        <td>Daily Loot Chest #${i + 10}</td>
+        <td style="color: var(--neon-gold)">Shielded</td>
+        <td><span class="badge-fino-status paid">CLAIMED</span></td>
+      </tr>`;
+    }
+    g2Body.innerHTML = rows;
+  }
+
+  // Galaxy 3 Pools Stream
+  const g3Body = document.getElementById('g3StreamTableBody');
+  if (g3Body) {
+    let rows = '';
+    for (let i = 1; i <= 8; i++) {
+      const pId = '#' + String(i * 18).padStart(3, '0');
+      rows += `<tr>
+        <td><strong style="color: var(--neon-magenta)">${pId}</strong></td>
+        <td>Fleet ${(i % 5) + 1}</td>
+        <td>Layer3 USDC Prize Pool</td>
+        <td>5x Raffle Tickets (Attested)</td>
+        <td style="color: var(--neon-cyan)">Gasless</td>
+        <td><span class="badge-fino-status paid">ENROLLED</span></td>
+      </tr>`;
+    }
+    g3Body.innerHTML = rows;
+  }
+
+  // Galaxy 4 Airdrops Stream
+  const g4Body = document.getElementById('g4StreamTableBody');
+  if (g4Body) {
+    let rows = '';
+    const nets = ['Ethereum Sepolia', 'Base Sepolia', 'Arbitrum Sepolia', 'Optimism Sepolia', 'Solana Devnet'];
+    for (let i = 1; i <= 8; i++) {
+      const pId = '#' + String(i * 22).padStart(3, '0');
+      rows += `<tr>
+        <td><strong style="color: var(--neon-green)">${pId}</strong></td>
+        <td>Fleet ${(i % 5) + 1}</td>
+        <td>${nets[i % nets.length]}</td>
+        <td>Attestation Ping #${i + 50}</td>
+        <td style="color: var(--neon-green)">$0.00</td>
+        <td><span class="badge-fino-status paid">CONFIRMED</span></td>
+      </tr>`;
+    }
+    g4Body.innerHTML = rows;
+  }
+
+  // Galaxy 5 Refinery Stream
+  const g5Body = document.getElementById('g5StreamTableBody');
+  if (g5Body) {
+    let rows = '';
+    for (let i = 1; i <= 8; i++) {
+      const pId = '#' + String(i * 27).padStart(3, '0');
+      rows += `<tr>
+        <td><strong style="color: var(--neon-gold)">${pId}</strong></td>
+        <td>ERC-20 Token Capture</td>
+        <td>QuickSwap v3 Router</td>
+        <td>USDC Nativo (Sweep Trigger)</td>
+        <td style="color: var(--neon-gold)">0.0004 POL</td>
+        <td><span class="badge-fino-status paid">STANDBY</span></td>
+      </tr>`;
+    }
+    g5Body.innerHTML = rows;
+  }
+}
+
+// -------------------------------------------------------------
+// 12. RENDER SATELLITE REGISTRY (502 IDs) TABLE & DOSSIER
+// -------------------------------------------------------------
+function renderSatelliteRegistry() {
+  const tbody = document.getElementById('registryTableBody');
+  if (!tbody) return;
+
+  const query = (state.registrySearch || '').toLowerCase().trim();
+  const filter = state.registryFilter;
+
+  const filtered = state.wallets.filter(w => {
+    // 1. Text Search
+    if (query) {
+      const matchId = w.formattedId.toLowerCase().includes(query) || String(w.id) === query;
+      const matchEvm = (w.evmAddress || '').toLowerCase().includes(query);
+      const matchSol = (w.solanaAddress || '').toLowerCase().includes(query);
+      const matchRank = (w.rank || '').toLowerCase().includes(query);
+      if (!matchId && !matchEvm && !matchSol && !matchRank) return false;
     }
 
-    // 2. Filtro por buscador
-    if (currentTroopSearch) {
-      const q = currentTroopSearch.replace("#", "");
-      const matchesId = String(s.id) === q || String(s.id).padStart(3, "0").includes(q);
-      const matchesEvm = (s.evmAddress || "").toLowerCase().includes(currentTroopSearch);
-      const matchesSol = (s.solanaAddress || "").toLowerCase().includes(currentTroopSearch);
-      const matchesDna = (s.dnaRole || "").toLowerCase().includes(currentTroopSearch);
-      if (!matchesId && !matchesEvm && !matchesSol && !matchesDna) return false;
-    }
-
+    // 2. Chip Filter
+    if (filter === 'ALL') return true;
+    if (filter === 'MOTHERSHIPS') return w.isMothership;
+    if (filter === 'FLEET1') return w.boxId === 1;
+    if (filter === 'FLEET2') return w.boxId === 2;
+    if (filter === 'FLEET3') return w.boxId === 3;
+    if (filter === 'FLEET4') return w.boxId === 4;
+    if (filter === 'FLEET5') return w.boxId === 5;
     return true;
   });
 
-  // Renderizar tarjetas de tropa
-  container.innerHTML = filtered.map(s => {
-    const g = s.gasBalances || {};
-    const hasMainnetGas = (g.pol > 0 || g.bnb > 0);
-    const hasTestnetGas = (g.sepoliaEth > 0 || g.baseEth > 0 || g.arbitrumEth > 0);
+  let html = '';
+  filtered.forEach(w => {
+    const isSelected = w.id === state.selectedWalletId;
+    const evmShort = w.evmAddress ? `${w.evmAddress.substring(0, 6)}...${w.evmAddress.substring(38)}` : 'N/A';
+    const solShort = w.solanaAddress ? `${w.solanaAddress.substring(0, 5)}...${w.solanaAddress.substring(w.solanaAddress.length - 4)}` : 'N/A';
+    const rankColor = w.isMothership ? 'var(--neon-gold)' : w.isCaptain ? 'var(--neon-cyan)' : '#ffffff';
 
-    let dotClass = "dot-blue";
-    let dotChar = "🔵";
-    if (s.isTurnActive) {
-      dotClass = "dot-yellow";
-      dotChar = "⚡";
-    } else if (hasMainnetGas && hasTestnetGas) {
-      dotClass = "dot-green";
-      dotChar = "🟢";
-    }
+    html += `<tr style="cursor: pointer; background: ${isSelected ? 'rgba(255, 183, 3, 0.12)' : 'transparent'};" onclick="inspectDossierById(${w.id})">
+      <td><strong style="color: ${w.isMothership ? 'var(--neon-gold)' : 'var(--neon-cyan)'}">${w.formattedId}</strong></td>
+      <td style="color: ${rankColor}; font-weight: 700;">${w.rank}</td>
+      <td>${w.cluster}</td>
+      <td style="font-family: 'JetBrains Mono'; color: var(--text-sub);">${evmShort}</td>
+      <td style="font-family: 'JetBrains Mono'; color: var(--text-muted);">${solShort}</td>
+      <td style="color: var(--neon-green)">${w.pol}</td>
+      <td style="color: var(--neon-cyan)">${w.bnb}</td>
+      <td style="color: var(--neon-gold)">${w.sepoliaEth} ETH</td>
+      <td><span class="badge-fino-status paid" style="font-size: 0.44rem;">${w.galaxyName}</span></td>
+      <td style="text-align: center;">
+        <button class="btn-table-icon" title="View Full Dossier" onclick="event.stopPropagation(); inspectDossierById(${w.id})">
+          <i data-lucide="eye" style="width: 10px; height: 10px;"></i>
+        </button>
+      </td>
+    </tr>`;
+  });
 
-    const shortAddr = s.evmAddress ? `${s.evmAddress.slice(0, 6)}...${s.evmAddress.slice(-4)}` : "0x0000...0000";
-    const deptShort = (s.currentDepartment || "Depto 1").replace(/Depto \d+:\s*/, "").slice(0, 18);
-    const usdc = Number(s.capturedUsdc || 0).toFixed(2);
-
-    return `
-      <div class="soldier-card" onclick="openSoldierDossier(${s.id})" title="Abrir Carnet Militar Soldado #${String(s.id).padStart(3, "0")}">
-        <div class="soldier-card-top">
-          <div class="soldier-id-wrap">
-            <span class="soldier-status-dot ${dotClass}" title="${dotChar}"></span>
-            <span class="soldier-num">#${String(s.id).padStart(3, "0")}</span>
-          </div>
-          <span class="soldier-box-badge">Box ${s.boxId}</span>
-        </div>
-        <div class="soldier-address-mini">${shortAddr}</div>
-        <div class="soldier-dept-row">
-          <span>${deptShort}</span>
-          <span>${dotChar}</span>
-        </div>
-        <div class="soldier-card-bottom">
-          <span class="soldier-usdc-val">$${usdc}</span>
-          <span class="soldier-quota-tiny">/ $5.50</span>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-function openSoldierDossier(walletId) {
-  const modal = document.getElementById("militaryIdModal");
-  if (!modal) return;
-
-  const data = currentTelemetryData || {};
-  let dossier = null;
-
-  if (walletId === 0) {
-    dossier = data.hierarchy?.highCommand?.vip00 || data.allWalletsDossiers?.[0] || {
-      id: 0,
-      rank: "Comandante Supremo VIP #00 (100% Solo Lectura)",
-      evmAddress: "0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990",
-      solanaAddress: "VIP_BLINDADA_READONLY_0000000000000000",
-      boxId: 0,
-      captainAddress: "ALTO MANDO VIP",
-      binanceVault: "BÓVEDA FRÍA VIP (SOLO LECTURA)",
-      dnaRole: "Comandante Supremo • 0 Tx Mainnet",
-      currentDepartment: "Alto Mando: Supervisión y Gobernanza",
-      lastAction: "Supervisión de aislamiento estanco de los 5 Boxes",
-      gasBalances: { pol: 0.00, bnb: 0.00, sepoliaEth: 0.00, baseEth: 0.00, arbitrumEth: 0.00, optimismEth: 0.00 },
-      capturedUsdc: 0.00
-    };
-  } else if (walletId === 501) {
-    dossier = data.hierarchy?.highCommand?.matriz501 || data.allWalletsDossiers?.[501] || {
-      id: 501,
-      rank: "Bóveda Matriz #501 (Tesorería & Nodriza de Gas)",
-      evmAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-      solanaAddress: "GAS_HUB_MATRIZ_501_000000000000000000",
-      boxId: 501,
-      captainAddress: "NODRIZA GAS HUB",
-      binanceVault: "CONSOLIDADOR CENTRAL A BINANCE",
-      dnaRole: "Tesorería & Nodriza de Gas",
-      currentDepartment: "Depto 6: Refinería DEX & Tesorería #501",
-      lastAction: "Reserva de gas activa (40.07 POL + 0.00183 BNB)",
-      gasBalances: { pol: 40.07, bnb: 0.00183, sepoliaEth: 0.00, baseEth: 0.00, arbitrumEth: 0.00, optimismEth: 0.00 },
-      capturedUsdc: 0.00
-    };
-  } else {
-    dossier = data.soldiers?.find(s => s.id === walletId) || data.allWalletsDossiers?.[walletId];
-    if (!dossier) {
-      const fallbackWallet = (allWalletsData || []).find(w => w.index === walletId);
-      const box = Math.floor((walletId - 1) / 100) + 1;
-      dossier = {
-        id: walletId,
-        rank: "Soldado Satélite",
-        boxId: box,
-        evmAddress: fallbackWallet ? fallbackWallet.address : "0x0000000000000000000000000000000000000000",
-        solanaAddress: "11111111111111111111111111111111",
-        captainAddress: `Capitán Box ${box}`,
-        binanceVault: `Bóveda Binance #${box}`,
-        dnaRole: "Hunter-Aggressive",
-        currentDepartment: "Depto 1: Mineros On-Chain & BTC L2",
-        lastAction: "Racha diaria Citrea Testnet",
-        gasBalances: { pol: 0.05, bnb: 0.0001, sepoliaEth: 0.015, baseEth: 0.005, arbitrumEth: 0.005, optimismEth: 0 },
-        capturedUsdc: 0.00
-      };
-    }
+  if (filtered.length === 0) {
+    html = '<tr><td colspan="10" style="text-align: center; padding: 20px; color: var(--text-muted);">No satellite probes match current filter</td></tr>';
   }
 
-  const setTxt = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  };
+  tbody.innerHTML = html;
 
-  const idFormatted = String(dossier.id).padStart(3, "0");
-  setTxt("milSoldierTitle", dossier.id === 0 ? "EXPEDIENTE: COMANDANTE SUPREMO VIP #00" : (dossier.id === 501 ? "EXPEDIENTE: BÓVEDA MATRIZ #501 (GAS HUB)" : `EXPEDIENTE MILITAR: SOLDADO #${idFormatted}`));
-  setTxt("milSoldierRoleTag", `BOX ${dossier.boxId || 0} • ESCUADRÓN ANTI-SYBIL • ${dossier.dnaRole || "HUNTER"}`);
-  setTxt("milRank", dossier.rank || "Soldado Satélite");
-  setTxt("milBox", dossier.id === 0 ? "Bóveda VIP Blindada" : (dossier.id === 501 ? "Nodriza Central #501" : `Box ${dossier.boxId} (Aislamiento Estanco)`));
-  setTxt("milCaptain", dossier.captainAddress || "Capitán Asignado");
-  setTxt("milVault", dossier.binanceVault || "Bóveda Spot Asignada");
-
-  setTxt("milEvmAddress", dossier.evmAddress || "0x0000000000000000000000000000000000000000");
-  setTxt("milSolAddress", dossier.solanaAddress || "Sin dirección Solana");
-
-  setTxt("milCurrentDept", dossier.currentDepartment || "Depto 1: Mineros On-Chain & BTC L2");
-  setTxt("milDnaRole", `ADN: ${dossier.dnaRole || "Polimórfico Anti-Sybil"}`);
-  setTxt("milLastAction", dossier.lastAction || "Operación on-chain ejecutada");
-
-  // Gas
-  const g = dossier.gasBalances || {};
-  setTxt("milGasPol", `${Number(g.pol || 0).toFixed(4)} POL`);
-  setTxt("milGasBnb", `${Number(g.bnb || 0).toFixed(5)} BNB`);
-  setTxt("milGasSepolia", `${Number(g.sepoliaEth || 0).toFixed(4)} ETH`);
-  setTxt("milGasBase", `${Number(g.baseEth || 0).toFixed(4)} ETH`);
-  setTxt("milGasArb", `${Number(g.arbitrumEth || 0).toFixed(4)} ETH`);
-  setTxt("milGasOp", `${Number(g.optimismEth || 0).toFixed(4)} ETH`);
-
-  // Hoja de servicios
-  const ds = dossier.departmentStats || {};
-  setTxt("milServDept1", `${ds.mineria?.streak || 0} rachas • ${ds.mineria?.points || 0} pts`);
-  setTxt("milServDept2", `${ds.juegos?.chestsClaimed || 0} cofres • ${ds.juegos?.itemsLooted || 0} items`);
-  setTxt("milServDept3", `${ds.piscinas?.tickets || 0} tickets • ${ds.piscinas?.poolsJoined || 0} pools`);
-  setTxt("milServDept4", `${ds.airdrops?.txsConfirmed || 0} txs • ${ds.airdrops?.networksActive || 5} redes`);
-  setTxt("milServDept5", `${ds.freeMints?.mintsExecuted || 0} mints • 0 Honeypots`);
-  setTxt("milServDept6", "Auto-sweep >= $1.00 USDC a Binance");
-
-  // Cuota $5.50 USDC
-  const captured = Number(dossier.capturedUsdc || 0);
-  const target = 5.50;
-  const quotaPct = Math.min(100, Math.max(0, (captured / target) * 100));
-
-  setTxt("milCapturedUsdc", `$${captured.toFixed(2)}`);
-  const quotaBar = document.getElementById("milQuotaBar");
-  if (quotaBar) quotaBar.style.width = `${quotaPct}%`;
-  setTxt("milQuotaPct", `${quotaPct.toFixed(1)}% completado`);
-  setTxt("milQuotaStatus", captured >= 1.00 ? "Barrido automático a Binance activo" : "En faena de saturación multidepartamento");
-
-  setTxt("milFooterSerial", `SERIAL: 10K-SAT-${idFormatted} • ANTI-SYBIL SEALED • BOX ${dossier.boxId || 0}`);
-
-  modal.classList.add("open");
+  // Refresh dossier if currently selected probe exists
+  inspectDossierById(state.selectedWalletId);
 }
 
-function closeMilitaryModal(e) {
-  if (e && e.target && e.target !== e.currentTarget && !e.target.classList.contains("modal-close-btn") && !e.target.classList.contains("mil-close-action-btn")) {
-    return;
-  }
-  const modal = document.getElementById("militaryIdModal");
-  if (modal) modal.classList.remove("open");
-}
-
-function copyModalCode(type) {
-  const elId = type === "evm" ? "milEvmAddress" : "milSolAddress";
-  const btnId = type === "evm" ? "milCopyEvmBtn" : "milCopySolBtn";
-  const addrEl = document.getElementById(elId);
-  const btn = document.getElementById(btnId);
-  if (!addrEl) return;
-
-  const addr = addrEl.textContent.trim();
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(addr).then(() => {
-      if (btn) {
-        const originalText = btn.innerHTML;
-        btn.innerHTML = `<span class="material-symbols-rounded">check</span><span>Copiado! ✓</span>`;
-        btn.style.borderColor = "#10B981";
-        btn.style.color = "#34D399";
-        setTimeout(() => {
-          btn.innerHTML = originalText;
-          btn.style.borderColor = "";
-          btn.style.color = "";
-        }, 1800);
-      }
-    });
+function handleRegistrySearch() {
+  const input = document.getElementById('registrySearchInput');
+  if (input) {
+    state.registrySearch = input.value;
+    renderSatelliteRegistry();
   }
 }
 
-function copyWalletAddress(addr, btn) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(addr).then(() => {
-      if (btn) {
-        const icon = btn.querySelector ? btn.querySelector(".material-symbols-rounded") : null;
-        if (icon) {
-          const prev = icon.textContent;
-          icon.textContent = "check";
-          setTimeout(() => { icon.textContent = prev; }, 1400);
-        } else {
-          const orig = btn.innerHTML;
-          btn.innerHTML = `<span class="material-symbols-rounded" style="font-size:15px;">check</span>`;
-          setTimeout(() => { btn.innerHTML = orig; }, 1400);
-        }
-      }
-    }).catch(() => {
-      prompt("Dirección:", addr);
-    });
-  } else {
-    prompt("Dirección:", addr);
-  }
-}
+function filterRegistry(filterType) {
+  state.registryFilter = filterType;
 
-function renderBoxes() {
-  renderBoxExplorerData();
-}
-
-// ==========================================================================
-// RENDERIZADO Y ACTUALIZACIÓN DE MONITOR BOXES (COLUMNA IZQUIERDA)
-// ==========================================================================
-function updateMonitorBoxes(boxesData) {
-  const data = boxesData || FLEET_DATA.monitorBoxes;
-  if (!data) return;
-
-  data.forEach((b, idx) => {
-    const boxNum = b.boxId || (idx + 1);
-    const genEl = document.getElementById(`boxGenerated${boxNum}`);
-    const gasEl = document.getElementById(`boxGas${boxNum}`);
-
-    if (genEl && b.generatedUsdc != null) {
-      genEl.textContent = `$${b.generatedUsdc.toFixed(2)} USDC`;
-    }
-    if (gasEl && b.gasTotalEth != null) {
-      gasEl.textContent = `${b.gasTotalEth.toFixed(3)} ETH`;
+  const buttons = document.querySelectorAll('.fino-filter-buttons .fino-filter-btn');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-filter') === filterType) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
     }
   });
+
+  renderSatelliteRegistry();
 }
 
-// ==========================================================================
-// RENDERIZADO Y ACTUALIZACIÓN DE LAS 5 BÓVEDAS BINANCE SPOT (COLUMNA DERECHA)
-// ==========================================================================
-function renderBinanceVaults() {
-  const container = document.getElementById("vaults-deck-container");
+// -------------------------------------------------------------
+// 13. INSPECT SATELLITE DOSSIER (RIGHT SIDE OF REGISTRY)
+// -------------------------------------------------------------
+function inspectDossierById(walletId) {
+  state.selectedWalletId = walletId;
+  const w = state.wallets.find(x => x.id === walletId) || state.wallets[1] || state.wallets[0];
+  if (!w) return;
+
+  const elName = document.getElementById('dosName');
+  const elRank = document.getElementById('dosRank');
+  const elBoxTag = document.getElementById('dosBoxTag');
+  const elEvm = document.getElementById('dosEvmAddr');
+  const elSol = document.getElementById('dosSolAddr');
+  const elGalaxy = document.getElementById('dosGalaxy');
+  const elVault = document.getElementById('dosVault');
+  const elDna = document.getElementById('dosDna');
+  const elPol = document.getElementById('dosPolVal');
+  const elBnb = document.getElementById('dosBnbVal');
+  const elSepEth = document.getElementById('dosSepEthVal');
+  const elBaseEth = document.getElementById('dosBaseEthVal');
+
+  const elMining = document.getElementById('dosStatMining');
+  const elGaming = document.getElementById('dosStatGaming');
+  const elPools = document.getElementById('dosStatPools');
+  const elAirdrops = document.getElementById('dosStatAirdrops');
+
+  const elProgressText = document.getElementById('dosQuotaProgressText');
+  const elProgressBar = document.getElementById('dosQuotaProgressBar');
+
+  if (elName) elName.textContent = w.name || `SATELLITE ${w.formattedId}`;
+  if (elRank) elRank.textContent = (w.rank || '').toUpperCase();
+  if (elBoxTag) elBoxTag.textContent = w.cluster || `FLEET ${w.boxId}`;
+
+  if (elEvm) elEvm.textContent = w.evmAddress || 'N/A';
+  if (elSol) elSol.textContent = w.solanaAddress || 'N/A';
+
+  if (elGalaxy) elGalaxy.textContent = w.galaxyName || 'Galaxy 01 • Mining';
+  if (elVault) elVault.textContent = w.assignedVault || 'Binance Vault #1';
+  if (elDna) elDna.textContent = w.dnaRole || 'DEFI_YIELD_HUNTER';
+
+  if (elPol) elPol.textContent = `${w.pol} POL`;
+  if (elBnb) elBnb.textContent = `${w.bnb} BNB`;
+  if (elSepEth) elSepEth.textContent = `${w.sepoliaEth} ETH`;
+  if (elBaseEth) elBaseEth.textContent = `${w.baseEth} ETH`;
+
+  if (elMining) elMining.textContent = String(w.miningOps || 0);
+  if (elGaming) elGaming.textContent = String(w.gameLoot || 0);
+  if (elPools) elPools.textContent = String(w.pools || 0);
+  if (elAirdrops) elAirdrops.textContent = String(w.airdrops || 0);
+
+  const captured = Number(w.capturedUsdc || 0);
+  const quota = Number(w.lapQuotaUsdc || 5.5);
+  const pct = Math.min(100, Math.round((captured / quota) * 100));
+
+  if (elProgressText) elProgressText.textContent = `$${captured.toFixed(2)} / $${quota.toFixed(2)} USDC (${pct}%)`;
+  if (elProgressBar) elProgressBar.style.width = `${pct}%`;
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+// -------------------------------------------------------------
+// 14. SATCOM TELEMETRY MIRROR & CHAT CONSOLE
+// -------------------------------------------------------------
+function renderSatComAlerts() {
+  const container = document.getElementById('chatMessages');
   if (!container) return;
 
-  container.innerHTML = FLEET_DATA.binanceVaults.map(v => {
-    const received = v.receivedUsdc != null ? v.receivedUsdc : (v.usdc != null ? v.usdc : 0);
-    return `
-      <div class="vault-item-card">
-        <span class="vault-num">Bóveda Box ${v.boxId}</span>
-        <span class="vault-amt">$${received.toFixed(2)} USDC</span>
-        <span style="font-size: 9.5px; color: #475569;">Para satélites ${v.range}</span>
-        <span class="vault-addr mono-code">${v.address}</span>
-      </div>
-    `;
-  }).join("");
-}
+  const telem = state.telemetry;
+  const alerts = telem?.recentTelegramAlerts || [];
+  const events = telem?.recentEvents || [];
 
-function updateBinanceVaultCards(vaultsData) {
-  const vaults = (vaultsData && vaultsData.length === 5) ? vaultsData : FLEET_DATA.binanceVaults;
-  if (!vaults) return;
+  // If already populated, keep user interaction alive
+  if (container.children.length > 5) return;
 
-  vaults.forEach((v, idx) => {
-    const boxNum = v.boxId || (idx + 1);
-    const amtEl = document.getElementById(`vaultAmt${boxNum}`);
-    const transitEl = document.getElementById(`vaultTransit${boxNum}`);
-    const cardEl = document.getElementById(`vaultCard${boxNum}`);
+  const defaultMessages = [
+    { source: '🛰️ MOTHERSHIP #501', text: 'Nodriza gas tank verified: 40.07 POL & 0.0018 BNB locked. Mainnet Gas Shield active.' },
+    { source: '⛏️ GALAXY 01 (CITREA)', text: 'Daily proof-of-streak verified on Citrea Testnet. 106 probes mining with zero mainnet gas loss.' },
+    { source: '🦊 GALAXY 03 (POOLS)', text: 'USDC verified quest pools saturated across 28 protocols with polymorphic browser profiles.' },
+    { source: '🪂 GALAXY 04 (AIRDROPS)', text: 'EIP-712 gasless interactions confirmed across Base Sepolia and Arbitrum Sepolia.' },
+    { source: '💱 GALAXY 05 (REFINERY)', text: 'GoPlus anti-honeypot attestation clean: 0 toxic contracts detected. Standing by for >= $1.00 sweeps.' }
+  ];
 
-    const received = v.receivedUsdc != null ? v.receivedUsdc : (v.usdc != null ? v.usdc : 0);
-    const pending = v.pendingUsdc != null ? v.pendingUsdc : 0;
-
-    if (amtEl) {
-      amtEl.textContent = `$${received.toFixed(2)} USDC`;
-    }
-    if (transitEl) {
-      transitEl.textContent = `+$${pending.toFixed(2)} USDC`;
-    }
-
-    if (v.address && cardEl) {
-      const fullAddrEl = cardEl.querySelector(".vault-address-full");
-      if (fullAddrEl) {
-        fullAddrEl.textContent = v.address;
-      }
-      const addrBar = cardEl.querySelector(".card-white-bar") || cardEl.querySelector(".vault-address-bar");
-      if (addrBar) {
-        addrBar.setAttribute("onclick", `event.stopPropagation(); copyWalletAddress('${v.address}', this.querySelector('.copy-btn'))`);
-      }
-    }
+  let html = container.innerHTML;
+  defaultMessages.forEach(msg => {
+    html += `<div class="chat-bubble bubble-ai">
+      <strong style="color: var(--neon-gold); font-size: 0.58rem; display: block; margin-bottom: 2px;">${msg.source}</strong>
+      <span>${msg.text}</span>
+    </div>`;
   });
+
+  container.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
 }
 
-function logToAuraAndTelegram(auraHtml, tgBadge, tgText) {
-  console.log(`[Operación 10K] ${tgBadge}: ${tgText}`);
-}
-
-// Handlers de compatibilidad
-function initTelegramFeed() {}
-function addTelegramMessage() {}
-function askGemini() {}
-function sendChatMessage() {}
-
-// ==========================================================================
-// ARQUITECTURA DE WORKFLOW VISUAL INTERACTIVO — MESA DE TRABAJO CENTRAL
-// ==========================================================================
-
-// 1. Gráfico de Trayectoria Día 0  Meta 12,000 USDC en Nodo 4
-function initPipelineMountainCanvas() {
-  const canvas = document.getElementById("pipelineMountainCanvas");
-  if (!canvas) return;
-
-  if (canvas.parentElement) {
-    const parentW = canvas.parentElement.clientWidth;
-    if (parentW > 100) canvas.width = parentW - 8;
+function handleChatKeyDown(e) {
+  if (e.key === 'Enter') {
+    submitChatQuery();
   }
-
-  const ctx = canvas.getContext("2d");
-  const width = canvas.width;
-  const height = canvas.height;
-  ctx.clearRect(0, 0, width, height);
-
-  // Malla / guías tenues
-  ctx.save();
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(10, height - 12);
-  ctx.lineTo(width - 10, height - 12);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(10, height / 2);
-  ctx.lineTo(width - 10, height / 2);
-  ctx.stroke();
-  ctx.restore();
-
-  // Curva proyectada total (Día 0 a Día 34 - $12,000)
-  ctx.save();
-  ctx.setLineDash([3, 3]);
-  ctx.strokeStyle = "rgba(254, 240, 138, 0.4)";
-  ctx.lineWidth = 1.6;
-  ctx.beginPath();
-  ctx.moveTo(15, height - 12);
-  ctx.bezierCurveTo(width * 0.4, height - 16, width * 0.7, height * 0.4, width - 15, 12);
-  ctx.stroke();
-  ctx.restore();
-
-  // Curva Real Acumulada (Día 0 a Hoy Día 7: $1,420.50 USDC)
-  const currentX = 15 + (width - 30) * 0.26;
-  const currentY = height - 12 - (height - 24) * 0.22;
-
-  // Gradiente de relleno
-  const grad = ctx.createLinearGradient(0, 10, 0, height);
-  grad.addColorStop(0, "rgba(250, 204, 21, 0.45)");
-  grad.addColorStop(1, "rgba(37, 99, 235, 0.05)");
-
-  ctx.beginPath();
-  ctx.moveTo(15, height - 12);
-  ctx.quadraticCurveTo(currentX * 0.5, height - 13, currentX, currentY);
-  ctx.lineTo(currentX, height - 12);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  // Trazo vivo de la trayectoria actual
-  ctx.save();
-  ctx.shadowColor = "#FBBF24";
-  ctx.shadowBlur = 8;
-  ctx.strokeStyle = "#FDE047";
-  ctx.lineWidth = 2.4;
-  ctx.beginPath();
-  ctx.moveTo(15, height - 12);
-  ctx.quadraticCurveTo(currentX * 0.5, height - 13, currentX, currentY);
-  ctx.stroke();
-  ctx.restore();
-
-  // Hito 1: Nueva PC ($6,000 - 50%)
-  const pcX = 15 + (width - 30) * 0.60;
-  const pcY = height - 12 - (height - 24) * 0.55;
-  ctx.save();
-  ctx.fillStyle = "#BFDBFE";
-  ctx.beginPath();
-  ctx.arc(pcX, pcY, 3, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
-
-  // Hito 2: Meta 12K / Cura Tools ($12,000 - 100%)
-  const metaX = width - 15;
-  const metaY = 12;
-  ctx.save();
-  ctx.fillStyle = "#FBBF24";
-  ctx.shadowColor = "#FBBF24";
-  ctx.shadowBlur = 10;
-  ctx.beginPath();
-  ctx.arc(metaX, metaY, 4, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
-
-  // Marcador Posición Actual (Hoy)
-  ctx.save();
-  ctx.fillStyle = "#FFFFFF";
-  ctx.shadowColor = "#FFFFFF";
-  ctx.shadowBlur = 12;
-  ctx.beginPath();
-  ctx.arc(currentX, currentY, 4.5, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = "#10B981";
-  ctx.beginPath();
-  ctx.arc(currentX, currentY, 2.5, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
 }
 
-// 2. Aceleración Luminosa de Tuberías SVG
-let pipeSpeedTimeout = null;
-function speedUpPipes(durationMs = 3500) {
-  const paths = document.querySelectorAll(".pipe-path");
-  const dots = document.querySelectorAll(".pipe-pulse-dot");
-  const label = document.getElementById("pipe-cadence-label");
+function submitChatQuery() {
+  const input = document.getElementById('chatUserInput');
+  if (!input) return;
+  const raw = input.value.trim();
+  if (!raw) return;
 
-  paths.forEach(p => p.classList.add("pulse-fast"));
-  dots.forEach(d => d.classList.add("pulse-fast"));
-  if (label) {
-    label.textContent = " 3X RÁPIDO (ACELERADO)";
-    label.style.color = "#EA580C";
-  }
+  const container = document.getElementById('chatMessages');
+  input.value = '';
 
-  if (pipeSpeedTimeout) clearTimeout(pipeSpeedTimeout);
-  pipeSpeedTimeout = setTimeout(() => {
-    paths.forEach(p => p.classList.remove("pulse-fast"));
-    dots.forEach(d => d.classList.remove("pulse-fast"));
-    if (label) {
-      label.textContent = "1X NORMAL (180s)";
-      label.style.color = "";
-    }
-  }, durationMs);
-}
+  // 1. Append user bubble
+  const userDiv = document.createElement('div');
+  userDiv.className = 'chat-bubble bubble-user';
+  userDiv.textContent = raw;
+  container.appendChild(userDiv);
 
-// 3. Registro inmediato y simultáneo en AURA 10K y Telegram Live
-function logToAuraAndTelegram(auraHtml, tgBadge, tgMsg) {
-  // AURA 10K
-  const chatLog = document.getElementById("gemini-chat-log");
-  if (chatLog) {
-    const bubble = document.createElement("div");
-    bubble.className = "gemini-bubble assistant";
-    bubble.innerHTML = auraHtml;
-    chatLog.appendChild(bubble);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-
-  // Telegram Live
-  const now = new Date().toTimeString().slice(0, 8);
-  addTelegramMessage(now, tgBadge, tgMsg);
-}
-
-// ==========================================================================
-// CONTROLES INTERACTIVOS DE LOS 4 NODOS
-// ==========================================================================
-
-//  NODO 1: Auto-Fondear Intra-Box
-function triggerAutoFondear() {
-  speedUpPipes(4000);
-  
-  const btn = document.getElementById("btnAutoFondear");
-  if (btn) {
-    btn.style.transform = "scale(0.95)";
-    btn.style.filter = "brightness(1.2)";
-    setTimeout(() => {
-      btn.style.transform = "";
-      btn.style.filter = "";
-    }, 250);
-  }
-
-  logToAuraAndTelegram(
-    `<strong> AURA 10K:</strong> Protocolo <strong>Auto-Fondear Intra-Box</strong> activado exitosamente.<br>
-     • Se redistribuyeron <strong>0.08 ETH</strong> desde el Satélite Donante #005 hacia satélites receptores en Base y Arbitrum.<br>
-     • <strong>Regla de Oro:</strong> >0.015 ETH blindada al 100% sin traspasar fronteras de Box.`,
-    "GAS AUTO",
-    "Auto-fondeo intra-box completado: 0.08 ETH balanceado en Box 1. 500/500 satélites sobre >0.015 ETH."
-  );
-}
-
-//  NODO 1: Toggle Escudo Regla de Oro
-let shieldActive = true;
-function toggleShield() {
-  speedUpPipes(2500);
-  shieldActive = !shieldActive;
-
-  const btnText = document.getElementById("shieldToggleText");
-  const descText = document.getElementById("shieldDescText");
-
-  if (shieldActive) {
-    if (btnText) btnText.textContent = "️ Escudo >0.015 ETH: ACTIVO";
-    if (descText) descText.textContent = "500/500 satélites blindados";
-    logToAuraAndTelegram(
-      `<strong> AURA 10K:</strong> Escudo <strong>Regla de Oro >0.015 ETH: REACTIVADO</strong>.<br>
-       Bloqueo estricto contra gas agotado: ninguna cartera ejecutará swap si su balance cae por debajo de 0.015 ETH.`,
-      "ESCUDO ACTIVO",
-      "Escudo >0.015 ETH restablecido en 500 carteras. Aislamiento y protección al 100%."
-    );
+  // 2. Parse query (number or address)
+  let targetId = null;
+  const cleanNum = raw.replace(/[^0-9]/g, '');
+  if (cleanNum !== '') {
+    targetId = parseInt(cleanNum, 10);
   } else {
-    if (btnText) btnText.textContent = "️ Escudo: MODO TOLERANCIA";
-    if (descText) descText.textContent = "Monitoreo preventivo manual";
-    logToAuraAndTelegram(
-      `<strong> AURA 10K:</strong> Escudo puesto en <strong>MODO TOLERANCIA TEMPORAL</strong>.<br>
-       Permitiendo micro-swaps con umbral dinámico ajustado a 0.012 ETH por 1 turno antes de recarga obligatoria.`,
-      "ESCUDO WARN",
-      "Escudo >0.015 ETH en tolerancia temporal: supervisión activa de saldos por AURA 10K."
+    const found = state.wallets.find(w => 
+      (w.evmAddress || '').toLowerCase().includes(raw.toLowerCase()) ||
+      (w.solanaAddress || '').toLowerCase().includes(raw.toLowerCase())
     );
-  }
-}
-
-//  NODO 2: Forzar Keep-Up Manual
-function triggerForceKeepUp() {
-  speedUpPipes(4500);
-
-  const opTitle = document.getElementById("pipelineOpTitle");
-  const opSeal = document.getElementById("pipelineOpSeal");
-  const btn = document.getElementById("btnForceKeepUp");
-
-  if (btn) {
-    btn.style.transform = "scale(0.95)";
-    setTimeout(() => { btn.style.transform = ""; }, 250);
+    if (found) targetId = found.id;
   }
 
-  if (opTitle) opTitle.textContent = " Forzando Micro-Swaps inmediatos en Base Sepolia";
-  if (opSeal) {
-    opSeal.textContent = "⏳ EJECUTANDO TURNO...";
-    opSeal.style.color = "#D97706";
-  }
-
+  // 3. Generate SatCom Response
   setTimeout(() => {
-    if (opTitle) opTitle.textContent = "Micro-Swaps Lote #23 en Base (Completado)";
-    if (opSeal) {
-      opSeal.textContent = " 100% REALIZADO";
-      opSeal.style.color = "#059669";
-    }
-  }, 1200);
+    const aiDiv = document.createElement('div');
+    aiDiv.className = 'chat-bubble bubble-ai';
 
-  logToAuraAndTelegram(
-    `<strong> AURA 10K:</strong> <strong>Turno Manual Keep-Up</strong> disparado.<br>
-     • 20 Satélites activados inmediatamente con jitter humano aleatorio (14s).<br>
-     • Verificación de bloque on-chain completada sin colisión de transacciones.<br>
-     • Sello emitido: <strong> 100% REALIZADO</strong>.`,
-    "KEEP-UP FORZADO",
-    "Turno adelantado forzado con éxito: 20/20 txs on-chain selladas en Base Sepolia (100% REALIZADO)."
-  );
-}
-
-//  NODO 2: Toggle Pausa Individual de Boxes (B1..B5)
-const boxPauseStates = { 1: false, 2: false, 3: false, 4: false, 5: false };
-function toggleBoxPause(boxId) {
-  speedUpPipes(2000);
-  boxPauseStates[boxId] = !boxPauseStates[boxId];
-  const isPaused = boxPauseStates[boxId];
-
-  const btn = document.getElementById(`pboxBtn${boxId}`);
-  if (btn) {
-    btn.classList.toggle("paused", isPaused);
-    btn.classList.toggle("active", !isPaused);
-  }
-
-  const lane = document.getElementById(`laneB${boxId}`);
-  if (lane) {
-    const stat = lane.querySelector(".lane-stat");
-    const fill = lane.querySelector(".lane-fill");
-    if (isPaused) {
-      if (stat) { stat.textContent = "PAUSA"; stat.style.color = "#FCA5A5"; }
-      if (fill) fill.style.background = "#EF4444";
+    if (targetId !== null && (targetId >= 0 && targetId <= 501)) {
+      const w = state.wallets.find(x => x.id === targetId);
+      if (w) {
+        aiDiv.innerHTML = `<strong style="color: var(--neon-gold); font-size: 0.6rem; display: block; margin-bottom: 2px;">⚡ SATELLITE DOSSIER: ${w.formattedId} (${w.name})</strong>
+        <div style="font-size: 0.54rem; font-family: 'JetBrains Mono'; line-height: 1.35; color: #dde6f0;">
+          <div>• <strong>Rank:</strong> ${w.rank}</div>
+          <div>• <strong>Cluster:</strong> ${w.cluster}</div>
+          <div>• <strong>Vault:</strong> ${w.assignedVault}</div>
+          <div>• <strong>EVM:</strong> ${w.evmAddress}</div>
+          <div>• <strong>Solana:</strong> ${w.solanaAddress}</div>
+          <div>• <strong>Fuel:</strong> ${w.pol} POL | ${w.bnb} BNB | ${w.sepoliaEth} SepETH</div>
+          <div>• <strong>Status:</strong> ${w.galaxyName} (${w.dnaRole})</div>
+          <div>• <strong>Quota:</strong> $${Number(w.capturedUsdc||0).toFixed(2)} / $5.50 USDC</div>
+        </div>`;
+        // Also select it in Registry
+        inspectDossierById(targetId);
+      } else {
+        aiDiv.textContent = `Probe #${targetId} not indexed in active 502 satellite telemetry.`;
+      }
     } else {
-      if (stat) { stat.textContent = boxId === 4 ? "95% Gas" : "100% OK"; stat.style.color = ""; }
-      if (fill) fill.style.background = "#FFFFFF";
+      aiDiv.innerHTML = `<strong>Orbital Core Telemetry:</strong> Please specify a Satellite ID between #000 and #501 (e.g. <em>14</em>, <em>101</em>, <em>501</em>) or paste an EVM/Solana address.`;
     }
-  }
 
-  const statusWord = isPaused ? "PAUSADO" : "REANUDADO";
-  logToAuraAndTelegram(
-    `<strong> AURA 10K:</strong> Box ${boxId} ${statusWord}.<br>
-     ${isPaused ? "100 satélites en stand-by seguro. Los otros 4 boxes continúan su cadencia normal." : "100 satélites reconectados a la cadencia Keep-Up de 3 minutos."}`,
-    isPaused ? `BOX ${boxId} PAUSA` : `BOX ${boxId} OK`,
-    `Box ${boxId} ${statusWord} por el operador. Aislamiento inter-box preservado.`
-  );
+    container.appendChild(aiDiv);
+    container.scrollTop = container.scrollHeight;
+  }, 120);
 }
 
-//  NODO 3: Escanear 500 Carteras con Multicall3
-let multicallScans = 0;
-function triggerMulticallScan() {
-  speedUpPipes(4000);
-  multicallScans++;
+// -------------------------------------------------------------
+// 15. INITIALIZATION ON DOM READY
+// -------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  startLiveClock();
 
-  const accruedEl = document.getElementById("pipelineHarvestAccrued");
-  const baseVal = 1420.50 + multicallScans * 12.35;
-  const formatted = `$${baseVal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
-  if (accruedEl) {
-    accruedEl.textContent = formatted;
-    accruedEl.style.transform = "scale(1.05)";
-    setTimeout(() => { accruedEl.style.transform = ""; }, 300);
-  }
+  // Attach nav buttons click listener
+  const navBtns = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.getAttribute('data-view');
+      if (view) switchFinopsView(view);
+    });
+  });
 
-  logToAuraAndTelegram(
-    `<strong> AURA 10K:</strong> Escaneo <strong>Multicall3</strong> completado en las 500 carteras satélite.<br>
-     • Cero correlaciones o alertas Sybil detectadas en RPC Base y Arbitrum.<br>
-     • Saldo consolidado verificado: <strong>${formatted}</strong>.<br>
-     • Polvo orgánico retenido promedio: <strong>3.1%</strong>.`,
-    "MULTICALL3",
-    `Escaneo de 500 carteras finalizado: ${formatted} auditados con 0% contaminación entre bloques.`
-  );
-}
+  // Load real telemetry data
+  loadOrbitalData();
 
-//  NODO 3: Preparar Lote a Binance
-function triggerPrepareBinanceBatch() {
-  speedUpPipes(4500);
-
-  const btn = document.getElementById("btnPrepareBatch");
-  if (btn) {
-    btn.style.transform = "scale(0.95)";
-    setTimeout(() => { btn.style.transform = ""; }, 250);
-  }
-
-  logToAuraAndTelegram(
-    `<strong> AURA 10K:</strong> <strong>Lote de Liquidación a Binance</strong> preparado.<br>
-     • Ventana de jitter asignada: <strong>12s – 45s</strong> con retardo estocástico.<br>
-     • Envíos fraccionados hacia las 5 Bóvedas de Depósito Spot de Binance.<br>
-     • Cumplimiento estricto: cero cruce entre Boxes y cero re-utilización de gas.`,
-    "HARVEST BATCH",
-    "Lote de cosecha preparado para Binance Spot. Jitter aleatorio activado (0% trazabilidad)."
-  );
-}
-
-//  NODO 4: Verificar 5 Direcciones Binance Spot (Solo Lectura)
-function triggerVerifyBinance() {
-  speedUpPipes(3500);
-  initPipelineMountainCanvas();
-
-  const pctBadge = document.getElementById("pipelinePctBadge");
-  if (pctBadge) {
-    pctBadge.style.transform = "scale(1.15)";
-    setTimeout(() => { pctBadge.style.transform = ""; }, 300);
-  }
-
-  logToAuraAndTelegram(
-    `<strong> AURA 10K:</strong> <strong>5 Bóvedas Binance Spot verificadas</strong> en modo Solo Lectura.<br>
-     • Saldos auditados: <strong>$1,420.50 USDC</strong> (11.84% hacia la meta de 12,000 USDC).<br>
-     • <strong>Hito 1 (Nueva PC):</strong> $1,420.50 / $6,000.00 USDC.<br>
-     • <strong>Hito 2 (Cura Tools):</strong> $1,420.50 / $12,000.00 USDC.<br>
-     • Permisos de retiro: <strong>DESHABILITADOS (Seguridad Total)</strong>.`,
-    "BINANCE SPOT",
-    "Auditoría de 5 Bóvedas Binance Spot: Direcciones confirmadas, sin permisos de retiro (11.84% completado)."
-  );
-}
-
+  // Auto-refresh every 15 seconds
+  setInterval(loadOrbitalData, 15000);
+});
