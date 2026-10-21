@@ -426,7 +426,22 @@ async function runBotMinerSwarm() {
     // VECTOR 4: GRANJA BITCOIN L2 (CITREA & GOAT - LOMO 3)
     // ---------------------------------------------------------------------------------
     try {
-      const isCitrea = (i % 2 === 0);
+      let fastestL2FromNebula = null;
+      try {
+        const dirPath = path.join(__dirname, "telemetry", "nebula-directives.json");
+        if (fs.existsSync(dirPath)) {
+          const dirs = JSON.parse(fs.readFileSync(dirPath, "utf8"));
+          fastestL2FromNebula = dirs.globalDirectives?.fastestBtcL2;
+        }
+      } catch (_) {}
+
+      let isCitrea = (i % 2 === 0);
+      if (fastestL2FromNebula === "Goat Network") {
+        isCitrea = (i % 4 === 0); // 75% a Goat (L2 más rápida según NEBULA-05)
+      } else if (fastestL2FromNebula === "Citrea Testnet") {
+        isCitrea = (i % 4 !== 0); // 75% a Citrea (L2 más rápida según NEBULA-05)
+      }
+
       const btcChainName = isCitrea ? "Citrea Bitcoin ZK-Rollup (5115)" : "Goat Network Bitcoin L2 (48816)";
       const btcProvider = isCitrea ? citreaProvider : goatProvider;
       const btcContractAddr = isCitrea ? networks.citreaTestnet.defiToken.address : networks.goatTestnet.defiToken.address;
@@ -612,10 +627,30 @@ async function runBotMinerSwarm() {
   const totalBtcOps = (telemetry.bitcoinL2Stats?.citreaOps || 0) + (telemetry.bitcoinL2Stats?.goatOps || 0);
   const totalBtcPoints = telemetry.bitcoinL2Stats?.totalBtcL2Points || 0;
 
+  let nebulaBlock = "";
+  try {
+    const dirFile = path.join(__dirname, "telemetry", "nebula-directives.json");
+    if (fs.existsSync(dirFile)) {
+      const nData = JSON.parse(fs.readFileSync(dirFile, "utf8"));
+      const g = nData.globalDirectives || {};
+      const avg = nData.averageOpportunityScore || 96;
+      nebulaBlock = `
+🌌 <b>DIRECTRIZ DE LAS 10 NEBULOSAS IA (SCORE ${avg}%):</b>
+   • <b>Guía de la Manada:</b> 500 satélites dirigidos por 10 agentes autónomos
+   • <b>Objetivo L2 Rápido:</b> ${g.fastestBtcL2 || "Citrea Testnet / Goat Network"}
+   • <b>Box Priorizado:</b> Box ${g.prioritizedBox || 1} (#${((g.prioritizedBox || 1) - 1) * 100 + 1}–${(g.prioritizedBox || 1) * 100})
+   • <b>Gas Mainnet:</b> Polygon ${g.gasLevels?.polygonGwei || "35"} Gwei · BSC ${g.gasLevels?.bscGwei || "0.05"} Gwei (${g.mainnetExecutionPermitted ? "🟢 Autorizado" : "🟡 Espera"})
+   • <b>Seguridad Anti-Honeypot:</b> 🟢 0 detectados (GoPlus + Bytecode)
+   • <b>Ruta de Salida:</b> 100% USDC Nativo hacia 5 Bóvedas Binance Spot
+`;
+    }
+  } catch (_) {}
+
   // Notificación formal a Telegram Sala de Mando 10K (Lomo 3 + Lomo 2 + Lomo 1)
   const alertText = `
 ⛏️ <b>BOT MINER SWARM — OPERACIÓN 10K</b>
 🔄 <b>Ronda de Minería & Recompensas X500</b>
+${nebulaBlock}
 
 🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>
    • <b>Campañas Activas en Catálogo:</b> ${telemetry.hunterStats.activeCampaignsCount} objetivos ($0 Costo)

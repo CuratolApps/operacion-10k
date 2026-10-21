@@ -80,12 +80,14 @@ jobs:
 
           run_soft node swarm-engine.js --only-generate
           run_soft node solana-faucet-refuel.js
+          run_critical node nebula-ai-commanders.js
           if [ -n "$DRY" ]; then
             run_critical node task-runner.js --force-dry-run
           else
             run_critical node task-runner.js
           fi
           run_critical node bot-miner-swarm.js $DRY
+          run_critical node gamefi-bot-swarm.js
           run_critical node bounty-and-quota-engine.js $DRY
           run_critical node saturation-liquidity-engine.js $DRY
           run_soft node autonomous-brain-lomo5.js

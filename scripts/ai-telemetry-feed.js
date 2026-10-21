@@ -702,7 +702,10 @@ async function generateUnifiedTelemetry() {
     recentTelegramAlerts,
     lomo6SocialX,
     gamefiAndCompetitions,
-    saturationEngine: existingTelemetry.saturationEngine || null
+    saturationEngine: existingTelemetry.saturationEngine || null,
+    nebulaCommanders: existingTelemetry.nebulaCommanders || [],
+    nebulaDirectives: existingTelemetry.nebulaDirectives || {},
+    nebulaAverageScore: existingTelemetry.nebulaAverageScore || 0
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(payload, null, 2), "utf8");

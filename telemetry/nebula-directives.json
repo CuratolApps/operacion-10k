@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-10-21T23:18:05.772Z",
+  "averageOpportunityScore": 96,
+  "executionTimeMs": 3773,
+  "globalDirectives": {
+    "fastestBtcL2": "Goat Network",
+    "prioritizedBox": 3,
+    "mainnetExecutionPermitted": false,
+    "gasLevels": {
+      "polygonGwei": 229.73,
+      "bscGwei": 0.05
+    },
+    "antiSybilJitterMs": [
+      1100,
+      2750
+    ],
+    "honeypotsBlocked": 0,
+    "binanceSweepThreshold": ">= $1.00 USDC"
+  },
+  "commanders": [
+    {
+      "id": "NEBULA-01",
+      "name": "Alpha Contract Scout",
+      "icon": "🔍",
+      "specialty": "Auditoría Dinámica de Contratos & Prioridades",
+      "opportunityScore": 100,
+      "satellitesGuided": 500,
+      "status": "OPTIMAL",
+      "reasoning": "Verificados 5/5 contratos esenciales on-chain con bytecode activo. Prioridad asignada a PancakeRouter y QuickSwap.",
+      "liveData": {
+        "verifiedContracts": 5,
+        "totalAudited": 5,
+        "status": "100% Bytecode Verified"
+      }
+    },
+    {
+      "id": "NEBULA-02",
+      "name": "Smart-Money & Whale Radar",
+      "icon": "🐋",
+      "specialty": "Rastreo de Liquidez & Volumen DEX en Vivo",
+      "opportunityScore": 98,
+      "satellitesGuided": 500,
+      "status": "OPTIMAL",
+      "reasoning": "Volumen 24h de $41.22M y liquidez pico de $28.73M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
+      "liveData": {
+        "volume24hUsd": 41216883.57,
+        "topLiquidityUsd": 28731845.19,
+        "trackedPairs": 30
+      }
+    },
+    {
+      "id": "NEBULA-03",
+      "name": "GameFi & Loot Oracle",
+      "icon": "🎮",
+      "specialty": "Optimización de Check-Ins & Reclamos de Botín Web3",
+      "opportunityScore": 96,
+      "satellitesGuided": 100,
+      "status": "OPTIMAL",
+      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48514084). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
+      "liveData": {
+        "network": "Base Sepolia",
+        "blockHeight": 48514084,
+        "feeUsd": "$0.00"
+      }
+    },
+    {
+      "id": "NEBULA-04",
+      "name": "Quest & Pool Strategist",
+      "icon": "🏆",
+      "specialty": "Selección de Campañas Gasless & Piscinas USDC",
+      "opportunityScore": 97,
+      "satellitesGuided": 100,
+      "status": "OPTIMAL",
+      "reasoning": "Turno de caza asignado a Box 3 (#201–#300). Canalizando 20 satélites hacia la piscina USDC con multiplicador de 5 tickets por firma.",
+      "liveData": {
+        "activeBox": 3,
+        "poolId": "POOL-USDC-B3",
+        "ticketsPerSign": 5
+      }
+    },
+    {
+      "id": "NEBULA-05",
+      "name": "BTCFi & Bitcoin L2 Navigator",
+      "icon": "₿",
+      "specialty": "Métricas de Latencia y Bloques en Citrea & Goat Network",
+      "opportunityScore": 90,
+      "satellitesGuided": 100,
+      "status": "OPTIMAL",
+      "reasoning": "Citrea (2058ms, Blk #32911588) vs Goat (1657ms, Blk #17663574). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
+      "liveData": {
+        "citrea": {
+          "block": 32911588,
+          "latencyMs": 2058
+        },
+        "goat": {
+          "block": 17663574,
+          "latencyMs": 1657
+        },
+        "fastestL2": "Goat Network"
+      }
+    },
+    {
+      "id": "NEBULA-06",
+      "name": "Zero-Gas Airdrop Architect",
+      "icon": "🪂",
+      "specialty": "Balanceo de Transacciones y Siembra Equitativa L2",
+      "opportunityScore": 95,
+      "satellitesGuided": 100,
+      "status": "OPTIMAL",
+      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (2530 txs acumuladas). Priorizando Box 3 (#201–#300) para mantener uniformidad total.",
+      "liveData": {
+        "prioritizedBox": 3,
+        "totalAllTimeTx": 2530,
+        "coverageL2": "4 Redes EVM + Solana Devnet"
+      }
+    },
+    {
+      "id": "NEBULA-07",
+      "name": "Gas & Timing Brain",
+      "icon": "⛽",
+      "specialty": "Monitor de Gas en Tiempo Real & Autorización Mainnet",
+      "opportunityScore": 88,
+      "satellitesGuided": 55,
+      "status": "WAITING_GAS",
+      "reasoning": "Gas Mainnet medido en vivo: Polygon 229.73 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
+      "liveData": {
+        "polygonGwei": 229.73,
+        "bscGwei": 0.05,
+        "mainnetPermitted": false
+      }
+    },
+    {
+      "id": "NEBULA-08",
+      "name": "Anti-Sybil Stealth Director",
+      "icon": "🛡️",
+      "specialty": "Descorrelación Heurística, ADN Polimórfico & Jitter",
+      "opportunityScore": 99,
+      "satellitesGuided": 500,
+      "status": "OPTIMAL",
+      "reasoning": "ADN polimórfico verificado en 500 satélites (125 DeFi, 125 Mints, 125 Governance, 125 Traders). Jitter dinámico fijado en [1.1s–2.7s]; riesgo Sybil: 0.01%.",
+      "liveData": {
+        "sybilRisk": "0.01%",
+        "jitterWindowMs": [
+          1100,
+          2750
+        ],
+        "archetypes": {
+          "defiHunters": 125,
+          "mintCollectors": 125,
+          "governanceSigners": 125,
+          "stealthTraders": 125
+        }
+      }
+    },
+    {
+      "id": "NEBULA-09",
+      "name": "GoPlus Security Guardian",
+      "icon": "🚨",
+      "specialty": "Auditoría On-Chain Anti-Honeypot & Escudo de Riesgo",
+      "opportunityScore": 100,
+      "satellitesGuided": 500,
+      "status": "OPTIMAL",
+      "reasoning": "GoPlus Security API & Bytecode Audit completados para USDC Native (Polygon). Veredicto: 100% SEGURO. 0 honeypots detectados; contratos verificados para la manada.",
+      "liveData": {
+        "honeypotsDetected": 0,
+        "verdict": "100% SEGURO",
+        "auditedContract": "USDC Native (Polygon)"
+      }
+    },
+    {
+      "id": "NEBULA-10",
+      "name": "DEX Harvest Alchemist",
+      "icon": "💱",
+      "specialty": "Enrutamiento Hacia 100% USDC Nativo & Barrido a Binance Spot",
+      "opportunityScore": 99,
+      "satellitesGuided": 502,
+      "status": "OPTIMAL",
+      "reasoning": "Ruta DEX QuickSwap / PancakeSwap sincronizada hacia 100% USDC Nativo. Vigilando 5 Bóvedas Binance Spot (#01 a #05). Flotante actual: $0.00 | Consolidado: $0.00 USDC.",
+      "liveData": {
+        "sweepThreshold": ">= $1.00 USDC",
+        "tokenPolicy": "100% USDC Nativo Exclusivo",
+        "binanceVaultsCount": 5
+      }
+    }
+  ]
+}

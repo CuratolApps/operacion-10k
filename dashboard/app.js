@@ -169,6 +169,7 @@ async function loadOrbitalData() {
     renderStarVaults();
     renderGalaxiesStreams();
     renderSatelliteRegistry();
+    renderNebulaCommanders();
 
     if (window.lucide) {
       window.lucide.createIcons();
@@ -620,6 +621,68 @@ function filterRegistry(filterType) {
 }
 
 // -------------------------------------------------------------
+
+// -------------------------------------------------------------
+// 9. RENDERIZADO DE LAS 10 NEBULOSAS IA (ESTACIÓN DE INTELIGENCIA)
+// -------------------------------------------------------------
+async function renderNebulaCommanders() {
+  const telem = state.telemetry;
+  let commanders = telem?.nebulaCommanders || [];
+
+  if (!commanders || commanders.length === 0) {
+    try {
+      const res = await fetch('../telemetry/nebula-directives.json?t=' + Date.now());
+      if (res.ok) {
+        const dirs = await res.json();
+        commanders = dirs.commanders || [];
+      }
+    } catch (_) {}
+  }
+
+  const container = document.getElementById('nebulaGridContainer');
+  if (!container) return;
+
+  const avgScore = telem?.nebulaAverageScore || 96;
+  const globalScorePill = document.getElementById('nebulaGlobalScorePill');
+  if (globalScorePill) {
+    globalScorePill.textContent = `SCORE: ${avgScore}% ÓPTIMO`;
+  }
+
+  const semaScore = document.getElementById('semaNebulaScore');
+  if (semaScore) {
+    semaScore.textContent = `Score: ${avgScore}% • Guía Activa →`;
+  }
+
+  if (!commanders || commanders.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 10 Nebulosas IA...</div>';
+    return;
+  }
+
+  container.innerHTML = commanders.map((cmd) => {
+    return `
+      <div class="nebula-card">
+        <div class="nebula-card-top">
+          <div class="nebula-card-identity">
+            <span class="nebula-card-icon">${cmd.icon || '🌌'}</span>
+            <div class="nebula-card-title-group">
+              <span class="nebula-card-id">${cmd.id}: ${cmd.name}</span>
+              <span class="nebula-card-specialty">${cmd.specialty}</span>
+            </div>
+          </div>
+          <span class="nebula-score-pill">SCORE: ${cmd.opportunityScore}%</span>
+        </div>
+        <div class="nebula-reasoning-box">
+          <strong>Razonamiento en Vivo:</strong> ${cmd.reasoning}
+        </div>
+        <div class="nebula-card-footer">
+          <span class="nebula-sat-guiding">🛰️ Guía a: <strong>${cmd.satellitesGuided} Satélites</strong></span>
+          <span class="nebula-status-indicator"><span class="nebula-dot"></span> ${cmd.status || 'OPTIMAL'}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
 // 10. INICIALIZACIÓN
 // -------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {

@@ -85,9 +85,20 @@ function getSigner(index, provider = null) {
  */
 function selectSquadAndBox(satellites, batchSize = 20) {
   const roundIndex = Math.floor(Date.now() / (1000 * 60 * 30));
-  const boxIndex = (roundIndex % 5) + 1;
-  const boxName = `Box ${boxIndex}`;
+  let boxIndex = (roundIndex % 5) + 1;
 
+  // Respetar directriz estratégica de NEBULA-06 (Zero-Gas Airdrop Architect)
+  try {
+    const dirPath = path.join(__dirname, "telemetry", "nebula-directives.json");
+    if (fs.existsSync(dirPath)) {
+      const dirs = JSON.parse(fs.readFileSync(dirPath, "utf8"));
+      if (dirs.globalDirectives?.prioritizedBox) {
+        boxIndex = dirs.globalDirectives.prioritizedBox;
+      }
+    }
+  } catch (_) {}
+
+  const boxName = `Box ${boxIndex}`;
   const boxStart = (boxIndex - 1) * 100 + 1;
   const batchInBox = Math.floor(roundIndex / 5) % 5;
   const startIdx = boxIndex === 1 ? 1 : boxStart + (batchInBox * 20);

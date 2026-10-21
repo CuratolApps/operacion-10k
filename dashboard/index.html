@@ -87,6 +87,12 @@
             </button>
           </li>
           <li>
+            <button class="finops-nav-btn" data-view="nebula-commanders">
+              <i data-lucide="sparkles"></i>
+              <span>🌌 Nebulosas IA (10 Cerebros)</span>
+            </button>
+          </li>
+          <li>
             <button class="finops-nav-btn" data-view="galaxy-mining">
               <i data-lucide="cpu"></i>
               <span>1. Minería &amp; Bitcoin L2</span>
@@ -376,6 +382,43 @@
                 <span class="sema-value" style="color: var(--neon-cyan)">PAUSADO_SEGURO (100% Protegido)</span>
               </div>
             </div>
+            <div class="semaphore-card" onclick="switchFinopsView('nebula-commanders')" style="cursor: pointer; border-color: rgba(33, 199, 205, 0.4);" title="Abrir Estación de Las 10 Nebulosas IA">
+              <span class="sema-dot-status green"></span>
+              <div class="sema-data-col">
+                <span class="sema-label">🌌 10 Nebulosas IA</span>
+                <span class="sema-value" style="color: var(--neon-cyan)" id="semaNebulaScore">Score: 96% • Guía Activa →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISTA: LAS 10 NEBULOSAS IA (MOTOR DE INTELIGENCIA SUPERIOR) -->
+      <section class="finops-view-panel" id="view-nebula-commanders">
+        <div class="full-width-panel" style="height: 100%; display: flex; flex-direction: column;">
+          <!-- BANNER SUPERIOR DE LAS NEBULOSAS -->
+          <div class="nebula-commanders-header-banner">
+            <div class="nebula-header-title-wrap">
+              <i data-lucide="sparkles" style="width: 20px; height: 20px; color: var(--neon-cyan)"></i>
+              <div>
+                <h3>🌌 Estación de Inteligencia Superior: Las 10 Nebulosas IA</h3>
+                <span>&lt; RAZONAMIENTO HEURÍSTICO EN VIVO • GUÍA DE LA MANADA DE 500 SATÉLITES • RPC Y APIS PÚBLICAS &gt;</span>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="system-status-badge online">
+                <span class="status-dot"></span>
+                <span class="status-text">&lt; 10/10 CEREBROS EN LÍNEA &gt;</span>
+              </div>
+              <div class="nebula-score-pill" style="font-size: 0.72rem; padding: 4px 10px;" id="nebulaGlobalScorePill">
+                SCORE: 96% ÓPTIMO
+              </div>
+            </div>
+          </div>
+
+          <!-- CUADRÍCULA DE LAS 10 NEBULOSAS IA (ANCHO COMPLETO) -->
+          <div class="nebula-commanders-grid" id="nebulaGridContainer">
+            <!-- Se puebla dinámicamente con renderNebulaCommanders() en app.js -->
           </div>
         </div>
       </section>

@@ -664,7 +664,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
       /* 3. LAS 3 TARJETAS DE CANALES DE VENTA (CERCA DE LOS MERCADOS Y MENOS ALTAS) */
       .credit-card-channels-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 8px;
         flex: 1;
         min-height: 105px;
@@ -2380,8 +2380,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .finops-nav-list {
   list-style: none !important;
   display: grid !important;
-  grid-template-rows: repeat(7, 1fr) !important;
-  gap: 6px !important;
+  grid-template-rows: repeat(8, 1fr) !important;
+  gap: 5px !important;
   flex: 1 !important;
   min-height: 0 !important;
   height: 100% !important;
@@ -2518,4 +2518,156 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
   padding-top: 3px !important;
   margin-top: 1px !important;
+}
+
+/* -------------------------------------------------------------
+   🌌 LAS 10 NEBULOSAS IA (ESTACIÓN DE INTELIGENCIA SUPERIOR)
+   ------------------------------------------------------------- */
+.nebula-commanders-header-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(33, 199, 205, 0.12) 0%, rgba(138, 43, 226, 0.12) 100%);
+  border: 1px solid rgba(33, 199, 205, 0.35);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.nebula-header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nebula-header-title-wrap h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.nebula-header-title-wrap span {
+  font-size: 0.55rem;
+  color: var(--text-sub);
+  font-family: 'JetBrains Mono', monospace;
+}
+.nebula-commanders-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  height: calc(100% - 60px);
+  min-height: 0;
+  overflow: hidden;
+}
+.nebula-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(14, 19, 32, 0.92);
+  border: 1px solid rgba(255, 183, 3, 0.22);
+  border-radius: 9px;
+  padding: 8px 12px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.nebula-card:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(33, 199, 205, 0.25);
+  transform: translateY(-1px);
+}
+.nebula-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--neon-cyan);
+}
+.nebula-card:nth-child(even)::before {
+  background: var(--neon-gold);
+}
+.nebula-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.nebula-card-identity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nebula-card-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.nebula-card-title-group {
+  display: flex;
+  flex-direction: column;
+}
+.nebula-card-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--neon-gold);
+  letter-spacing: 0.5px;
+}
+.nebula-card-specialty {
+  font-size: 0.52rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.nebula-score-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.60rem;
+  font-weight: 800;
+  color: var(--neon-green);
+  background: rgba(0, 245, 160, 0.12);
+  border: 1px solid rgba(0, 245, 160, 0.35);
+  padding: 2px 7px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+.nebula-reasoning-box {
+  font-size: 0.54rem;
+  color: #ffffff;
+  line-height: 1.35;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 5px 8px;
+  border-radius: 6px;
+  border-left: 2px solid rgba(33, 199, 205, 0.5);
+  margin: 3px 0 5px 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.nebula-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.50rem;
+  color: var(--text-sub);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 4px;
+}
+.nebula-sat-guiding {
+  color: var(--neon-cyan);
+  font-weight: 700;
+}
+.nebula-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--neon-green);
+  font-weight: 700;
+}
+.nebula-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--neon-green);
+  box-shadow: 0 0 6px var(--neon-green);
 }
