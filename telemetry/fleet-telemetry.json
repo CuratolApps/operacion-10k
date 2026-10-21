@@ -1,24 +1,16 @@
 {
   "schemaVersion": "2.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-21T13:16:40.736Z",
+  "timestamp": "2026-10-21T13:36:23.587Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 1,
   "dailyCapturedUsdc": 0,
   "onchainSnapshot": {
     "source": "live-onchain",
-    "timestamp": "2026-10-21T13:16:36.873Z",
+    "timestamp": "2026-10-21T13:36:19.760Z",
     "minUsableNative": 0.0005,
     "networks": {
-      "baseSepolia": {
-        "online": true,
-        "rpc": "sepolia.base.org",
-        "totalNative": 0.927551,
-        "satellitesWithGas": 450,
-        "satellitesUsable": 450,
-        "satellitesZero": 50
-      },
       "ethereumSepolia": {
         "online": true,
         "rpc": "sepolia.drpc.org",
@@ -34,6 +26,14 @@
         "satellitesWithGas": 46,
         "satellitesUsable": 46,
         "satellitesZero": 454
+      },
+      "baseSepolia": {
+        "online": true,
+        "rpc": "sepolia.base.org",
+        "totalNative": 0.927551,
+        "satellitesWithGas": 450,
+        "satellitesUsable": 450,
+        "satellitesZero": 50
       },
       "arbitrumSepolia": {
         "online": true,
@@ -399,7 +399,7 @@
     "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "bscBnb": "0.001833",
     "polygonPol": "40.069073",
-    "lastChecked": "2026-10-21T13:16:40.734Z",
+    "lastChecked": "2026-10-21T13:36:23.585Z",
     "needsRefuelBsc": true,
     "needsRefuelPolygon": false,
     "status": "🟡 BSC BAJO — POLYGON OK",
@@ -507,8 +507,8 @@
       "name": "Ethereum Sepolia",
       "chainId": 11155111,
       "online": true,
-      "latencyMs": 264,
-      "blockNumber": 11962654,
+      "latencyMs": 313,
+      "blockNumber": 11962751,
       "status": "OPERATIVO",
       "totalEth": "4.258",
       "satellitesWithGas": 500
@@ -517,8 +517,8 @@
       "name": "Base Sepolia",
       "chainId": 84532,
       "online": true,
-      "latencyMs": 318,
-      "blockNumber": 48410155,
+      "latencyMs": 336,
+      "blockNumber": 48410746,
       "status": "OPERATIVO",
       "totalEth": "0.928",
       "satellitesWithGas": 450
@@ -527,8 +527,8 @@
       "name": "Arbitrum Sepolia",
       "chainId": 421614,
       "online": true,
-      "latencyMs": 783,
-      "blockNumber": 321404463,
+      "latencyMs": 843,
+      "blockNumber": 321409013,
       "status": "OPERATIVO",
       "totalEth": "0.707",
       "satellitesWithGas": 450
@@ -537,8 +537,8 @@
       "name": "Optimism Sepolia",
       "chainId": 11155420,
       "online": true,
-      "latencyMs": 458,
-      "blockNumber": 50393029,
+      "latencyMs": 393,
+      "blockNumber": 50393620,
       "status": "OPERATIVO",
       "totalEth": "0.055",
       "satellitesWithGas": 46
@@ -547,8 +547,8 @@
       "name": "BNB Smart Chain",
       "chainId": 56,
       "online": true,
-      "latencyMs": 431,
-      "blockNumber": 128944489,
+      "latencyMs": 523,
+      "blockNumber": 128947117,
       "status": "OPERATIVO",
       "totalNative": 0.03453058409999999,
       "satellitesUsable": 5
@@ -557,8 +557,8 @@
       "name": "Polygon PoS",
       "chainId": 137,
       "online": true,
-      "latencyMs": 234,
-      "blockNumber": 95922155,
+      "latencyMs": 219,
+      "blockNumber": 95922944,
       "status": "OPERATIVO",
       "totalNative": 93.958371794592,
       "satellitesUsable": 55
@@ -819,7 +819,7 @@
     "gamingTweetsDeleted": 0,
     "cooldownHours": 6,
     "status": "PAUSED_FOR_REVIEW",
-    "lastUpdated": "2026-10-21T13:16:40.734Z",
+    "lastUpdated": "2026-10-21T13:36:23.585Z",
     "name": "YoZapata",
     "url": "https://x.com/yozapata",
     "verifiedProfile": {
@@ -835,18 +835,17 @@
     "pausedReason": "Revisión temporal de la cuenta en X. Sin llamadas a la API ni credenciales en CI."
   },
   "gamefiAndCompetitions": {
-    "updatedAt": "2026-10-21T13:15:56.295Z",
+    "updatedAt": "2026-10-21T13:36:10.940Z",
     "mode": "PRODUCCION",
     "competitions": {
-      "fetchedAt": "2026-10-21T13:13:16.284Z",
-      "activeCount": 42,
+      "fetchedAt": "2026-10-21T13:36:07.796Z",
+      "activeCount": 41,
       "byToken": {
         "POL": 2,
-        "USDC": 40,
-        "BNB": 1
+        "USDC": 40
       },
       "bySource": {
-        "galxe": 4,
+        "galxe": 3,
         "superteam": 5,
         "immunefi": 33
       },
@@ -854,7 +853,7 @@
         {
           "id": "galxe",
           "ok": true,
-          "matched": 4,
+          "matched": 3,
           "error": null
         },
         {
@@ -871,66 +870,6 @@
         }
       ],
       "top": [
-        {
-          "source": "galxe",
-          "id": "GC5S6tmhp9",
-          "title": "Chapter 3 Starting now! Mint Apelion Bro and Earn a guaranteed 270 Polygon ($50)",
-          "rewardTokens": [
-            "POL"
-          ],
-          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
-          "chains": [
-            "Polygon"
-          ],
-          "deadline": null,
-          "participants": 1287,
-          "url": "https://app.galxe.com/quest/AlienApeInvasionClub/GC5S6tmhp9"
-        },
-        {
-          "source": "galxe",
-          "id": "GCBektoi1e",
-          "title": "Swap on Ethereum with QuickSwap Liquidity Hub 🔄 $4,000 Prize Pool",
-          "rewardTokens": [
-            "USDC"
-          ],
-          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
-          "chains": [
-            "Polygon"
-          ],
-          "deadline": null,
-          "participants": 7,
-          "url": "https://app.galxe.com/quest/QuickSwapDEX/GCBektoi1e"
-        },
-        {
-          "source": "galxe",
-          "id": "GCBSJtVVf7",
-          "title": "Thanksgiving Day 2024",
-          "rewardTokens": [
-            "USDC"
-          ],
-          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
-          "chains": [
-            "BSC"
-          ],
-          "deadline": null,
-          "participants": 3,
-          "url": "https://app.galxe.com/quest/alpacafinance/GCBSJtVVf7"
-        },
-        {
-          "source": "galxe",
-          "id": "GCaR7tv28S",
-          "title": "BNB Chain 4 YA NFT",
-          "rewardTokens": [
-            "BNB"
-          ],
-          "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
-          "chains": [
-            "BSC"
-          ],
-          "deadline": null,
-          "participants": 872,
-          "url": "https://app.galxe.com/quest/bnbchain/GCaR7tv28S"
-        },
         {
           "source": "superteam",
           "id": "e3bcf553-958f-4b26-8c1b-799476ceb873",
@@ -1006,63 +945,113 @@
           "deadline": "2026-11-14T18:29:59.000Z",
           "participants": 243,
           "url": "https://earn.superteam.fun/listing/chimp-on-metaplex"
+        },
+        {
+          "source": "superteam",
+          "id": "b2931cef-eea4-42cf-8911-3046653d6da8",
+          "title": "Create Content on Premier League Predictions with worm 🪱⚽",
+          "reward": {
+            "amount": 500,
+            "token": "USDC"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo token estructurado de la API",
+          "chains": [
+            "Solana (pago en USDC; no requiere gas EVM)"
+          ],
+          "deadline": "2026-11-24T02:59:59.000Z",
+          "participants": 98,
+          "url": "https://earn.superteam.fun/listing/create-content-on-premier-league-predictions-with-worm"
+        },
+        {
+          "source": "immunefi",
+          "id": "instadapp",
+          "title": "Instadapp",
+          "reward": {
+            "amount": 500000,
+            "token": "USDC, USDT, DAI"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo rewardsToken de la API",
+          "chains": [
+            "BSC/Polygon (según activos del programa)"
+          ],
+          "deadline": null,
+          "participants": null,
+          "url": "https://immunefi.com/bug-bounty/instadapp/"
+        },
+        {
+          "source": "immunefi",
+          "id": "magpiexyz",
+          "title": "MagpieXYZ",
+          "reward": {
+            "amount": 50000,
+            "token": "USDC AND BUSD"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo rewardsToken de la API",
+          "chains": [
+            "BSC/Polygon (según activos del programa)"
+          ],
+          "deadline": null,
+          "participants": null,
+          "url": "https://immunefi.com/bug-bounty/magpiexyz/"
+        },
+        {
+          "source": "immunefi",
+          "id": "dawn",
+          "title": "DAWN USD.infra Vault",
+          "reward": {
+            "amount": 50000,
+            "token": "USDC"
+          },
+          "rewardTokens": [
+            "USDC"
+          ],
+          "rewardDetection": "campo rewardsToken de la API",
+          "chains": [
+            "BSC/Polygon (según activos del programa)"
+          ],
+          "deadline": null,
+          "participants": null,
+          "url": "https://immunefi.com/bug-bounty/dawn/"
         }
       ]
     },
     "gamefi": {
-      "lastRunAt": "2026-10-21T13:15:56.295Z",
+      "lastRunAt": "2026-10-21T13:36:10.940Z",
       "networks": {
         "bscMainnet": {
           "fundedCount": 50,
-          "eligibleCount": 50,
-          "cooldownCount": 0,
-          "targetsVerified": 1,
-          "targetsChecked": 1,
-          "targets": [
-            {
-              "id": "wbnb-deposit-bsc",
-              "verified": true,
-              "hasBytecode": true,
-              "reason": null
-            }
-          ],
-          "satellitesSelected": [
-            2,
-            3,
-            4,
-            5,
-            6
-          ],
-          "txConfirmed": 5,
+          "eligibleCount": null,
+          "cooldownCount": null,
+          "targetsVerified": 0,
+          "targetsChecked": 0,
+          "targets": [],
+          "satellitesSelected": [],
+          "txConfirmed": 0,
           "txPending": 0,
           "txFailed": 0,
-          "skipped": null
+          "skipped": "SIN_CONTRATO_HABILITADO_EN_gamefi-targets.json (solo escáner, 0 gas)"
         },
         "polygonMainnet": {
           "fundedCount": 50,
-          "eligibleCount": 32,
-          "cooldownCount": 18,
-          "targetsVerified": 1,
-          "targetsChecked": 1,
-          "targets": [
-            {
-              "id": "wpol-deposit-polygon",
-              "verified": true,
-              "hasBytecode": true,
-              "reason": null
-            }
-          ],
-          "satellitesSelected": [
-            2,
-            3,
-            4,
-            5,
-            6
-          ],
-          "txConfirmed": 5,
+          "eligibleCount": null,
+          "cooldownCount": null,
+          "targetsVerified": 0,
+          "targetsChecked": 0,
+          "targets": [],
+          "satellitesSelected": [],
+          "txConfirmed": 0,
           "txPending": 0,
           "txFailed": 0,
-          "skipped": null
+          "skipped": "SIN_CONTRATO_HABILITADO_EN_gamefi-targets.json (solo escáner, 0 gas)"
         }
       },
       "recentTxs": [
@@ -1178,23 +1167,33 @@
         }
       ]
     },
+    "targetsPolicy": {
+      "fallbackWrappedNative": false,
+      "enabledTargets": 0,
+      "documentedTargets": 4
+    },
     "mainnetCooldown": {
-      "cooldownHours": 24,
+      "cooldownHours": 168,
+      "campaignCooldownHours": 24,
       "maxSatsPerRound": 5,
       "networks": {
         "bscMainnet": {
           "minExecNative": 0.00008,
           "trackedSatellites": 5,
           "inCooldown": 5,
-          "nextReadyAt": "2026-10-22T13:13:18.257Z",
-          "lastTxAt": "2026-10-21T13:13:18.257Z"
+          "nextReadyAt": "2026-10-28T13:13:18.257Z",
+          "lastTxAt": "2026-10-21T13:13:18.257Z",
+          "campaignInCooldown": 5,
+          "campaignNextReadyAt": "2026-10-22T13:13:18.257Z"
         },
         "polygonMainnet": {
           "minExecNative": 0.005,
           "trackedSatellites": 23,
           "inCooldown": 23,
-          "nextReadyAt": "2026-10-22T12:40:00.000Z",
-          "lastTxAt": "2026-10-21T13:14:11.892Z"
+          "nextReadyAt": "2026-10-28T12:40:00.000Z",
+          "lastTxAt": "2026-10-21T13:14:11.892Z",
+          "campaignInCooldown": 5,
+          "campaignNextReadyAt": "2026-10-22T13:14:11.892Z"
         }
       }
     },

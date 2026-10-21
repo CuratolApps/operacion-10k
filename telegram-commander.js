@@ -424,10 +424,12 @@ async function handleJuegos(chatId) {
     const srcLines = (comp.sources || [])
       .map((s) => `   ${s.ok ? "🟢" : "🔴"} ${escHtml(s.id)}: ${s.ok ? `${s.matched} activas` : escHtml(s.error)}`)
       .join("\n");
-    const top = (comp.items || []).slice(0, 6).map((it) => {
+    const ranked = [...(comp.items || [])].sort((a, b) => Number(!!a.staleSuspect) - Number(!!b.staleSuspect));
+    const top = ranked.slice(0, 6).map((it) => {
       const reward = it.reward ? `${it.reward.amount ?? "?"} ${escHtml(it.reward.token)}` : it.rewardTokens.join("/");
       const end = it.deadline ? ` · hasta ${it.deadline.slice(0, 10)}` : "";
-      return `• <a href="${escHtml(it.url)}">${escHtml(String(it.title).slice(0, 70))}</a>\n   💰 ${reward} · ${escHtml(it.source)}${end}`;
+      const stale = it.staleSuspect ? " · ⚠️ posible caducada" : "";
+      return `• <a href="${escHtml(it.url)}">${escHtml(String(it.title).slice(0, 70))}</a>\n   💰 ${reward} · ${escHtml(it.source)}${end}${stale}`;
     });
     compBlock = `📡 <b>Competencias activas (USDC / POL / BNB):</b> ${comp.totals.activeCompetitions}\n${srcLines}\n\n${top.join("\n") || "Sin oportunidades que cumplan el filtro ahora mismo."}\n🕒 Escaneo: ${fmtUtc(comp.fetchedAt)}`;
   }
@@ -436,7 +438,7 @@ async function handleJuegos(chatId) {
   const cdLines = Object.entries(cd.networks).map(([k, n]) => {
     const g = gf && gf.networks ? gf.networks[k] : null;
     const funded = g && g.fundedCount != null ? g.fundedCount : "?";
-    return `   • <b>${netLabel[k]}</b> (mín ${n.minExecNative}): ${n.inCooldown} en cooldown 24h de ${funded} fondeados · próximo libre: ${fmtUtc(n.nextReadyAt)}`;
+    return `   • <b>${netLabel[k]}</b> (mín ${n.minExecNative}): ${n.inCooldown} en cooldown ${cd.cooldownHours}h de ${funded} fondeados · próximo libre: ${fmtUtc(n.nextReadyAt)}`;
   });
 
   const headers = (fleet.headersSurveillance || []).filter((h) => h.box > 0);
@@ -454,13 +456,14 @@ async function handleJuegos(chatId) {
 
 ${compBlock}
 
-⏳ <b>Cooldown Mainnet 24h por satélite</b> (máx. ${cd.maxSatsPerRound}/ronda):
+⏳ <b>Cooldown Mainnet de mantenimiento ${cd.cooldownHours}h (semanal) por satélite</b> (máx. ${cd.maxSatsPerRound}/ronda):
 ${cdLines.join("\n")}
 
 🛡️ <b>Gas protegido de las 5 Cabeceras</b> (excluidas del gasto repetitivo):
 ${headerLines}
 
 🎲 ${gfLine}
+🔒 Gas de campaña (${cd.campaignCooldownHours}h): reservado; solo se gasta en contratos reales con <code>enabled:true</code> en gamefi-targets.json (sin relleno WBNB/WPOL).
 `.trim();
 
   return await callTelegram("sendMessage", {

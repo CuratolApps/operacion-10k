@@ -239,7 +239,7 @@ async function executeMainnetBountyRadar(options = { isDryRun: false }) {
     });
     candidateIndices = sel.squad.map(s => s.index);
     if (candidateIndices.length === 0 && sel.fundedCount > 0) {
-      console.log(`   🛡️ [POLYGON] ${sel.cooldownCount} satélites fondeados, todos en cooldown 24h. 0 gas esta ronda.`);
+      console.log(`   🛡️ [POLYGON] ${sel.cooldownCount} satélites fondeados, todos en cooldown 168h. 0 gas esta ronda.`);
     } else {
       console.log(`   🎯 Satélites elegibles en turno (cabeceras excluidas): ${candidateIndices.length ? candidateIndices.map(i => `#${i}`).join(", ") : "ninguno"}`);
     }

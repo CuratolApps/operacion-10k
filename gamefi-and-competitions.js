@@ -11,7 +11,9 @@
  *       4. coste de gas estimado < GAS_CAP_USD ($0.002) con precio de mercado real
  *          (si no hay precio, tope nativo conservador; se reporta la fuente)
  *     Solo satélites fondeados, NO reservados (sin cabeceras/VIP/#501) y fuera de su
- *     cooldown de 24 h (mainnet-gas-shield) ejecutan; máx. 5 por red y ronda.
+ *     cooldown de CAMPAÑA (24 h, mainnet-gas-shield) ejecutan; máx. 5 por red y ronda.
+ *     SIN FALLBACK: si gamefi-targets.json no tiene un contrato real con enabled:true, el
+ *     módulo solo escanea (0 gas). Envolver WBNB/WPOL ya NO es una acción por defecto.
  *     Solo se registra como confirmado un hash con receipt.status === 1.
  *
  *  B) ESCÁNER EN VIVO DE COMPETENCIAS / QUESTS / BOUNTIES
@@ -48,48 +50,42 @@ const HTTP_TIMEOUT_MS = 12000;
 const CONFIRM_TIMEOUT_MS = 60000;
 const REWARD_TOKENS = ["USDC", "POL", "MATIC", "BNB"];
 
-// Objetivos base: contratos wrapped-native oficiales (WBNB / WPOL). Es actividad on-chain
-// real de bajo gas (deposit); NO es un check-in de un juego. Los check-ins de GameFi se
-// añaden en gamefi-targets.json y pasan por las mismas verificaciones.
+// SIN OBJETIVOS POR DEFECTO. Envolver WBNB/WPOL (deposit) no suma puntos en ningún juego ni
+// genera retorno, así que se eliminó como fallback. Solo se ejecutan contratos reales de
+// campaña/juego/mint declarados en gamefi-targets.json con "enabled": true (autorización
+// manual). Pasan por las mismas 4 verificaciones (bytecode, selector, estimateGas, tope $).
 function baseTargets() {
-  return [
-    {
-      id: "wbnb-deposit-bsc",
-      networkKey: "bscMainnet",
-      name: "WBNB deposit (actividad wrapped-native)",
-      address: networks.bscMainnet.defiToken.address,
-      signature: "function deposit() payable",
-      method: "deposit",
-      args: [],
-      value: "0.00001",
-      kind: "WRAPPED_NATIVE_DEPOSIT"
-    },
-    {
-      id: "wpol-deposit-polygon",
-      networkKey: "polygonMainnet",
-      name: "WPOL deposit (actividad wrapped-native)",
-      address: networks.polygonMainnet.defiToken.address,
-      signature: "function deposit() payable",
-      method: "deposit",
-      args: [],
-      value: "0.001",
-      kind: "WRAPPED_NATIVE_DEPOSIT"
-    }
-  ];
+  return [];
 }
 
-function loadExtraTargets() {
+function readTargetsFile() {
   try {
     if (!fs.existsSync(GAMEFI_EXTRA_FILE)) return [];
     const data = JSON.parse(fs.readFileSync(GAMEFI_EXTRA_FILE, "utf8"));
-    const list = Array.isArray(data) ? data : data.targets || [];
-    return list.filter(
-      (t) => t && shield.isMainnetKey(t.networkKey) && ethers.isAddress(t.address) && t.signature && t.method
-    );
+    return Array.isArray(data) ? data : data.targets || [];
   } catch (_) {
     return [];
   }
 }
+
+/** Objetivos ejecutables: enabled === true y con dirección, firma y método válidos. */
+function loadExtraTargets() {
+  return readTargetsFile().filter(
+    (t) =>
+      t &&
+      t.enabled === true &&
+      shield.isMainnetKey(t.networkKey) &&
+      ethers.isAddress(t.address) &&
+      t.signature &&
+      t.method
+  );
+}
+
+/** Objetivos solo documentados (enabled !== true): jamás se ejecutan. */
+function countDocumentedTargets() {
+  return readTargetsFile().filter((t) => t && t.enabled !== true).length;
+}
+
 
 // ---------------------------------------------------------------------------
 // Utilidades
@@ -133,7 +129,12 @@ async function httpJson(url, opts = {}, timeoutMs = HTTP_TIMEOUT_MS) {
 }
 
 function tokenOf(text) {
-  const t = String(text || "").toUpperCase();
+  // "BNB Chain" / "BNB Smart Chain" / "BNB Day" son nombres de red o evento, no una recompensa en BNB.
+  const t = String(text || "")
+    .toUpperCase()
+    .replace(/BNB[\s-]*(SMART[\s-]*)?CHAIN/g, " ")
+    .replace(/BNB[\s-]*DAY/g, " ")
+    .replace(/BNBCHAIN/g, " ");
   const found = REWARD_TOKENS.filter((k) => new RegExp(`(^|[^A-Z0-9])${k}([^A-Z0-9]|$)`).test(t));
   return found.map((k) => (k === "MATIC" ? "POL" : k)).filter((k, i, a) => a.indexOf(k) === i);
 }
@@ -143,7 +144,8 @@ function tokenOf(text) {
 // ---------------------------------------------------------------------------
 async function scanGalxe() {
   const query = `query { campaigns(input:{first:50, listType: Trending, statuses:[Active], chains:[BSC,MATIC]}) {
-    list { id numberID name description chain status endTime cap space { name alias } participants { participantsCount } } } }`;
+    list { id numberID name description type chain status startTime endTime cap space { name alias } participants { participantsCount }
+      spaceStation { address chain } nftCore { contractAddress chain } } } }`;
   const { json, durationMs } = await httpJson("https://graphigo.prd.galaxy.eco/query", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -152,11 +154,16 @@ async function scanGalxe() {
   if (json.errors && !json.data) throw Object.assign(new Error(`GraphQL: ${json.errors[0]?.message || "error"}`), { code: "GRAPHQL_ERROR" });
   const list = json?.data?.campaigns?.list || [];
   const now = Date.now() / 1000;
+  const STALE_DAYS = 180;
   const items = [];
   for (const c of list) {
     if (c.status !== "Active" || (c.endTime && c.endTime < now)) continue;
     const tokens = tokenOf(`${c.name} ${String(c.description || "").slice(0, 1200)}`);
     if (tokens.length === 0) continue;
+    // Galxe deja campañas "Active" sin endTime para siempre: se marcan como sospechosas si
+    // empezaron hace más de 180 días y no tienen fecha de cierre (premio probablemente agotado).
+    const ageDays = c.startTime ? Math.floor((now - c.startTime) / 86400) : null;
+    const staleSuspect = !c.endTime && ageDays !== null && ageDays > STALE_DAYS;
     items.push({
       source: "galxe",
       id: c.id,
@@ -165,6 +172,15 @@ async function scanGalxe() {
       rewardDetection: "texto de la campaña (Galxe no expone token estructurado)",
       chains: [c.chain === "MATIC" ? "Polygon" : c.chain === "BSC" ? "BSC" : c.chain],
       deadline: c.endTime ? new Date(c.endTime * 1000).toISOString() : null,
+      startedAt: c.startTime ? new Date(c.startTime * 1000).toISOString() : null,
+      ageDays,
+      staleSuspect,
+      campaignType: c.type || null,
+      onchain: {
+        spaceStation: c.spaceStation?.address || null,
+        nftCore: c.nftCore?.contractAddress || null,
+        chain: c.spaceStation?.chain || c.nftCore?.chain || null
+      },
       participants: c.participants?.participantsCount ?? null,
       url: `https://app.galxe.com/quest/${c.space?.alias || "x"}/${c.id}`
     });
@@ -199,7 +215,7 @@ async function scanSuperteam() {
 }
 
 async function scanImmunefi() {
-  const { json, durationMs } = await httpJson("https://immunefi.com/public-api/bounties.json");
+  const { json, durationMs } = await httpJson("https://immunefi.com/public-api/bounties.json", {}, 30000);
   const list = Array.isArray(json) ? json : json.bounties || [];
   const items = [];
   for (const b of list) {
@@ -340,9 +356,22 @@ async function runGamefiNetwork(networkKey, targets, wallets, options) {
   const provider = createResilientProvider(cfg);
   const satellites = wallets.filter((w) => w.index >= 1 && w.index <= 500);
 
+  // Sin contrato real habilitado en gamefi-targets.json: solo escaneo ($0 de gas). No se
+  // selecciona ningún satélite para gastar y no existe acción de relleno. Se lee (gratis) el
+  // número de satélites fondeados únicamente para mostrarlo en Telegram y el Dashboard.
+  if (targets.length === 0) {
+    out.skipped = "SIN_CONTRATO_HABILITADO_EN_gamefi-targets.json (solo escáner, 0 gas)";
+    try {
+      const ro = await shield.selectFundedSatellites({ provider, satellites, networkKey, max: 0 });
+      out.fundedCount = ro.fundedCount;
+    } catch (_) {}
+    console.log(`   🛡️ [${cfg.name}] ${out.skipped}${out.fundedCount != null ? ` · fondeados (lectura): ${out.fundedCount}` : ""}`);
+    return out;
+  }
+
   let sel;
   try {
-    sel = await shield.selectFundedSatellites({ provider, satellites, networkKey, max: shield.MAX_MAINNET_SATS_PER_ROUND });
+    sel = await shield.selectFundedSatellites({ provider, satellites, networkKey, max: shield.MAX_MAINNET_SATS_PER_ROUND, kind: "campaign" });
   } catch (err) {
     out.skipped = `LECTURA_DE_SALDOS_FALLIDA: ${err.message}`;
     console.log(`   ⚠️ [${cfg.name}] ${out.skipped}`);
@@ -351,7 +380,7 @@ async function runGamefiNetwork(networkKey, targets, wallets, options) {
   out.fundedCount = sel.fundedCount;
   out.eligibleCount = sel.eligibleCount;
   out.cooldownCount = sel.cooldownCount;
-  console.log(`   🎯 [${cfg.name}] fondeados=${sel.fundedCount} · elegibles=${sel.eligibleCount} · en cooldown 24h=${sel.cooldownCount} · mínimo ${sel.minExec} ${cfg.symbol}`);
+  console.log(`   🎯 [${cfg.name}] fondeados=${sel.fundedCount} · elegibles=${sel.eligibleCount} · en cooldown de campaña 24h=${sel.cooldownCount} · mínimo ${sel.minExec} ${cfg.symbol}`);
 
   // Sonda: si no hay satélite elegible se verifica igualmente con uno fondeado cualquiera (lectura/simulación).
   const probe = sel.squad[0] || satellites.find((s) => !shield.isProtectedIndex(s.index));
@@ -447,7 +476,7 @@ function syncTelemetry({ competitions, gamefi, dryRun }) {
           byToken: competitions.totals.byToken,
           bySource: competitions.totals.bySource,
           sources: competitions.sources.map((s) => ({ id: s.id, ok: s.ok, matched: s.matched, error: s.error })),
-          top: competitions.items.slice(0, 8)
+          top: [...competitions.items].sort((a, b) => Number(!!a.staleSuspect) - Number(!!b.staleSuspect)).slice(0, 8)
         }
       : prev.competitions || null,
     gamefi: gamefi
@@ -474,6 +503,7 @@ function syncTelemetry({ competitions, gamefi, dryRun }) {
           recentTxs
         }
       : prev.gamefi || null,
+    targetsPolicy: { fallbackWrappedNative: false, enabledTargets: loadExtraTargets().length, documentedTargets: countDocumentedTargets() },
     mainnetCooldown: shield.getCooldownSummary(),
     protectedHeaders: { indexes: shield.HEADER_INDEXES, vault: shield.VAULT_INDEX, policy: "EXCLUIDAS_DEL_GASTO_REPETITIVO_EN_MAINNET" }
   };
@@ -486,7 +516,7 @@ async function runGamefiAndCompetitions(options = {}) {
   console.log("=========================================================================================");
   console.log("   🎮 OPERACIÓN 10K — GAMEFI VERIFICADO + RADAR DE COMPETENCIAS USDC (DATOS REALES)      ");
   console.log("=========================================================================================");
-  console.log(`🛡️  Modo: ${dryRun ? "DRY-RUN (sin transacciones)" : "PRODUCCIÓN"} · tope gas $${GAS_CAP_USD} · cooldown 24h por satélite\n`);
+  console.log(`🛡️  Modo: ${dryRun ? "DRY-RUN (sin transacciones)" : "PRODUCCIÓN"} · tope gas $${GAS_CAP_USD} · campaña 24h / mantenimiento 168h por satélite\n`);
 
   console.log("📡 [B] Escaneando competencias, quests y bounties públicos (USDC / POL / BNB)...");
   const competitions = await scanCompetitions();

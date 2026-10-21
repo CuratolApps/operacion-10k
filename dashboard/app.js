@@ -404,7 +404,7 @@ function logToAuraAndTelegram(auraHtml, tgBadge, tgText) {
 }
 
 // ==========================================================================
-// JUEGOS & COMPETENCIAS USDC + COOLDOWN MAINNET 24h + SALDOS ON-CHAIN (datos reales)
+// JUEGOS & COMPETENCIAS USDC + COOLDOWN MAINNET (mantenimiento 168h) + SALDOS ON-CHAIN (datos reales)
 // ==========================================================================
 function renderGamefiAndCompetitions(data) {
   const set = (id, txt, title) => {
@@ -425,7 +425,7 @@ function renderGamefiAndCompetitions(data) {
     set("gamefiCompStat", "Sin escaneo aún");
   }
 
-  // Cooldown Mainnet 24h por satélite
+  // Cooldown Mainnet de mantenimiento por satélite (168h) y campaña (24h)
   const cd = g.mainnetCooldown;
   if (cd && cd.networks) {
     const gfNets = (g.gamefi && g.gamefi.networks) || {};
@@ -436,7 +436,7 @@ function renderGamefiAndCompetitions(data) {
     };
     const next = Object.values(cd.networks).map((n) => n.nextReadyAt).filter(Boolean).sort()[0];
     set("gamefiCooldownStat", `${part("bscMainnet", "BSC")} · ${part("polygonMainnet", "POL")}`,
-      `Máx. ${cd.maxSatsPerRound} satélites por red y ronda · próximo libre: ${next || "ahora"}`);
+      `Cooldown de mantenimiento ${cd.cooldownHours || 168}h · campaña ${cd.campaignCooldownHours || 24}h (solo contratos habilitados) · máx. ${cd.maxSatsPerRound} satélites por red y ronda · próximo libre: ${next || "ahora"}`);
   }
 
   // 5 Cabeceras (saldos exactos on-chain)

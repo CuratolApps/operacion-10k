@@ -256,7 +256,7 @@ async function runBotMinerSwarm() {
   ];
 
   console.log("-----------------------------------------------------------------------------------------");
-  console.log(`🛡️ [GAS-SHIELD MAINNET] Máx. ${MAX_MAINNET_SATS_PER_ROUND} satélites/red · cooldown 24h por satélite · cabeceras y #501 reservadas`);
+  console.log(`🛡️ [GAS-SHIELD MAINNET] Máx. ${MAX_MAINNET_SATS_PER_ROUND} satélites/red · cooldown de mantenimiento 168h (7 días) por satélite · cabeceras y #501 reservadas`);
   console.log("-----------------------------------------------------------------------------------------");
 
   for (const plan of mainnetPlans) {
@@ -277,7 +277,7 @@ async function runBotMinerSwarm() {
 
     if (sel.squad.length === 0) {
       if (sel.fundedCount > 0) {
-        console.log(`   🛡️ [${plan.label}] ${sel.cooldownCount} satélites fondeados, todos en cooldown 24h. 0 gas esta ronda.`);
+        console.log(`   🛡️ [${plan.label}] ${sel.cooldownCount} satélites fondeados, todos en cooldown 168h. 0 gas esta ronda.`);
       } else {
         console.log(`   ⏳ [${plan.label}] Sin satélites >= ${minGate} ${plan.symbol} (cabeceras excluidas).`);
       }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "fetchedAt": "2026-10-21T13:13:16.284Z",
+  "fetchedAt": "2026-10-21T13:36:07.796Z",
   "sources": [
     {
       "id": "galxe",
@@ -8,8 +8,8 @@
       "url": "https://graphigo.prd.galaxy.eco/query",
       "ok": true,
       "scanned": 50,
-      "matched": 4,
-      "durationMs": 419,
+      "matched": 3,
+      "durationMs": 479,
       "error": null
     },
     {
@@ -19,7 +19,7 @@
       "ok": true,
       "scanned": 11,
       "matched": 5,
-      "durationMs": 2190,
+      "durationMs": 1538,
       "error": null
     },
     {
@@ -29,19 +29,18 @@
       "ok": true,
       "scanned": 221,
       "matched": 33,
-      "durationMs": 1120,
+      "durationMs": 12564,
       "error": null
     }
   ],
   "totals": {
-    "activeCompetitions": 42,
+    "activeCompetitions": 41,
     "byToken": {
       "POL": 2,
-      "USDC": 40,
-      "BNB": 1
+      "USDC": 40
     },
     "bySource": {
-      "galxe": 4,
+      "galxe": 3,
       "superteam": 5,
       "immunefi": 33
     }
@@ -59,6 +58,15 @@
         "Polygon"
       ],
       "deadline": null,
+      "startedAt": "2025-04-28T22:00:00.000Z",
+      "ageDays": 540,
+      "staleSuspect": true,
+      "campaignType": "Drop",
+      "onchain": {
+        "spaceStation": "0xae73902e51a047ed7d88854ef2c315efda4a24fb",
+        "nftCore": "0x5d91fb129cdb83c7a21a880d41ff16991e6a394b",
+        "chain": "MATIC"
+      },
       "participants": 1287,
       "url": "https://app.galxe.com/quest/AlienApeInvasionClub/GC5S6tmhp9"
     },
@@ -74,6 +82,15 @@
         "Polygon"
       ],
       "deadline": null,
+      "startedAt": "2024-12-10T05:00:00.000Z",
+      "ageDays": 680,
+      "staleSuspect": true,
+      "campaignType": "Oat",
+      "onchain": {
+        "spaceStation": "0xf6d1b85af155229acd7b523601148585a1ff67c6",
+        "nftCore": "0x5d666f215a85b87cb042d59662a7ecd2c8cc44e6",
+        "chain": "MATIC"
+      },
       "participants": 7,
       "url": "https://app.galxe.com/quest/QuickSwapDEX/GCBektoi1e"
     },
@@ -89,23 +106,17 @@
         "BSC"
       ],
       "deadline": null,
+      "startedAt": "2024-11-28T17:00:00.000Z",
+      "ageDays": 691,
+      "staleSuspect": true,
+      "campaignType": "Drop",
+      "onchain": {
+        "spaceStation": "0x760b8237e457e6a2b5b196ae073ef0301b8316a2",
+        "nftCore": "0x03f521d5548ffdd5f282991e2fe396e2b80af785",
+        "chain": "BSC"
+      },
       "participants": 3,
       "url": "https://app.galxe.com/quest/alpacafinance/GCBSJtVVf7"
-    },
-    {
-      "source": "galxe",
-      "id": "GCaR7tv28S",
-      "title": "BNB Chain 4 YA NFT",
-      "rewardTokens": [
-        "BNB"
-      ],
-      "rewardDetection": "texto de la campaña (Galxe no expone token estructurado)",
-      "chains": [
-        "BSC"
-      ],
-      "deadline": null,
-      "participants": 872,
-      "url": "https://app.galxe.com/quest/bnbchain/GCaR7tv28S"
     },
     {
       "source": "superteam",
@@ -199,7 +210,7 @@
         "Solana (pago en USDC; no requiere gas EVM)"
       ],
       "deadline": "2026-11-24T02:59:59.000Z",
-      "participants": 97,
+      "participants": 98,
       "url": "https://earn.superteam.fun/listing/create-content-on-premier-league-predictions-with-worm"
     },
     {

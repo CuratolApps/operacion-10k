@@ -121,7 +121,7 @@ async function selectFundedMainnetSquad(provider, networkConfig, satellites, bat
     });
     const squadRange = sel.fundedCount === 0
       ? "Sin satélites fondeados (cabeceras y #501 excluidas)"
-      : `${sel.squad.length} de ${sel.eligibleCount} elegibles (${sel.fundedCount} fondeados >= ${sel.minExec} ${networkConfig.symbol}, ${sel.cooldownCount} en cooldown 24h, cabeceras excluidas)`;
+      : `${sel.squad.length} de ${sel.eligibleCount} elegibles (${sel.fundedCount} fondeados >= ${sel.minExec} ${networkConfig.symbol}, ${sel.cooldownCount} en cooldown 168h, cabeceras excluidas)`;
     return { squad: sel.squad, fundedCount: sel.fundedCount, eligibleCount: sel.eligibleCount, cooldownCount: sel.cooldownCount, squadRange };
   } catch (err) {
     console.log(`   ⚠️ No se pudo leer saldos en lote para selección mainnet: ${err.message}`);
@@ -679,12 +679,12 @@ async function runTaskRunner() {
       netSquad = sel.squad;
       console.log(`🎯 [${net.name}] Selector mainnet: ${sel.squadRange}`);
       if (netSquad.length === 0 && sel.fundedCount > 0) {
-        console.log(`🛡️  [${net.name}] Todos los satélites fondeados están en cooldown 24h. Sin gasto de gas esta ronda.\n`);
+        console.log(`🛡️  [${net.name}] Todos los satélites fondeados están en cooldown de mantenimiento 168h. Sin gasto de gas esta ronda.\n`);
         evmResults.push({
           network: net.name,
           chainId: net.chainId,
           isPendingGas: true,
-          statusLabel: `Cooldown 24h 🛡️ (${sel.cooldownCount} sat. en espera, 0 gas)`,
+          statusLabel: `Cooldown 168h 🛡️ (${sel.cooldownCount} sat. en espera, 0 gas)`,
           successCount: 0,
           total: 0,
           runs: []
