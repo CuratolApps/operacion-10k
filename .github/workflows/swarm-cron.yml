@@ -73,7 +73,7 @@ jobs:
           node harvest-rewards.js --scan || true
           node master-refuel.js --intra-box || true
           node vanguard-hunter.js || true
-          node x-autonomous-agent.js || true
+          # node x-autonomous-agent.js || true # PAUSADO TEMPORALMENTE: revisión preventiva de cuenta en @yozapata
           node scripts/ai-telemetry-feed.js || true
 
       - name: 💾 Sincronizar Telemetría al Dashboard

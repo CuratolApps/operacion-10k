@@ -60,8 +60,8 @@ async function executeFullCycle(cycleNumber) {
   // 6. Vanguard Hunter (Reporte Táctico y Notificación a Telegram)
   runCommand("node vanguard-hunter.js", "10K Vanguard Hunter");
 
-  // 6.5. Agente Autónomo de X (Lomo 6 Social: Rebranding, Limpieza & On-Chain Alpha @yozapata)
-  runCommand("node x-autonomous-agent.js", "Agente Autónomo X @yozapata (Lomo 6)");
+  // 6.5. Agente Autónomo de X (PAUSADO TEMPORALMENTE: revisión de cuenta en @yozapata)
+  // runCommand("node x-autonomous-agent.js", "Agente Autónomo X @yozapata (Lomo 6)");
 
   // 7. Sincronización AI Telemetry Feed
   runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync");

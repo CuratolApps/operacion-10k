@@ -130,6 +130,10 @@ async function rebrandProfile(client) {
     verifiedProfile: null
   };
 
+  console.log("🛑 [PAUSA DE SEGURIDAD PREVENTIVA ACTIVA]");
+  console.log("   Modificación de perfil pausada temporalmente por revisión de cuenta en @yozapata.");
+  console.log("   Desactivados: updateAccountProfile, updateAccountProfileImage, updateAccountProfileBanner.\n");
+
   // 1. Datos del Perfil (Estricto OPSEC: Cero 10K, Cero GitHub)
   const profilePayload = {
     name: "YoZapata",
@@ -139,15 +143,9 @@ async function rebrandProfile(client) {
   };
 
   try {
-    console.log("📝 Aplicando datos oficiales del perfil...");
-    console.log(`   • Name: "${profilePayload.name}"`);
-    console.log(`   • Location: "${profilePayload.location}"`);
-    console.log(`   • URL: "${profilePayload.url}"`);
-    console.log(`   • Bio: "${profilePayload.description}"`);
-
-    await client.v1.updateAccountProfile(profilePayload);
-    results.profileInfoUpdated = true;
-    console.log("✅ Perfil textual actualizado exitosamente.");
+    console.log("⏸️ [PAUSADO] Actualización de texto de perfil omitida durante revisión.");
+    // await client.v1.updateAccountProfile(profilePayload);
+    // results.profileInfoUpdated = true;
   } catch (err) {
     console.warn("⚠️ [Aviso X API] Error actualizando datos textuales:", err.message);
   }
@@ -158,20 +156,18 @@ async function rebrandProfile(client) {
 
   if (fs.existsSync(avatarToUse)) {
     try {
-      console.log(`🖼️  Subiendo avatar hiperrealista desde ${path.basename(avatarToUse)}...`);
-      await client.v1.updateAccountProfileImage(avatarToUse);
-      results.avatarUpdated = true;
-      console.log("✅ Avatar fotorrealista YZ aplicado exitosamente en X.");
+      console.log(`⏸️ [PAUSADO] Subida de avatar omitida durante revisión (${path.basename(avatarToUse)}).`);
+      // await client.v1.updateAccountProfileImage(avatarToUse);
+      // results.avatarUpdated = true;
     } catch (err) {
       console.warn("⚠️ [Aviso X API] Error subiendo avatar inicial:", err.message);
       if (err.data) console.warn("📋 Detalle error avatar:", JSON.stringify(err.data));
       try {
         const altFile = avatarToUse === avatarJpg ? AVATAR_FILE : avatarJpg;
         if (fs.existsSync(altFile)) {
-          console.log(`🔄 Reintentando con formato alternativo: ${path.basename(altFile)}...`);
-          await client.v1.updateAccountProfileImage(altFile);
-          results.avatarUpdated = true;
-          console.log("✅ Avatar fotorrealista YZ aplicado exitosamente con formato alternativo.");
+          console.log(`⏸️ [PAUSADO] Reintento alternativo de avatar omitido.`);
+          // await client.v1.updateAccountProfileImage(altFile);
+          // results.avatarUpdated = true;
         }
       } catch (altErr) {
         console.warn("⚠️ [Aviso X API] Error secundario avatar:", altErr.message);
@@ -184,11 +180,10 @@ async function rebrandProfile(client) {
   // 3. Banner Fotorrealista Oficial (1500x500 px)
   if (fs.existsSync(BANNER_FILE)) {
     try {
-      console.log(`🖼️  Subiendo banner hiperrealista desde ${path.basename(BANNER_FILE)}...`);
-      const bannerBuffer = fs.readFileSync(BANNER_FILE);
-      await client.v1.updateAccountProfileBanner(bannerBuffer);
-      results.bannerUpdated = true;
-      console.log("✅ Banner espacial hiperrealista aplicado exitosamente en X.");
+      console.log(`⏸️ [PAUSADO] Subida de banner omitida durante revisión (${path.basename(BANNER_FILE)}).`);
+      // const bannerBuffer = fs.readFileSync(BANNER_FILE);
+      // await client.v1.updateAccountProfileBanner(bannerBuffer);
+      // results.bannerUpdated = true;
     } catch (err) {
       console.warn("⚠️ [Aviso X API] Error subiendo banner vía v1.1:", err.message);
     }
