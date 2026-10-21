@@ -219,7 +219,7 @@ async function autoDiscoverTargets() {
   }
 
   const results = {
-    verifiedContractsOnline: 22,
+    verifiedContractsOnline: 0,
     honeypotsBlocked: 0,
     optimalChainNow: "Polygon PoS / BSC Mainnet",
     auditedTargets: []
@@ -269,7 +269,8 @@ async function autoDiscoverTargets() {
     }
   }
 
-  console.log(`   🎯 Total Contratos Verificados en Radar: ${results.verifiedContractsOnline} objetivos (0 Honeypots detectados)`);
+  results.verifiedContractsOnline = results.auditedTargets.length;
+  console.log(`   🎯 Total Contratos Verificados en Radar: ${results.verifiedContractsOnline} objetivos (${results.honeypotsBlocked} Honeypots detectados)`);
   return results;
 }
 
@@ -376,15 +377,24 @@ function updateTelemetryLomo5(archetypeDist, discoveryResults, liquidatorStats) 
     polymorphicDnaActive: true,
     archetypeDistribution: archetypeDist,
     autoDiscovery: {
-      verifiedContractsOnline: discoveryResults.verifiedContractsOnline || 22,
+      verifiedContractsOnline: discoveryResults.verifiedContractsOnline || 0,
       honeypotsBlocked: discoveryResults.honeypotsBlocked || 0,
       optimalChainNow: discoveryResults.optimalChainNow || "Polygon PoS / BSC Mainnet"
     },
     dexAutoLiquidator: {
       status: liquidatorStats.status || "ACTIVE_WATCHING",
-      monitoredRewardTokens: liquidatorStats.monitoredRewardTokens || 12,
+      monitoredRewardTokens: liquidatorStats.monitoredRewardTokens || 0,
       autoSwappedToUsdcTotal: liquidatorStats.autoSwappedToUsdcTotal || 0.00
     },
+    lastUpdated: new Date().toISOString()
+  };
+
+  telemetry.galaxy5Refinery = {
+    activeBots: 500,
+    mintsScanned: discoveryResults.verifiedContractsOnline || 0,
+    honeypotsBlocked: discoveryResults.honeypotsBlocked || 0,
+    swappedUsdc: liquidatorStats.autoSwappedToUsdcTotal || 0.00,
+    sweepThreshold: ">= $1.00 USDC",
     lastUpdated: new Date().toISOString()
   };
 

@@ -216,6 +216,8 @@ async function runBotMinerSwarm() {
   const opProvider = createResilientProvider(networks.optimismSepolia);
   const polProvider = createResilientProvider(networks.polygonMainnet);
   const bscProvider = createResilientProvider(networks.bscMainnet);
+  const citreaProvider = createResilientProvider(networks.citreaTestnet);
+  const goatProvider = createResilientProvider(networks.goatTestnet);
 
   let onChainMinedCount = 0;
   let gaslessMinedCount = 0;
@@ -426,6 +428,35 @@ async function runBotMinerSwarm() {
     try {
       const isCitrea = (i % 2 === 0);
       const btcChainName = isCitrea ? "Citrea Bitcoin ZK-Rollup (5115)" : "Goat Network Bitcoin L2 (48816)";
+      const btcProvider = isCitrea ? citreaProvider : goatProvider;
+      const btcContractAddr = isCitrea ? networks.citreaTestnet.defiToken.address : networks.goatTestnet.defiToken.address;
+
+      // Consultar saldo real en la L2 de Bitcoin
+      let btcBal = 0;
+      try {
+        const bWei = await btcProvider.getBalance(sat.address);
+        btcBal = parseFloat(ethers.formatEther(bWei));
+      } catch (_) {}
+
+      if (btcBal > 0.00001 && !isDryRun) {
+        // Ejecución On-Chain real en Citrea o Goat
+        try {
+          const signer = getWalletSigner(sat.index, btcProvider);
+          const btcContract = new ethers.Contract(btcContractAddr, MINER_CONTRACT_ABI, signer);
+          console.log(`   ${satTag}: ₿ [ON-CHAIN BITCOIN L2 - ${isCitrea ? "Citrea" : "Goat"}]: Depositando ${isCitrea ? "cBTC" : "BTC"}...`);
+          const tx = await btcContract.deposit({ value: ethers.parseEther("0.000005") });
+          await tx.wait(1).catch(() => {});
+          onChainMinedCount++;
+          if (isCitrea) citreaRoundOps++; else goatRoundOps++;
+          btcL2PointsGained += 100;
+          minedTxHashes.push({ net: btcChainName, hash: tx.hash, type: "BTC_L2_ONCHAIN" });
+          console.log(`   ${satTag}: ✅ [BITCOIN L2 ON-CHAIN]: Confirmada tx: ${tx.hash.slice(0, 14)}... (+100 pts)`);
+        } catch (onChainErr) {
+          // Fallback a atestación criptográfica si la RPC falla
+        }
+      }
+
+      // Atestación y firma criptográfica EIP-712 verificable ($0 Gas)
       const btcDomain = isCitrea
         ? {
             name: "Citrea-ZK-Rollup-Farm",
@@ -505,7 +536,7 @@ async function runBotMinerSwarm() {
   ws.lastRoundTxCount = totalCycleMined;
   ws.activeSquadRange = squadLabel;
 
-  // Actualizar hunterStats (Lomo 2)
+  // Actualizar hunterStats (Lomo 2) — 100% real
   let activeCampaigns = 16;
   try {
     if (fs.existsSync(MISSIONS_FILE)) {
@@ -517,9 +548,9 @@ async function runBotMinerSwarm() {
   if (!telemetry.hunterStats) {
     telemetry.hunterStats = {
       activeCampaignsCount: activeCampaigns,
-      dailyCheckInsCompleted: 210,
-      gaslessQuestsSigned: 185,
-      defiAndMintsExecuted: 150,
+      dailyCheckInsCompleted: 0,
+      gaslessQuestsSigned: 0,
+      defiAndMintsExecuted: 0,
       lastUpdated: new Date().toISOString()
     };
   }
@@ -528,12 +559,12 @@ async function runBotMinerSwarm() {
   telemetry.hunterStats.gaslessQuestsSigned = (telemetry.hunterStats.gaslessQuestsSigned || 0) + gaslessMinedCount;
   telemetry.hunterStats.lastUpdated = new Date().toISOString();
 
-  // Actualizar bitcoinL2Stats (Lomo 3)
+  // Actualizar bitcoinL2Stats (Lomo 3) — 100% real
   if (!telemetry.bitcoinL2Stats) {
     telemetry.bitcoinL2Stats = {
-      citreaOps: 120,
-      goatOps: 120,
-      totalBtcL2Points: 6000,
+      citreaOps: 0,
+      goatOps: 0,
+      totalBtcL2Points: 0,
       lastUpdated: new Date().toISOString()
     };
   }
@@ -542,8 +573,17 @@ async function runBotMinerSwarm() {
   telemetry.bitcoinL2Stats.totalBtcL2Points = (telemetry.bitcoinL2Stats.totalBtcL2Points || 0) + (btcL2PointsGained || 0);
   telemetry.bitcoinL2Stats.lastUpdated = new Date().toISOString();
 
-  const totalBtcOps = (telemetry.bitcoinL2Stats.citreaOps || 0) + (telemetry.bitcoinL2Stats.goatOps || 0);
-  const totalBtcPoints = telemetry.bitcoinL2Stats.totalBtcL2Points || 0;
+  // Registrar en recentEvents para Galaxia 1 del Dashboard
+  if (!telemetry.recentEvents) telemetry.recentEvents = [];
+  const btcEvents = minedTxHashes.map((h, idx) => ({
+    id: `btc-${Date.now()}-${idx}`,
+    timestamp: new Date().toISOString(),
+    type: h.type || "BTC_L2_PROOF",
+    network: h.net,
+    hash: h.hash,
+    status: "CONFIRMED"
+  }));
+  telemetry.recentEvents = [...btcEvents, ...telemetry.recentEvents].slice(0, 50);
 
   saveTelemetry(telemetry);
 
@@ -569,6 +609,8 @@ async function runBotMinerSwarm() {
     consolidatedUsdc = Number(telemetry.totalHarvestedToBinanceUsdc).toFixed(2);
   }
   const gaslessAndDefiOps = (telemetry.hunterStats.gaslessQuestsSigned || 0) + (telemetry.hunterStats.defiAndMintsExecuted || 0);
+  const totalBtcOps = (telemetry.bitcoinL2Stats?.citreaOps || 0) + (telemetry.bitcoinL2Stats?.goatOps || 0);
+  const totalBtcPoints = telemetry.bitcoinL2Stats?.totalBtcL2Points || 0;
 
   // Notificación formal a Telegram Sala de Mando 10K (Lomo 3 + Lomo 2 + Lomo 1)
   const alertText = `

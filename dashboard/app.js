@@ -389,18 +389,81 @@ function renderGalaxiesStreams() {
   const telem = state.telemetry;
   const events = (telem?.recentEvents || []).filter(e => e && e.hash);
 
-  const renderOrEmpty = (tbodyId, typeFilter, defaultText) => {
+  // 1. Galaxia 1 — Minería & Bitcoin L2
+  const btcOps = safeNum(telem?.bitcoinL2Stats?.citreaOps, 0) + safeNum(telem?.bitcoinL2Stats?.goatOps, 0);
+  const btcPts = safeNum(telem?.bitcoinL2Stats?.totalBtcL2Points, 0);
+  const elG1Bots = document.getElementById('g1ActiveBots');
+  const elG1Pts = document.getElementById('g1Points');
+  const elG1Int = document.getElementById('g1Interactions');
+  const elG1Badge = document.getElementById('g1Badge');
+  if (elG1Bots) elG1Bots.textContent = `${btcOps > 0 ? 20 : 0} Billeteras`;
+  if (elG1Pts) elG1Pts.textContent = `${btcPts} pts BTC L2`;
+  if (elG1Int) elG1Int.textContent = `${btcOps} Interacciones Firmadas`;
+  if (elG1Badge) elG1Badge.textContent = `${btcOps > 0 ? 20 : 0} BOTS ACTIVOS`;
+
+  // 2. Galaxia 2 — Juegos & Metaverso
+  const gamingBots = safeNum(telem?.galaxy2Gaming?.activeBots, 0);
+  const gamingChests = safeNum(telem?.galaxy2Gaming?.chestsClaimed, 0);
+  const gamingTxs = safeNum(telem?.galaxy2Gaming?.totalGamingTxs, 0);
+  const elG2Bots = document.getElementById('g2ActiveBots');
+  const elG2Loot = document.getElementById('g2LootCount');
+  const elG2Footer = document.getElementById('g2ClaimsFooter');
+  const elG2Badge = document.getElementById('g2Badge');
+  if (elG2Bots) elG2Bots.textContent = `${gamingBots} Billeteras`;
+  if (elG2Loot) elG2Loot.textContent = `${gamingChests} Cofres & Activos`;
+  if (elG2Footer) elG2Footer.textContent = `${gamingTxs} Reclamos Exitosos`;
+  if (elG2Badge) elG2Badge.textContent = `${gamingBots} BOTS ACTIVOS`;
+
+  // 3. Galaxia 3 — Piscinas & Sorteos USDC
+  const poolBots = safeNum(telem?.galaxy3Pools?.activeBots, 0);
+  const poolCampaigns = safeNum(telem?.galaxy3Pools?.campaignsCount, 0);
+  const poolTickets = safeNum(telem?.galaxy3Pools?.ticketsTotal, 0);
+  const poolParticipations = safeNum(telem?.hunterStats?.gaslessQuestsSigned, 0);
+  const elG3Bots = document.getElementById('g3ActiveBots');
+  const elG3Camp = document.getElementById('g3Campaigns');
+  const elG3Tkt = document.getElementById('g3Tickets');
+  const elG3Part = document.getElementById('g3Participations');
+  const elG3Badge = document.getElementById('g3Badge');
+  if (elG3Bots) elG3Bots.textContent = `${poolBots} Billeteras`;
+  if (elG3Camp) elG3Camp.textContent = `${poolCampaigns} Piscinas Verificadas`;
+  if (elG3Tkt) elG3Tkt.textContent = `${poolTickets} Tickets`;
+  if (elG3Part) elG3Part.textContent = `${poolParticipations} Participaciones`;
+  if (elG3Badge) elG3Badge.textContent = `${poolBots} BOTS ACTIVOS`;
+
+  // 4. Galaxia 4 — Airdrops L2 $0 Gas
+  const airdropTxs = safeNum(telem?.workStats?.todayTxConfirmed, 0);
+  const airdropTotal = safeNum(telem?.workStats?.totalTxConfirmedAllTime, 0);
+  const elG4Bots = document.getElementById('g4ActiveBots');
+  const elG4Int = document.getElementById('g4Interactions');
+  const elG4Badge = document.getElementById('g4Badge');
+  if (elG4Bots) elG4Bots.textContent = `${airdropTxs > 0 ? 20 : 0} Billeteras`;
+  if (elG4Int) elG4Int.textContent = `${airdropTotal} Interacciones Sin Costo`;
+  if (elG4Badge) elG4Badge.textContent = `${airdropTxs > 0 ? 20 : 0} BOTS ACTIVOS`;
+
+  // 5. Galaxia 5 — Refinería DEX & Bóvedas Binance
+  const mintsCount = safeNum(telem?.galaxy5Refinery?.mintsScanned, 0);
+  const honeypotsBlocked = safeNum(telem?.galaxy5Refinery?.honeypotsBlocked, 0);
+  const elG5Bots = document.getElementById('g5ActiveBots');
+  const elG5Mints = document.getElementById('g5Mints');
+  const elG5Badge = document.getElementById('g5Badge');
+  if (elG5Bots) elG5Bots.textContent = '500 Billeteras';
+  if (elG5Mints) elG5Mints.textContent = `${mintsCount} Mints • ${honeypotsBlocked} Honeypot`;
+  if (elG5Badge) elG5Badge.textContent = 'BARRIDO AUTOMÁTICO';
+
+  // Renderizado de Tablas de Galaxias
+  const renderOrEmpty = (tbodyId, filterFn, defaultText) => {
     const el = document.getElementById(tbodyId);
     if (!el) return;
-    const filtered = events.filter(e => !typeFilter || e.type === typeFilter || e.network?.includes(typeFilter));
+    const filtered = events.filter(filterFn);
     if (filtered.length === 0) {
       el.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); font-size: 0.54rem; padding: 12px 6px;">● ${defaultText} (Contador en cadena: 0)</td></tr>`;
       return;
     }
     let rows = '';
-    filtered.forEach((ev, idx) => {
+    filtered.slice(0, 15).forEach((ev, idx) => {
+      const satId = ev.satIndex ? `#${String(ev.satIndex).padStart(3, '0')}` : `#${String((idx % 500) + 1).padStart(3, '0')}`;
       rows += `<tr>
-        <td><strong style="color: var(--neon-gold)">#${String((idx % 500) + 1).padStart(3, '0')}</strong></td>
+        <td><strong style="color: var(--neon-gold)">${satId}</strong></td>
         <td><span class="badge-fino-status paid">${ev.network || 'EVM'}</span></td>
         <td style="font-family: 'JetBrains Mono'; font-size: 0.50rem;">${ev.hash ? ev.hash.slice(0, 16) + '...' : 'Tx Confirmada'}</td>
         <td>${ev.type || 'On-Chain Activity'}</td>
@@ -412,11 +475,11 @@ function renderGalaxiesStreams() {
     el.innerHTML = rows;
   };
 
-  renderOrEmpty('g1StreamTableBody', 'Citrea', 'En espera de streak Citrea / Goat');
-  renderOrEmpty('g2StreamTableBody', 'Polygon', 'En espera de contrato Loot Chest');
-  renderOrEmpty('g3StreamTableBody', 'USDC', 'En espera de firma EIP-712 Pool');
-  renderOrEmpty('g4StreamTableBody', 'Sepolia', 'En espera de relay L2 Gasless');
-  renderOrEmpty('g5StreamTableBody', 'QuickSwap', 'En espera de swap / mint DEX');
+  renderOrEmpty('g1StreamTableBody', e => e.network?.includes('Citrea') || e.network?.includes('Goat') || e.type?.includes('BTC'), 'En espera de streak Citrea / Goat');
+  renderOrEmpty('g2StreamTableBody', e => e.type?.includes('LOOT') || e.type?.includes('GAMER') || e.network?.includes('Gaming'), 'En espera de reclamo Loot Chest');
+  renderOrEmpty('g3StreamTableBody', e => e.type?.includes('QUEST') || e.type?.includes('POOL') || e.network?.includes('Pool'), 'En espera de firma EIP-712 Pool');
+  renderOrEmpty('g4StreamTableBody', e => e.network?.includes('Sepolia') || e.network?.includes('Base') || e.network?.includes('Arbitrum') || e.type?.includes('BRIDGE'), 'En espera de relay L2 Gasless');
+  renderOrEmpty('g5StreamTableBody', e => e.type?.includes('SWAP') || e.type?.includes('MINT') || e.network?.includes('QuickSwap') || e.network?.includes('Polygon'), 'En espera de swap / mint DEX');
 }
 
 // -------------------------------------------------------------

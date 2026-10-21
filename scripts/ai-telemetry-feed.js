@@ -155,7 +155,7 @@ async function generateUnifiedTelemetry() {
     .filter((run) => run.txHash && run.isSuccess);
 
   const rawEventsList = allConfirmedRuns.length ? allConfirmedRuns : (lastRun.sampleHashes || []);
-  const recentEvents = rawEventsList
+  const baseEvents = rawEventsList
     .slice(0, 30)
     .map((h, i) => ({
       id: `tx-${i + 1}`,
@@ -166,6 +166,10 @@ async function generateUnifiedTelemetry() {
       satIndex: h.index || (i + 1),
       status: "CONFIRMED"
     }));
+
+  const recentEvents = [...baseEvents, ...(existingTelemetry.recentEvents || [])]
+    .filter((v, i, a) => a.findIndex(t => t.hash === v.hash) === i)
+    .slice(0, 50);
 
   // 7. Cabeceras y Bóveda Matriz #501 (saldos reales en BSC y Polygon)
   const prevHeaders = existingTelemetry.headersSurveillance || [];
@@ -627,6 +631,24 @@ async function generateUnifiedTelemetry() {
       totalBtcL2Points: 0,
       lastUpdated: new Date().toISOString()
     },
+    galaxy2Gaming: existingTelemetry.galaxy2Gaming || {
+      activeBots: 0,
+      chestsClaimed: 0,
+      totalGamingTxs: 0,
+      lastUpdated: new Date().toISOString()
+    },
+    galaxy3Pools: existingTelemetry.galaxy3Pools || {
+      activeBots: 0,
+      campaignsCount: 0,
+      ticketsTotal: 0,
+      lastUpdated: new Date().toISOString()
+    },
+    galaxy5Refinery: existingTelemetry.galaxy5Refinery || {
+      mintsScanned: 0,
+      honeypotsBlocked: 0,
+      autoSwappedToUsdcTotal: 0.00,
+      lastUpdated: new Date().toISOString()
+    },
     lomo4Metrics: existingTelemetry.lomo4Metrics || {
       roiTracker: {
         initialGasInvestmentUsd: 50.00,
@@ -679,7 +701,8 @@ async function generateUnifiedTelemetry() {
     recentEvents,
     recentTelegramAlerts,
     lomo6SocialX,
-    gamefiAndCompetitions
+    gamefiAndCompetitions,
+    saturationEngine: existingTelemetry.saturationEngine || null
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(payload, null, 2), "utf8");
