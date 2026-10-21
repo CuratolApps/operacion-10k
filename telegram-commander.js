@@ -14,9 +14,9 @@ require("dotenv").config();
 const { ethers } = require("ethers");
 const { networks } = require("./networks");
 const {
-  getBinanceDepositAddresses,
+  BINANCE_VAULTS_MAP,
   NATIVE_USDC_CONTRACTS,
-  scanFleetUsdcRewards
+  scanOmnichainUsdcRewards
 } = require("./harvest-rewards");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
@@ -344,7 +344,7 @@ async function handleVip(chatId) {
 }
 
 async function handleBinance(chatId) {
-  const addresses = getBinanceDepositAddresses();
+  const addresses = [1, 2, 3, 4, 5].map((box) => BINANCE_VAULTS_MAP[box]);
 
   await callTelegram("sendMessage", {
     chat_id: chatId,
@@ -354,7 +354,14 @@ async function handleBinance(chatId) {
 
   let scanResult = { totalUsdc: 0, satellitesWithBalance: [] };
   try {
-    scanResult = await scanFleetUsdcRewards("arbitrumOne", 50);
+    // Escaneo real multi-red (muestra de 50 satélites) con la función vigente de harvest-rewards
+    const allWallets = JSON.parse(fs.readFileSync(WALLETS_FILE, "utf8"));
+    const sample = allWallets.filter((w) => w.index >= 1 && w.index <= 500).slice(0, 50);
+    const scan = await scanOmnichainUsdcRewards(sample);
+    scanResult = {
+      totalUsdc: (scan.totalPendingDustUsdc || 0) + (scan.totalEligibleUsdc || 0),
+      satellitesWithBalance: scan.eligibleSweeps || []
+    };
   } catch (_) {}
 
   const text = `

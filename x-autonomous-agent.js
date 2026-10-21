@@ -393,10 +393,18 @@ async function publishOnChainAlpha(client, currentUser, options = {}) {
 /**
  * FUNCIÓN PRINCIPAL DEL AGENTE
  */
+// 🛑 PAUSA DE SEGURIDAD: @yozapata en revisión temporal. Poner en false SOLO cuando X levante la revisión.
+const X_PAUSED = true;
+
 async function runMasterSocialAgent() {
   console.log("=================================================================");
   console.log("       🛰️ PROGRAMA MAESTRO 100% AUTÓNOMO PARA @yozapata          ");
   console.log("=================================================================");
+
+  if (X_PAUSED) {
+    console.log("🛑 [PAUSADO] Agente X desactivado: cuenta en revisión temporal. Cero llamadas a X API.");
+    return { success: true, paused: true };
+  }
 
   const client = getXClient();
   if (!client) {

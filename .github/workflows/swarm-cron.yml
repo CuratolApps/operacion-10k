@@ -36,12 +36,7 @@ jobs:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '-5101181644' }}
       VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}
-      X_API_KEY: ${{ secrets.X_API_KEY }}
-      X_API_SECRET: ${{ secrets.X_API_SECRET }}
-      X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-      X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-      X_CLIENT_ID: ${{ secrets.X_CLIENT_ID }}
-      X_CLIENT_SECRET: ${{ secrets.X_CLIENT_SECRET }}
+      # 🛑 X/Twitter BLINDADO: sin credenciales X_* en este job mientras @yozapata está en revisión.
 
     steps:
       - name: 📥 Clonar repositorio
@@ -63,7 +58,7 @@ jobs:
           node swarm-engine.js --only-generate || true
           node solana-faucet-refuel.js || true
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            node task-runner.js --dry-run || true
+            node task-runner.js --force-dry-run || true
           else
             node task-runner.js || true
           fi

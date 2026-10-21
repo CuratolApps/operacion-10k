@@ -5,11 +5,16 @@
  * Genera el archivo: telemetry/fleet-telemetry.json
  * Consolida el estado de salud de los 5 bloques, métricas anti-Sybil,
  * latencia de redes y progreso hacia la meta de 12,000 USDC.
+ *
+ * Los saldos, latencias, bloques y cabeceras se leen EN VIVO de la cadena
+ * (scripts/onchain-snapshot.js). Si una red no responde, se conserva el último
+ * dato conocido y se marca como obsoleto (stale) en lugar de inventar cifras.
  */
 
 const fs = require("fs");
 const path = require("path");
 const { getBlockId } = require("../anti-sybil");
+const { takeSnapshot, MIN_USABLE_NATIVE } = require("./onchain-snapshot");
 
 const ROOT_DIR = path.resolve(__dirname, "..");
 const TELEMETRY_DIR = path.join(ROOT_DIR, "telemetry");
@@ -18,7 +23,10 @@ const OUTPUT_FILE = path.join(TELEMETRY_DIR, "fleet-telemetry.json");
 const WALLETS_FILE = path.join(ROOT_DIR, "wallets-public-list.json");
 const LAST_RUN_FILE = path.join(ROOT_DIR, "last-run-report.json");
 const RADAR_REPORT_FILE = path.join(ROOT_DIR, "radar-report.json");
-const BALANCES_FILE = path.join(ROOT_DIR, "balances-report.json");
+
+// Umbrales de recarga de la Bóveda Matriz (alineados con master-refuel.js)
+const MIN_BNB_TRIGGER = 0.002;
+const MIN_POL_TRIGGER = 1.0;
 
 function readJsonSafe(filepath, defaultValue = null) {
   try {
@@ -29,7 +37,7 @@ function readJsonSafe(filepath, defaultValue = null) {
   return defaultValue;
 }
 
-function generateUnifiedTelemetry() {
+async function generateUnifiedTelemetry() {
   if (!fs.existsSync(TELEMETRY_DIR)) {
     fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
   }
@@ -37,78 +45,102 @@ function generateUnifiedTelemetry() {
   const wallets = readJsonSafe(WALLETS_FILE, []);
   const lastRun = readJsonSafe(LAST_RUN_FILE, {});
   const radar = readJsonSafe(RADAR_REPORT_FILE, {});
-  const balances = readJsonSafe(BALANCES_FILE, {});
   const existingTelemetry = readJsonSafe(OUTPUT_FILE, {}) || {};
 
   const satellites = wallets.filter((w) => w.index > 0);
   const totalSatellites = satellites.length || 500;
 
-  // 1. Estructurar salud por Bloques (B1 a B5)
+  // 0. LECTURA ON-CHAIN REAL (solo lectura)
+  let snap = null;
+  try {
+    snap = wallets.length ? await takeSnapshot(wallets) : null;
+  } catch (err) {
+    console.warn(`⚠️ [TELEMETRY FEED] Snapshot on-chain falló: ${err.message}`);
+  }
+  const net = (grp, key) => (snap && snap[grp] && snap[grp][key] && snap[grp][key].online ? snap[grp][key] : null);
+  const sepolia = net("testnets", "ethereumSepolia");
+  const baseSep = net("testnets", "baseSepolia");
+  const arbSep = net("testnets", "arbitrumSepolia");
+  const opSep = net("testnets", "optimismSepolia");
+  const bsc = net("mainnets", "bscMainnet");
+  const poly = net("mainnets", "polygonMainnet");
+
+  // 1. Estructurar salud por Bloques (B1 a B5) con datos reales (Base Sepolia como referencia L2)
   const blocks = {
-    B1: { id: 1, label: "Bloque 1", range: [1, 100], count: 0, healthyCount: 0, avgGasEth: 0.0165, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
-    B2: { id: 2, label: "Bloque 2", range: [101, 200], count: 0, healthyCount: 0, avgGasEth: 0.0152, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
-    B3: { id: 3, label: "Bloque 3", range: [201, 300], count: 0, healthyCount: 0, avgGasEth: 0.0158, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
-    B4: { id: 4, label: "Bloque 4", range: [301, 400], count: 0, healthyCount: 0, avgGasEth: 0.0149, sybilStatus: "ESTANCO_OK", status: "STANDBY" },
-    B5: { id: 5, label: "Bloque 5", range: [401, 500], count: 0, healthyCount: 0, avgGasEth: 0.0151, sybilStatus: "ESTANCO_OK", status: "STANDBY" }
+    B1: { id: 1, label: "Bloque 1", range: [1, 100], count: 0, healthyCount: 0, avgGasEth: 0, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
+    B2: { id: 2, label: "Bloque 2", range: [101, 200], count: 0, healthyCount: 0, avgGasEth: 0, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
+    B3: { id: 3, label: "Bloque 3", range: [201, 300], count: 0, healthyCount: 0, avgGasEth: 0, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
+    B4: { id: 4, label: "Bloque 4", range: [301, 400], count: 0, healthyCount: 0, avgGasEth: 0, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
+    B5: { id: 5, label: "Bloque 5", range: [401, 500], count: 0, healthyCount: 0, avgGasEth: 0, sybilStatus: "ESTANCO_OK", status: "ACTIVO" }
   };
 
   satellites.forEach((sat) => {
+    if (sat.index > 500) return; // la Bóveda Matriz #501 no es satélite de bloque
     const bId = getBlockId(sat.index);
     const key = `B${bId}`;
     if (blocks[key]) {
       blocks[key].count++;
-      blocks[key].healthyCount++;
     }
   });
 
-  // 2. Extraer métricas de gas y Radar Hunter Real
+  Object.values(blocks).forEach((blk) => {
+    const real = baseSep && baseSep.byBox ? baseSep.byBox[blk.id] : null;
+    if (real) {
+      blk.healthyCount = real.withGas;
+      blk.avgGasEth = blk.count ? parseFloat((real.total / blk.count).toFixed(5)) : 0;
+      const ratio = blk.count ? real.withGas / blk.count : 0;
+      blk.status = ratio >= 0.9 ? "ACTIVO" : ratio > 0 ? "PARCIAL" : "SIN_GAS";
+    } else {
+      blk.healthyCount = (existingTelemetry.blocks && existingTelemetry.blocks[`B${blk.id}`] && existingTelemetry.blocks[`B${blk.id}`].healthyCount) || 0;
+      blk.status = "SIN_LECTURA";
+    }
+  });
+
+  // 2. Métricas de gas reales (Radar como último recurso, nunca cifras inventadas)
   const radarMetrics = radar.metrics || {};
-  const totalSepoliaEth = radarMetrics.totalSepoliaEth ? parseFloat(radarMetrics.totalSepoliaEth).toFixed(3) : "2.943";
-  const totalBaseEth = radarMetrics.totalBaseEth ? parseFloat(radarMetrics.totalBaseEth).toFixed(3) : "0.300";
-  const avgSepoliaEth = parseFloat(radarMetrics.avgSepoliaEth || "0.1471");
-  const avgBaseEth = parseFloat(radarMetrics.avgBaseEth || "0.0150");
-  const daysAutonomyBase = parseFloat(radarMetrics.daysAutonomyBase || "1.8");
-  const daysAutonomySepolia = parseFloat(radarMetrics.daysAutonomySepolia || "1.3");
-  const totalOnChainTx = lastRun.totalOnChainTx || 60;
+  const prevRadar = existingTelemetry.radarData || {};
+  const fmt3 = (n) => parseFloat(n).toFixed(3);
+  const totalSepoliaEth = sepolia ? fmt3(sepolia.total) : fmt3(radarMetrics.totalSepoliaEth || prevRadar.totalSepoliaEth || 0);
+  const totalBaseEth = baseSep ? fmt3(baseSep.total) : fmt3(radarMetrics.totalBaseEth || prevRadar.totalBaseEth || 0);
+  const totalArbEth = arbSep ? fmt3(arbSep.total) : "0.000";
+  const totalOpEth = opSep ? fmt3(opSep.total) : "0.000";
+  const avgSepoliaEth = sepolia ? parseFloat((sepolia.total / sepolia.totalSatellites).toFixed(4)) : parseFloat(radarMetrics.avgSepoliaEth || 0);
+  const avgBaseEth = baseSep ? parseFloat((baseSep.total / baseSep.totalSatellites).toFixed(4)) : parseFloat(radarMetrics.avgBaseEth || 0);
+  const daysAutonomyBase = parseFloat(radarMetrics.daysAutonomyBase || prevRadar.daysAutonomyBase || 0);
+  const daysAutonomySepolia = parseFloat(radarMetrics.daysAutonomySepolia || prevRadar.daysAutonomySepolia || 0);
+  const totalOnChainTx = lastRun.totalOnChainTx || 0;
+  const activeSquadSize = lastRun.activeSquadSize || 0;
 
   // 3. Historial de Alertas Telegram Reales (Espejo para Tarjeta Amarilla)
   const ALERTS_LOG_FILE = path.join(TELEMETRY_DIR, "telegram-alerts.json");
   let recentTelegramAlerts = readJsonSafe(ALERTS_LOG_FILE, []);
   if (!recentTelegramAlerts || recentTelegramAlerts.length === 0) {
-    const existingTelemetry = readJsonSafe(OUTPUT_FILE, {});
     recentTelegramAlerts = existingTelemetry.recentTelegramAlerts || [];
   }
 
-  if (recentTelegramAlerts.length === 0) {
-    const nowUtc = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
-    recentTelegramAlerts = [
-      {
-        id: "tg-radar-1",
-        timestamp: new Date().toISOString(),
-        timeFormatted: nowUtc,
-        rawHtml: `📡 <b>RADAR DE INTELIGENCIA & SALUD DE FLOTA (OMNICHAIN)</b>\n\n📊 <b>Auditoría de Saldos:</b>\n • <b>Sepolia L1:</b> ${totalSepoliaEth} ETH total (~${daysAutonomySepolia} días)\n • <b>Base Sepolia:</b> ${totalBaseEth} ETH total (~${daysAutonomyBase} días)\n • <b>Otras Redes EVM:</b> 0 Gas ⏳\n\n🏦 <b>Contratos DeFi Activos (Rotator):</b>\n • WETH Sepolia, WETH Base, WBNB BSC, WPOL Amoy\n\n🌉 <b>Estado del Auto-Bridge L2:</b>\n 🛡️ STANDBY ÓPTIMO (>0.003 ETH en 500 satélites)\n👑 <b>VIP #00:</b> Monitoreada (100% Blindada / 0 Tx)\n🤖 <b>Flota Total:</b> ${totalSatellites} Satélites sincronizados`,
-        textPlain: `📡 RADAR DE INTELIGENCIA & SALUD DE FLOTA (OMNICHAIN)\n\nSepolia L1: ${totalSepoliaEth} ETH (~${daysAutonomySepolia} días)\nBase Sepolia: ${totalBaseEth} ETH (~${daysAutonomyBase} días)\nContratos DeFi: WETH Sepolia, WETH Base, WBNB, WPOL\nAuto-Bridge: STANDBY ÓPTIMO\nFlota Total: ${totalSatellites} Satélites sincronizados`
-      },
-      {
-        id: "tg-round-1",
-        timestamp: new Date(Date.now() - 1000 * 60 * 2).toISOString(),
-        timeFormatted: nowUtc,
-        rawHtml: `🚀 <b>REPORTE DE RONDA OMNICHAIN - OPERACIÓN 10K</b>\n\n⚡ <b>[PRODUCCIÓN EN VIVO]</b>\n👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx)\n🤖 <b>Escuadrón Activo:</b> 20 Satélites\n\n🌐 <b>Desglose Omnichain por Red:</b>\n⚡ Ethereum Sepolia : 20/20 txs confirmadas ✅\n⚡ Base Sepolia     : 20/20 txs confirmadas ✅\n⚡ Arbitrum Sepolia : 20/20 txs confirmadas ✅\n\n⚡ <b>Total Transacciones Confirmadas:</b> ${totalOnChainTx} on-chain\n🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)`,
-        textPlain: `🚀 REPORTE DE RONDA OMNICHAIN - OPERACIÓN 10K\nModo: PRODUCCIÓN EN VIVO\nEscuadrón Activo: 20 Satélites\nEthereum Sepolia: 20/20 confirmadas\nBase Sepolia: 20/20 confirmadas\nArbitrum Sepolia: 20/20 confirmadas\nTotal Transacciones: ${totalOnChainTx} on-chain\nEscudo Anti-Sybil: ACTIVO`
-      }
-    ];
-    fs.writeFileSync(ALERTS_LOG_FILE, JSON.stringify(recentTelegramAlerts, null, 2), "utf8");
-  }
-
-  // 4. Métricas de Redes
+  // 4. Métricas de Redes (reales: online, latencia y bloque leídos en vivo)
+  const liveNet = (n, label, chainId, extra = {}) => {
+    if (n) {
+      return { name: label, chainId, online: true, latencyMs: n.latencyMs, blockNumber: n.blockNumber, status: "OPERATIVO", ...extra };
+    }
+    const prev = (existingTelemetry.networksStatus || []).find((x) => x.name === label) || {};
+    return { name: label, chainId, online: false, latencyMs: null, status: "SIN_RESPUESTA_RPC", stale: true, lastKnown: prev.status || null, ...extra };
+  };
+  const staticNet = (name, chainId, status) => {
+    const prev = (existingTelemetry.networksStatus || []).find((x) => x.name === name) || {};
+    return { name, chainId, online: prev.online ?? null, latencyMs: null, status: prev.status || status, verified: false };
+  };
   const networksStatus = [
-    { name: "Ethereum Sepolia", chainId: 11155111, online: true, latencyMs: 142, status: "OPERATIVO", totalEth: totalSepoliaEth },
-    { name: "Base Sepolia", chainId: 84532, online: true, latencyMs: 78, status: "OPERATIVO", totalEth: totalBaseEth },
-    { name: "Arbitrum Sepolia", chainId: 421614, online: true, latencyMs: 95, status: "OPERATIVO" },
-    { name: "BNB Smart Chain Testnet", chainId: 97, online: true, latencyMs: 120, status: "ESPERA_GAS" },
-    { name: "opBNB Testnet", chainId: 5611, online: true, latencyMs: 110, status: "ESPERA_GAS" },
-    { name: "Polygon Amoy", chainId: 80002, online: true, latencyMs: 165, status: "ESPERA_GAS" },
-    { name: "Solana Devnet", chainId: 103, online: true, latencyMs: 190, status: "RATE_LIMITED" }
+    liveNet(sepolia, "Ethereum Sepolia", 11155111, { totalEth: totalSepoliaEth, satellitesWithGas: sepolia ? sepolia.satellitesWithGas : null }),
+    liveNet(baseSep, "Base Sepolia", 84532, { totalEth: totalBaseEth, satellitesWithGas: baseSep ? baseSep.satellitesWithGas : null }),
+    liveNet(arbSep, "Arbitrum Sepolia", 421614, { totalEth: totalArbEth, satellitesWithGas: arbSep ? arbSep.satellitesWithGas : null }),
+    liveNet(opSep, "Optimism Sepolia", 11155420, { totalEth: totalOpEth, satellitesWithGas: opSep ? opSep.satellitesWithGas : null }),
+    liveNet(bsc, "BNB Smart Chain", 56, { totalNative: bsc ? bsc.total : null, satellitesUsable: bsc ? bsc.satellitesUsable : null }),
+    liveNet(poly, "Polygon PoS", 137, { totalNative: poly ? poly.total : null, satellitesUsable: poly ? poly.satellitesUsable : null }),
+    staticNet("BNB Smart Chain Testnet", 97, "ESPERA_GAS"),
+    staticNet("opBNB Testnet", 5611, "ESPERA_GAS"),
+    staticNet("Polygon Amoy", 80002, "ESPERA_GAS"),
+    staticNet("Solana Devnet", 103, "RATE_LIMITED")
   ];
 
   // 5. Meta 12,000 USDC (Modo Producción Real: Arranque en $0.00)
@@ -117,23 +149,136 @@ function generateUnifiedTelemetry() {
   const progressPct = parseFloat(((currentAccruedUsdc / targetGoalUsdc) * 100).toFixed(2));
   const remainingUsdc = parseFloat((targetGoalUsdc - currentAccruedUsdc).toFixed(2));
 
-  // 6. Historial reciente de transacciones para el feed
-  const recentEvents = [
-    { id: "tx-1", timestamp: new Date(Date.now() - 1000 * 60 * 3).toISOString(), satIndex: 12, blockId: 1, type: "ORGANIC_SELF_TX", network: "Base Sepolia", hash: "0x8fa3...d12a", status: "CONFIRMED" },
-    { id: "tx-2", timestamp: new Date(Date.now() - 1000 * 60 * 7).toISOString(), satIndex: 115, blockId: 2, type: "DEFI_WETH_DEPOSIT", network: "Arbitrum Sepolia", hash: "0x4ce1...b890", status: "CONFIRMED" },
-    { id: "tx-3", timestamp: new Date(Date.now() - 1000 * 60 * 12).toISOString(), satIndex: 204, blockId: 3, type: "BRIDGE_L1_TO_L2", network: "Ethereum Sepolia", hash: "0x12bb...90fc", status: "CONFIRMED" },
-    { id: "tx-4", timestamp: new Date(Date.now() - 1000 * 60 * 18).toISOString(), satIndex: 45, blockId: 1, type: "ORGANIC_SELF_TX", network: "Ethereum Sepolia", hash: "0xaa93...66f1", status: "CONFIRMED" },
-    { id: "tx-5", timestamp: new Date(Date.now() - 1000 * 60 * 25).toISOString(), satIndex: 310, blockId: 4, type: "STANDBY_CHECK", network: "Base Sepolia", hash: null, status: "OPTIMAL" }
-  ];
+  // 6. Últimas transacciones REALES del último ciclo (hashes verificables del reporte)
+  const recentEvents = (lastRun.sampleHashes || [])
+    .filter((h) => h && h.hash)
+    .map((h, i) => ({
+      id: `tx-${i + 1}`,
+      timestamp: lastRun.timestamp || new Date().toISOString(),
+      type: "ONCHAIN_TX",
+      network: h.network,
+      hash: h.hash,
+      status: lastRun.executionMode === "DRY-RUN" ? "SIMULATED" : "CONFIRMED"
+    }));
+
+  // 7. Cabeceras y Bóveda Matriz #501 (saldos reales en BSC y Polygon)
+  const prevHeaders = existingTelemetry.headersSurveillance || [];
+  const vaultBsc = bsc && bsc.vault ? bsc.vault.balance : null;
+  const vaultPol = poly && poly.vault ? poly.vault.balance : null;
+  const vaultAddress = (bsc && bsc.vault && bsc.vault.address) || (poly && poly.vault && poly.vault.address) || (existingTelemetry.masterGasVaultStatus || {}).address || "0xD4D12077a61118372f7a367319fb11922Beb3743";
+  const short = (a) => `${a.slice(0, 6)}...${a.slice(-4)}`;
+
+  const needsRefuelBsc = vaultBsc !== null ? vaultBsc < MIN_BNB_TRIGGER : true;
+  const needsRefuelPolygon = vaultPol !== null ? vaultPol < MIN_POL_TRIGGER : true;
+
+  const masterGasVaultStatus = {
+    ...(existingTelemetry.masterGasVaultStatus || {}),
+    address: vaultAddress,
+    bscBnb: vaultBsc !== null ? vaultBsc.toFixed(6) : ((existingTelemetry.masterGasVaultStatus || {}).bscBnb || null),
+    polygonPol: vaultPol !== null ? vaultPol.toFixed(6) : ((existingTelemetry.masterGasVaultStatus || {}).polygonPol || null),
+    lastChecked: new Date().toISOString(),
+    needsRefuelBsc,
+    needsRefuelPolygon,
+    status: needsRefuelBsc && needsRefuelPolygon
+      ? "🔴 SIN GAS (BSC + POLYGON)"
+      : needsRefuelBsc ? "🟡 BSC BAJO — POLYGON OK" : needsRefuelPolygon ? "🟡 POLYGON BAJO — BSC OK" : "🟢 ACTIVA Y FONDEADA (BSC + POLYGON)",
+    source: vaultBsc !== null && vaultPol !== null ? "live-onchain" : "stale"
+  };
+
+  const headerTitle = (i) => `Cabecera #${String(i).padStart(3, "0")} (Box ${Math.ceil(i / 100)})`;
+  let headersSurveillance = prevHeaders;
+  if (bsc && poly) {
+    headersSurveillance = [
+      {
+        box: 0,
+        id: "#501",
+        title: "Bóveda Matriz #501 (Gas Hub Mainnet)",
+        address: short(vaultAddress),
+        bscBal: vaultBsc.toFixed(5),
+        polBal: vaultPol.toFixed(2),
+        status: needsRefuelBsc || needsRefuelPolygon ? "🟡 GAS BAJO (MATRIZ)" : "🟢 ACTIVA Y FONDEADA (MATRIZ)"
+      },
+      ...bsc.headers.map((h) => {
+        const p = poly.headers.find((x) => x.index === h.index);
+        const pol = p ? p.balance : 0;
+        const ok = h.balance >= MIN_BNB_TRIGGER && pol >= MIN_POL_TRIGGER;
+        return {
+          box: Math.ceil(h.index / 100),
+          id: `#${String(h.index).padStart(3, "0")}`,
+          title: headerTitle(h.index),
+          address: short(h.address),
+          bscBal: h.balance.toFixed(5),
+          polBal: pol.toFixed(2),
+          status: ok ? "🟢 ACTIVA Y FONDEADA" : "🟡 GAS BAJO"
+        };
+      })
+    ];
+  }
+
+  // 8. Monitores por Box con saldos reales (suma de testnets L1/L2 medidas)
+  const nets = [sepolia, baseSep, arbSep, opSep].filter(Boolean);
+  const monitorBoxes = [1, 2, 3, 4, 5].map((id) => {
+    const start = (id - 1) * 100 + 1;
+    const range = `#${String(start).padStart(3, "0")}–#${String(start + 99).padStart(3, "0")}`;
+    const withGasBase = baseSep ? baseSep.byBox[id].withGas : null;
+    const gasTotal = nets.reduce((acc, n) => acc + (n.byBox ? n.byBox[id].total : 0), 0);
+    const mainnetUsable = (bsc ? bsc.byBox[id].usable : 0) + (poly ? poly.byBox[id].usable : 0);
+    return {
+      boxId: id,
+      name: `Box ${id}`,
+      range,
+      activeBots: withGasBase !== null ? `${withGasBase}/100 con gas (Base Sepolia)` : "SIN LECTURA",
+      gasOk: `Mainnet usable: BSC ${bsc ? bsc.byBox[id].usable : "?"}/100 · POL ${poly ? poly.byBox[id].usable : "?"}/100`,
+      mainnetUsable,
+      generatedUsdc: ((existingTelemetry.monitorBoxes || []).find((b) => b.boxId === id) || {}).generatedUsdc || 0.0,
+      gasTotalEth: parseFloat(gasTotal.toFixed(3))
+    };
+  });
+
+  // 9. Salud del sistema = porcentaje de redes monitorizadas que responden por RPC
+  const monitored = [sepolia, baseSep, arbSep, opSep, bsc, poly];
+  const onlineCount = monitored.filter(Boolean).length;
+  const systemHealthScore = parseFloat(((onlineCount / monitored.length) * 100).toFixed(1));
+
+  // 10. Aislamiento social: X/Twitter PAUSADO mientras @yozapata está en revisión
+  const lomo6SocialX = {
+    ...(existingTelemetry.lomo6SocialX || {}),
+    status: "PAUSED_FOR_REVIEW",
+    autonomousQueueActive: false,
+    pausedReason: "Revisión temporal de la cuenta en X. Sin llamadas a la API ni credenciales en CI.",
+    lastUpdated: new Date().toISOString()
+  };
 
   const payload = {
     schemaVersion: "2.0.0",
     projectName: "Operación 10K",
     timestamp: new Date().toISOString(),
-    systemHealthScore: 98.5,
+    systemHealthScore,
     sybilRiskIndex: 0.01, // 0.01 = Riesgo mínimo / Aislamiento verificado
-    gasReserveViolations: 0, // 0 violaciones de la regla de oro >0.015 ETH
+    gasReserveViolations: (needsRefuelBsc ? 1 : 0) + (needsRefuelPolygon ? 1 : 0),
     dailyCapturedUsdc: 0.00,
+    onchainSnapshot: {
+      source: snap ? "live-onchain" : "unavailable",
+      timestamp: snap ? snap.timestamp : null,
+      minUsableNative: MIN_USABLE_NATIVE,
+      networks: snap
+        ? Object.fromEntries(
+            [...Object.entries(snap.testnets), ...Object.entries(snap.mainnets)].map(([k, n]) => [
+              k,
+              n.online
+                ? {
+                    online: true,
+                    rpc: n.rpc,
+                    totalNative: parseFloat(n.total.toFixed(6)),
+                    satellitesWithGas: n.satellitesWithGas,
+                    satellitesUsable: n.satellitesUsable,
+                    satellitesZero: n.satellitesZero
+                  }
+                : { online: false }
+            ])
+          )
+        : {}
+    },
     fleetOverview: {
       totalSatellites,
       vipAccount: {
@@ -143,7 +288,7 @@ function generateUnifiedTelemetry() {
         mode: "SOLO_LECTURA_BLINDADA",
         mainnetTxs: 0
       },
-      activeSquadSize: lastRun.activeSquadSize || 20,
+      activeSquadSize,
       totalOnChainTxLastCycle: totalOnChainTx,
       executionMode: lastRun.executionMode || "PRODUCCION",
       goldenRuleStatus: "CUMPLIMIENTO_ESTRICTO_100%",
@@ -158,7 +303,7 @@ function generateUnifiedTelemetry() {
       daysAutonomyBase,
       daysAutonomySepolia,
       activeTarget: "Rotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum)",
-      squadDeploy: "20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)",
+      squadDeploy: `${activeSquadSize}/500 bots en el último ciclo (${totalOnChainTx} txs confirmadas)`,
       defiContracts: [
         { name: "WETH Sepolia", address: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14" },
         { name: "WETH Base", address: "0x4200000000000000000000000000000000000006" },
@@ -167,16 +312,12 @@ function generateUnifiedTelemetry() {
       ]
     },
     blocks,
-    monitorBoxes: [
-      { boxId: 1, name: "Box 1", range: "#001–#100", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-      { boxId: 2, name: "Box 2", range: "#101–#200", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-      { boxId: 3, name: "Box 3", range: "#201–#300", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-      { boxId: 4, name: "Box 4", range: "#301–#400", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 },
-      { boxId: 5, name: "Box 5", range: "#401–#500", activeBots: "100/100 Bots Activos", gasOk: ">0.015 ETH OK", generatedUsdc: 0.00, gasTotalEth: 0.648 }
-    ],
+    monitorBoxes,
     gasMetrics: {
       totalSepoliaEth,
       totalBaseEth,
+      totalArbitrumEth: totalArbEth,
+      totalOptimismEth: totalOpEth,
       avgSepoliaEth,
       avgBaseEth,
       daysAutonomyBase,
@@ -213,26 +354,26 @@ function generateUnifiedTelemetry() {
       mode: "100% USDC Nativo (Prohibido USDT)"
     },
     workStats: existingTelemetry.workStats || {
-      totalRoundsCompleted: 25,
-      totalTxConfirmedAllTime: 965,
-      todayTxConfirmed: 545,
-      boxesRotatedToday: ["Box 1", "Box 2", "Box 3", "Box 4", "Box 5"],
-      gasAutonomySummary: "~1.8 días en Base / ~1.3 días en Sepolia"
+      totalRoundsCompleted: 0,
+      totalTxConfirmedAllTime: 0,
+      todayTxConfirmed: 0,
+      boxesRotatedToday: [],
+      gasAutonomySummary: "Sin historial"
     },
-    headersSurveillance: existingTelemetry.headersSurveillance || [],
-    masterGasVaultStatus: existingTelemetry.masterGasVaultStatus || {},
+    headersSurveillance,
+    masterGasVaultStatus,
     botMinerStats: existingTelemetry.botMinerStats || {},
     hunterStats: existingTelemetry.hunterStats || {
-      activeCampaignsCount: 16,
-      dailyCheckInsCompleted: 210,
-      gaslessQuestsSigned: 185,
-      defiAndMintsExecuted: 150,
+      activeCampaignsCount: 0,
+      dailyCheckInsCompleted: 0,
+      gaslessQuestsSigned: 0,
+      defiAndMintsExecuted: 0,
       lastUpdated: new Date().toISOString()
     },
     bitcoinL2Stats: existingTelemetry.bitcoinL2Stats || {
-      citreaOps: 120,
-      goatOps: 120,
-      totalBtcL2Points: 6000,
+      citreaOps: 0,
+      goatOps: 0,
+      totalBtcL2Points: 0,
       lastUpdated: new Date().toISOString()
     },
     lomo4Metrics: existingTelemetry.lomo4Metrics || {
@@ -250,18 +391,18 @@ function generateUnifiedTelemetry() {
         totalCompletedBotLaps: 0,
         activeBotsInLap1: 500,
         boxProgress: {
-          b1: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 8000 },
-          b2: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 6000 },
+          b1: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 },
+          b2: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 },
           b3: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 },
           b4: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 },
           b5: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 }
         }
       },
       mainnetBountyRadar: {
-        bscActiveTargets: 4,
-        polygonActiveTargets: 4,
+        bscActiveTargets: 0,
+        polygonActiveTargets: 0,
         mainnetBountyTxsToday: 0,
-        highPriorityUsdcBounties: 3
+        highPriorityUsdcBounties: 0
       }
     },
     lomo5Autonomy: existingTelemetry.lomo5Autonomy || {
@@ -273,29 +414,34 @@ function generateUnifiedTelemetry() {
         stealthTraders: 125
       },
       autoDiscovery: {
-        verifiedContractsOnline: 22,
+        verifiedContractsOnline: 0,
         honeypotsBlocked: 0,
         optimalChainNow: "Polygon PoS / BSC Mainnet"
       },
       dexAutoLiquidator: {
         status: "ACTIVE_WATCHING",
-        monitoredRewardTokens: 12,
+        monitoredRewardTokens: 0,
         autoSwappedToUsdcTotal: 0.00
       }
     },
     networksStatus,
     recentEvents,
-    recentTelegramAlerts
+    recentTelegramAlerts,
+    lomo6SocialX
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(payload, null, 2), "utf8");
   console.log(`✅ [TELEMETRY FEED] Telemetría consolidada en: ${OUTPUT_FILE}`);
-  console.log(`📊 Salud del Sistema: ${payload.systemHealthScore}% | Riesgo Sybil: ${payload.sybilRiskIndex} | Meta: ${progressPct}% ($${currentAccruedUsdc} / $${targetGoalUsdc})`);
+  console.log(`📊 Redes en vivo: ${onlineCount}/${monitored.length} | Salud: ${payload.systemHealthScore}% | Meta: ${progressPct}% ($${currentAccruedUsdc} / $${targetGoalUsdc})`);
+  console.log(`🛑 X/Twitter: ${lomo6SocialX.status} (autonomousQueueActive=${lomo6SocialX.autonomousQueueActive})`);
   return payload;
 }
 
 if (require.main === module) {
-  generateUnifiedTelemetry();
+  generateUnifiedTelemetry().catch((err) => {
+    console.error("❌ [TELEMETRY FEED] Error:", err.message);
+    process.exit(1);
+  });
 }
 
 module.exports = {

@@ -24,6 +24,7 @@ const networks = {
     name: "Ethereum Sepolia",
     rpc: "https://ethereum-sepolia-rpc.publicnode.com",
     fallbackRpc: "https://1rpc.io/sepolia",
+    extraRpcs: ["https://sepolia.drpc.org"],
     chainId: 11155111,
     symbol: "ETH",
     category: "Testnet EVM",
@@ -37,6 +38,7 @@ const networks = {
     name: "Base Sepolia",
     rpc: "https://sepolia.base.org",
     fallbackRpc: "https://base-sepolia-rpc.publicnode.com",
+    extraRpcs: ["https://base-sepolia.drpc.org"],
     chainId: 84532,
     symbol: "ETH",
     category: "Testnet EVM",
@@ -88,6 +90,7 @@ const networks = {
     name: "Arbitrum Sepolia",
     rpc: "https://sepolia-rollup.arbitrum.io/rpc",
     fallbackRpc: "https://arbitrum-sepolia-rpc.publicnode.com",
+    extraRpcs: ["https://arbitrum-sepolia.drpc.org"],
     chainId: 421614,
     symbol: "ETH",
     category: "Testnet EVM",
@@ -160,6 +163,7 @@ const networks = {
     name: "BNB Smart Chain",
     rpc: "https://bsc-dataseed.binance.org",
     fallbackRpc: "https://bsc-rpc.publicnode.com",
+    extraRpcs: ["https://bsc.drpc.org", "https://1rpc.io/bnb"],
     backupRpcs: [
       "https://bsc-dataseed.binance.org",
       "https://bsc-rpc.publicnode.com",
@@ -184,6 +188,7 @@ const networks = {
     name: "Polygon PoS",
     rpc: "https://polygon-bor-rpc.publicnode.com",
     fallbackRpc: "https://polygon-rpc.com",
+    extraRpcs: ["https://polygon.drpc.org", "https://polygon.meowrpc.com", "https://rpc.ankr.com/polygon", "https://1rpc.io/matic"],
     backupRpcs: [
       "https://1rpc.io/matic",
       "https://polygon-bor-rpc.publicnode.com",
@@ -228,33 +233,28 @@ function createResilientProvider(netConfig) {
     throw new Error("Configuración de red inválida");
   }
 
-  const primaryFetch = new ethers.FetchRequest(netConfig.rpc);
-  primaryFetch.timeout = 18000;
-  const primaryProvider = new ethers.JsonRpcProvider(primaryFetch, netConfig.chainId, {
-    staticNetwork: ethers.Network.from(netConfig.chainId)
-  });
+  const urls = [...new Set([netConfig.rpc, netConfig.fallbackRpc, ...(netConfig.extraRpcs || [])].filter(Boolean))];
+  const mk = (url) => {
+    const fr = new ethers.FetchRequest(url);
+    fr.timeout = 18000;
+    return new ethers.JsonRpcProvider(fr, netConfig.chainId, {
+      staticNetwork: ethers.Network.from(netConfig.chainId)
+    });
+  };
 
-  if (netConfig.fallbackRpc) {
-    try {
-      const fbFetch = new ethers.FetchRequest(netConfig.fallbackRpc);
-      fbFetch.timeout = 18000;
-      const fallbackProvider = new ethers.JsonRpcProvider(fbFetch, netConfig.chainId, {
-        staticNetwork: ethers.Network.from(netConfig.chainId)
-      });
+  if (urls.length === 1) return mk(urls[0]);
 
-      return new ethers.FallbackProvider(
-        [
-          { provider: primaryProvider, priority: 1, weight: 1, stallTimeout: 2000 },
-          { provider: fallbackProvider, priority: 2, weight: 1, stallTimeout: 2000 }
-        ],
-        netConfig.chainId
-      );
-    } catch (_) {
-      return primaryProvider;
-    }
+  try {
+    // quorum 1: basta con que UN RPC responda. Un RPC caído (TLS, timeout, 429)
+    // nunca debe interpretarse como saldo 0.
+    return new ethers.FallbackProvider(
+      urls.map((url, i) => ({ provider: mk(url), priority: i + 1, weight: 1, stallTimeout: 2000 })),
+      netConfig.chainId,
+      { quorum: 1 }
+    );
+  } catch (_) {
+    return mk(urls[0]);
   }
-
-  return primaryProvider;
 }
 
 /**

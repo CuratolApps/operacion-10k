@@ -13,7 +13,14 @@ const { sendTelegramAlert } = require("../telegram-notifier");
 const SOURCE_IMAGE = "C:\\Users\\CuratolApps\\.gemini\\antigravity-ide\\brain\\5ac9bd04-ea21-4f44-afee-3b1d43a94c71\\.user_uploaded\\media_1792582977576.jpg";
 const DEST_DIR = path.resolve(__dirname, "..", "assets", "x-branding");
 
+// 🛑 PAUSA DE SEGURIDAD: @yozapata en revisión temporal en X. No tocar la API de X.
+const X_PAUSED = true;
+
 async function main() {
+  if (X_PAUSED) {
+    console.log("🛑 [PAUSADO] update-x-avatar.js desactivado: cuenta @yozapata en revisión temporal. Sin llamadas a X API.");
+    return { uploaded: false, paused: true };
+  }
   console.log("=================================================================");
   console.log("       🖼️  ACTUALIZADOR OFICIAL DE FOTO DE PERFIL EN X          ");
   console.log("=================================================================");
@@ -76,7 +83,8 @@ async function main() {
   // Intento 1: JPG 400x400 (el más compatible con X API v1.1)
   try {
     console.log("   • Probando formato JPEG 400x400...");
-    await client.v1.updateAccountProfileImage(avatarJpg400);
+    // await client.v1.updateAccountProfileImage(avatarJpg400); // PAUSADO
+    throw new Error("PAUSADO: updateAccountProfileImage desactivado");
     uploaded = true;
     console.log("   ✅ ¡Foto de perfil actualizada exitosamente en X!");
   } catch (err) {
@@ -87,7 +95,8 @@ async function main() {
     // Intento 2: PNG 400x400
     try {
       console.log("   • Probando formato PNG 400x400...");
-      await client.v1.updateAccountProfileImage(avatarPng400);
+      // await client.v1.updateAccountProfileImage(avatarPng400); // PAUSADO
+      throw new Error("PAUSADO: updateAccountProfileImage desactivado");
       uploaded = true;
       console.log("   ✅ ¡Foto de perfil actualizada exitosamente con PNG 400x400!");
     } catch (err2) {
@@ -99,7 +108,8 @@ async function main() {
       try {
         console.log("   • Probando subida como Buffer en memoria...");
         const buf = fs.readFileSync(avatarJpg400);
-        await client.v1.updateAccountProfileImage(buf);
+        // await client.v1.updateAccountProfileImage(buf); // PAUSADO
+        throw new Error("PAUSADO: updateAccountProfileImage desactivado");
         uploaded = true;
         console.log("   ✅ ¡Foto de perfil actualizada exitosamente vía Buffer!");
       } catch (err3) {

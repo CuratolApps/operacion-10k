@@ -15,7 +15,7 @@ const path = require("path");
 const crypto = require("crypto");
 const { ethers } = require("ethers");
 const { Connection, PublicKey, Transaction, SystemProgram, sendAndConfirmTransaction, LAMPORTS_PER_SOL } = require("@solana/web3.js");
-const { networks, evmTestnets, solanaNetwork } = require("./networks");
+const { networks, evmTestnets, solanaNetwork, fetchEthBalancesBatch } = require("./networks");
 const {
   sleepRandom,
   shuffleSwarm,
@@ -94,6 +94,40 @@ function selectSquadAndBox(satellites, batchSize = 20) {
   }
 
   return { squad, squadRange, boxName, boxIndex };
+}
+
+/**
+ * Selección de escuadrón para MAINNET (BSC / Polygon):
+ * 1) lee en lote (Multicall3) el saldo real de los satélites,
+ * 2) filtra solo los que tienen saldo >= MIN_EXEC_BALANCE_ETH,
+ * 3) rota el lote activo (carrusel de 30 min) ÚNICAMENTE entre esos satélites fondeados.
+ * Así nunca se sortean satélites con 0 gas (el fallo que dejaba 0/20 en mainnet).
+ */
+async function selectFundedMainnetSquad(provider, satellites, batchSize = 20) {
+  try {
+    const balances = await fetchEthBalancesBatch(provider, satellites.map((s) => s.address));
+    const minWei = ethers.parseEther(String(MIN_EXEC_BALANCE_ETH));
+    const funded = satellites
+      .filter((s) => s.index >= 1 && s.index <= 500) // excluye Bóveda Matriz #501 (MASTER_GAS_VAULT)
+      .filter((s) => (balances[s.address.toLowerCase()] ?? 0n) >= minWei)
+      .sort((a, b) => a.index - b.index);
+
+    if (funded.length === 0) {
+      return { squad: [], fundedCount: 0, squadRange: "Sin satélites fondeados" };
+    }
+
+    const roundIndex = Math.floor(Date.now() / (1000 * 60 * 30));
+    const size = Math.min(batchSize, funded.length);
+    const start = (roundIndex * size) % funded.length;
+    const squad = [];
+    for (let i = 0; i < size; i++) squad.push(funded[(start + i) % funded.length]);
+
+    const squadRange = `${squad.length} de ${funded.length} satélites fondeados (>= ${MIN_EXEC_BALANCE_ETH})`;
+    return { squad, fundedCount: funded.length, squadRange };
+  } catch (err) {
+    console.log(`   ⚠️ No se pudo leer saldos en lote para selección mainnet: ${err.message}`);
+    return { squad: [], fundedCount: 0, squadRange: "Lectura de saldos fallida" };
+  }
 }
 
 /**
@@ -353,8 +387,8 @@ async function executeSwarmOnEvmNetwork({
               simulatedAmount: humanAmount,
               txType,
               status: actionStatus,
-              txHash: `0x${crypto.randomBytes(32).toString("hex")}`,
-              isSuccess: true
+              txHash: null, // DRY-RUN: nunca se fabrica un hash; no hay transacción real
+              isSuccess: false // simulación ≠ confirmada on-chain
             };
           }
         }
@@ -536,7 +570,14 @@ async function runTaskRunner() {
     const raw = seedString.trim().replace(/\s+/g, " ");
     isSeedValid = ethers.Mnemonic.isValidMnemonic(raw);
   }
-  let isDryRun = process.argv.includes("--dry-run");
+  // DRY-RUN solo por decisión explícita (--force-dry-run) o si la semilla no es válida.
+  // Con TRUST_WALLET_SEED / SWARM_MNEMONIC válida, un --dry-run suelto se IGNORA (producción).
+  const forceDryRun = process.argv.includes("--force-dry-run");
+  let isDryRun = forceDryRun;
+
+  if (process.argv.includes("--dry-run") && isSeedValid && !forceDryRun) {
+    console.log("ℹ️  [TASK RUNNER] --dry-run ignorado: semilla válida detectada → PRODUCCIÓN. Usa --force-dry-run para simular.");
+  }
 
   if (!isSeedValid && !isDryRun) {
     console.log("⚠️  [TASK RUNNER] Semilla (TRUST_WALLET_SEED / SWARM_MNEMONIC) no detectada o inválida (BIP-39). Conmutando automáticamente a modo simulación (Dry-Run resiliente).");
@@ -622,9 +663,20 @@ async function runTaskRunner() {
   ];
   const evmResults = [];
   for (const net of targetEvmNetworks) {
+    let netSquad = activeSquad;
+    if (net.category && net.category.startsWith("Mainnet")) {
+      // BSC / Polygon: lote activo SOLO entre satélites con saldo real >= MIN_EXEC_BALANCE
+      const mainnetProvider = createProvider(net);
+      const sel = await selectFundedMainnetSquad(mainnetProvider, satellites, BATCH_SIZE);
+      netSquad = sel.squad;
+      console.log(`🎯 [${net.name}] Selector mainnet: ${sel.squadRange}`);
+      if (netSquad.length > 0) {
+        console.log(`   Satélites fondeados en turno: [ ${netSquad.map((s) => `#${String(s.index).padStart(2, "0")}`).join(", ")} ]\n`);
+      }
+    }
     const res = await executeSwarmOnEvmNetwork({
       networkConfig: net,
-      squad: activeSquad,
+      squad: netSquad,
       allAddresses,
       isDryRun
     });

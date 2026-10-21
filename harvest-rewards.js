@@ -266,7 +266,7 @@ async function scanOmnichainUsdcRewards(walletsToScan = null) {
                 totalEligibleUsdc += balUnits;
                 eligibleSweeps.push({
                   satellite: satObj,
-                  networkKey,
+                  networkKey: netKey,
                   netConfig,
                   balanceWei: bal,
                   balanceUnits: balUnits,
