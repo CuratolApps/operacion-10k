@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" translate="no" class="notranslate">
+<html lang="es" data-theme="dark" translate="no" class="notranslate">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ORBITAL 10K // NEXUS CORE • DEEP SPACE LIQUIDITY ENGINE</title>
+  <title>OPERACIÓN 10K // CENTRO DE TELEMETRÍA ORBITAL (502 BILLETERAS)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -15,16 +15,16 @@
   <div class="ambient-orb orb-left"></div>
   <div class="ambient-orb orb-right"></div>
 
-  <!-- HEADER -->
+  <!-- HEADER SUPERIOR -->
   <header class="hq-header-bar">
     <div class="header-module-info">
       <div class="header-brand-group">
-        <span class="brand-title-infinity">ORBITAL 10K</span>
+        <span class="brand-title-infinity">OPERACIÓN 10K</span>
         <span class="brand-title-version">NEXUS</span>
         <span class="header-divider">//</span>
-        <span class="header-node-name">WE CAN DO IT</span>
+        <span class="header-node-name">CENTRO DE TELEMETRÍA ORBITAL</span>
       </div>
-      <span class="header-subtitle">&lt; DEEP SPACE LIQUIDITY ENGINE • 502 SATELLITE FLEET • 6 EXTRACTION GALAXIES &gt;</span>
+      <span class="header-subtitle">&lt; MONITOR EN VIVO DE LAS 502 CARTERAS • 6 GALAXIAS DE EXTRACCIÓN • META $12,000 USDC &gt;</span>
     </div>
 
     <div class="header-live-clock">
@@ -33,87 +33,79 @@
     </div>
 
     <div class="header-actions">
-      <div class="notif-bell-btn" id="btnToggleNotif" title="SatCom Telemetry Alert Center">
-        <svg viewBox="0 0 24 24">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-        </svg>
-        <span class="notif-badge-count" id="notifBadgeCount">6</span>
-      </div>
-
       <div class="system-status-badge online" id="backendLiveBadge">
         <span class="status-dot"></span>
-        <span class="status-text">&lt; SATURATION ENGINE: ONLINE &gt;</span>
+        <span class="status-text">&lt; MOTOR DE SATURACIÓN: EN LÍNEA &gt;</span>
       </div>
 
       <button class="btn-return-hq" onclick="switchFinopsView('satellite-registry')">
         <i data-lucide="satellite" style="width: 12px; height: 12px;"></i>
-        <span>502 Satellite Registry</span>
+        <span>🛰️ Censo 502 Carteras</span>
       </button>
     </div>
   </header>
 
-  <!-- WORKSPACE GRID LAYOUT (3 COLUMNS ZERO-SCROLL) -->
+  <!-- GRID PRINCIPAL (3 COLUMNAS ZERO-SCROLL) -->
   <div class="workspace-grid-layout">
-    <!-- COL 1: SIDEBAR (220px) -->
+    <!-- COLUMNA 1: MENÚ IZQUIERDO (220px) -->
     <aside class="glass-panel-3d sidebar-nav-panel">
       <div>
         <div class="sidebar-brand">
           <div>
             <span class="brand-name-side">CURATOLAPPS</span>
             <span class="brand-version-side">ORBITAL</span>
-            <span class="brand-eco">MOTHERSHIP // NEXUS CORE</span>
+            <span class="brand-eco">MOTHERSHIP // CENTRO DE MANDO</span>
           </div>
         </div>
 
         <div class="sidebar-menu-wrapper">
           <div class="node-context-box" style="margin-bottom: 4px;">
-            <strong>MODULE: SATURATION X500</strong>
-            <span style="color: var(--neon-green)">● 502 Wallets Indexed &amp; Shielded</span>
+            <strong>MÓDULO: SATURACIÓN X500</strong>
+            <span style="color: var(--neon-green)">● 502 Billeteras Indexadas &amp; Blindadas</span>
           </div>
 
-          <span class="sidebar-menu-title">EXTRACTION STATIONS</span>
+          <span class="sidebar-menu-title">ESTACIONES DE TELEMETRÍA</span>
           <ul class="finops-nav-list" id="finopsSubmenu">
             <li>
               <button class="finops-nav-btn active" data-view="orbital-dashboard">
                 <i data-lucide="layout-grid"></i>
-                <span>Nexus Command Center</span>
+                <span>📊 Tablero Principal</span>
               </button>
             </li>
             <li>
               <button class="finops-nav-btn" data-view="galaxy-mining">
                 <i data-lucide="cpu"></i>
-                <span>1. Galaxy 01 • Mining &amp; BTC L2</span>
+                <span>⛏️ 1. Minería &amp; Bitcoin L2</span>
               </button>
             </li>
             <li>
               <button class="finops-nav-btn" data-view="galaxy-gaming">
                 <i data-lucide="gamepad-2"></i>
-                <span>2. Galaxy 02 • Web3 Gaming</span>
+                <span>🎮 2. Juegos &amp; Metaverso</span>
               </button>
             </li>
             <li>
               <button class="finops-nav-btn" data-view="galaxy-pools">
                 <i data-lucide="coins"></i>
-                <span>3. Galaxy 03 • Quest Pools USDC</span>
+                <span>🦊 3. Piscinas &amp; Sorteos USDC</span>
               </button>
             </li>
             <li>
               <button class="finops-nav-btn" data-view="galaxy-airdrops">
                 <i data-lucide="send"></i>
-                <span>4. Galaxy 04 • Zero-Gas Airdrops</span>
+                <span>🪂 4. Airdrops L2 ($0 Gas)</span>
               </button>
             </li>
             <li>
               <button class="finops-nav-btn" data-view="galaxy-refinery">
                 <i data-lucide="repeat"></i>
-                <span>5. Galaxy 05 • Free Mints &amp; DEX</span>
+                <span>🌾 5. Mints &amp; Refinería USDC</span>
               </button>
             </li>
             <li>
               <button class="finops-nav-btn" data-view="satellite-registry">
                 <i data-lucide="satellite"></i>
-                <span>6. Satellite Registry (502 IDs)</span>
+                <span>🛰️ 6. Las 502 Carteras (Censo)</span>
               </button>
             </li>
           </ul>
@@ -122,23 +114,23 @@
 
       <div>
         <div class="node-context-box" style="margin-bottom: 6px; font-size: 0.52rem;">
-          <strong style="color: var(--neon-gold)">HIGH COMMAND STATUS</strong>
-          <span>Prime #00: <strong style="color: #fff">0x87e3...3990</strong> (Shielded)</span>
-          <span>Mother #501: <strong style="color: var(--neon-cyan)">40.07 POL</strong> | 0.0018 BNB</span>
+          <strong style="color: var(--neon-gold)">ALTO MANDO BLINDADO</strong>
+          <span>Líder #00: <strong style="color: #fff">0x87e3...3990</strong> (Solo Lectura)</span>
+          <span>Nodriza #501: <strong style="color: var(--neon-cyan)">40.07 POL</strong> | 0.0018 BNB</span>
         </div>
         <button class="btn-sidebar-logout" onclick="refreshOrbitalData()">
           <i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i>
-          <span>Sync On-Chain Pulse</span>
+          <span>Sincronizar Telemetría</span>
         </button>
       </div>
     </aside>
 
-    <!-- COL 2: MAIN WORKSPACE PANEL (1fr) -->
+    <!-- COLUMNA 2: MESA DE TRABAJO CENTRAL (1fr — ANCHO COMPLETO) -->
     <main class="glass-panel-3d main-workspace-panel" id="workspaceContainer">
-      <!-- STATION 0: NEXUS COMMAND CENTER (VISTA PRINCIPAL ACTIVA POR DEFECTO) -->
+      <!-- VISTA 0: TABLERO PRINCIPAL (5 FILAS EXACTAS) -->
       <section class="finops-view-panel active" id="view-orbital-dashboard">
         <div class="dashboard-precision-layout">
-          <!-- FILA 1 — TOP RADAR BANNER ($12,000 USDC TARGET) -->
+          <!-- FILA 1 — BANNER CON RADAR (META $12,000 USDC) -->
           <div class="top-liquidity-radar-banner">
             <div class="radar-holo-wrap">
               <div class="radar-sweep-beam"></div>
@@ -148,35 +140,35 @@
             </div>
 
             <div class="liquidity-breakdown-info">
-              <span class="liq-tag-head">ORBITAL LIQUIDITY &amp; NET HARVEST TARGET ($12,000 USDC)</span>
+              <span class="liq-tag-head">LIQUIDEZ CONSOLIDADA &amp; META GLOBAL ($12,000 USDC)</span>
               <h2 class="liq-main-total" id="dashConsolidatedNetTitle">$0.00 USDC</h2>
             </div>
 
             <div class="liq-sub-pills">
-              <span class="badge-liq-sub usd" id="dashUsdLiqPill">Binance Vaults: $0.00 USDC</span>
-              <span class="badge-liq-sub eur" id="dashEurLiqPill">In-Orbit Harvest: $0.00 USDC</span>
-              <span class="badge-liq-sub res" id="dashReserveLiqPill">Mothership #501: 40.07 POL | +116.38 POL Kraken</span>
+              <span class="badge-liq-sub usd" id="dashUsdLiqPill">Recibido en Binance: $0.00 USDC</span>
+              <span class="badge-liq-sub eur" id="dashEurLiqPill">Acumulado en Flota: $0.00 USDC</span>
+              <span class="badge-liq-sub res" id="dashReserveLiqPill">Reserva Nodriza #501: 40.07 POL | +116.38 POL Kraken</span>
             </div>
 
             <div style="text-align: right; display: flex; flex-direction: column; justify-content: center;">
-              <span style="font-size: 0.44rem; color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono';">FLEET SATURATION</span>
+              <span style="font-size: 0.44rem; color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono';">SATURACIÓN DE FLOTA</span>
               <div style="font-size: 1.15rem; font-weight: 900; color: var(--neon-gold); font-family: 'JetBrains Mono';" id="dashHealthScoreText">100%</div>
-              <span style="font-size: 0.42rem; color: var(--neon-green); font-family: 'JetBrains Mono'; font-weight: 800;">● 500/500 ACTIVE</span>
+              <span style="font-size: 0.42rem; color: var(--neon-green); font-family: 'JetBrains Mono'; font-weight: 800;">● 500/500 ACTIVOS</span>
             </div>
           </div>
 
-          <!-- FILA 2 — 4 CARDS DE MANDO Y COMBUSTIBLE CON SPARKLINE SVG -->
+          <!-- FILA 2 — 4 TARJETAS DE SALUD & GAS (SPARKLINE SVG) -->
           <div class="market-trend-grid-4x1">
-            <!-- CARD 1: MOTHERSHIP #501 -->
-            <div class="market-trend-card btc" id="card-mothership" onclick="inspectDossierById(501)" style="cursor: pointer;" title="Inspect Mothership #501 Dossier">
+            <!-- TARJETA 1: NODRIZA #501 -->
+            <div class="market-trend-card btc" id="card-mothership" onclick="inspectDossierById(501)" style="cursor: pointer;" title="Abrir expediente de la Nodriza #501">
               <div class="mkt-trend-top">
-                <span class="mkt-trend-name">MOTHERSHIP #501 (NODRIZA)</span>
+                <span class="mkt-trend-name">NODRIZA #501 (TESORERÍA)</span>
                 <span class="mkt-trend-badge pos">GAS HUB</span>
               </div>
               <div class="mkt-trend-body">
                 <div>
                   <span class="mkt-trend-price" style="color: var(--neon-gold)">40.07 POL</span>
-                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0xD4D1...3743 • 0.0018 BNB</div>
+                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0xD4D1...3743 • 0.0018 BNB (+116 POL Kraken)</div>
                 </div>
                 <svg class="mkt-sparkline-svg" viewBox="0 0 60 20">
                   <path d="M 0,15 Q 15,4 30,10 T 60,3" fill="none" stroke="var(--neon-gold)" stroke-width="1.8" stroke-linecap="round" />
@@ -184,16 +176,16 @@
               </div>
             </div>
 
-            <!-- CARD 2: MAINNET FLEET FUEL -->
+            <!-- TARJETA 2: GAS FLOTA MAINNET -->
             <div class="market-trend-card msft" id="card-mainnet-fuel">
               <div class="mkt-trend-top">
-                <span class="mkt-trend-name">MAINNET FLEET FUEL</span>
-                <span class="mkt-trend-badge pos">55/500 ARMED</span>
+                <span class="mkt-trend-name">GAS FLOTA MAINNET</span>
+                <span class="mkt-trend-badge pos">55/500 ARMADOS</span>
               </div>
               <div class="mkt-trend-body">
                 <div>
                   <span class="mkt-trend-price" style="color: var(--neon-cyan)">94.30 POL</span>
-                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0.0347 BNB Mainnet Fuel</div>
+                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0.0347 BNB Mainnet • Protección 168h</div>
                 </div>
                 <svg class="mkt-sparkline-svg" viewBox="0 0 60 20">
                   <path d="M 0,16 Q 20,6 40,8 T 60,2" fill="none" stroke="var(--neon-cyan)" stroke-width="1.8" stroke-linecap="round" />
@@ -201,11 +193,11 @@
               </div>
             </div>
 
-            <!-- CARD 3: TESTNET REACTOR FUEL -->
+            <!-- TARJETA 3: GAS FLOTA TESTNET -->
             <div class="market-trend-card nvda" id="card-testnet-fuel">
               <div class="mkt-trend-top">
-                <span class="mkt-trend-name">TESTNET REACTOR FUEL</span>
-                <span class="mkt-trend-badge pos">100% ARMED</span>
+                <span class="mkt-trend-name">GAS FLOTA TESTNET</span>
+                <span class="mkt-trend-badge pos">100% ARMADO</span>
               </div>
               <div class="mkt-trend-body">
                 <div>
@@ -218,16 +210,16 @@
               </div>
             </div>
 
-            <!-- CARD 4: PRIME CORE #00 -->
-            <div class="market-trend-card googl" id="card-prime-core" onclick="inspectDossierById(0)" style="cursor: pointer;" title="Inspect Prime Core #00">
+            <!-- TARJETA 4: BÓVEDA VIP #00 -->
+            <div class="market-trend-card googl" id="card-prime-core" onclick="inspectDossierById(0)" style="cursor: pointer;" title="Abrir expediente de Bóveda VIP #00">
               <div class="mkt-trend-top">
-                <span class="mkt-trend-name">PRIME CORE #00 (VIP)</span>
-                <span class="mkt-trend-badge pos">SHIELDED</span>
+                <span class="mkt-trend-name">BÓVEDA VIP #00 (ALTO MANDO)</span>
+                <span class="mkt-trend-badge pos">100% BLINDADA</span>
               </div>
               <div class="mkt-trend-body">
                 <div>
-                  <span class="mkt-trend-price" style="color: var(--neon-magenta)">READ-ONLY</span>
-                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0x87e3...3990 • Commander</div>
+                  <span class="mkt-trend-price" style="color: var(--neon-magenta)">SOLO LECTURA</span>
+                  <div style="font-size: 0.44rem; color: var(--text-muted); font-family: 'JetBrains Mono';">0x87e3...3990 • Comandante Supremo</div>
                 </div>
                 <svg class="mkt-sparkline-svg" viewBox="0 0 60 20">
                   <path d="M 0,12 Q 25,18 45,6 T 60,3" fill="none" stroke="var(--neon-magenta)" stroke-width="1.8" stroke-linecap="round" />
@@ -236,129 +228,129 @@
             </div>
           </div>
 
-          <!-- FILA 3 — 5 CONSTELLATIONS / CARRIER FLEETS -->
+          <!-- FILA 3 — LAS 5 FLOTAS / BOXES 1 AL 5 (AL HACER CLIC ABRE SUS 100 CARTERAS) -->
           <div class="credit-card-channels-grid">
-            <!-- CONSTELLATION 01 -->
-            <div class="cyber-credit-card play" onclick="openConstellationProbes(1)" title="Inspect Fleet 1 Satellites">
+            <!-- BOX 1 -->
+            <div class="cyber-credit-card play" onclick="openConstellationProbes(1)" title="Clic para ver las 100 carteras del Box 1">
               <div class="card-logo-row">
                 <div class="store-logo-wrap">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-cyan)"></i>
-                  <span class="store-brand-title">FLEET 01</span>
+                  <span class="store-brand-title">BOX 1 (#001–#100)</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-cyan); border-color: rgba(33, 199, 205, 0.4);">&lt; #001-#100 &gt;</span>
+                <span class="card-network-badge" style="color: var(--neon-cyan); border-color: rgba(33, 199, 205, 0.4);">&lt; 100 BOTS &gt;</span>
               </div>
               <div class="card-main-balance-col">
-                <span class="card-balance-tag">Carrier #001 Gas</span>
+                <span class="card-balance-tag">Gas Capitán #001</span>
                 <div class="card-balance-val" style="color: var(--neon-cyan); font-size: 0.95rem;">19.82 POL</div>
               </div>
               <div class="card-footer-metrics">
                 <div class="card-sub-metric">
-                  <span class="card-sub-tag">Target Vault</span>
+                  <span class="card-sub-tag">Bóveda Destino</span>
                   <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #1</span>
                 </div>
                 <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Probes</span>
-                  <span class="card-sub-num" style="color: var(--neon-green)">100 Act</span>
+                  <span class="card-sub-tag">Ver Carteras</span>
+                  <span class="card-sub-num" style="color: var(--neon-green)">100 Activas →</span>
                 </div>
               </div>
             </div>
 
-            <!-- CONSTELLATION 02 -->
-            <div class="cyber-credit-card amazon" onclick="openConstellationProbes(2)" title="Inspect Fleet 2 Satellites">
+            <!-- BOX 2 -->
+            <div class="cyber-credit-card amazon" onclick="openConstellationProbes(2)" title="Clic para ver las 100 carteras del Box 2">
               <div class="card-logo-row">
                 <div class="store-logo-wrap">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-gold)"></i>
-                  <span class="store-brand-title">FLEET 02</span>
+                  <span class="store-brand-title">BOX 2 (#101–#200)</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-gold); border-color: rgba(255, 183, 3, 0.4);">&lt; #101-#200 &gt;</span>
+                <span class="card-network-badge" style="color: var(--neon-gold); border-color: rgba(255, 183, 3, 0.4);">&lt; 100 BOTS &gt;</span>
               </div>
               <div class="card-main-balance-col">
-                <span class="card-balance-tag">Carrier #101 Gas</span>
+                <span class="card-balance-tag">Gas Capitán #101</span>
                 <div class="card-balance-val" style="color: var(--neon-gold); font-size: 0.95rem;">19.88 POL</div>
               </div>
               <div class="card-footer-metrics">
                 <div class="card-sub-metric">
-                  <span class="card-sub-tag">Target Vault</span>
+                  <span class="card-sub-tag">Bóveda Destino</span>
                   <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #2</span>
                 </div>
                 <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Probes</span>
-                  <span class="card-sub-num" style="color: var(--neon-gold)">100 Act</span>
+                  <span class="card-sub-tag">Ver Carteras</span>
+                  <span class="card-sub-num" style="color: var(--neon-gold)">100 Activas →</span>
                 </div>
               </div>
             </div>
 
-            <!-- CONSTELLATION 03 -->
-            <div class="cyber-credit-card web" onclick="openConstellationProbes(3)" title="Inspect Fleet 3 Satellites">
+            <!-- BOX 3 -->
+            <div class="cyber-credit-card web" onclick="openConstellationProbes(3)" title="Clic para ver las 100 carteras del Box 3">
               <div class="card-logo-row">
                 <div class="store-logo-wrap">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-magenta)"></i>
-                  <span class="store-brand-title">FLEET 03</span>
+                  <span class="store-brand-title">BOX 3 (#201–#300)</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-magenta); border-color: rgba(255, 0, 230, 0.4);">&lt; #201-#300 &gt;</span>
+                <span class="card-network-badge" style="color: var(--neon-magenta); border-color: rgba(255, 0, 230, 0.4);">&lt; 100 BOTS &gt;</span>
               </div>
               <div class="card-main-balance-col">
-                <span class="card-balance-tag">Carrier #201 Gas</span>
+                <span class="card-balance-tag">Gas Capitán #201</span>
                 <div class="card-balance-val" style="color: var(--neon-magenta); font-size: 0.95rem;">9.93 POL</div>
               </div>
               <div class="card-footer-metrics">
                 <div class="card-sub-metric">
-                  <span class="card-sub-tag">Target Vault</span>
+                  <span class="card-sub-tag">Bóveda Destino</span>
                   <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #3</span>
                 </div>
                 <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Probes</span>
-                  <span class="card-sub-num" style="color: var(--neon-magenta)">100 Act</span>
+                  <span class="card-sub-tag">Ver Carteras</span>
+                  <span class="card-sub-num" style="color: var(--neon-magenta)">100 Activas →</span>
                 </div>
               </div>
             </div>
 
-            <!-- CONSTELLATION 04 -->
-            <div class="cyber-credit-card play" onclick="openConstellationProbes(4)" title="Inspect Fleet 4 Satellites">
+            <!-- BOX 4 -->
+            <div class="cyber-credit-card play" onclick="openConstellationProbes(4)" title="Clic para ver las 100 carteras del Box 4">
               <div class="card-logo-row">
                 <div class="store-logo-wrap">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-green)"></i>
-                  <span class="store-brand-title">FLEET 04</span>
+                  <span class="store-brand-title">BOX 4 (#301–#400)</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-green); border-color: rgba(57, 255, 20, 0.4);">&lt; #301-#400 &gt;</span>
+                <span class="card-network-badge" style="color: var(--neon-green); border-color: rgba(57, 255, 20, 0.4);">&lt; 100 BOTS &gt;</span>
               </div>
               <div class="card-main-balance-col">
-                <span class="card-balance-tag">Carrier #301 Gas</span>
+                <span class="card-balance-tag">Gas Capitán #301</span>
                 <div class="card-balance-val" style="color: var(--neon-green); font-size: 0.95rem;">9.95 POL</div>
               </div>
               <div class="card-footer-metrics">
                 <div class="card-sub-metric">
-                  <span class="card-sub-tag">Target Vault</span>
+                  <span class="card-sub-tag">Bóveda Destino</span>
                   <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #4</span>
                 </div>
                 <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Probes</span>
-                  <span class="card-sub-num" style="color: var(--neon-green)">100 Act</span>
+                  <span class="card-sub-tag">Ver Carteras</span>
+                  <span class="card-sub-num" style="color: var(--neon-green)">100 Activas →</span>
                 </div>
               </div>
             </div>
 
-            <!-- CONSTELLATION 05 -->
-            <div class="cyber-credit-card amazon" onclick="openConstellationProbes(5)" title="Inspect Fleet 5 Satellites">
+            <!-- BOX 5 -->
+            <div class="cyber-credit-card amazon" onclick="openConstellationProbes(5)" title="Clic para ver las 100 carteras del Box 5">
               <div class="card-logo-row">
                 <div class="store-logo-wrap">
                   <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--neon-purple)"></i>
-                  <span class="store-brand-title">FLEET 05</span>
+                  <span class="store-brand-title">BOX 5 (#401–#500)</span>
                 </div>
-                <span class="card-network-badge" style="color: var(--neon-purple); border-color: rgba(176, 38, 255, 0.4);">&lt; #401-#500 &gt;</span>
+                <span class="card-network-badge" style="color: var(--neon-purple); border-color: rgba(176, 38, 255, 0.4);">&lt; 100 BOTS &gt;</span>
               </div>
               <div class="card-main-balance-col">
-                <span class="card-balance-tag">Carrier #401 Gas</span>
+                <span class="card-balance-tag">Gas Capitán #401</span>
                 <div class="card-balance-val" style="color: var(--neon-purple); font-size: 0.95rem;">9.94 POL</div>
               </div>
               <div class="card-footer-metrics">
                 <div class="card-sub-metric">
-                  <span class="card-sub-tag">Target Vault</span>
+                  <span class="card-sub-tag">Bóveda Destino</span>
                   <span class="card-sub-num" style="font-size: 0.52rem; color: #fff;">Binance #5</span>
                 </div>
                 <div class="card-sub-metric" style="text-align: right">
-                  <span class="card-sub-tag">Probes</span>
-                  <span class="card-sub-num" style="color: var(--neon-purple)">100 Act</span>
+                  <span class="card-sub-tag">Ver Carteras</span>
+                  <span class="card-sub-num" style="color: var(--neon-purple)">100 Activas →</span>
                 </div>
               </div>
             </div>
@@ -367,24 +359,24 @@
           <!-- FILA 4 — 4 RATIOS DE LAS GALAXIAS DE EXTRACCIÓN -->
           <div class="ratios-grid-4x1">
             <div class="ratio-card-box-large green" onclick="switchFinopsView('galaxy-mining')" style="cursor: pointer;">
-              <span class="rl-head">Galaxy 1 &amp; 2 (Mining + Games)</span>
-              <span class="rl-val" id="ratioG1G2Val">676 Ops</span>
-              <span class="rl-sub">9,000 pts BTC L2 + 68 Loot</span>
+              <span class="rl-head">Galaxia 1 &amp; 2 (Minería + Juegos)</span>
+              <span class="rl-val" id="ratioG1G2Val">676 Operaciones</span>
+              <span class="rl-sub">9,000 pts BTC L2 + 68 Cofres</span>
             </div>
             <div class="ratio-card-box-large gold" onclick="switchFinopsView('galaxy-pools')" style="cursor: pointer;">
-              <span class="rl-head">Galaxy 3 &amp; 4 (Pools + Drops)</span>
-              <span class="rl-val" id="ratioG3G4Val">1,327 Ops</span>
-              <span class="rl-sub">28 Pools + 5 L2s Saturated</span>
+              <span class="rl-head">Galaxia 3 &amp; 4 (Piscinas + Drops)</span>
+              <span class="rl-val" id="ratioG3G4Val">1,327 Operaciones</span>
+              <span class="rl-sub">28 Piscinas + 5 Redes L2</span>
             </div>
             <div class="ratio-card-box-large" onclick="switchFinopsView('galaxy-refinery')" style="cursor: pointer;">
-              <span class="rl-head">Galaxy 5 &amp; 6 (Mints + DEX)</span>
+              <span class="rl-head">Galaxia 5 &amp; 6 (Mints + DEX)</span>
               <span class="rl-val" id="ratioG5Val">280 Swaps</span>
               <span class="rl-sub">35 Free Mints • 0 Honeypots</span>
             </div>
             <div class="ratio-card-box-large magenta">
-              <span class="rl-head">Quota Engine ($5.50 / Probe)</span>
-              <span class="rl-val" id="ratioQuotaVal">$2,750 Cap</span>
-              <span class="rl-sub">Current Lap: In Orbit</span>
+              <span class="rl-head">Motor de Cuota ($5.50 / Satélite)</span>
+              <span class="rl-val" id="ratioQuotaVal">$2,750 Meta</span>
+              <span class="rl-sub">Vuelta Actual: En Órbita</span>
             </div>
           </div>
 
@@ -393,564 +385,386 @@
             <div class="semaphore-card">
               <span class="sema-dot-status green"></span>
               <div class="sema-data-col">
-                <span class="sema-label">Anti-Sybil Isolation</span>
-                <span class="sema-value" style="color: var(--neon-green)">5 Independent Clusters Verified</span>
+                <span class="sema-label">Aislamiento Anti-Sybil</span>
+                <span class="sema-value" style="color: var(--neon-green)">5 Clústeres Independientes Verificados</span>
               </div>
             </div>
             <div class="semaphore-card">
               <span class="sema-dot-status gold"></span>
               <div class="sema-data-col">
-                <span class="sema-label">Mainnet Gas Shield</span>
-                <span class="sema-value" style="color: var(--neon-gold)">168h Lock Active (Zero Waste)</span>
+                <span class="sema-label">Escudo de Gas Mainnet</span>
+                <span class="sema-value" style="color: var(--neon-gold)">Bloqueo 168h Activo (Cero Desperdicio)</span>
               </div>
             </div>
             <div class="semaphore-card">
               <span class="sema-dot-status cyan"></span>
               <div class="sema-data-col">
-                <span class="sema-label">X Social Shield (@yozapata)</span>
-                <span class="sema-value" style="color: var(--neon-cyan)">PAUSED_SAFE (100% Protected)</span>
+                <span class="sema-label">Blindaje Social X (@yozapata)</span>
+                <span class="sema-value" style="color: var(--neon-cyan)">PAUSADO_SEGURO (100% Protegido)</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STATION 1: GALAXY 01 • MINING & BITCOIN L2 -->
+      <!-- VISTA 1: MINERÍA & BITCOIN L2 (ANCHO COMPLETO) -->
       <section class="finops-view-panel" id="view-galaxy-mining">
-        <div class="fino-incomes-container">
+        <div class="full-width-panel">
           <div class="fino-balances-grid">
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="cpu"></i> GALAXY 01 ACTIVE BOTS</span>
-                <span class="fino-currency-pill">CITREA/GOAT</span>
+                <span class="fino-account-badge"><i data-lucide="cpu"></i> SATÉLITES EN MINERÍA</span>
+                <span class="fino-currency-pill">CITREA / GOAT</span>
               </div>
-              <div class="fino-balance-num usd" id="g1ActiveBots">106 Satellites</div>
+              <div class="fino-balance-num usd" id="g1ActiveBots">106 Billeteras</div>
               <div class="fino-balance-footer">
                 <span>Citrea ZK &amp; Goat Network</span>
-                <span style="color: var(--neon-green)">● SATURATING</span>
+                <span style="color: var(--neon-green)">● SATURANDO</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="zap"></i> MINED HASH / POINTS</span>
-                <span class="fino-currency-pill">STREAKS</span>
+                <span class="fino-account-badge"><i data-lucide="zap"></i> PUNTOS / RACHAS BTC L2</span>
+                <span class="fino-currency-pill">RACHAS</span>
               </div>
               <div class="fino-balance-num eur" id="g1Points">9,000 pts BTC L2</div>
               <div class="fino-balance-footer">
-                <span>Daily Checkin Contracts</span>
-                <span style="color: var(--neon-cyan)">360 Executed</span>
+                <span>360 Interacciones Firmadas</span>
+                <span style="color: var(--neon-cyan)">● EN CADENA</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="shield-check"></i> GAS EFFICIENCY</span>
-                <span class="fino-currency-pill">SHIELDED</span>
+                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="shield-check"></i> EFICIENCIA DE GAS</span>
+                <span class="fino-currency-pill">BLINDADO</span>
               </div>
-              <div class="fino-balance-num total">$0.00 Mainnet Loss</div>
+              <div class="fino-balance-num total">$0.00 Gasto Mainnet</div>
               <div class="fino-balance-footer">
-                <span>Zero Filler Spending</span>
-                <span style="color: var(--neon-gold)">● OPTIMAL</span>
+                <span>Gas Real Solo Ante Recompensa</span>
+                <span style="color: var(--neon-gold)">● ÓPTIMO</span>
               </div>
             </div>
           </div>
 
-          <div class="fino-main-split-grid">
-            <div class="fino-ledger-panel">
-              <div class="fino-toolbar-row">
-                <span style="font-size: 0.62rem; font-weight: 800; font-family: 'JetBrains Mono'; color: #fff;">LIVE MINING PROTOCOL STREAMS</span>
-                <span class="badge-liq-sub usd">X500 POLYMORPHIC</span>
-              </div>
-              <div class="fino-table-frame">
-                <table class="fino-table">
-                  <thead>
-                    <tr>
-                      <th>Probe ID</th>
-                      <th>Cluster</th>
-                      <th>Target Protocol</th>
-                      <th>Mined Asset / Points</th>
-                      <th>Gas</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="g1StreamTableBody"></tbody>
-                </table>
-              </div>
+          <div class="full-width-ledger">
+            <div class="fino-toolbar-row">
+              <strong style="color: #fff; font-family: 'JetBrains Mono'; font-size: 0.62rem;">REGISTRO DE MINERÍA ON-CHAIN &amp; BITCOIN L2 (ANCHO COMPLETO)</strong>
+              <span class="badge-liq-sub usd">106 BOTS ACTIVOS</span>
             </div>
-
-            <div class="fino-side-stack">
-              <div class="fino-form-card">
-                <div class="fino-form-header">
-                  <strong>Galaxy 01 Operational Matrix</strong>
-                  <span>Citrea Testnet &amp; Goat BTC L2</span>
-                </div>
-                <div class="fino-form-body" style="font-size: 0.58rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 4px;">
-                  <div>• ChainID: <strong>5115 (Citrea ZK Rollup)</strong></div>
-                  <div>• Target: <strong>Goat Network BTC L2 Contracts</strong></div>
-                  <div>• Streaks: <strong>Daily Proof-of-Streak Relay</strong></div>
-                  <div>• Gas Policy: <strong>$0 Testnet Faucet Fuel</strong></div>
-                  <div>• Anti-Sybil: <strong>Non-contiguous execution delays</strong></div>
-                </div>
-              </div>
+            <div class="fino-table-frame">
+              <table class="fino-table-wide">
+                <thead>
+                  <tr>
+                    <th>Nº Satélite</th>
+                    <th>Box Asignado</th>
+                    <th>Protocolo Objetivo</th>
+                    <th>Cadena / Red</th>
+                    <th>Activo Mined / Puntos</th>
+                    <th>Gasto de Gas</th>
+                    <th>Estado de Saturación</th>
+                  </tr>
+                </thead>
+                <tbody id="g1StreamTableBody"></tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STATION 2: GALAXY 02 • WEB3 GAMING & LOOT -->
+      <!-- VISTA 2: JUEGOS & METAVERSO (ANCHO COMPLETO) -->
       <section class="finops-view-panel" id="view-galaxy-gaming">
-        <div class="fino-incomes-container">
+        <div class="full-width-panel">
           <div class="fino-balances-grid">
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="gamepad-2"></i> GAMER PROBES</span>
+                <span class="fino-account-badge"><i data-lucide="gamepad-2"></i> BOTS EN JUEGOS WEB3</span>
                 <span class="fino-currency-pill">GAMING</span>
               </div>
-              <div class="fino-balance-num usd" id="g2ActiveBots">60 Satellites</div>
+              <div class="fino-balance-num usd" id="g2ActiveBots">60 Billeteras</div>
               <div class="fino-balance-footer">
                 <span>Polygon, BSC, opBNB, Base</span>
-                <span style="color: var(--neon-green)">● ACTIVE LOOT</span>
+                <span style="color: var(--neon-green)">● COSECHA ACTIVA</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="package"></i> LOOT CAPTURED</span>
+                <span class="fino-account-badge"><i data-lucide="package"></i> COFRES &amp; ÍTEMS CAPTURADOS</span>
                 <span class="fino-currency-pill">ERC-1155</span>
               </div>
-              <div class="fino-balance-num eur" id="g2LootCount">68 Chests &amp; Items</div>
+              <div class="fino-balance-num eur" id="g2LootCount">68 Cofres &amp; Activos</div>
               <div class="fino-balance-footer">
-                <span>316 Operations Mapped</span>
-                <span style="color: var(--neon-cyan)">● VERIFIED</span>
+                <span>316 Reclamos Exitosos</span>
+                <span style="color: var(--neon-cyan)">● VERIFICADOS</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="trophy"></i> REWARD YIELD</span>
-                <span class="fino-currency-pill">ESTIMATED</span>
+                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="trophy"></i> VALOR ESTIMADO</span>
+                <span class="fino-currency-pill">LIQUIDABLE</span>
               </div>
-              <div class="fino-balance-num total">$18.50 Value</div>
+              <div class="fino-balance-num total">$18.50 USD</div>
               <div class="fino-balance-footer">
-                <span>In-Game ERC-20 &amp; Badges</span>
-                <span style="color: var(--neon-gold)">● CLAIMABLE</span>
+                <span>Listos para Refinería DEX</span>
+                <span style="color: var(--neon-gold)">● EN COLA</span>
               </div>
             </div>
           </div>
 
-          <div class="fino-main-split-grid">
-            <div class="fino-ledger-panel">
-              <div class="fino-toolbar-row">
-                <span style="font-size: 0.62rem; font-weight: 800; font-family: 'JetBrains Mono'; color: #fff;">LIVE GAMING LOOT HARVEST</span>
-                <span class="badge-liq-sub eur">META-LOOT X500</span>
-              </div>
-              <div class="fino-table-frame">
-                <table class="fino-table">
-                  <thead>
-                    <tr>
-                      <th>Probe ID</th>
-                      <th>Constellation</th>
-                      <th>Game World / Chain</th>
-                      <th>Captured Asset</th>
-                      <th>Gas</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="g2StreamTableBody"></tbody>
-                </table>
-              </div>
+          <div class="full-width-ledger">
+            <div class="fino-toolbar-row">
+              <strong style="color: #fff; font-family: 'JetBrains Mono'; font-size: 0.62rem;">REGISTRO DE COFRES Y ACTIVOS ERC-1155 WEB3 (ANCHO COMPLETO)</strong>
+              <span class="badge-liq-sub eur">60 BOTS ACTIVOS</span>
             </div>
-
-            <div class="fino-side-stack">
-              <div class="fino-form-card">
-                <div class="fino-form-header">
-                  <strong>Galaxy 02 Tactical Protocol</strong>
-                  <span>Smart Contract Loot Protocol</span>
-                </div>
-                <div class="fino-form-body" style="font-size: 0.58rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 4px;">
-                  <div>• Contracts: <strong>Free Daily Claim Chests</strong></div>
-                  <div>• Chains: <strong>Polygon (137), BSC (56), opBNB</strong></div>
-                  <div>• Anti-Waste: <strong>Zero gas spent without reward</strong></div>
-                  <div>• Auto-Sweep: <strong>Tokens channeled to DEX Refinery</strong></div>
-                </div>
-              </div>
+            <div class="fino-table-frame">
+              <table class="fino-table-wide">
+                <thead>
+                  <tr>
+                    <th>Nº Satélite</th>
+                    <th>Box Asignado</th>
+                    <th>Contrato Inteligente</th>
+                    <th>Red de Ejecución</th>
+                    <th>Ítem / Cofre Reclamado</th>
+                    <th>Gasolina</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="g2StreamTableBody"></tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STATION 3: GALAXY 03 • QUEST POOLS USDC -->
+      <!-- VISTA 3: PISCINAS & SORTEOS USDC (ANCHO COMPLETO) -->
       <section class="finops-view-panel" id="view-galaxy-pools">
-        <div class="fino-incomes-container">
+        <div class="full-width-panel">
           <div class="fino-balances-grid">
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="coins"></i> POOL SATURATORS</span>
-                <span class="fino-currency-pill">POLYMESH</span>
+                <span class="fino-account-badge"><i data-lucide="coins"></i> BOTS EN PISCINAS USDC</span>
+                <span class="fino-currency-pill">POLIMÓRFICO</span>
               </div>
-              <div class="fino-balance-num usd" id="g3ActiveBots">107 Satellites</div>
+              <div class="fino-balance-num usd" id="g3ActiveBots">107 Billeteras</div>
               <div class="fino-balance-footer">
-                <span>DNA: DEFI_YIELD_HUNTER</span>
-                <span style="color: var(--neon-green)">● POLARIZED</span>
+                <span>ADN: DEFI_YIELD_HUNTER</span>
+                <span style="color: var(--neon-green)">● AISLADOS</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="target"></i> VERIFIED CAMPAIGNS</span>
-                <span class="fino-currency-pill">USDC POOLS</span>
+                <span class="fino-account-badge"><i data-lucide="target"></i> CAMPAÑAS VERIFICADAS</span>
+                <span class="fino-currency-pill">POOLS USDC</span>
               </div>
-              <div class="fino-balance-num eur" id="g3Campaigns">28 Verified Pools</div>
+              <div class="fino-balance-num eur" id="g3Campaigns">28 Piscinas Verificadas</div>
               <div class="fino-balance-footer">
-                <span>515 Saturated Rounds</span>
-                <span style="color: var(--neon-cyan)">● LAYER3/GALXE</span>
+                <span>515 Participaciones</span>
+                <span style="color: var(--neon-cyan)">● LAYER3 / GALXE</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="award"></i> RAFFLE TICKETS</span>
+                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="award"></i> PARTICIPACIONES ACTIVAS</span>
                 <span class="fino-currency-pill">X500 PROB</span>
               </div>
-              <div class="fino-balance-num total">2,500 Shares</div>
+              <div class="fino-balance-num total">2,500 Tickets</div>
               <div class="fino-balance-footer">
-                <span>Cluster Distribution</span>
-                <span style="color: var(--neon-gold)">● MULTI-BOX</span>
+                <span>Distribución Multi-Box</span>
+                <span style="color: var(--neon-gold)">● REPARTO EQUITATIVO</span>
               </div>
             </div>
           </div>
 
-          <div class="fino-main-split-grid">
-            <div class="fino-ledger-panel">
-              <div class="fino-toolbar-row">
-                <span style="font-size: 0.62rem; font-weight: 800; font-family: 'JetBrains Mono'; color: #fff;">LIVE QUEST POOL HARVEST LEDGER</span>
-                <span class="badge-liq-sub usd">POLYMorphic DNA</span>
-              </div>
-              <div class="fino-table-frame">
-                <table class="fino-table">
-                  <thead>
-                    <tr>
-                      <th>Probe ID</th>
-                      <th>Cluster</th>
-                      <th>Campaign Source</th>
-                      <th>Raffle Entry / Share</th>
-                      <th>Gas</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="g3StreamTableBody"></tbody>
-                </table>
-              </div>
+          <div class="full-width-ledger">
+            <div class="fino-toolbar-row">
+              <strong style="color: #fff; font-family: 'JetBrains Mono'; font-size: 0.62rem;">REGISTRO DE PARTICIPACIÓN EN PISCINAS Y SORTEOS USDC (ANCHO COMPLETO)</strong>
+              <span class="badge-liq-sub usd">107 BOTS ACTIVOS</span>
             </div>
-
-            <div class="fino-side-stack">
-              <div class="fino-form-card">
-                <div class="fino-form-header">
-                  <strong>Galaxy 03 Rules</strong>
-                  <span>USDC Prize Pools &amp; Raffles</span>
-                </div>
-                <div class="fino-form-body" style="font-size: 0.58rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 4px;">
-                  <div>• Campaigns: <strong>Verified USDC Pool Quests</strong></div>
-                  <div>• Fingerprint: <strong>Independent browser &amp; RPC state</strong></div>
-                  <div>• DNA: <strong>Yield Hunter profile execution</strong></div>
-                  <div>• Payout: <strong>Direct to Binance Spot Vaults</strong></div>
-                </div>
-              </div>
+            <div class="fino-table-frame">
+              <table class="fino-table-wide">
+                <thead>
+                  <tr>
+                    <th>Nº Satélite</th>
+                    <th>Box Asignado</th>
+                    <th>Plataforma de Campaña</th>
+                    <th>Piscina de Liquidez</th>
+                    <th>Tickets / Participación</th>
+                    <th>Gasolina</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="g3StreamTableBody"></tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STATION 4: GALAXY 04 • ZERO-GAS AIRDROPS -->
+      <!-- VISTA 4: AIRDROPS L2 $0 GAS (ANCHO COMPLETO) -->
       <section class="finops-view-panel" id="view-galaxy-airdrops">
-        <div class="fino-incomes-container">
+        <div class="full-width-panel">
           <div class="fino-balances-grid">
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="send"></i> AIRDROP SOWERS</span>
+                <span class="fino-account-badge"><i data-lucide="send"></i> SEMBRADORES DE AIRDROPS</span>
                 <span class="fino-currency-pill">$0 GAS</span>
               </div>
-              <div class="fino-balance-num usd" id="g4ActiveBots">60 Satellites</div>
+              <div class="fino-balance-num usd" id="g4ActiveBots">60 Billeteras</div>
               <div class="fino-balance-footer">
-                <span>5 Networks Saturated</span>
-                <span style="color: var(--neon-green)">● BROADCASTING</span>
+                <span>5 Redes L2 Cubiertas</span>
+                <span style="color: var(--neon-green)">● SEMBRANDO</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="network"></i> L2 TESTNETS COVERED</span>
+                <span class="fino-account-badge"><i data-lucide="network"></i> REDES SATURADAS</span>
                 <span class="fino-currency-pill">GASLESS</span>
               </div>
               <div class="fino-balance-num eur">Sepolia, Base, Arb, Op, Sol</div>
               <div class="fino-balance-footer">
-                <span>812 Gasless Interactions</span>
-                <span style="color: var(--neon-cyan)">● ATTRIBUTED</span>
+                <span>812 Interacciones Sin Costo</span>
+                <span style="color: var(--neon-cyan)">● EIP-712</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="fuel"></i> TOTAL GAS SPENT</span>
+                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="fuel"></i> GASTO REAL DE GAS</span>
                 <span class="fino-currency-pill">REAL $</span>
               </div>
-              <div class="fino-balance-num total">$0.00 ZERO</div>
+              <div class="fino-balance-num total">$0.00 CERO</div>
               <div class="fino-balance-footer">
-                <span>100% Free Tier Relays</span>
-                <span style="color: var(--neon-gold)">● 100% PRESERVED</span>
+                <span>100% Gratuito en Testnets</span>
+                <span style="color: var(--neon-gold)">● 100% PRESERVADO</span>
               </div>
             </div>
           </div>
 
-          <div class="fino-main-split-grid">
-            <div class="fino-ledger-panel">
-              <div class="fino-toolbar-row">
-                <span style="font-size: 0.62rem; font-weight: 800; font-family: 'JetBrains Mono'; color: #fff;">LIVE ZERO-GAS AIRDROP SOWING</span>
-                <span class="badge-liq-sub eur">EIP-712 GASLESS</span>
-              </div>
-              <div class="fino-table-frame">
-                <table class="fino-table">
-                  <thead>
-                    <tr>
-                      <th>Probe ID</th>
-                      <th>Constellation</th>
-                      <th>Target L2 Network</th>
-                      <th>Seeded Contract</th>
-                      <th>Cost</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="g4StreamTableBody"></tbody>
-                </table>
-              </div>
+          <div class="full-width-ledger">
+            <div class="fino-toolbar-row">
+              <strong style="color: #fff; font-family: 'JetBrains Mono'; font-size: 0.62rem;">REGISTRO DE SIEMBRA DE AIRDROPS L2 ($0 GAS) (ANCHO COMPLETO)</strong>
+              <span class="badge-liq-sub eur">60 BOTS ACTIVOS</span>
             </div>
-
-            <div class="fino-side-stack">
-              <div class="fino-form-card">
-                <div class="fino-form-header">
-                  <strong>Galaxy 04 AirDrop Matrix</strong>
-                  <span>Tier-1 Testnet Protocols</span>
-                </div>
-                <div class="fino-form-body" style="font-size: 0.58rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 4px;">
-                  <div>• Ethereum Sepolia: <strong>Contract Deploy &amp; Interacts</strong></div>
-                  <div>• Base Sepolia: <strong>Onchain Attestation Service</strong></div>
-                  <div>• Arbitrum Sepolia: <strong>Stylus WASM Contract Pings</strong></div>
-                  <div>• Optimism Sepolia: <strong>Superchain Interop Seeds</strong></div>
-                  <div>• Solana Devnet: <strong>Anchor Program Invokes</strong></div>
-                </div>
-              </div>
+            <div class="fino-table-frame">
+              <table class="fino-table-wide">
+                <thead>
+                  <tr>
+                    <th>Nº Satélite</th>
+                    <th>Box Asignado</th>
+                    <th>Red L2 Objetivo</th>
+                    <th>Contrato / Puente Sembrado</th>
+                    <th>Tipo de Firma</th>
+                    <th>Costo de Gas</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="g4StreamTableBody"></tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STATION 5: GALAXY 05 • FREE MINTS & DEX REFINERY -->
+      <!-- VISTA 5: MINTS & REFINERÍA USDC (ANCHO COMPLETO) -->
       <section class="finops-view-panel" id="view-galaxy-refinery">
-        <div class="fino-incomes-container">
+        <div class="full-width-panel">
           <div class="fino-balances-grid">
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="repeat"></i> DEX REFINERY</span>
+                <span class="fino-account-badge"><i data-lucide="repeat"></i> BOTS EN REFINERÍA DEX</span>
                 <span class="fino-currency-pill">USDC NAT</span>
               </div>
-              <div class="fino-balance-num usd" id="g5ActiveBots">107 Satellites</div>
+              <div class="fino-balance-num usd" id="g5ActiveBots">107 Billeteras</div>
               <div class="fino-balance-footer">
                 <span>QuickSwap, PancakeSwap, Uniswap</span>
-                <span style="color: var(--neon-green)">● READY TO SWAP</span>
+                <span style="color: var(--neon-green)">● CONVERSIÓN LISTA</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge"><i data-lucide="badge-check"></i> FREE MINTS CHECKED</span>
+                <span class="fino-account-badge"><i data-lucide="badge-check"></i> FREE MINTS VERIFICADOS</span>
                 <span class="fino-currency-pill">GOPLUS</span>
               </div>
-              <div class="fino-balance-num eur">35 Minted • 0 Honeypot</div>
+              <div class="fino-balance-num eur">35 Mints • 0 Honeypot</div>
               <div class="fino-balance-footer">
-                <span>Strict GoPlus Security Shield</span>
-                <span style="color: var(--neon-cyan)">● SAFE</span>
+                <span>Escaneo Anti-Trampas Activo</span>
+                <span style="color: var(--neon-cyan)">● 100% SEGURO</span>
               </div>
             </div>
             <div class="fino-card-balance">
               <div class="fino-balance-head">
-                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="arrow-down-to-dot"></i> SWEEP CRITERIA</span>
+                <span class="fino-account-badge" style="color: var(--neon-gold)"><i data-lucide="arrow-down-to-dot"></i> CRITERIO DE BARRIDO</span>
                 <span class="fino-currency-pill">BINANCE</span>
               </div>
               <div class="fino-balance-num total">&gt;= $1.00 USDC</div>
               <div class="fino-balance-footer">
-                <span>Auto-Channeled to Star Vaults</span>
-                <span style="color: var(--neon-gold)">● ZERO RESIDUE</span>
+                <span>Barrido Directo a las 5 Bóvedas</span>
+                <span style="color: var(--neon-gold)">● CERO RESIDUOS</span>
               </div>
             </div>
           </div>
 
-          <div class="fino-main-split-grid">
-            <div class="fino-ledger-panel">
-              <div class="fino-toolbar-row">
-                <span style="font-size: 0.62rem; font-weight: 800; font-family: 'JetBrains Mono'; color: #fff;">LIVE DEX SWAPS &amp; REFINERY LOG</span>
-                <span class="badge-liq-sub usd">AUTO-SWEEP ACTIVE</span>
-              </div>
-              <div class="fino-table-frame">
-                <table class="fino-table">
-                  <thead>
-                    <tr>
-                      <th>Probe ID</th>
-                      <th>Source Token</th>
-                      <th>DEX Protocol</th>
-                      <th>Target Conversion</th>
-                      <th>Gas</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="g5StreamTableBody"></tbody>
-                </table>
-              </div>
+          <div class="full-width-ledger">
+            <div class="fino-toolbar-row">
+              <strong style="color: #fff; font-family: 'JetBrains Mono'; font-size: 0.62rem;">REGISTRO DE REFINERÍA DEX &amp; BARRIDO A BINANCE (ANCHO COMPLETO)</strong>
+              <span class="badge-liq-sub usd">BARRIDO AUTOMÁTICO</span>
             </div>
-
-            <div class="fino-side-stack">
-              <div class="fino-form-card">
-                <div class="fino-form-header">
-                  <strong>DEX Refinery Pipeline</strong>
-                  <span>Liquidate to 100% USDC Nativo</span>
-                </div>
-                <div class="fino-form-body" style="font-size: 0.58rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 4px;">
-                  <div>• Trigger: <strong>Captured Tokens &gt; $1.00 Value</strong></div>
-                  <div>• Slippage: <strong>Max 0.8% with MEV protection</strong></div>
-                  <div>• Target: <strong>Native USDC on Polygon &amp; Base</strong></div>
-                  <div>• Final Sweep: <strong>Binance Spot Cold Vaults 1-5</strong></div>
-                </div>
-              </div>
+            <div class="fino-table-frame">
+              <table class="fino-table-wide">
+                <thead>
+                  <tr>
+                    <th>Nº Satélite</th>
+                    <th>Token Capturado</th>
+                    <th>DEX Ejecutora</th>
+                    <th>Conversión a USDC</th>
+                    <th>Gas Real Usado</th>
+                    <th>Bóveda Binance Destino</th>
+                    <th>Estado de Liquidación</th>
+                  </tr>
+                </thead>
+                <tbody id="g5StreamTableBody"></tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STATION 6: SATELLITE REGISTRY (502 IDs) EXPLORER & DOSSIER -->
+      <!-- VISTA 6: CENSO COMPLETO DE LAS 502 CARTERAS (ANCHO COMPLETO SIN CORTES) -->
       <section class="finops-view-panel" id="view-satellite-registry">
-        <div class="fino-incomes-container">
-          <div class="fino-main-split-grid">
-            <!-- LEFT PANEL: 502 WALLETS TABLE & SEARCH -->
-            <div class="fino-ledger-panel">
-              <div class="fino-toolbar-row">
-                <div class="fino-search-wrap">
-                  <i data-lucide="search" style="width: 11px; height: 11px; color: var(--neon-gold)"></i>
-                  <input type="text" id="registrySearchInput" class="fino-search-input" placeholder="Search ID (#001, #501) or 0x..." oninput="handleRegistrySearch()" />
-                </div>
-                <div class="fino-filter-buttons">
-                  <button class="fino-filter-btn active" data-filter="ALL" onclick="filterRegistry('ALL')">ALL (502)</button>
-                  <button class="fino-filter-btn" data-filter="MOTHERSHIPS" onclick="filterRegistry('MOTHERSHIPS')">COMMAND</button>
-                  <button class="fino-filter-btn" data-filter="FLEET1" onclick="filterRegistry('FLEET1')">FLEET 1</button>
-                  <button class="fino-filter-btn" data-filter="FLEET2" onclick="filterRegistry('FLEET2')">FLEET 2</button>
-                  <button class="fino-filter-btn" data-filter="FLEET3" onclick="filterRegistry('FLEET3')">FLEET 3</button>
-                  <button class="fino-filter-btn" data-filter="FLEET4" onclick="filterRegistry('FLEET4')">FLEET 4</button>
-                  <button class="fino-filter-btn" data-filter="FLEET5" onclick="filterRegistry('FLEET5')">FLEET 5</button>
-                </div>
+        <div class="full-width-panel">
+          <div class="full-width-ledger">
+            <!-- BARRA DE BÚSQUEDA Y FILTROS POR BOX -->
+            <div class="fino-toolbar-row">
+              <div class="fino-search-wrap" style="max-width: 320px;">
+                <i data-lucide="search" style="width: 12px; height: 12px; color: var(--neon-gold)"></i>
+                <input type="text" id="registrySearchInput" class="fino-search-input" placeholder="Buscar por Nº (#001, #501) o dirección 0x..." oninput="handleRegistrySearch()" />
               </div>
-
-              <div class="fino-table-frame">
-                <table class="fino-table">
-                  <thead>
-                    <tr>
-                      <th style="width: 50px;">ID</th>
-                      <th>Rank / Role</th>
-                      <th>Constellation</th>
-                      <th>EVM Address</th>
-                      <th>Solana Address</th>
-                      <th>POL Gas</th>
-                      <th>BNB Gas</th>
-                      <th>Testnet Gas</th>
-                      <th>Galaxy</th>
-                      <th style="text-align: center;">Dossier</th>
-                    </tr>
-                  </thead>
-                  <tbody id="registryTableBody"></tbody>
-                </table>
+              <div class="fino-filter-buttons">
+                <button class="fino-filter-btn active" data-filter="ALL" onclick="filterRegistry('ALL')">Todas (502)</button>
+                <button class="fino-filter-btn" data-filter="MOTHERSHIPS" onclick="filterRegistry('MOTHERSHIPS')">Nodrizas (#00 y #501)</button>
+                <button class="fino-filter-btn" data-filter="FLEET1" onclick="filterRegistry('FLEET1')">Box 1 (#001-#100)</button>
+                <button class="fino-filter-btn" data-filter="FLEET2" onclick="filterRegistry('FLEET2')">Box 2 (#101-#200)</button>
+                <button class="fino-filter-btn" data-filter="FLEET3" onclick="filterRegistry('FLEET3')">Box 3 (#201-#300)</button>
+                <button class="fino-filter-btn" data-filter="FLEET4" onclick="filterRegistry('FLEET4')">Box 4 (#301-#400)</button>
+                <button class="fino-filter-btn" data-filter="FLEET5" onclick="filterRegistry('FLEET5')">Box 5 (#401-#500)</button>
               </div>
             </div>
 
-            <!-- RIGHT PANEL: SATELLITE TELEMETRY DOSSIER -->
-            <div class="fino-side-stack">
-              <div class="dossier-card-wrap" id="satelliteDossierCard">
-                <div class="dossier-head">
-                  <div class="dossier-title-group">
-                    <span class="dossier-name" id="dosName">SATELLITE #001</span>
-                    <span class="dossier-rank" id="dosRank">CAPTAIN • FLEET 01</span>
-                  </div>
-                  <span class="badge-liq-sub usd" id="dosBoxTag">FLEET 1</span>
-                </div>
-
-                <!-- EVM CODE BOX -->
-                <div class="dossier-code-box">
-                  <div class="dossier-code-label">Full EVM Address (0x...)</div>
-                  <div class="dossier-code-val-row">
-                    <span class="dossier-code-str" id="dosEvmAddr">0xb7505DD7FCC31A71D033F8a495D6B562420AD40F</span>
-                    <button class="btn-mini-copy" onclick="copyDossierCode('evm')">
-                      <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
-                      <span>Copy</span>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- SOLANA CODE BOX -->
-                <div class="dossier-code-box">
-                  <div class="dossier-code-label">Full Solana Address</div>
-                  <div class="dossier-code-val-row">
-                    <span class="dossier-code-str" id="dosSolAddr">4uySErrcUdU9Nw2iNKjsoMK9nZLphT3RS3iLcY4b6vBh</span>
-                    <button class="btn-mini-copy" onclick="copyDossierCode('sol')">
-                      <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
-                      <span>Copy</span>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- ROLE & GALAXY -->
-                <div style="display: flex; justify-content: space-between; font-size: 0.52rem; font-family: 'JetBrains Mono';">
-                  <span style="color: var(--text-muted);">Assigned Galaxy:</span>
-                  <strong style="color: var(--neon-cyan);" id="dosGalaxy">Galaxy 03 • Pools</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.52rem; font-family: 'JetBrains Mono';">
-                  <span style="color: var(--text-muted);">Assigned Vault:</span>
-                  <strong style="color: var(--neon-gold);" id="dosVault">Binance Vault #1</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.52rem; font-family: 'JetBrains Mono';">
-                  <span style="color: var(--text-muted);">DNA Personality:</span>
-                  <strong style="color: #ffffff;" id="dosDna">DEFI_YIELD_HUNTER</strong>
-                </div>
-
-                <!-- GAS TANKS -->
-                <div class="dossier-gas-grid">
-                  <div class="dossier-gas-item">
-                    <span class="dossier-gas-lbl">POL Balance</span>
-                    <span class="dossier-gas-val" id="dosPolVal">19.799 POL</span>
-                  </div>
-                  <div class="dossier-gas-item">
-                    <span class="dossier-gas-lbl">BNB Balance</span>
-                    <span class="dossier-gas-val" id="dosBnbVal">0.0056 BNB</span>
-                  </div>
-                  <div class="dossier-gas-item">
-                    <span class="dossier-gas-lbl">Sepolia ETH</span>
-                    <span class="dossier-gas-val" id="dosSepEthVal">0.301 ETH</span>
-                  </div>
-                  <div class="dossier-gas-item">
-                    <span class="dossier-gas-lbl">Base ETH</span>
-                    <span class="dossier-gas-val" id="dosBaseEthVal">0.014 ETH</span>
-                  </div>
-                </div>
-
-                <!-- SERVICE RECORD -->
-                <div style="background: rgba(0,0,0,0.4); border-radius: 5px; padding: 4px 6px; font-size: 0.5rem; font-family: 'JetBrains Mono';">
-                  <div style="color: var(--neon-gold); font-weight: 800; margin-bottom: 2px;">HOJA DE SERVICIOS</div>
-                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; color: var(--text-sub);">
-                    <span>Mining Ops: <strong style="color:#fff;" id="dosStatMining">5</strong></span>
-                    <span>Game Loot: <strong style="color:#fff;" id="dosStatGaming">3</strong></span>
-                    <span>Pool Quests: <strong style="color:#fff;" id="dosStatPools">4</strong></span>
-                    <span>Airdrop Seeds: <strong style="color:#fff;" id="dosStatAirdrops">6</strong></span>
-                  </div>
-                </div>
-
-                <!-- PROGRESS TOWARDS $5.50 -->
-                <div class="dossier-progress-wrap">
-                  <div class="dossier-progress-head">
-                    <span>Quota Progress</span>
-                    <span id="dosQuotaProgressText">$0.00 / $5.50 USDC (0%)</span>
-                  </div>
-                  <div class="dossier-progress-track">
-                    <div class="dossier-progress-fill" id="dosQuotaProgressBar" style="width: 0%;"></div>
-                  </div>
-                </div>
-              </div>
+            <!-- TABLA DE LAS 502 CARTERAS A ANCHO COMPLETO -->
+            <div class="fino-table-frame">
+              <table class="fino-table-wide">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">Nº &amp; Rango</th>
+                    <th>Clúster / Box</th>
+                    <th>Dirección EVM Completa (42 Caracteres 0x...)</th>
+                    <th>Función / Galaxia Activa</th>
+                    <th>Gasolina Actual (POL / BNB / ETH)</th>
+                    <th>Trabajo Firmado</th>
+                    <th>USDC Generado</th>
+                    <th style="text-align: center; width: 60px;">Detalle</th>
+                  </tr>
+                </thead>
+                <tbody id="registryTableBody"></tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -958,156 +772,174 @@
 
       <!-- FOOTER -->
       <footer class="hub-footer">
-        <span>ORBITAL 10K NEXUS CORE // DEEP SPACE SATURATION ENGINE (X500 PROBES)</span>
-        <span style="color: var(--neon-gold)">CURATOLAPPS • WE CAN DO IT // ZERO-SCROLL PRECISION ARCHITECTURE</span>
+        <span>OPERACIÓN 10K // MONITOR DE SATURACIÓN X500 (502 BILLETERAS ACTIVAS)</span>
+        <span style="color: var(--neon-gold)">CURATOLAPPS • WE CAN DO IT // ARQUITECTURA ZERO-SCROLL DE ALTA PRECISIÓN</span>
       </footer>
     </main>
 
-    <!-- COL 3: STAR VAULTS + LIVE SATCOM MIRROR (350px) -->
-    <section class="glass-panel-3d gemini-chat-panel">
-      <!-- HEADER -->
-      <div class="chat-header">
+    <!-- COLUMNA 3: EXCLUSIVAMENTE LAS 5 BÓVEDAS RECEPTORAS DE BINANCE (350px) -->
+    <section class="glass-panel-3d binance-vaults-panel">
+      <!-- CABECERA DE BÓVEDAS -->
+      <div class="binance-vaults-header">
         <div class="infinity-brand-card">
           <div class="infinity-pulse-ring">
             <div class="infinity-core-dot"></div>
           </div>
           <div class="infinity-card-info">
             <div class="infinity-core-name">
-              <span>ORBITAL CORE</span>
-              <span class="infinity-role-tag">STAR VAULTS &amp; COMMS</span>
+              <span>BÓVEDAS RECEPTORAS BINANCE</span>
+              <span class="infinity-role-tag">SPOT COLD STORAGE</span>
             </div>
             <div class="infinity-core-meta">
-              <span class="meta-label">VAULTS:</span>
-              <span class="meta-val text-neon">5 VERIFIED</span>
+              <span class="meta-label">DESTINO:</span>
+              <span class="meta-val text-neon">5 BÓVEDAS SPOT</span>
               <span class="meta-sep">·</span>
-              <span class="meta-label">SATCOM:</span>
-              <span class="meta-val text-neon">ONLINE</span>
+              <span class="meta-label">ESTADO:</span>
+              <span class="meta-val text-neon">VERIFICADAS</span>
             </div>
           </div>
         </div>
 
-        <div class="chat-header-actions">
-          <button class="btn-chat-action" type="button" title="Refresh Comms" onclick="refreshOrbitalData()">
-            <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-            <span>Sync</span>
-          </button>
-        </div>
+        <button class="btn-chat-action" type="button" title="Sincronizar Bóvedas" onclick="refreshOrbitalData()">
+          <i data-lucide="refresh-cw" style="width: 11px; height: 11px;"></i>
+          <span>Sync</span>
+        </button>
       </div>
 
-      <!-- TOP HALF: 5 BINANCE STAR VAULTS -->
-      <div class="star-vaults-stack">
-        <div class="star-vaults-title-bar">
-          <span>● 5 BINANCE SPOT STAR VAULTS</span>
-          <span style="color: var(--neon-green)">100% AUDITED</span>
-        </div>
-
-        <!-- VAULT 1 -->
-        <div class="cyber-vault-card">
-          <div class="vault-header-row">
-            <span class="vault-name-label"><i data-lucide="shield" style="width: 10px; height: 10px; color: var(--neon-gold);"></i> STAR VAULT #1 (FLEET 1 + #501)</span>
-            <span class="vault-badge-status">ONLINE</span>
+      <!-- LAS 5 TARJETAS DE BÓVEDAS DE BINANCE (ALTURA COMPLETA) -->
+      <div class="binance-vaults-list">
+        <!-- BÓVEDA BINANCE #1 -->
+        <div class="binance-vault-card">
+          <div class="vault-top-meta">
+            <span class="vault-tag-title"><i data-lucide="shield-check" style="width: 12px; height: 12px; color: var(--neon-gold);"></i> Bóveda Binance #1</span>
+            <span class="vault-cluster-tag">Receptora Box 1 (#001–#100 + #501)</span>
           </div>
-          <div class="vault-addr-bar">
-            <span class="vault-addr-mono">0x48b26dd0f9265573f31f7140cf01e9c48518531b</span>
-            <button class="btn-mini-copy" onclick="copyAddress('0x48b26dd0f9265573f31f7140cf01e9c48518531b')">Copy</button>
+          <div class="vault-full-address-row">
+            <span class="vault-full-address-mono">0x48b26dd0f9265573f31f7140cf01e9c48518531b</span>
+            <button class="btn-mini-copy" onclick="copyAddress('0x48b26dd0f9265573f31f7140cf01e9c48518531b')" title="Copiar dirección completa">
+              <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+              <span>Copiar</span>
+            </button>
           </div>
-          <div class="vault-yield-row">
-            <span class="vault-rec" id="vaultRec1">Received: $0.00 USDC</span>
-            <span class="vault-inc" id="vaultInc1">Incoming: +$0.00</span>
-          </div>
-        </div>
-
-        <!-- VAULT 2 -->
-        <div class="cyber-vault-card">
-          <div class="vault-header-row">
-            <span class="vault-name-label"><i data-lucide="shield" style="width: 10px; height: 10px; color: var(--neon-cyan);"></i> STAR VAULT #2 (FLEET 2)</span>
-            <span class="vault-badge-status">ONLINE</span>
-          </div>
-          <div class="vault-addr-bar">
-            <span class="vault-addr-mono">0x33cffda0218122ed4d981dcb1797f4b458191bc4</span>
-            <button class="btn-mini-copy" onclick="copyAddress('0x33cffda0218122ed4d981dcb1797f4b458191bc4')">Copy</button>
-          </div>
-          <div class="vault-yield-row">
-            <span class="vault-rec" id="vaultRec2">Received: $0.00 USDC</span>
-            <span class="vault-inc" id="vaultInc2">Incoming: +$0.00</span>
+          <div class="vault-metrics-grid">
+            <div class="vault-metric-box">
+              <span class="vault-metric-label">Total Recibido</span>
+              <span class="vault-metric-val green" id="vaultRec1">$0.00 USDC</span>
+            </div>
+            <div class="vault-metric-box" style="text-align: right;">
+              <span class="vault-metric-label">En Camino (Box 1)</span>
+              <span class="vault-metric-val gold" id="vaultInc1">+$0.00 USDC</span>
+            </div>
           </div>
         </div>
 
-        <!-- VAULT 3 -->
-        <div class="cyber-vault-card">
-          <div class="vault-header-row">
-            <span class="vault-name-label"><i data-lucide="shield" style="width: 10px; height: 10px; color: var(--neon-magenta);"></i> STAR VAULT #3 (FLEET 3)</span>
-            <span class="vault-badge-status">ONLINE</span>
+        <!-- BÓVEDA BINANCE #2 -->
+        <div class="binance-vault-card">
+          <div class="vault-top-meta">
+            <span class="vault-tag-title"><i data-lucide="shield-check" style="width: 12px; height: 12px; color: var(--neon-cyan);"></i> Bóveda Binance #2</span>
+            <span class="vault-cluster-tag">Receptora Box 2 (#101–#200)</span>
           </div>
-          <div class="vault-addr-bar">
-            <span class="vault-addr-mono">0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</span>
-            <button class="btn-mini-copy" onclick="copyAddress('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e')">Copy</button>
+          <div class="vault-full-address-row">
+            <span class="vault-full-address-mono">0x33cffda0218122ed4d981dcb1797f4b458191bc4</span>
+            <button class="btn-mini-copy" onclick="copyAddress('0x33cffda0218122ed4d981dcb1797f4b458191bc4')" title="Copiar dirección completa">
+              <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+              <span>Copiar</span>
+            </button>
           </div>
-          <div class="vault-yield-row">
-            <span class="vault-rec" id="vaultRec3">Received: $0.00 USDC</span>
-            <span class="vault-inc" id="vaultInc3">Incoming: +$0.00</span>
-          </div>
-        </div>
-
-        <!-- VAULT 4 -->
-        <div class="cyber-vault-card">
-          <div class="vault-header-row">
-            <span class="vault-name-label"><i data-lucide="shield" style="width: 10px; height: 10px; color: var(--neon-green);"></i> STAR VAULT #4 (FLEET 4)</span>
-            <span class="vault-badge-status">ONLINE</span>
-          </div>
-          <div class="vault-addr-bar">
-            <span class="vault-addr-mono">0x2734e0a264573056417d12478616107ff5d2ce54</span>
-            <button class="btn-mini-copy" onclick="copyAddress('0x2734e0a264573056417d12478616107ff5d2ce54')">Copy</button>
-          </div>
-          <div class="vault-yield-row">
-            <span class="vault-rec" id="vaultRec4">Received: $0.00 USDC</span>
-            <span class="vault-inc" id="vaultInc4">Incoming: +$0.00</span>
+          <div class="vault-metrics-grid">
+            <div class="vault-metric-box">
+              <span class="vault-metric-label">Total Recibido</span>
+              <span class="vault-metric-val green" id="vaultRec2">$0.00 USDC</span>
+            </div>
+            <div class="vault-metric-box" style="text-align: right;">
+              <span class="vault-metric-label">En Camino (Box 2)</span>
+              <span class="vault-metric-val gold" id="vaultInc2">+$0.00 USDC</span>
+            </div>
           </div>
         </div>
 
-        <!-- VAULT 5 -->
-        <div class="cyber-vault-card">
-          <div class="vault-header-row">
-            <span class="vault-name-label"><i data-lucide="shield" style="width: 10px; height: 10px; color: var(--neon-purple);"></i> STAR VAULT #5 (FLEET 5)</span>
-            <span class="vault-badge-status">ONLINE</span>
+        <!-- BÓVEDA BINANCE #3 -->
+        <div class="binance-vault-card">
+          <div class="vault-top-meta">
+            <span class="vault-tag-title"><i data-lucide="shield-check" style="width: 12px; height: 12px; color: var(--neon-magenta);"></i> Bóveda Binance #3</span>
+            <span class="vault-cluster-tag">Receptora Box 3 (#201–#300)</span>
           </div>
-          <div class="vault-addr-bar">
-            <span class="vault-addr-mono">0xf746f7da001c48367d76641a2e870db8e509dce7</span>
-            <button class="btn-mini-copy" onclick="copyAddress('0xf746f7da001c48367d76641a2e870db8e509dce7')">Copy</button>
+          <div class="vault-full-address-row">
+            <span class="vault-full-address-mono">0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</span>
+            <button class="btn-mini-copy" onclick="copyAddress('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e')" title="Copiar dirección completa">
+              <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+              <span>Copiar</span>
+            </button>
           </div>
-          <div class="vault-yield-row">
-            <span class="vault-rec" id="vaultRec5">Received: $0.00 USDC</span>
-            <span class="vault-inc" id="vaultInc5">Incoming: +$0.00</span>
+          <div class="vault-metrics-grid">
+            <div class="vault-metric-box">
+              <span class="vault-metric-label">Total Recibido</span>
+              <span class="vault-metric-val green" id="vaultRec3">$0.00 USDC</span>
+            </div>
+            <div class="vault-metric-box" style="text-align: right;">
+              <span class="vault-metric-label">En Camino (Box 3)</span>
+              <span class="vault-metric-val gold" id="vaultInc3">+$0.00 USDC</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- BOTTOM HALF: LIVE SATCOM MIRROR & SATELLITE QUICK QUERY -->
-      <div class="chat-messages-container" id="chatMessages">
-        <div class="chat-welcome-box">
-          <div class="chat-avatar-ai">
-            <i data-lucide="satellite" style="width: 18px; height: 18px; color: var(--neon-gold)"></i>
+        <!-- BÓVEDA BINANCE #4 -->
+        <div class="binance-vault-card">
+          <div class="vault-top-meta">
+            <span class="vault-tag-title"><i data-lucide="shield-check" style="width: 12px; height: 12px; color: var(--neon-green);"></i> Bóveda Binance #4</span>
+            <span class="vault-cluster-tag">Receptora Box 4 (#301–#400)</span>
           </div>
-          <h4>Orbital 10K SatCom Mirror</h4>
-          <p>Live encrypted telemetry from 6 Extraction Galaxies and 500 Satellites. Type any Satellite number below to audit its dossier.</p>
+          <div class="vault-full-address-row">
+            <span class="vault-full-address-mono">0x2734e0a264573056417d12478616107ff5d2ce54</span>
+            <button class="btn-mini-copy" onclick="copyAddress('0x2734e0a264573056417d12478616107ff5d2ce54')" title="Copiar dirección completa">
+              <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+              <span>Copiar</span>
+            </button>
+          </div>
+          <div class="vault-metrics-grid">
+            <div class="vault-metric-box">
+              <span class="vault-metric-label">Total Recibido</span>
+              <span class="vault-metric-val green" id="vaultRec4">$0.00 USDC</span>
+            </div>
+            <div class="vault-metric-box" style="text-align: right;">
+              <span class="vault-metric-label">En Camino (Box 4)</span>
+              <span class="vault-metric-val gold" id="vaultInc4">+$0.00 USDC</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="chat-input-wrapper">
-        <div class="chat-input-area">
-          <input type="text" class="chat-input" id="chatUserInput" placeholder="Audit satellite # e.g. 14, 501, 0..." onkeydown="handleChatKeyDown(event)" />
-          <button class="btn-chat-send" id="btnSendChat" type="button" title="Send Query" onclick="submitChatQuery()">
-            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-          </button>
+        <!-- BÓVEDA BINANCE #5 -->
+        <div class="binance-vault-card">
+          <div class="vault-top-meta">
+            <span class="vault-tag-title"><i data-lucide="shield-check" style="width: 12px; height: 12px; color: var(--neon-purple);"></i> Bóveda Binance #5</span>
+            <span class="vault-cluster-tag">Receptora Box 5 (#401–#500)</span>
+          </div>
+          <div class="vault-full-address-row">
+            <span class="vault-full-address-mono">0xf746f7da001c48367d76641a2e870db8e509dce7</span>
+            <button class="btn-mini-copy" onclick="copyAddress('0xf746f7da001c48367d76641a2e870db8e509dce7')" title="Copiar dirección completa">
+              <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+              <span>Copiar</span>
+            </button>
+          </div>
+          <div class="vault-metrics-grid">
+            <div class="vault-metric-box">
+              <span class="vault-metric-label">Total Recibido</span>
+              <span class="vault-metric-val green" id="vaultRec5">$0.00 USDC</span>
+            </div>
+            <div class="vault-metric-box" style="text-align: right;">
+              <span class="vault-metric-label">En Camino (Box 5)</span>
+              <span class="vault-metric-val gold" id="vaultInc5">+$0.00 USDC</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
+  <!-- NOTIFICACIÓN TOAST FLOTANTE -->
   <div class="nexus-toast" id="nexusToast">
     <i data-lucide="check-circle-2" style="width: 14px; height: 14px; color: var(--neon-green)"></i>
-    <span id="toastMsg">Code copied to clipboard</span>
+    <span id="toastMsg">Dirección copiada al portapapeles</span>
   </div>
 
   <script src="app.js"></script>

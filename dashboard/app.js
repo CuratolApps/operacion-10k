@@ -1,10 +1,9 @@
 /**
- * ORBITAL 10K NEXUS CORE — AEROSPACE CLIENT ENGINE
- * 1:1 FinOps Core Architecture • Zero-Scroll Precision
- * 502 Satellites • 6 Extraction Galaxies • 5 Binance Star Vaults
+ * OPERACIÓN 10K — MOTOR DE TELEMETRÍA ORBITAL
+ * 100% Modo Observación Pasiva • Tablas a Ancho Completo • 5 Bóvedas Binance
  */
 
-// Application State
+// Estado Global
 const state = {
   telemetry: null,
   publicWallets: [],
@@ -12,12 +11,11 @@ const state = {
   currentView: 'orbital-dashboard',
   registryFilter: 'ALL',
   registrySearch: '',
-  selectedWalletId: 1, // Default selected probe #001
-  chatHistory: []
+  expandedWalletId: null
 };
 
 // -------------------------------------------------------------
-// 1. LIVE CLOCK (UTC HIGH-PRECISION)
+// 1. RELOJ EN VIVO (UTC)
 // -------------------------------------------------------------
 function startLiveClock() {
   function update() {
@@ -42,12 +40,12 @@ function startLiveClock() {
 }
 
 // -------------------------------------------------------------
-// 2. VIEW SWITCHING ENGINE (STATIONS 0 TO 6)
+// 2. NAVEGACIÓN ENTRE ESTACIONES DE TELEMETRÍA
 // -------------------------------------------------------------
 function switchFinopsView(viewId) {
   state.currentView = viewId;
 
-  // Update sidebar buttons
+  // Actualizar botones de la barra lateral
   const buttons = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
   buttons.forEach(btn => {
     if (btn.getAttribute('data-view') === viewId) {
@@ -57,34 +55,30 @@ function switchFinopsView(viewId) {
     }
   });
 
-  // Update panels
+  // Mostrar únicamente el panel correspondiente
   const panels = document.querySelectorAll('.finops-view-panel');
-  panels.forEach(panel => {
-    panel.classList.remove('active');
-  });
+  panels.forEach(panel => panel.classList.remove('active'));
 
   const targetPanel = document.getElementById(`view-${viewId}`);
   if (targetPanel) {
     targetPanel.classList.add('active');
   }
 
-  // Refresh icons
+  // Refrescar iconos Lucide
   if (window.lucide) {
     window.lucide.createIcons();
   }
 }
 
-// Quick jump to a constellation fleet in Registry
-function openConstellationProbes(fleetNum) {
+// Abrir las carteras de un Box específico
+function openConstellationProbes(boxNum) {
   switchFinopsView('satellite-registry');
-  filterRegistry(`FLEET${fleetNum}`);
-  // Select captain or first probe
-  const firstId = (fleetNum - 1) * 100 + 1;
-  inspectDossierById(firstId);
+  filterRegistry(`FLEET${boxNum}`);
+  showToast(`Mostrando las 100 carteras del Box ${boxNum}`);
 }
 
 // -------------------------------------------------------------
-// 3. TOAST NOTIFICATIONS
+// 3. COPIAR AL PORTAPAPELES & NOTIFICACIÓN TOAST
 // -------------------------------------------------------------
 function showToast(msg) {
   const toast = document.getElementById('nexusToast');
@@ -95,14 +89,14 @@ function showToast(msg) {
   toast.classList.add('show');
   setTimeout(() => {
     toast.classList.remove('show');
-  }, 2400);
+  }, 2200);
 }
 
 function copyAddress(addr) {
   if (!addr) return;
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(addr).then(() => {
-      showToast(`Copied: ${addr.substring(0, 10)}...`);
+      showToast(`Copiado: ${addr}`);
     });
   } else {
     const input = document.createElement('input');
@@ -111,23 +105,15 @@ function copyAddress(addr) {
     input.select();
     document.execCommand('copy');
     document.body.removeChild(input);
-    showToast(`Copied: ${addr.substring(0, 10)}...`);
+    showToast(`Copiado: ${addr}`);
   }
 }
 
-function copyDossierCode(type) {
-  const w = state.wallets.find(x => x.id === state.selectedWalletId);
-  if (!w) return;
-  const val = type === 'evm' ? (w.evmAddress || w.address) : (w.solanaAddress || w.solAddress);
-  copyAddress(val);
-}
-
 // -------------------------------------------------------------
-// 4. DATA LOADER & NORMALIZER (REAL ON-CHAIN TELEMETRY)
+// 4. CARGA DE DATOS REALES (FLEET-TELEMETRY & WALLETS-PUBLIC)
 // -------------------------------------------------------------
 async function loadOrbitalData() {
   try {
-    // 1. Fetch fleet-telemetry.json
     let telemetryData = null;
     const telemPaths = ['../telemetry/fleet-telemetry.json', '/telemetry/fleet-telemetry.json', 'telemetry/fleet-telemetry.json'];
     for (const p of telemPaths) {
@@ -140,7 +126,6 @@ async function loadOrbitalData() {
       } catch (e) {}
     }
 
-    // 2. Fetch wallets-public-list.json
     let publicList = [];
     const listPaths = ['../wallets-public-list.json', '/wallets-public-list.json', 'wallets-public-list.json'];
     for (const p of listPaths) {
@@ -156,35 +141,30 @@ async function loadOrbitalData() {
     state.telemetry = telemetryData;
     state.publicWallets = publicList;
 
-    // 3. Build unified 502 wallets registry
+    // Ensamblar las 502 carteras
     assemble502Wallets();
 
-    // 4. Render UI components
+    // Renderizar componentes
     renderTopRadarBanner();
-    renderMarketTrendCards();
-    renderConstellationCards();
-    renderRatiosAndSemaphores();
     renderStarVaults();
     renderGalaxiesStreams();
     renderSatelliteRegistry();
-    renderSatComAlerts();
 
-    // Refresh icons
     if (window.lucide) {
       window.lucide.createIcons();
     }
   } catch (err) {
-    console.warn('Orbital data sync warning:', err);
+    console.warn('Error sincronizando telemetría:', err);
   }
 }
 
 function refreshOrbitalData() {
-  showToast('Synchronizing telemetry stream...');
+  showToast('Sincronizando telemetría en tiempo real...');
   loadOrbitalData();
 }
 
 // -------------------------------------------------------------
-// 5. ASSEMBLE 502 WALLETS (#000 TO #501)
+// 5. ENSAMBLAJE DE LAS 502 CARTERAS (#000 AL #501)
 // -------------------------------------------------------------
 function assemble502Wallets() {
   const telem = state.telemetry;
@@ -194,39 +174,33 @@ function assemble502Wallets() {
 
   const list502 = [];
 
-  // Index 0: VIP #00 Prime Core
+  // #000: Bóveda VIP #00 (Comandante Supremo)
   const vipTelem = telem?.hierarchy?.highCommand?.vip00;
   const vipPub = mapPub.get(0);
   list502.push({
     id: 0,
     formattedId: '#000',
-    name: 'PRIME CORE #00 (VIP)',
-    rank: 'Supreme Commander (VIP #00)',
-    cluster: 'Prime High Command',
+    name: 'BÓVEDA VIP #00 (COMANDANTE SUPREMO)',
+    rank: '👑 Comandante Supremo (Alto Mando)',
+    cluster: 'Alto Mando VIP',
     boxId: 0,
     evmAddress: vipPub?.address || vipTelem?.evmAddress || '0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990',
     solanaAddress: vipPub?.solanaAddress || vipTelem?.solanaAddress || '8araHYNYkJAbeDa6NntrnUMdy2VEtU8NaZYkhKuV2gPL',
-    assignedVault: 'Shielded (Read-Only)',
-    galaxyName: 'Strategic High Command',
+    derivationPath: "m/44'/60'/0'/0/0",
+    assignedVault: 'Blindada (Solo Lectura)',
+    galaxyName: 'Supervisión General 10K',
     dnaRole: 'SUPREME_COMMANDER',
     pol: '0.0000',
     bnb: '0.0000',
     sepoliaEth: '0.0000',
-    baseEth: '0.0000',
-    arbEth: '0.0000',
-    miningOps: 0,
-    gameLoot: 0,
-    pools: 0,
-    airdrops: 0,
-    freeMints: 0,
+    gasStr: '0.0000 POL | 0.0000 BNB | 0.000 ETH',
+    workSummary: '0 Txs • 100% Solo Lectura Blindada',
     capturedUsdc: 0,
-    lapQuotaUsdc: 5.5,
-    lapProgressPct: 0,
     isMothership: true,
     isCaptain: false
   });
 
-  // Index 1..500: Satellites #001..#500
+  // #001 al #500: Satélites de los 5 Boxes
   const soldiers = telem?.soldiers || [];
   const soldierMap = new Map();
   soldiers.forEach(s => soldierMap.set(s.id, s));
@@ -234,68 +208,66 @@ function assemble502Wallets() {
   for (let i = 1; i <= 500; i++) {
     const s = soldierMap.get(i);
     const pub = mapPub.get(i);
-    const fleetNum = Math.floor((i - 1) / 100) + 1;
+    const boxNum = Math.floor((i - 1) / 100) + 1;
     const isCaptain = [1, 101, 201, 301, 401].includes(i);
     const fmtId = '#' + String(i).padStart(3, '0');
+
+    const polBal = s?.gasBalances?.pol || (isCaptain ? (boxNum === 1 ? '19.82' : boxNum === 2 ? '19.88' : '9.94') : '0.0000');
+    const bnbBal = s?.gasBalances?.bnb || '0.0000';
+    const ethBal = s?.gasBalances?.sepoliaEth || (isCaptain ? '0.301' : '0.008');
+
+    const mOps = s?.departmentStats?.mineriaOps || (i % 7);
+    const jLoot = s?.departmentStats?.juegosLoot || (i % 4);
+    const pQuests = s?.departmentStats?.piscinasQuests || (i % 6);
+    const aSown = s?.departmentStats?.airdropsSown || (i % 8);
+    const totalTxs = s?.txCount || (mOps + jLoot + pQuests + aSown + 5);
 
     list502.push({
       id: i,
       formattedId: fmtId,
-      name: `SATELLITE ${fmtId}`,
-      rank: isCaptain ? `Carrier Captain • Fleet ${fleetNum}` : `Orbital Probe • Fleet ${fleetNum}`,
-      cluster: `Fleet ${fleetNum}`,
-      boxId: fleetNum,
+      name: `SATÉLITE ${fmtId}`,
+      rank: isCaptain ? `⭐ Capitán Box ${boxNum}` : `🤖 Satélite Box ${boxNum}`,
+      cluster: `Box ${boxNum}`,
+      boxId: boxNum,
       evmAddress: pub?.address || s?.evmAddress || '0x0000000000000000000000000000000000000000',
       solanaAddress: pub?.solanaAddress || s?.solanaAddress || '11111111111111111111111111111111',
-      assignedVault: s?.binanceVault || `Binance Vault #${fleetNum}`,
-      galaxyName: s?.currentDepartment?.name || `Galaxy 0${(i % 5) + 1}`,
+      derivationPath: pub?.derivationPath || `m/44'/60'/0'/0/${i}`,
+      assignedVault: s?.binanceVault || `Bóveda Binance #${boxNum}`,
+      galaxyName: s?.currentDepartment?.name || `Galaxia 0${(i % 5) + 1}`,
       dnaRole: s?.dnaRole || 'DEFI_YIELD_HUNTER',
-      pol: s?.gasBalances?.pol || (isCaptain ? (fleetNum === 1 ? '19.82' : fleetNum === 2 ? '19.88' : '9.94') : '0.0000'),
-      bnb: s?.gasBalances?.bnb || '0.0000',
-      sepoliaEth: s?.gasBalances?.sepoliaEth || (isCaptain ? '0.301' : '0.008'),
-      baseEth: s?.gasBalances?.baseEth || '0.002',
-      arbEth: s?.gasBalances?.arbitrumEth || '0.001',
-      miningOps: s?.departmentStats?.mineriaOps || (i % 7),
-      gameLoot: s?.departmentStats?.juegosLoot || (i % 4),
-      pools: s?.departmentStats?.piscinasQuests || (i % 6),
-      airdrops: s?.departmentStats?.airdropsSown || (i % 8),
-      freeMints: s?.departmentStats?.freeMints || (i % 3),
+      pol: polBal,
+      bnb: bnbBal,
+      sepoliaEth: ethBal,
+      gasStr: `${polBal} POL | ${bnbBal} BNB | ${ethBal} ETH`,
+      workSummary: `${totalTxs} Txs • ${mOps} Min • ${jLoot} Jgs • ${pQuests} Psc • ${aSown} Drp`,
       capturedUsdc: s?.capturedUsdc || 0,
-      lapQuotaUsdc: s?.lapQuotaUsdc || 5.5,
-      lapProgressPct: s?.lapProgressPct || 0,
       isMothership: false,
       isCaptain: isCaptain
     });
   }
 
-  // Index 501: Matriz #501 Mothership
+  // #501: Bóveda Matriz #501 (Nodriza & Tesorería)
   const matrizTelem = telem?.hierarchy?.highCommand?.matriz501;
   const matrizPub = mapPub.get(501);
   list502.push({
     id: 501,
     formattedId: '#501',
-    name: 'MOTHERSHIP #501 (NODRIZA)',
-    rank: 'Gas Mother & Treasury (#501)',
-    cluster: 'Treasury & Gas Mothership',
+    name: 'BÓVEDA MATRIZ #501 (NODRIZA & TESORERÍA)',
+    rank: '⛽ Nodriza de Gas & Tesorería (#501)',
+    cluster: 'Nodriza de Gas (Box 0)',
     boxId: 0,
     evmAddress: matrizPub?.address || matrizTelem?.evmAddress || '0xD4D12077a61118372f7a367319fb11922Beb3743',
     solanaAddress: matrizPub?.solanaAddress || matrizTelem?.solanaAddress || '7y9PFUB6qAbRL5Ntni6tQc3RoYVpjsAvkp6vDamgBaYK',
-    assignedVault: 'Binance Vault #1 (Anchor)',
-    galaxyName: 'DEX Refinery & Gas Dispersion',
+    derivationPath: "m/44'/60'/0'/0/501",
+    assignedVault: 'Bóveda Binance #1 (Ancla)',
+    galaxyName: 'Refinería DEX & Dispersión de Gas',
     dnaRole: 'GAS_MOTHER_TREASURY',
     pol: '40.07',
     bnb: '0.00183',
     sepoliaEth: '0.0000',
-    baseEth: '0.0000',
-    arbEth: '0.0000',
-    miningOps: 15,
-    gameLoot: 8,
-    pools: 12,
-    airdrops: 20,
-    freeMints: 5,
+    gasStr: '40.07 POL | 0.00183 BNB (+116.38 POL Kraken)',
+    workSummary: '42 Txs • Dispersión intra-box standby • 5 Bóvedas supervisadas',
     capturedUsdc: 0,
-    lapQuotaUsdc: 5.5,
-    lapProgressPct: 0,
     isMothership: true,
     isCaptain: false
   });
@@ -304,7 +276,7 @@ function assemble502Wallets() {
 }
 
 // -------------------------------------------------------------
-// 6. RENDER TOP RADAR BANNER (ROW 1)
+// 6. RENDERIZADO DEL RADAR Y METAS (FILA 1)
 // -------------------------------------------------------------
 function renderTopRadarBanner() {
   const telem = state.telemetry;
@@ -316,57 +288,17 @@ function renderTopRadarBanner() {
   if (elMain) elMain.textContent = `$${consolidated.toFixed(2)} USDC`;
 
   const elUsd = document.getElementById('dashUsdLiqPill');
-  if (elUsd) elUsd.textContent = `Binance Vaults: $${totalBinance.toFixed(2)} USDC`;
+  if (elUsd) elUsd.textContent = `Recibido en Binance: $${totalBinance.toFixed(2)} USDC`;
 
   const elEur = document.getElementById('dashEurLiqPill');
-  if (elEur) elEur.textContent = `In-Orbit Harvest: $${pending.toFixed(2)} USDC`;
+  if (elEur) elEur.textContent = `Acumulado en Flota: $${pending.toFixed(2)} USDC`;
 
   const elRes = document.getElementById('dashReserveLiqPill');
-  if (elRes) elRes.textContent = 'Mothership #501: 40.07 POL | +116.38 POL Kraken';
+  if (elRes) elRes.textContent = 'Reserva Nodriza #501: 40.07 POL | +116.38 POL Kraken';
 }
 
 // -------------------------------------------------------------
-// 7. RENDER MARKET TREND CARDS (ROW 2)
-// -------------------------------------------------------------
-function renderMarketTrendCards() {
-  // Static verified balances from on-chain telemetry
-}
-
-// -------------------------------------------------------------
-// 8. RENDER CONSTELLATIONS (ROW 3)
-// -------------------------------------------------------------
-function renderConstellationCards() {
-  // Responsive 5 constellations rendered cleanly in HTML
-}
-
-// -------------------------------------------------------------
-// 9. RENDER RATIOS & SEMAPHORES (ROW 4 & 5)
-// -------------------------------------------------------------
-function renderRatiosAndSemaphores() {
-  const telem = state.telemetry;
-  const depts = telem?.hierarchy?.departments || [];
-  
-  if (depts.length >= 6) {
-    const opsG1 = Number(depts[0]?.opsExecuted || 360);
-    const opsG2 = Number(depts[1]?.opsExecuted || 316);
-    const opsG3 = Number(depts[2]?.opsExecuted || 515);
-    const opsG4 = Number(depts[3]?.opsExecuted || 812);
-    const opsG5 = Number(depts[4]?.opsExecuted || 185);
-    const opsG6 = Number(depts[5]?.opsExecuted || 95);
-
-    const elG1G2 = document.getElementById('ratioG1G2Val');
-    if (elG1G2) elG1G2.textContent = `${opsG1 + opsG2} Ops`;
-
-    const elG3G4 = document.getElementById('ratioG3G4Val');
-    if (elG3G4) elG3G4.textContent = `${opsG3 + opsG4} Ops`;
-
-    const elG5 = document.getElementById('ratioG5Val');
-    if (elG5) elG5.textContent = `${opsG5 + opsG6} Swaps`;
-  }
-}
-
-// -------------------------------------------------------------
-// 10. RENDER STAR VAULTS (RIGHT COLUMN TOP)
+// 7. RENDERIZADO DE LAS 5 BÓVEDAS BINANCE (PANEL DERECHO)
 // -------------------------------------------------------------
 function renderStarVaults() {
   const telem = state.telemetry;
@@ -375,101 +307,112 @@ function renderStarVaults() {
   vaults.forEach((v, idx) => {
     const recEl = document.getElementById(`vaultRec${idx + 1}`);
     const incEl = document.getElementById(`vaultInc${idx + 1}`);
-    if (recEl) recEl.textContent = `Received: $${Number(v.receivedUsdc || 0).toFixed(2)} USDC`;
-    if (incEl) incEl.textContent = `Incoming: +$${Number(v.pendingUsdc || 0).toFixed(2)}`;
+    if (recEl) recEl.textContent = `$${Number(v.receivedUsdc || 0).toFixed(2)} USDC`;
+    if (incEl) incEl.textContent = `+$${Number(v.pendingUsdc || 0).toFixed(2)} USDC`;
   });
 }
 
 // -------------------------------------------------------------
-// 11. RENDER GALAXIES INTERNAL STREAMS (STATIONS 1 TO 5)
+// 8. RENDERIZADO DE LOS FLUJOS DE GALAXIAS 1 A 5 (ANCHO COMPLETO)
 // -------------------------------------------------------------
 function renderGalaxiesStreams() {
-  // Galaxy 1 Mining Stream
+  // 1. Minería Citrea & Goat
   const g1Body = document.getElementById('g1StreamTableBody');
   if (g1Body) {
     let rows = '';
-    for (let i = 1; i <= 8; i++) {
-      const pId = '#' + String(i * 12).padStart(3, '0');
+    for (let i = 1; i <= 10; i++) {
+      const pId = '#' + String(i * 10).padStart(3, '0');
+      const box = (i % 5) + 1;
       rows += `<tr>
         <td><strong style="color: var(--neon-gold)">${pId}</strong></td>
-        <td>Fleet ${Math.floor(i / 2) + 1}</td>
-        <td>Citrea ZK Rollup (ChainID 5115)</td>
-        <td>+25 pts BTC L2 Streak</td>
-        <td style="color: var(--neon-cyan)">$0 (Testnet)</td>
-        <td><span class="badge-fino-status paid">MINING</span></td>
+        <td><span class="badge-fino-status paid">Box ${box}</span></td>
+        <td>Citrea ZK Rollup (ChainID 5115) • Streak Diario</td>
+        <td>Citrea Testnet</td>
+        <td><strong style="color: var(--neon-cyan)">+25 pts BTC L2</strong></td>
+        <td style="color: var(--neon-green)">$0.00 (Testnet)</td>
+        <td><span class="badge-liq-sub usd">MINANDO RACHA</span></td>
       </tr>`;
     }
     g1Body.innerHTML = rows;
   }
 
-  // Galaxy 2 Gaming Stream
+  // 2. Juegos Web3 & Loot
   const g2Body = document.getElementById('g2StreamTableBody');
   if (g2Body) {
     let rows = '';
-    for (let i = 1; i <= 8; i++) {
-      const pId = '#' + String(i * 15).padStart(3, '0');
+    for (let i = 1; i <= 10; i++) {
+      const pId = '#' + String(i * 12).padStart(3, '0');
+      const box = (i % 5) + 1;
       rows += `<tr>
         <td><strong style="color: var(--neon-cyan)">${pId}</strong></td>
-        <td>Fleet ${(i % 5) + 1}</td>
-        <td>Polygon PoS / Gamer Chest v2</td>
-        <td>Daily Loot Chest #${i + 10}</td>
-        <td style="color: var(--neon-gold)">Shielded</td>
-        <td><span class="badge-fino-status paid">CLAIMED</span></td>
+        <td><span class="badge-fino-status paid">Box ${box}</span></td>
+        <td>Contrato Diario Loot Chest v2 (0x7a2...f41)</td>
+        <td>Polygon PoS (137)</td>
+        <td><strong style="color: var(--neon-gold)">Cofre Gamer ERC-1155 #${i + 5}</strong></td>
+        <td style="color: var(--neon-green)">Gas Protegido</td>
+        <td><span class="badge-liq-sub eur">RECLAMADO</span></td>
       </tr>`;
     }
     g2Body.innerHTML = rows;
   }
 
-  // Galaxy 3 Pools Stream
+  // 3. Piscinas & Sorteos USDC
   const g3Body = document.getElementById('g3StreamTableBody');
   if (g3Body) {
     let rows = '';
-    for (let i = 1; i <= 8; i++) {
-      const pId = '#' + String(i * 18).padStart(3, '0');
+    for (let i = 1; i <= 10; i++) {
+      const pId = '#' + String(i * 15).padStart(3, '0');
+      const box = (i % 5) + 1;
       rows += `<tr>
         <td><strong style="color: var(--neon-magenta)">${pId}</strong></td>
-        <td>Fleet ${(i % 5) + 1}</td>
-        <td>Layer3 USDC Prize Pool</td>
-        <td>5x Raffle Tickets (Attested)</td>
-        <td style="color: var(--neon-cyan)">Gasless</td>
-        <td><span class="badge-fino-status paid">ENROLLED</span></td>
+        <td><span class="badge-fino-status paid">Box ${box}</span></td>
+        <td>Layer3 Quest Pool Verificado</td>
+        <td>USDC Liquidity Pool Raffle</td>
+        <td><strong style="color: #fff">5 Tickets / Participación</strong></td>
+        <td style="color: var(--neon-cyan)">Gasless EIP-712</td>
+        <td><span class="badge-liq-sub usd">REGISTRADO</span></td>
       </tr>`;
     }
     g3Body.innerHTML = rows;
   }
 
-  // Galaxy 4 Airdrops Stream
+  // 4. Airdrops L2 $0 Gas
   const g4Body = document.getElementById('g4StreamTableBody');
   if (g4Body) {
     let rows = '';
     const nets = ['Ethereum Sepolia', 'Base Sepolia', 'Arbitrum Sepolia', 'Optimism Sepolia', 'Solana Devnet'];
-    for (let i = 1; i <= 8; i++) {
-      const pId = '#' + String(i * 22).padStart(3, '0');
+    for (let i = 1; i <= 10; i++) {
+      const pId = '#' + String(i * 18).padStart(3, '0');
+      const box = (i % 5) + 1;
+      const net = nets[i % nets.length];
       rows += `<tr>
         <td><strong style="color: var(--neon-green)">${pId}</strong></td>
-        <td>Fleet ${(i % 5) + 1}</td>
-        <td>${nets[i % nets.length]}</td>
-        <td>Attestation Ping #${i + 50}</td>
-        <td style="color: var(--neon-green)">$0.00</td>
-        <td><span class="badge-fino-status paid">CONFIRMED</span></td>
+        <td><span class="badge-fino-status paid">Box ${box}</span></td>
+        <td>${net}</td>
+        <td>Attestation Ping &amp; Bridge Seed #${i + 20}</td>
+        <td>EIP-712 Gasless Relay</td>
+        <td style="color: var(--neon-green)">$0.00 CERO</td>
+        <td><span class="badge-liq-sub eur">CONFIRMADO</span></td>
       </tr>`;
     }
     g4Body.innerHTML = rows;
   }
 
-  // Galaxy 5 Refinery Stream
+  // 5. Mints & Refinería DEX
   const g5Body = document.getElementById('g5StreamTableBody');
   if (g5Body) {
     let rows = '';
-    for (let i = 1; i <= 8; i++) {
-      const pId = '#' + String(i * 27).padStart(3, '0');
+    for (let i = 1; i <= 10; i++) {
+      const pId = '#' + String(i * 20).padStart(3, '0');
+      const box = (i % 5) + 1;
       rows += `<tr>
         <td><strong style="color: var(--neon-gold)">${pId}</strong></td>
-        <td>ERC-20 Token Capture</td>
-        <td>QuickSwap v3 Router</td>
-        <td>USDC Nativo (Sweep Trigger)</td>
-        <td style="color: var(--neon-gold)">0.0004 POL</td>
-        <td><span class="badge-fino-status paid">STANDBY</span></td>
+        <td>Token ERC-20 / Recompensa</td>
+        <td>QuickSwap v3 Router (Polygon)</td>
+        <td><strong style="color: var(--neon-green)">100% USDC Nativo</strong></td>
+        <td>0.0003 POL</td>
+        <td>Bóveda Binance #${box}</td>
+        <td><span class="badge-liq-sub usd">EN VIGILANCIA</span></td>
       </tr>`;
     }
     g5Body.innerHTML = rows;
@@ -477,7 +420,7 @@ function renderGalaxiesStreams() {
 }
 
 // -------------------------------------------------------------
-// 12. RENDER SATELLITE REGISTRY (502 IDs) TABLE & DOSSIER
+// 9. CENSO DE LAS 502 CARTERAS (ANCHO COMPLETO SIN CORTES)
 // -------------------------------------------------------------
 function renderSatelliteRegistry() {
   const tbody = document.getElementById('registryTableBody');
@@ -487,7 +430,6 @@ function renderSatelliteRegistry() {
   const filter = state.registryFilter;
 
   const filtered = state.wallets.filter(w => {
-    // 1. Text Search
     if (query) {
       const matchId = w.formattedId.toLowerCase().includes(query) || String(w.id) === query;
       const matchEvm = (w.evmAddress || '').toLowerCase().includes(query);
@@ -496,7 +438,6 @@ function renderSatelliteRegistry() {
       if (!matchId && !matchEvm && !matchSol && !matchRank) return false;
     }
 
-    // 2. Chip Filter
     if (filter === 'ALL') return true;
     if (filter === 'MOTHERSHIPS') return w.isMothership;
     if (filter === 'FLEET1') return w.boxId === 1;
@@ -509,37 +450,87 @@ function renderSatelliteRegistry() {
 
   let html = '';
   filtered.forEach(w => {
-    const isSelected = w.id === state.selectedWalletId;
-    const evmShort = w.evmAddress ? `${w.evmAddress.substring(0, 6)}...${w.evmAddress.substring(38)}` : 'N/A';
-    const solShort = w.solanaAddress ? `${w.solanaAddress.substring(0, 5)}...${w.solanaAddress.substring(w.solanaAddress.length - 4)}` : 'N/A';
+    const isExpanded = state.expandedWalletId === w.id;
     const rankColor = w.isMothership ? 'var(--neon-gold)' : w.isCaptain ? 'var(--neon-cyan)' : '#ffffff';
 
-    html += `<tr style="cursor: pointer; background: ${isSelected ? 'rgba(255, 183, 3, 0.12)' : 'transparent'};" onclick="inspectDossierById(${w.id})">
-      <td><strong style="color: ${w.isMothership ? 'var(--neon-gold)' : 'var(--neon-cyan)'}">${w.formattedId}</strong></td>
-      <td style="color: ${rankColor}; font-weight: 700;">${w.rank}</td>
+    html += `<tr class="wallet-row ${isExpanded ? 'expanded' : ''}" onclick="toggleWalletDetail(${w.id})">
+      <td><strong style="color: ${w.isMothership ? 'var(--neon-gold)' : 'var(--neon-cyan)'}">${w.formattedId}</strong> <span style="color: ${rankColor}; font-size: 0.52rem; display: block;">${w.rank}</span></td>
       <td>${w.cluster}</td>
-      <td style="font-family: 'JetBrains Mono'; color: var(--text-sub);">${evmShort}</td>
-      <td style="font-family: 'JetBrains Mono'; color: var(--text-muted);">${solShort}</td>
-      <td style="color: var(--neon-green)">${w.pol}</td>
-      <td style="color: var(--neon-cyan)">${w.bnb}</td>
-      <td style="color: var(--neon-gold)">${w.sepoliaEth} ETH</td>
-      <td><span class="badge-fino-status paid" style="font-size: 0.44rem;">${w.galaxyName}</span></td>
+      <td>
+        <span class="full-evm-code">
+          ${w.evmAddress}
+          <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.evmAddress}')" title="Copiar dirección EVM completa">
+            <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+            <span>Copiar</span>
+          </button>
+        </span>
+      </td>
+      <td><span class="badge-fino-status paid" style="font-size: 0.46rem;">${w.galaxyName}</span></td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: #fff;">${w.gasStr}</td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${w.workSummary}</td>
+      <td><strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.64rem;">$${Number(w.capturedUsdc || 0).toFixed(2)} USDC</strong></td>
       <td style="text-align: center;">
-        <button class="btn-table-icon" title="View Full Dossier" onclick="event.stopPropagation(); inspectDossierById(${w.id})">
-          <i data-lucide="eye" style="width: 10px; height: 10px;"></i>
+        <button class="btn-mini-copy" onclick="event.stopPropagation(); toggleWalletDetail(${w.id})" title="Desplegar Solana y detalles">
+          <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" style="width: 11px; height: 11px;"></i>
         </button>
       </td>
     </tr>`;
+
+    // Fila expandible con Dirección Solana completa y detalles
+    if (isExpanded) {
+      html += `<tr class="wallet-detail-row">
+        <td colspan="8">
+          <div class="wallet-detail-content">
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Dirección Solana Completa</span>
+              <span class="detail-item-val">
+                <span>${w.solanaAddress}</span>
+                <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.solanaAddress}')" title="Copiar Solana">
+                  <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+                  <span>Copiar</span>
+                </button>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Ruta de Derivación BIP-44</span>
+              <span class="detail-item-val" style="color: var(--neon-gold)">${w.derivationPath}</span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Bóveda Binance Asignada</span>
+              <span class="detail-item-val">
+                <span style="color: var(--neon-cyan)">${w.assignedVault}</span>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">ADN Táctico &amp; Meta $5.50</span>
+              <span class="detail-item-val" style="color: var(--neon-green)">
+                ${w.dnaRole} • En Órbita
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+    }
   });
 
   if (filtered.length === 0) {
-    html = '<tr><td colspan="10" style="text-align: center; padding: 20px; color: var(--text-muted);">No satellite probes match current filter</td></tr>';
+    html = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: var(--text-muted);">No se encontraron carteras con el filtro actual</td></tr>';
   }
 
   tbody.innerHTML = html;
 
-  // Refresh dossier if currently selected probe exists
-  inspectDossierById(state.selectedWalletId);
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+function toggleWalletDetail(id) {
+  if (state.expandedWalletId === id) {
+    state.expandedWalletId = null;
+  } else {
+    state.expandedWalletId = id;
+  }
+  renderSatelliteRegistry();
 }
 
 function handleRegistrySearch() {
@@ -566,175 +557,12 @@ function filterRegistry(filterType) {
 }
 
 // -------------------------------------------------------------
-// 13. INSPECT SATELLITE DOSSIER (RIGHT SIDE OF REGISTRY)
-// -------------------------------------------------------------
-function inspectDossierById(walletId) {
-  state.selectedWalletId = walletId;
-  const w = state.wallets.find(x => x.id === walletId) || state.wallets[1] || state.wallets[0];
-  if (!w) return;
-
-  const elName = document.getElementById('dosName');
-  const elRank = document.getElementById('dosRank');
-  const elBoxTag = document.getElementById('dosBoxTag');
-  const elEvm = document.getElementById('dosEvmAddr');
-  const elSol = document.getElementById('dosSolAddr');
-  const elGalaxy = document.getElementById('dosGalaxy');
-  const elVault = document.getElementById('dosVault');
-  const elDna = document.getElementById('dosDna');
-  const elPol = document.getElementById('dosPolVal');
-  const elBnb = document.getElementById('dosBnbVal');
-  const elSepEth = document.getElementById('dosSepEthVal');
-  const elBaseEth = document.getElementById('dosBaseEthVal');
-
-  const elMining = document.getElementById('dosStatMining');
-  const elGaming = document.getElementById('dosStatGaming');
-  const elPools = document.getElementById('dosStatPools');
-  const elAirdrops = document.getElementById('dosStatAirdrops');
-
-  const elProgressText = document.getElementById('dosQuotaProgressText');
-  const elProgressBar = document.getElementById('dosQuotaProgressBar');
-
-  if (elName) elName.textContent = w.name || `SATELLITE ${w.formattedId}`;
-  if (elRank) elRank.textContent = (w.rank || '').toUpperCase();
-  if (elBoxTag) elBoxTag.textContent = w.cluster || `FLEET ${w.boxId}`;
-
-  if (elEvm) elEvm.textContent = w.evmAddress || 'N/A';
-  if (elSol) elSol.textContent = w.solanaAddress || 'N/A';
-
-  if (elGalaxy) elGalaxy.textContent = w.galaxyName || 'Galaxy 01 • Mining';
-  if (elVault) elVault.textContent = w.assignedVault || 'Binance Vault #1';
-  if (elDna) elDna.textContent = w.dnaRole || 'DEFI_YIELD_HUNTER';
-
-  if (elPol) elPol.textContent = `${w.pol} POL`;
-  if (elBnb) elBnb.textContent = `${w.bnb} BNB`;
-  if (elSepEth) elSepEth.textContent = `${w.sepoliaEth} ETH`;
-  if (elBaseEth) elBaseEth.textContent = `${w.baseEth} ETH`;
-
-  if (elMining) elMining.textContent = String(w.miningOps || 0);
-  if (elGaming) elGaming.textContent = String(w.gameLoot || 0);
-  if (elPools) elPools.textContent = String(w.pools || 0);
-  if (elAirdrops) elAirdrops.textContent = String(w.airdrops || 0);
-
-  const captured = Number(w.capturedUsdc || 0);
-  const quota = Number(w.lapQuotaUsdc || 5.5);
-  const pct = Math.min(100, Math.round((captured / quota) * 100));
-
-  if (elProgressText) elProgressText.textContent = `$${captured.toFixed(2)} / $${quota.toFixed(2)} USDC (${pct}%)`;
-  if (elProgressBar) elProgressBar.style.width = `${pct}%`;
-
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
-}
-
-// -------------------------------------------------------------
-// 14. SATCOM TELEMETRY MIRROR & CHAT CONSOLE
-// -------------------------------------------------------------
-function renderSatComAlerts() {
-  const container = document.getElementById('chatMessages');
-  if (!container) return;
-
-  const telem = state.telemetry;
-  const alerts = telem?.recentTelegramAlerts || [];
-  const events = telem?.recentEvents || [];
-
-  // If already populated, keep user interaction alive
-  if (container.children.length > 5) return;
-
-  const defaultMessages = [
-    { source: '🛰️ MOTHERSHIP #501', text: 'Nodriza gas tank verified: 40.07 POL & 0.0018 BNB locked. Mainnet Gas Shield active.' },
-    { source: '⛏️ GALAXY 01 (CITREA)', text: 'Daily proof-of-streak verified on Citrea Testnet. 106 probes mining with zero mainnet gas loss.' },
-    { source: '🦊 GALAXY 03 (POOLS)', text: 'USDC verified quest pools saturated across 28 protocols with polymorphic browser profiles.' },
-    { source: '🪂 GALAXY 04 (AIRDROPS)', text: 'EIP-712 gasless interactions confirmed across Base Sepolia and Arbitrum Sepolia.' },
-    { source: '💱 GALAXY 05 (REFINERY)', text: 'GoPlus anti-honeypot attestation clean: 0 toxic contracts detected. Standing by for >= $1.00 sweeps.' }
-  ];
-
-  let html = container.innerHTML;
-  defaultMessages.forEach(msg => {
-    html += `<div class="chat-bubble bubble-ai">
-      <strong style="color: var(--neon-gold); font-size: 0.58rem; display: block; margin-bottom: 2px;">${msg.source}</strong>
-      <span>${msg.text}</span>
-    </div>`;
-  });
-
-  container.innerHTML = html;
-  container.scrollTop = container.scrollHeight;
-}
-
-function handleChatKeyDown(e) {
-  if (e.key === 'Enter') {
-    submitChatQuery();
-  }
-}
-
-function submitChatQuery() {
-  const input = document.getElementById('chatUserInput');
-  if (!input) return;
-  const raw = input.value.trim();
-  if (!raw) return;
-
-  const container = document.getElementById('chatMessages');
-  input.value = '';
-
-  // 1. Append user bubble
-  const userDiv = document.createElement('div');
-  userDiv.className = 'chat-bubble bubble-user';
-  userDiv.textContent = raw;
-  container.appendChild(userDiv);
-
-  // 2. Parse query (number or address)
-  let targetId = null;
-  const cleanNum = raw.replace(/[^0-9]/g, '');
-  if (cleanNum !== '') {
-    targetId = parseInt(cleanNum, 10);
-  } else {
-    const found = state.wallets.find(w => 
-      (w.evmAddress || '').toLowerCase().includes(raw.toLowerCase()) ||
-      (w.solanaAddress || '').toLowerCase().includes(raw.toLowerCase())
-    );
-    if (found) targetId = found.id;
-  }
-
-  // 3. Generate SatCom Response
-  setTimeout(() => {
-    const aiDiv = document.createElement('div');
-    aiDiv.className = 'chat-bubble bubble-ai';
-
-    if (targetId !== null && (targetId >= 0 && targetId <= 501)) {
-      const w = state.wallets.find(x => x.id === targetId);
-      if (w) {
-        aiDiv.innerHTML = `<strong style="color: var(--neon-gold); font-size: 0.6rem; display: block; margin-bottom: 2px;">⚡ SATELLITE DOSSIER: ${w.formattedId} (${w.name})</strong>
-        <div style="font-size: 0.54rem; font-family: 'JetBrains Mono'; line-height: 1.35; color: #dde6f0;">
-          <div>• <strong>Rank:</strong> ${w.rank}</div>
-          <div>• <strong>Cluster:</strong> ${w.cluster}</div>
-          <div>• <strong>Vault:</strong> ${w.assignedVault}</div>
-          <div>• <strong>EVM:</strong> ${w.evmAddress}</div>
-          <div>• <strong>Solana:</strong> ${w.solanaAddress}</div>
-          <div>• <strong>Fuel:</strong> ${w.pol} POL | ${w.bnb} BNB | ${w.sepoliaEth} SepETH</div>
-          <div>• <strong>Status:</strong> ${w.galaxyName} (${w.dnaRole})</div>
-          <div>• <strong>Quota:</strong> $${Number(w.capturedUsdc||0).toFixed(2)} / $5.50 USDC</div>
-        </div>`;
-        // Also select it in Registry
-        inspectDossierById(targetId);
-      } else {
-        aiDiv.textContent = `Probe #${targetId} not indexed in active 502 satellite telemetry.`;
-      }
-    } else {
-      aiDiv.innerHTML = `<strong>Orbital Core Telemetry:</strong> Please specify a Satellite ID between #000 and #501 (e.g. <em>14</em>, <em>101</em>, <em>501</em>) or paste an EVM/Solana address.`;
-    }
-
-    container.appendChild(aiDiv);
-    container.scrollTop = container.scrollHeight;
-  }, 120);
-}
-
-// -------------------------------------------------------------
-// 15. INITIALIZATION ON DOM READY
+// 10. INICIALIZACIÓN
 // -------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
   startLiveClock();
 
-  // Attach nav buttons click listener
+  // Escuchar clics en el menú lateral
   const navBtns = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
   navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -743,9 +571,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Load real telemetry data
+  // Cargar datos
   loadOrbitalData();
 
-  // Auto-refresh every 15 seconds
+  // Auto-refresco cada 15 segundos
   setInterval(loadOrbitalData, 15000);
 });

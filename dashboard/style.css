@@ -2088,3 +2088,237 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+
+/* ==========================================================================
+   REORGANIZACIÓN LIMPIA DE TELEMETRÍA EN ESPAÑOL (ANCHO COMPLETO + BÓVEDAS BINANCE)
+   ========================================================================== */
+
+/* Mesa de trabajo central a ancho completo (sin columnas laterales) */
+.full-width-panel {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  overflow: hidden !important;
+}
+
+.full-width-ledger {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  padding: 8px 10px !important;
+  border-radius: 8px !important;
+  background: rgba(14, 19, 32, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  overflow: hidden !important;
+}
+
+/* Tabla completa de 502 carteras */
+.fino-table-wide {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 0.62rem !important;
+  text-align: left !important;
+}
+.fino-table-wide th {
+  padding: 6px 8px !important;
+  background: rgba(13, 17, 23, 0.98) !important;
+  color: var(--neon-gold) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  font-size: 0.54rem !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 5 !important;
+  border-bottom: 1.5px solid rgba(255, 183, 3, 0.3) !important;
+  font-family: "JetBrains Mono", monospace !important;
+  white-space: nowrap !important;
+}
+.fino-table-wide td {
+  padding: 6px 8px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  color: var(--text-sub) !important;
+  vertical-align: middle !important;
+}
+.fino-table-wide tr.wallet-row {
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+}
+.fino-table-wide tr.wallet-row:hover {
+  background: rgba(255, 183, 3, 0.08) !important;
+}
+.fino-table-wide tr.wallet-row.expanded {
+  background: rgba(255, 183, 3, 0.14) !important;
+}
+
+/* Fila de detalle expandible */
+.wallet-detail-row {
+  background: rgba(9, 13, 22, 0.95) !important;
+  border-bottom: 1.5px solid var(--neon-gold) !important;
+}
+.wallet-detail-content {
+  padding: 8px 12px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 0.54rem !important;
+}
+.detail-item-box {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  padding: 5px 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+.detail-item-lbl {
+  color: var(--neon-cyan) !important;
+  font-size: 0.44rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+}
+.detail-item-val {
+  color: #ffffff !important;
+  word-break: break-all !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+}
+
+/* Código EVM Completo (42 caracteres sin ...) */
+.full-evm-code {
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 0.56rem !important;
+  color: #ffffff !important;
+  letter-spacing: 0.2px !important;
+  user-select: all !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+/* Panel Derecho: 5 Bóvedas Receptoras de Binance */
+.binance-vaults-panel {
+  padding: 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  gap: 8px !important;
+  overflow: hidden !important;
+}
+.binance-vaults-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 6px !important;
+  border-bottom: 1.5px solid rgba(255, 183, 3, 0.35) !important;
+  flex-shrink: 0 !important;
+}
+.binance-vaults-list {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  flex: 1 !important;
+  gap: 8px !important;
+  overflow-y: auto !important;
+  padding-right: 2px !important;
+}
+.binance-vault-card {
+  background: linear-gradient(145deg, rgba(14, 19, 32, 0.95) 0%, rgba(8, 12, 22, 0.98) 100%) !important;
+  border: 1.2px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 2px solid var(--neon-gold) !important;
+  border-right: 1.5px solid var(--neon-cyan) !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+  transition: all 0.2s ease !important;
+}
+.binance-vault-card:hover {
+  background: rgba(20, 28, 48, 0.98) !important;
+  border-color: var(--neon-gold) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 183, 3, 0.25) !important;
+}
+.vault-top-meta {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.vault-tag-title {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.62rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+.vault-cluster-tag {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.46rem !important;
+  font-weight: 700 !important;
+  color: var(--neon-cyan) !important;
+  background: rgba(33, 199, 205, 0.12) !important;
+  border: 1px solid rgba(33, 199, 205, 0.3) !important;
+  padding: 1px 5px !important;
+  border-radius: 3px !important;
+}
+.vault-full-address-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  padding: 3px 6px !important;
+  border-radius: 5px !important;
+}
+.vault-full-address-mono {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.52rem !important;
+  color: #ffffff !important;
+  letter-spacing: 0.2px !important;
+  word-break: break-all !important;
+  user-select: all !important;
+}
+.vault-metrics-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 6px !important;
+  background: rgba(0, 0, 0, 0.35) !important;
+  border-radius: 5px !important;
+  padding: 4px 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+.vault-metric-box {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.vault-metric-label {
+  font-size: 0.44rem !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  color: var(--text-muted) !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+}
+.vault-metric-val {
+  font-size: 0.7rem !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 800 !important;
+}
+.vault-metric-val.green {
+  color: var(--neon-green) !important;
+}
+.vault-metric-val.gold {
+  color: var(--neon-gold) !important;
+}
