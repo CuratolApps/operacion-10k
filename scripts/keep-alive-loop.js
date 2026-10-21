@@ -45,6 +45,9 @@ async function executeFullCycle(cycleNumber) {
   // 3. Bot Miner Swarm (Minería On-Chain, Firmas Gasless, Granja Bitcoin L2 & Vigía 501)
   runCommand("node bot-miner-swarm.js", "Bot Miner Swarm");
 
+  // 3.5. Motor Lomo 4: ROI Gas $50, Velocímetro $5.50/bot & Bounties Mainnet
+  runCommand("node bounty-and-quota-engine.js", "Bounty & Quota Engine (Lomo 4)");
+
   // 4. Escaneo de Cosechas (Embudo USDC a Binance)
   runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
 

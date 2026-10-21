@@ -223,6 +223,27 @@ async function notifyRoundSummary(summaryData) {
       gaslessQuestsSigned: 185,
       defiAndMintsExecuted: 150
     };
+
+    let lomo4Metrics = {
+      roiTracker: {
+        initialGasInvestmentUsd: 50.00,
+        totalRecoveredUsdc: 0.00,
+        roiPercentage: "0.00",
+        breakEvenRemainingUsd: "50.00",
+        krakenReloadReady: "116.38 POL + 0.02006 BNB (Hold 72h)"
+      },
+      lapSpeedometer: {
+        lapQuotaPerBotUsdc: 5.50,
+        fullFleetLapTargetUsdc: 2750.00,
+        totalCompletedBotLaps: 0,
+        activeBotsInLap1: 500
+      },
+      mainnetBountyRadar: {
+        bscActiveTargets: 4,
+        polygonActiveTargets: 4
+      }
+    };
+
     try {
       if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
         const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
@@ -238,6 +259,9 @@ async function notifyRoundSummary(summaryData) {
         if (tel.bitcoinL2Stats) {
           bitcoinL2Stats = tel.bitcoinL2Stats;
         }
+        if (tel.lomo4Metrics) {
+          lomo4Metrics = tel.lomo4Metrics;
+        }
       }
     } catch (_) {}
 
@@ -249,6 +273,13 @@ async function notifyRoundSummary(summaryData) {
     const totalBtcOps = (bitcoinL2Stats.citreaOps || 0) + (bitcoinL2Stats.goatOps || 0);
     const totalBtcPoints = bitcoinL2Stats.totalBtcL2Points || 0;
     const gaslessAndDefiOps = (hunterStats.gaslessQuestsSigned || 0) + (hunterStats.defiAndMintsExecuted || 0);
+
+    const lomo4Roi = lomo4Metrics.roiTracker || {};
+    const lomo4Lap = lomo4Metrics.lapSpeedometer || {};
+    const recoveredUsdc = Number(lomo4Roi.totalRecoveredUsdc || 0).toFixed(2);
+    const roiPct = lomo4Roi.roiPercentage || "0.00";
+    const breakEven = lomo4Roi.breakEvenRemainingUsd || "50.00";
+    const completedLaps = lomo4Lap.totalCompletedBotLaps || 0;
 
     const text = `
 🚀 <b>OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS</b>
@@ -265,6 +296,14 @@ ${modeBadge}
    • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $${floatingUsdc} USDC
    • <b>Consolidado en Binance Spot (Meta 12K):</b> $${consolidatedUsdc} USDC
    • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)
+
+📈 <b>MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):</b>
+   • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)
+   • <b>Recuperado (ROI):</b> $${recoveredUsdc} / $50.00 USDC (${roiPct}% | Break-Even: -$${breakEven})
+   • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB
+   • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)
+   • <b>Vueltas Completadas:</b> ${completedLaps} / 500 (500 bots corriendo Vuelta #1 sin freno)
+   • <b>Radar Bounties Mainnet (BSC + Polygon):</b> 🟢 8 objetivos activos en caza
 
 🔨 <b>CHAMBA DE ESTA RONDA:</b>
    • <b>Box en Turno:</b> ${boxName}

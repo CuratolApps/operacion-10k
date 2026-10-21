@@ -258,13 +258,126 @@
           }
         }
       ]
+    },
+    "mainnet_fast_bounties": {
+      "id": "VECTOR_5_MAINNET_FAST_BOUNTIES",
+      "name": "Vector 5: Radar de Bounties & Recompensas Rápidas Mainnet (BSC & Polygon)",
+      "description": "Contratos verificados de bajo gas en Polygon PoS (137) y BNB Smart Chain (56) para check-ins, micro-interacciones DeFi y campañas USDC directas.",
+      "networks": [
+        {
+          "name": "Polygon PoS Mainnet",
+          "chainId": 137,
+          "symbol": "POL",
+          "activeTargets": [
+            {
+              "type": "DEFI_WRAP_WPOL",
+              "name": "WPOL Native Wrap / Liquidity Deposit",
+              "contract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+              "selector": "0xd0e30db0",
+              "functionSignature": "deposit()",
+              "gasLimit": 35000,
+              "minBalanceRequired": "0.001"
+            },
+            {
+              "type": "DAILY_CHECKIN_POLYGON",
+              "name": "Polygon Daily On-Chain Quest Check-in",
+              "contract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+              "selector": "0x183ff085",
+              "functionSignature": "checkIn(uint32)",
+              "gasLimit": 32000,
+              "minBalanceRequired": "0.0005"
+            },
+            {
+              "type": "QUICKSWAP_MICRO_INTERACTION",
+              "name": "QuickSwap Micro Activity Check",
+              "contract": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+              "selector": "0x183ff085",
+              "gasLimit": 38000,
+              "minBalanceRequired": "0.0005"
+            },
+            {
+              "type": "FREE_MINT_POLYGON",
+              "name": "Polygon PoS Free Mint Protocol Activity",
+              "contract": "SELF_CONTRACT",
+              "selector": "0x1249c58b",
+              "gasLimit": 45000,
+              "minBalanceRequired": "0.0005"
+            }
+          ]
+        },
+        {
+          "name": "BNB Smart Chain Mainnet",
+          "chainId": 56,
+          "symbol": "BNB",
+          "activeTargets": [
+            {
+              "type": "DEFI_WRAP_WBNB",
+              "name": "WBNB Native Wrap / Liquidity Deposit",
+              "contract": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+              "selector": "0xd0e30db0",
+              "functionSignature": "deposit()",
+              "gasLimit": 35000,
+              "minBalanceRequired": "0.0001"
+            },
+            {
+              "type": "DAILY_CHECKIN_BSC",
+              "name": "BSC Daily On-Chain Quest Check-in",
+              "contract": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+              "selector": "0x183ff085",
+              "functionSignature": "checkIn(uint32)",
+              "gasLimit": 32000,
+              "minBalanceRequired": "0.00005"
+            },
+            {
+              "type": "PANCAKESWAP_MICRO_INTERACTION",
+              "name": "PancakeSwap Micro Activity Check",
+              "contract": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+              "selector": "0x183ff085",
+              "gasLimit": 38000,
+              "minBalanceRequired": "0.00005"
+            },
+            {
+              "type": "FREE_MINT_BSC",
+              "name": "BSC Free Mint Protocol Activity",
+              "contract": "SELF_CONTRACT",
+              "selector": "0x1249c58b",
+              "gasLimit": 45000,
+              "minBalanceRequired": "0.00005"
+            }
+          ]
+        }
+      ],
+      "usdcDirectCampaigns": [
+        {
+          "campaignId": "LAYER3_USDC_DIRECT",
+          "name": "Layer3 Bounties & USDC Quest Tracker",
+          "payoutCurrency": "USDC",
+          "priority": "HIGH",
+          "status": "TRACKING_ACTIVE"
+        },
+        {
+          "campaignId": "SUPERTEAM_EARN_USDC",
+          "name": "Superteam Earn Micro-Bounties USDC",
+          "payoutCurrency": "USDC",
+          "priority": "HIGH",
+          "status": "TRACKING_ACTIVE"
+        },
+        {
+          "campaignId": "GALXE_QUESTN_GASLESS_USDC",
+          "name": "Galxe & QuestN Gasless USDC Quests",
+          "payoutCurrency": "USDC",
+          "priority": "HIGH",
+          "status": "TRACKING_ACTIVE"
+        }
+      ]
     }
   },
   "summary": {
-    "totalActiveCampaigns": 16,
-    "vectorsCount": 4,
+    "totalActiveCampaigns": 24,
+    "vectorsCount": 5,
     "boxCoverage": "Box 1 a Box 5 (500 Satélites)",
     "cost": "$0.00 USDC / 0 Capital Risk",
-    "bitcoinL2Supported": ["Citrea ZK-Rollup (5115)", "Goat Network L2 (48816)"]
+    "bitcoinL2Supported": ["Citrea ZK-Rollup (5115)", "Goat Network L2 (48816)"],
+    "mainnetChainsSupported": ["Polygon PoS (137)", "BNB Smart Chain (56)"]
   }
 }

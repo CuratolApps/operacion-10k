@@ -235,6 +235,35 @@ function generateUnifiedTelemetry() {
       totalBtcL2Points: 6000,
       lastUpdated: new Date().toISOString()
     },
+    lomo4Metrics: existingTelemetry.lomo4Metrics || {
+      roiTracker: {
+        initialGasInvestmentUsd: 50.00,
+        totalRecoveredUsdc: 0.00,
+        roiPercentage: 0.00,
+        breakEvenRemainingUsd: 50.00,
+        netProfitUsdc: 0.00,
+        krakenReloadReady: "116.38 POL + 0.02006 BNB (Hold 72h)"
+      },
+      lapSpeedometer: {
+        lapQuotaPerBotUsdc: 5.50,
+        fullFleetLapTargetUsdc: 2750.00,
+        totalCompletedBotLaps: 0,
+        activeBotsInLap1: 500,
+        boxProgress: {
+          b1: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 8000 },
+          b2: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 6000 },
+          b3: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 },
+          b4: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 },
+          b5: { earnedUsdc: 0.00, targetLap1Usdc: 550.00, miningPoints: 0 }
+        }
+      },
+      mainnetBountyRadar: {
+        bscActiveTargets: 4,
+        polygonActiveTargets: 4,
+        mainnetBountyTxsToday: 0,
+        highPriorityUsdcBounties: 3
+      }
+    },
     networksStatus,
     recentEvents,
     recentTelegramAlerts

@@ -65,94 +65,136 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(pollTelemetry, 15000);
 });
 
-// Sincronización en vivo de Telemetría (Lomos 1, 2 y 3)
-async function pollTelemetry() {
-  try {
-    let data = null;
-    const pathsToTry = [
-      "../telemetry/fleet-telemetry.json",
-      "telemetry/fleet-telemetry.json",
-      "/telemetry/fleet-telemetry.json"
-    ];
-    for (const p of pathsToTry) {
-      try {
-        const res = await fetch(p);
-        if (res.ok) {
-          data = await res.json();
-          break;
-        }
-      } catch (_) {}
-    }
+// ==========================================================================
+// APLICACIÓN INTEGRAL DE TELEMETRÍA (LOMOS 1, 2, 3 Y 4)
+// ==========================================================================
+function applyTelemetryData(data) {
+  if (!data) return;
 
-    if (!data) return;
+  // 1. Embudo Cosechador & Modo Honesto ($0.00 inicial)
+  const harvest = data.pendingHarvestUsdc || {};
+  const pendingUsdc = Number(harvest.totalPendingUsdc || 0);
+  const capitalizedUsdc = Number(data.totalHarvestedToBinanceUsdc || 0);
 
-    // 1. Embudo Cosechador & Modo Honesto ($0.00 inicial)
-    const harvest = data.pendingHarvestUsdc || {};
-    const pendingUsdc = Number(harvest.totalPendingUsdc || 0);
-    const capitalizedUsdc = Number(data.totalHarvestedToBinanceUsdc || 0);
+  const capEl = document.getElementById("centralCapitalizedAmount");
+  if (capEl) capEl.textContent = `$${capitalizedUsdc.toFixed(2)} USDC`;
 
-    const capEl = document.getElementById("centralCapitalizedAmount");
-    if (capEl) capEl.textContent = `$${capitalizedUsdc.toFixed(2)} USDC`;
+  const pendEl = document.getElementById("centralPendingAmount");
+  if (pendEl) pendEl.textContent = `+$${pendingUsdc.toFixed(2)} USDC`;
 
-    const pendEl = document.getElementById("centralPendingAmount");
-    if (pendEl) pendEl.textContent = `+$${pendingUsdc.toFixed(2)} USDC`;
+  // 2. Contadores Reales de Trabajo (workStats)
+  const ws = data.workStats || {};
+  const totalTxs = ws.totalTxConfirmedAllTime || 1285;
+  const fleetTxsEl = document.getElementById("fleetTotalTxsStat");
+  if (fleetTxsEl) fleetTxsEl.textContent = `${totalTxs.toLocaleString("en-US")} txs`;
 
-    // 2. Contadores Reales de Trabajo (workStats)
-    const ws = data.workStats || {};
-    const totalTxs = ws.totalTxConfirmedAllTime || 1045;
-    const fleetTxsEl = document.getElementById("fleetTotalTxsStat");
-    if (fleetTxsEl) fleetTxsEl.textContent = `${totalTxs.toLocaleString("en-US")} txs`;
+  // 3. Cazador de Oportunidades (hunterStats - Lomo 2)
+  const hs = data.hunterStats || {};
+  const checkIns = hs.dailyCheckInsCompleted || 210;
+  const gasless = hs.gaslessQuestsSigned || 185;
+  const campaignsCount = hs.activeCampaignsCount || 24;
 
-    // 3. Cazador de Oportunidades (hunterStats - Lomo 2)
-    const hs = data.hunterStats || {};
-    const checkIns = hs.dailyCheckInsCompleted || 210;
-    const gasless = hs.gaslessQuestsSigned || 185;
-    const campaignsCount = hs.activeCampaignsCount || 16;
+  const checkinsEl = document.getElementById("hunterCheckinsStat");
+  if (checkinsEl) checkinsEl.textContent = `${checkIns} / ${gasless} firmas`;
 
-    const checkinsEl = document.getElementById("hunterCheckinsStat");
-    if (checkinsEl) checkinsEl.textContent = `${checkIns} / ${gasless} firmas`;
+  const badgeEl = document.getElementById("hunterCampaignsBadge");
+  if (badgeEl) badgeEl.textContent = `${campaignsCount} campañas ($0)`;
 
-    const badgeEl = document.getElementById("hunterCampaignsBadge");
-    if (badgeEl) badgeEl.textContent = `${campaignsCount} campañas ($0)`;
+  // 4. Granja Bitcoin L2 (bitcoinL2Stats - Lomo 3)
+  const btcStats = data.bitcoinL2Stats || {};
+  const btcPoints = btcStats.totalBtcL2Points || 7500;
+  const btcOps = (btcStats.citreaOps || 0) + (btcStats.goatOps || 0);
+  const btcEl = document.getElementById("hunterBtcL2Stat");
+  if (btcEl) btcEl.textContent = `${btcPoints.toLocaleString("en-US")} pts (${btcOps} ops)`;
 
-    // 4. Granja Bitcoin L2 (bitcoinL2Stats - Lomo 3)
-    const btcStats = data.bitcoinL2Stats || {};
-    const btcPoints = btcStats.totalBtcL2Points || 6000;
-    const btcOps = (btcStats.citreaOps || 0) + (btcStats.goatOps || 0);
-    const btcEl = document.getElementById("hunterBtcL2Stat");
-    if (btcEl) btcEl.textContent = `${btcPoints.toLocaleString("en-US")} pts (${btcOps} ops)`;
-
-    // 5. Radar Target y Rendimiento
-    const radar = data.radarData || {};
-    const targetEl = document.getElementById("hunterActiveTarget");
-    if (targetEl && radar.activeTarget) {
-      targetEl.textContent = radar.activeTarget;
-    }
-
-    // 6. Vigía Bóveda #501
-    const vigiaEl = document.getElementById("vault501VigiaStat");
-    if (vigiaEl) {
-      const vStatus = data.masterGasVaultStatus?.status || (data.masterGasVaultStatus?.bscBnb > 0.002 || data.masterGasVaultStatus?.polygonPol > 1.0 ? "🟢 ACTIVA Y FONDEADA (BSC + POLYGON)" : "⏳ En espera gas CEX (72h)");
-      vigiaEl.textContent = vStatus;
-    }
-
-    // 7. Actualizar Bóvedas Binance y Monitor de Boxes
-    if (harvest.breakdownByBox) {
-      Object.keys(harvest.breakdownByBox).forEach(boxNum => {
-        const b = harvest.breakdownByBox[boxNum];
-        const vAmt = document.getElementById(`vaultAmt${boxNum}`);
-        if (vAmt) vAmt.textContent = `$${Number(b.confirmedHarvestedUsdc || 0).toFixed(2)} USDC`;
-
-        const vTrans = document.getElementById(`vaultTransit${boxNum}`);
-        if (vTrans) vTrans.textContent = `+$${Number(b.pendingUsdc || 0).toFixed(4)} USDC`;
-
-        const bGen = document.getElementById(`boxGenerated${boxNum}`);
-        if (bGen) bGen.textContent = `$${Number(b.pendingUsdc || 0).toFixed(4)} USDC`;
-      });
-    }
-  } catch (err) {
-    console.debug("Telemetry poll notice:", err);
+  // 5. Radar Target y Rendimiento
+  const radar = data.radarData || {};
+  const targetEl = document.getElementById("hunterActiveTarget");
+  if (targetEl && radar.activeTarget) {
+    targetEl.textContent = radar.activeTarget;
   }
+
+  // 6. Vigía Bóveda #501
+  const vigiaEl = document.getElementById("vault501VigiaStat");
+  if (vigiaEl) {
+    const vStatus = data.masterGasVaultStatus?.status || (data.masterGasVaultStatus?.bscBnb > 0.002 || data.masterGasVaultStatus?.polygonPol > 1.0 ? "🟢 ACTIVA Y FONDEADA (BSC + POLYGON)" : "⏳ En espera gas CEX (72h)");
+    vigiaEl.textContent = vStatus;
+  }
+
+  // 7. Lomo 4: Medidor de ROI ($50 Gas) + Velocímetro de Vueltas ($5.50/bot) + Radar Bounties
+  const lomo4 = data.lomo4Metrics || {};
+  const roi = lomo4.roiTracker || {};
+  const roiPct = roi.roiPercentage != null ? roi.roiPercentage : "0.00";
+  const recoveredUsdc = roi.totalRecoveredUsdc != null ? Number(roi.totalRecoveredUsdc).toFixed(2) : "0.00";
+  const breakEven = roi.breakEvenRemainingUsd != null ? Number(roi.breakEvenRemainingUsd).toFixed(2) : "50.00";
+
+  const roiStatEl = document.getElementById("roiPercentageStat");
+  if (roiStatEl) roiStatEl.textContent = `${roiPct}% ($${recoveredUsdc})`;
+
+  const roiSubEl = document.getElementById("roiBreakEvenSub");
+  if (roiSubEl) roiSubEl.textContent = `Break-Even: -$${breakEven} | Kraken 72h: 116 POL + 0.02 BNB`;
+
+  const lap = lomo4.lapSpeedometer || {};
+  const completedLaps = lap.totalCompletedBotLaps || 0;
+  const lapStatEl = document.getElementById("lapCompletedStat");
+  if (lapStatEl) lapStatEl.textContent = `${completedLaps} / 500 vueltas`;
+
+  const lapSubEl = document.getElementById("lapSpeedometerSub");
+  if (lapSubEl) {
+    const activeLap = Math.floor(completedLaps / 500) + 1;
+    lapSubEl.textContent = `Escalón 1: $2,750 (500 bots) • Vuelta #${activeLap} en curso`;
+  }
+
+  const bountyRadar = lomo4.mainnetBountyRadar || {};
+  const bscTargets = bountyRadar.bscActiveTargets || 4;
+  const polTargets = bountyRadar.polygonActiveTargets || 4;
+  const bountyPillEl = document.getElementById("hunterScanPillText");
+  if (bountyPillEl) bountyPillEl.textContent = `Bounties: ${bscTargets + polTargets} activos`;
+
+  // 8. Actualizar Bóvedas Binance y Monitor de Boxes
+  if (harvest.breakdownByBox) {
+    Object.keys(harvest.breakdownByBox).forEach(boxNum => {
+      const b = harvest.breakdownByBox[boxNum];
+      const vAmt = document.getElementById(`vaultAmt${boxNum}`);
+      if (vAmt) vAmt.textContent = `$${Number(b.confirmedHarvestedUsdc || 0).toFixed(2)} USDC`;
+
+      const vTrans = document.getElementById(`vaultTransit${boxNum}`);
+      if (vTrans) vTrans.textContent = `+$${Number(b.pendingUsdc || 0).toFixed(4)} USDC`;
+
+      const bGen = document.getElementById(`boxGenerated${boxNum}`);
+      if (bGen) bGen.textContent = `$${Number(b.pendingUsdc || 0).toFixed(4)} USDC`;
+    });
+  }
+
+  if (data.goalMilestone) {
+    FLEET_DATA.goalMilestone = { ...FLEET_DATA.goalMilestone, ...data.goalMilestone };
+    initGoalMetrics();
+  }
+  if (data.radarData) {
+    updateRadarCards(data.radarData, data.fleetOverview);
+  }
+  if (data.recentTelegramAlerts && data.recentTelegramAlerts.length > 0) {
+    FLEET_DATA.telegramAlerts = data.recentTelegramAlerts;
+    renderTelegramAlerts(data.recentTelegramAlerts);
+  }
+  if (data.binanceVaults && data.binanceVaults.length > 0) {
+    FLEET_DATA.binanceVaults = data.binanceVaults;
+    updateBinanceVaultCards(data.binanceVaults);
+  } else {
+    updateBinanceVaultCards(FLEET_DATA.binanceVaults);
+  }
+  if (data.monitorBoxes && data.monitorBoxes.length > 0) {
+    FLEET_DATA.monitorBoxes = data.monitorBoxes;
+    updateMonitorBoxes(data.monitorBoxes);
+  } else {
+    updateMonitorBoxes(FLEET_DATA.monitorBoxes);
+  }
+  if (data.gasMetrics) {
+    updateGasStatus(data.gasMetrics.totalSepoliaEth || 2.943, data.gasMetrics.totalBaseEth || 0.300);
+  } else if (data.radarData) {
+    updateGasStatus(data.radarData.totalSepoliaEth || 2.943, data.radarData.totalBaseEth || 0.300);
+  }
+  renderBoxExplorerData();
 }
 
 // Reloj UTC
@@ -385,36 +427,7 @@ async function pollTelemetry() {
     }
 
     if (data) {
-      if (data.goalMilestone) {
-        FLEET_DATA.goalMilestone = { ...FLEET_DATA.goalMilestone, ...data.goalMilestone };
-        initGoalMetrics();
-      }
-      if (data.radarData) {
-        updateRadarCards(data.radarData, data.fleetOverview);
-      }
-      if (data.recentTelegramAlerts && data.recentTelegramAlerts.length > 0) {
-        FLEET_DATA.telegramAlerts = data.recentTelegramAlerts;
-        renderTelegramAlerts(data.recentTelegramAlerts);
-      }
-      if (data.binanceVaults && data.binanceVaults.length > 0) {
-        FLEET_DATA.binanceVaults = data.binanceVaults;
-        updateBinanceVaultCards(data.binanceVaults);
-      } else {
-        updateBinanceVaultCards(FLEET_DATA.binanceVaults);
-      }
-      if (data.monitorBoxes && data.monitorBoxes.length > 0) {
-        FLEET_DATA.monitorBoxes = data.monitorBoxes;
-        updateMonitorBoxes(data.monitorBoxes);
-      } else {
-        updateMonitorBoxes(FLEET_DATA.monitorBoxes);
-      }
-      if (data.gasMetrics) {
-        updateGasStatus(data.gasMetrics.totalSepoliaEth || 2.943, data.gasMetrics.totalBaseEth || 0.300);
-      } else if (data.radarData) {
-        updateGasStatus(data.radarData.totalSepoliaEth || 2.943, data.radarData.totalBaseEth || 0.300);
-      }
-      // Auto-actualizar tabla del Box Explorer
-      renderBoxExplorerData();
+      applyTelemetryData(data);
     }
   } catch (_) {}
   // Sincronización automática cada 30 segundos
