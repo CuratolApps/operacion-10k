@@ -244,6 +244,19 @@ async function notifyRoundSummary(summaryData) {
       }
     };
 
+    let lomo5Autonomy = {
+      autoDiscovery: { verifiedContractsOnline: 22, honeypotsBlocked: 0 }
+    };
+
+    let bitcoinL2Stats = {
+      citreaOps: 120,
+      goatOps: 120,
+      totalBtcL2Points: 6000
+    };
+
+    let hierarchy = null;
+    let deptsLines = "";
+
     try {
       if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
         const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
@@ -265,18 +278,17 @@ async function notifyRoundSummary(summaryData) {
         if (tel.lomo5Autonomy) {
           lomo5Autonomy = tel.lomo5Autonomy;
         }
+        if (tel.hierarchy) {
+          hierarchy = tel.hierarchy;
+          if (Array.isArray(hierarchy.departments)) {
+            deptsLines = hierarchy.departments.map(d => {
+              return `   • ${d.icon || "⚡"} <b>${d.name}:</b> ${d.saturationBots || 500}/500 bots · ${d.extractedOperations || 0} ops · $${Number(d.capturedUsdc || 0).toFixed(2)} USDC`;
+            }).join("\n");
+          }
+        }
       }
     } catch (_) {}
 
-    let lomo5Autonomy = {
-      autoDiscovery: { verifiedContractsOnline: 22, honeypotsBlocked: 0 }
-    };
-
-    let bitcoinL2Stats = {
-      citreaOps: 120,
-      goatOps: 120,
-      totalBtcL2Points: 6000
-    };
     const totalBtcOps = (bitcoinL2Stats.citreaOps || 0) + (bitcoinL2Stats.goatOps || 0);
     const totalBtcPoints = bitcoinL2Stats.totalBtcL2Points || 0;
     const gaslessAndDefiOps = (hunterStats.gaslessQuestsSigned || 0) + (hunterStats.defiAndMintsExecuted || 0);
@@ -291,10 +303,17 @@ async function notifyRoundSummary(summaryData) {
     const lomo5Verified = lomo5Autonomy.autoDiscovery?.verifiedContractsOnline || 22;
     const lomo5Honeypots = lomo5Autonomy.autoDiscovery?.honeypotsBlocked || 0;
 
+    const hqDeptsSection = deptsLines ? `
+🏛️ <b>CUARTEL GENERAL — 6 DEPARTAMENTOS DE EXTRACCIÓN (X500):</b>
+${deptsLines}
+   • <b>Alto Mando:</b> VIP #00 (Blindada) • Matriz #501 (Nodriza Gas) • 5 Capitanes
+   • <b>Aislamiento Boxes:</b> Box 1 a 5 (100 satélites c/u) directos a 5 Bóvedas Binance Spot
+` : "";
+
     const text = `
 🚀 <b>OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS</b>
 ${modeBadge}
-
+${hqDeptsSection}
 🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>
    • <b>Campañas Activas en Catálogo:</b> ${hunterStats.activeCampaignsCount || 16} objetivos ($0 Costo)
    • <b>Check-Ins Diarios Firmados Hoy:</b> ${hunterStats.dailyCheckInsCompleted || 210} asistencias

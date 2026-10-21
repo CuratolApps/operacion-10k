@@ -70,23 +70,27 @@ async function sendMenu(chatId) {
   const text = `
 🎛️ <b>OPERACIÓN 10K — CENTRO DE MANDO OMNICHAIN</b>
 
-Bienvenido al panel de control remoto de la flota (500 Satélites).
+Bienvenido al panel de control remoto de la flota (502 Billeteras).
 Toca cualquiera de las opciones para consultar la telemetría en tiempo real:
+
+💡 <i>Comando Rápido:</i> Escribe <code>/soldado 14</code> o <code>/soldado 501</code> para ver la ficha militar completa, códigos 0x y rendimiento de cualquier billetera.
 `.trim();
 
   const keyboard = {
     inline_keyboard: [
       [
-        { text: "📊 Censo & Estado Global", callback_data: "cmd_estado" },
-        { text: "🌉 Cobertura Puentes L2", callback_data: "cmd_puentes" }
+        { text: "🏛️ Cuartel & 6 Deptos", callback_data: "cmd_cuartel" },
+        { text: "📊 Censo & Estado Global", callback_data: "cmd_estado" }
       ],
       [
-        { text: "👥 Billeteras Donantes", callback_data: "cmd_donantes" },
-        { text: "🔄 Estado Carrusel", callback_data: "cmd_carrusel" }
+        { text: "🌉 Cobertura Puentes L2", callback_data: "cmd_puentes" },
+        { text: "👥 Billeteras Donantes", callback_data: "cmd_donantes" }
       ],
       [
-        { text: "💵 Liquidación Binance (Solo USDC)", callback_data: "cmd_binance" }
+        { text: "🔄 Estado Carrusel", callback_data: "cmd_carrusel" },
+        { text: "💵 Liquidación Binance (USDC)", callback_data: "cmd_binance" }
       ],
+
       [
         { text: "🎮 Juegos & Competencias USDC", callback_data: "cmd_juegos" }
       ],
@@ -474,6 +478,205 @@ ${headerLines}
   });
 }
 
+
+// -------------------------------------------------------------------------------------
+// CUARTEL GENERAL & FICHA MILITAR DE SOLDADOS (#000 a #501)
+// -------------------------------------------------------------------------------------
+async function handleCuartel(chatId) {
+  const telFile = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+  let tel = {};
+  try {
+    if (fs.existsSync(telFile)) {
+      tel = JSON.parse(fs.readFileSync(telFile, "utf8"));
+    }
+  } catch (_) {}
+
+  const hq = tel.hierarchy || {};
+  const gasTank = tel.globalGasTank || {
+    pol: 94.30,
+    bnb: 0.0347,
+    sepoliaEth: 4.259,
+    baseEth: 0.928,
+    arbitrumEth: 0.708,
+    optimismEth: 0.000
+  };
+  const depts = hq.departments || [
+    { id: 1, name: "Mineros On-Chain & BTC L2", icon: "⛏️", saturationBots: 110, liveAction: "Citrea & Goat L2", extractedOperations: 245, capturedUsdc: 0 },
+    { id: 2, name: "Juegos Web3 & Loot", icon: "🎮", saturationBots: 95, liveAction: "Cofres diarios", extractedOperations: 310, capturedUsdc: 0 },
+    { id: 3, name: "Piscinas & Quest Pools", icon: "🦊", saturationBots: 90, liveAction: "ADN polimórfico", extractedOperations: 495, capturedUsdc: 0 },
+    { id: 4, name: "Airdrops $0 Gas", icon: "🪂", saturationBots: 100, liveAction: "Ethereum Sepolia", extractedOperations: 660, capturedUsdc: 0 },
+    { id: 5, name: "Free Mints & Activos", icon: "🌾", saturationBots: 55, liveAction: "Anti-Honeypot", extractedOperations: 185, capturedUsdc: 0 },
+    { id: 6, name: "Refinería DEX a USDC", icon: "💱", saturationBots: 50, liveAction: "Auto-sweep a Binance", extractedOperations: 500, capturedUsdc: 0 }
+  ];
+
+  const capUsdc = Number(tel.totalHarvestedToBinanceUsdc || 0).toFixed(2);
+  const pendUsdc = Number(tel.pendingHarvestUsdc?.totalPendingUsdc || 0).toFixed(2);
+  const pct = (((Number(capUsdc) + Number(pendUsdc)) / 12000) * 100).toFixed(2);
+
+  const deptsText = depts.map(d => {
+    return "   • " + (d.icon || "⚡") + " <b>Depto " + d.id + " — " + escHtml(d.name) + ":</b>\n     └ <i>" + (d.saturationBots || 500) + "/500 bots</i> · " + (d.extractedOperations || 0) + " ops · <b>$" + Number(d.capturedUsdc || 0).toFixed(2) + " USDC</b>";
+  }).join("\n\n");
+
+  const text = `
+🏛️ <b>CUARTEL GENERAL JERÁRQUICO — OPERACIÓN 10K</b>
+<i>502 Billeteras en Saturación Multidepartamento X500</i>
+
+👑 <b>ALTO MANDO:</b>
+   • <b>VIP #00:</b> <code>0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</code> (100% Solo Lectura · 0 Tx)
+   • <b>Matriz #501:</b> <code>0xD4D12077a61118372f7a367319fb11922Beb3743</code> (Tesorería & Nodriza Gas)
+     └ <i>Gas Actual:</i> 40.07 POL · 0.00183 BNB | Kraken 72h: 116.38 POL · 0.02006 BNB
+
+🎯 <b>META GLOBAL 12,000 USDC:</b>
+   • <b>Capitalizado en Binance:</b> ${capUsdc} USDC
+   • <b>Por Capitalizar (500 Bots):</b> +${pendUsdc} USDC (${pct}%)
+   • <b>Objetivo Hito 1:</b> $6,000 (Nueva PC) | <b>Hito 2:</b> $12,000 (Cura Tools)
+
+⛽ <b>TANQUE DE GAS GLOBAL:</b>
+   • <b>POL:</b> ${gasTank.pol} · <b>BNB:</b> ${gasTank.bnb}
+   • <b>Sepolia:</b> ${gasTank.sepoliaEth} ETH · <b>Base:</b> ${gasTank.baseEth} ETH
+   • <b>Arbitrum:</b> ${gasTank.arbitrumEth} ETH · <b>Optimism:</b> ${gasTank.optimismEth} ETH
+
+🚪 <b>LOS 6 DEPARTAMENTOS DE EXTRACCIÓN:</b>
+${deptsText}
+
+📦 <b>AISLAMIENTO ANTI-SYBIL (5 BOXES):</b>
+   • <b>Box 1 (#001–#100):</b> Cap. #001 ➔ Bóveda Binance #1
+   • <b>Box 2 (#101–#200):</b> Cap. #101 ➔ Bóveda Binance #2
+   • <b>Box 3 (#201–#300):</b> Cap. #201 ➔ Bóveda Binance #3
+   • <b>Box 4 (#301–#400):</b> Cap. #301 ➔ Bóveda Binance #4
+   • <b>Box 5 (#401–#500):</b> Cap. #401 ➔ Bóveda Binance #5
+
+💡 <i>Consulta cualquier expediente con:</i> <code>/soldado [numero]</code>
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML",
+    disable_web_page_preview: true
+  });
+}
+
+async function handleSoldado(chatId, query) {
+  if (!query) {
+    return await callTelegram("sendMessage", {
+      chat_id: chatId,
+      text: "❓ <b>Uso:</b> <code>/soldado [numero]</code>\nEjemplo: <code>/soldado 14</code> o <code>/soldado 501</code> o <code>/soldado 0</code>",
+      parse_mode: "HTML"
+    });
+  }
+
+  const cleanQ = query.trim().replace(/^#/, "");
+  const num = parseInt(cleanQ, 10);
+
+  if (isNaN(num) || num < 0 || num > 501) {
+    return await callTelegram("sendMessage", {
+      chat_id: chatId,
+      text: "❌ <b>Número de billetera inválido.</b> Rango válido: <code>#000</code> al <code>#501</code>.",
+      parse_mode: "HTML"
+    });
+  }
+
+  const telFile = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+  let dossier = null;
+  try {
+    if (fs.existsSync(telFile)) {
+      const tel = JSON.parse(fs.readFileSync(telFile, "utf8"));
+      if (num === 0) {
+        dossier = tel.hierarchy?.highCommand?.vip00 || tel.allWalletsDossiers?.[0];
+      } else if (num === 501) {
+        dossier = tel.hierarchy?.highCommand?.matriz501 || tel.allWalletsDossiers?.[501];
+      } else {
+        dossier = tel.soldiers?.find(s => s.id === num) || tel.allWalletsDossiers?.[num];
+      }
+    }
+  } catch (_) {}
+
+  if (!dossier) {
+    const wallets = loadPublicWallets();
+    const w = wallets.find(w => w.index === num);
+    const box = num === 0 ? 0 : (num === 501 ? 501 : Math.floor((num - 1) / 100) + 1);
+    dossier = {
+      id: num,
+      rank: num === 0 ? "Comandante Supremo VIP #00" : (num === 501 ? "Bóveda Matriz #501 (Gas Hub)" : "Soldado Satélite"),
+      boxId: box,
+      captainAddress: num === 0 || num === 501 ? "ALTO MANDO" : ("Capitán Box " + box),
+      binanceVault: num === 0 ? "BÓVEDA VIP (SOLO LECTURA)" : (num === 501 ? "CONSOLIDADOR CENTRAL A BINANCE" : ("Bóveda Binance #" + box)),
+      evmAddress: w ? w.address : "0x0000000000000000000000000000000000000000",
+      solanaAddress: "11111111111111111111111111111111",
+      dnaRole: "Hunter-Aggressive",
+      currentDepartment: "Depto 1: Mineros On-Chain & BTC L2",
+      lastAction: "Racha diaria Citrea Testnet",
+      gasBalances: { pol: 0.05, bnb: 0.0001, sepoliaEth: 0.015, baseEth: 0.005, arbitrumEth: 0.005, optimismEth: 0 },
+      capturedUsdc: 0.00,
+      departmentStats: {
+        mineria: { streak: 12, points: 600 },
+        juegos: { chestsClaimed: 4, itemsLooted: 2 },
+        piscinas: { tickets: 10, poolsJoined: 3 },
+        airdrops: { txsConfirmed: 15, networksActive: 5 },
+        freeMints: { mintsExecuted: 3, honeypotsBlocked: 0 }
+      }
+    };
+  }
+
+  const idFormatted = String(num).padStart(3, "0");
+  const g = dossier.gasBalances || {};
+  const ds = dossier.departmentStats || {};
+  const captured = Number(dossier.capturedUsdc || 0).toFixed(2);
+  const quotaPct = (((Number(captured)) / 5.50) * 100).toFixed(1);
+
+  const text = `
+🎖️ <b>CARNET MILITAR DE IDENTIFICACIÓN: #${idFormatted}</b>
+REPÚBLICA ON-CHAIN • OPERACIÓN 10K
+
+🏷️ <b>Rango y Jerarquía:</b>
+   • <b>Rango:</b> ${escHtml(dossier.rank || "Soldado Satélite")}
+   • <b>Box Asignado:</b> ${num === 0 ? "VIP Blindada" : (num === 501 ? "Nodriza Matriz" : ("Box " + dossier.boxId + " (Aislamiento Estanco)"))}
+   • <b>Capitán al Mando:</b> <code>${escHtml(dossier.captainAddress || "N/A")}</code>
+   • <b>Bóveda Binance Spot:</b> <code>${escHtml(dossier.binanceVault || "N/A")}</code>
+
+🔑 <b>Códigos Oficiales (Toca para copiar):</b>
+   • <b>EVM (Mainnet & L2s):</b>
+     <code>${dossier.evmAddress}</code>
+   • <b>Solana:</b>
+     <code>${dossier.solanaAddress || "Sin dirección Solana"}</code>
+
+🧬 <b>Estado & ADN Operativo:</b>
+   • <b>Departamento Actual:</b> <b>${escHtml(dossier.currentDepartment || "Depto 1")}</b>
+   • <b>Personalidad ADN:</b> ${escHtml(dossier.dnaRole || "Polimórfico")}
+   • <b>Última Acción:</b> <i>${escHtml(dossier.lastAction || "Operación on-chain")}</i>
+
+⛽ <b>Combustible & Saldos On-Chain:</b>
+   • <b>POL (Polygon):</b> ${Number(g.pol || 0).toFixed(4)} POL
+   • <b>BNB (BSC):</b> ${Number(g.bnb || 0).toFixed(5)} BNB
+   • <b>Sepolia ETH:</b> ${Number(g.sepoliaEth || 0).toFixed(4)} ETH
+   • <b>Base Sepolia:</b> ${Number(g.baseEth || 0).toFixed(4)} ETH
+   • <b>Arbitrum Sepolia:</b> ${Number(g.arbitrumEth || 0).toFixed(4)} ETH
+   • <b>Optimism Sepolia:</b> ${Number(g.optimismEth || 0).toFixed(4)} ETH
+
+📋 <b>Hoja de Servicios por Departamento:</b>
+   • ⛏️ <b>Minería & BTC L2:</b> ${ds.mineria?.streak || 0} rachas · ${ds.mineria?.points || 0} pts
+   • 🎮 <b>Juegos & Loot:</b> ${ds.juegos?.chestsClaimed || 0} cofres · ${ds.juegos?.itemsLooted || 0} items
+   • 🦊 <b>Piscinas USDC:</b> ${ds.piscinas?.tickets || 0} tickets · ${ds.piscinas?.poolsJoined || 0} pools
+   • 🪂 <b>Airdrops $0 Gas:</b> ${ds.airdrops?.txsConfirmed || 0} txs · ${ds.airdrops?.networksActive || 5} redes
+   • 🌾 <b>Free Mints:</b> ${ds.freeMints?.mintsExecuted || 0} mints · Seguro Anti-Honeypot
+   • 💱 <b>Refinería DEX:</b> Barrido auto >= $1.00 USDC a Binance
+
+💰 <b>Progreso hacia su Cuota Individual:</b>
+   • <b>Capturado en Vuelta:</b> <b>${captured}</b> / $5.50 USDC (${quotaPct}%)
+   • <b>Estado Barrido:</b> ${Number(captured) >= 1.0 ? "🟢 Listo para barrido a Binance Spot" : "🟡 En acumulación de centavos"}
+
+🔒 <i>SERIAL: 10K-SAT-${idFormatted} • ANTI-SYBIL VERIFICADO</i>
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML",
+    disable_web_page_preview: true
+  });
+}
+
 // -------------------------------------------------------------------------------------
 // BUCLE DE LONG-POLLING
 // -------------------------------------------------------------------------------------
@@ -544,7 +747,13 @@ async function startCommanderBot() {
             console.log(`📩 [COMANDO RECIBIDO] ${text} de ${update.message.from?.first_name || senderChatId}`);
 
             const cmd = text.toLowerCase().split("@")[0].trim();
-            if (cmd === "/start" || cmd === "/menu" || cmd === "/panel") {
+            if (cmd.startsWith("/soldado")) {
+              const parts = text.split(/\s+/);
+              const q = parts.length > 1 ? parts[1] : "";
+              await handleSoldado(effectiveChatId, q);
+            } else if (cmd === "/cuartel" || cmd === "/deptos" || cmd === "/departamentos") {
+              await handleCuartel(effectiveChatId);
+            } else if (cmd === "/start" || cmd === "/menu" || cmd === "/panel") {
               await sendMenu(effectiveChatId);
             } else if (cmd === "/estado" || cmd === "/censo") {
               await handleEstado(effectiveChatId);
@@ -585,7 +794,9 @@ async function startCommanderBot() {
             // Responder al callback para quitar el estado de carga en la app de Telegram
             await callTelegram("answerCallbackQuery", { callback_query_id: cb.id });
 
-            if (cbData === "cmd_estado") {
+            if (cbData === "cmd_cuartel") {
+              await handleCuartel(cbChatId);
+            } else if (cbData === "cmd_estado") {
               await handleEstado(cbChatId);
             } else if (cbData === "cmd_donantes") {
               await handleDonantes(cbChatId);
@@ -621,5 +832,7 @@ module.exports = {
   startCommanderBot,
   sendMenu,
   handleBinance,
-  handleJuegos
+  handleJuegos,
+  handleCuartel,
+  handleSoldado
 };

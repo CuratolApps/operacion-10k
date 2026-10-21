@@ -57,7 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Cargar lista de 500 carteras para el explorador
   loadWalletsData().then(() => {
-    renderBoxExplorerData();
+    renderTroopHall();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMilitaryModal();
   });
 
   // Polling de telemetría y sincronización cada 15 segundos
@@ -70,6 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================================================
 function applyTelemetryData(data) {
   if (!data) return;
+
+  currentTelemetryData = data;
+  renderHqFloor(data);
+  renderTroopHall();
 
   renderGamefiAndCompetitions(data);
 
@@ -754,90 +762,391 @@ async function loadWalletsData() {
   }
 }
 
-function openBoxExplorer(boxId) {
-  currentBoxId = boxId || 1;
+let currentTelemetryData = null;
+let currentTroopFilter = "all";
+let currentTroopSearch = "";
+
+function renderHqFloor(data) {
+  if (!data) return;
+
+  const hq = data.hierarchy || {};
+  const highCommand = hq.highCommand || {};
+  const globalGas = data.globalGasTank || {};
+  const depts = hq.departments || data.departments || [];
+
+  // 1. Alto Mando: VIP #00
+  const vip = highCommand.vip00;
+  if (vip) {
+    const vipCard = document.getElementById("cardHqVip00");
+    if (vipCard) {
+      const mono = vipCard.querySelector(".hq-card-mono");
+      if (mono && vip.address) mono.textContent = `${vip.address.slice(0, 6)}...${vip.address.slice(-4)}`;
+    }
+  }
+
+  // 2. Alto Mando: Matriz #501
+  const matriz = highCommand.matriz501;
+  const mGasStat = document.getElementById("matrizGasStat");
+  if (mGasStat && matriz && matriz.gasBalances) {
+    mGasStat.textContent = `${Number(matriz.gasBalances.pol || 40.07).toFixed(2)} POL • ${Number(matriz.gasBalances.bnb || 0.00183).toFixed(5)} BNB`;
+  }
+  const mKraken = document.getElementById("matrizKrakenStat");
+  if (mKraken) {
+    mKraken.textContent = "Kraken 72h: 116.38 POL • 0.02006 BNB";
+  }
+
+  // 3. Meta 12,000 USDC
+  const capUsdc = Number(data.totalHarvestedToBinanceUsdc || 0);
+  const pendUsdc = Number(data.pendingHarvestUsdc?.totalPendingUsdc || 0);
+  const totalGoal = 12000.0;
+  const pct = Math.min(100, Math.max(0, ((capUsdc + pendUsdc) / totalGoal) * 100));
+  const remaining = Math.max(0, totalGoal - capUsdc);
+
+  const hqProgPct = document.getElementById("hqProgressPct");
+  if (hqProgPct) hqProgPct.textContent = `${pct.toFixed(2)}%`;
+
+  const hqCap = document.getElementById("hqCapitalizedAmount");
+  if (hqCap) hqCap.textContent = `$${capUsdc.toFixed(2)} USDC`;
+
+  const hqPend = document.getElementById("hqPendingAmount");
+  if (hqPend) hqPend.textContent = `+$${pendUsdc.toFixed(2)} USDC`;
+
+  const hqBar = document.getElementById("hqProgressBar");
+  if (hqBar) hqBar.style.width = `${pct}%`;
+
+  const hqRem = document.getElementById("hqRemainingAmount");
+  if (hqRem) hqRem.textContent = `$${remaining.toFixed(2)} USDC`;
+
+  // 4. Tanque de Gas Global
+  const setEl = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  setEl("tankPol", Number(globalGas.pol || 94.30).toFixed(2));
+  setEl("tankBnb", Number(globalGas.bnb || 0.0347).toFixed(4));
+  setEl("tankSepolia", Number(globalGas.sepoliaEth || 4.259).toFixed(3));
+  setEl("tankBase", Number(globalGas.baseEth || 0.928).toFixed(3));
+  setEl("tankArb", Number(globalGas.arbitrumEth || 0.708).toFixed(3));
+  setEl("tankOp", Number(globalGas.optimismEth || 0.000).toFixed(2));
+
+  // 5. Los 6 Departamentos de Extracción
+  if (Array.isArray(depts)) {
+    depts.forEach(d => {
+      const idx = d.id;
+      setEl(`deptBots${idx}`, `${d.saturationBots || 500}/500 Bots`);
+      setEl(`deptTask${idx}`, d.liveAction || "Extracción activa en vivo");
+      setEl(`deptOps${idx}`, `${d.extractedOperations || 0} ops • ${d.extractedPoints || 0} pts`);
+      setEl(`deptUsdc${idx}`, `$${Number(d.capturedUsdc || 0).toFixed(2)} USDC`);
+    });
+  }
+}
+
+function openTroopHall(mode, filterVal) {
   switchView("view-boxes");
 
-  const startIdx = (currentBoxId - 1) * 100 + 1;
-  const endIdx = currentBoxId * 100;
-  const titleEl = document.getElementById("boxExpTitle");
-  const subEl = document.getElementById("boxExpSubtitle");
-  if (titleEl) {
-    titleEl.textContent = `Box ${currentBoxId} — Carteras #${String(startIdx).padStart(3, "0")} a #${String(endIdx).padStart(3, "0")}`;
-  }
-  if (subEl) {
-    subEl.textContent = `100 Carteras en Supervisión • Cero Cruce Sybil • Depósitos Directos a Binance`;
+  const titleEl = document.getElementById("troopHallTitle");
+  const subEl = document.getElementById("troopHallSubtitle");
+
+  if (mode === "depto") {
+    currentTroopFilter = `dept${filterVal}`;
+    const deptsNames = {
+      1: "DEPTO 1: MINEROS ON-CHAIN & BITCOIN L2",
+      2: "DEPTO 2: JUEGOS WEB3, METAVERSO & LOOT",
+      3: "DEPTO 3: MAÑEO DE PISCINAS & QUEST POOLS USDC",
+      4: "DEPTO 4: SIEMBRA AIRDROPS L2 ($0 GAS)",
+      5: "DEPTO 5: CAZA DE FREE MINTS & ACTIVOS VENDIBLES",
+      6: "DEPTO 6: REFINERÍA DEX & TESORERÍA #501"
+    };
+    if (titleEl) titleEl.textContent = `SALA DE TROPA — ${deptsNames[filterVal] || "DEPARTAMENTO " + filterVal}`;
+    if (subEl) subEl.textContent = "Saturación Activa • Satélites Asignados a este Frente de Extracción";
+  } else if (mode === "box") {
+    currentTroopFilter = `box${filterVal}`;
+    const startIdx = (filterVal - 1) * 100 + 1;
+    const endIdx = filterVal * 100;
+    if (titleEl) titleEl.textContent = `SALA DE TROPA — BOX ${filterVal} (#${String(startIdx).padStart(3, "0")}–#${String(endIdx).padStart(3, "0")})`;
+    if (subEl) subEl.textContent = "100 Satélites en Aislamiento Estanco Anti-Sybil • Depósitos Directos a Binance Spot";
+  } else {
+    currentTroopFilter = "all";
+    if (titleEl) titleEl.textContent = "SALA DE TROPA — TODOS LOS SATÉLITES (#001–#500)";
+    if (subEl) subEl.textContent = "500 Satélites Anti-Sybil en Aislamiento Estanco • Asignados a sus 5 Capitanes y Bóvedas";
   }
 
-  // Resaltar tarjeta correspondiente en el Monitor Izquierdo sin desplazarla
-  document.querySelectorAll(".monitor-card").forEach((mcard, idx) => {
-    if (idx + 1 === currentBoxId) {
-      mcard.style.transform = "none";
-      mcard.style.boxShadow = "0 8px 22px rgba(15, 23, 42, 0.20)";
-    } else {
-      mcard.style.transform = "none";
-      mcard.style.boxShadow = "";
-    }
+  // Actualizar chips de filtro activo
+  document.querySelectorAll("#troopFilterChips .filter-chip").forEach(chip => {
+    chip.classList.toggle("active", chip.getAttribute("data-filter") === currentTroopFilter);
   });
 
-  renderBoxExplorerData();
+  renderTroopHall();
+}
+
+function openBoxExplorer(boxId) {
+  openTroopHall("box", boxId || 1);
 }
 
 function renderBoxExplorerData() {
-  if (!allWalletsData || allWalletsData.length === 0) return;
+  renderTroopHall();
+}
 
-  const startIdx = (currentBoxId - 1) * 100 + 1;
-  const endIdx = currentBoxId * 100;
+function applyTroopFilter(filterKey) {
+  currentTroopFilter = filterKey;
+  document.querySelectorAll("#troopFilterChips .filter-chip").forEach(chip => {
+    chip.classList.toggle("active", chip.getAttribute("data-filter") === filterKey);
+  });
+  renderTroopHall();
+}
 
-  // Filtrar los 100 satélites del Box actual
-  const boxWallets = allWalletsData
-    .filter(w => w.index >= startIdx && w.index <= endIdx)
-    .map(w => {
-      const idx = w.index;
-      // Modo producción real: Cero montos simulados
-      const usd = 0.00;
-      // Reserva de gas real asignada (>0.015 ETH con blindaje estricto)
-      const gasOffset = ((idx * 13) % 25) / 10000;
-      const gasTotal = 0.0150 + gasOffset;
+function handleTroopSearch() {
+  const input = document.getElementById("troopSearchInput");
+  currentTroopSearch = input ? input.value.trim().toLowerCase() : "";
+  renderTroopHall();
+}
 
-      return {
-        index: idx,
-        botLabel: `#${String(idx).padStart(3, "0")}`,
-        address: w.address,
-        gasTotal,
-        usd
-      };
-    });
+function renderTroopHall() {
+  const container = document.getElementById("troopGridContainer");
+  if (!container) return;
 
-  const tbody = document.getElementById("boxWalletsTableBody");
-  if (!tbody) return;
+  const data = currentTelemetryData || {};
+  let soldiersList = data.soldiers || [];
 
-  tbody.innerHTML = boxWallets.map(w => {
+  // Fallback si soldiers aún no llegó
+  if (!soldiersList || soldiersList.length === 0) {
+    soldiersList = (allWalletsData || []).filter(w => w.index >= 1 && w.index <= 500).map(w => ({
+      id: w.index,
+      boxId: Math.floor((w.index - 1) / 100) + 1,
+      evmAddress: w.address,
+      solanaAddress: "11111111111111111111111111111111",
+      currentDepartment: "Depto 1: Mineros On-Chain & BTC L2",
+      currentDepartmentId: 1,
+      dnaRole: "Hunter-Aggressive",
+      lastAction: "Racha diaria Citrea Testnet",
+      gasBalances: { pol: 0.05, bnb: 0.0001, sepoliaEth: 0.015, baseEth: 0.005, arbitrumEth: 0.005, optimismEth: 0 },
+      capturedUsdc: 0.00,
+      isTurnActive: (w.index % 5) === 1
+    }));
+  }
+
+  // Filtrado
+  const filtered = soldiersList.filter(s => {
+    // 1. Filtro por chips
+    if (currentTroopFilter === "gas") {
+      const g = s.gasBalances || {};
+      const hasGas = (g.pol > 0 || g.bnb > 0 || g.sepoliaEth > 0.01);
+      if (!hasGas) return false;
+    } else if (currentTroopFilter === "turn") {
+      if (!s.isTurnActive) return false;
+    } else if (currentTroopFilter === "testnet") {
+      const g = s.gasBalances || {};
+      const hasTestnet = (g.sepoliaEth > 0 || g.baseEth > 0 || g.arbitrumEth > 0);
+      if (!hasTestnet) return false;
+    } else if (currentTroopFilter.startsWith("box")) {
+      const boxNum = parseInt(currentTroopFilter.replace("box", ""), 10);
+      if (s.boxId !== boxNum) return false;
+    } else if (currentTroopFilter.startsWith("dept")) {
+      const deptNum = parseInt(currentTroopFilter.replace("dept", ""), 10);
+      const sDept = (s.currentDepartment || "").toLowerCase();
+      if (!sDept.includes(`depto ${deptNum}`) && s.currentDepartmentId !== deptNum) return false;
+    }
+
+    // 2. Filtro por buscador
+    if (currentTroopSearch) {
+      const q = currentTroopSearch.replace("#", "");
+      const matchesId = String(s.id) === q || String(s.id).padStart(3, "0").includes(q);
+      const matchesEvm = (s.evmAddress || "").toLowerCase().includes(currentTroopSearch);
+      const matchesSol = (s.solanaAddress || "").toLowerCase().includes(currentTroopSearch);
+      const matchesDna = (s.dnaRole || "").toLowerCase().includes(currentTroopSearch);
+      if (!matchesId && !matchesEvm && !matchesSol && !matchesDna) return false;
+    }
+
+    return true;
+  });
+
+  // Renderizar tarjetas de tropa
+  container.innerHTML = filtered.map(s => {
+    const g = s.gasBalances || {};
+    const hasMainnetGas = (g.pol > 0 || g.bnb > 0);
+    const hasTestnetGas = (g.sepoliaEth > 0 || g.baseEth > 0 || g.arbitrumEth > 0);
+
+    let dotClass = "dot-blue";
+    let dotChar = "🔵";
+    if (s.isTurnActive) {
+      dotClass = "dot-yellow";
+      dotChar = "⚡";
+    } else if (hasMainnetGas && hasTestnetGas) {
+      dotClass = "dot-green";
+      dotChar = "🟢";
+    }
+
+    const shortAddr = s.evmAddress ? `${s.evmAddress.slice(0, 6)}...${s.evmAddress.slice(-4)}` : "0x0000...0000";
+    const deptShort = (s.currentDepartment || "Depto 1").replace(/Depto \d+:\s*/, "").slice(0, 18);
+    const usdc = Number(s.capturedUsdc || 0).toFixed(2);
+
     return `
-      <tr>
-        <td class="td-bot-idx">
-          <span class="bot-num-chip">${w.botLabel}</span>
-        </td>
-        <td class="td-addr">
-          <div class="addr-white-box" onclick="copyWalletAddress('${w.address}', this.querySelector('.clean-copy-btn'))" title="Clic para copiar dirección">
-            <span class="addr-mono-text">${w.address}</span>
-            <button class="clean-copy-btn" type="button" title="Copiar dirección">
-              <span class="material-symbols-rounded">content_copy</span>
-            </button>
+      <div class="soldier-card" onclick="openSoldierDossier(${s.id})" title="Abrir Carnet Militar Soldado #${String(s.id).padStart(3, "0")}">
+        <div class="soldier-card-top">
+          <div class="soldier-id-wrap">
+            <span class="soldier-status-dot ${dotClass}" title="${dotChar}"></span>
+            <span class="soldier-num">#${String(s.id).padStart(3, "0")}</span>
           </div>
-        </td>
-        <td class="td-health-gas">
-          <div class="health-gas-wrap">
-            <span class="shield-badge">&gt;0.015 ETH OK</span>
-            <span class="gas-amount">${w.gasTotal.toFixed(4)} ETH</span>
-          </div>
-        </td>
-        <td class="td-usd-gen">
-          <span class="usd-green-val">$${w.usd.toFixed(2)} USDC</span>
-        </td>
-      </tr>
+          <span class="soldier-box-badge">Box ${s.boxId}</span>
+        </div>
+        <div class="soldier-address-mini">${shortAddr}</div>
+        <div class="soldier-dept-row">
+          <span>${deptShort}</span>
+          <span>${dotChar}</span>
+        </div>
+        <div class="soldier-card-bottom">
+          <span class="soldier-usdc-val">$${usdc}</span>
+          <span class="soldier-quota-tiny">/ $5.50</span>
+        </div>
+      </div>
     `;
   }).join("");
+}
+
+function openSoldierDossier(walletId) {
+  const modal = document.getElementById("militaryIdModal");
+  if (!modal) return;
+
+  const data = currentTelemetryData || {};
+  let dossier = null;
+
+  if (walletId === 0) {
+    dossier = data.hierarchy?.highCommand?.vip00 || data.allWalletsDossiers?.[0] || {
+      id: 0,
+      rank: "Comandante Supremo VIP #00 (100% Solo Lectura)",
+      evmAddress: "0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990",
+      solanaAddress: "VIP_BLINDADA_READONLY_0000000000000000",
+      boxId: 0,
+      captainAddress: "ALTO MANDO VIP",
+      binanceVault: "BÓVEDA FRÍA VIP (SOLO LECTURA)",
+      dnaRole: "Comandante Supremo • 0 Tx Mainnet",
+      currentDepartment: "Alto Mando: Supervisión y Gobernanza",
+      lastAction: "Supervisión de aislamiento estanco de los 5 Boxes",
+      gasBalances: { pol: 0.00, bnb: 0.00, sepoliaEth: 0.00, baseEth: 0.00, arbitrumEth: 0.00, optimismEth: 0.00 },
+      capturedUsdc: 0.00
+    };
+  } else if (walletId === 501) {
+    dossier = data.hierarchy?.highCommand?.matriz501 || data.allWalletsDossiers?.[501] || {
+      id: 501,
+      rank: "Bóveda Matriz #501 (Tesorería & Nodriza de Gas)",
+      evmAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      solanaAddress: "GAS_HUB_MATRIZ_501_000000000000000000",
+      boxId: 501,
+      captainAddress: "NODRIZA GAS HUB",
+      binanceVault: "CONSOLIDADOR CENTRAL A BINANCE",
+      dnaRole: "Tesorería & Nodriza de Gas",
+      currentDepartment: "Depto 6: Refinería DEX & Tesorería #501",
+      lastAction: "Reserva de gas activa (40.07 POL + 0.00183 BNB)",
+      gasBalances: { pol: 40.07, bnb: 0.00183, sepoliaEth: 0.00, baseEth: 0.00, arbitrumEth: 0.00, optimismEth: 0.00 },
+      capturedUsdc: 0.00
+    };
+  } else {
+    dossier = data.soldiers?.find(s => s.id === walletId) || data.allWalletsDossiers?.[walletId];
+    if (!dossier) {
+      const fallbackWallet = (allWalletsData || []).find(w => w.index === walletId);
+      const box = Math.floor((walletId - 1) / 100) + 1;
+      dossier = {
+        id: walletId,
+        rank: "Soldado Satélite",
+        boxId: box,
+        evmAddress: fallbackWallet ? fallbackWallet.address : "0x0000000000000000000000000000000000000000",
+        solanaAddress: "11111111111111111111111111111111",
+        captainAddress: `Capitán Box ${box}`,
+        binanceVault: `Bóveda Binance #${box}`,
+        dnaRole: "Hunter-Aggressive",
+        currentDepartment: "Depto 1: Mineros On-Chain & BTC L2",
+        lastAction: "Racha diaria Citrea Testnet",
+        gasBalances: { pol: 0.05, bnb: 0.0001, sepoliaEth: 0.015, baseEth: 0.005, arbitrumEth: 0.005, optimismEth: 0 },
+        capturedUsdc: 0.00
+      };
+    }
+  }
+
+  const setTxt = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+
+  const idFormatted = String(dossier.id).padStart(3, "0");
+  setTxt("milSoldierTitle", dossier.id === 0 ? "EXPEDIENTE: COMANDANTE SUPREMO VIP #00" : (dossier.id === 501 ? "EXPEDIENTE: BÓVEDA MATRIZ #501 (GAS HUB)" : `EXPEDIENTE MILITAR: SOLDADO #${idFormatted}`));
+  setTxt("milSoldierRoleTag", `BOX ${dossier.boxId || 0} • ESCUADRÓN ANTI-SYBIL • ${dossier.dnaRole || "HUNTER"}`);
+  setTxt("milRank", dossier.rank || "Soldado Satélite");
+  setTxt("milBox", dossier.id === 0 ? "Bóveda VIP Blindada" : (dossier.id === 501 ? "Nodriza Central #501" : `Box ${dossier.boxId} (Aislamiento Estanco)`));
+  setTxt("milCaptain", dossier.captainAddress || "Capitán Asignado");
+  setTxt("milVault", dossier.binanceVault || "Bóveda Spot Asignada");
+
+  setTxt("milEvmAddress", dossier.evmAddress || "0x0000000000000000000000000000000000000000");
+  setTxt("milSolAddress", dossier.solanaAddress || "Sin dirección Solana");
+
+  setTxt("milCurrentDept", dossier.currentDepartment || "Depto 1: Mineros On-Chain & BTC L2");
+  setTxt("milDnaRole", `ADN: ${dossier.dnaRole || "Polimórfico Anti-Sybil"}`);
+  setTxt("milLastAction", dossier.lastAction || "Operación on-chain ejecutada");
+
+  // Gas
+  const g = dossier.gasBalances || {};
+  setTxt("milGasPol", `${Number(g.pol || 0).toFixed(4)} POL`);
+  setTxt("milGasBnb", `${Number(g.bnb || 0).toFixed(5)} BNB`);
+  setTxt("milGasSepolia", `${Number(g.sepoliaEth || 0).toFixed(4)} ETH`);
+  setTxt("milGasBase", `${Number(g.baseEth || 0).toFixed(4)} ETH`);
+  setTxt("milGasArb", `${Number(g.arbitrumEth || 0).toFixed(4)} ETH`);
+  setTxt("milGasOp", `${Number(g.optimismEth || 0).toFixed(4)} ETH`);
+
+  // Hoja de servicios
+  const ds = dossier.departmentStats || {};
+  setTxt("milServDept1", `${ds.mineria?.streak || 0} rachas • ${ds.mineria?.points || 0} pts`);
+  setTxt("milServDept2", `${ds.juegos?.chestsClaimed || 0} cofres • ${ds.juegos?.itemsLooted || 0} items`);
+  setTxt("milServDept3", `${ds.piscinas?.tickets || 0} tickets • ${ds.piscinas?.poolsJoined || 0} pools`);
+  setTxt("milServDept4", `${ds.airdrops?.txsConfirmed || 0} txs • ${ds.airdrops?.networksActive || 5} redes`);
+  setTxt("milServDept5", `${ds.freeMints?.mintsExecuted || 0} mints • 0 Honeypots`);
+  setTxt("milServDept6", "Auto-sweep >= $1.00 USDC a Binance");
+
+  // Cuota $5.50 USDC
+  const captured = Number(dossier.capturedUsdc || 0);
+  const target = 5.50;
+  const quotaPct = Math.min(100, Math.max(0, (captured / target) * 100));
+
+  setTxt("milCapturedUsdc", `$${captured.toFixed(2)}`);
+  const quotaBar = document.getElementById("milQuotaBar");
+  if (quotaBar) quotaBar.style.width = `${quotaPct}%`;
+  setTxt("milQuotaPct", `${quotaPct.toFixed(1)}% completado`);
+  setTxt("milQuotaStatus", captured >= 1.00 ? "Barrido automático a Binance activo" : "En faena de saturación multidepartamento");
+
+  setTxt("milFooterSerial", `SERIAL: 10K-SAT-${idFormatted} • ANTI-SYBIL SEALED • BOX ${dossier.boxId || 0}`);
+
+  modal.classList.add("open");
+}
+
+function closeMilitaryModal(e) {
+  if (e && e.target && e.target !== e.currentTarget && !e.target.classList.contains("modal-close-btn") && !e.target.classList.contains("mil-close-action-btn")) {
+    return;
+  }
+  const modal = document.getElementById("militaryIdModal");
+  if (modal) modal.classList.remove("open");
+}
+
+function copyModalCode(type) {
+  const elId = type === "evm" ? "milEvmAddress" : "milSolAddress";
+  const btnId = type === "evm" ? "milCopyEvmBtn" : "milCopySolBtn";
+  const addrEl = document.getElementById(elId);
+  const btn = document.getElementById(btnId);
+  if (!addrEl) return;
+
+  const addr = addrEl.textContent.trim();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(addr).then(() => {
+      if (btn) {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<span class="material-symbols-rounded">check</span><span>Copiado! ✓</span>`;
+        btn.style.borderColor = "#10B981";
+        btn.style.color = "#34D399";
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.borderColor = "";
+          btn.style.color = "";
+        }, 1800);
+      }
+    });
+  }
 }
 
 function copyWalletAddress(addr, btn) {

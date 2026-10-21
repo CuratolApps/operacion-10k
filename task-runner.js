@@ -233,11 +233,14 @@ async function executeSwarmOnEvmNetwork({
           missionMode = (Math.random() < 0.40 && defiToken) ? "DEFI_DEPOSIT" : "DAILY_CHECKIN";
         }
 
-        let targetAddress = "";
-        let humanAmount = "0.0";
-        let txType = "";
-        let randomCallData = "0x";
-        let targetGasLimit = 32000n;
+        const isMainnet = isMainnetKey(networkConfig.id) || [56, 137].includes(Number(networkConfig.chainId));
+
+        // Regla estricta Mainnet: Eliminar gasto de relleno (WBNB/WPOL sin recompensa)
+        // En Polygon (137) y BSC (56) el gas real SOLO se dispara ante contratos con recompensa verificable
+        if (isMainnet && missionMode === "DEFI_DEPOSIT") {
+          // Si no hay recompensa verificable asociada al wrap, conmutar a check-in gasless o verificar
+          missionMode = "DAILY_CHECKIN";
+        }
 
         if (missionMode === "DEFI_DEPOSIT" && defiToken) {
           txType = `DEFI_${defiToken.symbol}_DEPOSIT`;
@@ -266,7 +269,7 @@ async function executeSwarmOnEvmNetwork({
         let actionStatus = "";
         let txHash = null;
 
-        if (balanceEth >= minExecEth && !isDryRun) {
+        if (balanceEth >= minExecEth && !isDryRun && !(isMainnet && isProtectedIndex(sat.index))) {
           try {
             const signer = getSigner(sat.index, provider);
             let tx;

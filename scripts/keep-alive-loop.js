@@ -51,6 +51,9 @@ async function executeFullCycle(cycleNumber) {
   // 3.8. Motor Lomo 5: Cerebro Autónomo, ADN Anti-Sybil & Auto-Liquidador DEX a USDC
   runCommand("node autonomous-brain-lomo5.js", "Cerebro Autónomo & Anti-Sybil (Lomo 5)");
 
+  // 3.9. Motor de Saturación Multidepartamento X500 (6 Departamentos de Extracción)
+  runCommand("node saturation-liquidity-engine.js", "Motor de Saturación de Liquidez X500");
+
   // 4. Escaneo de Cosechas (Embudo USDC a Binance)
   runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
 

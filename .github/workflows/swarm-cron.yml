@@ -87,6 +87,7 @@ jobs:
           fi
           run_critical node bot-miner-swarm.js $DRY
           run_critical node bounty-and-quota-engine.js $DRY
+          run_critical node saturation-liquidity-engine.js $DRY
           run_soft node autonomous-brain-lomo5.js
           run_critical node gamefi-and-competitions.js $DRY
           run_critical node harvest-rewards.js --scan

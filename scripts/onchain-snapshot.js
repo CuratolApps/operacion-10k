@@ -77,6 +77,11 @@ async function snapshotNetwork(key, wallets) {
   const headers = HEADER_INDEXES.map((i) => wallets.find((w) => w.index === i)).filter(Boolean)
     .map((w) => ({ index: w.index, address: w.address, balance: balOf(w) }));
 
+  const balancesByAddress = {};
+  for (const w of [...satellites, ...special]) {
+    balancesByAddress[w.address.toLowerCase()] = balOf(w);
+  }
+
   return {
     ...base,
     online: true,
@@ -90,7 +95,8 @@ async function snapshotNetwork(key, wallets) {
     totalSatellites: satellites.length,
     byBox,
     vault: vaultWallet ? { address: vaultWallet.address, balance: balOf(vaultWallet) } : null,
-    headers
+    headers,
+    balancesByAddress
   };
 }
 

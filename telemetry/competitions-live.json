@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "fetchedAt": "2026-10-21T13:36:07.796Z",
+  "fetchedAt": "2026-10-21T17:04:14.334Z",
   "sources": [
     {
       "id": "galxe",
@@ -9,7 +9,7 @@
       "ok": true,
       "scanned": 50,
       "matched": 3,
-      "durationMs": 479,
+      "durationMs": 623,
       "error": null
     },
     {
@@ -19,30 +19,30 @@
       "ok": true,
       "scanned": 11,
       "matched": 5,
-      "durationMs": 1538,
+      "durationMs": 1311,
       "error": null
     },
     {
       "id": "immunefi",
       "name": "Immunefi (bug bounties públicos)",
       "url": "https://immunefi.com/public-api/bounties.json",
-      "ok": true,
-      "scanned": 221,
-      "matched": 33,
-      "durationMs": 12564,
-      "error": null
+      "ok": false,
+      "scanned": 0,
+      "matched": 0,
+      "durationMs": null,
+      "error": "TIMEOUT: Timeout > 30s"
     }
   ],
   "totals": {
-    "activeCompetitions": 41,
+    "activeCompetitions": 8,
     "byToken": {
-      "POL": 2,
-      "USDC": 40
+      "POL": 1,
+      "USDC": 7
     },
     "bySource": {
       "galxe": 3,
       "superteam": 5,
-      "immunefi": 33
+      "immunefi": 0
     }
   },
   "items": [
@@ -107,7 +107,7 @@
       ],
       "deadline": null,
       "startedAt": "2024-11-28T17:00:00.000Z",
-      "ageDays": 691,
+      "ageDays": 692,
       "staleSuspect": true,
       "campaignType": "Drop",
       "onchain": {
@@ -134,7 +134,7 @@
         "Solana (pago en USDC; no requiere gas EVM)"
       ],
       "deadline": "2026-10-31T21:59:59.000Z",
-      "participants": 79,
+      "participants": 80,
       "url": "https://earn.superteam.fun/listing/vaultline-security-audit-grants-for-colosseum-projects-up-to-4000-usdc-each"
     },
     {
@@ -153,7 +153,7 @@
         "Solana (pago en USDC; no requiere gas EVM)"
       ],
       "deadline": "2026-10-23T18:29:59.999Z",
-      "participants": 28,
+      "participants": 33,
       "url": "https://earn.superteam.fun/listing/redesign-your-favourite-app-on-solana"
     },
     {
@@ -191,7 +191,7 @@
         "Solana (pago en USDC; no requiere gas EVM)"
       ],
       "deadline": "2026-11-14T18:29:59.000Z",
-      "participants": 243,
+      "participants": 246,
       "url": "https://earn.superteam.fun/listing/chimp-on-metaplex"
     },
     {
@@ -210,636 +210,8 @@
         "Solana (pago en USDC; no requiere gas EVM)"
       ],
       "deadline": "2026-11-24T02:59:59.000Z",
-      "participants": 98,
+      "participants": 100,
       "url": "https://earn.superteam.fun/listing/create-content-on-premier-league-predictions-with-worm"
-    },
-    {
-      "source": "immunefi",
-      "id": "instadapp",
-      "title": "Instadapp",
-      "reward": {
-        "amount": 500000,
-        "token": "USDC, USDT, DAI"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/instadapp/"
-    },
-    {
-      "source": "immunefi",
-      "id": "magpiexyz",
-      "title": "MagpieXYZ",
-      "reward": {
-        "amount": 50000,
-        "token": "USDC AND BUSD"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/magpiexyz/"
-    },
-    {
-      "source": "immunefi",
-      "id": "dawn",
-      "title": "DAWN USD.infra Vault",
-      "reward": {
-        "amount": 50000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/dawn/"
-    },
-    {
-      "source": "immunefi",
-      "id": "chainlink",
-      "title": "Chainlink",
-      "reward": {
-        "amount": 3000000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/chainlink/"
-    },
-    {
-      "source": "immunefi",
-      "id": "enzymefinance",
-      "title": "Enzyme Blue",
-      "reward": {
-        "amount": 200000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/enzymefinance/"
-    },
-    {
-      "source": "immunefi",
-      "id": "gnosischain",
-      "title": "Gnosis Chain",
-      "reward": {
-        "amount": 2000000,
-        "token": "USDC OR XDAI"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/gnosischain/"
-    },
-    {
-      "source": "immunefi",
-      "id": "trufin",
-      "title": "TruYields",
-      "reward": {
-        "amount": 20000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/trufin/"
-    },
-    {
-      "source": "immunefi",
-      "id": "debridge",
-      "title": "deBridge",
-      "reward": {
-        "amount": 200000,
-        "token": "USDC OR USDT"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/debridge/"
-    },
-    {
-      "source": "immunefi",
-      "id": "layerzero",
-      "title": "LayerZero",
-      "reward": {
-        "amount": 15000000,
-        "token": "USDC, USDT AND BUSD"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/layerzero/"
-    },
-    {
-      "source": "immunefi",
-      "id": "symbiosis",
-      "title": "Symbiosis",
-      "reward": {
-        "amount": 100000,
-        "token": "USDC, USDT"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/symbiosis/"
-    },
-    {
-      "source": "immunefi",
-      "id": "ondofinance",
-      "title": "Ondo Finance",
-      "reward": {
-        "amount": 1000000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/ondofinance/"
-    },
-    {
-      "source": "immunefi",
-      "id": "zerion",
-      "title": "Zerion",
-      "reward": {
-        "amount": 25000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/zerion/"
-    },
-    {
-      "source": "immunefi",
-      "id": "dhedge",
-      "title": "dHEDGE",
-      "reward": {
-        "amount": 50000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/dhedge/"
-    },
-    {
-      "source": "immunefi",
-      "id": "aera",
-      "title": "Aera",
-      "reward": {
-        "amount": 500000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/aera/"
-    },
-    {
-      "source": "immunefi",
-      "id": "0x",
-      "title": "0x",
-      "reward": {
-        "amount": 1000000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/0x/"
-    },
-    {
-      "source": "immunefi",
-      "id": "xterio",
-      "title": "Xterio",
-      "reward": {
-        "amount": 80000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/xterio/"
-    },
-    {
-      "source": "immunefi",
-      "id": "autonolas",
-      "title": "Autonolas",
-      "reward": {
-        "amount": 5000,
-        "token": "USDC, USDT"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/autonolas/"
-    },
-    {
-      "source": "immunefi",
-      "id": "polygon",
-      "title": "Polygon",
-      "reward": {
-        "amount": 250000,
-        "token": "USDC, POL"
-      },
-      "rewardTokens": [
-        "USDC",
-        "POL"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/polygon/"
-    },
-    {
-      "source": "immunefi",
-      "id": "blockpinetwork",
-      "title": "BlockPI Network",
-      "reward": {
-        "amount": 5000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/blockpinetwork/"
-    },
-    {
-      "source": "immunefi",
-      "id": "axelarnetwork",
-      "title": "Axelar Network",
-      "reward": {
-        "amount": 500000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/axelarnetwork/"
-    },
-    {
-      "source": "immunefi",
-      "id": "mtpelerin",
-      "title": "Mt Pelerin",
-      "reward": {
-        "amount": 5000,
-        "token": "ETH, BTC, USDT, USDC, OR DAI"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/mtpelerin/"
-    },
-    {
-      "source": "immunefi",
-      "id": "hyperlane",
-      "title": "Hyperlane",
-      "reward": {
-        "amount": 2500000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/hyperlane/"
-    },
-    {
-      "source": "immunefi",
-      "id": "Aevo",
-      "title": "Aevo",
-      "reward": {
-        "amount": 300000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/Aevo/"
-    },
-    {
-      "source": "immunefi",
-      "id": "rhinofi",
-      "title": "Rhino.fi",
-      "reward": {
-        "amount": 2000000,
-        "token": "USDC OR USDT"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/rhinofi/"
-    },
-    {
-      "source": "immunefi",
-      "id": "hashflow",
-      "title": "Hashflow",
-      "reward": {
-        "amount": 50000,
-        "token": "USDC, USDT AND DAI"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/hashflow/"
-    },
-    {
-      "source": "immunefi",
-      "id": "listadao",
-      "title": "Lista DAO",
-      "reward": {
-        "amount": 1000000,
-        "token": "USDT, USDC, LISUSD"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/listadao/"
-    },
-    {
-      "source": "immunefi",
-      "id": "ankr",
-      "title": "Ankr",
-      "reward": {
-        "amount": 500000,
-        "token": "ANKR, USDT AND USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/ankr/"
-    },
-    {
-      "source": "immunefi",
-      "id": "bobanetwork",
-      "title": "Boba Network",
-      "reward": {
-        "amount": 100000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/bobanetwork/"
-    },
-    {
-      "source": "immunefi",
-      "id": "velvetcapital",
-      "title": "Velvet Capital",
-      "reward": {
-        "amount": 51000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/velvetcapital/"
-    },
-    {
-      "source": "immunefi",
-      "id": "sushiswap",
-      "title": "SushiSwap",
-      "reward": {
-        "amount": 200000,
-        "token": "USDC. SUSHI"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/sushiswap/"
-    },
-    {
-      "source": "immunefi",
-      "id": "fbtc",
-      "title": "FBTC",
-      "reward": {
-        "amount": 100000,
-        "token": "USDC/USDT"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/fbtc/"
-    },
-    {
-      "source": "immunefi",
-      "id": "harvest",
-      "title": "Harvest Finance",
-      "reward": {
-        "amount": 100000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/harvest/"
-    },
-    {
-      "source": "immunefi",
-      "id": "dexeprotocol",
-      "title": "DeXe Protocol",
-      "reward": {
-        "amount": 500000,
-        "token": "USDC"
-      },
-      "rewardTokens": [
-        "USDC"
-      ],
-      "rewardDetection": "campo rewardsToken de la API",
-      "chains": [
-        "BSC/Polygon (según activos del programa)"
-      ],
-      "deadline": null,
-      "participants": null,
-      "url": "https://immunefi.com/bug-bounty/dexeprotocol/"
     }
   ],
   "note": "Datos reales de endpoints públicos. Una fuente con ok=false NO aporta campañas."

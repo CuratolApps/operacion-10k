@@ -182,350 +182,402 @@
            ESPACIO 2: PURA MESA DE TRABAJO DINÁMICA (CONTENEDOR CENTRAL)
            ============================================================== -->
       <main class="center-stage-container workspace-container">
-        <div class="workspace-card" id="centralWorkspaceCard">
-
-          <!-- ------------------------------------------------------------
-               VISTA 1: MESA PRINCIPAL — FLUJO DE TRABAJO VISUAL INTERACTIVO
-               (DÍA 0 &rarr; 12,000 USDC EN 4 NODOS CONECTADOS POR TUBERÍAS SVG)
+        <div class="worksp          <!-- ------------------------------------------------------------
+               VISTA 1: CUARTEL GENERAL JERÁRQUICO INTERACTIVO (502 BILLETERAS)
+               Piso Superior (Alto Mando & Meta 12K) + Líneas de Mando + 6 Departamentos
                ------------------------------------------------------------ -->
           <section class="stage-view active" id="view-panorama">
-            <div class="central-floating-grid">
+            <div class="hq-cuartel-wrapper">
 
               <!-- ========================================================
-                   TARJETA 1 (Arriba Izquierda) — Capitalización & meta global (12,000 USDC)
+                   PISO SUPERIOR: ALTO MANDO & META GLOBAL 12,000 USDC
                    ======================================================== -->
-              <div class="central-frosted-card central-card" id="cardCapitalization">
-                <!-- Cabecera -->
-                <div class="cf-card-header central-card-header card-header">
-                  <div class="cf-card-title-wrap">
-                    <span class="material-symbols-rounded cf-title-icon">flag</span>
-                    <span class="cf-card-title central-card-title card-title">Capitalización &amp; meta global</span>
+              <div class="hq-top-floor-grid">
+
+                <!-- 1. Bóveda VIP #00 (Comandante Supremo - 100% Solo Lectura) -->
+                <div class="hq-command-card hq-vip-card" id="cardHqVip00" onclick="openSoldierDossier(0)"
+                  title="Ficha Oficial: Comandante Supremo VIP #00 (Blindada)">
+                  <div class="hq-card-badge-vip">
+                    <span class="material-symbols-rounded">shield_person</span>
+                    <span>ALTO MANDO VIP #00</span>
                   </div>
-                  <span class="cf-badge-meta header-badge status-badge">Meta: 12,000 USDC</span>
+                  <div class="hq-card-title">Comandante Supremo</div>
+                  <div class="hq-card-mono">0x87e3...3990</div>
+                  <div class="hq-card-status-pill hq-pill-gold">
+                    <span class="hq-status-dot hq-dot-gold"></span>
+                    <span>100% Blindada • 0 Tx Mainnet</span>
+                  </div>
+                  <div class="hq-card-click-hint">Toca para abrir Carnet Militar ➔</div>
                 </div>
 
-                <!-- Cuerpo -->
-                <div class="cf-card-body">
-                  <!-- Ranura 1: Capitalizado (bóvedas Binance): -->
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-info">
-                      <span class="cf-slot-label">Capitalizado (bóvedas Binance):</span>
-                      <span class="cf-slot-sub">Consolidado recibido en 5 bóvedas Spot</span>
+                <!-- 2. Núcleo Estratégico: Meta 12,000 USDC & Tanque de Gas Global -->
+                <div class="hq-central-goal-card" id="cardHqGlobalTank">
+                  <div class="hq-goal-top-bar">
+                    <div class="hq-goal-title-wrap">
+                      <span class="material-symbols-rounded hq-flag-icon">military_tech</span>
+                      <span class="hq-goal-heading">CUARTEL GENERAL — META 12,000 USDC</span>
                     </div>
-                    <span class="cf-val-green-bold" id="centralCapitalizedAmount">$0.00 USDC</span>
+                    <span class="hq-goal-badge" id="hqProgressPct">0.00%</span>
                   </div>
 
-                  <!-- Ranura 2: Por capitalizar (hoy 500 bots): -->
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-info">
-                      <span class="cf-slot-label">Por capitalizar (hoy 500 bots):</span>
-                      <span class="cf-slot-sub">Acumulado en ciclo actual listo para enviar</span>
+                  <div class="hq-goal-split-amounts">
+                    <div class="hq-amount-box">
+                      <span class="hq-amount-label">Capitalizado en Binance:</span>
+                      <strong class="hq-amount-val-green" id="hqCapitalizedAmount">$0.00 USDC</strong>
                     </div>
-                    <span class="cf-val-black-bold" id="centralPendingAmount">+$0.00 USDC</span>
+                    <div class="hq-amount-box text-right">
+                      <span class="hq-amount-label">Por Capitalizar (500 bots):</span>
+                      <strong class="hq-amount-val-gold" id="hqPendingAmount">+$0.00 USDC</strong>
+                    </div>
                   </div>
 
-                  <!-- Ranura 3 (Lomo 4): ROI Gas Inicial ($50.00 USD / ~45€): -->
-                  <div class="cf-slot inner-slot" id="slotRoiTracker">
-                    <div class="cf-slot-info">
-                      <span class="cf-slot-label">📈 ROI Gas Inicial ($50 USD / ~45€):</span>
-                      <span class="cf-slot-sub" id="roiBreakEvenSub">Break-Even: -$50.00 | Kraken 72h: 116 POL + 0.02 BNB</span>
+                  <div class="hq-progress-container">
+                    <div class="hq-progress-track">
+                      <div class="hq-progress-fill" id="hqProgressBar" style="width: 0%;"></div>
                     </div>
-                    <span class="cf-val-green-bold" id="roiPercentageStat">0.00% ($0.00)</span>
+                    <div class="hq-progress-info-row">
+                      <span>Restante a Meta: <strong class="mono-code" id="hqRemainingAmount">$12,000.00 USDC</strong></span>
+                      <span>500 Satélites en Saturación X500</span>
+                    </div>
                   </div>
 
-                  <!-- Barra Profesional Única de Progreso (12,000 USDC) -->
-                  <div class="cf-progress-section inner-slot">
-                    <div class="cf-progress-labels"
-                      style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                      <span class="cf-prog-title">Meta: <strong>$12,000.00 USDC</strong></span>
-                      <span class="cf-prog-stat" id="centralProgressPct">0.00%</span>
+                  <!-- Tanque de Gas Global de la Flota -->
+                  <div class="hq-gas-tank-strip" id="hqGlobalGasStrip">
+                    <div class="hq-tank-pill" title="Reserva Global Polygon Mainnet">
+                      <span class="tank-sym">POL</span>
+                      <strong class="mono-code" id="tankPol">94.30</strong>
                     </div>
-                    <div class="cf-progress-track">
-                      <div class="cf-progress-bar" id="centralProgressBar" style="width: 0%;"></div>
+                    <div class="hq-tank-pill" title="Reserva Global BNB Smart Chain">
+                      <span class="tank-sym">BNB</span>
+                      <strong class="mono-code" id="tankBnb">0.0347</strong>
                     </div>
-                    <div class="cf-progress-footer"
-                      style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                      <span class="cf-prog-remaining">Restante: <strong class="mono-code"
-                          id="centralRemainingAmount">$12,000.00 USDC</strong></span>
-                      <span class="cf-prog-status">Fondeo Binance Spot</span>
+                    <div class="hq-tank-pill" title="Reserva Sepolia Testnet L1">
+                      <span class="tank-sym">ETH Sep</span>
+                      <strong class="mono-code" id="tankSepolia">4.259</strong>
+                    </div>
+                    <div class="hq-tank-pill" title="Reserva Base Sepolia L2">
+                      <span class="tank-sym">ETH Base</span>
+                      <strong class="mono-code" id="tankBase">0.928</strong>
+                    </div>
+                    <div class="hq-tank-pill" title="Reserva Arbitrum Sepolia L2">
+                      <span class="tank-sym">ETH Arb</span>
+                      <strong class="mono-code" id="tankArb">0.708</strong>
                     </div>
                   </div>
                 </div>
+
+                <!-- 3. Bóveda Matriz #501 (Tesorería & Nodriza de Gas Mainnet) -->
+                <div class="hq-command-card hq-matriz-card" id="cardHqMatriz501" onclick="openSoldierDossier(501)"
+                  title="Ficha Oficial: Bóveda Matriz #501 (Tesorería & Nodriza)">
+                  <div class="hq-card-badge-matriz">
+                    <span class="material-symbols-rounded">local_gas_station</span>
+                    <span>MATRIZ #501 • NODRIZA</span>
+                  </div>
+                  <div class="hq-card-title">Tesorería &amp; Gas Hub</div>
+                  <div class="hq-card-mono">0xD4D1...3743</div>
+                  <div class="hq-matriz-reserves">
+                    <span class="hq-res-pill" id="matrizPolBal">40.07 POL</span>
+                    <span class="hq-res-pill" id="matrizBnbBal">0.00183 BNB</span>
+                  </div>
+                  <div class="hq-card-status-pill hq-pill-blue">
+                    <span class="hq-status-dot hq-dot-blue"></span>
+                    <span>Kraken: 116.38 POL · 0.02 BNB (72h)</span>
+                  </div>
+                  <div class="hq-card-click-hint">Toca para abrir Carnet Militar ➔</div>
+                </div>
+
               </div>
 
               <!-- ========================================================
-                   TARJETA 2 (Arriba Derecha) — Inventario global de gas (500 carteras)
+                   LÍNEAS DE MANDO JERÁRQUICAS (SVG VIBRANTE)
                    ======================================================== -->
-              <div class="central-frosted-card central-card" id="cardGasHealth">
-                <!-- Cabecera -->
-                <div class="cf-card-header central-card-header card-header">
-                  <div class="cf-card-title-wrap">
-                    <span class="material-symbols-rounded cf-title-icon">local_gas_station</span>
-                    <span class="cf-card-title central-card-title card-title">Inventario global de gas</span>
-                  </div>
-                  <span class="cf-badge-neutral header-badge status-badge">500 carteras</span>
-                </div>
-
-                <!-- Cuerpo -->
-                <div class="cf-card-body">
-                  <!-- Desglose limpio en ranuras esmeriladas -->
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-network">
-                      <span class="cf-network-name">Ethereum Sepolia:</span>
-                    </div>
-                    <div class="cf-slot-metrics">
-                      <strong class="cf-val-black-bold" id="metricEthL1">2.943 ETH</strong>
-                      <span class="cf-slot-sub">(~1.3 días de autonomía)</span>
-                    </div>
-                  </div>
-
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-network">
-                      <span class="cf-network-name">Base Sepolia:</span>
-                    </div>
-                    <div class="cf-slot-metrics">
-                      <strong class="cf-val-black-bold" id="metricBaseL2">0.300 ETH</strong>
-                      <span class="cf-slot-sub">(~1.8 días de autonomía)</span>
-                    </div>
-                  </div>
-
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-network">
-                      <span class="cf-network-name">Arbitrum / Otras L2:</span>
-                    </div>
-                    <div class="cf-slot-metrics">
-                      <strong class="cf-val-black-bold" id="metricArbL2">Operativo</strong>
-                      <span class="cf-slot-sub">(Reserva &gt;0.015 ETH blindada)</span>
-                    </div>
-                  </div>
-
-                  <!-- Caja de Estado / Alerta de Gas Inferior -->
-                  <div class="cf-gas-status-box status-optimal" id="gasStatusAlertBox">
-                    <span class="material-symbols-rounded cf-status-icon" id="gasStatusIcon">check_circle</span>
-                    <span class="cf-status-text" id="gasStatusLabel">Estado: Tanque óptimo — sin recarga
-                      requerida</span>
-                  </div>
-                </div>
+              <div class="hq-command-lines-bar" aria-hidden="true">
+                <svg class="hq-svg-lines" viewBox="0 0 1000 20" preserveAspectRatio="none">
+                  <path d="M 120 0 L 120 10 L 500 10 L 500 20" stroke="rgba(217, 119, 6, 0.45)" stroke-width="1.8" fill="none" />
+                  <path d="M 880 0 L 880 10 L 500 10 L 500 20" stroke="rgba(5, 150, 105, 0.45)" stroke-width="1.8" fill="none" />
+                  <circle cx="500" cy="10" r="3.5" fill="#F59E0B" />
+                  <circle cx="120" cy="5" r="2.5" fill="#D97706" />
+                  <circle cx="880" cy="5" r="2.5" fill="#059669" />
+                </svg>
               </div>
 
               <!-- ========================================================
-                   TARJETA 3 (Abajo Izquierda) — Radar cazador & Granja Bitcoin L2
+                   PISO CENTRAL: LAS 6 PUERTAS DE LOS DEPARTAMENTOS DE EXTRACCIÓN
+                   (Saturación X500 con Rotación Polimórfica Anti-Sybil)
                    ======================================================== -->
-              <div class="central-frosted-card central-card" id="cardHunterRadar">
-                <!-- Cabecera -->
-                <div class="cf-card-header central-card-header card-header">
-                  <div class="cf-card-title-wrap">
-                    <span class="material-symbols-rounded cf-title-icon">radar</span>
-                    <span class="cf-card-title central-card-title card-title">Radar cazador &amp; Granja Bitcoin L2</span>
-                  </div>
-                  <span class="cf-badge-pulse header-badge status-badge live-badge">
-                    <span class="cf-pulse-green"></span>
-                    <span id="hunterCampaignsBadge">16 campañas ($0)</span>
-                  </span>
+              <div class="hq-departments-header">
+                <div class="hq-depts-title-wrap">
+                  <span class="material-symbols-rounded">hub</span>
+                  <span class="hq-depts-heading">LOS 6 DEPARTAMENTOS DE EXTRACCIÓN DE LIQUIDEZ (SATURACIÓN X500)</span>
                 </div>
-
-                <!-- Cuerpo -->
-                <div class="cf-card-body">
-                  <!-- Objetivo Activo -->
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-info">
-                      <span class="cf-slot-label">Objetivo activo &amp; Bitcoin L2:</span>
-                      <span class="cf-slot-highlight-text" id="hunterActiveTarget">Rotación DeFi WETH / liquidez L2 (Sepolia • Base • Arbitrum • OP)</span>
-                    </div>
-                  </div>
-
-                  <!-- Métricas de Campañas y Granja Bitcoin L2 (Lomo 2 & 3) -->
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-info" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
-                      <div>
-                        <span class="cf-slot-label">Check-Ins / Gasless:</span>
-                        <span class="cf-slot-sub" id="hunterCheckinsStat">210 / 185 firmas</span>
-                      </div>
-                      <div>
-                        <span class="cf-slot-label">₿ Granja Bitcoin L2:</span>
-                        <span class="cf-val-green-bold" id="hunterBtcL2Stat">6,000 pts (Citrea/Goat)</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Vigía Bóveda #501 & Txs Globales -->
-                  <div class="cf-slot inner-slot">
-                    <div class="cf-slot-info" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
-                      <div>
-                        <span class="cf-slot-label">Txs on-chain acumuladas:</span>
-                        <strong class="cf-val-black-bold" id="fleetTotalTxsStat">1,045 txs</strong>
-                      </div>
-                      <div>
-                        <span class="cf-slot-label">Vigía Bóveda #501:</span>
-                        <span class="cf-slot-sub" id="vault501VigiaStat">⏳ En espera gas CEX</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Rendimiento Captado Hoy + Estado Escaneo -->
-                  <div class="cf-slot inner-slot cf-slot-performance">
-                    <div class="cf-perf-left">
-                      <span class="cf-slot-label">Rendimiento captado hoy:</span>
-                      <span class="cf-val-green-bold" id="hunterDailyCaptured">+$0.00 USDC</span>
-                    </div>
-                    <div class="cf-perf-right">
-                      <div class="cf-scan-active-pill">
-                        <span class="material-symbols-rounded" style="font-size: 14px;">radar</span>
-                        <span id="hunterScanPillText">Bounties: 8 activos</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Lomo 5: Cerebro Autónomo & Anti-Sybil (4 Arquetipos + DEX-to-USDC) -->
-                  <div class="cf-slot inner-slot" id="slotLomo5Autonomy" style="padding: 3px 8px; margin-top: 2px;">
-                    <div class="cf-slot-info" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                      <span class="cf-slot-label" style="display: flex; align-items: center; gap: 4px; font-size: 0.72rem;">
-                        <span class="material-symbols-rounded" style="font-size: 13px; color: #34D399;">psychology</span>
-                        <span id="lomo5DnaTitle">ADN: 4 Arquetipos Activos</span>
-                      </span>
-                      <span class="cf-val-green-bold" id="lomo5DexStatus" style="font-size: 0.71rem;">DEX ➔ USDC Activo (0 Honeypots)</span>
-                    </div>
-                  </div>
-
-                  <!-- Juegos & Competencias USDC + Cooldown Mainnet 168h + Saldos on-chain (datos reales) -->
-                  <div class="cf-slot inner-slot" id="slotGamefiCompetitions" style="padding: 3px 8px; margin-top: 2px; flex-direction: column; align-items: stretch; gap: 2px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                      <span class="cf-slot-label" style="display: flex; align-items: center; gap: 4px; font-size: 0.72rem;">
-                        <span class="material-symbols-rounded" style="font-size: 13px; color: #34D399;">sports_esports</span>
-                        <span>Juegos &amp; Competencias USDC</span>
-                      </span>
-                      <span class="cf-val-green-bold" id="gamefiCompStat" style="font-size: 0.71rem;">Sin escaneo aún</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                      <span class="cf-slot-label" style="font-size: 0.68rem;">⏳ Cooldown Mainnet 168h (en espera / fondeados)</span>
-                      <span class="cf-slot-sub" id="gamefiCooldownStat" style="font-size: 0.68rem;">—</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                      <span class="cf-slot-label" style="font-size: 0.68rem;">🛡️ 5 Cabeceras protegidas</span>
-                      <span class="cf-slot-sub" id="gamefiHeadersStat" style="font-size: 0.68rem;">—</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                      <span class="cf-slot-label" style="font-size: 0.68rem;">⛓️ Saldos en cadena (flota)</span>
-                      <span class="cf-slot-sub" id="onchainBalancesStat" style="font-size: 0.68rem;">—</span>
-                    </div>
-                  </div>
-                </div>
+                <button class="hq-view-all-troops-btn" onclick="openTroopHall('all', 0)">
+                  <span class="material-symbols-rounded">groups</span>
+                  <span>Ver las 500 Tropas</span>
+                </button>
               </div>
 
-              <!-- ========================================================
-                   TARJETA 4 (Abajo Derecha) — Crecimiento diario & proyección
-                   ======================================================== -->
-              <div class="central-frosted-card central-card" id="cardGrowthProjection">
-                <!-- Cabecera -->
-                <div class="cf-card-header central-card-header card-header">
-                  <div class="cf-card-title-wrap">
-                    <span class="material-symbols-rounded cf-title-icon">trending_up</span>
-                    <span class="cf-card-title central-card-title card-title">Crecimiento diario &amp; proyección</span>
+              <div class="hq-departments-grid">
+
+                <!-- DEPTO 1: Minería On-Chain & Bitcoin L2 -->
+                <div class="hq-dept-card" id="deptCard1" onclick="openTroopHall('depto', 1)"
+                  title="Clic para desplegar las tropas de Minería & Bitcoin L2">
+                  <div class="dept-top">
+                    <div class="dept-title-wrap">
+                      <span class="dept-icon">⛏️</span>
+                      <div class="dept-name-box">
+                        <span class="dept-id-badge">DEPTO 1</span>
+                        <h3 class="dept-name">Minería &amp; Bitcoin L2</h3>
+                      </div>
+                    </div>
+                    <span class="dept-saturation-badge" id="deptBots1">100/500 Bots</span>
                   </div>
-                  <span class="cf-badge-neutral header-badge status-badge">Activa</span>
+                  <div class="dept-task-box">
+                    <span class="dept-task-label">Acción en Vivo:</span>
+                    <span class="dept-task-desc" id="deptTask1">Citrea ZK &amp; Goat Network (BTC L2)</span>
+                  </div>
+                  <div class="dept-metrics-row">
+                    <div class="dept-metric">
+                      <span class="metric-lbl">Extracción:</span>
+                      <strong class="metric-val" id="deptOps1">380 ops • 9,250 pts</strong>
+                    </div>
+                    <div class="dept-metric text-right">
+                      <span class="metric-lbl">Capturado:</span>
+                      <strong class="metric-val-green" id="deptUsdc1">$0.00 USDC</strong>
+                    </div>
+                  </div>
+                  <div class="dept-card-footer">
+                    <span class="dept-status-pill">🟢 Saturando X500</span>
+                    <span class="dept-drill-link">Abrir Tropa ➔</span>
+                  </div>
                 </div>
 
-                <!-- Cuerpo -->
-                <div class="cf-card-body">
-                  <!-- Gráfico de Curva Sencilla (SVG limpio en Verde Mate) -->
-                  <div class="cf-chart-wrap inner-slot">
-                    <svg class="cf-growth-svg" viewBox="0 0 380 90" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id="curveFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stop-color="#34D399" stop-opacity="0.30" />
-                          <stop offset="100%" stop-color="#34D399" stop-opacity="0.02" />
-                        </linearGradient>
-                      </defs>
-                      <!-- Guías horizontales sutiles -->
-                      <line x1="15" y1="18" x2="365" y2="18" stroke="rgba(255, 255, 255, 0.20)" stroke-width="1"
-                        stroke-dasharray="3 3" />
-                      <line x1="15" y1="48" x2="365" y2="48" stroke="rgba(255, 255, 255, 0.20)" stroke-width="1"
-                        stroke-dasharray="3 3" />
-                      <line x1="15" y1="76" x2="365" y2="76" stroke="rgba(255, 255, 255, 0.35)" stroke-width="1" />
-
-                      <!-- Área rellena translúcida sutil -->
-                      <path d="M 20 76 C 90 76, 170 76, 230 73 C 280 70, 325 45, 360 16 L 360 76 Z"
-                        fill="url(#curveFillGrad)" />
-
-                      <!-- Curva suave hacia la meta -->
-                      <path d="M 20 76 C 90 76, 170 76, 230 73 C 280 70, 325 45, 360 16" fill="none" stroke="#34D399"
-                        stroke-width="2.5" stroke-linecap="round" />
-
-                      <!-- Punto Actual Hoy (Punto de arranque Día 1 $0.00) -->
-                      <circle cx="20" cy="76" r="3.5" fill="#34D399" stroke="#FFFFFF" stroke-width="2" />
-                      <circle cx="20" cy="76" r="6" fill="none" stroke="rgba(52, 211, 153, 0.45)" stroke-width="1.5" />
-
-                      <!-- Leyendas en los extremos -->
-                      <text x="22" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700"
-                        fill="#E2E8F0">Día 1 ($0)</text>
-                      <text x="180" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700"
-                        fill="#E2E8F0" text-anchor="middle">Actual ($0.00)</text>
-                      <text x="360" y="86" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800"
-                        fill="#34D399" text-anchor="end">Meta ($12,000)</text>
-                    </svg>
+                <!-- DEPTO 2: Juegos Web3, Metaverso & Loot -->
+                <div class="hq-dept-card" id="deptCard2" onclick="openTroopHall('depto', 2)"
+                  title="Clic para desplegar las tropas de Juegos Web3, Metaverso & Loot">
+                  <div class="dept-top">
+                    <div class="dept-title-wrap">
+                      <span class="dept-icon">🎮</span>
+                      <div class="dept-name-box">
+                        <span class="dept-id-badge">DEPTO 2</span>
+                        <h3 class="dept-name">Juegos &amp; Metaverso</h3>
+                      </div>
+                    </div>
+                    <span class="dept-saturation-badge" id="deptBots2">85/500 Bots</span>
                   </div>
-
-                  <!-- Ranura Lomo 4: Velocímetro de Vueltas ($5.50/bot sin freno) -->
-                  <div class="cf-slot inner-slot" id="slotLapSpeedometer" style="margin-top: 4px;">
-                    <div class="cf-slot-info">
-                      <span class="cf-slot-label">🏎️ Velocímetro $5.50/bot (Sin freno):</span>
-                      <span class="cf-slot-sub" id="lapSpeedometerSub">Escalón 1: $2,750 (500 bots) • Vuelta #1 en curso</span>
-                    </div>
-                    <span class="cf-val-green-bold" id="lapCompletedStat">0 / 500 vueltas</span>
+                  <div class="dept-task-box">
+                    <span class="dept-task-label">Acción en Vivo:</span>
+                    <span class="dept-task-desc" id="deptTask2">Cofres diarios y credenciales gamer</span>
                   </div>
-
-                  <!-- Métricas de Proyección Estadística -->
-                  <div class="cf-projection-metrics inner-slot">
-                    <div class="cf-metric-row">
-                      <span class="cf-metric-lbl">Promedio diario actual:</span>
-                      <strong class="cf-val-green-bold" id="projDailyAverage">$0.00 USDC / día</strong>
+                  <div class="dept-metrics-row">
+                    <div class="dept-metric">
+                      <span class="metric-lbl">Extracción:</span>
+                      <strong class="metric-val" id="deptOps2">220 claims • 68 cofres</strong>
                     </div>
-                    <div class="cf-metric-row">
-                      <span class="cf-metric-lbl">Proyección 12,000 USDC:</span>
-                      <strong class="cf-val-black-bold" id="projEstimatedDays">Acumulando historial on-chain (500 bots
-                        activos)</strong>
+                    <div class="dept-metric text-right">
+                      <span class="metric-lbl">Capturado:</span>
+                      <strong class="metric-val-green" id="deptUsdc2">$0.00 USDC</strong>
                     </div>
+                  </div>
+                  <div class="dept-card-footer">
+                    <span class="dept-status-pill">🟢 Loot Activo</span>
+                    <span class="dept-drill-link">Abrir Tropa ➔</span>
                   </div>
                 </div>
+
+                <!-- DEPTO 3: Mañeo de Piscinas & Quest Pools USDC -->
+                <div class="hq-dept-card" id="deptCard3" onclick="openTroopHall('depto', 3)"
+                  title="Clic para desplegar las tropas de Piscinas & Quest Pools">
+                  <div class="dept-top">
+                    <div class="dept-title-wrap">
+                      <span class="dept-icon">🦊</span>
+                      <div class="dept-name-box">
+                        <span class="dept-id-badge">DEPTO 3</span>
+                        <h3 class="dept-name">Piscinas &amp; Rifas USDC</h3>
+                      </div>
+                    </div>
+                    <span class="dept-saturation-badge" id="deptBots3">90/500 Bots</span>
+                  </div>
+                  <div class="dept-task-box">
+                    <span class="dept-task-label">Acción en Vivo:</span>
+                    <span class="dept-task-desc" id="deptTask3">ADN polimórfico en pools &amp; rifas Layer3/Galxe</span>
+                  </div>
+                  <div class="dept-metrics-row">
+                    <div class="dept-metric">
+                      <span class="metric-lbl">Extracción:</span>
+                      <strong class="metric-val" id="deptOps3">495 tickets • 28 campañas</strong>
+                    </div>
+                    <div class="dept-metric text-right">
+                      <span class="metric-lbl">Capturado:</span>
+                      <strong class="metric-val-green" id="deptUsdc3">$0.00 USDC</strong>
+                    </div>
+                  </div>
+                  <div class="dept-card-footer">
+                    <span class="dept-status-pill">🟢 Anti-Sybil OK</span>
+                    <span class="dept-drill-link">Abrir Tropa ➔</span>
+                  </div>
+                </div>
+
+                <!-- DEPTO 4: Siembra Airdrops L2 ($0 Gas) -->
+                <div class="hq-dept-card" id="deptCard4" onclick="openTroopHall('depto', 4)"
+                  title="Clic para desplegar las tropas de Siembra Airdrops L2 ($0 Gas)">
+                  <div class="dept-top">
+                    <div class="dept-title-wrap">
+                      <span class="dept-icon">🪂</span>
+                      <div class="dept-name-box">
+                        <span class="dept-id-badge">DEPTO 4</span>
+                        <h3 class="dept-name">Airdrops $0 Gas</h3>
+                      </div>
+                    </div>
+                    <span class="dept-saturation-badge" id="deptBots4">105/500 Bots</span>
+                  </div>
+                  <div class="dept-task-box">
+                    <span class="dept-task-label">Acción en Vivo:</span>
+                    <span class="dept-task-desc" id="deptTask4">Siembra EIP-712 en Sepolia, Base, Arb, OP &amp; Solana</span>
+                  </div>
+                  <div class="dept-metrics-row">
+                    <div class="dept-metric">
+                      <span class="metric-lbl">Extracción:</span>
+                      <strong class="metric-val" id="deptOps4">540 siembras • 5 redes L2</strong>
+                    </div>
+                    <div class="dept-metric text-right">
+                      <span class="metric-lbl">Capturado:</span>
+                      <strong class="metric-val-green" id="deptUsdc4">$0.00 USDC</strong>
+                    </div>
+                  </div>
+                  <div class="dept-card-footer">
+                    <span class="dept-status-pill">🔵 100% Cero Gas</span>
+                    <span class="dept-drill-link">Abrir Tropa ➔</span>
+                  </div>
+                </div>
+
+                <!-- DEPTO 5: Caza de Free Mints & Activos Vendibles -->
+                <div class="hq-dept-card" id="deptCard5" onclick="openTroopHall('depto', 5)"
+                  title="Clic para desplegar las tropas de Caza de Free Mints">
+                  <div class="dept-top">
+                    <div class="dept-title-wrap">
+                      <span class="dept-icon">🌾</span>
+                      <div class="dept-name-box">
+                        <span class="dept-id-badge">DEPTO 5</span>
+                        <h3 class="dept-name">Free Mints &amp; Loot</h3>
+                      </div>
+                    </div>
+                    <span class="dept-saturation-badge" id="deptBots5">70/500 Bots</span>
+                  </div>
+                  <div class="dept-task-box">
+                    <span class="dept-task-label">Acción en Vivo:</span>
+                    <span class="dept-task-desc" id="deptTask5">Medallas $0 con GoPlus Anti-Honeypot</span>
+                  </div>
+                  <div class="dept-metrics-row">
+                    <div class="dept-metric">
+                      <span class="metric-lbl">Extracción:</span>
+                      <strong class="metric-val" id="deptOps5">185 mints • 0 Honeypots</strong>
+                    </div>
+                    <div class="dept-metric text-right">
+                      <span class="metric-lbl">Capturado:</span>
+                      <strong class="metric-val-green" id="deptUsdc5">$0.00 USDC</strong>
+                    </div>
+                  </div>
+                  <div class="dept-card-footer">
+                    <span class="dept-status-pill">🟢 Anti-Honeypot</span>
+                    <span class="dept-drill-link">Abrir Tropa ➔</span>
+                  </div>
+                </div>
+
+                <!-- DEPTO 6: Refinería DEX & Tesorería #501 -->
+                <div class="hq-dept-card" id="deptCard6" onclick="openTroopHall('depto', 6)"
+                  title="Clic para desplegar la Refinería DEX & Embudo Binance">
+                  <div class="dept-top">
+                    <div class="dept-title-wrap">
+                      <span class="dept-icon">💱</span>
+                      <div class="dept-name-box">
+                        <span class="dept-id-badge">DEPTO 6</span>
+                        <h3 class="dept-name">Refinería DEX a USDC</h3>
+                      </div>
+                    </div>
+                    <span class="dept-saturation-badge" id="deptBots6">50/500 Bots</span>
+                  </div>
+                  <div class="dept-task-box">
+                    <span class="dept-task-label">Acción en Vivo:</span>
+                    <span class="dept-task-desc" id="deptTask6">Conversión DEX a 100% USDC Nativo &amp; Sweep</span>
+                  </div>
+                  <div class="dept-metrics-row">
+                    <div class="dept-metric">
+                      <span class="metric-lbl">Barrido:</span>
+                      <strong class="metric-val" id="deptOps6">Auto >= $1.00 USDC a Binance</strong>
+                    </div>
+                    <div class="dept-metric text-right">
+                      <span class="metric-lbl">Consolidado:</span>
+                      <strong class="metric-val-green" id="deptUsdc6">$0.00 USDC</strong>
+                    </div>
+                  </div>
+                  <div class="dept-card-footer">
+                    <span class="dept-status-pill">🟢 5 Bóvedas Spot</span>
+                    <span class="dept-drill-link">Abrir Tropa ➔</span>
+                  </div>
+                </div>
+
               </div>
 
             </div>
           </section>
 
           <!-- ------------------------------------------------------------
-               VISTA 2: EXPLORADOR LIMPIO DE 100 CARTERAS POR BOX
-               (SIN MENÚS FLOTANTES NI TROFEOS — ALTO CONTRASTE Y EFICIENCIA)
+               VISTA 2: DRILL-DOWN NIVEL 1 — SALA DE TROPA INTERACTIVA
+               (Los 500 Satélites con Indicadores en Vivo, Filtros & Carnet Militar)
                ------------------------------------------------------------ -->
           <section class="stage-view" id="view-boxes">
-            <div class="box-explorer-clean-layout">
+            <div class="troop-hall-wrapper">
 
-              <!-- Cabecera Limpia (Botón Volver + Título del Box) -->
-              <div class="be-clean-header">
-                <button class="be-back-btn" onclick="returnToPanorama()" title="Volver a la Mesa Central 2x2">
+              <!-- Cabecera de la Sala de Tropa -->
+              <div class="troop-hall-header">
+                <button class="troop-back-btn" onclick="returnToPanorama()" title="Volver al Cuartel General">
                   <span class="material-symbols-rounded">arrow_back</span>
-                  <span>Vista General</span>
+                  <span>Cuartel General</span>
                 </button>
-                <div class="be-header-title-wrap">
-                  <h2 class="be-header-title" id="boxExpTitle">Box 1 — Carteras #001 a #100</h2>
-                  <span class="be-header-sub" id="boxExpSubtitle">100 Carteras en Supervisión • Cero Cruce Sybil •
-                    Depósitos Directos a Binance</span>
+                <div class="troop-header-info">
+                  <h2 class="troop-title" id="troopHallTitle">SALA DE TROPA — TODOS LOS SATÉLITES (#001–#500)</h2>
+                  <span class="troop-subtitle" id="troopHallSubtitle">500 Satélites Anti-Sybil en Aislamiento Estanco • Asignados a sus 5 Capitanes y Bóvedas</span>
+                </div>
+                <!-- Leyenda de Estados en Vivo -->
+                <div class="troop-legend-bar">
+                  <div class="legend-item"><span class="legend-dot dot-green"></span><span>🟢 Con Gas Mainnet+Testnet</span></div>
+                  <div class="legend-item"><span class="legend-dot dot-yellow"></span><span>⚡ Operando este Turno</span></div>
+                  <div class="legend-item"><span class="legend-dot dot-blue"></span><span>🔵 Testnet $0</span></div>
                 </div>
               </div>
 
-              <!-- Tabla de 100 Carteras con Scroll Limpio -->
-              <div class="be-clean-table-card">
-                <div class="be-clean-table-scroll">
-                  <table class="be-clean-table">
-                    <thead>
-                      <tr>
-                        <th style="width: 80px;">Bot #</th>
-                        <th>Dirección (42 caracteres)</th>
-                        <th style="width: 220px;">Salud & gas ETH</th>
-                        <th style="width: 170px; text-align: right;">Total generado</th>
-                      </tr>
-                    </thead>
-                    <tbody id="boxWalletsTableBody">
-                      <!-- 100 filas generadas dinámicamente sin trofeos ni emojis -->
+              <!-- Barra de Búsqueda y Filtros Rápidos -->
+              <div class="troop-filter-toolbar">
+                <div class="troop-search-wrap">
+                  <span class="material-symbols-rounded search-icon">search</span>
+                  <input type="text" id="troopSearchInput" placeholder="Buscar por #número (#014, 14) o dirección 0x..." oninput="handleTroopSearch()">
+                </div>
+                <div class="troop-filter-chips" id="troopFilterChips">
+                  <button class="filter-chip active" data-filter="all" onclick="applyTroopFilter('all')">Todos (500)</button>
+                  <button class="filter-chip" data-filter="gas" onclick="applyTroopFilter('gas')">🟢 Con Gas</button>
+                  <button class="filter-chip" data-filter="turn" onclick="applyTroopFilter('turn')">⚡ En Turno</button>
+                  <button class="filter-chip" data-filter="testnet" onclick="applyTroopFilter('testnet')">🔵 Testnet $0</button>
+                  <button class="filter-chip" data-filter="box1" onclick="applyTroopFilter('box1')">Box 1</button>
+                  <button class="filter-chip" data-filter="box2" onclick="applyTroopFilter('box2')">Box 2</button>
+                  <button class="filter-chip" data-filter="box3" onclick="applyTroopFilter('box3')">Box 3</button>
+                  <button class="filter-chip" data-filter="box4" onclick="applyTroopFilter('box4')">Box 4</button>
+                  <button class="filter-chip" data-filter="box5" onclick="applyTroopFilter('box5')">Box 5</button>
+                  <button class="filter-chip" data-filter="dept1" onclick="applyTroopFilter('dept1')">⛏️ Depto 1</button>
+                  <button class="filter-chip" data-filter="dept2" onclick="applyTroopFilter('dept2')">🎮 Depto 2</button>
+                  <button class="filter-chip" data-filter="dept3" onclick="applyTroopFilter('dept3')">🦊 Depto 3</button>
+                  <button class="filter-chip" data-filter="dept4" onclick="applyTroopFilter('dept4')">🪂 Depto 4</button>
+                  <button class="filter-chip" data-filter="dept5" onclick="applyTroopFilter('dept5')">🌾 Depto 5</button>
+                  <button class="filter-chip" data-filter="dept6" onclick="applyTroopFilter('dept6')">💱 Depto 6</button>
+                </div>
+              </div>
+
+              <!-- Cuadrícula Interactiva de Tropas (Scroll Interno Autónomo) -->
+              <div class="troop-grid-container" id="troopGridContainer">
+                <!-- Se poblará dinámicamente con los 500 expedientes -->
+              </div>
+
+            </div>
+          </section>>
                     </tbody>
                   </table>
                 </div>
@@ -675,6 +727,202 @@
 
     </div>
 
+  </div>
+
+  <!-- ========================================================
+       MODAL: DRILL-DOWN NIVEL 2 — CARNET / EXPEDIENTE MILITAR OFICIAL (#000 a #501)
+       ======================================================== -->
+  <div class="military-modal-backdrop" id="militaryIdModal" onclick="closeMilitaryModal(event)">
+    <div class="military-modal-card" onclick="event.stopPropagation()">
+      
+      <!-- Encabezado del Carnet Militar -->
+      <div class="modal-mil-header">
+        <div class="modal-mil-badge-strip">
+          <div class="mil-insignia">
+            <span class="material-symbols-rounded">military_tech</span>
+          </div>
+          <div class="mil-header-titles">
+            <div class="mil-super-title">REPÚBLICA ON-CHAIN • OPERACIÓN 10K</div>
+            <h2 class="mil-main-name" id="milSoldierTitle">EXPEDIENTE MILITAR: SOLDADO #014</h2>
+            <div class="mil-sub-tag" id="milSoldierRoleTag">BOX 1 • ESCUADRÓN ALPHA • CAPITÁN #001</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeMilitaryModal()" title="Cerrar Carnet (Esc)">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+
+      <!-- Cuerpo del Carnet -->
+      <div class="modal-mil-body">
+        
+        <!-- Fila 1: Jerarquía, Rango y Bóveda Asignada -->
+        <div class="mil-meta-grid">
+          <div class="mil-meta-box">
+            <span class="mil-meta-label">JERARQUÍA / RANGO</span>
+            <strong class="mil-meta-val" id="milRank">Soldado Satélite</strong>
+          </div>
+          <div class="mil-meta-box">
+            <span class="mil-meta-label">BOX ASIGNADO</span>
+            <strong class="mil-meta-val" id="milBox">Box 1 (Aislamiento Estanco)</strong>
+          </div>
+          <div class="mil-meta-box">
+            <span class="mil-meta-label">CAPITÁN AL MANDO</span>
+            <strong class="mil-meta-val mono" id="milCaptain">#001 (0xb750...40F)</strong>
+          </div>
+          <div class="mil-meta-box">
+            <span class="mil-meta-label">BÓVEDA BINANCE SPOT</span>
+            <strong class="mil-meta-val mono" id="milVault">Bóveda #1 (0x48b2...31b)</strong>
+          </div>
+        </div>
+
+        <!-- Fila 2: Códigos Completos (EVM & Solana) con Copiar Directo -->
+        <div class="mil-codes-block">
+          <div class="mil-code-row">
+            <div class="mil-code-label">
+              <span class="material-symbols-rounded">token</span>
+              <span>DIRECCIÓN EVM (Mainnet &amp; Testnets L2)</span>
+            </div>
+            <div class="mil-address-bar">
+              <span class="mil-address-text mono-code" id="milEvmAddress">0x0000000000000000000000000000000000000000</span>
+              <button class="mil-copy-btn" id="milCopyEvmBtn" onclick="copyModalCode('evm')" title="Copiar dirección EVM">
+                <span class="material-symbols-rounded">content_copy</span>
+                <span>Copiar EVM</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="mil-code-row">
+            <div class="mil-code-label">
+              <span class="material-symbols-rounded">currency_exchange</span>
+              <span>DIRECCIÓN SOLANA (Devnet / Mainnet)</span>
+            </div>
+            <div class="mil-address-bar">
+              <span class="mil-address-text mono-code" id="milSolAddress">11111111111111111111111111111111</span>
+              <button class="mil-copy-btn" id="milCopySolBtn" onclick="copyModalCode('sol')" title="Copiar dirección Solana">
+                <span class="material-symbols-rounded">content_copy</span>
+                <span>Copiar Solana</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 3: ADN Polimórfico, Turno y Departamento Actual -->
+        <div class="mil-dept-status-row">
+          <div class="mil-dept-pill-active" id="milCurrentDeptPill">
+            <span class="dept-dot">⚡</span>
+            <span class="dept-name-val" id="milCurrentDept">Depto 1: Mineros On-Chain &amp; BTC L2</span>
+          </div>
+          <div class="mil-dna-pill" id="milDnaPill">
+            <span class="dna-icon">🧬</span>
+            <span class="dna-text" id="milDnaRole">ADN: Hunter-Aggressive • Turno #1</span>
+          </div>
+          <div class="mil-action-pill" id="milLastActionPill">
+            <span class="action-time">Última acción:</span>
+            <strong id="milLastAction">Racha diaria Citrea Testnet</strong>
+          </div>
+        </div>
+
+        <!-- Fila 4: Tanque de Combustible (Gasolina Actual por Red) -->
+        <div class="mil-gas-section">
+          <div class="mil-section-title">
+            <span class="material-symbols-rounded">local_gas_station</span>
+            <span>COMBUSTIBLE &amp; SALDOS ACTIVOS ON-CHAIN</span>
+          </div>
+          <div class="mil-gas-grid">
+            <div class="mil-gas-card">
+              <span class="gas-sym">POL (Polygon)</span>
+              <strong class="gas-val" id="milGasPol">0.0000</strong>
+            </div>
+            <div class="mil-gas-card">
+              <span class="gas-sym">BNB (BSC)</span>
+              <strong class="gas-val" id="milGasBnb">0.0000</strong>
+            </div>
+            <div class="mil-gas-card">
+              <span class="gas-sym">Sepolia ETH</span>
+              <strong class="gas-val" id="milGasSepolia">0.0000</strong>
+            </div>
+            <div class="mil-gas-card">
+              <span class="gas-sym">Base Sepolia</span>
+              <strong class="gas-val" id="milGasBase">0.0000</strong>
+            </div>
+            <div class="mil-gas-card">
+              <span class="gas-sym">Arbitrum Sep.</span>
+              <strong class="gas-val" id="milGasArb">0.0000</strong>
+            </div>
+            <div class="mil-gas-card">
+              <span class="gas-sym">Optimism Sep.</span>
+              <strong class="gas-val" id="milGasOp">0.0000</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 5: Hoja de Servicios por los 6 Departamentos -->
+        <div class="mil-service-record-section">
+          <div class="mil-section-title">
+            <span class="material-symbols-rounded">fact_check</span>
+            <span>HOJA DE SERVICIOS POR LOS 6 DEPARTAMENTOS DE EXTRACCIÓN</span>
+          </div>
+          <div class="mil-service-grid">
+            <div class="mil-serv-card">
+              <div class="serv-head">⛏️ Minería &amp; BTC L2</div>
+              <div class="serv-val" id="milServDept1">0 rachas • 0 pts</div>
+            </div>
+            <div class="mil-serv-card">
+              <div class="serv-head">🎮 Juegos &amp; Loot</div>
+              <div class="serv-val" id="milServDept2">0 cofres • 0 NFT</div>
+            </div>
+            <div class="mil-serv-card">
+              <div class="serv-head">🦊 Piscinas USDC</div>
+              <div class="serv-val" id="milServDept3">0 tickets • 0 pools</div>
+            </div>
+            <div class="mil-serv-card">
+              <div class="serv-head">🪂 Airdrops $0 Gas</div>
+              <div class="serv-val" id="milServDept4">0 txs • 5 redes</div>
+            </div>
+            <div class="mil-serv-card">
+              <div class="serv-head">🌾 Free Mints</div>
+              <div class="serv-val" id="milServDept5">0 mints • Seguro</div>
+            </div>
+            <div class="mil-serv-card">
+              <div class="serv-head">💱 Refinería DEX</div>
+              <div class="serv-val" id="milServDept6">Auto-sweep a Binance</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 6: Progreso hacia la Cuota Individual ($5.50 USDC) -->
+        <div class="mil-quota-section">
+          <div class="mil-quota-header">
+            <div class="mil-quota-left">
+              <span class="material-symbols-rounded quota-icon">savings</span>
+              <div>
+                <strong class="quota-title">CUOTA ASIGNADA POR VUELTA: $5.50 USDC</strong>
+                <span class="quota-sub">Al alcanzar $1.00 USDC se barre automáticamente a su Bóveda de Binance</span>
+              </div>
+            </div>
+            <div class="mil-quota-right">
+              <span class="quota-curr-val" id="milCapturedUsdc">$0.00</span>
+              <span class="quota-target-val">/ $5.50 USDC</span>
+            </div>
+          </div>
+          <div class="mil-quota-track">
+            <div class="mil-quota-fill" id="milQuotaBar" style="width: 0%;"></div>
+          </div>
+          <div class="mil-quota-footer">
+            <span id="milQuotaStatus">Estado: En faena de saturación multidepartamento</span>
+            <span id="milQuotaPct" class="mono">0.0% completado</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pie del Carnet -->
+      <div class="modal-mil-footer">
+        <span class="mil-footer-serial" id="milFooterSerial">SERIAL: 10K-SAT-001 • ANTI-SYBIL SEALED</span>
+        <button class="mil-close-action-btn" onclick="closeMilitaryModal()">Cerrar Expediente</button>
+      </div>
+
+    </div>
   </div>
 
   <script src="app.js"></script>
