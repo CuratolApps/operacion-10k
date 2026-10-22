@@ -53,8 +53,9 @@ In volatile crypto markets, automated keepers, arbitrageurs, and rebalancing bot
 
 ```markdown
 Project Name: Zero-Gas Multicall3 Quoter & Closed-Cycle Multi-DEX Execution Engine
-Repository: https://github.com/CuratolApps/operacion-10k
-Live Metrics / Dashboard: http://127.0.0.1:5500/dashboard (Backed by telemetry/fleet-telemetry.json)
+Repository: https://github.com/CuratolApps/operacion-10k/tree/gh-pages
+Live Demo / Interactive HUD: https://curatolapps.github.io/operacion-10k/
+Showcase Telemetry: https://curatolapps.github.io/operacion-10k/telemetry/showcase-telemetry.json
 
 Description:
 Operación 10K provides an open-source, highly optimized quantitative engine for zero-gas DEX liquidity observation and atomic closed-cycle execution across Polygon and BSC Mainnet.

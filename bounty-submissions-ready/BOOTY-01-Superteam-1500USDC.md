@@ -45,20 +45,21 @@ This project presents a battle-tested, production-ready Web3 infrastructure orch
 ## 4. 60-Second Copy-Paste Submission Text (Ready for Form)
 
 ```markdown
-Project Name: Operación 10K / 12K — Autonomous 502-Agent Swarm & Multi-Chain Orchestration Framework
-Repository: https://github.com/CuratolApps/operacion-10k
-Demo / Dashboard: http://127.0.0.1:5500/dashboard (Local live dashboard powered by fleet-telemetry.json)
+Project Name: CyberShinobi Genesis — Autonomous 502-Agent Swarm & Web3 Multi-Chain Orchestrator
+Repository: https://github.com/CuratolApps/operacion-10k/tree/gh-pages
+Demo / Live HUD: https://curatolapps.github.io/operacion-10k/
 
 Description:
-Operación 10K is an industrial-grade autonomous multi-agent Web3 framework managing 502 individual wallets with cryptographic Anti-Sybil isolation. It features 32 AI Nebula Commanders acting as specialized dyads for real-time risk assessment, anti-MEV protection, and closed-cycle DeFi yield capture. 
+CyberShinobi Genesis is an industrial-grade autonomous multi-agent Web3 infrastructure orchestrating 502 non-custodial wallets with cryptographic Anti-Sybil isolation across EVM (Polygon, BSC, Base) and Solana. It features 32 AI Nebula Commanders acting as specialized dyads for real-time risk assessment, anti-MEV protection, and closed-cycle DeFi yield capture.
 
-Key Capabilities:
-1. Zero-Gas Multicall3 Reconnaissance: Scans 6 institutional DEX liquidity pools (Uniswap V3 0.05%/0.30%, QuickSwap, SushiSwap, PancakeSwap) without burning native gas.
-2. Concurrent EIP-712 Swarm Engine: Signs and attests 500 decentralized identity proofs in parallel batches in under 2.5 seconds.
-3. Spearhead Capital Concentration: Eliminates micro-fragmentation by funneling closed-cycle execution through high-liquidity motherships (#501, #001, #101) with an immutable 70/30 compounding split.
-4. Comprehensive Anti-Sybil Defense: Mathematical isolation prevents graph correlation across five 100-satellite boxes.
+Key Architectural Capabilities:
+1. Zero-Gas Multicall3 Reconnaissance: Continuously polls 6 institutional DEX liquidity pools (Uniswap V3 0.05%/0.30%, QuickSwap V2/V3, SushiSwap, PancakeSwap) without consuming any native gas.
+2. Concurrent EIP-712 Swarm Engine: Signs and attests 500 decentralized identity proofs in parallel batches in under 2.5 seconds with zero on-chain gas expenditure.
+3. Spearhead Capital Concentration: Eliminates micro-fragmentation by funneling closed-cycle execution through high-liquidity motherships (#501, #001, #101) with an immutable 70/30 compounding split (70% Native USDC, 30% Gas Restock).
+4. Comprehensive Anti-Sybil Defense: Strict 5-tier mathematical partitioning (100 agents per box) preventing cross-address clustering and graph heuristic flagging.
+5. Real-Time Internet Launch Tracker: Live integration with DEXScreener, DefiLlama, and GoPlus Security tracking 6 major upcoming TGEs (Citrea, CyberShinobi, GOAT, Base, Arbitrum, Monad).
 
 Payout Address:
-Polygon / EVM: 0xD4D12077a61118372f7a367319fb11922Beb3743
 Solana: 7y9PFUB6qAbRL5Ntni6tQc3RoYVpjsAvkp6vDamgBaYK
+Polygon / EVM: 0xD4D12077a61118372f7a367319fb11922Beb3743
 ```

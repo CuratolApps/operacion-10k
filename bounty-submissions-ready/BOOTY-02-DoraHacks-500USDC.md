@@ -50,17 +50,18 @@ The **Operación 10K Cyber Shinobi Swarm** solves this through a pioneering **He
 
 ```markdown
 Project Name: Hermetic Anti-Sybil Swarm Architecture for 502 Web3 Autonomous Agents
-Repository: https://github.com/CuratolApps/operacion-10k
-Demo / Dashboard: http://127.0.0.1:5500/dashboard (Live dashboard backed by telemetry/fleet-telemetry.json)
+Repository: https://github.com/CuratolApps/operacion-10k/tree/gh-pages
+Demo / Live HUD: https://curatolapps.github.io/operacion-10k/
 
 Description:
 Operación 10K provides an open-source, production-proven framework for orchestrating large-scale autonomous agent fleets (502 wallets) without triggering Sybil detection or draining capital through gas fragmentation.
 
 Core Architectural Innovations:
 1. Hermetic Box Partitioning: Strict 5-tier isolation prevents cross-address graph linkage. Inter-box transfers are cryptographically blocked at the SDK runtime layer.
-2. Gasless EIP-712 Attestation Engine: Vectorized signing allows 500 independent non-custodial agents to participate in governance, identity verification, and multi-protocol tasks in under 2 seconds with zero gas cost.
-3. Inviolable Gas Ratchet & Capital Guardrails: Strict programmatic rules prevent burning native gas reserves, ensuring uninterrupted 24/7 autonomous survival.
+2. Gasless EIP-712 Attestation Engine: Vectorized signing allows 500 independent non-custodial agents to participate in governance, identity verification, and multi-protocol tasks in under 2.5 seconds with zero gas cost.
+3. Inviolable Gas Ratchet & Capital Guardrails: Strict programmatic rules prevent burning native gas reserves (121.024 POL on Mothership #501), ensuring uninterrupted 24/7 autonomous survival.
 4. Real-Time Telemetry & Defense Shield: Continuous monitoring via Multicall3 telemetry, Anti-MEV pre-flight simulations, and instant alerting via Telegram bots.
+5. Live Multi-Launch Tracking: Nebulas #33 and #34 tracking upcoming TGEs and executing minute-zero closed-cycle arbitrage.
 
 Contact / Payout Address (Polygon / EVM):
 0xD4D12077a61118372f7a367319fb11922Beb3743

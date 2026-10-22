@@ -51,8 +51,9 @@ Managing and visualizing a massive multi-agent fleet (502 wallets across multipl
 
 ```markdown
 Project Name: Orbital Mission Control — Real-Time HUD Dashboard for 502-Agent Web3 Swarms
-Repository: https://github.com/CuratolApps/operacion-10k
-Live Demo: http://127.0.0.1:5500/dashboard (Interactive UI backed by live telemetry/fleet-telemetry.json)
+Repository: https://github.com/CuratolApps/operacion-10k/tree/gh-pages
+Live Demo / Interactive HUD: https://curatolapps.github.io/operacion-10k/
+Showcase Telemetry: https://curatolapps.github.io/operacion-10k/telemetry/showcase-telemetry.json
 
 Description:
 Orbital Mission Control is a lightweight, zero-dependency Web3 HUD engineered to monitor and manage large-scale multi-wallet swarms (502 wallets) in real-time.
