@@ -152,11 +152,64 @@ async function generateUnifiedTelemetry() {
     staticNet("Solana Devnet", 103, "RATE_LIMITED")
   ];
 
-  // 5. Meta 12,000 USDC (Modo Producción Real: Arranque en $0.00)
+  // 5. Metas: Meta Global $12,000 USDC & Fase 1: Recuperación 120 € ($130.00 USDC)
   const targetGoalUsdc = 12000.0;
   const currentAccruedUsdc = totalHistoricalUsdc;
   const progressPct = parseFloat(((currentAccruedUsdc / targetGoalUsdc) * 100).toFixed(2));
   const remainingUsdc = parseFloat((targetGoalUsdc - currentAccruedUsdc).toFixed(2));
+
+  // Fase 1: Recuperación 100% de la Inversión (120,00 € = $130.00 USDC)
+  const targetPhase1RecoveryUsdc = 130.0;
+  const targetPhase1RecoveryEur = 120.0;
+  const phase1ProgressPct = parseFloat(((currentAccruedUsdc / targetPhase1RecoveryUsdc) * 100).toFixed(2));
+  const phase1RemainingUsdc = parseFloat(Math.max(0, targetPhase1RecoveryUsdc - currentAccruedUsdc).toFixed(2));
+  const phase1CurrentEur = parseFloat((currentAccruedUsdc * (targetPhase1RecoveryEur / targetPhase1RecoveryUsdc)).toFixed(2));
+  const phase1RemainingEur = parseFloat((phase1RemainingUsdc * (targetPhase1RecoveryEur / targetPhase1RecoveryUsdc)).toFixed(2));
+
+  const phase1Recovery120Eur = {
+    targetEur: targetPhase1RecoveryEur,
+    targetUsdc: targetPhase1RecoveryUsdc,
+    currentAccruedUsdc,
+    currentAccruedEur: phase1CurrentEur,
+    progressPct: phase1ProgressPct,
+    remainingUsdc: phase1RemainingUsdc,
+    remainingEur: phase1RemainingEur,
+    status: currentAccruedUsdc >= targetPhase1RecoveryUsdc ? "COMPLETED_100%" : "IN_PROGRESS",
+    milestones: [
+      {
+        step: 1,
+        title: "Escalón 1: 50% Inversión",
+        targetUsdc: 65.0,
+        targetEur: 60.0,
+        reached: currentAccruedUsdc >= 65.0,
+        progressPct: parseFloat(Math.min(100, (currentAccruedUsdc / 65.0) * 100).toFixed(1))
+      },
+      {
+        step: 2,
+        title: "Escalón 2: 75% Inversión",
+        targetUsdc: 97.5,
+        targetEur: 90.0,
+        reached: currentAccruedUsdc >= 97.5,
+        progressPct: parseFloat(Math.min(100, (currentAccruedUsdc / 97.5) * 100).toFixed(1))
+      },
+      {
+        step: 3,
+        title: "Escalón 3: Break-Even Total (100% Intocable)",
+        targetUsdc: 130.0,
+        targetEur: 120.0,
+        reached: currentAccruedUsdc >= 130.0,
+        progressPct: parseFloat(Math.min(100, (currentAccruedUsdc / 130.0) * 100).toFixed(1))
+      }
+    ],
+    closedLoopStrategy: {
+      usdcCompoundingRatio: 0.70,
+      gasRestockRatio: 0.30,
+      rule: "70% de ganancia neta a USDC Nativo · 30% a recarga automática de POL (60%) y BNB (40%)",
+      polFloor501: 120.90,
+      box3LeveledPol: 18.02,
+      strictNoGasSell: true
+    }
+  };
 
   // 6. Últimas transacciones REALES del último ciclo (hashes verificables del reporte)
   const allConfirmedRuns = (lastRun.evmResults || [])
@@ -586,9 +639,12 @@ async function generateUnifiedTelemetry() {
       goldenRuleStatus: "CUMPLIMIENTO_ESTRICTO_100%",
       isolationProtocol: "INTRA_BLOQUE_ESTANCO_B1_B5",
       badges: [
-        "🔒 Trinquete 85% USDC",
-        "⛽ Capitalizador 75/25 Gas Activo",
-        "🛡️ 5º Candado Anti-MEV <= 0.15%"
+        "🎯 Meta 120 € ($130 USDC) en Marcha",
+        "💎 Ciclo Cerrado 70/30 Activo",
+        "🔒 Trinquete 85% USDC Intocable",
+        "⛽ #501 >120.9 POL / Box 3 Nivelado 18.02 POL",
+        "🛡️ 5º Candado Anti-MEV <= 0.15%",
+        "🚫 STRICT_NO_GAS_SELL = true"
       ]
     },
     radarData: {
@@ -631,6 +687,7 @@ async function generateUnifiedTelemetry() {
       destinationSummary: "Fondo de desarrollo Cura Tools + Estación de trabajo de alta ingeniería",
       projectedCompletionDays: "Acumulando historial on-chain (500 bots activos)"
     },
+    phase1Recovery120Eur,
     binanceVaults: [
       { boxId: 1, name: "BÓVEDA BINANCE #1", range: "BOX 1: #001–#100 + #501", address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", receivedUsdc: (existingTelemetry.totalHarvestedToBinanceUsdc || 0.00), pendingUsdc: parseFloat(box1UsdcTotal.toFixed(6)), status: "🟢 VERIFICADA" },
       { boxId: 2, name: "BÓVEDA BINANCE #2", range: "BOX 2: #101–#200", address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", receivedUsdc: 0.00, pendingUsdc: parseFloat(box2UsdcTotal.toFixed(6)), status: "🟢 VERIFICADA" },
@@ -774,9 +831,12 @@ async function generateUnifiedTelemetry() {
       ratchet85: { model: "USDC_RATCHET_85", ratio: 0.85 }
     },
     badges: [
-      "🔒 Trinquete 85% USDC",
-      "⛽ Capitalizador 75/25 Gas Activo",
-      "🛡️ 5º Candado Anti-MEV <= 0.15%"
+      "🎯 Meta 120 € ($130 USDC) en Marcha",
+      "💎 Ciclo Cerrado 70/30 Activo",
+      "🔒 Trinquete 85% USDC Intocable",
+      "⛽ #501 >120.9 POL / Box 3 Nivelado 18.02 POL",
+      "🛡️ 5º Candado Anti-MEV <= 0.15%",
+      "🚫 STRICT_NO_GAS_SELL = true"
     ]
   };
 

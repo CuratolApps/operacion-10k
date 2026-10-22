@@ -1,13 +1,52 @@
 {
-  "schemaVersion": "2.1.0",
-  "generatedAt": "2026-10-22T10:17:31.829Z",
+  "schemaVersion": "3.0.0",
+  "generatedAt": "2026-10-22T10:25:29.519Z",
   "status": "ACTIVE_COMPOUNDING",
+  "strategy": "FASE_1_RECUPERACION_120_EUR_CLOSED_LOOP_70_30",
   "badges": [
-    "🔒 Trinquete 85% USDC",
-    "⚡ Acelerador 50/50 Gas Activo (<400 POL)",
+    "🎯 Meta 120 € ($130 USDC) en Marcha",
+    "💎 Ciclo Cerrado 70/30 Activo",
+    "🔒 Trinquete 85% USDC Intocable",
+    "⛽ #501 >120.9 POL / Box 3 Nivelado 18.02 POL",
     "🛡️ 5º Candado Anti-MEV <= 0.15%",
     "🚫 STRICT_NO_GAS_SELL = true"
   ],
+  "phase1Recovery120Eur": {
+    "targetEur": 120,
+    "targetUsdc": 130,
+    "currentAccruedUsdc": 42.579394,
+    "currentAccruedEur": 39.3,
+    "progressPct": 32.75,
+    "remainingUsdc": 87.42,
+    "remainingEur": 80.7,
+    "status": "IN_PROGRESS",
+    "milestones": [
+      {
+        "step": 1,
+        "title": "Escalón 1: 50% Inversión",
+        "targetUsdc": 65,
+        "targetEur": 60,
+        "reached": false,
+        "progressPct": 65.5
+      },
+      {
+        "step": 2,
+        "title": "Escalón 2: 75% Inversión",
+        "targetUsdc": 97.5,
+        "targetEur": 90,
+        "reached": false,
+        "progressPct": 43.7
+      },
+      {
+        "step": 3,
+        "title": "Escalón 3: Break-Even Total (100% Intocable)",
+        "targetUsdc": 130,
+        "targetEur": 120,
+        "reached": false,
+        "progressPct": 32.8
+      }
+    ]
+  },
   "ratchet85": {
     "model": "USDC_RATCHET_85",
     "ratio": 0.85,
@@ -18,12 +57,12 @@
     "status": "LOCKED_ATH_ELEVATED"
   },
   "gasCompounder": {
-    "model": "GAS_ACCELERATOR_50_50",
+    "model": "CLOSED_CYCLE_RECOVERY_70_30",
     "isAcceleratorMode": true,
     "targetThresholdPol": 400,
-    "currentFleetPol": 234.7,
-    "usdcCompoundingRatio": 0.5,
-    "gasRestockRatio": 0.5,
+    "currentFleetPol": 265.86,
+    "usdcCompoundingRatio": 0.7,
+    "gasRestockRatio": 0.3,
     "gasDistribution": {
       "polPolygonShare": 0.6,
       "bnbBscShare": 0.4
@@ -56,10 +95,11 @@
   "protectionGuards": {
     "strictNoGasSell": true,
     "zeroGasDrainMode": true,
-    "sacredFloor501Pol": 120.9,
-    "sacredFloor501Bnb": 0.0065,
-    "sacredFloorCaptainsPol": 18.02,
+    "sacredFloor501Pol": 121.024,
+    "sacredFloor501Bnb": 0.007,
+    "sacredFloorCaptainsPol": 18.025,
     "sacredFloorCaptainsBnb": 0.0038,
+    "box3LeveledPol": 18.025,
     "polygonGas5BoxesTouched": 0,
     "antiMevMaxSlippagePct": 0.15
   }

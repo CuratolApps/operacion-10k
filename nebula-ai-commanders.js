@@ -443,9 +443,11 @@ async function runNebulaCommanders(options = {}) {
     console.log("   🎯 [RÁFAGA TÁCTICA #1 DE 5] Activada por Orden de Mando: Doble Llave >= 95%           ");
   } else {
     console.log("   🔭 [ARQUEO PREVIO $0 GAS] Certificación Cuantitativa de Rutas y 5 Candados Anti-MEV");
-    console.log("   🔒 [ORDEN DE EMERGENCIA: STRICT_NO_GAS_SELL & MODO ACELERADOR 50/50 (<400 POL)]");
-    console.log("   ↳ Prohibición Absoluta de Swaps Unidireccionales de Gas (Ley POL_Final >= POL_Inicial)");
-    console.log("   ↳ Operaciones Exclusivas en Ciclo Cerrado con Capital USDC (USDC -> Arbitraje -> Más USDC)");
+    console.log("   🎯 [FASE 1: RECUPERACIÓN 120 € ($130.00 USDC) — MOTOR CICLO CERRADO 70/30]");
+    console.log("   ↳ 70% Ganancia Neta a USDC Nativo (Escalones: $65.00 / $97.50 / $130.00)");
+    console.log("   ↳ 30% Ganancia Neta a Recarga Automática de Gas (60% POL / 40% BNB)");
+    console.log("   🔒 STRICT_NO_GAS_SELL = true (Ley POL_Final >= POL_Inicial • Gas #501 >120.9 POL & Box 3 18.02 POL)");
+    console.log("   🛡️ Operaciones Exclusivas en Ciclo Cerrado con Validación callStatic a $0 Gas");
   }
   console.log("=========================================================================================\n");
 
@@ -531,11 +533,9 @@ async function runNebulaCommanders(options = {}) {
         : isBurstMode
         ? "🎯 RÁFAGA TÁCTICA #1 DE 5 AUTORIZADA (SALTO DE $14.62 A ~$22.00+ USDC)"
         : (authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false))
-          ? "ARBITRAJE_NETO_ACTIVO"
-          : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
-      gasTankProtection: isSurpriseStrike
-        ? "165.00 POL & 0.0090 BNB en #501 + 100% DE LOS 5 BOXES INTACTOS (>305 POL & >0.057 BNB TOTAL FLOTA)"
-        : "384.53 POL & 0.064 BNB 100% BLINDADOS COMO COMBUSTIBLE DE FIRMA",
+          ? "🎯 FASE 1: ARBITRAJE DE CICLO CERRADO 70/30 (META 120 € / $130.00 USDC)"
+          : "🎯 FASE 1: RECUPERACIÓN 120 € ($130.00 USDC) — VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      gasTankProtection: "121.02 POL en #501 + 18.02 POL en Box 3 + 100% DE CAPITANES NIVELADOS (~266 POL FLOTA MAINNET BLINDADOS)",
       whitelistVerifiedTokens: ["WPOL", "WBNB", "USDC Nativo Circle", "USDC BSC", "WETH", "WBTC", "ETH-BSC", "BTCB"],
       mainnetExecutionPermitted: isSurpriseStrike || isBurstMode || (liveObserver?.arbitrageCycle?.isNetPositive ?? false),
       gasLevels: {

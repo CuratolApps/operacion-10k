@@ -38,21 +38,37 @@ const RATCHET_FILE = path.join(TELEMETRY_DIR, "profit-lock-ratchet.json");
 const FLEET_TELEMETRY_FILE = path.join(TELEMETRY_DIR, "fleet-telemetry.json");
 const LIVE_OBSERVER_FILE = path.join(TELEMETRY_DIR, "live-market-observer.json");
 
-// Parámetros Institucionales del Motor
+// Parámetros Institucionales del Motor — Estrategia de Recuperación 120 € ($130.00 USDC) con Reparto 70/30
 const FLEET_POL_TARGET_THRESHOLD = 400.0; // Meta de combustible para normalizar reinversión
-const USDC_COMPOUNDING_RATIO_STANDARD = 0.75;  // 75% de ganancia neta a USDC
-const GAS_RESTOCK_RATIO_STANDARD = 0.25;       // 25% de ganancia neta a combustible
+const USDC_COMPOUNDING_RATIO_70_30 = 0.70; // 70% de ganancia neta a USDC Nativo (Fase 1: Recuperación 120 €)
+const GAS_RESTOCK_RATIO_70_30 = 0.30;      // 30% de ganancia neta a combustible de flota (POL & BNB)
 
-const USDC_COMPOUNDING_RATIO_ACCELERATOR = 0.50; // 50% de ganancia neta a USDC (Modo Acelerador < 400 POL)
-const GAS_RESTOCK_RATIO_ACCELERATOR = 0.50;      // 50% de ganancia neta a combustible (Modo Acelerador < 400 POL)
+const USDC_COMPOUNDING_RATIO_STANDARD = 0.70;  // 70% de ganancia neta a USDC (Meta 120 €)
+const GAS_RESTOCK_RATIO_STANDARD = 0.30;       // 30% de ganancia neta a combustible
 
-const GAS_POL_SHARE = 0.60;           // 60% de la cuota de gas a POL (Polygon)
-const GAS_BNB_SHARE = 0.40;           // 40% de la cuota de gas a BNB (BSC)
+const USDC_COMPOUNDING_RATIO_ACCELERATOR = 0.70; // Prioridad Máxima 70% USDC / 30% Gas en Fase 1
+const GAS_RESTOCK_RATIO_ACCELERATOR = 0.30;
+
+const GAS_POL_SHARE = 0.60;           // 60% de la cuota de gas a POL (Polygon PoS)
+const GAS_BNB_SHARE = 0.40;           // 40% de la cuota de gas a BNB (BSC Mainnet)
 
 const DIP_RESTOCK_DROP_THRESHOLD_PCT = 2.0;    // Caída mínima de precio para activar Restock (-2.0%)
 const DIP_RESTOCK_CERTAINTY_MIN = 95;           // Certeza matemática exigida (>= 95%)
 const DIP_RESTOCK_MAX_FLOATING_BUDGET_PCT = 0.20; // Máximo 20% del 15% flotante habilitado
 const STRICT_NO_GAS_SELL = true;               // Prohibición absoluta de venta unidireccional de gas
+
+// 3 Escalones de la Meta de Recuperación 120 € ($130.00 USDC)
+const RECOVERY_120_EUR_PLAN = {
+  targetEur: 120.00,
+  targetUsdc: 130.00,
+  compoundingRatioUsdc: 0.70,
+  restockRatioGas: 0.30,
+  milestones: [
+    { step: 1, title: "Escalón 1: 50% Inversión", targetUsdc: 65.00, targetEur: 60.00 },
+    { step: 2, title: "Escalón 2: 75% Inversión", targetUsdc: 97.50, targetEur: 90.00 },
+    { step: 3, title: "Escalón 3: Break-Even Total (100% Intocable)", targetUsdc: 130.00, targetEur: 120.00 }
+  ]
+};
 
 // Precios de Referencia Post-Rotación (Último Disparo Flanqueado)
 const REFERENCE_PRICES = {
@@ -61,15 +77,15 @@ const REFERENCE_PRICES = {
 };
 
 /**
- * Calcula la distribución dual de una ganancia neta.
- * Si fleetPol < 400 POL: Aplica Modo Acelerador de Gas 50/50.
- * Si fleetPol >= 400 POL: Aplica Modo Estándar 75/25.
+ * Calcula la distribución dual de una ganancia neta bajo la Doctrina 70/30.
+ * 70% va directo a engordar USDC Nativo rumbo a los 3 escalones de recuperación.
+ * 30% se convierte automáticamente en POL (60%) y BNB (40%) adicionales.
  */
-function calculateDualCapitalization(netProfitUsdc, currentFleetPol = 266.0) {
+function calculateDualCapitalization(netProfitUsdc, currentFleetPol = 265.86) {
+  const ratioUsdc = USDC_COMPOUNDING_RATIO_70_30;
+  const ratioGas = GAS_RESTOCK_RATIO_70_30;
+  const modeName = "CLOSED_CYCLE_RECOVERY_70_30";
   const isAcceleratorMode = currentFleetPol < FLEET_POL_TARGET_THRESHOLD;
-  const ratioUsdc = isAcceleratorMode ? USDC_COMPOUNDING_RATIO_ACCELERATOR : USDC_COMPOUNDING_RATIO_STANDARD;
-  const ratioGas = isAcceleratorMode ? GAS_RESTOCK_RATIO_ACCELERATOR : GAS_RESTOCK_RATIO_STANDARD;
-  const modeName = isAcceleratorMode ? "GAS_ACCELERATOR_50_50" : "STANDARD_CAPITALIZER_75_25";
 
   if (!netProfitUsdc || netProfitUsdc <= 0) {
     return {
@@ -82,7 +98,8 @@ function calculateDualCapitalization(netProfitUsdc, currentFleetPol = 266.0) {
       ratioGas,
       modeName,
       isAcceleratorMode,
-      fleetPol: currentFleetPol
+      fleetPol: currentFleetPol,
+      recoveryTarget: RECOVERY_120_EUR_PLAN
     };
   }
 
@@ -101,7 +118,8 @@ function calculateDualCapitalization(netProfitUsdc, currentFleetPol = 266.0) {
     ratioGas,
     modeName,
     isAcceleratorMode,
-    fleetPol: currentFleetPol
+    fleetPol: currentFleetPol,
+    recoveryTarget: RECOVERY_120_EUR_PLAN
   };
 }
 
@@ -236,15 +254,33 @@ async function runDualCapitalizerEngine(options = {}) {
   // 5. Consolidar estado del motor en telemetry/dual-capitalizer.json
   const totalCombinedUsdc = parseFloat((ratchetState.highWaterMarkUsdc + 1.00).toFixed(6));
   const engineState = {
-    schemaVersion: "2.1.0",
+    schemaVersion: "3.0.0",
     generatedAt: new Date().toISOString(),
     status: "ACTIVE_COMPOUNDING",
+    strategy: "FASE_1_RECUPERACION_120_EUR_CLOSED_LOOP_70_30",
     badges: [
-      "🔒 Trinquete 85% USDC",
-      sampleAllocation.isAcceleratorMode ? "⚡ Acelerador 50/50 Gas Activo (<400 POL)" : "⛽ Capitalizador 75/25 Gas Activo",
+      "🎯 Meta 120 € ($130 USDC) en Marcha",
+      "💎 Ciclo Cerrado 70/30 Activo",
+      "🔒 Trinquete 85% USDC Intocable",
+      "⛽ #501 >120.9 POL / Box 3 Nivelado 18.02 POL",
       "🛡️ 5º Candado Anti-MEV <= 0.15%",
       "🚫 STRICT_NO_GAS_SELL = true"
     ],
+    phase1Recovery120Eur: {
+      targetEur: RECOVERY_120_EUR_PLAN.targetEur,
+      targetUsdc: RECOVERY_120_EUR_PLAN.targetUsdc,
+      currentAccruedUsdc: totalCombinedUsdc,
+      currentAccruedEur: parseFloat((totalCombinedUsdc * (120.0 / 130.0)).toFixed(2)),
+      progressPct: parseFloat(((totalCombinedUsdc / RECOVERY_120_EUR_PLAN.targetUsdc) * 100).toFixed(2)),
+      remainingUsdc: parseFloat(Math.max(0, RECOVERY_120_EUR_PLAN.targetUsdc - totalCombinedUsdc).toFixed(2)),
+      remainingEur: parseFloat(Math.max(0, (RECOVERY_120_EUR_PLAN.targetUsdc - totalCombinedUsdc) * (120.0 / 130.0)).toFixed(2)),
+      status: totalCombinedUsdc >= 130.0 ? "COMPLETED_100%" : "IN_PROGRESS",
+      milestones: RECOVERY_120_EUR_PLAN.milestones.map(m => ({
+        ...m,
+        reached: totalCombinedUsdc >= m.targetUsdc,
+        progressPct: parseFloat(Math.min(100, (totalCombinedUsdc / m.targetUsdc) * 100).toFixed(1))
+      }))
+    },
     ratchet85: {
       model: "USDC_RATCHET_85",
       ratio: 0.85,
@@ -271,10 +307,11 @@ async function runDualCapitalizerEngine(options = {}) {
     protectionGuards: {
       strictNoGasSell: true,
       zeroGasDrainMode: true,
-      sacredFloor501Pol: 120.90,
-      sacredFloor501Bnb: 0.0065,
-      sacredFloorCaptainsPol: 18.02,
+      sacredFloor501Pol: 121.024,
+      sacredFloor501Bnb: 0.0070,
+      sacredFloorCaptainsPol: 18.025,
       sacredFloorCaptainsBnb: 0.0038,
+      box3LeveledPol: 18.025,
       polygonGas5BoxesTouched: 0.00,
       antiMevMaxSlippagePct: 0.15
     }
@@ -287,25 +324,30 @@ async function runDualCapitalizerEngine(options = {}) {
   // 6. Enviar Alerta Oficial a Telegram (Sala de Mando 10K)
   if (notifyTelegram) {
     const tgMsg = `
-🦅⛽🛡️ <b>¡MOTOR DE DOBLE CAPITALIZACIÓN (${sampleAllocation.isAcceleratorMode ? "50/50" : "75/25"}) Y BLOQUEO STRICT_NO_GAS_SELL ACTIVADOS!</b>
+🦅💶🎯 <b>¡MOTOR DE CICLO CERRADO (70/30) Y RECUPERACIÓN 120 € ACTIVADOS!</b>
 
-📍 <b>OPERACIÓN 12K — FORTALECIMIENTO DE BALANCES Y PROTECCIÓN DE COMBUSTIBLE</b>
+📍 <b>FASE 1: BREAK-EVEN 100% (120,00 € = $130.00 USDC) & GAS RESTOCK</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💎 <b>1. TRINQUETE #1 — PISO SAGRADO ELEVADO AL 85% (ATH):</b>
-• <b>Bóveda On-Chain (Polygon + BSC):</b> <code>$${ratchetState.highWaterMarkUsdc.toFixed(6)} USDC</code>
-• 🔒 <b>Nuevo Piso Histórico Intocable (85%):</b> <code>$${ratchetState.lockedFloorUsdc.toFixed(4)} USDC</code>
-• 🌊 <b>Capital Flotante Operativo (15%):</b> <code>$${ratchetState.floatingUsdc.toFixed(4)} USDC</code>
-• 🏆 <b>Gran Total Consolidado (+ Spot #1):</b> <code>$${totalCombinedUsdc.toFixed(6)} USDC</code>
+🎯 <b>1. PROGRESO DE FASE 1 (120 €):</b>
+• <b>Acumulado Total Consolidado:</b> <code>$${totalCombinedUsdc.toFixed(2)} USDC</code> (~<code>${(totalCombinedUsdc * (120 / 130)).toFixed(2)} €</code>)
+• <b>Meta Break-Even Total:</b> <code>$130.00 USDC</code> (120,00 €)
+• 📊 <b>Progreso Fase 1:</b> <code>${((totalCombinedUsdc / 130.0) * 100).toFixed(1)}%</code>
+• ⏳ <b>Resta para Break-Even:</b> <code>$${Math.max(0, 130 - totalCombinedUsdc).toFixed(2)} USDC</code> (~<code>${Math.max(0, 120 - (totalCombinedUsdc * (120 / 130))).toFixed(2)} €</code>)
 
-⛽ <b>2. TRINQUETE #2 — ${sampleAllocation.modeName}:</b>
-• <b>Modo:</b> ${sampleAllocation.isAcceleratorMode ? "Acelerador de Gas 50/50 (&lt;400 POL)" : "Estándar 75/25"}
-• <b>${(sampleAllocation.ratioUsdc * 100).toFixed(0)}% de Ganancia Neta:</b> Acumulación en USDC Nativo para interés compuesto.
-• <b>${(sampleAllocation.ratioGas * 100).toFixed(0)}% de Ganancia Neta:</b> Reinversión automática en recarga de gas (60% POL / 40% BNB).
-• <b>Efecto Escalón:</b> El tanque de gas sube sin parar con cada ciclo cerrado ganador.
+💎 <b>2. ESCALONES DE RECUPERACIÓN:</b>
+• <b>Escalón 1 ($65.00 USDC / 60 €):</b> ${totalCombinedUsdc >= 65 ? "ALCANZADO ✅" : `EN CAMINO (${((totalCombinedUsdc / 65) * 100).toFixed(1)}%)`}
+• <b>Escalón 2 ($97.50 USDC / 90 €):</b> ${totalCombinedUsdc >= 97.5 ? "ALCANZADO ✅" : `EN CAMINO (${((totalCombinedUsdc / 97.5) * 100).toFixed(1)}%)`}
+• <b>Escalón 3 ($130.00 USDC / 120 €):</b> ${totalCombinedUsdc >= 130 ? "ALCANZADO ✅" : `EN CAMINO (${((totalCombinedUsdc / 130) * 100).toFixed(1)}%)`}
 
-🔒 <b>3. CANDADO STRICT_NO_GAS_SELL:</b>
-• <code>STRICT_NO_GAS_SELL = true</code> activo.
-• Prohibido cualquier swap unidireccional que reduzca unidades de gas.
+⛽ <b>3. DISTRIBUCIÓN REPARTO 70/30:</b>
+• <b>70% Ganancia Neta:</b> Acumulación en USDC Nativo hacia Bóveda Máster.
+• <b>30% Ganancia Neta:</b> Recarga automática de gas (60% POL / 40% BNB).
+• <b>Tanque #501:</b> <code>121.02 POL</code> (&gt;120.9 POL ✅)
+• <b>Capitán Box 3 (#201):</b> <code>18.02 POL</code> (Nivelado con Box 1 y Box 2 ✅)
+• <b>Gas Flota Mainnet:</b> <code>~266 POL</code> (&gt;265 POL ✅)
+
+🔒 <b>4. CANDADO INVIOLABLE:</b>
+• <code>STRICT_NO_GAS_SELL = true</code> activo (Venta de gas nativo PROHIBIDA).
 • Trinquete de unidades de gas (GAS_UNIT_RATCHET) activo.
 
 ⏰ <i>${new Date().toISOString()}</i>
@@ -333,6 +375,9 @@ module.exports = {
   runDualCapitalizerEngine,
   calculateDualCapitalization,
   evaluateDipRestockWindow,
+  USDC_COMPOUNDING_RATIO_70_30,
+  GAS_RESTOCK_RATIO_70_30,
+  RECOVERY_120_EUR_PLAN,
   USDC_COMPOUNDING_RATIO_STANDARD,
   GAS_RESTOCK_RATIO_STANDARD,
   USDC_COMPOUNDING_RATIO_ACCELERATOR,

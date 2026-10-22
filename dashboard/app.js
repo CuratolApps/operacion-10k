@@ -331,6 +331,15 @@ function renderTopRadarBanner() {
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
 
+  const elPhase1 = document.getElementById('dashPhase1Pill');
+  const phase1Target = safeNum(telem?.phase1Recovery120Eur?.targetUsdc, 130.0);
+  const phase1Accrued = safeNum(telem?.phase1Recovery120Eur?.currentAccruedUsdc, consolidatedNum);
+  const phase1Pct = safeNum(telem?.phase1Recovery120Eur?.progressPct, (phase1Accrued / phase1Target) * 100);
+  const phase1Eur = safeNum(telem?.phase1Recovery120Eur?.currentAccruedEur, phase1Accrued * (120 / 130));
+  if (elPhase1) {
+    elPhase1.textContent = `🎯 FASE 1 RECUPERACIÓN 120 €: $${phase1Accrued.toFixed(2)} / $${phase1Target.toFixed(2)} USDC (${phase1Pct.toFixed(1)}% • ~${phase1Eur.toFixed(2)} €) • 70/30 CICLO CERRADO`;
+  }
+
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) elUsd.textContent = `Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos)`;
 
