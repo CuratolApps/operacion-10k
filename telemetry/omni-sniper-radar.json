@@ -1,14 +1,14 @@
 {
   "schemaVersion": "2.0.0",
   "service": "Omni-Sniper-5Models-Radar-12K",
-  "timestamp": "2026-10-22T09:23:41.602Z",
-  "latencyMs": 437,
+  "timestamp": "2026-10-22T09:56:05.376Z",
+  "latencyMs": 441,
   "gasCostThisScan": "0.00 USD (Multicall3 $0 Gas)",
   "zeroGasDrainEnforced": true,
   "highWaterMarkRatchet": {
-    "highWaterMarkUsdc": 20.126514,
-    "lockedFloorUsdc": 16.101211,
-    "floatingUsdc": 4.025303,
+    "highWaterMarkUsdc": 32.534233,
+    "lockedFloorUsdc": 27.654098,
+    "floatingUsdc": 4.880135,
     "floorProtected": true
   },
   "models": [
@@ -55,12 +55,12 @@
         "WPOL/USDC",
         "WBNB/USDC"
       ],
-      "maxDislocationPct": 0.6645,
+      "maxDislocationPct": 0.464,
       "thresholdPct": 1.5,
       "opportunityScore": 88,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.66% < 1.5%, $0 gas)",
-      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.66% sin panic-selling en este bloque."
+      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.46% < 1.5%, $0 gas)",
+      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.46% sin panic-selling en este bloque."
     },
     {
       "modelId": "MODEL-4-EPOCH-QUEST-POOLS",

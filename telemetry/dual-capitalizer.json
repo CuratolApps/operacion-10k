@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "generatedAt": "2026-10-22T09:51:46.295Z",
+  "generatedAt": "2026-10-22T10:00:29.420Z",
   "status": "ACTIVE_COMPOUNDING",
   "badges": [
     "🔒 Trinquete 85% USDC",
@@ -10,10 +10,10 @@
   "ratchet85": {
     "model": "USDC_RATCHET_85",
     "ratio": 0.85,
-    "totalOnChainUsdc": 32.534233,
-    "lockedFloorUsdc": 27.654098,
-    "floatingUsdc": 4.880135,
-    "totalGlobalUsdcWithBinanceSpot": 33.534233,
+    "totalOnChainUsdc": 41.579394,
+    "lockedFloorUsdc": 35.342485,
+    "floatingUsdc": 6.236909,
+    "totalGlobalUsdcWithBinanceSpot": 42.579394,
     "status": "LOCKED_ATH_ELEVATED"
   },
   "gasCapitalizer25": {
@@ -32,20 +32,20 @@
       "bnbUsdc": 731.55
     },
     "currentPrices": {
-      "polUsdc": 0.091109,
-      "bnbUsdc": 732.13
+      "polUsdc": 0.091207,
+      "bnbUsdc": 731.28
     },
     "priceVariationPct": {
-      "pol": 0.2,
-      "bnb": 0.08
+      "pol": 0.31,
+      "bnb": -0.04
     },
     "unitAdvantagePct": {
-      "pol": -0.2,
-      "bnb": -0.08
+      "pol": -0.31,
+      "bnb": 0.04
     },
     "isEligible": false,
     "recommendation": "STANDBY_MONITORING",
-    "maxFloatingBudgetUsdc": 0.976027,
+    "maxFloatingBudgetUsdc": 1.247382,
     "certaintyScore": 98,
     "reasoning": "Precios de POL y BNB estables cerca de su referencia de rotación. Sin dip >= 2%. Tanque en reposo óptimo a $0 gas."
   },

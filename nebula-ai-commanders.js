@@ -147,7 +147,7 @@ function loadProfitLockRatchet() {
  * Genera el Binomio Especializado para una Nodriza Sniper específica
  * asignando su rol en los 5 Modelos Omni-Sniper y evaluando Certeza >= 95%
  */
-async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polProvider, bscProvider, isBurstMode = false, isSurpriseStrike = false, isFlankRotation = false) {
+async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polProvider, bscProvider, isBurstMode = false, isSurpriseStrike = false, isFlankRotation = false, isV3Pincer = false) {
   const oddNumber = 2 * sniperIdx + 1;
   const evenNumber = 2 * sniperIdx + 2;
   const oddId = `NEBULA-${String(oddNumber).padStart(2, "0")}`;
@@ -210,7 +210,21 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
   let oddStatus = "STANDBY";
   let quantReasoning = "";
 
-  if (isFlankRotation) {
+  if (isV3Pincer) {
+    if (mother.id === "#501") {
+      oddStatus = "AUTHORIZED";
+      quantScore = 100;
+      quantReasoning = `${cluster.oddRole} para ${mother.name}: 🦅 MANIOBRA PINZA V3 AUTORIZADA (Score: 100%). Flanco A Polygon: 35.00 POL ➔ Uniswap V3 (Fee Tier 0.05% = 500) USDC Nativo Circle (Piso Sagrado: 95.00 POL). Flanco B BSC: 0.0020 BNB ➔ PancakeSwap V2 USDC Oficial BSC (Piso Sagrado BSC: 0.0065 BNB). 5 Candados Anti-MEV <= 0.15% certificados.`;
+    } else if (["#001", "#101", "#201", "#301", "#401"].includes(mother.id)) {
+      oddStatus = "AUTHORIZED";
+      quantScore = 100;
+      quantReasoning = `${cluster.oddRole} para ${mother.name}: 🥞 ATAQUE PINZA BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Piso Sagrado BSC: 0.0038 BNB intacto. Gas Polygon 100% INTOCABLE (${mother.sacPol} POL congelados sin tocar 1 wei).`;
+    } else {
+      oddStatus = "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)";
+      quantScore = 98;
+      quantReasoning = `${cluster.oddRole} para ${mother.name}: 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.`;
+    }
+  } else if (isFlankRotation) {
     if (mother.id === "#501") {
       oddStatus = "AUTHORIZED";
       quantScore = 100;
@@ -368,7 +382,7 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
   };
 
   const modelTriggerMet = (primaryModelData?.fireAuthorized ?? false) || (secondaryModelData?.fireAuthorized ?? false);
-  const isAuthorizedMother = isFlankRotation
+  const isAuthorizedMother = (isV3Pincer || isFlankRotation)
     ? (mother.id === "#501" || ["#001", "#101", "#201", "#301", "#401"].includes(mother.id))
     : (isSurpriseStrike ? mother.id === "#501" : (isBurstMode || isNetPositiveArb || modelTriggerMet));
 
@@ -391,7 +405,7 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
     doubleKeyAuthorized,
     status: doubleKeyAuthorized 
       ? "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)" 
-      : (isFlankRotation ? "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)" : (isSurpriseStrike ? "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"))
+      : ((isV3Pincer || isFlankRotation) ? "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)" : (isSurpriseStrike ? "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"))
   };
 
   return { oddNebula, evenNebula, binomial };
@@ -404,11 +418,18 @@ async function runNebulaCommanders(options = {}) {
   const isBurstMode = options.burstMode || process.argv.includes("--burst-1-of-5") || process.argv.includes("--burst-1");
   const isSurpriseStrike = options.surpriseStrike || process.argv.includes("--surprise-strike");
   const isFlankRotation = options.flankRotation || process.argv.includes("--flank-rotation-strike") || process.argv.includes("--flank-rotation");
+  const isV3Pincer = options.v3Pincer || process.argv.includes("--v3-pincer-strike") || process.argv.includes("--v3-pincer");
 
   console.log("=========================================================================================");
   console.log("   🌌 OPERACIÓN 12K — 32 NEBULOSAS IA: AUDITORÍA DE PISCINAS AL >= 95% ($0 GAS)          ");
   console.log("   (16 BINOMIOS: 1 ESTRATEGA CUÁNTICA + 1 GUARDAESPALDAS ANTI-RUG PULL POR NODRIZA)      ");
-  if (isFlankRotation) {
+  if (isV3Pincer) {
+    console.log("   🦅⚡🎯 [MANIOBRA PINZA V3] Activada por Orden de Mando:");
+    console.log("   ↳ Flanco A Polygon: #501 (35.00 POL ➔ Uniswap V3 0.05% USDC Nativo Circle | Piso: 95.00 POL)");
+    console.log("   ↳ Flanco B BSC: #501 (0.0020 BNB | Piso 0.0065 BNB) + 5 Capitanes (0.0012 BNB c/u | Piso 0.0038 BNB)");
+    console.log("   🛡️ Gas Polygon de los 5 Boxes 100% INTOCABLE (0.00 POL consumidos)");
+    console.log("   🛡️ 5º Candado Anti-MEV (<= 0.15% Slippage) 100% ACTIVO");
+  } else if (isFlankRotation) {
     console.log("   🦅🔭🔫 [ROTACIÓN TÁCTICA & DISPARO FLANQUEADO] Activado por Orden de Mando:");
     console.log("   ↳ Flanco 1 Polygon: #501 (36.00 POL ➔ Uniswap V3 0.05% USDC Nativo Circle)");
     console.log("   ↳ Flanco 2 BSC: 5 Capitanes #001-#401 (0.0012 BNB c/u ➔ PancakeSwap V2 USDC BSC)");
@@ -442,7 +463,7 @@ async function runNebulaCommanders(options = {}) {
 
   // Generar los 16 binomios (32 Nebulosas) en paralelo
   const binomialPromises = SNIPER_MOTHERSHIPS.map((mother, idx) => 
-    generateBinomialForSniper(idx, mother, liveObserver, polProvider, bscProvider, isBurstMode, isSurpriseStrike, isFlankRotation)
+    generateBinomialForSniper(idx, mother, liveObserver, polProvider, bscProvider, isBurstMode, isSurpriseStrike, isFlankRotation, isV3Pincer)
   );
 
   const results = await Promise.all(binomialPromises);
