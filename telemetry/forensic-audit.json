@@ -1,6 +1,7 @@
 {
-  "timestamp": "2026-10-22T08:50:05.924Z",
-  "scannedWallets": 16,
+  "timestamp": "2026-10-22T09:10:35.583Z",
+  "scannedWallets": 56,
+  "nodrizasAudited": 16,
   "dustTokensFound": [
     {
       "chain": "Polygon",
@@ -10,15 +11,69 @@
     },
     {
       "chain": "Polygon",
+      "wallet": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
+      "symbol": "WPOL",
+      "balance": 0.001
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
+      "symbol": "WPOL",
+      "balance": 0.001
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x447bE3C9a8E97ca371d7cD8d8AEFd562fd15c582",
+      "symbol": "WPOL",
+      "balance": 0.001
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0xD6Bf034E659fD3D3188951536B55B37e7537Af11",
+      "symbol": "WPOL",
+      "balance": 0.001029
+    },
+    {
+      "chain": "Polygon",
       "wallet": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
       "symbol": "WPOL",
       "balance": 0.001
     },
     {
       "chain": "Polygon",
+      "wallet": "0x22Cda40bD18364C5d1680083018FE52362642870",
+      "symbol": "WPOL",
+      "balance": 0.000049
+    },
+    {
+      "chain": "Polygon",
       "wallet": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
       "symbol": "WPOL",
       "balance": 0.0101
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0xDF74Da8e7f5d5DC36D9734f774A6C5F500fE318b",
+      "symbol": "WPOL",
+      "balance": 0.011
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x735Ec3BE29fc48F6a3274f923ad8DE3F78791F88",
+      "symbol": "WPOL",
+      "balance": 0.011
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x92bb757e676d41A2DB3509Ec141115C5fd829351",
+      "symbol": "WPOL",
+      "balance": 0.011
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x318cA85097623E7215b710CCCA88268BE5ab3Fd0",
+      "symbol": "WPOL",
+      "balance": 0.011
     },
     {
       "chain": "Polygon",
@@ -28,9 +83,51 @@
     },
     {
       "chain": "Polygon",
+      "wallet": "0x1c5981818D73D031c839948cc88412A3f0E9383b",
+      "symbol": "WPOL",
+      "balance": 0.0101
+    },
+    {
+      "chain": "Polygon",
       "wallet": "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC",
       "symbol": "WPOL",
       "balance": 0.0101
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x032E1f005F013E547350889497AA0f5E22f0E4Da",
+      "symbol": "WPOL",
+      "balance": 0.0101
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x08635A8558A3BA49CeEF80A28Dc345bB78b24568",
+      "symbol": "WPOL",
+      "balance": 0.0101
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x37A293f52B7b76CA71A8C8d10990B5C4B7BCf372",
+      "symbol": "WPOL",
+      "balance": 0.0101
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x51bCe6b02D39c04688F964Db2Dc44401A8B6F06C",
+      "symbol": "WPOL",
+      "balance": 0.001
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x04A5777abc48D28Ca638ca0D57331fce85f8598f",
+      "symbol": "WPOL",
+      "balance": 0.001
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x090148637Fc4Fb61bA72CB336D8abffe81561252",
+      "symbol": "WPOL",
+      "balance": 0.000027
     },
     {
       "chain": "Polygon",
@@ -40,9 +137,27 @@
     },
     {
       "chain": "Polygon",
+      "wallet": "0x28c2104c289b4FDD6D5d1044B56B0a4F84c02Be7",
+      "symbol": "WPOL",
+      "balance": 0.000015
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x0082E618fd66659CEaEeA8a87A4827DCd4253320",
+      "symbol": "WPOL",
+      "balance": 0.00001
+    },
+    {
+      "chain": "Polygon",
       "wallet": "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
       "symbol": "WPOL",
       "balance": 0.000028
+    },
+    {
+      "chain": "Polygon",
+      "wallet": "0x42C7e7d4096e7882d98205A708801FD8Df2F2eDF",
+      "symbol": "WPOL",
+      "balance": 0.000018
     },
     {
       "chain": "BSC",
@@ -52,13 +167,67 @@
     },
     {
       "chain": "BSC",
+      "wallet": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x447bE3C9a8E97ca371d7cD8d8AEFd562fd15c582",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0xD6Bf034E659fD3D3188951536B55B37e7537Af11",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
       "wallet": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
       "symbol": "WBNB",
       "balance": 0.00001
     },
     {
       "chain": "BSC",
+      "wallet": "0x22Cda40bD18364C5d1680083018FE52362642870",
+      "symbol": "WBNB",
+      "balance": 0.000015
+    },
+    {
+      "chain": "BSC",
       "wallet": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0xDF74Da8e7f5d5DC36D9734f774A6C5F500fE318b",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x735Ec3BE29fc48F6a3274f923ad8DE3F78791F88",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x92bb757e676d41A2DB3509Ec141115C5fd829351",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x318cA85097623E7215b710CCCA88268BE5ab3Fd0",
       "symbol": "WBNB",
       "balance": 0.00001
     },
@@ -76,6 +245,18 @@
     },
     {
       "chain": "BSC",
+      "wallet": "0x834331456b8ff172fe8a318EC5041634EE100f51",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x0EdeD8A03Ad94B2c8fF60b7492c4eF42B6278D49",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
       "wallet": "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119",
       "symbol": "WBNB",
       "balance": 0.00001
@@ -88,9 +269,45 @@
     },
     {
       "chain": "BSC",
+      "wallet": "0x830b4003F6846e704D96794186444B6e599841E2",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
       "wallet": "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
       "symbol": "WBNB",
       "balance": 0.000024
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x2A53B9F1752ecCbB804bDfe49B59CAea29b31788",
+      "symbol": "WBNB",
+      "balance": 0.00002
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x8B847B7cD16EE4617c225CbAEf32AaDdDF251146",
+      "symbol": "WBNB",
+      "balance": 0.00002
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x91A3680648C02D2EF40912D4BBD0Db7623D3C05F",
+      "symbol": "WBNB",
+      "balance": 0.00002
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x28c2104c289b4FDD6D5d1044B56B0a4F84c02Be7",
+      "symbol": "WBNB",
+      "balance": 0.00002
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x3C129E8D1f2Daa6F7eBD84E8c7d384F5563B5fAD",
+      "symbol": "WBNB",
+      "balance": 0.00002
     },
     {
       "chain": "BSC",
@@ -100,13 +317,31 @@
     },
     {
       "chain": "BSC",
+      "wallet": "0xda805766ab41F3F0f2FA1a1e09c2d194b25ecE52",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
       "wallet": "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x827B1Ef06E0BE563DB36D727890a75Bd7F75F14a",
+      "symbol": "WBNB",
+      "balance": 0.00001
+    },
+    {
+      "chain": "BSC",
+      "wallet": "0x42C7e7d4096e7882d98205A708801FD8Df2F2eDF",
       "symbol": "WBNB",
       "balance": 0.00001
     }
   ],
-  "dustTokensCount": 17,
+  "dustTokensCount": 56,
   "openAllowancesRogue": 0,
-  "allowancesAuditedStatus": "100% BLINDADAS (0 PERMISOS ROGUE DETECTADOS)",
-  "auditSummary": "Auditoría Forense $0 Gas completada sobre 16 Nodrizas Sniper. 0 contratos sospechosos detectados con permisos abiertos. Tokens residuales indexados: 17."
+  "allowancesAuditedStatus": "100% BLINDADAS (0 PERMISOS FUERA DE WHITELIST)",
+  "auditSummary": "Auditoría Forense $0 Gas completada sobre 56 carteras armadas en Mainnet. 0 permisos rogue detectados. Tokens residuales indexados: 56."
 }

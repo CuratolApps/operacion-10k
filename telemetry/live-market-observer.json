@@ -1,15 +1,15 @@
 {
   "schemaVersion": "3.0.0",
   "service": "Dedicated-Observers-6-Pools-12K",
-  "timestamp": "2026-10-22T08:50:17.909Z",
-  "latencyMs": 956,
+  "timestamp": "2026-10-22T09:15:52.075Z",
+  "latencyMs": 859,
   "sixPoolsMatrix": [
     {
       "id": "PISCINA-01",
       "network": "Polygon PoS",
       "name": "WPOL ➔ USDC Nativo (Directa)",
       "dex": "QUICKSWAP_V2",
-      "quotePerNative": "0.090714 USDC",
+      "quotePerNative": "0.090320 USDC",
       "status": "ALTERNATIVA_ACTIVA"
     },
     {
@@ -17,7 +17,7 @@
       "network": "Polygon PoS",
       "name": "WPOL ➔ WETH ➔ USDC (Triangular WETH)",
       "dex": "QuickSwap V2 / SushiSwap V2",
-      "quotePerNative": "0.090196 USDC",
+      "quotePerNative": "0.090138 USDC",
       "status": "ALTERNATIVA_ACTIVA"
     },
     {
@@ -33,7 +33,7 @@
       "network": "BSC Mainnet",
       "name": "WBNB ➔ USDC Oficial BSC (Directa)",
       "dex": "PancakeSwap V2",
-      "quotePerNative": "$732.77 USDC",
+      "quotePerNative": "$729.94 USDC",
       "status": "🏆 GANADORA BSC"
     },
     {
@@ -41,7 +41,7 @@
       "network": "BSC Mainnet",
       "name": "WBNB ➔ ETH-BSC ➔ USDC (Triangular ETH)",
       "dex": "PancakeSwap V2",
-      "quotePerNative": "$728.62 USDC",
+      "quotePerNative": "$725.85 USDC",
       "status": "ALTERNATIVA_ACTIVA"
     },
     {
@@ -49,7 +49,7 @@
       "network": "BSC Mainnet",
       "name": "WBNB ➔ BTCB ➔ USDC (Triangular BTCB)",
       "dex": "PancakeSwap V2",
-      "quotePerNative": "$729.66 USDC",
+      "quotePerNative": "$728.93 USDC",
       "status": "ALTERNATIVA_ACTIVA"
     }
   ],
@@ -58,34 +58,34 @@
     "pools": {
       "pool1_direct": {
         "quickswap": {
-          "quote1Pol": 0.090714,
-          "quote10Pol": 0.906029,
+          "quote1Pol": 0.09032,
+          "quote10Pol": 0.902098,
           "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
         },
         "sushiswap": {
-          "quote1Pol": 0.090937,
-          "quote10Pol": 0.882669,
+          "quote1Pol": 0.089723,
+          "quote10Pol": 0.871052,
           "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
         },
-        "liquidityUsd": 1326.4341
+        "liquidityUsd": 1323.572486
       },
       "pool2_triangular_weth": {
         "quickswap": {
-          "quote1Pol": 0.090196,
-          "quote10Pol": 0.901906,
+          "quote1Pol": 0.090138,
+          "quote10Pol": 0.90132,
           "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
         },
         "sushiswap": {
-          "quote1Pol": 0.041863,
-          "quote10Pol": 0.070762,
+          "quote1Pol": 0.041952,
+          "quote10Pol": 0.070787,
           "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
         },
-        "liquidityUsd": 10614195659578.246
+        "liquidityUsd": 10634642942340.326
       },
       "pool3_triangular_wbtc": {
         "quickswap": {
           "quote1Pol": 0.091192,
-          "quote10Pol": 0.852929,
+          "quote10Pol": 0.852217,
           "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
         },
         "sushiswap": {
@@ -107,9 +107,9 @@
           "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.090714,
-        "quote10Pol": 0.906029,
-        "liquidityUsdEstimate": 1326.4341
+        "quote1Pol": 0.09032,
+        "quote10Pol": 0.902098,
+        "liquidityUsdEstimate": 1323.572486
       },
       {
         "poolId": "pool-1",
@@ -121,9 +121,9 @@
           "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.090937,
-        "quote10Pol": 0.882669,
-        "liquidityUsdEstimate": 54.097154
+        "quote1Pol": 0.089723,
+        "quote10Pol": 0.871052,
+        "liquidityUsdEstimate": 53.734622
       },
       {
         "poolId": "pool-2",
@@ -136,9 +136,9 @@
           "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.090196,
-        "quote10Pol": 0.901906,
-        "liquidityUsdEstimate": 10614195659578.246
+        "quote1Pol": 0.090138,
+        "quote10Pol": 0.90132,
+        "liquidityUsdEstimate": 10634642942340.326
       },
       {
         "poolId": "pool-2",
@@ -151,9 +151,9 @@
           "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.041863,
-        "quote10Pol": 0.070762,
-        "liquidityUsdEstimate": 54.097154
+        "quote1Pol": 0.041952,
+        "quote10Pol": 0.070787,
+        "liquidityUsdEstimate": 53.734622
       },
       {
         "poolId": "pool-3",
@@ -167,7 +167,7 @@
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
         "quote1Pol": 0.091192,
-        "quote10Pol": 0.852929,
+        "quote10Pol": 0.852217,
         "liquidityUsdEstimate": 23.429746
       },
       {
@@ -183,7 +183,7 @@
         ],
         "quote1Pol": 0.069426,
         "quote10Pol": 0.235446,
-        "liquidityUsdEstimate": 54.097154
+        "liquidityUsdEstimate": 53.734622
       }
     ],
     "winningPoolRoutePolygon": {
@@ -198,44 +198,44 @@
         "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
       ],
       "quote1Pol": 0.091192,
-      "quote10Pol": 0.852929,
-      "baseQuote1Pol": 0.090714,
-      "extraUsdcPerPol": 0.000478,
-      "extraUsdcMicroCents": 4.78,
-      "advantagePct": 0.5269,
+      "quote10Pol": 0.852217,
+      "baseQuote1Pol": 0.09032,
+      "extraUsdcPerPol": 0.000872,
+      "extraUsdcMicroCents": 8.72,
+      "advantagePct": 0.9655,
       "liquidityUsdEstimate": 23.429746
     },
     "bestDexRoutePolygon": "quickswap_v2",
     "bestQuoteUsdcPerPol": 0.091192,
-    "standardBaseQuote": 0.090714,
-    "grossSpreadPct": 0.2458,
-    "netSpreadPct": 0,
+    "standardBaseQuote": 0.09032,
+    "grossSpreadPct": 0.661,
+    "netSpreadPct": 0.361,
     "arbitrageCycle": {
       "chain": "Polygon PoS",
       "mode": "CLOSED_LOOP_NET_ARBITRAGE",
       "zeroGasDrainEnforced": true,
       "usdcIn": 10,
-      "bestUsdcOut": 9.815559,
-      "deltaUsdc": -0.184441,
+      "bestUsdcOut": 9.726441,
+      "deltaUsdc": -0.273559,
       "gasCostEstUsd": 0.005,
-      "netProfitUsdc": -0.189441,
-      "spreadPct": -1.8444,
+      "netProfitUsdc": -0.278559,
+      "spreadPct": -2.7356,
       "isNetPositive": false,
       "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     "hasArbitrageOpportunity": false,
     "gasTrend": {
       "chainName": "Polygon",
-      "latestBlock": 95969099,
-      "gasPriceGwei": 272.923107137,
-      "baseFeePerGas": 251.007008376,
+      "latestBlock": 95970122,
+      "gasPriceGwei": 263.249191138,
+      "baseFeePerGas": 238.249191138,
       "baseFeeHistoryGwei": [
-        251.007008376,
-        249.46150535,
-        248.594915774
+        238.249191138,
+        239.317346878,
+        239.905012166
       ],
-      "deltaGwei": 2.41,
-      "trend": "RISING_CAUTION",
+      "deltaGwei": -1.66,
+      "trend": "FALLING_OPTIMAL",
       "isWindowOptimal": true
     }
   },
@@ -243,21 +243,21 @@
     "chain": "bscMainnet",
     "pools": {
       "pool4_direct": {
-        "quote001Bnb": 0.7327742050786702,
-        "quote01Bnb": 7.327420667373986,
-        "liquidityUsd": 409.3652370267117,
+        "quote001Bnb": 0.7299442023401773,
+        "quote01Bnb": 7.299122503545271,
+        "liquidityUsd": 410.1626376009479,
         "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
       },
       "pool5_triangular_eth": {
-        "quote001Bnb": 0.7286151018282006,
-        "quote01Bnb": 7.285749643592714,
-        "liquidityUsd": 257991.70335263252,
+        "quote001Bnb": 0.7258508298284525,
+        "quote01Bnb": 7.258109122612859,
+        "liquidityUsd": 257486.22929087174,
         "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
       },
       "pool6_triangular_btcb": {
-        "quote001Bnb": 0.7296632408134551,
-        "quote01Bnb": 7.264412155656767,
-        "liquidityUsd": 2963.9236883616472,
+        "quote001Bnb": 0.7289273331493968,
+        "quote01Bnb": 7.257104752465141,
+        "liquidityUsd": 2962.7087840632894,
         "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
       }
     },
@@ -272,10 +272,10 @@
           "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
           "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
         ],
-        "quote001Bnb": 0.7327742050786702,
-        "quote01Bnb": 7.327420667373986,
-        "bnbPriceUsd": 732.7742050786702,
-        "liquidityUsdEstimate": 409.3652370267117
+        "quote001Bnb": 0.7299442023401773,
+        "quote01Bnb": 7.299122503545271,
+        "bnbPriceUsd": 729.9442023401773,
+        "liquidityUsdEstimate": 410.1626376009479
       },
       {
         "poolId": "pool-5",
@@ -288,10 +288,10 @@
           "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
           "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
         ],
-        "quote001Bnb": 0.7286151018282006,
-        "quote01Bnb": 7.285749643592714,
-        "bnbPriceUsd": 728.6151018282005,
-        "liquidityUsdEstimate": 257991.70335263252
+        "quote001Bnb": 0.7258508298284525,
+        "quote01Bnb": 7.258109122612859,
+        "bnbPriceUsd": 725.8508298284526,
+        "liquidityUsdEstimate": 257486.22929087174
       },
       {
         "poolId": "pool-6",
@@ -304,10 +304,10 @@
           "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
           "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
         ],
-        "quote001Bnb": 0.7296632408134551,
-        "quote01Bnb": 7.264412155656767,
-        "bnbPriceUsd": 729.6632408134551,
-        "liquidityUsdEstimate": 2963.9236883616472
+        "quote001Bnb": 0.7289273331493968,
+        "quote01Bnb": 7.257104752465141,
+        "bnbPriceUsd": 728.9273331493969,
+        "liquidityUsdEstimate": 2962.7087840632894
       }
     ],
     "winningPoolRouteBsc": {
@@ -320,26 +320,26 @@
         "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
       ],
-      "quote001Bnb": 0.7327742050786702,
-      "quote01Bnb": 7.327420667373986,
-      "bnbPriceUsd": 732.77,
-      "baseQuote001Bnb": 0.7327742050786702,
+      "quote001Bnb": 0.7299442023401773,
+      "quote01Bnb": 7.299122503545271,
+      "bnbPriceUsd": 729.94,
+      "baseQuote001Bnb": 0.7299442023401773,
       "extraUsdcPer001Bnb": 0,
       "extraUsdcMicroCents": 0,
       "advantagePct": 0,
-      "liquidityUsdEstimate": 409.3652370267117
+      "liquidityUsdEstimate": 410.1626376009479
     },
     "bestDexRouteBsc": "pancakeswap_v2",
-    "bestQuoteUsdcPerBnb": 732.7742050786702,
+    "bestQuoteUsdcPerBnb": 729.9442023401773,
     "arbitrageCycle": {
       "chain": "BSC Mainnet",
       "mode": "CLOSED_LOOP_NET_ARBITRAGE",
       "zeroGasDrainEnforced": true,
       "usdcIn": 10,
-      "bestUsdcOut": 9.949354,
-      "deltaUsdc": -0.050646,
+      "bestUsdcOut": 9.949353,
+      "deltaUsdc": -0.050647,
       "gasCostEstUsd": 0.002,
-      "netProfitUsdc": -0.052646,
+      "netProfitUsdc": -0.052647,
       "spreadPct": -0.5065,
       "isNetPositive": false,
       "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
@@ -347,7 +347,7 @@
     "hasArbitrageOpportunity": false,
     "gasTrend": {
       "chainName": "BSC",
-      "latestBlock": 129100906,
+      "latestBlock": 129104314,
       "gasPriceGwei": 0.05,
       "baseFeePerGas": 0.05,
       "baseFeeHistoryGwei": [
@@ -366,7 +366,7 @@
     "honeypotsDetected": 0,
     "circleOfficialBytecode": true,
     "simulationSuccessful": true,
-    "timestamp": "2026-10-22T08:50:17.302Z"
+    "timestamp": "2026-10-22T09:15:51.563Z"
   },
   "arbitrageCycle": {
     "mode": "CLOSED_LOOP_NET_ARBITRAGE",
@@ -376,11 +376,11 @@
       "mode": "CLOSED_LOOP_NET_ARBITRAGE",
       "zeroGasDrainEnforced": true,
       "usdcIn": 10,
-      "bestUsdcOut": 9.815559,
-      "deltaUsdc": -0.184441,
+      "bestUsdcOut": 9.726441,
+      "deltaUsdc": -0.273559,
       "gasCostEstUsd": 0.005,
-      "netProfitUsdc": -0.189441,
-      "spreadPct": -1.8444,
+      "netProfitUsdc": -0.278559,
+      "spreadPct": -2.7356,
       "isNetPositive": false,
       "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
@@ -389,10 +389,10 @@
       "mode": "CLOSED_LOOP_NET_ARBITRAGE",
       "zeroGasDrainEnforced": true,
       "usdcIn": 10,
-      "bestUsdcOut": 9.949354,
-      "deltaUsdc": -0.050646,
+      "bestUsdcOut": 9.949353,
+      "deltaUsdc": -0.050647,
       "gasCostEstUsd": 0.002,
-      "netProfitUsdc": -0.052646,
+      "netProfitUsdc": -0.052647,
       "spreadPct": -0.5065,
       "isNetPositive": false,
       "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
@@ -414,11 +414,11 @@
         "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
       ],
       "quote1Pol": 0.091192,
-      "quote10Pol": 0.852929,
-      "baseQuote1Pol": 0.090714,
-      "extraUsdcPerPol": 0.000478,
-      "extraUsdcMicroCents": 4.78,
-      "advantagePct": 0.5269,
+      "quote10Pol": 0.852217,
+      "baseQuote1Pol": 0.09032,
+      "extraUsdcPerPol": 0.000872,
+      "extraUsdcMicroCents": 8.72,
+      "advantagePct": 0.9655,
       "liquidityUsdEstimate": 23.429746
     },
     "winningPoolRouteBsc": {
@@ -431,14 +431,14 @@
         "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
       ],
-      "quote001Bnb": 0.7327742050786702,
-      "quote01Bnb": 7.327420667373986,
-      "bnbPriceUsd": 732.77,
-      "baseQuote001Bnb": 0.7327742050786702,
+      "quote001Bnb": 0.7299442023401773,
+      "quote01Bnb": 7.299122503545271,
+      "bnbPriceUsd": 729.94,
+      "baseQuote001Bnb": 0.7299442023401773,
       "extraUsdcPer001Bnb": 0,
       "extraUsdcMicroCents": 0,
       "advantagePct": 0,
-      "liquidityUsdEstimate": 409.3652370267117
+      "liquidityUsdEstimate": 410.1626376009479
     },
     "bestDexRoutePolygon": "quickswap_v2",
     "bestDexRouteBsc": "pancakeswap_v2",

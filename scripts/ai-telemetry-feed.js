@@ -760,7 +760,7 @@ async function generateUnifiedTelemetry() {
     nebulaDirectives: existingTelemetry.nebulaDirectives || {},
     nebulaAverageScore: existingTelemetry.nebulaAverageScore || 0,
     binomialSquad: existingTelemetry.binomialSquad || [],
-    highWaterMarkRatchet: existingTelemetry.highWaterMarkRatchet || readJsonSafe(path.join(TELEMETRY_DIR, "profit-lock-ratchet.json")),
+    highWaterMarkRatchet: readJsonSafe(path.join(TELEMETRY_DIR, "profit-lock-ratchet.json")) || existingTelemetry.highWaterMarkRatchet,
     omniSniperRadar: readJsonSafe(path.join(TELEMETRY_DIR, "omni-sniper-radar.json")),
     securityForensic: readJsonSafe(path.join(TELEMETRY_DIR, "forensic-audit.json"))
   };
