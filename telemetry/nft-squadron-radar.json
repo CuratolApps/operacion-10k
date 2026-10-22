@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-10-22T11:25:22.003Z",
+  "squadronStatus": "ACTIVE_VANGUARD_PATROL",
+  "scannedCollections": 4,
+  "opportunitiesDetected": 0,
+  "hazardsBlocked": 4,
+  "hazardsDetails": [
+    {
+      "collection": "Polygon Commemorative Drop #1",
+      "contract": "0x2953399124F0cBB46d2CbACD8A89cF0599974963",
+      "reason": "BID_INMEDIATO_NO_DISPONIBLE_SIN_FIRMA_EXTERNA",
+      "action": "VIGILANCIA_CENTINELA_PRESERVADA"
+    },
+    {
+      "collection": "Planet IX Ecosystem Badges",
+      "reason": "CONTRATO_NO_EXISTE_ONCHAIN"
+    },
+    {
+      "collection": "Galxe OAT Loyalty Protocol",
+      "reason": "CONTRATO_NO_EXISTE_ONCHAIN"
+    },
+    {
+      "collection": "Lens Protocol Collectibles",
+      "reason": "CONTRATO_NO_EXISTE_ONCHAIN"
+    }
+  ],
+  "cap101GasBalancePol": 18.033635855474326,
+  "sacredFloorPol": 18.02,
+  "strictNoGasSell": true,
+  "verdict": "CAMINO_NO_DESPEJADO_ALTO_EL_FUEGO",
+  "gasSavedUsd": 0,
+  "netProfitRealizedUsdc": 0
+}
