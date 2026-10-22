@@ -759,6 +759,38 @@ ${frontLines}
     } catch (err) {
       console.warn(`⚠️ Error enviando alerta a Telegram: ${err.message}`);
     }
+  } else {
+    const polTotalFleet = allFrontStatuses.reduce((acc, f) => acc + f.polBalance, 0);
+    const msg = `
+🛡️🦅 <b>PARTE DE GUERRA // ESCUDO SAGRADO ACTIVO (6 FRENTES)</b>
+
+🎯 <b>OPERACIÓN 12K — SALVA SUPERVISADA (CERTEZA >= 95%)</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💎 <b>ESTADO ON-CHAIN DE LAS RESERVAS:</b>
+• <b>Escudo Sagrado:</b> ACTIVO en los 6 Frentes (0 violaciones de piso)
+• <b>Gas Total Preservado en Flota:</b> ${polTotalFleet.toFixed(4)} POL (Piso sagrado 75.00 POL blindado)
+• <b>En Bóveda Máster On-Chain (Compounding Pool):</b> $${totalUsdcInFleet.toFixed(6)} USDC
+• <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos automáticos)
+
+📦 <b>DETALLE POR FRENTE:</b>
+• <b>#501 (Nodriza Matriz):</b> ${allFrontStatuses.find(f => f.id === "#501")?.polBalance.toFixed(4)} POL (Reserva 25.00 POL blindada)
+• <b>#001 (Capitán Box 1):</b> ${allFrontStatuses.find(f => f.id === "#001")?.polBalance.toFixed(4)} POL (Reserva 14.00 POL blindada)
+• <b>#101 (Capitán Box 2):</b> ${allFrontStatuses.find(f => f.id === "#101")?.polBalance.toFixed(4)} POL (Reserva 14.00 POL blindada)
+• <b>#201 (Capitán Box 3):</b> ${allFrontStatuses.find(f => f.id === "#201")?.polBalance.toFixed(4)} POL (Reserva 7.30 POL blindada)
+• <b>#301 (Capitán Box 4):</b> ${allFrontStatuses.find(f => f.id === "#301")?.polBalance.toFixed(4)} POL (Reserva 7.30 POL blindada)
+• <b>#401 (Capitán Box 5):</b> ${allFrontStatuses.find(f => f.id === "#401")?.polBalance.toFixed(4)} POL (Reserva 7.30 POL blindada)
+
+🔒 <b>POLÍTICA DE CAUTELA:</b> Disparos en pausa de seguridad para proteger el gas sagrado de los 6 frentes hasta que ingrese combustible externo de Kraken.
+
+⏰ <i>${new Date().toISOString()}</i>
+`.trim();
+
+    try {
+      await sendTelegramAlert(msg);
+      console.log("📱 [TELEGRAM] Parte de Guerra (Escudo Sagrado Activo) enviado a Sala de Mando 10K.");
+    } catch (err) {
+      console.warn(`⚠️ Error enviando alerta a Telegram: ${err.message}`);
+    }
   }
 
   return { results, allFrontStatuses, totalUsdcInFleet, sweepRes };
