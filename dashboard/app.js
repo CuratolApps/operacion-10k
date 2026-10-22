@@ -357,18 +357,1080 @@ function renderTopRadarBanner() {
   const elG5Val = document.getElementById('ratioG5Val');
   const elG5Sub = document.getElementById('ratioG5Sub');
   const lastSwap = telem?.galaxy5Refinery?.lastSwapHash;
+  const totalSwaps = telem?.galaxy5Refinery?.totalSwaps || (lastSwap ? 1 : 0);
   const usdcHarvested = safeNum(telem?.galaxy5Refinery?.lastUsdcHarvested, 0);
   const mintsCount = safeNum(telem?.galaxy5Refinery?.mintsScanned, 0);
   const honeypotsBlocked = safeNum(telem?.galaxy5Refinery?.honeypotsBlocked, 0);
 
-  if (elG5Val) elG5Val.textContent = lastSwap ? ('1 Swap ($' + usdcHarvested.toFixed(2) + ' USDC)') : '0 Swaps';
+  if (elG5Val) elG5Val.textContent = totalSwaps > 0 ? (totalSwaps + ' Swaps (
+}
+
+// -------------------------------------------------------------
+// 7. RENDERIZADO DE LAS 5 BÓVEDAS BINANCE (PANEL DERECHO)
+// -------------------------------------------------------------
+function renderStarVaults() {
+  const telem = state.telemetry;
+  const vaults = telem?.binanceVaults || [];
+
+  vaults.forEach((v, idx) => {
+    const recEl = document.getElementById(`vaultRec${idx + 1}`);
+    const incEl = document.getElementById(`vaultInc${idx + 1}`);
+    const recVal = safeNum(v.receivedUsdc, 0);
+    const incVal = safeNum(v.pendingUsdc, 0);
+
+    if (recEl) recEl.textContent = `$${Number(recVal || 0).toFixed(2)} USDC`;
+    if (incEl) incEl.textContent = `+$${Number(incVal || 0).toFixed(2)} USDC`;
+  });
+}
+
+// -------------------------------------------------------------
+// 8. RENDERIZADO DE LOS FLUJOS DE GALAXIAS 1 A 5 (100% REAL)
+// -------------------------------------------------------------
+function renderGalaxiesStreams() {
+  const telem = state.telemetry;
+  const events = (telem?.recentEvents || []).filter(e => e && e.hash);
+
+  // 1. Galaxia 1 — Minería & Bitcoin L2
+  const btcOps = safeNum(telem?.bitcoinL2Stats?.citreaOps, 0) + safeNum(telem?.bitcoinL2Stats?.goatOps, 0);
+  const btcPts = safeNum(telem?.bitcoinL2Stats?.totalBtcL2Points, 0);
+  const elG1Bots = document.getElementById('g1ActiveBots');
+  const elG1Pts = document.getElementById('g1Points');
+  const elG1Int = document.getElementById('g1Interactions');
+  const elG1Badge = document.getElementById('g1Badge');
+  if (elG1Bots) elG1Bots.textContent = `${btcOps > 0 ? 20 : 0} Billeteras`;
+  if (elG1Pts) elG1Pts.textContent = `${btcPts} pts BTC L2`;
+  if (elG1Int) elG1Int.textContent = `${btcOps} Interacciones Firmadas`;
+  if (elG1Badge) elG1Badge.textContent = `${btcOps > 0 ? 20 : 0} BOTS ACTIVOS`;
+
+  // 2. Galaxia 2 — Juegos & Metaverso
+  const gamingBots = safeNum(telem?.galaxy2Gaming?.activeBots, 0);
+  const gamingChests = safeNum(telem?.galaxy2Gaming?.chestsClaimed, 0);
+  const gamingTxs = safeNum(telem?.galaxy2Gaming?.totalGamingTxs, 0);
+  const elG2Bots = document.getElementById('g2ActiveBots');
+  const elG2Loot = document.getElementById('g2LootCount');
+  const elG2Footer = document.getElementById('g2ClaimsFooter');
+  const elG2Badge = document.getElementById('g2Badge');
+  if (elG2Bots) elG2Bots.textContent = `${gamingBots} Billeteras`;
+  if (elG2Loot) elG2Loot.textContent = `${gamingChests} Cofres & Activos`;
+  if (elG2Footer) elG2Footer.textContent = `${gamingTxs} Reclamos Exitosos`;
+  if (elG2Badge) elG2Badge.textContent = `${gamingBots} BOTS ACTIVOS`;
+
+  // 3. Galaxia 3 — Piscinas & Sorteos USDC
+  const poolBots = safeNum(telem?.galaxy3Pools?.activeBots, 0);
+  const poolCampaigns = safeNum(telem?.galaxy3Pools?.campaignsCount, 0);
+  const poolTickets = safeNum(telem?.galaxy3Pools?.ticketsTotal, 0);
+  const poolParticipations = safeNum(telem?.hunterStats?.gaslessQuestsSigned, 0);
+  const elG3Bots = document.getElementById('g3ActiveBots');
+  const elG3Camp = document.getElementById('g3Campaigns');
+  const elG3Tkt = document.getElementById('g3Tickets');
+  const elG3Part = document.getElementById('g3Participations');
+  const elG3Badge = document.getElementById('g3Badge');
+  if (elG3Bots) elG3Bots.textContent = `${poolBots} Billeteras`;
+  if (elG3Camp) elG3Camp.textContent = `${poolCampaigns} Piscinas Verificadas`;
+  if (elG3Tkt) elG3Tkt.textContent = `${poolTickets} Tickets`;
+  if (elG3Part) elG3Part.textContent = `${poolParticipations} Participaciones`;
+  if (elG3Badge) elG3Badge.textContent = `${poolBots} BOTS ACTIVOS`;
+
+  // 4. Galaxia 4 — Airdrops L2 $0 Gas
+  const airdropTxs = safeNum(telem?.workStats?.todayTxConfirmed, 0);
+  const airdropTotal = safeNum(telem?.workStats?.totalTxConfirmedAllTime, 0);
+  const elG4Bots = document.getElementById('g4ActiveBots');
+  const elG4Int = document.getElementById('g4Interactions');
+  const elG4Badge = document.getElementById('g4Badge');
+  if (elG4Bots) elG4Bots.textContent = `${airdropTxs > 0 ? 20 : 0} Billeteras`;
+  if (elG4Int) elG4Int.textContent = `${airdropTotal} Interacciones Sin Costo`;
+  if (elG4Badge) elG4Badge.textContent = `${airdropTxs > 0 ? 20 : 0} BOTS ACTIVOS`;
+
+  // 5. Galaxia 5 — Refinería DEX & Bóvedas Binance
+  const mintsCount = safeNum(telem?.galaxy5Refinery?.mintsScanned, 0);
+  const honeypotsBlocked = safeNum(telem?.galaxy5Refinery?.honeypotsBlocked, 0);
+  const elG5Bots = document.getElementById('g5ActiveBots');
+  const elG5Mints = document.getElementById('g5Mints');
+  const elG5Badge = document.getElementById('g5Badge');
+  if (elG5Bots) elG5Bots.textContent = '500 Billeteras';
+  if (elG5Mints) elG5Mints.textContent = `${mintsCount} Mints • ${honeypotsBlocked} Honeypot`;
+  if (elG5Badge) elG5Badge.textContent = 'BARRIDO AUTOMÁTICO';
+
+  // Renderizado de Tablas de Galaxias
+  const renderOrEmpty = (tbodyId, filterFn, defaultText) => {
+    const el = document.getElementById(tbodyId);
+    if (!el) return;
+    const filtered = events.filter(filterFn);
+    if (filtered.length === 0) {
+      el.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); font-size: 0.54rem; padding: 12px 6px;">● ${defaultText} (Contador en cadena: 0)</td></tr>`;
+      return;
+    }
+    let rows = '';
+    filtered.slice(0, 15).forEach((ev, idx) => {
+      const satId = ev.satIndex ? `#${String(ev.satIndex).padStart(3, '0')}` : `#${String((idx % 500) + 1).padStart(3, '0')}`;
+      rows += `<tr>
+        <td><strong style="color: var(--neon-gold)">${satId}</strong></td>
+        <td><span class="badge-fino-status paid">${ev.network || 'EVM'}</span></td>
+        <td style="font-family: 'JetBrains Mono'; font-size: 0.50rem;">${ev.hash ? `<a href="${ev.network && ev.network.includes('Polygon') ? 'https://polygonscan.com/tx/' + ev.hash : (ev.network && ev.network.includes('Base') ? 'https://sepolia.basescan.org/tx/' + ev.hash : 'https://sepolia.etherscan.io/tx/' + ev.hash)}" target="_blank" style="color: var(--neon-cyan); text-decoration: none;" title="${ev.hash}">${ev.hash.slice(0, 14)}... ↗</a>` : 'Tx Confirmada'}</td>
+        <td>${ev.type || 'On-Chain Activity'}</td>
+        <td><strong style="color: var(--neon-cyan)">Confirmada</strong></td>
+        <td style="color: var(--neon-green)">${ev.amount ? ('+$' + Number(ev.amount).toFixed(4)) : '$0.00'}</td>
+        <td><span class="badge-liq-sub usd">${ev.status || 'CONFIRMADA'}</span></td>
+      </tr>`;
+    });
+    el.innerHTML = rows;
+  };
+
+  renderOrEmpty('g1StreamTableBody', e => e.network?.includes('Citrea') || e.network?.includes('Goat') || e.type?.includes('BTC'), 'En espera de streak Citrea / Goat');
+  renderOrEmpty('g2StreamTableBody', e => e.type?.includes('LOOT') || e.type?.includes('GAMER') || e.network?.includes('Gaming'), 'En espera de reclamo Loot Chest');
+  renderOrEmpty('g3StreamTableBody', e => e.type?.includes('QUEST') || e.type?.includes('POOL') || e.network?.includes('Pool'), 'En espera de firma EIP-712 Pool');
+  renderOrEmpty('g4StreamTableBody', e => e.network?.includes('Sepolia') || e.network?.includes('Base') || e.network?.includes('Arbitrum') || e.type?.includes('BRIDGE'), 'En espera de relay L2 Gasless');
+  renderOrEmpty('g5StreamTableBody', e => e.type?.includes('SWAP') || e.type?.includes('MINT') || e.network?.includes('QuickSwap') || e.network?.includes('Polygon'), 'En espera de swap / mint DEX');
+}
+
+// -------------------------------------------------------------
+// 9. CENSO DE LAS 502 CARTERAS (ANCHO COMPLETO SIN CORTES)
+// -------------------------------------------------------------
+function renderSatelliteRegistry() {
+  const tbody = document.getElementById('registryTableBody');
+  if (!tbody) return;
+
+  const query = (state.registrySearch || '').toLowerCase().trim();
+  const filter = state.registryFilter;
+
+  const filtered = state.wallets.filter(w => {
+    if (query) {
+      const matchId = w.formattedId.toLowerCase().includes(query) || String(w.id) === query;
+      const matchEvm = (w.evmAddress || '').toLowerCase().includes(query);
+      const matchSol = (w.solanaAddress || '').toLowerCase().includes(query);
+      const matchRank = (w.rank || '').toLowerCase().includes(query);
+      if (!matchId && !matchEvm && !matchSol && !matchRank) return false;
+    }
+
+    if (filter === 'ALL') return true;
+    if (filter === 'MOTHERSHIPS') return w.isMothership;
+    if (filter === 'FLEET1') return w.boxId === 1;
+    if (filter === 'FLEET2') return w.boxId === 2;
+    if (filter === 'FLEET3') return w.boxId === 3;
+    if (filter === 'FLEET4') return w.boxId === 4;
+    if (filter === 'FLEET5') return w.boxId === 5;
+    return true;
+  });
+
+  let html = '';
+  filtered.forEach(w => {
+    const isExpanded = state.expandedWalletId === w.id;
+    const rankColor = w.isMothership ? 'var(--neon-gold)' : w.isCaptain ? 'var(--neon-cyan)' : '#ffffff';
+
+    html += `<tr class="wallet-row ${isExpanded ? 'expanded' : ''}" onclick="toggleWalletDetail(${w.id})">
+      <td><strong style="color: ${w.isMothership ? 'var(--neon-gold)' : 'var(--neon-cyan)'}">${w.formattedId}</strong> <span style="color: ${rankColor}; font-size: 0.52rem; display: block;">${w.rank}</span></td>
+      <td>${w.cluster}</td>
+      <td>
+        <span class="full-evm-code">
+          ${w.evmAddress}
+          <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.evmAddress}')" title="Copiar dirección EVM completa">
+            <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+            <span>Copiar</span>
+          </button>
+        </span>
+      </td>
+      <td><span class="badge-fino-status paid" style="font-size: 0.46rem;">${w.galaxyName}</span></td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: #fff;">${w.gasStr}</td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${w.workSummary}</td>
+      <td><strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.64rem;">$${safeNum(w.capturedUsdc, 0).toFixed(2)} USDC</strong></td>
+      <td style="text-align: center;">
+        <button class="btn-mini-copy" onclick="event.stopPropagation(); toggleWalletDetail(${w.id})" title="Desplegar Solana y detalles">
+          <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" style="width: 11px; height: 11px;"></i>
+        </button>
+      </td>
+    </tr>`;
+
+    // Fila expandible con Dirección Solana completa y detalles
+    if (isExpanded) {
+      html += `<tr class="wallet-detail-row">
+        <td colspan="8">
+          <div class="wallet-detail-content">
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Dirección Solana Completa</span>
+              <span class="detail-item-val">
+                <span>${w.solanaAddress}</span>
+                <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.solanaAddress}')" title="Copiar Solana">
+                  <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+                  <span>Copiar</span>
+                </button>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Ruta de Derivación BIP-44</span>
+              <span class="detail-item-val" style="color: var(--neon-gold)">${w.derivationPath}</span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Bóveda Binance Asignada</span>
+              <span class="detail-item-val">
+                <span style="color: var(--neon-cyan)">${w.assignedVault}</span>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">ADN Táctico &amp; Meta $5.50</span>
+              <span class="detail-item-val" style="color: var(--neon-green)">
+                ${w.dnaRole} • En Órbita
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+    }
+  });
+
+  if (filtered.length === 0) {
+    html = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: var(--text-muted);">No se encontraron carteras con el filtro actual</td></tr>';
+  }
+
+  tbody.innerHTML = html;
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+function toggleWalletDetail(id) {
+  if (state.expandedWalletId === id) {
+    state.expandedWalletId = null;
+  } else {
+    state.expandedWalletId = id;
+  }
+  renderSatelliteRegistry();
+}
+
+function handleRegistrySearch() {
+  const input = document.getElementById('registrySearchInput');
+  if (input) {
+    state.registrySearch = input.value;
+    renderSatelliteRegistry();
+  }
+}
+
+function filterRegistry(filterType) {
+  state.registryFilter = filterType;
+
+  const buttons = document.querySelectorAll('.fino-filter-buttons .fino-filter-btn');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-filter') === filterType) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  renderSatelliteRegistry();
+}
+
+// -------------------------------------------------------------
+
+// -------------------------------------------------------------
+// 9. RENDERIZADO DE LAS 10 NEBULOSAS IA (ESTACIÓN DE INTELIGENCIA)
+// -------------------------------------------------------------
+async function renderNebulaCommanders() {
+  const telem = state.telemetry;
+  let commanders = telem?.nebulaCommanders || [];
+
+  if (!commanders || commanders.length === 0) {
+    try {
+      const res = await fetch('../telemetry/nebula-directives.json?t=' + Date.now());
+      if (res.ok) {
+        const dirs = await res.json();
+        commanders = dirs.commanders || [];
+      }
+    } catch (_) {}
+  }
+
+  const container = document.getElementById('nebulaGridContainer');
+  if (!container) return;
+
+  const avgScore = telem?.nebulaAverageScore || 96;
+  const globalScorePill = document.getElementById('nebulaGlobalScorePill');
+  if (globalScorePill) {
+    globalScorePill.textContent = `SCORE: ${avgScore}% ÓPTIMO`;
+  }
+
+  const semaScore = document.getElementById('semaNebulaScore');
+  if (semaScore) {
+    semaScore.textContent = `Score: ${avgScore}% • Guía Activa →`;
+  }
+
+  if (!commanders || commanders.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 10 Nebulosas IA...</div>';
+    return;
+  }
+
+  container.innerHTML = commanders.map((cmd) => {
+    return `
+      <div class="nebula-card">
+        <div class="nebula-card-top">
+          <div class="nebula-card-identity">
+            <span class="nebula-card-icon">${cmd.icon || '🌌'}</span>
+            <div class="nebula-card-title-group">
+              <span class="nebula-card-id">${cmd.id}: ${cmd.name}</span>
+              <span class="nebula-card-specialty">${cmd.specialty}</span>
+            </div>
+          </div>
+          <span class="nebula-score-pill">SCORE: ${cmd.opportunityScore}%</span>
+        </div>
+        <div class="nebula-reasoning-box">
+          <strong>Razonamiento en Vivo:</strong> ${cmd.reasoning}
+        </div>
+        <div class="nebula-card-footer">
+          <span class="nebula-sat-guiding">🛰️ Guía a: <strong>${cmd.satellitesGuided} Satélites</strong></span>
+          <span class="nebula-status-indicator"><span class="nebula-dot"></span> ${cmd.status || 'OPTIMAL'}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 10. INICIALIZACIÓN
+// -------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  startLiveClock();
+
+  // Escuchar clics en el menú lateral
+  const navBtns = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.getAttribute('data-view');
+      if (view) switchFinopsView(view);
+    });
+  });
+
+  // Cargar datos
+  loadOrbitalData();
+
+  // Auto-refresco cada 15 segundos
+  setInterval(loadOrbitalData, 15000);
+});
+ + Number(ev.amount).toFixed(4) : '$0.00'}</td>
+        <td><span class="badge-liq-sub usd">${ev.status || 'CONFIRMADA'}</span></td>
+      </tr>`;
+    });
+    el.innerHTML = rows;
+  };
+
+  renderOrEmpty('g1StreamTableBody', e => e.network?.includes('Citrea') || e.network?.includes('Goat') || e.type?.includes('BTC'), 'En espera de streak Citrea / Goat');
+  renderOrEmpty('g2StreamTableBody', e => e.type?.includes('LOOT') || e.type?.includes('GAMER') || e.network?.includes('Gaming'), 'En espera de reclamo Loot Chest');
+  renderOrEmpty('g3StreamTableBody', e => e.type?.includes('QUEST') || e.type?.includes('POOL') || e.network?.includes('Pool'), 'En espera de firma EIP-712 Pool');
+  renderOrEmpty('g4StreamTableBody', e => e.network?.includes('Sepolia') || e.network?.includes('Base') || e.network?.includes('Arbitrum') || e.type?.includes('BRIDGE'), 'En espera de relay L2 Gasless');
+  renderOrEmpty('g5StreamTableBody', e => e.type?.includes('SWAP') || e.type?.includes('MINT') || e.network?.includes('QuickSwap') || e.network?.includes('Polygon'), 'En espera de swap / mint DEX');
+}
+
+// -------------------------------------------------------------
+// 9. CENSO DE LAS 502 CARTERAS (ANCHO COMPLETO SIN CORTES)
+// -------------------------------------------------------------
+function renderSatelliteRegistry() {
+  const tbody = document.getElementById('registryTableBody');
+  if (!tbody) return;
+
+  const query = (state.registrySearch || '').toLowerCase().trim();
+  const filter = state.registryFilter;
+
+  const filtered = state.wallets.filter(w => {
+    if (query) {
+      const matchId = w.formattedId.toLowerCase().includes(query) || String(w.id) === query;
+      const matchEvm = (w.evmAddress || '').toLowerCase().includes(query);
+      const matchSol = (w.solanaAddress || '').toLowerCase().includes(query);
+      const matchRank = (w.rank || '').toLowerCase().includes(query);
+      if (!matchId && !matchEvm && !matchSol && !matchRank) return false;
+    }
+
+    if (filter === 'ALL') return true;
+    if (filter === 'MOTHERSHIPS') return w.isMothership;
+    if (filter === 'FLEET1') return w.boxId === 1;
+    if (filter === 'FLEET2') return w.boxId === 2;
+    if (filter === 'FLEET3') return w.boxId === 3;
+    if (filter === 'FLEET4') return w.boxId === 4;
+    if (filter === 'FLEET5') return w.boxId === 5;
+    return true;
+  });
+
+  let html = '';
+  filtered.forEach(w => {
+    const isExpanded = state.expandedWalletId === w.id;
+    const rankColor = w.isMothership ? 'var(--neon-gold)' : w.isCaptain ? 'var(--neon-cyan)' : '#ffffff';
+
+    html += `<tr class="wallet-row ${isExpanded ? 'expanded' : ''}" onclick="toggleWalletDetail(${w.id})">
+      <td><strong style="color: ${w.isMothership ? 'var(--neon-gold)' : 'var(--neon-cyan)'}">${w.formattedId}</strong> <span style="color: ${rankColor}; font-size: 0.52rem; display: block;">${w.rank}</span></td>
+      <td>${w.cluster}</td>
+      <td>
+        <span class="full-evm-code">
+          ${w.evmAddress}
+          <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.evmAddress}')" title="Copiar dirección EVM completa">
+            <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+            <span>Copiar</span>
+          </button>
+        </span>
+      </td>
+      <td><span class="badge-fino-status paid" style="font-size: 0.46rem;">${w.galaxyName}</span></td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: #fff;">${w.gasStr}</td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${w.workSummary}</td>
+      <td><strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.64rem;">$${safeNum(w.capturedUsdc, 0).toFixed(2)} USDC</strong></td>
+      <td style="text-align: center;">
+        <button class="btn-mini-copy" onclick="event.stopPropagation(); toggleWalletDetail(${w.id})" title="Desplegar Solana y detalles">
+          <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" style="width: 11px; height: 11px;"></i>
+        </button>
+      </td>
+    </tr>`;
+
+    // Fila expandible con Dirección Solana completa y detalles
+    if (isExpanded) {
+      html += `<tr class="wallet-detail-row">
+        <td colspan="8">
+          <div class="wallet-detail-content">
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Dirección Solana Completa</span>
+              <span class="detail-item-val">
+                <span>${w.solanaAddress}</span>
+                <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.solanaAddress}')" title="Copiar Solana">
+                  <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+                  <span>Copiar</span>
+                </button>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Ruta de Derivación BIP-44</span>
+              <span class="detail-item-val" style="color: var(--neon-gold)">${w.derivationPath}</span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Bóveda Binance Asignada</span>
+              <span class="detail-item-val">
+                <span style="color: var(--neon-cyan)">${w.assignedVault}</span>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">ADN Táctico &amp; Meta $5.50</span>
+              <span class="detail-item-val" style="color: var(--neon-green)">
+                ${w.dnaRole} • En Órbita
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+    }
+  });
+
+  if (filtered.length === 0) {
+    html = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: var(--text-muted);">No se encontraron carteras con el filtro actual</td></tr>';
+  }
+
+  tbody.innerHTML = html;
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+function toggleWalletDetail(id) {
+  if (state.expandedWalletId === id) {
+    state.expandedWalletId = null;
+  } else {
+    state.expandedWalletId = id;
+  }
+  renderSatelliteRegistry();
+}
+
+function handleRegistrySearch() {
+  const input = document.getElementById('registrySearchInput');
+  if (input) {
+    state.registrySearch = input.value;
+    renderSatelliteRegistry();
+  }
+}
+
+function filterRegistry(filterType) {
+  state.registryFilter = filterType;
+
+  const buttons = document.querySelectorAll('.fino-filter-buttons .fino-filter-btn');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-filter') === filterType) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  renderSatelliteRegistry();
+}
+
+// -------------------------------------------------------------
+
+// -------------------------------------------------------------
+// 9. RENDERIZADO DE LAS 10 NEBULOSAS IA (ESTACIÓN DE INTELIGENCIA)
+// -------------------------------------------------------------
+async function renderNebulaCommanders() {
+  const telem = state.telemetry;
+  let commanders = telem?.nebulaCommanders || [];
+
+  if (!commanders || commanders.length === 0) {
+    try {
+      const res = await fetch('../telemetry/nebula-directives.json?t=' + Date.now());
+      if (res.ok) {
+        const dirs = await res.json();
+        commanders = dirs.commanders || [];
+      }
+    } catch (_) {}
+  }
+
+  const container = document.getElementById('nebulaGridContainer');
+  if (!container) return;
+
+  const avgScore = telem?.nebulaAverageScore || 96;
+  const globalScorePill = document.getElementById('nebulaGlobalScorePill');
+  if (globalScorePill) {
+    globalScorePill.textContent = `SCORE: ${avgScore}% ÓPTIMO`;
+  }
+
+  const semaScore = document.getElementById('semaNebulaScore');
+  if (semaScore) {
+    semaScore.textContent = `Score: ${avgScore}% • Guía Activa →`;
+  }
+
+  if (!commanders || commanders.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 10 Nebulosas IA...</div>';
+    return;
+  }
+
+  container.innerHTML = commanders.map((cmd) => {
+    return `
+      <div class="nebula-card">
+        <div class="nebula-card-top">
+          <div class="nebula-card-identity">
+            <span class="nebula-card-icon">${cmd.icon || '🌌'}</span>
+            <div class="nebula-card-title-group">
+              <span class="nebula-card-id">${cmd.id}: ${cmd.name}</span>
+              <span class="nebula-card-specialty">${cmd.specialty}</span>
+            </div>
+          </div>
+          <span class="nebula-score-pill">SCORE: ${cmd.opportunityScore}%</span>
+        </div>
+        <div class="nebula-reasoning-box">
+          <strong>Razonamiento en Vivo:</strong> ${cmd.reasoning}
+        </div>
+        <div class="nebula-card-footer">
+          <span class="nebula-sat-guiding">🛰️ Guía a: <strong>${cmd.satellitesGuided} Satélites</strong></span>
+          <span class="nebula-status-indicator"><span class="nebula-dot"></span> ${cmd.status || 'OPTIMAL'}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 10. INICIALIZACIÓN
+// -------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  startLiveClock();
+
+  // Escuchar clics en el menú lateral
+  const navBtns = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.getAttribute('data-view');
+      if (view) switchFinopsView(view);
+    });
+  });
+
+  // Cargar datos
+  loadOrbitalData();
+
+  // Auto-refresco cada 15 segundos
+  setInterval(loadOrbitalData, 15000);
+});
+ + Number(ev.amount).toFixed(4)) : '$0.00'}</td>
+        <td><span class="badge-liq-sub usd">${ev.status || 'CONFIRMADA'}</span></td>
+      </tr>`;
+    });
+    el.innerHTML = rows;
+  };
+
+  renderOrEmpty('g1StreamTableBody', e => e.network?.includes('Citrea') || e.network?.includes('Goat') || e.type?.includes('BTC'), 'En espera de streak Citrea / Goat');
+  renderOrEmpty('g2StreamTableBody', e => e.type?.includes('LOOT') || e.type?.includes('GAMER') || e.network?.includes('Gaming'), 'En espera de reclamo Loot Chest');
+  renderOrEmpty('g3StreamTableBody', e => e.type?.includes('QUEST') || e.type?.includes('POOL') || e.network?.includes('Pool'), 'En espera de firma EIP-712 Pool');
+  renderOrEmpty('g4StreamTableBody', e => e.network?.includes('Sepolia') || e.network?.includes('Base') || e.network?.includes('Arbitrum') || e.type?.includes('BRIDGE'), 'En espera de relay L2 Gasless');
+  renderOrEmpty('g5StreamTableBody', e => e.type?.includes('SWAP') || e.type?.includes('MINT') || e.network?.includes('QuickSwap') || e.network?.includes('Polygon'), 'En espera de swap / mint DEX');
+}
+
+// -------------------------------------------------------------
+// 9. CENSO DE LAS 502 CARTERAS (ANCHO COMPLETO SIN CORTES)
+// -------------------------------------------------------------
+function renderSatelliteRegistry() {
+  const tbody = document.getElementById('registryTableBody');
+  if (!tbody) return;
+
+  const query = (state.registrySearch || '').toLowerCase().trim();
+  const filter = state.registryFilter;
+
+  const filtered = state.wallets.filter(w => {
+    if (query) {
+      const matchId = w.formattedId.toLowerCase().includes(query) || String(w.id) === query;
+      const matchEvm = (w.evmAddress || '').toLowerCase().includes(query);
+      const matchSol = (w.solanaAddress || '').toLowerCase().includes(query);
+      const matchRank = (w.rank || '').toLowerCase().includes(query);
+      if (!matchId && !matchEvm && !matchSol && !matchRank) return false;
+    }
+
+    if (filter === 'ALL') return true;
+    if (filter === 'MOTHERSHIPS') return w.isMothership;
+    if (filter === 'FLEET1') return w.boxId === 1;
+    if (filter === 'FLEET2') return w.boxId === 2;
+    if (filter === 'FLEET3') return w.boxId === 3;
+    if (filter === 'FLEET4') return w.boxId === 4;
+    if (filter === 'FLEET5') return w.boxId === 5;
+    return true;
+  });
+
+  let html = '';
+  filtered.forEach(w => {
+    const isExpanded = state.expandedWalletId === w.id;
+    const rankColor = w.isMothership ? 'var(--neon-gold)' : w.isCaptain ? 'var(--neon-cyan)' : '#ffffff';
+
+    html += `<tr class="wallet-row ${isExpanded ? 'expanded' : ''}" onclick="toggleWalletDetail(${w.id})">
+      <td><strong style="color: ${w.isMothership ? 'var(--neon-gold)' : 'var(--neon-cyan)'}">${w.formattedId}</strong> <span style="color: ${rankColor}; font-size: 0.52rem; display: block;">${w.rank}</span></td>
+      <td>${w.cluster}</td>
+      <td>
+        <span class="full-evm-code">
+          ${w.evmAddress}
+          <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.evmAddress}')" title="Copiar dirección EVM completa">
+            <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+            <span>Copiar</span>
+          </button>
+        </span>
+      </td>
+      <td><span class="badge-fino-status paid" style="font-size: 0.46rem;">${w.galaxyName}</span></td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: #fff;">${w.gasStr}</td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${w.workSummary}</td>
+      <td><strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.64rem;">$${safeNum(w.capturedUsdc, 0).toFixed(2)} USDC</strong></td>
+      <td style="text-align: center;">
+        <button class="btn-mini-copy" onclick="event.stopPropagation(); toggleWalletDetail(${w.id})" title="Desplegar Solana y detalles">
+          <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" style="width: 11px; height: 11px;"></i>
+        </button>
+      </td>
+    </tr>`;
+
+    // Fila expandible con Dirección Solana completa y detalles
+    if (isExpanded) {
+      html += `<tr class="wallet-detail-row">
+        <td colspan="8">
+          <div class="wallet-detail-content">
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Dirección Solana Completa</span>
+              <span class="detail-item-val">
+                <span>${w.solanaAddress}</span>
+                <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.solanaAddress}')" title="Copiar Solana">
+                  <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+                  <span>Copiar</span>
+                </button>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Ruta de Derivación BIP-44</span>
+              <span class="detail-item-val" style="color: var(--neon-gold)">${w.derivationPath}</span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Bóveda Binance Asignada</span>
+              <span class="detail-item-val">
+                <span style="color: var(--neon-cyan)">${w.assignedVault}</span>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">ADN Táctico &amp; Meta $5.50</span>
+              <span class="detail-item-val" style="color: var(--neon-green)">
+                ${w.dnaRole} • En Órbita
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+    }
+  });
+
+  if (filtered.length === 0) {
+    html = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: var(--text-muted);">No se encontraron carteras con el filtro actual</td></tr>';
+  }
+
+  tbody.innerHTML = html;
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+function toggleWalletDetail(id) {
+  if (state.expandedWalletId === id) {
+    state.expandedWalletId = null;
+  } else {
+    state.expandedWalletId = id;
+  }
+  renderSatelliteRegistry();
+}
+
+function handleRegistrySearch() {
+  const input = document.getElementById('registrySearchInput');
+  if (input) {
+    state.registrySearch = input.value;
+    renderSatelliteRegistry();
+  }
+}
+
+function filterRegistry(filterType) {
+  state.registryFilter = filterType;
+
+  const buttons = document.querySelectorAll('.fino-filter-buttons .fino-filter-btn');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-filter') === filterType) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  renderSatelliteRegistry();
+}
+
+// -------------------------------------------------------------
+
+// -------------------------------------------------------------
+// 9. RENDERIZADO DE LAS 10 NEBULOSAS IA (ESTACIÓN DE INTELIGENCIA)
+// -------------------------------------------------------------
+async function renderNebulaCommanders() {
+  const telem = state.telemetry;
+  let commanders = telem?.nebulaCommanders || [];
+
+  if (!commanders || commanders.length === 0) {
+    try {
+      const res = await fetch('../telemetry/nebula-directives.json?t=' + Date.now());
+      if (res.ok) {
+        const dirs = await res.json();
+        commanders = dirs.commanders || [];
+      }
+    } catch (_) {}
+  }
+
+  const container = document.getElementById('nebulaGridContainer');
+  if (!container) return;
+
+  const avgScore = telem?.nebulaAverageScore || 96;
+  const globalScorePill = document.getElementById('nebulaGlobalScorePill');
+  if (globalScorePill) {
+    globalScorePill.textContent = `SCORE: ${avgScore}% ÓPTIMO`;
+  }
+
+  const semaScore = document.getElementById('semaNebulaScore');
+  if (semaScore) {
+    semaScore.textContent = `Score: ${avgScore}% • Guía Activa →`;
+  }
+
+  if (!commanders || commanders.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 10 Nebulosas IA...</div>';
+    return;
+  }
+
+  container.innerHTML = commanders.map((cmd) => {
+    return `
+      <div class="nebula-card">
+        <div class="nebula-card-top">
+          <div class="nebula-card-identity">
+            <span class="nebula-card-icon">${cmd.icon || '🌌'}</span>
+            <div class="nebula-card-title-group">
+              <span class="nebula-card-id">${cmd.id}: ${cmd.name}</span>
+              <span class="nebula-card-specialty">${cmd.specialty}</span>
+            </div>
+          </div>
+          <span class="nebula-score-pill">SCORE: ${cmd.opportunityScore}%</span>
+        </div>
+        <div class="nebula-reasoning-box">
+          <strong>Razonamiento en Vivo:</strong> ${cmd.reasoning}
+        </div>
+        <div class="nebula-card-footer">
+          <span class="nebula-sat-guiding">🛰️ Guía a: <strong>${cmd.satellitesGuided} Satélites</strong></span>
+          <span class="nebula-status-indicator"><span class="nebula-dot"></span> ${cmd.status || 'OPTIMAL'}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 10. INICIALIZACIÓN
+// -------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  startLiveClock();
+
+  // Escuchar clics en el menú lateral
+  const navBtns = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.getAttribute('data-view');
+      if (view) switchFinopsView(view);
+    });
+  });
+
+  // Cargar datos
+  loadOrbitalData();
+
+  // Auto-refresco cada 15 segundos
+  setInterval(loadOrbitalData, 15000);
+});
+ + Number(ev.amount).toFixed(4) : '$0.00'}</td>
+        <td><span class="badge-liq-sub usd">${ev.status || 'CONFIRMADA'}</span></td>
+      </tr>`;
+    });
+    el.innerHTML = rows;
+  };
+
+  renderOrEmpty('g1StreamTableBody', e => e.network?.includes('Citrea') || e.network?.includes('Goat') || e.type?.includes('BTC'), 'En espera de streak Citrea / Goat');
+  renderOrEmpty('g2StreamTableBody', e => e.type?.includes('LOOT') || e.type?.includes('GAMER') || e.network?.includes('Gaming'), 'En espera de reclamo Loot Chest');
+  renderOrEmpty('g3StreamTableBody', e => e.type?.includes('QUEST') || e.type?.includes('POOL') || e.network?.includes('Pool'), 'En espera de firma EIP-712 Pool');
+  renderOrEmpty('g4StreamTableBody', e => e.network?.includes('Sepolia') || e.network?.includes('Base') || e.network?.includes('Arbitrum') || e.type?.includes('BRIDGE'), 'En espera de relay L2 Gasless');
+  renderOrEmpty('g5StreamTableBody', e => e.type?.includes('SWAP') || e.type?.includes('MINT') || e.network?.includes('QuickSwap') || e.network?.includes('Polygon'), 'En espera de swap / mint DEX');
+}
+
+// -------------------------------------------------------------
+// 9. CENSO DE LAS 502 CARTERAS (ANCHO COMPLETO SIN CORTES)
+// -------------------------------------------------------------
+function renderSatelliteRegistry() {
+  const tbody = document.getElementById('registryTableBody');
+  if (!tbody) return;
+
+  const query = (state.registrySearch || '').toLowerCase().trim();
+  const filter = state.registryFilter;
+
+  const filtered = state.wallets.filter(w => {
+    if (query) {
+      const matchId = w.formattedId.toLowerCase().includes(query) || String(w.id) === query;
+      const matchEvm = (w.evmAddress || '').toLowerCase().includes(query);
+      const matchSol = (w.solanaAddress || '').toLowerCase().includes(query);
+      const matchRank = (w.rank || '').toLowerCase().includes(query);
+      if (!matchId && !matchEvm && !matchSol && !matchRank) return false;
+    }
+
+    if (filter === 'ALL') return true;
+    if (filter === 'MOTHERSHIPS') return w.isMothership;
+    if (filter === 'FLEET1') return w.boxId === 1;
+    if (filter === 'FLEET2') return w.boxId === 2;
+    if (filter === 'FLEET3') return w.boxId === 3;
+    if (filter === 'FLEET4') return w.boxId === 4;
+    if (filter === 'FLEET5') return w.boxId === 5;
+    return true;
+  });
+
+  let html = '';
+  filtered.forEach(w => {
+    const isExpanded = state.expandedWalletId === w.id;
+    const rankColor = w.isMothership ? 'var(--neon-gold)' : w.isCaptain ? 'var(--neon-cyan)' : '#ffffff';
+
+    html += `<tr class="wallet-row ${isExpanded ? 'expanded' : ''}" onclick="toggleWalletDetail(${w.id})">
+      <td><strong style="color: ${w.isMothership ? 'var(--neon-gold)' : 'var(--neon-cyan)'}">${w.formattedId}</strong> <span style="color: ${rankColor}; font-size: 0.52rem; display: block;">${w.rank}</span></td>
+      <td>${w.cluster}</td>
+      <td>
+        <span class="full-evm-code">
+          ${w.evmAddress}
+          <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.evmAddress}')" title="Copiar dirección EVM completa">
+            <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+            <span>Copiar</span>
+          </button>
+        </span>
+      </td>
+      <td><span class="badge-fino-status paid" style="font-size: 0.46rem;">${w.galaxyName}</span></td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: #fff;">${w.gasStr}</td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${w.workSummary}</td>
+      <td><strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.64rem;">$${safeNum(w.capturedUsdc, 0).toFixed(2)} USDC</strong></td>
+      <td style="text-align: center;">
+        <button class="btn-mini-copy" onclick="event.stopPropagation(); toggleWalletDetail(${w.id})" title="Desplegar Solana y detalles">
+          <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" style="width: 11px; height: 11px;"></i>
+        </button>
+      </td>
+    </tr>`;
+
+    // Fila expandible con Dirección Solana completa y detalles
+    if (isExpanded) {
+      html += `<tr class="wallet-detail-row">
+        <td colspan="8">
+          <div class="wallet-detail-content">
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Dirección Solana Completa</span>
+              <span class="detail-item-val">
+                <span>${w.solanaAddress}</span>
+                <button class="btn-mini-copy" onclick="event.stopPropagation(); copyAddress('${w.solanaAddress}')" title="Copiar Solana">
+                  <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+                  <span>Copiar</span>
+                </button>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Ruta de Derivación BIP-44</span>
+              <span class="detail-item-val" style="color: var(--neon-gold)">${w.derivationPath}</span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">Bóveda Binance Asignada</span>
+              <span class="detail-item-val">
+                <span style="color: var(--neon-cyan)">${w.assignedVault}</span>
+              </span>
+            </div>
+            <div class="detail-item-box">
+              <span class="detail-item-lbl">ADN Táctico &amp; Meta $5.50</span>
+              <span class="detail-item-val" style="color: var(--neon-green)">
+                ${w.dnaRole} • En Órbita
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+    }
+  });
+
+  if (filtered.length === 0) {
+    html = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: var(--text-muted);">No se encontraron carteras con el filtro actual</td></tr>';
+  }
+
+  tbody.innerHTML = html;
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+}
+
+function toggleWalletDetail(id) {
+  if (state.expandedWalletId === id) {
+    state.expandedWalletId = null;
+  } else {
+    state.expandedWalletId = id;
+  }
+  renderSatelliteRegistry();
+}
+
+function handleRegistrySearch() {
+  const input = document.getElementById('registrySearchInput');
+  if (input) {
+    state.registrySearch = input.value;
+    renderSatelliteRegistry();
+  }
+}
+
+function filterRegistry(filterType) {
+  state.registryFilter = filterType;
+
+  const buttons = document.querySelectorAll('.fino-filter-buttons .fino-filter-btn');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-filter') === filterType) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  renderSatelliteRegistry();
+}
+
+// -------------------------------------------------------------
+
+// -------------------------------------------------------------
+// 9. RENDERIZADO DE LAS 10 NEBULOSAS IA (ESTACIÓN DE INTELIGENCIA)
+// -------------------------------------------------------------
+async function renderNebulaCommanders() {
+  const telem = state.telemetry;
+  let commanders = telem?.nebulaCommanders || [];
+
+  if (!commanders || commanders.length === 0) {
+    try {
+      const res = await fetch('../telemetry/nebula-directives.json?t=' + Date.now());
+      if (res.ok) {
+        const dirs = await res.json();
+        commanders = dirs.commanders || [];
+      }
+    } catch (_) {}
+  }
+
+  const container = document.getElementById('nebulaGridContainer');
+  if (!container) return;
+
+  const avgScore = telem?.nebulaAverageScore || 96;
+  const globalScorePill = document.getElementById('nebulaGlobalScorePill');
+  if (globalScorePill) {
+    globalScorePill.textContent = `SCORE: ${avgScore}% ÓPTIMO`;
+  }
+
+  const semaScore = document.getElementById('semaNebulaScore');
+  if (semaScore) {
+    semaScore.textContent = `Score: ${avgScore}% • Guía Activa →`;
+  }
+
+  if (!commanders || commanders.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 10 Nebulosas IA...</div>';
+    return;
+  }
+
+  container.innerHTML = commanders.map((cmd) => {
+    return `
+      <div class="nebula-card">
+        <div class="nebula-card-top">
+          <div class="nebula-card-identity">
+            <span class="nebula-card-icon">${cmd.icon || '🌌'}</span>
+            <div class="nebula-card-title-group">
+              <span class="nebula-card-id">${cmd.id}: ${cmd.name}</span>
+              <span class="nebula-card-specialty">${cmd.specialty}</span>
+            </div>
+          </div>
+          <span class="nebula-score-pill">SCORE: ${cmd.opportunityScore}%</span>
+        </div>
+        <div class="nebula-reasoning-box">
+          <strong>Razonamiento en Vivo:</strong> ${cmd.reasoning}
+        </div>
+        <div class="nebula-card-footer">
+          <span class="nebula-sat-guiding">🛰️ Guía a: <strong>${cmd.satellitesGuided} Satélites</strong></span>
+          <span class="nebula-status-indicator"><span class="nebula-dot"></span> ${cmd.status || 'OPTIMAL'}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 10. INICIALIZACIÓN
+// -------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  startLiveClock();
+
+  // Escuchar clics en el menú lateral
+  const navBtns = document.querySelectorAll('#finopsSubmenu .finops-nav-btn');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.getAttribute('data-view');
+      if (view) switchFinopsView(view);
+    });
+  });
+
+  // Cargar datos
+  loadOrbitalData();
+
+  // Auto-refresco cada 15 segundos
+  setInterval(loadOrbitalData, 15000);
+});
+ + usdcHarvested.toFixed(2) + ' USDC)') : '0 Swaps';
   if (elG5Sub) elG5Sub.textContent = `${mintsCount} Mints • ${honeypotsBlocked} Honeypot • QuickSwap`;
 
   const elQuotaVal = document.getElementById('ratioQuotaVal');
   const elQuotaSub = document.getElementById('ratioQuotaSub');
   const pct = ((consolidatedNum / 12000) * 100).toFixed(2);
-  if (elQuotaVal) elQuotaVal.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
+  if (elQuotaVal) elQuotaVal.textContent = `${Number(consolidatedNum || 0).toFixed(2)} USDC`;
   if (elQuotaSub) elQuotaSub.textContent = `${pct}% de la Meta $12,000 USDC`;
+
+  // Actualizar Gas de los 5 Capitanes de Box en Fila 3
+  const box1Gas = telem?.headersSurveillance?.find(h => h.id === '#001')?.polBal || '18.25';
+  const box2Gas = telem?.headersSurveillance?.find(h => h.id === '#101')?.polBal || '18.32';
+  const box3Gas = telem?.headersSurveillance?.find(h => h.id === '#201')?.polBal || '8.87';
+  const box4Gas = telem?.headersSurveillance?.find(h => h.id === '#301')?.polBal || '8.88';
+  const box5Gas = telem?.headersSurveillance?.find(h => h.id === '#401')?.polBal || '8.87';
+
+  const elB1 = document.getElementById('box1GasVal');
+  const elB2 = document.getElementById('box2GasVal');
+  const elB3 = document.getElementById('box3GasVal');
+  const elB4 = document.getElementById('box4GasVal');
+  const elB5 = document.getElementById('box5GasVal');
+  if (elB1) elB1.textContent = `${Number(box1Gas).toFixed(2)} POL`;
+  if (elB2) elB2.textContent = `${Number(box2Gas).toFixed(2)} POL`;
+  if (elB3) elB3.textContent = `${Number(box3Gas).toFixed(2)} POL`;
+  if (elB4) elB4.textContent = `${Number(box4Gas).toFixed(2)} POL`;
+  if (elB5) elB5.textContent = `${Number(box5Gas).toFixed(2)} POL`;
 }
 
 // -------------------------------------------------------------

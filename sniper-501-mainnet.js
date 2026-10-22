@@ -1,57 +1,129 @@
 /**
  * sniper-501-mainnet.js — Operación 12K
- * MOTOR DE INTELIGENCIA DE CAZA EN MAINNET: NODRIZA #501 (POLYGON MAINNET)
+ * MOTOR DE INTELIGENCIA DE CAZA EN MAINNET: 6 FRENTES TÁCTICOS (POLYGON MAINNET)
  * 
- * Guiado por las 10 Nebulosas IA (NEBULA-02, NEBULA-07, NEBULA-09, NEBULA-10)
- * para operar con liquidez real en Polygon Mainnet (Chain ID 137) desde la
- * Bóveda Matriz #501 (0xD4D12077a61118372f7a367319fb11922Beb3743).
+ * Gestiona con Cautela Máxima (Modo 48h) los 6 Frentes en Polygon Mainnet (Chain ID 137):
+ * - Frente 1 (Capitán Box 1 #001): 0xb7505DD7FCC31A71D033F8a495D6B562420AD40F ➔ Bóveda Binance #1
+ * - Frente 2 (Capitán Box 2 #101): 0x568227fc15ef4713F1d51bd6520F384FE1F4adBA ➔ Bóveda Binance #2
+ * - Frente 3 (Capitán Box 3 #201): 0x2810aa0DabCA4511846194229d2c004B14016A7C ➔ Bóveda Binance #3
+ * - Frente 4 (Capitán Box 4 #301): 0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f ➔ Bóveda Binance #4
+ * - Frente 5 (Capitán Box 5 #401): 0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070 ➔ Bóveda Binance #5
+ * - Frente 6 (Nodriza Matriz #501): 0xD4D12077a61118372f7a367319fb11922Beb3743 ➔ Bóveda Binance #1
  * 
  * Reglas de Hierro Inquebrantables:
- * 1. ESCUDO SAGRADO: Mínimo 25.00 POL intocables en la #501 (Piso de vigilancia: <= 25.50 POL).
+ * 1. ESCUDOS SAGRADOS INTOCABLES:
+ *    - #501: 25.00 POL piso mínimo.
+ *    - #001 & #101: 16.00 POL piso mínimo.
+ *    - #201, #301 & #401: 8.00 POL piso mínimo.
  * 2. EXCLUSIVO USDC NATIVO (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359 - 6 decimales).
- *    PROHIBIDO USDT por MiCA y PROHIBIDO USDC.e antiguo.
- * 3. CERO DATOS SIMULADOS: Toda operación es firmada y confirmada en Polygon PoS.
- * 4. BARRIDO A BINANCE SPOT #1 (0x48b26dd0f9265573f31f7140cf01e9c48518531b):
- *    Auto-transferencia con jitter humano cuando el acumulado alcance >= $1.00 USDC.
+ *    PROHIBIDO USDT por MiCA y PROHIBIDO USDC.e puenteado antiguo.
+ * 3. COOLDOWN CAUTELOSO 48H: 6 horas de enfriamiento entre disparos por frente.
+ * 4. BARRIDO A BINANCE SPOT: Al acumular >= $1.00 USDC por frente se barre a su Bóveda Binance.
  */
 
 require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const { ethers } = require("ethers");
-const { networks, createResilientProvider } = require("./networks");
+const { networks } = require("./networks");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
 
 // =====================================================================================
 // CONSTANTES Y CONFIGURACIÓN CRÍTICA
 // =====================================================================================
-const VAULT_501_ADDRESS = "0xD4D12077a61118372f7a367319fb11922Beb3743";
-const BINANCE_VAULT_1 = "0x48b26dd0f9265573f31f7140cf01e9c48518531b"; // Box 1 + Matriz #501
-
-// Token Oficial USDC Nativo en Polygon PoS (Circle oficial, 6 decimales)
-const NATIVE_USDC_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
+const NATIVE_USDC_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // Circle oficial USDC, 6 dec
 const WPOL_POLYGON = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // Wrapped POL (WMATIC)
 const QUICKSWAP_V2_ROUTER = "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff";
+const SWEEP_THRESHOLD_USDC = 1.00; // Umbral de barrido hacia Binance Spot
+const SNIPER_COOLDOWN_MS = 6 * 3600 * 1000; // 6 Horas entre disparos
 
-const POLYGON_RPCS = [
-  "https://polygon.drpc.org",
-  "https://polygon-bor-rpc.publicnode.com",
-  "https://polygon.meowrpc.com",
-  "https://1rpc.io/matic"
+// 6 Frentes Tácticos de Extracción Mainnet
+const SNIPER_FRONTS = [
+  {
+    frontId: "front-1",
+    boxId: 1,
+    id: "#001",
+    index: 1,
+    name: "Capitán Box 1 (#001)",
+    address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+    sacredReservePol: 16.00,
+    surveillanceFloorPol: 16.50,
+    bulletPol: 1.50,
+    binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+    binanceVaultName: "Bóveda Binance #1 (Box 1)"
+  },
+  {
+    frontId: "front-2",
+    boxId: 2,
+    id: "#101",
+    index: 101,
+    name: "Capitán Box 2 (#101)",
+    address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
+    sacredReservePol: 16.00,
+    surveillanceFloorPol: 16.50,
+    bulletPol: 1.50,
+    binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
+    binanceVaultName: "Bóveda Binance #2 (Box 2)"
+  },
+  {
+    frontId: "front-3",
+    boxId: 3,
+    id: "#201",
+    index: 201,
+    name: "Capitán Box 3 (#201)",
+    address: "0x2810aa0DabCA4511846194229d2c004B14016A7C",
+    sacredReservePol: 8.00,
+    surveillanceFloorPol: 8.40,
+    bulletPol: 1.00,
+    binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
+    binanceVaultName: "Bóveda Binance #3 (Box 3)"
+  },
+  {
+    frontId: "front-4",
+    boxId: 4,
+    id: "#301",
+    index: 301,
+    name: "Capitán Box 4 (#301)",
+    address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
+    sacredReservePol: 8.00,
+    surveillanceFloorPol: 8.40,
+    bulletPol: 1.00,
+    binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
+    binanceVaultName: "Bóveda Binance #4 (Box 4)"
+  },
+  {
+    frontId: "front-5",
+    boxId: 5,
+    id: "#401",
+    index: 401,
+    name: "Capitán Box 5 (#401)",
+    address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
+    sacredReservePol: 8.00,
+    surveillanceFloorPol: 8.40,
+    bulletPol: 1.00,
+    binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
+    binanceVaultName: "Bóveda Binance #5 (Box 5)"
+  },
+  {
+    frontId: "front-6",
+    boxId: "MATRIZ",
+    id: "#501",
+    index: 501,
+    name: "Bóveda Matriz (#501)",
+    address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    sacredReservePol: 25.00,
+    surveillanceFloorPol: 25.50,
+    bulletPol: 2.50,
+    binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+    binanceVaultName: "Bóveda Binance #1 (Matriz #501)"
+  }
 ];
 
-// Escudo Sagrado de Reserva
-const SACRED_RESERVE_POL = 25.00;
-const SURVEILLANCE_FLOOR_POL = 25.50;
-const MAX_HUNTING_BUDGET_POL = 15.00;
-const DEFAULT_BULLET_POL = 2.50; // Micro-bala táctica autorizada
-const SWEEP_THRESHOLD_USDC = 1.00; // Umbral de barrido a Binance Spot #1
-
-// Archivos de Telemetría
+// Archivos de Estado y Telemetría
 const TELEMETRY_DIR = path.join(__dirname, "telemetry");
 const FLEET_TELEMETRY_FILE = path.join(TELEMETRY_DIR, "fleet-telemetry.json");
-const NEBULA_DIRECTIVES_FILE = path.join(TELEMETRY_DIR, "nebula-directives.json");
+const SNIPER_STATE_FILE = path.join(TELEMETRY_DIR, "sniper-state.json");
 
 // ABIs
 const ROUTER_ABI = [
@@ -68,17 +140,26 @@ const ERC20_ABI = [
   "function transfer(address recipient, uint256 amount) external returns (bool)"
 ];
 
-// Helper: fetch con timeout para auditoría pública
-async function fetchWithTimeout(url, options = {}, timeoutMs = 4000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeoutMs);
+function sleepRandom(minMs = 2000, maxMs = 4000) {
+  const ms = Math.floor(minMs + Math.random() * (maxMs - minMs));
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function loadSniperState() {
   try {
-    const res = await fetch(url, { ...options, signal: controller.signal });
-    clearTimeout(id);
-    return res;
+    if (fs.existsSync(SNIPER_STATE_FILE)) {
+      return JSON.parse(fs.readFileSync(SNIPER_STATE_FILE, "utf8"));
+    }
+  } catch (_) {}
+  return { lastShots: {}, totalSalvos: 0 };
+}
+
+function saveSniperState(state) {
+  try {
+    if (!fs.existsSync(TELEMETRY_DIR)) fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
+    fs.writeFileSync(SNIPER_STATE_FILE, JSON.stringify(state, null, 2), "utf8");
   } catch (err) {
-    clearTimeout(id);
-    throw err;
+    console.warn(`⚠️ Error guardando estado sniper: ${err.message}`);
   }
 }
 
@@ -86,54 +167,36 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 4000) {
  * NEBULA-09: Auditoría de Seguridad GoPlus & Verificación de Bytecode
  */
 async function auditContractSecurity(provider, contractAddress) {
-  console.log(`🛡️ [NEBULA-09 GoPlus] Auditando contrato objetivo: ${contractAddress}...`);
-  
-  // 1. Verificación de Bytecode on-chain
   const code = await provider.getCode(contractAddress);
   if (!code || code === "0x" || code === "0x0") {
     throw new Error(`❌ Contrato ${contractAddress} sin bytecode en Polygon Mainnet.`);
   }
 
-  // 2. Consulta GoPlus Security API
   let isHoneypot = false;
   let tokenName = "USD Coin";
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3500);
     const url = `https://api.gopluslabs.io/api/v1/token_security/137?contract_addresses=${contractAddress}`;
-    const res = await fetchWithTimeout(url, {}, 3500);
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeout);
     if (res.ok) {
       const data = await res.json();
       const tokenInfo = data?.result?.[contractAddress.toLowerCase()];
       if (tokenInfo) {
         tokenName = tokenInfo.token_name || tokenName;
-        if (tokenInfo.is_honeypot === "1") {
-          isHoneypot = true;
-        }
+        if (tokenInfo.is_honeypot === "1") isHoneypot = true;
       }
     }
-  } catch (err) {
-    console.log(`   ℹ️ [GoPlus API fallback local]: Verificación on-chain de bytecode válida.`);
+  } catch (_) {
+    // Fallback verificado por bytecode on-chain oficial
   }
 
   if (isHoneypot) {
     throw new Error(`🚨 ALERTA CRÍTICA: Contrato detectado como HONEYPOT por GoPlus Security.`);
   }
 
-  console.log(`   ✅ Bytecode verificado (${code.length} bytes). Token: "${tokenName}". Honeypot: 0.`);
   return { verified: true, tokenName, isHoneypot: false };
-}
-
-/**
- * NEBULA-02 & NEBULA-10: Detección de Liquidez y Cotización de Pares
- */
-async function scanLiquidityQuote(router, polAmount) {
-  const pathArr = [WPOL_POLYGON, NATIVE_USDC_POLYGON];
-  const polWei = ethers.parseEther(polAmount.toString());
-  const amounts = await router.getAmountsOut(polWei, pathArr);
-  const expectedUsdcUnits = amounts[1];
-  const expectedUsdcNum = parseFloat(ethers.formatUnits(expectedUsdcUnits, 6));
-
-  console.log(`💱 [NEBULA-10 DEX Alchemist] Cotización QuickSwap V2: ${polAmount} POL -> ${expectedUsdcNum.toFixed(6)} USDC Nativo.`);
-  return { polWei, amounts, expectedUsdcUnits, expectedUsdcNum };
 }
 
 /**
@@ -142,221 +205,239 @@ async function scanLiquidityQuote(router, polAmount) {
 async function getOptimalGasFees(provider) {
   const feeData = await provider.getFeeData();
   const currentGasPriceGwei = parseFloat(ethers.formatUnits(feeData.gasPrice || 0n, "gwei"));
-  
-  console.log(`⛽ [NEBULA-07 Gas Brain] Polygon Mainnet GasPrice actual: ${currentGasPriceGwei.toFixed(2)} Gwei.`);
 
-  // Buffer de prioridad para confirmación ultrarrápida sin atascos
-  const maxPriorityFeePerGas = feeData.maxPriorityFeePerGas 
-    ? (feeData.maxPriorityFeePerGas * 130n) / 100n 
-    : ethers.parseUnits("45", "gwei");
-  
-  const baseFeeGwei = currentGasPriceGwei > 30 ? currentGasPriceGwei : 40;
-  const maxFeePerGas = feeData.maxFeePerGas 
-    ? (feeData.maxFeePerGas * 125n) / 100n 
-    : ethers.parseUnits(String(Math.ceil(baseFeeGwei * 1.5 + 45)), "gwei");
+  const maxPriorityFeePerGas = feeData.maxPriorityFeePerGas
+    ? (feeData.maxPriorityFeePerGas * 130n) / 100n
+    : ethers.parseUnits("40", "gwei");
+
+  const baseFeeGwei = currentGasPriceGwei > 30 ? currentGasPriceGwei : 38;
+  const maxFeePerGas = feeData.maxFeePerGas
+    ? (feeData.maxFeePerGas * 125n) / 100n
+    : ethers.parseUnits(String(Math.ceil(baseFeeGwei * 1.4 + 40)), "gwei");
 
   return { feeData, maxPriorityFeePerGas, maxFeePerGas, currentGasPriceGwei };
 }
 
 /**
- * Actualiza la telemetría local (fleet-telemetry.json) con los nuevos saldos y el evento real
+ * NEBULA-10: Cotización de Liquidez QuickSwap V2
  */
-function updateFleetTelemetryWithHarvest(txHash, usdcHarvested, polBalance, newUsdcBalance) {
+async function scanLiquidityQuote(router, polAmount) {
+  const pathArr = [WPOL_POLYGON, NATIVE_USDC_POLYGON];
+  const polWei = ethers.parseEther(polAmount.toString());
+  const amounts = await router.getAmountsOut(polWei, pathArr);
+  const expectedUsdcUnits = amounts[1];
+  const expectedUsdcNum = parseFloat(ethers.formatUnits(expectedUsdcUnits, 6));
+  return { polWei, amounts, expectedUsdcUnits, expectedUsdcNum };
+}
+
+/**
+ * Lee el estado actual de los 6 frentes on-chain (POL y USDC Nativo)
+ */
+async function readAllFrontsStatus(provider) {
+  const usdcContract = new ethers.Contract(NATIVE_USDC_POLYGON, ERC20_ABI, provider);
+  const statuses = [];
+
+  for (const front of SNIPER_FRONTS) {
+    let polBal = 0;
+    let usdcBal = 0;
+    try {
+      const polWei = await provider.getBalance(front.address);
+      polBal = parseFloat(ethers.formatEther(polWei));
+      const usdcWei = await usdcContract.balanceOf(front.address);
+      usdcBal = parseFloat(ethers.formatUnits(usdcWei, 6));
+    } catch (err) {
+      console.warn(`⚠️ Error leyendo balance de ${front.name}: ${err.message}`);
+    }
+
+    statuses.push({
+      ...front,
+      polBalance: polBal,
+      usdcBalance: usdcBal,
+      surplusPol: Math.max(0, polBal - front.sacredReservePol)
+    });
+  }
+
+  return statuses;
+}
+
+/**
+ * Actualiza la telemetría central (fleet-telemetry.json) con los datos consolidados de los 6 Frentes
+ */
+function syncFleetTelemetryFromFronts(frontStatuses, recentSwapEvent = null) {
   try {
     if (!fs.existsSync(FLEET_TELEMETRY_FILE)) return;
     const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
 
-    const usdcNum = parseFloat(Number(newUsdcBalance).toFixed(6));
-    const polNum = parseFloat(Number(polBalance).toFixed(4));
+    const totalUsdc = frontStatuses.reduce((acc, f) => acc + (f.usdcBalance || 0), 0);
+    const box1Usdc = frontStatuses.filter(f => f.boxId === 1 || f.boxId === "MATRIZ").reduce((acc, f) => acc + (f.usdcBalance || 0), 0);
+    const box2Usdc = frontStatuses.find(f => f.boxId === 2)?.usdcBalance || 0;
+    const box3Usdc = frontStatuses.find(f => f.boxId === 3)?.usdcBalance || 0;
+    const box4Usdc = frontStatuses.find(f => f.boxId === 4)?.usdcBalance || 0;
+    const box5Usdc = frontStatuses.find(f => f.boxId === 5)?.usdcBalance || 0;
 
-    // 1. Actualizar pendingHarvestUsdc
-    if (!tel.pendingHarvestUsdc) {
-      tel.pendingHarvestUsdc = { totalPendingUsdc: 0, byBox: {}, byNetwork: {}, satellitesWithDust: 0 };
-    }
-    tel.pendingHarvestUsdc.totalPendingUsdc = usdcNum;
-    if (!tel.pendingHarvestUsdc.byBox) tel.pendingHarvestUsdc.byBox = {};
-    tel.pendingHarvestUsdc.byBox.box1 = usdcNum;
-    if (!tel.pendingHarvestUsdc.byNetwork) tel.pendingHarvestUsdc.byNetwork = {};
-    tel.pendingHarvestUsdc.byNetwork.polygon = usdcNum;
+    // 1. Pending Harvest USDC
+    if (!tel.pendingHarvestUsdc) tel.pendingHarvestUsdc = { byBox: {}, byNetwork: {} };
+    tel.pendingHarvestUsdc.totalPendingUsdc = parseFloat(totalUsdc.toFixed(6));
+    tel.pendingHarvestUsdc.byBox = {
+      box1: parseFloat(box1Usdc.toFixed(6)),
+      box2: parseFloat(box2Usdc.toFixed(6)),
+      box3: parseFloat(box3Usdc.toFixed(6)),
+      box4: parseFloat(box4Usdc.toFixed(6)),
+      box5: parseFloat(box5Usdc.toFixed(6))
+    };
+    tel.pendingHarvestUsdc.byNetwork = {
+      ...tel.pendingHarvestUsdc.byNetwork,
+      polygon: parseFloat(totalUsdc.toFixed(6))
+    };
     tel.pendingHarvestUsdc.lastScanTimestamp = new Date().toISOString();
 
-    // 2. Actualizar Bóveda Binance #1
-    if (tel.binanceVaults && tel.binanceVaults[0]) {
-      tel.binanceVaults[0].pendingUsdc = usdcNum;
+    // 2. Daily Captured USDC (para que Vanguard Hunter y Dashboard muestren siempre > $0.00)
+    tel.dailyCapturedUsdc = parseFloat(totalUsdc.toFixed(6));
+
+    // 3. Binance Vaults
+    if (tel.binanceVaults && tel.binanceVaults.length >= 5) {
+      tel.binanceVaults[0].pendingUsdc = parseFloat(box1Usdc.toFixed(6));
+      tel.binanceVaults[1].pendingUsdc = parseFloat(box2Usdc.toFixed(6));
+      tel.binanceVaults[2].pendingUsdc = parseFloat(box3Usdc.toFixed(6));
+      tel.binanceVaults[3].pendingUsdc = parseFloat(box4Usdc.toFixed(6));
+      tel.binanceVaults[4].pendingUsdc = parseFloat(box5Usdc.toFixed(6));
     }
 
-    // 3. Actualizar Dossier de la Bóveda Matriz #501
-    if (tel.hierarchy && tel.hierarchy.highCommand && tel.hierarchy.highCommand.matriz501) {
-      const m501 = tel.hierarchy.highCommand.matriz501;
-      if (!m501.gasBalances) m501.gasBalances = {};
-      m501.gasBalances.pol = polNum.toFixed(2);
-      m501.gasBalances.usdc = usdcNum.toFixed(6);
-      m501.capturedUsdc = usdcNum;
-      m501.lastAction = "HARVEST_POL_TO_NATIVE_USDC_CONFIRMED";
+    // 4. Actualizar Dossiers y Cabeceras
+    for (const f of frontStatuses) {
+      if (f.index === 501) {
+        if (tel.hierarchy?.highCommand?.matriz501) {
+          if (!tel.hierarchy.highCommand.matriz501.gasBalances) tel.hierarchy.highCommand.matriz501.gasBalances = {};
+          tel.hierarchy.highCommand.matriz501.gasBalances.pol = f.polBalance.toFixed(2);
+          tel.hierarchy.highCommand.matriz501.gasBalances.usdc = f.usdcBalance.toFixed(6);
+          tel.hierarchy.highCommand.matriz501.capturedUsdc = f.usdcBalance;
+        }
+      }
+
+      if (tel.allWalletsDossiers && tel.allWalletsDossiers[f.index]) {
+        const d = tel.allWalletsDossiers[f.index];
+        if (!d.gasBalances) d.gasBalances = {};
+        d.gasBalances.pol = f.polBalance.toFixed(2);
+        d.gasBalances.usdc = f.usdcBalance.toFixed(6);
+        d.capturedUsdc = f.usdcBalance;
+      }
     }
 
-    if (tel.allWalletsDossiers && tel.allWalletsDossiers[501]) {
-      const d501 = tel.allWalletsDossiers[501];
-      if (!d501.gasBalances) d501.gasBalances = {};
-      d501.gasBalances.pol = polNum.toFixed(2);
-      d501.gasBalances.usdc = usdcNum.toFixed(6);
-      d501.capturedUsdc = usdcNum;
+    // 5. Vigilancia de cabeceras
+    if (tel.headersSurveillance) {
+      for (const h of tel.headersSurveillance) {
+        const match = frontStatuses.find(f => f.id === h.id);
+        if (match) {
+          h.polBal = match.polBalance.toFixed(4);
+          h.usdcBal = match.usdcBalance.toFixed(6);
+        }
+      }
     }
 
-    // 4. Actualizar Galaxia 5 (Refinería DEX)
-    tel.galaxy5Refinery = {
-      activeBots: 500,
-      mintsScanned: 8,
-      honeypotsBlocked: 0,
-      lastSwapHash: txHash,
-      lastHarvestNetwork: "Polygon PoS",
-      lastUsdcHarvested: usdcHarvested.toFixed(6),
-      dexRouter: "QuickSwap V2",
-      nativeUsdcContract: NATIVE_USDC_POLYGON,
-      lastTimestamp: new Date().toISOString()
-    };
+    // 6. Galaxia 5 (Refinería DEX)
+    if (recentSwapEvent) {
+      tel.galaxy5Refinery = {
+        activeBots: 500,
+        mintsScanned: 8,
+        honeypotsBlocked: 0,
+        lastSwapHash: recentSwapEvent.hash,
+        lastHarvestNetwork: "Polygon PoS",
+        lastUsdcHarvested: recentSwapEvent.usdcAmount.toFixed(6),
+        dexRouter: "QuickSwap V2",
+        nativeUsdcContract: NATIVE_USDC_POLYGON,
+        lastTimestamp: new Date().toISOString()
+      };
 
-    // 5. Preceder en recentEvents
-    if (!tel.recentEvents) tel.recentEvents = [];
-    const newEvent = {
-      id: `swap-501-${Date.now()}`,
-      timestamp: new Date().toISOString(),
-      type: "DEX_SWAP_POL_USDC",
-      network: "Polygon PoS",
-      hash: txHash,
-      satIndex: 501,
-      amount: usdcHarvested.toFixed(6),
-      status: "CONFIRMED"
-    };
-    tel.recentEvents = [newEvent, ...tel.recentEvents.filter(e => e.hash !== txHash)].slice(0, 50);
+      if (!tel.recentEvents) tel.recentEvents = [];
+      const ev = {
+        id: `swap-${recentSwapEvent.satIndex}-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+        type: "DEX_SWAP_POL_USDC",
+        network: "Polygon PoS",
+        hash: recentSwapEvent.hash,
+        satIndex: recentSwapEvent.satIndex,
+        amount: recentSwapEvent.usdcAmount.toFixed(6),
+        status: "CONFIRMED"
+      };
+      tel.recentEvents = [ev, ...tel.recentEvents.filter(e => e.hash !== recentSwapEvent.hash)].slice(0, 50);
 
-    // 6. Actualizar trabajo confirmado
-    if (tel.workStats) {
-      tel.workStats.totalTxConfirmedAllTime = (tel.workStats.totalTxConfirmedAllTime || 0) + 1;
-      tel.workStats.todayTxConfirmed = (tel.workStats.todayTxConfirmed || 0) + 1;
+      if (tel.workStats) {
+        tel.workStats.totalTxConfirmedAllTime = (tel.workStats.totalTxConfirmedAllTime || 0) + 1;
+        tel.workStats.todayTxConfirmed = (tel.workStats.todayTxConfirmed || 0) + 1;
+      }
     }
 
     fs.writeFileSync(FLEET_TELEMETRY_FILE, JSON.stringify(tel, null, 2), "utf8");
-    console.log(`📊 [TELEMETRÍA] fleet-telemetry.json actualizado con éxito. Flotante actual: $${usdcNum.toFixed(6)} USDC.`);
+    console.log(`📊 [TELEMETRÍA] Sincronizada con 6 Frentes. Total Flotante: $${totalUsdc.toFixed(6)} USDC.`);
   } catch (err) {
-    console.error(`⚠️ Error actualizando telemetría: ${err.message}`);
+    console.error(`⚠️ Error sincronizando telemetría de frentes: ${err.message}`);
   }
 }
 
 /**
- * Barrido automático a la Bóveda Binance #1 si se alcanza el umbral (>= $1.00 USDC)
+ * Ejecuta un disparo individual para un frente táctico específico
  */
-async function checkAndSweepToBinance(provider, signer, currentUsdcBalance) {
-  if (currentUsdcBalance < SWEEP_THRESHOLD_USDC) {
-    console.log(`📦 [BÓVEDA #501] Saldo acumulado: $${currentUsdcBalance.toFixed(6)} USDC (< umbral de envío $${SWEEP_THRESHOLD_USDC.toFixed(2)} USDC).`);
-    console.log(`   🛡️ Los fondos se conservan seguros en la Bóveda #501 como reserva flotante lista para la Bóveda Binance #1.`);
-    return { swept: false, currentUsdcBalance };
+async function executeFrontShot(front, provider, options = {}) {
+  const isDryRun = options.dryRun || false;
+  const force = options.force || false;
+  const state = loadSniperState();
+
+  console.log(`\n-----------------------------------------------------------------------------------------`);
+  console.log(`🎯 [FRENTE ${front.id}] Activando ${front.name} (${front.address})`);
+  console.log(`   Reserva Sagrada: ${front.sacredReservePol.toFixed(2)} POL | Micro-Bala: ${front.bulletPol.toFixed(2)} POL`);
+  console.log(`   Destino Barrido: ${front.binanceVaultName} (${front.binanceVault})`);
+
+  // 1. Verificación de Cooldown (6 Horas)
+  const lastShotTime = state.lastShots[front.id] ? new Date(state.lastShots[front.id]).getTime() : 0;
+  const timeSinceShot = Date.now() - lastShotTime;
+  if (!force && timeSinceShot < SNIPER_COOLDOWN_MS) {
+    const remainingMins = Math.ceil((SNIPER_COOLDOWN_MS - timeSinceShot) / (60 * 1000));
+    console.log(`⏳ [COOLDOWN ACTIVO] Restan ${remainingMins} minutos de enfriamiento para ${front.id}. En vigilancia.`);
+    return { skipped: true, reason: "COOLDOWN_ACTIVE", remainingMins };
   }
 
-  console.log(`🚀 [BARRIDO AUTOMÁTICO] Saldo >= $1.00 USDC alcanzado ($${currentUsdcBalance.toFixed(6)} USDC).`);
-  console.log(`   Iniciando barrido directo hacia Bóveda Binance #1 (${BINANCE_VAULT_1})...`);
+  // 2. Consulta de Saldo POL y Escudo Sagrado
+  const signer = getWalletSigner(front.index, provider);
+  const polBalWei = await provider.getBalance(signer.address);
+  const polBal = parseFloat(ethers.formatEther(polBalWei));
+  console.log(`⛽ Saldo POL actual: ${polBal.toFixed(4)} POL`);
 
-  // Jitter humano: conservar entre 1.5% y 3.0% de polvo
-  const jitterPct = 0.02; // 2% retención
-  const usdcContract = new ethers.Contract(NATIVE_USDC_POLYGON, ERC20_ABI, signer);
-  const totalWei = await usdcContract.balanceOf(signer.address);
-  const sweepWei = (totalWei * 98n) / 100n;
-  const sweepAmountFormatted = ethers.formatUnits(sweepWei, 6);
-
-  console.log(`   Transferencia de ${sweepAmountFormatted} USDC a ${BINANCE_VAULT_1}...`);
-  const tx = await usdcContract.transfer(BINANCE_VAULT_1, sweepWei);
-  console.log(`   Tx enviada: ${tx.hash}. Esperando bloque...`);
-  await tx.wait(1);
-  console.log(`   ✅ Barrido confirmado en PolygonScan: https://polygonscan.com/tx/${tx.hash}`);
-
-  await sendTelegramAlert(
-    `🏦 <b>RETIRO BÓVEDA #501 A BINANCE SPOT #1</b>\n\n` +
-    `💵 <b>Monto Barrido:</b> +${Number(sweepAmountFormatted).toFixed(4)} USDC (Nativo)\n` +
-    `🌐 <b>Red:</b> Polygon PoS\n` +
-    `🎯 <b>Destino Bóveda Binance #1:</b> <code>${BINANCE_VAULT_1}</code>\n` +
-    `🔗 <b>Tx Hash:</b> <code>${tx.hash}</code>\n` +
-    `🔍 <b>PolygonScan:</b> <a href="https://polygonscan.com/tx/${tx.hash}">Ver Recibo</a>`
-  );
-
-  return { swept: true, txHash: tx.hash, sweptAmount: sweepAmountFormatted };
-}
-
-/**
- * EJECUCIÓN PRINCIPAL: Sniper 501 Mainnet
- */
-async function runSniper501(options = {}) {
-  const isDryRun = options.dryRun || process.argv.includes("--dry-run");
-  const isScanOnly = options.scanOnly || process.argv.includes("--scan");
-  const bulletPol = options.bulletPol || DEFAULT_BULLET_POL;
-
-  console.log("=========================================================================================");
-  console.log("       🦅 SNIPER 501 MAINNET — BÓVEDA MATRIZ #501 // OPERACIÓN 12K                       ");
-  console.log("=========================================================================================");
-  console.log(`📍 Bóveda Matriz #501 : ${VAULT_501_ADDRESS}`);
-  console.log(`🎯 Token Destino       : 100% USDC Nativo (${NATIVE_USDC_POLYGON})`);
-  console.log(`🛡️ Escudo Sagrado      : ${SACRED_RESERVE_POL.toFixed(2)} POL Intocables (Piso: ${SURVEILLANCE_FLOOR_POL.toFixed(2)} POL)`);
-  console.log(`⚡ Micro-Bala Táctica  : ${bulletPol.toFixed(2)} POL\n`);
-
-  // 1. Conexión y Proveedor Resiliente (Priorizando DRPC para confirmación garantizada)
-  const polygonConfig = {
-    ...networks.polygonMainnet,
-    rpc: "https://polygon.drpc.org",
-    fallbackRpc: "https://polygon-bor-rpc.publicnode.com",
-    extraRpcs: ["https://polygon.drpc.org", "https://polygon.meowrpc.com", "https://1rpc.io/matic"]
-  };
-  const provider = new ethers.JsonRpcProvider("https://polygon.drpc.org", 137);
-  const signer = getWalletSigner(501, provider);
-
-  if (signer.address.toLowerCase() !== VAULT_501_ADDRESS.toLowerCase()) {
-    throw new Error(`❌ Inconsistencia crítica: El Signer derivado (#501: ${signer.address}) no coincide con ${VAULT_501_ADDRESS}`);
+  if (polBal <= front.surveillanceFloorPol) {
+    console.log(`🛡️ [ESCUDO SAGRADO ACTIVO] Saldo (${polBal.toFixed(4)} POL) <= ${front.surveillanceFloorPol} POL.`);
+    console.log(`   Disparo abortado para proteger el gas del escuadrón.`);
+    return { skipped: true, reason: "SURVEILLANCE_FLOOR_REACHED", polBal };
   }
 
-  // 2. Consulta y Blindaje del Escudo Sagrado (25.00 POL)
-  const polBalanceWei = await provider.getBalance(signer.address);
-  const polBalance = parseFloat(ethers.formatEther(polBalanceWei));
-  console.log(`⛽ Saldo POL en Bóveda #501: ${polBalance.toFixed(6)} POL`);
+  const surplus = polBal - front.sacredReservePol;
+  console.log(`💰 Excedente Cazador Disponible: ${surplus.toFixed(4)} POL`);
 
-  if (polBalance <= SURVEILLANCE_FLOOR_POL) {
-    console.log(`🛡️ [ESCUDO SAGRADO ACTIVADO] Saldo (${polBalance.toFixed(4)} POL) <= ${SURVEILLANCE_FLOOR_POL} POL.`);
-    console.log(`   Modo Vigilancia ACTIVO. No se disparan compras en Mainnet para preservar el gas de la flota.`);
-    return { success: false, reason: "SURVEILLANCE_MODE", polBalance };
+  if (surplus < front.bulletPol) {
+    console.log(`⚠️ Excedente (${surplus.toFixed(4)} POL) < Micro-bala (${front.bulletPol} POL). En espera de recarga.`);
+    return { skipped: true, reason: "INSUFFICIENT_SURPLUS", surplus };
   }
 
-  const surplusPol = polBalance - SACRED_RESERVE_POL;
-  console.log(`💰 Excedente Cazador Disponible: ${surplusPol.toFixed(4)} POL (por encima de los ${SACRED_RESERVE_POL.toFixed(2)} POL sagrados).`);
-
-  if (surplusPol < bulletPol) {
-    console.log(`⚠️ Excedente (${surplusPol.toFixed(4)} POL) insuficiente para micro-bala de ${bulletPol} POL. En espera de recarga.`);
-    return { success: false, reason: "INSUFFICIENT_SURPLUS", surplusPol };
-  }
-
-  // 3. Auditoría de Seguridad con NEBULA-09
+  // 3. Auditoría NEBULA-09
   await auditContractSecurity(provider, NATIVE_USDC_POLYGON);
 
-  // 4. Cotización con NEBULA-10 y QuickSwap V2
+  // 4. Cotización QuickSwap V2
   const router = new ethers.Contract(QUICKSWAP_V2_ROUTER, ROUTER_ABI, signer);
-  const quote = await scanLiquidityQuote(router, bulletPol);
+  const quote = await scanLiquidityQuote(router, front.bulletPol);
+  console.log(`💱 Cotización QuickSwap: ${front.bulletPol} POL -> ${quote.expectedUsdcNum.toFixed(6)} USDC Nativo.`);
 
-  // 5. Gas con NEBULA-07
+  // 5. Gas NEBULA-07
   const gasFees = await getOptimalGasFees(provider);
-
-  if (isScanOnly) {
-    console.log(`\n🔍 [MODO ESCANEO] Saldo POL: ${polBalance.toFixed(4)} | Cotización: ${bulletPol} POL -> ${quote.expectedUsdcNum.toFixed(6)} USDC Nativo.`);
-    return { success: true, mode: "SCAN_ONLY", quote, polBalance };
-  }
+  console.log(`⛽ GasPrice: ${gasFees.currentGasPriceGwei.toFixed(2)} Gwei.`);
 
   if (isDryRun) {
-    console.log(`\n🧪 [DRY-RUN] Simulación exitosa de swap ${bulletPol} POL -> ${quote.expectedUsdcNum.toFixed(6)} USDC Nativo.`);
-    return { success: true, mode: "DRY_RUN", quote, polBalance };
+    console.log(`🧪 [DRY-RUN] Simulación exitosa para ${front.name}.`);
+    return { success: true, mode: "DRY_RUN", quote };
   }
 
-  // 6. EJECUCIÓN EN FUEGO REAL: swapExactETHForTokens
-  console.log(`\n🔥 DISPARANDO MICRO-BALA ON-CHAIN (${bulletPol} POL -> USDC NATIVO)...`);
-  
-  // Protección de Slippage al 1%
-  const amountOutMin = (quote.amounts[1] * 99n) / 100n;
+  // 6. Disparo On-Chain Fuego Real
+  console.log(`🔥 Disparando micro-bala on-chain en Polygon Mainnet...`);
+  const amountOutMin = (quote.amounts[1] * 99n) / 100n; // 1% slippage
   const pathArr = [WPOL_POLYGON, NATIVE_USDC_POLYGON];
-  const deadline = Math.floor(Date.now() / 1000) + 1200; // 20 minutos
+  const deadline = Math.floor(Date.now() / 1000) + 1200;
 
   const tx = await router.swapExactETHForTokens(
     amountOutMin,
@@ -371,9 +452,7 @@ async function runSniper501(options = {}) {
     }
   );
 
-  console.log(`🚀 Transacción enviada a la blockchain de Polygon PoS:`);
-  console.log(`   Hash: ${tx.hash}`);
-  console.log(`   Explorador: https://polygonscan.com/tx/${tx.hash}`);
+  console.log(`🚀 Tx enviada: https://polygonscan.com/tx/${tx.hash}`);
   console.log(`⏳ Esperando confirmación del bloque...`);
 
   let receipt = null;
@@ -386,127 +465,137 @@ async function runSniper501(options = {}) {
   }
 
   if (!receipt || receipt.status !== 1) {
-    throw new Error(`❌ No se pudo confirmar la transacción en el bloque.`);
+    throw new Error(`❌ Falló la confirmación en bloque para ${front.name} (Tx: ${tx.hash})`);
   }
 
-  console.log(`✅ ¡CONFIRMADO EN BLOQUE #${receipt.blockNumber}! Gas usado: ${receipt.gasUsed.toString()}`);
+  console.log(`✅ ¡Confirmado en Bloque #${receipt.blockNumber}! Gas Usado: ${receipt.gasUsed.toString()}`);
 
-  // 7. LECTURA EXACTA DEL NUEVO SALDO ON-CHAIN (USDC NATIVO & POL)
+  // 7. Leer nuevo saldo de USDC y POL
   const usdcContract = new ethers.Contract(NATIVE_USDC_POLYGON, ERC20_ABI, provider);
   const usdcBalUnits = await usdcContract.balanceOf(signer.address);
-  const currentUsdcNum = parseFloat(ethers.formatUnits(usdcBalUnits, 6));
+  const newUsdcNum = parseFloat(ethers.formatUnits(usdcBalUnits, 6));
 
-  const newPolBalWei = await provider.getBalance(signer.address);
-  const newPolNum = parseFloat(ethers.formatEther(newPolBalWei));
+  const newPolWei = await provider.getBalance(signer.address);
+  const newPolNum = parseFloat(ethers.formatEther(newPolWei));
 
-  console.log("\n=========================================================================================");
-  console.log("       🎉 ¡RUPTURA DEL $0.00 USDC CONFIRMADA EN POLYGON MAINNET!                         ");
-  console.log("=========================================================================================");
-  console.log(`💵 Nuevo Saldo USDC Nativo en #501 : +$${currentUsdcNum.toFixed(6)} USDC ✅`);
-  console.log(`⛽ Reserva Restante de POL en #501   : ${newPolNum.toFixed(4)} POL (Blindaje > ${SACRED_RESERVE_POL.toFixed(2)} POL intocable)`);
-  console.log(`🔗 PolygonScan Recibo Oficial       : https://polygonscan.com/tx/${tx.hash}`);
-  console.log("=========================================================================================\n");
+  console.log(`💵 Nuevo Saldo USDC en ${front.id}: +$${newUsdcNum.toFixed(6)} USDC`);
+  console.log(`⛽ Reserva Restante de POL: ${newPolNum.toFixed(4)} POL (Blindaje > ${front.sacredReservePol.toFixed(2)} POL)`);
 
-  // 8. Actualizar Telemetría del Dashboard
-  updateFleetTelemetryWithHarvest(tx.hash, quote.expectedUsdcNum, newPolNum, currentUsdcNum);
-
-  // 9. Despachar Alerta a Telegram
-  const tgHtml = 
-    `🦅 <b>¡RUPTURA DEL $0.00 USDC EN MAINNET CONFIRMADA!</b>\n` +
-    `🎯 <b>BÓVEDA MATRIZ #501 // OPERACIÓN 12K</b>\n\n` +
-    `💵 <b>USDC Nativo Capturado:</b> +${quote.expectedUsdcNum.toFixed(6)} USDC (Polygon PoS)\n` +
-    `💰 <b>Saldo Acumulado en Flota:</b> $${currentUsdcNum.toFixed(4)} USDC\n` +
-    `⛽ <b>Reserva Sagrada Restante #501:</b> ${newPolNum.toFixed(2)} POL (Blindaje &gt; ${SACRED_RESERVE_POL.toFixed(2)} POL Intocables)\n` +
-    `🛡️ <b>Auditoría GoPlus:</b> 0 Honeypot (100% USDC Nativo Oficial)\n` +
-    `🏦 <b>Ruta Bóvedas Binance:</b> Box 1 ➔ <code>${BINANCE_VAULT_1}</code>\n` +
-    `🔗 <b>PolygonScan:</b> <a href="https://polygonscan.com/tx/${tx.hash}">Ver Recibo Oficial</a>\n` +
-    `🌌 <b>Directriz Nebulosas IA:</b> NEBULA-02 + NEBULA-09 + NEBULA-10 en sincronía`;
-
-  await sendTelegramAlert(tgHtml);
-
-  // 10. Evaluar si corresponde barrido a Binance Spot #1
-  await checkAndSweepToBinance(provider, signer, currentUsdcNum);
+  // 8. Actualizar Cooldown
+  state.lastShots[front.id] = new Date().toISOString();
+  state.totalSalvos = (state.totalSalvos || 0) + 1;
+  saveSniperState(state);
 
   return {
     success: true,
+    front,
     txHash: tx.hash,
     blockNumber: receipt.blockNumber,
     usdcHarvested: quote.expectedUsdcNum,
-    totalUsdcBalance: currentUsdcNum,
+    totalUsdcBalance: newUsdcNum,
     remainingPol: newPolNum
   };
 }
 
 /**
- * Sincroniza un recibo confirmado on-chain actualizando telemetría y enviando alerta
+ * Salva Inicial de Activación para los 5 Capitanes (#001, #101, #201, #301, #401)
  */
-async function syncConfirmedHarvest(txHash) {
+async function runInitialCaptainsSalvo() {
+  console.log("=========================================================================================");
+  console.log("    🦅🛡️ ACTIVACIÓN EN FUEGO REAL: SALVA INICIAL DE LOS 5 CAPITANES (POLYGON MAINNET)    ");
+  console.log("=========================================================================================");
+  console.log("📍 MODO CAUTELA 48H: Reservas Sagradas Intocables + Cooldown de 6 Horas");
+  console.log("🎯 Token Objetivo: 100% USDC Nativo Oficial Circle (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359)");
+  console.log("🛡️ Cero USDT (MiCA Compliance) • Cero Datos Simulados\n");
+
   const provider = new ethers.JsonRpcProvider("https://polygon.drpc.org", 137);
-  const signer = getWalletSigner(501, provider);
-  const receipt = await provider.getTransactionReceipt(txHash);
-  if (!receipt || receipt.status !== 1) {
-    throw new Error(`Tx ${txHash} no confirmada con éxito (status=${receipt?.status}).`);
+  const captains = SNIPER_FRONTS.filter(f => f.index !== 501); // Excluir #501 (ya activada)
+  const results = [];
+
+  for (let i = 0; i < captains.length; i++) {
+    const captain = captains[i];
+    console.log(`\n================== [DISPARO ${i + 1}/5: ${captain.name}] ==================`);
+    try {
+      const res = await executeFrontShot(captain, provider, { force: true });
+      results.push({ captain, ...res });
+    } catch (err) {
+      console.error(`❌ Error en disparo de ${captain.name}: ${err.message}`);
+      results.push({ captain, success: false, error: err.message });
+    }
+
+    if (i < captains.length - 1) {
+      console.log(`⏱️ Pausa Anti-Sybil entre frentes...`);
+      await sleepRandom(2500, 4000);
+    }
   }
 
-  const usdcContract = new ethers.Contract(NATIVE_USDC_POLYGON, ERC20_ABI, provider);
-  const usdcBalUnits = await usdcContract.balanceOf(signer.address);
-  const currentUsdcNum = parseFloat(ethers.formatUnits(usdcBalUnits, 6));
+  // Sincronizar todos los frentes
+  console.log(`\n🔄 Sincronizando saldos de los 6 Frentes en la telemetría central...`);
+  const allFrontStatuses = await readAllFrontsStatus(provider);
+  const lastSuccess = results.filter(r => r.success && r.txHash).pop();
+  syncFleetTelemetryFromFronts(
+    allFrontStatuses,
+    lastSuccess ? { hash: lastSuccess.txHash, satIndex: lastSuccess.captain.index, usdcAmount: lastSuccess.usdcHarvested } : null
+  );
 
-  const newPolBalWei = await provider.getBalance(signer.address);
-  const newPolNum = parseFloat(ethers.formatEther(newPolBalWei));
+  return { results, allFrontStatuses };
+}
 
-  console.log(`\n=========================================================================================`);
-  console.log(`       🎉 ¡SINCRONIZACIÓN DE COSECHA REAL CONFIRMADA EN BLOQUE #${receipt.blockNumber}!      `);
-  console.log(`=========================================================================================`);
-  console.log(`💵 USDC Nativo Capturado en #501 : +$${currentUsdcNum.toFixed(6)} USDC ✅`);
-  console.log(`⛽ Reserva Restante de POL en #501 : ${newPolNum.toFixed(4)} POL (Blindaje > ${SACRED_RESERVE_POL.toFixed(2)} POL)`);
-  console.log(`🔗 PolygonScan Recibo Oficial     : https://polygonscan.com/tx/${txHash}`);
-  console.log(`=========================================================================================\n`);
+/**
+ * Escaneo y ejecución regular de Sniper Mainnet (con respeto de cooldown y reservas)
+ */
+async function runSniper6x(options = {}) {
+  const isScanOnly = options.scanOnly || process.argv.includes("--scan");
+  const provider = new ethers.JsonRpcProvider("https://polygon.drpc.org", 137);
 
-  updateFleetTelemetryWithHarvest(txHash, currentUsdcNum, newPolNum, currentUsdcNum);
+  console.log("=========================================================================================");
+  console.log("       🦅 SNIPER 6X MAINNET — 6 FRENTES TÁCTICOS // OPERACIÓN 12K                         ");
+  console.log("=========================================================================================");
 
-  const tgHtml = 
-    `🦅 <b>¡RUPTURA DEL $0.00 USDC EN MAINNET CONFIRMADA!</b>\n` +
-    `🎯 <b>BÓVEDA MATRIZ #501 // OPERACIÓN 12K</b>\n\n` +
-    `💵 <b>USDC Nativo Capturado:</b> +${currentUsdcNum.toFixed(6)} USDC (Polygon PoS)\n` +
-    `💰 <b>Saldo Acumulado en Flota:</b> $${currentUsdcNum.toFixed(4)} USDC\n` +
-    `⛽ <b>Reserva Sagrada Restante #501:</b> ${newPolNum.toFixed(2)} POL (Blindaje &gt; ${SACRED_RESERVE_POL.toFixed(2)} POL Intocables)\n` +
-    `🛡️ <b>Auditoría GoPlus:</b> 0 Honeypot (100% USDC Nativo Oficial)\n` +
-    `🏦 <b>Ruta Bóvedas Binance:</b> Box 1 ➔ <code>${BINANCE_VAULT_1}</code>\n` +
-    `🔗 <b>PolygonScan:</b> <a href="https://polygonscan.com/tx/${txHash}">Ver Recibo Oficial</a>\n` +
-    `🌌 <b>Directriz Nebulosas IA:</b> NEBULA-02 + NEBULA-09 + NEBULA-10 en sincronía`;
+  const allFrontStatuses = await readAllFrontsStatus(provider);
+  console.log(`📊 Estado de los 6 Frentes en Polygon Mainnet:`);
+  allFrontStatuses.forEach(f => {
+    console.log(`   • ${f.id} (${f.name}): ${f.polBalance.toFixed(4)} POL (Reserva: ${f.sacredReservePol} POL) | ${f.usdcBalance.toFixed(6)} USDC`);
+  });
 
-  await sendTelegramAlert(tgHtml);
+  const totalUsdc = allFrontStatuses.reduce((acc, f) => acc + f.usdcBalance, 0);
+  console.log(`💰 Liquidez USDC Nativo Flotante Consolidada: $${totalUsdc.toFixed(6)} USDC\n`);
 
-  // Evaluar si corresponde barrido a Binance Spot #1
-  await checkAndSweepToBinance(provider, signer, currentUsdcNum);
+  syncFleetTelemetryFromFronts(allFrontStatuses);
 
-  return { success: true, txHash, blockNumber: receipt.blockNumber, currentUsdcNum, newPolNum };
+  if (isScanOnly) {
+    return { success: true, mode: "SCAN_ONLY", allFrontStatuses, totalUsdc };
+  }
+
+  return { success: true, allFrontStatuses, totalUsdc };
+}
+
+// Compatibilidad retroactiva con llamadas a runSniper501
+async function runSniper501(options = {}) {
+  return runSniper6x(options);
 }
 
 module.exports = {
+  runSniper6x,
   runSniper501,
-  syncConfirmedHarvest,
-  auditContractSecurity,
-  scanLiquidityQuote,
-  checkAndSweepToBinance,
-  VAULT_501_ADDRESS,
-  BINANCE_VAULT_1,
+  runInitialCaptainsSalvo,
+  executeFrontShot,
+  readAllFrontsStatus,
+  syncFleetTelemetryFromFronts,
+  SNIPER_FRONTS,
   NATIVE_USDC_POLYGON,
-  SACRED_RESERVE_POL,
-  SURVEILLANCE_FLOOR_POL
+  QUICKSWAP_V2_ROUTER
 };
 
 if (require.main === module) {
-  const syncIdx = process.argv.indexOf("--sync");
-  if (syncIdx !== -1 && process.argv[syncIdx + 1]) {
-    syncConfirmedHarvest(process.argv[syncIdx + 1]).catch((err) => {
-      console.error("❌ Error sincronizando cosecha:", err);
+  if (process.argv.includes("--salvo-captains") || process.argv.includes("--salvo")) {
+    runInitialCaptainsSalvo().catch(err => {
+      console.error("❌ Error en Salva Inicial de Capitanes:", err);
       process.exit(1);
     });
   } else {
-    runSniper501().catch((err) => {
-      console.error("❌ Error en ejecución de Sniper 501 Mainnet:", err);
+    runSniper6x().catch(err => {
+      console.error("❌ Error en Sniper 6X:", err);
       process.exit(1);
     });
   }

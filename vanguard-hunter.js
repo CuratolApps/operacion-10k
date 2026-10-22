@@ -507,13 +507,15 @@ async function main() {
   const onlineNetworks = networkScan.filter(n => n.online);
   const fastestNet = onlineNetworks.reduce((prev, curr) => (curr.latencyMs < prev.latencyMs ? curr : prev), onlineNetworks[0] || networkScan[0]);
 
-  // Telemetría de saldos captados (Modo Producción Real: arranca en $0.00)
+  // Telemetría de saldos captados (Modo Producción Real: lee saldo real consolidado de los 6 Frentes)
   let dailyCaptured = "+$0.00 USDC";
+  let floatingUsdcVal = 0;
   if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
     try {
       const tel = JSON.parse(fs.readFileSync(FLEET_TELEMETRY_FILE, "utf8"));
-      if (tel.dailyCapturedUsdc != null) {
-        dailyCaptured = `+$${Number(tel.dailyCapturedUsdc).toFixed(2)} USDC`;
+      floatingUsdcVal = Number(tel.pendingHarvestUsdc?.totalPendingUsdc || tel.dailyCapturedUsdc || 0);
+      if (floatingUsdcVal > 0) {
+        dailyCaptured = `+$${floatingUsdcVal.toFixed(4)} USDC`;
       }
     } catch (_) {}
   }

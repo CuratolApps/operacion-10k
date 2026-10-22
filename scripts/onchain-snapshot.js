@@ -77,16 +77,26 @@ async function snapshotNetwork(key, wallets) {
 
   const vaultWallet = wallets.find((w) => w.index === VAULT_INDEX);
   let vaultUsdc = 0;
-  if (key === "polygonMainnet" && vaultWallet) {
+  const headersUsdc = {};
+  if (key === "polygonMainnet") {
     try {
       const erc20 = new ethers.Contract("0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", ["function balanceOf(address) view returns (uint256)"], conn.provider);
-      const uBal = await erc20.balanceOf(vaultWallet.address);
-      vaultUsdc = parseFloat(ethers.formatUnits(uBal, 6));
+      if (vaultWallet) {
+        const uBal = await erc20.balanceOf(vaultWallet.address);
+        vaultUsdc = parseFloat(ethers.formatUnits(uBal, 6));
+      }
+      for (const hIdx of HEADER_INDEXES) {
+        const hw = wallets.find((w) => w.index === hIdx);
+        if (hw) {
+          const hBal = await erc20.balanceOf(hw.address);
+          headersUsdc[hIdx] = parseFloat(ethers.formatUnits(hBal, 6));
+        }
+      }
     } catch (_) {}
   }
 
   const headers = HEADER_INDEXES.map((i) => wallets.find((w) => w.index === i)).filter(Boolean)
-    .map((w) => ({ index: w.index, address: w.address, balance: balOf(w) }));
+    .map((w) => ({ index: w.index, address: w.address, balance: balOf(w), usdcBalance: headersUsdc[w.index] || 0 }));
 
   const balancesByAddress = {};
   for (const w of [...satellites, ...special]) {
