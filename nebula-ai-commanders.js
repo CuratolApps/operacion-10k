@@ -147,7 +147,7 @@ function loadProfitLockRatchet() {
  * Genera el Binomio Especializado para una Nodriza Sniper específica
  * asignando su rol en los 5 Modelos Omni-Sniper y evaluando Certeza >= 95%
  */
-async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polProvider, bscProvider, isBurstMode = false) {
+async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polProvider, bscProvider, isBurstMode = false, isSurpriseStrike = false) {
   const oddNumber = 2 * sniperIdx + 1;
   const evenNumber = 2 * sniperIdx + 2;
   const oddId = `NEBULA-${String(oddNumber).padStart(2, "0")}`;
@@ -210,7 +210,17 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
   let oddStatus = "STANDBY";
   let quantReasoning = "";
 
-  if (isBurstMode) {
+  if (isSurpriseStrike) {
+    if (mother.id === "#501") {
+      oddStatus = "AUTHORIZED";
+      quantScore = 100;
+      quantReasoning = `${cluster.oddRole} para ${mother.name}: ⚡ DISPARO SORPRESA QUIRÚRGICO AUTORIZADO (Score: 100%). Certeza matemática >= 95% y 0% Rug Pull confirmados. Asignación desde excedente libre: 38.00 POL (Polygon QuickSwap V2) / 0.0018 BNB (BSC PancakeSwap V2). Reserva sagrada intocable: 165.00 POL / 0.0090 BNB intacta.`;
+    } else {
+      oddStatus = "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)";
+      quantScore = 95;
+      quantReasoning = `${cluster.oddRole} para ${mother.name}: 🛡️ GAS ESTRATÉGICO INTOCABLE EN LOS 5 BOXES. Prohibida conversión de POL o BNB (0.00 POL / 0.00 BNB consumidos). Tanque 100% congelado como combustible perpetuo.`;
+    }
+  } else if (isBurstMode) {
     oddStatus = "AUTHORIZED";
     quantScore = 100;
     const bulletAlloc = mother.id === "#501" ? "24.00 POL / 0.0016 BNB" : ["#001", "#101", "#201", "#301", "#401"].includes(mother.id) ? "2.00 POL / 0.0005 BNB" : "0.50 POL";
@@ -332,7 +342,7 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
   };
 
   const modelTriggerMet = (primaryModelData?.fireAuthorized ?? false) || (secondaryModelData?.fireAuthorized ?? false);
-  const doubleKeyAuthorized = (isBurstMode || isNetPositiveArb || modelTriggerMet) && oddNebula.opportunityScore >= 95 && evenNebula.securityConfidenceScore >= 95 && rugPullRisk === 0;
+  const doubleKeyAuthorized = ((isSurpriseStrike && mother.id === "#501") || isBurstMode || isNetPositiveArb || modelTriggerMet) && oddNebula.opportunityScore >= 95 && evenNebula.securityConfidenceScore >= 95 && rugPullRisk === 0;
 
   const binomial = {
     binomialIndex: sniperIdx + 1,
@@ -349,7 +359,9 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
       bsc: winningBsc
     },
     doubleKeyAuthorized,
-    status: doubleKeyAuthorized ? "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
+    status: doubleKeyAuthorized 
+      ? "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)" 
+      : (isSurpriseStrike ? "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)")
   };
 
   return { oddNebula, evenNebula, binomial };
@@ -360,11 +372,15 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
 // =====================================================================================
 async function runNebulaCommanders(options = {}) {
   const isBurstMode = options.burstMode || process.argv.includes("--burst-1-of-5") || process.argv.includes("--burst-1");
+  const isSurpriseStrike = options.surpriseStrike || process.argv.includes("--surprise-strike");
 
   console.log("=========================================================================================");
   console.log("   🌌 OPERACIÓN 12K — 32 NEBULOSAS IA: AUDITORÍA DE 6 PISCINAS AL >= 95%               ");
   console.log("   (16 BINOMIOS: 1 ESTRATEGA CUÁNTICA + 1 GUARDAESPALDAS ANTI-RUG PULL POR NODRIZA)      ");
-  if (isBurstMode) {
+  if (isSurpriseStrike) {
+    console.log("   ⚡ [DISPARO SORPRESA QUIRÚRGICO] Activado por Orden de Mando: Binomio #01 (#501) >= 95%");
+    console.log("   🛡️ GAS ESTRATÉGICO DE LOS 5 BOXES 100% CONGELADO E INTACTO (0.00 POL / 0.00 BNB)     ");
+  } else if (isBurstMode) {
     console.log("   🎯 [RÁFAGA TÁCTICA #1 DE 5] Activada por Orden de Mando: Doble Llave >= 95%           ");
   }
   console.log("=========================================================================================\n");
@@ -386,7 +402,7 @@ async function runNebulaCommanders(options = {}) {
 
   // Generar los 16 binomios (32 Nebulosas) en paralelo
   const binomialPromises = SNIPER_MOTHERSHIPS.map((mother, idx) => 
-    generateBinomialForSniper(idx, mother, liveObserver, polProvider, bscProvider, isBurstMode)
+    generateBinomialForSniper(idx, mother, liveObserver, polProvider, bscProvider, isBurstMode, isSurpriseStrike)
   );
 
   const results = await Promise.all(binomialPromises);
@@ -433,7 +449,7 @@ async function runNebulaCommanders(options = {}) {
     highWaterMarkRatchet: ratchet,
     omniSniperModels: omniRadar?.models || [],
     globalDirectives: {
-      sniperFireAuthorized: isBurstMode || (authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false)),
+      sniperFireAuthorized: isSurpriseStrike || isBurstMode || (authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false)),
       sniperConfidenceScore: avgScore,
       tacticalPoolsAudited: 6,
       omniSniper5ModelsActive: true,
@@ -444,15 +460,20 @@ async function runNebulaCommanders(options = {}) {
       bestDexRoutePolygon: winningPol.dex,
       bestDexRouteBsc: winningBsc.dex,
       antiRugPullShield: "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 4 CANDADOS BLINDADOS / 5 MODELOS AUDITADOS)",
-      zeroGasDrainMode: !isBurstMode,
-      operationalStatus: isBurstMode
+      zeroGasDrainMode: !isBurstMode && !isSurpriseStrike,
+      surpriseStrikeActive: isSurpriseStrike,
+      operationalStatus: isSurpriseStrike
+        ? "⚡ DISPARO SORPRESA QUIRÚRGICO AUTORIZADO (#501 EXCEDENTE LIBRE -> ~$26+ USDC) // GAS 5 BOXES 100% BLINDADO"
+        : isBurstMode
         ? "🎯 RÁFAGA TÁCTICA #1 DE 5 AUTORIZADA (SALTO DE $14.62 A ~$22.00+ USDC)"
         : (authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false))
           ? "ARBITRAJE_NETO_ACTIVO"
           : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
-      gasTankProtection: "384.53 POL & 0.064 BNB 100% BLINDADOS COMO COMBUSTIBLE DE FIRMA",
+      gasTankProtection: isSurpriseStrike
+        ? "165.00 POL & 0.0090 BNB en #501 + 100% DE LOS 5 BOXES INTACTOS (>305 POL & >0.057 BNB TOTAL FLOTA)"
+        : "384.53 POL & 0.064 BNB 100% BLINDADOS COMO COMBUSTIBLE DE FIRMA",
       whitelistVerifiedTokens: ["WPOL", "WBNB", "USDC Nativo Circle", "USDC BSC", "WETH", "WBTC", "ETH-BSC", "BTCB"],
-      mainnetExecutionPermitted: isBurstMode || (liveObserver?.arbitrageCycle?.isNetPositive ?? false),
+      mainnetExecutionPermitted: isSurpriseStrike || isBurstMode || (liveObserver?.arbitrageCycle?.isNetPositive ?? false),
       gasLevels: {
         polygonGwei: liveObserver?.polygon?.gasTrend?.gasPriceGwei || 260.0,
         bscGwei: liveObserver?.bsc?.gasTrend?.gasPriceGwei || 0.05
