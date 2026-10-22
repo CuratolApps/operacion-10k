@@ -246,9 +246,9 @@ function createResilientProvider(netConfig) {
 
   try {
     // quorum 1: basta con que UN RPC responda. Un RPC caído (TLS, timeout, 429)
-    // nunca debe interpretarse como saldo 0.
+    // nunca debe interpretarse como saldo 0. Sub-200ms failover stallTimeout.
     return new ethers.FallbackProvider(
-      urls.map((url, i) => ({ provider: mk(url), priority: i + 1, weight: 1, stallTimeout: 2000 })),
+      urls.map((url, i) => ({ provider: mk(url), priority: i + 1, weight: 1, stallTimeout: 200 })),
       netConfig.chainId,
       { quorum: 1 }
     );

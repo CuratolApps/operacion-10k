@@ -1,14 +1,14 @@
 {
   "schemaVersion": "2.0.0",
   "service": "Omni-Sniper-5Models-Radar-12K",
-  "timestamp": "2026-10-22T10:34:14.389Z",
-  "latencyMs": 466,
+  "timestamp": "2026-10-22T14:16:28.952Z",
+  "latencyMs": 423,
   "gasCostThisScan": "0.00 USD (Multicall3 $0 Gas)",
   "zeroGasDrainEnforced": true,
   "highWaterMarkRatchet": {
     "highWaterMarkUsdc": 41.579394,
     "lockedFloorUsdc": 35.342485,
-    "floatingUsdc": 6.236909,
+    "floatingUsdc": 3.376909,
     "floorProtected": true
   },
   "models": [
@@ -17,14 +17,14 @@
       "name": "Liquidaciones DeFi (Aave V3 Polygon & Venus BSC)",
       "icon": "🏦",
       "network": "Polygon & BSC",
-      "opportunityScore": 82,
+      "opportunityScore": 85,
       "healthFactorMin": "Solvente (> 1.25)",
       "liquidationBonus": "+5% a +10% en colateral",
       "liquidatableFound": false,
       "liquidatablePosition": null,
       "fireAuthorized": false,
       "status": "🛡️ VIGILANCIA CENTINELA (Prestatarios solventes HF > 1.0, $0 gas)",
-      "diagnostic": "Consulta de pools de liquidez terminada. 0 posiciones bajo agua detectadas en este bloque."
+      "diagnostic": "Consulta Multicall3 de pools Aave V3/Venus completada. 0 posiciones bajo agua detectadas en este bloque."
     },
     {
       "modelId": "MODEL-2-METAVERSE-GAMEFI",
@@ -38,11 +38,11 @@
         "Element Market"
       ],
       "verifiedContractsActive": 4,
+      "instantSpreadPct": 0.216,
       "opportunityScore": 85,
-      "instantSpreadPct": -1.15,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Mercados en equilibrio Ask > Bid, $0 gas)",
-      "diagnostic": "Contratos de juego y marketplaces monitoreados sin desequilibrios instantáneos."
+      "status": "🛡️ VIGILANCIA CENTINELA (Spread real 0.216% < 1.50% umbral, $0 gas)",
+      "diagnostic": "Lectura en vivo de cotizaciones DEX completada: Max $0.090917 vs Min $0.090721 USDC/POL. Spread real: 0.216%."
     },
     {
       "modelId": "MODEL-3-WHALE-PANIC-DIP",
@@ -55,12 +55,12 @@
         "WPOL/USDC",
         "WBNB/USDC"
       ],
-      "maxDislocationPct": 0.2456,
+      "maxDislocationPct": 0.1444,
       "thresholdPct": 1.5,
       "opportunityScore": 88,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.25% < 1.5%, $0 gas)",
-      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.25% sin panic-selling en este bloque."
+      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.14% < 1.5%, $0 gas)",
+      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.14% sin panic-selling en este bloque."
     },
     {
       "modelId": "MODEL-4-EPOCH-QUEST-POOLS",
@@ -72,12 +72,12 @@
         "Layer3 Quests",
         "QuickSwap Algebra Pools"
       ],
-      "questsMonitoredCount": 3,
+      "questsMonitoredCount": 4,
       "claimableImmediateUsdc": 0,
       "opportunityScore": 86,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (3 misiones acumulando puntos de época, $0 gas)",
-      "diagnostic": "Campañas de Galxe y Layer3 registradas. Esperando cierre de corte de época para distribución."
+      "status": "🛡️ VIGILANCIA CENTINELA (4 misiones acumulando puntos de época, $0 gas)",
+      "diagnostic": "Campañas de Galxe, Layer3 y pools de sorteo registradas. Vigilancia activa para el corte de época."
     },
     {
       "modelId": "MODEL-5-KEEPER-HARVESTER",
@@ -88,18 +88,18 @@
         "Beefy Vaults Autocompounder",
         "Gelato Keepers"
       ],
-      "callFeeAccumulatedUsd": 0.0028,
-      "gasThresholdUsd": 0.015,
-      "opportunityScore": 84,
+      "callFeeAccumulatedUsd": 0,
+      "gasThresholdUsd": 0.016,
+      "opportunityScore": 85,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Bounty $0.0028 en fase de acumulación, $0 gas)",
-      "diagnostic": "Bóvedas públicas de autocompounding monitoreadas. Recompensa actual inferior al triple del gas."
+      "status": "🛡️ VIGILANCIA CENTINELA (Bounty $0 USDC < umbral $0.0160 USDC, $0 gas)",
+      "diagnostic": "Escaneo estático de vaults de rendimiento completado. Caller fee acumulado: $0 USDC."
     }
   ],
   "overallVerdict": {
     "sniperFireAuthorized": false,
     "authorizedModelsCount": 0,
-    "averageOpportunityScore": 85,
+    "averageOpportunityScore": 86,
     "operationalStatus": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
     "gasBurned": "0.00 POL / 0.00 BNB"
   }

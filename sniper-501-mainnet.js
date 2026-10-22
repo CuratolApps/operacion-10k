@@ -70,6 +70,19 @@ const AUTO_SWEEP_TO_BINANCE = false;
 let ZERO_GAS_DRAIN_MODE = true; // ORDEN DE PROTECCIÓN DE TANQUE: Prohibido drenar POL y BNB en swaps unidireccionales
 // STRICT_NO_GAS_SELL importado de security-fortress-shield (true por orden táctica de emergencia)
 
+// =====================================================================================
+// PUNTA DE LANZA CONCENTRADA (SPEARHEAD CONCENTRATION MODE — CYBER SHINOBI)
+// =====================================================================================
+// Resuelve el cuello de botella 7B.1 de micro-fragmentación ($0.33 USDC):
+// • Polygon PoS: Nodriza Matriz #501 ($18.09 USDC) + Capitán Experto #1 #001 ($3.41 USDC)
+// • BSC Mainnet: Capitán Experto #1 #001 + Capitán Experto #2 #101 + Nodriza #501 ($20.42 USDC)
+// • Reparto: 70% Ganancia Neta a USDC Nativo / 30% a recargar POL y BNB
+const SPEARHEAD_CONCENTRATION_MODE = true;
+const SPEARHEAD_EXECUTORS_POLYGON = ["#501", "#001"];
+const SPEARHEAD_EXECUTORS_BSC = ["#501", "#001", "#101"];
+const NET_PROFIT_SPLIT_USDC_RATIO = 0.70;
+const NET_PROFIT_SPLIT_GAS_RATIO = 0.30;
+
 // 16 Nodrizas Sniper Mainnet (1 Matriz + 5 Capitanes + 10 Sub-Capitanes)
 // ESCUDO SAGRADO MILITAR CALIBRADO: >161 POL & >0.0345 BNB INTOCABLES PERPETUOS
 const SNIPER_FRONTS = [
@@ -1059,10 +1072,13 @@ async function runSupervisedSalvo16x(options = {}) {
 
   const results = [];
 
-  // FASE 1: 16 Nodrizas Sniper en Polygon PoS
-  console.log(`\n================== [FASE 1: 16 NODRIZAS SNIPER EN POLYGON POS] ==================`);
-  for (let i = 0; i < SNIPER_FRONTS.length; i++) {
-    const front = SNIPER_FRONTS[i];
+  // FASE 1: Nodrizas Sniper en Polygon PoS (Punta de Lanza Concentrada #501 y #001)
+  const polTargets = SPEARHEAD_CONCENTRATION_MODE
+    ? SNIPER_FRONTS.filter(f => SPEARHEAD_EXECUTORS_POLYGON.includes(f.id))
+    : SNIPER_FRONTS;
+  console.log(`\n================== [FASE 1: ${polTargets.length} NODRIZAS SNIPER EN POLYGON POS (PUNTA DE LANZA)] ==================`);
+  for (let i = 0; i < polTargets.length; i++) {
+    const front = polTargets[i];
     let burstBulletPol = 0.50; // default Sub-Capitanes
     if (front.id === "#501") {
       burstBulletPol = 24.00;
@@ -1070,7 +1086,7 @@ async function runSupervisedSalvo16x(options = {}) {
       burstBulletPol = 2.00;
     }
 
-    console.log(`\n================== [DISPARO POLYGON ${i + 1}/${SNIPER_FRONTS.length}: ${front.name}] ==================`);
+    console.log(`\n================== [DISPARO POLYGON ${i + 1}/${polTargets.length}: ${front.name}] ==================`);
     try {
       const res = await executeFrontShot(front, polProvider, {
         burstMode: isBurst1,
@@ -1084,17 +1100,16 @@ async function runSupervisedSalvo16x(options = {}) {
       results.push({ front, network: "polygonMainnet", success: false, error: err.message });
     }
 
-    if (i < SNIPER_FRONTS.length - 1) {
+    if (i < polTargets.length - 1) {
       const pauseMs = getPolymorphicTiming(1500, 3500);
       console.log(`🧬 [ADN POLIMÓRFICO] Pausa orgánica anti-Sybil: ${(pauseMs / 1000).toFixed(2)}s...`);
       await new Promise(r => setTimeout(r, pauseMs));
     }
   }
 
-  // FASE 2: Top 6 Nodrizas Superiores en BSC Mainnet (#501 + 5 Capitanes)
+  // FASE 2: Nodrizas Superiores en BSC Mainnet (Punta de Lanza #501, #001, #101)
   if (bscProvider) {
-    console.log(`\n================== [FASE 2: TOP 6 NODRIZAS SUPERIORES EN BSC MAINNET] ==================`);
-    const bscMotherships = [
+    const bscCandidatePool = [
       { front: SNIPER_FRONTS.find(f => f.id === "#501"), bulletBnb: 0.0016, sacredReserveBnb: 0.0060 },
       { front: SNIPER_FRONTS.find(f => f.id === "#001"), bulletBnb: 0.0005, sacredReserveBnb: 0.0040 },
       { front: SNIPER_FRONTS.find(f => f.id === "#101"), bulletBnb: 0.0005, sacredReserveBnb: 0.0040 },
@@ -1102,6 +1117,12 @@ async function runSupervisedSalvo16x(options = {}) {
       { front: SNIPER_FRONTS.find(f => f.id === "#301"), bulletBnb: 0.0005, sacredReserveBnb: 0.0035 },
       { front: SNIPER_FRONTS.find(f => f.id === "#401"), bulletBnb: 0.0005, sacredReserveBnb: 0.0035 }
     ].filter(x => x.front);
+
+    const bscMotherships = SPEARHEAD_CONCENTRATION_MODE
+      ? bscCandidatePool.filter(m => SPEARHEAD_EXECUTORS_BSC.includes(m.front.id))
+      : bscCandidatePool;
+
+    console.log(`\n================== [FASE 2: ${bscMotherships.length} NODRIZAS SUPERIORES EN BSC MAINNET (PUNTA DE LANZA)] ==================`);
 
     for (let j = 0; j < bscMotherships.length; j++) {
       const { front: bFront, bulletBnb, sacredReserveBnb } = bscMotherships[j];

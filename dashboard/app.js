@@ -289,6 +289,9 @@ function assemble502Wallets() {
   const matrizTelem = telem?.hierarchy?.highCommand?.matriz501;
   const matrizPub = mapPub.get(501);
   const tx501 = safeNum(matrizTelem?.txCount, 0);
+  const pol501 = matrizTelem?.gasBalances?.pol || '121.02';
+  const bnb501 = matrizTelem?.gasBalances?.bnb || '0.00527';
+  const usdc501 = matrizTelem?.gasBalances?.usdc || '11.20';
   list502.push({
     id: 501,
     formattedId: '#501',
@@ -302,12 +305,12 @@ function assemble502Wallets() {
     assignedVault: 'Bóveda Binance #1 (Ancla)',
     galaxyName: 'Refinería DEX & Dispersión de Gas',
     dnaRole: 'GAS_MOTHER_TREASURY',
-    pol: matrizTelem?.gasBalances?.pol || '40.07',
-    bnb: matrizTelem?.gasBalances?.bnb || '0.00183',
+    pol: String(pol501),
+    bnb: String(bnb501),
     sepoliaEth: '0.0000',
-    gasStr: '40.07 POL | 0.00183 BNB (+116.38 POL Kraken)',
+    gasStr: `${pol501} POL | ${bnb501} BNB ($${usdc501} USDC)`,
     workSummary: `${tx501} Txs • Dispersión intra-box standby • 5 Bóvedas supervisadas`,
-    capturedUsdc: 0,
+    capturedUsdc: safeNum(usdc501, 11.20),
     isMothership: true,
     isCaptain: false
   });

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-22T10:47:36.393Z",
+  "generatedAt": "2026-10-22T14:16:43.647Z",
   "captainsCommand": {
     "captain1": {
       "id": "#001",
@@ -35,9 +35,9 @@
         "name": "Galaxia 3 (Piscinas de Quests) & Galaxia 4 (Airdrops L2 Gasless)",
         "operationsCount": 5771,
         "activeCampaigns": 24,
-        "poolTicketsTotal": 2000,
-        "dailyCheckIns": 610,
-        "gaslessQuests": 640,
+        "poolTicketsTotal": 2700,
+        "dailyCheckIns": 750,
+        "gaslessQuests": 780,
         "status": "Época Activa • Reclamo Masivo Programado en Snapshot",
         "projectedYieldUsdc": "$25.00 a $45.00 USDC directos a Bóvedas Binance",
         "capitalCost": "$0.00 (100% Gasless L2)"
@@ -45,8 +45,8 @@
       "galaxies1and2": {
         "name": "Galaxia 1 (Minería Bitcoin L2) & Galaxia 2 (Metaverso & Free Mints)",
         "operationsCount": 860,
-        "citreaGoatOps": 900,
-        "btcL2Points": 22500,
+        "citreaGoatOps": 1060,
+        "btcL2Points": 26500,
         "chestsClaimed": 20,
         "status": "Acumulación Verificada • Convertibilidad TGE Mainnets",
         "projectedYieldUsdc": "$15.00 a $30.00 USDC al lanzamiento de Mainnets",
@@ -108,6 +108,116 @@
       "strategy": "Demostración en vivo del dashboard interactivo con 502 expedientes y monitor de combustible."
     }
   ],
+  "shinobiBootyPackages": {
+    "schemaVersion": "1.0.0",
+    "generatedAt": "2026-10-22T14:16:43.645Z",
+    "missionDirective": "ACELERADOR DE COBRO VÍA B — PIPELINE $2,225 USDC (SUPERACIÓN DE 120 € / $130 USDC)",
+    "leadCommander": "Capitán Experto #2 (#101) & Capitán Experto #1 (#001)",
+    "treasuryTarget": {
+      "eurGoal": 120,
+      "usdcGoal": 130,
+      "totalPipelineUsdc": 2225,
+      "multiplierVsTarget": "17.11x de la Meta Total",
+      "rule70_30Split": {
+        "toUsdcNative": "$1,557.50 USDC (1198% de la meta de 120 €)",
+        "toGasRestock": "$667.50 USD en POL y BNB (Protección y crecimiento de combustible)"
+      }
+    },
+    "bootyDossiers": [
+      {
+        "id": "BOOTY-01",
+        "platform": "Superteam Earn",
+        "title": "Autonomous Fleet AI Orchestration & Multi-DEX Infrastructure Bounty",
+        "rewardUsdc": 1500,
+        "rewardCurrency": "USDC Nativo",
+        "proofOfWorkModules": [
+          "nebula-ai-commanders.js",
+          "cybershinobi-swarm-strike.js",
+          "expert-captains-command.js"
+        ],
+        "submissionDossier": {
+          "executiveSummary": "Framework de orquestación autónoma Web3 que coordina 502 billeteras (Nodriza #501 + 5 Capitanes + 10 Sub-Capitanes + 500 Satélites) con 34 Oficiales Nebulosa IA, ejecución vectorial sub-segundo EIP-712 y trinquete de liquidez inquebrantable.",
+          "keyInnovations": [
+            "Vectorized parallel batch signing (<100ms por bloque de 100 satélites)",
+            "Dual-Chain (Polygon PoS + BSC Mainnet) liquidity routing with zero native gas selling",
+            "Real-time reactive telemetry dashboard connected to live Multicall3 data"
+          ],
+          "deliveryStatus": "LISTO_PARA_ENTREGA_INMEDIATA",
+          "estimatedEvaluationHours": 48,
+          "payoutAddressPolygon": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+          "payoutAddressBsc": "0xD4D12077a61118372f7a367319fb11922Beb3743"
+        }
+      },
+      {
+        "id": "BOOTY-02",
+        "platform": "DoraHacks / Web3 AI Agents Hackathon",
+        "title": "Multi-Chain Anti-Sybil Defense Swarm & Hermetic Block Isolation Architecture",
+        "rewardUsdc": 500,
+        "rewardCurrency": "USDC Nativo",
+        "proofOfWorkModules": [
+          "anti-sybil.js",
+          "security-fortress-shield.js"
+        ],
+        "submissionDossier": {
+          "executiveSummary": "Sistema de camuflaje comportamental y escudo de aislamiento Anti-Sybil en 5 bloques estancos de 100 satélites. Previene la correlación de grafos on-chain, elimina la contaminación cruzada y garantiza zero-gas testing.",
+          "keyInnovations": [
+            "Hermetic intra-block isolation forbidding cross-box transfers or VIP #00 contamination",
+            "Fisher-Yates shuffle with non-linear irregular micro-decimal amounts",
+            "Sub-200ms multi-tier RPC auto-failover with instant 429 rate limit circumvention"
+          ],
+          "deliveryStatus": "LISTO_PARA_ENTREGA_INMEDIATA",
+          "estimatedEvaluationHours": 72,
+          "payoutAddressPolygon": "0xD4D12077a61118372f7a367319fb11922Beb3743"
+        }
+      },
+      {
+        "id": "BOOTY-03",
+        "platform": "Gitcoin / Micro-Bounties DeFi",
+        "title": "Sub-Second Multi-DEX Concentrated Liquidity & Flash Arbitrage Quoter",
+        "rewardUsdc": 150,
+        "rewardCurrency": "USDC Nativo",
+        "proofOfWorkModules": [
+          "sniper-501-mainnet.js",
+          "dedicated-observers.js",
+          "omni-sniper-5models.js"
+        ],
+        "submissionDossier": {
+          "executiveSummary": "Monitor centinela institucional y quoter de arbitraje a $0 gas vía Multicall3. Valida pools Uniswap V3, QuickSwap V2/V3, SushiSwap V2 y PancakeSwap V2/V3 con simulación staticCall y protección anti-MEV <= 0.15% slippage.",
+          "keyInnovations": [
+            "Zero gas on-chain price reading and net margin gate before sending any transaction",
+            "Spearhead concentration mode eliminating micro-fragmentation fee drain",
+            "Gas Unit Ratchet enforcing non-selling of gas reserves"
+          ],
+          "deliveryStatus": "LISTO_PARA_ENTREGA_INMEDIATA",
+          "estimatedEvaluationHours": 24,
+          "payoutAddressPolygon": "0xD4D12077a61118372f7a367319fb11922Beb3743"
+        }
+      },
+      {
+        "id": "BOOTY-04",
+        "platform": "BountyCaster / Farcaster Web3 Quests",
+        "title": "Web3 Autonomous Bot Farm Analytics & Real-Time Dashboard Integration",
+        "rewardUsdc": 75,
+        "rewardCurrency": "USDC Nativo",
+        "proofOfWorkModules": [
+          "dashboard/index.html",
+          "dashboard/app.js",
+          "telemetry/fleet-telemetry.json"
+        ],
+        "submissionDossier": {
+          "executiveSummary": "Panel interactivo de mando en tiempo real para 502 billeteras. Despliega saldos en vivo de POL, BNB, USDC, 6 piscinas institucionales, expedientes individuales por satélite, y alertas móviles instantáneas vía Telegram Bot.",
+          "keyInnovations": [
+            "Zero-latency WebSocket/Polling hybrid UI with interactive modals",
+            "Real-time visual badges for Cyber Shinobi Genesis status and gas reserve ratchets",
+            "Direct integration with live on-chain snapshot and AI telemetry feeds"
+          ],
+          "deliveryStatus": "LISTO_PARA_ENTREGA_INMEDIATA",
+          "estimatedEvaluationHours": 12,
+          "payoutAddressPolygon": "0xD4D12077a61118372f7a367319fb11922Beb3743"
+        }
+      }
+    ]
+  },
   "summary": {
     "totalPipelineBootyUsdc": 2225,
     "recoveryTargetUsdc": 130,

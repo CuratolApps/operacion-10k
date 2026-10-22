@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "timestamp": "2026-10-22T13:16:00.736Z",
-  "formattedTime": "22/10/2026, 13:16:00 UTC",
+  "timestamp": "2026-10-22T14:13:32.763Z",
+  "formattedTime": "22/10/2026, 14:13:32 UTC",
   "mission": {
     "target": "CyberShinobi Genesis (Robinhood EVM Testnet)",
     "token": "$SHINOBI",
@@ -54,35 +54,35 @@
       "boxId": 1,
       "soldierId": "#001",
       "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
-      "proofFragment": "0x9ea13e1319db97a1...a572a81b",
+      "proofFragment": "0xb7a34581e7ffe86c...8c87921c",
       "status": "OPERANDO_Y_ENTRENANDO_OK"
     },
     {
       "boxId": 2,
       "soldierId": "#101",
       "address": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
-      "proofFragment": "0x17fbb2d1c2bafa90...b610d21c",
+      "proofFragment": "0x552e25651d146b33...b1d5ee1c",
       "status": "OPERANDO_Y_ENTRENANDO_OK"
     },
     {
       "boxId": 3,
       "soldierId": "#201",
       "address": "0x2810aa0DabCA4511846194229d2c004B14016A7C",
-      "proofFragment": "0x91025b7d3929b150...4fe10e1c",
+      "proofFragment": "0xa0ca3bd3481c8789...22012c1c",
       "status": "OPERANDO_Y_ENTRENANDO_OK"
     },
     {
       "boxId": 4,
       "soldierId": "#301",
       "address": "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
-      "proofFragment": "0x1ac33adc5a32d869...a112081b",
+      "proofFragment": "0xefe0119ec1b842e9...718c181b",
       "status": "OPERANDO_Y_ENTRENANDO_OK"
     },
     {
       "boxId": 5,
       "soldierId": "#401",
       "address": "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
-      "proofFragment": "0x70ea1c3fcbb46c30...d997181c",
+      "proofFragment": "0x61f7248c87ffcbf2...d77a681c",
       "status": "OPERANDO_Y_ENTRENANDO_OK"
     }
   ],

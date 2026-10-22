@@ -81,7 +81,13 @@ jobs:
           run_soft node swarm-engine.js --only-generate
           run_soft node solana-faucet-refuel.js
           run_critical node dedicated-observers.js
+          run_critical node security-fortress-shield.js
+          run_critical node omni-sniper-5models.js
           run_critical node nebula-ai-commanders.js
+          run_critical node expert-captains-command.js
+          run_critical node dual-capitalizer-engine.js
+          run_critical node cybershinobi-swarm-strike.js
+          run_critical node bounty-booty-commander.js
           if [ -n "$DRY" ]; then
             run_critical node task-runner.js --force-dry-run
           else
@@ -98,6 +104,7 @@ jobs:
           run_critical node master-refuel.js --intra-box
           run_soft node vanguard-hunter.js
           # node x-autonomous-agent.js # PAUSADO TEMPORALMENTE: revisión preventiva de cuenta en @yozapata
+          run_critical node scripts/onchain-snapshot.js
           run_critical node scripts/ai-telemetry-feed.js
 
           if [ -n "$FAILED" ]; then

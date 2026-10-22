@@ -59,24 +59,32 @@ async function executeCyberShinobiTrainingDrill(notifyTelegram = true) {
     5: { name: "Box 5 (#401-#500)", drillScore: 99.2, latencyMs: 15, claimReady: 100 }
   };
 
-  // Muestreo rápido de firmas de los líderes de cada box para verificar integridad de signers
+  // Muestreo rápido paralelo de firmas de los líderes de cada box para verificar integridad de signers
   const leadSampleIndices = [1, 101, 201, 301, 401];
+  const { validateIsolation } = require("./anti-sybil");
   const verifiedProofs = [];
 
-  for (const idx of leadSampleIndices) {
-    try {
+  const leadChecks = await Promise.allSettled(
+    leadSampleIndices.map(async (idx) => {
+      validateIsolation(idx, idx, [], allWallets);
       const signer = getWalletSigner(idx);
       const testMsg = `CYBERSHINOBI_DRILL_EPOCH_${Math.floor(Date.now() / 60000)}_WALLET_${idx}`;
       const sig = await signer.signMessage(testMsg);
-      verifiedProofs.push({
+      return {
         boxId: Math.ceil(idx / 100),
         soldierId: `#${String(idx).padStart(3, "0")}`,
         address: signer.address,
         proofFragment: sig.substring(0, 18) + "..." + sig.substring(sig.length - 8),
         status: "OPERANDO_Y_ENTRENANDO_OK"
-      });
-    } catch (err) {
-      console.error(`⚠️ Error en test de muestra #${idx}:`, err.message);
+      };
+    })
+  );
+
+  for (const check of leadChecks) {
+    if (check.status === "fulfilled") {
+      verifiedProofs.push(check.value);
+    } else {
+      console.error(`⚠️ Error en test de muestra:`, check.reason?.message || check.reason);
     }
   }
 

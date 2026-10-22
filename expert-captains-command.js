@@ -32,6 +32,15 @@ const TELEMETRY_DIR = path.join(ROOT_DIR, "telemetry");
 const COMMAND_STATE_FILE = path.join(TELEMETRY_DIR, "expert-captains-state.json");
 const FLEET_TELEMETRY_FILE = path.join(TELEMETRY_DIR, "fleet-telemetry.json");
 
+// =====================================================================================
+// PUNTA DE LANZA CONCENTRADA (SPEARHEAD CONCENTRATION MODE — CYBER SHINOBI)
+// =====================================================================================
+const SPEARHEAD_CONCENTRATION_MODE = true;
+const SPEARHEAD_EXECUTORS_POLYGON = ["#501", "#001"];
+const SPEARHEAD_EXECUTORS_BSC = ["#501", "#001", "#101"];
+const NET_PROFIT_SPLIT_USDC_RATIO = 0.70;
+const NET_PROFIT_SPLIT_GAS_RATIO = 0.30;
+
 const SUPREME_COMMAND_STRUCTURE = {
   highCommand: {
     mothership501: {
@@ -162,6 +171,14 @@ async function executeExpertCaptainsCommand(options = {}) {
       gasSharePct: 30,
       gasAllocation: { polPolygonPct: 60, bnbBscPct: 40 },
       description: "70% de cada dólar neto capturado engorda USDC Nativo hacia $130 (120 €); 30% recarga POL y BNB."
+    },
+    spearheadMode: {
+      active: SPEARHEAD_CONCENTRATION_MODE,
+      executorsPolygon: SPEARHEAD_EXECUTORS_POLYGON,
+      executorsBsc: SPEARHEAD_EXECUTORS_BSC,
+      remediationTarget: "Eliminación de micro-fragmentación ($0.33 USDC en sub-capitanes)",
+      executionModel: "Concentración en Nodriza #501 ($18.09 USDC) y Capitanes #001, #101 para superar umbral DEX",
+      netProfitSplit: "70% USDC Nativo / 30% Recarga Gas (POL/BNB)"
     }
   };
 

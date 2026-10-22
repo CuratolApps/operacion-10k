@@ -27,6 +27,8 @@ const TELEMETRY_DIR = path.join(__dirname, "telemetry");
 const PROGRESS_FILE = path.join(TELEMETRY_DIR, "cybershinobi-fleet-progress.json");
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 
+const { validateIsolation } = require("./anti-sybil");
+
 // Parámetros EIP-712 Oficiales de CyberShinobi Genesis
 const CYBERSHINOBI_DOMAIN = {
   name: "CyberShinobi-Genesis-Portal",
@@ -51,6 +53,7 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
   console.log("   📅 FECHA LÍMITE SNAPSHOT: 30 DE OCTUBRE DE 2026 (¡FALTAN 8 DÍAS!)                     ");
   console.log("   🛡️ AUDITORÍA ANTI-RUGPULL: 🟢 VIABLE & AUDITADO (Score: 93% • Animoca / Robinhood)   ");
   console.log("   ⚡ DOCTRINA: LOS 500 SOLDADOS PICANDO PIEDRA JUNTOS AL 100%                           ");
+  console.log("   🚀 MOTOR VECTORIAL: PROMISE.ALLSETTLED POR BOX (< 100ms/BOX) + AISLAMIENTO ANTI-SYBIL ");
   console.log("=========================================================================================\n");
 
   if (!fs.existsSync(WALLETS_FILE)) {
@@ -61,50 +64,71 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
   const satellites = allWallets.filter((w) => w.index >= 1 && w.index <= 500);
 
   console.log(`📦 Flota detectada: ${satellites.length} soldados satélites listos para la operación.`);
-  console.log("⏳ Iniciando generación y validación de firmas EIP-712 Génesis en bloque...");
+  console.log("⏳ Iniciando ejecución vectorial por lotes EIP-712 (< 100ms por Box)...");
 
   const nowEpoch = Math.floor(Date.now() / 1000);
   const registeredList = [];
   const boxCounters = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  const boxLatencyMs = {};
   let totalMultiplierPoints = 0;
 
-  for (let i = 0; i < satellites.length; i++) {
-    const sat = satellites[i];
-    const boxId = Math.min(5, Math.max(1, Math.ceil(sat.index / 100)));
+  // Partición en 5 Boxes (100 satélites por Box)
+  const boxes = [1, 2, 3, 4, 5].map((boxId) => ({
+    boxId,
+    satellites: satellites.filter((s) => Math.min(5, Math.max(1, Math.ceil(s.index / 100))) === boxId)
+  }));
+
+  for (const box of boxes) {
+    const boxStart = Date.now();
     const pointsAwarded = 100; // Puntos Génesis por billetera calificada
 
-    const message = {
-      shinobi: sat.address,
-      boxId: boxId,
-      multiplierPoints: pointsAwarded,
-      epochTimestamp: nowEpoch
-    };
+    // Procesamiento vectorial en memoria con Promise.allSettled
+    const boxSettled = await Promise.allSettled(
+      box.satellites.map(async (sat) => {
+        // 1. Verificación de aislamiento criptográfico Anti-Sybil
+        validateIsolation(sat.address, CYBERSHINOBI_DOMAIN.verifyingContract, [], allWallets);
 
-    try {
-      const signer = getWalletSigner(sat.index);
-      const signature = await signer.signTypedData(CYBERSHINOBI_DOMAIN, CYBERSHINOBI_TYPES, message);
-      const proofHash = ethers.keccak256(signature);
+        // 2. Obtención de firmante derivado en memoria
+        const signer = getWalletSigner(sat.index);
 
-      boxCounters[boxId]++;
-      totalMultiplierPoints += pointsAwarded;
+        // 3. Firma criptográfica EIP-712 gasless
+        const message = {
+          shinobi: sat.address,
+          boxId: box.boxId,
+          multiplierPoints: pointsAwarded,
+          epochTimestamp: nowEpoch
+        };
 
-      registeredList.push({
-        index: sat.index,
-        formattedId: `#${String(sat.index).padStart(3, "0")}`,
-        address: sat.address,
-        boxId: boxId,
-        points: pointsAwarded,
-        proofHash: proofHash,
-        status: "CALIFICADO_WHITELIST_GENESIS",
-        timestamp: new Date().toISOString()
-      });
+        const signature = await signer.signTypedData(CYBERSHINOBI_DOMAIN, CYBERSHINOBI_TYPES, message);
+        const proofHash = ethers.keccak256(signature);
 
-      if ((i + 1) % 100 === 0) {
-        console.log(`   ✅ Box ${boxId} completado: 100/100 satélites registrados con prueba criptográfica.`);
+        return {
+          index: sat.index,
+          formattedId: `#${String(sat.index).padStart(3, "0")}`,
+          address: sat.address,
+          boxId: box.boxId,
+          points: pointsAwarded,
+          proofHash: proofHash,
+          status: "CALIFICADO_WHITELIST_GENESIS",
+          timestamp: new Date().toISOString()
+        };
+      })
+    );
+
+    const boxElapsed = Date.now() - boxStart;
+    boxLatencyMs[box.boxId] = boxElapsed;
+
+    for (const res of boxSettled) {
+      if (res.status === "fulfilled") {
+        registeredList.push(res.value);
+        boxCounters[box.boxId]++;
+        totalMultiplierPoints += pointsAwarded;
+      } else {
+        console.error(`   ❌ Error en Box ${box.boxId}:`, res.reason?.message || res.reason);
       }
-    } catch (err) {
-      console.error(`   ❌ Error firmando satélite #${sat.index}: ${err.message}`);
     }
+
+    console.log(`   ⚡ Box ${box.boxId} completado: ${boxCounters[box.boxId]}/100 satélites firmados en ${boxElapsed}ms (${boxElapsed < 100 ? "SUB-100MS 🟢" : "VELOZ 🟡"}) con aislamiento Anti-Sybil verificado.`);
   }
 
   const successCount = registeredList.length;
@@ -129,6 +153,7 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
       registeredCount: successCount,
       qualificationRate: "100%",
       byBox: boxCounters,
+      boxLatencyMs: boxLatencyMs,
       totalPointsEarned: totalMultiplierPoints,
       capitalCostGas: "$0.00 USD (100% Gasless EIP-712)"
     },

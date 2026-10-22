@@ -66,7 +66,14 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
 
     // Sincronización pasiva de telemetría sin disparar transacciones on-chain
     runCommand("node dedicated-observers.js", "Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas)");
-    runCommand("node nebula-ai-commanders.js", "Las 12 Nebulosas IA (Actualización de Directrices)");
+    runCommand("node security-fortress-shield.js", "Escudo Militar de Seguridad & Latencia RPC (< 250ms)");
+    runCommand("node omni-sniper-5models.js", "Omni-Sniper 5 Modelos On-Chain (Lectura Dinámica $0 Gas)");
+    runCommand("node nebula-ai-commanders.js", "Las 34 Nebulosas IA (Actualización de Directrices)");
+    runCommand("node expert-captains-command.js", "Jefatura de Capitanes Expertos (#001 y #101)");
+    runCommand("node dual-capitalizer-engine.js", "Motor Dual-Capitalizador (70/30 Compounding)");
+    runCommand("node cybershinobi-swarm-strike.js", "CyberShinobi Genesis Swarm Strike X500");
+    runCommand("node bounty-booty-commander.js", "Bounty Booty Commander (Vía B $2,225 USDC)");
+    runCommand("node scripts/onchain-snapshot.js", "Snapshot On-Chain Consolidado");
     runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync (Modo Pasivo)");
     runCommand("node harvest-rewards.js --scan", "Escaneo Pasivo de Recompensas");
     console.log(`⏳ Esperando a que transcurran > 25-30 min desde la última corrida on-chain para tomar turno automático.`);
@@ -78,43 +85,64 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
   // 00. Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas - On-Chain Sentinels)
   runCommand("node dedicated-observers.js", "Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas)");
 
-  // 0. Las 12 Nebulosas IA (Razonamiento Heurístico & Directrices para la Manada)
-  runCommand("node nebula-ai-commanders.js", "Las 12 Nebulosas IA (Directrices Estratégicas)");
+  // 01. Escudo Militar de Seguridad & Conmutador RPC < 250ms
+  runCommand("node security-fortress-shield.js", "Escudo Militar de Seguridad & Latencia RPC (< 250ms)");
 
-  // 1. Solana Devnet Faucet Refuel
+  // 02. Omni-Sniper 5 Modelos On-Chain (Lectura Dinámica $0 Gas)
+  runCommand("node omni-sniper-5models.js", "Omni-Sniper 5 Modelos On-Chain (Lectura Dinámica $0 Gas)");
+
+  // 03. Las 34 Nebulosas IA (Directrices Estratégicas y Asignaciones)
+  runCommand("node nebula-ai-commanders.js", "Las 34 Nebulosas IA (Directrices Estratégicas)");
+
+  // 04. Jefatura Suprema de Capitanes Expertos (#001 y #101) & Modo Punta de Lanza
+  runCommand("node expert-captains-command.js", "Jefatura de Capitanes Expertos (#001 y #101)");
+
+  // 05. Motor Dual-Capitalizador (Regla 70/30 Compounding & Crecimiento USDC)
+  runCommand("node dual-capitalizer-engine.js", "Motor Dual-Capitalizador (70/30 Compounding)");
+
+  // 06. Monolito CyberShinobi Génesis X500 (Ejecución Vectorial Sub-Segundo)
+  runCommand("node cybershinobi-swarm-strike.js", "CyberShinobi Genesis Swarm Strike X500");
+
+  // 07. Solana Devnet Faucet Refuel
   runCommand("node solana-faucet-refuel.js", "Solana Devnet Faucet");
 
-  // 2. Task Runner (Ronda Omnichain)
+  // 08. Task Runner (Ronda Omnichain)
   runCommand("node task-runner.js", "Task Runner Omnichain");
 
-  // 3. Bot Miner Swarm (Minería On-Chain, Firmas Gasless, Granja Bitcoin L2 & Vigía 501)
+  // 09. Bot Miner Swarm (Minería On-Chain, Firmas Gasless, Granja Bitcoin L2 & Vigía 501)
   runCommand("node bot-miner-swarm.js", "Bot Miner Swarm");
 
-  // 3.2. Motor GameFi Bot Swarm (Juegos Web3, Metaverso & Reclamos)
+  // 10. Motor GameFi Bot Swarm (Juegos Web3, Metaverso & Reclamos)
   runCommand("node gamefi-bot-swarm.js", "GameFi Bot Swarm (Galaxia 2)");
 
-  // 3.5. Motor Lomo 4: ROI Gas $50, Velocímetro $5.50/bot & Bounties Mainnet
+  // 11. Motor Lomo 4: ROI Gas $50, Velocímetro $5.50/bot & Bounties Mainnet
   runCommand("node bounty-and-quota-engine.js", "Bounty & Quota Engine (Lomo 4)");
 
-  // 3.8. Motor Lomo 5: Cerebro Autónomo, ADN Anti-Sybil & Auto-Liquidador DEX a USDC
+  // 12. Motor Lomo 5: Cerebro Autónomo, ADN Anti-Sybil & Auto-Liquidador DEX a USDC
   runCommand("node autonomous-brain-lomo5.js", "Cerebro Autónomo & Anti-Sybil (Lomo 5)");
 
-  // 3.9. Motor de Saturación Multidepartamento X500 (6 Departamentos de Extracción)
+  // 13. Motor de Saturación Multidepartamento X500 (6 Departamentos de Extracción)
   runCommand("node saturation-liquidity-engine.js", "Motor de Saturación de Liquidez X500");
 
-  // 3.95. Sniper 501 Mainnet (Escudo Sagrado 25 POL, Caza Real & Radar USDC)
-  runCommand("node sniper-501-mainnet.js --scan", "Sniper 501 Mainnet (Radar USDC & Escudo Sagrado)");
+  // 14. Sniper 501 Mainnet (Punta de Lanza USDC, Escudo Sagrado 25 POL & Radar)
+  runCommand("node sniper-501-mainnet.js --scan", "Sniper 501 Mainnet (Punta de Lanza USDC & Escudo)");
 
-  // 4. Escaneo de Cosechas (Embudo USDC a Binance)
+  // 15. Bounty Booty Commander (Acelerador de Cobro Vía B $2,225 USDC)
+  runCommand("node bounty-booty-commander.js", "Bounty Booty Commander (Vía B $2,225 USDC)");
+
+  // 16. Escaneo de Cosechas (Embudo USDC a Binance)
   runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
 
-  // 5. Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box
+  // 17. Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box
   runCommand("node master-refuel.js --intra-box", "Auto-Recarga Bóveda Matriz #501 & Dispersión Intra-Box");
 
-  // 6. Vanguard Hunter (Reporte Táctico y Notificación a Telegram)
+  // 18. Vanguard Hunter (Reporte Táctico y Notificación a Telegram)
   runCommand("node vanguard-hunter.js", "10K Vanguard Hunter");
 
-  // 7. Sincronización AI Telemetry Feed
+  // 19. Snapshot On-Chain Consolidado
+  runCommand("node scripts/onchain-snapshot.js", "Snapshot On-Chain Consolidado");
+
+  // 20. Sincronización AI Telemetry Feed
   runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync");
 
   const durationMin = ((Date.now() - startTime.getTime()) / 60000).toFixed(2);

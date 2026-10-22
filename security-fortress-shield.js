@@ -206,18 +206,27 @@ const BSC_RPCS = [
   "https://binance.llamarpc.com"
 ];
 
-async function measureRpcLatency(url, chainId, timeoutMs = 2500) {
+async function measureRpcLatency(url, chainId, timeoutMs = 2000) {
   const t0 = Date.now();
   try {
     const p = new ethers.JsonRpcProvider(url, chainId, { staticNetwork: true });
     await Promise.race([
       p.getBlockNumber(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), timeoutMs))
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout (>2000ms)")), timeoutMs))
     ]);
     const latencyMs = Date.now() - t0;
-    return { url, latencyMs, healthy: latencyMs < 300, isOptimal: latencyMs < 200, provider: p };
+    const isHealthy = latencyMs <= 250;
+    return { url, latencyMs, healthy: isHealthy, isOptimal: latencyMs < 200, provider: p };
   } catch (err) {
-    return { url, latencyMs: 9999, healthy: false, isOptimal: false, error: err.message };
+    const isRateLimited = err.message && (err.message.includes("429") || err.message.includes("Too Many Requests"));
+    return { 
+      url, 
+      latencyMs: 9999, 
+      healthy: false, 
+      isOptimal: false, 
+      rateLimited: isRateLimited,
+      error: isRateLimited ? "RPC_429_RATE_LIMIT" : err.message 
+    };
   }
 }
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "lastRun": "2026-10-22T13:06:53.224Z",
-  "lastRunFormatted": "22/10/2026, 13:06:53 UTC",
+  "lastRun": "2026-10-22T14:16:55.371Z",
+  "lastRunFormatted": "22/10/2026, 14:16:55 UTC",
   "project": {
     "id": "cybershinobi-genesis-evm",
     "name": "CyberShinobi Genesis (Robinhood EVM Testnet)",
@@ -22,6 +22,13 @@
       "4": 100,
       "5": 100
     },
+    "boxLatencyMs": {
+      "1": 555,
+      "2": 498,
+      "3": 483,
+      "4": 483,
+      "5": 490
+    },
     "totalPointsEarned": 50000,
     "capitalCostGas": "$0.00 USD (100% Gasless EIP-712)"
   },
@@ -40,9 +47,9 @@
       "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x263d3a5cf859df8d1b078155d59461301b3516cf9e95ed71e2787ae4ca50a9a1",
+      "proofHash": "0xf70961104cf7a6c93aa167b3b4a9a4e9586bade9a50cad0c64557bfe7391b31a",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.622Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 2,
@@ -50,9 +57,9 @@
       "address": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xa3ff8ae3a1e72a71fcf472cdc21e2394e9ce169adad72c24ba4d73e453d614dd",
+      "proofHash": "0x6f97caf0b3ff5e8a35fa8d27fffe54490f21181ed36132411bf8b182ad6001f3",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.640Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 3,
@@ -60,9 +67,9 @@
       "address": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x751473eb3358fa4d17bb8ce2ed18a6bbd7a88d11eeeaa002cbfa867b1fdf5b29",
+      "proofHash": "0x5ecd639a3c0b8732360b70f201042f68f8595733394f048e8b48c87ba2a4fd12",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.653Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 4,
@@ -70,9 +77,9 @@
       "address": "0x447bE3C9a8E97ca371d7cD8d8AEFd562fd15c582",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x99ccea29e72ba4c90d531ed8154c563ca7696463485c85f01d588bce9bf757d3",
+      "proofHash": "0x685c9e1aa1ab9ec4f21177f2fd69c092d8e1b0386d13f951c52376d52253f04c",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.667Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 5,
@@ -80,9 +87,9 @@
       "address": "0xD6Bf034E659fD3D3188951536B55B37e7537Af11",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x5a729b1b9a5c2d5388f838a0d94c539a839e7524d496da198a00c38e27b66e87",
+      "proofHash": "0xbff4e59769b4813eda1cb21cfa5e72b8a5e87f8c132251e2179d51eaace57040",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.683Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 6,
@@ -90,9 +97,9 @@
       "address": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xc4c849336bf1a2fdba398ca9199aa44daa619034cb69be8d6b85ef2a045cbc87",
+      "proofHash": "0x7ebb1461ca4637a646a0293d8b3c02875c0cf164c2afbcfea01ec25e9a7f99ba",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.695Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 7,
@@ -100,9 +107,9 @@
       "address": "0xB2872d2B0BB4f0aaAF0B3Ce4Fdb4602263b0b797",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x29e09229e3753b93a220fffce8d5182d0570e2279b448a824b78663e4d036b03",
+      "proofHash": "0x7b31c8a3e1acb3a999e73368cce9f3acf97cb93b26bc2a3dd19d29868acf01c2",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.704Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 8,
@@ -110,9 +117,9 @@
       "address": "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x6c74f2c69b5d90af674e5cd28cd4d48d5f6cdabcc13b782e4c593860f11858da",
+      "proofHash": "0xbb47741f05598b9112eec22208dca18ab2353e661fdfba8f9cf40d3b3078944d",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.710Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 9,
@@ -120,9 +127,9 @@
       "address": "0x22Cda40bD18364C5d1680083018FE52362642870",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xc23b151fbdc1704d13f1d1bd7ac761073e7a99cf107e4a0220d70279a6c91499",
+      "proofHash": "0x1a690406be0caae3a0fbf5651c210973a06e7005649c68aabcd6a5e7b4b86b7d",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.718Z"
+      "timestamp": "2026-10-22T14:16:53.392Z"
     },
     {
       "index": 10,
@@ -130,9 +137,9 @@
       "address": "0x87e46cca8bd4B9BeB013C3bbbb42e6e90B7C4F44",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x7aed61fc754b8eebee2b83b6f06a857c524f5e4ef128df080518ae38637c17f6",
+      "proofHash": "0xf923c8e54d1cfe51e96dcb4d06a2d1caeb2af19ea434abedf9b6ca6a64e3e53e",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.734Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 11,
@@ -140,9 +147,9 @@
       "address": "0xf1F8C03dD8c4572d2a3d1AEa0dB61E2658f55518",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xe87264e1ccbd4cf740f2d8f7854fec1368c1c8ede20ddf58d4f865ec3a00670e",
+      "proofHash": "0x46d3a13fb9141154c38d54b93bcf0a164ff94b1bd262cbac3f4557d4c8d0252b",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.749Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 12,
@@ -150,9 +157,9 @@
       "address": "0x00e436d78151B510ceD73E0aCF9cFb6A47A7D1AD",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x66100cc58b1615781e9d0c1319415a0a845469d15970279e99a1312eb7eb3799",
+      "proofHash": "0xeef458a442772c68bfbb8541ed12b1f24752f9b3821f31c0d26e27e32ccd49a2",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.754Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 13,
@@ -160,9 +167,9 @@
       "address": "0x6f338A65b8bc2765a86dbE4992C4FD485027C38D",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xd6751211c40ea5b4acd14c92f2907ab0e7501eea79a65f32d9e6d9012ab940dd",
+      "proofHash": "0x695ac9c312e0afda9323a0d29fbb55fd203708f9405214da9f2fc4ff15336829",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.760Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 14,
@@ -170,9 +177,9 @@
       "address": "0xbB8222800eAAE799E604aA2f3b71Ff29De867009",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x5ec91803266ac19f12ab26eece9565da607a65c08a60250a3d873c9c13550060",
+      "proofHash": "0x3e27fe44fb4dfecd550de7ebb75e0f2ff7c0d70b18e15cd3008039c07c6fdde8",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.766Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 15,
@@ -180,9 +187,9 @@
       "address": "0xE1f5ec5a81898a476423E67baA3383922879e8bc",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x0542fb771156f462d4c468d088e50a34b4720e9649e97ee709af7eef7cde5b10",
+      "proofHash": "0x185e5869b891ed49154b16a744cd23332815eaecab7dc8a2b1951015d486cc0b",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.771Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 16,
@@ -190,9 +197,9 @@
       "address": "0x0DC1f390Ddb130F583cCdcbDcb3F4b3111284F7E",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xcbd37dc14f4ee0a6b8733b10d67762bd93bf3ab010891c506f4c8e09a7cef5c1",
+      "proofHash": "0xf23c1fb178c7122efca5a398c289a797dd9a1bd51f0d1a5e2fb405b63a7c47fc",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.777Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 17,
@@ -200,9 +207,9 @@
       "address": "0xc7420160aAD245aa488FF365c3E985DD2EE5781C",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x16f4a2f3fa785b13181b87da9ec7c1af483569ac1f5acdd78952eefe702c173d",
+      "proofHash": "0xdafa29374a7f46f6e231734b11901987d144df5140634d5ceec4a95a7e7614ea",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.783Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 18,
@@ -210,9 +217,9 @@
       "address": "0xe18290B8a3D79Da78F762110989529bFD02a345E",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x9f729c72323a26eca8f6c640f8a25a8505682d99bcd466175f20ce87cbfa199c",
+      "proofHash": "0xbbfd941082b8fda4b24f2589c2c3b399a7de4376dd06831f5d208ca687a53cef",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.789Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 19,
@@ -220,9 +227,9 @@
       "address": "0x396201E7523Bbc8F187C30046128310cF87AABD6",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x1133df8d89bdb19c5ef4b90bde8b85ddd8dd3b469c26194704ec582c8532b5c8",
+      "proofHash": "0xcd8807ca5392e8bf1d0109e179a861ed5ab161d494b3725e8a77c1789020b882",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.795Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 20,
@@ -230,9 +237,9 @@
       "address": "0x652Ce4B32545523A9CD9535cc1d2Eb1F5E673733",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xbb714c6aee73ba0bee11f1023a1b16af7a78e3d9f11e8da2f6c405574079e297",
+      "proofHash": "0x9133c56633a959210cf504252b817ae6cb9c14c3faab478f18268f875443d433",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.800Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 21,
@@ -240,9 +247,9 @@
       "address": "0xD1Bce9011Bb285849ad5513c777dCcded0375ED2",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x3e2f4f1de0f66bede15960842158dff1bab9f0157612f716601ff991ef7ff019",
+      "proofHash": "0x87808405fb215b9565ca94cf75c16cd344298ddc290bf02867e661d85206c322",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.806Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 22,
@@ -250,9 +257,9 @@
       "address": "0xD5e619055e8F1d9CA7BcA53E5111Ac241c9f6162",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xd52f4160d41a6ae5e9970ff1d10b71cdb0db76b44ade5b905b157ed62f6904c2",
+      "proofHash": "0x4f4a098f110de44b5a3f825628b039762057142aee253f7b5eeabcff5d5447a0",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.812Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 23,
@@ -260,9 +267,9 @@
       "address": "0x02Edb594817Cb4ACB78bada54D865A3C988c1a0e",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xa97d6a8265e1f772b1fafa2481149fba624a7f1c1d3b2162b4be8c3d30b4ff32",
+      "proofHash": "0x51a0413c79f8f12136b8151a4085bd114aa2f20f689e153c51b76ae2b1a3a444",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.818Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 24,
@@ -270,9 +277,9 @@
       "address": "0x673E0596eFb6428bDb289993c356423d9C012742",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x624f958bac88bfd6f3c541677f193e6caa4c2852acad5fab2a982e03b13cc564",
+      "proofHash": "0x963ef1711665c4f627009b04693240e45e0a3d8d6e9863241c49ea796e005831",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.828Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 25,
@@ -280,9 +287,9 @@
       "address": "0x0f1a7b3C6Ca6962176AA681cc5174bBc6b3210b5",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x0c88ad8a5af63a8642d646c94489e3ad23f24efc2a5d0573e5da2866bb92c29a",
+      "proofHash": "0xa70e396c32aa6e706b0863673f75e099e7f398e85fb1653bf267dd08ffd7d9f7",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.832Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 26,
@@ -290,9 +297,9 @@
       "address": "0x23c3f92819CB6C2878cc6688e2d7bFE94bd3BfAE",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x707a08e67bca7799c24579c82c420930bbd142f54d3d71e0755e8b3dc3078d85",
+      "proofHash": "0x958589a0189584cf5640caf52afbf1391ad52bdee730845c7bdecdb3774646cf",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.837Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 27,
@@ -300,9 +307,9 @@
       "address": "0x1Ac21e92EA3910FfCA2E31Ff21F28971E01DB871",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x506da375345acdcce39c90065d4e3efcf3152d0ebada6fc4314922d086b9c886",
+      "proofHash": "0x38cb8eb18a0633684ffc5db3f3ed2a5362defd62535a8041563f92cdc1847a29",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.841Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 28,
@@ -310,9 +317,9 @@
       "address": "0x7314E8F45F29897bC86B41303439920fe07832Ee",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xa0a30175ae0af11f2f045b02a006462837c2ed5b9a7c62930b96112eee179053",
+      "proofHash": "0x55fdb6417b31a8142ea12a674ee87ee69ee2a52edc496612dcf10420864cd2b6",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.846Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 29,
@@ -320,9 +327,9 @@
       "address": "0x68aD272d3d08ca0D4D95A9818b52517dBc8Dc9da",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xedb91c66287ca2b6bfa82d4a21edb3bfb69a08ece685e74bc3a82d44433d5c65",
+      "proofHash": "0xbace0b3cb656f9cece0262a1422b1946bda4337994e8c66a416c1206177e6c59",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.851Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 30,
@@ -330,9 +337,9 @@
       "address": "0x2033Bd689147b1f2B6110eFA3F72dACBC25D1D87",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x70837d9a3293c518bfb15558994e9ce58f15e276b21954d3f866b2da02dbb14f",
+      "proofHash": "0x1e9a62b98b5010b8e7452f60386a5660b59e1030f0194c54a63ce0e6c79bbe5d",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.856Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 31,
@@ -340,9 +347,9 @@
       "address": "0x95c071d358d25454A3eAB72e0945954784C2dCdc",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xdc3f9a2ab437a9231d0520d1471a5eb7b142394cdb248d1afd6dd3a404c59656",
+      "proofHash": "0x8ff68cd21507494f078de537555479bf8abafa741bf91dde56d9acbc32d5f8b9",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.862Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 32,
@@ -350,9 +357,9 @@
       "address": "0xF03d48299fb4DdE3388d457B535d437052DCe276",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xf3f0b79fdc5c25f356d431f4824b1a2073a0e4da92cd319c8e0180402e15a6c2",
+      "proofHash": "0x6637c847630a1699748823b163cbdad9e61e235d947b62457c9066efffd2dff7",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.867Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 33,
@@ -360,9 +367,9 @@
       "address": "0x79f79db088Ad4506de8D6c84b5b7769137D920Cc",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xafe5db531c2536712527ca5ce58fc0eca3a90dc850f3280f3377d03ab9fd248c",
+      "proofHash": "0x5a69736110314922e82f2874d49871deee7647c689b4a4dd155c53ae60a8a7d9",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.872Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 34,
@@ -370,9 +377,9 @@
       "address": "0xE152BF2b992D88BE8738Cd3e27105886aF960073",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x73e7ba579401ecde26279b6ff99b4bc0ddb57fc1aea951c37cba6b7685bd5e5c",
+      "proofHash": "0x04c50a0c021efc9fc1abf9b27b5c461843468ca55264416ffca1493d41ca3f19",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.877Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 35,
@@ -380,9 +387,9 @@
       "address": "0xE2CdE24651A2C10D0BC9a26561dBa0b7376CE075",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x3c9a220fa7cfd26f6aa40997af20370717fc0f723757b641ced41dbcb791f7e1",
+      "proofHash": "0x90c9c5cead306e99047fd232dfee739f27a9d76f58278645f5cfdc534cc39669",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.883Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 36,
@@ -390,9 +397,9 @@
       "address": "0x32ccD3bb5fa3eBD529Fd76E967b5433541FDEc81",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x15a8b6ae4441658346518cd96a8a6536e157f8f2ff84839678c44c773221368e",
+      "proofHash": "0x46fb5600899fd7c1907f8eed932c37f60c0b946c4353e41f072d367c505ca60a",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.888Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 37,
@@ -400,9 +407,9 @@
       "address": "0xeeb89DB3fC0121DC50951c2Aa366D7eA89614945",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x78a3c8bcde304030f9aa630291dc1c652fd9014e0463c4edb77b831407b48ecb",
+      "proofHash": "0x5648110f39c7a135b96ecf083884aa3d08e0089729cbfb005914eaedb2017395",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.892Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 38,
@@ -410,9 +417,9 @@
       "address": "0x791b2606B2fFEbe16E1FEB80Abdf1a3Aa73B62D4",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xde67634bbe162ceb4a56b8f6a05985055b71e9ec20277cb1d3472c8233f15108",
+      "proofHash": "0xed5ac4d00f12c4055bf46c8692078c8a40b1e35cae9669ef1cf55b9a665c6dc0",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.898Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 39,
@@ -420,9 +427,9 @@
       "address": "0xf6ec58C85B9c078f6095Fd8644a01c9db389E277",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x77116777c72c92159222f5122fdaa9f89fefa41aa3ecfdf6f74eaedbad7e92a8",
+      "proofHash": "0x72bd7eba38835bd41c2a17b576b30aefeded3a1bb04acaf2700480dd45e88d88",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.902Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 40,
@@ -430,9 +437,9 @@
       "address": "0xBB02e1015C2B1E22eD758D3A77a995bF93e00aC6",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xbc3185a13d44be45481a3ae8ca66693caea446831404d809cb57d85116f57217",
+      "proofHash": "0x7847c81875b674de0b5083e8becc87aa460d1c4250c48cff7d519d92fb7a7ced",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.907Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 41,
@@ -440,9 +447,9 @@
       "address": "0x073c02b64894A5D60eA8FB50bbE7267Ac2ceF93A",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x11e27ce3feb22c2344f86836d9e6c897413e120dbb1d0150d125919f577754ee",
+      "proofHash": "0x51ed86d30fe2df30910c3f5e8bfde6debe9e7bddb9edc794d2418c60547fe4d5",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.913Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 42,
@@ -450,9 +457,9 @@
       "address": "0x3dEdFdB70D2c0E9f6738B9758cB39847f4255660",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x7981c8e9b7c71eaf0fde6a09fe59ee5a56f3353b1a7d910ba34393e4f4947839",
+      "proofHash": "0xbfafd0b0268930c18d2795e18aa3a0ae543a19b6bbb169081b0d412440751e05",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.918Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 43,
@@ -460,9 +467,9 @@
       "address": "0xD05B39b91ce219a43F2271737aBD5C47B803c160",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x3a455fdb620d19d2375213f56429a2933271fbe3145741f466468ff7ad9087a9",
+      "proofHash": "0x6fa088a3bc9952de98d1af5028f482678a222d4ae9cf0c5fa2fd558ad20c0a31",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.922Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 44,
@@ -470,9 +477,9 @@
       "address": "0xFd73B1293A0d661F60FE8D830BaAd1b1224f3157",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xa6cbb289379b4b3095d8233eed22fb61c901f41aca5b766e7b4609296ab40ee3",
+      "proofHash": "0x71248b6c016cbdcebd1f4f2858b1fbda0e1e0584956ab740df5f6b930e23477c",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.929Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 45,
@@ -480,9 +487,9 @@
       "address": "0xB47A777b6586d02d080c935C264018429706e621",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xa651902e1a5fd2d62ce84b9ea6ee17f845cacbe13bb6f5af6d78cccc63ea6b2b",
+      "proofHash": "0xcd5ae6fd5d9f55dd5ecfd6bc8ba999564006ad0eabea24a3eff47d6a7cb76fcd",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.933Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 46,
@@ -490,9 +497,9 @@
       "address": "0x09c535C7dA8824aB41074065B6c923965c5d62E8",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0xffccbe96c4ee6db2b0a9926aaa40d0087f269ea7278eb92878e3c253e4e244db",
+      "proofHash": "0xdfeb71bf27d7bcf16d6daa54960819cc550933069226e5a2522cb567f340247f",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.937Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 47,
@@ -500,9 +507,9 @@
       "address": "0x80fF208aD298a24f397d9B8Ba85471E449E788D7",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x5fceef157cbd9de566ae9951af7e6709f32db0ef731a0f9d25f81ae2c8d97205",
+      "proofHash": "0xee5bfc366aeeaf8d4f92b9e042110a1749bda56762b4c338b40a643ec026c0b1",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.942Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 48,
@@ -510,9 +517,9 @@
       "address": "0xbBA7e71a73085A8fC590918f1dDA010dB169a9e0",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x8af7b189ba9aa8f902763c651472b3901c7bd68d0b99d220d33e89cf3f230e19",
+      "proofHash": "0xde85b11bc46169b0d94836d627af570901bf84d7ef4ac61f1e7dcebba9c6d25a",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.948Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 49,
@@ -520,9 +527,9 @@
       "address": "0x69FeEbC12e28a7984270846a27240C25C1153bEb",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x080a8804b8edef63d9dc4847d12768f48bf4e072d2af80e360013da03d62e5e9",
+      "proofHash": "0xf6d3b18e63475918afd7da8aa7e93a7e4acb62a197e71ed4b0b623da8907c6f9",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.952Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     },
     {
       "index": 50,
@@ -530,9 +537,9 @@
       "address": "0x0CdAd3013eC586d617f64dbb67628D70422D9e4e",
       "boxId": 1,
       "points": 100,
-      "proofHash": "0x1bb2333f98ea63f148f055daaa021bbe11b9e9825acbac78882163f38a733411",
+      "proofHash": "0x20dc2f82eac46202e296a023aaf3f1a49d33b248f3a03f41af94a92fce9d0876",
       "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T13:06:50.957Z"
+      "timestamp": "2026-10-22T14:16:53.393Z"
     }
   ]
 }
