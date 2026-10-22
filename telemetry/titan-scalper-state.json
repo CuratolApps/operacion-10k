@@ -3,89 +3,90 @@
   "boxName": "TITAN-SCALPER #601",
   "status": "ACTIVE_SIMULATION",
   "mode": "PAPER_TRADING_LIVE",
-  "virtualPoolUsdc": 15.46500575484366,
-  "totalProfitRealizedUsdc": 0.46500575484365836,
+  "gunpowderUsdc": {
+    "polygonHeavyCannon": 18.3,
+    "bscHeavyCannon": 20.42,
+    "totalGunpowder": 38.72
+  },
+  "virtualPoolUsdc": 15,
+  "totalProfitRealizedUsdc": 0.465,
   "totalTradesCount": 1,
   "winningTradesCount": 1,
   "losingTradesCount": 0,
   "winRatePct": 100,
   "activePosition": {
-    "symbol": "BTC/USDC",
-    "entryPrice": 81673,
-    "capitalUsdc": 15.46500575484366,
-    "tpPct": 2,
-    "slPct": 0.8,
-    "openedAt": "2026-10-22T12:37:19.838Z"
+    "symbol": "BNB/USDC",
+    "entryPrice": 730.29,
+    "capitalUsdc": 15,
+    "tpPct": 2.5,
+    "tpPrice": 748.55,
+    "slPct": 1,
+    "slPrice": 722.99,
+    "riskRewardRatio": "2.5:1",
+    "mentorApproval": "✅ APROBADO POR MENTOR #00 (SOBREVENTA LIMPIA)",
+    "openedAt": "2026-10-22T15:54:10.008Z"
   },
-  "recentTrades": [
-    {
-      "id": "trade-1792672633421",
-      "symbol": "SOL/USDC",
-      "type": "LONG_SPOT",
-      "entryPrice": 104.26,
-      "exitPrice": 107.4921,
-      "pnlPct": 3.100038365624389,
-      "pnlUsdc": 0.46500575484365836,
-      "result": "WIN_TP",
-      "timestamp": "2026-10-22T12:37:13.421Z"
-    }
-  ],
-  "lastEvaluation": "2026-10-22T12:59:51.638Z",
   "scannedSignals": [
     {
       "symbol": "POL/USDC",
-      "currentPrice": 0.3791,
-      "rsi14": 31,
-      "ema50": 0.3798,
-      "ema200": 0.3734,
-      "isTrendBullish": true,
+      "currentPrice": 0.0907,
+      "rsi14": 24,
+      "support24": 0.0902,
+      "resistance24": 0.09746,
+      "isTrendBullish": false,
       "isOversold": true,
-      "signal": "BUY_DISPARO_LONG",
-      "confidenceScore": 92
-    },
-    {
-      "symbol": "SOL/USDC",
-      "currentPrice": 104.33,
-      "rsi14": 38,
-      "ema50": 104.5302,
-      "ema200": 102.7651,
-      "isTrendBullish": true,
-      "isOversold": true,
-      "signal": "BUY_DISPARO_LONG",
-      "confidenceScore": 92
-    },
-    {
-      "symbol": "ETH/USDC",
-      "currentPrice": 2398.99,
-      "rsi14": 29,
-      "ema50": 2399.8009,
-      "ema200": 2363.0051,
-      "isTrendBullish": true,
-      "isOversold": true,
-      "signal": "BUY_DISPARO_LONG",
-      "confidenceScore": 92
-    },
-    {
-      "symbol": "BTC/USDC",
-      "currentPrice": 81626.89,
-      "rsi14": 44,
-      "ema50": 81654.8904,
-      "ema200": 80402.4866,
-      "isTrendBullish": true,
-      "isOversold": false,
-      "signal": "NEUTRAL_ESPERA",
-      "confidenceScore": 50
+      "signal": "SOBREVENTA_VIGILANDO",
+      "confidenceScore": 75,
+      "mentorVerdict": "⚪ VIGILANCIA FRÍA"
     },
     {
       "symbol": "BNB/USDC",
-      "currentPrice": 732.25,
-      "rsi14": 38,
-      "ema50": 732.3742,
-      "ema200": 721.2663,
+      "currentPrice": 730.29,
+      "rsi14": 23,
+      "support24": 729.03,
+      "resistance24": 751.43,
       "isTrendBullish": true,
       "isOversold": true,
       "signal": "BUY_DISPARO_LONG",
-      "confidenceScore": 92
+      "confidenceScore": 92,
+      "mentorVerdict": "🟢 AUTORIZADO POR #00"
+    },
+    {
+      "symbol": "ETH/USDC",
+      "currentPrice": 2396.47,
+      "rsi14": 25,
+      "support24": 2385,
+      "resistance24": 2525.29,
+      "isTrendBullish": true,
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92,
+      "mentorVerdict": "🟢 AUTORIZADO POR #00"
+    },
+    {
+      "symbol": "SOL/USDC",
+      "currentPrice": 104.59,
+      "rsi14": 32,
+      "support24": 103.43,
+      "resistance24": 109.12,
+      "isTrendBullish": true,
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92,
+      "mentorVerdict": "🟢 AUTORIZADO POR #00"
+    },
+    {
+      "symbol": "BTC/USDC",
+      "currentPrice": 81574.42,
+      "rsi14": 25,
+      "support24": 81252.03,
+      "resistance24": 84876.18,
+      "isTrendBullish": true,
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92,
+      "mentorVerdict": "🟢 AUTORIZADO POR #00"
     }
-  ]
+  ],
+  "lastEvaluation": "2026-10-22T15:54:10.008Z"
 }

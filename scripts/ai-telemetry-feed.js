@@ -830,6 +830,7 @@ async function generateUnifiedTelemetry() {
     titanScalper: readJsonSafe(path.join(TELEMETRY_DIR, "titan-scalper-state.json")),
     oracleStocks: readJsonSafe(path.join(TELEMETRY_DIR, "oracle-stocks-state.json")),
     tradingMentor: readJsonSafe(path.join(TELEMETRY_DIR, "trading-mentor-state.json")),
+    wallStreetTickers: readJsonSafe(path.join(TELEMETRY_DIR, "wallstreet-tickers.json")),
     nftSurgicalSquadron: readJsonSafe(path.join(TELEMETRY_DIR, "nft-squadron-radar.json")),
     airdropLaunchCalendar: readJsonSafe(path.join(TELEMETRY_DIR, "airdrop-launch-calendar.json")),
     cybershinobiFleetProgress: readJsonSafe(path.join(TELEMETRY_DIR, "cybershinobi-fleet-progress.json")),

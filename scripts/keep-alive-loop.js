@@ -76,6 +76,7 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
     runCommand("node cybershinobi-swarm-strike.js", "CyberShinobi Genesis Swarm Strike X500");
     runCommand("node bounty-booty-commander.js", "Bounty Booty Commander (Vía B $2,225 USDC)");
     runCommand("node scripts/onchain-snapshot.js", "Snapshot On-Chain Consolidado");
+    runCommand("node wallstreet-quant-mentor-engine.js", "Motor Cuantitativo Wall Street & Mentora #00");
     runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync (Modo Pasivo)");
     runCommand("node harvest-rewards.js --scan", "Escaneo Pasivo de Recompensas");
     console.log(`⏳ Esperando a que transcurran > 25-30 min desde la última corrida on-chain para tomar turno automático.`);
@@ -146,6 +147,9 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
 
   // 19. Snapshot On-Chain Consolidado
   runCommand("node scripts/onchain-snapshot.js", "Snapshot On-Chain Consolidado");
+
+  // 19.5. Motor Cuantitativo Wall Street & Mentora #00
+  runCommand("node wallstreet-quant-mentor-engine.js", "Motor Cuantitativo Wall Street & Mentora #00");
 
   // 20. Sincronización AI Telemetry Feed
   runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync");

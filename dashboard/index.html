@@ -87,6 +87,12 @@
             </button>
           </li>
           <li>
+            <button class="finops-nav-btn" data-view="sniper-command" style="border-left: 2px solid var(--neon-green);">
+              <i data-lucide="crosshair" style="color: var(--neon-green)"></i>
+              <span>🎯 Comando Sniper (3 Vectores)</span>
+            </button>
+          </li>
+          <li>
             <button class="finops-nav-btn" data-view="nebula-commanders">
               <i data-lucide="sparkles"></i>
               <span>🌌 32 Nebulosas IA (16 Binomios)</span>
@@ -165,99 +171,15 @@
             </div>
 
             <div class="liq-sub-pills">
-              <span class="badge-liq-sub phase1" id="dashPhase1Pill" style="background: rgba(255, 184, 0, 0.16); border: 1px solid rgba(255, 184, 0, 0.55); color: var(--neon-gold); font-weight: 800; font-family: 'JetBrains Mono';">🎯 FASE 1 RECUPERACIÓN 120 €: $39.72 / $130.00 USDC (30.5%) • 70/30 CICLO CERRADO</span>
-              <span class="badge-liq-sub eur" id="dashEurLiqPill">En Bóveda Máster On-Chain (Compounding): $38.72 USDC</span>
-              <span class="badge-liq-sub usd" id="dashUsdLiqPill">Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos)</span>
-              <span class="badge-liq-sub res" id="dashReserveLiqPill">Reserva Nodriza #501: 121.02 POL | +116.38 POL Kraken</span>
-              <button onclick="switchFinopsView('wallstreet-terminal')" class="badge-liq-sub" style="cursor: pointer; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); font-weight: 800; font-family: 'JetBrains Mono'; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px;"><i data-lucide="trending-up" style="width: 10px; height: 10px;"></i> 🏛️ WALL STREET &amp; BOXES #601/#701 →</button>
+              <span class="badge-liq-sub phase1" id="dashPhase1Pill" style="background: rgba(255, 184, 0, 0.16); border: 1px solid rgba(255, 184, 0, 0.55); color: var(--neon-gold); font-weight: 800; font-family: 'JetBrains Mono';">🎯 FASE 1: $39.72 / $130.00 USDC (30.5%)</span>
+              <span class="badge-liq-sub eur" id="dashEurLiqPill">Bóveda On-Chain: $38.72 USDC (70/30)</span>
+              <span class="badge-liq-sub usd" id="dashUsdLiqPill">Binance Spot: $1.00 USDC (Manual)</span>
+              <span class="badge-liq-sub res" id="dashReserveLiqPill">Reserva #501: 121.02 POL | Flota: 265.86 POL</span>
             </div>
-
             <div style="text-align: right; display: flex; flex-direction: column; justify-content: center;">
               <span style="font-size: 0.44rem; color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono';">SATURACIÓN DE FLOTA</span>
               <div style="font-size: 1.15rem; font-weight: 900; color: var(--neon-gold); font-family: 'JetBrains Mono';" id="dashHealthScoreText">100%</div>
               <span style="font-size: 0.42rem; color: var(--neon-green); font-family: 'JetBrains Mono'; font-weight: 800;">● 502/502 ACTIVOS • 16 SNIPERS</span>
-            </div>
-          </div>
-
-          <!-- PANEL TÁCTICO: 3 VECTORES DE FUEGO SNIPER & 2 CAÑONES PESADOS (OPERACIÓN 12K) -->
-          <div class="sniper-fire-vectors-panel" style="margin: 6px 0 10px 0; padding: 10px 14px; background: linear-gradient(135deg, rgba(13, 20, 36, 0.95), rgba(7, 11, 20, 0.95)); border: 1px solid rgba(255, 184, 0, 0.45); border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 1.1rem;">🦅🎯⚡</span>
-                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 900; color: var(--neon-gold); letter-spacing: 0.5px;">ORDEN DE ATAQUE SNIPER: 3 VECTORES DE FUEGO EN CICLO CERRADO</span>
-                <span style="font-size: 0.60rem; padding: 2px 7px; border-radius: 4px; background: rgba(0, 255, 136, 0.15); color: var(--neon-green); font-weight: 800; border: 1px solid rgba(0, 255, 136, 0.4);">RÁFAGA BURST (5 BARRIDOS A 4s) • $0 GAS</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--neon-cyan); font-weight: 700;" id="sniperBurstStatusText">🛡️ VIGILANCIA CENTINELA (Closest: -0.0234% en BSC V3)</span>
-                <span style="font-size: 0.58rem; padding: 2px 6px; border-radius: 4px; background: rgba(255, 184, 0, 0.12); color: var(--neon-gold); font-weight: 800; border: 1px solid rgba(255, 184, 0, 0.3);">REGLA 70/30 LISTA</span>
-              </div>
-            </div>
-
-            <!-- GRID DE LOS 2 CAÑONES PESADOS Y LOS 3 VECTORES DE FUEGO -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px;">
-              <!-- CAÑÓN #1: POLYGON POS -->
-              <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(130, 71, 229, 0.45); border-radius: 6px; padding: 8px 10px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                  <span style="font-size: 0.68rem; font-weight: 800; color: #a855f7; font-family: 'JetBrains Mono';">🔫 CAÑÓN #1 POLYGON PoS</span>
-                  <span style="font-size: 0.82rem; font-weight: 900; color: #fff; font-family: 'JetBrains Mono';">$18.30 USDC</span>
-                </div>
-                <div style="font-size: 0.56rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Mando: #501 (Nodriza) &amp; #001 (Capitán)</div>
-                <div style="font-size: 0.58rem; color: var(--neon-cyan); margin-top: 4px; font-family: 'JetBrains Mono';">
-                  Triangular WETH 0.05%: 1 POL ➔ 0.090639 USDC
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); margin-top: 2px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 3px;">
-                  <span>Spread V3: -0.1075%</span>
-                  <span style="color: var(--neon-green); font-weight: 700;">Simulación $0 Gas ✅</span>
-                </div>
-              </div>
-
-              <!-- CAÑÓN #2: BSC MAINNET -->
-              <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(240, 185, 11, 0.45); border-radius: 6px; padding: 8px 10px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                  <span style="font-size: 0.68rem; font-weight: 800; color: var(--neon-gold); font-family: 'JetBrains Mono';">🔫 CAÑÓN #2 BSC MAINNET</span>
-                  <span style="font-size: 0.82rem; font-weight: 900; color: #fff; font-family: 'JetBrains Mono';">$20.42 USDC</span>
-                </div>
-                <div style="font-size: 0.56rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Mando: #501 (Nodriza) &amp; #101 (Capitán)</div>
-                <div style="font-size: 0.58rem; color: var(--neon-gold); margin-top: 4px; font-family: 'JetBrains Mono';">
-                  Cross-Fee V3 0.01%➔0.05%: 1 BNB ➔ $731.21 USDC
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); margin-top: 2px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 3px;">
-                  <span style="color: var(--neon-green); font-weight: 700;">Spread: -0.0234% (A 0.02% del Disparo)</span>
-                  <span style="color: var(--neon-green); font-weight: 700;">Simulación $0 Gas ✅</span>
-                </div>
-              </div>
-
-              <!-- VECTOR #2: KEEPER BOUNTIES & LIQUIDACIONES -->
-              <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(0, 255, 136, 0.35); border-radius: 6px; padding: 8px 10px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                  <span style="font-size: 0.68rem; font-weight: 800; color: var(--neon-green); font-family: 'JetBrains Mono';">🤖 VECTOR #2: KEEPER BOUNTIES</span>
-                  <span style="font-size: 0.68rem; font-weight: 800; color: var(--neon-green); font-family: 'JetBrains Mono';">30 BÓVEDAS</span>
-                </div>
-                <div style="font-size: 0.56rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Beefy Finance &amp; Gamma (Polygon &amp; BSC)</div>
-                <div style="font-size: 0.58rem; color: var(--neon-green); margin-top: 4px; font-family: 'JetBrains Mono';">
-                  Top Bounty: $0.1804 USD en WBNB-USDT (BSC)
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); margin-top: 2px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 3px;">
-                  <span>Aave V3 / Venus: HF &gt; 1.0</span>
-                  <span style="color: var(--neon-green); font-weight: 700;">Gatillo: Reward &gt; 2.5x Gas</span>
-                </div>
-              </div>
-
-              <!-- VECTOR #3: WHALE REBOUNDS & REGLA 70/30 -->
-              <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 6px; padding: 8px 10px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                  <span style="font-size: 0.68rem; font-weight: 800; color: var(--neon-cyan); font-family: 'JetBrains Mono';">🦈 VECTOR #3: WHALE REBOUNDS</span>
-                  <span style="font-size: 0.68rem; font-weight: 800; color: var(--neon-cyan); font-family: 'JetBrains Mono';">REGLA 70/30</span>
-                </div>
-                <div style="font-size: 0.56rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Dislocación Multi-DEX: 0.28% &lt; 1.50%</div>
-                <div style="font-size: 0.58rem; color: var(--neon-cyan); margin-top: 4px; font-family: 'JetBrains Mono';">
-                  Destino: 70% USDC ($130 Meta) / 30% Gas POL+BNB
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); margin-top: 2px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 3px;">
-                  <span>Tanque Gas: 121.02 POL Intocables</span>
-                  <span style="color: var(--neon-green); font-weight: 700;">0.00 POL/BNB Quemados</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -480,6 +402,135 @@
                 <span class="sema-label">🌌 32 Nebulosas IA</span>
                 <span class="sema-value" style="color: var(--neon-cyan)" id="semaNebulaScore">16 Binomios • Escudo Anti-RugPull 100% →</span>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISTA DEDICADA: 🎯 COMANDO SNIPER & 3 VECTORES DE FUEGO (OPERACIÓN 12K) -->
+      <section class="finops-view-panel" id="view-sniper-command">
+        <div class="full-width-panel sniper-command-layout">
+          <!-- FILA 1: CABECERA DEL ESCUADRÓN CYBER SHINOBI SNIPER -->
+          <div class="sniper-command-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.4rem;">🦅🎯⚡</span>
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <h3 style="margin: 0; font-size: 0.95rem; color: var(--neon-gold); font-family: 'JetBrains Mono', monospace; font-weight: 900;">COMANDO SNIPER &amp; 3 VECTORES DE FUEGO (OPERACIÓN 12K)</h3>
+                  <span style="font-size: 0.52rem; padding: 2px 7px; border-radius: 4px; background: rgba(0, 255, 136, 0.15); color: var(--neon-green); font-weight: 800; border: 1px solid rgba(0, 255, 136, 0.4);">STRICT_NO_GAS_SELL = true ✅</span>
+                  <span style="font-size: 0.52rem; padding: 2px 7px; border-radius: 4px; background: rgba(0, 240, 255, 0.15); color: var(--neon-cyan); font-weight: 800; border: 1px solid rgba(0, 240, 255, 0.4);">MULTICALL3 SIMULACIÓN $0 GAS</span>
+                </div>
+                <span style="font-size: 0.58rem; color: var(--text-muted); font-family: 'JetBrains Mono';">121.024 POL intocables en #501 • Flota: 265.86 POL / 0.0435 BNB • Regla 70% USDC ($130 Meta) / 30% Gas Compounding</span>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span id="sniperBurstStatusText" style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--neon-cyan); font-weight: 700;">🛡️ VIGILANCIA CENTINELA (Closest: -0.0234% en BSC V3)</span>
+              <button onclick="triggerLiveBurstSniper()" style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.25), rgba(0, 240, 255, 0.25)); border: 1.5px solid var(--neon-green); color: #ffffff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: 'JetBrains Mono'; font-weight: 900; font-size: 0.65rem; box-shadow: 0 0 12px rgba(0, 255, 136, 0.3); display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+                <i data-lucide="zap" style="width: 13px; height: 13px; color: var(--neon-green);"></i>
+                <span>⚡ EJECUTAR RÁFAGA SNIPER AHORA</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- FILA 2: 4 TARJETAS SIMÉTRICAS DE CAÑONES PESADOS Y VECTORES DE FUEGO -->
+          <div class="sniper-vectors-grid-4x1">
+            <!-- CAÑÓN #1: POLYGON POS -->
+            <div class="sniper-vector-card cannon-poly">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 0.70rem; font-weight: 900; color: #a855f7; font-family: 'JetBrains Mono';">🔫 CAÑÓN #1 POLYGON PoS</span>
+                <span style="font-size: 0.90rem; font-weight: 900; color: #fff; font-family: 'JetBrains Mono';" id="sniperCannon1Bal">$18.30 USDC</span>
+              </div>
+              <div style="font-size: 0.55rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Mando: #501 (Nodriza) &amp; #001 (Capitán)</div>
+              <div style="font-size: 0.58rem; color: var(--neon-cyan); margin: 4px 0; font-family: 'JetBrains Mono';" id="sniperCannon1Route">
+                Ruta Triangular V3 0.01%/0.05%: 1 POL ➔ 0.090639 USDC
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px;">
+                <span id="sniperCannon1Spread" style="color: var(--neon-cyan); font-weight: 700;">Spread V3: -0.1075%</span>
+                <span style="color: var(--neon-green); font-weight: 700;">Simulación $0 Gas ✅</span>
+              </div>
+            </div>
+
+            <!-- CAÑÓN #2: BSC MAINNET -->
+            <div class="sniper-vector-card cannon-bsc">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 0.70rem; font-weight: 900; color: var(--neon-gold); font-family: 'JetBrains Mono';">🔫 CAÑÓN #2 BSC MAINNET</span>
+                <span style="font-size: 0.90rem; font-weight: 900; color: #fff; font-family: 'JetBrains Mono';" id="sniperCannon2Bal">$20.42 USDC</span>
+              </div>
+              <div style="font-size: 0.55rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Mando: #501 (Nodriza) &amp; #101 (Capitán)</div>
+              <div style="font-size: 0.58rem; color: var(--neon-gold); margin: 4px 0; font-family: 'JetBrains Mono';" id="sniperCannon2Route">
+                Cross-Fee V3 0.01%➔0.05%: 1 BNB ➔ $731.21 USDC
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px;">
+                <span id="sniperCannon2Spread" style="color: var(--neon-green); font-weight: 700;">Spread: -0.0234% (A 0.02% del Disparo)</span>
+                <span style="color: var(--neon-green); font-weight: 700;">Simulación $0 Gas ✅</span>
+              </div>
+            </div>
+
+            <!-- VECTOR #2: KEEPER BOUNTIES & LIQUIDACIONES -->
+            <div class="sniper-vector-card vector-bounties">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 0.70rem; font-weight: 900; color: var(--neon-green); font-family: 'JetBrains Mono';">🤖 VECTOR #2: KEEPER BOUNTIES</span>
+                <span style="font-size: 0.70rem; font-weight: 900; color: var(--neon-green); font-family: 'JetBrains Mono';">30 BÓVEDAS</span>
+              </div>
+              <div style="font-size: 0.55rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Beefy Finance &amp; Gamma (Polygon &amp; BSC)</div>
+              <div style="font-size: 0.58rem; color: var(--neon-green); margin: 4px 0; font-family: 'JetBrains Mono';" id="sniperKeeperTopBounty">
+                Top Bounty: $0.1804 USD en WBNB-USDT (BSC)
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px;">
+                <span>Aave V3 / Venus: Solvente (HF &gt; 1.0)</span>
+                <span style="color: var(--neon-green); font-weight: 700;">Gatillo: Reward &gt; 2.5x Gas</span>
+              </div>
+            </div>
+
+            <!-- VECTOR #3: WHALE REBOUNDS & REGLA 70/30 -->
+            <div class="sniper-vector-card vector-rebounds">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 0.70rem; font-weight: 900; color: var(--neon-cyan); font-family: 'JetBrains Mono';">🦈 VECTOR #3: WHALE REBOUNDS</span>
+                <span style="font-size: 0.70rem; font-weight: 900; color: var(--neon-cyan); font-family: 'JetBrains Mono';">REGLA 70/30</span>
+              </div>
+              <div style="font-size: 0.55rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Dislocación Multi-DEX: 0.28% &lt; 1.50%</div>
+              <div style="font-size: 0.58rem; color: var(--neon-cyan); margin: 4px 0; font-family: 'JetBrains Mono';">
+                Destino: 70% USDC ($130 Meta) / 30% Gas POL+BNB
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.52rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px;">
+                <span>Tanque: 121.02 POL Intocables</span>
+                <span style="color: var(--neon-green); font-weight: 700;">0.00 Gas Quemado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FILA 3: TABLA EN VIVO A ANCHO COMPLETO CON MULTICALL3 ($0 GAS) -->
+          <div class="sniper-live-table-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="activity" style="width: 14px; height: 14px; color: var(--neon-green);"></i>
+                <span style="font-size: 0.72rem; font-weight: 800; font-family: 'JetBrains Mono'; color: #ffffff;">COTIZACIONES REALES EN VIVO (MULTICALL3 STATIC CALL • $0 GAS)</span>
+                <span style="font-size: 0.50rem; padding: 2px 6px; border-radius: 3px; background: rgba(0, 255, 136, 0.12); color: var(--neon-green); font-family: 'JetBrains Mono'; font-weight: 800;">6 PISCINAS DEX ACTIVAS</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 0.54rem; color: var(--text-muted); font-family: 'JetBrains Mono';" id="sniperTableLastUpdate">Última lectura: En vivo</span>
+              </div>
+            </div>
+
+            <div class="sniper-live-table-wrap">
+              <table class="sniper-table">
+                <thead>
+                  <tr>
+                    <th>Red</th>
+                    <th>DEX &amp; Fee</th>
+                    <th>Par de Monedas</th>
+                    <th>Precio Entrada</th>
+                    <th>Precio Salida</th>
+                    <th>Spread Bruto</th>
+                    <th>Est. Gas Cost</th>
+                    <th>Gatillo Disparo</th>
+                    <th>Estado de Protección</th>
+                  </tr>
+                </thead>
+                <tbody id="sniperLiveTableBody">
+                  <!-- Se puebla dinámicamente con app.js -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

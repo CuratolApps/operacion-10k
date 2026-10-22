@@ -2,13 +2,15 @@
   "mentorName": "NEBULA-MENTOR: SIMONS-MEDALLION #00",
   "mentorTitle": "Mente Maestra Cuantitativa & Protector de Capital",
   "inspiration": "Jim Simons (Renaissance Technologies / Medallion Fund)",
-  "timestamp": "2026-10-22T12:59:51.236Z",
+  "timestamp": "2026-10-22T15:54:10.007Z",
   "status": "ACTIVE_MENTORSHIP",
   "mindset": "MENTE_SECA_100_CIENTIFICA",
-  "marketRegime": "ALCISTA_CONTROLADO_CON_TRAMPAS_LIQUIDADAS",
-  "trapsDetectedAndAvoidedToday": 6,
+  "marketRegime": "CORRECCIÓN_CON_BARRIDOS_DE_LIQUIDEZ_DETECTADOS",
+  "trapsDetectedAndAvoidedToday": 9,
   "fleetTradingSkillLevel": "INSTITUCIONAL_CUANTITATIVO",
-  "activeAxioms": [
+  "strategicDirective": "Doctrina Simons-Medallion: Asimetría 3:1 • Cero Corazonadas • P(win) >= 80% • Supervisión Activa de Entradas y Salidas en USDC",
+  "nebulasShieldStatus": "32/32 NEBULOSAS BLINDADAS (16 BINOMIOS ACTIVOS CONTRA FAKEOUTS)",
+  "axioms": [
     {
       "id": 1,
       "name": "Probabilidad Asimétrica",
@@ -35,16 +37,9 @@
       "rule": "Transmitir la visión del libro de órdenes a las 32 Nebulosas de la flota."
     }
   ],
-  "box6Supervision": {
-    "status": "AUDITORIA_ACTIVA_BTC/USDC_VIGILANDO_TP_SL",
-    "recommendedLotUsdc": 15,
-    "riskPerTradeMaxUsd": 0.15,
-    "targetProfitPerTradeUsd": 0.45
-  },
-  "box7Supervision": {
-    "status": "GOBERNANZA_ESTRICTA_APROBACION_HUMANA",
-    "maxAllocationPerEquityUsdc": 10,
-    "recommendedMinAsymmetryRatio": "3:1"
-  },
-  "nebulasShieldStatus": "32/32 NEBULOSAS INMUNIZADAS CONTRA FAKEOUTS Y BULL TRAPS"
+  "supervisedUnits": {
+    "box6Titan": "AUTORIZADO_RADAR_SOBREVENTA_POL_BNB",
+    "box7Oracle": "GOBERNANZA_ESTRICTA_APROBACION_HUMANA",
+    "mothership501": "121.024 POL INTOCABLES (STRICT_NO_GAS_SELL = true)"
+  }
 }
