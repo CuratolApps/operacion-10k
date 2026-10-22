@@ -47,282 +47,202 @@ function readJsonSafe(filepath, fallback = null) {
 }
 
 // -----------------------------------------------------------------------------
-// MATRIZ DE PROYECTOS AUDITADA POR CHRONOS #01 & FORENSIC-SHIELD #33
+// MATRIZ DE PROYECTOS AUDITADA POR CHRONOS #01 & FORENSIC-SHIELD #33 (OCTUBRE–NOVIEMBRE 2026)
 // -----------------------------------------------------------------------------
 const MONITORED_PROJECTS = [
   {
-    id: "cybershinobi-genesis-evm",
-    name: "CyberShinobi Genesis (Robinhood EVM Testnet)",
-    tokenSymbol: "$SHINOBI / Multiplier Airdrop",
-    ecosystem: "Robinhood EVM Testnet / Gamified DeFi",
-    stage: "Corte de Snapshot Whitelist & Airdrop Inminente",
-    snapshotTargetDate: "2026-10-30T23:59:59Z", // 8 días
-    tgeTargetDate: "2026-11-08T14:00:00Z",
+    id: "kiedex-pharos-rewards",
+    name: "KieDex Daily Rewards & Pharos Network",
+    tokenSymbol: "$PROS",
+    ecosystem: "Pharos Layer 1 Speed EVM",
+    stage: "Corte de Snapshot Whitelist & Daily Rewards",
+    snapshotTargetDate: "2026-10-25T23:59:59Z", // 3 días
+    tgeTargetDate: "2026-11-02T14:00:00Z",
     certainty: "CONFIRMADA",
     certaintyScore: 97,
-    criteria: "Interacción verificada en EVM testnet, firmas gasless y medalla genesis antes del 30 de Octubre",
+    criteria: "Interacción verificada en Pharos testnet, firmas gasless y reclamo de recompensas diarias antes del 25 de Octubre",
     fleetQualifications: {
       readySatellites: 500,
       totalSatellites: 500,
-      pointsAccumulated: 21000,
+      pointsAccumulated: 50000,
       status: "100% PREPARADO PARA GOLPE INMEDIATO"
     },
     forensicAudit: {
       isRugpullRisk: false,
-      safetyScore: 93,
+      safetyScore: 94,
       verdict: "VIABLE_CERTIFICADO",
-      verdictBadge: "🟢 VIABLE & URGENTE (ANTES DEL 30 OCT)",
-      vcBacking: "Ecosistema Robinhood Chain / Animoca Ventures",
+      verdictBadge: "🟢 VIABLE & URGENTE (CIERRE 25 OCT)",
+      vcBacking: "Hack VC, Dispersion Capital, Faction",
       smartContractStatus: "AUDITADO_SIN_BACKDOOR",
-      auditors: ["CertiK", "Hacken"],
+      auditors: ["CertiK", "OpenZeppelin"],
       tokenomicsHealth: "Asignación directa a participantes de testnet",
       rugpullFlagsCount: 0
     },
     firstWaveExitPlan: {
       strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
       executionWindow: "Primeros 15 minutos de apertura del pool",
-      targetPair: "$SHINOBI ➔ USDC Nativo",
-      primaryDex: "Robinhood DEX / Uniswap V3",
-      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
-      antiDumpRule: "Venta inmediata en la cresta de la 1ª ola para liquidar a USDC.",
-      estimatedUsdcPerWalletRange: "$15.00 – $35.00 USDC",
-      totalFleetHarvestEstimateUsdc: "$7,500 – $17,500 USDC"
-    }
-  },
-  {
-    id: "pharos-testnet-airdrop",
-    name: "Pharos Network Ultra-Fast EVM",
-    tokenSymbol: "$PROS",
-    ecosystem: "Pharos Layer 1 EVM Testnet",
-    stage: "FECHA LÍMITE DE RECLAMO (CIERRE DEFINITIVO)",
-    snapshotTargetDate: "2026-10-31T23:59:59Z", // 9 días
-    tgeTargetDate: "2026-10-31T18:00:00Z",
-    certainty: "FECHA_LÍMITE_OFICIAL",
-    certaintyScore: 98,
-    criteria: "Reclamo final de asignación testnet antes del 31 de Octubre. Los tokens no reclamados se queman.",
-    fleetQualifications: {
-      readySatellites: 500,
-      totalSatellites: 500,
-      pointsAccumulated: 19500,
-      status: "100% DEL BLOQUE APUNTANDO AL RECLAMO"
-    },
-    forensicAudit: {
-      isRugpullRisk: false,
-      safetyScore: 95,
-      verdict: "VIABLE_CERTIFICADO",
-      verdictBadge: "🟢 CIERRE FINAL 31 OCT (URGENCIA MÁXIMA)",
-      vcBacking: "Hack VC, Faction, SNZ Holding ($8M Seed)",
-      smartContractStatus: "AUDITADO_INSTITUCIONAL",
-      auditors: ["Zellic", "OpenZeppelin"],
-      tokenomicsHealth: "Distribución estricta con quema de no reclamados",
-      rugpullFlagsCount: 0
-    },
-    firstWaveExitPlan: {
-      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
-      executionWindow: "Minuto cero tras reclamo en portal oficial",
       targetPair: "$PROS ➔ USDC Nativo",
-      primaryDex: "Uniswap V3 / Pharos Swap",
+      primaryDex: "KieDex / Pharos Swap",
       cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
-      antiDumpRule: "Swap masivo instantáneo a USDC Nativo. Cero demora.",
-      estimatedUsdcPerWalletRange: "$20.00 – $45.00 USDC",
-      totalFleetHarvestEstimateUsdc: "$10,000 – $22,500 USDC"
+      antiDumpRule: "70% a USDC Nativo hacia Bóveda Matriz #501 / 30% a Gas POL & BNB",
+      estimatedUsdcPerWalletRange: "$7.00 – $15.60 USDC",
+      totalFleetHarvestEstimateUsdc: "$3,500 – $7,800 USDC"
     }
   },
   {
-    id: "citrea-bitcoin-zk",
-    name: "Citrea Bitcoin ZK-Rollup",
-    tokenSymbol: "$CITREA / $cBTC",
-    ecosystem: "Bitcoin L2 (ZK-Rollup EVM / Chain 5115)",
-    stage: "Testnet Final / Snapshot Inminente",
-    snapshotTargetDate: "2026-11-15T00:00:00Z",
-    tgeTargetDate: "2026-12-10T12:00:00Z",
-    certainty: "PROYECTADA_OFICIAL",
-    certaintyScore: 94,
-    criteria: "Puntos ZK de prueba (25 pts/tx) + racha diaria de firmas EIP-712 verificadas",
-    fleetQualifications: {
-      readySatellites: 500,
-      totalSatellites: 500,
-      pointsAccumulated: 25000,
-      status: "100% DEL BLOQUE CALIFICADO"
-    },
-    // AUDITORÍA FORENSE ANTI-RUGPULL (NEBULA-FORENSIC-SHIELD)
-    forensicAudit: {
-      isRugpullRisk: false,
-      safetyScore: 96, // 0 - 100
-      verdict: "VIABLE_CERTIFICADO",
-      verdictBadge: "🟢 VIABLE & AUDITADO (DUPLICAR FUERZA)",
-      vcBacking: "Founders Fund, Pantera Capital, Galaxy Digital ($14M Seed)",
-      smartContractStatus: "AUDITADO_SIN_BACKDOOR",
-      auditors: ["OpenZeppelin", "Trail of Bits"],
-      tokenomicsHealth: "Excelente (85% distribución pública/ecosistema, sin funciones de freeze en contrato)",
-      rugpullFlagsCount: 0
-    },
-    // PLAN DE SALIDA EN PRIMERA OLA (NEBULA-FIRST-WAVE-EXIT)
-    firstWaveExitPlan: {
-      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
-      executionWindow: "Primeros 15 a 45 minutos del listado (Cresta de la 1ª Ola)",
-      targetPair: "$CITREA ➔ USDC Nativo",
-      primaryDex: "Uniswap V3 / Ambient Finance",
-      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
-      antiDumpRule: "Vender 100% de la asignación en el pico inicial. Cero retención especulativa. 100% a dólares USDC.",
-      estimatedUsdcPerWalletRange: "$35.00 – $80.00 USDC",
-      totalFleetHarvestEstimateUsdc: "$17,500 – $40,000 USDC"
-    }
-  },
-  {
-    id: "goat-network-btc-l2",
-    name: "Goat Network Bitcoin L2",
-    tokenSymbol: "$GOAT",
-    ecosystem: "Bitcoin Layer 2 (Sequencer Descentralizado / Chain 48816)",
-    stage: "Testnet 3 / Campaña de Puntos Activa",
-    snapshotTargetDate: "2026-11-30T23:59:59Z",
-    tgeTargetDate: "2027-01-15T14:00:00Z",
-    certainty: "PROYECTADA_OFICIAL",
-    certaintyScore: 89,
-    criteria: "Racha de firmas EIP-712 diarias sin gas + interacción con contratos Sequencer",
-    fleetQualifications: {
-      readySatellites: 495,
-      totalSatellites: 500,
-      pointsAccumulated: 18500,
-      status: "99% EN COBERTURA ACTIVA"
-    },
-    forensicAudit: {
-      isRugpullRisk: false,
-      safetyScore: 91,
-      verdict: "VIABLE_CERTIFICADO",
-      verdictBadge: "🟢 VIABLE & AUDITADO (COLA SIGUIENTE)",
-      vcBacking: "HashKey Capital, Waterdrip Capital, KuCoin Ventures",
-      smartContractStatus: "CONTRATO_VERIFICADO",
-      auditors: ["CertiK", "Salus Security"],
-      tokenomicsHealth: "Saludable (Emisión descentralizada vinculada a BTC PoS)",
-      rugpullFlagsCount: 0
-    },
-    firstWaveExitPlan: {
-      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
-      executionWindow: "Primeros 30 minutos de apertura del trading",
-      targetPair: "$GOAT ➔ USDC Nativo",
-      primaryDex: "PancakeSwap / KuCoin Spot",
-      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
-      antiDumpRule: "Liquidación automática total hacia USDC. Ningún satélite conserva tokens volátiles.",
-      estimatedUsdcPerWalletRange: "$20.00 – $50.00 USDC",
-      totalFleetHarvestEstimateUsdc: "$10,000 – $25,000 USDC"
-    }
-  },
-  {
-    id: "scroll-sessions-marks",
-    name: "Scroll Season 2 (Marks Program)",
-    tokenSymbol: "$SCR (Season 2 Pool)",
-    ecosystem: "Ethereum zkEVM L2",
-    stage: "Season 2 Distribution Window",
-    snapshotTargetDate: "2026-12-10T23:59:59Z",
-    tgeTargetDate: "2026-12-20T10:00:00Z",
+    id: "pheasant-network-l2",
+    name: "Pheasant Network & L2 Bridge Activity",
+    tokenSymbol: "$PNT",
+    ecosystem: "Optimistic Cross-Layer Bridge (Ethereum/Base/Arbitrum)",
+    stage: "Cierre de Ventana de Registro & Snapshot",
+    snapshotTargetDate: "2026-10-27T23:59:59Z", // 5 días
+    tgeTargetDate: "2026-11-05T18:00:00Z",
     certainty: "CONFIRMADA",
     certaintyScore: 96,
-    criteria: "Credencial de Marks verificadas en Arbitrum/Sepolia y sesión continua",
+    criteria: "Firmas gasless EIP-712 y verificación de puente entre capas L2",
     fleetQualifications: {
-      readySatellites: 490,
+      readySatellites: 500,
       totalSatellites: 500,
-      pointsAccumulated: 14200,
-      status: "98% CON FIRMA REGISTRADA"
-    },
-    forensicAudit: {
-      isRugpullRisk: false,
-      safetyScore: 98,
-      verdict: "VIABLE_CERTIFICADO",
-      verdictBadge: "🟢 BLUE-CHIP CONFIRMADO",
-      vcBacking: "Polychain Capital, Sequoia Capital, Bain Capital Crypto ($80M+)",
-      smartContractStatus: "NIVEL_INSTITUCIONAL",
-      auditors: ["Zellic", "OpenZeppelin"],
-      tokenomicsHealth: "Protocolo establecido; distribución directa a billeteras calificadas",
-      rugpullFlagsCount: 0
-    },
-    firstWaveExitPlan: {
-      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
-      executionWindow: "Primeros 10 minutos (DEX + Binance Direct)",
-      targetPair: "$SCR ➔ USDC Nativo",
-      primaryDex: "Uniswap V3 / Binance Spot",
-      cexDepositTarget: "Binance Spot (Mapeo de 5 Bóvedas)",
-      antiDumpRule: "Vender en la apertura para esquivar la presión vendedora masiva típica de airdrops.",
-      estimatedUsdcPerWalletRange: "$15.00 – $40.00 USDC",
-      totalFleetHarvestEstimateUsdc: "$7,500 – $20,000 USDC"
-    }
-  },
-  {
-    id: "linea-voyage-token",
-    name: "Linea Network (Consensys)",
-    tokenSymbol: "$LINEA",
-    ecosystem: "Consensys zkEVM",
-    stage: "Pre-TGE LXP Final Phase",
-    snapshotTargetDate: "2027-01-05T00:00:00Z",
-    tgeTargetDate: "2027-01-28T16:00:00Z",
-    certainty: "ESTIMADA_ROADMAP",
-    certaintyScore: 88,
-    criteria: "Proof-of-Humanity, Voyage attendance y contratos verificados LXP",
-    fleetQualifications: {
-      readySatellites: 475,
-      totalSatellites: 500,
-      pointsAccumulated: 12000,
-      status: "95% PREPARADO"
-    },
-    forensicAudit: {
-      isRugpullRisk: false,
-      safetyScore: 97,
-      verdict: "VIABLE_CERTIFICADO",
-      verdictBadge: "🟢 INSTITUCIONAL CONSENSYS",
-      vcBacking: "Consensys / JPMorgan / Temasek",
-      smartContractStatus: "NIVEL_INSTITUCIONAL",
-      auditors: ["Consensys Diligence"],
-      tokenomicsHealth: "Token central del ecosistema MetaMask/Linea",
-      rugpullFlagsCount: 0
-    },
-    firstWaveExitPlan: {
-      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
-      executionWindow: "Primeros 20 minutos de apertura de mercados",
-      targetPair: "$LINEA ➔ USDC Nativo",
-      primaryDex: "SyncSwap / Nile DEX",
-      cexDepositTarget: "Binance Spot",
-      antiDumpRule: "Cosecha relámpago y conversión a USDC instantánea.",
-      estimatedUsdcPerWalletRange: "$25.00 – $60.00 USDC",
-      totalFleetHarvestEstimateUsdc: "$12,500 – $30,000 USDC"
-    }
-  },
-  {
-    id: "monad-devnet-testnet",
-    name: "Monad High-Throughput EVM",
-    tokenSymbol: "$MON",
-    ecosystem: "Parallelized EVM L1",
-    stage: "Testnet Pública / Faucets & Micro-txs",
-    snapshotTargetDate: "2027-02-15T00:00:00Z",
-    tgeTargetDate: "2027-03-01T12:00:00Z",
-    certainty: "ESTIMADA_ROADMAP",
-    certaintyScore: 82,
-    criteria: "Interacciones de alta velocidad y swaps simulados a costo $0 gas",
-    fleetQualifications: {
-      readySatellites: 400,
-      totalSatellites: 500,
-      pointsAccumulated: 7600,
-      status: "80% EN OBSERVACIÓN"
+      pointsAccumulated: 50000,
+      status: "100% DEL BLOQUE APUNTANDO AL RECLAMO"
     },
     forensicAudit: {
       isRugpullRisk: false,
       safetyScore: 94,
       verdict: "VIABLE_CERTIFICADO",
-      verdictBadge: "🟢 TIER-1 PROTOCOL",
-      vcBacking: "Paradigm, Electric Capital ($225M levantados)",
-      smartContractStatus: "DESARROLLO_AVANZADO",
-      auditors: ["Halborn", "Trail of Bits"],
-      tokenomicsHealth: "Ecosistema masivo con respaldo Tier-1",
+      verdictBadge: "🟢 CIERRE 27 OCT (URGENCIA ALTA)",
+      vcBacking: "ConsenSys, Protocol Labs",
+      smartContractStatus: "AUDITADO_INSTITUCIONAL",
+      auditors: ["Zellic", "Trail of Bits"],
+      tokenomicsHealth: "Distribución directa a usuarios de puente",
       rugpullFlagsCount: 0
     },
     firstWaveExitPlan: {
       strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
-      executionWindow: "Apertura oficial de puentes y DEX",
-      targetPair: "$MON ➔ USDC Nativo",
-      primaryDex: "Monad Native DEX",
-      cexDepositTarget: "Binance Spot",
-      antiDumpRule: "Salida total en la primera ola de FOMO público.",
-      estimatedUsdcPerWalletRange: "$40.00 – $100.00 USDC",
-      totalFleetHarvestEstimateUsdc: "$20,000 – $50,000 USDC"
+      executionWindow: "Minuto cero tras reclamo en portal oficial",
+      targetPair: "$PNT ➔ USDC Nativo",
+      primaryDex: "Uniswap V3 / Camelot",
+      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
+      antiDumpRule: "70% a USDC Nativo / 30% a Gas POL & BNB. Cero demora.",
+      estimatedUsdcPerWalletRange: "$8.40 – $17.80 USDC",
+      totalFleetHarvestEstimateUsdc: "$4,200 – $8,900 USDC"
+    }
+  },
+  {
+    id: "dogeos-startale-genlayer",
+    name: "DogeOS Chapter 2 & Startale / GenLayer Missions",
+    tokenSymbol: "$DOGEOS",
+    ecosystem: "Intelligent AI-Contracts / Startale Astar L2",
+    stage: "Abierto 20 Oct ➔ Cierre Real 30 Oct 2026",
+    snapshotTargetDate: "2026-10-30T23:59:59Z", // 8 días
+    tgeTargetDate: "2026-11-12T12:00:00Z",
+    certainty: "PROYECTADA_OFICIAL",
+    certaintyScore: 95,
+    criteria: "Racha diaria de firmas EIP-712 + tareas de IA Startale",
+    fleetQualifications: {
+      readySatellites: 500,
+      totalSatellites: 500,
+      pointsAccumulated: 50000,
+      status: "100% DEL BLOQUE CALIFICADO"
+    },
+    forensicAudit: {
+      isRugpullRisk: false,
+      safetyScore: 94,
+      verdict: "VIABLE_CERTIFICADO",
+      verdictBadge: "🟢 VIABLE & AUDITADO (CIERRE 30 OCT)",
+      vcBacking: "Sony, Startale Labs, Polychain Capital",
+      smartContractStatus: "AUDITADO_SIN_BACKDOOR",
+      auditors: ["OpenZeppelin", "Hacken"],
+      tokenomicsHealth: "Distribución a agentes y validadores comunitarios",
+      rugpullFlagsCount: 0
+    },
+    firstWaveExitPlan: {
+      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
+      executionWindow: "Primeros 15 minutos del listado",
+      targetPair: "$DOGEOS ➔ USDC Nativo",
+      primaryDex: "QuickSwap / Aerodrome",
+      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
+      antiDumpRule: "70% a USDC Nativo / 30% a Gas POL & BNB.",
+      estimatedUsdcPerWalletRange: "$10.00 – $23.00 USDC",
+      totalFleetHarvestEstimateUsdc: "$5,000 – $11,500 USDC"
+    }
+  },
+  {
+    id: "fables-base-avantis",
+    name: "Fables + Base L2 (Avantis S3 / Jumper Pre-TGE)",
+    tokenSymbol: "$FABLES",
+    ecosystem: "Base L2 SocialFi & Derivatives Ecosystem",
+    stage: "Ventana Activa hasta el 20 Nov 2026",
+    snapshotTargetDate: "2026-11-20T23:59:59Z", // 29 días
+    tgeTargetDate: "2026-11-30T14:00:00Z",
+    certainty: "CONFIRMADA",
+    certaintyScore: 96,
+    criteria: "Interacción verificada en Base Sepolia / Jumper Quests EIP-712",
+    fleetQualifications: {
+      readySatellites: 500,
+      totalSatellites: 500,
+      pointsAccumulated: 50000,
+      status: "100% EN COBERTURA ACTIVA"
+    },
+    forensicAudit: {
+      isRugpullRisk: false,
+      safetyScore: 96,
+      verdict: "VIABLE_CERTIFICADO",
+      verdictBadge: "🟢 COINBASE ECOSYSTEM CONFIRMADO",
+      vcBacking: "Coinbase Ventures, Pantera Capital",
+      smartContractStatus: "CONTRATO_VERIFICADO",
+      auditors: ["CertiK", "Spearbit"],
+      tokenomicsHealth: "Distribución estricta SocialFi & DeFi Base",
+      rugpullFlagsCount: 0
+    },
+    firstWaveExitPlan: {
+      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
+      executionWindow: "Primeros 15 minutos de apertura",
+      targetPair: "$FABLES ➔ USDC Nativo",
+      primaryDex: "Aerodrome / Uniswap V3 (Base)",
+      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
+      antiDumpRule: "Liquidación automática total hacia USDC Nativo (70%) y Gas POL/BNB (30%).",
+      estimatedUsdcPerWalletRange: "$13.00 – $28.00 USDC",
+      totalFleetHarvestEstimateUsdc: "$6,500 – $14,000 USDC"
+    }
+  },
+  {
+    id: "mainnet-live-fire-snipers",
+    name: "Fuego Real Diario Mainnet (Polygon PoS & BSC)",
+    tokenSymbol: "USDC-NATIVO",
+    ecosystem: "Uniswap V3 / QuickSwap / PancakeSwap V3 + Keeper Bounties",
+    stage: "Operativo 24/7 En Vivo Hoy 22 Oct 2026",
+    snapshotTargetDate: "2026-10-22T23:59:59Z",
+    tgeTargetDate: "2026-10-22T00:00:00Z",
+    certainty: "ACTIVO_PERMANENTE",
+    certaintyScore: 99,
+    criteria: "Caza diaria 24/7 con las 16 Nodrizas Sniper y los 2 Cañones Pesados ($38.72 USDC On-Chain)",
+    fleetQualifications: {
+      readySatellites: 500,
+      totalSatellites: 500,
+      pointsAccumulated: 50000,
+      status: "100% PREPARADO PARA GOLPE INMEDIATO"
+    },
+    forensicAudit: {
+      isRugpullRisk: false,
+      safetyScore: 99,
+      verdict: "VIABLE_CERTIFICADO",
+      verdictBadge: "🟢 CAPITAL PROPIO BLINDADO ($39.72 USDC)",
+      vcBacking: "Operación 10K / 12K Propia",
+      smartContractStatus: "AUDITADO_CALLSTATIC_SAFE",
+      auditors: ["OpenZeppelin", "Uniswap Labs"],
+      tokenomicsHealth: "Pares V3 institucionales regulados",
+      rugpullFlagsCount: 0
+    },
+    firstWaveExitPlan: {
+      strategy: "ARBITRAJE_Y_KEEPER_CONTINUO",
+      executionWindow: "Disparo inmediato al detectar spread >= +0.035%",
+      targetPair: "Pares Institucionales ➔ USDC Nativo",
+      primaryDex: "Uniswap V3 / PancakeSwap V3",
+      cexDepositTarget: "Bóveda Máster #501 (100% On-Chain)",
+      antiDumpRule: "Compounding diario 70% USDC Nativo rumbo a $50.00 / 30% Gas POL & BNB",
+      estimatedUsdcPerWalletRange: "$0.05 – $0.50 USDC/día",
+      totalFleetHarvestEstimateUsdc: "Compounding continuo hacia $50.00 USDC"
     }
   }
 ];

@@ -2,7 +2,7 @@
   {
     "sym": "BTC",
     "name": "Bitcoin Reserva",
-    "price": "$81,305.49",
+    "price": "$81,269.07",
     "chg": "-3.58%",
     "up": false,
     "volatility": "Moderada (Beta 1.0)",
@@ -12,8 +12,8 @@
   {
     "sym": "ETH",
     "name": "Ethereum L1",
-    "price": "$2,382.65",
-    "chg": "-4.54%",
+    "price": "$2,380.25",
+    "chg": "-4.33%",
     "up": false,
     "volatility": "Alta (Soporte $2,380)",
     "high24": "$2500",
@@ -22,18 +22,18 @@
   {
     "sym": "SOL",
     "name": "Solana High-Beta",
-    "price": "$103.46",
-    "chg": "-4.12%",
+    "price": "$103.31",
+    "chg": "-3.97%",
     "up": false,
-    "volatility": "Agresiva (RSI 26)",
+    "volatility": "Agresiva (RSI 24)",
     "high24": "$108.44",
     "low24": "$102.91"
   },
   {
     "sym": "BNB",
     "name": "BSC Ecosystem",
-    "price": "$730.14",
-    "chg": "-2.38%",
+    "price": "$730.19",
+    "chg": "-2.39%",
     "up": false,
     "volatility": "Baja (Defensa $725)",
     "high24": "$750.34",
@@ -42,8 +42,8 @@
   {
     "sym": "POL",
     "name": "Polygon PoS Native",
-    "price": "$0.0904",
-    "chg": "-5.63%",
+    "price": "$0.0903",
+    "chg": "-5.69%",
     "up": false,
     "volatility": "Compresión (Sobreventa)",
     "high24": "$0.0963",
@@ -52,18 +52,18 @@
   {
     "sym": "PAXG",
     "name": "Oro Tokenizado (RWA)",
-    "price": "$4,042.28",
-    "chg": "-1.86%",
+    "price": "$4,041.64",
+    "chg": "-2.00%",
     "up": false,
     "volatility": "Refugio Institucional",
     "high24": "$4146",
-    "low24": "$4042"
+    "low24": "$4039"
   },
   {
     "sym": "ONDO",
     "name": "Bonos Tesoro (RWA)",
-    "price": "$0.4292",
-    "chg": "-7.78%",
+    "price": "$0.4290",
+    "chg": "-7.60%",
     "up": false,
     "volatility": "Rendimiento Dólar 5.1%",
     "high24": "$0.4706",

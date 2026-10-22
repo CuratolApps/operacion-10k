@@ -2682,7 +2682,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 /* ==========================================================================
    🎯 ESTACIÓN DE COMANDO SNIPER & 3 VECTORES DE FUEGO (OPERACIÓN 12K)
    ========================================================================== */
-.sniper-command-layout {
+.sniper-command-layout,
+.sniper-fire-vectors-panel {
   display: flex;
   flex-direction: column;
   height: 100%;

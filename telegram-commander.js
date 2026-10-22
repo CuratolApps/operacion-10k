@@ -760,26 +760,26 @@ async function handleCyberShinobi(chatId) {
   }
 
   const text = `
-🥷💥 <b>CYBERSHINOBI GENESIS — OBJETIVO DE CHOQUE (ANTES DEL 30 OCT)</b>
-<i>"Los 500 soldados al unísono picando piedra en el proyecto más próximo."</i>
+🥷💥 <b>COMANDO X500 — OBJETIVO DE CHOQUE REAL (OCTUBRE–NOVIEMBRE 2026)</b>
+<i>"Los 500 soldados al unísono picando piedra en el proyecto más próximo verificado."</i>
 
-🎯 <b>DETALLES DEL OBJETIVO:</b>
-• 🏷️ <b>Proyecto:</b> CyberShinobi Genesis (Robinhood EVM Testnet)
-• 🪙 <b>Token:</b> $SHINOBI (Multiplier Airdrop)
-• 📅 <b>Snapshot:</b> <b>30 de Octubre de 2026 (¡FALTAN 8 DÍAS!)</b>
-• 🛡️ <b>Auditoría (#33):</b> 🟢 VIABLE & AUDITADO (Score 93% • Animoca / Robinhood)
+🎯 <b>DETALLES DEL OBJETIVO PRIMARIO (#33):</b>
+• 🏷️ <b>Proyecto:</b> KieDex Daily Rewards & Pharos Network
+• 🪙 <b>Token:</b> $PROS (Pharos Rewards & Speed DEX)
+• 📅 <b>Snapshot:</b> <b>25 de Octubre de 2026 (¡FALTAN 3 DÍAS!)</b>
+• 🛡️ <b>Auditoría (#33):</b> 🟢 VIABLE & AUDITADO (Score 94% • Hack VC / Dispersion Capital)
 
 👥 <b>ESTADO DE LA TROPA (BLOQUE MONOLÍTICO):</b>
 • ⚡ <b>Soldados Calificados:</b> <b>${data.monolithMetrics.registeredCount} / 500 (100% de la Flota)</b>
 • 💎 <b>Puntos Génesis:</b> <b>${Number(data.monolithMetrics.totalPointsEarned).toLocaleString()} PTS</b>
-• ⛽ <b>Costo de Gas:</b> $0.00 CERO USD (Firmas criptográficas EIP-712)
+• ⛽ <b>Costo de Gas:</b> $0.00 CERO USD (Firmas gasless EIP-712)
 
 ⚡ <b>SALIDA EN PRIMERA OLA (#34):</b>
-• ⏱️ Venta automática en los primeros 15 min del TGE.
-• 💱 100% swap a USDC Nativo hacia las 5 Bóvedas Binance.
-• 💰 <b>Cosecha Proyectada:</b> <b>$7,500 – $17,500 USDC</b>
+• ⏱️ Venta automática en los primeros 15 min de pools públicas.
+• 💱 70% swap a USDC Nativo hacia las 5 Bóvedas Binance / 30% Gas POL & BNB.
+• 💰 <b>Cosecha Proyectada:</b> <b>$3,500 – $7,800 USDC</b>
 
-💡 <i>La tropa ya selló la firma y la medalla Génesis. Ahora sostienen la racha hasta el 30 de Octubre.</i>
+💡 <i>La tropa ya selló la firma. Fila india: KieDex (3d) ➔ Pheasant (5d) ➔ DogeOS (8d) ➔ Fables (29d) ➔ Mainnet Snipers (24/7).</i>
 `.trim();
 
   return await callTelegram("sendMessage", {

@@ -336,10 +336,12 @@ async function huntUpcomingLaunchesCalendar() {
     }
   };
 
-  // Guardar en telemetry/upcoming-launches-calendar.json
+  // Guardar en telemetry/upcoming-launches-calendar.json y airdrop-launch-calendar.json
   if (!fs.existsSync(TELEMETRY_DIR)) fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
   fs.writeFileSync(CALENDAR_FILE, JSON.stringify(finalPayload, null, 2), "utf8");
-  console.log(`💾 Calendario real guardado en: ${CALENDAR_FILE}`);
+  const AIRDROP_CALENDAR_FILE = path.join(TELEMETRY_DIR, "airdrop-launch-calendar.json");
+  fs.writeFileSync(AIRDROP_CALENDAR_FILE, JSON.stringify(finalPayload, null, 2), "utf8");
+  console.log(`💾 Calendario real guardado en: ${CALENDAR_FILE} y ${AIRDROP_CALENDAR_FILE}`);
 
   // Actualizar telemetry/fleet-telemetry.json
   try {

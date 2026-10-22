@@ -1,28 +1,65 @@
 {
   "schemaVersion": "3.2.0",
-  "lastRun": "2026-10-22T19:01:47.461Z",
-  "lastRunFormatted": "22/10/2026, 19:01:47 UTC",
+  "lastRun": "2026-10-22T19:15:34.565Z",
+  "lastRunFormatted": "22/10/2026, 19:15:34 UTC",
   "strikeType": "MONOLITHIC_PARALLEL_MULTI_LAUNCH_STRIKE",
   "upcomingLaunchesTracked": [
     {
-      "id": "citrea-bitcoin-l2",
-      "name": "Citrea Bitcoin L2",
-      "tokenSymbol": "$CTRA",
-      "ecosystem": "Bitcoin ZK-Rollup / BitVM Bridge",
-      "chainId": 5115,
-      "contractAddress": "0x334455667788990011223344556677889900aabb",
-      "formattedSnapshotDate": "28 Oct 2026 18:00 UTC",
-      "daysToSnapshot": 6,
-      "urgencyClass": "imminent",
-      "formattedTgeDate": "10 Nov 2026",
-      "daysToTge": 19,
+      "id": "mainnet-live-fire-snipers",
+      "name": "Fuego Real Diario Mainnet (Polygon PoS & BSC)",
+      "tokenSymbol": "USDC-NATIVO",
+      "ecosystem": "Uniswap V3 / QuickSwap / PancakeSwap V3 + Keeper Bounties",
+      "chainId": 137,
+      "contractAddress": "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+      "formattedSnapshotDate": "22 Oct 2026 24/7 EN VIVO",
+      "daysToSnapshot": 0,
+      "urgencyClass": "live",
+      "formattedTgeDate": "Activo Diario Permanente",
+      "daysToTge": 0,
       "isPrimaryStrikeTarget": true,
-      "vcBacking": "Galaxy Digital / Delphi Ventures",
-      "gasCostType": "$0.00 (Testnet Faucet)",
+      "vcBacking": "Capital Propio Blindado ($39.72 USDC)",
+      "gasCostType": "Ciclo Cerrado Atómico ($0 Riesgo con callStatic)",
+      "firstWaveExitPlan": {
+        "strategy": "ARBITRAJE_Y_KEEPER_CONTINUO",
+        "totalFleetHarvestEstimateUsdc": "Compounding Diario hacia $50.00 USDC / $110.00 USDC",
+        "pair": "Pares Institucionales ➔ USDC Nativo",
+        "destination": "Bóveda Máster #501 (100% On-Chain)",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 96,
+        "honeypotRisk": "0%",
+        "vcBacking": "Capital Propio Blindado ($39.72 USDC)",
+        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
+      "id": "kiedex-pharos-rewards",
+      "name": "KieDex Daily Rewards & Pharos",
+      "tokenSymbol": "$PROS",
+      "ecosystem": "Pharos High-Throughput L1 / KieDex",
+      "chainId": 8888,
+      "contractAddress": "0x1122334455667788990011223344556677889900",
+      "formattedSnapshotDate": "25 Oct 2026 23:59 UTC",
+      "daysToSnapshot": 3,
+      "urgencyClass": "imminent",
+      "formattedTgeDate": "02 Nov 2026",
+      "daysToTge": 11,
+      "isPrimaryStrikeTarget": true,
+      "vcBacking": "Hack VC / Dispersion Capital",
+      "gasCostType": "$0.00 (Pharos Testnet Daily Rewards)",
       "firstWaveExitPlan": {
         "strategy": "VENTA_MINUTO_CERO",
-        "totalFleetHarvestEstimateUsdc": "$4,500 – $9,800 USDC",
-        "pair": "$CTRA ➔ USDC Nativo",
+        "totalFleetHarvestEstimateUsdc": "$3,500 – $7,800 USDC",
+        "pair": "$PROS ➔ USDC Nativo",
         "destination": "Bóvedas Binance Spot #1 y #2",
         "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
       },
@@ -30,7 +67,7 @@
         "verdictBadge": "🟢 VIABLE & AUDITADO",
         "safetyScore": 94,
         "honeypotRisk": "0%",
-        "vcBacking": "Galaxy Digital / Delphi Ventures",
+        "vcBacking": "Hack VC / Dispersion Capital",
         "verdictDetails": "🟢 SEGURO & AUDITADO",
         "verifiedOnChain": true
       },
@@ -42,24 +79,61 @@
       }
     },
     {
-      "id": "goat-network-zkevm",
-      "name": "GOAT Network zk-EVM",
-      "tokenSymbol": "$GOAT",
-      "ecosystem": "Bitcoin L2 zk-EVM Yield Network",
-      "chainId": 2345,
-      "contractAddress": "0x55667788990011223344556677889900aabbccdd",
-      "formattedSnapshotDate": "31 Oct 2026 23:59 UTC",
-      "daysToSnapshot": 9,
-      "urgencyClass": "high",
-      "formattedTgeDate": "15 Nov 2026",
-      "daysToTge": 24,
+      "id": "pheasant-network-l2",
+      "name": "Pheasant Network & L2 Bridge Activity",
+      "tokenSymbol": "$PNT",
+      "ecosystem": "Optimistic Cross-Layer Bridge (Ethereum/Base/Arbitrum)",
+      "chainId": 8453,
+      "contractAddress": "0x2233445566778899001122334455667788990011",
+      "formattedSnapshotDate": "27 Oct 2026 23:59 UTC",
+      "daysToSnapshot": 5,
+      "urgencyClass": "imminent",
+      "formattedTgeDate": "05 Nov 2026",
+      "daysToTge": 14,
       "isPrimaryStrikeTarget": true,
-      "vcBacking": "OKX Ventures / KuCoin Ventures",
-      "gasCostType": "$0.00 (Gasless EIP-712 / Faucet)",
+      "vcBacking": "ConsenSys / Protocol Labs",
+      "gasCostType": "$0.00 (Gasless EIP-712 Attestations)",
       "firstWaveExitPlan": {
         "strategy": "VENTA_MINUTO_CERO",
-        "totalFleetHarvestEstimateUsdc": "$3,800 – $8,200 USDC",
-        "pair": "$GOAT ➔ USDC Nativo",
+        "totalFleetHarvestEstimateUsdc": "$4,200 – $8,900 USDC",
+        "pair": "$PNT ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #2 y #3",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 94,
+        "honeypotRisk": "0%",
+        "vcBacking": "ConsenSys / Protocol Labs",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
+      "id": "dogeos-startale-genlayer",
+      "name": "DogeOS Chapter 2 & Startale / GenLayer Missions",
+      "tokenSymbol": "$DOGEOS",
+      "ecosystem": "Intelligent AI-Contracts / Startale Astar L2",
+      "chainId": 592,
+      "contractAddress": "0x3344556677889900112233445566778899002233",
+      "formattedSnapshotDate": "30 Oct 2026 23:59 UTC",
+      "daysToSnapshot": 8,
+      "urgencyClass": "high",
+      "formattedTgeDate": "12 Nov 2026",
+      "daysToTge": 21,
+      "isPrimaryStrikeTarget": true,
+      "vcBacking": "Sony / Startale Labs / Polychain",
+      "gasCostType": "$0.00 (Testnet Missions & Daily Streak)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$5,000 – $11,500 USDC",
+        "pair": "$DOGEOS ➔ USDC Nativo",
         "destination": "Bóvedas Binance Spot #3 y #4",
         "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
       },
@@ -67,7 +141,7 @@
         "verdictBadge": "🟢 VIABLE & AUDITADO",
         "safetyScore": 94,
         "honeypotRisk": "0%",
-        "vcBacking": "OKX Ventures / KuCoin Ventures",
+        "vcBacking": "Sony / Startale Labs / Polychain",
         "verdictDetails": "🟢 SEGURO & AUDITADO",
         "verifiedOnChain": true
       },
@@ -79,144 +153,33 @@
       }
     },
     {
-      "id": "base-onchain-summer-drops",
-      "name": "Base Onchain Summer & Drops",
-      "tokenSymbol": "$BUILD-BASE",
-      "ecosystem": "Base L2 (Coinbase Superchain)",
+      "id": "fables-base-avantis",
+      "name": "Fables + Base L2 (Avantis S3 / Jumper Pre-TGE)",
+      "tokenSymbol": "$FABLES",
+      "ecosystem": "Base L2 SocialFi & Derivatives Ecosystem",
       "chainId": 8453,
       "contractAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-      "formattedSnapshotDate": "05 Nov 2026 00:00 UTC",
-      "daysToSnapshot": 14,
-      "urgencyClass": "high",
-      "formattedTgeDate": "20 Nov 2026",
-      "daysToTge": 29,
-      "isPrimaryStrikeTarget": false,
-      "vcBacking": "Coinbase Ventures / Base Ecosystem Fund",
-      "gasCostType": "$0.00 (Base Sepolia / EIP-712)",
-      "firstWaveExitPlan": {
-        "strategy": "VENTA_MINUTO_CERO",
-        "totalFleetHarvestEstimateUsdc": "$5,000 – $12,000 USDC",
-        "pair": "$BUILD ➔ USDC Nativo",
-        "destination": "Bóvedas Binance Spot #1 a #5",
-        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
-      },
-      "forensicAudit": {
-        "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
-        "honeypotRisk": "0%",
-        "vcBacking": "Coinbase Ventures / Base Ecosystem Fund",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
-        "verifiedOnChain": true
-      },
-      "fleetAction": {
-        "soldiersAssigned": 500,
-        "boxesParticipating": 5,
-        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
-        "costUsd": "$0.00 Gas Consumido"
-      }
-    },
-    {
-      "id": "arbitrum-stylus-quests",
-      "name": "Arbitrum Stylus & Orbit Quests",
-      "tokenSymbol": "$STYLUS",
-      "ecosystem": "Arbitrum One / Nitro L2",
-      "chainId": 42161,
-      "contractAddress": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
-      "formattedSnapshotDate": "12 Nov 2026 12:00 UTC",
-      "daysToSnapshot": 21,
-      "urgencyClass": "normal",
-      "formattedTgeDate": "25 Nov 2026",
-      "daysToTge": 34,
-      "isPrimaryStrikeTarget": false,
-      "vcBacking": "Offchain Labs / Lightspeed Venture Partners",
-      "gasCostType": "$0.00 (Arbitrum Sepolia / EIP-712)",
-      "firstWaveExitPlan": {
-        "strategy": "VENTA_MINUTO_CERO",
-        "totalFleetHarvestEstimateUsdc": "$4,000 – $8,500 USDC",
-        "pair": "$STYLUS ➔ USDC Nativo",
-        "destination": "Bóvedas Binance Spot #1 y #5",
-        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
-      },
-      "forensicAudit": {
-        "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
-        "honeypotRisk": "0%",
-        "vcBacking": "Offchain Labs / Lightspeed Venture Partners",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
-        "verifiedOnChain": true
-      },
-      "fleetAction": {
-        "soldiersAssigned": 500,
-        "boxesParticipating": 5,
-        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
-        "costUsd": "$0.00 Gas Consumido"
-      }
-    },
-    {
-      "id": "optimism-superchain-drops",
-      "name": "Optimism Superchain",
-      "tokenSymbol": "$OP-SUPER",
-      "ecosystem": "Optimism Collective / Superchain L2",
-      "chainId": 10,
-      "contractAddress": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
-      "formattedSnapshotDate": "18 Nov 2026 00:00 UTC",
-      "daysToSnapshot": 27,
-      "urgencyClass": "normal",
-      "formattedTgeDate": "28 Nov 2026",
-      "daysToTge": 37,
-      "isPrimaryStrikeTarget": false,
-      "vcBacking": "Paradigm / a16z crypto",
-      "gasCostType": "$0.00 (Optimism Sepolia / EIP-712)",
-      "firstWaveExitPlan": {
-        "strategy": "VENTA_MINUTO_CERO",
-        "totalFleetHarvestEstimateUsdc": "$6,000 – $14,000 USDC",
-        "pair": "$OP-SUPER ➔ USDC Nativo",
-        "destination": "Bóvedas Binance Spot #1 a #5",
-        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
-      },
-      "forensicAudit": {
-        "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
-        "honeypotRisk": "0%",
-        "vcBacking": "Paradigm / a16z crypto",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
-        "verifiedOnChain": true
-      },
-      "fleetAction": {
-        "soldiersAssigned": 500,
-        "boxesParticipating": 5,
-        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
-        "costUsd": "$0.00 Gas Consumido"
-      }
-    },
-    {
-      "id": "monad-berachain-public",
-      "name": "Monad & Berachain Public Testnet",
-      "tokenSymbol": "$MONAD-BERA",
-      "ecosystem": "High-Throughput Parallel EVM & PoL",
-      "chainId": 10143,
-      "contractAddress": "0x1122334455667788990011223344556677889900",
       "formattedSnapshotDate": "20 Nov 2026 23:59 UTC",
       "daysToSnapshot": 29,
       "urgencyClass": "normal",
-      "formattedTgeDate": "01 Dic 2026",
-      "daysToTge": 40,
+      "formattedTgeDate": "30 Nov 2026",
+      "daysToTge": 39,
       "isPrimaryStrikeTarget": false,
-      "vcBacking": "Paradigm / Polychain Capital / Brevan Howard",
-      "gasCostType": "$0.00 (Gasless EIP-712 Testnet)",
+      "vcBacking": "Coinbase Ventures / Pantera Capital",
+      "gasCostType": "$0.00 (Base Sepolia / Jumper Quests EIP-712)",
       "firstWaveExitPlan": {
         "strategy": "VENTA_MINUTO_CERO",
-        "totalFleetHarvestEstimateUsdc": "$10,000 – $25,000 USDC",
-        "pair": "$MON ➔ USDC Nativo",
-        "destination": "Bóvedas Binance Spot #1 a #5",
+        "totalFleetHarvestEstimateUsdc": "$6,500 – $14,000 USDC",
+        "pair": "$FABLES ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #4 y #5",
         "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 94,
+        "safetyScore": 96,
         "honeypotRisk": "0%",
-        "vcBacking": "Paradigm / Polychain Capital / Brevan Howard",
-        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "vcBacking": "Coinbase Ventures / Pantera Capital",
+        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -239,13 +202,13 @@
       "5": 100
     },
     "boxLatencyMs": {
-      "1": 3337,
-      "2": 2716,
-      "3": 2168,
-      "4": 1607,
-      "5": 1057
+      "1": 3484,
+      "2": 2853,
+      "3": 2312,
+      "4": 1760,
+      "5": 1094
     },
-    "totalPointsEarned": 300000,
+    "totalPointsEarned": 250000,
     "capitalCostGas": "$0.00 USD (100% Gasless EIP-712 & Testnets)"
   },
   "firstWaveExitProtocol": {
@@ -267,180 +230,170 @@
       "formattedId": "#001",
       "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0x4cf4e8362e77dc07255a899558c6064629cee4caccba9d8d7c659f3d91b66ac1",
+      "proofHash": "0x851acb7e3499b19fd0dbb5cdf064f6b588915837423fb4cf1093e7a9cca29cee",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.426Z"
+      "timestamp": "2026-10-22T19:15:34.538Z"
     },
     {
       "index": 2,
       "formattedId": "#002",
       "address": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0xa6996915ad1970c07c7c6d7613fe289e756a1612f621465c181c7b816321c936",
+      "proofHash": "0x4913a2135f220ca15ea084656b93c5db6a64cecd6905d2d456073da11860f459",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 3,
       "formattedId": "#003",
       "address": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0x363800f73a7e4cc42931711ce1982322ed48670ddc7ff3cf2a1c270e6417ec74",
+      "proofHash": "0x2ae7897dc7a0e030ca5c42cf4fe3226391d5c7522a9454ea01083cd428c08e06",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 4,
       "formattedId": "#004",
       "address": "0x447bE3C9a8E97ca371d7cD8d8AEFd562fd15c582",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0xf5a88bda480c17e3a7da86dac4ef0cedafffa524d67f97b66f800e7cc58fa8ca",
+      "proofHash": "0x08d57c345198d0e7fc778e934cab77b32a373164140a1d029e9efc4371c6f411",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 5,
       "formattedId": "#005",
       "address": "0xD6Bf034E659fD3D3188951536B55B37e7537Af11",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0x183aab69a3e32cfb596a5767fd5a1db7641f8cc9580797b6c24a001e06ce14d2",
+      "proofHash": "0x915e74a58a2ed76ab7f0ac97d4594c9b47b89d8c548c436b046e77871abadb80",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 6,
       "formattedId": "#006",
       "address": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0x45c3ff099cebedaae06c09f5c74fea532342ec3b71fda9ee10925aad91f491d8",
+      "proofHash": "0xb6267e9557e8c754948bb59c8cb57b807d724ff241693038f7c9098498ceb682",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 7,
       "formattedId": "#007",
       "address": "0xB2872d2B0BB4f0aaAF0B3Ce4Fdb4602263b0b797",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0xc931cf807e081c9a73834e54f41f91744083703d5d46123f28c9f4f0fcaa6a23",
+      "proofHash": "0x5963d83de59e7197b5604dda2b902303fede1893a58750000854c8c7d0f8d504",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 8,
       "formattedId": "#008",
       "address": "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0x2746bac9d27dab26c1a788dec69c548378a4dbefd422205d59752b40d0fed23f",
+      "proofHash": "0x25a8764e3c185afb61d7942083269a696607ec6e0084406dd962f5f1e5b44a69",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 9,
       "formattedId": "#009",
       "address": "0x22Cda40bD18364C5d1680083018FE52362642870",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0x5762dd4a8c775ca17e122815eff0d6dcf302d51c46a1dbd5727924dfce700c85",
+      "proofHash": "0x7e3a278160b2d4dcbe94db03637b11881c97aee9c49c8da1da5c96bcad4f31ac",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     },
     {
       "index": 10,
       "formattedId": "#010",
       "address": "0x87e46cca8bd4B9BeB013C3bbbb42e6e90B7C4F44",
       "boxId": 1,
-      "points": 600,
+      "points": 500,
       "targetsSigned": [
-        "$CTRA",
-        "$GOAT",
-        "$BUILD-BASE",
-        "$STYLUS",
-        "$OP-SUPER",
-        "$MONAD-BERA"
+        "USDC-NATIVO",
+        "$PROS",
+        "$PNT",
+        "$DOGEOS",
+        "$FABLES"
       ],
-      "proofHash": "0xebc14170ab4d8d769c57d98701871a5b5b95cc3a53100fecd56881092411c420",
+      "proofHash": "0x0d18054c9faef538018e7e32a70353e1bd456174663ba563a26dc5c8f1dfcaee",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:01:47.428Z"
+      "timestamp": "2026-10-22T19:15:34.539Z"
     }
   ]
 }
