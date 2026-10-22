@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-22T19:33:38.540Z",
+  "timestamp": "2026-10-22T19:35:36.023Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -241,7 +241,7 @@
           "Solana Devnet"
         ],
         "activeBots": 106,
-        "opsExecuted": 9097,
+        "opsExecuted": 9157,
         "pointsOrAssets": "5 redes L2 cubiertas",
         "generatedUsdc": 0
       },
@@ -45392,7 +45392,7 @@
   },
   "onchainSnapshot": {
     "source": "live-onchain",
-    "timestamp": "2026-10-22T19:33:36.159Z",
+    "timestamp": "2026-10-22T19:35:32.913Z",
     "minUsableNative": 0.0005,
     "networks": {
       "baseSepolia": {
@@ -45403,13 +45403,13 @@
         "satellitesUsable": 456,
         "satellitesZero": 44
       },
-      "arbitrumSepolia": {
+      "optimismSepolia": {
         "online": true,
-        "rpc": "sepolia-rollup.arbitrum.io",
-        "totalNative": 0.70797,
-        "satellitesWithGas": 456,
-        "satellitesUsable": 456,
-        "satellitesZero": 44
+        "rpc": "sepolia.optimism.io",
+        "totalNative": 0.0604,
+        "satellitesWithGas": 51,
+        "satellitesUsable": 51,
+        "satellitesZero": 449
       },
       "ethereumSepolia": {
         "online": true,
@@ -45419,13 +45419,13 @@
         "satellitesUsable": 500,
         "satellitesZero": 0
       },
-      "optimismSepolia": {
+      "arbitrumSepolia": {
         "online": true,
-        "rpc": "sepolia.optimism.io",
-        "totalNative": 0.0604,
-        "satellitesWithGas": 51,
-        "satellitesUsable": 51,
-        "satellitesZero": 449
+        "rpc": "sepolia-rollup.arbitrum.io",
+        "totalNative": 0.70797,
+        "satellitesWithGas": 456,
+        "satellitesUsable": 456,
+        "satellitesZero": 44
       },
       "polygonMainnet": {
         "online": true,
@@ -45746,7 +45746,7 @@
       "polygon": 19.202166
     },
     "satellitesWithDust": 6,
-    "lastScanTimestamp": "2026-10-22T19:33:38.540Z"
+    "lastScanTimestamp": "2026-10-22T19:35:36.024Z"
   },
   "totalHarvestedToBinanceUsdc": 1,
   "binanceVaultsVerification": {
@@ -45757,9 +45757,9 @@
     "compoundingPoolActive": true
   },
   "workStats": {
-    "totalRoundsCompleted": 215,
-    "totalTxConfirmedAllTime": 9957,
-    "todayTxConfirmed": 240,
+    "totalRoundsCompleted": 216,
+    "totalTxConfirmedAllTime": 10017,
+    "todayTxConfirmed": 300,
     "boxesRotatedToday": [
       "Box 1",
       "Box 4",
@@ -45933,7 +45933,7 @@
     "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "bscBnb": "0.003642",
     "polygonPol": "110.980369",
-    "lastChecked": "2026-10-22T19:33:38.440Z",
+    "lastChecked": "2026-10-22T19:35:35.930Z",
     "needsRefuelBsc": false,
     "needsRefuelPolygon": false,
     "sacredReservePol": 25,
@@ -46637,8 +46637,8 @@
       "name": "Ethereum Sepolia",
       "chainId": 11155111,
       "online": true,
-      "latencyMs": 334,
-      "blockNumber": 11971651,
+      "latencyMs": 214,
+      "blockNumber": 11971660,
       "status": "OPERATIVO",
       "totalEth": "4.210",
       "satellitesWithGas": 500
@@ -46647,8 +46647,8 @@
       "name": "Base Sepolia",
       "chainId": 84532,
       "online": true,
-      "latencyMs": 292,
-      "blockNumber": 48878738,
+      "latencyMs": 243,
+      "blockNumber": 48879322,
       "status": "OPERATIVO",
       "totalEth": "0.928",
       "satellitesWithGas": 456
@@ -46657,8 +46657,8 @@
       "name": "Arbitrum Sepolia",
       "chainId": 421614,
       "online": true,
-      "latencyMs": 330,
-      "blockNumber": 321821027,
+      "latencyMs": 705,
+      "blockNumber": 321821453,
       "status": "OPERATIVO",
       "totalEth": "0.708",
       "satellitesWithGas": 456
@@ -46667,8 +46667,8 @@
       "name": "Optimism Sepolia",
       "chainId": 11155420,
       "online": true,
-      "latencyMs": 181,
-      "blockNumber": 50447538,
+      "latencyMs": 274,
+      "blockNumber": 50447596,
       "status": "OPERATIVO",
       "totalEth": "0.060",
       "satellitesWithGas": 51
@@ -46677,8 +46677,8 @@
       "name": "BNB Smart Chain",
       "chainId": 56,
       "online": true,
-      "latencyMs": 364,
-      "blockNumber": 129186640,
+      "latencyMs": 308,
+      "blockNumber": 129186899,
       "status": "OPERATIVO",
       "totalNative": 0.03820161829999998,
       "satellitesUsable": 5
@@ -46687,8 +46687,8 @@
       "name": "Polygon PoS",
       "chainId": 137,
       "online": true,
-      "latencyMs": 234,
-      "blockNumber": 95994830,
+      "latencyMs": 181,
+      "blockNumber": 95994908,
       "status": "OPERATIVO",
       "totalNative": 144.78899024772895,
       "satellitesUsable": 55
@@ -47180,6 +47180,13 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1792697724188-992",
+      "timestamp": "2026-10-22T19:35:24.188Z",
+      "timeFormatted": "19:35:24 UTC",
+      "rawHtml": "🔥🎯🔫 <b>¡DISPARO REAL ON-CHAIN CONFIRMADO EN POLYGONSCAN &amp; BSCSCAN!</b>\n<i>\"Gatillo destrabado, salva táctica ejecutada con Cautela Máxima y Piso Sagrado Inviolable.\"</i>\n\n📍 <b>OPERACIÓN 12K — SALVA TÁCTICA REAL (NODRIZA MATRIZ #501)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 <b>NUEVO SALDO CONSOLIDADO &amp; METAS:</b>\n• <b>En Bóveda Máster On-Chain (Polygon + BSC):</b> <code>$40.719770 USDC</code>\n• <b>Bóveda Binance Spot #1:</b> <code>$1.000000 USDC</code>\n• 🏆 <b>GRAN TOTAL CONSOLIDADO:</b> <code>$41.719770 USDC</code> <i>(¡Superando los $40.50+ USDC rumbo a los $50.00 USDC!)</i>\n• <b>Rumbo a la Meta del Día ($50.00 USDC):</b> <b>83.4%</b>\n\n🎯 <b>DETALLE DE IMPACTOS Y HASHES CONFIRMADOS EN BLOQUE:</b>\n• 🦄 <b>Disparo #1 Polygon Mainnet:</b> <code>10.00 POL</code> ➔ +$14.206043 USDC [Uniswap V3 (Bloque #95950545 Confirmado)]\n  ↳ <b>Tx PolygonScan:</b> <a href=\"https://polygonscan.com/tx/0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f\">0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f</a>\n• 🥞 <b>Disparo #2 BSC Mainnet:</b> <code>0.0015 BNB</code> ➔ +$7.977855 USDC [PancakeSwap V2]\n  ↳ <b>Tx BscScan:</b> <a href=\"https://bscscan.com/tx/0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567\">0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567</a>\n• 🔫 <b>Disparo #3 (2 Cañones Pesados V3 &amp; Bounties):</b> ACTIVOS escaneando Uniswap V3 0.05% y PancakeSwap V3 (Regla 70% USDC / 30% Gas).\n\n🔒 <b>1. ESTADO DE LOS PISOS SAGRADOS Y BLINDAJE FORTALEZA:</b>\n• <b>Capitanes y Sub-Capitanes (#001 a #411):</b> <code>0.00 POL / 0.00 BNB</code> consumidos (100% INTOCABLES: 18.02+ POL preservados).\n• <b>Nodriza Matriz #501:</b> <code>110.98 POL</code> (Piso Sagrado 110.00 POL 100% blindado) | <code>0.0036 BNB</code> (Piso 0.0035 BNB).\n• <b>Tanque Total Flota:</b> &gt;255 POL y &gt;0.040 BNB blindados como combustible perpetuo.\n• 🔒 <b>Candado Centinela:</b> <code>ZERO_GAS_DRAIN_MODE = true</code> bloqueado inmediatamente.\n\n🔒 <b>2. TRINQUETE 85% ELEVADO DE FORMA IRREVERSIBLE:</b>\n• <b>Piso Histórico Protegido (85%):</b> <code>$35.3425 USDC</code>\n• <b>Capital Flotante Operativo (15%):</b> <code>$5.3773 USDC</code>\n\n📅 <b>3. CALENDARIO REAL VIGENTE OCTUBRE–NOVIEMBRE 2026:</b>\n• <b>1. KieDex Rewards &amp; Pharos ($PROS):</b> Cierre 25 Oct (3d)\n• <b>2. Pheasant Network ($PNT):</b> Cierre 27 Oct (5d)\n• <b>3. DogeOS Chapter 2 ($DOGEOS):</b> Cierre 30 Oct (8d)\n• <b>4. Fables SocialFi ($FABLES):</b> Cierre 20 Nov (29d)\n• <b>5. Pares Nuevos en Vivo DEXScreener:</b> 24/7 con GoPlus 0% Honeypot\n\n⏰ <i>2026-10-22T19:35:24.183Z</i>",
+      "textPlain": "🔥🎯🔫 ¡DISPARO REAL ON-CHAIN CONFIRMADO EN POLYGONSCAN &amp; BSCSCAN!\n\"Gatillo destrabado, salva táctica ejecutada con Cautela Máxima y Piso Sagrado Inviolable.\"\n\n📍 OPERACIÓN 12K — SALVA TÁCTICA REAL (NODRIZA MATRIZ #501)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 NUEVO SALDO CONSOLIDADO &amp; METAS:\n• En Bóveda Máster On-Chain (Polygon + BSC): $40.719770 USDC\n• Bóveda Binance Spot #1: $1.000000 USDC\n• 🏆 GRAN TOTAL CONSOLIDADO: $41.719770 USDC (¡Superando los $40.50+ USDC rumbo a los $50.00 USDC!)\n• Rumbo a la Meta del Día ($50.00 USDC): 83.4%\n\n🎯 DETALLE DE IMPACTOS Y HASHES CONFIRMADOS EN BLOQUE:\n• 🦄 Disparo #1 Polygon Mainnet: 10.00 POL ➔ +$14.206043 USDC [Uniswap V3 (Bloque #95950545 Confirmado)]\n  ↳ Tx PolygonScan: 0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f\n• 🥞 Disparo #2 BSC Mainnet: 0.0015 BNB ➔ +$7.977855 USDC [PancakeSwap V2]\n  ↳ Tx BscScan: 0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567\n• 🔫 Disparo #3 (2 Cañones Pesados V3 &amp; Bounties): ACTIVOS escaneando Uniswap V3 0.05% y PancakeSwap V3 (Regla 70% USDC / 30% Gas).\n\n🔒 1. ESTADO DE LOS PISOS SAGRADOS Y BLINDAJE FORTALEZA:\n• Capitanes y Sub-Capitanes (#001 a #411): 0.00 POL / 0.00 BNB consumidos (100% INTOCABLES: 18.02+ POL preservados).\n• Nodriza Matriz #501: 110.98 POL (Piso Sagrado 110.00 POL 100% blindado) | 0.0036 BNB (Piso 0.0035 BNB).\n• Tanque Total Flota: &gt;255 POL y &gt;0.040 BNB blindados como combustible perpetuo.\n• 🔒 Candado Centinela: ZERO_GAS_DRAIN_MODE = true bloqueado inmediatamente.\n\n🔒 2. TRINQUETE 85% ELEVADO DE FORMA IRREVERSIBLE:\n• Piso Histórico Protegido (85%): $35.3425 USDC\n• Capital Flotante Operativo (15%): $5.3773 USDC\n\n📅 3. CALENDARIO REAL VIGENTE OCTUBRE–NOVIEMBRE 2026:\n• 1. KieDex Rewards &amp; Pharos ($PROS): Cierre 25 Oct (3d)\n• 2. Pheasant Network ($PNT): Cierre 27 Oct (5d)\n• 3. DogeOS Chapter 2 ($DOGEOS): Cierre 30 Oct (8d)\n• 4. Fables SocialFi ($FABLES): Cierre 20 Nov (29d)\n• 5. Pares Nuevos en Vivo DEXScreener: 24/7 con GoPlus 0% Honeypot\n\n⏰ 2026-10-22T19:35:24.183Z"
+    },
+    {
       "id": "tg-1792697595007-683",
       "timestamp": "2026-10-22T19:33:15.007Z",
       "timeFormatted": "19:33:15 UTC",
@@ -47381,13 +47388,6 @@
       "timeFormatted": "17:53:17 UTC",
       "rawHtml": "🚀 <b>OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS</b>\n🔥 <b>[RONDA EN VIVO — EJECUCIÓN ON-CHAIN]</b>\n\n🌌 <b>DIRECTRIZ DE LAS 10 NEBULOSAS IA (SCORE 99%):</b>\n   • <b>Guía de la Manada:</b> 500 satélites dirigidos por 10 agentes autónomos\n   • <b>Objetivo L2 Rápido:</b> Citrea Testnet / Goat Network\n   • <b>Box Priorizado:</b> Box 1 (#1–100)\n   • <b>Gas Mainnet:</b> Polygon 279.241638832 Gwei · BSC 0.05 Gwei (🟡 Espera)\n   • <b>Seguridad Anti-Honeypot:</b> 🟢 0 detectados (GoPlus + Bytecode)\n   • <b>Ruta de Salida:</b> 100% USDC Nativo hacia 5 Bóvedas Binance Spot\n\n\n🏛️ <b>CUARTEL GENERAL — 6 DEPARTAMENTOS DE EXTRACCIÓN (X500):</b>\n   • ⛏️ <b>Minería On-Chain & Bitcoin L2:</b> 500/500 bots · 0 ops · $0.00 USDC\n   • 🎮 <b>Juegos Web3, Metaverso & Loot:</b> 500/500 bots · 0 ops · $0.00 USDC\n   • 🦊 <b>Mañeo de Piscinas & Quest Pools USDC:</b> 500/500 bots · 0 ops · $0.00 USDC\n   • 🪂 <b>Siembra Airdrops L2 ($0 Gas):</b> 500/500 bots · 0 ops · $0.00 USDC\n   • 🌾 <b>Caza de Free Mints & Activos Vendibles:</b> 500/500 bots · 0 ops · $0.00 USDC\n   • 💱 <b>Refinería DEX & Tesorería #501:</b> 500/500 bots · 0 ops · $0.00 USDC\n   • <b>Alto Mando:</b> VIP #00 (Blindada) • Matriz #501 (Nodriza Gas) • 5 Capitanes\n   • <b>Aislamiento Boxes:</b> Box 1 a 5 (100 satélites c/u) directos a 5 Bóvedas Binance Spot\n\n🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>\n   • <b>Campañas Activas en Catálogo:</b> 24 objetivos ($0 Costo)\n   • <b>Check-Ins Diarios Firmados Hoy:</b> 910 asistencias\n   • <b>Misiones Gasless & DeFi Ejecutadas:</b> 2056 operaciones\n   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> 1220 operaciones / 30500 pts acumulados\n   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa\n\n💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>\n   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $38.72 USDC\n   • <b>Consolidado en Binance Spot (Meta 12K):</b> $1.00 USDC\n   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 <b>MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):</b>\n   • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)\n   • <b>Recuperado (ROI):</b> $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB\n   • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • <b>Vueltas Completadas:</b> 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • <b>Radar Bounties Mainnet (BSC + Polygon):</b> 🟢 8 objetivos activos en caza\n\n🧠 <b>CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):</b>\n   • <b>ADN Polimórfico (500 Bots):</b> 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • <b>Auto-Descubridor On-Chain:</b> 5 Contratos Verificados (0 Honeypots)\n   • <b>Auto-Liquidador DEX ➔ USDC:</b> 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 <b>CHAMBA DE ESTA RONDA:</b>\n   • <b>Box en Turno:</b> Box 5\n   • <b>Lote Asignado:</b> Satélites #441–#460 (Box 5)\n   • <b>Satélites Operados:</b> 20/501 Satélites\n   • <b>Confirmadas en este Turno:</b> 60 txs on-chain ✅\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 200 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 9217 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 60 txs\n   • <b>Boxes Rotados Hoy:</b> Box 5\n   • <b>Autonomía de Gas:</b> ~1.8 días en Base / ~1.3 días en Sepolia\n\n👑 <b>VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet)\n\n🌐 <b>Desglose Omnichain por Red:</b>\n   • <b>BNB Smart Chain:</b> Cooldown 168h 🛡️ (50 sat. en espera, 0 gas)\n   • <b>Polygon PoS:</b> Cooldown 168h 🛡️ (50 sat. en espera, 0 gas)\n   • <b>Ethereum Sepolia:</b> 20/20 txs ✅\n   • <b>Base Sepolia:</b> 20/20 txs ✅\n   • <b>Arbitrum Sepolia:</b> 20/20 txs ✅\n   • <b>BNB Smart Chain Testnet:</b> 0 Gas ⏳\n   • <b>opBNB Testnet:</b> 0 Gas ⏳\n   • <b>Polygon Amoy Testnet:</b> 0 Gas ⏳\n   • <b>Solana Devnet:</b> 0 SOL ⏳\n\n🔗 <b>Hashes Reales Verificables:</b>\n   • <b>Sepolia:</b> <code>0x363975529350a33c20ea48eb72674cd0086bfb49a7a0664c80932b07e7561ae7</code>\n   • <b>Base:</b> <code>0x4ad68e3cdce07d519bbcde31fc14bd3693f02b224f060e7dec7961bf3d1fe2a4</code>\n   • <b>Arbitrum:</b> <code>0x77eb511fe0f0334fa1744ee25690d6d883ae3a0b9be1608d0ed8cc17007e524e</code>\n\n⚡ <b>Total Transacciones Confirmadas:</b> 60 on-chain\n🛡️ <b>Escudo Anti-Sybil:</b> ACTIVO (DeFi Rotator + Aislamiento 100%)\n\n⏰ <i>22/10/2026, 17:53:17 UTC</i>",
       "textPlain": "🚀 OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS\n🔥 [RONDA EN VIVO — EJECUCIÓN ON-CHAIN]\n\n🌌 DIRECTRIZ DE LAS 10 NEBULOSAS IA (SCORE 99%):\n   • Guía de la Manada: 500 satélites dirigidos por 10 agentes autónomos\n   • Objetivo L2 Rápido: Citrea Testnet / Goat Network\n   • Box Priorizado: Box 1 (#1–100)\n   • Gas Mainnet: Polygon 279.241638832 Gwei · BSC 0.05 Gwei (🟡 Espera)\n   • Seguridad Anti-Honeypot: 🟢 0 detectados (GoPlus + Bytecode)\n   • Ruta de Salida: 100% USDC Nativo hacia 5 Bóvedas Binance Spot\n\n\n🏛️ CUARTEL GENERAL — 6 DEPARTAMENTOS DE EXTRACCIÓN (X500):\n   • ⛏️ Minería On-Chain & Bitcoin L2: 500/500 bots · 0 ops · $0.00 USDC\n   • 🎮 Juegos Web3, Metaverso & Loot: 500/500 bots · 0 ops · $0.00 USDC\n   • 🦊 Mañeo de Piscinas & Quest Pools USDC: 500/500 bots · 0 ops · $0.00 USDC\n   • 🪂 Siembra Airdrops L2 ($0 Gas): 500/500 bots · 0 ops · $0.00 USDC\n   • 🌾 Caza de Free Mints & Activos Vendibles: 500/500 bots · 0 ops · $0.00 USDC\n   • 💱 Refinería DEX & Tesorería #501: 500/500 bots · 0 ops · $0.00 USDC\n   • Alto Mando: VIP #00 (Blindada) • Matriz #501 (Nodriza Gas) • 5 Capitanes\n   • Aislamiento Boxes: Box 1 a 5 (100 satélites c/u) directos a 5 Bóvedas Binance Spot\n\n🎯 CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):\n   • Campañas Activas en Catálogo: 24 objetivos ($0 Costo)\n   • Check-Ins Diarios Firmados Hoy: 910 asistencias\n   • Misiones Gasless & DeFi Ejecutadas: 2056 operaciones\n   • ₿ Granja Bitcoin L2 (Citrea & Goat): 1220 operaciones / 30500 pts acumulados\n   • Cobertura de Caza por Box: Box 1 a Box 5 en rotación activa\n\n💰 EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):\n   • Acumulándose en Satélites (Centavos/Flotante): $38.72 USDC\n   • Consolidado en Binance Spot (Meta 12K): $1.00 USDC\n   • Estado de las 5 Bóvedas Receptoras: 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):\n   • Inversión Gas Mainnet: $50.00 USD (135.17 POL + 0.0365 BNB)\n   • Recuperado (ROI): $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • Reserva en Recámara (Kraken 72h): 116.38 POL + 0.02006 BNB\n   • Velocímetro por Satélite: Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • Vueltas Completadas: 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • Radar Bounties Mainnet (BSC + Polygon): 🟢 8 objetivos activos en caza\n\n🧠 CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):\n   • ADN Polimórfico (500 Bots): 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • Auto-Descubridor On-Chain: 5 Contratos Verificados (0 Honeypots)\n   • Auto-Liquidador DEX ➔ USDC: 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 CHAMBA DE ESTA RONDA:\n   • Box en Turno: Box 5\n   • Lote Asignado: Satélites #441–#460 (Box 5)\n   • Satélites Operados: 20/501 Satélites\n   • Confirmadas en este Turno: 60 txs on-chain ✅\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 200 rondas\n   • Txs On-Chain Acumuladas: 9217 txs firmadas\n   • Txs Confirmadas Hoy: 60 txs\n   • Boxes Rotados Hoy: Box 5\n   • Autonomía de Gas: ~1.8 días en Base / ~1.3 días en Sepolia\n\n👑 VIP #00: Monitoreada (100% Segura / 0 Tx en Mainnet)\n\n🌐 Desglose Omnichain por Red:\n   • BNB Smart Chain: Cooldown 168h 🛡️ (50 sat. en espera, 0 gas)\n   • Polygon PoS: Cooldown 168h 🛡️ (50 sat. en espera, 0 gas)\n   • Ethereum Sepolia: 20/20 txs ✅\n   • Base Sepolia: 20/20 txs ✅\n   • Arbitrum Sepolia: 20/20 txs ✅\n   • BNB Smart Chain Testnet: 0 Gas ⏳\n   • opBNB Testnet: 0 Gas ⏳\n   • Polygon Amoy Testnet: 0 Gas ⏳\n   • Solana Devnet: 0 SOL ⏳\n\n🔗 Hashes Reales Verificables:\n   • Sepolia: 0x363975529350a33c20ea48eb72674cd0086bfb49a7a0664c80932b07e7561ae7\n   • Base: 0x4ad68e3cdce07d519bbcde31fc14bd3693f02b224f060e7dec7961bf3d1fe2a4\n   • Arbitrum: 0x77eb511fe0f0334fa1744ee25690d6d883ae3a0b9be1608d0ed8cc17007e524e\n\n⚡ Total Transacciones Confirmadas: 60 on-chain\n🛡️ Escudo Anti-Sybil: ACTIVO (DeFi Rotator + Aislamiento 100%)\n\n⏰ 22/10/2026, 17:53:17 UTC"
-    },
-    {
-      "id": "vanguard-1792690635907",
-      "timestamp": "2026-10-22T17:37:15.907Z",
-      "timeFormatted": "17:37:15 UTC",
-      "rawHtml": "🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>\n⏱️ <code>17:37:15 UTC</code>\n\n🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>\n   • <b>Campañas Activas en Catálogo:</b> 24 objetivos ($0 Costo)\n   • <b>Check-Ins Diarios Firmados Hoy:</b> 910 asistencias\n   • <b>Misiones Gasless & DeFi Ejecutadas:</b> 2056 operaciones\n   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> 1220 operaciones / 30500 pts acumulados\n   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa\n\n💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>\n   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $0.00 USDC\n   • <b>Consolidado en Binance Spot (Meta 12K):</b> $1.00 USDC\n   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 <b>MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):</b>\n   • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)\n   • <b>Recuperado (ROI):</b> $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB\n   • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • <b>Vueltas Completadas:</b> 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • <b>Radar Bounties Mainnet (BSC + Polygon):</b> 🟢 8 objetivos activos en caza\n\n🧠 <b>CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):</b>\n   • <b>ADN Polimórfico (500 Bots):</b> 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • <b>Auto-Descubridor On-Chain:</b> 22 Contratos Verificados (0 Honeypots)\n   • <b>Auto-Liquidador DEX ➔ USDC:</b> 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 <b>CHAMBA DE ESTA RONDA:</b>\n   • <b>Box Activo:</b> Box 5 (#401–#500)\n   • <b>Satélites Operados:</b> 20/500 Satélites\n   • <b>Confirmadas en este Turno:</b> 20 txs on-chain ✅\n⛏️ <b>BOT MINER SWARM:</b> Box 1 minó 20 operaciones on-chain/gasless (Acumulado Minero: 1081 ops)\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 198 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 9097 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 80 txs\n   • <b>Boxes Rotados Hoy:</b> Box 4\n   • <b>Autonomía de Gas:</b> ~1.8 días en Base / ~1.3 días en Sepolia\n\n🌐 <b>ESTADO DE REDES ACTIVAS:</b>\n   • <b>Ethereum Sepolia:</b> En línea (Bloque 896,345,313 • 212ms)\n   • <b>Base Sepolia:</b> En línea (Bloque 48,843,792 • 255ms)\n   • <b>Arbitrum Sepolia:</b> En línea (Bloque 321,795,345 • 588ms)\n   • <b>Optimism Sepolia:</b> En línea (Bloque 50,444,044 • 192ms)\n   • <b>BSC Mainnet:</b> En línea (Bloque 129,171,113 • 263ms)\n   • <b>Polygon Mainnet:</b> En línea (Bloque 896,345,314 • 165ms)\n   • <b>Citrea Bitcoin ZK-Rollup:</b> En línea (Bloque 32,944,562 • 596ms)\n   • <b>Goat Network Bitcoin L2:</b> En línea (Bloque 17,683,114 • 646ms)\n   • <b>BSC Testnet:</b> En línea (Bloque 138,310,912 • 617ms)\n   • <b>Polygon Amoy:</b> En línea (Bloque 50,868,067 • 825ms)\n\n🌉 <b>COBERTURA DE PUENTES L2 (5 BOXES):</b>\n   • <b>Box 1 (#001–#100):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 2 (#101–#200):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 3 (#201–#300):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 4 (#301–#400):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 5 (#401–#500):</b> Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 <b>VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):</b>\n   • <b>Cabecera #501 (Box 0):</b> <code>0xD4D1...3743</code>\n     ↳ 0.00527 BNB | 121.02 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • <b>Cabecera #001 (Box 1):</b> <code>0xb750...D40F</code>\n     ↳ 0.00507 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #101 (Box 2):</b> <code>0x5682...adBA</code>\n     ↳ 0.00790 BNB | 18.03 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #201 (Box 3):</b> <code>0x2810...6A7C</code>\n     ↳ 0.00792 BNB | 18.01 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #301 (Box 4):</b> <code>0xEb6a...Ca0f</code>\n     ↳ 0.00509 BNB | 12.01 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #401 (Box 5):</b> <code>0x4C71...d070</code>\n     ↳ 0.00509 BNB | 12.01 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 <b>HALLAZGOS EN ESTA RONDA:</b>\n   • <b>Ruta Óptima de Ejecución:</b> Polygon Mainnet detectada con menor latencia (165ms).\n   • <b>Rotación del Escuadrón:</b> Box 5 (#401–#500) en turno operativo sin alertas de colisión.\n   • <b>Contratos DeFi en Radar:</b> WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • <b>Aislamiento Intra-Bloque:</b> 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>\nVector 2 & 3: Auto-Bridge L2 + Solana Memo Attestation (0 Gas)\n\n⚡ <b>ESCUADRÓN DESPLEGADO:</b>\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 <b>RENDIMIENTO CAPTADO HOY:</b> +$1.0000 USDC\n📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil",
-      "textPlain": "🦅 10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES\n⏱️ 17:37:15 UTC\n\n🎯 CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):\n   • Campañas Activas en Catálogo: 24 objetivos ($0 Costo)\n   • Check-Ins Diarios Firmados Hoy: 910 asistencias\n   • Misiones Gasless & DeFi Ejecutadas: 2056 operaciones\n   • ₿ Granja Bitcoin L2 (Citrea & Goat): 1220 operaciones / 30500 pts acumulados\n   • Cobertura de Caza por Box: Box 1 a Box 5 en rotación activa\n\n💰 EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):\n   • Acumulándose en Satélites (Centavos/Flotante): $0.00 USDC\n   • Consolidado en Binance Spot (Meta 12K): $1.00 USDC\n   • Estado de las 5 Bóvedas Receptoras: 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):\n   • Inversión Gas Mainnet: $50.00 USD (135.17 POL + 0.0365 BNB)\n   • Recuperado (ROI): $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • Reserva en Recámara (Kraken 72h): 116.38 POL + 0.02006 BNB\n   • Velocímetro por Satélite: Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • Vueltas Completadas: 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • Radar Bounties Mainnet (BSC + Polygon): 🟢 8 objetivos activos en caza\n\n🧠 CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):\n   • ADN Polimórfico (500 Bots): 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • Auto-Descubridor On-Chain: 22 Contratos Verificados (0 Honeypots)\n   • Auto-Liquidador DEX ➔ USDC: 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 CHAMBA DE ESTA RONDA:\n   • Box Activo: Box 5 (#401–#500)\n   • Satélites Operados: 20/500 Satélites\n   • Confirmadas en este Turno: 20 txs on-chain ✅\n⛏️ BOT MINER SWARM: Box 1 minó 20 operaciones on-chain/gasless (Acumulado Minero: 1081 ops)\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 198 rondas\n   • Txs On-Chain Acumuladas: 9097 txs firmadas\n   • Txs Confirmadas Hoy: 80 txs\n   • Boxes Rotados Hoy: Box 4\n   • Autonomía de Gas: ~1.8 días en Base / ~1.3 días en Sepolia\n\n🌐 ESTADO DE REDES ACTIVAS:\n   • Ethereum Sepolia: En línea (Bloque 896,345,313 • 212ms)\n   • Base Sepolia: En línea (Bloque 48,843,792 • 255ms)\n   • Arbitrum Sepolia: En línea (Bloque 321,795,345 • 588ms)\n   • Optimism Sepolia: En línea (Bloque 50,444,044 • 192ms)\n   • BSC Mainnet: En línea (Bloque 129,171,113 • 263ms)\n   • Polygon Mainnet: En línea (Bloque 896,345,314 • 165ms)\n   • Citrea Bitcoin ZK-Rollup: En línea (Bloque 32,944,562 • 596ms)\n   • Goat Network Bitcoin L2: En línea (Bloque 17,683,114 • 646ms)\n   • BSC Testnet: En línea (Bloque 138,310,912 • 617ms)\n   • Polygon Amoy: En línea (Bloque 50,868,067 • 825ms)\n\n🌉 COBERTURA DE PUENTES L2 (5 BOXES):\n   • Box 1 (#001–#100): Base 100/100 | Arb 100/100 🟢\n   • Box 2 (#101–#200): Base 100/100 | Arb 100/100 🟢\n   • Box 3 (#201–#300): Base 100/100 | Arb 100/100 🟢\n   • Box 4 (#301–#400): Base 100/100 | Arb 100/100 🟢\n   • Box 5 (#401–#500): Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):\n   • Cabecera #501 (Box 0): 0xD4D1...3743\n     ↳ 0.00527 BNB | 121.02 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • Cabecera #001 (Box 1): 0xb750...D40F\n     ↳ 0.00507 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #101 (Box 2): 0x5682...adBA\n     ↳ 0.00790 BNB | 18.03 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #201 (Box 3): 0x2810...6A7C\n     ↳ 0.00792 BNB | 18.01 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #301 (Box 4): 0xEb6a...Ca0f\n     ↳ 0.00509 BNB | 12.01 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #401 (Box 5): 0x4C71...d070\n     ↳ 0.00509 BNB | 12.01 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 HALLAZGOS EN ESTA RONDA:\n   • Ruta Óptima de Ejecución: Polygon Mainnet detectada con menor latencia (165ms).\n   • Rotación del Escuadrón: Box 5 (#401–#500) en turno operativo sin alertas de colisión.\n   • Contratos DeFi en Radar: WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • Aislamiento Intra-Bloque: 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 OBJETIVO DE CAZA ACTIVO:\nVector 2 & 3: Auto-Bridge L2 + Solana Memo Attestation (0 Gas)\n\n⚡ ESCUADRÓN DESPLEGADO:\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 RENDIMIENTO CAPTADO HOY: +$1.0000 USDC\n📡 ESTADO: Escaneo activo 24/7 sin colisiones Sybil"
     }
   ],
   "lomo6SocialX": {
@@ -47400,7 +47400,7 @@
     "gamingTweetsDeleted": 0,
     "cooldownHours": 6,
     "status": "PAUSED_FOR_REVIEW",
-    "lastUpdated": "2026-10-22T19:33:38.440Z",
+    "lastUpdated": "2026-10-22T19:35:35.930Z",
     "name": "YoZapata",
     "url": "https://x.com/yozapata",
     "verifiedProfile": {

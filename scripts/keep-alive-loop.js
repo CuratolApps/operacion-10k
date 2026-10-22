@@ -190,14 +190,12 @@ async function main() {
   }, INTERVAL_MS);
 }
 
-process.on("SIGINT", () => {
-  console.log("\n🛑 Demonio de respaldo detenido por el usuario.");
-  process.exit(0);
+process.on("uncaughtException", (err) => {
+  console.error("⚠️ Uncaught exception en keep-alive daemon:", err);
 });
 
-process.on("SIGTERM", () => {
-  console.log("\n🛑 Demonio de respaldo finalizado.");
-  process.exit(0);
+process.on("unhandledRejection", (reason) => {
+  console.error("⚠️ Unhandled rejection en keep-alive daemon:", reason);
 });
 
 if (require.main === module) {
