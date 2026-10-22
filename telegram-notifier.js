@@ -177,13 +177,13 @@ async function sendTelegramAlert(messageText, customChatId = null) {
   }
 
   const MAX_CHUNK = 3800;
-  if (messageText.length <= MAX_CHUNK) {
-    return sendSingleTelegramChunk(messageText, chatId, token);
+  if (formattedMessage.length <= MAX_CHUNK) {
+    return sendSingleTelegramChunk(formattedMessage, chatId, token);
   }
 
   const chunks = [];
   let currentChunk = "";
-  const lines = messageText.split("\n");
+  const lines = formattedMessage.split("\n");
   for (const line of lines) {
     if ((currentChunk + "\n" + line).length > MAX_CHUNK) {
       if (currentChunk) chunks.push(currentChunk);

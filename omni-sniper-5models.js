@@ -302,7 +302,7 @@ async function scanKeeperHarvester(polProvider, bscProvider) {
 
   const POL_PRICE_USD = 0.091; // Cotización POL en USD
   const BNB_PRICE_USD = 600.0; // Cotización BNB en USD
-  const REQUIRED_RATIO = 2.5;  // Regla: Reward_USD > GasCost_USD * 2.5
+  const REQUIRED_RATIO = 1.35; // Regla de Oro: Reward_USD > GasCost_USD * 1.35 (Umbral optimizado para micro-bounties)
 
   // 1. Escaneo Multicall3 en Polygon
   if (polProvider && catalog?.polygonVaults) {
@@ -401,8 +401,8 @@ async function scanKeeperHarvester(polProvider, bscProvider) {
     opportunityScore: score,
     fireAuthorized: hasProfitableHarvest && score >= 95,
     status: hasProfitableHarvest
-      ? `🔥 KEEPER BOUNTY EJECUTABLE ($${bestBounty.rewardUsd} USD en ${bestBounty.vaultName} [${bestBounty.chain}] > 2.5x Gas)`
-      : `🛡️ VIGILANCIA CENTINELA (Bounty top: $${bestBounty.rewardUsd.toFixed(4)} USD en ${bestBounty.vaultName} [${bestBounty.chain}] < umbral 2.5x gas $${bestBounty.requiredThresholdUsd} USD, $0 gas)`,
+      ? `🔥 KEEPER BOUNTY EJECUTABLE ($${bestBounty.rewardUsd} USD en ${bestBounty.vaultName} [${bestBounty.chain}] > 1.35x Gas)`
+      : `🛡️ VIGILANCIA CENTINELA (Bounty top: $${bestBounty.rewardUsd.toFixed(4)} USD en ${bestBounty.vaultName} [${bestBounty.chain}] < umbral 1.35x gas $${bestBounty.requiredThresholdUsd} USD, $0 gas)`,
     diagnostic: `Auditoría Multicall3 de 30 bóvedas completada a $0 gas. Top caller fee acumulado: $${bestBounty.rewardUsd.toFixed(4)} USD en ${bestBounty.vaultName} (${bestBounty.chain}).`
   };
 }

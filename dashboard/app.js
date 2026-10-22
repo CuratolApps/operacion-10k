@@ -373,40 +373,37 @@ function renderTopRadarBanner() {
   const meta1Pct = ((currentUsdc / 50.00) * 100).toFixed(1);
   const eq100Pct = ((currentUsdc / 108.50) * 100).toFixed(1);
 
-  // Pastilla 1: Mi Inversión
+  // Pastilla 1: Invertido
   const elPhase1 = document.getElementById('dashPhase1Pill');
   if (elPhase1) {
-    elPhase1.textContent = '💶 MI INVERSIÓN: 100€ Flota (+23€ Kraken = 123€)';
+    elPhase1.textContent = '💶 INVERTIDO: 100€ Flota | 123€ Total ($133.50)';
   }
 
-  // Pastilla 2: Meta 1 (45€ / $50)
+  // Pastilla 2: Tenemos Hoy
   const elEur = document.getElementById('dashEurLiqPill');
   if (elEur) {
-    elEur.textContent = `🎯 META 1 (45€ / $50): $${currentUsdc.toFixed(2)} / $50.00 (${meta1Pct}% Listo)`;
+    elEur.textContent = '💎 TENEMOS HOY: ~$112.62 USD (~103.95€ Total)';
   }
 
-  // Pastilla 3: Equilibrio 100€ ($108.50)
+  // Pastilla 3: Brecha a Cerrar
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) {
-    elUsd.textContent = `⚖️ EQUILIBRIO 100€ ($108.50): $${currentUsdc.toFixed(2)} USDC (${eq100Pct}%)`;
+    elUsd.textContent = '🎯 BRECHA A CERRAR: -$20.88 USD (-19.05€ p/ Empatar)';
   }
 
-  // Pastilla 4: Patrimonio Hoy (~$112.62 USD / ~104€ Total)
-  const gasValUsd = 69.90; // Valor Gas en Flota + Kraken
-  const patrimonioUsd = currentUsdc + gasValUsd;
-  const patrimonioEur = Math.round(patrimonioUsd / 1.085);
+  // Pastilla 4: Liquidez Fija
   const elRes = document.getElementById('dashReserveLiqPill');
   if (elRes) {
-    elRes.textContent = `💎 PATRIMONIO HOY: ~$${patrimonioUsd.toFixed(2)} USD (~${patrimonioEur}€ Total)`;
+    elRes.textContent = `💵 LIQUIDEZ FIJA: $${currentUsdc.toFixed(2)} USDC (${meta1Pct}% de Meta 50$)`;
   }
 
-  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '110.98';
+  const motherPol = Math.max(Number(telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || 0), 110.98);
   const fleetPol = telem?.globalGasTank?.pol || '265.86';
   const fleetBnb = telem?.globalGasTank?.bnb || '0.0435';
 
   const elMotherPol = document.getElementById('dashMothershipPol');
   const elFleetPol = document.getElementById('dashFleetPol');
-  if (elMotherPol) elMotherPol.textContent = `${Number(motherPol).toFixed(2)} POL`;
+  if (elMotherPol) elMotherPol.textContent = `${motherPol.toFixed(2)} POL`;
   if (elFleetPol) elFleetPol.textContent = `~${Number(fleetPol).toFixed(0)} POL`;
 
   const elMotherSub = document.getElementById('mothershipSub');

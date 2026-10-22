@@ -1,6 +1,6 @@
 {
   "schemaVersion": "3.0.0",
-  "generatedAt": "2026-10-22T21:06:20.073Z",
+  "generatedAt": "2026-10-22T21:26:28.404Z",
   "status": "ACTIVE_COMPOUNDING",
   "strategy": "FASE_1_RECUPERACION_120_EUR_CLOSED_LOOP_70_30",
   "badges": [
@@ -61,9 +61,9 @@
   },
   "gasCompounder": {
     "model": "CLOSED_CYCLE_RECOVERY_70_30",
-    "isAcceleratorMode": false,
+    "isAcceleratorMode": true,
     "targetThresholdPol": 400,
-    "currentFleetPol": 448.2,
+    "currentFleetPol": 255.77,
     "usdcCompoundingRatio": 0.7,
     "gasRestockRatio": 0.3,
     "gasDistribution": {
@@ -78,16 +78,16 @@
       "bnbUsdc": 731.55
     },
     "currentPrices": {
-      "polUsdc": 0.090076,
-      "bnbUsdc": 729.01
+      "polUsdc": 0.090638,
+      "bnbUsdc": 731.71
     },
     "priceVariationPct": {
-      "pol": -0.93,
-      "bnb": -0.35
+      "pol": -0.32,
+      "bnb": 0.02
     },
     "unitAdvantagePct": {
-      "pol": 0.94,
-      "bnb": 0.35
+      "pol": 0.32,
+      "bnb": -0.02
     },
     "isEligible": false,
     "recommendation": "STANDBY_MONITORING",

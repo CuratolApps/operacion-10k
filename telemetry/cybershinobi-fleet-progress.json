@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.2.0",
-  "lastRun": "2026-10-22T21:06:26.393Z",
-  "lastRunFormatted": "22/10/2026, 21:06:26 UTC",
+  "lastRun": "2026-10-22T21:26:39.582Z",
+  "lastRunFormatted": "22/10/2026, 21:26:39 UTC",
   "strikeType": "MONOLITHIC_PARALLEL_MULTI_LAUNCH_STRIKE",
   "upcomingLaunchesTracked": [
     {
@@ -28,10 +28,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
+        "safetyScore": 94,
         "honeypotRisk": "0%",
         "vcBacking": "Capital Propio Blindado ($39.72 USDC)",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -176,10 +176,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
+        "safetyScore": 94,
         "honeypotRisk": "0%",
         "vcBacking": "Coinbase Ventures / Pantera Capital",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -202,11 +202,11 @@
       "5": 100
     },
     "boxLatencyMs": {
-      "1": 2467,
-      "2": 1957,
-      "3": 1524,
-      "4": 1112,
-      "5": 686
+      "1": 4647,
+      "2": 3569,
+      "3": 2788,
+      "4": 2019,
+      "5": 1116
     },
     "totalPointsEarned": 250000,
     "capitalCostGas": "$0.00 USD (100% Gasless EIP-712 & Testnets)"
@@ -238,9 +238,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x37210eba5adc0f549930c7b6729be6ae543a012e1c5efcbf40bdc5813f9c65c0",
+      "proofHash": "0x41477964b28221eef6a9762031ce0cfe960d88b71848e7b36baf0f3190eb9ffb",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.374Z"
+      "timestamp": "2026-10-22T21:26:39.555Z"
     },
     {
       "index": 2,
@@ -255,9 +255,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xc3fe5144bb32652dfc26b6e0dd91a0fd12e259d79c77531fdf1531f654dc7793",
+      "proofHash": "0xe3baabc0d07db0da9cc8442f9a4519ca0cac0c70461fdc99d93ccf9cf9e39af7",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 3,
@@ -272,9 +272,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xe0e7c99875175b3e3205335ddac38d6e608ba2a32c52e6c47ce50a5b156348fd",
+      "proofHash": "0xc19e92e0b7eab62df82dc66351882547eaa605c658a5ad151bac996032f6c2f4",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 4,
@@ -289,9 +289,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xbacbac2275ccea3f11f2b446c235671b27325ad14938735b74ffad2992ff6325",
+      "proofHash": "0x19109c37add9385d79df663a4faa9677a8ddd85a5599eedbbd39f908e3f9adb2",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 5,
@@ -306,9 +306,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xbafdeb89c0ed2cbce8351c20629bc83f08b79569f7cc4990ee000cc8956668fa",
+      "proofHash": "0x3bf5dcad65c88f09f4322f117ff7691c44e90dc6f85a516d000f20c83b7754da",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 6,
@@ -323,9 +323,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x4d07082363971ad5e5f60071d10df592e9e247ea4d4d93d0114051652ab6476f",
+      "proofHash": "0x7f24fd223cba81964628d5912d97e8939cb26beaaa00cb1eda130aee54e28e51",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 7,
@@ -340,9 +340,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xedc2a8b249a59071b4423d4db0d08a3bacba1fd60cc29c3dfc116f9a98fd44b7",
+      "proofHash": "0xd2d293388edea4cb0bb2664a72246038b7cea926fb97d5f40dddc3cb6551fc1f",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 8,
@@ -357,9 +357,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x041912a4efb143421d8003f40b95a3e111da3bc2d1ccce984a01db2156041345",
+      "proofHash": "0xf9bc131b9eb9addb73ca6365f5a94708e59c0c42dc0ec6c3379a90d0c26ac1ca",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 9,
@@ -374,9 +374,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xb84e3ec46929d7f287ab1145f1fb370cdbfa76d7ae8ad5b10ead647c61f776cb",
+      "proofHash": "0x596837f3dbe5e9c58b4dfdbd53124fe88a5dc81826eb56ade774ba51a032ba0b",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     },
     {
       "index": 10,
@@ -391,9 +391,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xa72e2e488765f2012d2a8741a8c704878623e640a585744b4326c950c506fd4c",
+      "proofHash": "0xed052a522530990c94ba896a3e13b02bc6c70d1503625737214e578d63631a87",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:06:26.375Z"
+      "timestamp": "2026-10-22T21:26:39.556Z"
     }
   ]
 }

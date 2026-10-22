@@ -69,6 +69,8 @@ const DYNAMIC_COOLDOWN_MS = 30 * 60 * 1000;
 const AUTO_SWEEP_TO_BINANCE = false;
 let ZERO_GAS_DRAIN_MODE = true; // ORDEN DE PROTECCIÓN DE TANQUE: Prohibido drenar POL y BNB en swaps unidireccionales
 // STRICT_NO_GAS_SELL importado de security-fortress-shield (true por orden táctica de emergencia)
+const ALLOW_POL_TO_USDC_SWAP = false; // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar POL por USDC
+const ALLOW_BNB_TO_USDC_SWAP = false; // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar BNB por USDC
 
 // =====================================================================================
 // PUNTA DE LANZA CONCENTRADA (SPEARHEAD CONCENTRATION MODE — CYBER SHINOBI)
@@ -1906,7 +1908,7 @@ async function executeTacticalSalvoNow(options = {}) {
   let bestExpectedUsdc = 14.206043;
   let chosenDEX = "Uniswap V3 / QuickSwap V2";
 
-  if (availablePol >= 1.0) {
+  if (availablePol >= 1.0 && !STRICT_NO_GAS_SELL && ALLOW_POL_TO_USDC_SWAP) {
     const actualBulletPol = Math.min(targetBulletPol, parseFloat((availablePol - 0.2).toFixed(4)));
     console.log(`🔥 [DISPARANDO EXCEDENTE DISPONIBLE]: ${actualBulletPol} POL ➔ USDC Nativo...`);
 
@@ -2009,10 +2011,15 @@ async function executeTacticalSalvoNow(options = {}) {
       });
     }
   } else {
-    console.log(`🛡️ [POLYGON PISO SAGRADO INTACTO]: La Nodriza #501 ya se encuentra blindada sobre su Piso Sagrado de ${floorPol.toFixed(2)} POL (${polBal.toFixed(4)} POL actuales).`);
+    if (STRICT_NO_GAS_SELL || !ALLOW_POL_TO_USDC_SWAP) {
+      console.log(`🛡️ [STRICT_NO_GAS_SELL ACTIVO] Saldo POL de #501 100% Blindado (${polBal.toFixed(4)} POL actuales).`);
+      console.log(`   ⛔ Queda 100% prohibido vender POL por USDC (ALLOW_POL_TO_USDC_SWAP = false). Preservando tanque de gas.`);
+    } else {
+      console.log(`🛡️ [POLYGON PISO SAGRADO INTACTO]: La Nodriza #501 ya se encuentra blindada sobre su Piso Sagrado de ${floorPol.toFixed(2)} POL (${polBal.toFixed(4)} POL actuales).`);
+    }
     console.log(`   💎 La cosecha táctica previa de 10.04 POL está confirmada y asegurada en la Bóveda ($14.21 USDC en #501 / $18.30 USDC en Polygon).`);
     polyTxHash = "0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f";
-    chosenDEX = "Uniswap V3 (Bloque #95950545 Confirmado)";
+    chosenDEX = "Uniswap V3 (Bloque #95950545 Confirmado - 0% Venta Gas)";
     results.push({
       network: "polygonMainnet",
       front: front501,
@@ -2042,7 +2049,7 @@ async function executeTacticalSalvoNow(options = {}) {
   let bscReceipt = null;
   let bscExpectedUsdc = 7.977855;
 
-  if (availableBnb >= 0.001) {
+  if (availableBnb >= 0.001 && !STRICT_NO_GAS_SELL && ALLOW_BNB_TO_USDC_SWAP) {
     const actualBulletBnb = Math.min(targetBulletBnb, parseFloat((availableBnb - 0.0002).toFixed(6)));
     console.log(`🔥 [DISPARANDO EXCEDENTE DISPONIBLE]: ${actualBulletBnb} BNB ➔ USDC Oficial BSC...`);
 
@@ -2095,13 +2102,18 @@ async function executeTacticalSalvoNow(options = {}) {
       });
     }
   } else {
-    console.log(`🛡️ [BSC RESERVA SAGRADA INTACTA]: La Nodriza #501 ya se encuentra blindada sobre su Reserva Sagrada de ${floorBnb.toFixed(4)} BNB (${bnbBal.toFixed(6)} BNB actuales).`);
+    if (STRICT_NO_GAS_SELL || !ALLOW_BNB_TO_USDC_SWAP) {
+      console.log(`🛡️ [STRICT_NO_GAS_SELL ACTIVO] Saldo BNB de #501 100% Blindado (${bnbBal.toFixed(6)} BNB actuales).`);
+      console.log(`   ⛔ Queda 100% prohibido vender BNB por USDC (ALLOW_BNB_TO_USDC_SWAP = false). Preservando tanque de gas.`);
+    } else {
+      console.log(`🛡️ [BSC RESERVA SAGRADA INTACTA]: La Nodriza #501 ya se encuentra blindada sobre su Reserva Sagrada de ${floorBnb.toFixed(4)} BNB (${bnbBal.toFixed(6)} BNB actuales).`);
+    }
     console.log(`   💎 La cosecha táctica previa de 0.0016 BNB está confirmada y asegurada en la Bóveda ($7.98 USDC en #501 / $20.42 USDC en BSC).`);
     bscTxHash = "0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567";
     results.push({
       network: "bscMainnet",
       front: front501,
-      targetPoolName: "PancakeSwap V2 Directa",
+      targetPoolName: "PancakeSwap V2 Directa (0% Venta Gas)",
       txHash: bscTxHash,
       usdcHarvested: bscExpectedUsdc,
       status: "SECURED_ON_CHAIN_VAULT"
@@ -2234,6 +2246,8 @@ module.exports = {
   UNISWAP_V3_QUOTER_V2,
   UNISWAP_V3_SWAP_ROUTER_02,
   STRICT_NO_GAS_SELL,
+  ALLOW_POL_TO_USDC_SWAP,
+  ALLOW_BNB_TO_USDC_SWAP,
   executeUnifiedShinobiSnipe: require("./omni-sniper-5models").executeUnifiedShinobiSnipe,
   executeBurstReconAndStrike: require("./expert-captains-command").executeBurstReconAndStrike,
   runTacticalGasRecovery: require("./scripts/tactical-gas-recovery").runTacticalGasRecovery
