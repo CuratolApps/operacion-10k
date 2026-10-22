@@ -65,7 +65,8 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
     console.log(`ℹ️ Evitando colisión de nonce con la nube / ronda previa. Sincronizando telemetría y dashboard pasivo...`);
 
     // Sincronización pasiva de telemetría sin disparar transacciones on-chain
-    runCommand("node nebula-ai-commanders.js", "Las 10 Nebulosas IA (Actualización de Directrices)");
+    runCommand("node dedicated-observers.js", "Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas)");
+    runCommand("node nebula-ai-commanders.js", "Las 12 Nebulosas IA (Actualización de Directrices)");
     runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync (Modo Pasivo)");
     runCommand("node harvest-rewards.js --scan", "Escaneo Pasivo de Recompensas");
     console.log(`⏳ Esperando a que transcurran > 25-30 min desde la última corrida on-chain para tomar turno automático.`);
@@ -74,8 +75,11 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
 
   console.log(`⚡ [TURNO ON-CHAIN HABILITADO] Han transcurrido ${collisionLock.elapsedMin} min desde la última corrida. Procediendo con la ronda completa.`);
 
-  // 0. Las 10 Nebulosas IA (Razonamiento Heurístico & Directrices para la Manada)
-  runCommand("node nebula-ai-commanders.js", "Las 10 Nebulosas IA (Directrices Estratégicas)");
+  // 00. Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas - On-Chain Sentinels)
+  runCommand("node dedicated-observers.js", "Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas)");
+
+  // 0. Las 12 Nebulosas IA (Razonamiento Heurístico & Directrices para la Manada)
+  runCommand("node nebula-ai-commanders.js", "Las 12 Nebulosas IA (Directrices Estratégicas)");
 
   // 1. Solana Devnet Faucet Refuel
   runCommand("node solana-faucet-refuel.js", "Solana Devnet Faucet");

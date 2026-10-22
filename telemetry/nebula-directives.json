@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.2.0",
-  "generatedAt": "2026-10-22T01:27:41.901Z",
+  "generatedAt": "2026-10-22T07:16:40.863Z",
   "averageOpportunityScore": 97,
-  "executionTimeMs": 5306,
+  "executionTimeMs": 2183,
   "globalDirectives": {
     "fastestBtcL2": "Goat Network",
-    "prioritizedBox": 2,
+    "prioritizedBox": 4,
     "mainnetExecutionPermitted": true,
     "gasLevels": {
-      "polygonGwei": 273.21,
+      "polygonGwei": 277.83,
       "bscGwei": 0.05
     },
     "antiSybilJitterMs": [
@@ -17,7 +17,7 @@
     ],
     "honeypotsBlocked": 0,
     "binanceSweepThreshold": ">= $1.00 USDC",
-    "sniperConfidenceScore": 98,
+    "sniperConfidenceScore": 100,
     "sniperFireAuthorized": true,
     "route1CombinedUsdc": 0.9121239999999999
   },
@@ -41,15 +41,19 @@
       "id": "NEBULA-02",
       "name": "Smart-Money & Whale Radar",
       "icon": "🐋",
-      "specialty": "Rastreo de Liquidez & Volumen DEX en Vivo",
-      "opportunityScore": 98,
+      "specialty": "Rastreo de Liquidez & Volumen DEX en Vivo (Multi-DEX On-Chain)",
+      "opportunityScore": 94,
       "satellitesGuided": 500,
       "status": "OPTIMAL",
-      "reasoning": "Volumen 24h de $55.73M y liquidez pico de $27.17M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
+      "reasoning": "Liquidez on-chain auditada a $0 gas: $0.00M USD combinados entre QuickSwap ($0.0M), SushiSwap ($0.0M) y PancakeSwap ($0.0M). Spread Multi-DEX: 0.117%. Mejor ruta activa Polygon: QUICKSWAP_V2 | BSC: PANCAKESWAP_V2.",
       "liveData": {
-        "volume24hUsd": 55729891.87,
-        "topLiquidityUsd": 27166268.18,
-        "trackedPairs": 30
+        "totalOnChainLiquidityUsd": 1798.2790524280076,
+        "quickswapLiquidityUsd": 1335.417658,
+        "sushiswapLiquidityUsd": 54.365398,
+        "pancakeswapLiquidityUsd": 408.4959964280076,
+        "bestPolRoute": "quickswap_v2",
+        "bestBscRoute": "pancakeswap_v2",
+        "spreadPct": 0.1165
       }
     },
     {
@@ -60,10 +64,10 @@
       "opportunityScore": 96,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48552962). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
+      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48657665). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
       "liveData": {
         "network": "Base Sepolia",
-        "blockHeight": 48552962,
+        "blockHeight": 48657665,
         "feeUsd": "$0.00"
       }
     },
@@ -75,10 +79,10 @@
       "opportunityScore": 97,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Turno de caza asignado a Box 2 (#101–#200). Canalizando 20 satélites hacia la piscina USDC con multiplicador de 5 tickets por firma.",
+      "reasoning": "Turno de caza asignado a Box 4 (#301–#400). Canalizando 20 satélites hacia la piscina USDC con multiplicador de 5 tickets por firma.",
       "liveData": {
-        "activeBox": 2,
-        "poolId": "POOL-USDC-B2",
+        "activeBox": 4,
+        "poolId": "POOL-USDC-B4",
         "ticketsPerSign": 5
       }
     },
@@ -90,15 +94,15 @@
       "opportunityScore": 90,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Citrea (3058ms, Blk #32915476) vs Goat (1704ms, Blk #17665878). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
+      "reasoning": "Citrea (1275ms, Blk #32925948) vs Goat (891ms, Blk #17672082). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
       "liveData": {
         "citrea": {
-          "block": 32915476,
-          "latencyMs": 3058
+          "block": 32925948,
+          "latencyMs": 1275
         },
         "goat": {
-          "block": 17665878,
-          "latencyMs": 1704
+          "block": 17672082,
+          "latencyMs": 891
         },
         "fastestL2": "Goat Network"
       }
@@ -111,10 +115,10 @@
       "opportunityScore": 95,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (3677 txs acumuladas). Priorizando Box 2 (#101–#200) para mantener uniformidad total.",
+      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (4089 txs acumuladas). Priorizando Box 4 (#301–#400) para mantener uniformidad total.",
       "liveData": {
-        "prioritizedBox": 2,
-        "totalAllTimeTx": 3677,
+        "prioritizedBox": 4,
+        "totalAllTimeTx": 4089,
         "coverageL2": "4 Redes EVM + Solana Devnet"
       }
     },
@@ -122,14 +126,17 @@
       "id": "NEBULA-07",
       "name": "Gas & Timing Brain",
       "icon": "⛽",
-      "specialty": "Monitor de Gas en Tiempo Real & Autorización Mainnet",
-      "opportunityScore": 98,
+      "specialty": "Monitor EIP-1559, Delta de Gas & Timing Óptimo",
+      "opportunityScore": 99,
       "satellitesGuided": 55,
       "status": "OPTIMAL",
-      "reasoning": "Gas Mainnet medido en vivo: Polygon 273.21 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
+      "reasoning": "Gas Mainnet medido en tiempo real: Polygon 277.8 Gwei (Tendencia: RISING_CAUTION, Delta: +2.27 Gwei) · BSC 0.05 Gwei (Tendencia: STABLE). Ventana de ejecución ÓPTIMA Y AUTORIZADA (< 450 Gw Pol / < 3.5 Gw BSC).",
       "liveData": {
-        "polygonGwei": 273.21,
+        "polygonGwei": 277.83,
         "bscGwei": 0.05,
+        "polygonGasTrend": "RISING_CAUTION",
+        "bscGasTrend": "STABLE",
+        "polygonDeltaGwei": 2.27,
         "mainnetPermitted": true
       }
     },
@@ -179,30 +186,39 @@
       "opportunityScore": 99,
       "satellitesGuided": 502,
       "status": "OPTIMAL",
-      "reasoning": "Enrutamiento Multi-DEX Inteligente (QuickSwap V2 + SushiSwap V2) sincronizado hacia 100% USDC Nativo. Bóveda Máster #501 activa en Modo Compounding. Micro-depósitos automáticos a Binance bloqueados (Retiro Manual). Flotante on-chain listo para compounding: $2.14 | En Binance: $1.00 USDC.",
+      "reasoning": "Enrutamiento Multi-DEX Inteligente sincronizado hacia 100% USDC Nativo oficial. En Polygon: Enrutando hacia QUICKSWAP_V2 (Tasa: 0.0920 USDC/POL). En BSC: Enrutando hacia PANCAKESWAP_V2. Bóveda Máster #501 activa en Modo Compounding reteniendo 100% on-chain ($2.14 flotante | $1.00 en Binance).",
       "liveData": {
         "masterVaultMode": "ON_CHAIN_COMPOUNDING",
         "binanceWithdrawalMode": "MANUAL_ONLY",
         "tokenPolicy": "100% USDC Nativo Exclusivo (Circle)",
-        "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743"
+        "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+        "bestDexRoutePolygon": "quickswap_v2",
+        "bestDexRouteBsc": "pancakeswap_v2",
+        "currentPolRate": 0.09195
       }
     },
     {
       "id": "NEBULA-11",
       "name": "Sniper Trigger 95% Master",
       "icon": "🎯",
-      "specialty": "Gatillo Cuántico de Certeza >=95% & Validación 4-Ejes Mainnet",
-      "opportunityScore": 98,
+      "specialty": "Gatillo Cuántico Dual (Polygon + BSC) & Validación 5-Ejes On-Chain",
+      "opportunityScore": 100,
       "satellitesGuided": 502,
       "status": "FIRING_AUTHORIZED",
-      "reasoning": "4 condiciones evaluadas: Contrato USDC 100% verificado GoPlus (0 honeypots), Liquidez Multi-DEX $28.5M USD (> $20M), Gas 273.2 Gwei en rango seguro, Cotización Multi-DEX (QuickSwap + SushiSwap) sin anomalías (0.0945 USDC/POL). Certeza: 98%. GATILLO AUTORIZADO (Score >= 95%).",
+      "reasoning": "5 Ejes Auditados en Vivo: 1) GoPlus 0 Honeypots (✅) · 2) Reservas On-Chain Multicall3 (✅) · 3) Gas Ventana Segura (277.8 Gw Pol / 0.05 Gw BSC) (✅) · 4) Cotización Multi-DEX (QUICKSWAP_V2 0.0920 USDC/POL · PancakeSwap $735.8/BNB) (✅) · 5) Simulación Estática sin revert (✅). Certeza Cuántica: 100%. GATILLO AUTORIZADO (Score >= 95%).",
       "liveData": {
-        "contractVerified": true,
+        "axis1_securityOk": true,
+        "axis2_reservesOk": true,
+        "axis3_gasOptimalOk": true,
+        "axis4_multiDexQuoteOk": true,
+        "axis5_simulationOk": true,
         "honeypotsDetected": 0,
-        "dexLiquidityUsd": 28500000,
-        "gasGwei": 273.208118648,
-        "quoteUsdcPerPol": 0.094518,
-        "sniperConfidenceScore": 98,
+        "quoteUsdcPerPol": 0.09195,
+        "quoteBnbUsd": 735.8273355253266,
+        "polGasGwei": 277.832600365,
+        "bscGasGwei": 0.05,
+        "bestDexRoutePolygon": "quickswap_v2",
+        "sniperConfidenceScore": 100,
         "sniperFireAuthorized": true
       }
     },

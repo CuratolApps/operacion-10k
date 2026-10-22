@@ -80,6 +80,7 @@ jobs:
 
           run_soft node swarm-engine.js --only-generate
           run_soft node solana-faucet-refuel.js
+          run_critical node dedicated-observers.js
           run_critical node nebula-ai-commanders.js
           if [ -n "$DRY" ]; then
             run_critical node task-runner.js --force-dry-run

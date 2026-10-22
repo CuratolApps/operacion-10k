@@ -110,8 +110,10 @@ const { sendTelegramAlert } = require("./telegram-notifier");
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const FLEET_TELEMETRY_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
 
-const MIN_BNB_TRIGGER = 0.002;
-const MIN_POL_TRIGGER = 1.0;
+const MIN_BNB_TRIGGER = 0.005;
+const MIN_POL_TRIGGER = 30.0;
+const SACRED_RESERVE_501_POL = 25.00;
+const SACRED_RESERVE_501_BNB = 0.004098;
 
 const BOX_HEADERS = [
   { box: 1, headerIndex: 1, id: "#001" },
@@ -154,7 +156,7 @@ async function runMasterRefuel() {
   const isDryRun = process.argv.includes("--dry-run");
 
   console.log("=========================================================================================");
-  console.log("       ⛽ OPERACIÓN 10K — MASTER REFUEL ENGINE (BÓVEDA MATRIZ #501)                     ");
+  console.log("       ⛽ OPERACIÓN 12K — MASTER REFUEL ENGINE (BÓVEDA MATRIZ #501)                     ");
   console.log("=========================================================================================\n");
 
   if (!fs.existsSync(WALLETS_FILE)) {
@@ -181,8 +183,15 @@ async function runMasterRefuel() {
   const polBalance = await fetchBalanceQuick(polRpcs, masterAddress);
 
   console.log(`📊 SALDOS EN BÓVEDA MATRIZ #501:`);
-  console.log(`   • BNB (BSC Mainnet)     : ${bscBalance.toFixed(6)} BNB (Umbral auto-recarga: > ${MIN_BNB_TRIGGER} BNB)`);
-  console.log(`   • POL (Polygon Mainnet) : ${polBalance.toFixed(6)} POL (Umbral auto-recarga: > ${MIN_POL_TRIGGER} POL)\n`);
+  console.log(`   • BNB (BSC Mainnet)     : ${bscBalance.toFixed(6)} BNB (Umbral detección inyección: > ${MIN_BNB_TRIGGER} BNB)`);
+  console.log(`   • POL (Polygon Mainnet) : ${polBalance.toFixed(6)} POL (Reserva Sagrada intocable: ${SACRED_RESERVE_501_POL.toFixed(2)} POL | Umbral: > ${MIN_POL_TRIGGER} POL)\n`);
+
+  // Detección automática de la nueva inyección (~50 € o lote Kraken)
+  const isInjectionDetected = polBalance > 30.0 || bscBalance > 0.005;
+  if (isInjectionDetected) {
+    console.log(`🚨🦅 [INYECCIÓN 50€ DETECTADA EN #501]: ${polBalance.toFixed(2)} POL | ${bscBalance.toFixed(6)} BNB.`);
+    console.log(`   ¡Habilitando Escuadrón Extendido a 16 Snipers y Frentes Duales en BSC Mainnet!`);
+  }
 
   // Actualizar telemetría de la bóveda matriz #501
   if (fs.existsSync(FLEET_TELEMETRY_FILE)) {
@@ -196,7 +205,9 @@ async function runMasterRefuel() {
         lastChecked: new Date().toISOString(),
         needsRefuelBsc: bscBalance < MIN_BNB_TRIGGER,
         needsRefuelPolygon: polBalance < MIN_POL_TRIGGER,
-        status: (polBalance >= MIN_POL_TRIGGER || bscBalance >= MIN_BNB_TRIGGER) ? "🟢 ACTIVA Y FONDEADA (BSC + POLYGON)" : "⏳ En espera de desbloqueo CEX (72h)"
+        sacredReservePol: SACRED_RESERVE_501_POL,
+        isInjectionDetected,
+        status: isInjectionDetected ? "🚀 INYECCIÓN NUEVA ACTIVA (16 SNIPERS)" : (polBalance >= SACRED_RESERVE_501_POL) ? "🟢 ACTIVA Y FONDEADA (RESERVA SAGRADA 25 POL BLINDADA)" : "⏳ En espera de desbloqueo CEX (72h)"
       };
       fs.writeFileSync(FLEET_TELEMETRY_FILE, JSON.stringify(tel, null, 2), "utf8");
     } catch (_) {}
@@ -211,11 +222,11 @@ async function runMasterRefuel() {
   }
 
   if (tasks.length === 0) {
-    console.log("🛡️  [VIGÍA 72H - STANDBY] Bóveda Matriz #501 vigilando liberación de fondos desde Kraken.");
-    console.log(`   Saldos actuales: ${bscBalance.toFixed(5)} BNB en BSC | ${polBalance.toFixed(5)} POL en Polygon.`);
-    console.log(`   Esperando: 0.02006 BNB y 116.38 POL en 👉 ${masterAddress}\n`);
+    console.log("🛡️  [VIGÍA STANDBY] Bóveda Matriz #501 vigilando llegada de nueva inyección (~50 € en POL / BNB).");
+    console.log(`   Saldos actuales: ${bscBalance.toFixed(5)} BNB en BSC | ${polBalance.toFixed(5)} POL en Polygon (Reserva Sagrada: 25.00 POL blindada).`);
+    console.log(`   Esperando: Entrada > 30.0 POL o > 0.005 BNB en 👉 ${masterAddress}\n`);
     await runIntraBoxDistribution(wallets, isDryRun);
-    return { status: "STANDBY_72H", bscBalance, polBalance };
+    return { status: "STANDBY_PROTECTED", bscBalance, polBalance };
   }
 
   if (isCheckOnly) {
@@ -231,19 +242,19 @@ async function runMasterRefuel() {
       signer = getMasterVaultWallet(provider);
     }
 
-    // Reserva de seguridad en #501 (~10 POL o ~0.004 BNB) y distribución equitativa
-    let baseShare;
-    if (t.symbol === "POL" && t.balance >= 50) {
-      const reserve = 10.174;
-      const distributable = Math.max(0, t.balance - reserve);
+    // Reserva Sagrada intocable: 25.00 POL en Polygon | 0.004098 BNB en BSC
+    let baseShare = 0;
+    if (t.symbol === "POL") {
+      const distributable = Math.max(0, t.balance - SACRED_RESERVE_501_POL);
       baseShare = distributable / 5;
-    } else if (t.symbol === "BNB" && t.balance >= 0.01) {
-      const reserve = 0.00409814;
-      const distributable = Math.max(0, t.balance - reserve);
-      baseShare = distributable / 5; // ~0.0065 BNB por Cabecera
-    } else {
-      const available = t.balance * 0.92;
-      baseShare = available / 5;
+    } else if (t.symbol === "BNB") {
+      const distributable = Math.max(0, t.balance - SACRED_RESERVE_501_BNB);
+      baseShare = distributable / 5;
+    }
+
+    if (baseShare <= 0) {
+      console.log(`🛡️ [ESCUDO MATRIZ] Excedente insuficiente sobre la Reserva Sagrada en ${t.symbol}. Cancelando dispersión.`);
+      continue;
     }
 
     let currentNonce = 0;

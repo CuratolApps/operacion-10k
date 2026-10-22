@@ -471,9 +471,9 @@ function renderGalaxiesStreams() {
   const elG5Bots = document.getElementById('g5ActiveBots');
   const elG5Mints = document.getElementById('g5Mints');
   const elG5Badge = document.getElementById('g5Badge');
-  if (elG5Bots) elG5Bots.textContent = '500 Billeteras';
-  if (elG5Mints) elG5Mints.textContent = `${mintsCount} Mints • ${honeypotsBlocked} Honeypot`;
-  if (elG5Badge) elG5Badge.textContent = 'COMPOUNDING ON-CHAIN';
+  if (elG5Bots) elG5Bots.textContent = '11 Frentes Activos';
+  if (elG5Mints) elG5Mints.textContent = `${honeypotsBlocked} Honeypots • Multicall3`;
+  if (elG5Badge) elG5Badge.textContent = '11 SNIPERS ACTIVOS';
 
   // Renderizado de Tablas de Galaxias
   const renderOrEmpty = (tbodyId, filterFn, defaultText) => {
