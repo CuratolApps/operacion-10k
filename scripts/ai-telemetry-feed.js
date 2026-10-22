@@ -833,6 +833,7 @@ async function generateUnifiedTelemetry() {
     nftSurgicalSquadron: readJsonSafe(path.join(TELEMETRY_DIR, "nft-squadron-radar.json")),
     airdropLaunchCalendar: readJsonSafe(path.join(TELEMETRY_DIR, "airdrop-launch-calendar.json")),
     cybershinobiFleetProgress: readJsonSafe(path.join(TELEMETRY_DIR, "cybershinobi-fleet-progress.json")),
+    cybershinobiTrainingState: readJsonSafe(path.join(TELEMETRY_DIR, "cybershinobi-training-state.json")),
     dualCapitalizer: readJsonSafe(path.join(TELEMETRY_DIR, "dual-capitalizer.json")) || {
       status: "ACTIVE_COMPOUNDING",
       badges: ["🔒 Trinquete 85% USDC", "⛽ Capitalizador 75/25 Gas Activo", "🛡️ 5º Candado Anti-MEV <= 0.15%"],

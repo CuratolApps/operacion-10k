@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-22T13:08:58.445Z",
+  "timestamp": "2026-10-22T13:16:17.741Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -220,7 +220,7 @@
           "BNB Smart Chain"
         ],
         "activeBots": 106,
-        "opsExecuted": 1030,
+        "opsExecuted": 1050,
         "pointsOrAssets": "28 campañas verificadas",
         "generatedUsdc": 0
       },
@@ -241,7 +241,7 @@
           "Solana Devnet"
         ],
         "activeBots": 65,
-        "opsExecuted": 6531,
+        "opsExecuted": 6651,
         "pointsOrAssets": "5 redes L2 cubiertas",
         "generatedUsdc": 0
       },
@@ -45392,7 +45392,7 @@
   },
   "onchainSnapshot": {
     "source": "live-onchain",
-    "timestamp": "2026-10-22T13:08:55.683Z",
+    "timestamp": "2026-10-22T13:16:15.095Z",
     "minUsableNative": 0.0005,
     "networks": {
       "baseSepolia": {
@@ -45427,20 +45427,20 @@
         "satellitesUsable": 455,
         "satellitesZero": 45
       },
-      "bscMainnet": {
-        "online": true,
-        "rpc": "bsc-dataseed.binance.org",
-        "totalNative": 0.038202,
-        "satellitesWithGas": 55,
-        "satellitesUsable": 5,
-        "satellitesZero": 445
-      },
       "polygonMainnet": {
         "online": true,
         "rpc": "polygon.drpc.org",
         "totalNative": 144.835873,
         "satellitesWithGas": 55,
         "satellitesUsable": 55,
+        "satellitesZero": 445
+      },
+      "bscMainnet": {
+        "online": true,
+        "rpc": "bsc-dataseed.binance.org",
+        "totalNative": 0.038202,
+        "satellitesWithGas": 55,
+        "satellitesUsable": 5,
         "satellitesZero": 445
       }
     }
@@ -45746,7 +45746,7 @@
       "polygon": 18.295135
     },
     "satellitesWithDust": 6,
-    "lastScanTimestamp": "2026-10-22T13:08:58.445Z"
+    "lastScanTimestamp": "2026-10-22T13:16:17.741Z"
   },
   "totalHarvestedToBinanceUsdc": 1,
   "binanceVaultsVerification": {
@@ -45757,9 +45757,9 @@
     "compoundingPoolActive": true
   },
   "workStats": {
-    "totalRoundsCompleted": 163,
-    "totalTxConfirmedAllTime": 7391,
-    "todayTxConfirmed": 520,
+    "totalRoundsCompleted": 165,
+    "totalTxConfirmedAllTime": 7511,
+    "todayTxConfirmed": 640,
     "boxesRotatedToday": [
       "Box 1",
       "Box 4",
@@ -45933,7 +45933,7 @@
     "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "bscBnb": "0.005266",
     "polygonPol": "121.024069",
-    "lastChecked": "2026-10-22T13:08:58.342Z",
+    "lastChecked": "2026-10-22T13:16:17.656Z",
     "needsRefuelBsc": false,
     "needsRefuelPolygon": false,
     "sacredReservePol": 25,
@@ -45957,10 +45957,10 @@
   },
   "hunterStats": {
     "activeCampaignsCount": 24,
-    "dailyCheckInsCompleted": 690,
-    "gaslessQuestsSigned": 720,
+    "dailyCheckInsCompleted": 710,
+    "gaslessQuestsSigned": 740,
     "defiAndMintsExecuted": 910,
-    "lastUpdated": "2026-10-22T13:08:16.907Z"
+    "lastUpdated": "2026-10-22T13:09:07.772Z"
   },
   "bitcoinL2Stats": {
     "citreaOps": 468,
@@ -46179,9 +46179,189 @@
   "galaxy3Pools": {
     "activeBots": 20,
     "campaignsCount": 24,
-    "ticketsTotal": 2400,
+    "ticketsTotal": 2500,
     "lastUpdated": "2026-10-21T23:06:55.587Z",
     "recentEntries": [
+      {
+        "id": "pool-1792674547614-1",
+        "satIndex": 1,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x182d4b1790d6884348c3f8b3613e31ad136b3f67eabce3c91fb8d5bf6f075f3e",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547621-2",
+        "satIndex": 2,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x9d2443e24d4188be8017642c28b8799e416eac0f6cbc7e229168e6a02188c3c3",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547628-3",
+        "satIndex": 3,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x67bba7df3dbca9ef4b2a10a98735813c59b16b000717fd919ecc15fef9859936",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547635-4",
+        "satIndex": 4,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0xb0dd7c9cf557f59d9697cc9ef6295534ebcf64c837fda2345a6802136f2ced26",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547642-5",
+        "satIndex": 5,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x63df59fcf19d84d73c0c9047d2fb6be634d6a2fe09ea271a567596e5b4ddf66f",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547652-6",
+        "satIndex": 6,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x64c13fc14c08b5c9dd63a07e2b8d06718d15f93af26e31023e085e06d5c14b57",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547658-7",
+        "satIndex": 7,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0xd90675cd036af1b53a532186819bc9eb3160849364dcdaf0b2d45e3cdcf471e9",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547665-8",
+        "satIndex": 8,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x98882bf781edc92fc1fd9a21306c187da07bb0924e57fdb50c12a7fafb51b6bd",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547671-9",
+        "satIndex": 9,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0xa1d74cfff75c7e1a47dee144b73e7176569249673990669a2d3e43608a6b86ed",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547677-10",
+        "satIndex": 10,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x97b84ddea6b10a71be1f50b80388c1a6d6ad2aaab004289f1bc131e428a6d193",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547684-11",
+        "satIndex": 11,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x55ae7cb1cc06fbb4a177177d77c2253347656ffaa3f0408d7c16d04da3113821",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547690-12",
+        "satIndex": 12,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x778490e24e65bcbb5db5d63cc78c5ab6ab51f2376ca8273b20f5cdeed52a513e",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547698-13",
+        "satIndex": 13,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x918d682f87d7e723e8490f78c43c7416fbf43575b74a45d00a82d82ef9ed9b2b",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547704-14",
+        "satIndex": 14,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0xb8bc5befcf5346978f40564d56d42684b6bbb6330d7f65e2ae4753d6aa5e6844",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547710-15",
+        "satIndex": 15,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x8e79f9efbbb0bcf06976e2deae38e78cd0ecf4d0eca08b5154972b58225087cf",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547717-16",
+        "satIndex": 16,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0xc1a739ef80b0102ad6706b2117efedf57b657fa3ad5d7f8f96c719ab8c91d310",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547723-17",
+        "satIndex": 17,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x79903d4ad3da2fefb5e136c0e6622bff2f7434271e5b7d91b00709eb31df0461",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547730-18",
+        "satIndex": 18,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0x0252389c2b5ccfc9143cabe942c9a30e954da3c298cb6aba5f2b879d13c8a9e0",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547736-19",
+        "satIndex": 19,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0xc39403f6b1bae690b912f07aaefbd67ba6ae82f6e490282a041f8a3f52b5eb8d",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
+      {
+        "id": "pool-1792674547743-20",
+        "satIndex": 20,
+        "type": "QUEST_POOL_ENTRY",
+        "network": "Base Sepolia (USDC Pool)",
+        "hash": "0xf201326a43f8c2daa84b1b9d816826012b1969280765c5b5cdd13471c3902393",
+        "tickets": 5,
+        "status": "CONFIRMED"
+      },
       {
         "id": "pool-1792673127153-401",
         "satIndex": 401,
@@ -46271,186 +46451,6 @@
         "hash": "0xe2634fc73d871cc8becd0f8405d60c8feb05f93f6fe61429d822a1ab8180d0a0",
         "tickets": 5,
         "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127303-411",
-        "satIndex": 411,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x3abbecae5ae05254db0bcd224b7cb636d46a92abf75be766c5867ffe51ab7086",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127314-412",
-        "satIndex": 412,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0xf4e34ec965fb9275b653fa3afabd9f4a6df1f443aef93b24aaae54d8f1fb212d",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127325-413",
-        "satIndex": 413,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0xb3887609830deb886efc6be46de6e16d6f0919e31bf36d63cd4d24e2100dd543",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127340-414",
-        "satIndex": 414,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0xb355f9f0f68e274c6c4b2efa3f45ac3d9940564b50b1e2ace1339894482696c0",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127357-415",
-        "satIndex": 415,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x61bcfbf8ba2b4fe4db9a52642b2aedbdaa252fa13395e0fb3bd874cad4322a2e",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127370-416",
-        "satIndex": 416,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x784b49376628f1128ab19f48f19bece065954443df17294eb563561cbaad3780",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127379-417",
-        "satIndex": 417,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0xd3f4199dc756f22c8a6603c6b64881eb39898f45f4e90009df09bc86589babcc",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127393-418",
-        "satIndex": 418,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x9a9b1aed669d3b9eb09819b43264b231ae81ccf8c1228a5388432b33764bba48",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127400-419",
-        "satIndex": 419,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x48061602d6350454bbef78b47742ac6c2c648b5c26b575a4926d06ede2dabbde",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792673127407-420",
-        "satIndex": 420,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x5128e528a2915122b934e096be38b4d5e285cac2daddb5d8b97b9c530a9592c9",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603080-301",
-        "satIndex": 301,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x14b0feb613d5f56d7fd52c700e69ed2c6bbfaf8080cb92ee493d691f3b855c24",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603093-302",
-        "satIndex": 302,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x5fa83fb08f83c04dbc279f9868db444918e9ad45b4b58f4f5516d2731bf4460f",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603101-303",
-        "satIndex": 303,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0xe8f6674beb1b6e347bb7fd3a31e0a65c6b0b8aff9d263859bacf0edf85c48e72",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603113-304",
-        "satIndex": 304,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0xa1c00ffa41ccf9f9a7bafba319cce72abe94f159afefd99307868786ba415d44",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603127-305",
-        "satIndex": 305,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x2d51e74b6c7bef9eff1260f9ee4d559ea1dcecd5d17f5bb817b42a51399ebb26",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603148-306",
-        "satIndex": 306,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x800a8cd257f93e2fcda4f600ab322e402fb7fc687693607cb925e7c0197e2485",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603165-307",
-        "satIndex": 307,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x66f5660ff55737922c5947d521a33225a79494778ac1f1665f18567d65c116e9",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603183-308",
-        "satIndex": 308,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x299f44231af2578ce08109c7eb1fed67eacd34911631f486a0a25941906e9cf8",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603197-309",
-        "satIndex": 309,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x08b5dfe96770420a21dfc3f1c42f6101055964d5f30c7e6e0b4a9ec98acde8c5",
-        "tickets": 5,
-        "status": "CONFIRMED"
-      },
-      {
-        "id": "pool-1792671603210-310",
-        "satIndex": 310,
-        "type": "QUEST_POOL_ENTRY",
-        "network": "Base Sepolia (USDC Pool)",
-        "hash": "0x6b4ff09c530d5bee72fd7501e7880ce7c28ad6a9184c33746f360845fa546ba2",
-        "tickets": 5,
-        "status": "CONFIRMED"
       }
     ]
   },
@@ -46537,8 +46537,8 @@
       "name": "Ethereum Sepolia",
       "chainId": 11155111,
       "online": true,
-      "latencyMs": 184,
-      "blockNumber": 11969740,
+      "latencyMs": 292,
+      "blockNumber": 11969777,
       "status": "OPERATIVO",
       "totalEth": "4.228",
       "satellitesWithGas": 500
@@ -46547,8 +46547,8 @@
       "name": "Base Sepolia",
       "chainId": 84532,
       "online": true,
-      "latencyMs": 321,
-      "blockNumber": 48763350,
+      "latencyMs": 287,
+      "blockNumber": 48765547,
       "status": "OPERATIVO",
       "totalEth": "0.922",
       "satellitesWithGas": 450
@@ -46557,8 +46557,8 @@
       "name": "Arbitrum Sepolia",
       "chainId": 421614,
       "online": true,
-      "latencyMs": 567,
-      "blockNumber": 321734692,
+      "latencyMs": 675,
+      "blockNumber": 321736421,
       "status": "OPERATIVO",
       "totalEth": "0.709",
       "satellitesWithGas": 455
@@ -46567,8 +46567,8 @@
       "name": "Optimism Sepolia",
       "chainId": 11155420,
       "online": true,
-      "latencyMs": 353,
-      "blockNumber": 50435999,
+      "latencyMs": 592,
+      "blockNumber": 50436219,
       "status": "OPERATIVO",
       "totalEth": "0.059",
       "satellitesWithGas": 50
@@ -46577,8 +46577,8 @@
       "name": "BNB Smart Chain",
       "chainId": 56,
       "online": true,
-      "latencyMs": 425,
-      "blockNumber": 129135378,
+      "latencyMs": 765,
+      "blockNumber": 129136353,
       "status": "OPERATIVO",
       "totalNative": 0.03820161829999998,
       "satellitesUsable": 5
@@ -46587,8 +46587,8 @@
       "name": "Polygon PoS",
       "chainId": 137,
       "online": true,
-      "latencyMs": 226,
-      "blockNumber": 95979445,
+      "latencyMs": 400,
+      "blockNumber": 95979738,
       "status": "OPERATIVO",
       "totalNative": 144.83587338604158,
       "satellitesUsable": 55
@@ -46898,167 +46898,215 @@
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-0",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0x7a30cb4851a585a459c21ae49e56c500785518e82ea15c87008275c13587a285",
+      "id": "pool-1792674547614-1",
+      "satIndex": 1,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x182d4b1790d6884348c3f8b3613e31ad136b3f67eabce3c91fb8d5bf6f075f3e",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-1",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Citrea Bitcoin ZK-Rollup (5115)",
-      "hash": "0x426de01d59b7aa112969596921f684f44fb9729329656928b1bd6556f567c24a",
+      "id": "pool-1792674547621-2",
+      "satIndex": 2,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x9d2443e24d4188be8017642c28b8799e416eac0f6cbc7e229168e6a02188c3c3",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-2",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0x34072c88aec601f1500812023dcad513caa037cdb62b4be96051413af46abace",
+      "id": "pool-1792674547628-3",
+      "satIndex": 3,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x67bba7df3dbca9ef4b2a10a98735813c59b16b000717fd919ecc15fef9859936",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-3",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Goat Network Bitcoin L2 (48816)",
-      "hash": "0x0d6a669a81e8c19200f8453938250a642c24881f3c746e41b5edd5c08fef8435",
+      "id": "pool-1792674547635-4",
+      "satIndex": 4,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0xb0dd7c9cf557f59d9697cc9ef6295534ebcf64c837fda2345a6802136f2ced26",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-4",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0x7d75f7bc2623516581cb9bcac9f9d3cc03c2f53f869dd3d3d7ff64131f7c0066",
+      "id": "pool-1792674547642-5",
+      "satIndex": 5,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x63df59fcf19d84d73c0c9047d2fb6be634d6a2fe09ea271a567596e5b4ddf66f",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-5",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Citrea Bitcoin ZK-Rollup (5115)",
-      "hash": "0x88c8ff165a6dfe104dffc86639ae21b9bb145f764873628b51227acd3b3abb83",
+      "id": "pool-1792674547652-6",
+      "satIndex": 6,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x64c13fc14c08b5c9dd63a07e2b8d06718d15f93af26e31023e085e06d5c14b57",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-6",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0xd4448b76ee41e85adf3ffad8831956634f4e79c8f5e7c852755ed6d8c3f56e33",
+      "id": "pool-1792674547658-7",
+      "satIndex": 7,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0xd90675cd036af1b53a532186819bc9eb3160849364dcdaf0b2d45e3cdcf471e9",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-7",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Goat Network Bitcoin L2 (48816)",
-      "hash": "0xd6bea940dfbc6fb075a0d3a30e03a0181d9a4baa5cf9c84d85c5c74c24311e18",
+      "id": "pool-1792674547665-8",
+      "satIndex": 8,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x98882bf781edc92fc1fd9a21306c187da07bb0924e57fdb50c12a7fafb51b6bd",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-8",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0x0594f43c347cd1ad779fc4b0648881cbaa25c9e496ad71d8570772addf32216b",
+      "id": "pool-1792674547671-9",
+      "satIndex": 9,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0xa1d74cfff75c7e1a47dee144b73e7176569249673990669a2d3e43608a6b86ed",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-9",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Citrea Bitcoin ZK-Rollup (5115)",
-      "hash": "0x7afbc457c078289a7267dfc5312113216f5a732cd8cba25a75a58f693cc7515b",
+      "id": "pool-1792674547677-10",
+      "satIndex": 10,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x97b84ddea6b10a71be1f50b80388c1a6d6ad2aaab004289f1bc131e428a6d193",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-10",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0x332fad3672119a3ec6cd0a9864639200b780809be55b4c972c408f9777d985eb",
+      "id": "pool-1792674547684-11",
+      "satIndex": 11,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x55ae7cb1cc06fbb4a177177d77c2253347656ffaa3f0408d7c16d04da3113821",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-11",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Goat Network Bitcoin L2 (48816)",
-      "hash": "0x93717fc0f24128c8c386aac8ad8e9efd26b6d03e348c67410f3111ed42fe05e9",
+      "id": "pool-1792674547690-12",
+      "satIndex": 12,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x778490e24e65bcbb5db5d63cc78c5ab6ab51f2376ca8273b20f5cdeed52a513e",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-12",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0x0a9eede0fb0ce0b3af125d04220e9e1459aeab6c644c3609f5b508272b666f10",
+      "id": "pool-1792674547698-13",
+      "satIndex": 13,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x918d682f87d7e723e8490f78c43c7416fbf43575b74a45d00a82d82ef9ed9b2b",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-13",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Citrea Bitcoin ZK-Rollup (5115)",
-      "hash": "0x143dca01312925c9a243fae8f4b420d2d35450bb05503b4b3d592d45f787f3bf",
+      "id": "pool-1792674547704-14",
+      "satIndex": 14,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0xb8bc5befcf5346978f40564d56d42684b6bbb6330d7f65e2ae4753d6aa5e6844",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-14",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0xb9f46b2dd899d3dbae2bfd6d67e8e1512c2d62f0cc292a85aee2cc782458088d",
+      "id": "pool-1792674547710-15",
+      "satIndex": 15,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x8e79f9efbbb0bcf06976e2deae38e78cd0ecf4d0eca08b5154972b58225087cf",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-15",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Goat Network Bitcoin L2 (48816)",
-      "hash": "0xc07188c2d872fc91b8d369b668df9bb3b9da22b9d5187fc5e1d398e61ee61533",
+      "id": "pool-1792674547717-16",
+      "satIndex": 16,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0xc1a739ef80b0102ad6706b2117efedf57b657fa3ad5d7f8f96c719ab8c91d310",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-16",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0xfa69a9b749d8eae7d9e4096b5804485eebd5ce9e6b537025325043c447391a9b",
+      "id": "pool-1792674547723-17",
+      "satIndex": 17,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x79903d4ad3da2fefb5e136c0e6622bff2f7434271e5b7d91b00709eb31df0461",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-17",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Citrea Bitcoin ZK-Rollup (5115)",
-      "hash": "0xe63af0eef3b9ec49ebaeb5b6ad41d94ce92c9c1e926b14876590a7553052b399",
+      "id": "pool-1792674547730-18",
+      "satIndex": 18,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0x0252389c2b5ccfc9143cabe942c9a30e954da3c298cb6aba5f2b879d13c8a9e0",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-18",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "WETH_MINT",
-      "network": "Sepolia",
-      "hash": "0x4526908de6110af37255ce524a55160c4d10a12730ddc1563f93f941fcba99ec",
+      "id": "pool-1792674547736-19",
+      "satIndex": 19,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0xc39403f6b1bae690b912f07aaefbd67ba6ae82f6e490282a041f8a3f52b5eb8d",
+      "tickets": 5,
       "status": "CONFIRMED"
     },
     {
-      "id": "btc-1792674496907-19",
-      "timestamp": "2026-10-22T13:08:16.907Z",
-      "type": "BTC_L2_PROOF",
-      "network": "Goat Network Bitcoin L2 (48816)",
-      "hash": "0xbd658596d80f4db0beaea7bf7cbd10bf70771d070f1b327b9a073d278c451863",
+      "id": "pool-1792674547743-20",
+      "satIndex": 20,
+      "type": "QUEST_POOL_ENTRY",
+      "network": "Base Sepolia (USDC Pool)",
+      "hash": "0xf201326a43f8c2daa84b1b9d816826012b1969280765c5b5cdd13471c3902393",
+      "tickets": 5,
       "status": "CONFIRMED"
     }
   ],
   "recentTelegramAlerts": [
+    {
+      "id": "tg-1792674960751-633",
+      "timestamp": "2026-10-22T13:16:00.751Z",
+      "timeFormatted": "13:16:00 UTC",
+      "rawHtml": "🥷⚔️ <b>OPERACIÓN 10K: REPORTE EN VIVO — LA TROPA EN ENTRENAMIENTO ACTIVO</b>\n<i>\"Los 500 soldados operando y entrenando sin parar para la cosecha del 30.\"</i>\n\n🎯 <b>OBJETIVO PRIORITARIO ABSOLUTO:</b>\n• 🏷️ <b>Proyecto:</b> <b>CyberShinobi Genesis (Robinhood EVM)</b>\n• 🪙 <b>Token:</b> <code>$SHINOBI</code> (Asignación Génesis)\n• 📅 <b>Snapshot Límite:</b> <b>30 de Octubre (¡Faltan 8 días!)</b>\n• 🛑 <b>Otras operaciones (Snipes):</b> Pausadas para no dispersar fuerza.\n\n👥 <b>¿QUÉ ESTÁN HACIENDO LOS 500 SOLDADOS AHORITA?</b>\n• ⚡ <b>1. Racha de Actividad Diaria:</b>\n   ↳ Los 500 satélites renovando credenciales criptográficas EIP-712.\n• ⚡ <b>2. Simulacro de Claim en Minuto Cero:</b>\n   ↳ Los 5 Boxes (#001 al #500) ensayando la firma instantánea en paralelo sin colapsar RPCs.\n• ⚡ <b>3. Aislamiento Anti-Sybil Activo:</b>\n   ↳ Cero conexiones entre billeteras, 100% de identidades blindadas.\n\n📊 <b>EFICIENCIA DEL BLOQUE POR BOXES:</b>\n• <b>Box 1 (#001-#100):</b> 99.4% Eficiencia · Latencia 14ms ✅\n• <b>Box 2 (#101-#200):</b> 99.1% Eficiencia · Latencia 16ms ✅\n• <b>Box 3 (#201-#300):</b> 98.8% Eficiencia · Latencia 15ms ✅\n• <b>Box 4 (#301-#400):</b> 99.5% Eficiencia · Latencia 13ms ✅\n• <b>Box 5 (#401-#500):</b> 99.2% Eficiencia · Latencia 15ms ✅\n💰 <i>Costo de Gas: <b>$0.00 CERO USD</b> (Fondos 100% intactos).</i>\n\n🔬 <b>¿QUÉ ESTÁN HACIENDO LAS NEBULOSAS AHORITA?</b>\n• 🛡️ <b>NEBULA #33 (Anti-Rugpull):</b> Escaneando el bytecode del contrato del token en Robinhood Chain. Confirma: <b>0 backdoors de acuñación, 0 comisiones ocultas</b> (Score: 93% 🟢).\n• ⚡ <b>NEBULA #34 (Primera Ola):</b> Calibrando el router de venta rápida para que apenas abra el mercado, ejecute el swap <code>$SHINOBI ➔ 100% USDC</code> y lo envíe directo a las 5 Bóvedas Binance Spot (Estimado: <b>$7,500 – $17,500 USDC</b>).\n\n🫡 <i>Comandante, la tropa está operando con disciplina militar. Cero fallos, máxima concentración hacia el 30 de Octubre.</i>",
+      "textPlain": "🥷⚔️ OPERACIÓN 10K: REPORTE EN VIVO — LA TROPA EN ENTRENAMIENTO ACTIVO\n\"Los 500 soldados operando y entrenando sin parar para la cosecha del 30.\"\n\n🎯 OBJETIVO PRIORITARIO ABSOLUTO:\n• 🏷️ Proyecto: CyberShinobi Genesis (Robinhood EVM)\n• 🪙 Token: $SHINOBI (Asignación Génesis)\n• 📅 Snapshot Límite: 30 de Octubre (¡Faltan 8 días!)\n• 🛑 Otras operaciones (Snipes): Pausadas para no dispersar fuerza.\n\n👥 ¿QUÉ ESTÁN HACIENDO LOS 500 SOLDADOS AHORITA?\n• ⚡ 1. Racha de Actividad Diaria:\n   ↳ Los 500 satélites renovando credenciales criptográficas EIP-712.\n• ⚡ 2. Simulacro de Claim en Minuto Cero:\n   ↳ Los 5 Boxes (#001 al #500) ensayando la firma instantánea en paralelo sin colapsar RPCs.\n• ⚡ 3. Aislamiento Anti-Sybil Activo:\n   ↳ Cero conexiones entre billeteras, 100% de identidades blindadas.\n\n📊 EFICIENCIA DEL BLOQUE POR BOXES:\n• Box 1 (#001-#100): 99.4% Eficiencia · Latencia 14ms ✅\n• Box 2 (#101-#200): 99.1% Eficiencia · Latencia 16ms ✅\n• Box 3 (#201-#300): 98.8% Eficiencia · Latencia 15ms ✅\n• Box 4 (#301-#400): 99.5% Eficiencia · Latencia 13ms ✅\n• Box 5 (#401-#500): 99.2% Eficiencia · Latencia 15ms ✅\n💰 Costo de Gas: $0.00 CERO USD (Fondos 100% intactos).\n\n🔬 ¿QUÉ ESTÁN HACIENDO LAS NEBULOSAS AHORITA?\n• 🛡️ NEBULA #33 (Anti-Rugpull): Escaneando el bytecode del contrato del token en Robinhood Chain. Confirma: 0 backdoors de acuñación, 0 comisiones ocultas (Score: 93% 🟢).\n• ⚡ NEBULA #34 (Primera Ola): Calibrando el router de venta rápida para que apenas abra el mercado, ejecute el swap $SHINOBI ➔ 100% USDC y lo envíe directo a las 5 Bóvedas Binance Spot (Estimado: $7,500 – $17,500 USDC).\n\n🫡 Comandante, la tropa está operando con disciplina militar. Cero fallos, máxima concentración hacia el 30 de Octubre."
+    },
+    {
+      "id": "tg-1792674956635-427",
+      "timestamp": "2026-10-22T13:15:56.635Z",
+      "timeFormatted": "13:15:56 UTC",
+      "rawHtml": "Test ping",
+      "textPlain": "Test ping"
+    },
+    {
+      "id": "tg-1792674934026-98",
+      "timestamp": "2026-10-22T13:15:34.026Z",
+      "timeFormatted": "13:15:34 UTC",
+      "rawHtml": "🥷⚔️ <b>OPERACIÓN 10K: REPORTE EN VIVO — LA TROPA EN ENTRENAMIENTO ACTIVO</b>\n<i>\"Los 500 soldados operando y entrenando sin parar para la cosecha del 30.\"</i>\n\n🎯 <b>OBJETIVO PRIORITARIO ABSOLUTO:</b>\n• 🏷️ <b>Proyecto:</b> <b>CyberShinobi Genesis (Robinhood EVM)</b>\n• 🪙 <b>Token:</b> <code>$SHINOBI</code> (Asignación Génesis)\n• 📅 <b>Snapshot Límite:</b> <b>30 de Octubre (¡Faltan 8 días!)</b>\n• 🛑 <b>Otras operaciones (Snipes):</b> Pausadas para no dispersar fuerza.\n\n👥 <b>¿QUÉ ESTÁN HACIENDO LOS 500 SOLDADOS AHORITA?</b>\n• ⚡ <b>1. Racha de Actividad Diaria:</b>\n   ↳ Los 500 satélites renovando credenciales criptográficas EIP-712.\n• ⚡ <b>2. Simulacro de Claim en Minuto Cero:</b>\n   ↳ Los 5 Boxes (#001 al #500) ensayando la firma instantánea en paralelo sin colapsar RPCs.\n• ⚡ <b>3. Aislamiento Anti-Sybil Activo:</b>\n   ↳ Cero conexiones entre billeteras, 100% de identidades blindadas.\n\n📊 <b>EFICIENCIA DEL BLOQUE POR BOXES:</b>\n• <b>Box 1 (#001-#100):</b> 99.4% Eficiencia · Latencia 14ms ✅\n• <b>Box 2 (#101-#200):</b> 99.1% Eficiencia · Latencia 16ms ✅\n• <b>Box 3 (#201-#300):</b> 98.8% Eficiencia · Latencia 15ms ✅\n• <b>Box 4 (#301-#400):</b> 99.5% Eficiencia · Latencia 13ms ✅\n• <b>Box 5 (#401-#500):</b> 99.2% Eficiencia · Latencia 15ms ✅\n💰 <i>Costo de Gas: <b>$0.00 CERO USD</b> (Fondos 100% intactos).</i>\n\n🔬 <b>¿QUÉ ESTÁN HACIENDO LAS NEBULOSAS AHORITA?</b>\n• 🛡️ <b>NEBULA #33 (Anti-Rugpull):</b> Escaneando el bytecode del contrato del token en Robinhood Chain. Confirma: <b>0 backdoors de acuñación, 0 comisiones ocultas</b> (Score: 93% 🟢).\n• ⚡ <b>NEBULA #34 (Primera Ola):</b> Calibrando el router de venta rápida para que apenas abra el mercado, ejecute el swap <code>$SHINOBI ➔ 100% USDC</code> y lo envíe directo a las 5 Bóvedas Binance Spot (Estimado: <b>$7,500 – $17,500 USDC</b>).\n\n🫡 <i>Comandante, la tropa está operando con disciplina militar. Cero fallos, máxima concentración hacia el 30 de Octubre.</i>",
+      "textPlain": "🥷⚔️ OPERACIÓN 10K: REPORTE EN VIVO — LA TROPA EN ENTRENAMIENTO ACTIVO\n\"Los 500 soldados operando y entrenando sin parar para la cosecha del 30.\"\n\n🎯 OBJETIVO PRIORITARIO ABSOLUTO:\n• 🏷️ Proyecto: CyberShinobi Genesis (Robinhood EVM)\n• 🪙 Token: $SHINOBI (Asignación Génesis)\n• 📅 Snapshot Límite: 30 de Octubre (¡Faltan 8 días!)\n• 🛑 Otras operaciones (Snipes): Pausadas para no dispersar fuerza.\n\n👥 ¿QUÉ ESTÁN HACIENDO LOS 500 SOLDADOS AHORITA?\n• ⚡ 1. Racha de Actividad Diaria:\n   ↳ Los 500 satélites renovando credenciales criptográficas EIP-712.\n• ⚡ 2. Simulacro de Claim en Minuto Cero:\n   ↳ Los 5 Boxes (#001 al #500) ensayando la firma instantánea en paralelo sin colapsar RPCs.\n• ⚡ 3. Aislamiento Anti-Sybil Activo:\n   ↳ Cero conexiones entre billeteras, 100% de identidades blindadas.\n\n📊 EFICIENCIA DEL BLOQUE POR BOXES:\n• Box 1 (#001-#100): 99.4% Eficiencia · Latencia 14ms ✅\n• Box 2 (#101-#200): 99.1% Eficiencia · Latencia 16ms ✅\n• Box 3 (#201-#300): 98.8% Eficiencia · Latencia 15ms ✅\n• Box 4 (#301-#400): 99.5% Eficiencia · Latencia 13ms ✅\n• Box 5 (#401-#500): 99.2% Eficiencia · Latencia 15ms ✅\n💰 Costo de Gas: $0.00 CERO USD (Fondos 100% intactos).\n\n🔬 ¿QUÉ ESTÁN HACIENDO LAS NEBULOSAS AHORITA?\n• 🛡️ NEBULA #33 (Anti-Rugpull): Escaneando el bytecode del contrato del token en Robinhood Chain. Confirma: 0 backdoors de acuñación, 0 comisiones ocultas (Score: 93% 🟢).\n• ⚡ NEBULA #34 (Primera Ola): Calibrando el router de venta rápida para que apenas abra el mercado, ejecute el swap $SHINOBI ➔ 100% USDC y lo envíe directo a las 5 Bóvedas Binance Spot (Estimado: $7,500 – $17,500 USDC).\n\n🫡 Comandante, la tropa está operando con disciplina militar. Cero fallos, máxima concentración hacia el 30 de Octubre."
+    },
+    {
+      "id": "vanguard-1792674547804",
+      "timestamp": "2026-10-22T13:09:07.804Z",
+      "timeFormatted": "13:09:07 UTC",
+      "rawHtml": "🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>\n⏱️ <code>13:09:07 UTC</code>\n\n🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>\n   • <b>Campañas Activas en Catálogo:</b> 24 objetivos ($0 Costo)\n   • <b>Check-Ins Diarios Firmados Hoy:</b> 710 asistencias\n   • <b>Misiones Gasless & DeFi Ejecutadas:</b> 1650 operaciones\n   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> 1020 operaciones / 25500 pts acumulados\n   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa\n\n💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>\n   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $38.72 USDC\n   • <b>Consolidado en Binance Spot (Meta 12K):</b> $1.00 USDC\n   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 <b>MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):</b>\n   • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)\n   • <b>Recuperado (ROI):</b> $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB\n   • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • <b>Vueltas Completadas:</b> 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • <b>Radar Bounties Mainnet (BSC + Polygon):</b> 🟢 8 objetivos activos en caza\n\n🧠 <b>CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):</b>\n   • <b>ADN Polimórfico (500 Bots):</b> 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • <b>Auto-Descubridor On-Chain:</b> 22 Contratos Verificados (0 Honeypots)\n   • <b>Auto-Liquidador DEX ➔ USDC:</b> 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 <b>CHAMBA DE ESTA RONDA:</b>\n   • <b>Box Activo:</b> Box 1 (#001–#100)\n   • <b>Satélites Operados:</b> 20/500 Satélites\n   • <b>Confirmadas en este Turno:</b> 60 txs on-chain ✅\n⛏️ <b>BOT MINER SWARM:</b> Box 4 minó 20 operaciones on-chain/gasless (Acumulado Minero: 875 ops)\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 163 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 7391 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 520 txs\n   • <b>Boxes Rotados Hoy:</b> Box 1, Box 4, Box 5\n   • <b>Autonomía de Gas:</b> Autonomía verificada L2/L1\n\n🌐 <b>ESTADO DE REDES ACTIVAS:</b>\n   • <b>Ethereum Sepolia:</b> En línea (Bloque 896,337,271 • 143ms)\n   • <b>Base Sepolia:</b> En línea (Bloque 48,763,382 • 213ms)\n   • <b>Arbitrum Sepolia:</b> En línea (Bloque 321,734,718 • 479ms)\n   • <b>Optimism Sepolia:</b> En línea (Bloque 50,436,002 • 279ms)\n   • <b>BSC Mainnet:</b> En línea (Bloque 129,135,394 • 260ms)\n   • <b>Polygon Mainnet:</b> En línea (Bloque 896,337,271 • 134ms)\n   • <b>Citrea Bitcoin ZK-Rollup:</b> En línea (Bloque 32,936,520 • 264ms)\n   • <b>Goat Network Bitcoin L2:</b> En línea (Bloque 17,678,349 • 610ms)\n   • <b>BSC Testnet:</b> En línea (Bloque 138,275,174 • 631ms)\n   • <b>Polygon Amoy:</b> En línea (Bloque 50,851,985 • 710ms)\n\n🌉 <b>COBERTURA DE PUENTES L2 (5 BOXES):</b>\n   • <b>Box 1 (#001–#100):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 2 (#101–#200):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 3 (#201–#300):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 4 (#301–#400):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 5 (#401–#500):</b> Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 <b>VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):</b>\n   • <b>Cabecera #501 (Box 0):</b> <code>0xD4D1...3743</code>\n     ↳ 0.00527 BNB | 121.02 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • <b>Cabecera #001 (Box 1):</b> <code>0xb750...D40F</code>\n     ↳ 0.00507 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #101 (Box 2):</b> <code>0x5682...adBA</code>\n     ↳ 0.00790 BNB | 18.03 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #201 (Box 3):</b> <code>0x2810...6A7C</code>\n     ↳ 0.00792 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #301 (Box 4):</b> <code>0xEb6a...Ca0f</code>\n     ↳ 0.00509 BNB | 12.02 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #401 (Box 5):</b> <code>0x4C71...d070</code>\n     ↳ 0.00509 BNB | 12.03 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 <b>HALLAZGOS EN ESTA RONDA:</b>\n   • <b>Ruta Óptima de Ejecución:</b> Polygon Mainnet detectada con menor latencia (134ms).\n   • <b>Rotación del Escuadrón:</b> Box 1 (#001–#100) en turno operativo sin alertas de colisión.\n   • <b>Contratos DeFi en Radar:</b> WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • <b>Aislamiento Intra-Bloque:</b> 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>\nVector 1: Daily Streak Check-In (0x183ff085 en Polygon Mainnet)\n\n⚡ <b>ESCUADRÓN DESPLEGADO:</b>\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 <b>RENDIMIENTO CAPTADO HOY:</b> +$38.7194 USDC\n📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil",
+      "textPlain": "🦅 10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES\n⏱️ 13:09:07 UTC\n\n🎯 CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):\n   • Campañas Activas en Catálogo: 24 objetivos ($0 Costo)\n   • Check-Ins Diarios Firmados Hoy: 710 asistencias\n   • Misiones Gasless & DeFi Ejecutadas: 1650 operaciones\n   • ₿ Granja Bitcoin L2 (Citrea & Goat): 1020 operaciones / 25500 pts acumulados\n   • Cobertura de Caza por Box: Box 1 a Box 5 en rotación activa\n\n💰 EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):\n   • Acumulándose en Satélites (Centavos/Flotante): $38.72 USDC\n   • Consolidado en Binance Spot (Meta 12K): $1.00 USDC\n   • Estado de las 5 Bóvedas Receptoras: 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):\n   • Inversión Gas Mainnet: $50.00 USD (135.17 POL + 0.0365 BNB)\n   • Recuperado (ROI): $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • Reserva en Recámara (Kraken 72h): 116.38 POL + 0.02006 BNB\n   • Velocímetro por Satélite: Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • Vueltas Completadas: 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • Radar Bounties Mainnet (BSC + Polygon): 🟢 8 objetivos activos en caza\n\n🧠 CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):\n   • ADN Polimórfico (500 Bots): 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • Auto-Descubridor On-Chain: 22 Contratos Verificados (0 Honeypots)\n   • Auto-Liquidador DEX ➔ USDC: 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 CHAMBA DE ESTA RONDA:\n   • Box Activo: Box 1 (#001–#100)\n   • Satélites Operados: 20/500 Satélites\n   • Confirmadas en este Turno: 60 txs on-chain ✅\n⛏️ BOT MINER SWARM: Box 4 minó 20 operaciones on-chain/gasless (Acumulado Minero: 875 ops)\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 163 rondas\n   • Txs On-Chain Acumuladas: 7391 txs firmadas\n   • Txs Confirmadas Hoy: 520 txs\n   • Boxes Rotados Hoy: Box 1, Box 4, Box 5\n   • Autonomía de Gas: Autonomía verificada L2/L1\n\n🌐 ESTADO DE REDES ACTIVAS:\n   • Ethereum Sepolia: En línea (Bloque 896,337,271 • 143ms)\n   • Base Sepolia: En línea (Bloque 48,763,382 • 213ms)\n   • Arbitrum Sepolia: En línea (Bloque 321,734,718 • 479ms)\n   • Optimism Sepolia: En línea (Bloque 50,436,002 • 279ms)\n   • BSC Mainnet: En línea (Bloque 129,135,394 • 260ms)\n   • Polygon Mainnet: En línea (Bloque 896,337,271 • 134ms)\n   • Citrea Bitcoin ZK-Rollup: En línea (Bloque 32,936,520 • 264ms)\n   • Goat Network Bitcoin L2: En línea (Bloque 17,678,349 • 610ms)\n   • BSC Testnet: En línea (Bloque 138,275,174 • 631ms)\n   • Polygon Amoy: En línea (Bloque 50,851,985 • 710ms)\n\n🌉 COBERTURA DE PUENTES L2 (5 BOXES):\n   • Box 1 (#001–#100): Base 100/100 | Arb 100/100 🟢\n   • Box 2 (#101–#200): Base 100/100 | Arb 100/100 🟢\n   • Box 3 (#201–#300): Base 100/100 | Arb 100/100 🟢\n   • Box 4 (#301–#400): Base 100/100 | Arb 100/100 🟢\n   • Box 5 (#401–#500): Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):\n   • Cabecera #501 (Box 0): 0xD4D1...3743\n     ↳ 0.00527 BNB | 121.02 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • Cabecera #001 (Box 1): 0xb750...D40F\n     ↳ 0.00507 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #101 (Box 2): 0x5682...adBA\n     ↳ 0.00790 BNB | 18.03 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #201 (Box 3): 0x2810...6A7C\n     ↳ 0.00792 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #301 (Box 4): 0xEb6a...Ca0f\n     ↳ 0.00509 BNB | 12.02 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #401 (Box 5): 0x4C71...d070\n     ↳ 0.00509 BNB | 12.03 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 HALLAZGOS EN ESTA RONDA:\n   • Ruta Óptima de Ejecución: Polygon Mainnet detectada con menor latencia (134ms).\n   • Rotación del Escuadrón: Box 1 (#001–#100) en turno operativo sin alertas de colisión.\n   • Contratos DeFi en Radar: WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • Aislamiento Intra-Bloque: 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 OBJETIVO DE CAZA ACTIVO:\nVector 1: Daily Streak Check-In (0x183ff085 en Polygon Mainnet)\n\n⚡ ESCUADRÓN DESPLEGADO:\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 RENDIMIENTO CAPTADO HOY: +$38.7194 USDC\n📡 ESTADO: Escaneo activo 24/7 sin colisiones Sybil"
+    },
     {
       "id": "vanguard-1792674537999",
       "timestamp": "2026-10-22T13:08:57.999Z",
@@ -47240,34 +47288,6 @@
       "timeFormatted": "11:59:02 UTC",
       "rawHtml": "⛏️ <b>BOT MINER SWARM — OPERACIÓN 10K</b>\n🔄 <b>Ronda de Minería & Recompensas X500</b>\n\n🌌 <b>DIRECTRIZ DE LAS 10 NEBULOSAS IA (SCORE 99%):</b>\n   • <b>Guía de la Manada:</b> 500 satélites dirigidos por 10 agentes autónomos\n   • <b>Objetivo L2 Rápido:</b> Citrea Testnet / Goat Network\n   • <b>Box Priorizado:</b> Box 1 (#1–100)\n   • <b>Gas Mainnet:</b> Polygon 268.284546037 Gwei · BSC 0.05 Gwei (🟡 Espera)\n   • <b>Seguridad Anti-Honeypot:</b> 🟢 0 detectados (GoPlus + Bytecode)\n   • <b>Ruta de Salida:</b> 100% USDC Nativo hacia 5 Bóvedas Binance Spot\n\n\n🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>\n   • <b>Campañas Activas en Catálogo:</b> 24 objetivos ($0 Costo)\n   • <b>Check-Ins Diarios Firmados Hoy:</b> 650 asistencias\n   • <b>Misiones Gasless & DeFi Ejecutadas:</b> 1530 operaciones\n   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> 960 operaciones / 24000 pts acumulados\n   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa\n\n💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>\n   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $38.72 USDC\n   • <b>Consolidado en Binance Spot (Meta 12K):</b> $1.00 USDC\n   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📦 <b>Escuadrón Activo:</b> <code>Satélites #281–#300 (Box 3)</code>\n⚡ <b>Minería On-Chain / Claims:</b> 20 txs confirmadas\n✍️ <b>Firmas Gasless EIP-712:</b> 0 firmas verificadas\n🌉 <b>Auto-Bridges Box 5 L2:</b> 0 puentes ejecutados\n🎯 <b>Total Operaciones Ronda:</b> +20 ops\n\n🏆 <b>PUNTOS DE MINERÍA POR BOX:</b>\n   • <b>Box 1 (#001-#100):</b> 16300 pts\n   • <b>Box 2 (#101-#200):</b> 19000 pts\n   • <b>Box 3 (#201-#300):</b> 21050 pts\n   • <b>Box 4 (#301-#400):</b> 10750 pts\n   • <b>Box 5 (#401-#500):</b> 10150 pts\n\n🏦 <b>VIGÍA BÓVEDA #501:</b>\n   • <b>BSC / Polygon:</b> <code>🟢 ACTIVA Y FONDEADA (0.0053 BNB • 121.02 POL)</code>\n   • <b>Dirección #501:</b> <code>0xD4D12077a61118372f7a367319fb11922Beb3743</code>\n\n📈 <b>ACUMULADO HISTÓRICO GLOBAL:</b>\n   • <b>Txs On-Chain Acumuladas:</b> <b>6491</b> transacciones\n   • <b>Rondas Ejecutadas:</b> 146\n   • <b>Bóveda VIP #00:</b> 100% Segura (Solo lectura)\n\n⏰ <i>22/10/2026, 11:59:02 UTC</i>",
       "textPlain": "⛏️ BOT MINER SWARM — OPERACIÓN 10K\n🔄 Ronda de Minería & Recompensas X500\n\n🌌 DIRECTRIZ DE LAS 10 NEBULOSAS IA (SCORE 99%):\n   • Guía de la Manada: 500 satélites dirigidos por 10 agentes autónomos\n   • Objetivo L2 Rápido: Citrea Testnet / Goat Network\n   • Box Priorizado: Box 1 (#1–100)\n   • Gas Mainnet: Polygon 268.284546037 Gwei · BSC 0.05 Gwei (🟡 Espera)\n   • Seguridad Anti-Honeypot: 🟢 0 detectados (GoPlus + Bytecode)\n   • Ruta de Salida: 100% USDC Nativo hacia 5 Bóvedas Binance Spot\n\n\n🎯 CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):\n   • Campañas Activas en Catálogo: 24 objetivos ($0 Costo)\n   • Check-Ins Diarios Firmados Hoy: 650 asistencias\n   • Misiones Gasless & DeFi Ejecutadas: 1530 operaciones\n   • ₿ Granja Bitcoin L2 (Citrea & Goat): 960 operaciones / 24000 pts acumulados\n   • Cobertura de Caza por Box: Box 1 a Box 5 en rotación activa\n\n💰 EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):\n   • Acumulándose en Satélites (Centavos/Flotante): $38.72 USDC\n   • Consolidado en Binance Spot (Meta 12K): $1.00 USDC\n   • Estado de las 5 Bóvedas Receptoras: 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📦 Escuadrón Activo: Satélites #281–#300 (Box 3)\n⚡ Minería On-Chain / Claims: 20 txs confirmadas\n✍️ Firmas Gasless EIP-712: 0 firmas verificadas\n🌉 Auto-Bridges Box 5 L2: 0 puentes ejecutados\n🎯 Total Operaciones Ronda: +20 ops\n\n🏆 PUNTOS DE MINERÍA POR BOX:\n   • Box 1 (#001-#100): 16300 pts\n   • Box 2 (#101-#200): 19000 pts\n   • Box 3 (#201-#300): 21050 pts\n   • Box 4 (#301-#400): 10750 pts\n   • Box 5 (#401-#500): 10150 pts\n\n🏦 VIGÍA BÓVEDA #501:\n   • BSC / Polygon: 🟢 ACTIVA Y FONDEADA (0.0053 BNB • 121.02 POL)\n   • Dirección #501: 0xD4D12077a61118372f7a367319fb11922Beb3743\n\n📈 ACUMULADO HISTÓRICO GLOBAL:\n   • Txs On-Chain Acumuladas: 6491 transacciones\n   • Rondas Ejecutadas: 146\n   • Bóveda VIP #00: 100% Segura (Solo lectura)\n\n⏰ 22/10/2026, 11:59:02 UTC"
-    },
-    {
-      "id": "vanguard-1792670236551",
-      "timestamp": "2026-10-22T11:57:16.551Z",
-      "timeFormatted": "11:57:16 UTC",
-      "rawHtml": "🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>\n⏱️ <code>11:57:16 UTC</code>\n\n🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>\n   • <b>Campañas Activas en Catálogo:</b> 24 objetivos ($0 Costo)\n   • <b>Check-Ins Diarios Firmados Hoy:</b> 670 asistencias\n   • <b>Misiones Gasless & DeFi Ejecutadas:</b> 1530 operaciones\n   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> 940 operaciones / 23500 pts acumulados\n   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa\n\n💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>\n   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $0.00 USDC\n   • <b>Consolidado en Binance Spot (Meta 12K):</b> $1.00 USDC\n   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 <b>MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):</b>\n   • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)\n   • <b>Recuperado (ROI):</b> $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB\n   • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • <b>Vueltas Completadas:</b> 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • <b>Radar Bounties Mainnet (BSC + Polygon):</b> 🟢 8 objetivos activos en caza\n\n🧠 <b>CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):</b>\n   • <b>ADN Polimórfico (500 Bots):</b> 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • <b>Auto-Descubridor On-Chain:</b> 22 Contratos Verificados (0 Honeypots)\n   • <b>Auto-Liquidador DEX ➔ USDC:</b> 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 <b>CHAMBA DE ESTA RONDA:</b>\n   • <b>Box Activo:</b> Box 3 (#201–#300)\n   • <b>Satélites Operados:</b> 20/500 Satélites\n   • <b>Confirmadas en este Turno:</b> 60 txs on-chain ✅\n⛏️ <b>BOT MINER SWARM:</b> Box 3 minó 60 operaciones on-chain/gasless (Acumulado Minero: 795 ops)\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 145 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 6471 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 60 txs\n   • <b>Boxes Rotados Hoy:</b> Box 3\n   • <b>Autonomía de Gas:</b> ~1.8 días en Base / ~1.3 días en Sepolia\n\n🌐 <b>ESTADO DE REDES ACTIVAS:</b>\n   • <b>Ethereum Sepolia:</b> En línea (Bloque 896,335,114 • 165ms)\n   • <b>Base Sepolia:</b> En línea (Bloque 48,741,819 • 262ms)\n   • <b>Arbitrum Sepolia:</b> En línea (Bloque 321,718,297 • 329ms)\n   • <b>Optimism Sepolia:</b> En línea (Bloque 50,433,846 • 325ms)\n   • <b>BSC Mainnet:</b> En línea (Bloque 129,125,819 • 272ms)\n   • <b>Polygon Mainnet:</b> En línea (Bloque 896,335,115 • 161ms)\n   • <b>Citrea Bitcoin ZK-Rollup:</b> En línea (Bloque 32,934,364 • 282ms)\n   • <b>Goat Network Bitcoin L2:</b> En línea (Bloque 17,677,071 • 638ms)\n   • <b>BSC Testnet:</b> En línea (Bloque 138,265,590 • 588ms)\n   • <b>Polygon Amoy:</b> En línea (Bloque 50,847,672 • 679ms)\n\n🌉 <b>COBERTURA DE PUENTES L2 (5 BOXES):</b>\n   • <b>Box 1 (#001–#100):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 2 (#101–#200):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 3 (#201–#300):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 4 (#301–#400):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 5 (#401–#500):</b> Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 <b>VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):</b>\n   • <b>Cabecera #501 (Box 0):</b> <code>0xD4D1...3743</code>\n     ↳ 0.00527 BNB | 121.02 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • <b>Cabecera #001 (Box 1):</b> <code>0xb750...D40F</code>\n     ↳ 0.00507 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #101 (Box 2):</b> <code>0x5682...adBA</code>\n     ↳ 0.00790 BNB | 18.03 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #201 (Box 3):</b> <code>0x2810...6A7C</code>\n     ↳ 0.00792 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #301 (Box 4):</b> <code>0xEb6a...Ca0f</code>\n     ↳ 0.00509 BNB | 12.02 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #401 (Box 5):</b> <code>0x4C71...d070</code>\n     ↳ 0.00509 BNB | 12.03 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 <b>HALLAZGOS EN ESTA RONDA:</b>\n   • <b>Ruta Óptima de Ejecución:</b> Polygon Mainnet detectada con menor latencia (161ms).\n   • <b>Rotación del Escuadrón:</b> Box 3 (#201–#300) en turno operativo sin alertas de colisión.\n   • <b>Contratos DeFi en Radar:</b> WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • <b>Aislamiento Intra-Bloque:</b> 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>\nVector 3: LayerZero Omnichain Verification Proof (EIP-712 $0.00 Gasless)\n\n⚡ <b>ESCUADRÓN DESPLEGADO:</b>\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 <b>RENDIMIENTO CAPTADO HOY:</b> +$1.0000 USDC\n📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil",
-      "textPlain": "🦅 10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES\n⏱️ 11:57:16 UTC\n\n🎯 CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):\n   • Campañas Activas en Catálogo: 24 objetivos ($0 Costo)\n   • Check-Ins Diarios Firmados Hoy: 670 asistencias\n   • Misiones Gasless & DeFi Ejecutadas: 1530 operaciones\n   • ₿ Granja Bitcoin L2 (Citrea & Goat): 940 operaciones / 23500 pts acumulados\n   • Cobertura de Caza por Box: Box 1 a Box 5 en rotación activa\n\n💰 EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):\n   • Acumulándose en Satélites (Centavos/Flotante): $0.00 USDC\n   • Consolidado en Binance Spot (Meta 12K): $1.00 USDC\n   • Estado de las 5 Bóvedas Receptoras: 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):\n   • Inversión Gas Mainnet: $50.00 USD (135.17 POL + 0.0365 BNB)\n   • Recuperado (ROI): $39.72 / $50.00 USDC (79.44% | Break-Even: -$10.28)\n   • Reserva en Recámara (Kraken 72h): 116.38 POL + 0.02006 BNB\n   • Velocímetro por Satélite: Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • Vueltas Completadas: 7 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • Radar Bounties Mainnet (BSC + Polygon): 🟢 8 objetivos activos en caza\n\n🧠 CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):\n   • ADN Polimórfico (500 Bots): 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • Auto-Descubridor On-Chain: 22 Contratos Verificados (0 Honeypots)\n   • Auto-Liquidador DEX ➔ USDC: 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 CHAMBA DE ESTA RONDA:\n   • Box Activo: Box 3 (#201–#300)\n   • Satélites Operados: 20/500 Satélites\n   • Confirmadas en este Turno: 60 txs on-chain ✅\n⛏️ BOT MINER SWARM: Box 3 minó 60 operaciones on-chain/gasless (Acumulado Minero: 795 ops)\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 145 rondas\n   • Txs On-Chain Acumuladas: 6471 txs firmadas\n   • Txs Confirmadas Hoy: 60 txs\n   • Boxes Rotados Hoy: Box 3\n   • Autonomía de Gas: ~1.8 días en Base / ~1.3 días en Sepolia\n\n🌐 ESTADO DE REDES ACTIVAS:\n   • Ethereum Sepolia: En línea (Bloque 896,335,114 • 165ms)\n   • Base Sepolia: En línea (Bloque 48,741,819 • 262ms)\n   • Arbitrum Sepolia: En línea (Bloque 321,718,297 • 329ms)\n   • Optimism Sepolia: En línea (Bloque 50,433,846 • 325ms)\n   • BSC Mainnet: En línea (Bloque 129,125,819 • 272ms)\n   • Polygon Mainnet: En línea (Bloque 896,335,115 • 161ms)\n   • Citrea Bitcoin ZK-Rollup: En línea (Bloque 32,934,364 • 282ms)\n   • Goat Network Bitcoin L2: En línea (Bloque 17,677,071 • 638ms)\n   • BSC Testnet: En línea (Bloque 138,265,590 • 588ms)\n   • Polygon Amoy: En línea (Bloque 50,847,672 • 679ms)\n\n🌉 COBERTURA DE PUENTES L2 (5 BOXES):\n   • Box 1 (#001–#100): Base 100/100 | Arb 100/100 🟢\n   • Box 2 (#101–#200): Base 100/100 | Arb 100/100 🟢\n   • Box 3 (#201–#300): Base 100/100 | Arb 100/100 🟢\n   • Box 4 (#301–#400): Base 100/100 | Arb 100/100 🟢\n   • Box 5 (#401–#500): Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):\n   • Cabecera #501 (Box 0): 0xD4D1...3743\n     ↳ 0.00527 BNB | 121.02 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • Cabecera #001 (Box 1): 0xb750...D40F\n     ↳ 0.00507 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #101 (Box 2): 0x5682...adBA\n     ↳ 0.00790 BNB | 18.03 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #201 (Box 3): 0x2810...6A7C\n     ↳ 0.00792 BNB | 18.02 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #301 (Box 4): 0xEb6a...Ca0f\n     ↳ 0.00509 BNB | 12.02 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #401 (Box 5): 0x4C71...d070\n     ↳ 0.00509 BNB | 12.03 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 HALLAZGOS EN ESTA RONDA:\n   • Ruta Óptima de Ejecución: Polygon Mainnet detectada con menor latencia (161ms).\n   • Rotación del Escuadrón: Box 3 (#201–#300) en turno operativo sin alertas de colisión.\n   • Contratos DeFi en Radar: WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • Aislamiento Intra-Bloque: 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 OBJETIVO DE CAZA ACTIVO:\nVector 3: LayerZero Omnichain Verification Proof (EIP-712 $0.00 Gasless)\n\n⚡ ESCUADRÓN DESPLEGADO:\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 RENDIMIENTO CAPTADO HOY: +$1.0000 USDC\n📡 ESTADO: Escaneo activo 24/7 sin colisiones Sybil"
-    },
-    {
-      "id": "vanguard-1792670222148",
-      "timestamp": "2026-10-22T11:57:02.148Z",
-      "timeFormatted": "11:57:02 UTC",
-      "rawHtml": "🎯 <b>10K VANGUARD HUNTER EN LÍNEA</b> — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando.",
-      "textPlain": "🎯 10K VANGUARD HUNTER EN LÍNEA — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando."
-    },
-    {
-      "id": "tg-1792670221324-334",
-      "timestamp": "2026-10-22T11:57:01.324Z",
-      "timeFormatted": "11:57:01 UTC",
-      "rawHtml": "🎉 🚨 <b>¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!</b>\n⛽ <b>FONDOS DE KRAKEN LIBERADOS EN MAINNET</b>\n\n🏦 <b>Bóveda Matriz #501:</b> <code>0xD4D12077a61118372f7a367319fb11922Beb3743</code>\n💰 <b>Fondos Capturados:</b>\n   • <b>bscMainnet:</b> +0.00527 BNB ✅\n   • <b>polygonMainnet:</b> +121.02407 POL ✅\n\n👑 <b>5 Cabeceras Fondeadas Automáticamente:</b>\n   • Cabecera #001 (Box 1)\n   • Cabecera #101 (Box 2)\n   • Cabecera #201 (Box 3)\n   • Cabecera #301 (Box 4)\n   • Cabecera #401 (Box 5)\n\n🛡️ <b>Dispersión Intra-Box:</b> Activa hacia satélites de cada Box.\n🔒 <b>Seguridad:</b> Aislamiento estanco intra-bloque 100% preservado.\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 145 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 6471 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 60 txs\n   • <b>Boxes Rotados Hoy:</b> Box 3\n   • <b>Autonomía de Gas:</b> ~1.8 días en Base / ~1.3 días en Sepolia\n\n⏰ <i>22/10/2026, 11:57:01 UTC</i>",
-      "textPlain": "🎉 🚨 ¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!\n⛽ FONDOS DE KRAKEN LIBERADOS EN MAINNET\n\n🏦 Bóveda Matriz #501: 0xD4D12077a61118372f7a367319fb11922Beb3743\n💰 Fondos Capturados:\n   • bscMainnet: +0.00527 BNB ✅\n   • polygonMainnet: +121.02407 POL ✅\n\n👑 5 Cabeceras Fondeadas Automáticamente:\n   • Cabecera #001 (Box 1)\n   • Cabecera #101 (Box 2)\n   • Cabecera #201 (Box 3)\n   • Cabecera #301 (Box 4)\n   • Cabecera #401 (Box 5)\n\n🛡️ Dispersión Intra-Box: Activa hacia satélites de cada Box.\n🔒 Seguridad: Aislamiento estanco intra-bloque 100% preservado.\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 145 rondas\n   • Txs On-Chain Acumuladas: 6471 txs firmadas\n   • Txs Confirmadas Hoy: 60 txs\n   • Boxes Rotados Hoy: Box 3\n   • Autonomía de Gas: ~1.8 días en Base / ~1.3 días en Sepolia\n\n⏰ 22/10/2026, 11:57:01 UTC"
-    },
-    {
-      "id": "tg-1792670206074-556",
-      "timestamp": "2026-10-22T11:56:46.074Z",
-      "timeFormatted": "11:56:46 UTC",
-      "rawHtml": "🔒 <b>BÓVEDA MÁSTER ON-CHAIN (#501) & ESTADO DE ACUMULACIÓN:</b>\n   • <b>En Bóveda Máster On-Chain (Compounding):</b> $0.00 USDC\n   • <b>Recibido Previamente en Binance Spot:</b> $1.00 USDC\n   • <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos)\n   • <b>Supervisión:</b> 12 Nebulosas IA (Gatillo >= 95% Certeza)\n\n🏦 <b>MAPEO DE LAS 5 BÓVEDAS RECEPTORAS (SOLO RETIRO MANUAL CONSOLIDADO):</b>\n   • <b>Box 1 (#001–#100 + Bóveda #501)</b> ➔ <code>0x48b26dd0f9265573f31f7140cf01e9c48518531b</code>\n   • <b>Box 2 (#101–#200)</b> ➔ <code>0x33cffda0218122ed4d981dcb1797f4b458191bc4</code>\n   • <b>Box 3 (#201–#300)</b> ➔ <code>0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</code>\n   • <b>Box 4 (#301–#400)</b> ➔ <code>0x2734e0a264573056417d12478616107ff5d2ce54</code>\n   • <b>Box 5 (#401–#500)</b> ➔ <code>0xf746f7da001c48367d76641a2e870db8e509dce7</code>\n\n📦 <b>FONDO DE INTERÉS COMPUESTO POR BOX (ON-CHAIN):</b>\n   • <b>Box 1 (Matriz #501 + #001):</b> $0.0000 USDC\n   • <b>Box 2 (Capitán #101):</b> $0.0000 USDC\n   • <b>Box 3 (Capitán #201):</b> $0.0000 USDC\n   • <b>Box 4 (Capitán #301):</b> $0.0000 USDC\n   • <b>Box 5 (Capitán #401):</b> $0.0000 USDC\n\n🛡️ <b>REGLAS Y BLINDAJES ACTIVOS:</b>\n   • <b>Micro-Depósitos a Binance:</b> 🚫 BLOQUEADOS TOTALMENTE (Cero spam on-chain al CEX)\n   • <b>Estrategia:</b> Compounding on-chain para escalar a Super Snipers\n   • <b>Bóveda VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet / Solo Lectura)\n   • <b>Token Exclusivo:</b> 100% USDC Nativo (Prohibido USDT por MiCA)\n   • <b>Aislamiento Anti-Sybil:</b> Intra-bloque estanco verificado (5/5 Boxes)\n\n⏰ <i>11:56:46 UTC</i>",
-      "textPlain": "🔒 BÓVEDA MÁSTER ON-CHAIN (#501) & ESTADO DE ACUMULACIÓN:\n   • En Bóveda Máster On-Chain (Compounding): $0.00 USDC\n   • Recibido Previamente en Binance Spot: $1.00 USDC\n   • Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos)\n   • Supervisión: 12 Nebulosas IA (Gatillo >= 95% Certeza)\n\n🏦 MAPEO DE LAS 5 BÓVEDAS RECEPTORAS (SOLO RETIRO MANUAL CONSOLIDADO):\n   • Box 1 (#001–#100 + Bóveda #501) ➔ 0x48b26dd0f9265573f31f7140cf01e9c48518531b\n   • Box 2 (#101–#200) ➔ 0x33cffda0218122ed4d981dcb1797f4b458191bc4\n   • Box 3 (#201–#300) ➔ 0x409c4695afd6c919ca660cd86c5c24eb54bfca4e\n   • Box 4 (#301–#400) ➔ 0x2734e0a264573056417d12478616107ff5d2ce54\n   • Box 5 (#401–#500) ➔ 0xf746f7da001c48367d76641a2e870db8e509dce7\n\n📦 FONDO DE INTERÉS COMPUESTO POR BOX (ON-CHAIN):\n   • Box 1 (Matriz #501 + #001): $0.0000 USDC\n   • Box 2 (Capitán #101): $0.0000 USDC\n   • Box 3 (Capitán #201): $0.0000 USDC\n   • Box 4 (Capitán #301): $0.0000 USDC\n   • Box 5 (Capitán #401): $0.0000 USDC\n\n🛡️ REGLAS Y BLINDAJES ACTIVOS:\n   • Micro-Depósitos a Binance: 🚫 BLOQUEADOS TOTALMENTE (Cero spam on-chain al CEX)\n   • Estrategia: Compounding on-chain para escalar a Super Snipers\n   • Bóveda VIP #00: Monitoreada (100% Segura / 0 Tx en Mainnet / Solo Lectura)\n   • Token Exclusivo: 100% USDC Nativo (Prohibido USDT por MiCA)\n   • Aislamiento Anti-Sybil: Intra-bloque estanco verificado (5/5 Boxes)\n\n⏰ 11:56:46 UTC"
     }
   ],
   "lomo6SocialX": {
@@ -47280,7 +47300,7 @@
     "gamingTweetsDeleted": 0,
     "cooldownHours": 6,
     "status": "PAUSED_FOR_REVIEW",
-    "lastUpdated": "2026-10-22T13:08:58.343Z",
+    "lastUpdated": "2026-10-22T13:16:17.656Z",
     "name": "YoZapata",
     "url": "https://x.com/yozapata",
     "verifiedProfile": {
@@ -47659,8 +47679,8 @@
           "inCooldown": 50,
           "nextReadyAt": "2026-10-28T13:13:18.257Z",
           "lastTxAt": "2026-10-21T19:57:21.406Z",
-          "campaignInCooldown": 5,
-          "campaignNextReadyAt": "2026-10-22T13:13:18.257Z"
+          "campaignInCooldown": 0,
+          "campaignNextReadyAt": null
         },
         "polygonMainnet": {
           "minExecNative": 0.005,
@@ -47668,8 +47688,8 @@
           "inCooldown": 50,
           "nextReadyAt": "2026-10-28T12:40:00.000Z",
           "lastTxAt": "2026-10-21T18:49:40.258Z",
-          "campaignInCooldown": 5,
-          "campaignNextReadyAt": "2026-10-22T13:14:11.892Z"
+          "campaignInCooldown": 0,
+          "campaignNextReadyAt": null
         }
       }
     },
@@ -53956,6 +53976,112 @@
         "timestamp": "2026-10-22T13:06:50.957Z"
       }
     ]
+  },
+  "cybershinobiTrainingState": {
+    "schemaVersion": "1.0.0",
+    "timestamp": "2026-10-22T13:16:00.736Z",
+    "formattedTime": "22/10/2026, 13:16:00 UTC",
+    "mission": {
+      "target": "CyberShinobi Genesis (Robinhood EVM Testnet)",
+      "token": "$SHINOBI",
+      "deadline": "2026-10-30T23:59:59Z",
+      "daysLeft": 8,
+      "status": "ENTRENANDO_Y_OPERANDO_EN_VIVO",
+      "otherOperationsStatus": "SNIPES_PAUSADOS_FOCO_TOTAL_EN_30_OCT"
+    },
+    "swarmMetrics": {
+      "totalSoldiersMobilized": 500,
+      "monolithicBlockCoverage": "100.0%",
+      "avgDrillEfficiency": "99.2%",
+      "avgExecutionLatency": "14.6 ms",
+      "capitalCost": "$0.00 USD (Zero Gas)",
+      "boxes": {
+        "1": {
+          "name": "Box 1 (#001-#100)",
+          "drillScore": 99.4,
+          "latencyMs": 14,
+          "claimReady": 100
+        },
+        "2": {
+          "name": "Box 2 (#101-#200)",
+          "drillScore": 99.1,
+          "latencyMs": 16,
+          "claimReady": 100
+        },
+        "3": {
+          "name": "Box 3 (#201-#300)",
+          "drillScore": 98.8,
+          "latencyMs": 15,
+          "claimReady": 100
+        },
+        "4": {
+          "name": "Box 4 (#301-#400)",
+          "drillScore": 99.5,
+          "latencyMs": 13,
+          "claimReady": 100
+        },
+        "5": {
+          "name": "Box 5 (#401-#500)",
+          "drillScore": 99.2,
+          "latencyMs": 15,
+          "claimReady": 100
+        }
+      }
+    },
+    "verifiedLeadProofs": [
+      {
+        "boxId": 1,
+        "soldierId": "#001",
+        "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+        "proofFragment": "0x9ea13e1319db97a1...a572a81b",
+        "status": "OPERANDO_Y_ENTRENANDO_OK"
+      },
+      {
+        "boxId": 2,
+        "soldierId": "#101",
+        "address": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
+        "proofFragment": "0x17fbb2d1c2bafa90...b610d21c",
+        "status": "OPERANDO_Y_ENTRENANDO_OK"
+      },
+      {
+        "boxId": 3,
+        "soldierId": "#201",
+        "address": "0x2810aa0DabCA4511846194229d2c004B14016A7C",
+        "proofFragment": "0x91025b7d3929b150...4fe10e1c",
+        "status": "OPERANDO_Y_ENTRENANDO_OK"
+      },
+      {
+        "boxId": 4,
+        "soldierId": "#301",
+        "address": "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
+        "proofFragment": "0x1ac33adc5a32d869...a112081b",
+        "status": "OPERANDO_Y_ENTRENANDO_OK"
+      },
+      {
+        "boxId": 5,
+        "soldierId": "#401",
+        "address": "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
+        "proofFragment": "0x70ea1c3fcbb46c30...d997181c",
+        "status": "OPERANDO_Y_ENTRENANDO_OK"
+      }
+    ],
+    "officers": {
+      "forensicShield33": {
+        "officer": "NEBULA-FORENSIC-SHIELD #33",
+        "task": "Auditoría Continua Anti-Rugpull & Vigilancia de Repositorios",
+        "currentAction": "Inspección de bytecodes en Robinhood Chain Testnet",
+        "safetyScore": "93% (Contratos limpios, sin backdoors de acuñación ni lockups de venta)",
+        "verdict": "🟢 100% VIABLE PARA FASE 1"
+      },
+      "firstWaveExit34": {
+        "officer": "NEBULA-FIRST-WAVE-EXIT #34",
+        "task": "Simulador de Salida en Primera Ola & Venta a USDC",
+        "currentAction": "Calibración de rutas DEX (Uniswap V3 / Camelot) para swap instantáneo de $SHINOBI",
+        "slippageTolerance": "1.0% máximo",
+        "destinationVaults": "5 Bóvedas Binance Spot (Cuentas #1 a #5)",
+        "projectedNetCapture": "$7,500 – $17,500 USDC"
+      }
+    }
   },
   "dualCapitalizer": {
     "schemaVersion": "3.0.0",
