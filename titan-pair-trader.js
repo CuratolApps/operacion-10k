@@ -20,6 +20,7 @@ require("dotenv").config();
 const { ethers } = require("ethers");
 const fs = require("fs");
 const path = require("path");
+const { sendTelegramAlert } = require("./telegram-notifier");
 
 const TELEMETRY_DIR = path.join(__dirname, "telemetry");
 const STATE_FILE = path.join(TELEMETRY_DIR, "titan-scalper-state.json");
@@ -156,19 +157,35 @@ async function runTitanScalperCycle() {
   // GESTIÓN DE POSICIÓN ACTIVA
   let state = { ...existingState };
 
+  const isForceTp = process.argv.includes("--force-tp");
+  const isForceSl = process.argv.includes("--force-sl");
+  const isForceEntry = process.argv.includes("--force-entry");
+  const forcePairArg = process.argv.find(a => a.startsWith("--pair="))?.split("=")[1] || "SOL/USDC";
+
   if (state.activePosition) {
     const pos = state.activePosition;
-    const currentPrice = livePrices[pos.symbol] || pos.entryPrice;
+    let currentPrice = livePrices[pos.symbol] || pos.entryPrice;
+
+    if (isForceTp) {
+      currentPrice = parseFloat((pos.entryPrice * (1 + (pos.tpPct + 0.1) / 100)).toFixed(4));
+      console.log(`🎯 [PRUEBA/FORZADO TP]: Simulando precio de salida a $${currentPrice}`);
+    } else if (isForceSl) {
+      currentPrice = parseFloat((pos.entryPrice * (1 - (pos.slPct + 0.1) / 100)).toFixed(4));
+      console.log(`🛑 [PRUEBA/FORZADO SL]: Simulando precio de corte a $${currentPrice}`);
+    }
+
     const priceChangePct = ((currentPrice - pos.entryPrice) / pos.entryPrice) * 100;
     const pnlUsdc = pos.capitalUsdc * (priceChangePct / 100);
+    const hoursHeld = pos.openedAt ? (Date.now() - new Date(pos.openedAt).getTime()) / (1000 * 3600) : 0;
 
     console.log(`\n💼 [POSICIÓN ACTIVA DETECTADA]:`);
     console.log(`   • Par: ${pos.symbol} | Entrada: $${pos.entryPrice} | Actual: $${currentPrice}`);
     console.log(`   • PnL: ${priceChangePct >= 0 ? "+" : ""}${priceChangePct.toFixed(2)}% ($${pnlUsdc.toFixed(3)} USDC)`);
     console.log(`   • Objetivo TP: +${pos.tpPct}% ($${(pos.entryPrice * (1 + pos.tpPct / 100)).toFixed(4)})`);
     console.log(`   • Stop Loss SL: -${pos.slPct}% ($${(pos.entryPrice * (1 - pos.slPct / 100)).toFixed(4)})`);
+    console.log(`   • Tiempo en Posición: ${hoursHeld.toFixed(2)} horas (Límite: 4.0h)`);
 
-    // Comprobar Take Profit
+    // 1. Comprobar Take Profit
     if (priceChangePct >= pos.tpPct) {
       console.log(`\n🎯 🚀 [TAKE PROFIT ALCANZADO]: Cerrando posición con +${priceChangePct.toFixed(2)}% de beneficio.`);
       state.totalProfitRealizedUsdc += pnlUsdc;
@@ -186,7 +203,22 @@ async function runTitanScalperCycle() {
         result: "WIN_TP",
         timestamp: new Date().toISOString()
       });
+
+      // NOTIFICACIÓN TELEGRAM DE SALIDA CON GANANCIA
+      const tgMsg = `🎯 <b>BOX 6: TITAN-SCALPER — SALIDA CON GANANCIA</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `✅ <b>Resultado:</b> GANADA (Take Profit Alcanzado)\n` +
+        `🔹 <b>Par:</b> <code>${pos.symbol}</code>\n` +
+        `💵 <b>Entrada:</b> <code>$${pos.entryPrice}</code> ➔ <b>Salida:</b> <code>$${currentPrice}</code>\n` +
+        `📈 <b>PROFIT NETO:</b> <b>+${priceChangePct.toFixed(2)}%</b> | <b>+$${pnlUsdc.toFixed(3)} USDC</b> 💰\n` +
+        `💼 <b>Nuevo Saldo Box 6:</b> <code>$${state.virtualPoolUsdc.toFixed(2)} USDC</code> (100% Líquido)\n` +
+        `👑 <b>Mentor Simons:</b> Ganancia embolsada sin avaricia • Cero dinero atrapado.\n` +
+        `⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>`;
+      await sendTelegramAlert(tgMsg);
+
       state.activePosition = null;
+
+    // 2. Comprobar Stop Loss
     } else if (priceChangePct <= -pos.slPct) {
       console.log(`\n🛑 ✂️ [STOP LOSS EJECUTADO]: Cortando pérdida en seco al -${Math.abs(priceChangePct).toFixed(2)}%. Cero atrapados.`);
       state.totalProfitRealizedUsdc += pnlUsdc;
@@ -204,14 +236,67 @@ async function runTitanScalperCycle() {
         result: "LOSS_SL",
         timestamp: new Date().toISOString()
       });
+
+      // NOTIFICACIÓN TELEGRAM DE CORTE STOP LOSS
+      const tgMsg = `🛑 <b>BOX 6: TITAN-SCALPER — CORTE STOP LOSS (PROTECCIÓN)</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `✂️ <b>Resultado:</b> CORTE EN SECO (Protección Anti-Atrape)\n` +
+        `🔹 <b>Par:</b> <code>${pos.symbol}</code>\n` +
+        `💵 <b>Entrada:</b> <code>$${pos.entryPrice}</code> ➔ <b>Salida:</b> <code>$${currentPrice}</code>\n` +
+        `📉 <b>Pérdida Controlada:</b> <b>${priceChangePct.toFixed(2)}%</b> | <b>$${pnlUsdc.toFixed(3)} USDC</b>\n` +
+        `🛡️ <b>Motivo:</b> Premisa rota. Corte inmediato para no quedarse atrapado esperando.\n` +
+        `💼 <b>Saldo Box 6:</b> <code>$${state.virtualPoolUsdc.toFixed(2)} USDC</code> (100% en USDC Líquido)\n` +
+        `👑 <b>Mentor Simons:</b> Mente Seca • La disciplina preserva el capital.\n` +
+        `⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>`;
+      await sendTelegramAlert(tgMsg);
+
+      state.activePosition = null;
+
+    // 3. Comprobar Tiempo Máximo de Posición (4 horas)
+    } else if (hoursHeld >= 4.0) {
+      console.log(`\n⏱️ [LÍMITE TEMPORAL 4H]: Tiempo máximo alcanzado. Liquidando en plano para liberar capital.`);
+      state.totalProfitRealizedUsdc += pnlUsdc;
+      state.virtualPoolUsdc += pnlUsdc;
+      state.totalTradesCount++;
+      if (pnlUsdc >= 0) state.winningTradesCount++; else state.losingTradesCount++;
+      state.recentTrades.unshift({
+        id: "trade-" + Date.now(),
+        symbol: pos.symbol,
+        type: "LONG_SPOT",
+        entryPrice: pos.entryPrice,
+        exitPrice: currentPrice,
+        pnlPct: priceChangePct,
+        pnlUsdc: pnlUsdc,
+        result: "TIME_EXIT",
+        timestamp: new Date().toISOString()
+      });
+
+      // NOTIFICACIÓN TELEGRAM DE SALIDA POR TIEMPO
+      const tgMsg = `⏱️ <b>BOX 6: TITAN-SCALPER — SALIDA POR TIEMPO (4H)</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `🔄 <b>Resultado:</b> LIQUIDACIÓN EN PLANO (Liberación de Capital)\n` +
+        `🔹 <b>Par:</b> <code>${pos.symbol}</code>\n` +
+        `💵 <b>Entrada:</b> <code>$${pos.entryPrice}</code> ➔ <b>Salida:</b> <code>$${currentPrice}</code>\n` +
+        `⚖️ <b>PnL:</b> ${priceChangePct >= 0 ? "+" : ""}${priceChangePct.toFixed(2)}% | $${pnlUsdc.toFixed(3)} USDC\n` +
+        `🛡️ <b>Motivo:</b> Precio sin momentum tras 4 horas. Capital 100% liberado a USDC.\n` +
+        `💼 <b>Saldo Box 6:</b> <code>$${state.virtualPoolUsdc.toFixed(2)} USDC</code> (100% Líquido)\n` +
+        `⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>`;
+      await sendTelegramAlert(tgMsg);
+
       state.activePosition = null;
     }
   } else {
-    // Si no hay posición activa, buscar si hay señal de disparo confirmada (Score >= 90)
-    const bestOpportunity = scannedSignals.find(s => s.signal === "BUY_DISPARO_LONG" && s.confidenceScore >= 90);
+    // Si no hay posición activa, buscar si hay señal de disparo confirmada (Score >= 90) o forzado
+    let bestOpportunity = scannedSignals.find(s => s.signal === "BUY_DISPARO_LONG" && s.confidenceScore >= 90);
+
+    if (isForceEntry) {
+      const targetPair = scannedSignals.find(s => s.symbol === forcePairArg) || scannedSignals[0];
+      bestOpportunity = targetPair;
+      console.log(`⚡ [PRUEBA/FORZADO ENTRY]: Forzando entrada en ${bestOpportunity.symbol}`);
+    }
 
     if (bestOpportunity) {
-      const pairCfg = PAIRS_CONFIG.find(p => p.symbol === bestOpportunity.symbol);
+      const pairCfg = PAIRS_CONFIG.find(p => p.symbol === bestOpportunity.symbol) || PAIRS_CONFIG[1];
       console.log(`\n⚡ 🔫 [DISPARO FRÍO AUTORIZADO]: Abriendo posición simulada en ${bestOpportunity.symbol}`);
       console.log(`   • Capital: $${state.virtualPoolUsdc.toFixed(2)} USDC`);
       console.log(`   • Precio Entrada: $${bestOpportunity.currentPrice}`);
@@ -225,6 +310,21 @@ async function runTitanScalperCycle() {
         slPct: pairCfg.slPct,
         openedAt: new Date().toISOString()
       };
+
+      // NOTIFICACIÓN TELEGRAM DE ENTRADA A OPERACIÓN
+      const tgMsg = `⚡ <b>BOX 6: TITAN-SCALPER — ENTRADA A OPERACIÓN</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `🔫 <b>Acción:</b> COMPRA LONG SPOT (Gatillo Cuántico)\n` +
+        `🔹 <b>Par:</b> <code>${bestOpportunity.symbol}</code>\n` +
+        `💵 <b>Precio Entrada:</b> <code>$${bestOpportunity.currentPrice}</code>\n` +
+        `💰 <b>Lote Asignado:</b> <code>$${state.virtualPoolUsdc.toFixed(2)} USDC</code>\n` +
+        `🎯 <b>Target Ganancia (TP):</b> <b>+${pairCfg.tpPct}%</b> ($${(bestOpportunity.currentPrice * (1 + pairCfg.tpPct / 100)).toFixed(4)})\n` +
+        `🛑 <b>Stop Loss (SL):</b> <b>-${pairCfg.slPct}%</b> ($${(bestOpportunity.currentPrice * (1 - pairCfg.slPct / 100)).toFixed(4)})\n` +
+        `⏱️ <b>Tiempo Límite:</b> 4 horas max hold\n` +
+        `👑 <b>Supervisión Mentor:</b> Simons-Medallion #00 (Mente Seca Activa)\n` +
+        `⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>`;
+      await sendTelegramAlert(tgMsg);
+
     } else {
       console.log("\n🛡️ [VIGILANCIA CENTINELA]: Ningún par cumple las 3 condiciones frías simultáneamente.");
       console.log("   • El bot se mantiene 100% en USDC. Cero operaciones forzadas. Dinero intacto.");

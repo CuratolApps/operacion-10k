@@ -2,7 +2,7 @@
   "mentorName": "NEBULA-MENTOR: SIMONS-MEDALLION #00",
   "mentorTitle": "Mente Maestra Cuantitativa & Protector de Capital",
   "inspiration": "Jim Simons (Renaissance Technologies / Medallion Fund)",
-  "timestamp": "2026-10-22T12:29:03.795Z",
+  "timestamp": "2026-10-22T12:37:33.662Z",
   "status": "ACTIVE_MENTORSHIP",
   "mindset": "MENTE_SECA_100_CIENTIFICA",
   "marketRegime": "ALCISTA_CONTROLADO_CON_TRAMPAS_LIQUIDADAS",
@@ -36,7 +36,7 @@
     }
   ],
   "box6Supervision": {
-    "status": "AUDITORIA_ACTIVA_SOL/USDC_VIGILANDO_TP_SL",
+    "status": "AUDITORIA_ACTIVA_BTC/USDC_VIGILANDO_TP_SL",
     "recommendedLotUsdc": 15,
     "riskPerTradeMaxUsd": 0.15,
     "targetProfitPerTradeUsd": 0.45

@@ -37,6 +37,15 @@ function loadPublicWallets() {
   return JSON.parse(fs.readFileSync(WALLETS_FILE, "utf8"));
 }
 
+function readJsonSafe(filepath, defaultValue = null) {
+  try {
+    if (fs.existsSync(filepath)) {
+      return JSON.parse(fs.readFileSync(filepath, "utf8"));
+    }
+  } catch (_) {}
+  return defaultValue;
+}
+
 function createProvider(netConfig) {
   const fetchRequest = new ethers.FetchRequest(netConfig.rpc);
   fetchRequest.timeout = 15000;
@@ -92,10 +101,15 @@ Toca cualquiera de las opciones para consultar la telemetría en tiempo real:
       ],
 
       [
-        { text: "🎮 Juegos & Competencias USDC", callback_data: "cmd_juegos" }
+        { text: "🎮 Juegos & Competencias USDC", callback_data: "cmd_juegos" },
+        { text: "👑 Auditoría Bóveda VIP #00", callback_data: "cmd_vip" }
       ],
       [
-        { text: "👑 Auditoría Bóveda VIP #00", callback_data: "cmd_vip" }
+        { text: "⚡ Box 6: Titan Scalper", callback_data: "cmd_titan" },
+        { text: "🏛️ Box 7: Wall Street", callback_data: "cmd_oracle" }
+      ],
+      [
+        { text: "👑 Mentor Simons-Medallion #00", callback_data: "cmd_mentor" }
       ]
     ]
   };
@@ -478,6 +492,103 @@ ${headerLines}
   });
 }
 
+// -------------------------------------------------------------------------------------
+// TRADING CUANTITATIVO: BOX 6, BOX 7 & MENTOR SIMONS
+// -------------------------------------------------------------------------------------
+async function handleTitan(chatId) {
+  const titanState = readJsonSafe(path.join(__dirname, "telemetry", "titan-scalper-state.json"), {});
+  const pos = titanState.activePosition;
+
+  let posText = "⚪ <b>100% en USDC Líquido</b> • Escaneando oportunidades a $0 riesgo.";
+  if (pos) {
+    posText = `🟢 <b>POSICIÓN ACTIVA SPOT:</b> <code>${pos.symbol}</code>\n` +
+      `   • <b>Entrada:</b> <code>$${pos.entryPrice}</code>\n` +
+      `   • <b>Lote Asignado:</b> <code>$${pos.capitalUsdc} USDC</code>\n` +
+      `   • <b>Target TP:</b> <code>+${pos.tpPct}%</code>\n` +
+      `   • <b>Stop Loss SL:</b> <code>-${pos.slPct}%</code>`;
+  }
+
+  const text = `
+⚡ <b>BOX 6: TITAN-SCALPER #601 — TRADER SPOT</b>
+<i>Flujo diario de caja en pares spot de alta liquidez</i>
+
+${posText}
+
+📊 <b>Rendimiento Histórico:</b>
+   • <b>Tasa de Acierto (Win Rate):</b> <b>${titanState.winRatePct || 0}%</b>
+   • <b>Trades Ganados / Perdidos:</b> ${titanState.winningTradesCount || 0}W / ${titanState.losingTradesCount || 0}L
+   • <b>Ganancia Realizada Acumulada:</b> <b>+$${Number(titanState.totalProfitRealizedUsdc || 0).toFixed(3)} USDC</b>
+   • <b>Pool Asignado:</b> $${Number(titanState.virtualPoolUsdc || 15).toFixed(2)} USDC
+
+👑 <b>Supervisión:</b> NEBULA-MENTOR Simons-Medallion #00 (Mente Seca)
+⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML"
+  });
+}
+
+async function handleOracle(chatId) {
+  const oracleState = readJsonSafe(path.join(__dirname, "telemetry", "oracle-stocks-state.json"), {});
+  const props = oracleState.pendingProposals || [];
+
+  let propText = "⚪ <i>Sin propuestas pendientes en este instante.</i>";
+  if (props.length > 0) {
+    propText = props.map((p, i) => `
+📢 <b>Propuesta #${i + 1}: ${p.ticker} (${p.name})</b>
+   • <b>Precio Actual:</b> $${p.currentPriceUsd} USD
+   • <b>Lote Sugerido:</b> $${p.suggestedAllocationUsdc} USDC
+   • <b>Objetivo (Target):</b> +${p.targetGainPct}% ($${p.targetPriceUsd} USD)
+   • <b>Stop Loss:</b> -${p.stopLossPct}% ($${p.stopLossPriceUsd} USD)
+   • <b>Tesis:</b> ${p.thesis}
+   👉 <i>Gobernanza: Requiere tu aprobación en el Dashboard</i>
+`).join("\n");
+  }
+
+  const text = `
+🏛️ <b>BOX 7: ORACLE-GLOBAL #701 — WALL STREET & ACCIONES</b>
+<i>Inversión a mediano plazo (2-4 semanas) con gobernanza estricta</i>
+
+${propText}
+
+🔒 <b>Regla Sagrada:</b> Cero compras automáticas. Todo requiere aprobación humana.
+⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML"
+  });
+}
+
+async function handleMentor(chatId) {
+  const mentorState = readJsonSafe(path.join(__dirname, "telemetry", "trading-mentor-state.json"), {});
+
+  const text = `
+👑 <b>NEBULA-MENTOR: SIMONS-MEDALLION #00</b>
+<i>Mente Maestra Cuantitativa • Modelo Jim Simons (Renaissance Technologies)</i>
+
+🛡️ <b>Escudo Anti-Trampas:</b> ${mentorState.trapsDetectedAndAvoidedToday || 6} Fakeouts Evitados Hoy
+🌌 <b>Inmunidad Colectiva:</b> ${mentorState.nebulasShieldStatus || "32/32 Nebulosas Blindadas"}
+⚖️ <b>Doctrina:</b> Mente Seca • Asimetría 3:1 • Cero Corazonadas • Cero Atrapes
+
+⚡ <b>Supervisión Activa:</b>
+   • <b>Box 6 (Titan-Scalper):</b> ${mentorState.box6Supervision?.status || "CENTINELA_EN_USDC"}
+   • <b>Box 7 (Oracle-Global):</b> ${mentorState.box7Supervision?.status || "GOBERNANZA_ESTRICTA"}
+
+⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML"
+  });
+}
 
 // -------------------------------------------------------------------------------------
 // CUARTEL GENERAL & FICHA MILITAR DE SOLDADOS (#000 a #501)
@@ -769,6 +880,12 @@ async function startCommanderBot() {
               await handleBinance(effectiveChatId);
             } else if (cmd === "/juegos" || cmd === "/competencias") {
               await handleJuegos(effectiveChatId);
+            } else if (cmd === "/trader" || cmd === "/scalper" || cmd === "/box6") {
+              await handleTitan(effectiveChatId);
+            } else if (cmd === "/wallstreet" || cmd === "/acciones" || cmd === "/box7" || cmd === "/oracle") {
+              await handleOracle(effectiveChatId);
+            } else if (cmd === "/mentor" || cmd === "/simons") {
+              await handleMentor(effectiveChatId);
             } else {
               await callTelegram("sendMessage", {
                 chat_id: effectiveChatId,
@@ -810,6 +927,12 @@ async function startCommanderBot() {
               await handleBinance(cbChatId);
             } else if (cbData === "cmd_juegos") {
               await handleJuegos(cbChatId);
+            } else if (cbData === "cmd_titan") {
+              await handleTitan(cbChatId);
+            } else if (cbData === "cmd_oracle") {
+              await handleOracle(cbChatId);
+            } else if (cbData === "cmd_mentor") {
+              await handleMentor(cbChatId);
             }
           }
         }

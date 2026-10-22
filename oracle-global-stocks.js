@@ -20,6 +20,7 @@
 require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
+const { sendTelegramAlert } = require("./telegram-notifier");
 
 const TELEMETRY_DIR = path.join(__dirname, "telemetry");
 const ORACLE_STATE_FILE = path.join(TELEMETRY_DIR, "oracle-stocks-state.json");
@@ -191,7 +192,8 @@ async function runOracleMarketAnalysis() {
   console.log("=========================================================================================");
 
   if (state.pendingProposals && state.pendingProposals.length > 0) {
-    state.pendingProposals.forEach((prop, i) => {
+    for (let i = 0; i < state.pendingProposals.length; i++) {
+      const prop = state.pendingProposals[i];
       console.log(`\n📢 PROPUESTA #${i + 1} [${prop.id}]:`);
       console.log(`   • Activo: ${prop.ticker} (${prop.name}) | Sector: ${prop.sector}`);
       console.log(`   • Precio Actual: $${prop.currentPriceUsd} USD`);
@@ -201,7 +203,25 @@ async function runOracleMarketAnalysis() {
       console.log(`   • Horizonte Estimado: ${prop.horizonWeeks}`);
       console.log(`   • Tesis Técnica: ${prop.thesis}`);
       console.log(`   👉 ESTADO: ⏳ PENDIENTE DE APROBACIÓN POR EL JEFE`);
-    });
+
+      // Notificación Telegram si es una nueva propuesta no notificada
+      if (!prop.telegramNotified) {
+        const tgMsg = `🏛️ <b>BOX 7: ORACLE-GLOBAL — PROPUESTA WALL STREET</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `💼 <b>Activo:</b> <code>${prop.ticker}</code> (${prop.name})\n` +
+          `🏷️ <b>Sector:</b> ${prop.sector}\n` +
+          `💵 <b>Precio Actual:</b> <code>$${prop.currentPriceUsd} USD</code>\n` +
+          `🎯 <b>Target Ganancia:</b> <b>+${prop.targetGainPct}%</b> ($${prop.targetPriceUsd} USD)\n` +
+          `🛑 <b>Stop Loss:</b> <b>-${prop.stopLossPct}%</b> ($${prop.stopLossPriceUsd} USD)\n` +
+          `💰 <b>Lote Propuesto:</b> <code>$${prop.suggestedAllocationUsdc.toFixed(2)} USDC</code>\n` +
+          `⏳ <b>Horizonte:</b> ${prop.horizonWeeks}\n` +
+          `💡 <b>Tesis:</b> ${prop.thesis}\n\n` +
+          `🔒 <b>Gobernanza:</b> <i>En espera de mayor liquidez y de tu APROBACIÓN MANUAL en el Dashboard.</i>\n` +
+          `⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>`;
+        await sendTelegramAlert(tgMsg);
+        prop.telegramNotified = true;
+      }
+    }
   } else {
     console.log("   • Cero propuestas pendientes. Mercado en rango o sin descuentos significativos.");
   }
@@ -217,7 +237,7 @@ async function runOracleMarketAnalysis() {
 }
 
 // Función para Aprobar una Propuesta
-function approveProposal(proposalId) {
+async function approveProposal(proposalId) {
   const state = readJsonSafe(ORACLE_STATE_FILE, null);
   if (!state) return false;
 
@@ -237,11 +257,22 @@ function approveProposal(proposalId) {
 
   fs.writeFileSync(ORACLE_STATE_FILE, JSON.stringify(state, null, 2), "utf8");
   console.log(`✅ [APROBADO]: Propuesta ${prop.ticker} ejecutada con éxito para el portafolio.`);
+
+  const tgMsg = `✅ <b>BOX 7: ORACLE-GLOBAL — COMPRA APROBADA POR EL JEFE</b>\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+    `💼 <b>Activo:</b> <code>${prop.ticker}</code> (${prop.name})\n` +
+    `💵 <b>Precio Entrada:</b> <code>$${prop.currentPriceUsd} USD</code>\n` +
+    `💰 <b>Capital Invertido:</b> <code>$${prop.suggestedAllocationUsdc.toFixed(2)} USDC</code>\n` +
+    `🎯 <b>Target:</b> +${prop.targetGainPct}% | 🛑 <b>Stop Loss:</b> -${prop.stopLossPct}%\n` +
+    `👑 <b>Mentor Simons:</b> Orden autorizada y supervisada a mediano plazo.\n` +
+    `⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>`;
+  await sendTelegramAlert(tgMsg);
+
   return true;
 }
 
 // Función para Rechazar una Propuesta
-function rejectProposal(proposalId, reason = "RECHAZO_POR_EL_OPERADOR") {
+async function rejectProposal(proposalId, reason = "RECHAZO_POR_EL_OPERADOR") {
   const state = readJsonSafe(ORACLE_STATE_FILE, null);
   if (!state) return false;
 
@@ -257,6 +288,15 @@ function rejectProposal(proposalId, reason = "RECHAZO_POR_EL_OPERADOR") {
 
   fs.writeFileSync(ORACLE_STATE_FILE, JSON.stringify(state, null, 2), "utf8");
   console.log(`❌ [RECHAZADO]: Propuesta ${prop.ticker} descartada. Cero dinero comprometido.`);
+
+  const tgMsg = `❌ <b>BOX 7: ORACLE-GLOBAL — PROPUESTA DESCARTADA</b>\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+    `💼 <b>Activo:</b> <code>${prop.ticker}</code> (${prop.name})\n` +
+    `🛡️ <b>Decisión:</b> Rechazada por el operador. Cero capital comprometido.\n` +
+    `💵 <b>Liquidez Intacta:</b> $38.72 USDC 100% protegida.\n` +
+    `⏰ <i>${new Date().toLocaleTimeString("es-ES", { timeZone: "UTC" })} UTC</i>`;
+  await sendTelegramAlert(tgMsg);
+
   return true;
 }
 

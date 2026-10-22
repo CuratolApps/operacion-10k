@@ -21,9 +21,10 @@
       "rsiLevel": 32,
       "thesis": "Retroceso del 6.2% a soporte de demanda institucional. RSI en 32. Revalorización estimada del +18%.",
       "status": "PENDING_APPROVAL",
-      "createdAt": "2026-10-22T12:16:20.633Z"
+      "createdAt": "2026-10-22T12:16:20.633Z",
+      "telegramNotified": true
     }
   ],
   "historyDecisions": [],
-  "lastAnalysisTimestamp": "2026-10-22T12:16:20.634Z"
+  "lastAnalysisTimestamp": "2026-10-22T12:37:34.158Z"
 }
