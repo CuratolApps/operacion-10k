@@ -487,9 +487,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         );
         border: 1.8px solid var(--neon-gold);
         display: grid;
-        grid-template-columns: 44px 230px 1fr 130px;
+        grid-template-columns: 40px 185px 1fr 115px !important;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         flex: none;
         height: 76px;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
@@ -587,6 +587,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         background: rgba(255, 183, 3, 0.15);
         color: var(--neon-gold);
         border: 1px solid rgba(255, 183, 3, 0.4);
+      }
+      .badge-liq-sub.phase1 {
+        background: rgba(255, 183, 3, 0.16);
+        color: var(--neon-gold);
+        border: 1px solid rgba(255, 183, 3, 0.55);
       }
 
       /* 2. MERCADOS TECH CON TENDENCIA (DEBAJO DEL BANNER) */

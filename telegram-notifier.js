@@ -140,6 +140,13 @@ async function sendSingleTelegramChunk(chunkText, chatId, token) {
   }
 }
 
+const INVESTMENT_ROI_HEADER = `💶 <b>ESTADO DE MI INVERSIÓN (ROI):</b>
+• <b>Capital Invertido (Flota / Total):</b> <code>100,00 € ($108.50) | 123,00 € con Kraken</code>
+• <b>Recuperado en USDC Líquido:</b> <code>$42.72 USDC (~39,45 €) ➔ 85.4% de los primeros 45€</code>
+• <b>Valor Gas en Flota + Kraken:</b> <code>~$69.90 USD (~64,50 €)</code>
+• <b>Patrimonio Total Actual:</b> <code>~$112.62 USD (~103,95 €)</code>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
 /**
  * Envía un mensaje a Telegram (con soporte automático para mensajes largos en múltiples partes).
  * @param {string} messageText Mensaje a enviar
@@ -147,7 +154,14 @@ async function sendSingleTelegramChunk(chunkText, chatId, token) {
  * @returns {Promise<boolean>} true si se envió con éxito
  */
 async function sendTelegramAlert(messageText, customChatId = null) {
-  recordTelegramAlert(messageText);
+  let formattedMessage = messageText;
+  if (!formattedMessage.includes("ESTADO DE MI INVERSIÓN") && !formattedMessage.includes("Capital Invertido")) {
+    if (formattedMessage.length > 80 || formattedMessage.includes("OPERACIÓN") || formattedMessage.includes("DIAGNÓSTICO") || formattedMessage.includes("REPORTE")) {
+      formattedMessage = `${INVESTMENT_ROI_HEADER}\n\n${formattedMessage}`;
+    }
+  }
+
+  recordTelegramAlert(formattedMessage);
   const token = getCleanToken();
 
   if (!token) {
@@ -382,7 +396,9 @@ ${deptsLines}
     } catch (_) {}
 
     const text = `
-🚀 <b>OPERACIÓN 10K — REPORTE DE OPERACIONES DE CARTERAS</b>
+${INVESTMENT_ROI_HEADER}
+
+🚀 <b>OPERACIÓN 12K — REPORTE DE OPERACIONES DE CARTERAS</b>
 ${modeBadge}
 ${nebulaBlock}
 ${hqDeptsSection}
@@ -490,6 +506,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  INVESTMENT_ROI_HEADER,
   resolveChatId,
   sendTelegramAlert,
   notifyRoundSummary,

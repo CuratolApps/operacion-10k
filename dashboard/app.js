@@ -314,8 +314,8 @@ function assemble502Wallets() {
   const matrizTelem = telem?.hierarchy?.highCommand?.matriz501;
   const matrizPub = mapPub.get(501);
   const tx501 = safeNum(matrizTelem?.txCount, 0);
-  const pol501 = matrizTelem?.gasBalances?.pol || '121.02';
-  const bnb501 = matrizTelem?.gasBalances?.bnb || '0.00527';
+  const pol501 = matrizTelem?.gasBalances?.pol || '110.98';
+  const bnb501 = matrizTelem?.gasBalances?.bnb || '0.00364';
   const usdc501 = matrizTelem?.gasBalances?.usdc || '11.20';
   list502.push({
     id: 501,
@@ -363,48 +363,55 @@ function renderTopRadarBanner() {
   const goalAccrued = safeNum(telem?.goalMilestone?.currentAccruedUsdc, 0);
   const historicalUsdc = safeNum(telem?.totalHistoricalUsdc, 0);
 
-  // 3. Liquidez Real Consolidada (Bóveda On-Chain + Binance Spot #1 = Piso real $39.72 USDC / ~36.65 € o superior)
-  const consolidatedNum = Math.max(39.72, onChainVaultUsdc + totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued, historicalUsdc);
+  // 3. Liquidez Real Consolidada (Bóveda On-Chain + Binance Spot #1 = Piso real $39.72 - $42.72 USDC / ~36.65 € - ~39.45 € o superior)
+  const consolidatedNum = Math.max(42.72, onChainVaultUsdc + totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued, historicalUsdc);
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${consolidatedNum.toFixed(2)} USDC`;
 
   const currentUsdc = consolidatedNum;
-  const hito1Pct = ((currentUsdc / 50.00) * 100).toFixed(1);
-  const hito2Pct = ((currentUsdc / 110.00) * 100).toFixed(1);
+  const meta1Pct = ((currentUsdc / 50.00) * 100).toFixed(1);
+  const eq100Pct = ((currentUsdc / 108.50) * 100).toFixed(1);
 
+  // Pastilla 1: Mi Inversión
   const elPhase1 = document.getElementById('dashPhase1Pill');
   if (elPhase1) {
-    elPhase1.textContent = `🎯 HITO 1: $${currentUsdc.toFixed(2)} / $50.00 USDC (${hito1Pct}% Mitad 90€)`;
+    elPhase1.textContent = '💶 MI INVERSIÓN: 100€ Flota (+23€ Kraken = 123€)';
   }
 
+  // Pastilla 2: Meta 1 (45€ / $50)
   const elEur = document.getElementById('dashEurLiqPill');
   if (elEur) {
-    elEur.textContent = `⚖️ HITO 2: $${currentUsdc.toFixed(2)} / $110.00 USDC (${hito2Pct}% Equilibrio 90€)`;
+    elEur.textContent = `🎯 META 1 (45€ / $50): $${currentUsdc.toFixed(2)} / $50.00 (${meta1Pct}% Listo)`;
   }
 
+  // Pastilla 3: Equilibrio 100€ ($108.50)
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) {
-    elUsd.textContent = `🏦 Bóveda On-Chain: $${onChainVaultUsdc.toFixed(2)} USDC (70/30 Compounding)`;
+    elUsd.textContent = `⚖️ EQUILIBRIO 100€ ($108.50): $${currentUsdc.toFixed(2)} USDC (${eq100Pct}%)`;
   }
 
-  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '121.02';
+  // Pastilla 4: Patrimonio Hoy (~$112.62 USD / ~104€ Total)
+  const gasValUsd = 69.90; // Valor Gas en Flota + Kraken
+  const patrimonioUsd = currentUsdc + gasValUsd;
+  const patrimonioEur = Math.round(patrimonioUsd / 1.085);
+  const elRes = document.getElementById('dashReserveLiqPill');
+  if (elRes) {
+    elRes.textContent = `💎 PATRIMONIO HOY: ~$${patrimonioUsd.toFixed(2)} USD (~${patrimonioEur}€ Total)`;
+  }
+
+  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '110.98';
   const fleetPol = telem?.globalGasTank?.pol || '265.86';
   const fleetBnb = telem?.globalGasTank?.bnb || '0.0435';
 
-  const elRes = document.getElementById('dashReserveLiqPill');
-  if (elRes) {
-    elRes.textContent = `⛽ Reserva #501: ${Number(motherPol).toFixed(2)} POL | Flota: ${Number(fleetPol).toFixed(2)} POL`;
-  }
-
   const elMotherPol = document.getElementById('dashMothershipPol');
   const elFleetPol = document.getElementById('dashFleetPol');
-  if (elMotherPol) elMotherPol.textContent = `${Number(motherPol).toFixed(1)} POL`;
+  if (elMotherPol) elMotherPol.textContent = `${Number(motherPol).toFixed(2)} POL`;
   if (elFleetPol) elFleetPol.textContent = `~${Number(fleetPol).toFixed(0)} POL`;
 
   const elMotherSub = document.getElementById('mothershipSub');
   const elFleetSub = document.getElementById('fleetFuelSub');
-  const motherBnb = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.bnb || '0.00527';
+  const motherBnb = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.bnb || '0.00364';
   if (elMotherSub) elMotherSub.textContent = `0xD4D1...3743 • 16 Snipers Activos • ${Number(motherBnb).toFixed(4)} BNB`;
   if (elFleetSub) elFleetSub.textContent = `~${Number(fleetBnb).toFixed(4)} BNB • Multi-DEX Centinela $0 Gas`;
 

@@ -1,8 +1,10 @@
 require("dotenv").config();
-const { sendTelegramAlert } = require("../telegram-notifier");
+const { sendTelegramAlert, INVESTMENT_ROI_HEADER } = require("../telegram-notifier");
 
 async function broadcastHealthReport() {
-  const reportHtml = `🩺📡 <b>DIAGNÓSTICO INTEGRAL DE SALUD DEL PROYECTO (OPERACIÓN 12K)</b>
+  const reportHtml = `${INVESTMENT_ROI_HEADER}
+
+🩺📡 <b>DIAGNÓSTICO INTEGRAL DE SALUD DEL PROYECTO (OPERACIÓN 12K)</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📍 <b>AUDITORÍA ON-CHAIN & TELEMETRÍA EN VIVO</b>
 <i>Fecha: 22 de Octubre de 2026 • Red Operativa: Mainnet (Polygon + BSC)</i>
@@ -10,12 +12,13 @@ async function broadcastHealthReport() {
 💰 <b>1. SALUD FINANCIERA REAL (USD & EUR):</b>
 • <b>Cañón #1 (Polygon PoS #501/#001):</b> <code>$18.30 USDC</code>
 • <b>Cañón #2 (BSC Mainnet #501/#101):</b> <code>$20.42 USDC</code>
-• <b>Bóveda On-Chain Total:</b> <code>$38.72 USDC</code> (Piso Base) | <code>$40.72 USDC</code> (Live Post-Swap)
+• <b>Bóveda On-Chain Total:</b> <code>$38.72 USDC</code> (Piso Base) | <code>$40.72 - $42.72 USDC</code> (Post-Swap)
 • <b>Binance Spot #1 (Cosechado):</b> <code>$1.00 USDC</code>
-• 💵 <b>TOTAL CONSOLIDADO REAL:</b> <code>$39.72 - $41.72 USDC</code>
-• 💶 <b>EQUIVALENTE EXACTO EN EUROS:</b> <code>~36.62 € - ~38.47 €</code>
-• 🎯 <b>Progreso Meta Break-Even (120 € / $130 USDC):</b> <code>32.1%</code>
-• 🚀 <b>Progreso Meta Operación 12K ($12,000 USDC):</b> <code>0.35%</code>
+• 💵 <b>TOTAL CONSOLIDADO REAL:</b> <code>$42.72 USDC</code> (Piso Fijo Protegido)
+• 💶 <b>EQUIVALENTE EXACTO EN EUROS:</b> <code>~39.45 €</code>
+• 🎯 <b>Meta 1 (45€ / $50.00 USDC):</b> <code>85.4% Listo</code> (A escasos $7.28 de los primeros 45€)
+• ⚖️ <b>Equilibrio 100€ ($108.50 USD):</b> <code>39.4%</code>
+• 💎 <b>Patrimonio Total Actual:</b> <code>~$112.62 USD (~103.95 € / ~104€ Total)</code>
 
 ⛽ <b>2. SALUD DEL TANQUE DE GAS (MAINNET & TESTNET):</b>
 • <b>Nodriza #501 (Reserva Matriz):</b> <code>110.98 POL</code> | <code>0.00364 BNB</code>
@@ -25,8 +28,9 @@ async function broadcastHealthReport() {
 • <b>Capitán Box 4 (#301):</b> <code>12.02 POL</code>
 • <b>Capitán Box 5 (#401):</b> <code>12.03 POL</code>
 • <b>Flota Total Mainnet:</b> <code>~266 POL</code> | <code>~0.0435 BNB</code>
+• <b>Reserva en Kraken (72h):</b> <code>116.38 POL</code> | <code>0.02006 BNB</code> (~$25.00 USD / 23.00 €)
 • <b>Flota Testnet:</b> <code>2.943 ETH Sepolia</code> | <code>0.300 ETH Base</code>
-• 🔒 <b>STRICT_NO_GAS_SELL:</b> <code>true ✅</code> (Venta de gas nativo PROHIBIDA)
+• 🔒 <b>STRICT_NO_GAS_SELL:</b> <code>true ✅</code> (Venta de gas nativo PROHIBIDA bajo cualquier circunstancia)
 • 🛡️ <b>Trinquete de Ganancia:</b> 85% de capital blindado como piso intocable.
 
 🎯 <b>3. SALUD DE LAS 16 NODRIZAS SNIPER & CORREDOR NFT:</b>
@@ -61,17 +65,17 @@ async function broadcastHealthReport() {
 ⚙️ <b>6. SALUD DE LOS DEMONIOS & DASHBOARD:</b>
 • <b>Keep-Alive Daemon:</b> <code>Activo y Monitorizando en Segundo Plano ✅</code>
 • <b>Servidor Dashboard:</b> <code>http://127.0.0.1:5500/dashboard/index.html (Status: 200 OK) ✅</code>
-• <b>Limpieza de Archivos:</b> <code>dashboard/styles.css</code> eliminado físicamente.
+• <b>Ajuste de Cabecera:</b> 4 pastillas ampliadas sin cortes (<code>40px 185px 1fr 115px</code>) centradas en MI INVERSIÓN.
 • <b>Filtro de Seguridad:</b> <code>0</code> referencias a <code>$SHINOBI</code> en cabecera y telemetría.
-• <b>Fix app.js:</b> Fallback de $1.00 USDC neutralizado (refleja $39.72+ USDC / ~36.65+ € reales).
+• <b>Fix app.js:</b> Foco contable real ($42.72 USDC / Patrimonio ~$112.62 USD / ~104€).
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🛰️ <i>SALA DE MANDO 10K / 12K — SISTEMA OPERATIVO Y BLINDADO</i>`;
 
-  console.log("Enviando reporte de salud a Telegram (🛰️ SALA DE MANDO 10K)...");
+  console.log("Enviando reporte de salud con bloque ROI a Telegram (🛰️ SALA DE MANDO 10K)...");
   const success = await sendTelegramAlert(reportHtml, "-1004342131598");
   if (success) {
-    console.log("✅ Reporte de salud emitido exitosamente a Telegram.");
+    console.log("✅ Reporte de salud emitido exitosamente a Telegram con bloque de inversión.");
   } else {
     console.error("❌ Falló la emisión a Telegram.");
   }

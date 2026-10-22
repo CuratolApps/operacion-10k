@@ -1,6 +1,6 @@
 {
   "schemaVersion": "3.0.0",
-  "generatedAt": "2026-10-22T20:36:38.205Z",
+  "generatedAt": "2026-10-22T21:06:20.073Z",
   "status": "ACTIVE_COMPOUNDING",
   "strategy": "FASE_1_RECUPERACION_120_EUR_CLOSED_LOOP_70_30",
   "badges": [
@@ -78,16 +78,16 @@
       "bnbUsdc": 731.55
     },
     "currentPrices": {
-      "polUsdc": 0.090205,
-      "bnbUsdc": 730.58
+      "polUsdc": 0.090076,
+      "bnbUsdc": 729.01
     },
     "priceVariationPct": {
-      "pol": -0.79,
-      "bnb": -0.13
+      "pol": -0.93,
+      "bnb": -0.35
     },
     "unitAdvantagePct": {
-      "pol": 0.8,
-      "bnb": 0.13
+      "pol": 0.94,
+      "bnb": 0.35
     },
     "isEligible": false,
     "recommendation": "STANDBY_MONITORING",
