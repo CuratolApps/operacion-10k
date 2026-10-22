@@ -1,19 +1,21 @@
 {
   "schemaVersion": "3.0.0",
   "projectName": "Operación 10K",
-  "timestamp": "2026-10-22T08:07:35.175Z",
+  "timestamp": "2026-10-22T08:23:51.401Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
-  "dailyCapturedUsdc": 7.908706,
+  "dailyCapturedUsdc": 14.61816,
+  "totalHistoricalUsdc": 14.61816,
+  "totalOnChainFleetUsdc": 13.61816,
   "globalGasTank": {
-    "pol": "399.14",
-    "bnb": "0.0695",
+    "pol": "383.57",
+    "bnb": "0.0635",
     "sepoliaEth": "4.235",
     "baseEth": "0.924",
     "arbitrumEth": "0.710",
     "optimismEth": "0.059",
-    "statusText": "Tanque Global Óptimo (~399.1 POL · ~0.0695 BNB · 4.235 ETH Sepolia · 0.924 ETH Base)"
+    "statusText": "Tanque Global Óptimo (~383.6 POL · ~0.0635 BNB · 4.235 ETH Sepolia · 0.924 ETH Base)"
   },
   "hierarchy": {
     "highCommand": {
@@ -86,9 +88,9 @@
         },
         "lastAction": "DISPERSION_INTRA_BOX_STANDBY",
         "gasBalances": {
-          "pol": "233.62",
-          "bnb": "0.01444",
-          "usdc": "1.604829",
+          "pol": "229.04",
+          "bnb": "0.01244",
+          "usdc": "2.004873",
           "sepoliaEth": "0.0000",
           "baseEth": "0.0000",
           "arbitrumEth": "0.0000",
@@ -107,7 +109,7 @@
           "airdropsSown": 20,
           "freeMints": 5
         },
-        "capturedUsdc": 1.604829,
+        "capturedUsdc": 2.004873,
         "lapProgressPct": 0,
         "lapQuotaUsdc": 5.5,
         "status": "ACTIVA_Y_FONDEADA",
@@ -239,7 +241,7 @@
           "Solana Devnet"
         ],
         "activeBots": 60,
-        "opsExecuted": 3691,
+        "opsExecuted": 3811,
         "pointsOrAssets": "5 redes L2 cubiertas",
         "generatedUsdc": 0
       },
@@ -309,8 +311,8 @@
       },
       "lastAction": "CLAIM_GAMER_CHEST",
       "gasBalances": {
-        "pol": "21.9773",
-        "bnb": "0.00821",
+        "pol": "20.0730",
+        "bnb": "0.00741",
         "sepoliaEth": "0.3017",
         "baseEth": "0.0148",
         "arbitrumEth": "0.0038",
@@ -534,7 +536,7 @@
       },
       "lastAction": "POOL_QUEST_PARTICIPATION",
       "gasBalances": {
-        "pol": "5.7015",
+        "pol": "5.0148",
         "bnb": "0.00014",
         "sepoliaEth": "0.0218",
         "baseEth": "0.0149",
@@ -4809,8 +4811,8 @@
       },
       "lastAction": "AIRDROP_SEEDING_GASLESS",
       "gasBalances": {
-        "pol": "21.8694",
-        "bnb": "0.01162",
+        "pol": "20.0761",
+        "bnb": "0.01081",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -5034,7 +5036,7 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "5.6675",
+        "pol": "5.0204",
         "bnb": "0.00014",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0015",
@@ -9309,8 +9311,8 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "15.5062",
-        "bnb": "0.01165",
+        "pol": "14.0782",
+        "bnb": "0.01084",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -9489,7 +9491,7 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "5.6777",
+        "pol": "5.0201",
         "bnb": "0.00014",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0014",
@@ -13809,8 +13811,8 @@
       },
       "lastAction": "DEX_LIQUIDATION_SWEEP",
       "gasBalances": {
-        "pol": "15.3668",
-        "bnb": "0.00823",
+        "pol": "14.0717",
+        "bnb": "0.00742",
         "sepoliaEth": "0.0020",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -14259,7 +14261,7 @@
       },
       "lastAction": "AIRDROP_SEEDING_GASLESS",
       "gasBalances": {
-        "pol": "5.7538",
+        "pol": "5.0265",
         "bnb": "0.00015",
         "sepoliaEth": "0.0020",
         "baseEth": "0.0015",
@@ -18309,8 +18311,8 @@
       },
       "lastAction": "POOL_QUEST_PARTICIPATION",
       "gasBalances": {
-        "pol": "15.1936",
-        "bnb": "0.00823",
+        "pol": "14.0789",
+        "bnb": "0.00742",
         "sepoliaEth": "0.0010",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -18759,7 +18761,7 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "5.7569",
+        "pol": "5.0197",
         "bnb": "0.00015",
         "sepoliaEth": "0.0014",
         "baseEth": "0.0012",
@@ -22857,8 +22859,8 @@
       },
       "lastAction": "CLAIM_GAMER_CHEST",
       "gasBalances": {
-        "pol": "21.9773",
-        "bnb": "0.00821",
+        "pol": "20.0730",
+        "bnb": "0.00741",
         "sepoliaEth": "0.3017",
         "baseEth": "0.0148",
         "arbitrumEth": "0.0038",
@@ -23082,7 +23084,7 @@
       },
       "lastAction": "POOL_QUEST_PARTICIPATION",
       "gasBalances": {
-        "pol": "5.7015",
+        "pol": "5.0148",
         "bnb": "0.00014",
         "sepoliaEth": "0.0218",
         "baseEth": "0.0149",
@@ -27357,8 +27359,8 @@
       },
       "lastAction": "AIRDROP_SEEDING_GASLESS",
       "gasBalances": {
-        "pol": "21.8694",
-        "bnb": "0.01162",
+        "pol": "20.0761",
+        "bnb": "0.01081",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -27582,7 +27584,7 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "5.6675",
+        "pol": "5.0204",
         "bnb": "0.00014",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0015",
@@ -31857,8 +31859,8 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "15.5062",
-        "bnb": "0.01165",
+        "pol": "14.0782",
+        "bnb": "0.01084",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -32037,7 +32039,7 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "5.6777",
+        "pol": "5.0201",
         "bnb": "0.00014",
         "sepoliaEth": "0.0019",
         "baseEth": "0.0014",
@@ -36357,8 +36359,8 @@
       },
       "lastAction": "DEX_LIQUIDATION_SWEEP",
       "gasBalances": {
-        "pol": "15.3668",
-        "bnb": "0.00823",
+        "pol": "14.0717",
+        "bnb": "0.00742",
         "sepoliaEth": "0.0020",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -36807,7 +36809,7 @@
       },
       "lastAction": "AIRDROP_SEEDING_GASLESS",
       "gasBalances": {
-        "pol": "5.7538",
+        "pol": "5.0265",
         "bnb": "0.00015",
         "sepoliaEth": "0.0020",
         "baseEth": "0.0015",
@@ -40857,8 +40859,8 @@
       },
       "lastAction": "POOL_QUEST_PARTICIPATION",
       "gasBalances": {
-        "pol": "15.1936",
-        "bnb": "0.00823",
+        "pol": "14.0789",
+        "bnb": "0.00742",
         "sepoliaEth": "0.0010",
         "baseEth": "0.0015",
         "arbitrumEth": "0.0015",
@@ -41307,7 +41309,7 @@
       },
       "lastAction": "MINING_CITREA_STREAK",
       "gasBalances": {
-        "pol": "5.7569",
+        "pol": "5.0197",
         "bnb": "0.00015",
         "sepoliaEth": "0.0014",
         "baseEth": "0.0012",
@@ -45358,9 +45360,9 @@
       },
       "lastAction": "DISPERSION_INTRA_BOX_STANDBY",
       "gasBalances": {
-        "pol": "233.62",
-        "bnb": "0.01444",
-        "usdc": "1.604829",
+        "pol": "229.04",
+        "bnb": "0.01244",
+        "usdc": "2.004873",
         "sepoliaEth": "0.0000",
         "baseEth": "0.0000",
         "arbitrumEth": "0.0000",
@@ -45379,7 +45381,7 @@
         "airdropsSown": 20,
         "freeMints": 5
       },
-      "capturedUsdc": 1.604829,
+      "capturedUsdc": 2.004873,
       "lapProgressPct": 0,
       "lapQuotaUsdc": 5.5,
       "status": "ACTIVA_Y_FONDEADA",
@@ -45390,16 +45392,16 @@
   },
   "onchainSnapshot": {
     "source": "live-onchain",
-    "timestamp": "2026-10-22T08:07:33.106Z",
+    "timestamp": "2026-10-22T08:23:49.489Z",
     "minUsableNative": 0.0005,
     "networks": {
-      "ethereumSepolia": {
+      "arbitrumSepolia": {
         "online": true,
-        "rpc": "sepolia.drpc.org",
-        "totalNative": 4.235259,
-        "satellitesWithGas": 500,
-        "satellitesUsable": 500,
-        "satellitesZero": 0
+        "rpc": "sepolia-rollup.arbitrum.io",
+        "totalNative": 0.710108,
+        "satellitesWithGas": 455,
+        "satellitesUsable": 455,
+        "satellitesZero": 45
       },
       "baseSepolia": {
         "online": true,
@@ -45409,14 +45411,6 @@
         "satellitesUsable": 450,
         "satellitesZero": 50
       },
-      "arbitrumSepolia": {
-        "online": true,
-        "rpc": "sepolia-rollup.arbitrum.io",
-        "totalNative": 0.710108,
-        "satellitesWithGas": 455,
-        "satellitesUsable": 455,
-        "satellitesZero": 45
-      },
       "optimismSepolia": {
         "online": true,
         "rpc": "sepolia.optimism.io",
@@ -45425,20 +45419,28 @@
         "satellitesUsable": 50,
         "satellitesZero": 450
       },
-      "bscMainnet": {
+      "ethereumSepolia": {
         "online": true,
-        "rpc": "bsc-dataseed.binance.org",
-        "totalNative": 0.055066,
-        "satellitesWithGas": 55,
-        "satellitesUsable": 5,
-        "satellitesZero": 445
+        "rpc": "sepolia.drpc.org",
+        "totalNative": 4.235259,
+        "satellitesWithGas": 500,
+        "satellitesUsable": 500,
+        "satellitesZero": 0
       },
       "polygonMainnet": {
         "online": true,
         "rpc": "polygon.drpc.org",
-        "totalNative": 165.52256,
+        "totalNative": 154.531311,
         "satellitesWithGas": 55,
         "satellitesUsable": 55,
+        "satellitesZero": 445
+      },
+      "bscMainnet": {
+        "online": true,
+        "rpc": "bsc-dataseed.binance.org",
+        "totalNative": 0.051033,
+        "satellitesWithGas": 55,
+        "satellitesUsable": 5,
         "satellitesZero": 445
       }
     }
@@ -45620,9 +45622,9 @@
   },
   "goalMilestone": {
     "targetGoalUsdc": 12000,
-    "currentAccruedUsdc": 7.44,
-    "remainingUsdc": 11992.56,
-    "progressPct": 0.06,
+    "currentAccruedUsdc": 14.61816,
+    "remainingUsdc": 11985.38,
+    "progressPct": 0.12,
     "dailyAverage": 0,
     "destinationSummary": "Fondo de desarrollo Cura Tools + Estación de trabajo de alta ingeniería",
     "projectedCompletionDays": "Acumulando historial on-chain (500 bots activos)"
@@ -45634,7 +45636,7 @@
       "range": "BOX 1: #001–#100 + #501",
       "address": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
       "receivedUsdc": 1,
-      "pendingUsdc": 3.937344,
+      "pendingUsdc": 6.606738,
       "status": "🟢 VERIFICADA"
     },
     {
@@ -45643,7 +45645,7 @@
       "range": "BOX 2: #101–#200",
       "address": "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
       "receivedUsdc": 0,
-      "pendingUsdc": 1.223637,
+      "pendingUsdc": 2.008585,
       "status": "🟢 VERIFICADA"
     },
     {
@@ -45652,7 +45654,7 @@
       "range": "BOX 3: #201–#300",
       "address": "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e",
       "receivedUsdc": 0,
-      "pendingUsdc": 0.916377,
+      "pendingUsdc": 1.679585,
       "status": "🟢 VERIFICADA"
     },
     {
@@ -45661,7 +45663,7 @@
       "range": "BOX 4: #301–#400",
       "address": "0x2734e0a264573056417d12478616107ff5d2ce54",
       "receivedUsdc": 0,
-      "pendingUsdc": 0.915941,
+      "pendingUsdc": 1.670411,
       "status": "🟢 VERIFICADA"
     },
     {
@@ -45670,28 +45672,29 @@
       "range": "BOX 5: #401–#500",
       "address": "0xf746f7da001c48367d78641e2e870db0e809dee9",
       "receivedUsdc": 0,
-      "pendingUsdc": 0.915407,
+      "pendingUsdc": 1.652842,
       "status": "🟢 VERIFICADA"
     }
   ],
   "pendingHarvestUsdc": {
-    "totalPendingUsdc": 7.908706,
+    "totalPendingUsdc": 13.61816,
+    "totalHistoricalUsdc": 14.61816,
     "byBox": {
-      "box1": 3.937344,
-      "box2": 1.223637,
-      "box3": 0.916377,
-      "box4": 0.915941,
-      "box5": 0.915407
+      "box1": 6.606738,
+      "box2": 2.008585,
+      "box3": 1.679585,
+      "box4": 1.670411,
+      "box5": 1.652842
     },
     "byNetwork": {
       "base": 0,
       "arbitrumOne": 0,
       "optimism": 0,
-      "bsc": 0,
-      "polygon": 7.908706
+      "bsc": 5.874317,
+      "polygon": 7.743843
     },
     "satellitesWithDust": 6,
-    "lastScanTimestamp": "2026-10-22T08:07:35.176Z"
+    "lastScanTimestamp": "2026-10-22T08:23:51.402Z"
   },
   "totalHarvestedToBinanceUsdc": 1,
   "binanceVaultsVerification": {
@@ -45702,9 +45705,9 @@
     "compoundingPoolActive": true
   },
   "workStats": {
-    "totalRoundsCompleted": 106,
-    "totalTxConfirmedAllTime": 4551,
-    "todayTxConfirmed": 442,
+    "totalRoundsCompleted": 108,
+    "totalTxConfirmedAllTime": 4671,
+    "todayTxConfirmed": 562,
     "boxesRotatedToday": [
       "Box 1",
       "Box 4",
@@ -45718,9 +45721,9 @@
       "id": "#501",
       "title": "Nodriza Matriz #501 (Sniper #0 / Gas Hub)",
       "address": "0xD4D1...3743",
-      "bscBal": "0.01444",
-      "polBal": "233.62",
-      "usdcBal": "1.604829",
+      "bscBal": "0.01244",
+      "polBal": "229.04",
+      "usdcBal": "2.004873",
       "status": "🟢 ACTIVA Y FONDEADA (MATRIZ)"
     },
     {
@@ -45728,9 +45731,9 @@
       "id": "#001",
       "title": "Capitán #001 (Box 1)",
       "address": "0xb750...D40F",
-      "bscBal": "0.00821",
-      "polBal": "21.98",
-      "usdcBal": "0.358090",
+      "bscBal": "0.00741",
+      "polBal": "20.07",
+      "usdcBal": "1.104967",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45738,9 +45741,9 @@
       "id": "#101",
       "title": "Capitán #101 (Box 2)",
       "address": "0x5682...adBA",
-      "bscBal": "0.01162",
-      "polBal": "21.87",
-      "usdcBal": "0.720051",
+      "bscBal": "0.01081",
+      "polBal": "20.08",
+      "usdcBal": "1.453480",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45748,9 +45751,9 @@
       "id": "#201",
       "title": "Capitán #201 (Box 3)",
       "address": "0x2810...6A7C",
-      "bscBal": "0.01165",
-      "polBal": "15.51",
-      "usdcBal": "0.413069",
+      "bscBal": "0.01084",
+      "polBal": "14.08",
+      "usdcBal": "1.121063",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45758,9 +45761,9 @@
       "id": "#301",
       "title": "Capitán #301 (Box 4)",
       "address": "0xEb6a...Ca0f",
-      "bscBal": "0.00823",
-      "polBal": "15.37",
-      "usdcBal": "0.412913",
+      "bscBal": "0.00742",
+      "polBal": "14.07",
+      "usdcBal": "1.105982",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45768,9 +45771,9 @@
       "id": "#401",
       "title": "Capitán #401 (Box 5)",
       "address": "0x4C71...d070",
-      "bscBal": "0.00823",
-      "polBal": "15.19",
-      "usdcBal": "0.412757",
+      "bscBal": "0.00742",
+      "polBal": "14.08",
+      "usdcBal": "1.088598",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45789,8 +45792,8 @@
       "title": "Sub-Capitán #006 (Box 1)",
       "address": "0x0a16...1cA7",
       "bscBal": "0.00014",
-      "polBal": "5.70",
-      "usdcBal": "0.246374",
+      "polBal": "5.01",
+      "usdcBal": "0.300804",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45809,8 +45812,8 @@
       "title": "Sub-Capitán #106 (Box 2)",
       "address": "0x6C66...785d",
       "bscBal": "0.00014",
-      "polBal": "5.67",
-      "usdcBal": "0.246202",
+      "polBal": "5.02",
+      "usdcBal": "0.297721",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45829,8 +45832,8 @@
       "title": "Sub-Capitán #205 (Box 3)",
       "address": "0xf2CC...5a08",
       "bscBal": "0.00014",
-      "polBal": "5.68",
-      "usdcBal": "0.246117",
+      "polBal": "5.02",
+      "usdcBal": "0.301331",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45849,8 +45852,8 @@
       "title": "Sub-Capitán #311 (Box 4)",
       "address": "0xF3d1...865d",
       "bscBal": "0.00015",
-      "polBal": "5.75",
-      "usdcBal": "0.245932",
+      "polBal": "5.03",
+      "usdcBal": "0.307333",
       "status": "🟢 ACTIVA Y FONDEADA"
     },
     {
@@ -45869,16 +45872,16 @@
       "title": "Sub-Capitán #411 (Box 5)",
       "address": "0x3Bc2...3c12",
       "bscBal": "0.00015",
-      "polBal": "5.76",
-      "usdcBal": "0.245748",
+      "polBal": "5.02",
+      "usdcBal": "0.307342",
       "status": "🟢 ACTIVA Y FONDEADA"
     }
   ],
   "masterGasVaultStatus": {
     "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
-    "bscBnb": "0.014441",
-    "polygonPol": "233.615234",
-    "lastChecked": "2026-10-22T08:07:35.071Z",
+    "bscBnb": "0.012436",
+    "polygonPol": "229.038473",
+    "lastChecked": "2026-10-22T08:23:51.301Z",
     "needsRefuelBsc": false,
     "needsRefuelPolygon": false,
     "sacredReservePol": 25,
@@ -46485,8 +46488,8 @@
       "name": "Ethereum Sepolia",
       "chainId": 11155111,
       "online": true,
-      "latencyMs": 185,
-      "blockNumber": 11968250,
+      "latencyMs": 310,
+      "blockNumber": 11968331,
       "status": "OPERATIVO",
       "totalEth": "4.235",
       "satellitesWithGas": 500
@@ -46495,8 +46498,8 @@
       "name": "Base Sepolia",
       "chainId": 84532,
       "online": true,
-      "latencyMs": 292,
-      "blockNumber": 48672936,
+      "latencyMs": 343,
+      "blockNumber": 48677818,
       "status": "OPERATIVO",
       "totalEth": "0.924",
       "satellitesWithGas": 450
@@ -46505,8 +46508,8 @@
       "name": "Arbitrum Sepolia",
       "chainId": 421614,
       "online": true,
-      "latencyMs": 326,
-      "blockNumber": 321664602,
+      "latencyMs": 300,
+      "blockNumber": 321668428,
       "status": "OPERATIVO",
       "totalEth": "0.710",
       "satellitesWithGas": 455
@@ -46515,8 +46518,8 @@
       "name": "Optimism Sepolia",
       "chainId": 11155420,
       "online": true,
-      "latencyMs": 175,
-      "blockNumber": 50426957,
+      "latencyMs": 260,
+      "blockNumber": 50427446,
       "status": "OPERATIVO",
       "totalEth": "0.059",
       "satellitesWithGas": 50
@@ -46525,20 +46528,20 @@
       "name": "BNB Smart Chain",
       "chainId": 56,
       "online": true,
-      "latencyMs": 427,
-      "blockNumber": 129095212,
+      "latencyMs": 493,
+      "blockNumber": 129097381,
       "status": "OPERATIVO",
-      "totalNative": 0.05506551269999999,
+      "totalNative": 0.051033045049999996,
       "satellitesUsable": 5
     },
     {
       "name": "Polygon PoS",
       "chainId": 137,
       "online": true,
-      "latencyMs": 255,
-      "blockNumber": 95967390,
+      "latencyMs": 190,
+      "blockNumber": 95968041,
       "status": "OPERATIVO",
-      "totalNative": 165.52256020829105,
+      "totalNative": 154.53131088432346,
       "satellitesUsable": 55
     },
     {
@@ -47029,6 +47032,20 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1792657466983-443",
+      "timestamp": "2026-10-22T08:24:26.983Z",
+      "timeFormatted": "8:24:26 UTC",
+      "rawHtml": "🦅🌊🛡️ <b>PASO TÁCTICO MULTI-PISCINA COMPLETADO (6 PISCINAS AUDITADAS AL >=95% + CONTADOR DUAL-CHAIN ACTUALIZADO)</b>\n\n🎯 <b>OPERACIÓN 12K — EXPEDICIÓN DE RECONOCIMIENTO & CAZA DE LIQUIDEZ</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📊 <b>MATRIZ COMPARATIVA DE LAS 6 PISCINAS INSTITUCIONALES (COSTO $0 GAS):</b>\n• <b>Piscina #1 (Polygon Directa):</b> WPOL ➔ USDC Nativo (QuickSwap/SushiSwap) | 0.090997 USDC\n• <b>Piscina #2 (Polygon Triangular WETH):</b> WPOL ➔ WETH ➔ USDC | 0.090939 USDC\n• <b>Piscina #3 (Polygon Triangular WBTC):</b> WPOL ➔ WBTC ➔ USDC | <b>0.091055 USDC 🏆 [GANADORA POLYGON: +0.0637% VENTAJA]</b>\n• <b>Piscina #4 (BSC Directa):</b> WBNB ➔ USDC Oficial BSC | <b>$734.18 USDC 🏆 [GANADORA BSC: 0% DESLIZAMIENTO]</b>\n• <b>Piscina #5 (BSC Triangular ETH):</b> WBNB ➔ ETH-BSC ➔ USDC | $731.06 USDC\n• <b>Piscina #6 (BSC Triangular BTCB):</b> WBNB ➔ BTCB ➔ USDC | $729.88 USDC\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 <b>RESULTADOS CONFIRMADOS ON-CHAIN:</b>\n• <b>16 Nodrizas Sniper en Polygon PoS:</b> Enrutadas dinámicamente vía Piscina #3 (Triangular WBTC en QuickSwap V2).\n• <b>Top 6 Nodrizas Superiores en BSC Mainnet:</b> Desplegadas con éxito en PancakeSwap V2 (#501: 0.002 BNB; Capitanes #001 a #401: 0.0008 BNB c/u).\n• <b>USDC Nativo en Polygon:</b> $7.743843 USDC\n• <b>USDC Oficial en BSC:</b> $5.874317 USDC\n• <b>En Bóveda Máster On-Chain (Compounding Pool):</b> <b>$13.618160 USDC</b>\n• <b>GRAN TOTAL HISTÓRICO GLOBAL (+ Bóveda #1):</b> <b>$14.618160 USDC</b>\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🚀 <b>HASHES DE IMPACTO VERIFICABLES EN BLOCK EXPLORERS:</b>\n🥞 <b>BSC Mainnet (PancakeSwap V2):</b>\n• #501 Matriz: <code>0x9aaec7be707acac743111e6e5c30f5b4467a81547ac04be0d2abb2df70b924de</code> (+$1.468042 USDC)\n• #001 Cap Box 1: <code>0x9494a1fae85e453e74af9f762fea9c1a039a93b73f3fe066efdae08788441d01</code> (+$0.587188 USDC)\n• #101 Cap Box 2: <code>0x4e5c3bf8fee0a58da938b0bf34dead89622905908d89bccf28bc373e5778459e</code> (+$0.587184 USDC)\n• #201 Cap Box 3: <code>0x7c663e1b196606bb332964fd12c9da83da490c0dcf75e844a834e9a4d36ae2b7</code> (+$0.587179 USDC)\n• #301 Cap Box 4: <code>0xf03a3b8e2ffe49539f5eabbb10a05065191c483a8038a1372ae6ea8ee7488135</code> (+$0.587175 USDC)\n• #401 Cap Box 5: <code>0xd70a42c3d6de9f6d37451c00480a3c2cc25a866251b9c62bdcf80299fbce26c0</code> (+$0.587170 USDC)\n\n⚡ <b>Polygon PoS (QuickSwap V2 Triangular WBTC):</b>\n• #311 Sub-Cap Box 4: <code>0x6cfb4de78bb811b6f7352299ffe8099922a6339b3cda91c3f8be15598e715b9e</code>\n• #411 Sub-Cap Box 5: <code>0x786aabff29895ea58c5e86781362cb47d331d9de28c27c17908ebf5b6b947091</code>\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <b>ESTADO DE LAS RESERVAS SAGRADAS:</b>\n• <b>Polygon PoS:</b> ~154.53 POL preservados en flota (>212.00 POL piso sagrado blindado con recámara Kraken).\n• <b>BSC Mainnet:</b> ~0.0510 BNB preservados en flota (>0.0400 BNB intocables).\n• <b>Escudo Anti-Rug Pull:</b> 100% ACTIVO (4 Candados / 0 Memecoins / Whitelist Institucional Oficial).\n• <b>Fondo de Interés Compuesto:</b> 100% Retenido On-Chain rumbo a los $100 USD/día.\n\n⏰ <i>2026-10-22T08:24:26.980Z</i>",
+      "textPlain": "🦅🌊🛡️ PASO TÁCTICO MULTI-PISCINA COMPLETADO (6 PISCINAS AUDITADAS AL >=95% + CONTADOR DUAL-CHAIN ACTUALIZADO)\n\n🎯 OPERACIÓN 12K — EXPEDICIÓN DE RECONOCIMIENTO & CAZA DE LIQUIDEZ\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📊 MATRIZ COMPARATIVA DE LAS 6 PISCINAS INSTITUCIONALES (COSTO $0 GAS):\n• Piscina #1 (Polygon Directa): WPOL ➔ USDC Nativo (QuickSwap/SushiSwap) | 0.090997 USDC\n• Piscina #2 (Polygon Triangular WETH): WPOL ➔ WETH ➔ USDC | 0.090939 USDC\n• Piscina #3 (Polygon Triangular WBTC): WPOL ➔ WBTC ➔ USDC | 0.091055 USDC 🏆 [GANADORA POLYGON: +0.0637% VENTAJA]\n• Piscina #4 (BSC Directa): WBNB ➔ USDC Oficial BSC | $734.18 USDC 🏆 [GANADORA BSC: 0% DESLIZAMIENTO]\n• Piscina #5 (BSC Triangular ETH): WBNB ➔ ETH-BSC ➔ USDC | $731.06 USDC\n• Piscina #6 (BSC Triangular BTCB): WBNB ➔ BTCB ➔ USDC | $729.88 USDC\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 RESULTADOS CONFIRMADOS ON-CHAIN:\n• 16 Nodrizas Sniper en Polygon PoS: Enrutadas dinámicamente vía Piscina #3 (Triangular WBTC en QuickSwap V2).\n• Top 6 Nodrizas Superiores en BSC Mainnet: Desplegadas con éxito en PancakeSwap V2 (#501: 0.002 BNB; Capitanes #001 a #401: 0.0008 BNB c/u).\n• USDC Nativo en Polygon: $7.743843 USDC\n• USDC Oficial en BSC: $5.874317 USDC\n• En Bóveda Máster On-Chain (Compounding Pool): $13.618160 USDC\n• GRAN TOTAL HISTÓRICO GLOBAL (+ Bóveda #1): $14.618160 USDC\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🚀 HASHES DE IMPACTO VERIFICABLES EN BLOCK EXPLORERS:\n🥞 BSC Mainnet (PancakeSwap V2):\n• #501 Matriz: 0x9aaec7be707acac743111e6e5c30f5b4467a81547ac04be0d2abb2df70b924de (+$1.468042 USDC)\n• #001 Cap Box 1: 0x9494a1fae85e453e74af9f762fea9c1a039a93b73f3fe066efdae08788441d01 (+$0.587188 USDC)\n• #101 Cap Box 2: 0x4e5c3bf8fee0a58da938b0bf34dead89622905908d89bccf28bc373e5778459e (+$0.587184 USDC)\n• #201 Cap Box 3: 0x7c663e1b196606bb332964fd12c9da83da490c0dcf75e844a834e9a4d36ae2b7 (+$0.587179 USDC)\n• #301 Cap Box 4: 0xf03a3b8e2ffe49539f5eabbb10a05065191c483a8038a1372ae6ea8ee7488135 (+$0.587175 USDC)\n• #401 Cap Box 5: 0xd70a42c3d6de9f6d37451c00480a3c2cc25a866251b9c62bdcf80299fbce26c0 (+$0.587170 USDC)\n\n⚡ Polygon PoS (QuickSwap V2 Triangular WBTC):\n• #311 Sub-Cap Box 4: 0x6cfb4de78bb811b6f7352299ffe8099922a6339b3cda91c3f8be15598e715b9e\n• #411 Sub-Cap Box 5: 0x786aabff29895ea58c5e86781362cb47d331d9de28c27c17908ebf5b6b947091\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ ESTADO DE LAS RESERVAS SAGRADAS:\n• Polygon PoS: ~154.53 POL preservados en flota (>212.00 POL piso sagrado blindado con recámara Kraken).\n• BSC Mainnet: ~0.0510 BNB preservados en flota (>0.0400 BNB intocables).\n• Escudo Anti-Rug Pull: 100% ACTIVO (4 Candados / 0 Memecoins / Whitelist Institucional Oficial).\n• Fondo de Interés Compuesto: 100% Retenido On-Chain rumbo a los $100 USD/día.\n\n⏰ 2026-10-22T08:24:26.980Z"
+    },
+    {
+      "id": "tg-1792657398201-189",
+      "timestamp": "2026-10-22T08:23:18.201Z",
+      "timeFormatted": "8:23:18 UTC",
+      "rawHtml": "🦅🌊🛡️ <b>PASO TÁCTICO MULTI-PISCINA COMPLETADO // 16 SNIPERS EXPERTAS + 32 NEBULOSAS IA</b>\n\n🎯 <b>OPERACIÓN 12K — SALVA DUAL-CHAIN DE PRECISIÓN (6 PISCINAS AL >= 95%)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 <b>RESULTADOS CONFIRMADOS ON-CHAIN:</b>\n• <b>Disparos Exitosos:</b> 17 Impactos Confirmados\n• <b>Redes Desplegadas:</b> Polygon PoS (Piscina Ganadora WBTC) + BSC Mainnet (PancakeSwap V2)\n• <b>USDC Capturado en esta Ronda:</b> +$5.709455 USDC\n• <b>En Bóveda Máster On-Chain (Compounding Pool):</b> $13.618160 USDC (Polygon + BSC)\n• <b>Gran Total Histórico Global (+ Bóveda #1):</b> $14.618160 USDC\n• <b>Gas Total Preservado:</b> 364.21 POL y 0.0578 BNB (>212 POL y >0.040 BNB blindados)\n\n📦 <b>DETALLE DE IMPACTOS ON-CHAIN:</b>\n• <b>#501 (Nodriza Matriz (#501)):</b> +$0.400044 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0xa872aef6c792bf3e1e1f62d06684958b6609064a9fac1ac6fc593bda2028eb4c</code>\n• <b>#001 (Capitán Box 1 (#001)):</b> +$0.159689 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0x7122e2a3d83ed4156b74249ff8d9f1ff3aebd0591ad5a1e044b66451a45e21bb</code>\n• <b>#101 (Capitán Box 2 (#101)):</b> +$0.146245 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0xc407edb2e7127d50a35cbff74e132cbf507a89f0da8df57acf33c8785e14b969</code>\n• <b>#201 (Capitán Box 3 (#201)):</b> +$0.120815 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0x1c5e5764b3472b22f1f46a9e76d17095480c53acc5f9067476758d57831948ea</code>\n• <b>#301 (Capitán Box 4 (#301)):</b> +$0.105894 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0x054e864489069705c2f0ceaf06183ce999fa565a3f109fbf4327bb97b93fed4e</code>\n• <b>#401 (Capitán Box 5 (#401)):</b> +$0.088671 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0x7b731e991bf7e8fd2d52fbd22129bce338c70ccf6702e17aa581aa7054863efe</code>\n• <b>#006 (Sub-Capitán Box 1 (#006)):</b> +$0.054430 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0xfc9dab3c9aa32c33be36a024c11260eb49db5b477304a1d397427f96a6dfd61f</code>\n• <b>#106 (Sub-Capitán Box 2 (#106)):</b> +$0.051519 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0xe501ba41f62bb79676d62130d92bbdefcb26e364af4d5b94b994531245a9fb57</code>\n• <b>#205 (Sub-Capitán Box 3 (#205)):</b> +$0.055214 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0x15459184448de5f9f9a0b6bbae3b2d00e0f655b85fb9099f306a0ecc5887a8a2</code>\n• <b>#311 (Sub-Capitán Box 4 (#311)):</b> +$0.061401 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0x6cfb4de78bb811b6f7352299ffe8099922a6339b3cda91c3f8be15598e715b9e</code>\n• <b>#411 (Sub-Capitán Box 5 (#411)):</b> +$0.061594 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: <code>0x786aabff29895ea58c5e86781362cb47d331d9de28c27c17908ebf5b6b947091</code>\n• <b>#501 (Nodriza Matriz (#501)):</b> +$1.468042 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: <code>0x9aaec7be707acac743111e6e5c30f5b4467a81547ac04be0d2abb2df70b924de</code>\n• <b>#001 (Capitán Box 1 (#001)):</b> +$0.587188 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: <code>0x9494a1fae85e453e74af9f762fea9c1a039a93b73f3fe066efdae08788441d01</code>\n• <b>#101 (Capitán Box 2 (#101)):</b> +$0.587184 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: <code>0x4e5c3bf8fee0a58da938b0bf34dead89622905908d89bccf28bc373e5778459e</code>\n• <b>#201 (Capitán Box 3 (#201)):</b> +$0.587179 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: <code>0x7c663e1b196606bb332964fd12c9da83da490c0dcf75e844a834e9a4d36ae2b7</code>\n• <b>#301 (Capitán Box 4 (#301)):</b> +$0.587175 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: <code>0xf03a3b8e2ffe49539f5eabbb10a05065191c483a8038a1372ae6ea8ee7488135</code>\n• <b>#401 (Capitán Box 5 (#401)):</b> +$0.587170 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: <code>0xd70a42c3d6de9f6d37451c00480a3c2cc25a866251b9c62bdcf80299fbce26c0</code>\n\n🔒 <b>POLÍTICA DE SEGURIDAD EN BÓVEDA MÁSTER (#501):</b>\n• <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos automáticos)\n• <b>Destino de Fondos:</b> 100% Acumulación On-Chain para Fondo de Interés Compuesto.\n• <b>Escudo Anti-Rug Pull:</b> 100% ACTIVO (4 Candados / 0 Estafas / Whitelist Oficial)\n• <b>Supervisión:</b> 32 Nebulosas IA (16 Binomios de Reconocimiento Previo)\n\n⏰ <i>2026-10-22T08:23:18.200Z</i>",
+      "textPlain": "🦅🌊🛡️ PASO TÁCTICO MULTI-PISCINA COMPLETADO // 16 SNIPERS EXPERTAS + 32 NEBULOSAS IA\n\n🎯 OPERACIÓN 12K — SALVA DUAL-CHAIN DE PRECISIÓN (6 PISCINAS AL >= 95%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 RESULTADOS CONFIRMADOS ON-CHAIN:\n• Disparos Exitosos: 17 Impactos Confirmados\n• Redes Desplegadas: Polygon PoS (Piscina Ganadora WBTC) + BSC Mainnet (PancakeSwap V2)\n• USDC Capturado en esta Ronda: +$5.709455 USDC\n• En Bóveda Máster On-Chain (Compounding Pool): $13.618160 USDC (Polygon + BSC)\n• Gran Total Histórico Global (+ Bóveda #1): $14.618160 USDC\n• Gas Total Preservado: 364.21 POL y 0.0578 BNB (>212 POL y >0.040 BNB blindados)\n\n📦 DETALLE DE IMPACTOS ON-CHAIN:\n• #501 (Nodriza Matriz (#501)): +$0.400044 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0xa872aef6c792bf3e1e1f62d06684958b6609064a9fac1ac6fc593bda2028eb4c\n• #001 (Capitán Box 1 (#001)): +$0.159689 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0x7122e2a3d83ed4156b74249ff8d9f1ff3aebd0591ad5a1e044b66451a45e21bb\n• #101 (Capitán Box 2 (#101)): +$0.146245 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0xc407edb2e7127d50a35cbff74e132cbf507a89f0da8df57acf33c8785e14b969\n• #201 (Capitán Box 3 (#201)): +$0.120815 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0x1c5e5764b3472b22f1f46a9e76d17095480c53acc5f9067476758d57831948ea\n• #301 (Capitán Box 4 (#301)): +$0.105894 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0x054e864489069705c2f0ceaf06183ce999fa565a3f109fbf4327bb97b93fed4e\n• #401 (Capitán Box 5 (#401)): +$0.088671 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0x7b731e991bf7e8fd2d52fbd22129bce338c70ccf6702e17aa581aa7054863efe\n• #006 (Sub-Capitán Box 1 (#006)): +$0.054430 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0xfc9dab3c9aa32c33be36a024c11260eb49db5b477304a1d397427f96a6dfd61f\n• #106 (Sub-Capitán Box 2 (#106)): +$0.051519 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0xe501ba41f62bb79676d62130d92bbdefcb26e364af4d5b94b994531245a9fb57\n• #205 (Sub-Capitán Box 3 (#205)): +$0.055214 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0x15459184448de5f9f9a0b6bbae3b2d00e0f655b85fb9099f306a0ecc5887a8a2\n• #311 (Sub-Capitán Box 4 (#311)): +$0.061401 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0x6cfb4de78bb811b6f7352299ffe8099922a6339b3cda91c3f8be15598e715b9e\n• #411 (Sub-Capitán Box 5 (#411)): +$0.061594 USDC [⚡ Polygon (Piscina #3 (Polygon Triangular WBTC - QuickSwap V2))]\n  ↳ Tx: 0x786aabff29895ea58c5e86781362cb47d331d9de28c27c17908ebf5b6b947091\n• #501 (Nodriza Matriz (#501)): +$1.468042 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: 0x9aaec7be707acac743111e6e5c30f5b4467a81547ac04be0d2abb2df70b924de\n• #001 (Capitán Box 1 (#001)): +$0.587188 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: 0x9494a1fae85e453e74af9f762fea9c1a039a93b73f3fe066efdae08788441d01\n• #101 (Capitán Box 2 (#101)): +$0.587184 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: 0x4e5c3bf8fee0a58da938b0bf34dead89622905908d89bccf28bc373e5778459e\n• #201 (Capitán Box 3 (#201)): +$0.587179 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: 0x7c663e1b196606bb332964fd12c9da83da490c0dcf75e844a834e9a4d36ae2b7\n• #301 (Capitán Box 4 (#301)): +$0.587175 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: 0xf03a3b8e2ffe49539f5eabbb10a05065191c483a8038a1372ae6ea8ee7488135\n• #401 (Capitán Box 5 (#401)): +$0.587170 USDC [🥞 BSC (Piscina #4 (BSC Directa - PancakeSwap V2))]\n  ↳ Tx: 0xd70a42c3d6de9f6d37451c00480a3c2cc25a866251b9c62bdcf80299fbce26c0\n\n🔒 POLÍTICA DE SEGURIDAD EN BÓVEDA MÁSTER (#501):\n• Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos automáticos)\n• Destino de Fondos: 100% Acumulación On-Chain para Fondo de Interés Compuesto.\n• Escudo Anti-Rug Pull: 100% ACTIVO (4 Candados / 0 Estafas / Whitelist Oficial)\n• Supervisión: 32 Nebulosas IA (16 Binomios de Reconocimiento Previo)\n\n⏰ 2026-10-22T08:23:18.200Z"
+    },
+    {
       "id": "tg-1792656470502-421",
       "timestamp": "2026-10-22T08:07:50.502Z",
       "timeFormatted": "8:07:50 UTC",
@@ -47223,20 +47240,6 @@
       "timeFormatted": "6:26:16 UTC",
       "rawHtml": "🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>\n⏱️ <code>6:26:16 UTC</code>\n\n🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>\n   • <b>Campañas Activas en Catálogo:</b> 24 objetivos ($0 Costo)\n   • <b>Check-Ins Diarios Firmados Hoy:</b> 410 asistencias\n   • <b>Misiones Gasless & DeFi Ejecutadas:</b> 1050 operaciones\n   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> 720 operaciones / 18000 pts acumulados\n   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa\n\n💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>\n   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $0.00 USDC\n   • <b>Consolidado en Binance Spot (Meta 12K):</b> $1.00 USDC\n   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 <b>MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):</b>\n   • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)\n   • <b>Recuperado (ROI):</b> $3.14 / $50.00 USDC (6.28% | Break-Even: -$46.86)\n   • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB\n   • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • <b>Vueltas Completadas:</b> 0 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • <b>Radar Bounties Mainnet (BSC + Polygon):</b> 🟢 8 objetivos activos en caza\n\n🧠 <b>CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):</b>\n   • <b>ADN Polimórfico (500 Bots):</b> 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • <b>Auto-Descubridor On-Chain:</b> 22 Contratos Verificados (0 Honeypots)\n   • <b>Auto-Liquidador DEX ➔ USDC:</b> 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 <b>CHAMBA DE ESTA RONDA:</b>\n   • <b>Box Activo:</b> Box 2 (#101–#200)\n   • <b>Satélites Operados:</b> 20/500 Satélites\n   • <b>Confirmadas en este Turno:</b> 11 txs on-chain ✅\n⛏️ <b>BOT MINER SWARM:</b> Box 1 minó 11 operaciones on-chain/gasless (Acumulado Minero: 575 ops)\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 92 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 3828 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 151 txs\n   • <b>Boxes Rotados Hoy:</b> Box 1, Box 4, Box 5\n   • <b>Autonomía de Gas:</b> Autonomía verificada L2/L1\n\n🌐 <b>ESTADO DE REDES ACTIVAS:</b>\n   • <b>Ethereum Sepolia:</b> En línea (Bloque 896,325,185 • 194ms)\n   • <b>Base Sepolia:</b> En línea (Bloque 48,642,522 • 214ms)\n   • <b>Arbitrum Sepolia:</b> En línea (Bloque 321,640,940 • 256ms)\n   • <b>Optimism Sepolia:</b> En línea (Bloque 50,423,916 • 273ms)\n   • <b>BSC Mainnet:</b> En línea (Bloque 129,081,704 • 323ms)\n   • <b>Polygon Mainnet:</b> En línea (Bloque 896,325,186 • 172ms)\n   • <b>Citrea Bitcoin ZK-Rollup:</b> En línea (Bloque 32,924,435 • 503ms)\n   • <b>Goat Network Bitcoin L2:</b> En línea (Bloque 17,671,184 • 677ms)\n   • <b>BSC Testnet:</b> En línea (Bloque 138,221,460 • 629ms)\n   • <b>Polygon Amoy:</b> En línea (Bloque 50,827,814 • 621ms)\n\n🌉 <b>COBERTURA DE PUENTES L2 (5 BOXES):</b>\n   • <b>Box 1 (#001–#100):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 2 (#101–#200):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 3 (#201–#300):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 4 (#301–#400):</b> Base 100/100 | Arb 100/100 🟢\n   • <b>Box 5 (#401–#500):</b> Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 <b>VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):</b>\n   • <b>Cabecera #501 (Box 0):</b> <code>0xD4D1...3743</code>\n     ↳ 0.00183 BNB | 25.24 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • <b>Cabecera #001 (Box 1):</b> <code>0xb750...D40F</code>\n     ↳ 0.00569 BNB | 14.04 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #101 (Box 2):</b> <code>0x5682...adBA</code>\n     ↳ 0.00499 BNB | 14.04 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #201 (Box 3):</b> <code>0x2810...6A7C</code>\n     ↳ 0.00499 BNB | 7.34 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #301 (Box 4):</b> <code>0xEb6a...Ca0f</code>\n     ↳ 0.00569 BNB | 7.34 POL 🟢 ACTIVA Y FONDEADA\n   • <b>Cabecera #401 (Box 5):</b> <code>0x4C71...d070</code>\n     ↳ 0.00569 BNB | 7.34 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 <b>HALLAZGOS EN ESTA RONDA:</b>\n   • <b>Ruta Óptima de Ejecución:</b> Polygon Mainnet detectada con menor latencia (172ms).\n   • <b>Rotación del Escuadrón:</b> Box 2 (#101–#200) en turno operativo sin alertas de colisión.\n   • <b>Contratos DeFi en Radar:</b> WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • <b>Aislamiento Intra-Bloque:</b> 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>\nVector 2: DeFi WETH9 Liquidity Wrapping (0xd0e30db0 en Polygon Mainnet)\n\n⚡ <b>ESCUADRÓN DESPLEGADO:</b>\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 <b>RENDIMIENTO CAPTADO HOY:</b> +$1.0000 USDC\n📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil",
       "textPlain": "🦅 10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES\n⏱️ 6:26:16 UTC\n\n🎯 CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):\n   • Campañas Activas en Catálogo: 24 objetivos ($0 Costo)\n   • Check-Ins Diarios Firmados Hoy: 410 asistencias\n   • Misiones Gasless & DeFi Ejecutadas: 1050 operaciones\n   • ₿ Granja Bitcoin L2 (Citrea & Goat): 720 operaciones / 18000 pts acumulados\n   • Cobertura de Caza por Box: Box 1 a Box 5 en rotación activa\n\n💰 EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):\n   • Acumulándose en Satélites (Centavos/Flotante): $0.00 USDC\n   • Consolidado en Binance Spot (Meta 12K): $1.00 USDC\n   • Estado de las 5 Bóvedas Receptoras: 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📈 MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):\n   • Inversión Gas Mainnet: $50.00 USD (135.17 POL + 0.0365 BNB)\n   • Recuperado (ROI): $3.14 / $50.00 USDC (6.28% | Break-Even: -$46.86)\n   • Reserva en Recámara (Kraken 72h): 116.38 POL + 0.02006 BNB\n   • Velocímetro por Satélite: Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)\n   • Vueltas Completadas: 0 / 500 (500 bots corriendo Vuelta #1 sin freno)\n   • Radar Bounties Mainnet (BSC + Polygon): 🟢 8 objetivos activos en caza\n\n🧠 CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):\n   • ADN Polimórfico (500 Bots): 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)\n   • Auto-Descubridor On-Chain: 22 Contratos Verificados (0 Honeypots)\n   • Auto-Liquidador DEX ➔ USDC: 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot\n\n🔨 CHAMBA DE ESTA RONDA:\n   • Box Activo: Box 2 (#101–#200)\n   • Satélites Operados: 20/500 Satélites\n   • Confirmadas en este Turno: 11 txs on-chain ✅\n⛏️ BOT MINER SWARM: Box 1 minó 11 operaciones on-chain/gasless (Acumulado Minero: 575 ops)\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 92 rondas\n   • Txs On-Chain Acumuladas: 3828 txs firmadas\n   • Txs Confirmadas Hoy: 151 txs\n   • Boxes Rotados Hoy: Box 1, Box 4, Box 5\n   • Autonomía de Gas: Autonomía verificada L2/L1\n\n🌐 ESTADO DE REDES ACTIVAS:\n   • Ethereum Sepolia: En línea (Bloque 896,325,185 • 194ms)\n   • Base Sepolia: En línea (Bloque 48,642,522 • 214ms)\n   • Arbitrum Sepolia: En línea (Bloque 321,640,940 • 256ms)\n   • Optimism Sepolia: En línea (Bloque 50,423,916 • 273ms)\n   • BSC Mainnet: En línea (Bloque 129,081,704 • 323ms)\n   • Polygon Mainnet: En línea (Bloque 896,325,186 • 172ms)\n   • Citrea Bitcoin ZK-Rollup: En línea (Bloque 32,924,435 • 503ms)\n   • Goat Network Bitcoin L2: En línea (Bloque 17,671,184 • 677ms)\n   • BSC Testnet: En línea (Bloque 138,221,460 • 629ms)\n   • Polygon Amoy: En línea (Bloque 50,827,814 • 621ms)\n\n🌉 COBERTURA DE PUENTES L2 (5 BOXES):\n   • Box 1 (#001–#100): Base 100/100 | Arb 100/100 🟢\n   • Box 2 (#101–#200): Base 100/100 | Arb 100/100 🟢\n   • Box 3 (#201–#300): Base 100/100 | Arb 100/100 🟢\n   • Box 4 (#301–#400): Base 100/100 | Arb 100/100 🟢\n   • Box 5 (#401–#500): Base 4/100 | Arb 4/100 🟡 (Puenteando #405–#500) | OP Sepolia (Piloto)\n\n👑 VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):\n   • Cabecera #501 (Box 0): 0xD4D1...3743\n     ↳ 0.00183 BNB | 25.24 POL 🟢 ACTIVA Y FONDEADA (MATRIZ)\n   • Cabecera #001 (Box 1): 0xb750...D40F\n     ↳ 0.00569 BNB | 14.04 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #101 (Box 2): 0x5682...adBA\n     ↳ 0.00499 BNB | 14.04 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #201 (Box 3): 0x2810...6A7C\n     ↳ 0.00499 BNB | 7.34 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #301 (Box 4): 0xEb6a...Ca0f\n     ↳ 0.00569 BNB | 7.34 POL 🟢 ACTIVA Y FONDEADA\n   • Cabecera #401 (Box 5): 0x4C71...d070\n     ↳ 0.00569 BNB | 7.34 POL 🟢 ACTIVA Y FONDEADA\n\n🔍 HALLAZGOS EN ESTA RONDA:\n   • Ruta Óptima de Ejecución: Polygon Mainnet detectada con menor latencia (172ms).\n   • Rotación del Escuadrón: Box 2 (#101–#200) en turno operativo sin alertas de colisión.\n   • Contratos DeFi en Radar: WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.\n   • Aislamiento Intra-Bloque: 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.\n\n🎯 OBJETIVO DE CAZA ACTIVO:\nVector 2: DeFi WETH9 Liquidity Wrapping (0xd0e30db0 en Polygon Mainnet)\n\n⚡ ESCUADRÓN DESPLEGADO:\n20/500 bots ejecutando sobre oportunidad detectada (60 txs confirmadas)\n\n💰 RENDIMIENTO CAPTADO HOY: +$1.0000 USDC\n📡 ESTADO: Escaneo activo 24/7 sin colisiones Sybil"
-    },
-    {
-      "id": "vanguard-1792650363102",
-      "timestamp": "2026-10-22T06:26:03.102Z",
-      "timeFormatted": "6:26:03 UTC",
-      "rawHtml": "🎯 <b>10K VANGUARD HUNTER EN LÍNEA</b> — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando.",
-      "textPlain": "🎯 10K VANGUARD HUNTER EN LÍNEA — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando."
-    },
-    {
-      "id": "tg-1792650362349-993",
-      "timestamp": "2026-10-22T06:26:02.349Z",
-      "timeFormatted": "6:26:02 UTC",
-      "rawHtml": "🎉 🚨 <b>¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!</b>\n⛽ <b>FONDOS DE KRAKEN LIBERADOS EN MAINNET</b>\n\n🏦 <b>Bóveda Matriz #501:</b> <code>0xD4D12077a61118372f7a367319fb11922Beb3743</code>\n💰 <b>Fondos Capturados:</b>\n   • <b>polygonMainnet:</b> +25.24255 POL ✅\n\n👑 <b>5 Cabeceras Fondeadas Automáticamente:</b>\n   • Cabecera #001 (Box 1)\n   • Cabecera #101 (Box 2)\n   • Cabecera #201 (Box 3)\n   • Cabecera #301 (Box 4)\n   • Cabecera #401 (Box 5)\n\n🛡️ <b>Dispersión Intra-Box:</b> Activa hacia satélites de cada Box.\n🔒 <b>Seguridad:</b> Aislamiento estanco intra-bloque 100% preservado.\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 92 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 3828 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 151 txs\n   • <b>Boxes Rotados Hoy:</b> Box 1, Box 4, Box 5\n   • <b>Autonomía de Gas:</b> Autonomía verificada L2/L1\n\n⏰ <i>22/10/2026, 6:26:02 UTC</i>",
-      "textPlain": "🎉 🚨 ¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!\n⛽ FONDOS DE KRAKEN LIBERADOS EN MAINNET\n\n🏦 Bóveda Matriz #501: 0xD4D12077a61118372f7a367319fb11922Beb3743\n💰 Fondos Capturados:\n   • polygonMainnet: +25.24255 POL ✅\n\n👑 5 Cabeceras Fondeadas Automáticamente:\n   • Cabecera #001 (Box 1)\n   • Cabecera #101 (Box 2)\n   • Cabecera #201 (Box 3)\n   • Cabecera #301 (Box 4)\n   • Cabecera #401 (Box 5)\n\n🛡️ Dispersión Intra-Box: Activa hacia satélites de cada Box.\n🔒 Seguridad: Aislamiento estanco intra-bloque 100% preservado.\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 92 rondas\n   • Txs On-Chain Acumuladas: 3828 txs firmadas\n   • Txs Confirmadas Hoy: 151 txs\n   • Boxes Rotados Hoy: Box 1, Box 4, Box 5\n   • Autonomía de Gas: Autonomía verificada L2/L1\n\n⏰ 22/10/2026, 6:26:02 UTC"
     }
   ],
   "lomo6SocialX": {
@@ -47249,7 +47252,7 @@
     "gamingTweetsDeleted": 0,
     "cooldownHours": 6,
     "status": "PAUSED_FOR_REVIEW",
-    "lastUpdated": "2026-10-22T08:07:35.072Z",
+    "lastUpdated": "2026-10-22T08:23:51.302Z",
     "name": "YoZapata",
     "url": "https://x.com/yozapata",
     "verifiedProfile": {
@@ -47783,24 +47786,61 @@
   "nebulaCommanders": [
     {
       "id": "NEBULA-01",
-      "name": "Quant Trigger & Route Brain (#501)",
+      "name": "Quant Trigger & Multi-Pool Brain (#501)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #501",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #501",
       "assignedMothership": "#501",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Nodriza Matriz (#501): Enrutando 4.5 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (80 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Nodriza Matriz (#501): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 4.5 POL y 0.002 BNB por encima del Escudo Sagrado (80 POL / 0.01 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#501",
-        "mothershipAddress": "0xD4D12077a61118372f7a367319fb11922Beb3743",
         "bulletPol": 4.5,
         "bulletBnb": 0.002,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.409747,
+        "expectedUsdcHarvestBnb": 1.46834,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -47816,38 +47856,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #501 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #501 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#501",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-03",
-      "name": "Quant Trigger & Route Brain (#001)",
+      "name": "Quant Trigger & Multi-Pool Brain (#001)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #001",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #001",
       "assignedMothership": "#001",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Capitán Box 1 (#001): Enrutando 2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (20 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Capitán Box 1 (#001): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 2 POL y 0.0008 BNB por encima del Escudo Sagrado (20 POL / 0.006 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#001",
-        "mothershipAddress": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
         "bulletPol": 2,
-        "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "bulletBnb": 0.0008,
+        "expectedUsdcHarvestPol": 0.18211,
+        "expectedUsdcHarvestBnb": 0.587336,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -47863,38 +47940,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #001 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #001 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#001",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-05",
-      "name": "Quant Trigger & Route Brain (#101)",
+      "name": "Quant Trigger & Multi-Pool Brain (#101)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #101",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #101",
       "assignedMothership": "#101",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Capitán Box 2 (#101): Enrutando 2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (20 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Capitán Box 2 (#101): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 2 POL y 0.0008 BNB por encima del Escudo Sagrado (20 POL / 0.006 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#101",
-        "mothershipAddress": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
         "bulletPol": 2,
-        "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "bulletBnb": 0.0008,
+        "expectedUsdcHarvestPol": 0.18211,
+        "expectedUsdcHarvestBnb": 0.587336,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -47910,38 +48024,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #101 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #101 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#101",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-07",
-      "name": "Quant Trigger & Route Brain (#201)",
+      "name": "Quant Trigger & Multi-Pool Brain (#201)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #201",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #201",
       "assignedMothership": "#201",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Capitán Box 3 (#201): Enrutando 2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (14 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Capitán Box 3 (#201): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 2 POL y 0.0008 BNB por encima del Escudo Sagrado (14 POL / 0.006 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#201",
-        "mothershipAddress": "0x2810aa0DabCA4511846194229d2c004B14016A7C",
         "bulletPol": 2,
-        "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "bulletBnb": 0.0008,
+        "expectedUsdcHarvestPol": 0.18211,
+        "expectedUsdcHarvestBnb": 0.587336,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -47957,38 +48108,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #201 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #201 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#201",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-09",
-      "name": "Quant Trigger & Route Brain (#301)",
+      "name": "Quant Trigger & Multi-Pool Brain (#301)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #301",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #301",
       "assignedMothership": "#301",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Capitán Box 4 (#301): Enrutando 2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (14 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Capitán Box 4 (#301): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 2 POL y 0.0008 BNB por encima del Escudo Sagrado (14 POL / 0.006 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#301",
-        "mothershipAddress": "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
         "bulletPol": 2,
-        "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "bulletBnb": 0.0008,
+        "expectedUsdcHarvestPol": 0.18211,
+        "expectedUsdcHarvestBnb": 0.587336,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48004,38 +48192,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #301 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #301 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#301",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-11",
-      "name": "Quant Trigger & Route Brain (#401)",
+      "name": "Quant Trigger & Multi-Pool Brain (#401)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #401",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #401",
       "assignedMothership": "#401",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Capitán Box 5 (#401): Enrutando 2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (14 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Capitán Box 5 (#401): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 2 POL y 0.0008 BNB por encima del Escudo Sagrado (14 POL / 0.006 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#401",
-        "mothershipAddress": "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
         "bulletPol": 2,
-        "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "bulletBnb": 0.0008,
+        "expectedUsdcHarvestPol": 0.18211,
+        "expectedUsdcHarvestBnb": 0.587336,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48051,38 +48276,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #401 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #401 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#401",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-13",
-      "name": "Quant Trigger & Route Brain (#008)",
+      "name": "Quant Trigger & Multi-Pool Brain (#008)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #008",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #008",
       "assignedMothership": "#008",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 1 (#008): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 1 (#008): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#008",
-        "mothershipAddress": "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48098,38 +48360,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #008 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #008 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#008",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-15",
-      "name": "Quant Trigger & Route Brain (#006)",
+      "name": "Quant Trigger & Multi-Pool Brain (#006)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #006",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #006",
       "assignedMothership": "#006",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 1 (#006): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 1 (#006): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#006",
-        "mothershipAddress": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48145,38 +48444,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #006 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #006 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#006",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-17",
-      "name": "Quant Trigger & Route Brain (#108)",
+      "name": "Quant Trigger & Multi-Pool Brain (#108)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #108",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #108",
       "assignedMothership": "#108",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 2 (#108): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 2 (#108): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#108",
-        "mothershipAddress": "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48192,38 +48528,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #108 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #108 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#108",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-19",
-      "name": "Quant Trigger & Route Brain (#106)",
+      "name": "Quant Trigger & Multi-Pool Brain (#106)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #106",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #106",
       "assignedMothership": "#106",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 2 (#106): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 2 (#106): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#106",
-        "mothershipAddress": "0x6C66C9724AeD2407e80E805B105d82270471785d",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48239,38 +48612,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #106 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #106 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#106",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-21",
-      "name": "Quant Trigger & Route Brain (#204)",
+      "name": "Quant Trigger & Multi-Pool Brain (#204)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #204",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #204",
       "assignedMothership": "#204",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 3 (#204): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 3 (#204): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#204",
-        "mothershipAddress": "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48286,38 +48696,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #204 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #204 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#204",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-23",
-      "name": "Quant Trigger & Route Brain (#205)",
+      "name": "Quant Trigger & Multi-Pool Brain (#205)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #205",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #205",
       "assignedMothership": "#205",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 3 (#205): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 3 (#205): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#205",
-        "mothershipAddress": "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48333,38 +48780,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #205 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #205 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#205",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-25",
-      "name": "Quant Trigger & Route Brain (#307)",
+      "name": "Quant Trigger & Multi-Pool Brain (#307)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #307",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #307",
       "assignedMothership": "#307",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 4 (#307): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 4 (#307): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#307",
-        "mothershipAddress": "0xc4E7Fc96695eF0593592EcE10A807bbF0C92f27d",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48380,38 +48864,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #307 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #307 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#307",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-27",
-      "name": "Quant Trigger & Route Brain (#311)",
+      "name": "Quant Trigger & Multi-Pool Brain (#311)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #311",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #311",
       "assignedMothership": "#311",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 4 (#311): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 4 (#311): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#311",
-        "mothershipAddress": "0xF3d19755705FdBE34f2930d9bABB51fE379E865d",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48427,38 +48948,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #311 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #311 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#311",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-29",
-      "name": "Quant Trigger & Route Brain (#403)",
+      "name": "Quant Trigger & Multi-Pool Brain (#403)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #403",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #403",
       "assignedMothership": "#403",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 5 (#403): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 5 (#403): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#403",
-        "mothershipAddress": "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48474,38 +49032,75 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #403 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #403 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#403",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
     },
     {
       "id": "NEBULA-31",
-      "name": "Quant Trigger & Route Brain (#411)",
+      "name": "Quant Trigger & Multi-Pool Brain (#411)",
       "icon": "🧠",
-      "specialty": "Cálculo de Spread Multi-DEX & Gatillo Óptimo para #411",
+      "specialty": "Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para #411",
       "assignedMothership": "#411",
       "opportunityScore": 100,
       "satellitesGuided": 500,
       "status": "AUTHORIZED",
-      "reasoning": "Estratega de Sub-Capitán Box 5 (#411): Enrutando 1.2 POL hacia QUICKSWAP_V2 (Tasa: 0.0910 USDC/POL, Spread: +0.900%). Gas óptimo: 274.6 Gwei. Munición calculada por encima de Reserva Sagrada (5 POL). Certeza: 100%.",
+      "reasoning": "Estratega Cuántica de Sub-Capitán Box 5 (#411): Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)] (1 POL ➔ 0.091055 USDC, Ventaja: +0.0637%). Ruta Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] (1 BNB ➔ $734.17 USDC). Gas óptimo: 278.7 Gwei. Munición: 1.2 POL y 0 BNB por encima del Escudo Sagrado (5 POL / 0.0001 BNB). Certeza: 100%.",
+      "tacticalPoolSelection": {
+        "polygon": {
+          "poolId": "pool-3",
+          "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+          "dex": "quickswap_v2",
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+          "type": "triangular_wbtc",
+          "path": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+            "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+          ],
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "baseQuote1Pol": 0.090997,
+          "extraUsdcPerPol": 0.000058,
+          "extraUsdcMicroCents": 0.58,
+          "advantagePct": 0.0637,
+          "liquidityUsdEstimate": 23.402936
+        },
+        "bsc": {
+          "poolId": "pool-4",
+          "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+          "dex": "pancakeswap_v2",
+          "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+          "type": "direct",
+          "path": [
+            "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+          ],
+          "quote001Bnb": 0.734173625133818,
+          "quote01Bnb": 7.341413939594484,
+          "bnbPriceUsd": 734.17,
+          "baseQuote001Bnb": 0.734173625133818,
+          "extraUsdcPer001Bnb": 0,
+          "extraUsdcMicroCents": 0,
+          "advantagePct": 0,
+          "liquidityUsdEstimate": 408.965688813838
+        }
+      },
       "liveData": {
         "mothershipId": "#411",
-        "mothershipAddress": "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12",
         "bulletPol": 1.2,
         "bulletBnb": 0,
-        "bestDexRoutePolygon": "quickswap_v2",
-        "bestDexRouteBsc": "pancakeswap_v2",
-        "polRate": 0.090997,
-        "bscRate": 735.0974438104789,
-        "polGasGwei": 274.641049306,
+        "expectedUsdcHarvestPol": 0.109266,
+        "expectedUsdcHarvestBnb": 0,
+        "polGasGwei": 278.708412088,
         "bscGasGwei": 0.05,
         "isGasOptimal": true
       }
@@ -48521,14 +49116,14 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas de #411 (Escudo 4 Candados): 1) Whitelist Circle USDC & WPOL Oficial (✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $28.5M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas de #411 (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (3 saltos en Polygon y 2 en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#411",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
-        "totalMeasuredLiquidityUsd": 28500000,
+        "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
       }
@@ -48537,22 +49132,63 @@
   "nebulaDirectives": {
     "sniperFireAuthorized": true,
     "sniperConfidenceScore": 100,
-    "antiRugPullShield": "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 4 CANDADOS BLINDADOS)",
+    "tacticalPoolsAudited": 6,
+    "winningPoolRoutePolygon": {
+      "poolId": "pool-3",
+      "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+      "dex": "quickswap_v2",
+      "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+      "type": "triangular_wbtc",
+      "path": [
+        "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+        "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+      ],
+      "quote1Pol": 0.091055,
+      "quote10Pol": 0.853094,
+      "baseQuote1Pol": 0.090997,
+      "extraUsdcPerPol": 0.000058,
+      "extraUsdcMicroCents": 0.58,
+      "advantagePct": 0.0637,
+      "liquidityUsdEstimate": 23.402936
+    },
+    "winningPoolRouteBsc": {
+      "poolId": "pool-4",
+      "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+      "dex": "pancakeswap_v2",
+      "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+      "type": "direct",
+      "path": [
+        "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+      ],
+      "quote001Bnb": 0.734173625133818,
+      "quote01Bnb": 7.341413939594484,
+      "bnbPriceUsd": 734.17,
+      "baseQuote001Bnb": 0.734173625133818,
+      "extraUsdcPer001Bnb": 0,
+      "extraUsdcMicroCents": 0,
+      "advantagePct": 0,
+      "liquidityUsdEstimate": 408.965688813838
+    },
+    "bestDexRoutePolygon": "quickswap_v2",
+    "bestDexRouteBsc": "pancakeswap_v2",
+    "antiRugPullShield": "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 4 CANDADOS BLINDADOS / 6 PISCINAS AUDITADAS)",
     "whitelistVerifiedTokens": [
       "WPOL",
       "WBNB",
       "USDC Nativo Circle",
       "USDC BSC",
       "WETH",
-      "WBTC"
+      "WBTC",
+      "ETH-BSC",
+      "BTCB"
     ],
     "mainnetExecutionPermitted": true,
     "gasLevels": {
-      "polygonGwei": 274.641049306,
+      "polygonGwei": 278.708412088,
       "bscGwei": 0.05
     },
-    "bestDexRoutePolygon": "quickswap_v2",
-    "bestDexRouteBsc": "pancakeswap_v2",
     "autoSweepToBinance": false,
     "masterVaultOnChain": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "compoundingPoolActive": true

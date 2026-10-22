@@ -2,7 +2,7 @@
  * scripts/onchain-snapshot.js - Operación 10k
  * Lectura REAL (solo lectura, sin claves) de saldos on-chain de la flota:
  * Bóveda Matriz #501, 5 cabeceras y 500 satélites, en testnets y mainnets.
- * Alimenta la telemetría para que el Dashboard muestre datos verídicos.
+ * Lee con Multicall3 el USDC Nativo en Polygon y el USDC Oficial en BSC para las 16 Nodrizas Sniper.
  */
 
 const { ethers } = require("ethers");
@@ -13,17 +13,17 @@ const HEADER_INDEXES = [1, 101, 201, 301, 401];
 const VAULT_INDEX = 501;
 const SNIPER_INDEXES = [501, 1, 101, 201, 301, 401, 8, 6, 108, 106, 204, 205, 307, 311, 403, 411];
 const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
-const NATIVE_USDC_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // 6 dec
-const OFFICIAL_USDC_BSC = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"; // 18 dec
+const NATIVE_USDC_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // 6 dec (Circle)
+const OFFICIAL_USDC_BSC = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"; // 18 dec (Binance-Peg)
 
-// RPCs extra de reserva (algunos RPC públicos fallan por TLS/timeouts según el entorno)
+// RPCs extra de reserva
 const EXTRA_RPCS = {
   ethereumSepolia: ["https://sepolia.drpc.org"],
   baseSepolia: ["https://base-sepolia.drpc.org"],
   arbitrumSepolia: ["https://arbitrum-sepolia.drpc.org"],
   optimismSepolia: ["https://optimism-sepolia.drpc.org"],
-  polygonMainnet: ["https://polygon.drpc.org", "https://polygon.meowrpc.com", "https://rpc.ankr.com/polygon", "https://polygon-mainnet.public.blastapi.io"],
-  bscMainnet: ["https://bsc.drpc.org"]
+  polygonMainnet: ["https://polygon.drpc.org", "https://polygon-bor-rpc.publicnode.com", "https://polygon.meowrpc.com", "https://rpc.ankr.com/polygon", "https://polygon-mainnet.public.blastapi.io"],
+  bscMainnet: ["https://bsc-dataseed.binance.org", "https://bsc.drpc.org", "https://bsc-rpc.publicnode.com", "https://rpc.ankr.com/bsc"]
 };
 
 const TARGETS = {
@@ -79,7 +79,6 @@ async function snapshotNetwork(key, wallets) {
     if (v >= MIN_USABLE_NATIVE) { usable++; box.usable++; }
   }
 
-
   const vaultWallet = wallets.find((w) => w.index === VAULT_INDEX);
   let vaultUsdc = 0;
   const headersUsdc = {};
@@ -115,7 +114,7 @@ async function snapshotNetwork(key, wallets) {
         if (HEADER_INDEXES.includes(w.index)) headersUsdc[w.index] = bal;
       });
     } catch (err) {
-      // Fallback lectura directa si Multicall3 tiene micro-glitch
+      console.warn(`⚠️ Error leyendo USDC en ${key}:`, err.message);
     }
   }
 
@@ -159,6 +158,16 @@ async function takeSnapshot(wallets) {
   for (const k of TARGETS.testnet) jobs.push(snapshotNetwork(k, wallets).then((r) => { out.testnets[k] = r; }).catch(() => { out.testnets[k] = { key: k, name: networks[k].name, online: false }; }));
   for (const k of TARGETS.mainnet) jobs.push(snapshotNetwork(k, wallets).then((r) => { out.mainnets[k] = r; }).catch(() => { out.mainnets[k] = { key: k, name: networks[k].name, online: false }; }));
   await Promise.all(jobs);
+
+  const polyUsdc = out.mainnets?.polygonMainnet?.totalSniperUsdc || 0;
+  const bscUsdc = out.mainnets?.bscMainnet?.totalSniperUsdc || 0;
+  const totalOnChainSniperUsdc = parseFloat((polyUsdc + bscUsdc).toFixed(6));
+  const binanceSpotUsdc = 1.00; // $1.00 USDC transferido a Bóveda Binance #1
+  out.totalOnChainFleetUsdc = totalOnChainSniperUsdc;
+  out.totalHistoricalUsdc = parseFloat((totalOnChainSniperUsdc + binanceSpotUsdc).toFixed(6));
+  out.polyUsdc = polyUsdc;
+  out.bscUsdc = bscUsdc;
+
   return out;
 }
 
@@ -170,8 +179,10 @@ if (require.main === module) {
     for (const grp of [s.testnets, s.mainnets]) {
       for (const n of Object.values(grp)) {
         if (!n.online) { console.log(`${n.name}: OFFLINE`); continue; }
-        console.log(`${n.name}: >0=${n.satellitesWithGas} usable(>=${s.minUsableNative})=${n.satellitesUsable} cero=${n.satellitesZero} total=${n.total.toFixed(6)} ${n.symbol} | rpc=${n.rpc} ${n.latencyMs}ms`);
+        console.log(`${n.name}: >0=${n.satellitesWithGas} usable(>=${s.minUsableNative})=${n.satellitesUsable} total=${n.total.toFixed(6)} ${n.symbol} | USDC Snipers=${n.totalSniperUsdc || 0}`);
       }
     }
+    console.log(`\n💎 TOTAL ON-CHAIN SNIPERS: $${s.totalOnChainFleetUsdc} USDC (POL: $${s.polyUsdc.toFixed(6)} + BSC: $${s.bscUsdc.toFixed(6)})`);
+    console.log(`🏦 TOTAL HISTÓRICO GLOBAL (ON-CHAIN + BINANCE SPOT #1): $${s.totalHistoricalUsdc} USDC\n`);
   });
 }

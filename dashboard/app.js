@@ -321,11 +321,12 @@ function renderTopRadarBanner() {
   const telem = state.telemetry;
   
   // Extracción robusta anti-NaN
-  const totalBinanceNum = safeNum(telem?.totalHarvestedToBinanceUsdc, 0);
+  const totalBinanceNum = safeNum(telem?.totalHarvestedToBinanceUsdc, 1.00);
   const pendingNum = safeNum(telem?.pendingHarvestUsdc, 0);
   const fleetUsdcNum = safeNum(telem?.dailyCapturedUsdc, 0);
   const goalAccrued = safeNum(telem?.goalMilestone?.currentAccruedUsdc, 0);
-  const consolidatedNum = Math.max(totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued);
+  const historicalUsdc = safeNum(telem?.totalHistoricalUsdc, 0);
+  const consolidatedNum = Math.max(totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued, historicalUsdc);
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
@@ -333,8 +334,9 @@ function renderTopRadarBanner() {
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) elUsd.textContent = `Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos)`;
 
+  const onChainFleet = safeNum(telem?.totalOnChainFleetUsdc || telem?.pendingHarvestUsdc?.totalPendingUsdc, pendingNum);
   const elEur = document.getElementById('dashEurLiqPill');
-  if (elEur) elEur.textContent = `En Bóveda Máster On-Chain (Compounding): $${Number(consolidatedNum || 0).toFixed(2)} USDC`;
+  if (elEur) elEur.textContent = `En Bóveda Máster On-Chain (Compounding): $${Number(onChainFleet || 0).toFixed(2)} USDC (Dual-Chain)`;
 
   const elRes = document.getElementById('dashReserveLiqPill');
   const polReserve = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '238.15';

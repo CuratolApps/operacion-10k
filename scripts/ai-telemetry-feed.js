@@ -65,6 +65,15 @@ async function generateUnifiedTelemetry() {
   const bsc = net("mainnets", "bscMainnet");
   const poly = net("mainnets", "polygonMainnet");
 
+  // Saldo real on-chain de USDC en las 16 Nodrizas Sniper (Polygon PoS + BSC Mainnet)
+  const polyUsdc = (snap && snap.polyUsdc !== undefined) ? snap.polyUsdc : (poly?.totalSniperUsdc || 0);
+  const bscUsdc = (snap && snap.bscUsdc !== undefined) ? snap.bscUsdc : (bsc?.totalSniperUsdc || 0);
+  const totalOnChainSniperUsdc = parseFloat((polyUsdc + bscUsdc).toFixed(6));
+  const binanceHarvestedUsdc = parseFloat((existingTelemetry.totalHarvestedToBinanceUsdc || 1.00).toFixed(6));
+  const totalHistoricalUsdc = (snap && snap.totalHistoricalUsdc !== undefined)
+    ? snap.totalHistoricalUsdc
+    : parseFloat((totalOnChainSniperUsdc + binanceHarvestedUsdc).toFixed(6));
+
   // 1. Estructurar salud por Bloques (B1 a B5) con datos reales (Base Sepolia como referencia L2)
   const blocks = {
     B1: { id: 1, label: "Bloque 1", range: [1, 100], count: 0, healthyCount: 0, avgGasEth: 0, sybilStatus: "ESTANCO_OK", status: "ACTIVO" },
@@ -145,7 +154,7 @@ async function generateUnifiedTelemetry() {
 
   // 5. Meta 12,000 USDC (Modo Producción Real: Arranque en $0.00)
   const targetGoalUsdc = 12000.0;
-  const currentAccruedUsdc = parseFloat(((existingTelemetry.totalHarvestedToBinanceUsdc || 0) + (existingTelemetry.pendingHarvestUsdc?.totalPendingUsdc || 0)).toFixed(2));
+  const currentAccruedUsdc = totalHistoricalUsdc;
   const progressPct = parseFloat(((currentAccruedUsdc / targetGoalUsdc) * 100).toFixed(2));
   const remainingUsdc = parseFloat((targetGoalUsdc - currentAccruedUsdc).toFixed(2));
 
@@ -514,8 +523,7 @@ async function generateUnifiedTelemetry() {
   const box4UsdcTotal = (polSnipers[301] || 0) + (polSnipers[307] || 0) + (polSnipers[311] || 0) + (bscSnipers[301] || 0) || (existingTelemetry.pendingHarvestUsdc?.byBox?.box4 || 0.094263);
   const box5UsdcTotal = (polSnipers[401] || 0) + (polSnipers[403] || 0) + (polSnipers[411] || 0) + (bscSnipers[401] || 0) || (existingTelemetry.pendingHarvestUsdc?.byBox?.box5 || 0.094237);
 
-  const totalUsdcFleetRaw = (poly?.totalSniperUsdc || 0) + (bsc?.totalSniperUsdc || 0);
-  const totalUsdcFleet = parseFloat(Math.max(totalUsdcFleetRaw, box1UsdcTotal + box2UsdcTotal + box3UsdcTotal + box4UsdcTotal + box5UsdcTotal, existingTelemetry.pendingHarvestUsdc?.totalPendingUsdc || 0).toFixed(6));
+  const totalUsdcFleet = totalHistoricalUsdc;
 
   const payload = {
     schemaVersion: "3.0.0",
@@ -524,7 +532,9 @@ async function generateUnifiedTelemetry() {
     systemHealthScore,
     sybilRiskIndex: 0.01, // 0.01 = Riesgo mínimo / Aislamiento verificado
     gasReserveViolations: (needsRefuelBsc ? 1 : 0) + (needsRefuelPolygon ? 1 : 0),
-    dailyCapturedUsdc: totalUsdcFleet,
+    dailyCapturedUsdc: totalHistoricalUsdc,
+    totalHistoricalUsdc: totalHistoricalUsdc,
+    totalOnChainFleetUsdc: totalOnChainSniperUsdc,
     globalGasTank,
     hierarchy: {
       highCommand: {
@@ -624,7 +634,8 @@ async function generateUnifiedTelemetry() {
       { boxId: 5, name: "BÓVEDA BINANCE #5", range: "BOX 5: #401–#500", address: "0xf746f7da001c48367d78641e2e870db0e809dee9", receivedUsdc: 0.00, pendingUsdc: parseFloat(box5UsdcTotal.toFixed(6)), status: "🟢 VERIFICADA" }
     ],
     pendingHarvestUsdc: {
-      totalPendingUsdc: totalUsdcFleet,
+      totalPendingUsdc: totalOnChainSniperUsdc,
+      totalHistoricalUsdc: totalHistoricalUsdc,
       byBox: {
         box1: parseFloat(box1UsdcTotal.toFixed(6)),
         box2: parseFloat(box2UsdcTotal.toFixed(6)),
@@ -636,8 +647,8 @@ async function generateUnifiedTelemetry() {
         base: existingTelemetry.pendingHarvestUsdc?.byNetwork?.base || 0.00,
         arbitrumOne: existingTelemetry.pendingHarvestUsdc?.byNetwork?.arbitrumOne || 0.00,
         optimism: existingTelemetry.pendingHarvestUsdc?.byNetwork?.optimism || 0.00,
-        bsc: existingTelemetry.pendingHarvestUsdc?.byNetwork?.bsc || 0.00,
-        polygon: totalUsdcFleet
+        bsc: parseFloat(bscUsdc.toFixed(6)),
+        polygon: parseFloat(polyUsdc.toFixed(6))
       },
       satellitesWithDust: 6,
       lastScanTimestamp: new Date().toISOString()

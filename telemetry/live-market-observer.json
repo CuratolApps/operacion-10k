@@ -1,58 +1,326 @@
 {
-  "schemaVersion": "2.0.0",
-  "service": "Dedicated-Observers-Centinela-12K",
-  "timestamp": "2026-10-22T08:07:08.936Z",
-  "latencyMs": 1036,
+  "schemaVersion": "3.0.0",
+  "service": "Dedicated-Observers-6-Pools-12K",
+  "timestamp": "2026-10-22T08:21:00.695Z",
+  "latencyMs": 770,
+  "sixPoolsMatrix": [
+    {
+      "id": "PISCINA-01",
+      "network": "Polygon PoS",
+      "name": "WPOL ➔ USDC Nativo (Directa)",
+      "dex": "QUICKSWAP_V2",
+      "quotePerNative": "0.090997 USDC",
+      "status": "ALTERNATIVA_ACTIVA"
+    },
+    {
+      "id": "PISCINA-02",
+      "network": "Polygon PoS",
+      "name": "WPOL ➔ WETH ➔ USDC (Triangular WETH)",
+      "dex": "QuickSwap V2 / SushiSwap V2",
+      "quotePerNative": "0.090939 USDC",
+      "status": "ALTERNATIVA_ACTIVA"
+    },
+    {
+      "id": "PISCINA-03",
+      "network": "Polygon PoS",
+      "name": "WPOL ➔ WBTC ➔ USDC (Triangular WBTC)",
+      "dex": "QuickSwap V2 / SushiSwap V2",
+      "quotePerNative": "0.091055 USDC",
+      "status": "🏆 GANADORA POLYGON"
+    },
+    {
+      "id": "PISCINA-04",
+      "network": "BSC Mainnet",
+      "name": "WBNB ➔ USDC Oficial BSC (Directa)",
+      "dex": "PancakeSwap V2",
+      "quotePerNative": "$734.17 USDC",
+      "status": "🏆 GANADORA BSC"
+    },
+    {
+      "id": "PISCINA-05",
+      "network": "BSC Mainnet",
+      "name": "WBNB ➔ ETH-BSC ➔ USDC (Triangular ETH)",
+      "dex": "PancakeSwap V2",
+      "quotePerNative": "$730.51 USDC",
+      "status": "ALTERNATIVA_ACTIVA"
+    },
+    {
+      "id": "PISCINA-06",
+      "network": "BSC Mainnet",
+      "name": "WBNB ➔ BTCB ➔ USDC (Triangular BTCB)",
+      "dex": "PancakeSwap V2",
+      "quotePerNative": "$729.82 USDC",
+      "status": "ALTERNATIVA_ACTIVA"
+    }
+  ],
   "polygon": {
     "chain": "polygonMainnet",
-    "pair": "WPOL/USDC",
-    "quickswap": {
-      "quote1Pol": 0.090997,
-      "quote10Pol": 0.908849,
-      "liquidityUsdEstimate": 1328.494194,
-      "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
+    "pools": {
+      "pool1_direct": {
+        "quickswap": {
+          "quote1Pol": 0.090997,
+          "quote10Pol": 0.908849,
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
+        },
+        "sushiswap": {
+          "quote1Pol": 0.090185,
+          "quote10Pol": 0.875476,
+          "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
+        },
+        "liquidityUsd": 1328.494194
+      },
+      "pool2_triangular_weth": {
+        "quickswap": {
+          "quote1Pol": 0.090939,
+          "quote10Pol": 0.90933,
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
+        },
+        "sushiswap": {
+          "quote1Pol": 0.041982,
+          "quote10Pol": 0.070796,
+          "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
+        },
+        "liquidityUsd": 10594475212005.273
+      },
+      "pool3_triangular_wbtc": {
+        "quickswap": {
+          "quote1Pol": 0.091055,
+          "quote10Pol": 0.853094,
+          "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
+        },
+        "sushiswap": {
+          "quote1Pol": 0.069426,
+          "quote10Pol": 0.235897,
+          "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
+        },
+        "liquidityUsd": 23.402936
+      }
     },
-    "sushiswap": {
-      "quote1Pol": 0.090185,
-      "quote10Pol": 0.875476,
-      "liquidityUsdEstimate": 53.872278,
-      "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
+    "candidateRoutes": [
+      {
+        "poolId": "pool-1",
+        "poolName": "Piscina #1 (Polygon Directa - QuickSwap V2)",
+        "dex": "quickswap_v2",
+        "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+        "type": "direct",
+        "path": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+        ],
+        "quote1Pol": 0.090997,
+        "quote10Pol": 0.908849,
+        "liquidityUsdEstimate": 1328.494194
+      },
+      {
+        "poolId": "pool-1",
+        "poolName": "Piscina #1 (Polygon Directa - SushiSwap V2)",
+        "dex": "sushiswap_v2",
+        "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506",
+        "type": "direct",
+        "path": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+        ],
+        "quote1Pol": 0.090185,
+        "quote10Pol": 0.875476,
+        "liquidityUsdEstimate": 53.872278
+      },
+      {
+        "poolId": "pool-2",
+        "poolName": "Piscina #2 (Polygon Triangular WETH - QuickSwap V2)",
+        "dex": "quickswap_v2",
+        "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+        "type": "triangular_weth",
+        "path": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+          "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+        ],
+        "quote1Pol": 0.090939,
+        "quote10Pol": 0.90933,
+        "liquidityUsdEstimate": 10594475212005.273
+      },
+      {
+        "poolId": "pool-2",
+        "poolName": "Piscina #2 (Polygon Triangular WETH - SushiSwap V2)",
+        "dex": "sushiswap_v2",
+        "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506",
+        "type": "triangular_weth",
+        "path": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+          "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+        ],
+        "quote1Pol": 0.041982,
+        "quote10Pol": 0.070796,
+        "liquidityUsdEstimate": 53.872278
+      },
+      {
+        "poolId": "pool-3",
+        "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+        "dex": "quickswap_v2",
+        "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+        "type": "triangular_wbtc",
+        "path": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+          "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+        ],
+        "quote1Pol": 0.091055,
+        "quote10Pol": 0.853094,
+        "liquidityUsdEstimate": 23.402936
+      },
+      {
+        "poolId": "pool-3",
+        "poolName": "Piscina #3 (Polygon Triangular WBTC - SushiSwap V2)",
+        "dex": "sushiswap_v2",
+        "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506",
+        "type": "triangular_wbtc",
+        "path": [
+          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+          "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+        ],
+        "quote1Pol": 0.069426,
+        "quote10Pol": 0.235897,
+        "liquidityUsdEstimate": 53.872278
+      }
+    ],
+    "winningPoolRoutePolygon": {
+      "poolId": "pool-3",
+      "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+      "dex": "quickswap_v2",
+      "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+      "type": "triangular_wbtc",
+      "path": [
+        "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+        "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+      ],
+      "quote1Pol": 0.091055,
+      "quote10Pol": 0.853094,
+      "baseQuote1Pol": 0.090997,
+      "extraUsdcPerPol": 0.000058,
+      "extraUsdcMicroCents": 0.58,
+      "advantagePct": 0.0637,
+      "liquidityUsdEstimate": 23.402936
     },
     "bestDexRoutePolygon": "quickswap_v2",
-    "bestQuoteUsdcPerPol": 0.090997,
-    "grossSpreadPct": 0.9004,
-    "netSpreadPct": 0.6004,
+    "bestQuoteUsdcPerPol": 0.091055,
+    "standardBaseQuote": 0.090997,
+    "grossSpreadPct": 0.8923,
+    "netSpreadPct": 0.5923,
     "hasArbitrageOpportunity": true,
     "gasTrend": {
       "chainName": "Polygon",
-      "latestBlock": 95967373,
-      "gasPriceGwei": 274.641049306,
-      "baseFeePerGas": 252.300413863,
+      "latestBlock": 95967928,
+      "gasPriceGwei": 278.708412088,
+      "baseFeePerGas": 253.598412088,
       "baseFeeHistoryGwei": [
-        252.300413863,
-        249.082236503,
-        247.533258462
+        253.598412088,
+        248.055165298,
+        250.588553485
       ],
-      "deltaGwei": 4.77,
+      "deltaGwei": 3.01,
       "trend": "RISING_CAUTION",
       "isWindowOptimal": true
     }
   },
   "bsc": {
     "chain": "bscMainnet",
-    "pair": "WBNB/USDC",
-    "pancakeswap": {
-      "quote001Bnb": 7.350974438104789,
-      "quote01Bnb": 73.47746578810535,
-      "bnbPriceUsd": 735.1,
-      "liquidityUsdEstimate": 408.69919726085374,
-      "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+    "pools": {
+      "pool4_direct": {
+        "quote001Bnb": 0.734173625133818,
+        "quote01Bnb": 7.341413939594484,
+        "liquidityUsd": 408.965688813838,
+        "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+      },
+      "pool5_triangular_eth": {
+        "quote001Bnb": 0.730505722930253,
+        "quote01Bnb": 7.30465454600209,
+        "liquidityUsd": 258463.68057157737,
+        "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+      },
+      "pool6_triangular_btcb": {
+        "quote001Bnb": 0.7298245328257796,
+        "quote01Bnb": 7.2660108896190225,
+        "liquidityUsd": 2963.9236883616472,
+        "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+      }
+    },
+    "candidateRoutes": [
+      {
+        "poolId": "pool-4",
+        "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+        "dex": "pancakeswap_v2",
+        "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+        "type": "direct",
+        "path": [
+          "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+          "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+        ],
+        "quote001Bnb": 0.734173625133818,
+        "quote01Bnb": 7.341413939594484,
+        "bnbPriceUsd": 734.1736251338181,
+        "liquidityUsdEstimate": 408.965688813838
+      },
+      {
+        "poolId": "pool-5",
+        "poolName": "Piscina #5 (BSC Triangular ETH - PancakeSwap V2)",
+        "dex": "pancakeswap_v2",
+        "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+        "type": "triangular_eth",
+        "path": [
+          "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+          "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+          "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+        ],
+        "quote001Bnb": 0.730505722930253,
+        "quote01Bnb": 7.30465454600209,
+        "bnbPriceUsd": 730.505722930253,
+        "liquidityUsdEstimate": 258463.68057157737
+      },
+      {
+        "poolId": "pool-6",
+        "poolName": "Piscina #6 (BSC Triangular BTCB - PancakeSwap V2)",
+        "dex": "pancakeswap_v2",
+        "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+        "type": "triangular_btcb",
+        "path": [
+          "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+          "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+          "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+        ],
+        "quote001Bnb": 0.7298245328257796,
+        "quote01Bnb": 7.2660108896190225,
+        "bnbPriceUsd": 729.8245328257797,
+        "liquidityUsdEstimate": 2963.9236883616472
+      }
+    ],
+    "winningPoolRouteBsc": {
+      "poolId": "pool-4",
+      "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+      "dex": "pancakeswap_v2",
+      "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+      "type": "direct",
+      "path": [
+        "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+      ],
+      "quote001Bnb": 0.734173625133818,
+      "quote01Bnb": 7.341413939594484,
+      "bnbPriceUsd": 734.17,
+      "baseQuote001Bnb": 0.734173625133818,
+      "extraUsdcPer001Bnb": 0,
+      "extraUsdcMicroCents": 0,
+      "advantagePct": 0,
+      "liquidityUsdEstimate": 408.965688813838
     },
     "bestDexRouteBsc": "pancakeswap_v2",
-    "bestQuoteUsdcPerBnb": 735.0974438104789,
+    "bestQuoteUsdcPerBnb": 734.1736251338181,
     "gasTrend": {
       "chainName": "BSC",
-      "latestBlock": 129095156,
+      "latestBlock": 129097004,
       "gasPriceGwei": 0.05,
       "baseFeePerGas": 0.05,
       "baseFeeHistoryGwei": [
@@ -70,9 +338,48 @@
     "bscUsdcVerified": true,
     "honeypotsDetected": 0,
     "circleOfficialBytecode": true,
-    "timestamp": "2026-10-22T08:07:08.304Z"
+    "simulationSuccessful": true,
+    "timestamp": "2026-10-22T08:21:00.267Z"
   },
   "masterDirectives": {
+    "winningPoolRoutePolygon": {
+      "poolId": "pool-3",
+      "poolName": "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
+      "dex": "quickswap_v2",
+      "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+      "type": "triangular_wbtc",
+      "path": [
+        "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+        "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+      ],
+      "quote1Pol": 0.091055,
+      "quote10Pol": 0.853094,
+      "baseQuote1Pol": 0.090997,
+      "extraUsdcPerPol": 0.000058,
+      "extraUsdcMicroCents": 0.58,
+      "advantagePct": 0.0637,
+      "liquidityUsdEstimate": 23.402936
+    },
+    "winningPoolRouteBsc": {
+      "poolId": "pool-4",
+      "poolName": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+      "dex": "pancakeswap_v2",
+      "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+      "type": "direct",
+      "path": [
+        "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+      ],
+      "quote001Bnb": 0.734173625133818,
+      "quote01Bnb": 7.341413939594484,
+      "bnbPriceUsd": 734.17,
+      "baseQuote001Bnb": 0.734173625133818,
+      "extraUsdcPer001Bnb": 0,
+      "extraUsdcMicroCents": 0,
+      "advantagePct": 0,
+      "liquidityUsdEstimate": 408.965688813838
+    },
     "bestDexRoutePolygon": "quickswap_v2",
     "bestDexRouteBsc": "pancakeswap_v2",
     "polygonSniperOptimal": true,

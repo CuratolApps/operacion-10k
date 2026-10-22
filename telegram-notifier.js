@@ -75,24 +75,8 @@ async function resolveChatId(token = null, timeoutSeconds = 0) {
  * @param {string|null} customChatId Chat ID opcional
  * @returns {Promise<boolean>} true si se envió con éxito
  */
-async function sendTelegramAlert(messageText, customChatId = null) {
-  recordTelegramAlert(messageText);
-  const token = getCleanToken();
-
-  if (!token) {
-    console.log("ℹ️ [Telegram no configurado aún - Alerta guardada en telemetría local]");
-    return false;
-  }
-
-  let chatId = customChatId || (await resolveChatId(token));
-  if (chatId === "-5101181644") chatId = "-1004342131598";
-  if (!chatId) {
-    console.log("ℹ️ [No se pudo detectar el Chat ID. Envía un mensaje al bot en Telegram primero]");
-    return false;
-  }
-
+async function sendSingleTelegramChunk(chunkText, chatId, token) {
   const endpoint = `https://api.telegram.org/bot${token}/sendMessage`;
-
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -102,7 +86,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text: messageText,
+        text: chunkText,
         parse_mode: "HTML",
         disable_web_page_preview: true
       }),
@@ -120,7 +104,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: chatId,
-          text: messageText,
+          text: chunkText,
           parse_mode: "HTML",
           disable_web_page_preview: true
         })
@@ -139,6 +123,59 @@ async function sendTelegramAlert(messageText, customChatId = null) {
     console.log(`⚠️ [TELEGRAM] No se pudo enviar notificación: ${error.message}`);
     return false;
   }
+}
+
+/**
+ * Envía un mensaje a Telegram (con soporte automático para mensajes largos en múltiples partes).
+ * @param {string} messageText Mensaje a enviar
+ * @param {string|null} customChatId Chat ID opcional
+ * @returns {Promise<boolean>} true si se envió con éxito
+ */
+async function sendTelegramAlert(messageText, customChatId = null) {
+  recordTelegramAlert(messageText);
+  const token = getCleanToken();
+
+  if (!token) {
+    console.log("ℹ️ [Telegram no configurado aún - Alerta guardada en telemetría local]");
+    return false;
+  }
+
+  let chatId = customChatId || (await resolveChatId(token));
+  if (chatId === "-5101181644") chatId = "-1004342131598";
+  if (!chatId) {
+    console.log("ℹ️ [No se pudo detectar el Chat ID. Envía un mensaje al bot en Telegram primero]");
+    return false;
+  }
+
+  const MAX_CHUNK = 3800;
+  if (messageText.length <= MAX_CHUNK) {
+    return sendSingleTelegramChunk(messageText, chatId, token);
+  }
+
+  const chunks = [];
+  let currentChunk = "";
+  const lines = messageText.split("\n");
+  for (const line of lines) {
+    if ((currentChunk + "\n" + line).length > MAX_CHUNK) {
+      if (currentChunk) chunks.push(currentChunk);
+      currentChunk = line;
+    } else {
+      currentChunk = currentChunk ? currentChunk + "\n" + line : line;
+    }
+  }
+  if (currentChunk) chunks.push(currentChunk);
+
+  let allSent = true;
+  for (let i = 0; i < chunks.length; i++) {
+    const chunkHeader = chunks.length > 1 ? `<i>[Parte ${i + 1}/${chunks.length}]</i>\n` : "";
+    const sent = await sendSingleTelegramChunk(chunkHeader + chunks[i], chatId, token);
+    if (!sent) allSent = false;
+    if (i < chunks.length - 1) {
+      await new Promise(r => setTimeout(r, 600));
+    }
+  }
+
+  return allSent;
 }
 
 /**
