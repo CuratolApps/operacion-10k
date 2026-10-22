@@ -827,6 +827,8 @@ async function generateUnifiedTelemetry() {
     securityForensic: readJsonSafe(path.join(TELEMETRY_DIR, "forensic-audit.json")),
     expertCaptains: readJsonSafe(path.join(TELEMETRY_DIR, "expert-captains-state.json")),
     bootyRadar: readJsonSafe(path.join(TELEMETRY_DIR, "expert-booty-radar.json")),
+    titanScalper: readJsonSafe(path.join(TELEMETRY_DIR, "titan-scalper-state.json")),
+    oracleStocks: readJsonSafe(path.join(TELEMETRY_DIR, "oracle-stocks-state.json")),
     dualCapitalizer: readJsonSafe(path.join(TELEMETRY_DIR, "dual-capitalizer.json")) || {
       status: "ACTIVE_COMPOUNDING",
       badges: ["🔒 Trinquete 85% USDC", "⛽ Capitalizador 75/25 Gas Activo", "🛡️ 5º Candado Anti-MEV <= 0.15%"],
@@ -835,6 +837,8 @@ async function generateUnifiedTelemetry() {
     fastRecoveryOpportunities: readJsonSafe(path.join(TELEMETRY_DIR, "fast-recovery-opportunities.json")),
     badges: [
       "🎯 Meta 120 € ($130 USDC) en Marcha",
+      "⚡ Box 6: Titan-Scalper #601 Activo (Flujo Diario)",
+      "🧠 Box 7: Oracle-Global #701 Activo (Gobernanza Manual)",
       "🎖️ Capitán Experto #1 (#001 - On-Chain Vía A)",
       "🎖️ Capitán Experto #2 (#101 - Booty Vía B)",
       "💎 Ciclo Cerrado 70/30 Activo",

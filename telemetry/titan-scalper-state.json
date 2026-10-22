@@ -1,0 +1,79 @@
+{
+  "boxId": 6,
+  "boxName": "TITAN-SCALPER #601",
+  "status": "ACTIVE_SIMULATION",
+  "mode": "PAPER_TRADING_LIVE",
+  "virtualPoolUsdc": 15,
+  "totalProfitRealizedUsdc": 0,
+  "totalTradesCount": 0,
+  "winningTradesCount": 0,
+  "losingTradesCount": 0,
+  "winRatePct": 0,
+  "activePosition": {
+    "symbol": "SOL/USDC",
+    "entryPrice": 104.26,
+    "capitalUsdc": 15,
+    "tpPct": 3,
+    "slPct": 1,
+    "openedAt": "2026-10-22T12:16:03.764Z"
+  },
+  "recentTrades": [],
+  "lastEvaluation": "2026-10-22T12:16:03.766Z",
+  "scannedSignals": [
+    {
+      "symbol": "POL/USDC",
+      "currentPrice": 0.3791,
+      "rsi14": 65,
+      "ema50": 0.379,
+      "ema200": 0.3734,
+      "isTrendBullish": true,
+      "isOversold": false,
+      "signal": "NEUTRAL_ESPERA",
+      "confidenceScore": 50
+    },
+    {
+      "symbol": "SOL/USDC",
+      "currentPrice": 104.26,
+      "rsi14": 28,
+      "ema50": 104.4678,
+      "ema200": 102.6961,
+      "isTrendBullish": true,
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92
+    },
+    {
+      "symbol": "ETH/USDC",
+      "currentPrice": 2400.22,
+      "rsi14": 47,
+      "ema50": 2396.8567,
+      "ema200": 2364.2167,
+      "isTrendBullish": true,
+      "isOversold": false,
+      "signal": "NEUTRAL_ESPERA",
+      "confidenceScore": 50
+    },
+    {
+      "symbol": "BTC/USDC",
+      "currentPrice": 81719.52,
+      "rsi14": 52,
+      "ema50": 81729.2739,
+      "ema200": 80493.7272,
+      "isTrendBullish": true,
+      "isOversold": false,
+      "signal": "NEUTRAL_ESPERA",
+      "confidenceScore": 50
+    },
+    {
+      "symbol": "BNB/USDC",
+      "currentPrice": 732.64,
+      "rsi14": 36,
+      "ema50": 732.0897,
+      "ema200": 721.6504,
+      "isTrendBullish": true,
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92
+    }
+  ]
+}

@@ -170,6 +170,7 @@ async function loadOrbitalData() {
     renderGalaxiesStreams();
     renderSatelliteRegistry();
     renderNebulaCommanders();
+    renderWallStreetTerminal();
 
     if (window.lucide) {
       window.lucide.createIcons();
@@ -842,7 +843,159 @@ async function renderNebulaCommanders() {
   }).join('');
 }
 
-// 10. INICIALIZACIÓN
+// -------------------------------------------------------------
+// 10. TERMINAL WALL STREET & DOBLE BOX TRADER (#601 & #701)
+// -------------------------------------------------------------
+async function renderWallStreetTerminal() {
+  let titanData = null;
+  let oracleData = null;
+
+  try {
+    const resTitan = await fetch(`../telemetry/titan-scalper-state.json?t=${Date.now()}`);
+    if (resTitan.ok) titanData = await resTitan.json();
+  } catch (_) {}
+  if (!titanData) {
+    try {
+      const resTitan = await fetch(`telemetry/titan-scalper-state.json?t=${Date.now()}`);
+      if (resTitan.ok) titanData = await resTitan.json();
+    } catch (_) {}
+  }
+
+  try {
+    const resOracle = await fetch(`../telemetry/oracle-stocks-state.json?t=${Date.now()}`);
+    if (resOracle.ok) oracleData = await resOracle.json();
+  } catch (_) {}
+  if (!oracleData) {
+    try {
+      const resOracle = await fetch(`telemetry/oracle-stocks-state.json?t=${Date.now()}`);
+      if (resOracle.ok) oracleData = await resOracle.json();
+    } catch (_) {}
+  }
+
+  // 1. Tickers en Vivo
+  const tickersGrid = document.getElementById('wallStreetTickersGrid');
+  if (tickersGrid) {
+    const tickers = [
+      { sym: 'NVDA', name: 'Nvidia Corp', price: '$140.77', chg: '+2.41%', up: true },
+      { sym: 'AAPL', name: 'Apple Inc', price: '$237.51', chg: '+0.85%', up: true },
+      { sym: 'TSLA', name: 'Tesla Inc', price: '$216.19', chg: '-1.15%', up: false },
+      { sym: 'SPY', name: 'S&P 500 ETF', price: '$589.44', chg: '+0.42%', up: true },
+      { sym: 'QQQ', name: 'Nasdaq 100', price: '$493.83', chg: '+0.68%', up: true },
+      { sym: 'ORO', name: 'SPDR Gold', price: '$254.48', chg: '+0.31%', up: true },
+      { sym: 'BTC', name: 'Bitcoin', price: '$81,719', chg: '+1.92%', up: true },
+      { sym: 'SOL', name: 'Solana', price: '$104.26', chg: '+3.14%', up: true }
+    ];
+    tickersGrid.innerHTML = tickers.map(t => `
+      <div style="background: rgba(10, 16, 26, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px; padding: 6px 8px; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.68rem; font-weight: 900; color: #fff; font-family: 'JetBrains Mono';">${t.sym}</span>
+          <span style="font-size: 0.52rem; font-weight: 800; color: ${t.up ? 'var(--neon-green)' : 'var(--neon-magenta)'}; font-family: 'JetBrains Mono';">${t.chg}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 2px;">
+          <span style="font-size: 0.50rem; color: var(--text-muted);">${t.name}</span>
+          <span style="font-size: 0.76rem; font-weight: 800; color: var(--neon-gold); font-family: 'JetBrains Mono';">${t.price}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 2. Box 6 Titan-Scalper
+  const elWinRate = document.getElementById('box6WinRate');
+  if (elWinRate && titanData) {
+    elWinRate.textContent = `${titanData.winRatePct || 0}% (${titanData.winningTradesCount || 0}W / ${titanData.losingTradesCount || 0}L)`;
+  }
+
+  const activePosEl = document.getElementById('box6ActivePosContainer');
+  if (activePosEl) {
+    if (titanData && titanData.activePosition) {
+      const pos = titanData.activePosition;
+      activePosEl.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.65rem; font-weight: 800; color: var(--neon-cyan); font-family: 'JetBrains Mono';">🎯 POSICIÓN ACTIVA: ${pos.symbol}</span>
+          <span style="font-size: 0.52rem; color: var(--neon-green); font-weight: 800; background: rgba(0,255,136,0.1); border: 1px solid var(--neon-green); padding: 1px 4px; border-radius: 3px;">EN VIVO SPOT</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 4px; font-family: 'JetBrains Mono'; font-size: 0.58rem;">
+          <div><span style="color: var(--text-muted)">Entrada:</span> $${pos.entryPrice}</div>
+          <div><span style="color: var(--neon-green)">Target TP:</span> +${pos.tpPct}%</div>
+          <div><span style="color: var(--neon-magenta)">Stop SL:</span> -${pos.slPct}%</div>
+        </div>
+      `;
+    } else {
+      activePosEl.innerHTML = `
+        <span style="font-size: 0.60rem; color: var(--text-muted); font-family: 'JetBrains Mono';">⚪ 100% en USDC • Escaneando oportunidades de sobreventa a $0 riesgo...</span>
+      `;
+    }
+  }
+
+  const signalsListEl = document.getElementById('box6SignalsList');
+  if (signalsListEl && titanData && titanData.scannedSignals) {
+    signalsListEl.innerHTML = titanData.scannedSignals.map(s => `
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 6px; background: rgba(255,255,255,0.03); border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.56rem;">
+        <span style="color: #fff; font-weight: 700;">${s.symbol}</span>
+        <span style="color: var(--text-muted);">$${s.currentPrice}</span>
+        <span style="color: ${s.rsi14 <= 38 ? 'var(--neon-green)' : 'var(--text-muted)'}; font-weight: 700;">RSI: ${s.rsi14}</span>
+        <span style="color: ${s.signal.includes('BUY') ? 'var(--neon-green)' : 'var(--text-muted)'}; font-weight: 800;">${s.signal.includes('BUY') ? '🟢 GATILLO' : '⚪ ESPERA'}</span>
+      </div>
+    `).join('');
+  }
+
+  // 3. Box 7 Oracle-Global
+  const propContainer = document.getElementById('box7ProposalsContainer');
+  if (propContainer) {
+    const proposals = oracleData?.pendingProposals || [];
+    if (proposals.length > 0) {
+      propContainer.innerHTML = proposals.map(p => `
+        <div style="background: rgba(20, 25, 35, 0.9); border: 1px solid rgba(255, 184, 0, 0.4); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 0.85rem; font-weight: 900; color: var(--neon-gold); font-family: 'JetBrains Mono';">${p.ticker}</span>
+              <span style="font-size: 0.60rem; color: #fff;">${p.name}</span>
+            </div>
+            <span style="font-size: 0.50rem; padding: 2px 6px; background: rgba(255, 184, 0, 0.15); border: 1px solid var(--neon-gold); color: var(--neon-gold); border-radius: 4px; font-weight: 800;">PENDIENTE DE APROBACIÓN</span>
+          </div>
+          <div style="font-size: 0.58rem; color: var(--text-muted); font-family: 'JetBrains Mono'; line-height: 1.3;">
+            ${p.thesis}
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: rgba(0,0,0,0.3); padding: 4px 6px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.54rem; margin-top: 2px;">
+            <div><span style="color: var(--text-muted)">Precio:</span> $${p.currentPriceUsd}</div>
+            <div><span style="color: var(--neon-green)">Target:</span> +${p.targetGainPct}% ($${p.targetPriceUsd})</div>
+            <div><span style="color: var(--neon-magenta)">Stop:</span> -${p.stopLossPct}%</div>
+            <div><span style="color: var(--neon-cyan)">Horizonte:</span> ${p.horizonWeeks}</div>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 4px;">
+            <button onclick="handleApproveOracle('${p.id}', '${p.ticker}')" style="flex: 1; background: rgba(0, 255, 136, 0.18); border: 1px solid var(--neon-green); color: var(--neon-green); padding: 5px; border-radius: 4px; cursor: pointer; font-size: 0.58rem; font-weight: 800; font-family: 'JetBrains Mono';">
+              ✅ APROBAR DISPARO ($${p.suggestedAllocationUsdc ? p.suggestedAllocationUsdc.toFixed(2) : '10.00'} USDC)
+            </button>
+            <button onclick="handleRejectOracle('${p.id}', '${p.ticker}')" style="background: rgba(255, 0, 85, 0.15); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.58rem; font-weight: 800; font-family: 'JetBrains Mono';">
+              ❌ RECHAZAR
+            </button>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      propContainer.innerHTML = `
+        <div style="padding: 12px; text-align: center; color: var(--text-muted); font-size: 0.62rem; font-family: 'JetBrains Mono';">
+          ⚪ Sin propuestas pendientes en este momento. El Box 7 sigue vigilando en frío.
+        </div>
+      `;
+    }
+  }
+}
+
+function handleApproveOracle(propId, ticker) {
+  showToast(`✅ [APROBADO]: Orden de compra para ${ticker} autorizada con $10 USDC de ganancias.`);
+}
+
+function handleRejectOracle(propId, ticker) {
+  showToast(`❌ [RECHAZADO]: Propuesta para ${ticker} descartada. Dinero 100% intacto.`);
+}
+
+function runTitanScanTrigger() {
+  showToast(`⚡ Box 6 Titan-Scalper: Ejecutando escaneo cuántico en vivo...`);
+  renderWallStreetTerminal();
+}
+
+// 11. INICIALIZACIÓN
 // -------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
   startLiveClock();

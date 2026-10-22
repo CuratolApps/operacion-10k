@@ -1,0 +1,29 @@
+{
+  "boxId": 7,
+  "boxName": "ORACLE-GLOBAL #701",
+  "status": "ACTIVE_SURVEILLANCE",
+  "lastMarketRegime": "EXPANSIÓN_TECNOLÓGICA_CON_VOLATILIDAD",
+  "totalPortfolioValueUsdc": 0,
+  "activeHoldings": [],
+  "pendingProposals": [
+    {
+      "id": "prop-nvda-benchmark",
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "sector": "Inteligencia Artificial & Semiconductores",
+      "currentPriceUsd": 141.2,
+      "suggestedAllocationUsdc": 10,
+      "targetGainPct": 18,
+      "targetPriceUsd": 166.62,
+      "stopLossPct": 4.5,
+      "stopLossPriceUsd": 134.85,
+      "horizonWeeks": "3 semanas",
+      "rsiLevel": 32,
+      "thesis": "Retroceso del 6.2% a soporte de demanda institucional. RSI en 32. Revalorización estimada del +18%.",
+      "status": "PENDING_APPROVAL",
+      "createdAt": "2026-10-22T12:16:20.633Z"
+    }
+  ],
+  "historyDecisions": [],
+  "lastAnalysisTimestamp": "2026-10-22T12:16:20.634Z"
+}
