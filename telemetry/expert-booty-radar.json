@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-10-22T10:47:36.393Z",
+  "captainsCommand": {
+    "captain1": {
+      "id": "#001",
+      "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+      "role": "Director Experto de Caza On-Chain & Ciclo Cerrado DeFi (Vía A)",
+      "polBalance": 18.02,
+      "assignedForces": "NEBULA-01 a NEBULA-16 + 8 Nodrizas (#501, #001, #008, #006, #108, #106, #204, #205)",
+      "activeCapitalUsdc": 38.72,
+      "status": "ACTIVE_DEFI_STANDBY"
+    },
+    "captain2": {
+      "id": "#101",
+      "address": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
+      "role": "Director Experto de Caza de Botines Vía B ($50 a $1,500 USDC)",
+      "polBalance": 18.03,
+      "assignedForces": "NEBULA-17 a NEBULA-32 + 8 Nodrizas (#101, #201, #301, #307, #311, #401, #403, #411) + 500 Satélites",
+      "totalGalaxyOperations": 6631,
+      "status": "ACTIVE_BOOTY_HUNTING"
+    }
+  },
+  "front1_onChainKeepers": {
+    "keeperBountiesScanned": 8,
+    "liquidatableFound": false,
+    "liquidationTargets": [],
+    "estimatedKeeperYieldUsdc": "$0.00 USDC (Cuentas Solventes HF > 1.0)",
+    "status": "🛡️ CENTINELA $0 GAS (Solvencia Verificada)"
+  },
+  "front2_galaxyOperationsHarvest": {
+    "totalGalaxyOperations": 6631,
+    "clusters": {
+      "galaxies3and4": {
+        "name": "Galaxia 3 (Piscinas de Quests) & Galaxia 4 (Airdrops L2 Gasless)",
+        "operationsCount": 5771,
+        "activeCampaigns": 24,
+        "poolTicketsTotal": 2000,
+        "dailyCheckIns": 610,
+        "gaslessQuests": 640,
+        "status": "Época Activa • Reclamo Masivo Programado en Snapshot",
+        "projectedYieldUsdc": "$25.00 a $45.00 USDC directos a Bóvedas Binance",
+        "capitalCost": "$0.00 (100% Gasless L2)"
+      },
+      "galaxies1and2": {
+        "name": "Galaxia 1 (Minería Bitcoin L2) & Galaxia 2 (Metaverso & Free Mints)",
+        "operationsCount": 860,
+        "citreaGoatOps": 900,
+        "btcL2Points": 22500,
+        "chestsClaimed": 20,
+        "status": "Acumulación Verificada • Convertibilidad TGE Mainnets",
+        "projectedYieldUsdc": "$15.00 a $30.00 USDC al lanzamiento de Mainnets",
+        "capitalCost": "$0.00 (Testnet/Gasless)"
+      }
+    }
+  },
+  "front3_externalBootyMatrix": [
+    {
+      "id": "BOOTY-01",
+      "platform": "Superteam Earn",
+      "title": "Solana / EVM AI Agent & Autonomous Fleet Infrastructure Bounty",
+      "bountyRewardUsdc": 1500,
+      "rewardCurrency": "USDC Nativo",
+      "effortHours": 12,
+      "leverageAssets": "Flota 502 Billeteras + CuraTools UI + Telemetría en Vivo",
+      "payoutSpeed": "Inmediato post-evaluación (48h)",
+      "status": "🔥 PRIORIDAD 1: ALTO IMPACTO (Supera por sí solo los $130.00 USDC de Meta 120 €)",
+      "roiCoveragePct": 1153.8,
+      "strategy": "Presentar el framework de orquestación autónoma de 502 carteras y telemetría multi-DEX con blindaje anti-MEV y trinquete 85/15."
+    },
+    {
+      "id": "BOOTY-02",
+      "platform": "DoraHacks / Web3 AI Agents Hackathon",
+      "title": "Multi-Chain Autonomous Keeper & Anti-Sybil Defense Swarm",
+      "bountyRewardUsdc": 500,
+      "rewardCurrency": "USDC Nativo",
+      "effortHours": 6,
+      "leverageAssets": "Código abierto de anti-sybil.js + dedicated-observers.js",
+      "payoutSpeed": "Cierre de Hackathon (3-5 días)",
+      "status": "🚀 PRIORIDAD 2: DIRECTO A TESORERÍA",
+      "roiCoveragePct": 384.6,
+      "strategy": "Empaquetar la arquitectura de 16 binomios IA y aislamiento intra-bloque estanco."
+    },
+    {
+      "id": "BOOTY-03",
+      "platform": "Gitcoin / Micro-Bounties DeFi",
+      "title": "Uniswap V3 Concentrated Liquidity & Flash Arbitrage Simulation Tool",
+      "bountyRewardUsdc": 150,
+      "rewardCurrency": "USDC Nativo",
+      "effortHours": 3,
+      "leverageAssets": "Sniper V3 QuoterV2 con validación callStatic a $0 gas",
+      "payoutSpeed": "Aprobación rápida (24h)",
+      "status": "⚡ PRIORIDAD 3: LIQUIDEZ INMEDIATA PARA ESCALÓN 1",
+      "roiCoveragePct": 115.4,
+      "strategy": "Entregar micro-módulo de benchmarking de gas y slippage anti-MEV <= 0.15%."
+    },
+    {
+      "id": "BOOTY-04",
+      "platform": "BountyCaster / Farcaster Web3 Quests",
+      "title": "Web3 Autonomous Bot Farm Analytics & Real-Time Dashboard Integration",
+      "bountyRewardUsdc": 75,
+      "rewardCurrency": "USDC Nativo",
+      "effortHours": 2,
+      "leverageAssets": "Dashboard Orbital Operación 10K / 12K",
+      "payoutSpeed": "Mismo día",
+      "status": "💎 MICRO-BOTÍN RÁPIDO",
+      "roiCoveragePct": 57.7,
+      "strategy": "Demostración en vivo del dashboard interactivo con 502 expedientes y monitor de combustible."
+    }
+  ],
+  "summary": {
+    "totalPipelineBootyUsdc": 2225,
+    "recoveryTargetUsdc": 130,
+    "recoveryTargetEur": 120,
+    "pipelineCoverageRatio": "17.1x de la Meta Total",
+    "rule70_30Applied": {
+      "toUsdcNative70": "1557.5 USDC",
+      "toGasRestock30": "667.5 USDC (60% POL / 40% BNB)"
+    }
+  }
+}

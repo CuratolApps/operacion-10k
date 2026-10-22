@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-10-22T10:47:36.395Z",
+  "status": "DUAL_EXPERT_COMMAND_ACTIVE",
+  "highCommand": {
+    "mothership501": {
+      "id": "#501",
+      "name": "Nodriza Matriz (#501)",
+      "role": "Tesorería General & Hub de Fondeo Dual-Chain",
+      "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      "polFloor": 121.0241,
+      "bnbFloor": 0.00702,
+      "gasStatus": "🟢 100% RESTAURADA Y FONDEADA (>120.9 POL)"
+    }
+  },
+  "expertCaptains": [
+    {
+      "id": "#001",
+      "rank": "CAPITÁN EXPERTO #1",
+      "name": "Capitán Box 1 (#001)",
+      "title": "Director Experto de Caza On-Chain & Ciclo Cerrado DeFi (Vía A)",
+      "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+      "polFloor": 18.02,
+      "bnbFloor": 0.0038,
+      "assignedBoxes": [
+        "Box 1",
+        "Box 0 (Matriz)"
+      ],
+      "assignedMotherships": [
+        "#501",
+        "#001",
+        "#008",
+        "#006",
+        "#108",
+        "#106",
+        "#204",
+        "#205"
+      ],
+      "assignedNebulas": [
+        "NEBULA-01 a NEBULA-16 (8 Binomios Especializados)"
+      ],
+      "tacticalMission": "Operación de los $38.72 USDC on-chain en Ciclo Cerrado Atómico (USDC -> DEX V3 -> Más USDC) validado con callStatic ($0 gasto de gas si no hay ganancia neta comprobada).",
+      "activeCapitalUsdc": 38.72,
+      "dexRouters": [
+        "Uniswap V3 0.05% (Polygon)",
+        "QuickSwap V3 Algebra (Polygon)",
+        "SushiSwap V2 (Polygon)",
+        "PancakeSwap V3/V2 (BSC)"
+      ],
+      "operationalStatus": "TACTICAL_DEFENSIVE_STANDBY_0_GAS"
+    },
+    {
+      "id": "#101",
+      "rank": "CAPITÁN EXPERTO #2",
+      "name": "Capitán Box 2 (#101)",
+      "title": "Director Experto de Caza de Botines 'Vía B — Booty Hunter' ($50 a $1,500 USDC)",
+      "address": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
+      "polFloor": 18.03,
+      "bnbFloor": 0.0038,
+      "assignedBoxes": [
+        "Box 2",
+        "Box 3",
+        "Box 4",
+        "Box 5"
+      ],
+      "assignedMotherships": [
+        "#101",
+        "#201",
+        "#301",
+        "#307",
+        "#311",
+        "#401",
+        "#403",
+        "#411"
+      ],
+      "assignedNebulas": [
+        "NEBULA-17 a NEBULA-32 (8 Binomios de Cosecha & Seguridad)"
+      ],
+      "assignedFleet": "500 Satélites Obreros (#001 al #500) en las 6 Galaxias de Extracción",
+      "tacticalMission": "Comando de la Vía B — Caza de Bounties externos y cosecha de las 6,631 operaciones galácticas sin costo de capital para alcanzar de golpe los 120 € ($130.00 USDC).",
+      "primaryBootyTarget": "Bounty Superteam Earn ($1,500 USDC Nativo)",
+      "totalGalaxyOperationsUnderCommand": 6631,
+      "operationalStatus": "ACTIVE_BOOTY_RADAR_ENGAGED"
+    }
+  ],
+  "fleetGasTank": {
+    "pol": 265.86,
+    "bnb": 0.0435,
+    "mothership501Pol": 121.0241,
+    "box3CaptainPol": 18.025,
+    "krakenHoldIncoming": "116.38 POL + 0.02006 BNB",
+    "strictNoGasSell": true
+  },
+  "treasuryLiquidity": {
+    "onChainUsdc": 38.719394,
+    "binanceSpot1Usdc": 1,
+    "totalConsolidatedUsdc": 39.719394,
+    "totalConsolidatedEur": 36.66,
+    "targetGoalEur": 120,
+    "targetGoalUsdc": 130,
+    "escalon1Usdc": 65,
+    "escalon1ProgressPct": 61.1,
+    "breakEvenProgressPct": 30.55
+  },
+  "viaA_defiClosedLoop": {
+    "leadCaptain": "#001",
+    "dexArbitrageStatus": "VIGILANCIA_CENTINELA_0_GAS",
+    "bestRoutePolygon": "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
+    "bestRouteBsc": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+    "antiMevMaxSlippagePct": 0.15
+  },
+  "viaB_bootyHunter": {
+    "leadCaptain": "#101",
+    "totalPipelineUsdc": 2225,
+    "topTarget": "Superteam Earn ($1,500 USDC)",
+    "totalGalaxyOperations": 6631,
+    "galaxies3and4QuestsPoolsOps": 5771,
+    "galaxies1and2BtcGamingOps": 860,
+    "status": "ACTIVE_RADAR"
+  },
+  "compoundingRule70_30": {
+    "usdcSharePct": 70,
+    "gasSharePct": 30,
+    "gasAllocation": {
+      "polPolygonPct": 60,
+      "bnbBscPct": 40
+    },
+    "description": "70% de cada dólar neto capturado engorda USDC Nativo hacia $130 (120 €); 30% recarga POL y BNB."
+  }
+}

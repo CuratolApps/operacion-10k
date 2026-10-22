@@ -825,6 +825,8 @@ async function generateUnifiedTelemetry() {
     highWaterMarkRatchet: readJsonSafe(path.join(TELEMETRY_DIR, "profit-lock-ratchet.json")) || existingTelemetry.highWaterMarkRatchet,
     omniSniperRadar: readJsonSafe(path.join(TELEMETRY_DIR, "omni-sniper-radar.json")),
     securityForensic: readJsonSafe(path.join(TELEMETRY_DIR, "forensic-audit.json")),
+    expertCaptains: readJsonSafe(path.join(TELEMETRY_DIR, "expert-captains-state.json")),
+    bootyRadar: readJsonSafe(path.join(TELEMETRY_DIR, "expert-booty-radar.json")),
     dualCapitalizer: readJsonSafe(path.join(TELEMETRY_DIR, "dual-capitalizer.json")) || {
       status: "ACTIVE_COMPOUNDING",
       badges: ["🔒 Trinquete 85% USDC", "⛽ Capitalizador 75/25 Gas Activo", "🛡️ 5º Candado Anti-MEV <= 0.15%"],
@@ -833,9 +835,11 @@ async function generateUnifiedTelemetry() {
     fastRecoveryOpportunities: readJsonSafe(path.join(TELEMETRY_DIR, "fast-recovery-opportunities.json")),
     badges: [
       "🎯 Meta 120 € ($130 USDC) en Marcha",
+      "🎖️ Capitán Experto #1 (#001 - On-Chain Vía A)",
+      "🎖️ Capitán Experto #2 (#101 - Booty Vía B)",
       "💎 Ciclo Cerrado 70/30 Activo",
       "🔒 Trinquete 85% USDC Intocable",
-      "⛽ #501 >120.9 POL / Box 3 Nivelado 18.02 POL",
+      "⛽ #501 >= 121.0241 POL / Capitanes >= 18.02 POL",
       "🛡️ 5º Candado Anti-MEV <= 0.15%",
       "🚫 STRICT_NO_GAS_SELL = true"
     ]
