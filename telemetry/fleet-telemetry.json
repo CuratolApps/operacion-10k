@@ -45696,7 +45696,7 @@
       "polygon": 2.143061
     },
     "satellitesWithDust": 6,
-    "lastScanTimestamp": "2026-10-22T01:15:30.317Z"
+    "lastScanTimestamp": "2026-10-22T01:18:28.281Z"
   },
   "totalHarvestedToBinanceUsdc": 1,
   "binanceVaultsVerification": {
@@ -46928,6 +46928,13 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1792631908300-347",
+      "timestamp": "2026-10-22T01:18:28.300Z",
+      "timeFormatted": "1:18:28 UTC",
+      "rawHtml": "🛡️🦅 <b>PARTE DE GUERRA // ESCUDO SAGRADO ACTIVO (6 FRENTES)</b>\n\n🎯 <b>OPERACIÓN 12K — SALVA SUPERVISADA (CERTEZA >= 95%)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 <b>ESTADO ON-CHAIN DE LAS RESERVAS:</b>\n• <b>Escudo Sagrado:</b> ACTIVO en los 6 Frentes (0 violaciones de piso)\n• <b>Gas Total Preservado en Flota:</b> 75.3304 POL (Piso sagrado 75.00 POL blindado)\n• <b>En Bóveda Máster On-Chain (Compounding Pool):</b> $2.143061 USDC\n• <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos automáticos)\n\n📦 <b>DETALLE POR FRENTE:</b>\n• <b>#501 (Nodriza Matriz):</b> 25.2425 POL (Reserva 25.00 POL blindada)\n• <b>#001 (Capitán Box 1):</b> 14.0368 POL (Reserva 14.00 POL blindada)\n• <b>#101 (Capitán Box 2):</b> 14.0353 POL (Reserva 14.00 POL blindada)\n• <b>#201 (Capitán Box 3):</b> 7.3356 POL (Reserva 7.30 POL blindada)\n• <b>#301 (Capitán Box 4):</b> 7.3414 POL (Reserva 7.30 POL blindada)\n• <b>#401 (Capitán Box 5):</b> 7.3387 POL (Reserva 7.30 POL blindada)\n\n🔒 <b>POLÍTICA DE CAUTELA:</b> Disparos en pausa de seguridad para proteger el gas sagrado de los 6 frentes hasta que ingrese combustible externo de Kraken.\n\n⏰ <i>2026-10-22T01:18:28.296Z</i>",
+      "textPlain": "🛡️🦅 PARTE DE GUERRA // ESCUDO SAGRADO ACTIVO (6 FRENTES)\n\n🎯 OPERACIÓN 12K — SALVA SUPERVISADA (CERTEZA >= 95%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💎 ESTADO ON-CHAIN DE LAS RESERVAS:\n• Escudo Sagrado: ACTIVO en los 6 Frentes (0 violaciones de piso)\n• Gas Total Preservado en Flota: 75.3304 POL (Piso sagrado 75.00 POL blindado)\n• En Bóveda Máster On-Chain (Compounding Pool): $2.143061 USDC\n• Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos automáticos)\n\n📦 DETALLE POR FRENTE:\n• #501 (Nodriza Matriz): 25.2425 POL (Reserva 25.00 POL blindada)\n• #001 (Capitán Box 1): 14.0368 POL (Reserva 14.00 POL blindada)\n• #101 (Capitán Box 2): 14.0353 POL (Reserva 14.00 POL blindada)\n• #201 (Capitán Box 3): 7.3356 POL (Reserva 7.30 POL blindada)\n• #301 (Capitán Box 4): 7.3414 POL (Reserva 7.30 POL blindada)\n• #401 (Capitán Box 5): 7.3387 POL (Reserva 7.30 POL blindada)\n\n🔒 POLÍTICA DE CAUTELA: Disparos en pausa de seguridad para proteger el gas sagrado de los 6 frentes hasta que ingrese combustible externo de Kraken.\n\n⏰ 2026-10-22T01:18:28.296Z"
+    },
+    {
       "id": "tg-1792631730332-882",
       "timestamp": "2026-10-22T01:15:30.332Z",
       "timeFormatted": "1:15:30 UTC",
@@ -47129,13 +47136,6 @@
       "timeFormatted": "23:57:59 UTC",
       "rawHtml": "🎯 <b>10K VANGUARD HUNTER EN LÍNEA</b> — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando.",
       "textPlain": "🎯 10K VANGUARD HUNTER EN LÍNEA — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando."
-    },
-    {
-      "id": "tg-1792627079169-305",
-      "timestamp": "2026-10-21T23:57:59.169Z",
-      "timeFormatted": "23:57:59 UTC",
-      "rawHtml": "🎉 🚨 <b>¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!</b>\n⛽ <b>FONDOS DE KRAKEN LIBERADOS EN MAINNET</b>\n\n🏦 <b>Bóveda Matriz #501:</b> <code>0xD4D12077a61118372f7a367319fb11922Beb3743</code>\n💰 <b>Fondos Capturados:</b>\n   • <b>polygonMainnet:</b> +37.52121 POL ✅\n\n👑 <b>5 Cabeceras Fondeadas Automáticamente:</b>\n   • Cabecera #001 (Box 1)\n   • Cabecera #101 (Box 2)\n   • Cabecera #201 (Box 3)\n   • Cabecera #301 (Box 4)\n   • Cabecera #401 (Box 5)\n\n🛡️ <b>Dispersión Intra-Box:</b> Activa hacia satélites de cada Box.\n🔒 <b>Seguridad:</b> Aislamiento estanco intra-bloque 100% preservado.\n\n📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>\n   • <b>Rondas Ejecutadas:</b> 72 rondas\n   • <b>Txs On-Chain Acumuladas:</b> 2832 txs firmadas\n   • <b>Txs Confirmadas Hoy:</b> 82 txs\n   • <b>Boxes Rotados Hoy:</b> Box 3\n   • <b>Autonomía de Gas:</b> ~1.8 días en Base / ~1.3 días en Sepolia\n\n⏰ <i>21/10/2026, 23:57:59 UTC</i>",
-      "textPlain": "🎉 🚨 ¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!\n⛽ FONDOS DE KRAKEN LIBERADOS EN MAINNET\n\n🏦 Bóveda Matriz #501: 0xD4D12077a61118372f7a367319fb11922Beb3743\n💰 Fondos Capturados:\n   • polygonMainnet: +37.52121 POL ✅\n\n👑 5 Cabeceras Fondeadas Automáticamente:\n   • Cabecera #001 (Box 1)\n   • Cabecera #101 (Box 2)\n   • Cabecera #201 (Box 3)\n   • Cabecera #301 (Box 4)\n   • Cabecera #401 (Box 5)\n\n🛡️ Dispersión Intra-Box: Activa hacia satélites de cada Box.\n🔒 Seguridad: Aislamiento estanco intra-bloque 100% preservado.\n\n📈 ACUMULADO HISTÓRICO DE LA FLOTA:\n   • Rondas Ejecutadas: 72 rondas\n   • Txs On-Chain Acumuladas: 2832 txs firmadas\n   • Txs Confirmadas Hoy: 82 txs\n   • Boxes Rotados Hoy: Box 3\n   • Autonomía de Gas: ~1.8 días en Base / ~1.3 días en Sepolia\n\n⏰ 21/10/2026, 23:57:59 UTC"
     }
   ],
   "lomo6SocialX": {
