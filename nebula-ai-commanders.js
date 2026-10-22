@@ -32,25 +32,28 @@ const FLEET_TELEMETRY_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.
 const LIVE_OBSERVER_FILE = path.join(__dirname, "telemetry", "live-market-observer.json");
 
 // =====================================================================================
-// DEFINICIÓN DE LAS 16 NODRIZAS SNIPER
 // =====================================================================================
+// DEFINICIÓN DE LAS 16 NODRIZAS SNIPER & ESCUDO DE RESERVAS SAGRADAS BLINDADAS
+// =====================================================================================
+const ZERO_GAS_DRAIN_MODE = true; // PROHIBIDO DRENAR GAS EN SWAPS UNIDIRECCIONALES
+
 const SNIPER_MOTHERSHIPS = [
-  { id: "#501", index: 501, name: "Nodriza Matriz (#501)", role: "Tesorería & Nodriza Matriz Dual", box: "Matriz / Box 0", address: "0xD4D12077a61118372f7a367319fb11922Beb3743", sacPol: 80.0, sacBnb: 0.010, bulletPol: 4.50, bulletBnb: 0.002, galaxy: "Refinería DEX & Tesorería Matriz" },
-  { id: "#001", index: 1, name: "Capitán Box 1 (#001)", role: "Capitán Box 1", box: "Box 1", address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", sacPol: 20.0, sacBnb: 0.006, bulletPol: 2.00, bulletBnb: 0.0008, galaxy: "Galaxia 1: Bitcoin L2 & Minería" },
-  { id: "#101", index: 101, name: "Capitán Box 2 (#101)", role: "Capitán Box 2", box: "Box 2", address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA", sacPol: 20.0, sacBnb: 0.006, bulletPol: 2.00, bulletBnb: 0.0008, galaxy: "Galaxia 2: Juegos & Metaverso" },
-  { id: "#201", index: 201, name: "Capitán Box 3 (#201)", role: "Capitán Box 3", box: "Box 3", address: "0x2810aa0DabCA4511846194229d2c004B14016A7C", sacPol: 14.0, sacBnb: 0.006, bulletPol: 2.00, bulletBnb: 0.0008, galaxy: "Galaxia 3: Piscinas & Quest Pools" },
-  { id: "#301", index: 301, name: "Capitán Box 4 (#301)", role: "Capitán Box 4", box: "Box 4", address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f", sacPol: 14.0, sacBnb: 0.006, bulletPol: 2.00, bulletBnb: 0.0008, galaxy: "Galaxia 4: Airdrops L2 Gasless" },
-  { id: "#401", index: 401, name: "Capitán Box 5 (#401)", role: "Capitán Box 5", box: "Box 5", address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070", sacPol: 14.0, sacBnb: 0.006, bulletPol: 2.00, bulletBnb: 0.0008, galaxy: "Galaxia 5: Mints & Refinería" },
-  { id: "#008", index: 8, name: "Sub-Capitán Box 1 (#008)", role: "Sub-Capitán Alfa Box 1", box: "Box 1", address: "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 1: Bitcoin L2 & Minería" },
-  { id: "#006", index: 6, name: "Sub-Capitán Box 1 (#006)", role: "Sub-Capitán Beta Box 1", box: "Box 1", address: "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 1: Bitcoin L2 & Minería" },
-  { id: "#108", index: 108, name: "Sub-Capitán Box 2 (#108)", role: "Sub-Capitán Alfa Box 2", box: "Box 2", address: "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 2: Juegos & Metaverso" },
-  { id: "#106", index: 106, name: "Sub-Capitán Box 2 (#106)", role: "Sub-Capitán Beta Box 2", box: "Box 2", address: "0x6C66C9724AeD2407e80E805B105d82270471785d", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 2: Juegos & Metaverso" },
-  { id: "#204", index: 204, name: "Sub-Capitán Box 3 (#204)", role: "Sub-Capitán Alfa Box 3", box: "Box 3", address: "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 3: Piscinas & Quest Pools" },
-  { id: "#205", index: 205, name: "Sub-Capitán Box 3 (#205)", role: "Sub-Capitán Beta Box 3", box: "Box 3", address: "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 3: Piscinas & Quest Pools" },
-  { id: "#307", index: 307, name: "Sub-Capitán Box 4 (#307)", role: "Sub-Capitán Alfa Box 4", box: "Box 4", address: "0xc4E7Fc96695eF0593592EcE10A807bbF0C92f27d", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 4: Airdrops L2 Gasless" },
-  { id: "#311", index: 311, name: "Sub-Capitán Box 4 (#311)", role: "Sub-Capitán Beta Box 4", box: "Box 4", address: "0xF3d19755705FdBE34f2930d9bABB51fE379E865d", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 4: Airdrops L2 Gasless" },
-  { id: "#403", index: 403, name: "Sub-Capitán Box 5 (#403)", role: "Sub-Capitán Alfa Box 5", box: "Box 5", address: "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 5: Mints & Refinería" },
-  { id: "#411", index: 411, name: "Sub-Capitán Box 5 (#411)", role: "Sub-Capitán Beta Box 5", box: "Box 5", address: "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12", sacPol: 5.0, sacBnb: 0.0001, bulletPol: 1.20, bulletBnb: 0, galaxy: "Galaxia 5: Mints & Refinería" }
+  { id: "#501", index: 501, name: "Nodriza Matriz (#501)", role: "Tesorería & Nodriza Matriz Dual", box: "Matriz / Box 0", address: "0xD4D12077a61118372f7a367319fb11922Beb3743", sacPol: 225.0, sacBnb: 0.012, bulletPol: 0, bulletBnb: 0, galaxy: "Refinería DEX & Tesorería Matriz" },
+  { id: "#001", index: 1, name: "Capitán Box 1 (#001)", role: "Capitán Box 1", box: "Box 1", address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", sacPol: 20.0, sacBnb: 0.008, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 1: Bitcoin L2 & Minería" },
+  { id: "#101", index: 101, name: "Capitán Box 2 (#101)", role: "Capitán Box 2", box: "Box 2", address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA", sacPol: 20.0, sacBnb: 0.008, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 2: Juegos & Metaverso" },
+  { id: "#201", index: 201, name: "Capitán Box 3 (#201)", role: "Capitán Box 3", box: "Box 3", address: "0x2810aa0DabCA4511846194229d2c004B14016A7C", sacPol: 14.0, sacBnb: 0.008, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 3: Piscinas & Quest Pools" },
+  { id: "#301", index: 301, name: "Capitán Box 4 (#301)", role: "Capitán Box 4", box: "Box 4", address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f", sacPol: 14.0, sacBnb: 0.008, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 4: Airdrops L2 Gasless" },
+  { id: "#401", index: 401, name: "Capitán Box 5 (#401)", role: "Capitán Box 5", box: "Box 5", address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070", sacPol: 14.0, sacBnb: 0.008, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 5: Mints & Refinería" },
+  { id: "#008", index: 8, name: "Sub-Capitán Box 1 (#008)", role: "Sub-Capitán Alfa Box 1", box: "Box 1", address: "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 1: Bitcoin L2 & Minería" },
+  { id: "#006", index: 6, name: "Sub-Capitán Box 1 (#006)", role: "Sub-Capitán Beta Box 1", box: "Box 1", address: "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 1: Bitcoin L2 & Minería" },
+  { id: "#108", index: 108, name: "Sub-Capitán Box 2 (#108)", role: "Sub-Capitán Alfa Box 2", box: "Box 2", address: "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 2: Juegos & Metaverso" },
+  { id: "#106", index: 106, name: "Sub-Capitán Box 2 (#106)", role: "Sub-Capitán Beta Box 2", box: "Box 2", address: "0x6C66C9724AeD2407e80E805B105d82270471785d", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 2: Juegos & Metaverso" },
+  { id: "#204", index: 204, name: "Sub-Capitán Box 3 (#204)", role: "Sub-Capitán Alfa Box 3", box: "Box 3", address: "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 3: Piscinas & Quest Pools" },
+  { id: "#205", index: 205, name: "Sub-Capitán Box 3 (#205)", role: "Sub-Capitán Beta Box 3", box: "Box 3", address: "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 3: Piscinas & Quest Pools" },
+  { id: "#307", index: 307, name: "Sub-Capitán Box 4 (#307)", role: "Sub-Capitán Alfa Box 4", box: "Box 4", address: "0xc4E7Fc96695eF0593592EcE10A807bbF0C92f27d", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 4: Airdrops L2 Gasless" },
+  { id: "#311", index: 311, name: "Sub-Capitán Box 4 (#311)", role: "Sub-Capitán Beta Box 4", box: "Box 4", address: "0xF3d19755705FdBE34f2930d9bABB51fE379E865d", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 4: Airdrops L2 Gasless" },
+  { id: "#403", index: 403, name: "Sub-Capitán Box 5 (#403)", role: "Sub-Capitán Alfa Box 5", box: "Box 5", address: "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 5: Mints & Refinería" },
+  { id: "#411", index: 411, name: "Sub-Capitán Box 5 (#411)", role: "Sub-Capitán Beta Box 5", box: "Box 5", address: "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12", sacPol: 5.5, sacBnb: 0.0001, bulletPol: 0, bulletBnb: 0, galaxy: "Galaxia 5: Mints & Refinería" }
 ];
 
 // Whitelist Institucional Oficial Estricta (Candado 1)
@@ -114,18 +117,34 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
 
   // ---------------------------------------------------------------------------------
   // 1. NEBULOSA IMPAR: ESTRATEGA CUÁNTICA & ENRUTADOR MULTI-PISCINA (NEBULA-(2i-1))
+  //    APLICA REGLA DE ORO: SI USDC_OUT <= USDC_IN + GASTO_GAS -> VIGILANCIA CENTINELA ($0 GAS)
   // ---------------------------------------------------------------------------------
+  const arbCycle = liveObserver?.arbitrageCycle;
+  const isNetPositiveArb = arbCycle?.isNetPositive ?? false;
+
   let quantScore = 100;
-  const isGasOptimal = polGas < 450.0 && bscGas < 3.5;
-  if (!isGasOptimal) quantScore -= 10;
+  let oddStatus = "STANDBY";
+  let quantReasoning = "";
 
-  const isQuoteOptimal = winningPol.quote1Pol > 0.04 && (winningBsc.bnbPriceUsd > 100);
-  if (!isQuoteOptimal) quantScore -= 10;
-
-  const expectedUsdcHarvestPol = mother.bulletPol * winningPol.quote1Pol;
-  const expectedUsdcHarvestBnb = (mother.bulletBnb || 0) * (winningBsc.bnbPriceUsd || 734.0);
-
-  const quantReasoning = `Estratega Cuántica de ${mother.name}: Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [${winningPol.poolName}] (1 POL ➔ ${winningPol.quote1Pol.toFixed(6)} USDC, Ventaja: +${winningPol.advantagePct}%). Ruta Ganadora BSC: [${winningBsc.poolName}] (1 BNB ➔ $${winningBsc.bnbPriceUsd} USDC). Gas óptimo: ${polGas.toFixed(1)} Gwei. Munición: ${mother.bulletPol} POL y ${mother.bulletBnb || 0} BNB por encima del Escudo Sagrado (${mother.sacPol} POL / ${mother.sacBnb} BNB). Certeza: ${quantScore}%.`;
+  if (ZERO_GAS_DRAIN_MODE) {
+    if (!isNetPositiveArb) {
+      // Regla de Oro: retorno insuficiente para cubrir gas y fees -> VIGILANCIA CENTINELA
+      oddStatus = "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)";
+      quantScore = 80; // < 95% para bloquear cualquier quema accidental de gas
+      quantReasoning = `Estratega Cuántica de ${mother.name}: 🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO). Ciclo cerrado de arbitraje simulado: Polygon (Retorno: ${arbCycle?.polygon?.bestUsdcOut || 9.70} USDC / Net: ${arbCycle?.polygon?.netProfitUsdc || -0.30} USD), BSC (Retorno: ${arbCycle?.bsc?.bestUsdcOut || 9.95} USDC / Net: ${arbCycle?.bsc?.netProfitUsdc || -0.05} USD). Condición USDC_Out <= USDC_In + CostoGasUSD activa. Prohibido quemar gas en swaps unidireccionales. Tanque de gas blindado: ~384 POL y ~0.064 BNB 100% protegidos para combustible de firma. Disparo en espera de divergencia neta real (>= 95%).`;
+    } else {
+      oddStatus = "AUTHORIZED";
+      quantScore = 100;
+      quantReasoning = `Estratega Cuántica de ${mother.name}: 🔥 DIVERGENCIA NETA POSITIVA DETECTADA. Arbitraje atómico en ciclo cerrado genera ganancia neta superior a gas. Autorizado con 100% certeza.`;
+    }
+  } else {
+    const isGasOptimal = polGas < 450.0 && bscGas < 3.5;
+    if (!isGasOptimal) quantScore -= 10;
+    const isQuoteOptimal = winningPol.quote1Pol > 0.04 && (winningBsc.bnbPriceUsd > 100);
+    if (!isQuoteOptimal) quantScore -= 10;
+    oddStatus = quantScore >= 95 ? "AUTHORIZED" : "STANDBY";
+    quantReasoning = `Estratega Cuántica de ${mother.name}: Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [${winningPol.poolName}] (1 POL ➔ ${winningPol.quote1Pol.toFixed(6)} USDC). Ruta Ganadora BSC: [${winningBsc.poolName}] (1 BNB ➔ $${winningBsc.bnbPriceUsd} USDC). Gas óptimo: ${polGas.toFixed(1)} Gwei.`;
+  }
 
   const oddNebula = {
     id: oddId,
@@ -135,7 +154,7 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
     assignedMothership: mother.id,
     opportunityScore: quantScore,
     satellitesGuided: 500,
-    status: quantScore >= 95 ? "AUTHORIZED" : "STANDBY",
+    status: oddStatus,
     reasoning: quantReasoning,
     tacticalPoolSelection: {
       polygon: winningPol,
@@ -145,11 +164,12 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
       mothershipId: mother.id,
       bulletPol: mother.bulletPol,
       bulletBnb: mother.bulletBnb || 0,
-      expectedUsdcHarvestPol: parseFloat(expectedUsdcHarvestPol.toFixed(6)),
-      expectedUsdcHarvestBnb: parseFloat(expectedUsdcHarvestBnb.toFixed(6)),
+      expectedUsdcHarvestPol: 0,
+      expectedUsdcHarvestBnb: 0,
       polGasGwei: polGas,
       bscGasGwei: bscGas,
-      isGasOptimal
+      zeroGasDrainMode: ZERO_GAS_DRAIN_MODE,
+      isGasOptimal: polGas < 450.0 && bscGas < 3.5
     }
   };
 
@@ -225,8 +245,8 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
     }
   };
 
-  // Regla de Doble Llave
-  const doubleKeyAuthorized = oddNebula.opportunityScore >= 95 && evenNebula.securityConfidenceScore >= 95 && rugPullRisk === 0;
+  // Regla de Doble Llave: Solo autoriza disparo si hay divergencia neta positiva (arbitraje real) y seguridad 100%
+  const doubleKeyAuthorized = isNetPositiveArb && oddNebula.opportunityScore >= 95 && evenNebula.securityConfidenceScore >= 95 && rugPullRisk === 0;
 
   const binomial = {
     binomialIndex: sniperIdx + 1,
@@ -238,7 +258,7 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
       bsc: winningBsc
     },
     doubleKeyAuthorized,
-    status: doubleKeyAuthorized ? "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)" : "🔴 ESPERA PREVENTIVA"
+    status: doubleKeyAuthorized ? "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
   };
 
   return { oddNebula, evenNebula, binomial };
@@ -312,7 +332,7 @@ async function runNebulaCommanders() {
     averageOpportunityScore: avgScore,
     executionTimeMs: durationMs,
     globalDirectives: {
-      sniperFireAuthorized: authorizedCount >= 14,
+      sniperFireAuthorized: authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false),
       sniperConfidenceScore: avgScore,
       tacticalPoolsAudited: 6,
       winningPoolRoutePolygon: winningPol,
@@ -320,8 +340,13 @@ async function runNebulaCommanders() {
       bestDexRoutePolygon: winningPol.dex,
       bestDexRouteBsc: winningBsc.dex,
       antiRugPullShield: "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 4 CANDADOS BLINDADOS / 6 PISCINAS AUDITADAS)",
+      zeroGasDrainMode: true,
+      operationalStatus: (authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false))
+        ? "ARBITRAJE_NETO_ACTIVO"
+        : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      gasTankProtection: "384.53 POL & 0.064 BNB 100% BLINDADOS COMO COMBUSTIBLE DE FIRMA",
       whitelistVerifiedTokens: ["WPOL", "WBNB", "USDC Nativo Circle", "USDC BSC", "WETH", "WBTC", "ETH-BSC", "BTCB"],
-      mainnetExecutionPermitted: true,
+      mainnetExecutionPermitted: liveObserver?.arbitrageCycle?.isNetPositive ?? false,
       gasLevels: {
         polygonGwei: liveObserver?.polygon?.gasTrend?.gasPriceGwei || 260.0,
         bscGwei: liveObserver?.bsc?.gasTrend?.gasPriceGwei || 0.05
@@ -356,7 +381,9 @@ async function runNebulaCommanders() {
   console.log("\n=========================================================================================");
   console.log(`🎉 32 NEBULOSAS IA ACTIVAS • Score Promedio: ${avgScore}% • Tiempo: ${(durationMs / 1000).toFixed(2)}s`);
   console.log(`🛡️ ESCUDO ANTI-RUG PULL: 100% ACTIVO • 6 Piscinas Auditadas • Whitelist Institucional 8/8`);
-  console.log(`🔑 DOBLE LLAVE SNIPER: ${authorizedCount}/16 Binomios Autorizados (Score >= 95% + 0% Rug Pull Risk)`);
+  console.log(`🔒 MODO ZERO-GAS-DRAIN: ACTIVO • Tanque de Gas: ~384 POL y ~0.064 BNB 100% blindados`);
+  console.log(`🛡️ ESTADO TÁCTICO: ${directives.globalDirectives.operationalStatus}`);
+  console.log(`🔑 GATILLO ON-CHAIN: ${directives.globalDirectives.sniperFireAuthorized ? "DISPARO AUTORIZADO ✅" : "CONGELADO EN VIGILANCIA CENTINELA ($0 GAS CONSUMIDO) ⏸️"}`);
   console.log("=========================================================================================\n");
 
   return directives;

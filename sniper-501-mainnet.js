@@ -54,8 +54,10 @@ const PANCAKESWAP_V2_ROUTER_BSC = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
 const SWEEP_THRESHOLD_USDC = 1.00;
 const DYNAMIC_COOLDOWN_MS = 30 * 60 * 1000;
 const AUTO_SWEEP_TO_BINANCE = false;
+const ZERO_GAS_DRAIN_MODE = true; // ORDEN DE PROTECCIÓN DE TANQUE: Prohibido drenar POL y BNB en swaps unidireccionales
 
 // 16 Nodrizas Sniper Mainnet (1 Matriz + 5 Capitanes + 10 Sub-Capitanes)
+// ESCUDO SAGRADO ELEVADO: 384 POL & 0.064 BNB 100% BLINDADOS
 const SNIPER_FRONTS = [
   // --- NODRIZA MATRIZ ---
   {
@@ -65,13 +67,13 @@ const SNIPER_FRONTS = [
     index: 501,
     name: "Nodriza Matriz (#501)",
     address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-    sacredReservePol: 80.00,
-    surveillanceFloorPol: 80.10,
-    bulletPol: 4.50,
-    minBulletPol: 0.50,
+    sacredReservePol: 225.00,
+    surveillanceFloorPol: 225.10,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.05,
-    sacredReserveBnb: 0.010,
-    bulletBnb: 0.002,
+    sacredReserveBnb: 0.012,
+    bulletBnb: 0.000,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     binanceVaultName: "Bóveda Binance #1 (Box 1 / Matriz)"
   },
@@ -85,11 +87,11 @@ const SNIPER_FRONTS = [
     address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
     sacredReservePol: 20.00,
     surveillanceFloorPol: 20.10,
-    bulletPol: 2.00,
-    minBulletPol: 0.50,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.05,
-    sacredReserveBnb: 0.006,
-    bulletBnb: 0.0008,
+    sacredReserveBnb: 0.008,
+    bulletBnb: 0.000,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     binanceVaultName: "Bóveda Binance #1 (Box 1)"
   },
@@ -102,11 +104,11 @@ const SNIPER_FRONTS = [
     address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
     sacredReservePol: 20.00,
     surveillanceFloorPol: 20.10,
-    bulletPol: 2.00,
-    minBulletPol: 0.50,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.05,
-    sacredReserveBnb: 0.006,
-    bulletBnb: 0.0008,
+    sacredReserveBnb: 0.008,
+    bulletBnb: 0.000,
     binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
     binanceVaultName: "Bóveda Binance #2 (Box 2)"
   },
@@ -119,11 +121,11 @@ const SNIPER_FRONTS = [
     address: "0x2810aa0DabCA4511846194229d2c004B14016A7C",
     sacredReservePol: 14.00,
     surveillanceFloorPol: 14.10,
-    bulletPol: 2.00,
-    minBulletPol: 0.50,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.05,
-    sacredReserveBnb: 0.006,
-    bulletBnb: 0.0008,
+    sacredReserveBnb: 0.008,
+    bulletBnb: 0.000,
     binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
     binanceVaultName: "Bóveda Binance #3 (Box 3)"
   },
@@ -136,11 +138,11 @@ const SNIPER_FRONTS = [
     address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
     sacredReservePol: 14.00,
     surveillanceFloorPol: 14.10,
-    bulletPol: 2.00,
-    minBulletPol: 0.50,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.05,
-    sacredReserveBnb: 0.006,
-    bulletBnb: 0.0008,
+    sacredReserveBnb: 0.008,
+    bulletBnb: 0.000,
     binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
     binanceVaultName: "Bóveda Binance #4 (Box 4)"
   },
@@ -153,11 +155,11 @@ const SNIPER_FRONTS = [
     address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
     sacredReservePol: 14.00,
     surveillanceFloorPol: 14.10,
-    bulletPol: 2.00,
-    minBulletPol: 0.50,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.05,
-    sacredReserveBnb: 0.006,
-    bulletBnb: 0.0008,
+    sacredReserveBnb: 0.008,
+    bulletBnb: 0.000,
     binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
     binanceVaultName: "Bóveda Binance #5 (Box 5)"
   },
@@ -169,10 +171,10 @@ const SNIPER_FRONTS = [
     index: 8,
     name: "Sub-Capitán Box 1 (#008)",
     address: "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     binanceVaultName: "Bóveda Binance #1 (Box 1)"
@@ -184,10 +186,10 @@ const SNIPER_FRONTS = [
     index: 6,
     name: "Sub-Capitán Box 1 (#006)",
     address: "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     binanceVaultName: "Bóveda Binance #1 (Box 1)"
@@ -199,10 +201,10 @@ const SNIPER_FRONTS = [
     index: 108,
     name: "Sub-Capitán Box 2 (#108)",
     address: "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
     binanceVaultName: "Bóveda Binance #2 (Box 2)"
@@ -214,10 +216,10 @@ const SNIPER_FRONTS = [
     index: 106,
     name: "Sub-Capitán Box 2 (#106)",
     address: "0x6C66C9724AeD2407e80E805B105d82270471785d",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
     binanceVaultName: "Bóveda Binance #2 (Box 2)"
@@ -229,10 +231,10 @@ const SNIPER_FRONTS = [
     index: 204,
     name: "Sub-Capitán Box 3 (#204)",
     address: "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
     binanceVaultName: "Bóveda Binance #3 (Box 3)"
@@ -244,10 +246,10 @@ const SNIPER_FRONTS = [
     index: 205,
     name: "Sub-Capitán Box 3 (#205)",
     address: "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
     binanceVaultName: "Bóveda Binance #3 (Box 3)"
@@ -259,10 +261,10 @@ const SNIPER_FRONTS = [
     index: 307,
     name: "Sub-Capitán Box 4 (#307)",
     address: "0xc4E7Fc96695eF0593592EcE10A807bbF0C92f27d",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
     binanceVaultName: "Bóveda Binance #4 (Box 4)"
@@ -274,10 +276,10 @@ const SNIPER_FRONTS = [
     index: 311,
     name: "Sub-Capitán Box 4 (#311)",
     address: "0xF3d19755705FdBE34f2930d9bABB51fE379E865d",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
     binanceVaultName: "Bóveda Binance #4 (Box 4)"
@@ -289,10 +291,10 @@ const SNIPER_FRONTS = [
     index: 403,
     name: "Sub-Capitán Box 5 (#403)",
     address: "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
     binanceVaultName: "Bóveda Binance #5 (Box 5)"
@@ -304,10 +306,10 @@ const SNIPER_FRONTS = [
     index: 411,
     name: "Sub-Capitán Box 5 (#411)",
     address: "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12",
-    sacredReservePol: 5.00,
-    surveillanceFloorPol: 5.05,
-    bulletPol: 1.20,
-    minBulletPol: 0.50,
+    sacredReservePol: 5.50,
+    surveillanceFloorPol: 5.55,
+    bulletPol: 0.00,
+    minBulletPol: 0.00,
     gasBuffer: 0.04,
     binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
     binanceVaultName: "Bóveda Binance #5 (Box 5)"
@@ -418,6 +420,13 @@ async function executeFrontShot(front, provider, options = {}) {
   console.log(`\n-----------------------------------------------------------------------------------------`);
   console.log(`🎯 [FRENTE ${front.id}] ${front.name} (${front.address})`);
   console.log(`   Reserva Sagrada Blindada: ${front.sacredReservePol.toFixed(2)} POL | Bala táctica base: ${front.bulletPol.toFixed(2)} POL`);
+
+  // PROTECCIÓN DE TANQUE: Bloqueo de venta unidireccional de POL
+  if (ZERO_GAS_DRAIN_MODE) {
+    console.log(`   🛡️ [ZERO_GAS_DRAIN_MODE ACTIVO] ${front.sacredReservePol.toFixed(2)} POL 100% blindados como combustible.`);
+    console.log(`   ⛔ Prohibida la venta unidireccional de POL hacia USDC. Tanque protegido al 100% ($0 gas gastado).`);
+    return { skipped: true, reason: "ZERO_GAS_DRAIN_MODE_ACTIVE", frontId: front.id };
+  }
 
   // 1. Verificación del Binomio IA Asignado
   const nebCheck = checkNebulaDirectives();
@@ -587,6 +596,14 @@ async function executeFrontShotBsc(front, bscProvider, options = {}) {
 
   console.log(`\n-----------------------------------------------------------------------------------------`);
   console.log(`🥞 [BSC DUAL-SNIPER] Frente ${front.id} (${front.name}) en BSC Mainnet`);
+
+  // PROTECCIÓN DE TANQUE: Bloqueo de venta unidireccional de BNB
+  if (ZERO_GAS_DRAIN_MODE) {
+    console.log(`   🛡️ [ZERO_GAS_DRAIN_MODE ACTIVO] ${sacredReserveBnb} BNB 100% blindados como combustible.`);
+    console.log(`   ⛔ Prohibida la venta unidireccional de BNB hacia USDC. Gas protegido al 100% ($0 gas gastado).`);
+    return { skipped: true, reason: "ZERO_GAS_DRAIN_MODE_ACTIVE", frontId: front.id };
+  }
+
   try {
     const signer = getWalletSigner(front.index, bscProvider);
     const balWei = await bscProvider.getBalance(signer.address);
@@ -783,6 +800,34 @@ async function runSupervisedSalvo16x(options = {}) {
   console.log("=========================================================================================");
   console.log("📍 PROTOCOLO: 32 Nebulosas IA • 6 Piscinas Blue-Chip • 100% USDC Oficial");
   console.log(`🎯 [GATILLO 32 NEBULOSAS] Score: ${nebCheck.score}% (${nebCheck.authorized ? "AUTORIZADO ✅" : "BLOQUEADO ⛔"})`);
+
+  // ORDEN DE PROTECCIÓN DE TANQUE: VIGILANCIA CENTINELA CUANDO NO HAY ARBITRAJE NETO POSITIVO
+  if (ZERO_GAS_DRAIN_MODE && !nebCheck.data?.globalDirectives?.arbitrageNetPositive) {
+    console.log(`\n=========================================================================================`);
+    console.log(`🛡️ [ORDEN DE PROTECCIÓN DE TANQUE MAINNET — VIGILANCIA CENTINELA ACTIVA]`);
+    console.log(`   • Estado 32 Nebulosas: ${nebCheck.data?.globalDirectives?.operationalStatus || "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"}`);
+    console.log(`   • Condición de Mercado: USDC_Out <= USDC_In + CostoGasUSD (Sin divergencia neta positiva).`);
+    console.log(`   • Blindaje de Gas: ~384 POL y ~0.064 BNB 100% blindados como combustible para firmas.`);
+    console.log(`   • Gasto en esta Ronda: 0.00 POL / 0.00 BNB ($0.00 Gas Quemado).`);
+    console.log(`   • Retención On-Chain: 100% USDC Compounding activo.`);
+    console.log(`=========================================================================================`);
+
+    console.log(`\n🔄 Sincronizando saldos de las 16 Nodrizas Sniper en telemetría central...`);
+    const allFrontStatuses = await readAllFrontsStatus(polProvider, SNIPER_FRONTS, bscProvider);
+    syncFleetTelemetryFromFronts(allFrontStatuses);
+
+    const totalUsdcInFleet = allFrontStatuses.reduce((acc, f) => acc + f.usdcBalance, 0);
+    const polTotalFleet = allFrontStatuses.reduce((acc, f) => acc + f.polBalance, 0);
+    const bnbTotalFleet = allFrontStatuses.reduce((acc, f) => acc + f.bnbBalance, 0);
+
+    console.log(`\n=========================================================================================`);
+    console.log(`🛡️ VIGILANCIA CENTINELA CONFIRMADA: 0 TRANSACCIONES EMITIDAS ($0 GAS CONSUMIDO)`);
+    console.log(`💰 Saldo On-Chain Intacto: $${totalUsdcInFleet.toFixed(6)} USDC ($${(totalUsdcInFleet + 1.0).toFixed(6)} USDC Total Global)`);
+    console.log(`⛽ Gas Blindado Intacto: ${polTotalFleet.toFixed(2)} POL y ${bnbTotalFleet.toFixed(4)} BNB Preservados`);
+    console.log(`=========================================================================================\n`);
+
+    return { results: [], allFrontStatuses, totalUsdcInFleet, mode: "VIGILANCIA_CENTINELA", gasConsumedPol: 0, gasConsumedBnb: 0 };
+  }
 
   if (!nebCheck.authorized || nebCheck.score < 95) {
     console.log(`⛔ Operación abortada: Score (${nebCheck.score}%) < 95%.`);

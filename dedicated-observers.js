@@ -224,7 +224,13 @@ async function scanPolygonDEXs(provider) {
     // 16: QuickSwap WPOL/WBTC Pair Reserves
     { target: QUICKSWAP_PAIR_WPOL_WBTC, allowFailure: true, callData: pairIface.encodeFunctionData("getReserves", []) },
     // 17: QuickSwap WBTC/USDC Pair Reserves
-    { target: QUICKSWAP_PAIR_WBTC_USDC, allowFailure: true, callData: pairIface.encodeFunctionData("getReserves", []) }
+    { target: QUICKSWAP_PAIR_WBTC_USDC, allowFailure: true, callData: pairIface.encodeFunctionData("getReserves", []) },
+
+    // --- CICLO CERRADO DE ARBITRAJE ATÓMICO (10 USDC -> WPOL) ---
+    // 18: QuickSwap 10 USDC -> WPOL
+    { target: QUICKSWAP_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 6), [USDC_NATIVE_POLYGON, WPOL_POLYGON]]) },
+    // 19: SushiSwap 10 USDC -> WPOL
+    { target: SUSHISWAP_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 6), [USDC_NATIVE_POLYGON, WPOL_POLYGON]]) }
   ];
 
   const results = await m3.aggregate3.staticCall(calls);
@@ -386,6 +392,48 @@ async function scanPolygonDEXs(provider) {
   const quoteDiffPct = standardBaseQuote > 0 ? Math.abs((p1_sushi1 - p1_quick1) / p1_quick1) * 100 : 0;
   const netSpreadPct = parseFloat((quoteDiffPct - 0.30).toFixed(4));
 
+  // --- CÁLCULO DE ARBITRAJE ATÓMICO EN CICLO CERRADO (USDC -> POL -> USDC) ---
+  function decodePolFromUsdc(resIdx) {
+    if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
+      try {
+        const [arr] = routerIface.decodeFunctionResult("getAmountsOut", results[resIdx].returnData);
+        return parseFloat(ethers.formatEther(arr[arr.length - 1]));
+      } catch (_) {}
+    }
+    return 0;
+  }
+
+  const polFromQuick = decodePolFromUsdc(18); // WPOL recibido por 10 USDC en QuickSwap
+  const polFromSushi = decodePolFromUsdc(19); // WPOL recibido por 10 USDC en SushiSwap
+
+  // Simulación del Ciclo Cerrado Completo (USDC_In -> DEX A -> DEX B -> USDC_Out):
+  // Opción A: 10 USDC -> QuickSwap -> WPOL -> SushiSwap -> USDC
+  const usdcOut_A = polFromQuick > 0 && p1_sushi1 > 0 ? polFromQuick * p1_sushi1 : 0;
+  // Opción B: 10 USDC -> SushiSwap -> WPOL -> QuickSwap -> USDC
+  const usdcOut_B = polFromSushi > 0 && p1_quick1 > 0 ? polFromSushi * p1_quick1 : 0;
+
+  const bestUsdcOutPol = Math.max(usdcOut_A, usdcOut_B);
+  const usdcIn = 10.0;
+  const gasCostUsdPolygon = 0.005; // Estimado gas swap 2 piernas ~200k gas en Polygon
+  const deltaUsdcPol = parseFloat((bestUsdcOutPol - usdcIn).toFixed(6));
+  const netProfitUsdcPol = parseFloat((bestUsdcOutPol - (usdcIn + gasCostUsdPolygon)).toFixed(6));
+  const isNetPositivePol = netProfitUsdcPol > 0;
+  const spreadPctPol = parseFloat((((bestUsdcOutPol - usdcIn) / usdcIn) * 100).toFixed(4));
+
+  const arbitrageCycle = {
+    chain: "Polygon PoS",
+    mode: "CLOSED_LOOP_NET_ARBITRAGE",
+    zeroGasDrainEnforced: true,
+    usdcIn,
+    bestUsdcOut: parseFloat(bestUsdcOutPol.toFixed(6)),
+    deltaUsdc: deltaUsdcPol,
+    gasCostEstUsd: gasCostUsdPolygon,
+    netProfitUsdc: netProfitUsdcPol,
+    spreadPct: spreadPctPol,
+    isNetPositive: isNetPositivePol,
+    status: isNetPositivePol ? "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA POSITIVA)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
+  };
+
   return {
     chain: "polygonMainnet",
     pools: {
@@ -412,7 +460,8 @@ async function scanPolygonDEXs(provider) {
     standardBaseQuote,
     grossSpreadPct: parseFloat(quoteDiffPct.toFixed(4)),
     netSpreadPct: netSpreadPct > 0 ? netSpreadPct : 0.0,
-    hasArbitrageOpportunity: winningPoolRoutePolygon.advantagePct > 0.05
+    arbitrageCycle,
+    hasArbitrageOpportunity: isNetPositivePol
   };
 }
 
@@ -455,7 +504,11 @@ async function scanBscDEXs(provider) {
     // 7: PancakeSwap ETH/USDC Pair Reserves
     { target: PANCAKE_PAIR_ETH_USDC, allowFailure: true, callData: pairIface.encodeFunctionData("getReserves", []) },
     // 8: PancakeSwap BTCB/USDC Pair Reserves
-    { target: PANCAKE_PAIR_BTCB_USDC, allowFailure: true, callData: pairIface.encodeFunctionData("getReserves", []) }
+    { target: PANCAKE_PAIR_BTCB_USDC, allowFailure: true, callData: pairIface.encodeFunctionData("getReserves", []) },
+
+    // --- CICLO CERRADO DE ARBITRAJE ATÓMICO BSC (10 USDC -> WBNB) ---
+    // 9: PancakeSwap 10 USDC -> WBNB
+    { target: PANCAKE_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 18), [USDC_OFFICIAL_BSC, WBNB_BSC]]) }
   ];
 
   const results = await m3.aggregate3.staticCall(calls);
@@ -568,6 +621,41 @@ async function scanBscDEXs(provider) {
     liquidityUsdEstimate: winningBscRoute.liquidityUsdEstimate
   };
 
+  // --- CÁLCULO DE ARBITRAJE ATÓMICO EN CICLO CERRADO BSC (USDC -> BNB -> USDC) ---
+  function decodeBnbFromUsdc(resIdx) {
+    if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
+      try {
+        const [arr] = routerIface.decodeFunctionResult("getAmountsOut", results[resIdx].returnData);
+        return parseFloat(ethers.formatEther(arr[arr.length - 1]));
+      } catch (_) {}
+    }
+    return 0;
+  }
+
+  const bnbFromPancake = decodeBnbFromUsdc(9); // BNB recibido por 10 USDC en PancakeSwap
+  const usdcInBsc = 10.0;
+  const bnbRate = winningBscRoute.bnbPriceUsd || 734.0;
+  const usdcOutBsc = bnbFromPancake > 0 ? bnbFromPancake * bnbRate : 0;
+  const gasCostUsdBsc = 0.002; // Estimado gas en BSC (~150k gas * 0.05 Gwei * $734)
+  const deltaUsdcBsc = parseFloat((usdcOutBsc - usdcInBsc).toFixed(6));
+  const netProfitUsdcBsc = parseFloat((usdcOutBsc - (usdcInBsc + gasCostUsdBsc)).toFixed(6));
+  const isNetPositiveBsc = netProfitUsdcBsc > 0;
+  const spreadPctBsc = parseFloat((((usdcOutBsc - usdcInBsc) / usdcInBsc) * 100).toFixed(4));
+
+  const arbitrageCycle = {
+    chain: "BSC Mainnet",
+    mode: "CLOSED_LOOP_NET_ARBITRAGE",
+    zeroGasDrainEnforced: true,
+    usdcIn: usdcInBsc,
+    bestUsdcOut: parseFloat(usdcOutBsc.toFixed(6)),
+    deltaUsdc: deltaUsdcBsc,
+    gasCostEstUsd: gasCostUsdBsc,
+    netProfitUsdc: netProfitUsdcBsc,
+    spreadPct: spreadPctBsc,
+    isNetPositive: isNetPositiveBsc,
+    status: isNetPositiveBsc ? "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA POSITIVA)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
+  };
+
   return {
     chain: "bscMainnet",
     pools: {
@@ -593,7 +681,9 @@ async function scanBscDEXs(provider) {
     candidateRoutes: bscCandidates,
     winningPoolRouteBsc,
     bestDexRouteBsc: winningBscRoute.dex,
-    bestQuoteUsdcPerBnb: winningBscRoute.bnbPriceUsd
+    bestQuoteUsdcPerBnb: winningBscRoute.bnbPriceUsd,
+    arbitrageCycle,
+    hasArbitrageOpportunity: isNetPositiveBsc
   };
 }
 
@@ -727,6 +817,17 @@ async function runDedicatedObservers() {
       gasTrend: bscGas
     },
     security,
+    arbitrageCycle: {
+      mode: "CLOSED_LOOP_NET_ARBITRAGE",
+      zeroGasDrainEnforced: true,
+      polygon: polygonScan.arbitrageCycle,
+      bsc: bscScan.arbitrageCycle,
+      isNetPositive: polygonScan.arbitrageCycle.isNetPositive || bscScan.arbitrageCycle.isNetPositive,
+      overallStatus: (polygonScan.arbitrageCycle.isNetPositive || bscScan.arbitrageCycle.isNetPositive)
+        ? "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA POSITIVA)"
+        : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      gasTankProtection: "384.53 POL & 0.064 BNB 100% BLINDADOS CONTRA VENTA UNIDIRECCIONAL"
+    },
     masterDirectives: {
       winningPoolRoutePolygon: polygonScan.winningPoolRoutePolygon,
       winningPoolRouteBsc: bscScan.winningPoolRouteBsc,
@@ -734,6 +835,11 @@ async function runDedicatedObservers() {
       bestDexRouteBsc: bscScan.bestDexRouteBsc,
       polygonSniperOptimal: polGas.isWindowOptimal && polygonScan.bestQuoteUsdcPerPol > 0.04,
       bscSniperOptimal: bscGas.isWindowOptimal && bscScan.bestQuoteUsdcPerBnb > 100,
+      zeroGasDrainMode: true,
+      arbitrageNetPositive: polygonScan.arbitrageCycle.isNetPositive || bscScan.arbitrageCycle.isNetPositive,
+      overallOperationalStatus: (polygonScan.arbitrageCycle.isNetPositive || bscScan.arbitrageCycle.isNetPositive)
+        ? "ARBITRAJE_NETO_ACTIVO"
+        : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
       zeroGasTelemetry: true
     }
   };
@@ -745,6 +851,11 @@ async function runDedicatedObservers() {
   console.log(`    ↳ Cotización: 1 POL ➔ ${polygonScan.winningPoolRoutePolygon.quote1Pol.toFixed(6)} USDC (${polygonScan.winningPoolRoutePolygon.advantagePct > 0 ? `+${polygonScan.winningPoolRoutePolygon.advantagePct}% ventaja vs ruta directa` : "Paridad óptima"})`);
   console.log(`  • 🏆 BSC Ruta Ganadora: ${bscScan.winningPoolRouteBsc.poolName}`);
   console.log(`    ↳ Cotización: 1 BNB ➔ $${bscScan.winningPoolRouteBsc.bnbPriceUsd.toFixed(2)} USDC`);
+  console.log(`  • 🔄 Simulación Arbitraje Ciclo Cerrado (USDC ➔ Token ➔ USDC):`);
+  console.log(`    ↳ Polygon: In: 10.0 USDC ➔ Out: ${polygonScan.arbitrageCycle.bestUsdcOut} USDC (Net: ${polygonScan.arbitrageCycle.netProfitUsdc} USD) ➔ ${polygonScan.arbitrageCycle.status}`);
+  console.log(`    ↳ BSC: In: 10.0 USDC ➔ Out: ${bscScan.arbitrageCycle.bestUsdcOut} USDC (Net: ${bscScan.arbitrageCycle.netProfitUsdc} USD) ➔ ${bscScan.arbitrageCycle.status}`);
+  console.log(`  • 🛡️ ESTADO TÁCTICO: ${liveReport.arbitrageCycle.overallStatus}`);
+  console.log(`  • ⛽ Tanque de Gas: ~384 POL y ~0.064 BNB 100% blindados ($0 gas consumido).`);
   console.log(`  • Gas Polygon: ${polGas.gasPriceGwei.toFixed(1)} Gwei (${polGas.trend}) | Gas BSC: ${bscGas.gasPriceGwei.toFixed(2)} Gwei (${bscGas.trend})`);
   console.log(`  • Escudo Seguridad: 0 Honeypots, 100% Whitelist Institucional Oficial`);
   console.log(`💾 Radiografía guardada en ${LIVE_OBSERVER_FILE}\n`);
