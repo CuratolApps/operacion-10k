@@ -584,7 +584,12 @@ async function generateUnifiedTelemetry() {
       totalOnChainTxLastCycle: totalOnChainTx,
       executionMode: lastRun.executionMode || "PRODUCCION",
       goldenRuleStatus: "CUMPLIMIENTO_ESTRICTO_100%",
-      isolationProtocol: "INTRA_BLOQUE_ESTANCO_B1_B5"
+      isolationProtocol: "INTRA_BLOQUE_ESTANCO_B1_B5",
+      badges: [
+        "🔒 Trinquete 85% USDC",
+        "⛽ Capitalizador 75/25 Gas Activo",
+        "🛡️ 5º Candado Anti-MEV <= 0.15%"
+      ]
     },
     radarData: {
       totalSepoliaEth,
@@ -762,7 +767,17 @@ async function generateUnifiedTelemetry() {
     binomialSquad: existingTelemetry.binomialSquad || [],
     highWaterMarkRatchet: readJsonSafe(path.join(TELEMETRY_DIR, "profit-lock-ratchet.json")) || existingTelemetry.highWaterMarkRatchet,
     omniSniperRadar: readJsonSafe(path.join(TELEMETRY_DIR, "omni-sniper-radar.json")),
-    securityForensic: readJsonSafe(path.join(TELEMETRY_DIR, "forensic-audit.json"))
+    securityForensic: readJsonSafe(path.join(TELEMETRY_DIR, "forensic-audit.json")),
+    dualCapitalizer: readJsonSafe(path.join(TELEMETRY_DIR, "dual-capitalizer.json")) || {
+      status: "ACTIVE_COMPOUNDING",
+      badges: ["🔒 Trinquete 85% USDC", "⛽ Capitalizador 75/25 Gas Activo", "🛡️ 5º Candado Anti-MEV <= 0.15%"],
+      ratchet85: { model: "USDC_RATCHET_85", ratio: 0.85 }
+    },
+    badges: [
+      "🔒 Trinquete 85% USDC",
+      "⛽ Capitalizador 75/25 Gas Activo",
+      "🛡️ 5º Candado Anti-MEV <= 0.15%"
+    ]
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(payload, null, 2), "utf8");

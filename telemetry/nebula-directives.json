@@ -1,18 +1,18 @@
 {
   "schemaVersion": "5.0.0",
-  "generatedAt": "2026-10-22T09:41:03.146Z",
+  "generatedAt": "2026-10-22T09:50:25.253Z",
   "totalNebulas": 32,
   "activeBinomials": 16,
-  "authorizedBinomialsCount": 6,
-  "averageOpportunityScore": 99,
-  "executionTimeMs": 813,
+  "authorizedBinomialsCount": 0,
+  "averageOpportunityScore": 98,
+  "executionTimeMs": 1008,
   "highWaterMarkRatchet": {
-    "highWaterMarkUsdc": 24.871526,
-    "lockedFloorUsdc": 19.897221,
-    "floatingUsdc": 4.974305,
+    "highWaterMarkUsdc": 32.534233,
+    "lockedFloorUsdc": 26.027386,
+    "floatingUsdc": 6.506847,
     "ratchetRatio": 0.8,
-    "lastUpdate": "2026-10-22T09:29:07.212Z",
-    "currentOnChainUsdc": 24.871526,
+    "lastUpdate": "2026-10-22T09:45:05.118Z",
+    "currentOnChainUsdc": 32.534233,
     "floorProtected": true
   },
   "omniSniperModels": [
@@ -102,11 +102,11 @@
   ],
   "globalDirectives": {
     "sniperFireAuthorized": false,
-    "sniperConfidenceScore": 99,
+    "sniperConfidenceScore": 98,
     "tacticalPoolsAudited": 6,
     "omniSniper5ModelsActive": true,
-    "highWaterMarkLockedFloorUsdc": 19.897221,
-    "floatingUsdcCap": 4.974305,
+    "highWaterMarkLockedFloorUsdc": 26.027386,
+    "floatingUsdcCap": 6.506847,
     "winningPoolRoutePolygon": {
       "poolId": "pool-univ3-005",
       "poolName": "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
@@ -119,12 +119,12 @@
         "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
       ],
-      "quote1Pol": 0.090806,
-      "quote10Pol": 0.908062,
-      "baseQuote1Pol": 0.090471,
-      "extraUsdcPerPol": 0.000335,
-      "extraUsdcMicroCents": 3.35,
-      "advantagePct": 0.3703,
+      "quote1Pol": 0.091109,
+      "quote10Pol": 0.911095,
+      "baseQuote1Pol": 0.090732,
+      "extraUsdcPerPol": 0.000377,
+      "extraUsdcMicroCents": 3.77,
+      "advantagePct": 0.4155,
       "liquidityUsdEstimate": 48000000
     },
     "winningPoolRouteBsc": {
@@ -137,18 +137,18 @@
         "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
       ],
-      "quote001Bnb": 0.7309852229054294,
-      "quote01Bnb": 7.309532027896111,
-      "bnbPriceUsd": 730.99,
-      "baseQuote001Bnb": 0.7309852229054294,
+      "quote001Bnb": 0.7321349767805726,
+      "quote01Bnb": 7.3210288121436955,
+      "bnbPriceUsd": 732.13,
+      "baseQuote001Bnb": 0.7321349767805726,
       "extraUsdcPer001Bnb": 0,
       "extraUsdcMicroCents": 0,
       "advantagePct": 0,
-      "liquidityUsdEstimate": 409.8736228941624
+      "liquidityUsdEstimate": 409.5532422883539
     },
     "bestDexRoutePolygon": "uniswap_v3",
     "bestDexRouteBsc": "pancakeswap_v2",
-    "antiRugPullShield": "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 4 CANDADOS BLINDADOS / 5 MODELOS AUDITADOS)",
+    "antiRugPullShield": "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 5 CANDADOS BLINDADOS INC. ANTI-MEV / 5 MODELOS AUDITADOS)",
     "zeroGasDrainMode": true,
     "surpriseStrikeActive": false,
     "operationalStatus": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
@@ -165,7 +165,7 @@
     ],
     "mainnetExecutionPermitted": false,
     "gasLevels": {
-      "polygonGwei": 264.188124906,
+      "polygonGwei": 239.078513547,
       "bscGwei": 0.05
     },
     "autoSweepToBinance": false,
@@ -200,10 +200,10 @@
         "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#501",
-        "opportunityScore": 100,
+        "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "AUTHORIZED",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🦅 OPERACIÓN 12K ROTACIÓN DE PISCINA AUTORIZADA (Score: 100%). Piscina Ganadora Certificada: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.090806 USDC/POL). Asignación desde excedente libre: 36.00 POL ➔ USDC Nativo Circle. Nuevo Piso Sagrado Blindado: 130.00 POL (>270 POL blindados en flota). Reserva BNB: 0.0090 BNB intocable.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -219,12 +219,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -237,14 +237,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -253,10 +253,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -264,7 +263,7 @@
         "id": "NEBULA-02",
         "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#501)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #501",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #501",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#501",
         "opportunityScore": 100,
@@ -272,13 +271,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #501 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #501 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#501",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -297,12 +300,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -315,18 +318,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
-      "doubleKeyAuthorized": true,
-      "status": "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)"
+      "doubleKeyAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 2,
@@ -355,10 +358,10 @@
         "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#001",
-        "opportunityScore": 100,
+        "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "AUTHORIZED",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (20 POL congelados sin tocar 1 wei).",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -374,12 +377,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -392,14 +395,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -408,10 +411,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -419,7 +421,7 @@
         "id": "NEBULA-04",
         "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#001)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #001",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #001",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#001",
         "opportunityScore": 100,
@@ -427,13 +429,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #001 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #001 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#001",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -452,12 +458,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -470,18 +476,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
-      "doubleKeyAuthorized": true,
-      "status": "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)"
+      "doubleKeyAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 3,
@@ -510,10 +516,10 @@
         "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#101",
-        "opportunityScore": 100,
+        "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "AUTHORIZED",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (20 POL congelados sin tocar 1 wei).",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -529,12 +535,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -547,14 +553,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -563,10 +569,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -574,7 +579,7 @@
         "id": "NEBULA-06",
         "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#101)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #101",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #101",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#101",
         "opportunityScore": 100,
@@ -582,13 +587,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #101 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #101 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#101",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -607,12 +616,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -625,18 +634,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
-      "doubleKeyAuthorized": true,
-      "status": "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)"
+      "doubleKeyAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 4,
@@ -665,10 +674,10 @@
         "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#201",
-        "opportunityScore": 100,
+        "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "AUTHORIZED",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (14 POL congelados sin tocar 1 wei).",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -684,12 +693,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -702,14 +711,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -718,10 +727,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -729,7 +737,7 @@
         "id": "NEBULA-08",
         "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#201)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #201",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #201",
         "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
         "assignedMothership": "#201",
         "opportunityScore": 100,
@@ -737,13 +745,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #201 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #201 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#201",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -762,12 +774,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -780,18 +792,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
-      "doubleKeyAuthorized": true,
-      "status": "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)"
+      "doubleKeyAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 5,
@@ -820,10 +832,10 @@
         "specialty": "🎮 Modelo 2 (Metaverso, GameFi & Floor/Bid Flipping)",
         "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
         "assignedMothership": "#301",
-        "opportunityScore": 100,
+        "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "AUTHORIZED",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (14 POL congelados sin tocar 1 wei).",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -839,12 +851,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -857,14 +869,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -873,10 +885,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -884,7 +895,7 @@
         "id": "NEBULA-10",
         "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#301)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #301",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #301",
         "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
         "assignedMothership": "#301",
         "opportunityScore": 100,
@@ -892,13 +903,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #301 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #301 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#301",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -917,12 +932,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -935,18 +950,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
-      "doubleKeyAuthorized": true,
-      "status": "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)"
+      "doubleKeyAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 6,
@@ -975,10 +990,10 @@
         "specialty": "🎮 Modelo 2 (Metaverso, GameFi & Floor/Bid Flipping)",
         "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
         "assignedMothership": "#401",
-        "opportunityScore": 100,
+        "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "AUTHORIZED",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (14 POL congelados sin tocar 1 wei).",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -994,12 +1009,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1012,14 +1027,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -1028,10 +1043,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -1039,7 +1053,7 @@
         "id": "NEBULA-12",
         "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#401)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #401",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #401",
         "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
         "assignedMothership": "#401",
         "opportunityScore": 100,
@@ -1047,13 +1061,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #401 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #401 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#401",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -1072,12 +1090,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1090,18 +1108,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
-      "doubleKeyAuthorized": true,
-      "status": "🟢 AMBAS NEBULOSAS AUTORIZAN (>=95%)"
+      "doubleKeyAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 7,
@@ -1132,8 +1150,8 @@
         "assignedMothership": "#008",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1149,12 +1167,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1167,14 +1185,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -1183,10 +1201,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -1194,7 +1211,7 @@
         "id": "NEBULA-14",
         "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#008)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #008",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #008",
         "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
         "assignedMothership": "#008",
         "opportunityScore": 100,
@@ -1202,13 +1219,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #008 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #008 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#008",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -1227,12 +1248,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1245,18 +1266,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 8,
@@ -1287,8 +1308,8 @@
         "assignedMothership": "#006",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1304,12 +1325,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1322,14 +1343,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -1338,10 +1359,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -1349,7 +1369,7 @@
         "id": "NEBULA-16",
         "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#006)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #006",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #006",
         "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
         "assignedMothership": "#006",
         "opportunityScore": 100,
@@ -1357,13 +1377,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #006 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #006 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#006",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -1382,12 +1406,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1400,18 +1424,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 9,
@@ -1442,8 +1466,8 @@
         "assignedMothership": "#108",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1459,12 +1483,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1477,14 +1501,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -1493,10 +1517,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -1504,7 +1527,7 @@
         "id": "NEBULA-18",
         "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#108)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #108",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #108",
         "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
         "assignedMothership": "#108",
         "opportunityScore": 100,
@@ -1512,13 +1535,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #108 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #108 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#108",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -1537,12 +1564,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1555,18 +1582,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 10,
@@ -1597,8 +1624,8 @@
         "assignedMothership": "#106",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1614,12 +1641,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1632,14 +1659,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -1648,10 +1675,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -1659,7 +1685,7 @@
         "id": "NEBULA-20",
         "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#106)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #106",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #106",
         "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
         "assignedMothership": "#106",
         "opportunityScore": 100,
@@ -1667,13 +1693,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #106 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #106 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#106",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -1692,12 +1722,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1710,18 +1740,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 11,
@@ -1752,8 +1782,8 @@
         "assignedMothership": "#204",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1769,12 +1799,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1787,14 +1817,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -1803,10 +1833,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -1814,7 +1843,7 @@
         "id": "NEBULA-22",
         "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#204)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #204",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #204",
         "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
         "assignedMothership": "#204",
         "opportunityScore": 100,
@@ -1822,13 +1851,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #204 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #204 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#204",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -1847,12 +1880,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1865,18 +1898,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 12,
@@ -1907,8 +1940,8 @@
         "assignedMothership": "#205",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1924,12 +1957,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1942,14 +1975,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -1958,10 +1991,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -1969,7 +2001,7 @@
         "id": "NEBULA-24",
         "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#205)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #205",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #205",
         "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
         "assignedMothership": "#205",
         "opportunityScore": 100,
@@ -1977,13 +2009,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #205 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #205 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#205",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -2002,12 +2038,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2020,18 +2056,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 13,
@@ -2062,8 +2098,8 @@
         "assignedMothership": "#307",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2079,12 +2115,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2097,14 +2133,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -2113,10 +2149,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -2124,7 +2159,7 @@
         "id": "NEBULA-26",
         "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#307)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #307",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #307",
         "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
         "assignedMothership": "#307",
         "opportunityScore": 100,
@@ -2132,13 +2167,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #307 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #307 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#307",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -2157,12 +2196,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2175,18 +2214,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 14,
@@ -2217,8 +2256,8 @@
         "assignedMothership": "#311",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2234,12 +2273,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2252,14 +2291,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -2268,10 +2307,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -2279,7 +2317,7 @@
         "id": "NEBULA-28",
         "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#311)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #311",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #311",
         "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
         "assignedMothership": "#311",
         "opportunityScore": 100,
@@ -2287,13 +2325,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #311 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #311 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#311",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -2312,12 +2354,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2330,18 +2372,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 15,
@@ -2372,8 +2414,8 @@
         "assignedMothership": "#403",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2389,12 +2431,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2407,14 +2449,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -2423,10 +2465,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -2434,7 +2475,7 @@
         "id": "NEBULA-30",
         "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#403)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #403",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #403",
         "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
         "assignedMothership": "#403",
         "opportunityScore": 100,
@@ -2442,13 +2483,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #403 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #403 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#403",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -2467,12 +2512,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2485,18 +2530,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     },
     {
       "binomialIndex": 16,
@@ -2527,8 +2572,8 @@
         "assignedMothership": "#411",
         "opportunityScore": 96,
         "satellitesGuided": 500,
-        "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+        "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2544,12 +2589,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.090806,
-            "quote10Pol": 0.908062,
-            "baseQuote1Pol": 0.090471,
-            "extraUsdcPerPol": 0.000335,
-            "extraUsdcMicroCents": 3.35,
-            "advantagePct": 0.3703,
+            "quote1Pol": 0.091109,
+            "quote10Pol": 0.911095,
+            "baseQuote1Pol": 0.090732,
+            "extraUsdcPerPol": 0.000377,
+            "extraUsdcMicroCents": 3.77,
+            "advantagePct": 0.4155,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2562,14 +2607,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7309852229054294,
-            "quote01Bnb": 7.309532027896111,
-            "bnbPriceUsd": 730.99,
-            "baseQuote001Bnb": 0.7309852229054294,
+            "quote001Bnb": 0.7321349767805726,
+            "quote01Bnb": 7.3210288121436955,
+            "bnbPriceUsd": 732.13,
+            "baseQuote001Bnb": 0.7321349767805726,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 409.8736228941624
+            "liquidityUsdEstimate": 409.5532422883539
           }
         },
         "liveData": {
@@ -2578,10 +2623,9 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 264.188124906,
+          "polGasGwei": 239.078513547,
           "bscGasGwei": 0.05,
-          "zeroGasDrainMode": true,
-          "floatingUsdcAvailable": 4.974305,
+          "floatingUsdcAvailable": 6.506847,
           "isGasOptimal": true
         }
       },
@@ -2589,7 +2633,7 @@
         "id": "NEBULA-32",
         "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#411)",
         "icon": "🛡️",
-        "specialty": "Escudo 4 Candados & Auditoría Forense para #411",
+        "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #411",
         "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
         "assignedMothership": "#411",
         "opportunityScore": 100,
@@ -2597,13 +2641,17 @@
         "rugPullRisk": "0%",
         "satellitesGuided": 500,
         "status": "SHIELD_SECURE_100%",
-        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #411 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+        "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #411 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
         "liveData": {
           "mothershipId": "#411",
           "lock1_whitelistOk": true,
           "lock2_zeroTaxOk": true,
           "lock3_deepLiquidityOk": true,
           "lock4_callStaticOk": true,
+          "lock5_antiMevSlippageOk": true,
+          "estimatedPriceImpactPct": 0.02,
+          "maxAllowedMevSlippagePct": 0.15,
+          "minAmountOutEnforced": true,
           "totalMeasuredLiquidityUsd": 32000000,
           "rugPullRiskPct": 0,
           "shieldActive": true
@@ -2622,12 +2670,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2640,18 +2688,18 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "doubleKeyAuthorized": false,
-      "status": "🛡️ GAS ESTRATÉGICO CONGELADO 100% ($0 GAS)"
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
     }
   ],
   "commanders": [
@@ -2662,10 +2710,10 @@
       "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#501",
-      "opportunityScore": 100,
+      "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "AUTHORIZED",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🦅 OPERACIÓN 12K ROTACIÓN DE PISCINA AUTORIZADA (Score: 100%). Piscina Ganadora Certificada: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.090806 USDC/POL). Asignación desde excedente libre: 36.00 POL ➔ USDC Nativo Circle. Nuevo Piso Sagrado Blindado: 130.00 POL (>270 POL blindados en flota). Reserva BNB: 0.0090 BNB intocable.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -2681,12 +2729,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2699,14 +2747,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -2715,10 +2763,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -2726,7 +2773,7 @@
       "id": "NEBULA-02",
       "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#501)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #501",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #501",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#501",
       "opportunityScore": 100,
@@ -2734,13 +2781,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #501 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #501 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#501",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -2753,10 +2804,10 @@
       "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#001",
-      "opportunityScore": 100,
+      "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "AUTHORIZED",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (20 POL congelados sin tocar 1 wei).",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -2772,12 +2823,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2790,14 +2841,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -2806,10 +2857,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -2817,7 +2867,7 @@
       "id": "NEBULA-04",
       "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#001)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #001",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #001",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#001",
       "opportunityScore": 100,
@@ -2825,13 +2875,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #001 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #001 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#001",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -2844,10 +2898,10 @@
       "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#101",
-      "opportunityScore": 100,
+      "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "AUTHORIZED",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (20 POL congelados sin tocar 1 wei).",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -2863,12 +2917,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2881,14 +2935,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -2897,10 +2951,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -2908,7 +2961,7 @@
       "id": "NEBULA-06",
       "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#101)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #101",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #101",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#101",
       "opportunityScore": 100,
@@ -2916,13 +2969,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #101 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #101 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#101",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -2935,10 +2992,10 @@
       "specialty": "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#201",
-      "opportunityScore": 100,
+      "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "AUTHORIZED",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (14 POL congelados sin tocar 1 wei).",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -2954,12 +3011,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2972,14 +3029,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -2988,10 +3045,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -2999,7 +3055,7 @@
       "id": "NEBULA-08",
       "name": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus (#201)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #201",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #201",
       "cluster": "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
       "assignedMothership": "#201",
       "opportunityScore": 100,
@@ -3007,13 +3063,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #201 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus de #201 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#201",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3026,10 +3086,10 @@
       "specialty": "🎮 Modelo 2 (Metaverso, GameFi & Floor/Bid Flipping)",
       "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
       "assignedMothership": "#301",
-      "opportunityScore": 100,
+      "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "AUTHORIZED",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (14 POL congelados sin tocar 1 wei).",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3045,12 +3105,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3063,14 +3123,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3079,10 +3139,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3090,7 +3149,7 @@
       "id": "NEBULA-10",
       "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#301)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #301",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #301",
       "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
       "assignedMothership": "#301",
       "opportunityScore": 100,
@@ -3098,13 +3157,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #301 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #301 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#301",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3117,10 +3180,10 @@
       "specialty": "🎮 Modelo 2 (Metaverso, GameFi & Floor/Bid Flipping)",
       "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
       "assignedMothership": "#401",
-      "opportunityScore": 100,
+      "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "AUTHORIZED",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🥞 ATAQUE FLANQUEADO BSC AUTORIZADO (Score: 100%). Asignación: 0.0012 BNB ➔ USDC Oficial BSC en PancakeSwap V2 con jitter Anti-Sybil. Reserva Sagrada BSC: 0.0055 BNB intacta. Gas Polygon 100% INTOCABLE (14 POL congelados sin tocar 1 wei).",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3136,12 +3199,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3154,14 +3217,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3170,10 +3233,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3181,7 +3243,7 @@
       "id": "NEBULA-12",
       "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#401)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #401",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #401",
       "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
       "assignedMothership": "#401",
       "opportunityScore": 100,
@@ -3189,13 +3251,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #401 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #401 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#401",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3210,8 +3276,8 @@
       "assignedMothership": "#008",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3227,12 +3293,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3245,14 +3311,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3261,10 +3327,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3272,7 +3337,7 @@
       "id": "NEBULA-14",
       "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#008)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #008",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #008",
       "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
       "assignedMothership": "#008",
       "opportunityScore": 100,
@@ -3280,13 +3345,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #008 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #008 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#008",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3301,8 +3370,8 @@
       "assignedMothership": "#006",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3318,12 +3387,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3336,14 +3405,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3352,10 +3421,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3363,7 +3431,7 @@
       "id": "NEBULA-16",
       "name": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces (#006)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #006",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #006",
       "cluster": "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
       "assignedMothership": "#006",
       "opportunityScore": 100,
@@ -3371,13 +3439,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #006 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces de #006 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#006",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3392,8 +3464,8 @@
       "assignedMothership": "#108",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3409,12 +3481,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3427,14 +3499,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3443,10 +3515,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3454,7 +3525,7 @@
       "id": "NEBULA-18",
       "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#108)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #108",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #108",
       "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
       "assignedMothership": "#108",
       "opportunityScore": 100,
@@ -3462,13 +3533,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #108 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #108 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#108",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3483,8 +3558,8 @@
       "assignedMothership": "#106",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3500,12 +3575,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3518,14 +3593,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3534,10 +3609,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3545,7 +3619,7 @@
       "id": "NEBULA-20",
       "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#106)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #106",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #106",
       "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
       "assignedMothership": "#106",
       "opportunityScore": 100,
@@ -3553,13 +3627,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #106 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #106 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#106",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3574,8 +3652,8 @@
       "assignedMothership": "#204",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3591,12 +3669,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3609,14 +3687,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3625,10 +3703,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3636,7 +3713,7 @@
       "id": "NEBULA-22",
       "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#204)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #204",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #204",
       "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
       "assignedMothership": "#204",
       "opportunityScore": 100,
@@ -3644,13 +3721,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #204 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #204 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#204",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3665,8 +3746,8 @@
       "assignedMothership": "#205",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3682,12 +3763,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3700,14 +3781,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3716,10 +3797,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3727,7 +3807,7 @@
       "id": "NEBULA-24",
       "name": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions (#205)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #205",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #205",
       "cluster": "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
       "assignedMothership": "#205",
       "opportunityScore": 100,
@@ -3735,13 +3815,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #205 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions de #205 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#205",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3756,8 +3840,8 @@
       "assignedMothership": "#307",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -3773,12 +3857,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3791,14 +3875,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3807,10 +3891,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3818,7 +3901,7 @@
       "id": "NEBULA-26",
       "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#307)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #307",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #307",
       "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
       "assignedMothership": "#307",
       "opportunityScore": 100,
@@ -3826,13 +3909,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #307 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #307 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#307",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3847,8 +3934,8 @@
       "assignedMothership": "#311",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -3864,12 +3951,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3882,14 +3969,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3898,10 +3985,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -3909,7 +3995,7 @@
       "id": "NEBULA-28",
       "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#311)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #311",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #311",
       "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
       "assignedMothership": "#311",
       "opportunityScore": 100,
@@ -3917,13 +4003,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #311 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #311 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#311",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -3938,8 +4028,8 @@
       "assignedMothership": "#403",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -3955,12 +4045,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3973,14 +4063,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -3989,10 +4079,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -4000,7 +4089,7 @@
       "id": "NEBULA-30",
       "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#403)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #403",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #403",
       "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
       "assignedMothership": "#403",
       "opportunityScore": 100,
@@ -4008,13 +4097,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #403 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #403 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#403",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true
@@ -4029,8 +4122,8 @@
       "assignedMothership": "#411",
       "opportunityScore": 96,
       "satellitesGuided": 500,
-      "status": "🛡️ GAS ESTRATÉGICO 100% BLINDADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🛡️ SUB-CAPITANES 100% CONGELADOS. 0.00 POL / 0.00 BNB consumidos. Combustible perpetuo blindado.",
+      "status": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🔭 AUDITORÍA DE PISCINAS AL 96% ($0 GAS). Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091109 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($732.13 USDC/BNB). Trinquete 80/20 activo: Piso $26.03 USDC protegido. Tanque ~306 POL y ~0.058 BNB blindados para gas.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -4046,12 +4139,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.090806,
-          "quote10Pol": 0.908062,
-          "baseQuote1Pol": 0.090471,
-          "extraUsdcPerPol": 0.000335,
-          "extraUsdcMicroCents": 3.35,
-          "advantagePct": 0.3703,
+          "quote1Pol": 0.091109,
+          "quote10Pol": 0.911095,
+          "baseQuote1Pol": 0.090732,
+          "extraUsdcPerPol": 0.000377,
+          "extraUsdcMicroCents": 3.77,
+          "advantagePct": 0.4155,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -4064,14 +4157,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7309852229054294,
-          "quote01Bnb": 7.309532027896111,
-          "bnbPriceUsd": 730.99,
-          "baseQuote001Bnb": 0.7309852229054294,
+          "quote001Bnb": 0.7321349767805726,
+          "quote01Bnb": 7.3210288121436955,
+          "bnbPriceUsd": 732.13,
+          "baseQuote001Bnb": 0.7321349767805726,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 409.8736228941624
+          "liquidityUsdEstimate": 409.5532422883539
         }
       },
       "liveData": {
@@ -4080,10 +4173,9 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 264.188124906,
+        "polGasGwei": 239.078513547,
         "bscGasGwei": 0.05,
-        "zeroGasDrainMode": true,
-        "floatingUsdcAvailable": 4.974305,
+        "floatingUsdcAvailable": 6.506847,
         "isGasOptimal": true
       }
     },
@@ -4091,7 +4183,7 @@
       "id": "NEBULA-32",
       "name": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas (#411)",
       "icon": "🛡️",
-      "specialty": "Escudo 4 Candados & Auditoría Forense para #411",
+      "specialty": "Escudo 5 Candados Anti-MEV & Auditoría Forense para #411",
       "cluster": "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
       "assignedMothership": "#411",
       "opportunityScore": 100,
@@ -4099,13 +4191,17 @@
       "rugPullRisk": "0%",
       "satellitesGuided": 500,
       "status": "SHIELD_SECURE_100%",
-      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #411 (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.",
+      "reasoning": "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas de #411 (Escudo 5 Candados Anti-MEV & Forense): 1) Whitelist Blue-Chip Oficial (2 saltos Polygon / 2 BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $32.0M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) Anti-Slippage & Anti-MEV <= 0.15% con minAmountOut estricto (0.02% <= 0.15% ✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.",
       "liveData": {
         "mothershipId": "#411",
         "lock1_whitelistOk": true,
         "lock2_zeroTaxOk": true,
         "lock3_deepLiquidityOk": true,
         "lock4_callStaticOk": true,
+        "lock5_antiMevSlippageOk": true,
+        "estimatedPriceImpactPct": 0.02,
+        "maxAllowedMevSlippagePct": 0.15,
+        "minAmountOutEnforced": true,
         "totalMeasuredLiquidityUsd": 32000000,
         "rugPullRiskPct": 0,
         "shieldActive": true

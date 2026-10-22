@@ -71,39 +71,46 @@ const APPROVED_SPENDERS = {
 };
 
 // =====================================================================================
-// 1. CANDADO TRINQUETE DE GANANCIA ASEGURADA (HIGH-WATER MARK 80/20)
+// 1. CANDADO TRINQUETE DE GANANCIA ASEGURADA (HIGH-WATER MARK 85/15)
 // =====================================================================================
-function evaluateProfitLockRatchet(currentOnChainUsdc) {
+const USDC_RATCHET_RATIO = 0.85; // Trinquete #1: 85% del USDC blindado irreversiblemente
+
+function evaluateProfitLockRatchet(currentOnChainUsdc, options = {}) {
+  const targetRatio = options.ratchetRatio || USDC_RATCHET_RATIO;
   let state = {
-    highWaterMarkUsdc: 13.618160,
-    lockedFloorUsdc: 10.894528,
-    floatingUsdc: 2.723632,
-    ratchetRatio: 0.80,
+    highWaterMarkUsdc: 32.534233,
+    lockedFloorUsdc: 27.654098,
+    floatingUsdc: 4.880135,
+    ratchetRatio: targetRatio,
+    ratchetModel: "USDC_RATCHET_85",
     lastUpdate: new Date().toISOString()
   };
 
   if (fs.existsSync(RATCHET_FILE)) {
     try {
       state = JSON.parse(fs.readFileSync(RATCHET_FILE, "utf8"));
+      state.ratchetRatio = targetRatio;
     } catch (_) {}
   }
 
-  const current = typeof currentOnChainUsdc === "number" ? currentOnChainUsdc : state.highWaterMarkUsdc;
+  const current = typeof currentOnChainUsdc === "number" ? currentOnChainUsdc : (state.currentOnChainUsdc || state.highWaterMarkUsdc);
   let updated = false;
 
   if (current > state.highWaterMarkUsdc) {
     state.highWaterMarkUsdc = parseFloat(current.toFixed(6));
-    state.lockedFloorUsdc = parseFloat((state.highWaterMarkUsdc * state.ratchetRatio).toFixed(6));
+    state.lockedFloorUsdc = parseFloat((state.highWaterMarkUsdc * targetRatio).toFixed(6));
     state.floatingUsdc = parseFloat((state.highWaterMarkUsdc - state.lockedFloorUsdc).toFixed(6));
     state.lastUpdate = new Date().toISOString();
     updated = true;
   } else {
-    state.lockedFloorUsdc = parseFloat((state.highWaterMarkUsdc * state.ratchetRatio).toFixed(6));
+    state.lockedFloorUsdc = parseFloat((state.highWaterMarkUsdc * targetRatio).toFixed(6));
     state.floatingUsdc = parseFloat(Math.max(0, current - state.lockedFloorUsdc).toFixed(6));
   }
 
   state.currentOnChainUsdc = parseFloat(current.toFixed(6));
   state.floorProtected = current >= state.lockedFloorUsdc;
+  state.ratchetRatio = targetRatio;
+  state.ratchetModel = "USDC_RATCHET_85";
 
   if (!fs.existsSync(TELEMETRY_DIR)) fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
   fs.writeFileSync(RATCHET_FILE, JSON.stringify(state, null, 2), "utf8");
@@ -377,5 +384,6 @@ module.exports = {
   getPolymorphicTiming,
   getPolymorphicAmount,
   getPolymorphicJitter: (amt, pct = 0.03) => getPolymorphicAmount(amt, pct),
-  APPROVED_SPENDERS
+  APPROVED_SPENDERS,
+  USDC_RATCHET_RATIO
 };
