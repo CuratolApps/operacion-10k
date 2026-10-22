@@ -557,7 +557,7 @@ function renderAirdropCalendar(telem) {
 
   const nextImminent = calendar[0];
   if (badge && nextImminent) {
-    badge.textContent = `🔥 ${nextImminent.name.toUpperCase()}: ${nextImminent.daysToSnapshot} DÍAS SNAPSHOT`;
+    badge.textContent = `🔥 ${nextImminent.name.toUpperCase()}: ${nextImminent.daysToSnapshot} DÍAS (500 SOLDADOS EN BLOQUE)`;
   }
 
   let html = '';
@@ -566,28 +566,39 @@ function renderAirdropCalendar(telem) {
     if (item.urgencyClass === 'imminent') badgeClass = 'debt';
     else if (item.urgencyClass === 'high') badgeClass = 'warn';
 
+    const isPrimary = item.isPrimaryStrikeTarget;
+    const soldiersText = isPrimary
+      ? `<strong style="color: var(--neon-cyan); font-family: 'JetBrains Mono'; font-size: 0.56rem;">⚡ 500 / 500 SOLDADOS</strong><span style="display: block; color: var(--neon-gold); font-size: 0.48rem; font-weight: bold;">(100% BLOQUE MONOLÍTICO)</span>`
+      : `<span style="color: var(--text-muted); font-size: 0.52rem;">⏳ 0 / 500 (En Cola de Rotación)</span>`;
+
+    const forensicBadge = item.forensicAudit?.verdictBadge || '🟢 VIABLE & AUDITADO';
+    const exitStrategy = item.firstWaveExitPlan?.strategy || 'VENTA_MINUTO_CERO';
+    const harvestEstimate = item.firstWaveExitPlan?.totalFleetHarvestEstimateUsdc || '$0.00';
+
     html += `<tr>
       <td>
         <strong style="color: #fff; font-family: 'JetBrains Mono'; font-size: 0.60rem;">${item.name}</strong>
         <span style="display: block; color: var(--neon-gold); font-size: 0.50rem;">${item.tokenSymbol}</span>
       </td>
-      <td style="color: var(--text-sub); font-size: 0.54rem;">${item.ecosystem}</td>
-      <td style="font-family: 'JetBrains Mono'; font-size: 0.54rem; color: #fff;">${item.formattedSnapshotDate}</td>
+      <td style="color: var(--text-sub); font-size: 0.52rem;">${item.ecosystem}</td>
       <td>
-        <span class="badge-fino-status ${badgeClass}" style="font-size: 0.50rem; font-weight: bold;">
+        <span style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: #fff; display: block;">${item.formattedSnapshotDate}</span>
+        <span class="badge-fino-status ${badgeClass}" style="font-size: 0.48rem; font-weight: bold; margin-top: 2px;">
           ¡En ${item.daysToSnapshot} días!
         </span>
       </td>
       <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${item.formattedTgeDate} (~${item.daysToTge}d)</td>
+      <td>${soldiersText}</td>
       <td>
-        <strong style="color: var(--neon-cyan); font-family: 'JetBrains Mono'; font-size: 0.56rem;">${item.assignedSoldiersCount} soldados</strong>
-        <span style="display: block; color: var(--text-muted); font-size: 0.48rem;">(${item.percentOfFleet} de la flota)</span>
+        <span class="badge-liq-sub usd" style="font-size: 0.46rem; display: block; margin-bottom: 2px;">${forensicBadge}</span>
+        <span style="color: var(--text-muted); font-size: 0.46rem;">${item.forensicAudit?.vcBacking ? item.forensicAudit.vcBacking.slice(0, 32) + '...' : 'Auditado sin backdoor'}</span>
       </td>
-      <td style="font-size: 0.50rem; color: var(--text-sub); max-width: 220px; white-space: normal;">${item.criteria}</td>
       <td>
-        <span class="badge-liq-sub ${item.urgencyClass === 'imminent' ? 'usd' : 'eur'}" style="font-size: 0.48rem;">
-          ${item.statusBadge}
-        </span>
+        <strong style="color: var(--neon-cyan); font-size: 0.52rem; display: block;">⚡ 1ª OLA (15-45m)</strong>
+        <span style="color: var(--text-sub); font-size: 0.48rem;">100% ➔ USDC Nativo</span>
+      </td>
+      <td>
+        <strong style="color: var(--neon-green); font-family: 'JetBrains Mono'; font-size: 0.58rem;">${harvestEstimate}</strong>
       </td>
     </tr>`;
   });

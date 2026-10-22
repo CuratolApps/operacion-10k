@@ -30,47 +30,47 @@
       "timestamp": "2026-10-22T12:37:13.421Z"
     }
   ],
-  "lastEvaluation": "2026-10-22T12:55:19.118Z",
+  "lastEvaluation": "2026-10-22T12:59:51.638Z",
   "scannedSignals": [
     {
       "symbol": "POL/USDC",
       "currentPrice": 0.3791,
-      "rsi14": 39,
-      "ema50": 0.3793,
+      "rsi14": 31,
+      "ema50": 0.3798,
       "ema200": 0.3734,
       "isTrendBullish": true,
-      "isOversold": false,
-      "signal": "NEUTRAL_ESPERA",
-      "confidenceScore": 50
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92
     },
     {
       "symbol": "SOL/USDC",
-      "currentPrice": 104.24,
-      "rsi14": 49,
-      "ema50": 104.3132,
-      "ema200": 102.6764,
+      "currentPrice": 104.33,
+      "rsi14": 38,
+      "ema50": 104.5302,
+      "ema200": 102.7651,
       "isTrendBullish": true,
-      "isOversold": false,
-      "signal": "NEUTRAL_ESPERA",
-      "confidenceScore": 50
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92
     },
     {
       "symbol": "ETH/USDC",
-      "currentPrice": 2399.9,
-      "rsi14": 59,
-      "ema50": 2400.6086,
-      "ema200": 2363.9015,
+      "currentPrice": 2398.99,
+      "rsi14": 29,
+      "ema50": 2399.8009,
+      "ema200": 2363.0051,
       "isTrendBullish": true,
-      "isOversold": false,
-      "signal": "NEUTRAL_ESPERA",
-      "confidenceScore": 50
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92
     },
     {
       "symbol": "BTC/USDC",
-      "currentPrice": 81620.95,
-      "rsi14": 48,
-      "ema50": 81597.585,
-      "ema200": 80396.6358,
+      "currentPrice": 81626.89,
+      "rsi14": 44,
+      "ema50": 81654.8904,
+      "ema200": 80402.4866,
       "isTrendBullish": true,
       "isOversold": false,
       "signal": "NEUTRAL_ESPERA",
@@ -78,14 +78,14 @@
     },
     {
       "symbol": "BNB/USDC",
-      "currentPrice": 732.13,
-      "rsi14": 66,
-      "ema50": 732.1216,
-      "ema200": 721.1481,
+      "currentPrice": 732.25,
+      "rsi14": 38,
+      "ema50": 732.3742,
+      "ema200": 721.2663,
       "isTrendBullish": true,
-      "isOversold": false,
-      "signal": "NEUTRAL_ESPERA",
-      "confidenceScore": 50
+      "isOversold": true,
+      "signal": "BUY_DISPARO_LONG",
+      "confidenceScore": 92
     }
   ]
 }

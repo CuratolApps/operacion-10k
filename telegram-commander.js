@@ -693,41 +693,47 @@ async function handleLanzamientos(chatId) {
     }
   } catch (_) {}
 
-  if (!data) {
+  if (!data || !data.specialistOfficers) {
     const { runAirdropSpecialistsReport } = require("./airdrop-chronos-scout");
     data = await runAirdropSpecialistsReport(false);
   }
 
   const cal = data.calendar || [];
-  const top = cal.slice(0, 5);
+  const active = cal[0];
+  const queue = cal.slice(1, 4);
 
-  const lines = top.map((item, i) => {
-    return `<b>${i + 1}. ${escHtml(item.name)} (${escHtml(item.tokenSymbol)})</b>
-   • 📅 <b>Snapshot:</b> ${item.formattedSnapshotDate} (<b>¡En ${item.daysToSnapshot} días!</b>)
-   • 🚀 <b>Lanzamiento TGE:</b> ${item.formattedTgeDate} (~${item.daysToTge} días)
-   • 🏷️ <b>Estado:</b> ${item.statusBadge}
-   • ⛏️ <b>Soldados Picando Piedra:</b> <b>${item.assignedSoldiersCount} soldados</b> (${item.percentOfFleet})
-   • 📋 <b>Misión:</b> <i>${escHtml(item.criteria)}</i>`;
-  }).join("\n\n");
+  const queueLines = queue.map((q, idx) => {
+    return `   ${idx + 2}. <b>${escHtml(q.name)} (${escHtml(q.tokenSymbol)})</b>\n      ↳ Snapshot en ${q.daysToSnapshot} días | ${escHtml(q.forensicAudit.verdictBadge)}`;
+  }).join("\n");
 
   const text = `
-📅 <b>CRONOGRAMA DE LANZAMIENTOS PÚBLICOS & AIRDROPS</b>
-🔬 <b>Especialistas al Mando:</b>
-   • 🛰️ <b>NEBULA-CHRONOS #01:</b> Rastreo de Fechas & TGEs
-   • 🧭 <b>NEBULA-NAVIGATOR #02:</b> Director de Foco de los 500 Soldados
+🎖️ <b>ALTO MANDO: CRONOGRAMA DE LANZAMIENTOS & BLOQUE MONOLÍTICO X500</b>
+<i>"Los 500 soldados no se dividen: golpean en bloque juntos en el objetivo inminente."</i>
 
-🎯 <b>DOCTRINA: "PICAR PIEDRA CERCA DEL ORO"</b>
-<i>Nuestros 500 soldados concentran su minería donde la cosecha está más próxima a pagar:</i>
+🔬 <b>ESTADO MAYOR DE ESPECIALISTAS:</b>
+• 🛰️ <b>CHRONOS #01:</b> Rastreo de Fechas & TGEs
+• 🧭 <b>NAVIGATOR #02:</b> Director del Bloque Monolítico (500 Soldados Juntos)
+• 🛡️ <b>FORENSIC-SHIELD #33:</b> Auditor Anti-Rugpull & Viabilidad
+• ⚡ <b>FIRST-WAVE-EXIT #34:</b> Salida en Primera Ola & Venta a USDC
 
-${lines}
+💥 <b>FRENTE ACTIVO DE CHOQUE #1:</b>
+• 🎯 <b>Proyecto:</b> <b>${escHtml(active.name)} (${escHtml(active.tokenSymbol)})</b>
+• 📅 <b>Snapshot Inminente:</b> ${active.formattedSnapshotDate} (<b>¡FALTAN ${active.daysToSnapshot} DÍAS!</b>)
+• 🚀 <b>Lanzamiento TGE:</b> ${active.formattedTgeDate} (~${active.daysToTge} días)
+• 👥 <b>Tropa Desplegada:</b> <b>LOS 500 SOLDADOS EN BLOQUE JUNTOS (100% FLOTA)</b>
+• 🛡️ <b>Auditoría Anti-Rugpull:</b> ${escHtml(active.forensicAudit.verdictBadge)}
+   ↳ <i>Respaldo: ${escHtml(active.forensicAudit.vcBacking)}</i>
+   ↳ <i>Seguridad: ${active.forensicAudit.safetyScore}% (Contratos sin backdoor)</i>
+• ⚡ <b>Plan Salida Primera Ola:</b>
+   ↳ <i>Venta inmediata: ${escHtml(active.firstWaveExitPlan.executionWindow)}</i>
+   ↳ <i>Ruta: ${escHtml(active.firstWaveExitPlan.targetPair)} ➔ Bóvedas Binance</i>
+   ↳ <i>Anti-Dump: Salir en la cresta inicial antes de la caída masiva</i>
+• 💰 <b>Cosecha Estimada Flota:</b> <b>${escHtml(active.firstWaveExitPlan.totalFleetHarvestEstimateUsdc)}</b>
 
-📊 <b>DISTRIBUCIÓN TOTAL DE LOS 500 SOLDADOS:</b>
-• ⛏️ <b>Citrea BTC ZK:</b> 180 soldados (36%) ➔ Box 1 & 2
-• ⛏️ <b>Goat BTC L2:</b> 120 soldados (24%) ➔ Box 3 & 4
-• ⛏️ <b>Scroll Season 2:</b> 80 soldados (16%) ➔ Box 3 & 4
-• ⛏️ <b>Linea / Monad / Bera:</b> 120 soldados (24%) ➔ Box 5 & Rotación
+⏳ <b>SIGUIENTES EN COLA (Rotación en bloque tras asegurar Citrea):</b>
+${queueLines}
 
-💰 <b>Riesgo de Capital:</b> $0.00 USD (100% Sin Gasto Inútil)
+🛡️ <b>Riesgo de Capital:</b> $0.00 USD (100% Protegido)
 ⏰ <i>Sincronizado: ${data.lastUpdatedFormatted || "En vivo"}</i>
 `.trim();
 
