@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "1.0.0",
+  "lastUpdated": "2026-10-22T12:55:19.121Z",
+  "lastUpdatedFormatted": "22/10/2026, 12:55:19 UTC",
+  "specialist1": {
+    "name": "NEBULA-CHRONOS #01",
+    "title": "Rastreador de Fechas, Snapshots & Lanzamientos Públicos",
+    "status": "ACTIVO_ESCANEANDO",
+    "coverage": "6 Ecosistemas y L2s Auditados"
+  },
+  "specialist2": {
+    "name": "NEBULA-NAVIGATOR #02",
+    "title": "Director Táctico de Enfoque de los 500 Soldados",
+    "status": "DIRECTIVAS_EMITIDAS",
+    "doctrine": "Picar piedra más cerca de donde está el oro (Cero gas arriesgado)"
+  },
+  "fleetSummary": {
+    "totalSatellites": 500,
+    "imminentFocusSatellites": 180,
+    "capitalRisk": "$0.00 USD (100% Protegido)",
+    "mostImminentTarget": "Citrea Bitcoin ZK-Rollup (24 días para snapshot)"
+  },
+  "calendar": [
+    {
+      "id": "citrea-bitcoin-zk",
+      "name": "Citrea Bitcoin ZK-Rollup",
+      "tokenSymbol": "$CITREA / $cBTC",
+      "ecosystem": "Bitcoin L2 (ZK-SNARK / EVM)",
+      "stage": "Testnet Final / Snapshot Inminente",
+      "snapshotTargetDate": "2026-11-15T00:00:00Z",
+      "tgeTargetDate": "2026-12-10T12:00:00Z",
+      "certainty": "PROYECTADA_OFICIAL",
+      "certaintyScore": 92,
+      "priority": "IMMINENT",
+      "criteria": "Puntos ZK de prueba (25 pts/tx), racha de firmas EIP-712 verificadas en Chain 5115",
+      "fleetQualifications": {
+        "readySatellites": 500,
+        "totalSatellites": 500,
+        "pointsAccumulated": 25000,
+        "status": "100% CALIFICADO PARA ASIGNACIÓN"
+      },
+      "tacticalObjective": "Concentrar minería de racha diaria continua en Citrea ZK para blindar el percentil 1% de la distribución.",
+      "weightPct": 36,
+      "daysToSnapshot": 24,
+      "daysToTge": 49,
+      "statusBadge": "🔥 SNAPSHOT INMINENTE",
+      "urgencyClass": "imminent",
+      "formattedSnapshotDate": "15 nov 2026",
+      "formattedTgeDate": "10 dic 2026",
+      "assignedSoldiersCount": 180,
+      "percentOfFleet": "36%",
+      "boxesFocused": [
+        "Box 1 (#001-#100)",
+        "Box 2 (#101-#200)"
+      ],
+      "directive": "⛏️ PICANDO PIEDRA: 180 soldados ejecutando Puntos ZK de prueba (25 pts/tx), racha de firmas EIP-712 verificadas en Chain 5115 con $0 costo de gas."
+    },
+    {
+      "id": "goat-network-btc-l2",
+      "name": "Goat Network Bitcoin L2",
+      "tokenSymbol": "$GOAT",
+      "ecosystem": "Bitcoin Layer 2 (Sequencer Descentralizado)",
+      "stage": "Testnet 3 / Campaña de Puntos Activa",
+      "snapshotTargetDate": "2026-11-30T23:59:59Z",
+      "tgeTargetDate": "2027-01-15T14:00:00Z",
+      "certainty": "PROYECTADA_OFICIAL",
+      "certaintyScore": 88,
+      "priority": "HIGH",
+      "criteria": "Firmas criptográficas EIP-712 diarias en Chain 48816, interacción con contratos Sequencer",
+      "fleetQualifications": {
+        "readySatellites": 490,
+        "totalSatellites": 500,
+        "pointsAccumulated": 18500,
+        "status": "98% EN COBERTURA ACTIVA"
+      },
+      "tacticalObjective": "Mantener la racha sin interrupciones con ADN polimórfico en cada rotación de Box 1 a Box 5.",
+      "weightPct": 24,
+      "daysToSnapshot": 40,
+      "daysToTge": 86,
+      "statusBadge": "⚡ ALTA PRIORIDAD",
+      "urgencyClass": "high",
+      "formattedSnapshotDate": "30 nov 2026",
+      "formattedTgeDate": "15 ene 2027",
+      "assignedSoldiersCount": 120,
+      "percentOfFleet": "24%",
+      "boxesFocused": [
+        "Box 3 (#201-#300)",
+        "Box 4 (#301-#400)"
+      ],
+      "directive": "⛏️ PICANDO PIEDRA: 120 soldados ejecutando Firmas criptográficas EIP-712 diarias en Chain 48816, interacción con contratos Sequencer con $0 costo de gas."
+    },
+    {
+      "id": "scroll-sessions-marks",
+      "name": "Scroll Season 2 (Marks Program)",
+      "tokenSymbol": "$SCR (Season 2 Pool)",
+      "ecosystem": "Ethereum zkEVM L2",
+      "stage": "Season 2 Distribution Window",
+      "snapshotTargetDate": "2026-12-10T23:59:59Z",
+      "tgeTargetDate": "2026-12-20T10:00:00Z",
+      "certainty": "CONFIRMADA",
+      "certaintyScore": 95,
+      "priority": "HIGH",
+      "criteria": "Credencial de Marks verificadas en Arbitrum/Sepolia puenteando actividad y contratos de sesión",
+      "fleetQualifications": {
+        "readySatellites": 485,
+        "totalSatellites": 500,
+        "pointsAccumulated": 14200,
+        "status": "97% CON FIRMA EIP-712 REGISTRADA"
+      },
+      "tacticalObjective": "Asegurar que los rezagados de Box 4 y Box 5 actualicen su comprobante antes del cierre de época.",
+      "weightPct": 16,
+      "daysToSnapshot": 50,
+      "daysToTge": 59,
+      "statusBadge": "⚡ ALTA PRIORIDAD",
+      "urgencyClass": "high",
+      "formattedSnapshotDate": "10 dic 2026",
+      "formattedTgeDate": "20 dic 2026",
+      "assignedSoldiersCount": 80,
+      "percentOfFleet": "16%",
+      "boxesFocused": [
+        "Box 3 (#201-#300)",
+        "Box 4 (#301-#400)"
+      ],
+      "directive": "⛏️ PICANDO PIEDRA: 80 soldados ejecutando Credencial de Marks verificadas en Arbitrum/Sepolia puenteando actividad y contratos de sesión con $0 costo de gas."
+    },
+    {
+      "id": "linea-voyage-token",
+      "name": "Linea Network (Consensys)",
+      "tokenSymbol": "$LINEA",
+      "ecosystem": "Consensys zkEVM",
+      "stage": "Pre-TGE LXP Distribution",
+      "snapshotTargetDate": "2027-01-05T00:00:00Z",
+      "tgeTargetDate": "2027-01-28T16:00:00Z",
+      "certainty": "ESTIMADA_ROADMAP",
+      "certaintyScore": 85,
+      "priority": "MEDIUM",
+      "criteria": "Asistencia a Voyage, Proof-of-Humanity polimórfico Lomo 5, firmas de interacción",
+      "fleetQualifications": {
+        "readySatellites": 470,
+        "totalSatellites": 500,
+        "pointsAccumulated": 12000,
+        "status": "94% CON CREDENCIAL VOYAGE"
+      },
+      "tacticalObjective": "Rotación programada en lotes de 20 satélites para acumular transacciones únicas en contratos verificados.",
+      "weightPct": 12,
+      "daysToSnapshot": 75,
+      "daysToTge": 99,
+      "statusBadge": "🎯 EN SIEMBRA ACTIVA",
+      "urgencyClass": "medium",
+      "formattedSnapshotDate": "05 ene 2027",
+      "formattedTgeDate": "28 ene 2027",
+      "assignedSoldiersCount": 60,
+      "percentOfFleet": "12%",
+      "boxesFocused": [
+        "Box 5 (#401-#500)",
+        "Rotación Continua"
+      ],
+      "directive": "⛏️ PICANDO PIEDRA: 60 soldados ejecutando Asistencia a Voyage, Proof-of-Humanity polimórfico Lomo 5, firmas de interacción con $0 costo de gas."
+    },
+    {
+      "id": "monad-devnet-testnet",
+      "name": "Monad High-Throughput EVM",
+      "tokenSymbol": "$MON",
+      "ecosystem": "Paralellized EVM L1",
+      "stage": "Testnet Pública / Faucets & Micro-txs",
+      "snapshotTargetDate": "2027-02-15T00:00:00Z",
+      "tgeTargetDate": "2027-03-01T12:00:00Z",
+      "certainty": "ESTIMADA_ROADMAP",
+      "certaintyScore": 78,
+      "priority": "MEDIUM",
+      "criteria": "Interacciones de alta velocidad, swaps simulados en AMMs testnet y transferencias P2P",
+      "fleetQualifications": {
+        "readySatellites": 380,
+        "totalSatellites": 500,
+        "pointsAccumulated": 7600,
+        "status": "76% INTEGRADO EN VECTOR TESTNET"
+      },
+      "tacticalObjective": "Preparar a los 500 soldados para bombardeo de micro-transacciones en el momento en que se abra el grifo público masivo.",
+      "weightPct": 8,
+      "daysToSnapshot": 116,
+      "daysToTge": 130,
+      "statusBadge": "🎯 EN SIEMBRA ACTIVA",
+      "urgencyClass": "medium",
+      "formattedSnapshotDate": "15 feb 2027",
+      "formattedTgeDate": "01 mar 2027",
+      "assignedSoldiersCount": 40,
+      "percentOfFleet": "8%",
+      "boxesFocused": [
+        "Box 5 (#401-#500)",
+        "Rotación Continua"
+      ],
+      "directive": "⛏️ PICANDO PIEDRA: 40 soldados ejecutando Interacciones de alta velocidad, swaps simulados en AMMs testnet y transferencias P2P con $0 costo de gas."
+    },
+    {
+      "id": "berachain-bartio",
+      "name": "Berachain Proof of Liquidity",
+      "tokenSymbol": "$BERA / $BGT",
+      "ecosystem": "Cosmos-SDK EVM / PoL",
+      "stage": "Boyco / Mainnet Migration Stage",
+      "snapshotTargetDate": "2027-03-20T00:00:00Z",
+      "tgeTargetDate": "2027-04-10T12:00:00Z",
+      "certainty": "ESTIMADA_ROADMAP",
+      "certaintyScore": 80,
+      "priority": "MONITORING",
+      "criteria": "Reclamar faucets bArtio, mint de honey y participación en pools de prueba",
+      "fleetQualifications": {
+        "readySatellites": 320,
+        "totalSatellites": 500,
+        "pointsAccumulated": 5400,
+        "status": "64% CON BERA FAUCET ASIGNADO"
+      },
+      "tacticalObjective": "Mantener presencia periódica sin gastar recursos de capital mientras avanza la migración a Mainnet.",
+      "weightPct": 4,
+      "daysToSnapshot": 149,
+      "daysToTge": 170,
+      "statusBadge": "⏳ EN RADAR",
+      "urgencyClass": "monitoring",
+      "formattedSnapshotDate": "20 mar 2027",
+      "formattedTgeDate": "10 abr 2027",
+      "assignedSoldiersCount": 20,
+      "percentOfFleet": "4%",
+      "boxesFocused": [
+        "Box 5 (#401-#500)",
+        "Rotación Continua"
+      ],
+      "directive": "⛏️ PICANDO PIEDRA: 20 soldados ejecutando Reclamar faucets bArtio, mint de honey y participación en pools de prueba con $0 costo de gas."
+    }
+  ]
+}

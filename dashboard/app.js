@@ -534,6 +534,65 @@ function renderGalaxiesStreams() {
   renderOrEmpty('g3StreamTableBody', e => e.type?.includes('QUEST') || e.type?.includes('POOL') || e.network?.includes('Pool'), 'En espera de firma EIP-712 Pool');
   renderOrEmpty('g4StreamTableBody', e => e.network?.includes('Sepolia') || e.network?.includes('Base') || e.network?.includes('Arbitrum') || e.type?.includes('BRIDGE'), 'En espera de relay L2 Gasless');
   renderOrEmpty('g5StreamTableBody', e => e.type?.includes('SWAP') || e.type?.includes('MINT') || e.network?.includes('QuickSwap') || e.network?.includes('Polygon'), 'En espera de swap / mint DEX');
+
+  // Renderizado del Cronograma de Lanzamientos Públicos & TGE (Especialistas Chronos #01 & Navigator #02)
+  renderAirdropCalendar(telem);
+}
+
+// -------------------------------------------------------------
+// 8.1. RENDERIZADO DEL CRONOGRAMA TÁCTICO DE AIRDROPS & TGE
+// -------------------------------------------------------------
+function renderAirdropCalendar(telem) {
+  const tbody = document.getElementById('airdropCalendarTableBody');
+  const badge = document.getElementById('chronosCountdownBadge');
+  if (!tbody) return;
+
+  const airdropData = telem?.airdropLaunchCalendar;
+  const calendar = airdropData?.calendar || [];
+
+  if (calendar.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); font-size: 0.54rem; padding: 15px;">⏳ Sincronizando con Especialista NEBULA-CHRONOS #01...</td></tr>';
+    return;
+  }
+
+  const nextImminent = calendar[0];
+  if (badge && nextImminent) {
+    badge.textContent = `🔥 ${nextImminent.name.toUpperCase()}: ${nextImminent.daysToSnapshot} DÍAS SNAPSHOT`;
+  }
+
+  let html = '';
+  calendar.forEach(item => {
+    let badgeClass = 'paid';
+    if (item.urgencyClass === 'imminent') badgeClass = 'debt';
+    else if (item.urgencyClass === 'high') badgeClass = 'warn';
+
+    html += `<tr>
+      <td>
+        <strong style="color: #fff; font-family: 'JetBrains Mono'; font-size: 0.60rem;">${item.name}</strong>
+        <span style="display: block; color: var(--neon-gold); font-size: 0.50rem;">${item.tokenSymbol}</span>
+      </td>
+      <td style="color: var(--text-sub); font-size: 0.54rem;">${item.ecosystem}</td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.54rem; color: #fff;">${item.formattedSnapshotDate}</td>
+      <td>
+        <span class="badge-fino-status ${badgeClass}" style="font-size: 0.50rem; font-weight: bold;">
+          ¡En ${item.daysToSnapshot} días!
+        </span>
+      </td>
+      <td style="font-family: 'JetBrains Mono'; font-size: 0.52rem; color: var(--text-sub);">${item.formattedTgeDate} (~${item.daysToTge}d)</td>
+      <td>
+        <strong style="color: var(--neon-cyan); font-family: 'JetBrains Mono'; font-size: 0.56rem;">${item.assignedSoldiersCount} soldados</strong>
+        <span style="display: block; color: var(--text-muted); font-size: 0.48rem;">(${item.percentOfFleet} de la flota)</span>
+      </td>
+      <td style="font-size: 0.50rem; color: var(--text-sub); max-width: 220px; white-space: normal;">${item.criteria}</td>
+      <td>
+        <span class="badge-liq-sub ${item.urgencyClass === 'imminent' ? 'usd' : 'eur'}" style="font-size: 0.48rem;">
+          ${item.statusBadge}
+        </span>
+      </td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = html;
 }
 
 // -------------------------------------------------------------

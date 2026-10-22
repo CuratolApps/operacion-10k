@@ -831,6 +831,7 @@ async function generateUnifiedTelemetry() {
     oracleStocks: readJsonSafe(path.join(TELEMETRY_DIR, "oracle-stocks-state.json")),
     tradingMentor: readJsonSafe(path.join(TELEMETRY_DIR, "trading-mentor-state.json")),
     nftSurgicalSquadron: readJsonSafe(path.join(TELEMETRY_DIR, "nft-squadron-radar.json")),
+    airdropLaunchCalendar: readJsonSafe(path.join(TELEMETRY_DIR, "airdrop-launch-calendar.json")),
     dualCapitalizer: readJsonSafe(path.join(TELEMETRY_DIR, "dual-capitalizer.json")) || {
       status: "ACTIVE_COMPOUNDING",
       badges: ["🔒 Trinquete 85% USDC", "⛽ Capitalizador 75/25 Gas Activo", "🛡️ 5º Candado Anti-MEV <= 0.15%"],

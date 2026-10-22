@@ -36,8 +36,13 @@ async function runSentinelCycle() {
     console.log("\n🏛️ [PASO 3/4]: Analizando activos globales de Wall Street con Oracle-Global #701...");
     await runOracleMarketAnalysis();
 
-    // 4. ACTUALIZACIÓN DE TELEMETRÍA GLOBAL DE LA FLOTA
-    console.log("\n📊 [PASO 4/4]: Sincronizando telemetría de la flota y el Dashboard...");
+    // 4. ESPECIALISTAS DE AIRDROPS: CHRONOS #01 & NAVIGATOR #02
+    console.log("\n📅 [PASO 4/5]: Evaluando cronograma de lanzamientos y foco de los 500 soldados...");
+    const { runAirdropSpecialistsReport } = require("./airdrop-chronos-scout");
+    await runAirdropSpecialistsReport(false);
+
+    // 5. ACTUALIZACIÓN DE TELEMETRÍA GLOBAL DE LA FLOTA
+    console.log("\n📊 [PASO 5/5]: Sincronizando telemetría de la flota y el Dashboard...");
     await generateUnifiedTelemetry();
 
     console.log("\n✅ [CICLO CENTINELA COMPLETADO]: Todos los módulos reportados y en sincronía.");

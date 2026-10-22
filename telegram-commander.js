@@ -28,8 +28,10 @@ function getCleanToken() {
 }
 
 function getAuthorizedChatId() {
-  const raw = process.env.TELEGRAM_CHAT_ID || "";
-  return raw.trim().replace(/^["']|["']$/g, "").trim();
+  let raw = process.env.TELEGRAM_CHAT_ID || "";
+  raw = raw.trim().replace(/^["']|["']$/g, "").trim();
+  if (raw === "-5101181644") raw = "-1004342131598";
+  return raw;
 }
 
 function loadPublicWallets() {
@@ -62,13 +64,26 @@ async function callTelegram(method, body = {}) {
   const token = getCleanToken();
   if (!token) return null;
   const endpoint = `https://api.telegram.org/bot${token}/${method}`;
+  if (body.chat_id === "-5101181644") {
+    body.chat_id = "-1004342131598";
+  }
   try {
-    const res = await fetch(endpoint, {
+    let res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
-    return await res.json();
+    let data = await res.json();
+    if (!data.ok && data.parameters && data.parameters.migrate_to_chat_id) {
+      body.chat_id = String(data.parameters.migrate_to_chat_id);
+      res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      data = await res.json();
+    }
+    return data;
   } catch (err) {
     console.error(`⚠️ [TELEGRAM-API] Error en ${method}: ${err.message}`);
     return null;
@@ -109,7 +124,8 @@ Toca cualquiera de las opciones para consultar la telemetría en tiempo real:
         { text: "🏛️ Box 7: Wall Street", callback_data: "cmd_oracle" }
       ],
       [
-        { text: "👑 Mentor Simons-Medallion #00", callback_data: "cmd_mentor" }
+        { text: "👑 Mentor Simons-Medallion #00", callback_data: "cmd_mentor" },
+        { text: "📅 Cronograma Lanzamientos", callback_data: "cmd_lanzamientos" }
       ]
     ]
   };
@@ -668,6 +684,61 @@ ${deptsText}
   });
 }
 
+async function handleLanzamientos(chatId) {
+  const calFile = path.join(__dirname, "telemetry", "airdrop-launch-calendar.json");
+  let data = null;
+  try {
+    if (fs.existsSync(calFile)) {
+      data = JSON.parse(fs.readFileSync(calFile, "utf8"));
+    }
+  } catch (_) {}
+
+  if (!data) {
+    const { runAirdropSpecialistsReport } = require("./airdrop-chronos-scout");
+    data = await runAirdropSpecialistsReport(false);
+  }
+
+  const cal = data.calendar || [];
+  const top = cal.slice(0, 5);
+
+  const lines = top.map((item, i) => {
+    return `<b>${i + 1}. ${escHtml(item.name)} (${escHtml(item.tokenSymbol)})</b>
+   • 📅 <b>Snapshot:</b> ${item.formattedSnapshotDate} (<b>¡En ${item.daysToSnapshot} días!</b>)
+   • 🚀 <b>Lanzamiento TGE:</b> ${item.formattedTgeDate} (~${item.daysToTge} días)
+   • 🏷️ <b>Estado:</b> ${item.statusBadge}
+   • ⛏️ <b>Soldados Picando Piedra:</b> <b>${item.assignedSoldiersCount} soldados</b> (${item.percentOfFleet})
+   • 📋 <b>Misión:</b> <i>${escHtml(item.criteria)}</i>`;
+  }).join("\n\n");
+
+  const text = `
+📅 <b>CRONOGRAMA DE LANZAMIENTOS PÚBLICOS & AIRDROPS</b>
+🔬 <b>Especialistas al Mando:</b>
+   • 🛰️ <b>NEBULA-CHRONOS #01:</b> Rastreo de Fechas & TGEs
+   • 🧭 <b>NEBULA-NAVIGATOR #02:</b> Director de Foco de los 500 Soldados
+
+🎯 <b>DOCTRINA: "PICAR PIEDRA CERCA DEL ORO"</b>
+<i>Nuestros 500 soldados concentran su minería donde la cosecha está más próxima a pagar:</i>
+
+${lines}
+
+📊 <b>DISTRIBUCIÓN TOTAL DE LOS 500 SOLDADOS:</b>
+• ⛏️ <b>Citrea BTC ZK:</b> 180 soldados (36%) ➔ Box 1 & 2
+• ⛏️ <b>Goat BTC L2:</b> 120 soldados (24%) ➔ Box 3 & 4
+• ⛏️ <b>Scroll Season 2:</b> 80 soldados (16%) ➔ Box 3 & 4
+• ⛏️ <b>Linea / Monad / Bera:</b> 120 soldados (24%) ➔ Box 5 & Rotación
+
+💰 <b>Riesgo de Capital:</b> $0.00 USD (100% Sin Gasto Inútil)
+⏰ <i>Sincronizado: ${data.lastUpdatedFormatted || "En vivo"}</i>
+`.trim();
+
+  return await callTelegram("sendMessage", {
+    chat_id: chatId,
+    text,
+    parse_mode: "HTML",
+    disable_web_page_preview: true
+  });
+}
+
 async function handleSoldado(chatId, query) {
   if (!query) {
     return await callTelegram("sendMessage", {
@@ -886,6 +957,8 @@ async function startCommanderBot() {
               await handleOracle(effectiveChatId);
             } else if (cmd === "/mentor" || cmd === "/simons") {
               await handleMentor(effectiveChatId);
+            } else if (cmd === "/lanzamientos" || cmd === "/cronograma" || cmd === "/especialistas" || cmd === "/airdrop" || cmd === "/fechas") {
+              await handleLanzamientos(effectiveChatId);
             } else {
               await callTelegram("sendMessage", {
                 chat_id: effectiveChatId,
@@ -933,6 +1006,8 @@ async function startCommanderBot() {
               await handleOracle(cbChatId);
             } else if (cbData === "cmd_mentor") {
               await handleMentor(cbChatId);
+            } else if (cbData === "cmd_lanzamientos") {
+              await handleLanzamientos(cbChatId);
             }
           }
         }
@@ -957,5 +1032,6 @@ module.exports = {
   handleBinance,
   handleJuegos,
   handleCuartel,
-  handleSoldado
+  handleSoldado,
+  handleLanzamientos
 };
