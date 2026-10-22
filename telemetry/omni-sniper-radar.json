@@ -1,15 +1,15 @@
 {
   "schemaVersion": "2.0.0",
   "service": "Omni-Sniper-5Models-Radar-12K",
-  "timestamp": "2026-10-22T19:11:12.769Z",
-  "latencyMs": 1038,
+  "timestamp": "2026-10-22T20:36:22.812Z",
+  "latencyMs": 77,
   "gasCostThisScan": "0.00 USD (Multicall3 $0 Gas)",
   "zeroGasDrainEnforced": true,
   "highWaterMarkRatchet": {
     "highWaterMarkUsdc": 41.579394,
     "lockedFloorUsdc": 35.342485,
-    "floatingUsdc": 3.376909,
-    "floorProtected": true
+    "floatingUsdc": 0,
+    "floorProtected": false
   },
   "models": [
     {
@@ -38,11 +38,11 @@
         "Element Market"
       ],
       "verifiedContractsActive": 4,
-      "instantSpreadPct": 0.587,
-      "opportunityScore": 90,
+      "instantSpreadPct": 0.487,
+      "opportunityScore": 85,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Spread real 0.587% < 1.50% umbral, $0 gas)",
-      "diagnostic": "Lectura en vivo de cotizaciones DEX completada: Max $0.090295 vs Min $0.089768 USDC/POL. Spread real: 0.587%."
+      "status": "🛡️ VIGILANCIA CENTINELA (Spread real 0.487% < 1.50% umbral, $0 gas)",
+      "diagnostic": "Lectura en vivo de cotizaciones DEX completada: Max $0.090205 vs Min $0.089768 USDC/POL. Spread real: 0.487%."
     },
     {
       "modelId": "MODEL-3-WHALE-PANIC-DIP",
@@ -55,12 +55,12 @@
         "WPOL/USDC",
         "WBNB/USDC"
       ],
-      "maxDislocationPct": 0.4249,
+      "maxDislocationPct": 0.1941,
       "thresholdPct": 1.5,
       "opportunityScore": 88,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.42% < 1.5%, $0 gas)",
-      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.42% sin panic-selling en este bloque."
+      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.19% < 1.5%, $0 gas)",
+      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.19% sin panic-selling en este bloque."
     },
     {
       "modelId": "MODEL-4-EPOCH-QUEST-POOLS",
@@ -91,22 +91,22 @@
       ],
       "totalVaultsAudited": 30,
       "topBountyFound": {
-        "vault": "WBNB-USDT",
-        "chain": "BSC",
-        "rewardUsd": 0.225826,
-        "gasThresholdUsd": 0.15
+        "vault": "Ninguna",
+        "chain": "none",
+        "rewardUsd": 0,
+        "gasThresholdUsd": 0.02
       },
-      "opportunityScore": 99,
-      "fireAuthorized": true,
-      "status": "🔥 KEEPER BOUNTY EJECUTABLE ($0.225826 USD en WBNB-USDT [BSC] > 2.5x Gas)",
-      "diagnostic": "Auditoría Multicall3 de 30 bóvedas completada a $0 gas. Top caller fee acumulado: $0.2258 USD en WBNB-USDT (BSC)."
+      "opportunityScore": 86,
+      "fireAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Bounty top: $0.0000 USD en Ninguna [none] < umbral 2.5x gas $0.02 USD, $0 gas)",
+      "diagnostic": "Auditoría Multicall3 de 30 bóvedas completada a $0 gas. Top caller fee acumulado: $0.0000 USD en Ninguna (none)."
     }
   ],
   "overallVerdict": {
-    "sniperFireAuthorized": true,
-    "authorizedModelsCount": 1,
-    "averageOpportunityScore": 90,
-    "operationalStatus": "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA DETECTADA)",
+    "sniperFireAuthorized": false,
+    "authorizedModelsCount": 0,
+    "averageOpportunityScore": 86,
+    "operationalStatus": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
     "gasBurned": "0.00 POL / 0.00 BNB"
   }
 }

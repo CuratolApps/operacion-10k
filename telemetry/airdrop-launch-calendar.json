@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.2.0",
-  "timestamp": "2026-10-22T19:33:07.983Z",
-  "timestampFormatted": "22/10/2026, 19:33:07 UTC",
+  "timestamp": "2026-10-22T20:36:53.455Z",
+  "timestampFormatted": "22/10/2026, 20:36:53 UTC",
   "officers": {
     "nebula33": {
       "id": "NEBULA-FORENSIC-SHIELD #33",
@@ -66,10 +66,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
+        "safetyScore": 92,
         "honeypotRisk": "0%",
         "vcBacking": "Capital Propio Blindado ($39.72 USDC)",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verdictDetails": "🟢 VERIFICADO ON-CHAIN",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -103,10 +103,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 94,
+        "safetyScore": 92,
         "honeypotRisk": "0%",
         "vcBacking": "Hack VC / Dispersion Capital",
-        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verdictDetails": "🟢 VERIFICADO ON-CHAIN",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -140,10 +140,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 94,
+        "safetyScore": 92,
         "honeypotRisk": "0%",
         "vcBacking": "ConsenSys / Protocol Labs",
-        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verdictDetails": "🟢 VERIFICADO ON-CHAIN",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -177,10 +177,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 94,
+        "safetyScore": 92,
         "honeypotRisk": "0%",
         "vcBacking": "Sony / Startale Labs / Polychain",
-        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verdictDetails": "🟢 VERIFICADO ON-CHAIN",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -214,10 +214,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
+        "safetyScore": 92,
         "honeypotRisk": "0%",
         "vcBacking": "Coinbase Ventures / Pantera Capital",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verdictDetails": "🟢 VERIFICADO ON-CHAIN",
         "verifiedOnChain": true
       },
       "fleetAction": {

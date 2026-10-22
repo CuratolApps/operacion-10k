@@ -1,34 +1,71 @@
 {
-  "schemaVersion": "1.0.0",
-  "timestamp": "2026-10-22T15:24:59.859Z",
-  "status": "VIGILANCIA_CENTINELA_ARMADA",
+  "schemaVersion": "2.1.0",
+  "timestamp": "2026-10-22T20:35:58.113Z",
+  "directorDeTiro": {
+    "zeroCollisionMutex": "ACTIVO_Y_VERIFICADO",
+    "activeSlotLeader": "#501 (Nodriza Matriz)",
+    "noncePolicy": "MONOTONIC_STRICT_NO_COLLISION"
+  },
   "cannonsArmed": {
-    "polygonHeavyCannon": 18.295135,
-    "bscHeavyCannon": 20.424259,
-    "totalFirepowerUsdc": 38.719393999999994
+    "polygonHeavyCannon": 19.202166,
+    "bscHeavyCannon": 21.517604,
+    "totalFirepowerUsdc": 40.71977
   },
-  "liveDEXRoutes": {
-    "polygonWinningRoute": "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
-    "bscWinningRoute": "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
-    "antiMevMaxSlippagePct": 0.15
+  "threeVectorsStatus": [
+    {
+      "vectorId": "VECTOR-1-CONCENTRATED-V3",
+      "name": "Arbitraje Concentrado V3 (0.01% / 0.05% Tiers)",
+      "spreadPolygon": -0.1075,
+      "spreadBsc": -0.0234,
+      "isProfitable": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Spread V3 < 1.35x Gas, $0 gas consumido)"
+    },
+    {
+      "vectorId": "VECTOR-2-KEEPER-BOUNTIES",
+      "name": "Keeper Harvest Bounties (30+ Bóvedas Beefy & Gamma)",
+      "topRewardUsd": 0,
+      "thresholdMultiplier": "1.35x Costo de Gas",
+      "isProfitable": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Reward < 1.35x Gas, $0 gas consumido)"
+    },
+    {
+      "vectorId": "VECTOR-3-WHALE-REBOUNDS",
+      "name": "Whale Rebounds en Pares Institucionales (WPOL, WBNB, WETH, WBTC)",
+      "pairsMonitored": [
+        "WPOL/USDC",
+        "WBNB/USDC",
+        "WETH/USDC",
+        "WBTC/USDC"
+      ],
+      "maxDislocationPct": 0.1941,
+      "locksVerified": "5 Candados de las 32 Nebulosas Activos",
+      "isProfitable": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Sin panic-sell institucional, $0 gas consumido)"
+    }
+  ],
+  "atomicPreFlightPolicy": {
+    "formula": "USDC_Salida > USDC_Entrada + Costo_Gas * 1.35",
+    "status": "EVALUADO_A_0_GAS_VIA_CALLSTATIC"
   },
-  "omniModelsSummary": {
-    "modelsAudited": 5,
-    "averageOpportunityScore": 89,
-    "gasCostScanUsd": 0
+  "growthRule70_30": {
+    "usdcCompoundingRatio": 0.7,
+    "gasReloadRatio": 0.3,
+    "milestones": {
+      "hito1": "$50.00 USDC (Mitad de los 90 €)",
+      "hito2": "$110.00 USDC (Equilibrio 90 €)",
+      "hito3": "$130.00 USDC (Break-Even 120 €)"
+    }
   },
   "firingRecord": {
     "executed": false,
-    "network": "polygonMainnet",
-    "targetFront": "#501 / #001",
-    "inputUsdc": 18.295135,
+    "network": null,
+    "targetFront": null,
+    "inputUsdc": 0,
     "outputUsdc": 0,
     "netProfitUsdc": 0,
+    "preFlightStatus": "STATICCALL_RECHAZADO_0_GAS",
     "profitSplit": null,
-    "status": "DISPARO_POLYGON_STANDBY_STATICCALL"
+    "status": "VIGILANCIA_CENTINELA_0_GAS"
   },
-  "compoundingRule70_30": {
-    "usdcShare": "70% a engordar USDC Nativo hacia $130 (120 €)",
-    "gasRestockShare": "30% a comprar más POL y BNB"
-  }
+  "status": "VIGILANCIA_CENTINELA_ARMADA"
 }

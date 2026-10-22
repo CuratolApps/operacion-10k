@@ -16,35 +16,35 @@
   "winRatePct": 100,
   "activePosition": {
     "symbol": "BNB/USDC",
-    "entryPrice": 732.29,
+    "entryPrice": 730,
     "capitalUsdc": 15,
     "tpPct": 2.5,
-    "tpPrice": 750.6,
+    "tpPrice": 748.25,
     "slPct": 1,
-    "slPrice": 724.97,
+    "slPrice": 722.7,
     "riskRewardRatio": "2.5:1",
     "mentorApproval": "✅ APROBADO POR MENTOR #00 (SOBREVENTA LIMPIA)",
-    "openedAt": "2026-10-22T19:33:20.862Z"
+    "openedAt": "2026-10-22T20:37:16.610Z"
   },
   "scannedSignals": [
     {
       "symbol": "POL/USDC",
-      "currentPrice": 0.09076,
-      "rsi14": 32,
-      "support24": 0.08934,
-      "resistance24": 0.09628,
-      "isTrendBullish": true,
+      "currentPrice": 0.0904,
+      "rsi14": 29,
+      "support24": 0.089,
+      "resistance24": 0.098,
+      "isTrendBullish": false,
       "isOversold": true,
-      "signal": "BUY_DISPARO_LONG",
-      "confidenceScore": 92,
-      "mentorVerdict": "🟢 AUTORIZADO POR #00"
+      "signal": "SOBREVENTA_VIGILANDO",
+      "confidenceScore": 75,
+      "mentorVerdict": "⚪ VIGILANCIA FRÍA"
     },
     {
       "symbol": "BNB/USDC",
-      "currentPrice": 732.29,
-      "rsi14": 38,
-      "support24": 724.81,
-      "resistance24": 750.34,
+      "currentPrice": 730,
+      "rsi14": 31,
+      "support24": 725,
+      "resistance24": 752,
       "isTrendBullish": true,
       "isOversold": true,
       "signal": "BUY_DISPARO_LONG",
@@ -53,10 +53,10 @@
     },
     {
       "symbol": "ETH/USDC",
-      "currentPrice": 2389.67,
-      "rsi14": 33,
-      "support24": 2357.85,
-      "resistance24": 2500,
+      "currentPrice": 2395,
+      "rsi14": 31,
+      "support24": 2370,
+      "resistance24": 2510,
       "isTrendBullish": true,
       "isOversold": true,
       "signal": "BUY_DISPARO_LONG",
@@ -65,10 +65,10 @@
     },
     {
       "symbol": "SOL/USDC",
-      "currentPrice": 103.77,
-      "rsi14": 29,
-      "support24": 102.91,
-      "resistance24": 108.44,
+      "currentPrice": 104.5,
+      "rsi14": 34,
+      "support24": 103.1,
+      "resistance24": 109.2,
       "isTrendBullish": true,
       "isOversold": true,
       "signal": "BUY_DISPARO_LONG",
@@ -77,10 +77,10 @@
     },
     {
       "symbol": "BTC/USDC",
-      "currentPrice": 81443.71,
-      "rsi14": 29,
-      "support24": 80849.22,
-      "resistance24": 84800.35,
+      "currentPrice": 81530,
+      "rsi14": 32,
+      "support24": 80800,
+      "resistance24": 84400,
       "isTrendBullish": true,
       "isOversold": true,
       "signal": "BUY_DISPARO_LONG",
@@ -88,5 +88,5 @@
       "mentorVerdict": "🟢 AUTORIZADO POR #00"
     }
   ],
-  "lastEvaluation": "2026-10-22T19:33:20.862Z"
+  "lastEvaluation": "2026-10-22T20:37:16.610Z"
 }

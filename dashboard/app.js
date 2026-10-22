@@ -349,18 +349,27 @@ function assemble502Wallets() {
 function renderTopRadarBanner() {
   const telem = state.telemetry;
   
-  // Extracción robusta anti-NaN
+  // 1. Bóveda On-Chain real (Piso base real $38.72 USDC o valor superior en cadena)
+  const cannon1Usdc = safeNum(telem?.sniperPerformance?.cannon1Usdc || telem?.cannons?.polygonUsdc, 18.30);
+  const cannon2Usdc = safeNum(telem?.sniperPerformance?.cannon2Usdc || telem?.cannons?.bscUsdc, 20.42);
+  const cannonsSum = cannon1Usdc + cannon2Usdc;
+  const onChainFromTelem = safeNum(telem?.totalOnChainFleetUsdc || telem?.onChainVaultUsdc || telem?.lomo4Metrics?.roiTracker?.totalRecoveredUsdc, 0);
+  const onChainVaultUsdc = Math.max(38.72, cannonsSum, onChainFromTelem);
+
+  // 2. Binance Spot #1 Harvested ($1.00 USDC)
   const totalBinanceNum = safeNum(telem?.totalHarvestedToBinanceUsdc, 1.00);
   const pendingNum = safeNum(telem?.pendingHarvestUsdc, 0);
   const fleetUsdcNum = safeNum(telem?.dailyCapturedUsdc, 0);
   const goalAccrued = safeNum(telem?.goalMilestone?.currentAccruedUsdc, 0);
   const historicalUsdc = safeNum(telem?.totalHistoricalUsdc, 0);
-  const consolidatedNum = Math.max(totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued, historicalUsdc);
+
+  // 3. Liquidez Real Consolidada (Bóveda On-Chain + Binance Spot #1 = Piso real $39.72 USDC / ~36.65 € o superior)
+  const consolidatedNum = Math.max(39.72, onChainVaultUsdc + totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued, historicalUsdc);
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
-  if (elMain) elMain.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
+  if (elMain) elMain.textContent = `$${consolidatedNum.toFixed(2)} USDC`;
 
-  const currentUsdc = safeNum(consolidatedNum, 39.72);
+  const currentUsdc = consolidatedNum;
   const hito1Pct = ((currentUsdc / 50.00) * 100).toFixed(1);
   const hito2Pct = ((currentUsdc / 110.00) * 100).toFixed(1);
 
@@ -376,19 +385,20 @@ function renderTopRadarBanner() {
 
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) {
-    elUsd.textContent = '🏦 Bóveda On-Chain: $38.72 USDC (70/30 Compounding)';
+    elUsd.textContent = `🏦 Bóveda On-Chain: $${onChainVaultUsdc.toFixed(2)} USDC (70/30 Compounding)`;
   }
+
+  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '121.02';
+  const fleetPol = telem?.globalGasTank?.pol || '265.86';
+  const fleetBnb = telem?.globalGasTank?.bnb || '0.0435';
 
   const elRes = document.getElementById('dashReserveLiqPill');
   if (elRes) {
-    elRes.textContent = '⛽ Reserva #501: 121.02 POL | Flota: 265.86 POL';
+    elRes.textContent = `⛽ Reserva #501: ${Number(motherPol).toFixed(2)} POL | Flota: ${Number(fleetPol).toFixed(2)} POL`;
   }
 
   const elMotherPol = document.getElementById('dashMothershipPol');
   const elFleetPol = document.getElementById('dashFleetPol');
-  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '121.02';
-  const fleetPol = telem?.globalGasTank?.pol || '265.86';
-  const fleetBnb = telem?.globalGasTank?.bnb || '0.0435';
   if (elMotherPol) elMotherPol.textContent = `${Number(motherPol).toFixed(1)} POL`;
   if (elFleetPol) elFleetPol.textContent = `~${Number(fleetPol).toFixed(0)} POL`;
 

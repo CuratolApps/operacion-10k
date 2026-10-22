@@ -1,6 +1,6 @@
 {
   "schemaVersion": "3.0.0",
-  "generatedAt": "2026-10-22T14:16:48.629Z",
+  "generatedAt": "2026-10-22T20:36:38.205Z",
   "status": "ACTIVE_COMPOUNDING",
   "strategy": "FASE_1_RECUPERACION_120_EUR_CLOSED_LOOP_70_30",
   "badges": [
@@ -23,25 +23,28 @@
     "milestones": [
       {
         "step": 1,
-        "title": "Escalón 1: 50% Inversión",
-        "targetUsdc": 65,
-        "targetEur": 60,
+        "title": "Hito 1: Mitad de los 90 € (Foco Inmediato)",
+        "targetUsdc": 50,
+        "targetEur": 45,
+        "status": "EN_PROGRESO",
         "reached": false,
-        "progressPct": 65.5
+        "progressPct": 85.2
       },
       {
         "step": 2,
-        "title": "Escalón 2: 75% Inversión",
-        "targetUsdc": 97.5,
+        "title": "Hito 2: Equilibrio Total 90 €",
+        "targetUsdc": 110,
         "targetEur": 90,
+        "status": "EN_COLA",
         "reached": false,
-        "progressPct": 43.7
+        "progressPct": 38.7
       },
       {
         "step": 3,
-        "title": "Escalón 3: Break-Even Total (100% Intocable)",
+        "title": "Hito 3: Break-Even Total 120 € (100% Intocable)",
         "targetUsdc": 130,
         "targetEur": 120,
+        "status": "EN_COLA",
         "reached": false,
         "progressPct": 32.8
       }
@@ -58,9 +61,9 @@
   },
   "gasCompounder": {
     "model": "CLOSED_CYCLE_RECOVERY_70_30",
-    "isAcceleratorMode": true,
+    "isAcceleratorMode": false,
     "targetThresholdPol": 400,
-    "currentFleetPol": 265.86,
+    "currentFleetPol": 448.2,
     "usdcCompoundingRatio": 0.7,
     "gasRestockRatio": 0.3,
     "gasDistribution": {
@@ -75,16 +78,16 @@
       "bnbUsdc": 731.55
     },
     "currentPrices": {
-      "polUsdc": 0.090852,
-      "bnbUsdc": 731.09
+      "polUsdc": 0.090205,
+      "bnbUsdc": 730.58
     },
     "priceVariationPct": {
-      "pol": -0.08,
-      "bnb": -0.06
+      "pol": -0.79,
+      "bnb": -0.13
     },
     "unitAdvantagePct": {
-      "pol": 0.08,
-      "bnb": 0.06
+      "pol": 0.8,
+      "bnb": 0.13
     },
     "isEligible": false,
     "recommendation": "STANDBY_MONITORING",
