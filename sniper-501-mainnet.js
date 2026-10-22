@@ -1874,11 +1874,13 @@ module.exports = {
   UNISWAP_V3_SWAP_ROUTER_02,
   STRICT_NO_GAS_SELL,
   executeUnifiedShinobiSnipe: require("./omni-sniper-5models").executeUnifiedShinobiSnipe,
+  executeBurstReconAndStrike: require("./expert-captains-command").executeBurstReconAndStrike,
   runTacticalGasRecovery: require("./scripts/tactical-gas-recovery").runTacticalGasRecovery
 };
 
 if (require.main === module) {
   const isDryRun = process.argv.includes("--dry-run");
+  const isBurstRecon = process.argv.includes("--burst-recon-strike") || process.argv.includes("--burst-recon");
   const isBurst1 = process.argv.includes("--burst-1-of-5") || process.argv.includes("--burst-1");
   const isSurpriseStrike = process.argv.includes("--surprise-strike");
   const isFlankRotation = process.argv.includes("--flank-rotation-strike") || process.argv.includes("--flank-rotation");
@@ -1887,7 +1889,13 @@ if (require.main === module) {
   const isUnifiedSnipe = process.argv.includes("--unified-snipe");
   const isConsolidate = process.argv.includes("--consolidate-spearheads");
 
-  if (isConsolidate) {
+  if (isBurstRecon) {
+    const { executeBurstReconAndStrike } = require("./expert-captains-command");
+    executeBurstReconAndStrike({ sweeps: 5, delayMs: 4000, notifyTelegram: true }).catch(err => {
+      console.error("❌ Error en Burst Recon & Strike:", err);
+      process.exit(1);
+    });
+  } else if (isConsolidate) {
     consolidateUsdcSpearheads({ dryRun: isDryRun }).catch(err => {
       console.error("❌ Error en Consolidación de Cañones Pesados:", err);
       process.exit(1);

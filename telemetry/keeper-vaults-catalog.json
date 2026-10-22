@@ -1,0 +1,249 @@
+{
+  "totalVaults": 30,
+  "polygonCount": 15,
+  "bscCount": 15,
+  "polygonVaults": [
+    {
+      "id": "morpho-compound-weth",
+      "name": "WETH (Gauntlet, Compound)",
+      "platformId": "morpho",
+      "vault": "0xF9BE54A67cdB878bA088907a463a877A084B9af9",
+      "strategy": "0x61abf059070A3E02275B592674B836d220119BA5",
+      "chain": "polygon"
+    },
+    {
+      "id": "morpho-compound-usdc",
+      "name": "USDC (Gauntlet, Compound)",
+      "platformId": "morpho",
+      "vault": "0x28deaAE15B3649B7ab0bB3292D9dc1D0337387F6",
+      "strategy": "0xacebe8784EdF67C356AA29d28fDA0D59B2369CA1",
+      "chain": "polygon"
+    },
+    {
+      "id": "morpho-compound-usdt",
+      "name": "USD₮0 (Gauntlet, Compound)",
+      "platformId": "morpho",
+      "vault": "0x9B9f0B8d068BE4209111755272354F807379EdAF",
+      "strategy": "0xE20E1489614C88da801B3e04f5bE03AB8AF0e2c5",
+      "chain": "polygon"
+    },
+    {
+      "id": "compound-polygon-usdt",
+      "name": "USD₮0",
+      "platformId": "compound",
+      "vault": "0xC2b2bc1e726a387aCdbaF4ff80265fb805dA7C42",
+      "strategy": "0x7Cc9865da007810F514315DD2Ba253ca6aB58087",
+      "chain": "polygon"
+    },
+    {
+      "id": "sushi-cow-poly-wmatic-usdc",
+      "name": "WPOL-USDC",
+      "platformId": "beefy",
+      "vault": "0x935cA8F3c323e67F2C90616AC61D53e05B4ed7B7",
+      "strategy": "0x66a996005046538c7212d2441381a5c760E7Eb04",
+      "chain": "polygon"
+    },
+    {
+      "id": "balancer-polygon-wbtc-usdc-eth",
+      "name": "WBTC/USDC/ETH",
+      "platformId": "balancer",
+      "vault": "0x2956333ca76D156A86533E6D1D8209E9B04D69a5",
+      "strategy": "0x9a543a4e6a7B4952Bc3401Ca8bB7e4971D32EAD9",
+      "chain": "polygon"
+    },
+    {
+      "id": "balancer-polygon-usdc-dai-usdt",
+      "name": "USDC/DAI/USD₮0",
+      "platformId": "balancer",
+      "vault": "0xF4C44A0A7b48A016861eE5cAe3dE82126366cCC9",
+      "strategy": "0x4eF35DA422DeaaeC16858d58f0fE5550654503a0",
+      "chain": "polygon"
+    },
+    {
+      "id": "aura-polygon-wmatic-maticx",
+      "name": "MaticX-WPOL",
+      "platformId": "aura",
+      "vault": "0xF3B13e9D8133CeF4eb77Fc2134c5Af82d686bC17",
+      "strategy": "0xf4D348e3D74300fCf35766B31B5DDAB4C1dbC94B",
+      "chain": "polygon"
+    },
+    {
+      "id": "uniswap-cow-poly-wbtc-usdc",
+      "name": "WBTC-USDC",
+      "platformId": "beefy",
+      "vault": "0xF93402fddbC5F94fe81998aB2ef2fC6E12E26b1e",
+      "strategy": "0x5Ac02b2C99bE7d91c3470Af24313d077C115550a",
+      "chain": "polygon"
+    },
+    {
+      "id": "uniswap-cow-poly-wmatic-wbtc",
+      "name": "WBTC-WPOL",
+      "platformId": "beefy",
+      "vault": "0xc96153bdA547d4a6066B8a08AE239EF757BF35aE",
+      "strategy": "0xb38cfe824130EE8e5082269C9c78B2793A8954C6",
+      "chain": "polygon"
+    },
+    {
+      "id": "uniswap-cow-poly-usdt-lcd",
+      "name": "LCD-USD₮0",
+      "platformId": "beefy",
+      "vault": "0x1f41a97Ccb116C7F86d7120669Bd659A303DE718",
+      "strategy": "0x89D629B704e177a1f6126732e0E4ba861E3266EE",
+      "chain": "polygon"
+    },
+    {
+      "id": "uniswap-cow-poly-usdc-link",
+      "name": "LINK-USDC",
+      "platformId": "beefy",
+      "vault": "0x195247799ac0B36CF6b9AC5Eb84ceE3bc17fe2dB",
+      "strategy": "0x365132f5E9C6A20D19E78252868321C32967BfBb",
+      "chain": "polygon"
+    },
+    {
+      "id": "uniswap-cow-poly-wmatic-link",
+      "name": "LINK-WPOL",
+      "platformId": "beefy",
+      "vault": "0xBC82E4724f143eebA9C5b6B7f35361380A88995c",
+      "strategy": "0xa829000d880Ad5a0b2903264eC9203587a4C104F",
+      "chain": "polygon"
+    },
+    {
+      "id": "uniswap-cow-poly-weth-aave",
+      "name": "AAVE-WETH",
+      "platformId": "beefy",
+      "vault": "0x69c3F6c3cc1b277BB4370E1A63EfEE19fccE0e74",
+      "strategy": "0x707dE581b9256B25d6b6B8468615c1Bc569160F7",
+      "chain": "polygon"
+    },
+    {
+      "id": "uniswap-cow-poly-wmatic-aave",
+      "name": "AAVE-WPOL",
+      "platformId": "beefy",
+      "vault": "0xEefe81030D5Fb355b627a047F48b48480D5b7F09",
+      "strategy": "0x40BD470B2F60EDaCED70e84E0919599dFA19EdEF",
+      "chain": "polygon"
+    }
+  ],
+  "bscVaults": [
+    {
+      "id": "pancake-cow-bsc-eth-wbnb-vault",
+      "name": "ETH-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0x015E2d1b7aC621370A24B7dd426EF1ef4DA99B86",
+      "strategy": "0x6cA06E9E2e0f10DC240672Baa05c218057F3fCcA",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-eth-btcb-vault",
+      "name": "ETH-BTCB",
+      "platformId": "pancakeswap",
+      "vault": "0x0A751Fec061327d7338a972d3D05b5d1A105bfDa",
+      "strategy": "0xcd504c6bb24FB784e008F7D62EC5ac14D84486cA",
+      "chain": "bsc"
+    },
+    {
+      "id": "ooev2-ooe-bnb",
+      "name": "OOE-WBNB LP",
+      "platformId": "openocean",
+      "vault": "0x11D26A2F2BB6DF4a1fF915c919e2a0a256a61A5a",
+      "strategy": "0x38554E30927d876185603b2Da66c6db1585A444A",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-pepe-wbnb-vault",
+      "name": "PEPE-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0x13aD48480aC03233b4A1f73fABF7B7aa08cAfdbE",
+      "strategy": "0x0EAeE20e3aa309f392AB8C06fc61c1869A9969d1",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-slisbnb-wbnb-vault",
+      "name": "slisBNB-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0x389163801b50E5d638938876d78eaa6A0c9B1aC5",
+      "strategy": "0xBED152eE33809854BbB04222454518004D332559",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-zro-wbnb-vault",
+      "name": "ZRO-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0x4e8760ADC4f2e5B7B0154B555BE093C6246ce1B3",
+      "strategy": "0x300B792001AF3DBC2bF070Fe220bfD88608C62FA",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-wbnb-xvs-vault",
+      "name": "XVS-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0x5C60E395995123dE9B9099d01E592c97a73e0e12",
+      "strategy": "0x3DF82f3E1a11B9d7d06267773B5BB2be5F8Be010",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-usdt-usdc-vault",
+      "name": "USDT-USDC",
+      "platformId": "pancakeswap",
+      "vault": "0x747efB59DEE2C791A87654FE6B0E5C5c885b47fa",
+      "strategy": "0x76BC6A2D41B4ddacA8e7ff3443C500D9CC89747a",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-cake-usdt-vault",
+      "name": "CAKE-USDT",
+      "platformId": "pancakeswap",
+      "vault": "0x85f8e6C8dbba76142475f899505C16b46aD810E5",
+      "strategy": "0xdC12477279135773811d059B5a721C2d09885235",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-usdc-wbnb-vault",
+      "name": "USDC-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0x9EA9A69035565052C0eF6f4b94f0Bd00Cb33f2DC",
+      "strategy": "0xBc97b2E4eFc00F094572d075CaC7678efB93FB80",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-axlusdc-usdt-vault",
+      "name": "axlUSDC-USDT",
+      "platformId": "pancakeswap",
+      "vault": "0xAD9b11d8d03A82D2634b5474727D3d4B70aE8689",
+      "strategy": "0x41B47e75C836fDe1D9f0Ad4Ee6D1eeb061043401",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-usdt-wbnb-vault",
+      "name": "WBNB-USDT",
+      "platformId": "pancakeswap",
+      "vault": "0xB2DAee36f78b1b3f3D04D022c51B705980DF63ba",
+      "strategy": "0x975c681464B608538080D71838A4F44290d6746e",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-cake-wbnb-vault",
+      "name": "CAKE-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0xB9043F2ea80cF1D99A35896e6f3f8959E77957f2",
+      "strategy": "0x82831F221803f96294E75340099A257Fa459c3E5",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-btcb-wbnb-vault",
+      "name": "BTCB-WBNB",
+      "platformId": "pancakeswap",
+      "vault": "0xc5d917f45E2A837D40355B1DDe35C64ea9e82512",
+      "strategy": "0x156a0cF91A6e987D80448813C160A526A24B750a",
+      "chain": "bsc"
+    },
+    {
+      "id": "pancake-cow-bsc-usdt-btcb-vault",
+      "name": "BTCB-USDT",
+      "platformId": "pancakeswap",
+      "vault": "0xcD08B59A06D2275a1C29d3c6E8DCEa2cCB8eA34F",
+      "strategy": "0x158d797fB1E279e2CEB13D95a1517D4fE85CdE95",
+      "chain": "bsc"
+    }
+  ]
+}

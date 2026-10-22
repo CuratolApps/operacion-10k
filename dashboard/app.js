@@ -185,6 +185,7 @@ async function loadOrbitalData() {
     renderGalaxiesStreams();
     renderSatelliteRegistry();
     renderNebulaCommanders();
+    renderSniperFireVectors();
     renderWallStreetTerminal();
 
     if (window.lucide) {
@@ -936,6 +937,37 @@ async function renderNebulaCommanders() {
       </div>
     `;
   }).join('');
+}
+
+// -------------------------------------------------------------
+// 9.5. RENDERIZADO DE LOS 3 VECTORES DE FUEGO SNIPER (OPERACIÓN 12K)
+// -------------------------------------------------------------
+async function renderSniperFireVectors() {
+  let burstData = null;
+  const burstPaths = ['../telemetry/burst-recon-strike.json', '/telemetry/burst-recon-strike.json', 'telemetry/burst-recon-strike.json'];
+  for (const p of burstPaths) {
+    try {
+      const res = await fetch(`${p}?t=${Date.now()}`);
+      if (res.ok) {
+        burstData = await res.json();
+        break;
+      }
+    } catch (_) {}
+  }
+
+  if (!burstData) return;
+
+  const statusEl = document.getElementById('sniperBurstStatusText');
+  if (statusEl && burstData.strikeOutcome) {
+    const outcome = burstData.strikeOutcome;
+    if (outcome.strikeExecuted) {
+      statusEl.textContent = `🔥 DISPARO EJECUTADO (Regla 70/30 en marcha)`;
+      statusEl.style.color = 'var(--neon-green)';
+    } else {
+      statusEl.textContent = `🛡️ VIGILANCIA CENTINELA (Closest: ${outcome.closestSpreadPct}% en ${outcome.closestRoute.split(' ')[0]}) • $0 Gas Quemado`;
+      statusEl.style.color = 'var(--neon-cyan)';
+    }
+  }
 }
 
 // -------------------------------------------------------------

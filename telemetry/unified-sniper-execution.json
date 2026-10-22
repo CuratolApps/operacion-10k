@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "timestamp": "2026-10-22T14:39:47.544Z",
+  "timestamp": "2026-10-22T15:24:59.859Z",
   "status": "VIGILANCIA_CENTINELA_ARMADA",
   "cannonsArmed": {
     "polygonHeavyCannon": 18.295135,
@@ -8,24 +8,24 @@
     "totalFirepowerUsdc": 38.719393999999994
   },
   "liveDEXRoutes": {
-    "polygonWinningRoute": "Piscina A2: Uniswap V3 (Fee Tier 0.30% = 3000 - Concentrada)",
-    "bscWinningRoute": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+    "polygonWinningRoute": "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
+    "bscWinningRoute": "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
     "antiMevMaxSlippagePct": 0.15
   },
   "omniModelsSummary": {
     "modelsAudited": 5,
-    "averageOpportunityScore": 86,
+    "averageOpportunityScore": 89,
     "gasCostScanUsd": 0
   },
   "firingRecord": {
     "executed": false,
-    "network": null,
-    "targetFront": null,
-    "inputUsdc": 0,
+    "network": "polygonMainnet",
+    "targetFront": "#501 / #001",
+    "inputUsdc": 18.295135,
     "outputUsdc": 0,
     "netProfitUsdc": 0,
     "profitSplit": null,
-    "status": "VIGILANCIA_CENTINELA_0_GAS"
+    "status": "DISPARO_POLYGON_STANDBY_STATICCALL"
   },
   "compoundingRule70_30": {
     "usdcShare": "70% a engordar USDC Nativo hacia $130 (120 €)",

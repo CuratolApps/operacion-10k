@@ -50,9 +50,10 @@ const USDC_NATIVE_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // 6 d
 const WETH_POLYGON = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"; // 18 dec
 const WBTC_POLYGON = "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"; // 8 dec
 
-// Routers y Contratos Uniswap V3 Polygon
+// Routers y Contratos Uniswap V3 & Algebra Polygon
 const UNISWAP_V3_QUOTER_V2 = "0x61fFE014bA17989E743c5F6cB21bF9697530B21e";
 const UNISWAP_V3_SWAP_ROUTER_02 = "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45";
+const QUICKSWAP_V3_ROUTER = "0xf5b509bB0909a69B1C207E495f687a596C168E12"; // QuickSwap Algebra SwapRouter
 
 // Routers Polygon V2
 const QUICKSWAP_ROUTER = "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff";
@@ -72,13 +73,18 @@ const USDC_OFFICIAL_BSC = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"; // 18 de
 const ETH_BSC = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"; // 18 dec (Binance-Peg Ethereum)
 const BTCB_BSC = "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"; // 18 dec (Binance-Peg BTCB)
 
-// Router & Pares BSC
+// Routers & Quoters BSC
 const PANCAKE_ROUTER = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
+const PANCAKE_V3_QUOTER = "0xB048Bbc1Ee6b733FFfCFb9e9CeF7375518e25997";
 const PANCAKE_PAIR_WBNB_USDC = "0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b";
 const PANCAKE_PAIR_WBNB_ETH = "0x74E4716E431f45807DCF19f284c7aA99F18a4fbc";
 const PANCAKE_PAIR_ETH_USDC = "0xEa26B78255Df2bBC31C1eBf60010D78670185bD0";
 const PANCAKE_PAIR_WBNB_BTCB = "0x61EB789d75A95CAa3fF50ed7E47b96c132fEc082";
 const PANCAKE_PAIR_BTCB_USDC = "0x2dF244535624761f6fCc381CaE3e9b903429d9Ff";
+
+// 🎯 CAÑONES PESADOS DE LIQUIDEZ (OPERACIÓN 12K)
+const HEAVY_CANNON_POLYGON_USDC = 18.30; // 6 dec (Bajo mando #501/#001)
+const HEAVY_CANNON_BSC_USDC = 20.42;     // 18 dec (Bajo mando #501/#101)
 
 // ABIs
 const MULTICALL3_ABI = [
@@ -90,7 +96,8 @@ const ROUTER_ABI = [
 ];
 
 const QUOTER_V2_ABI = [
-  "function quoteExactInputSingle((address tokenIn, address tokenOut, uint256 amountIn, uint24 fee, uint160 sqrtPriceLimitX96) params) external returns (uint256 amountOut, uint160 sqrtPriceX96After, uint32 initializedTicksCrossed, uint256 gasEstimate)"
+  "function quoteExactInputSingle((address tokenIn, address tokenOut, uint256 amountIn, uint24 fee, uint160 sqrtPriceLimitX96) params) external returns (uint256 amountOut, uint160 sqrtPriceX96After, uint32 initializedTicksCrossed, uint256 gasEstimate)",
+  "function quoteExactInput(bytes path, uint256 amountIn) external returns (uint256 amountOut, uint160[] sqrtPriceX96AfterList, uint32[] initializedTicksCrossedList, uint256 gasEstimate)"
 ];
 
 const PAIR_ABI = [
@@ -289,6 +296,56 @@ async function scanPolygonDEXs(provider) {
         fee: 3000,
         sqrtPriceLimitX96: 0
       }])
+    },
+
+    // --- VECTOR DE FUEGO #1: RUTAS TRIANGULARES Y CROSS-FEE UNISWAP V3 CON CAÑÓN #1 ($18.30 USDC) ---
+    // 24: Ruta Triangular 1 (0.05%): USDC -> WETH (0.05%) -> WPOL (0.05%) -> USDC (0.05%)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address", "uint24", "address"],
+          [USDC_NATIVE_POLYGON, 500, WETH_POLYGON, 500, WPOL_POLYGON, 500, USDC_NATIVE_POLYGON]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_POLYGON_USDC.toString(), 6)
+      ])
+    },
+    // 25: Ruta Triangular 2 (0.05%): USDC -> WBTC (0.05%) -> WETH (0.05%) -> USDC (0.05%)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address", "uint24", "address"],
+          [USDC_NATIVE_POLYGON, 500, WBTC_POLYGON, 500, WETH_POLYGON, 500, USDC_NATIVE_POLYGON]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_POLYGON_USDC.toString(), 6)
+      ])
+    },
+    // 26: Descalce Cross-Fee Tier (0.05% -> 0.30%): USDC -> WPOL (0.05%) -> USDC (0.30%)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address"],
+          [USDC_NATIVE_POLYGON, 500, WPOL_POLYGON, 3000, USDC_NATIVE_POLYGON]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_POLYGON_USDC.toString(), 6)
+      ])
+    },
+    // 27: Descalce Directo V3 (0.05%): USDC -> WPOL (0.05%) -> USDC (0.05%)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address"],
+          [USDC_NATIVE_POLYGON, 500, WPOL_POLYGON, 500, USDC_NATIVE_POLYGON]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_POLYGON_USDC.toString(), 6)
+      ])
     }
   ];
 
@@ -330,11 +387,27 @@ async function scanPolygonDEXs(provider) {
     return 0;
   }
 
+  function decodeQuoterExactInput(resIdx, decimals = 6) {
+    if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
+      try {
+        const decoded = quoterIface.decodeFunctionResult("quoteExactInput", results[resIdx].returnData);
+        return parseFloat(ethers.formatUnits(decoded[0], decimals));
+      } catch (_) {}
+    }
+    return 0;
+  }
+
   // Decodificar cotizaciones QuoterV2 Uniswap V3
   const pA_univ3_500_1 = decodeQuoterQuote(20);
   const pA_univ3_500_10 = decodeQuoterQuote(21);
   const pA_univ3_3000_1 = decodeQuoterQuote(22);
   const pA_univ3_3000_10 = decodeQuoterQuote(23);
+
+  // Decodificar cotizaciones Vector #1 Cañón #1 ($18.30 USDC)
+  const pA_tri_weth_out = decodeQuoterExactInput(24, 6);
+  const pA_tri_wbtc_out = decodeQuoterExactInput(25, 6);
+  const pA_cross_fee_out = decodeQuoterExactInput(26, 6);
+  const pA_direct_out = decodeQuoterExactInput(27, 6);
 
   // Decodificar reservas y estimar liquidez USD
   let quickLiqUsd = 0, sushiLiqUsd = 0, wethLiqUsd = 0, wbtcLiqUsd = 0;
@@ -363,8 +436,42 @@ async function scanPolygonDEXs(provider) {
     } catch (_) {}
   }
 
-  // Matriz de las piscinas / rutas en Polygon PoS (Uniswap V3 + Triangular WETH/WBTC + Directas V2)
+  // Matriz de las piscinas / rutas en Polygon PoS (Uniswap V3 0.05% + Triangular V3 + Directas)
   const candidateRoutes = [
+    {
+      poolId: "pool-univ3-tri-weth",
+      poolName: "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
+      dex: "uniswap_v3",
+      feeTier: 500,
+      feePct: 0.05,
+      router: UNISWAP_V3_SWAP_ROUTER_02,
+      quoter: UNISWAP_V3_QUOTER_V2,
+      type: "v3_triangular_weth",
+      path: [USDC_NATIVE_POLYGON, WETH_POLYGON, WPOL_POLYGON, USDC_NATIVE_POLYGON],
+      cannonInUsdc: HEAVY_CANNON_POLYGON_USDC,
+      cannonOutUsdc: pA_tri_weth_out,
+      spreadPct: pA_tri_weth_out > 0 ? parseFloat((((pA_tri_weth_out - HEAVY_CANNON_POLYGON_USDC) / HEAVY_CANNON_POLYGON_USDC) * 100).toFixed(4)) : -0.20,
+      quote1Pol: pA_univ3_500_1,
+      quote10Pol: pA_univ3_500_10,
+      liquidityUsdEstimate: 52000000
+    },
+    {
+      poolId: "pool-univ3-tri-wbtc",
+      poolName: "Piscina V1-B: Triangular WBTC 0.05% (USDC ➔ WBTC ➔ WETH ➔ USDC)",
+      dex: "uniswap_v3",
+      feeTier: 500,
+      feePct: 0.05,
+      router: UNISWAP_V3_SWAP_ROUTER_02,
+      quoter: UNISWAP_V3_QUOTER_V2,
+      type: "v3_triangular_wbtc",
+      path: [USDC_NATIVE_POLYGON, WBTC_POLYGON, WETH_POLYGON, USDC_NATIVE_POLYGON],
+      cannonInUsdc: HEAVY_CANNON_POLYGON_USDC,
+      cannonOutUsdc: pA_tri_wbtc_out,
+      spreadPct: pA_tri_wbtc_out > 0 ? parseFloat((((pA_tri_wbtc_out - HEAVY_CANNON_POLYGON_USDC) / HEAVY_CANNON_POLYGON_USDC) * 100).toFixed(4)) : -0.15,
+      quote1Pol: pA_univ3_500_1,
+      quote10Pol: pA_univ3_500_10,
+      liquidityUsdEstimate: 60000000
+    },
     {
       poolId: "pool-univ3-005",
       poolName: "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
@@ -427,17 +534,6 @@ async function scanPolygonDEXs(provider) {
       liquidityUsdEstimate: wethLiqUsd || 18000000
     },
     {
-      poolId: "pool-2",
-      poolName: "Piscina #2 (Polygon Triangular WETH - SushiSwap V2)",
-      dex: "sushiswap_v2",
-      router: SUSHISWAP_ROUTER,
-      type: "triangular_weth",
-      path: [WPOL_POLYGON, WETH_POLYGON, USDC_NATIVE_POLYGON],
-      quote1Pol: p2_sushi1,
-      quote10Pol: p2_sushi10,
-      liquidityUsdEstimate: sushiLiqUsd || 12000000
-    },
-    {
       poolId: "pool-3",
       poolName: "Piscina #3 (Polygon Triangular WBTC - QuickSwap V2)",
       dex: "quickswap_v2",
@@ -447,17 +543,6 @@ async function scanPolygonDEXs(provider) {
       quote1Pol: p3_quick1,
       quote10Pol: p3_quick10,
       liquidityUsdEstimate: wbtcLiqUsd || 22000000
-    },
-    {
-      poolId: "pool-3",
-      poolName: "Piscina #3 (Polygon Triangular WBTC - SushiSwap V2)",
-      dex: "sushiswap_v2",
-      router: SUSHISWAP_ROUTER,
-      type: "triangular_wbtc",
-      path: [WPOL_POLYGON, WBTC_POLYGON, USDC_NATIVE_POLYGON],
-      quote1Pol: p3_sushi1,
-      quote10Pol: p3_sushi10,
-      liquidityUsdEstimate: sushiLiqUsd || 10000000
     }
   ];
 
@@ -467,8 +552,8 @@ async function scanPolygonDEXs(provider) {
   // Encontrar la Ruta Ganadora en Polygon (priorizando profundidad y menor slippage a 10 POL)
   let winningRoute = candidateRoutes[0];
   candidateRoutes.forEach(r => {
-    const rate10 = r.quote10Pol > 0 ? (r.quote10Pol / 10) : r.quote1Pol;
-    const currentBestRate = winningRoute.quote10Pol > 0 ? (winningRoute.quote10Pol / 10) : winningRoute.quote1Pol;
+    const rate10 = r.quote10Pol > 0 ? (r.quote10Pol / 10) : (r.quote1Pol || 0);
+    const currentBestRate = winningRoute.quote10Pol > 0 ? (winningRoute.quote10Pol / 10) : (winningRoute.quote1Pol || 0);
     if (rate10 > currentBestRate) {
       winningRoute = r;
     }
@@ -499,7 +584,7 @@ async function scanPolygonDEXs(provider) {
   const quoteDiffPct = standardBaseQuote > 0 ? Math.abs((p1_sushi1 - p1_quick1) / p1_quick1) * 100 : 0;
   const netSpreadPct = parseFloat((quoteDiffPct - 0.30).toFixed(4));
 
-  // --- CÁLCULO DE ARBITRAJE ATÓMICO EN CICLO CERRADO (USDC -> POL -> USDC) ---
+  // --- CÁLCULO DE ARBITRAJE ATÓMICO EN CICLO CERRADO CON CAÑÓN #1 ($18.30 USDC) ---
   function decodePolFromUsdc(resIdx) {
     if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
       try {
@@ -513,14 +598,21 @@ async function scanPolygonDEXs(provider) {
   const polFromQuick = decodePolFromUsdc(18); // WPOL recibido por 10 USDC en QuickSwap
   const polFromSushi = decodePolFromUsdc(19); // WPOL recibido por 10 USDC en SushiSwap
 
-  // Simulación del Ciclo Cerrado Completo (USDC_In -> DEX A -> DEX B -> USDC_Out):
-  // Opción A: 10 USDC -> QuickSwap -> WPOL -> SushiSwap -> USDC
-  const usdcOut_A = polFromQuick > 0 && p1_sushi1 > 0 ? polFromQuick * p1_sushi1 : 0;
-  // Opción B: 10 USDC -> SushiSwap -> WPOL -> QuickSwap -> USDC
-  const usdcOut_B = polFromSushi > 0 && p1_quick1 > 0 ? polFromSushi * p1_quick1 : 0;
+  // Escenarios con Cañón Pesado #1 ($18.30 USDC):
+  const usdcIn = HEAVY_CANNON_POLYGON_USDC;
+  // Opción V3 Triangular 1 (WETH/WPOL 0.05%)
+  const out_v3_tri1 = pA_tri_weth_out > 0 ? pA_tri_weth_out : 0;
+  // Opción V3 Triangular 2 (WBTC/WETH 0.05%)
+  const out_v3_tri2 = pA_tri_wbtc_out > 0 ? pA_tri_wbtc_out : 0;
+  // Opción V3 Cross-Fee (0.05% -> 0.30%)
+  const out_v3_cross = pA_cross_fee_out > 0 ? pA_cross_fee_out : 0;
+  // Opción V3 Directa (0.05%)
+  const out_v3_direct = pA_direct_out > 0 ? pA_direct_out : 0;
+  // Opción V2 Arbitraje cruzado
+  const usdcOut_A = polFromQuick > 0 && p1_sushi1 > 0 ? (polFromQuick * p1_sushi1 * (usdcIn / 10.0)) : 0;
+  const usdcOut_B = polFromSushi > 0 && p1_quick1 > 0 ? (polFromSushi * p1_quick1 * (usdcIn / 10.0)) : 0;
 
-  const bestUsdcOutPol = Math.max(usdcOut_A, usdcOut_B);
-  const usdcIn = 10.0;
+  const bestUsdcOutPol = Math.max(out_v3_tri1, out_v3_tri2, out_v3_cross, out_v3_direct, usdcOut_A, usdcOut_B);
   const gasCostUsdPolygon = 0.005; // Estimado gas swap 2 piernas ~200k gas en Polygon
   const deltaUsdcPol = parseFloat((bestUsdcOutPol - usdcIn).toFixed(6));
   const netProfitUsdcPol = parseFloat((bestUsdcOutPol - (usdcIn + gasCostUsdPolygon)).toFixed(6));
@@ -531,23 +623,42 @@ async function scanPolygonDEXs(provider) {
     chain: "Polygon PoS",
     mode: "CLOSED_LOOP_NET_ARBITRAGE",
     zeroGasDrainEnforced: true,
+    heavyCannon: {
+      cannonId: "CANON_PESADO_1_POLYGON",
+      commanders: "#501 (Nodriza Matriz) & #001 (Capitán Box 1)",
+      usdcLoaded: usdcIn
+    },
+    vector1_v3_routes: {
+      triangularWeth005: { path: "USDC->WETH(0.05%)->WPOL(0.05%)->USDC", usdcOut: pA_tri_weth_out, spreadPct: pA_tri_weth_out > 0 ? parseFloat((((pA_tri_weth_out - usdcIn) / usdcIn) * 100).toFixed(4)) : null },
+      triangularWbtc005: { path: "USDC->WBTC(0.05%)->WETH(0.05%)->USDC", usdcOut: pA_tri_wbtc_out, spreadPct: pA_tri_wbtc_out > 0 ? parseFloat((((pA_tri_wbtc_out - usdcIn) / usdcIn) * 100).toFixed(4)) : null },
+      crossFee005_030: { path: "USDC->WPOL(0.05%)->USDC(0.30%)", usdcOut: pA_cross_fee_out, spreadPct: pA_cross_fee_out > 0 ? parseFloat((((pA_cross_fee_out - usdcIn) / usdcIn) * 100).toFixed(4)) : null },
+      directV3_005: { path: "USDC->WPOL(0.05%)->USDC(0.05%)", usdcOut: pA_direct_out, spreadPct: pA_direct_out > 0 ? parseFloat((((pA_direct_out - usdcIn) / usdcIn) * 100).toFixed(4)) : null }
+    },
     usdcIn,
     bestUsdcOut: parseFloat(bestUsdcOutPol.toFixed(6)),
     deltaUsdc: deltaUsdcPol,
     gasCostEstUsd: gasCostUsdPolygon,
     netProfitUsdc: netProfitUsdcPol,
     spreadPct: spreadPctPol,
+    closestSpreadPct: spreadPctPol,
     isNetPositive: isNetPositivePol,
-    status: isNetPositivePol ? "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA POSITIVA)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
+    status: isNetPositivePol ? "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA POSITIVA)" : `🛡️ VIGILANCIA CENTINELA (Spread ${spreadPctPol}% < 0.00% umbral neto, $0 gas)`
   };
 
   return {
     chain: "polygonMainnet",
+    heavyCannonUsdc: usdcIn,
     pools: {
       poolA_uniswap_v3: {
         tier005: { quote1Pol: pA_univ3_500_1, quote10Pol: pA_univ3_500_10, fee: 500, router: UNISWAP_V3_SWAP_ROUTER_02 },
         tier030: { quote1Pol: pA_univ3_3000_1, quote10Pol: pA_univ3_3000_10, fee: 3000, router: UNISWAP_V3_SWAP_ROUTER_02 },
         liquidityUsd: 48000000
+      },
+      vector1_triangular_v3: {
+        triangularWeth005: pA_tri_weth_out,
+        triangularWbtc005: pA_tri_wbtc_out,
+        crossFee005_030: pA_cross_fee_out,
+        direct005: pA_direct_out
       },
       pool1_direct: {
         quickswap: { quote1Pol: p1_quick1, quote10Pol: p1_quick10, router: QUICKSWAP_ROUTER },
@@ -586,6 +697,7 @@ async function scanPolygonDEXs(provider) {
 async function scanBscDEXs(provider) {
   const routerIface = new ethers.Interface(ROUTER_ABI);
   const pairIface = new ethers.Interface(PAIR_ABI);
+  const quoterIface = new ethers.Interface(QUOTER_V2_ABI);
   const m3 = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
 
   const bnb001 = ethers.parseEther("0.001");
@@ -620,7 +732,81 @@ async function scanBscDEXs(provider) {
 
     // --- CICLO CERRADO DE ARBITRAJE ATÓMICO BSC (10 USDC -> WBNB) ---
     // 9: PancakeSwap 10 USDC -> WBNB
-    { target: PANCAKE_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 18), [USDC_OFFICIAL_BSC, WBNB_BSC]]) }
+    { target: PANCAKE_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 18), [USDC_OFFICIAL_BSC, WBNB_BSC]]) },
+
+    // --- VECTOR DE FUEGO #1: RUTAS TRIANGULARES Y CROSS-FEE PANCAKESWAP V3 CON CAÑÓN #2 ($20.42 USDC) ---
+    // 10: PancakeSwap V3 Triangular 1 (0.05%): USDC -> WBNB (0.05%) -> ETH (0.05%) -> USDC (0.05%)
+    {
+      target: PANCAKE_V3_QUOTER,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address", "uint24", "address"],
+          [USDC_OFFICIAL_BSC, 500, WBNB_BSC, 500, ETH_BSC, 500, USDC_OFFICIAL_BSC]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_BSC_USDC.toString(), 18)
+      ])
+    },
+    // 11: PancakeSwap V3 Triangular 2 (0.05%): USDC -> WBNB (0.05%) -> BTCB (0.05%) -> USDC (0.05%)
+    {
+      target: PANCAKE_V3_QUOTER,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address", "uint24", "address"],
+          [USDC_OFFICIAL_BSC, 500, WBNB_BSC, 500, BTCB_BSC, 500, USDC_OFFICIAL_BSC]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_BSC_USDC.toString(), 18)
+      ])
+    },
+    // 12: PancakeSwap V3 Cross-Fee Tier (0.01% -> 0.05%): USDC -> WBNB (0.01% = 100) -> USDC (0.05% = 500)
+    {
+      target: PANCAKE_V3_QUOTER,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address"],
+          [USDC_OFFICIAL_BSC, 100, WBNB_BSC, 500, USDC_OFFICIAL_BSC]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_BSC_USDC.toString(), 18)
+      ])
+    },
+    // 13: PancakeSwap V3 Direct (0.05%): USDC -> WBNB (0.05%) -> USDC (0.05%)
+    {
+      target: PANCAKE_V3_QUOTER,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInput", [
+        ethers.solidityPacked(
+          ["address", "uint24", "address", "uint24", "address"],
+          [USDC_OFFICIAL_BSC, 500, WBNB_BSC, 500, USDC_OFFICIAL_BSC]
+        ),
+        ethers.parseUnits(HEAVY_CANNON_BSC_USDC.toString(), 18)
+      ])
+    },
+    // 14: PancakeSwap V3 Single 0.001 WBNB -> USDC (0.05%)
+    {
+      target: PANCAKE_V3_QUOTER,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInputSingle", [{
+        tokenIn: WBNB_BSC,
+        tokenOut: USDC_OFFICIAL_BSC,
+        amountIn: bnb001,
+        fee: 500,
+        sqrtPriceLimitX96: 0
+      }])
+    },
+    // 15: PancakeSwap V3 Single 0.01 WBNB -> USDC (0.05%)
+    {
+      target: PANCAKE_V3_QUOTER,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInputSingle", [{
+        tokenIn: WBNB_BSC,
+        tokenOut: USDC_OFFICIAL_BSC,
+        amountIn: bnb01,
+        fee: 500,
+        sqrtPriceLimitX96: 0
+      }])
+    }
   ];
 
   const results = await m3.aggregate3.staticCall(calls);
@@ -635,6 +821,26 @@ async function scanBscDEXs(provider) {
     return 0;
   }
 
+  function decodeQuoterQuoteBsc(resIdx) {
+    if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
+      try {
+        const decoded = quoterIface.decodeFunctionResult("quoteExactInputSingle", results[resIdx].returnData);
+        return parseFloat(ethers.formatUnits(decoded[0], 18));
+      } catch (_) {}
+    }
+    return 0;
+  }
+
+  function decodeQuoterExactInputBsc(resIdx) {
+    if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
+      try {
+        const decoded = quoterIface.decodeFunctionResult("quoteExactInput", results[resIdx].returnData);
+        return parseFloat(ethers.formatUnits(decoded[0], 18));
+      } catch (_) {}
+    }
+    return 0;
+  }
+
   const p4_quote001 = decodeQuoteBsc(0);
   const p4_quote01 = decodeQuoteBsc(1);
 
@@ -643,6 +849,14 @@ async function scanBscDEXs(provider) {
 
   const p6_quote001 = decodeQuoteBsc(4);
   const p6_quote01 = decodeQuoteBsc(5);
+
+  // Decodificar cotizaciones Vector #1 Cañón #2 ($20.42 USDC)
+  const pBsc_tri_eth_out = decodeQuoterExactInputBsc(10);
+  const pBsc_tri_btcb_out = decodeQuoterExactInputBsc(11);
+  const pBsc_cross_fee_out = decodeQuoterExactInputBsc(12);
+  const pBsc_direct_out = decodeQuoterExactInputBsc(13);
+  const pBsc_v3_001 = decodeQuoterQuoteBsc(14);
+  const pBsc_v3_01 = decodeQuoterQuoteBsc(15);
 
   let pancakeLiqUsd = 0, ethLiqUsd = 0, btcbLiqUsd = 0;
   if (results[6]?.success && results[6].returnData !== "0x") {
@@ -665,6 +879,60 @@ async function scanBscDEXs(provider) {
   }
 
   const bscCandidates = [
+    {
+      poolId: "pool-pancake-v3-cross-fee",
+      poolName: "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
+      dex: "pancakeswap_v3",
+      feeTier: 100,
+      feePct: 0.01,
+      router: PANCAKE_ROUTER,
+      quoter: PANCAKE_V3_QUOTER,
+      type: "v3_cross_fee",
+      path: [USDC_OFFICIAL_BSC, WBNB_BSC, USDC_OFFICIAL_BSC],
+      cannonInUsdc: HEAVY_CANNON_BSC_USDC,
+      cannonOutUsdc: pBsc_cross_fee_out,
+      spreadPct: pBsc_cross_fee_out > 0 ? parseFloat((((pBsc_cross_fee_out - HEAVY_CANNON_BSC_USDC) / HEAVY_CANNON_BSC_USDC) * 100).toFixed(4)) : -0.05,
+      quote001Bnb: pBsc_v3_001 > 0 ? pBsc_v3_001 : p4_quote001,
+      quote01Bnb: pBsc_v3_01 > 0 ? pBsc_v3_01 : p4_quote01,
+      bnbPriceUsd: pBsc_v3_001 > 0 ? pBsc_v3_001 * 1000 : 735.0,
+      liquidityUsdEstimate: 42000000
+    },
+    {
+      poolId: "pool-pancake-v3-tri-eth",
+      poolName: "Piscina V1-BSC-B: Triangular V3 0.05% (USDC ➔ WBNB ➔ ETH ➔ USDC)",
+      dex: "pancakeswap_v3",
+      feeTier: 500,
+      feePct: 0.05,
+      router: PANCAKE_ROUTER,
+      quoter: PANCAKE_V3_QUOTER,
+      type: "v3_triangular_eth",
+      path: [USDC_OFFICIAL_BSC, WBNB_BSC, ETH_BSC, USDC_OFFICIAL_BSC],
+      cannonInUsdc: HEAVY_CANNON_BSC_USDC,
+      cannonOutUsdc: pBsc_tri_eth_out,
+      spreadPct: pBsc_tri_eth_out > 0 ? parseFloat((((pBsc_tri_eth_out - HEAVY_CANNON_BSC_USDC) / HEAVY_CANNON_BSC_USDC) * 100).toFixed(4)) : -0.20,
+      quote001Bnb: pBsc_v3_001 > 0 ? pBsc_v3_001 : p5_quote001,
+      quote01Bnb: pBsc_v3_01 > 0 ? pBsc_v3_01 : p5_quote01,
+      bnbPriceUsd: pBsc_v3_001 > 0 ? pBsc_v3_001 * 1000 : 732.0,
+      liquidityUsdEstimate: 55000000
+    },
+    {
+      poolId: "pool-pancake-v3-tri-btcb",
+      poolName: "Piscina V1-BSC-C: Triangular V3 0.05% (USDC ➔ WBNB ➔ BTCB ➔ USDC)",
+      dex: "pancakeswap_v3",
+      feeTier: 500,
+      feePct: 0.05,
+      router: PANCAKE_ROUTER,
+      quoter: PANCAKE_V3_QUOTER,
+      type: "v3_triangular_btcb",
+      path: [USDC_OFFICIAL_BSC, WBNB_BSC, BTCB_BSC, USDC_OFFICIAL_BSC],
+      cannonInUsdc: HEAVY_CANNON_BSC_USDC,
+      cannonOutUsdc: pBsc_tri_btcb_out,
+      spreadPct: pBsc_tri_btcb_out > 0 ? parseFloat((((pBsc_tri_btcb_out - HEAVY_CANNON_BSC_USDC) / HEAVY_CANNON_BSC_USDC) * 100).toFixed(4)) : -0.10,
+      quote001Bnb: pBsc_v3_001 > 0 ? pBsc_v3_001 : p6_quote001,
+      quote01Bnb: pBsc_v3_01 > 0 ? pBsc_v3_01 : p6_quote01,
+      bnbPriceUsd: pBsc_v3_001 > 0 ? pBsc_v3_001 * 1000 : 730.0,
+      liquidityUsdEstimate: 65000000
+    },
     {
       poolId: "pool-4",
       poolName: "Piscina #4 (BSC Directa - PancakeSwap V2)",
@@ -721,6 +989,8 @@ async function scanBscDEXs(provider) {
     poolName: winningBscRoute.poolName,
     dex: winningBscRoute.dex,
     router: winningBscRoute.router,
+    quoter: winningBscRoute.quoter || null,
+    feeTier: winningBscRoute.feeTier || null,
     type: winningBscRoute.type,
     path: winningBscRoute.path,
     quote001Bnb: winningBscRoute.quote001Bnb,
@@ -733,7 +1003,7 @@ async function scanBscDEXs(provider) {
     liquidityUsdEstimate: winningBscRoute.liquidityUsdEstimate
   };
 
-  // --- CÁLCULO DE ARBITRAJE ATÓMICO EN CICLO CERRADO BSC (USDC -> BNB -> USDC) ---
+  // --- CÁLCULO DE ARBITRAJE ATÓMICO EN CICLO CERRADO BSC CON CAÑÓN #2 ($20.42 USDC) ---
   function decodeBnbFromUsdc(resIdx) {
     if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
       try {
@@ -745,32 +1015,59 @@ async function scanBscDEXs(provider) {
   }
 
   const bnbFromPancake = decodeBnbFromUsdc(9); // BNB recibido por 10 USDC en PancakeSwap
-  const usdcInBsc = 10.0;
+  const usdcInBsc = HEAVY_CANNON_BSC_USDC;
   const bnbRate = winningBscRoute.bnbPriceUsd || 734.0;
-  const usdcOutBsc = bnbFromPancake > 0 ? bnbFromPancake * bnbRate : 0;
+  const usdcOutV2 = bnbFromPancake > 0 ? (bnbFromPancake * bnbRate * (usdcInBsc / 10.0)) : 0;
+
+  // Escenarios con Cañón Pesado #2 ($20.42 USDC):
+  const out_bsc_cross = pBsc_cross_fee_out > 0 ? pBsc_cross_fee_out : 0;
+  const out_bsc_tri1 = pBsc_tri_eth_out > 0 ? pBsc_tri_eth_out : 0;
+  const out_bsc_tri2 = pBsc_tri_btcb_out > 0 ? pBsc_tri_btcb_out : 0;
+  const out_bsc_direct = pBsc_direct_out > 0 ? pBsc_direct_out : 0;
+
+  const bestUsdcOutBsc = Math.max(out_bsc_cross, out_bsc_tri1, out_bsc_tri2, out_bsc_direct, usdcOutV2);
   const gasCostUsdBsc = 0.002; // Estimado gas en BSC (~150k gas * 0.05 Gwei * $734)
-  const deltaUsdcBsc = parseFloat((usdcOutBsc - usdcInBsc).toFixed(6));
-  const netProfitUsdcBsc = parseFloat((usdcOutBsc - (usdcInBsc + gasCostUsdBsc)).toFixed(6));
+  const deltaUsdcBsc = parseFloat((bestUsdcOutBsc - usdcInBsc).toFixed(6));
+  const netProfitUsdcBsc = parseFloat((bestUsdcOutBsc - (usdcInBsc + gasCostUsdBsc)).toFixed(6));
   const isNetPositiveBsc = netProfitUsdcBsc > 0;
-  const spreadPctBsc = parseFloat((((usdcOutBsc - usdcInBsc) / usdcInBsc) * 100).toFixed(4));
+  const spreadPctBsc = parseFloat((((bestUsdcOutBsc - usdcInBsc) / usdcInBsc) * 100).toFixed(4));
 
   const arbitrageCycle = {
     chain: "BSC Mainnet",
     mode: "CLOSED_LOOP_NET_ARBITRAGE",
     zeroGasDrainEnforced: true,
+    heavyCannon: {
+      cannonId: "CANON_PESADO_2_BSC",
+      commanders: "#101 (Capitán Experto #2) & #501 (Nodriza Matriz)",
+      usdcLoaded: usdcInBsc
+    },
+    vector1_v3_routes: {
+      crossFee001_005: { path: "USDC->WBNB(0.01%)->USDC(0.05%)", usdcOut: pBsc_cross_fee_out, spreadPct: pBsc_cross_fee_out > 0 ? parseFloat((((pBsc_cross_fee_out - usdcInBsc) / usdcInBsc) * 100).toFixed(4)) : null },
+      triangularEth005: { path: "USDC->WBNB(0.05%)->ETH(0.05%)->USDC", usdcOut: pBsc_tri_eth_out, spreadPct: pBsc_tri_eth_out > 0 ? parseFloat((((pBsc_tri_eth_out - usdcInBsc) / usdcInBsc) * 100).toFixed(4)) : null },
+      triangularBtcb005: { path: "USDC->WBNB(0.05%)->BTCB(0.05%)->USDC", usdcOut: pBsc_tri_btcb_out, spreadPct: pBsc_tri_btcb_out > 0 ? parseFloat((((pBsc_tri_btcb_out - usdcInBsc) / usdcInBsc) * 100).toFixed(4)) : null },
+      directV3_005: { path: "USDC->WBNB(0.05%)->USDC(0.05%)", usdcOut: pBsc_direct_out, spreadPct: pBsc_direct_out > 0 ? parseFloat((((pBsc_direct_out - usdcInBsc) / usdcInBsc) * 100).toFixed(4)) : null }
+    },
     usdcIn: usdcInBsc,
-    bestUsdcOut: parseFloat(usdcOutBsc.toFixed(6)),
+    bestUsdcOut: parseFloat(bestUsdcOutBsc.toFixed(6)),
     deltaUsdc: deltaUsdcBsc,
     gasCostEstUsd: gasCostUsdBsc,
     netProfitUsdc: netProfitUsdcBsc,
     spreadPct: spreadPctBsc,
+    closestSpreadPct: spreadPctBsc,
     isNetPositive: isNetPositiveBsc,
-    status: isNetPositiveBsc ? "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA POSITIVA)" : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)"
+    status: isNetPositiveBsc ? "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA POSITIVA)" : `🛡️ VIGILANCIA CENTINELA (Spread ${spreadPctBsc}% < 0.00% umbral neto, $0 gas)`
   };
 
   return {
     chain: "bscMainnet",
+    heavyCannonUsdc: usdcInBsc,
     pools: {
+      vector1_pancake_v3: {
+        crossFee001_005: pBsc_cross_fee_out,
+        triangularEth005: pBsc_tri_eth_out,
+        triangularBtcb005: pBsc_tri_btcb_out,
+        direct005: pBsc_direct_out
+      },
       pool4_direct: {
         quote001Bnb: p4_quote001,
         quote01Bnb: p4_quote01,
@@ -794,6 +1091,7 @@ async function scanBscDEXs(provider) {
     winningPoolRouteBsc,
     bestDexRouteBsc: winningBscRoute.dex,
     bestQuoteUsdcPerBnb: winningBscRoute.bnbPriceUsd,
+    standardBaseBnbQuote,
     arbitrageCycle,
     hasArbitrageOpportunity: isNetPositiveBsc
   };
@@ -963,9 +1261,9 @@ async function runDedicatedObservers() {
   console.log(`    ↳ Cotización: 1 POL ➔ ${polygonScan.winningPoolRoutePolygon.quote1Pol.toFixed(6)} USDC (${polygonScan.winningPoolRoutePolygon.advantagePct > 0 ? `+${polygonScan.winningPoolRoutePolygon.advantagePct}% ventaja vs ruta directa` : "Paridad óptima"})`);
   console.log(`  • 🏆 BSC Ruta Ganadora: ${bscScan.winningPoolRouteBsc.poolName}`);
   console.log(`    ↳ Cotización: 1 BNB ➔ $${bscScan.winningPoolRouteBsc.bnbPriceUsd.toFixed(2)} USDC`);
-  console.log(`  • 🔄 Simulación Arbitraje Ciclo Cerrado (USDC ➔ Token ➔ USDC):`);
-  console.log(`    ↳ Polygon: In: 10.0 USDC ➔ Out: ${polygonScan.arbitrageCycle.bestUsdcOut} USDC (Net: ${polygonScan.arbitrageCycle.netProfitUsdc} USD) ➔ ${polygonScan.arbitrageCycle.status}`);
-  console.log(`    ↳ BSC: In: 10.0 USDC ➔ Out: ${bscScan.arbitrageCycle.bestUsdcOut} USDC (Net: ${bscScan.arbitrageCycle.netProfitUsdc} USD) ➔ ${bscScan.arbitrageCycle.status}`);
+  console.log(`  • 🔄 Simulación Arbitraje Ciclo Cerrado (2 Cañones Pesados de USDC):`);
+  console.log(`    ↳ Cañón #1 Polygon: In: $${polygonScan.arbitrageCycle.usdcIn} USDC ➔ Out: $${polygonScan.arbitrageCycle.bestUsdcOut} USDC (Spread: ${polygonScan.arbitrageCycle.spreadPct}%) ➔ ${polygonScan.arbitrageCycle.status}`);
+  console.log(`    ↳ Cañón #2 BSC: In: $${bscScan.arbitrageCycle.usdcIn} USDC ➔ Out: $${bscScan.arbitrageCycle.bestUsdcOut} USDC (Spread: ${bscScan.arbitrageCycle.spreadPct}%) ➔ ${bscScan.arbitrageCycle.status}`);
   console.log(`  • 🛡️ ESTADO TÁCTICO: ${liveReport.arbitrageCycle.overallStatus}`);
   console.log(`  • ⛽ Tanque de Gas: ~384 POL y ~0.064 BNB 100% blindados ($0 gas consumido).`);
   console.log(`  • Gas Polygon: ${polGas.gasPriceGwei.toFixed(1)} Gwei (${polGas.trend}) | Gas BSC: ${bscGas.gasPriceGwei.toFixed(2)} Gwei (${bscGas.trend})`);

@@ -1,8 +1,8 @@
 {
   "schemaVersion": "2.0.0",
   "service": "Omni-Sniper-5Models-Radar-12K",
-  "timestamp": "2026-10-22T14:39:47.542Z",
-  "latencyMs": 784,
+  "timestamp": "2026-10-22T15:28:00.382Z",
+  "latencyMs": 812,
   "gasCostThisScan": "0.00 USD (Multicall3 $0 Gas)",
   "zeroGasDrainEnforced": true,
   "highWaterMarkRatchet": {
@@ -23,8 +23,8 @@
       "liquidatableFound": false,
       "liquidatablePosition": null,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Prestatarios solventes HF > 1.0, $0 gas)",
-      "diagnostic": "Consulta Multicall3 de pools Aave V3/Venus completada. 0 posiciones bajo agua detectadas en este bloque."
+      "status": "🛡️ VIGILANCIA CENTINELA (Prestatarios solventes HF > 1.0, Shortfall = 0, $0 gas)",
+      "diagnostic": "Consulta Multicall3 de Aave V3 (Polygon) y Venus Protocol (BSC) completada. 0 posiciones bajo agua detectadas en este bloque."
     },
     {
       "modelId": "MODEL-2-METAVERSE-GAMEFI",
@@ -38,11 +38,11 @@
         "Element Market"
       ],
       "verifiedContractsActive": 4,
-      "instantSpreadPct": 0.232,
+      "instantSpreadPct": 0.275,
       "opportunityScore": 85,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Spread real 0.232% < 1.50% umbral, $0 gas)",
-      "diagnostic": "Lectura en vivo de cotizaciones DEX completada: Max $0.090917 vs Min $0.090707 USDC/POL. Spread real: 0.232%."
+      "status": "🛡️ VIGILANCIA CENTINELA (Spread real 0.275% < 1.50% umbral, $0 gas)",
+      "diagnostic": "Lectura en vivo de cotizaciones DEX completada: Max $0.090639 vs Min $0.090390 USDC/POL. Spread real: 0.275%."
     },
     {
       "modelId": "MODEL-3-WHALE-PANIC-DIP",
@@ -55,12 +55,12 @@
         "WPOL/USDC",
         "WBNB/USDC"
       ],
-      "maxDislocationPct": 0.0397,
+      "maxDislocationPct": 0.2841,
       "thresholdPct": 1.5,
       "opportunityScore": 88,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.04% < 1.5%, $0 gas)",
-      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.04% sin panic-selling en este bloque."
+      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.28% < 1.5%, $0 gas)",
+      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.28% sin panic-selling en este bloque."
     },
     {
       "modelId": "MODEL-4-EPOCH-QUEST-POOLS",
@@ -81,26 +81,32 @@
     },
     {
       "modelId": "MODEL-5-KEEPER-HARVESTER",
-      "name": "Keeper Harvester & Micro-Bounties On-Chain",
+      "name": "Keeper Harvester & Micro-Bounties On-Chain (30 Bóvedas)",
       "icon": "🤖",
       "network": "Polygon & BSC",
       "protocols": [
-        "Beefy Vaults Autocompounder",
+        "Beefy Finance",
+        "Gamma Strategies",
         "Gelato Keepers"
       ],
-      "callFeeAccumulatedUsd": 0,
-      "gasThresholdUsd": 0.016,
-      "opportunityScore": 85,
-      "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Bounty $0 USDC < umbral $0.0160 USDC, $0 gas)",
-      "diagnostic": "Escaneo estático de vaults de rendimiento completado. Caller fee acumulado: $0 USDC."
+      "totalVaultsAudited": 30,
+      "topBountyFound": {
+        "vault": "WBNB-USDT",
+        "chain": "BSC",
+        "rewardUsd": 0.180447,
+        "gasThresholdUsd": 0.15
+      },
+      "opportunityScore": 99,
+      "fireAuthorized": true,
+      "status": "🔥 KEEPER BOUNTY EJECUTABLE ($0.180447 USD en WBNB-USDT [BSC] > 2.5x Gas)",
+      "diagnostic": "Auditoría Multicall3 de 30 bóvedas completada a $0 gas. Top caller fee acumulado: $0.1804 USD en WBNB-USDT (BSC)."
     }
   ],
   "overallVerdict": {
-    "sniperFireAuthorized": false,
-    "authorizedModelsCount": 0,
-    "averageOpportunityScore": 86,
-    "operationalStatus": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+    "sniperFireAuthorized": true,
+    "authorizedModelsCount": 1,
+    "averageOpportunityScore": 89,
+    "operationalStatus": "🔥 DISPARO AUTORIZADO (DIVERGENCIA NETA DETECTADA)",
     "gasBurned": "0.00 POL / 0.00 BNB"
   }
 }
