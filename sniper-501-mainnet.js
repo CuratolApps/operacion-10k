@@ -76,9 +76,9 @@ const DYNAMIC_COOLDOWN_MS = 30 * 60 * 1000; // 30 Minutos de enfriamiento dinám
 // (Compounding Pool) supervisado por las 12 Nebulosas IA rumbo a los Super Snipers.
 const AUTO_SWEEP_TO_BINANCE = false;
 
-// 11 Frentes Tácticos de Extracción Mainnet (6 Principales + 5 Sub-Capitanes Ascendidos)
+// 16 Nodrizas Sniper Mainnet (1 Matriz + 5 Capitanes + 10 Sub-Capitanes)
 const SNIPER_FRONTS = [
-  // --- 6 FRENTES PRINCIPALES ---
+  // --- NODRIZA MATRIZ ---
   {
     frontId: "front-0",
     boxId: "MATRIZ",
@@ -86,14 +86,16 @@ const SNIPER_FRONTS = [
     index: 501,
     name: "Nodriza Matriz (#501)",
     address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-    sacredReservePol: 25.00,
-    surveillanceFloorPol: 25.10,
-    bulletPol: 4.50,
-    minBulletPol: 0.20,
+    sacredReservePol: 80.00,
+    surveillanceFloorPol: 80.10,
+    bulletPol: 5.00,
+    minBulletPol: 0.50,
     gasBuffer: 0.05,
+    sacredReserveBnb: 0.010,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     binanceVaultName: "Bóveda Binance #1 (Box 1 / Matriz)"
   },
+  // --- 5 CAPITANES DE BOX ---
   {
     frontId: "front-1",
     boxId: 1,
@@ -101,11 +103,12 @@ const SNIPER_FRONTS = [
     index: 1,
     name: "Capitán Box 1 (#001)",
     address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
-    sacredReservePol: 14.00,
-    surveillanceFloorPol: 14.02,
-    bulletPol: 2.25,
-    minBulletPol: 0.20,
+    sacredReservePol: 20.00,
+    surveillanceFloorPol: 20.10,
+    bulletPol: 2.50,
+    minBulletPol: 0.50,
     gasBuffer: 0.05,
+    sacredReserveBnb: 0.006,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     binanceVaultName: "Bóveda Binance #1 (Box 1)"
   },
@@ -116,11 +119,12 @@ const SNIPER_FRONTS = [
     index: 101,
     name: "Capitán Box 2 (#101)",
     address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
-    sacredReservePol: 14.00,
-    surveillanceFloorPol: 14.02,
-    bulletPol: 2.25,
-    minBulletPol: 0.20,
+    sacredReservePol: 20.00,
+    surveillanceFloorPol: 20.10,
+    bulletPol: 2.50,
+    minBulletPol: 0.50,
     gasBuffer: 0.05,
+    sacredReserveBnb: 0.006,
     binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
     binanceVaultName: "Bóveda Binance #2 (Box 2)"
   },
@@ -131,11 +135,12 @@ const SNIPER_FRONTS = [
     index: 201,
     name: "Capitán Box 3 (#201)",
     address: "0x2810aa0DabCA4511846194229d2c004B14016A7C",
-    sacredReservePol: 7.30,
-    surveillanceFloorPol: 7.32,
-    bulletPol: 1.00,
-    minBulletPol: 0.20,
-    gasBuffer: 0.04,
+    sacredReservePol: 14.00,
+    surveillanceFloorPol: 14.10,
+    bulletPol: 2.00,
+    minBulletPol: 0.50,
+    gasBuffer: 0.05,
+    sacredReserveBnb: 0.006,
     binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
     binanceVaultName: "Bóveda Binance #3 (Box 3)"
   },
@@ -146,11 +151,12 @@ const SNIPER_FRONTS = [
     index: 301,
     name: "Capitán Box 4 (#301)",
     address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
-    sacredReservePol: 7.30,
-    surveillanceFloorPol: 7.32,
-    bulletPol: 1.00,
-    minBulletPol: 0.20,
-    gasBuffer: 0.04,
+    sacredReservePol: 14.00,
+    surveillanceFloorPol: 14.10,
+    bulletPol: 2.00,
+    minBulletPol: 0.50,
+    gasBuffer: 0.05,
+    sacredReserveBnb: 0.006,
     binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
     binanceVaultName: "Bóveda Binance #4 (Box 4)"
   },
@@ -161,15 +167,16 @@ const SNIPER_FRONTS = [
     index: 401,
     name: "Capitán Box 5 (#401)",
     address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
-    sacredReservePol: 7.30,
-    surveillanceFloorPol: 7.32,
-    bulletPol: 1.00,
-    minBulletPol: 0.20,
-    gasBuffer: 0.04,
+    sacredReservePol: 14.00,
+    surveillanceFloorPol: 14.10,
+    bulletPol: 2.00,
+    minBulletPol: 0.50,
+    gasBuffer: 0.05,
+    sacredReserveBnb: 0.006,
     binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
     binanceVaultName: "Bóveda Binance #5 (Box 5)"
   },
-  // --- 5 NUEVOS SUB-CAPITANES ASCENDIDOS (1 POR BOX) ---
+  // --- 10 SUB-CAPITANES ASCENDIDOS (2 POR BOX) ---
   {
     frontId: "front-6",
     boxId: 1,
@@ -177,83 +184,149 @@ const SNIPER_FRONTS = [
     index: 8,
     name: "Sub-Capitán Box 1 (#008)",
     address: "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
-    sacredReservePol: 0.25,
-    surveillanceFloorPol: 0.26,
-    bulletPol: 0.12,
-    minBulletPol: 0.05,
-    gasBuffer: 0.03,
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     binanceVaultName: "Bóveda Binance #1 (Box 1)"
   },
   {
     frontId: "front-7",
+    boxId: 1,
+    id: "#006",
+    index: 6,
+    name: "Sub-Capitán Box 1 (#006)",
+    address: "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
+    binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+    binanceVaultName: "Bóveda Binance #1 (Box 1)"
+  },
+  {
+    frontId: "front-8",
     boxId: 2,
     id: "#108",
     index: 108,
     name: "Sub-Capitán Box 2 (#108)",
     address: "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC",
-    sacredReservePol: 0.25,
-    surveillanceFloorPol: 0.26,
-    bulletPol: 0.12,
-    minBulletPol: 0.05,
-    gasBuffer: 0.03,
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
     binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
     binanceVaultName: "Bóveda Binance #2 (Box 2)"
   },
   {
-    frontId: "front-8",
+    frontId: "front-9",
+    boxId: 2,
+    id: "#106",
+    index: 106,
+    name: "Sub-Capitán Box 2 (#106)",
+    address: "0x6C66C9724AeD2407e80E805B105d82270471785d",
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
+    binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
+    binanceVaultName: "Bóveda Binance #2 (Box 2)"
+  },
+  {
+    frontId: "front-10",
     boxId: 3,
     id: "#204",
     index: 204,
     name: "Sub-Capitán Box 3 (#204)",
     address: "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119",
-    sacredReservePol: 0.25,
-    surveillanceFloorPol: 0.26,
-    bulletPol: 0.12,
-    minBulletPol: 0.05,
-    gasBuffer: 0.03,
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
     binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
     binanceVaultName: "Bóveda Binance #3 (Box 3)"
   },
   {
-    frontId: "front-9",
+    frontId: "front-11",
+    boxId: 3,
+    id: "#205",
+    index: 205,
+    name: "Sub-Capitán Box 3 (#205)",
+    address: "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08",
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
+    binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
+    binanceVaultName: "Bóveda Binance #3 (Box 3)"
+  },
+  {
+    frontId: "front-12",
     boxId: 4,
     id: "#307",
     index: 307,
     name: "Sub-Capitán Box 4 (#307)",
     address: "0xc4E7Fc96695eF0593592EcE10A807bbF0C92f27d",
-    sacredReservePol: 0.25,
-    surveillanceFloorPol: 0.26,
-    bulletPol: 0.12,
-    minBulletPol: 0.05,
-    gasBuffer: 0.03,
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
     binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
     binanceVaultName: "Bóveda Binance #4 (Box 4)"
   },
   {
-    frontId: "front-10",
+    frontId: "front-13",
+    boxId: 4,
+    id: "#311",
+    index: 311,
+    name: "Sub-Capitán Box 4 (#311)",
+    address: "0xF3d19755705FdBE34f2930d9bABB51fE379E865d",
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
+    binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
+    binanceVaultName: "Bóveda Binance #4 (Box 4)"
+  },
+  {
+    frontId: "front-14",
     boxId: 5,
     id: "#403",
     index: 403,
     name: "Sub-Capitán Box 5 (#403)",
     address: "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5",
-    sacredReservePol: 0.25,
-    surveillanceFloorPol: 0.26,
-    bulletPol: 0.12,
-    minBulletPol: 0.05,
-    gasBuffer: 0.03,
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
+    binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
+    binanceVaultName: "Bóveda Binance #5 (Box 5)"
+  },
+  {
+    frontId: "front-15",
+    boxId: 5,
+    id: "#411",
+    index: 411,
+    name: "Sub-Capitán Box 5 (#411)",
+    address: "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12",
+    sacredReservePol: 5.00,
+    surveillanceFloorPol: 5.05,
+    bulletPol: 1.50,
+    minBulletPol: 0.50,
+    gasBuffer: 0.04,
     binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
     binanceVaultName: "Bóveda Binance #5 (Box 5)"
   }
-];
-
-// 5 Tenientes Snipers de Reserva para auto-expansión a 16 Snipers al entrar la inyección de 50 €
-const LIEUTENANTS_FRONTS = [
-  { frontId: "front-11", boxId: 1, id: "#006", index: 6, name: "Teniente Box 1 (#006)", address: "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7", sacredReservePol: 0.25, surveillanceFloorPol: 0.26, bulletPol: 0.12, minBulletPol: 0.05, gasBuffer: 0.03, binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", binanceVaultName: "Bóveda Binance #1" },
-  { frontId: "front-12", boxId: 2, id: "#106", index: 106, name: "Teniente Box 2 (#106)", address: "0x6C66C9724AeD2407e80E805B105d82270471785d", sacredReservePol: 0.25, surveillanceFloorPol: 0.26, bulletPol: 0.12, minBulletPol: 0.05, gasBuffer: 0.03, binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", binanceVaultName: "Bóveda Binance #2" },
-  { frontId: "front-13", boxId: 3, id: "#205", index: 205, name: "Teniente Box 3 (#205)", address: "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08", sacredReservePol: 0.25, surveillanceFloorPol: 0.26, bulletPol: 0.12, minBulletPol: 0.05, gasBuffer: 0.03, binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e", binanceVaultName: "Bóveda Binance #3" },
-  { frontId: "front-14", boxId: 4, id: "#311", index: 311, name: "Teniente Box 4 (#311)", address: "0xF3d19755705FdBE34f2930d9bABB51fE379E865d", sacredReservePol: 0.25, surveillanceFloorPol: 0.26, bulletPol: 0.12, minBulletPol: 0.05, gasBuffer: 0.03, binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d", binanceVaultName: "Bóveda Binance #4" },
-  { frontId: "front-15", boxId: 5, id: "#411", index: 411, name: "Teniente Box 5 (#411)", address: "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12", sacredReservePol: 0.25, surveillanceFloorPol: 0.26, bulletPol: 0.12, minBulletPol: 0.05, gasBuffer: 0.03, binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9", binanceVaultName: "Bóveda Binance #5" }
 ];
 
 // Archivos de Estado y Telemetría
@@ -920,9 +993,9 @@ async function checkAndExecuteRoute1Sweep(provider, options = {}) {
 }
 
 /**
- * Salva Táctica Supervisada en los Frentes Sniper (11 Frentes Activos, ampliable a 16)
+ * Salva Táctica Supervisada en el Escuadrón de 16 Nodrizas Sniper (Polygon + BSC)
  */
-async function runSupervisedSalvo11x(options = {}) {
+async function runSupervisedSalvo16x(options = {}) {
   const force = options.force ?? true;
   const isDryRun = options.dryRun || false;
 
@@ -932,12 +1005,12 @@ async function runSupervisedSalvo11x(options = {}) {
     bscProvider = new ethers.JsonRpcProvider("https://bsc-dataseed.binance.org", 56);
   } catch (_) {}
 
-  // 1. Verificación previa de Gatillo NEBULA-11
+  // 1. Verificación previa de Gatillo NEBULA-11 (>= 95%)
   const nebCheck = checkNebulaDirectives();
   console.log("=========================================================================================");
-  console.log("   🦅 SALVA TÁCTICA SUPERVISADA (11X SNIPER ESCALADO) — CERTEZA >= 95%                   ");
+  console.log("   🦅 SALVA INAUGURAL SUPERVISADA (16X SNIPER ESCALADO — POLYGON + BSC) — CERTEZA >= 95%");
   console.log("=========================================================================================");
-  console.log("📍 PROTOCOLO: 12 Nebulosas IA • 11 Frentes Activos • 100% USDC Nativo");
+  console.log("📍 PROTOCOLO: 12 Nebulosas IA • 16 Nodrizas Sniper Armadas • 100% USDC Nativo");
   console.log(`🎯 [GATILLO NEBULA-11] Score de Certeza: ${nebCheck.score}% (${nebCheck.authorized ? "AUTORIZADO ✅" : "BLOQUEADO ⛔"})`);
 
   if (!nebCheck.authorized || nebCheck.score < 95) {
@@ -945,48 +1018,15 @@ async function runSupervisedSalvo11x(options = {}) {
     return { success: false, reason: "SCORE_BELOW_95" };
   }
 
-  // 2. Comprobar si entró la inyección de 50 € en #501 (> 30 POL o > 0.005 BNB)
-  let activeFronts = [...SNIPER_FRONTS];
-  let isInjectionConfirmed = false;
-  try {
-    const bal501Wei = await polProvider.getBalance("0xD4D12077a61118372f7a367319fb11922Beb3743");
-    const bal501Pol = parseFloat(ethers.formatEther(bal501Wei));
-    let bal501Bnb = 0;
-    if (bscProvider) {
-      try {
-        bal501Bnb = parseFloat(ethers.formatEther(await bscProvider.getBalance("0xD4D12077a61118372f7a367319fb11922Beb3743")));
-      } catch (_) {}
-    }
+  // 2. Definición de Frentes a Disparar en la Salva Inaugural:
+  // Nodriza Matriz #501 (5.00 POL) + 10 Sub-Capitanes (#008 a #411 a 1.50 POL c/u)
+  // Los 5 Capitanes permanecen protegiendo sus pisos sagrados intocables
+  const targetIds = options.all
+    ? SNIPER_FRONTS.map(f => f.id)
+    : ["#501", "#008", "#006", "#108", "#106", "#204", "#205", "#307", "#311", "#403", "#411"];
 
-    if (bal501Pol > 30.0 || bal501Bnb > 0.005) {
-      isInjectionConfirmed = true;
-      console.log(`🚨 [INYECCIÓN 50€ CONFIRMADA EN #501]: ${bal501Pol.toFixed(2)} POL | ${bal501Bnb.toFixed(5)} BNB.`);
-      console.log(`🚀 [AUTO-EXPANSIÓN ACTIVADA] Desplegando 5 Tenientes Snipers adicionales (Total: 16 Snipers).`);
-      activeFronts = [...SNIPER_FRONTS, ...LIEUTENANTS_FRONTS];
-
-      const state = loadSniperState();
-      if (!state.injection50EurAlertSent) {
-        state.injection50EurAlertSent = true;
-        saveSniperState(state);
-        const alertMsg = `
-🚨🦅 <b>¡INYECCIÓN DETECTADA EN BÓVEDA MATRIZ #501!</b>
-
-💰 <b>FONDOS FRESCOS CONFIRMADOS ON-CHAIN:</b>
-• <b>POL (Polygon):</b> ${bal501Pol.toFixed(4)} POL (> 30.0 POL)
-• <b>BNB (BSC):</b> ${bal501Bnb.toFixed(6)} BNB (> 0.005 BNB)
-• <b>Bóveda Matriz:</b> <code>0xD4D12077a61118372f7a367319fb11922Beb3743</code>
-
-🚀 <b>EXPANSIÓN INMEDIATA ACTIVADA:</b>
-• <b>Escuadrón Ampliado:</b> 11 ➔ 16 Nodrizas Snipers (5 Tenientes en línea)
-• <b>Caza Dual Habilitada:</b> Polygon PoS + BSC Mainnet (PancakeSwap V2)
-• <b>Retención:</b> 100% USDC Nativo en Bóveda para interés compuesto.
-`.trim();
-        sendTelegramAlert(alertMsg).catch(() => {});
-      }
-    } else {
-      console.log(`📡 [MODO ESCUADRÓN 11X]: 6 Frentes Principales + 5 Sub-Capitanes (#008, #108, #204, #307, #403) activos.`);
-    }
-  } catch (_) {}
+  const activeFronts = SNIPER_FRONTS.filter(f => targetIds.includes(f.id));
+  console.log(`🎯 Frentes seleccionados para la salva (${activeFronts.length} frentes en Polygon): ${activeFronts.map(f => f.id).join(", ")}`);
 
   const results = [];
   for (let i = 0; i < activeFronts.length; i++) {
@@ -1006,9 +1046,26 @@ async function runSupervisedSalvo11x(options = {}) {
     }
   }
 
-  // 3. Sincronizar saldos de los Frentes en telemetría central
-  console.log(`\n🔄 Sincronizando saldos de los ${activeFronts.length} Frentes en telemetría central...`);
-  const allFrontStatuses = await readAllFrontsStatus(polProvider, activeFronts);
+  // 3. Disparo Inaugural en BSC Mainnet desde #501 (0.002 BNB -> USDC BSC vía PancakeSwap V2)
+  let bscResult = null;
+  if (bscProvider) {
+    console.log(`\n================== [DISPARO INAUGURAL DUAL-CHAIN BSC: Bóveda #501] ==================`);
+    const front501 = SNIPER_FRONTS.find(f => f.id === "#501");
+    if (front501) {
+      try {
+        bscResult = await executeFrontShotBsc(front501, bscProvider, { bulletBnb: 0.002, dryRun: isDryRun });
+        if (bscResult.success) {
+          results.push({ front: front501, network: "bscMainnet", ...bscResult });
+        }
+      } catch (err) {
+        console.error(`❌ Error en disparo inaugural BSC: ${err.message}`);
+      }
+    }
+  }
+
+  // 4. Sincronizar saldos de los 16 Frentes en telemetría central
+  console.log(`\n🔄 Sincronizando saldos de las 16 Nodrizas Sniper en telemetría central...`);
+  const allFrontStatuses = await readAllFrontsStatus(polProvider, SNIPER_FRONTS);
   const lastSuccess = results.filter(r => r.success && r.txHash).pop();
 
   syncFleetTelemetryFromFronts(
@@ -1023,37 +1080,39 @@ async function runSupervisedSalvo11x(options = {}) {
 
   if (successfulShots.length > 0) {
     const totalHarvestedThisRun = successfulShots.reduce((acc, r) => acc + (r.usdcHarvested || 0), 0);
-    const frontLines = successfulShots.map(s => 
-      `• <b>${s.front.id} (${s.front.name}):</b> +$${s.usdcHarvested.toFixed(6)} USDC [${s.bestVenue?.icon || "⚡"} ${s.bestVenue?.name || "QuickSwap V2"}]\n  ↳ Tx: <code>${s.txHash}</code>`
-    ).join("\n");
+    const frontLines = successfulShots.map(s => {
+      const netLabel = s.network === "bscMainnet" ? "🥞 BSC (PancakeSwap V2)" : `[${s.bestVenue?.icon || "⚡"} ${s.bestVenue?.name || "QuickSwap V2"}]`;
+      const txUrl = s.network === "bscMainnet" ? `https://bscscan.com/tx/${s.txHash}` : `https://polygonscan.com/tx/${s.txHash}`;
+      return `• <b>${s.front.id} (${s.front.name}):</b> +$${s.usdcHarvested.toFixed(6)} USDC ${netLabel}\n  ↳ Tx: <code>${s.txHash}</code>`;
+    }).join("\n");
 
     const msg = `
-🦅🔥 <b>PARTE DE GUERRA // ESCUADRÓN 11X SNIPER MULTI-DEX EJECUTADO</b>
+🦅🔥 <b>PARTE DE GUERRA // ESCUADRÓN 16X SNIPER MULTI-DEX EJECUTADO</b>
 
 🎯 <b>OPERACIÓN 12K — SALVA MULTI-DEX DE PRECISIÓN (CERTEZA >= 95%)</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💎 <b>RESULTADOS CONFIRMADOS ON-CHAIN:</b>
-• <b>Disparos Exitosos:</b> ${successfulShots.length}/${activeFronts.length} Frentes Tácticos
-• <b>Enrutamiento:</b> 💱 Multi-DEX Activo (QuickSwap V2 + SushiSwap V2)
+• <b>Disparos Exitosos:</b> ${successfulShots.length} Impactos Confirmados
+• <b>Redes Desplegadas:</b> Polygon PoS (QuickSwap/SushiSwap) + BSC Mainnet (PancakeSwap V2)
 • <b>USDC Nativo Capturado en esta Ronda:</b> +$${totalHarvestedThisRun.toFixed(6)} USDC
 • <b>En Bóveda Máster On-Chain (Compounding Pool):</b> $${totalUsdcInFleet.toFixed(6)} USDC
-• <b>Gas Total Preservado en Flota:</b> ${polTotalFleet.toFixed(4)} POL (Piso sagrado blindado)
+• <b>Gas Total Preservado en Flota:</b> ${polTotalFleet.toFixed(4)} POL (Piso sagrado >212 POL blindado)
 
-📦 <b>DETALLE DE IMPACTOS:</b>
+📦 <b>DETALLE DE IMPACTOS ON-CHAIN:</b>
 ${frontLines}
 
 🔒 <b>POLÍTICA DE SEGURIDAD EN BÓVEDA MÁSTER (#501):</b>
 • <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos automáticos)
 • <b>Destino de los Fondos:</b> 100% Acumulación On-Chain para Fondo de Interés Compuesto rumbo a los Super Snipers.
 • <b>Supervisión:</b> 12 Nebulosas IA (Gatillo NEBULA-11 activo)
-• <b>Vigía Inyección 50 €:</b> En alerta para escalar a 16 Snipers automáticos.
+• <b>Estado del Escuadrón:</b> 16 NODRIZAS SNIPER ACTIVAS + OBSERVADORES MULTI-DEX.
 
 ⏰ <i>${new Date().toISOString()}</i>
 `.trim();
 
     try {
       await sendTelegramAlert(msg);
-      console.log("📱 [TELEGRAM] Parte de Guerra 11X enviado exitosamente a Sala de Mando 10K.");
+      console.log("📱 [TELEGRAM] Parte de Guerra 16X enviado exitosamente a Sala de Mando 10K.");
     } catch (err) {
       console.warn(`⚠️ Error enviando alerta a Telegram: ${err.message}`);
     }
@@ -1064,21 +1123,22 @@ ${frontLines}
   return { results, allFrontStatuses, totalUsdcInFleet };
 }
 
-const runSupervisedSalvo6x = runSupervisedSalvo11x;
+const runSupervisedSalvo11x = runSupervisedSalvo16x;
+const runSupervisedSalvo6x = runSupervisedSalvo16x;
 
 /**
  * Escaneo y ejecución regular de Sniper Mainnet (con respeto de cooldown y reservas)
  */
-async function runSniper11x(options = {}) {
+async function runSniper16x(options = {}) {
   const isScanOnly = options.scanOnly || process.argv.includes("--scan");
   const provider = new ethers.JsonRpcProvider("https://polygon.drpc.org", 137);
 
   console.log("=========================================================================================");
-  console.log("       🦅 SNIPER 11X MAINNET — 11 FRENTES TÁCTICOS // OPERACIÓN 12K                       ");
+  console.log("       🦅 SNIPER 16X MAINNET — 16 NODRIZAS SNIPER // OPERACIÓN 12K                         ");
   console.log("=========================================================================================");
 
   const allFrontStatuses = await readAllFrontsStatus(provider, SNIPER_FRONTS);
-  console.log(`📊 Estado de los 11 Frentes en Polygon Mainnet:`);
+  console.log(`📊 Estado de las 16 Nodrizas Sniper en Polygon Mainnet:`);
   allFrontStatuses.forEach(f => {
     console.log(`   • ${f.id} (${f.name}): ${f.polBalance.toFixed(4)} POL (Reserva: ${f.sacredReservePol} POL) | ${f.usdcBalance.toFixed(6)} USDC`);
   });
@@ -1095,7 +1155,7 @@ async function runSniper11x(options = {}) {
   // Si no es scan-only y está autorizado, ejecutar salva supervisada
   const nebCheck = checkNebulaDirectives();
   if (nebCheck.authorized && nebCheck.score >= 95) {
-    return runSupervisedSalvo11x({ force: false, dryRun: options.dryRun });
+    return runSupervisedSalvo16x({ force: false, dryRun: options.dryRun });
   } else {
     console.log(`ℹ️ [MONITOR PASIVO] Gatillo en espera (${nebCheck.score}%). Fondos blindados en reservas.`);
   }
@@ -1103,21 +1163,24 @@ async function runSniper11x(options = {}) {
   return { success: true, allFrontStatuses, totalUsdc };
 }
 
-const runSniper6x = runSniper11x;
-const runSniper501 = runSniper11x;
+const runSniper11x = runSniper16x;
+const runSniper6x = runSniper16x;
+const runSniper501 = runSniper16x;
 
 module.exports = {
+  runSniper16x,
   runSniper11x,
   runSniper6x,
   runSniper501,
+  runSupervisedSalvo16x,
   runSupervisedSalvo11x,
   runSupervisedSalvo6x,
   executeFrontShot,
+  executeFrontShotBsc,
   readAllFrontsStatus,
   syncFleetTelemetryFromFronts,
   checkAndExecuteRoute1Sweep,
   SNIPER_FRONTS,
-  LIEUTENANTS_FRONTS,
   NATIVE_USDC_POLYGON,
   QUICKSWAP_V2_ROUTER
 };
@@ -1125,18 +1188,20 @@ module.exports = {
 if (require.main === module) {
   const isDryRun = process.argv.includes("--dry-run");
   if (
+    process.argv.includes("--salvo-16x") ||
+    process.argv.includes("--salvo-inaugural") ||
     process.argv.includes("--salvo-all") ||
     process.argv.includes("--salvo") ||
     process.argv.includes("--salvo-captains") ||
     process.argv.includes("--salvo-11x")
   ) {
-    runSupervisedSalvo11x({ dryRun: isDryRun, force: true }).catch(err => {
-      console.error("❌ Error en Salva Supervisada 11X:", err);
+    runSupervisedSalvo16x({ dryRun: isDryRun, force: true }).catch(err => {
+      console.error("❌ Error en Salva Supervisada 16X:", err);
       process.exit(1);
     });
   } else {
-    runSniper11x({ dryRun: isDryRun }).catch(err => {
-      console.error("❌ Error en Sniper 11X:", err);
+    runSniper16x({ dryRun: isDryRun }).catch(err => {
+      console.error("❌ Error en Sniper 16X:", err);
       process.exit(1);
     });
   }

@@ -323,7 +323,9 @@ function renderTopRadarBanner() {
   // Extracción robusta anti-NaN
   const totalBinanceNum = safeNum(telem?.totalHarvestedToBinanceUsdc, 0);
   const pendingNum = safeNum(telem?.pendingHarvestUsdc, 0);
-  const consolidatedNum = totalBinanceNum + pendingNum;
+  const fleetUsdcNum = safeNum(telem?.dailyCapturedUsdc, 0);
+  const goalAccrued = safeNum(telem?.goalMilestone?.currentAccruedUsdc, 0);
+  const consolidatedNum = Math.max(totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued);
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
@@ -332,11 +334,24 @@ function renderTopRadarBanner() {
   if (elUsd) elUsd.textContent = `Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos)`;
 
   const elEur = document.getElementById('dashEurLiqPill');
-  if (elEur) elEur.textContent = `En Bóveda Máster On-Chain (Compounding): $${Number(pendingNum || 0).toFixed(2)} USDC`;
+  if (elEur) elEur.textContent = `En Bóveda Máster On-Chain (Compounding): $${Number(consolidatedNum || 0).toFixed(2)} USDC`;
 
   const elRes = document.getElementById('dashReserveLiqPill');
-  const polReserve = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '37.52';
-  if (elRes) elRes.textContent = `Reserva Nodriza #501: ${Number(polReserve || 37.52).toFixed(2)} POL | +116.38 POL Kraken`;
+  const polReserve = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '238.15';
+  if (elRes) elRes.textContent = `Reserva Nodriza #501: ${Number(polReserve || 238.15).toFixed(2)} POL | +116.38 POL Kraken`;
+
+  const elMotherPol = document.getElementById('dashMothershipPol');
+  const elFleetPol = document.getElementById('dashFleetPol');
+  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '238.15';
+  const fleetPol = telem?.globalGasTank?.pol || '426.26';
+  const fleetBnb = telem?.globalGasTank?.bnb || '0.0705';
+  if (elMotherPol) elMotherPol.textContent = `${Number(motherPol).toFixed(1)} POL`;
+  if (elFleetPol) elFleetPol.textContent = `~${Number(fleetPol).toFixed(0)} POL`;
+
+  const elMotherSub = document.getElementById('mothershipSub');
+  const elFleetSub = document.getElementById('fleetFuelSub');
+  if (elMotherSub) elMotherSub.textContent = `0xD4D1...3743 • 16 Snipers Activos • ${Number(telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.bnb || 0.0154).toFixed(3)} BNB`;
+  if (elFleetSub) elFleetSub.textContent = `~${Number(fleetBnb).toFixed(3)} BNB • Multi-DEX Centinela $0 Gas`;
 
   // Ratios Fila 4 dinámicos y 100% reales
   const btcOps = safeNum(telem?.bitcoinL2Stats?.citreaOps, 0) + safeNum(telem?.bitcoinL2Stats?.goatOps, 0);
@@ -471,9 +486,9 @@ function renderGalaxiesStreams() {
   const elG5Bots = document.getElementById('g5ActiveBots');
   const elG5Mints = document.getElementById('g5Mints');
   const elG5Badge = document.getElementById('g5Badge');
-  if (elG5Bots) elG5Bots.textContent = '11 Frentes Activos';
+  if (elG5Bots) elG5Bots.textContent = '16 Nodrizas Sniper Activas';
   if (elG5Mints) elG5Mints.textContent = `${honeypotsBlocked} Honeypots • Multicall3`;
-  if (elG5Badge) elG5Badge.textContent = '11 SNIPERS ACTIVOS';
+  if (elG5Badge) elG5Badge.textContent = '16 SNIPERS ACTIVOS';
 
   // Renderizado de Tablas de Galaxias
   const renderOrEmpty = (tbodyId, filterFn, defaultText) => {

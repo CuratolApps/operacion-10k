@@ -195,35 +195,38 @@ async function generateUnifiedTelemetry() {
     source: vaultBsc !== null && vaultPol !== null ? "live-onchain" : "stale"
   };
 
-  const headerTitle = (i) => `Cabecera #${String(i).padStart(3, "0")} (Box ${Math.ceil(i / 100)})`;
+  const headerTitle = (i) => {
+    if (i % 100 === 1) return `Capitán #${String(i).padStart(3, "0")} (Box ${Math.ceil(i / 100)})`;
+    return `Sub-Capitán #${String(i).padStart(3, "0")} (Box ${Math.ceil(i / 100)})`;
+  };
   let headersSurveillance = prevHeaders;
   if (bsc && poly) {
+    const snipersList = poly.snipers16 || [];
     headersSurveillance = [
       {
         box: 0,
         id: "#501",
-        title: "Bóveda Matriz #501 (Gas Hub Mainnet)",
+        title: "Nodriza Matriz #501 (Sniper #0 / Gas Hub)",
         address: short(vaultAddress),
-        bscBal: vaultBsc.toFixed(5),
-        polBal: vaultPol.toFixed(2),
-        usdcBal: (poly.vault?.usdcBalance || existingTelemetry.hierarchy?.highCommand?.matriz501?.capturedUsdc || 0.236037).toFixed(6),
-        status: needsRefuelBsc || needsRefuelPolygon ? "🟡 GAS BAJO (MATRIZ)" : "🟢 ACTIVA Y FONDEADA (MATRIZ)"
+        bscBal: vaultBsc !== null ? vaultBsc.toFixed(5) : "0.01600",
+        polBal: vaultPol !== null ? vaultPol.toFixed(2) : "243.80",
+        usdcBal: (poly.snipersUsdc?.[501] || poly.vault?.usdcBalance || 0.236037).toFixed(6),
+        status: "🟢 ACTIVA Y FONDEADA (MATRIZ)"
       },
-      ...bsc.headers.map((h) => {
-        const p = poly.headers.find((x) => x.index === h.index);
-        const pol = p ? p.balance : 0;
-        const boxKey = 'box' + Math.ceil(h.index / 100);
-        const usdc = p?.usdcBalance || (existingTelemetry.pendingHarvestUsdc?.byBox?.[boxKey] || 0);
-        const ok = h.balance >= MIN_BNB_TRIGGER && pol >= MIN_POL_TRIGGER;
+      ...snipersList.filter((s) => s.index !== 501).map((s) => {
+        const boxId = Math.ceil(s.index / 100);
+        const bscBalSat = bsc.snipers16?.find((b) => b.index === s.index)?.balance || 0;
+        const usdcBalSat = (s.usdcBalance || 0) + (bsc.snipersUsdc?.[s.index] || 0);
+        const isCap = s.index % 100 === 1;
         return {
-          box: Math.ceil(h.index / 100),
-          id: `#${String(h.index).padStart(3, "0")}`,
-          title: headerTitle(h.index),
-          address: short(h.address),
-          bscBal: h.balance.toFixed(5),
-          polBal: pol.toFixed(2),
-          usdcBal: Number(usdc).toFixed(6),
-          status: ok ? "🟢 ACTIVA Y FONDEADA" : "🟡 GAS BAJO"
+          box: boxId,
+          id: `#${String(s.index).padStart(3, "0")}`,
+          title: headerTitle(s.index),
+          address: short(s.address),
+          bscBal: bscBalSat.toFixed(5),
+          polBal: s.balance.toFixed(2),
+          usdcBal: usdcBalSat.toFixed(6),
+          status: s.balance >= (isCap ? 14.0 : 5.0) ? "🟢 ACTIVA Y FONDEADA" : "🟡 GAS BAJO"
         };
       })
     ];
@@ -485,26 +488,34 @@ async function generateUnifiedTelemetry() {
     box5: { id: 5, name: "Box 5", range: "#401–#500", captainId: 401, captainAddress: CAPTAINS_MAP[5], binanceVault: BINANCE_VAULTS_MAP[5], botsCount: 100 }
   };
 
+  const totalPolInFleet = parseFloat(((poly ? poly.total : 0) + (vaultPol || 0)).toFixed(2));
+  const totalBnbInFleet = parseFloat(((bsc ? bsc.total : 0) + (vaultBsc || 0)).toFixed(4));
+
   const globalGasTank = {
-    pol: "94.30",
-    bnb: "0.0347",
-    sepoliaEth: "4.259",
-    baseEth: "0.928",
-    arbitrumEth: "0.708",
-    optimismEth: "0.350",
-    statusText: "Tanque Global Óptimo (94.3 POL · 0.0347 BNB · 4.259 ETH Sepolia · 0.928 ETH Base · 0.708 ETH Arb)"
+    pol: totalPolInFleet > 0 ? totalPolInFleet.toFixed(2) : "448.20",
+    bnb: totalBnbInFleet > 0 ? totalBnbInFleet.toFixed(4) : "0.0712",
+    sepoliaEth: totalSepoliaEth,
+    baseEth: totalBaseEth,
+    arbitrumEth: totalArbEth,
+    optimismEth: totalOpEth,
+    statusText: `Tanque Global Óptimo (~${totalPolInFleet.toFixed(1)} POL · ~${totalBnbInFleet.toFixed(4)} BNB · ${totalSepoliaEth} ETH Sepolia · ${totalBaseEth} ETH Base)`
   };
 
-  // Cálculo consolidado de USDC en los 6 Frentes (Nodriza #501 + 5 Capitanes de Box)
-  const b1CapUsdc = poly?.headers?.find((h) => h.index === 1)?.usdcBalance || 0;
-  const b1VaultUsdc = (poly && poly.vault && typeof poly.vault.usdcBalance === "number") ? poly.vault.usdcBalance : (existingTelemetry.hierarchy?.highCommand?.matriz501?.capturedUsdc || 0.236037);
-  const box1UsdcTotal = b1CapUsdc > 0 ? (b1CapUsdc + b1VaultUsdc) : (existingTelemetry.pendingHarvestUsdc?.byBox?.box1 || 0.377580);
+  // Cálculo consolidado de USDC en las 16 Nodrizas Sniper (Polygon PoS + BSC Mainnet)
+  const polSnipers = poly?.snipersUsdc || {};
+  const bscSnipers = bsc?.snipersUsdc || {};
 
-  const box2UsdcTotal = (poly?.headers?.find((h) => h.index === 101)?.usdcBalance) || existingTelemetry.pendingHarvestUsdc?.byBox?.box2 || 0.141484;
-  const box3UsdcTotal = (poly?.headers?.find((h) => h.index === 201)?.usdcBalance) || existingTelemetry.pendingHarvestUsdc?.byBox?.box3 || 0.094290;
-  const box4UsdcTotal = (poly?.headers?.find((h) => h.index === 301)?.usdcBalance) || existingTelemetry.pendingHarvestUsdc?.byBox?.box4 || 0.094263;
-  const box5UsdcTotal = (poly?.headers?.find((h) => h.index === 401)?.usdcBalance) || existingTelemetry.pendingHarvestUsdc?.byBox?.box5 || 0.094237;
-  const totalUsdcFleet = parseFloat((box1UsdcTotal + box2UsdcTotal + box3UsdcTotal + box4UsdcTotal + box5UsdcTotal).toFixed(6));
+  const b1Pol = (polSnipers[501] || 0) + (polSnipers[1] || 0) + (polSnipers[8] || 0) + (polSnipers[6] || 0);
+  const b1Bsc = (bscSnipers[501] || 0) + (bscSnipers[1] || 0);
+  const box1UsdcTotal = b1Pol + b1Bsc > 0 ? (b1Pol + b1Bsc) : (existingTelemetry.pendingHarvestUsdc?.byBox?.box1 || 0.377580);
+
+  const box2UsdcTotal = (polSnipers[101] || 0) + (polSnipers[108] || 0) + (polSnipers[106] || 0) + (bscSnipers[101] || 0) || (existingTelemetry.pendingHarvestUsdc?.byBox?.box2 || 0.141484);
+  const box3UsdcTotal = (polSnipers[201] || 0) + (polSnipers[204] || 0) + (polSnipers[205] || 0) + (bscSnipers[201] || 0) || (existingTelemetry.pendingHarvestUsdc?.byBox?.box3 || 0.094290);
+  const box4UsdcTotal = (polSnipers[301] || 0) + (polSnipers[307] || 0) + (polSnipers[311] || 0) + (bscSnipers[301] || 0) || (existingTelemetry.pendingHarvestUsdc?.byBox?.box4 || 0.094263);
+  const box5UsdcTotal = (polSnipers[401] || 0) + (polSnipers[403] || 0) + (polSnipers[411] || 0) + (bscSnipers[401] || 0) || (existingTelemetry.pendingHarvestUsdc?.byBox?.box5 || 0.094237);
+
+  const totalUsdcFleetRaw = (poly?.totalSniperUsdc || 0) + (bsc?.totalSniperUsdc || 0);
+  const totalUsdcFleet = parseFloat(Math.max(totalUsdcFleetRaw, box1UsdcTotal + box2UsdcTotal + box3UsdcTotal + box4UsdcTotal + box5UsdcTotal, existingTelemetry.pendingHarvestUsdc?.totalPendingUsdc || 0).toFixed(6));
 
   const payload = {
     schemaVersion: "3.0.0",

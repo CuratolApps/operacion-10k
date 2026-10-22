@@ -11,6 +11,10 @@ const { networks, fetchEthBalancesBatch } = require("../networks");
 const MIN_USABLE_NATIVE = 0.0005; // mismo umbral que MIN_EXEC_BALANCE_ETH del task-runner
 const HEADER_INDEXES = [1, 101, 201, 301, 401];
 const VAULT_INDEX = 501;
+const SNIPER_INDEXES = [501, 1, 101, 201, 301, 401, 8, 6, 108, 106, 204, 205, 307, 311, 403, 411];
+const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
+const NATIVE_USDC_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // 6 dec
+const OFFICIAL_USDC_BSC = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"; // 18 dec
 
 // RPCs extra de reserva (algunos RPC públicos fallan por TLS/timeouts según el entorno)
 const EXTRA_RPCS = {
@@ -75,28 +79,53 @@ async function snapshotNetwork(key, wallets) {
     if (v >= MIN_USABLE_NATIVE) { usable++; box.usable++; }
   }
 
+
   const vaultWallet = wallets.find((w) => w.index === VAULT_INDEX);
   let vaultUsdc = 0;
   const headersUsdc = {};
-  if (key === "polygonMainnet") {
+  const snipersUsdc = {};
+
+  if (key === "polygonMainnet" || key === "bscMainnet") {
     try {
-      const erc20 = new ethers.Contract("0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", ["function balanceOf(address) view returns (uint256)"], conn.provider);
-      if (vaultWallet) {
-        const uBal = await erc20.balanceOf(vaultWallet.address);
-        vaultUsdc = parseFloat(ethers.formatUnits(uBal, 6));
-      }
-      for (const hIdx of HEADER_INDEXES) {
-        const hw = wallets.find((w) => w.index === hIdx);
-        if (hw) {
-          const hBal = await erc20.balanceOf(hw.address);
-          headersUsdc[hIdx] = parseFloat(ethers.formatUnits(hBal, 6));
+      const usdcTokenAddr = key === "polygonMainnet" ? NATIVE_USDC_POLYGON : OFFICIAL_USDC_BSC;
+      const decimals = key === "polygonMainnet" ? 6 : 18;
+      const erc20Iface = new ethers.Interface(["function balanceOf(address) view returns (uint256)"]);
+      const m3 = new ethers.Contract(
+        MULTICALL3_ADDRESS,
+        ["function aggregate3(tuple(address target, bool allowFailure, bytes callData)[] calls) view returns (tuple(bool success, bytes returnData)[] returnData)"],
+        conn.provider
+      );
+
+      const sniperWallets = SNIPER_INDEXES.map((idx) => wallets.find((w) => w.index === idx)).filter(Boolean);
+      const calls = sniperWallets.map((w) => ({
+        target: usdcTokenAddr,
+        allowFailure: true,
+        callData: erc20Iface.encodeFunctionData("balanceOf", [w.address])
+      }));
+
+      const results = await m3.aggregate3.staticCall(calls);
+      sniperWallets.forEach((w, i) => {
+        let bal = 0;
+        if (results[i] && results[i].success && results[i].returnData !== "0x") {
+          const [uBal] = erc20Iface.decodeFunctionResult("balanceOf", results[i].returnData);
+          bal = parseFloat(ethers.formatUnits(uBal, decimals));
         }
-      }
-    } catch (_) {}
+        snipersUsdc[w.index] = bal;
+        if (w.index === VAULT_INDEX) vaultUsdc = bal;
+        if (HEADER_INDEXES.includes(w.index)) headersUsdc[w.index] = bal;
+      });
+    } catch (err) {
+      // Fallback lectura directa si Multicall3 tiene micro-glitch
+    }
   }
 
   const headers = HEADER_INDEXES.map((i) => wallets.find((w) => w.index === i)).filter(Boolean)
     .map((w) => ({ index: w.index, address: w.address, balance: balOf(w), usdcBalance: headersUsdc[w.index] || 0 }));
+
+  const snipers16 = SNIPER_INDEXES.map((i) => wallets.find((w) => w.index === i)).filter(Boolean)
+    .map((w) => ({ index: w.index, address: w.address, balance: balOf(w), usdcBalance: snipersUsdc[w.index] || 0 }));
+
+  const totalSniperUsdc = Object.values(snipersUsdc).reduce((acc, v) => acc + v, 0);
 
   const balancesByAddress = {};
   for (const w of [...satellites, ...special]) {
@@ -117,6 +146,9 @@ async function snapshotNetwork(key, wallets) {
     byBox,
     vault: vaultWallet ? { address: vaultWallet.address, balance: balOf(vaultWallet), usdcBalance: vaultUsdc } : null,
     headers,
+    snipers16,
+    snipersUsdc,
+    totalSniperUsdc,
     balancesByAddress
   };
 }
@@ -130,7 +162,7 @@ async function takeSnapshot(wallets) {
   return out;
 }
 
-module.exports = { takeSnapshot, MIN_USABLE_NATIVE, HEADER_INDEXES, VAULT_INDEX };
+module.exports = { takeSnapshot, MIN_USABLE_NATIVE, HEADER_INDEXES, VAULT_INDEX, SNIPER_INDEXES };
 
 if (require.main === module) {
   const wallets = require("../wallets-public-list.json");

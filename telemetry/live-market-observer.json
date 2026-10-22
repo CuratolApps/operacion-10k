@@ -1,15 +1,15 @@
 {
   "schemaVersion": "2.0.0",
   "service": "Dedicated-Observers-Centinela-12K",
-  "timestamp": "2026-10-22T07:16:31.754Z",
-  "latencyMs": 792,
+  "timestamp": "2026-10-22T07:52:21.739Z",
+  "latencyMs": 813,
   "polygon": {
     "chain": "polygonMainnet",
     "pair": "WPOL/USDC",
     "quickswap": {
-      "quote1Pol": 0.09195,
-      "quote10Pol": 0.918367,
-      "liquidityUsdEstimate": 1335.417658,
+      "quote1Pol": 0.091697,
+      "quote10Pol": 0.915842,
+      "liquidityUsdEstimate": 1333.5822,
       "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
     },
     "sushiswap": {
@@ -18,23 +18,23 @@
       "liquidityUsdEstimate": 54.365398,
       "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
     },
-    "bestDexRoutePolygon": "quickswap_v2",
-    "bestQuoteUsdcPerPol": 0.09195,
-    "grossSpreadPct": 0.1165,
+    "bestDexRoutePolygon": "sushiswap_v2",
+    "bestQuoteUsdcPerPol": 0.091843,
+    "grossSpreadPct": 0.1592,
     "netSpreadPct": 0,
     "hasArbitrageOpportunity": false,
     "gasTrend": {
       "chainName": "Polygon",
-      "latestBlock": 95965348,
-      "gasPriceGwei": 277.832600365,
-      "baseFeePerGas": 253.316288092,
+      "latestBlock": 95966782,
+      "gasPriceGwei": 264.181223605,
+      "baseFeePerGas": 239.181223605,
       "baseFeeHistoryGwei": [
-        253.316288092,
-        248.550648351,
-        251.043685192
+        239.181223605,
+        239.141544948,
+        239.574198481
       ],
-      "deltaGwei": 2.27,
-      "trend": "RISING_CAUTION",
+      "deltaGwei": -0.39,
+      "trend": "STABLE",
       "isWindowOptimal": true
     }
   },
@@ -42,17 +42,17 @@
     "chain": "bscMainnet",
     "pair": "WBNB/USDC",
     "pancakeswap": {
-      "quote001Bnb": 7.358273355253266,
-      "quote01Bnb": 73.55040684493537,
-      "bnbPriceUsd": 735.83,
-      "liquidityUsdEstimate": 408.4959964280076,
+      "quote001Bnb": 7.351825310432275,
+      "quote01Bnb": 73.48596890437277,
+      "bnbPriceUsd": 735.18,
+      "liquidityUsdEstimate": 408.675502797994,
       "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
     },
     "bestDexRouteBsc": "pancakeswap_v2",
-    "bestQuoteUsdcPerBnb": 735.8273355253266,
+    "bestQuoteUsdcPerBnb": 735.1825310432275,
     "gasTrend": {
       "chainName": "BSC",
-      "latestBlock": 129088413,
+      "latestBlock": 129093188,
       "gasPriceGwei": 0.05,
       "baseFeePerGas": 0.05,
       "baseFeeHistoryGwei": [
@@ -70,10 +70,10 @@
     "bscUsdcVerified": true,
     "honeypotsDetected": 0,
     "circleOfficialBytecode": true,
-    "timestamp": "2026-10-22T07:16:31.295Z"
+    "timestamp": "2026-10-22T07:52:21.269Z"
   },
   "masterDirectives": {
-    "bestDexRoutePolygon": "quickswap_v2",
+    "bestDexRoutePolygon": "sushiswap_v2",
     "bestDexRouteBsc": "pancakeswap_v2",
     "polygonSniperOptimal": true,
     "bscSniperOptimal": true,
