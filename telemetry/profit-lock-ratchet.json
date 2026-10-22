@@ -1,9 +1,9 @@
 {
-  "highWaterMarkUsdc": 24.871526,
-  "lockedFloorUsdc": 19.897221,
-  "floatingUsdc": 4.974305,
+  "highWaterMarkUsdc": 32.534233,
+  "lockedFloorUsdc": 26.027386,
+  "floatingUsdc": 6.506847,
   "ratchetRatio": 0.8,
-  "lastUpdate": "2026-10-22T09:29:07.212Z",
-  "currentOnChainUsdc": 24.871526,
+  "lastUpdate": "2026-10-22T09:45:05.118Z",
+  "currentOnChainUsdc": 32.534233,
   "floorProtected": true
 }

@@ -50,7 +50,11 @@ const USDC_NATIVE_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // 6 d
 const WETH_POLYGON = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"; // 18 dec
 const WBTC_POLYGON = "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"; // 8 dec
 
-// Routers Polygon
+// Routers y Contratos Uniswap V3 Polygon
+const UNISWAP_V3_QUOTER_V2 = "0x61fFE014bA17989E743c5F6cB21bF9697530B21e";
+const UNISWAP_V3_SWAP_ROUTER_02 = "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45";
+
+// Routers Polygon V2
 const QUICKSWAP_ROUTER = "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff";
 const SUSHISWAP_ROUTER = "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506";
 
@@ -83,6 +87,10 @@ const MULTICALL3_ABI = [
 
 const ROUTER_ABI = [
   "function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts)"
+];
+
+const QUOTER_V2_ABI = [
+  "function quoteExactInputSingle((address tokenIn, address tokenOut, uint256 amountIn, uint24 fee, uint160 sqrtPriceLimitX96) params) external returns (uint256 amountOut, uint160 sqrtPriceX96After, uint32 initializedTicksCrossed, uint256 gasEstimate)"
 ];
 
 const PAIR_ABI = [
@@ -176,6 +184,7 @@ async function scanGasTrend(provider, chainName) {
 async function scanPolygonDEXs(provider) {
   const routerIface = new ethers.Interface(ROUTER_ABI);
   const pairIface = new ethers.Interface(PAIR_ABI);
+  const quoterIface = new ethers.Interface(QUOTER_V2_ABI);
   const m3 = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
 
   const pol1 = ethers.parseEther("1.0");
@@ -230,7 +239,57 @@ async function scanPolygonDEXs(provider) {
     // 18: QuickSwap 10 USDC -> WPOL
     { target: QUICKSWAP_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 6), [USDC_NATIVE_POLYGON, WPOL_POLYGON]]) },
     // 19: SushiSwap 10 USDC -> WPOL
-    { target: SUSHISWAP_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 6), [USDC_NATIVE_POLYGON, WPOL_POLYGON]]) }
+    { target: SUSHISWAP_ROUTER, allowFailure: true, callData: routerIface.encodeFunctionData("getAmountsOut", [ethers.parseUnits("10.0", 6), [USDC_NATIVE_POLYGON, WPOL_POLYGON]]) },
+
+    // --- PISCINA A: UNISWAP V3 CONCENTRADA INSTITUCIONAL (WPOL -> USDC NATIVO CIRCLE) ---
+    // 20: Uniswap V3 1 POL -> USDC (Fee Tier 0.05% = 500)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInputSingle", [{
+        tokenIn: WPOL_POLYGON,
+        tokenOut: USDC_NATIVE_POLYGON,
+        amountIn: pol1,
+        fee: 500,
+        sqrtPriceLimitX96: 0
+      }])
+    },
+    // 21: Uniswap V3 10 POL -> USDC (Fee Tier 0.05% = 500)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInputSingle", [{
+        tokenIn: WPOL_POLYGON,
+        tokenOut: USDC_NATIVE_POLYGON,
+        amountIn: pol10,
+        fee: 500,
+        sqrtPriceLimitX96: 0
+      }])
+    },
+    // 22: Uniswap V3 1 POL -> USDC (Fee Tier 0.30% = 3000)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInputSingle", [{
+        tokenIn: WPOL_POLYGON,
+        tokenOut: USDC_NATIVE_POLYGON,
+        amountIn: pol1,
+        fee: 3000,
+        sqrtPriceLimitX96: 0
+      }])
+    },
+    // 23: Uniswap V3 10 POL -> USDC (Fee Tier 0.30% = 3000)
+    {
+      target: UNISWAP_V3_QUOTER_V2,
+      allowFailure: true,
+      callData: quoterIface.encodeFunctionData("quoteExactInputSingle", [{
+        tokenIn: WPOL_POLYGON,
+        tokenOut: USDC_NATIVE_POLYGON,
+        amountIn: pol10,
+        fee: 3000,
+        sqrtPriceLimitX96: 0
+      }])
+    }
   ];
 
   const results = await m3.aggregate3.staticCall(calls);
@@ -261,6 +320,22 @@ async function scanPolygonDEXs(provider) {
   const p3_quick10 = decodeQuote(10);
   const p3_sushi10 = decodeQuote(11);
 
+  function decodeQuoterQuote(resIdx) {
+    if (results[resIdx] && results[resIdx].success && results[resIdx].returnData !== "0x") {
+      try {
+        const decoded = quoterIface.decodeFunctionResult("quoteExactInputSingle", results[resIdx].returnData);
+        return parseFloat(ethers.formatUnits(decoded[0], 6));
+      } catch (_) {}
+    }
+    return 0;
+  }
+
+  // Decodificar cotizaciones QuoterV2 Uniswap V3
+  const pA_univ3_500_1 = decodeQuoterQuote(20);
+  const pA_univ3_500_10 = decodeQuoterQuote(21);
+  const pA_univ3_3000_1 = decodeQuoterQuote(22);
+  const pA_univ3_3000_10 = decodeQuoterQuote(23);
+
   // Decodificar reservas y estimar liquidez USD
   let quickLiqUsd = 0, sushiLiqUsd = 0, wethLiqUsd = 0, wbtcLiqUsd = 0;
   if (results[12]?.success && results[12].returnData !== "0x") {
@@ -288,8 +363,36 @@ async function scanPolygonDEXs(provider) {
     } catch (_) {}
   }
 
-  // Matriz de las 3 piscinas / 6 rutas en Polygon
+  // Matriz de las piscinas / rutas en Polygon PoS (Uniswap V3 + Triangular WETH/WBTC + Directas V2)
   const candidateRoutes = [
+    {
+      poolId: "pool-univ3-005",
+      poolName: "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
+      dex: "uniswap_v3",
+      feeTier: 500,
+      feePct: 0.05,
+      router: UNISWAP_V3_SWAP_ROUTER_02,
+      quoter: UNISWAP_V3_QUOTER_V2,
+      type: "uniswap_v3_concentrated",
+      path: [WPOL_POLYGON, USDC_NATIVE_POLYGON],
+      quote1Pol: pA_univ3_500_1,
+      quote10Pol: pA_univ3_500_10,
+      liquidityUsdEstimate: 48000000
+    },
+    {
+      poolId: "pool-univ3-030",
+      poolName: "Piscina A2: Uniswap V3 (Fee Tier 0.30% = 3000 - Concentrada)",
+      dex: "uniswap_v3",
+      feeTier: 3000,
+      feePct: 0.30,
+      router: UNISWAP_V3_SWAP_ROUTER_02,
+      quoter: UNISWAP_V3_QUOTER_V2,
+      type: "uniswap_v3_concentrated",
+      path: [WPOL_POLYGON, USDC_NATIVE_POLYGON],
+      quote1Pol: pA_univ3_3000_1,
+      quote10Pol: pA_univ3_3000_10,
+      liquidityUsdEstimate: 22000000
+    },
     {
       poolId: "pool-1",
       poolName: "Piscina #1 (Polygon Directa - QuickSwap V2)",
@@ -361,10 +464,12 @@ async function scanPolygonDEXs(provider) {
   // Base estándar de comparación: QuickSwap V2 Directa
   const standardBaseQuote = p1_quick1 > 0 ? p1_quick1 : 0.0905;
 
-  // Encontrar la Ruta Ganadora en Polygon
+  // Encontrar la Ruta Ganadora en Polygon (priorizando profundidad y menor slippage a 10 POL)
   let winningRoute = candidateRoutes[0];
   candidateRoutes.forEach(r => {
-    if (r.quote1Pol > winningRoute.quote1Pol) {
+    const rate10 = r.quote10Pol > 0 ? (r.quote10Pol / 10) : r.quote1Pol;
+    const currentBestRate = winningRoute.quote10Pol > 0 ? (winningRoute.quote10Pol / 10) : winningRoute.quote1Pol;
+    if (rate10 > currentBestRate) {
       winningRoute = r;
     }
   });
@@ -378,6 +483,8 @@ async function scanPolygonDEXs(provider) {
     poolName: winningRoute.poolName,
     dex: winningRoute.dex,
     router: winningRoute.router,
+    quoter: winningRoute.quoter || null,
+    feeTier: winningRoute.feeTier || null,
     type: winningRoute.type,
     path: winningRoute.path,
     quote1Pol: winningRoute.quote1Pol,
@@ -437,6 +544,11 @@ async function scanPolygonDEXs(provider) {
   return {
     chain: "polygonMainnet",
     pools: {
+      poolA_uniswap_v3: {
+        tier005: { quote1Pol: pA_univ3_500_1, quote10Pol: pA_univ3_500_10, fee: 500, router: UNISWAP_V3_SWAP_ROUTER_02 },
+        tier030: { quote1Pol: pA_univ3_3000_1, quote10Pol: pA_univ3_3000_10, fee: 3000, router: UNISWAP_V3_SWAP_ROUTER_02 },
+        liquidityUsd: 48000000
+      },
       pool1_direct: {
         quickswap: { quote1Pol: p1_quick1, quote10Pol: p1_quick10, router: QUICKSWAP_ROUTER },
         sushiswap: { quote1Pol: p1_sushi1, quote10Pol: p1_sushi10, router: SUSHISWAP_ROUTER },
@@ -750,18 +862,18 @@ async function runDedicatedObservers() {
 
   const elapsedMs = Date.now() - t0;
 
-  // Matriz Comparativa de las 6 Piscinas Institucionales
+  // Matriz Comparativa de las Piscinas Institucionales (Uniswap V3 + Triangular + Directas + BSC)
   const sixPoolsMatrix = [
     {
-      id: "PISCINA-01",
+      id: "PISCINA-A",
       network: "Polygon PoS",
-      name: "WPOL ➔ USDC Nativo (Directa)",
-      dex: `${polygonScan.bestDexRoutePolygon.toUpperCase()}`,
-      quotePerNative: `${polygonScan.pools.pool1_direct.quickswap.quote1Pol.toFixed(6)} USDC`,
-      status: polygonScan.winningPoolRoutePolygon.poolId === "pool-1" ? "🏆 GANADORA POLYGON" : "ALTERNATIVA_ACTIVA"
+      name: "Uniswap V3 (Fee Tier 0.05% - Concentrada)",
+      dex: "Uniswap V3",
+      quotePerNative: `${polygonScan.pools.poolA_uniswap_v3.tier005.quote1Pol.toFixed(6)} USDC`,
+      status: polygonScan.winningPoolRoutePolygon.poolId === "pool-univ3-005" ? "🏆 GANADORA POLYGON" : "ALTERNATIVA_ACTIVA"
     },
     {
-      id: "PISCINA-02",
+      id: "PISCINA-B1",
       network: "Polygon PoS",
       name: "WPOL ➔ WETH ➔ USDC (Triangular WETH)",
       dex: "QuickSwap V2 / SushiSwap V2",
@@ -769,7 +881,7 @@ async function runDedicatedObservers() {
       status: polygonScan.winningPoolRoutePolygon.poolId === "pool-2" ? "🏆 GANADORA POLYGON" : "ALTERNATIVA_ACTIVA"
     },
     {
-      id: "PISCINA-03",
+      id: "PISCINA-B2",
       network: "Polygon PoS",
       name: "WPOL ➔ WBTC ➔ USDC (Triangular WBTC)",
       dex: "QuickSwap V2 / SushiSwap V2",
@@ -777,7 +889,15 @@ async function runDedicatedObservers() {
       status: polygonScan.winningPoolRoutePolygon.poolId === "pool-3" ? "🏆 GANADORA POLYGON" : "ALTERNATIVA_ACTIVA"
     },
     {
-      id: "PISCINA-04",
+      id: "PISCINA-C",
+      network: "Polygon PoS",
+      name: "WPOL ➔ USDC Nativo (Directa V2)",
+      dex: "QuickSwap V2 / SushiSwap V2",
+      quotePerNative: `${polygonScan.pools.pool1_direct.quickswap.quote1Pol.toFixed(6)} USDC`,
+      status: polygonScan.winningPoolRoutePolygon.poolId === "pool-1" ? "🏆 GANADORA POLYGON" : "ALTERNATIVA_ACTIVA"
+    },
+    {
+      id: "PISCINA-D1",
       network: "BSC Mainnet",
       name: "WBNB ➔ USDC Oficial BSC (Directa)",
       dex: "PancakeSwap V2",
@@ -785,20 +905,12 @@ async function runDedicatedObservers() {
       status: bscScan.winningPoolRouteBsc.poolId === "pool-4" ? "🏆 GANADORA BSC" : "ALTERNATIVA_ACTIVA"
     },
     {
-      id: "PISCINA-05",
+      id: "PISCINA-D2",
       network: "BSC Mainnet",
-      name: "WBNB ➔ ETH-BSC ➔ USDC (Triangular ETH)",
+      name: "WBNB ➔ ETH/BTCB ➔ USDC (Triangular)",
       dex: "PancakeSwap V2",
       quotePerNative: `$${(bscScan.pools.pool5_triangular_eth.quote001Bnb * 1000).toFixed(2)} USDC`,
-      status: bscScan.winningPoolRouteBsc.poolId === "pool-5" ? "🏆 GANADORA BSC" : "ALTERNATIVA_ACTIVA"
-    },
-    {
-      id: "PISCINA-06",
-      network: "BSC Mainnet",
-      name: "WBNB ➔ BTCB ➔ USDC (Triangular BTCB)",
-      dex: "PancakeSwap V2",
-      quotePerNative: `$${(bscScan.pools.pool6_triangular_btcb.quote001Bnb * 1000).toFixed(2)} USDC`,
-      status: bscScan.winningPoolRouteBsc.poolId === "pool-6" ? "🏆 GANADORA BSC" : "ALTERNATIVA_ACTIVA"
+      status: (bscScan.winningPoolRouteBsc.poolId === "pool-5" || bscScan.winningPoolRouteBsc.poolId === "pool-6") ? "🏆 GANADORA BSC" : "ALTERNATIVA_ACTIVA"
     }
   ];
 
@@ -885,5 +997,7 @@ module.exports = {
   BTCB_BSC,
   QUICKSWAP_ROUTER,
   SUSHISWAP_ROUTER,
-  PANCAKE_ROUTER
+  PANCAKE_ROUTER,
+  UNISWAP_V3_QUOTER_V2,
+  UNISWAP_V3_SWAP_ROUTER_02
 };
