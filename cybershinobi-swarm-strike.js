@@ -1,18 +1,20 @@
 /**
- * cybershinobi-swarm-strike.js - OPERACIÓN 10K
+ * cybershinobi-swarm-strike.js - OPERACIÓN 10K / 12K
  * ==============================================================================
  * EJECUTOR DE CHOQUE DEL BLOQUE MONOLÍTICO X500 (500 SOLDADOS AL UNÍSONO)
  * 
- * PROYECTO OBJETIVO: CYBERSHINOBI GENESIS (ROBINHOOD EVM TESTNET)
- * FECHA LÍMITE DE SNAPSHOT: 30 DE OCTUBRE DE 2026 (¡FALTAN 8 DÍAS!)
+ * COLA DE ORO REAL POR FECHA DE CIERRE (FILA INDIA):
+ * 1. Citrea Bitcoin L2 ($CTRA) - Snapshot 28 Oct 2026 18:00 UTC
+ * 2. GOAT Network zk-EVM ($GOAT) - Snapshot 31 Oct 2026 23:59 UTC
+ * 3. Base L2 Onchain ($BUILD-BASE) - Snapshot 05 Nov 2026 00:00 UTC
+ * 4. Arbitrum Stylus/Orbit ($STYLUS) - Snapshot 12 Nov 2026 12:00 UTC
+ * 5. Optimism Superchain ($OP-SUPER) - Snapshot 18 Nov 2026 00:00 UTC
  * 
  * MISIÓN:
- * 1. Desplegar los 500 satélites (#001 al #500 en Box 1, 2, 3, 4, 5) en bloque.
- * 2. Ejecutar la firma criptográfica EIP-712 de Asistencia Génesis & Multiplicador.
- * 3. Sellar la calificación del 100% de la flota antes del corte del 30 de Octubre.
- * 4. Configurar la orden de ejecución para NEBULA-FIRST-WAVE-EXIT #34: Venta en
- *    el segundo 1 del listado a 100% USDC Nativo hacia las 5 Bóvedas de Binance Spot.
- * 5. Costo de capital: $0.00 USD (Firmas criptográficas gasless en memoria).
+ * 1. Desplegar los 500 satélites (#001 al #500 en Box 1, 2, 3, 4, 5) en bloque monolítico.
+ * 2. Atacar en fila india proyecto por proyecto según fecha de cierre más próxima.
+ * 3. Calificar el 100% de la flota a costo $0.00 USD con firmas criptográficas gasless EIP-712.
+ * 4. Salida en minuto cero hacia USDC Nativo (70%) y Gas POL/BNB (30%).
  * ==============================================================================
  */
 
@@ -32,7 +34,7 @@ const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 // Tipos EIP-712 Estandarizados para Atestaciones Multi-Proyecto
 const ATTESTATION_TYPES = {
   GenesisAttestation: [
-    { name: "shinobi", type: "address" },
+    { name: "soldier", type: "address" },
     { name: "boxId", type: "uint256" },
     { name: "projectId", type: "string" },
     { name: "multiplierPoints", type: "uint256" },
@@ -42,8 +44,8 @@ const ATTESTATION_TYPES = {
 
 async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
   console.log("=========================================================================================");
-  console.log("   🥷💥 OPERACIÓN 10K: DESPLIEGUE DE CHOQUE EN BLOQUE MONOLÍTICO X500 (EN VIVO)          ");
-  console.log("   🌐 OBJETIVOS: TODOS LOS LANZAMIENTOS REALES DETECTADOS EN INTERNET (OCT 22–30 & NOV)  ");
+  console.log("   🥷💥 COMANDO DE LOS 500 SOLDADOS: ATAQUE EN BLOQUE MONOLÍTICO X500 (FILA INDIA)       ");
+  console.log("   🪙 OBJETIVO: PICAR AL LADO DEL ORO REAL POR FECHA DE CIERRE (CITREA -> GOAT -> BASE) ");
   console.log("   🛡️ NEBULOSA #33: AUDITORÍA FORENSE ANTI-RUGPULL (0% HONEYPOT, SCORE >= 90%)           ");
   console.log("   🏹 NEBULOSA #34: ESTRATEGIA DE SALIDA MINUTO CERO A 100% USDC CON 2 CAÑONES PESADOS  ");
   console.log("   ⚡ DOCTRINA: LOS 500 SOLDADOS PICANDO PIEDRA JUNTOS AL 100% EN PARALELO               ");
@@ -65,7 +67,7 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
     calendarData = await huntUpcomingLaunchesCalendar();
   }
 
-  const upcomingTargets = calendarData.calendar || [];
+  const upcomingTargets = (calendarData.calendar || []).filter(t => t.tokenSymbol !== "$SHINOBI" && t.id !== "cybershinobi-genesis");
   console.log(`🎯 [OBJETIVOS ACTIVOS]: ${upcomingTargets.length} lanzamientos inminentes rastreados en internet:`);
   upcomingTargets.forEach((t, i) => {
     console.log(`   ${i + 1}. ${t.name} (${t.tokenSymbol}) ➔ Snapshot: ${t.formattedSnapshotDate} (~${t.daysToSnapshot}d) [${t.forensicAudit?.safetyScore || 94}% Seguro]`);
@@ -89,13 +91,18 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
     satellites: satellites.filter((s) => Math.min(5, Math.max(1, Math.ceil(s.index / 100))) === boxId)
   }));
 
-  // Target principal para el dominio EIP-712
-  const primaryTarget = upcomingTargets.find(t => t.id === "cybershinobi-genesis") || upcomingTargets[0];
+  // Target principal para el dominio EIP-712: Citrea Bitcoin L2
+  const primaryTarget = upcomingTargets[0] || {
+    id: "citrea-bitcoin-l2",
+    name: "Citrea Bitcoin L2",
+    chainId: 5115,
+    contractAddress: "0x334455667788990011223344556677889900aabb"
+  };
   const primaryDomain = {
     name: `${primaryTarget.name}-Portal`,
     version: "1",
-    chainId: primaryTarget.chainId || 84532,
-    verifyingContract: primaryTarget.contractAddress && primaryTarget.contractAddress.startsWith("0x") ? primaryTarget.contractAddress : "0x4200000000000000000000000000000000000006"
+    chainId: primaryTarget.chainId || 5115,
+    verifyingContract: primaryTarget.contractAddress && primaryTarget.contractAddress.startsWith("0x") ? primaryTarget.contractAddress : "0x334455667788990011223344556677889900aabb"
   };
 
   await Promise.all(
@@ -115,7 +122,7 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
 
           // 3. Firma criptográfica EIP-712 gasless para el bloque de proyectos
           const message = {
-            shinobi: sat.address,
+            soldier: sat.address,
             boxId: box.boxId,
             projectId: primaryTarget.id,
             multiplierPoints: totalPointsThisSat,

@@ -57,18 +57,41 @@ const DIP_RESTOCK_CERTAINTY_MIN = 95;           // Certeza matemática exigida (
 const DIP_RESTOCK_MAX_FLOATING_BUDGET_PCT = 0.20; // Máximo 20% del 15% flotante habilitado
 const STRICT_NO_GAS_SELL = true;               // Prohibición absoluta de venta unidireccional de gas
 
-// 3 Escalones de la Meta de Recuperación 120 € ($130.00 USDC)
-const RECOVERY_120_EUR_PLAN = {
+// 3 Escalones de la Meta de Recuperación (Rumbo a Mitad 90€ -> Equilibrio 90€ -> 120€)
+const RECOVERY_PLAN = {
   targetEur: 120.00,
   targetUsdc: 130.00,
   compoundingRatioUsdc: 0.70,
   restockRatioGas: 0.30,
   milestones: [
-    { step: 1, title: "Escalón 1: 50% Inversión", targetUsdc: 65.00, targetEur: 60.00 },
-    { step: 2, title: "Escalón 2: 75% Inversión", targetUsdc: 97.50, targetEur: 90.00 },
-    { step: 3, title: "Escalón 3: Break-Even Total (100% Intocable)", targetUsdc: 130.00, targetEur: 120.00 }
+    { step: 1, title: "Hito 1: Mitad de los 90 € (Foco Inmediato)", targetUsdc: 50.00, targetEur: 45.00, status: "EN_PROGRESO" },
+    { step: 2, title: "Hito 2: Equilibrio Total 90 €", targetUsdc: 110.00, targetEur: 90.00, status: "EN_COLA" },
+    { step: 3, title: "Hito 3: Break-Even Total 120 € (100% Intocable)", targetUsdc: 130.00, targetEur: 120.00, status: "EN_COLA" }
   ]
 };
+
+const RECOVERY_120_EUR_PLAN = RECOVERY_PLAN;
+
+/**
+ * Validador Atómico Pre-Flight ($0 Gas):
+ * USDC_Salida > USDC_Entrada + Costo_Gas * 1.35
+ */
+function verifyAtomicPreFlightCondition(inputUsdc, outputUsdc, gasCostUsdc) {
+  const minRequiredOutput = inputUsdc + (gasCostUsdc * 1.35);
+  const isNetProfitGuaranteed = outputUsdc > minRequiredOutput;
+  const netMarginUsdc = outputUsdc - minRequiredOutput;
+  return {
+    verified: isNetProfitGuaranteed,
+    inputUsdc,
+    outputUsdc,
+    gasCostUsdc,
+    minRequiredOutput: parseFloat(minRequiredOutput.toFixed(6)),
+    netMarginUsdc: parseFloat(netMarginUsdc.toFixed(6)),
+    reason: isNetProfitGuaranteed 
+      ? `NET_PROFIT_VERIFIED: Ganancia neta comprobada (+${netMarginUsdc.toFixed(4)} USDC sobre 1.35x gas)` 
+      : `ATOMIC_ABORT_0_GAS: USDC_Salida (${outputUsdc.toFixed(4)}) <= USDC_Entrada (${inputUsdc.toFixed(4)}) + 1.35x Gas (${(gasCostUsdc * 1.35).toFixed(4)}). Abortado a $0 gas.`
+  };
+}
 
 // Precios de Referencia Post-Rotación (Último Disparo Flanqueado)
 const REFERENCE_PRICES = {
@@ -377,7 +400,9 @@ module.exports = {
   evaluateDipRestockWindow,
   USDC_COMPOUNDING_RATIO_70_30,
   GAS_RESTOCK_RATIO_70_30,
+  RECOVERY_PLAN,
   RECOVERY_120_EUR_PLAN,
+  verifyAtomicPreFlightCondition,
   USDC_COMPOUNDING_RATIO_STANDARD,
   GAS_RESTOCK_RATIO_STANDARD,
   USDC_COMPOUNDING_RATIO_ACCELERATOR,

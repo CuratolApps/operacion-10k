@@ -2,72 +2,72 @@
   {
     "sym": "BTC",
     "name": "Bitcoin Reserva",
-    "price": "$81,574.42",
-    "chg": "-3.40%",
+    "price": "$81,305.49",
+    "chg": "-3.58%",
     "up": false,
     "volatility": "Moderada (Beta 1.0)",
-    "high24": "$84876",
-    "low24": "$81252"
+    "high24": "$84800",
+    "low24": "$80849"
   },
   {
     "sym": "ETH",
     "name": "Ethereum L1",
-    "price": "$2,396.47",
-    "chg": "-4.56%",
+    "price": "$2,382.65",
+    "chg": "-4.54%",
     "up": false,
     "volatility": "Alta (Soporte $2,380)",
-    "high24": "$2525",
-    "low24": "$2385"
+    "high24": "$2500",
+    "low24": "$2358"
   },
   {
     "sym": "SOL",
     "name": "Solana High-Beta",
-    "price": "$104.59",
-    "chg": "-3.56%",
+    "price": "$103.46",
+    "chg": "-4.12%",
     "up": false,
-    "volatility": "Agresiva (RSI 32)",
-    "high24": "$109.12",
-    "low24": "$103.43"
+    "volatility": "Agresiva (RSI 26)",
+    "high24": "$108.44",
+    "low24": "$102.91"
   },
   {
     "sym": "BNB",
     "name": "BSC Ecosystem",
-    "price": "$730.29",
-    "chg": "-2.56%",
+    "price": "$730.14",
+    "chg": "-2.38%",
     "up": false,
     "volatility": "Baja (Defensa $725)",
-    "high24": "$751.43",
-    "low24": "$729.03"
+    "high24": "$750.34",
+    "low24": "$724.81"
   },
   {
     "sym": "POL",
     "name": "Polygon PoS Native",
-    "price": "$0.0907",
-    "chg": "-6.87%",
+    "price": "$0.0904",
+    "chg": "-5.63%",
     "up": false,
     "volatility": "Compresión (Sobreventa)",
-    "high24": "$0.0975",
-    "low24": "$0.0902"
+    "high24": "$0.0963",
+    "low24": "$0.0893"
   },
   {
     "sym": "PAXG",
     "name": "Oro Tokenizado (RWA)",
-    "price": "$4,064.74",
-    "chg": "-1.76%",
+    "price": "$4,042.28",
+    "chg": "-1.86%",
     "up": false,
     "volatility": "Refugio Institucional",
     "high24": "$4146",
-    "low24": "$4059"
+    "low24": "$4042"
   },
   {
     "sym": "ONDO",
     "name": "Bonos Tesoro (RWA)",
-    "price": "$0.4310",
-    "chg": "-7.99%",
+    "price": "$0.4292",
+    "chg": "-7.78%",
     "up": false,
     "volatility": "Rendimiento Dólar 5.1%",
-    "high24": "$0.4725",
-    "low24": "$0.4278"
+    "high24": "$0.4706",
+    "low24": "$0.4213"
   },
   {
     "sym": "NVDA",

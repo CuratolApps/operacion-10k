@@ -2387,7 +2387,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .finops-nav-list {
   list-style: none !important;
   display: grid !important;
-  grid-template-rows: repeat(8, 1fr) !important;
+  grid-template-rows: repeat(10, 1fr) !important;
   gap: 5px !important;
   flex: 1 !important;
   min-height: 0 !important;

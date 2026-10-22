@@ -360,24 +360,28 @@ function renderTopRadarBanner() {
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
 
+  const currentUsdc = safeNum(consolidatedNum, 39.72);
+  const hito1Pct = ((currentUsdc / 50.00) * 100).toFixed(1);
+  const hito2Pct = ((currentUsdc / 110.00) * 100).toFixed(1);
+
   const elPhase1 = document.getElementById('dashPhase1Pill');
   if (elPhase1) {
-    elPhase1.textContent = '🎯 FASE 1: $39.72 / $130.00 USDC (30.5%)';
+    elPhase1.textContent = `🎯 HITO 1: $${currentUsdc.toFixed(2)} / $50.00 USDC (${hito1Pct}% Mitad 90€)`;
   }
 
   const elEur = document.getElementById('dashEurLiqPill');
   if (elEur) {
-    elEur.textContent = 'Bóveda On-Chain: $38.72 USDC (70/30)';
+    elEur.textContent = `⚖️ HITO 2: $${currentUsdc.toFixed(2)} / $110.00 USDC (${hito2Pct}% Equilibrio 90€)`;
   }
 
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) {
-    elUsd.textContent = 'Binance Spot: $1.00 USDC (Manual)';
+    elUsd.textContent = '🏦 Bóveda On-Chain: $38.72 USDC (70/30 Compounding)';
   }
 
   const elRes = document.getElementById('dashReserveLiqPill');
   if (elRes) {
-    elRes.textContent = 'Reserva #501: 121.02 POL | Flota: 265.86 POL';
+    elRes.textContent = '⛽ Reserva #501: 121.02 POL | Flota: 265.86 POL';
   }
 
   const elMotherPol = document.getElementById('dashMothershipPol');
@@ -1145,6 +1149,7 @@ async function renderWallStreetTerminal() {
 
   const titanData = await tryFetch(['../telemetry/titan-scalper-state.json', '/telemetry/titan-scalper-state.json', 'telemetry/titan-scalper-state.json']) || state.telemetry?.titanScalper;
   const oracleData = await tryFetch(['../telemetry/oracle-stocks-state.json', '/telemetry/oracle-stocks-state.json', 'telemetry/oracle-stocks-state.json']) || state.telemetry?.oracleStocks;
+  const bossData = await tryFetch(['../telemetry/boss-trader-801-state.json', '/telemetry/boss-trader-801-state.json', 'telemetry/boss-trader-801-state.json']) || state.telemetry?.bossTrader801;
   const mentorData = await tryFetch(['../telemetry/trading-mentor-state.json', '/telemetry/trading-mentor-state.json', 'telemetry/trading-mentor-state.json']) || state.telemetry?.tradingMentor;
   const tickersData = await tryFetch(['../telemetry/wallstreet-tickers.json', '/telemetry/wallstreet-tickers.json', 'telemetry/wallstreet-tickers.json']) || state.telemetry?.wallStreetTickers;
 
@@ -1285,6 +1290,36 @@ async function renderWallStreetTerminal() {
         </div>
       `;
     }
+  }
+
+  // 4. Box 8 Nexus-Boss (#801)
+  const bossListingsEl = document.getElementById('box8UpcomingListings');
+  if (bossListingsEl) {
+    const opportunities = bossData?.informantsCoalition?.etapaEstreno?.upcomingOpportunities || [
+      { id: 1, token: "CITREA ($CTRA)", category: "Bitcoin ZK-Rollup", listingPlatform: "Binance Alpha / Gate.io", listingDate: "2026-10-28 10:00 UTC", targetGain: "+320%", status: "CONFIRMED_LISTING", safetyRating: "AAA (0% Rug)" },
+      { id: 2, token: "GOAT NETWORK ($GOAT)", category: "BTC zk-EVM L2", listingPlatform: "MEXC / KuCoin", listingDate: "2026-10-31 12:00 UTC", targetGain: "+250%", status: "FINAL_TGE_CALL", safetyRating: "AAA (0% Rug)" },
+      { id: 3, token: "BASE ONCHAIN ($BUILD)", category: "Coinbase Ecosystem", listingPlatform: "Coinbase Roadmap / Aerodrome", listingDate: "2026-11-05 14:00 UTC", targetGain: "+180%", status: "ANNOUNCED", safetyRating: "AA+" },
+      { id: 4, token: "ARBITRUM STYLUS ($STYLUS)", category: "Arbitrum WASM Layer", listingPlatform: "Binance / Camelot", listingDate: "2026-11-12 09:00 UTC", targetGain: "+210%", status: "CONFIRMED_DEPLOY", safetyRating: "AAA" },
+      { id: 5, token: "OPTIMISM SUPERCHAIN ($OP-SUPER)", category: "OP Stack Aggregation", listingPlatform: "Bybit / Velodrome", listingDate: "2026-11-18 11:00 UTC", targetGain: "+195%", status: "UPCOMING_LISTING", safetyRating: "AAA" },
+      { id: 6, token: "AI-MEME-NEXUS ($AIMEME)", category: "Viral AI Agents BSC", listingPlatform: "PancakeSwap V3 / MEXC", listingDate: "2026-10-24 16:00 UTC", targetGain: "+400%", status: "GRADUATION_WATCH", safetyRating: "AA (GoPlus Clean)" }
+    ];
+
+    bossListingsEl.innerHTML = opportunities.map(o => `
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(176, 38, 255, 0.2); border-radius: 4px; padding: 4px 6px; font-family: 'JetBrains Mono'; display: flex; flex-direction: column; gap: 2px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.58rem; font-weight: 800; color: #fff;">${o.token}</span>
+          <span style="font-size: 0.48rem; color: var(--neon-magenta); font-weight: 800; background: rgba(176,38,255,0.15); padding: 1px 4px; border-radius: 3px;">${o.targetGain}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.46rem; color: var(--text-muted);">
+          <span>🏛️ ${o.listingPlatform}</span>
+          <span style="color: var(--neon-cyan);">${o.listingDate}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.44rem;">
+          <span style="color: var(--neon-green);">🛡️ ${o.safetyRating}</span>
+          <span style="color: var(--neon-gold); font-weight: 700;">● ${o.status}</span>
+        </div>
+      </div>
+    `).join('');
   }
 }
 

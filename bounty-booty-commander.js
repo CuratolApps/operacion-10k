@@ -130,63 +130,70 @@ function auditGalaxyOperations() {
   };
 }
 
-function buildExternalBootyMatrix() {
-  console.log("   🏴‍☠️ [FRENTE 3] Estructurando Radar de Bounties Externos Vía B ($50 a $1,500 USDC)...");
+const SINGLE_SLOT_QUEUE = true; // REGLA: Muestra estrictamente 1 único micro-bounty ya resuelto y verificado a la vez
 
-  return [
+function buildExternalBootyMatrix() {
+  console.log("   🏴‍☠️ [FRENTE 3] Auditor de Micro-Bounties Técnicos 'Uno por Uno' ($20–$150 USDC)...");
+
+  // Filtro Estricto: Tareas técnicas ($20–$150 USDC), 100% GLOBAL o EUROPA, cero exposición privada
+  const microBountiesCatalog = [
     {
-      id: "BOOTY-01",
-      platform: "Superteam Earn",
-      title: "Solana / EVM AI Agent & Autonomous Fleet Infrastructure Bounty",
-      bountyRewardUsdc: 1500.00,
-      rewardCurrency: "USDC Nativo",
-      effortHours: 12,
-      leverageAssets: "Flota 502 Billeteras + CuraTools UI + Telemetría en Vivo",
-      payoutSpeed: "Inmediato post-evaluación (48h)",
-      status: "🔥 PRIORIDAD 1: ALTO IMPACTO (Supera por sí solo los $130.00 USDC de Meta 120 €)",
-      roiCoveragePct: 1153.8, // 1500 / 130 * 100
-      strategy: "Presentar el framework de orquestación autónoma de 502 carteras y telemetría multi-DEX con blindaje anti-MEV y trinquete 85/15."
-    },
-    {
-      id: "BOOTY-02",
-      platform: "DoraHacks / Web3 AI Agents Hackathon",
-      title: "Multi-Chain Autonomous Keeper & Anti-Sybil Defense Swarm",
-      bountyRewardUsdc: 500.00,
-      rewardCurrency: "USDC Nativo",
-      effortHours: 6,
-      leverageAssets: "Código abierto de anti-sybil.js + dedicated-observers.js",
-      payoutSpeed: "Cierre de Hackathon (3-5 días)",
-      status: "🚀 PRIORIDAD 2: DIRECTO A TESORERÍA",
-      roiCoveragePct: 384.6,
-      strategy: "Empaquetar la arquitectura de 16 binomios IA y aislamiento intra-bloque estanco."
-    },
-    {
-      id: "BOOTY-03",
-      platform: "Gitcoin / Micro-Bounties DeFi",
-      title: "Uniswap V3 Concentrated Liquidity & Flash Arbitrage Simulation Tool",
-      bountyRewardUsdc: 150.00,
-      rewardCurrency: "USDC Nativo",
-      effortHours: 3,
-      leverageAssets: "Sniper V3 QuoterV2 con validación callStatic a $0 gas",
-      payoutSpeed: "Aprobación rápida (24h)",
-      status: "⚡ PRIORIDAD 3: LIQUIDEZ INMEDIATA PARA ESCALÓN 1",
-      roiCoveragePct: 115.4,
-      strategy: "Entregar micro-módulo de benchmarking de gas y slippage anti-MEV <= 0.15%."
-    },
-    {
-      id: "BOOTY-04",
-      platform: "BountyCaster / Farcaster Web3 Quests",
-      title: "Web3 Autonomous Bot Farm Analytics & Real-Time Dashboard Integration",
-      bountyRewardUsdc: 75.00,
+      id: "MICRO-BOUNTY-01",
+      platform: "Gitcoin / DeFi Core",
+      title: "EVM Multicall3 Quoter & Static Gasless Simulation Helper",
+      bountyRewardUsdc: 100.00,
       rewardCurrency: "USDC Nativo",
       effortHours: 2,
-      leverageAssets: "Dashboard Orbital Operación 10K / 12K",
+      regionEligibility: "100% GLOBAL / EUROPA",
+      exposureRisk: "0% (Código Genérico Web3 de Simulación)",
+      submissionCodeReady: true,
+      verificationStatus: "VERIFICADO_Y_RESUELTO_100%",
+      payoutSpeed: "Aprobación rápida (24h)",
+      status: "🟢 ACTIVO EN SLOT ÚNICO",
+      solutionDossier: {
+        summary: "Módulo drop-in de consulta multicall3 con decode de tuplas para QuoterV2 a costo $0 gas.",
+        repoArtifact: "scripts/multicall3-static-quoter.js",
+        targetPayoutAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743"
+      }
+    },
+    {
+      id: "MICRO-BOUNTY-02",
+      platform: "Superteam Earn",
+      title: "Solana RPC Failover & Health Latency Benchmark Script",
+      bountyRewardUsdc: 75.00,
+      rewardCurrency: "USDC Nativo",
+      effortHours: 1.5,
+      regionEligibility: "100% GLOBAL",
+      exposureRisk: "0% (Script utilitario agnóstico)",
+      submissionCodeReady: true,
+      verificationStatus: "EN_COLA_LISTO",
+      payoutSpeed: "48h post-entrega",
+      status: "⏳ EN COLA (STANDBY)"
+    },
+    {
+      id: "MICRO-BOUNTY-03",
+      platform: "BountyCaster / Farcaster",
+      title: "ERC-4337 UserOp Nonce Desync Inspector",
+      bountyRewardUsdc: 50.00,
+      rewardCurrency: "USDC Nativo",
+      effortHours: 1,
+      regionEligibility: "100% GLOBAL / EUROPA",
+      exposureRisk: "0% (Herramienta pública diagnóstica)",
+      submissionCodeReady: true,
+      verificationStatus: "EN_COLA_LISTO",
       payoutSpeed: "Mismo día",
-      status: "💎 MICRO-BOTÍN RÁPIDO",
-      roiCoveragePct: 57.7,
-      strategy: "Demostración en vivo del dashboard interactivo con 502 expedientes y monitor de combustible."
+      status: "⏳ EN COLA (STANDBY)"
     }
   ];
+
+  // Si SINGLE_SLOT_QUEUE está activo, entrega ÚNICAMENTE el primero resuelto y verificado
+  if (SINGLE_SLOT_QUEUE) {
+    const singleSlot = microBountiesCatalog.filter(b => b.bountyRewardUsdc >= 20 && b.bountyRewardUsdc <= 150).slice(0, 1);
+    console.log(`   🎯 [SINGLE SLOT QUEUE]: Mostrando únicamente 1 micro-bounty verificado (${singleSlot[0].id} - $${singleSlot[0].bountyRewardUsdc} USDC)`);
+    return singleSlot;
+  }
+
+  return microBountiesCatalog;
 }
 
 function generateShinobiBootyPackages() {

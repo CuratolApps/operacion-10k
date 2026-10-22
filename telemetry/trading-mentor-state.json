@@ -2,11 +2,11 @@
   "mentorName": "NEBULA-MENTOR: SIMONS-MEDALLION #00",
   "mentorTitle": "Mente Maestra Cuantitativa & Protector de Capital",
   "inspiration": "Jim Simons (Renaissance Technologies / Medallion Fund)",
-  "timestamp": "2026-10-22T15:54:10.007Z",
+  "timestamp": "2026-10-22T19:00:42.032Z",
   "status": "ACTIVE_MENTORSHIP",
   "mindset": "MENTE_SECA_100_CIENTIFICA",
   "marketRegime": "CORRECCIÓN_CON_BARRIDOS_DE_LIQUIDEZ_DETECTADOS",
-  "trapsDetectedAndAvoidedToday": 9,
+  "trapsDetectedAndAvoidedToday": 10,
   "fleetTradingSkillLevel": "INSTITUCIONAL_CUANTITATIVO",
   "strategicDirective": "Doctrina Simons-Medallion: Asimetría 3:1 • Cero Corazonadas • P(win) >= 80% • Supervisión Activa de Entradas y Salidas en USDC",
   "nebulasShieldStatus": "32/32 NEBULOSAS BLINDADAS (16 BINOMIOS ACTIVOS CONTRA FAKEOUTS)",
@@ -40,6 +40,7 @@
   "supervisedUnits": {
     "box6Titan": "AUTORIZADO_RADAR_SOBREVENTA_POL_BNB",
     "box7Oracle": "GOBERNANZA_ESTRICTA_APROBACION_HUMANA",
+    "box8Boss": "AUTORIZADO_ETAPAS_CUNA_SEMILLA_ESTRENO_INFORMANTES",
     "mothership501": "121.024 POL INTOCABLES (STRICT_NO_GAS_SELL = true)"
   }
 }

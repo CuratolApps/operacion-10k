@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.2.0",
-  "lastRun": "2026-10-22T14:38:10.564Z",
-  "lastRunFormatted": "22/10/2026, 14:38:10 UTC",
+  "lastRun": "2026-10-22T19:01:47.461Z",
+  "lastRunFormatted": "22/10/2026, 19:01:47 UTC",
   "strikeType": "MONOLITHIC_PARALLEL_MULTI_LAUNCH_STRIKE",
   "upcomingLaunchesTracked": [
     {
@@ -31,43 +31,6 @@
         "safetyScore": 94,
         "honeypotRisk": "0%",
         "vcBacking": "Galaxy Digital / Delphi Ventures",
-        "verdictDetails": "🟢 SEGURO & AUDITADO",
-        "verifiedOnChain": true
-      },
-      "fleetAction": {
-        "soldiersAssigned": 500,
-        "boxesParticipating": 5,
-        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
-        "costUsd": "$0.00 Gas Consumido"
-      }
-    },
-    {
-      "id": "cybershinobi-genesis",
-      "name": "CyberShinobi Genesis",
-      "tokenSymbol": "$SHINOBI",
-      "ecosystem": "Robinhood EVM Testnet / Gamified DeFi",
-      "chainId": 84532,
-      "contractAddress": "0x4200000000000000000000000000000000000006",
-      "formattedSnapshotDate": "30 Oct 2026 23:59 UTC",
-      "daysToSnapshot": 8,
-      "urgencyClass": "imminent",
-      "formattedTgeDate": "05 Nov 2026",
-      "daysToTge": 14,
-      "isPrimaryStrikeTarget": true,
-      "vcBacking": "Animoca Brands / Robinhood Builders Camp",
-      "gasCostType": "$0.00 (Gasless EIP-712)",
-      "firstWaveExitPlan": {
-        "strategy": "VENTA_MINUTO_CERO",
-        "totalFleetHarvestEstimateUsdc": "$7,500 – $17,500 USDC",
-        "pair": "$SHINOBI ➔ USDC Nativo",
-        "destination": "Bóvedas Binance Spot #1 a #5",
-        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
-      },
-      "forensicAudit": {
-        "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 94,
-        "honeypotRisk": "0%",
-        "vcBacking": "Animoca Brands / Robinhood Builders Camp",
         "verdictDetails": "🟢 SEGURO & AUDITADO",
         "verifiedOnChain": true
       },
@@ -190,6 +153,43 @@
       }
     },
     {
+      "id": "optimism-superchain-drops",
+      "name": "Optimism Superchain",
+      "tokenSymbol": "$OP-SUPER",
+      "ecosystem": "Optimism Collective / Superchain L2",
+      "chainId": 10,
+      "contractAddress": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+      "formattedSnapshotDate": "18 Nov 2026 00:00 UTC",
+      "daysToSnapshot": 27,
+      "urgencyClass": "normal",
+      "formattedTgeDate": "28 Nov 2026",
+      "daysToTge": 37,
+      "isPrimaryStrikeTarget": false,
+      "vcBacking": "Paradigm / a16z crypto",
+      "gasCostType": "$0.00 (Optimism Sepolia / EIP-712)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$6,000 – $14,000 USDC",
+        "pair": "$OP-SUPER ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #1 a #5",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 96,
+        "honeypotRisk": "0%",
+        "vcBacking": "Paradigm / a16z crypto",
+        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
       "id": "monad-berachain-public",
       "name": "Monad & Berachain Public Testnet",
       "tokenSymbol": "$MONAD-BERA",
@@ -239,11 +239,11 @@
       "5": 100
     },
     "boxLatencyMs": {
-      "1": 3888,
-      "2": 3102,
-      "3": 2440,
-      "4": 1882,
-      "5": 1330
+      "1": 3337,
+      "2": 2716,
+      "3": 2168,
+      "4": 1607,
+      "5": 1057
     },
     "totalPointsEarned": 300000,
     "capitalCostGas": "$0.00 USD (100% Gasless EIP-712 & Testnets)"
@@ -270,15 +270,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0xa0603b83ce87a761ffa743dd4fca44735935ad62d0b6257b2fdb114584639b84",
+      "proofHash": "0x4cf4e8362e77dc07255a899558c6064629cee4caccba9d8d7c659f3d91b66ac1",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.527Z"
+      "timestamp": "2026-10-22T19:01:47.426Z"
     },
     {
       "index": 2,
@@ -288,15 +288,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0xf3c48041db5d8c5910010a29f99f194394602e26d816e385ca8453a3ca24ecab",
+      "proofHash": "0xa6996915ad1970c07c7c6d7613fe289e756a1612f621465c181c7b816321c936",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 3,
@@ -306,15 +306,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0xa767f5dc25f6e45249c7665b4ae7f6f344d45d8727460fa2a3999493ab33dbab",
+      "proofHash": "0x363800f73a7e4cc42931711ce1982322ed48670ddc7ff3cf2a1c270e6417ec74",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 4,
@@ -324,15 +324,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0x2a65ec17a95dac6f7d91c51a1237496ca4dec14d686cbd81f16236514a618c6e",
+      "proofHash": "0xf5a88bda480c17e3a7da86dac4ef0cedafffa524d67f97b66f800e7cc58fa8ca",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 5,
@@ -342,15 +342,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0xb1823d0f04ff4b56c52cf50ee0002250c2e06c140b98462735ece149c0cf953c",
+      "proofHash": "0x183aab69a3e32cfb596a5767fd5a1db7641f8cc9580797b6c24a001e06ce14d2",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 6,
@@ -360,15 +360,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0xdb905f54f32124da91ea14906ae53d29542797d631b50e04b303cc95621f1788",
+      "proofHash": "0x45c3ff099cebedaae06c09f5c74fea532342ec3b71fda9ee10925aad91f491d8",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 7,
@@ -378,15 +378,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0x40a44b26ee290491e917197eed4e2c5b75d369fcfd2fde9a8b668a634584e0cf",
+      "proofHash": "0xc931cf807e081c9a73834e54f41f91744083703d5d46123f28c9f4f0fcaa6a23",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 8,
@@ -396,15 +396,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0xe5a3a5b01c2c45b3d9510f2ffc96b56ba919a03422d90d913a8c6da0c9d7a1e6",
+      "proofHash": "0x2746bac9d27dab26c1a788dec69c548378a4dbefd422205d59752b40d0fed23f",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 9,
@@ -414,15 +414,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0x87fb4dc6f47b94600c5ab8bbc76a6f5e6e53e0d12ab024db6a906892f41b2e85",
+      "proofHash": "0x5762dd4a8c775ca17e122815eff0d6dcf302d51c46a1dbd5727924dfce700c85",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     },
     {
       "index": 10,
@@ -432,15 +432,15 @@
       "points": 600,
       "targetsSigned": [
         "$CTRA",
-        "$SHINOBI",
         "$GOAT",
         "$BUILD-BASE",
         "$STYLUS",
+        "$OP-SUPER",
         "$MONAD-BERA"
       ],
-      "proofHash": "0x5bc3df85dede121f56c0361d565dce63b24fe203a3735304ceefe6a87e9fb2f9",
+      "proofHash": "0xebc14170ab4d8d769c57d98701871a5b5b95cc3a53100fecd56881092411c420",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T14:38:10.528Z"
+      "timestamp": "2026-10-22T19:01:47.428Z"
     }
   ]
 }

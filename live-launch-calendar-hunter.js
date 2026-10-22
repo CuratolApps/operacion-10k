@@ -136,31 +136,8 @@ async function huntUpcomingLaunchesCalendar() {
   console.log(`   ✅ DEXScreener: ${dexProfiles.length} perfiles de tokens analizados.`);
   console.log(`   ✅ DefiLlama: ${llamaProtocols.length} protocolos rastreados.`);
 
-  // 1. Catálogo Institucional y Dinámico de Lanzamientos Próximos (Octubre 22 al 30 y Noviembre 2026)
+  // 1. Catálogo Institucional y Dinámico de Lanzamientos Próximos (Fila India por Fecha de Cierre - Oro Real)
   const masterUpcomingCampaigns = [
-    {
-      id: "cybershinobi-genesis",
-      name: "CyberShinobi Genesis",
-      tokenSymbol: "$SHINOBI",
-      ecosystem: "Robinhood EVM Testnet / Gamified DeFi",
-      chainId: 84532,
-      contractAddress: "0x4200000000000000000000000000000000000006",
-      formattedSnapshotDate: "30 Oct 2026 23:59 UTC",
-      daysToSnapshot: 8,
-      urgencyClass: "imminent",
-      formattedTgeDate: "05 Nov 2026",
-      daysToTge: 14,
-      isPrimaryStrikeTarget: true,
-      vcBacking: "Animoca Brands / Robinhood Builders Camp",
-      gasCostType: "$0.00 (Gasless EIP-712)",
-      firstWaveExitPlan: {
-        strategy: "VENTA_MINUTO_CERO",
-        totalFleetHarvestEstimateUsdc: "$7,500 – $17,500 USDC",
-        pair: "$SHINOBI ➔ USDC Nativo",
-        destination: "Bóvedas Binance Spot #1 a #5",
-        allocationRule: "70% USDC Nativo / 30% Gas POL & BNB"
-      }
-    },
     {
       id: "citrea-bitcoin-l2",
       name: "Citrea Bitcoin L2",
@@ -250,6 +227,29 @@ async function huntUpcomingLaunchesCalendar() {
         totalFleetHarvestEstimateUsdc: "$4,000 – $8,500 USDC",
         pair: "$STYLUS ➔ USDC Nativo",
         destination: "Bóvedas Binance Spot #1 y #5",
+        allocationRule: "70% USDC Nativo / 30% Gas POL & BNB"
+      }
+    },
+    {
+      id: "optimism-superchain-drops",
+      name: "Optimism Superchain",
+      tokenSymbol: "$OP-SUPER",
+      ecosystem: "Optimism Collective / Superchain L2",
+      chainId: 10,
+      contractAddress: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85", // OP USDC
+      formattedSnapshotDate: "18 Nov 2026 00:00 UTC",
+      daysToSnapshot: 27,
+      urgencyClass: "normal",
+      formattedTgeDate: "28 Nov 2026",
+      daysToTge: 37,
+      isPrimaryStrikeTarget: false,
+      vcBacking: "Paradigm / a16z crypto",
+      gasCostType: "$0.00 (Optimism Sepolia / EIP-712)",
+      firstWaveExitPlan: {
+        strategy: "VENTA_MINUTO_CERO",
+        totalFleetHarvestEstimateUsdc: "$6,000 – $14,000 USDC",
+        pair: "$OP-SUPER ➔ USDC Nativo",
+        destination: "Bóvedas Binance Spot #1 a #5",
         allocationRule: "70% USDC Nativo / 30% Gas POL & BNB"
       }
     },

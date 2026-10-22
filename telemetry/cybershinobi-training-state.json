@@ -3,12 +3,12 @@
   "timestamp": "2026-10-22T14:13:32.763Z",
   "formattedTime": "22/10/2026, 14:13:32 UTC",
   "mission": {
-    "target": "CyberShinobi Genesis (Robinhood EVM Testnet)",
-    "token": "$SHINOBI",
-    "deadline": "2026-10-30T23:59:59Z",
-    "daysLeft": 8,
+    "target": "Citrea Bitcoin L2 (Bitcoin ZK-Rollup)",
+    "token": "$CTRA",
+    "deadline": "2026-10-28T18:00:00Z",
+    "daysLeft": 6,
     "status": "ENTRENANDO_Y_OPERANDO_EN_VIVO",
-    "otherOperationsStatus": "SNIPES_PAUSADOS_FOCO_TOTAL_EN_30_OCT"
+    "otherOperationsStatus": "FILA_INDIA_ORO_REAL_100_COBERTURA"
   },
   "swarmMetrics": {
     "totalSoldiersMobilized": 500,
@@ -90,14 +90,14 @@
     "forensicShield33": {
       "officer": "NEBULA-FORENSIC-SHIELD #33",
       "task": "Auditoría Continua Anti-Rugpull & Vigilancia de Repositorios",
-      "currentAction": "Inspección de bytecodes en Robinhood Chain Testnet",
-      "safetyScore": "93% (Contratos limpios, sin backdoors de acuñación ni lockups de venta)",
+      "currentAction": "Inspección de bytecodes en Citrea Bitcoin L2 Testnet",
+      "safetyScore": "94% (Contratos limpios, sin backdoors de acuñación ni lockups de venta)",
       "verdict": "🟢 100% VIABLE PARA FASE 1"
     },
     "firstWaveExit34": {
       "officer": "NEBULA-FIRST-WAVE-EXIT #34",
       "task": "Simulador de Salida en Primera Ola & Venta a USDC",
-      "currentAction": "Calibración de rutas DEX (Uniswap V3 / Camelot) para swap instantáneo de $SHINOBI",
+      "currentAction": "Calibración de rutas DEX (Uniswap V3 / Camelot) para swap instantáneo de $CTRA",
       "slippageTolerance": "1.0% máximo",
       "destinationVaults": "5 Bóvedas Binance Spot (Cuentas #1 a #5)",
       "projectedNetCapture": "$7,500 – $17,500 USDC"

@@ -73,8 +73,10 @@ const APPROVED_SPENDERS = {
 // =====================================================================================
 // 1. CANDADO TRINQUETE DE GANANCIA ASEGURADA (HIGH-WATER MARK 85/15)
 // =====================================================================================
-const USDC_RATCHET_RATIO = 0.85; // Trinquete #1: 85% del USDC blindado irreversiblemente
+const USDC_RATCHET_RATIO = 0.85; // Trinquete #1: 85% del USDC blindado irreversiblemente (USDC_RATCHET_85)
 const STRICT_NO_GAS_SELL = true;  // ORDEN DE EMERGENCIA: Prohibición absoluta de venta unidireccional de POL o BNB
+const ZERO_GAS_DRAIN_MODE = true; // PROHIBIDO quemar gas base en swaps unidireccionales
+const OPSEC_PRIVATE = true;       // OPSEC 100% PRIVADO: Cero exposición externa
 
 const GAS_UNIT_RATCHET_FILE = path.join(TELEMETRY_DIR, "gas-unit-ratchet.json");
 
@@ -88,8 +90,14 @@ function loadGasUnitRatchet() {
     schemaVersion: "1.0.0",
     lastUpdate: new Date().toISOString(),
     strictNoGasSell: true,
+    zeroGasDrainMode: true,
+    opsecPrivate: true,
+    sacredFleetReserve: {
+      totalFleetPolFloor: 265.86,
+      totalFleetBnbFloor: 0.0435
+    },
     floors: {
-      "#501": { floorPol: 120.90, floorBnb: 0.0065 },
+      "#501": { floorPol: 121.024, floorBnb: 0.0065 },
       "#001": { floorPol: 18.02, floorBnb: 0.0038 },
       "#101": { floorPol: 18.02, floorBnb: 0.0038 },
       "#201": { floorPol: 18.02, floorBnb: 0.0038 },
@@ -465,6 +473,8 @@ module.exports = {
   APPROVED_SPENDERS,
   USDC_RATCHET_RATIO,
   STRICT_NO_GAS_SELL,
+  ZERO_GAS_DRAIN_MODE,
+  OPSEC_PRIVATE,
   loadGasUnitRatchet,
   verifyGasUnitRatchet,
   updateGasUnitRatchet

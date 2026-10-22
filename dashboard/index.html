@@ -171,10 +171,10 @@
             </div>
 
             <div class="liq-sub-pills">
-              <span class="badge-liq-sub phase1" id="dashPhase1Pill" style="background: rgba(255, 184, 0, 0.16); border: 1px solid rgba(255, 184, 0, 0.55); color: var(--neon-gold); font-weight: 800; font-family: 'JetBrains Mono';">🎯 FASE 1: $39.72 / $130.00 USDC (30.5%)</span>
-              <span class="badge-liq-sub eur" id="dashEurLiqPill">Bóveda On-Chain: $38.72 USDC (70/30)</span>
-              <span class="badge-liq-sub usd" id="dashUsdLiqPill">Binance Spot: $1.00 USDC (Manual)</span>
-              <span class="badge-liq-sub res" id="dashReserveLiqPill">Reserva #501: 121.02 POL | Flota: 265.86 POL</span>
+              <span class="badge-liq-sub phase1" id="dashPhase1Pill" style="background: rgba(255, 184, 0, 0.16); border: 1px solid rgba(255, 184, 0, 0.55); color: var(--neon-gold); font-weight: 800; font-family: 'JetBrains Mono';">🎯 HITO 1: $39.72 / $50.00 USDC (79.4% Mitad 90€)</span>
+              <span class="badge-liq-sub eur" id="dashEurLiqPill">⚖️ HITO 2: $39.72 / $110.00 USDC (36.1% Equilibrio 90€)</span>
+              <span class="badge-liq-sub usd" id="dashUsdLiqPill">🏦 Bóveda On-Chain: $38.72 USDC (70/30 Compounding)</span>
+              <span class="badge-liq-sub res" id="dashReserveLiqPill">⛽ Reserva #501: 121.02 POL | Flota: 265.86 POL</span>
             </div>
             <div style="text-align: right; display: flex; flex-direction: column; justify-content: center;">
               <span style="font-size: 0.44rem; color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono';">SATURACIÓN DE FLOTA</span>
@@ -1045,73 +1045,139 @@
             <!-- Se puebla dinámicamente con app.js -->
           </div>
 
-          <!-- CUERPO PRINCIPAL: 2 COLUMNAS (BOX 6 A LA IZQUIERDA / BOX 7 A LA DERECHA) -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-height: 0;">
+          <!-- CUERPO PRINCIPAL: 3 COLUMNAS (BOX 6 / BOX 7 / BOX 8) -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1; min-height: 0;">
             
             <!-- COLUMNA 1: BOX 6 - TITAN-SCALPER #601 -->
-            <div style="background: rgba(10, 16, 26, 0.85); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 6px;">
+            <div style="background: rgba(10, 16, 26, 0.85); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 4px;">
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <span style="font-size: 1.1rem;">⚡</span>
                   <div>
-                    <h4 style="margin: 0; font-size: 0.82rem; color: var(--neon-cyan); font-family: 'JetBrains Mono', monospace;">BOX 6: TITAN-SCALPER #601</h4>
-                    <span style="font-size: 0.58rem; color: var(--text-muted);">Especialista en Pares de Monedas • Flujo Diario en USDC</span>
+                    <h4 style="margin: 0; font-size: 0.78rem; color: var(--neon-cyan); font-family: 'JetBrains Mono', monospace;">BOX 6: TITAN-SCALPER #601</h4>
+                    <span style="font-size: 0.54rem; color: var(--text-muted);">Trader de Pares Líquidos • Flujo Diario USDC</span>
                   </div>
                 </div>
-                <button onclick="runTitanScanTrigger()" style="background: rgba(0, 240, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); font-size: 0.55rem; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-family: 'JetBrains Mono'; font-weight: 800;">⚡ ESCANEAR AHORA</button>
+                <button onclick="runTitanScanTrigger()" style="background: rgba(0, 240, 255, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); font-size: 0.52rem; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-family: 'JetBrains Mono'; font-weight: 800;">⚡ ESCANEAR</button>
               </div>
 
               <!-- MÉTRICAS DE COMBATE DEL BOX 6 -->
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
-                <div style="background: rgba(0, 0, 0, 0.4); padding: 6px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
-                  <span style="font-size: 0.50rem; color: var(--text-muted); display: block;">Lote Asignado</span>
-                  <span style="font-size: 0.82rem; font-weight: 800; color: #fff; font-family: 'JetBrains Mono';">$15.00 USDC</span>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+                <div style="background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
+                  <span style="font-size: 0.48rem; color: var(--text-muted); display: block;">Lote Simulado</span>
+                  <span style="font-size: 0.75rem; font-weight: 800; color: #fff; font-family: 'JetBrains Mono';">$15.00 USDC</span>
                 </div>
-                <div style="background: rgba(0, 0, 0, 0.4); padding: 6px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
-                  <span style="font-size: 0.50rem; color: var(--text-muted); display: block;">Reglas de Salida</span>
-                  <span style="font-size: 0.68rem; font-weight: 800; color: var(--neon-cyan); font-family: 'JetBrains Mono';">TP +2.5% | SL -1%</span>
+                <div style="background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
+                  <span style="font-size: 0.48rem; color: var(--text-muted); display: block;">Reglas de Salida</span>
+                  <span style="font-size: 0.62rem; font-weight: 800; color: var(--neon-cyan); font-family: 'JetBrains Mono';">TP +2.5% | SL -1%</span>
                 </div>
-                <div style="background: rgba(0, 0, 0, 0.4); padding: 6px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
-                  <span style="font-size: 0.50rem; color: var(--text-muted); display: block;">Tasa de Acierto</span>
-                  <span style="font-size: 0.82rem; font-weight: 800; color: var(--neon-green); font-family: 'JetBrains Mono';" id="box6WinRate">100% OK</span>
+                <div style="background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center;">
+                  <span style="font-size: 0.48rem; color: var(--text-muted); display: block;">Tasa de Acierto</span>
+                  <span style="font-size: 0.75rem; font-weight: 800; color: var(--neon-green); font-family: 'JetBrains Mono';" id="box6WinRate">100% OK</span>
                 </div>
               </div>
 
               <!-- POSICIÓN ACTIVA BOX 6 -->
-              <div style="background: rgba(0, 240, 255, 0.06); border: 1px dashed rgba(0, 240, 255, 0.4); border-radius: 6px; padding: 8px;" id="box6ActivePosContainer">
-                <span style="font-size: 0.62rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Cargando posición activa...</span>
+              <div style="background: rgba(0, 240, 255, 0.06); border: 1px dashed rgba(0, 240, 255, 0.4); border-radius: 6px; padding: 6px;" id="box6ActivePosContainer">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 0.68rem; font-weight: 900; color: var(--neon-cyan); font-family: 'JetBrains Mono';">🎯 VIGILANCIA SPOT: BNB/USDC</span>
+                    <span style="font-size: 0.50rem; color: var(--neon-green); font-weight: 800; background: rgba(0,255,136,0.12); border: 1px solid var(--neon-green); padding: 1px 4px; border-radius: 3px;">PÓLVORA $38.72 USDC</span>
+                  </div>
+                  <span style="font-size: 0.50rem; color: var(--neon-gold); font-weight: 800; font-family: 'JetBrains Mono';">2.5:1 R/B</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 4px; font-family: 'JetBrains Mono'; font-size: 0.54rem; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 4px;">
+                  <div><span style="color: var(--text-muted)">Entrada:</span> $730.00</div>
+                  <div><span style="color: var(--neon-green)">TP (+2.5%):</span> $748.25</div>
+                  <div><span style="color: var(--neon-magenta)">SL (-1.0%):</span> $722.70</div>
+                  <div><span style="color: var(--neon-cyan)">Lote:</span> 15.00 USDC</div>
+                </div>
+                <div style="margin-top: 4px; font-size: 0.50rem; color: var(--neon-green); font-family: 'JetBrains Mono';">
+                  <span>✅ Veredicto Mentor #00: Sobreventa limpia, ratio 2.5:1 autorizado.</span>
+                </div>
               </div>
 
               <!-- LISTA DE PARES VIGILADOS BOX 6 -->
-              <div style="flex: 1; overflow-y: auto; background: rgba(0, 0, 0, 0.3); border-radius: 6px; padding: 6px;">
-                <span style="font-size: 0.55rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; display: block;">Escáner Cuantitativo (5 Pares en Radar):</span>
-                <div id="box6SignalsList" style="display: flex; flex-direction: column; gap: 4px;"></div>
+              <div style="flex: 1; overflow-y: auto; background: rgba(0, 0, 0, 0.3); border-radius: 6px; padding: 6px; min-height: 120px;">
+                <span style="font-size: 0.52rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; display: block;">Escáner Cuantitativo (5 Pares en Radar):</span>
+                <div id="box6SignalsList" style="display: flex; flex-direction: column; gap: 3px;"></div>
               </div>
             </div>
 
             <!-- COLUMNA 2: BOX 7 - ORACLE-GLOBAL #701 -->
-            <div style="background: rgba(10, 16, 26, 0.85); border: 1px solid rgba(255, 184, 0, 0.3); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 184, 0, 0.2); padding-bottom: 6px;">
+            <div style="background: rgba(10, 16, 26, 0.85); border: 1px solid rgba(255, 184, 0, 0.3); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 184, 0, 0.2); padding-bottom: 4px;">
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <span style="font-size: 1.1rem;">🧠</span>
                   <div>
-                    <h4 style="margin: 0; font-size: 0.82rem; color: var(--neon-gold); font-family: 'JetBrains Mono', monospace;">BOX 7: ORACLE-GLOBAL #701</h4>
-                    <span style="font-size: 0.58rem; color: var(--text-muted);">Estudioso de Wall Street • Inversión a Mediano Plazo &amp; RWA</span>
+                    <h4 style="margin: 0; font-size: 0.78rem; color: var(--neon-gold); font-family: 'JetBrains Mono', monospace;">BOX 7: ORACLE-GLOBAL #701</h4>
+                    <span style="font-size: 0.54rem; color: var(--text-muted);">Wall Street &amp; RWA • Mediano Plazo</span>
                   </div>
                 </div>
-                <span style="font-size: 0.54rem; padding: 2px 6px; background: rgba(255, 184, 0, 0.15); border: 1px solid var(--neon-gold); color: var(--neon-gold); border-radius: 4px; font-weight: 800;">GOBERNANZA MANUAL</span>
+                <span style="font-size: 0.50rem; padding: 2px 6px; background: rgba(255, 184, 0, 0.15); border: 1px solid var(--neon-gold); color: var(--neon-gold); border-radius: 4px; font-weight: 800;">GOBERNANZA</span>
               </div>
 
               <!-- BANNER DE REGLA DE APROBACIÓN -->
-              <div style="background: rgba(255, 184, 0, 0.08); border-left: 3px solid var(--neon-gold); padding: 6px 10px; font-size: 0.58rem; color: var(--text-muted); font-family: 'JetBrains Mono';">
-                🛡️ <b>REGLA DE HIERRO:</b> El Box 7 nunca compra solo. Detecta caídas en empresas triple-A y te pide autorización para acumular fracciones de a $10 USDC.
+              <div style="background: rgba(255, 184, 0, 0.08); border-left: 3px solid var(--neon-gold); padding: 4px 8px; font-size: 0.54rem; color: var(--text-muted); font-family: 'JetBrains Mono';">
+                🛡️ <b>REGLA DE HIERRO:</b> Acumulación solo con tu aprobación expresa en lotes de $10 USDC. Cero compras automáticas sin autorización.
               </div>
 
               <!-- BUZÓN DE PROPUESTAS PENDIENTES -->
-              <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;" id="box7ProposalsContainer">
+              <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; min-height: 150px;" id="box7ProposalsContainer">
                 <!-- Se puebla dinámicamente con app.js -->
               </div>
             </div>
+
+            <!-- COLUMNA 3: BOX 8 - NEXUS-BOSS #801 (CRIPTO, MEMES & ESTRENOS) -->
+            <div style="background: rgba(10, 16, 26, 0.85); border: 1px solid rgba(176, 38, 255, 0.4); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(176, 38, 255, 0.25); padding-bottom: 4px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 1.1rem;">🛸</span>
+                  <div>
+                    <h4 style="margin: 0; font-size: 0.78rem; color: var(--neon-magenta); font-family: 'JetBrains Mono', monospace;">BOX 8: NEXUS-BOSS #801</h4>
+                    <span style="font-size: 0.54rem; color: var(--text-muted);">Boss Trader Cripto, Memes &amp; Estrenos</span>
+                  </div>
+                </div>
+                <span style="font-size: 0.50rem; padding: 2px 6px; background: rgba(176, 38, 255, 0.15); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); border-radius: 4px; font-weight: 800;">LIVE PAPER</span>
+              </div>
+
+              <!-- 2 NEBULOSAS ESCOLTAS EXCLUSIVAS -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                <div style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 4px; padding: 4px 6px;">
+                  <span style="font-size: 0.50rem; color: var(--neon-cyan); font-weight: 800; display: block; font-family: 'JetBrains Mono';">🛡️ NEBULOSA #29 (LIQUIDEZ)</span>
+                  <span style="font-size: 0.46rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Curvas Nacimiento &gt;85% • LP &gt;$50K</span>
+                </div>
+                <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 4px; padding: 4px 6px;">
+                  <span style="font-size: 0.50rem; color: var(--neon-green); font-weight: 800; display: block; font-family: 'JetBrains Mono';">🛡️ NEBULOSA #30 (ANTI-RUG)</span>
+                  <span style="font-size: 0.46rem; color: var(--text-muted); font-family: 'JetBrains Mono';">GoPlus 0% Honeypot • Tax &le;1%</span>
+                </div>
+              </div>
+
+              <!-- COALICIÓN DE INFORMANTES: ETAPA CUNA & SEMILLA -->
+              <div style="background: rgba(0, 0, 0, 0.4); border-radius: 4px; padding: 5px; font-family: 'JetBrains Mono'; font-size: 0.52rem; display: flex; flex-direction: column; gap: 2px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--neon-gold); font-weight: 800;">👶 CUNA ($0.00):</span>
+                  <span style="color: #fff;">Citrea + GOAT Genesis Claims (Pasan a Miners)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--neon-cyan); font-weight: 800;">🌱 SEMILLA:</span>
+                  <span style="color: #fff;">Pump.fun, Four.meme, Virtuals Base</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--neon-green); font-weight: 800;">💰 EMBUDO:</span>
+                  <span style="color: var(--neon-green);">100% Retorno directo a USDC Bóveda #501</span>
+                </div>
+              </div>
+
+              <!-- TABLA EN VIVO: 6 PRÓXIMAS OPORTUNIDADES CON FECHA Y HORA (ETAPA ESTRENO) -->
+              <div style="flex: 1; overflow-y: auto; background: rgba(0, 0, 0, 0.3); border-radius: 6px; padding: 6px; min-height: 120px;">
+                <span style="font-size: 0.52rem; color: var(--neon-magenta); font-weight: 800; text-transform: uppercase; margin-bottom: 4px; display: block; font-family: 'JetBrains Mono';">🚀 6 Próximos Estrenos (Fecha y Hora de Listado):</span>
+                <div id="box8UpcomingListings" style="display: flex; flex-direction: column; gap: 3px;">
+                  <!-- Se puebla dinámicamente con app.js -->
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
