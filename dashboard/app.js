@@ -694,6 +694,107 @@ async function renderNebulaCommanders() {
     semaScore.textContent = `16 Binomios • Escudo 100% →`;
   }
 
+  // 1. Actualizar Badge del Trinquete 80/20
+  const ratchet = telem?.highWaterMarkRatchet || {
+    lockedFloorUsdc: 10.894528,
+    floatingUsdc: 2.723632,
+    highWaterMarkUsdc: 13.618160
+  };
+  const ratchetBadge = document.getElementById('ratchetBadgeText');
+  if (ratchetBadge) {
+    ratchetBadge.textContent = `🔒 TRINQUETE 80/20: $${ratchet.lockedFloorUsdc.toFixed(2)} PISO BLINDADO / $${(ratchet.highWaterMarkUsdc + 1.0).toFixed(2)} TOTAL`;
+  }
+
+  // 2. Renderizar los 5 Modelos Omni-Sniper
+  let omniRadar = telem?.omniSniperRadar;
+  if (!omniRadar) {
+    try {
+      const res = await fetch('../telemetry/omni-sniper-radar.json?t=' + Date.now());
+      if (res.ok) {
+        omniRadar = await res.json();
+      }
+    } catch (_) {}
+  }
+
+  const omniGrid = document.getElementById('omniModelsGridContainer');
+  const omniTime = document.getElementById('omniRadarTimestamp');
+  if (omniTime && omniRadar) {
+    omniTime.textContent = `Último Escaneo: ${new Date(omniRadar.timestamp).toLocaleTimeString()} (${omniRadar.latencyMs || 600}ms • $0 Gas Consumido)`;
+  }
+
+  const defaultModels = [
+    {
+      modelId: "MODEL-1-DEFI-LIQUIDATION",
+      name: "Liquidaciones DeFi (Aave V3 & Venus)",
+      icon: "🏦",
+      opportunityScore: 82,
+      status: "🛡️ VIGILANCIA CENTINELA (Prestatarios solventes HF > 1.0, $0 gas)",
+      diagnostic: "Piscinas auditadas sin posiciones bajo agua"
+    },
+    {
+      modelId: "MODEL-2-METAVERSE-GAMEFI",
+      name: "Metaverso, GameFi & Floor/Bid Flipping",
+      icon: "🎮",
+      opportunityScore: 85,
+      status: "🛡️ VIGILANCIA CENTINELA (Mercados en equilibrio Ask > Bid, $0 gas)",
+      diagnostic: "The Sandbox, Sunflower, BoomLand, Element monitoreados"
+    },
+    {
+      modelId: "MODEL-3-WHALE-PANIC-DIP",
+      name: "Cazador Rebotes Ballenas (Whale Dip)",
+      icon: "🦈",
+      opportunityScore: 88,
+      status: "🛡️ VIGILANCIA CENTINELA (Desviación 0.23% < 1.5%, $0 gas)",
+      diagnostic: "WBTC, WETH, WPOL, WBNB en QuickSwap, Sushi y Uniswap V3"
+    },
+    {
+      modelId: "MODEL-4-EPOCH-QUEST-POOLS",
+      name: "Cortes de Época & Quest Pools USDC",
+      icon: "🗳️",
+      opportunityScore: 86,
+      status: "🛡️ VIGILANCIA CENTINELA (3 misiones en curso, $0 gas)",
+      diagnostic: "Galxe SpaceStation, Layer3, Algebra Pools"
+    },
+    {
+      modelId: "MODEL-5-KEEPER-HARVESTER",
+      name: "Keeper Harvester & Micro-Bounties",
+      icon: "🤖",
+      opportunityScore: 84,
+      status: "🛡️ VIGILANCIA CENTINELA (Bounty en fase de acumulación, $0 gas)",
+      diagnostic: "Beefy Vaults / Gelato (callFee > Gas*3)"
+    }
+  ];
+
+  const modelsToRender = (omniRadar && omniRadar.models && omniRadar.models.length) ? omniRadar.models : defaultModels;
+
+  if (omniGrid) {
+    omniGrid.innerHTML = modelsToRender.map(m => {
+      const isFired = m.fireAuthorized || m.opportunityScore >= 95;
+      const borderColor = isFired ? 'var(--neon-green)' : 'rgba(33, 199, 205, 0.35)';
+      const scoreColor = isFired ? 'var(--neon-green)' : 'var(--neon-cyan)';
+      return `
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid ${borderColor}; border-radius: 6px; padding: 8px 10px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 1rem;">${m.icon || '🎯'}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: #fff;">${m.name}</span>
+            </div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 800; color: ${scoreColor}; background: rgba(33, 199, 205, 0.1); padding: 1px 5px; border-radius: 3px;">${m.opportunityScore}%</span>
+          </div>
+          <div style="font-size: 0.58rem; color: var(--text-muted); margin: 3px 0; line-height: 1.25;">
+            ${m.diagnostic || m.status}
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.54rem;">
+            <span style="color: ${isFired ? 'var(--neon-green)' : 'var(--neon-gold)'}; font-weight: 700;">
+              ${isFired ? '🟢 DISPARO AUTORIZADO' : '🛡️ VIGILANCIA $0 GAS'}
+            </span>
+            <span style="color: var(--neon-cyan); font-family: 'JetBrains Mono', monospace;">REGLA >= 95%</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
   if (!commanders || commanders.length === 0) {
     container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 32 Nebulosas IA...</div>';
     return;

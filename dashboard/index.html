@@ -414,13 +414,34 @@
                 <span class="status-dot" style="background: var(--neon-green);"></span>
                 <span class="status-text" style="color: var(--neon-green); font-weight: 800;">🛡️ ESCUDO ANTI-RUG PULL: 100% ACTIVO (0 ESTAFAS)</span>
               </div>
+              <div class="system-status-badge online" style="background: rgba(255, 184, 0, 0.15); border: 1px solid var(--neon-gold);" id="ratchetBadgeContainer">
+                <span class="status-dot" style="background: var(--neon-gold);"></span>
+                <span class="status-text" style="color: var(--neon-gold); font-weight: 800;" id="ratchetBadgeText">🔒 TRINQUETE 80/20: $10.89 PISO BLINDADO / $14.62 TOTAL</span>
+              </div>
               <div class="nebula-score-pill" style="font-size: 0.72rem; padding: 4px 10px;" id="nebulaGlobalScorePill">
                 SCORE: 100% ÓPTIMO
               </div>
             </div>
           </div>
 
-          <!-- CUADRÍCULA DE LAS 10 NEBULOSAS IA (ANCHO COMPLETO) -->
+          <!-- PANEL: LOS 5 MODELOS OMNI-SNIPER ($0 GAS RECONOCIMIENTO MULTICALL3) -->
+          <div class="omni-sniper-5models-panel" style="margin: 8px 0 12px 0; padding: 10px 14px; background: rgba(10, 16, 26, 0.85); border: 1px solid rgba(33, 199, 205, 0.3); border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1rem;">🦅</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; font-weight: 800; color: var(--neon-cyan); letter-spacing: 0.5px;">MOTOR OMNI-SNIPER: 5 MODELOS DE NEGOCIO EN BLOCKCHAIN Y METAVERSO</span>
+                <span style="font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; background: rgba(0, 255, 136, 0.15); color: var(--neon-green); font-weight: 700; border: 1px solid rgba(0, 255, 136, 0.3);">$0 GAS (MULTICALL3)</span>
+              </div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-muted);" id="omniRadarTimestamp">
+                Último Escaneo: En vivo (0.00 POL / 0.00 BNB Quemados)
+              </div>
+            </div>
+            <div class="omni-models-grid" id="omniModelsGridContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+              <!-- Se puebla dinámicamente con renderNebulaCommanders() en app.js -->
+            </div>
+          </div>
+
+          <!-- CUADRÍCULA DE LAS 32 NEBULOSAS IA (16 BINOMIOS) -->
           <div class="nebula-commanders-grid" id="nebulaGridContainer">
             <!-- Se puebla dinámicamente con renderNebulaCommanders() en app.js -->
           </div>

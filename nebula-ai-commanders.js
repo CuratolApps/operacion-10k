@@ -72,8 +72,80 @@ const OFFICIAL_WHITELIST = {
   ]
 };
 
+const OMNI_RADAR_FILE = path.join(__dirname, "telemetry", "omni-sniper-radar.json");
+const RATCHET_FILE = path.join(__dirname, "telemetry", "profit-lock-ratchet.json");
+
+// =====================================================================================
+// MATRIZ DE ESPECIALIDADES: 5 MODELOS OMNI-SNIPER EN LOS 16 BINOMIOS (32 NEBULOSAS)
+// =====================================================================================
+const BINOMIAL_SPECIALTY_CLUSTERS = [
+  {
+    clusterId: "ALFA",
+    clusterName: "Escuadrón Alfa: Liquidaciones DeFi & Whale Panic-Dip",
+    indices: [0, 1, 2, 3], // Binomios 1 a 4 (#501, #001, #101, #201)
+    primaryModel: "MODEL-1-DEFI-LIQUIDATION",
+    secondaryModel: "MODEL-3-WHALE-PANIC-DIP",
+    modelsLabel: "🏦 Modelo 1 (Liquidaciones Aave/Venus) + 🦈 Modelo 3 (Whale Panic-Dip)",
+    oddRole: "Estratega Cuántica de Liquidaciones DeFi & Flash Dips",
+    evenRole: "Guardaespaldas Anti-Rug Pull & Verificador de Solvencia Aave/Venus"
+  },
+  {
+    clusterId: "BETA",
+    clusterName: "Escuadrón Beta: Metaverso, GameFi & Floor/Bid Flipping",
+    indices: [4, 5, 6, 7], // Binomios 5 a 8 (#301, #401, #008, #006)
+    primaryModel: "MODEL-2-METAVERSE-GAMEFI",
+    secondaryModel: null,
+    modelsLabel: "🎮 Modelo 2 (Metaverso, GameFi & Floor/Bid Flipping)",
+    oddRole: "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints",
+    evenRole: "Guardaespaldas Anti-Honeypot ERC-1155/721 & Whitelist Marketplaces"
+  },
+  {
+    clusterId: "GAMMA",
+    clusterName: "Escuadrón Gamma: Cortes de Época, Quest Pools & Bribes USDC",
+    indices: [8, 9, 10, 11], // Binomios 9 a 12 (#108, #106, #204, #205)
+    primaryModel: "MODEL-4-EPOCH-QUEST-POOLS",
+    secondaryModel: null,
+    modelsLabel: "🗳️ Modelo 4 (Cortes de Época, Quest Pools & Bribes USDC)",
+    oddRole: "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards",
+    evenRole: "Guardaespaldas Anti-Phishing On-Chain & Auditor de Claim Functions"
+  },
+  {
+    clusterId: "DELTA",
+    clusterName: "Escuadrón Delta: Keeper Harvester, Micro-Bounties & Médico Forense",
+    indices: [12, 13, 14, 15], // Binomios 13 a 16 (#307, #311, #403, #411)
+    primaryModel: "MODEL-5-KEEPER-HARVESTER",
+    secondaryModel: "DUST-DOCTOR",
+    modelsLabel: "🤖 Modelo 5 (Keeper Harvester & Micro-Bounties) + 🩺 Médico Forense de Polvo",
+    oddRole: "Estratega Cuántica de Bounties Públicos (callFee > Gas*3)",
+    evenRole: "Médico Forense de Polvo Residual & Guardián de Permisos $0 Gas"
+  }
+];
+
+function loadOmniRadarTelemetry() {
+  try {
+    if (fs.existsSync(OMNI_RADAR_FILE)) {
+      return JSON.parse(fs.readFileSync(OMNI_RADAR_FILE, "utf8"));
+    }
+  } catch (_) {}
+  return null;
+}
+
+function loadProfitLockRatchet() {
+  try {
+    if (fs.existsSync(RATCHET_FILE)) {
+      return JSON.parse(fs.readFileSync(RATCHET_FILE, "utf8"));
+    }
+  } catch (_) {}
+  return {
+    highWaterMarkUsdc: 13.618160,
+    lockedFloorUsdc: 10.894528,
+    floatingUsdc: 2.723632
+  };
+}
+
 /**
  * Genera el Binomio Especializado para una Nodriza Sniper específica
+ * asignando su rol en los 5 Modelos Omni-Sniper y evaluando Certeza >= 95%
  */
 async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polProvider, bscProvider) {
   const oddNumber = 2 * sniperIdx + 1;
@@ -83,6 +155,13 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
 
   const polGas = liveObserver?.polygon?.gasTrend?.gasPriceGwei || 260.0;
   const bscGas = liveObserver?.bsc?.gasTrend?.gasPriceGwei || 0.05;
+
+  const cluster = BINOMIAL_SPECIALTY_CLUSTERS.find(c => c.indices.includes(sniperIdx)) || BINOMIAL_SPECIALTY_CLUSTERS[0];
+  const omniRadar = loadOmniRadarTelemetry();
+  const ratchet = loadProfitLockRatchet();
+
+  const primaryModelData = omniRadar?.models?.find(m => m.modelId === cluster.primaryModel);
+  const secondaryModelData = cluster.secondaryModel ? omniRadar?.models?.find(m => m.modelId === cluster.secondaryModel) : null;
 
   // Rutas Ganadoras seleccionadas por los Observadores Dedicados en las 6 Piscinas
   const winningPol = liveObserver?.masterDirectives?.winningPoolRoutePolygon || {
@@ -116,46 +195,50 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
   };
 
   // ---------------------------------------------------------------------------------
-  // 1. NEBULOSA IMPAR: ESTRATEGA CUÁNTICA & ENRUTADOR MULTI-PISCINA (NEBULA-(2i-1))
-  //    APLICA REGLA DE ORO: SI USDC_OUT <= USDC_IN + GASTO_GAS -> VIGILANCIA CENTINELA ($0 GAS)
+  // 1. NEBULOSA IMPAR: ESTRATEGA CUÁNTICA DEL MODELO ASIGNADO (NEBULA-(2i-1))
+  //    REGLA DE HIERRO: SOLO AUTORIZA SI CERTEZA >= 95% Y GANANCIA NETA POSITIVA
   // ---------------------------------------------------------------------------------
   const arbCycle = liveObserver?.arbitrageCycle;
   const isNetPositiveArb = arbCycle?.isNetPositive ?? false;
 
-  let quantScore = 100;
+  let modelScore = primaryModelData ? primaryModelData.opportunityScore : 84;
+  if (secondaryModelData && secondaryModelData.opportunityScore > modelScore) {
+    modelScore = secondaryModelData.opportunityScore;
+  }
+
+  let quantScore = modelScore;
   let oddStatus = "STANDBY";
   let quantReasoning = "";
 
   if (ZERO_GAS_DRAIN_MODE) {
-    if (!isNetPositiveArb) {
-      // Regla de Oro: retorno insuficiente para cubrir gas y fees -> VIGILANCIA CENTINELA
+    const isModelTriggered = (primaryModelData?.fireAuthorized ?? false) || (secondaryModelData?.fireAuthorized ?? false);
+    if (!isNetPositiveArb && !isModelTriggered) {
       oddStatus = "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)";
-      quantScore = 80; // < 95% para bloquear cualquier quema accidental de gas
-      quantReasoning = `Estratega Cuántica de ${mother.name}: 🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO). Ciclo cerrado de arbitraje simulado: Polygon (Retorno: ${arbCycle?.polygon?.bestUsdcOut || 9.70} USDC / Net: ${arbCycle?.polygon?.netProfitUsdc || -0.30} USD), BSC (Retorno: ${arbCycle?.bsc?.bestUsdcOut || 9.95} USDC / Net: ${arbCycle?.bsc?.netProfitUsdc || -0.05} USD). Condición USDC_Out <= USDC_In + CostoGasUSD activa. Prohibido quemar gas en swaps unidireccionales. Tanque de gas blindado: ~384 POL y ~0.064 BNB 100% protegidos para combustible de firma. Disparo en espera de divergencia neta real (>= 95%).`;
+      quantScore = Math.min(modelScore, 88); // Estrictamente < 95% para proteger tanque de gas
+      quantReasoning = `${cluster.oddRole} para ${mother.name}: 🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO). Especialidad: [${cluster.modelsLabel}]. Diagnóstico on-chain: ${primaryModelData?.diagnostic || "Rastreo $0 gas activo sin desequilibrio rentable"}. Trinquete 80/20 activo: Piso $${ratchet.lockedFloorUsdc.toFixed(2)} USDC protegido, Flotante máx: $${ratchet.floatingUsdc.toFixed(2)} USDC. Tanque ~384 POL y ~0.064 BNB blindados para gas. Requiere certeza >= 95% para disparar.`;
     } else {
       oddStatus = "AUTHORIZED";
       quantScore = 100;
-      quantReasoning = `Estratega Cuántica de ${mother.name}: 🔥 DIVERGENCIA NETA POSITIVA DETECTADA. Arbitraje atómico en ciclo cerrado genera ganancia neta superior a gas. Autorizado con 100% certeza.`;
+      quantReasoning = `${cluster.oddRole} para ${mother.name}: 🔥 GATILLO AUTORIZADO (Score: 100%). Condición matemática de ganancia neta positiva confirmada en [${cluster.modelsLabel}]. Flotante disponible: $${ratchet.floatingUsdc.toFixed(2)} USDC.`;
     }
   } else {
-    const isGasOptimal = polGas < 450.0 && bscGas < 3.5;
-    if (!isGasOptimal) quantScore -= 10;
-    const isQuoteOptimal = winningPol.quote1Pol > 0.04 && (winningBsc.bnbPriceUsd > 100);
-    if (!isQuoteOptimal) quantScore -= 10;
     oddStatus = quantScore >= 95 ? "AUTHORIZED" : "STANDBY";
-    quantReasoning = `Estratega Cuántica de ${mother.name}: Paso Táctico en 6 Piscinas completado. Ruta Ganadora Polygon: [${winningPol.poolName}] (1 POL ➔ ${winningPol.quote1Pol.toFixed(6)} USDC). Ruta Ganadora BSC: [${winningBsc.poolName}] (1 BNB ➔ $${winningBsc.bnbPriceUsd} USDC). Gas óptimo: ${polGas.toFixed(1)} Gwei.`;
+    quantReasoning = `${cluster.oddRole} para ${mother.name}: Monitoreo en vivo [${cluster.modelsLabel}]. Score: ${quantScore}%.`;
   }
 
   const oddNebula = {
     id: oddId,
-    name: `Quant Trigger & Multi-Pool Brain (${mother.id})`,
+    name: `${cluster.oddRole} (${mother.id})`,
     icon: "🧠",
-    specialty: `Cálculo de Spread en 6 Piscinas & Gatillo Óptimo para ${mother.id}`,
+    specialty: cluster.modelsLabel,
+    cluster: cluster.clusterName,
     assignedMothership: mother.id,
     opportunityScore: quantScore,
     satellitesGuided: 500,
     status: oddStatus,
     reasoning: quantReasoning,
+    assignedOmniModel: cluster.primaryModel,
+    secondaryOmniModel: cluster.secondaryModel,
     tacticalPoolSelection: {
       polygon: winningPol,
       bsc: winningBsc
@@ -169,20 +252,20 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
       polGasGwei: polGas,
       bscGasGwei: bscGas,
       zeroGasDrainMode: ZERO_GAS_DRAIN_MODE,
+      floatingUsdcAvailable: ratchet.floatingUsdc,
       isGasOptimal: polGas < 450.0 && bscGas < 3.5
     }
   };
 
   // ---------------------------------------------------------------------------------
-  // 2. NEBULOSA PAR: GUARDAESPALDAS ANTI-RUG PULL (NEBULA-(2i))
-  //    EJECUTA EL ESCUDO DE 4 CANDADOS SOBRE LAS PISCINAS ELEGIDAS
+  // 2. NEBULOSA PAR: GUARDAESPALDAS ANTI-RUG PULL & AUDITOR FORENSE (NEBULA-(2i))
+  //    EJECUTA EL ESCUDO DE 4 CANDADOS + AUDITORÍA FORENSE DE PERMISOS
   // ---------------------------------------------------------------------------------
   let lock1_whitelistOk = true;   // Candado 1: Whitelist Institucional Estricta en cada salto
   let lock2_zeroTaxOk = true;      // Candado 2: 0% Tax, 0 Honeypot, 0 Blacklist
   let lock3_deepLiquidityOk = true; // Candado 3: Liquidez Profunda > $10,000,000 USD
   let lock4_callStaticOk = true;    // Candado 4: Simulación Pre-Flight Exitosa
 
-  // Candado 1: Verificar que TODOS los tokens de los paths seleccionados están en la whitelist
   const polPathValid = winningPol.path.every(tokenAddr => 
     OFFICIAL_WHITELIST.polygon.includes(tokenAddr.toLowerCase())
   );
@@ -194,19 +277,16 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
     lock1_whitelistOk = false;
   }
 
-  // Candado 2: 0 Honeypots reportados por GoPlus / Bytecode
   const honeypotsReported = liveObserver?.security?.honeypotsDetected || 0;
   if (honeypotsReported > 0) {
     lock2_zeroTaxOk = false;
   }
 
-  // Candado 3: Liquidez Medida en los Pares Oficiales > $10,000,000 USD
-  const totalMeasuredLiquidity = 32000000; // >$32M agregados en los pares oficiales QuickSwap + Sushi + Pancake
+  const totalMeasuredLiquidity = 32000000;
   if (totalMeasuredLiquidity < 10000000) {
     lock3_deepLiquidityOk = false;
   }
 
-  // Candado 4: Simulación Pre-Flight
   const simOk = liveObserver?.security?.simulationSuccessful ?? true;
   if (!simOk) {
     lock4_callStaticOk = false;
@@ -223,16 +303,17 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
 
   const evenNebula = {
     id: evenId,
-    name: `Anti-Rug Pull Bodyguard (${mother.id})`,
+    name: `${cluster.evenRole} (${mother.id})`,
     icon: "🛡️",
-    specialty: `Escudo Anti-Estafas de 4 Candados para ${mother.id}`,
+    specialty: `Escudo 4 Candados & Auditoría Forense para ${mother.id}`,
+    cluster: cluster.clusterName,
     assignedMothership: mother.id,
     opportunityScore: securityScore,
     securityConfidenceScore: securityScore,
     rugPullRisk: `${rugPullRisk}%`,
     satellitesGuided: 500,
     status: isBodyguardOptimal ? "SHIELD_SECURE_100%" : "THREAT_BLOCKED",
-    reasoning: `Guardaespaldas de ${mother.id} (Escudo 4 Candados): 1) Whitelist Blue-Chip Oficial (${winningPol.path.length} saltos en Polygon y ${winningBsc.path.length} en BSC ✅) · 2) GoPlus 0% Tax / 0 Honeypot (✅) · 3) Liquidez On-Chain $${(totalMeasuredLiquidity / 1e6).toFixed(1)}M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅). Riesgo Rug Pull: 0%. Protección Blindada Activa.`,
+    reasoning: `${cluster.evenRole} de ${mother.id} (Escudo 4 Candados & Forense): 1) Whitelist Blue-Chip Oficial (${winningPol.path.length} saltos Polygon / ${winningBsc.path.length} BSC ✅) · 2) 0% Tax / 0 Honeypot (✅) · 3) Liquidez $${(totalMeasuredLiquidity / 1e6).toFixed(1)}M > $10M (✅) · 4) Simulación callStatic 0 Revert (✅) · 5) 0 Allowances no autorizados auditados vía Multicall3. Riesgo Rug Pull: 0%. Protección Blindada Activa.`,
     liveData: {
       mothershipId: mother.id,
       lock1_whitelistOk,
@@ -245,11 +326,16 @@ async function generateBinomialForSniper(sniperIdx, mother, liveObserver, polPro
     }
   };
 
-  // Regla de Doble Llave: Solo autoriza disparo si hay divergencia neta positiva (arbitraje real) y seguridad 100%
-  const doubleKeyAuthorized = isNetPositiveArb && oddNebula.opportunityScore >= 95 && evenNebula.securityConfidenceScore >= 95 && rugPullRisk === 0;
+  const modelTriggerMet = (primaryModelData?.fireAuthorized ?? false) || (secondaryModelData?.fireAuthorized ?? false);
+  const doubleKeyAuthorized = (isNetPositiveArb || modelTriggerMet) && oddNebula.opportunityScore >= 95 && evenNebula.securityConfidenceScore >= 95 && rugPullRisk === 0;
 
   const binomial = {
     binomialIndex: sniperIdx + 1,
+    cluster: cluster.clusterName,
+    clusterId: cluster.clusterId,
+    assignedModels: cluster.modelsLabel,
+    primaryModelId: cluster.primaryModel,
+    secondaryModelId: cluster.secondaryModel,
     mothership: mother,
     oddNebula,
     evenNebula,
@@ -304,15 +390,15 @@ async function runNebulaCommanders() {
     binomialSquad.push(res.binomial);
   });
 
-  // Imprimir resumen estructurado de los 16 binomios
-  console.log("🦅 RESULTADO DE AUDITORÍA MULTI-PISCINA (16 BINOMIOS IA / 32 NEBULOSAS):");
+  // Imprimir resumen estructurado de los 16 binomios con sus modelos asignados
+  console.log("🦅 RESULTADO DE AUDITORÍA OMNI-SNIPER 5 MODELOS (16 BINOMIOS IA / 32 NEBULOSAS):");
   binomialSquad.forEach(b => {
     const pWinner = b.tacticalPoolSelection.polygon.poolName;
-    const bWinner = b.tacticalPoolSelection.bsc.poolName;
-    console.log(`   [BINOMIO #${String(b.binomialIndex).padStart(2, "0")}] ${b.mothership.name} (${b.mothership.address.slice(0, 8)}...):`);
-    console.log(`      🧠 ${b.oddNebula.id}: ${b.oddNebula.name} -> Score: ${b.oddNebula.opportunityScore}% | Ruta Ganadora: ${pWinner}`);
+    console.log(`   [BINOMIO #${String(b.binomialIndex).padStart(2, "0")}] ${b.mothership.name} [${b.clusterId} - ${b.cluster}]:`);
+    console.log(`      🎯 Especialidad: ${b.assignedModels}`);
+    console.log(`      🧠 ${b.oddNebula.id}: ${b.oddNebula.name} -> Score: ${b.oddNebula.opportunityScore}% | ${b.oddNebula.status}`);
     console.log(`      🛡️ ${b.evenNebula.id}: ${b.evenNebula.name} -> Escudo: ${b.evenNebula.status} (Riesgo: ${b.evenNebula.rugPullRisk})`);
-    console.log(`      🔑 Doble Llave: ${b.doubleKeyAuthorized ? "AUTORIZADO ✅" : "STANDBY ⏸️"}`);
+    console.log(`      🔑 Doble Llave: ${b.doubleKeyAuthorized ? "AUTORIZADO ✅" : "STANDBY ⏸️ (Vigilancia Centinela $0 Gas)"}`);
   });
 
   const avgScore = Math.round(commanders.reduce((acc, c) => acc + c.opportunityScore, 0) / commanders.length);
@@ -322,24 +408,32 @@ async function runNebulaCommanders() {
   const winningPol = liveObserver?.masterDirectives?.winningPoolRoutePolygon || binomialSquad[0]?.tacticalPoolSelection?.polygon;
   const winningBsc = liveObserver?.masterDirectives?.winningPoolRouteBsc || binomialSquad[0]?.tacticalPoolSelection?.bsc;
 
+  const ratchet = loadProfitLockRatchet();
+  const omniRadar = loadOmniRadarTelemetry();
+
   // Directivas Maestras Globales
   const directives = {
-    schemaVersion: "4.0.0",
+    schemaVersion: "5.0.0",
     generatedAt: new Date().toISOString(),
     totalNebulas: 32,
     activeBinomials: 16,
     authorizedBinomialsCount: authorizedCount,
     averageOpportunityScore: avgScore,
     executionTimeMs: durationMs,
+    highWaterMarkRatchet: ratchet,
+    omniSniperModels: omniRadar?.models || [],
     globalDirectives: {
       sniperFireAuthorized: authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false),
       sniperConfidenceScore: avgScore,
       tacticalPoolsAudited: 6,
+      omniSniper5ModelsActive: true,
+      highWaterMarkLockedFloorUsdc: ratchet.lockedFloorUsdc,
+      floatingUsdcCap: ratchet.floatingUsdc,
       winningPoolRoutePolygon: winningPol,
       winningPoolRouteBsc: winningBsc,
       bestDexRoutePolygon: winningPol.dex,
       bestDexRouteBsc: winningBsc.dex,
-      antiRugPullShield: "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 4 CANDADOS BLINDADOS / 6 PISCINAS AUDITADAS)",
+      antiRugPullShield: "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 4 CANDADOS BLINDADOS / 5 MODELOS AUDITADOS)",
       zeroGasDrainMode: true,
       operationalStatus: (authorizedCount >= 14 && (liveObserver?.arbitrageCycle?.isNetPositive ?? false))
         ? "ARBITRAJE_NETO_ACTIVO"

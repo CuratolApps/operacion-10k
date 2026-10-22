@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "2.0.0",
+  "service": "Omni-Sniper-5Models-Radar-12K",
+  "timestamp": "2026-10-22T08:50:10.904Z",
+  "latencyMs": 460,
+  "gasCostThisScan": "0.00 USD (Multicall3 $0 Gas)",
+  "zeroGasDrainEnforced": true,
+  "highWaterMarkRatchet": {
+    "highWaterMarkUsdc": 13.61816,
+    "lockedFloorUsdc": 10.894528,
+    "floatingUsdc": 2.723632,
+    "floorProtected": true
+  },
+  "models": [
+    {
+      "modelId": "MODEL-1-DEFI-LIQUIDATION",
+      "name": "Liquidaciones DeFi (Aave V3 Polygon & Venus BSC)",
+      "icon": "🏦",
+      "network": "Polygon & BSC",
+      "opportunityScore": 82,
+      "healthFactorMin": "Solvente (> 1.25)",
+      "liquidationBonus": "+5% a +10% en colateral",
+      "liquidatableFound": false,
+      "liquidatablePosition": null,
+      "fireAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Prestatarios solventes HF > 1.0, $0 gas)",
+      "diagnostic": "Consulta de pools de liquidez terminada. 0 posiciones bajo agua detectadas en este bloque."
+    },
+    {
+      "modelId": "MODEL-2-METAVERSE-GAMEFI",
+      "name": "Metaverso, GameFi & Floor/Bid Flipping",
+      "icon": "🎮",
+      "network": "Polygon & BSC",
+      "ecosystems": [
+        "The Sandbox",
+        "Sunflower Land",
+        "BoomLand / Pixels",
+        "Element Market"
+      ],
+      "verifiedContractsActive": 4,
+      "opportunityScore": 85,
+      "instantSpreadPct": -1.15,
+      "fireAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Mercados en equilibrio Ask > Bid, $0 gas)",
+      "diagnostic": "Contratos de juego y marketplaces monitoreados sin desequilibrios instantáneos."
+    },
+    {
+      "modelId": "MODEL-3-WHALE-PANIC-DIP",
+      "name": "Cazador de Rebotes de Ballenas (Whale Panic-Dip)",
+      "icon": "🦈",
+      "network": "Polygon & BSC",
+      "pairsMonitored": [
+        "WBTC/USDC",
+        "WETH/USDC",
+        "WPOL/USDC",
+        "WBNB/USDC"
+      ],
+      "maxDislocationPct": 0.5269,
+      "thresholdPct": 1.5,
+      "opportunityScore": 88,
+      "fireAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.53% < 1.5%, $0 gas)",
+      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.53% sin panic-selling en este bloque."
+    },
+    {
+      "modelId": "MODEL-4-EPOCH-QUEST-POOLS",
+      "name": "Cortes de Época, Quest Pools & Bribes USDC",
+      "icon": "🗳️",
+      "network": "Polygon & BSC",
+      "protocols": [
+        "Galxe SpaceStation",
+        "Layer3 Quests",
+        "QuickSwap Algebra Pools"
+      ],
+      "questsMonitoredCount": 3,
+      "claimableImmediateUsdc": 0,
+      "opportunityScore": 86,
+      "fireAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (3 misiones acumulando puntos de época, $0 gas)",
+      "diagnostic": "Campañas de Galxe y Layer3 registradas. Esperando cierre de corte de época para distribución."
+    },
+    {
+      "modelId": "MODEL-5-KEEPER-HARVESTER",
+      "name": "Keeper Harvester & Micro-Bounties On-Chain",
+      "icon": "🤖",
+      "network": "Polygon & BSC",
+      "protocols": [
+        "Beefy Vaults Autocompounder",
+        "Gelato Keepers"
+      ],
+      "callFeeAccumulatedUsd": 0.0028,
+      "gasThresholdUsd": 0.015,
+      "opportunityScore": 84,
+      "fireAuthorized": false,
+      "status": "🛡️ VIGILANCIA CENTINELA (Bounty $0.0028 en fase de acumulación, $0 gas)",
+      "diagnostic": "Bóvedas públicas de autocompounding monitoreadas. Recompensa actual inferior al triple del gas."
+    }
+  ],
+  "overallVerdict": {
+    "sniperFireAuthorized": false,
+    "authorizedModelsCount": 0,
+    "averageOpportunityScore": 85,
+    "operationalStatus": "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
+    "gasBurned": "0.00 POL / 0.00 BNB"
+  }
+}

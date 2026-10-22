@@ -30,6 +30,7 @@ const { ethers } = require("ethers");
 const { networks } = require("./networks");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
+const { verifyHighWaterMarkFloor, getPolymorphicJitter } = require("./security-fortress-shield");
 
 // =====================================================================================
 // CONSTANTES Y CONFIGURACIÓN CRÍTICA
@@ -800,6 +801,9 @@ async function runSupervisedSalvo16x(options = {}) {
   console.log("=========================================================================================");
   console.log("📍 PROTOCOLO: 32 Nebulosas IA • 6 Piscinas Blue-Chip • 100% USDC Oficial");
   console.log(`🎯 [GATILLO 32 NEBULOSAS] Score: ${nebCheck.score}% (${nebCheck.authorized ? "AUTORIZADO ✅" : "BLOQUEADO ⛔"})`);
+
+  const ratchetStatus = verifyHighWaterMarkFloor(13.618160);
+  console.log(`🔒 [TRINQUETE 80/20] Piso Histórico Blindado: $${ratchetStatus.lockedFloorUsdc.toFixed(2)} USDC | Flotante Máx: $${ratchetStatus.floatingUsdc.toFixed(2)} USDC | Estado: ${ratchetStatus.floorProtected ? "INTOCABLE Y SEGURO ✅" : "ALERTA PISO VULNERADO ⛔"}`);
 
   // ORDEN DE PROTECCIÓN DE TANQUE: VIGILANCIA CENTINELA CUANDO NO HAY ARBITRAJE NETO POSITIVO
   if (ZERO_GAS_DRAIN_MODE && !nebCheck.data?.globalDirectives?.arbitrageNetPositive) {
