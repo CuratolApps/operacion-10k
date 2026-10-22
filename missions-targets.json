@@ -118,6 +118,100 @@
       "costGas": 0,
       "campaigns": [
         {
+          "campaignId": "KIEDEX_PHAROS_REWARDS",
+          "name": "1. KieDex Daily Rewards & Pharos ($PROS)",
+          "tokenSymbol": "$PROS",
+          "snapshotDate": "2026-10-25T23:59:59Z",
+          "formattedDeadline": "25 Oct 2026 (Faltan 3 días)",
+          "isPrimaryStrikeTarget": true,
+          "standard": "EIP-712",
+          "domain": {
+            "name": "KieDex-Pharos-Rewards-Portal",
+            "version": "1",
+            "chainId": 50002,
+            "verifyingContract": "0x1122334455667788990011223344556677889900"
+          },
+          "primaryType": "DailyRewardAttestation",
+          "types": {
+            "DailyRewardAttestation": [
+              { "name": "soldier", "type": "address" },
+              { "name": "boxId", "type": "uint256" },
+              { "name": "projectId", "type": "string" },
+              { "name": "multiplierPoints", "type": "uint256" },
+              { "name": "epochTimestamp", "type": "uint256" }
+            ]
+          }
+        },
+        {
+          "campaignId": "PHEASANT_NETWORK_BRIDGE",
+          "name": "2. Pheasant Network ($PNT) & L2 Bridge",
+          "tokenSymbol": "$PNT",
+          "snapshotDate": "2026-10-27T23:59:59Z",
+          "formattedDeadline": "27 Oct 2026 (Faltan 5 días)",
+          "isPrimaryStrikeTarget": false,
+          "standard": "EIP-712",
+          "domain": {
+            "name": "Pheasant-Network-Portal",
+            "version": "1",
+            "chainId": 8453,
+            "verifyingContract": "0x2233445566778899001122334455667788990011"
+          },
+          "primaryType": "BridgeQuestAttestation",
+          "types": {
+            "BridgeQuestAttestation": [
+              { "name": "soldier", "type": "address" },
+              { "name": "boxId", "type": "uint256" },
+              { "name": "nonce", "type": "uint256" }
+            ]
+          }
+        },
+        {
+          "campaignId": "DOGEOS_CHAPTER2",
+          "name": "3. DogeOS Chapter 2 & Startale / GenLayer",
+          "tokenSymbol": "$DOGEOS",
+          "snapshotDate": "2026-10-30T23:59:59Z",
+          "formattedDeadline": "30 Oct 2026 (Faltan 8 días)",
+          "isPrimaryStrikeTarget": false,
+          "standard": "EIP-712",
+          "domain": {
+            "name": "DogeOS-Chapter2-Portal",
+            "version": "1",
+            "chainId": 2000,
+            "verifyingContract": "0x3344556677889900112233445566778899001122"
+          },
+          "primaryType": "DogeOSAttestation",
+          "types": {
+            "DogeOSAttestation": [
+              { "name": "soldier", "type": "address" },
+              { "name": "boxId", "type": "uint256" },
+              { "name": "timestamp", "type": "uint256" }
+            ]
+          }
+        },
+        {
+          "campaignId": "FABLES_BASE_L2",
+          "name": "4. Fables ($FABLES) + Base L2 (Avantis S3 / Jumper)",
+          "tokenSymbol": "$FABLES",
+          "snapshotDate": "2026-11-20T23:59:59Z",
+          "formattedDeadline": "20 Nov 2026 (Faltan 29 días)",
+          "isPrimaryStrikeTarget": false,
+          "standard": "EIP-712",
+          "domain": {
+            "name": "Fables-Base-Portal",
+            "version": "1",
+            "chainId": 8453,
+            "verifyingContract": "0x4455667788990011223344556677889900112233"
+          },
+          "primaryType": "FablesQuestAttestation",
+          "types": {
+            "FablesQuestAttestation": [
+              { "name": "soldier", "type": "address" },
+              { "name": "boxId", "type": "uint256" },
+              { "name": "epochTimestamp", "type": "uint256" }
+            ]
+          }
+        },
+        {
           "campaignId": "L0_CROSS_CHAIN_PROOF",
           "name": "LayerZero Omnichain Verification Proof",
           "standard": "EIP-712",

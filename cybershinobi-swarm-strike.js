@@ -190,12 +190,12 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
       action: "VENTA_INSTANTANEA_MINUTO_CERO",
       executionWindow: "Primeros 15 minutos tras apertura de pools públicos",
       heavyCannonsArmed: {
-        cannon1PolygonUsdc: 18.295135,
-        cannon2BscUsdc: 20.424259,
-        totalConcentratedUsdc: 38.719394
+        cannon1PolygonUsdc: 19.202166,
+        cannon2BscUsdc: 21.517604,
+        totalConcentratedUsdc: 40.719770
       },
       compoundingRule: "70% a USDC Nativo / 30% a Recarga POL y BNB",
-      strictGasLock: "121.024 POL en #501 intocable",
+      strictGasLock: "110.98 POL en #501 intocable",
       harvestRangeUsdc: "$25,000 – $65,000 USDC (Flota completa de lanzamientos)"
     },
     sampleAttestations: registeredList.slice(0, 10)
@@ -228,10 +228,10 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
       `• ⛽ <b>Costo de Gas:</b> <b>$0.00 CERO USD</b> (Firmas EIP-712 gasless protegidas)`,
       '',
       '🏹 <b>ESTRATEGIA DE SALIDA MINUTO CERO (#34):</b>',
-      '• 🎯 <b>2 Cañones Pesados Armados:</b> <code>&#36;18.30 USDC (Polygon)</code> + <code>&#36;20.42 USDC (BSC)</code>',
-      '• 💰 <b>Capital Desplegado:</b> <code>&#36;38.72 USDC On-Chain</code> + <code>&#36;1.00 USDC Binance</code> = <b>&#36;39.72 USDC Total</b>',
-      '• 🔒 <b>Gas Inviolable:</b> <code>121.024 POL</code> en #501 (Prohibido vender gas)',
-      '• 💱 <b>Regla 70/30:</b> 70% a USDC Nativo (rumbo a &#36;50.00 / mitad de 90 €) | 30% a Gas POL/BNB',
+      '• 🎯 <b>2 Cañones Pesados Armados:</b> <code>&#36;19.20 USDC (Polygon)</code> + <code>&#36;21.52 USDC (BSC)</code>',
+      '• 💰 <b>Capital Desplegado:</b> <code>&#36;40.72 USDC On-Chain</code> + <code>&#36;1.00 USDC Binance</code> = <b>&#36;41.72 USDC Total</b>',
+      '• 🔒 <b>Gas Inviolable:</b> <code>110.98 POL</code> en #501 (Prohibido vender gas)',
+      '• 💱 <b>Regla 70/30:</b> 70% a USDC Nativo (baja brecha a $0.00) | 30% a Gas POL/BNB',
       '• 🏦 <b>Destino Cosecha:</b> Bóvedas Binance Spot #1 a #5',
       '========================================',
       `⏰ <i>Sincronizado: ${payload.lastRunFormatted}</i>`

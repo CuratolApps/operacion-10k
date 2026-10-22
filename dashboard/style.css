@@ -487,9 +487,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         );
         border: 1.8px solid var(--neon-gold);
         display: grid;
-        grid-template-columns: 38px 175px 1fr 110px !important;
+        grid-template-columns: 36px 155px 1fr 98px !important;
         align-items: center;
-        gap: 10px;
+        gap: 8px !important;
         flex: none;
         height: 76px;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
@@ -551,7 +551,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         letter-spacing: 0.5px;
       }
       .liq-main-total {
-        font-size: 1.55rem;
+        font-size: 1.32rem !important;
         font-weight: 900;
         font-family: "JetBrains Mono", monospace;
         color: #ffffff;
@@ -564,7 +564,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         align-items: center;
       }
       .badge-liq-sub {
-        font-size: 0.48rem !important;
+        font-size: 0.47rem !important;
         font-weight: 800;
         padding: 3px 5px !important;
         border-radius: 4px;

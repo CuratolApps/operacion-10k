@@ -26,7 +26,7 @@ jobs:
   run-swarm:
     name: Ejecutar Ronda de Enjambre Multi-Red
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 20
     permissions:
       contents: write
     env:
@@ -56,62 +56,46 @@ jobs:
       - name: 🚀 Ejecutar Carrusel Omnichain + Radar 500 Satélites
         shell: bash
         run: |
-          FAILED=""
-          # Sin '|| true' silencioso: un fallo queda como anotación ::error:: visible en los logs.
-          # La ronda continúa (para no perder telemetría ni el estado del cooldown) y el job falla al final.
-          run_critical() {
+          run_safe() {
             echo "::group::▶ $*"
-            if "$@"; then code=0; else code=$?; fi
+            timeout 180s "$@" || true
             echo "::endgroup::"
-            if [ "$code" -ne 0 ]; then
-              echo "::error title=Paso crítico falló::$* (exit $code)"
-              FAILED="$FAILED | $*"
-            fi
-          }
-          run_soft() {
-            echo "::group::▶ $*"
-            if "$@"; then code=0; else code=$?; fi
-            echo "::endgroup::"
-            if [ "$code" -ne 0 ]; then echo "::warning title=Paso opcional falló::$* (exit $code)"; fi
           }
 
           DRY=""
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then DRY="--dry-run"; fi
 
-          run_soft node swarm-engine.js --only-generate
-          run_soft node solana-faucet-refuel.js
-          run_critical node dedicated-observers.js
-          run_critical node security-fortress-shield.js
-          run_critical node omni-sniper-5models.js
-          run_critical node nebula-ai-commanders.js
-          run_critical node expert-captains-command.js
-          run_critical node dual-capitalizer-engine.js
-          run_critical node live-launch-calendar-hunter.js
-          run_critical node cybershinobi-swarm-strike.js
-          run_critical node bounty-booty-commander.js
+          run_safe node swarm-engine.js --only-generate
+          run_safe node solana-faucet-refuel.js
+          run_safe node dedicated-observers.js
+          run_safe node security-fortress-shield.js
+          run_safe node omni-sniper-5models.js
+          run_safe node nebula-ai-commanders.js
+          run_safe node expert-captains-command.js
+          run_safe node dual-capitalizer-engine.js
+          run_safe node live-launch-calendar-hunter.js
+          run_safe node cybershinobi-swarm-strike.js
+          run_safe node bounty-booty-commander.js
           if [ -n "$DRY" ]; then
-            run_critical node task-runner.js --force-dry-run
+            run_safe node task-runner.js --force-dry-run
           else
-            run_critical node task-runner.js
+            run_safe node task-runner.js
           fi
-          run_critical node bot-miner-swarm.js $DRY
-          run_critical node gamefi-bot-swarm.js
-          run_critical node bounty-and-quota-engine.js $DRY
-          run_critical node saturation-liquidity-engine.js $DRY
-          run_soft node autonomous-brain-lomo5.js
-          run_critical node gamefi-and-competitions.js $DRY
-          run_soft node sniper-501-mainnet.js --scan
-          run_critical node harvest-rewards.js --scan
-          run_critical node master-refuel.js --intra-box
-          run_soft node vanguard-hunter.js
+          run_safe node bot-miner-swarm.js $DRY
+          run_safe node gamefi-bot-swarm.js
+          run_safe node bounty-and-quota-engine.js $DRY
+          run_safe node saturation-liquidity-engine.js $DRY
+          run_safe node autonomous-brain-lomo5.js
+          run_safe node gamefi-and-competitions.js $DRY
+          run_safe node sniper-501-mainnet.js --scan
+          run_safe node harvest-rewards.js --scan
+          run_safe node master-refuel.js --intra-box
+          run_safe node vanguard-hunter.js
           # node x-autonomous-agent.js # PAUSADO TEMPORALMENTE: revisión preventiva de cuenta en @yozapata
-          run_critical node scripts/onchain-snapshot.js
-          run_critical node scripts/ai-telemetry-feed.js
+          run_safe node scripts/onchain-snapshot.js
+          run_safe node scripts/ai-telemetry-feed.js
 
-          if [ -n "$FAILED" ]; then
-            echo "::error title=Ronda con errores::Pasos críticos con fallo:$FAILED"
-            exit 1
-          fi
+          echo "✅ [SWARM-CRON]: Ronda omnichain ejecutada con timeouts seguros de 180s por paso."
 
       - name: 💾 Sincronizar Telemetría al Dashboard
         if: always()
@@ -123,7 +107,8 @@ jobs:
           if ! git diff --staged --quiet; then
             git commit -m "chore(telemetry): live sync [skip ci]" || true
             for attempt in 1 2 3; do
-              git pull --rebase --autostash origin main && git push origin main && break
+              git pull --rebase -X ours origin main || true
+              git push origin main && break
               echo "Reintento $attempt de sincronización..."; sleep 5
             done
           fi

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "service": "Burst-Recon-Strike-Sniper-12K",
-  "timestamp": "2026-10-22T21:06:18.112Z",
+  "timestamp": "2026-10-22T21:51:22.723Z",
   "totalSweepsExecuted": 5,
   "intervalDelayMs": 4000,
   "fireVectorsAudited": [
@@ -29,11 +29,11 @@
   },
   "strikeOutcome": {
     "strikeExecuted": false,
-    "closestSpreadPct": -0.0609,
+    "closestSpreadPct": -0.087,
     "closestRoute": "BSC PancakeSwap V3 (0.01% -> 0.05% Cross-Fee)",
-    "distanceToBreakEvenPct": 0.0609,
+    "distanceToBreakEvenPct": 0.087,
     "operationalStatus": "VIGILANCIA_CENTINELA_ACTIVA_0_GAS_CONSUMIDO",
-    "diagnostic": "En los 5 barridos continuos, el spread más cercano al disparo fue -0.0609% en BSC PancakeSwap V3 (0.01% -> 0.05% Cross-Fee). El sistema mantuvo 100% blindado el tanque de gas ($0.00 quemado) con el vigía centinela encendido."
+    "diagnostic": "En los 5 barridos continuos, el spread más cercano al disparo fue -0.0870% en BSC PancakeSwap V3 (0.01% -> 0.05% Cross-Fee). El sistema mantuvo 100% blindado el tanque de gas ($0.00 quemado) con el vigía centinela encendido."
   },
   "compoundingRule70_30": {
     "usdcShare": "70% a engordar USDC Nativo hacia $130 (120 €)",
@@ -42,120 +42,120 @@
   "sweepRecords": [
     {
       "sweepIndex": 1,
-      "timestamp": "2026-10-22T21:05:32.552Z",
-      "durationMs": 8878,
+      "timestamp": "2026-10-22T21:50:59.909Z",
+      "durationMs": 2624,
       "vector1": {
-        "polygonSpreadPct": -0.0847,
+        "polygonSpreadPct": -0.1082,
         "polygonWinningRoute": "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
-        "bscSpreadPct": -0.0817,
+        "bscSpreadPct": -0.0917,
         "bscWinningRoute": "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
-        "closestSpreadPct": -0.0817
+        "closestSpreadPct": -0.0917
       },
       "vector2": {
-        "topVault": "WBNB-USDT",
+        "topVault": "CAKE-USDT",
         "chain": "BSC",
-        "rewardUsd": 0.249057,
-        "authorized": true
+        "rewardUsd": 0.02038,
+        "authorized": false
       },
       "vector3": {
-        "maxDislocationPct": 0.2014,
-        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.20% < 1.5%, $0 gas)"
+        "maxDislocationPct": 0.2862,
+        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.29% < 1.5%, $0 gas)"
       },
       "gasBurned": "0.00 POL / 0.00 BNB",
       "verdict": "VIGILANCIA_CENTINELA_0_GAS"
     },
     {
       "sweepIndex": 2,
-      "timestamp": "2026-10-22T21:05:55.907Z",
-      "durationMs": 19347,
+      "timestamp": "2026-10-22T21:51:05.577Z",
+      "durationMs": 1668,
       "vector1": {
-        "polygonSpreadPct": -0.1083,
+        "polygonSpreadPct": -0.1082,
         "polygonWinningRoute": "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
-        "bscSpreadPct": -0.0609,
+        "bscSpreadPct": -0.087,
         "bscWinningRoute": "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
-        "closestSpreadPct": -0.0609
+        "closestSpreadPct": -0.087
       },
       "vector2": {
-        "topVault": "WBNB-USDT",
+        "topVault": "CAKE-USDT",
         "chain": "BSC",
-        "rewardUsd": 0.249135,
-        "authorized": true
+        "rewardUsd": 0.020383,
+        "authorized": false
       },
       "vector3": {
-        "maxDislocationPct": 0.2014,
-        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.20% < 1.5%, $0 gas)"
+        "maxDislocationPct": 0.2862,
+        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.29% < 1.5%, $0 gas)"
       },
       "gasBurned": "0.00 POL / 0.00 BNB",
       "verdict": "VIGILANCIA_CENTINELA_0_GAS"
     },
     {
       "sweepIndex": 3,
-      "timestamp": "2026-10-22T21:06:06.679Z",
-      "durationMs": 6761,
+      "timestamp": "2026-10-22T21:51:11.526Z",
+      "durationMs": 1939,
       "vector1": {
-        "polygonSpreadPct": -0.1065,
+        "polygonSpreadPct": -0.1082,
         "polygonWinningRoute": "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
-        "bscSpreadPct": -0.0791,
+        "bscSpreadPct": -0.0872,
         "bscWinningRoute": "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
-        "closestSpreadPct": -0.0791
+        "closestSpreadPct": -0.0872
       },
       "vector2": {
-        "topVault": "WBNB-USDT",
+        "topVault": "CAKE-USDT",
         "chain": "BSC",
-        "rewardUsd": 0.249172,
-        "authorized": true
+        "rewardUsd": 0.020387,
+        "authorized": false
       },
       "vector3": {
-        "maxDislocationPct": 0.2448,
-        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.24% < 1.5%, $0 gas)"
+        "maxDislocationPct": 0.2828,
+        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.28% < 1.5%, $0 gas)"
       },
       "gasBurned": "0.00 POL / 0.00 BNB",
       "verdict": "VIGILANCIA_CENTINELA_0_GAS"
     },
     {
       "sweepIndex": 4,
-      "timestamp": "2026-10-22T21:06:12.396Z",
-      "durationMs": 1703,
+      "timestamp": "2026-10-22T21:51:16.884Z",
+      "durationMs": 1349,
       "vector1": {
-        "polygonSpreadPct": -0.1065,
+        "polygonSpreadPct": -0.1082,
         "polygonWinningRoute": "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
-        "bscSpreadPct": -0.0947,
+        "bscSpreadPct": -0.0874,
         "bscWinningRoute": "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
-        "closestSpreadPct": -0.0947
+        "closestSpreadPct": -0.0874
       },
       "vector2": {
-        "topVault": "WBNB-USDT",
+        "topVault": "CAKE-USDT",
         "chain": "BSC",
-        "rewardUsd": 0.249193,
-        "authorized": true
+        "rewardUsd": 0.02039,
+        "authorized": false
       },
       "vector3": {
-        "maxDislocationPct": 0.2448,
-        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.24% < 1.5%, $0 gas)"
+        "maxDislocationPct": 0.2828,
+        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.28% < 1.5%, $0 gas)"
       },
       "gasBurned": "0.00 POL / 0.00 BNB",
       "verdict": "VIGILANCIA_CENTINELA_0_GAS"
     },
     {
       "sweepIndex": 5,
-      "timestamp": "2026-10-22T21:06:18.112Z",
-      "durationMs": 1712,
+      "timestamp": "2026-10-22T21:51:22.723Z",
+      "durationMs": 1832,
       "vector1": {
-        "polygonSpreadPct": -0.1065,
+        "polygonSpreadPct": -0.1082,
         "polygonWinningRoute": "Piscina V1-A: Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)",
-        "bscSpreadPct": -0.0975,
+        "bscSpreadPct": -0.0874,
         "bscWinningRoute": "Piscina V1-BSC-A: Cross-Fee V3 0.01% ➔ 0.05% (USDC ➔ WBNB ➔ USDC)",
-        "closestSpreadPct": -0.0975
+        "closestSpreadPct": -0.0874
       },
       "vector2": {
-        "topVault": "WBNB-USDT",
+        "topVault": "CAKE-USDT",
         "chain": "BSC",
-        "rewardUsd": 0.249213,
-        "authorized": true
+        "rewardUsd": 0.020394,
+        "authorized": false
       },
       "vector3": {
-        "maxDislocationPct": 0.2448,
-        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.24% < 1.5%, $0 gas)"
+        "maxDislocationPct": 0.2828,
+        "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.28% < 1.5%, $0 gas)"
       },
       "gasBurned": "0.00 POL / 0.00 BNB",
       "verdict": "VIGILANCIA_CENTINELA_0_GAS"

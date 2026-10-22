@@ -233,7 +233,7 @@ async function huntUpcomingLaunchesCalendar() {
     },
     {
       id: "mainnet-live-fire-snipers",
-      name: "Fuego Real Diario Mainnet (Polygon PoS & BSC)",
+      name: "Caza Diaria Mainnet V3 (0.01%/0.05%) & Keeper Bounties (>1.35x Gas)",
       tokenSymbol: "USDC-NATIVO",
       ecosystem: "Uniswap V3 / QuickSwap / PancakeSwap V3 + Keeper Bounties",
       chainId: 137,
@@ -243,8 +243,8 @@ async function huntUpcomingLaunchesCalendar() {
       urgencyClass: "live",
       formattedTgeDate: "Activo Diario Permanente",
       daysToTge: 0,
-      isPrimaryStrikeTarget: true,
-      vcBacking: "Capital Propio Blindado ($39.72 USDC)",
+      isPrimaryStrikeTarget: false,
+      vcBacking: "Capital Propio Blindado ($40.72 USDC On-Chain)",
       gasCostType: "Ciclo Cerrado Atómico ($0 Riesgo con callStatic)",
       firstWaveExitPlan: {
         strategy: "ARBITRAJE_Y_KEEPER_CONTINUO",

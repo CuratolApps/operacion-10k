@@ -349,52 +349,36 @@ function assemble502Wallets() {
 function renderTopRadarBanner() {
   const telem = state.telemetry;
   
-  // 1. Bóveda On-Chain real (Piso base real $38.72 USDC o valor superior en cadena)
-  const cannon1Usdc = safeNum(telem?.sniperPerformance?.cannon1Usdc || telem?.cannons?.polygonUsdc, 18.30);
-  const cannon2Usdc = safeNum(telem?.sniperPerformance?.cannon2Usdc || telem?.cannons?.bscUsdc, 20.42);
-  const cannonsSum = cannon1Usdc + cannon2Usdc;
-  const onChainFromTelem = safeNum(telem?.totalOnChainFleetUsdc || telem?.onChainVaultUsdc || telem?.lomo4Metrics?.roiTracker?.totalRecoveredUsdc, 0);
-  const onChainVaultUsdc = Math.max(38.72, cannonsSum, onChainFromTelem);
-
-  // 2. Binance Spot #1 Harvested ($1.00 USDC)
+  // 1. Saldo único real consolidado on-chain: $40.72 USDC en Bóveda Máster On-Chain + $1.00 USDC en Binance Spot #1 = $41.72 USDC
+  const onChainVaultUsdc = safeNum(telem?.totalOnChainFleetUsdc, 40.72);
   const totalBinanceNum = safeNum(telem?.totalHarvestedToBinanceUsdc, 1.00);
-  const pendingNum = safeNum(telem?.pendingHarvestUsdc, 0);
-  const fleetUsdcNum = safeNum(telem?.dailyCapturedUsdc, 0);
-  const goalAccrued = safeNum(telem?.goalMilestone?.currentAccruedUsdc, 0);
-  const historicalUsdc = safeNum(telem?.totalHistoricalUsdc, 0);
-
-  // 3. Liquidez Real Consolidada (Bóveda On-Chain + Binance Spot #1 = Piso real $39.72 - $42.72 USDC / ~36.65 € - ~39.45 € o superior)
-  const consolidatedNum = Math.max(42.72, onChainVaultUsdc + totalBinanceNum + pendingNum, fleetUsdcNum, goalAccrued, historicalUsdc);
+  const consolidatedNum = parseFloat((Math.max(40.72, onChainVaultUsdc) + totalBinanceNum).toFixed(2)); // Exacto $41.72 USDC
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${consolidatedNum.toFixed(2)} USDC`;
 
-  const currentUsdc = consolidatedNum;
-  const meta1Pct = ((currentUsdc / 50.00) * 100).toFixed(1);
-  const eq100Pct = ((currentUsdc / 108.50) * 100).toFixed(1);
-
   // Pastilla 1: Invertido
   const elPhase1 = document.getElementById('dashPhase1Pill');
   if (elPhase1) {
-    elPhase1.textContent = '💶 INVERTIDO: 100€ Flota | 123€ Total ($133.50)';
+    elPhase1.textContent = '💶 Invertido: 123€ ($133.50) | Hoy: ~103€ ($111.62)';
   }
 
-  // Pastilla 2: Tenemos Hoy
+  // Pastilla 2: Brecha p/ Empatar
   const elEur = document.getElementById('dashEurLiqPill');
   if (elEur) {
-    elEur.textContent = '💎 TENEMOS HOY: ~$112.62 USD (~103.95€ Total)';
+    elEur.textContent = '🎯 Brecha p/ Empatar: -$21.88 USD (-19.95€)';
   }
 
-  // Pastilla 3: Brecha a Cerrar
+  // Pastilla 3: Meta 1
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) {
-    elUsd.textContent = '🎯 BRECHA A CERRAR: -$20.88 USD (-19.05€ p/ Empatar)';
+    elUsd.textContent = `💵 Meta 1 (45€): $${consolidatedNum.toFixed(2)} / $50.00 USDC (83.4%)`;
   }
 
-  // Pastilla 4: Liquidez Fija
+  // Pastilla 4: Bóveda
   const elRes = document.getElementById('dashReserveLiqPill');
   if (elRes) {
-    elRes.textContent = `💵 LIQUIDEZ FIJA: $${currentUsdc.toFixed(2)} USDC (${meta1Pct}% de Meta 50$)`;
+    elRes.textContent = `🏦 Bóveda: $${onChainVaultUsdc.toFixed(2)} On-Chain + $${totalBinanceNum.toFixed(2)} Binance #1`;
   }
 
   const motherPol = Math.max(Number(telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || 0), 110.98);
@@ -605,9 +589,8 @@ function renderAirdropCalendar(telem) {
     return;
   }
 
-  const nextImminent = calendar[0];
-  if (badge && nextImminent) {
-    badge.textContent = `🔥 ${nextImminent.name.toUpperCase()}: ${nextImminent.daysToSnapshot} DÍAS (500 SOLDADOS EN BLOQUE)`;
+  if (badge) {
+    badge.textContent = '🔥 OBJETIVO #1: KIEDEX & PHAROS ($PROS) — CIERRE 25 OCT (3 DÍAS • TROPA ACTIVA)';
   }
 
   let html = '';

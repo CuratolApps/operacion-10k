@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.2.0",
-  "timestamp": "2026-10-22T21:29:07.629Z",
-  "timestampFormatted": "22/10/2026, 21:29:07 UTC",
+  "timestamp": "2026-10-22T21:51:27.032Z",
+  "timestampFormatted": "22/10/2026, 21:51:27 UTC",
   "officers": {
     "nebula33": {
       "id": "NEBULA-FORENSIC-SHIELD #33",
@@ -44,7 +44,7 @@
   "calendar": [
     {
       "id": "mainnet-live-fire-snipers",
-      "name": "Fuego Real Diario Mainnet (Polygon PoS & BSC)",
+      "name": "Caza Diaria Mainnet V3 (0.01%/0.05%) & Keeper Bounties (>1.35x Gas)",
       "tokenSymbol": "USDC-NATIVO",
       "ecosystem": "Uniswap V3 / QuickSwap / PancakeSwap V3 + Keeper Bounties",
       "chainId": 137,
@@ -54,8 +54,8 @@
       "urgencyClass": "live",
       "formattedTgeDate": "Activo Diario Permanente",
       "daysToTge": 0,
-      "isPrimaryStrikeTarget": true,
-      "vcBacking": "Capital Propio Blindado ($39.72 USDC)",
+      "isPrimaryStrikeTarget": false,
+      "vcBacking": "Capital Propio Blindado ($40.72 USDC On-Chain)",
       "gasCostType": "Ciclo Cerrado Atómico ($0 Riesgo con callStatic)",
       "firstWaveExitPlan": {
         "strategy": "ARBITRAJE_Y_KEEPER_CONTINUO",
@@ -68,7 +68,7 @@
         "verdictBadge": "🟢 VIABLE & AUDITADO",
         "safetyScore": 96,
         "honeypotRisk": "0%",
-        "vcBacking": "Capital Propio Blindado ($39.72 USDC)",
+        "vcBacking": "Capital Propio Blindado ($40.72 USDC On-Chain)",
         "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
         "verifiedOnChain": true
       },
@@ -233,6 +233,6 @@
     "imminentCount": 2,
     "totalSoldiersEnlisted": 500,
     "zeroGasAttestationReady": true,
-    "nextImmediateSnapshot": "Fuego Real Diario Mainnet (Polygon PoS & BSC) (en 0 días)"
+    "nextImmediateSnapshot": "Caza Diaria Mainnet V3 (0.01%/0.05%) & Keeper Bounties (>1.35x Gas) (en 0 días)"
   }
 }

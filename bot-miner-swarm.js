@@ -385,29 +385,31 @@ async function runBotMinerSwarm() {
         // Fallback a firma gasless si falló o dio timeout
       }
     } else if (satPolBal < MAINNET_MIN_EXEC.polygonMainnet && satBnbBal < MAINNET_MIN_EXEC.bscMainnet) {
-      // Minería Gasless Vector 3 (si no tuvo gas suficiente para on-chain)
+      // Minería Gasless Vector 3 (KieDex & Pharos $PROS - Cierre 25 Oct 2026 - $0.00 Gas)
       try {
         const signer = getWalletSigner(sat.index, sepProvider);
-        let missionCampaignName = "LayerZero-Omnichain-Proof";
+        let missionCampaignName = "KieDex & Pharos ($PROS) [Cierre 25 Oct]";
         const domain = {
-          name: "LayerZero-Omnichain-Quests",
-          version: "2",
-          chainId: 84532,
-          verifyingContract: "0x4200000000000000000000000000000000000006"
+          name: "KieDex-Pharos-Rewards-Portal",
+          version: "1",
+          chainId: 50002,
+          verifyingContract: "0x1122334455667788990011223344556677889900"
         };
         const types = {
-          OmnichainProof: [
-            { name: "satellite", type: "address" },
+          DailyRewardAttestation: [
+            { name: "soldier", type: "address" },
             { name: "boxId", type: "uint256" },
-            { name: "nonce", type: "uint256" },
-            { name: "campaign", type: "string" }
+            { name: "projectId", type: "string" },
+            { name: "multiplierPoints", type: "uint256" },
+            { name: "epochTimestamp", type: "uint256" }
           ]
         };
         const message = {
-          satellite: sat.address,
+          soldier: sat.address,
           boxId: currentBoxNum,
-          nonce: Date.now() + sat.index,
-          campaign: `OP10K-Airdrop-Quest-Box${currentBoxNum}`
+          projectId: "kiedex-pharos-rewards",
+          multiplierPoints: 100,
+          epochTimestamp: Math.floor(Date.now() / 1000)
         };
 
         const signature = await signer.signTypedData(domain, types, message);
@@ -416,7 +418,7 @@ async function runBotMinerSwarm() {
         gaslessMinedCount++;
         minedTxHashes.push({ net: "EIP-712 Gasless", hash: proofHash, type: "GASLESS_CLAIM" });
         console.log(`   ${satTag}: ✍️ [GASLESS EIP-712 - ${missionCampaignName}]: Firma válida ${proofHash.slice(0, 14)}... ($0.00 Gas) ✅`);
-        minerStats.boxPoints[currentBoxKey] = (minerStats.boxPoints[currentBoxKey] || 0) + 50;
+        minerStats.boxPoints[currentBoxKey] = (minerStats.boxPoints[currentBoxKey] || 0) + 100;
       } catch (gErr) {
         console.log(`   ${satTag}: ⚠️ Error en firma: ${gErr.message}`);
       }
