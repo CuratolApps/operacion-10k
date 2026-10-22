@@ -124,11 +124,22 @@ async function executeExpertCaptainsCommand(options = {}) {
     console.warn("⚠️ Aviso al ejecutar bounty booty commander:", err.message);
   }
 
+  // 2.5. Fusión Táctica de Munición USDC (2 Cañones Pesados)
+  console.log("\n🥷🎯 [ALTO MANDO #501 & #001 & #101]: Consolidando Munición USDC en 2 Cañones Pesados...");
+  let spearheadCannons = null;
+  try {
+    const { consolidateUsdcSpearheads } = require("./sniper-501-mainnet");
+    spearheadCannons = await consolidateUsdcSpearheads({ dryRun: false });
+  } catch (err) {
+    console.warn("⚠️ Aviso al consolidar Cañones Pesados:", err.message);
+  }
+
   // 3. Consolidar el estado conjunto del Alto Mando
   const commandState = {
     schemaVersion: "1.0.0",
     generatedAt: new Date().toISOString(),
     status: "DUAL_EXPERT_COMMAND_ACTIVE",
+    spearheadCannons: spearheadCannons,
     highCommand: SUPREME_COMMAND_STRUCTURE.highCommand,
     expertCaptains: SUPREME_COMMAND_STRUCTURE.expertCaptains,
     fleetGasTank: {
@@ -248,5 +259,6 @@ if (require.main === module) {
 
 module.exports = {
   executeExpertCaptainsCommand,
+  consolidateUsdcSpearheads: require("./sniper-501-mainnet").consolidateUsdcSpearheads,
   SUPREME_COMMAND_STRUCTURE
 };

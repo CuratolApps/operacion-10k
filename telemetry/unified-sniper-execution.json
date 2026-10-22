@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0.0",
+  "timestamp": "2026-10-22T14:26:45.090Z",
+  "status": "VIGILANCIA_CENTINELA_ARMADA",
+  "cannonsArmed": {
+    "polygonHeavyCannon": 18.295135,
+    "bscHeavyCannon": 20.424259,
+    "totalFirepowerUsdc": 38.719393999999994
+  },
+  "liveDEXRoutes": {
+    "polygonWinningRoute": "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
+    "bscWinningRoute": "Piscina #4 (BSC Directa - PancakeSwap V2)",
+    "antiMevMaxSlippagePct": 0.15
+  },
+  "omniModelsSummary": {
+    "modelsAudited": 5,
+    "averageOpportunityScore": 86,
+    "gasCostScanUsd": 0
+  },
+  "firingRecord": {
+    "executed": false,
+    "network": null,
+    "targetFront": null,
+    "inputUsdc": 0,
+    "outputUsdc": 0,
+    "netProfitUsdc": 0,
+    "profitSplit": null,
+    "status": "VIGILANCIA_CENTINELA_0_GAS"
+  },
+  "compoundingRule70_30": {
+    "usdcShare": "70% a engordar USDC Nativo hacia $130 (120 €)",
+    "gasRestockShare": "30% a comprar más POL y BNB"
+  }
+}

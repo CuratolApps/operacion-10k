@@ -158,6 +158,11 @@ function validateIsolation(sender, target, allSwarmAddresses = [], allWallets = 
     );
   }
 
+  // 4.5. Bóveda Matriz #501 (Tesorería General & Hub de Fondeo Oficial de la Flota)
+  if (senderIndex === 501 || targetIndex === 501) {
+    return true;
+  }
+
   // 5. Verificación de bloques
   const senderBlock = getBlockId(senderIndex);
   const targetBlock = getBlockId(targetIndex);

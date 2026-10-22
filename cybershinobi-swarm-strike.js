@@ -78,58 +78,60 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
     satellites: satellites.filter((s) => Math.min(5, Math.max(1, Math.ceil(s.index / 100))) === boxId)
   }));
 
-  for (const box of boxes) {
-    const boxStart = Date.now();
-    const pointsAwarded = 100; // Puntos Génesis por billetera calificada
+  await Promise.all(
+    boxes.map(async (box) => {
+      const boxStart = Date.now();
+      const pointsAwarded = 100; // Puntos Génesis por billetera calificada
 
-    // Procesamiento vectorial en memoria con Promise.allSettled
-    const boxSettled = await Promise.allSettled(
-      box.satellites.map(async (sat) => {
-        // 1. Verificación de aislamiento criptográfico Anti-Sybil
-        validateIsolation(sat.address, CYBERSHINOBI_DOMAIN.verifyingContract, [], allWallets);
+      // Procesamiento vectorial en memoria con Promise.allSettled
+      const boxSettled = await Promise.allSettled(
+        box.satellites.map(async (sat) => {
+          // 1. Verificación de aislamiento criptográfico Anti-Sybil
+          validateIsolation(sat.address, CYBERSHINOBI_DOMAIN.verifyingContract, [], allWallets);
 
-        // 2. Obtención de firmante derivado en memoria
-        const signer = getWalletSigner(sat.index);
+          // 2. Obtención de firmante derivado en memoria
+          const signer = getWalletSigner(sat.index);
 
-        // 3. Firma criptográfica EIP-712 gasless
-        const message = {
-          shinobi: sat.address,
-          boxId: box.boxId,
-          multiplierPoints: pointsAwarded,
-          epochTimestamp: nowEpoch
-        };
+          // 3. Firma criptográfica EIP-712 gasless
+          const message = {
+            shinobi: sat.address,
+            boxId: box.boxId,
+            multiplierPoints: pointsAwarded,
+            epochTimestamp: nowEpoch
+          };
 
-        const signature = await signer.signTypedData(CYBERSHINOBI_DOMAIN, CYBERSHINOBI_TYPES, message);
-        const proofHash = ethers.keccak256(signature);
+          const signature = await signer.signTypedData(CYBERSHINOBI_DOMAIN, CYBERSHINOBI_TYPES, message);
+          const proofHash = ethers.keccak256(signature);
 
-        return {
-          index: sat.index,
-          formattedId: `#${String(sat.index).padStart(3, "0")}`,
-          address: sat.address,
-          boxId: box.boxId,
-          points: pointsAwarded,
-          proofHash: proofHash,
-          status: "CALIFICADO_WHITELIST_GENESIS",
-          timestamp: new Date().toISOString()
-        };
-      })
-    );
+          return {
+            index: sat.index,
+            formattedId: `#${String(sat.index).padStart(3, "0")}`,
+            address: sat.address,
+            boxId: box.boxId,
+            points: pointsAwarded,
+            proofHash: proofHash,
+            status: "CALIFICADO_WHITELIST_GENESIS",
+            timestamp: new Date().toISOString()
+          };
+        })
+      );
 
-    const boxElapsed = Date.now() - boxStart;
-    boxLatencyMs[box.boxId] = boxElapsed;
+      const boxElapsed = Date.now() - boxStart;
+      boxLatencyMs[box.boxId] = boxElapsed;
 
-    for (const res of boxSettled) {
-      if (res.status === "fulfilled") {
-        registeredList.push(res.value);
-        boxCounters[box.boxId]++;
-        totalMultiplierPoints += pointsAwarded;
-      } else {
-        console.error(`   ❌ Error en Box ${box.boxId}:`, res.reason?.message || res.reason);
+      for (const res of boxSettled) {
+        if (res.status === "fulfilled") {
+          registeredList.push(res.value);
+          boxCounters[box.boxId]++;
+          totalMultiplierPoints += pointsAwarded;
+        } else {
+          console.error(`   ❌ Error en Box ${box.boxId}:`, res.reason?.message || res.reason);
+        }
       }
-    }
 
-    console.log(`   ⚡ Box ${box.boxId} completado: ${boxCounters[box.boxId]}/100 satélites firmados en ${boxElapsed}ms (${boxElapsed < 100 ? "SUB-100MS 🟢" : "VELOZ 🟡"}) con aislamiento Anti-Sybil verificado.`);
-  }
+      console.log(`   ⚡ Box ${box.boxId} completado: ${boxCounters[box.boxId]}/100 satélites firmados en ${boxElapsed}ms (${boxElapsed < 100 ? "SUB-100MS 🟢" : "VELOZ 🟡"}) con aislamiento Anti-Sybil verificado.`);
+    })
+  );
 
   const successCount = registeredList.length;
   console.log(`\n🎉 [RESULTADO DEL CHOQUE]: ${successCount}/500 Soldados Registrados con Éxito (100% de la Tropa).`);

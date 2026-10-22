@@ -354,21 +354,23 @@ function renderTopRadarBanner() {
   if (elEur) elEur.textContent = `En Bóveda Máster On-Chain (Compounding): $${Number(onChainFleet || 0).toFixed(2)} USDC (Dual-Chain)`;
 
   const elRes = document.getElementById('dashReserveLiqPill');
-  const polReserve = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '238.15';
-  if (elRes) elRes.textContent = `Reserva Nodriza #501: ${Number(polReserve || 238.15).toFixed(2)} POL | +116.38 POL Kraken`;
+  const polReserve = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '121.02';
+  const krakenHold = telem?.hierarchy?.highCommand?.matriz501?.krakenPending?.pol || '116.38';
+  if (elRes) elRes.textContent = `Reserva Nodriza #501: ${Number(polReserve || 121.02).toFixed(2)} POL | +${krakenHold} POL Kraken`;
 
   const elMotherPol = document.getElementById('dashMothershipPol');
   const elFleetPol = document.getElementById('dashFleetPol');
-  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '238.15';
-  const fleetPol = telem?.globalGasTank?.pol || '426.26';
-  const fleetBnb = telem?.globalGasTank?.bnb || '0.0705';
+  const motherPol = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '121.02';
+  const fleetPol = telem?.globalGasTank?.pol || '265.86';
+  const fleetBnb = telem?.globalGasTank?.bnb || '0.0435';
   if (elMotherPol) elMotherPol.textContent = `${Number(motherPol).toFixed(1)} POL`;
   if (elFleetPol) elFleetPol.textContent = `~${Number(fleetPol).toFixed(0)} POL`;
 
   const elMotherSub = document.getElementById('mothershipSub');
   const elFleetSub = document.getElementById('fleetFuelSub');
-  if (elMotherSub) elMotherSub.textContent = `0xD4D1...3743 • 16 Snipers Activos • ${Number(telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.bnb || 0.0154).toFixed(3)} BNB`;
-  if (elFleetSub) elFleetSub.textContent = `~${Number(fleetBnb).toFixed(3)} BNB • Multi-DEX Centinela $0 Gas`;
+  const motherBnb = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.bnb || '0.00527';
+  if (elMotherSub) elMotherSub.textContent = `0xD4D1...3743 • 16 Snipers Activos • ${Number(motherBnb).toFixed(4)} BNB`;
+  if (elFleetSub) elFleetSub.textContent = `~${Number(fleetBnb).toFixed(4)} BNB • Multi-DEX Centinela $0 Gas`;
 
   // Ratios Fila 4 dinámicos y 100% reales
   const btcOps = safeNum(telem?.bitcoinL2Stats?.citreaOps, 0) + safeNum(telem?.bitcoinL2Stats?.goatOps, 0);
@@ -403,11 +405,16 @@ function renderTopRadarBanner() {
   if (elQuotaVal) elQuotaVal.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
   if (elQuotaSub) elQuotaSub.textContent = `${pct}% de la Meta $12,000 USDC`;
 
-  const box1Gas = telem?.headersSurveillance?.find(h => h.id === "#001")?.polBal || "18.25";
-  const box2Gas = telem?.headersSurveillance?.find(h => h.id === "#101")?.polBal || "18.32";
-  const box3Gas = telem?.headersSurveillance?.find(h => h.id === "#201")?.polBal || "8.87";
-  const box4Gas = telem?.headersSurveillance?.find(h => h.id === "#301")?.polBal || "8.88";
-  const box5Gas = telem?.headersSurveillance?.find(h => h.id === "#401")?.polBal || "8.87";
+  const findCaptainGas = (id) => {
+    return telem?.headersSurveillance?.find(h => h.id === id)?.polBal ||
+      telem?.soldiers?.find(s => s.id === parseInt(id.replace('#', '')) || s.formattedId === id)?.gasBalances?.pol ||
+      "18.02";
+  };
+  const box1Gas = findCaptainGas("#001");
+  const box2Gas = findCaptainGas("#101");
+  const box3Gas = findCaptainGas("#201");
+  const box4Gas = findCaptainGas("#301");
+  const box5Gas = findCaptainGas("#401");
 
   const elB1 = document.getElementById("box1GasVal");
   const elB2 = document.getElementById("box2GasVal");

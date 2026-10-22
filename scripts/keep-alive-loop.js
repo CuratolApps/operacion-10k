@@ -7,6 +7,7 @@
  */
 
 require("dotenv").config();
+const fs = require("fs");
 const { execSync } = require("child_process");
 const path = require("path");
 

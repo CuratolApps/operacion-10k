@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "timestamp": "2026-10-22T14:26:36.414Z",
+  "status": "ARMADOS_Y_CONCENTRADOS",
+  "canonPesado1_Polygon": {
+    "name": "Cañón Pesado #1 (Polygon PoS)",
+    "commandVault": "#501 (Nodriza Matriz) & #001 (Capitán Box 1)",
+    "firingAddress": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    "targetToken": "USDC Nativo Circle (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359)",
+    "totalConcentratedUsdc": 18.295135,
+    "estimatedSingleShotPower": "18.30 USDC (Supera comisiones DEX 0.05%)",
+    "transfersExecuted": [
+      {
+        "from": "#201",
+        "amountUsdc": 0.713556,
+        "txHash": "0x49e046193d183e8b46b814df1f60a3cd4c89ef0dec9a572e775c283c53020de2"
+      },
+      {
+        "from": "#301",
+        "amountUsdc": 0.699001,
+        "txHash": "0xcc52cd91c9734ddd168ce9b558d21b4bd60a64334bbedd269da6d160da6c7491"
+      },
+      {
+        "from": "#401",
+        "amountUsdc": 0.681524,
+        "txHash": "0x37b4aa3e3e7b36b9828b3d1b299812f66c0082fa98674eaba949b161fe0ebb49"
+      }
+    ]
+  },
+  "canonPesado2_BSC": {
+    "name": "Cañón Pesado #2 (BSC Mainnet)",
+    "commandVault": "#101 (Capitán Experto #2) & #501 (Nodriza Matriz)",
+    "firingAddress": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    "targetToken": "USDC Oficial Binance-Peg (0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d)",
+    "totalConcentratedUsdc": 20.424259,
+    "estimatedSingleShotPower": "20.42 USDC (Supera comisiones PancakeSwap 0.05%)"
+  },
+  "totalHeavyArtilleryPowerUsdc": 38.719394,
+  "netProfitDistribution": "70% a USDC Nativo / 30% a Recarga Gas (POL/BNB)"
+}

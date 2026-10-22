@@ -27,7 +27,7 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const { ethers } = require("ethers");
-const { networks } = require("./networks");
+const { networks, createResilientProvider } = require("./networks");
 const { getWalletSigner } = require("./swarm-engine");
 const { sendTelegramAlert } = require("./telegram-notifier");
 const {
@@ -1730,10 +1730,130 @@ ${txLines}
   return { results, postStatuses, totalUsdcInFleet, totalHistoricalCombined };
 }
 
+/**
+ * consolidateUsdcSpearheads() - FUSIÓN DE MUNICIÓN USDC EN 2 CAÑONES PESADOS (CYBER SHINOBI)
+ * Reúne micro-saldos de Sub-Capitanes de Polygon hacia la Bóveda de Tiro #501 si gas < $0.002 USD,
+ * concentrando ~$18.30 USDC en Cañón #1 (Polygon) y $20.42 USDC en Cañón #2 (BSC).
+ * Prohibido tocar o transferir gas nativo (POL/BNB).
+ */
+async function consolidateUsdcSpearheads(options = {}) {
+  const { dryRun = false, force = false } = options;
+  console.log("=========================================================================================");
+  console.log("   🥷🎯 FUSIÓN TÁCTICA DE MUNICIÓN USDC: 2 CAÑONES PESADOS (CYBER SHINOBI)               ");
+  console.log("   📍 Cañón Pesado #1: Polygon PoS (#501 / #001) ➔ Objetivo: ~$18.30 USDC Nativo          ");
+  console.log("   📍 Cañón Pesado #2: BSC Mainnet (#101 / #501) ➔ Objetivo: $20.42 USDC Oficial          ");
+  console.log("   🔒 Cero Movimiento de Gas Nativo (POL / BNB) • Condición Gas: < $0.002 USD           ");
+  console.log("=========================================================================================\n");
+
+  const polProvider = createResilientProvider(networks.polygonMainnet);
+  const bscProvider = createResilientProvider(networks.bscMainnet);
+
+  const ERC20_ABI = [
+    "function balanceOf(address account) external view returns (uint256)",
+    "function transfer(address recipient, uint256 amount) external returns (bool)",
+    "function decimals() external view returns (uint8)"
+  ];
+
+  const usdcPol = new ethers.Contract(NATIVE_USDC_POLYGON, ERC20_ABI, polProvider);
+  const usdcBsc = new ethers.Contract(OFFICIAL_USDC_BSC, ERC20_ABI, bscProvider);
+
+  // 1. Evaluación de Gas Price en Polygon PoS
+  const polFeeData = await polProvider.getFeeData();
+  const gasPricePol = polFeeData.gasPrice || ethers.parseUnits("280", "gwei");
+  const estimatedGasUnits = 55000n;
+  const gasCostPolWei = gasPricePol * estimatedGasUnits;
+  const gasCostPol = parseFloat(ethers.formatEther(gasCostPolWei));
+  const polPriceUsd = 0.0908; // Referencia live observer
+  const gasCostUsd = gasCostPol * polPriceUsd;
+
+  console.log(`⛽ [POLYGON GAS CHECK]: GasPrice = ${ethers.formatUnits(gasPricePol, "gwei")} Gwei | Costo Tx = ${gasCostPol.toFixed(5)} POL (~$${gasCostUsd.toFixed(5)} USD)`);
+
+  const gasCostPermitted = gasCostUsd < 0.002 || force;
+  if (!gasCostPermitted) {
+    console.log(`⚠️ Gas actual ($${gasCostUsd.toFixed(5)} USD) >= $0.002 USD. Esperando ventana óptima.`);
+  }
+
+  // 2. FUSIÓN POLYGON (CAÑÓN PESADO #1)
+  const targetVault501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
+  const subCaptains = SNIPER_FRONTS.filter(f => f.frontId.startsWith("front-sub") || ["#201", "#301", "#401"].includes(f.id));
+  const polygonConsolidated = [];
+
+  let totalPolygonUsdc = 0;
+  for (const front of SNIPER_FRONTS) {
+    const rawBal = await usdcPol.balanceOf(front.address);
+    const bal = parseFloat(ethers.formatUnits(rawBal, 6));
+    totalPolygonUsdc += bal;
+  }
+
+  console.log(`💎 [POLYGON POS] Munición Total Disponible: $${totalPolygonUsdc.toFixed(6)} USDC`);
+
+  if (gasCostPermitted && !dryRun) {
+    for (const sub of subCaptains) {
+      try {
+        const rawBal = await usdcPol.balanceOf(sub.address);
+        const bal = parseFloat(ethers.formatUnits(rawBal, 6));
+        if (bal > 0.05 && sub.address.toLowerCase() !== targetVault501.toLowerCase()) {
+          console.log(`   🏹 [FUSIÓN POLYGON] ${sub.name} (${sub.id}): $${bal.toFixed(4)} USDC ➔ Consolidando a #501...`);
+          const signer = getWalletSigner(sub.index, polProvider);
+          const usdcWithSigner = new ethers.Contract(NATIVE_USDC_POLYGON, ERC20_ABI, signer);
+          const tx = await usdcWithSigner.transfer(targetVault501, rawBal);
+          console.log(`      ↳ Tx enviada: ${tx.hash}`);
+          await tx.wait(1);
+          console.log(`      ✅ Transferencia confirmada a #501`);
+          polygonConsolidated.push({ from: sub.id, amountUsdc: bal, txHash: tx.hash });
+        }
+      } catch (err) {
+        console.warn(`      ⚠️ Salto de consolidación en ${sub.id}: ${err.message}`);
+      }
+    }
+  }
+
+  // 3. FUSIÓN BSC (CAÑÓN PESADO #2)
+  let totalBscUsdc = 0;
+  for (const front of SNIPER_FRONTS) {
+    const rawBal = await usdcBsc.balanceOf(front.address);
+    const bal = parseFloat(ethers.formatUnits(rawBal, 18));
+    totalBscUsdc += bal;
+  }
+  console.log(`🥞 [BSC MAINNET] Munición Total Concentrada: $${totalBscUsdc.toFixed(6)} USDC (Bajo mando #101 / #501)`);
+
+  const cannonsPayload = {
+    schemaVersion: "1.0.0",
+    timestamp: new Date().toISOString(),
+    status: "ARMADOS_Y_CONCENTRADOS",
+    canonPesado1_Polygon: {
+      name: "Cañón Pesado #1 (Polygon PoS)",
+      commandVault: "#501 (Nodriza Matriz) & #001 (Capitán Box 1)",
+      firingAddress: targetVault501,
+      targetToken: "USDC Nativo Circle (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359)",
+      totalConcentratedUsdc: parseFloat(totalPolygonUsdc.toFixed(6)),
+      estimatedSingleShotPower: "18.30 USDC (Supera comisiones DEX 0.05%)",
+      transfersExecuted: polygonConsolidated
+    },
+    canonPesado2_BSC: {
+      name: "Cañón Pesado #2 (BSC Mainnet)",
+      commandVault: "#101 (Capitán Experto #2) & #501 (Nodriza Matriz)",
+      firingAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      targetToken: "USDC Oficial Binance-Peg (0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d)",
+      totalConcentratedUsdc: parseFloat(totalBscUsdc.toFixed(6)),
+      estimatedSingleShotPower: "20.42 USDC (Supera comisiones PancakeSwap 0.05%)"
+    },
+    totalHeavyArtilleryPowerUsdc: parseFloat((totalPolygonUsdc + totalBscUsdc).toFixed(6)),
+    netProfitDistribution: "70% a USDC Nativo / 30% a Recarga Gas (POL/BNB)"
+  };
+
+  const CANNONS_FILE = path.join(__dirname, "telemetry", "spearhead-cannons.json");
+  fs.writeFileSync(CANNONS_FILE, JSON.stringify(cannonsPayload, null, 2), "utf8");
+  console.log(`\n💾 Estado de los 2 Cañones Pesados guardado en: telemetry/spearhead-cannons.json`);
+
+  return cannonsPayload;
+}
+
 const runSniper16x = runSupervisedSalvo16x;
 const runSniper501 = runSupervisedSalvo16x;
 
 module.exports = {
+  consolidateUsdcSpearheads,
   runSniper16x,
   runSniper501,
   runSupervisedSalvo16x,
@@ -1753,6 +1873,7 @@ module.exports = {
   UNISWAP_V3_QUOTER_V2,
   UNISWAP_V3_SWAP_ROUTER_02,
   STRICT_NO_GAS_SELL,
+  executeUnifiedShinobiSnipe: require("./omni-sniper-5models").executeUnifiedShinobiSnipe,
   runTacticalGasRecovery: require("./scripts/tactical-gas-recovery").runTacticalGasRecovery
 };
 
@@ -1763,8 +1884,20 @@ if (require.main === module) {
   const isFlankRotation = process.argv.includes("--flank-rotation-strike") || process.argv.includes("--flank-rotation");
   const isV3Pincer = process.argv.includes("--v3-pincer-strike") || process.argv.includes("--v3-pincer");
   const isGasRecovery = process.argv.includes("--tactical-gas-recovery") || process.argv.includes("--gas-recovery");
+  const isUnifiedSnipe = process.argv.includes("--unified-snipe");
+  const isConsolidate = process.argv.includes("--consolidate-spearheads");
 
-  if (isGasRecovery) {
+  if (isConsolidate) {
+    consolidateUsdcSpearheads({ dryRun: isDryRun }).catch(err => {
+      console.error("❌ Error en Consolidación de Cañones Pesados:", err);
+      process.exit(1);
+    });
+  } else if (isUnifiedSnipe) {
+    require("./omni-sniper-5models").executeUnifiedShinobiSnipe({ dryRun: isDryRun }).catch(err => {
+      console.error("❌ Error en Snipe Unificado:", err);
+      process.exit(1);
+    });
+  } else if (isGasRecovery) {
     const { runTacticalGasRecovery } = require("./scripts/tactical-gas-recovery");
     runTacticalGasRecovery({ dryRun: isDryRun }).catch(err => {
       console.error("❌ Error en Restauración Táctica de Gas:", err);

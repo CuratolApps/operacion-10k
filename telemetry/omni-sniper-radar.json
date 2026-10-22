@@ -1,14 +1,14 @@
 {
   "schemaVersion": "2.0.0",
   "service": "Omni-Sniper-5Models-Radar-12K",
-  "timestamp": "2026-10-22T14:16:28.952Z",
-  "latencyMs": 423,
+  "timestamp": "2026-10-22T14:26:45.087Z",
+  "latencyMs": 840,
   "gasCostThisScan": "0.00 USD (Multicall3 $0 Gas)",
   "zeroGasDrainEnforced": true,
   "highWaterMarkRatchet": {
     "highWaterMarkUsdc": 41.579394,
     "lockedFloorUsdc": 35.342485,
-    "floatingUsdc": 3.376909,
+    "floatingUsdc": 6.236909,
     "floorProtected": true
   },
   "models": [
@@ -38,11 +38,11 @@
         "Element Market"
       ],
       "verifiedContractsActive": 4,
-      "instantSpreadPct": 0.216,
+      "instantSpreadPct": 0.335,
       "opportunityScore": 85,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Spread real 0.216% < 1.50% umbral, $0 gas)",
-      "diagnostic": "Lectura en vivo de cotizaciones DEX completada: Max $0.090917 vs Min $0.090721 USDC/POL. Spread real: 0.216%."
+      "status": "🛡️ VIGILANCIA CENTINELA (Spread real 0.335% < 1.50% umbral, $0 gas)",
+      "diagnostic": "Lectura en vivo de cotizaciones DEX completada: Max $0.091025 vs Min $0.090721 USDC/POL. Spread real: 0.335%."
     },
     {
       "modelId": "MODEL-3-WHALE-PANIC-DIP",
@@ -55,12 +55,12 @@
         "WPOL/USDC",
         "WBNB/USDC"
       ],
-      "maxDislocationPct": 0.1444,
+      "maxDislocationPct": 0.3351,
       "thresholdPct": 1.5,
       "opportunityScore": 88,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.14% < 1.5%, $0 gas)",
-      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.14% sin panic-selling en este bloque."
+      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.34% < 1.5%, $0 gas)",
+      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.34% sin panic-selling en este bloque."
     },
     {
       "modelId": "MODEL-4-EPOCH-QUEST-POOLS",

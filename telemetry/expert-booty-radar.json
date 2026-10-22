@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-22T14:16:43.647Z",
+  "generatedAt": "2026-10-22T14:26:15.336Z",
   "captainsCommand": {
     "captain1": {
       "id": "#001",
@@ -35,9 +35,9 @@
         "name": "Galaxia 3 (Piscinas de Quests) & Galaxia 4 (Airdrops L2 Gasless)",
         "operationsCount": 5771,
         "activeCampaigns": 24,
-        "poolTicketsTotal": 2700,
-        "dailyCheckIns": 750,
-        "gaslessQuests": 780,
+        "poolTicketsTotal": 2800,
+        "dailyCheckIns": 770,
+        "gaslessQuests": 800,
         "status": "Época Activa • Reclamo Masivo Programado en Snapshot",
         "projectedYieldUsdc": "$25.00 a $45.00 USDC directos a Bóvedas Binance",
         "capitalCost": "$0.00 (100% Gasless L2)"
@@ -45,8 +45,8 @@
       "galaxies1and2": {
         "name": "Galaxia 1 (Minería Bitcoin L2) & Galaxia 2 (Metaverso & Free Mints)",
         "operationsCount": 860,
-        "citreaGoatOps": 1060,
-        "btcL2Points": 26500,
+        "citreaGoatOps": 1080,
+        "btcL2Points": 27000,
         "chestsClaimed": 20,
         "status": "Acumulación Verificada • Convertibilidad TGE Mainnets",
         "projectedYieldUsdc": "$15.00 a $30.00 USDC al lanzamiento de Mainnets",
@@ -110,7 +110,7 @@
   ],
   "shinobiBootyPackages": {
     "schemaVersion": "1.0.0",
-    "generatedAt": "2026-10-22T14:16:43.645Z",
+    "generatedAt": "2026-10-22T14:26:15.334Z",
     "missionDirective": "ACELERADOR DE COBRO VÍA B — PIPELINE $2,225 USDC (SUPERACIÓN DE 120 € / $130 USDC)",
     "leadCommander": "Capitán Experto #2 (#101) & Capitán Experto #1 (#001)",
     "treasuryTarget": {
