@@ -1,11 +1,12 @@
 {
-  "schemaVersion": "2.0.0",
-  "generatedAt": "2026-10-22T10:00:29.420Z",
+  "schemaVersion": "2.1.0",
+  "generatedAt": "2026-10-22T10:17:31.829Z",
   "status": "ACTIVE_COMPOUNDING",
   "badges": [
     "🔒 Trinquete 85% USDC",
-    "⛽ Capitalizador 75/25 Gas Activo",
-    "🛡️ 5º Candado Anti-MEV <= 0.15%"
+    "⚡ Acelerador 50/50 Gas Activo (<400 POL)",
+    "🛡️ 5º Candado Anti-MEV <= 0.15%",
+    "🚫 STRICT_NO_GAS_SELL = true"
   ],
   "ratchet85": {
     "model": "USDC_RATCHET_85",
@@ -16,15 +17,18 @@
     "totalGlobalUsdcWithBinanceSpot": 42.579394,
     "status": "LOCKED_ATH_ELEVATED"
   },
-  "gasCapitalizer25": {
-    "model": "GAS_CAPITALIZER_25",
-    "usdcCompoundingRatio": 0.75,
-    "gasRestockRatio": 0.25,
+  "gasCompounder": {
+    "model": "GAS_ACCELERATOR_50_50",
+    "isAcceleratorMode": true,
+    "targetThresholdPol": 400,
+    "currentFleetPol": 234.7,
+    "usdcCompoundingRatio": 0.5,
+    "gasRestockRatio": 0.5,
     "gasDistribution": {
       "polPolygonShare": 0.6,
       "bnbBscShare": 0.4
     },
-    "status": "AUTO_COMPOUNDING_ENABLED"
+    "status": "CLOSED_CYCLE_ACTIVE"
   },
   "dipRestockProtocol": {
     "referencePrices": {
@@ -32,16 +36,16 @@
       "bnbUsdc": 731.55
     },
     "currentPrices": {
-      "polUsdc": 0.091207,
-      "bnbUsdc": 731.28
+      "polUsdc": 0.091454,
+      "bnbUsdc": 734.03
     },
     "priceVariationPct": {
-      "pol": 0.31,
-      "bnb": -0.04
+      "pol": 0.58,
+      "bnb": 0.34
     },
     "unitAdvantagePct": {
-      "pol": -0.31,
-      "bnb": 0.04
+      "pol": -0.58,
+      "bnb": -0.34
     },
     "isEligible": false,
     "recommendation": "STANDBY_MONITORING",
@@ -50,10 +54,12 @@
     "reasoning": "Precios de POL y BNB estables cerca de su referencia de rotación. Sin dip >= 2%. Tanque en reposo óptimo a $0 gas."
   },
   "protectionGuards": {
+    "strictNoGasSell": true,
     "zeroGasDrainMode": true,
-    "sacredFloor501Pol": 130,
-    "sacredFloor501Bnb": 0.009,
-    "sacredFloorCaptainsBnb": 0.0055,
+    "sacredFloor501Pol": 120.9,
+    "sacredFloor501Bnb": 0.0065,
+    "sacredFloorCaptainsPol": 18.02,
+    "sacredFloorCaptainsBnb": 0.0038,
     "polygonGas5BoxesTouched": 0,
     "antiMevMaxSlippagePct": 0.15
   }

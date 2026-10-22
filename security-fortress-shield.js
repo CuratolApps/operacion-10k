@@ -74,6 +74,75 @@ const APPROVED_SPENDERS = {
 // 1. CANDADO TRINQUETE DE GANANCIA ASEGURADA (HIGH-WATER MARK 85/15)
 // =====================================================================================
 const USDC_RATCHET_RATIO = 0.85; // Trinquete #1: 85% del USDC blindado irreversiblemente
+const STRICT_NO_GAS_SELL = true;  // ORDEN DE EMERGENCIA: Prohibición absoluta de venta unidireccional de POL o BNB
+
+const GAS_UNIT_RATCHET_FILE = path.join(TELEMETRY_DIR, "gas-unit-ratchet.json");
+
+function loadGasUnitRatchet() {
+  if (fs.existsSync(GAS_UNIT_RATCHET_FILE)) {
+    try {
+      return JSON.parse(fs.readFileSync(GAS_UNIT_RATCHET_FILE, "utf8"));
+    } catch (_) {}
+  }
+  return {
+    schemaVersion: "1.0.0",
+    lastUpdate: new Date().toISOString(),
+    strictNoGasSell: true,
+    floors: {
+      "#501": { floorPol: 120.90, floorBnb: 0.0065 },
+      "#001": { floorPol: 18.02, floorBnb: 0.0038 },
+      "#101": { floorPol: 18.02, floorBnb: 0.0038 },
+      "#201": { floorPol: 18.02, floorBnb: 0.0038 },
+      "#301": { floorPol: 12.02, floorBnb: 0.0038 },
+      "#401": { floorPol: 12.02, floorBnb: 0.0038 }
+    }
+  };
+}
+
+function verifyGasUnitRatchet(frontId, prospectivePol, prospectiveBnb) {
+  if (STRICT_NO_GAS_SELL) {
+    const state = loadGasUnitRatchet();
+    const frontFloor = state.floors?.[frontId];
+    if (frontFloor) {
+      if (prospectivePol !== undefined && prospectivePol < frontFloor.floorPol) {
+        return {
+          allowed: false,
+          reason: `GAS_UNIT_RATCHET_VIOLATION: ${frontId} prospective POL (${prospectivePol.toFixed(4)}) < Floor Ratchet (${frontFloor.floorPol.toFixed(4)} POL). Abortado a $0 gas.`
+        };
+      }
+      if (prospectiveBnb !== undefined && prospectiveBnb < frontFloor.floorBnb) {
+        return {
+          allowed: false,
+          reason: `GAS_UNIT_RATCHET_VIOLATION: ${frontId} prospective BNB (${prospectiveBnb.toFixed(6)}) < Floor Ratchet (${frontFloor.floorBnb.toFixed(6)} BNB). Abortado a $0 gas.`
+        };
+      }
+    }
+  }
+  return { allowed: true };
+}
+
+function updateGasUnitRatchet(frontId, currentPol, currentBnb) {
+  const state = loadGasUnitRatchet();
+  if (!state.floors) state.floors = {};
+  if (!state.floors[frontId]) {
+    state.floors[frontId] = {
+      floorPol: typeof currentPol === "number" ? currentPol : 0,
+      floorBnb: typeof currentBnb === "number" ? currentBnb : 0
+    };
+  } else {
+    if (typeof currentPol === "number" && currentPol > (state.floors[frontId].floorPol || 0)) {
+      state.floors[frontId].floorPol = parseFloat(currentPol.toFixed(4));
+    }
+    if (typeof currentBnb === "number" && currentBnb > (state.floors[frontId].floorBnb || 0)) {
+      state.floors[frontId].floorBnb = parseFloat(currentBnb.toFixed(6));
+    }
+  }
+  state.lastUpdate = new Date().toISOString();
+  state.strictNoGasSell = true;
+  if (!fs.existsSync(TELEMETRY_DIR)) fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
+  fs.writeFileSync(GAS_UNIT_RATCHET_FILE, JSON.stringify(state, null, 2), "utf8");
+  return state;
+}
 
 function evaluateProfitLockRatchet(currentOnChainUsdc, options = {}) {
   const targetRatio = options.ratchetRatio || USDC_RATCHET_RATIO;
@@ -385,5 +454,9 @@ module.exports = {
   getPolymorphicAmount,
   getPolymorphicJitter: (amt, pct = 0.03) => getPolymorphicAmount(amt, pct),
   APPROVED_SPENDERS,
-  USDC_RATCHET_RATIO
+  USDC_RATCHET_RATIO,
+  STRICT_NO_GAS_SELL,
+  loadGasUnitRatchet,
+  verifyGasUnitRatchet,
+  updateGasUnitRatchet
 };

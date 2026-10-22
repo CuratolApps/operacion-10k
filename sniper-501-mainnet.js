@@ -35,7 +35,11 @@ const {
   evaluateProfitLockRatchet,
   getPolymorphicTiming,
   getPolymorphicAmount,
-  getPolymorphicJitter
+  getPolymorphicJitter,
+  STRICT_NO_GAS_SELL,
+  verifyGasUnitRatchet,
+  updateGasUnitRatchet,
+  loadGasUnitRatchet
 } = require("./security-fortress-shield");
 
 // =====================================================================================
@@ -64,6 +68,7 @@ const SWEEP_THRESHOLD_USDC = 1.00;
 const DYNAMIC_COOLDOWN_MS = 30 * 60 * 1000;
 const AUTO_SWEEP_TO_BINANCE = false;
 let ZERO_GAS_DRAIN_MODE = true; // ORDEN DE PROTECCIÓN DE TANQUE: Prohibido drenar POL y BNB en swaps unidireccionales
+// STRICT_NO_GAS_SELL importado de security-fortress-shield (true por orden táctica de emergencia)
 
 // 16 Nodrizas Sniper Mainnet (1 Matriz + 5 Capitanes + 10 Sub-Capitanes)
 // ESCUDO SAGRADO MILITAR CALIBRADO: >161 POL & >0.0345 BNB INTOCABLES PERPETUOS
@@ -445,11 +450,11 @@ async function executeFrontShot(front, provider, options = {}) {
   console.log(`🎯 [FRENTE ${front.id}] ${front.name} (${front.address})`);
   console.log(`   Reserva Sagrada Blindada: ${sacredReservePol.toFixed(2)} POL | Bala táctica base: ${bulletToFire.toFixed(2)} POL`);
 
-  // PROTECCIÓN DE TANQUE: Bloqueo de venta unidireccional de POL (salvo en modo Ráfaga Táctica explícita o Disparo Sorpresa)
-  if (ZERO_GAS_DRAIN_MODE && !isBurstMode && !isSurpriseStrike) {
-    console.log(`   🛡️ [ZERO_GAS_DRAIN_MODE ACTIVO] ${sacredReservePol.toFixed(2)} POL 100% blindados como combustible.`);
-    console.log(`   ⛔ Prohibida la venta unidireccional de POL hacia USDC. Tanque protegido al 100% ($0 gas gastado).`);
-    return { skipped: true, reason: "ZERO_GAS_DRAIN_MODE_ACTIVE", frontId: front.id };
+  // PROTECCIÓN DE TANQUE: Bloqueo absoluto de venta unidireccional de POL (STRICT_NO_GAS_SELL)
+  if (STRICT_NO_GAS_SELL || (ZERO_GAS_DRAIN_MODE && !isBurstMode && !isSurpriseStrike)) {
+    console.log(`   🛡️ [STRICT_NO_GAS_SELL ACTIVO] ${sacredReservePol.toFixed(2)} POL 100% blindados como combustible.`);
+    console.log(`   ⛔ Prohibida de forma absoluta la venta unidireccional de POL hacia USDC. Operaciones limitadas a Ciclo Cerrado con USDC ($0 gas gastado).`);
+    return { skipped: true, reason: "STRICT_NO_GAS_SELL_ACTIVE", frontId: front.id };
   }
 
   // 1. Verificación del Binomio IA Asignado (Doble Llave Certeza >= 95% y 0% Rug Pull)
@@ -646,6 +651,13 @@ async function executeFrontShotUniswapV3(front, provider, options = {}) {
   console.log(`\n-----------------------------------------------------------------------------------------`);
   console.log(`🦄 [UNISWAP V3 CONCENTRATED] Frente ${front.id} (${front.name}) Fee Tier: ${feeTier / 10000}%`);
 
+  // BLOQUEO ABSOLUTO DE VENTA DE GAS UNIDIRECCIONAL
+  if (STRICT_NO_GAS_SELL) {
+    console.log(`🛡️ [STRICT_NO_GAS_SELL ACTIVO] Venta unidireccional de POL en Uniswap V3 estrictamente bloqueada.`);
+    console.log(`   ⛔ Prohibido reducir unidades de gas de ${front.id}. Solo swaps inversos de recuperación o ciclo cerrado permitidos ($0 gas).`);
+    return { skipped: true, reason: "STRICT_NO_GAS_SELL_ACTIVE", frontId: front.id };
+  }
+
   const signer = getWalletSigner(front.index, provider);
   const polBalWei = await provider.getBalance(signer.address);
   const polBal = parseFloat(ethers.formatEther(polBalWei));
@@ -797,11 +809,11 @@ async function executeFrontShotBsc(front, bscProvider, options = {}) {
   console.log(`\n-----------------------------------------------------------------------------------------`);
   console.log(`🥞 [BSC DUAL-SNIPER] Frente ${front.id} (${front.name}) en BSC Mainnet`);
 
-  // PROTECCIÓN DE TANQUE: Bloqueo de venta unidireccional de BNB (salvo en modo Ráfaga Táctica explícita o Disparo Sorpresa)
-  if (ZERO_GAS_DRAIN_MODE && !isBurstMode && !isSurpriseStrike) {
-    console.log(`   🛡️ [ZERO_GAS_DRAIN_MODE ACTIVO] ${sacredReserveBnb} BNB 100% blindados como combustible.`);
-    console.log(`   ⛔ Prohibida la venta unidireccional de BNB hacia USDC. Gas protegido al 100% ($0 gas gastado).`);
-    return { skipped: true, reason: "ZERO_GAS_DRAIN_MODE_ACTIVE", frontId: front.id };
+  // PROTECCIÓN DE TANQUE: Bloqueo absoluto de venta unidireccional de BNB (STRICT_NO_GAS_SELL)
+  if (STRICT_NO_GAS_SELL || (ZERO_GAS_DRAIN_MODE && !isBurstMode && !isSurpriseStrike)) {
+    console.log(`   🛡️ [STRICT_NO_GAS_SELL ACTIVO] ${sacredReserveBnb} BNB 100% blindados como combustible.`);
+    console.log(`   ⛔ Prohibida de forma absoluta la venta unidireccional de BNB hacia USDC en BSC. Operaciones limitadas a Ciclo Cerrado con USDC ($0 gas gastado).`);
+    return { skipped: true, reason: "STRICT_NO_GAS_SELL_ACTIVE", frontId: front.id };
   }
 
   try {
@@ -1718,7 +1730,9 @@ module.exports = {
   QUICKSWAP_V2_ROUTER,
   PANCAKESWAP_V2_ROUTER_BSC,
   UNISWAP_V3_QUOTER_V2,
-  UNISWAP_V3_SWAP_ROUTER_02
+  UNISWAP_V3_SWAP_ROUTER_02,
+  STRICT_NO_GAS_SELL,
+  runTacticalGasRecovery: require("./scripts/tactical-gas-recovery").runTacticalGasRecovery
 };
 
 if (require.main === module) {
@@ -1727,8 +1741,15 @@ if (require.main === module) {
   const isSurpriseStrike = process.argv.includes("--surprise-strike");
   const isFlankRotation = process.argv.includes("--flank-rotation-strike") || process.argv.includes("--flank-rotation");
   const isV3Pincer = process.argv.includes("--v3-pincer-strike") || process.argv.includes("--v3-pincer");
+  const isGasRecovery = process.argv.includes("--tactical-gas-recovery") || process.argv.includes("--gas-recovery");
 
-  if (isV3Pincer) {
+  if (isGasRecovery) {
+    const { runTacticalGasRecovery } = require("./scripts/tactical-gas-recovery");
+    runTacticalGasRecovery({ dryRun: isDryRun }).catch(err => {
+      console.error("❌ Error en Restauración Táctica de Gas:", err);
+      process.exit(1);
+    });
+  } else if (isV3Pincer) {
     runV3PincerStrike({ dryRun: isDryRun }).catch(err => {
       console.error("❌ Error en Maniobra Pinza V3:", err);
       process.exit(1);

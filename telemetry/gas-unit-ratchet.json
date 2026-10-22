@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "lastUpdate": "2026-10-22T10:17:11.848Z",
+  "strictNoGasSell": true,
+  "floors": {
+    "#501": {
+      "floorPol": 121.0241,
+      "floorBnb": 0.00702
+    },
+    "#001": {
+      "floorPol": 18.02,
+      "floorBnb": 0.0038
+    },
+    "#101": {
+      "floorPol": 18.02,
+      "floorBnb": 0.0038
+    },
+    "#201": {
+      "floorPol": 18.025,
+      "floorBnb": 0.00792
+    },
+    "#301": {
+      "floorPol": 12.02,
+      "floorBnb": 0.0038
+    },
+    "#401": {
+      "floorPol": 12.02,
+      "floorBnb": 0.0038
+    }
+  }
+}
