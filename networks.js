@@ -186,14 +186,13 @@ const networks = {
   polygonMainnet: {
     id: "polygonMainnet",
     name: "Polygon PoS",
-    rpc: "https://polygon-bor-rpc.publicnode.com",
-    fallbackRpc: "https://polygon-rpc.com",
-    extraRpcs: ["https://polygon.drpc.org", "https://polygon.meowrpc.com", "https://rpc.ankr.com/polygon", "https://1rpc.io/matic"],
+    rpc: "https://polygon.drpc.org",
+    fallbackRpc: "https://polygon-bor-rpc.publicnode.com",
+    extraRpcs: ["https://polygon.meowrpc.com", "https://polygon-rpc.com", "https://1rpc.io/matic"],
     backupRpcs: [
-      "https://1rpc.io/matic",
+      "https://polygon.drpc.org",
       "https://polygon-bor-rpc.publicnode.com",
-      "https://polygon-rpc.com",
-      "https://polygon.llamarpc.com"
+      "https://polygon.meowrpc.com"
     ],
     chainId: 137,
     symbol: "POL",

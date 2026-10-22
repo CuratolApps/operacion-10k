@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-21T23:18:05.772Z",
+  "generatedAt": "2026-10-21T23:56:29.365Z",
   "averageOpportunityScore": 96,
-  "executionTimeMs": 3773,
+  "executionTimeMs": 3184,
   "globalDirectives": {
-    "fastestBtcL2": "Goat Network",
-    "prioritizedBox": 3,
+    "fastestBtcL2": "Citrea Testnet",
+    "prioritizedBox": 4,
     "mainnetExecutionPermitted": false,
     "gasLevels": {
-      "polygonGwei": 229.73,
+      "polygonGwei": 282.08,
       "bscGwei": 0.05
     },
     "antiSybilJitterMs": [
@@ -42,10 +42,10 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "OPTIMAL",
-      "reasoning": "Volumen 24h de $41.22M y liquidez pico de $28.73M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
+      "reasoning": "Volumen 24h de $52.92M y liquidez pico de $28.70M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
       "liveData": {
-        "volume24hUsd": 41216883.57,
-        "topLiquidityUsd": 28731845.19,
+        "volume24hUsd": 52921808.81,
+        "topLiquidityUsd": 28704370.06,
         "trackedPairs": 30
       }
     },
@@ -57,10 +57,10 @@
       "opportunityScore": 96,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48514084). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
+      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48525604). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
       "liveData": {
         "network": "Base Sepolia",
-        "blockHeight": 48514084,
+        "blockHeight": 48525604,
         "feeUsd": "$0.00"
       }
     },
@@ -72,10 +72,10 @@
       "opportunityScore": 97,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Turno de caza asignado a Box 3 (#201–#300). Canalizando 20 satélites hacia la piscina USDC con multiplicador de 5 tickets por firma.",
+      "reasoning": "Turno de caza asignado a Box 4 (#301–#400). Canalizando 20 satélites hacia la piscina USDC con multiplicador de 5 tickets por firma.",
       "liveData": {
-        "activeBox": 3,
-        "poolId": "POOL-USDC-B3",
+        "activeBox": 4,
+        "poolId": "POOL-USDC-B4",
         "ticketsPerSign": 5
       }
     },
@@ -87,17 +87,17 @@
       "opportunityScore": 90,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Citrea (2058ms, Blk #32911588) vs Goat (1657ms, Blk #17663574). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
+      "reasoning": "Citrea (1546ms, Blk #32912740) vs Goat (1564ms, Blk #17664256). Dirigiendo el carrusel minero prioritariamente hacia Citrea Testnet por menor latencia.",
       "liveData": {
         "citrea": {
-          "block": 32911588,
-          "latencyMs": 2058
+          "block": 32912740,
+          "latencyMs": 1546
         },
         "goat": {
-          "block": 17663574,
-          "latencyMs": 1657
+          "block": 17664256,
+          "latencyMs": 1564
         },
-        "fastestL2": "Goat Network"
+        "fastestL2": "Citrea Testnet"
       }
     },
     {
@@ -108,10 +108,10 @@
       "opportunityScore": 95,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (2530 txs acumuladas). Priorizando Box 3 (#201–#300) para mantener uniformidad total.",
+      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (2871 txs acumuladas). Priorizando Box 4 (#301–#400) para mantener uniformidad total.",
       "liveData": {
-        "prioritizedBox": 3,
-        "totalAllTimeTx": 2530,
+        "prioritizedBox": 4,
+        "totalAllTimeTx": 2871,
         "coverageL2": "4 Redes EVM + Solana Devnet"
       }
     },
@@ -123,9 +123,9 @@
       "opportunityScore": 88,
       "satellitesGuided": 55,
       "status": "WAITING_GAS",
-      "reasoning": "Gas Mainnet medido en vivo: Polygon 229.73 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
+      "reasoning": "Gas Mainnet medido en vivo: Polygon 282.08 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
       "liveData": {
-        "polygonGwei": 229.73,
+        "polygonGwei": 282.08,
         "bscGwei": 0.05,
         "mainnetPermitted": false
       }
@@ -176,7 +176,7 @@
       "opportunityScore": 99,
       "satellitesGuided": 502,
       "status": "OPTIMAL",
-      "reasoning": "Ruta DEX QuickSwap / PancakeSwap sincronizada hacia 100% USDC Nativo. Vigilando 5 Bóvedas Binance Spot (#01 a #05). Flotante actual: $0.00 | Consolidado: $0.00 USDC.",
+      "reasoning": "Ruta DEX QuickSwap / PancakeSwap sincronizada hacia 100% USDC Nativo. Vigilando 5 Bóvedas Binance Spot (#01 a #05). Flotante actual: $0.24 | Consolidado: $0.00 USDC.",
       "liveData": {
         "sweepThreshold": ">= $1.00 USDC",
         "tokenPolicy": "100% USDC Nativo Exclusivo",

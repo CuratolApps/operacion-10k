@@ -98,6 +98,9 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
   // 3.9. Motor de Saturación Multidepartamento X500 (6 Departamentos de Extracción)
   runCommand("node saturation-liquidity-engine.js", "Motor de Saturación de Liquidez X500");
 
+  // 3.95. Sniper 501 Mainnet (Escudo Sagrado 25 POL, Caza Real & Radar USDC)
+  runCommand("node sniper-501-mainnet.js --scan", "Sniper 501 Mainnet (Radar USDC & Escudo Sagrado)");
+
   // 4. Escaneo de Cosechas (Embudo USDC a Binance)
   runCommand("node harvest-rewards.js --scan", "Escaneo de Recompensas");
 

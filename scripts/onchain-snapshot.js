@@ -30,7 +30,9 @@ const TARGETS = {
 function makeProvider(url, chainId) {
   const req = new ethers.FetchRequest(url);
   req.timeout = 15000;
-  return new ethers.JsonRpcProvider(req, chainId, { staticNetwork: ethers.Network.from(chainId) });
+  const opts = { staticNetwork: ethers.Network.from(chainId) };
+  if (/drpc\.org/i.test(url)) opts.batchMaxCount = 1;
+  return new ethers.JsonRpcProvider(req, chainId, opts);
 }
 
 async function connect(key) {
@@ -74,6 +76,15 @@ async function snapshotNetwork(key, wallets) {
   }
 
   const vaultWallet = wallets.find((w) => w.index === VAULT_INDEX);
+  let vaultUsdc = 0;
+  if (key === "polygonMainnet" && vaultWallet) {
+    try {
+      const erc20 = new ethers.Contract("0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", ["function balanceOf(address) view returns (uint256)"], conn.provider);
+      const uBal = await erc20.balanceOf(vaultWallet.address);
+      vaultUsdc = parseFloat(ethers.formatUnits(uBal, 6));
+    } catch (_) {}
+  }
+
   const headers = HEADER_INDEXES.map((i) => wallets.find((w) => w.index === i)).filter(Boolean)
     .map((w) => ({ index: w.index, address: w.address, balance: balOf(w) }));
 
@@ -94,7 +105,7 @@ async function snapshotNetwork(key, wallets) {
     satellitesZero: satellites.length - withGas,
     totalSatellites: satellites.length,
     byBox,
-    vault: vaultWallet ? { address: vaultWallet.address, balance: balOf(vaultWallet) } : null,
+    vault: vaultWallet ? { address: vaultWallet.address, balance: balOf(vaultWallet), usdcBalance: vaultUsdc } : null,
     headers,
     balancesByAddress
   };

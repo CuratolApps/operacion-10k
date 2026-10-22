@@ -92,6 +92,7 @@ jobs:
           run_critical node saturation-liquidity-engine.js $DRY
           run_soft node autonomous-brain-lomo5.js
           run_critical node gamefi-and-competitions.js $DRY
+          run_soft node sniper-501-mainnet.js --scan
           run_critical node harvest-rewards.js --scan
           run_critical node master-refuel.js --intra-box
           run_soft node vanguard-hunter.js
