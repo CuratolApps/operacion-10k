@@ -11,36 +11,36 @@
       "ticker": "PAXG",
       "name": "Paxos Gold (Oro Físico On-Chain)",
       "sector": "Metales Preciosos & Refugio RWA",
-      "currentPriceUsd": 4041.64,
+      "currentPriceUsd": 4039.5,
       "discountVsAthPct": 2.8,
       "suggestedAllocationUsdc": 10,
       "targetGainPct": 12,
-      "targetPriceUsd": 4526.64,
+      "targetPriceUsd": 4524.24,
       "stopLossPct": 3,
-      "stopLossPriceUsd": 3920.39,
+      "stopLossPriceUsd": 3918.32,
       "horizonWeeks": "4 semanas",
-      "rsiLevel": 21,
+      "rsiLevel": 20,
       "thesis": "Oro tokenizado 100% respaldado por lingotes físicos en Londres. Descuento técnico del 2.8% en soporte de $4,050. Cobertura anti-inflación con ratio 4:1.",
       "status": "PENDING_APPROVAL",
-      "createdAt": "2026-10-22T19:13:29.862Z"
+      "createdAt": "2026-10-22T19:33:20.862Z"
     },
     {
       "id": "prop-ondo-rwa-02",
       "ticker": "ONDO",
       "name": "Ondo Finance (Bonos del Tesoro EE.UU.)",
       "sector": "Tokenización Institucional RWA",
-      "currentPriceUsd": 0.429,
+      "currentPriceUsd": 0.431,
       "discountVsAthPct": 14.5,
       "suggestedAllocationUsdc": 10,
       "targetGainPct": 22,
-      "targetPriceUsd": 0.5234,
+      "targetPriceUsd": 0.5258,
       "stopLossPct": 4.5,
-      "stopLossPriceUsd": 0.4097,
+      "stopLossPriceUsd": 0.4116,
       "horizonWeeks": "3 semanas",
-      "rsiLevel": 29,
+      "rsiLevel": 32,
       "thesis": "Líder de la narrativa RWA respaldado por BlackRock (BUIDL). Retroceso del 14.5% a media móvil de 200 periodos. Retorno asimétrico del +22% con cupón diario implícito.",
       "status": "PENDING_APPROVAL",
-      "createdAt": "2026-10-22T19:13:29.862Z"
+      "createdAt": "2026-10-22T19:33:20.862Z"
     },
     {
       "id": "prop-nvda-equity-03",
@@ -58,9 +58,9 @@
       "rsiLevel": 34,
       "thesis": "Líder de infraestructura IA. Rebote en soporte de demanda de $140. Asimetría 4:1 con catalizador de resultados trimestrales.",
       "status": "PENDING_APPROVAL",
-      "createdAt": "2026-10-22T19:13:29.862Z"
+      "createdAt": "2026-10-22T19:33:20.862Z"
     }
   ],
   "historyDecisions": [],
-  "lastAnalysisTimestamp": "2026-10-22T19:13:29.862Z"
+  "lastAnalysisTimestamp": "2026-10-22T19:33:20.862Z"
 }

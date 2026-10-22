@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.2.0",
-  "lastRun": "2026-10-22T19:15:34.565Z",
-  "lastRunFormatted": "22/10/2026, 19:15:34 UTC",
+  "lastRun": "2026-10-22T19:33:14.997Z",
+  "lastRunFormatted": "22/10/2026, 19:33:14 UTC",
   "strikeType": "MONOLITHIC_PARALLEL_MULTI_LAUNCH_STRIKE",
   "upcomingLaunchesTracked": [
     {
@@ -202,11 +202,11 @@
       "5": 100
     },
     "boxLatencyMs": {
-      "1": 3484,
-      "2": 2853,
-      "3": 2312,
-      "4": 1760,
-      "5": 1094
+      "1": 3138,
+      "2": 2529,
+      "3": 2009,
+      "4": 1483,
+      "5": 974
     },
     "totalPointsEarned": 250000,
     "capitalCostGas": "$0.00 USD (100% Gasless EIP-712 & Testnets)"
@@ -238,9 +238,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x851acb7e3499b19fd0dbb5cdf064f6b588915837423fb4cf1093e7a9cca29cee",
+      "proofHash": "0xde3e5eae114e259a32803a8a47564fb5f9de17d996de3a24ed0e00435c228104",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.538Z"
+      "timestamp": "2026-10-22T19:33:14.962Z"
     },
     {
       "index": 2,
@@ -255,9 +255,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x4913a2135f220ca15ea084656b93c5db6a64cecd6905d2d456073da11860f459",
+      "proofHash": "0x45ece8be57717ea3a69d077012e00d78badb5f434b01298a0db7c08360d3bf3a",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 3,
@@ -272,9 +272,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x2ae7897dc7a0e030ca5c42cf4fe3226391d5c7522a9454ea01083cd428c08e06",
+      "proofHash": "0xd2824bc49d9de1377afa0725f286dc17a174a1cde395ea8266a7fb9b6525da6f",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 4,
@@ -289,9 +289,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x08d57c345198d0e7fc778e934cab77b32a373164140a1d029e9efc4371c6f411",
+      "proofHash": "0x0c98128d5d53c49576ed17560071452d637ff7d075bc8fb834c87607a8e0200a",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 5,
@@ -306,9 +306,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x915e74a58a2ed76ab7f0ac97d4594c9b47b89d8c548c436b046e77871abadb80",
+      "proofHash": "0x10a6298e6ae529950bbc37f01f606b546c40656679c162b24a2687b18c8e9ab6",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 6,
@@ -323,9 +323,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xb6267e9557e8c754948bb59c8cb57b807d724ff241693038f7c9098498ceb682",
+      "proofHash": "0x34e19ae2ba540c7cd54e5f212141fedbc341172ae4e894835f1be8e3245063d0",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 7,
@@ -340,9 +340,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x5963d83de59e7197b5604dda2b902303fede1893a58750000854c8c7d0f8d504",
+      "proofHash": "0xdbb35064d3f20f5d8c5a244babfc2a83b4b90203d22e2adb2a88dda137038343",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 8,
@@ -357,9 +357,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x25a8764e3c185afb61d7942083269a696607ec6e0084406dd962f5f1e5b44a69",
+      "proofHash": "0xb49ee8a4052b135bb8bb2598ec4a6420779712959ccd2a4ed75994a7634449b7",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 9,
@@ -374,9 +374,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x7e3a278160b2d4dcbe94db03637b11881c97aee9c49c8da1da5c96bcad4f31ac",
+      "proofHash": "0xea7aa388aa404883407fabbb27efb12c21e9839cc47ef60be6206f66cf6023ad",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     },
     {
       "index": 10,
@@ -391,9 +391,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x0d18054c9faef538018e7e32a70353e1bd456174663ba563a26dc5c8f1dfcaee",
+      "proofHash": "0x51fe4016cf5a8599416c49559ed8b40d0a2b939daf62e0f9fdf0ff95878cd569",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T19:15:34.539Z"
+      "timestamp": "2026-10-22T19:33:14.963Z"
     }
   ]
 }

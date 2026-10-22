@@ -16,21 +16,21 @@
   "winRatePct": 100,
   "activePosition": {
     "symbol": "BNB/USDC",
-    "entryPrice": 730.19,
+    "entryPrice": 732.29,
     "capitalUsdc": 15,
     "tpPct": 2.5,
-    "tpPrice": 748.44,
+    "tpPrice": 750.6,
     "slPct": 1,
-    "slPrice": 722.89,
+    "slPrice": 724.97,
     "riskRewardRatio": "2.5:1",
     "mentorApproval": "✅ APROBADO POR MENTOR #00 (SOBREVENTA LIMPIA)",
-    "openedAt": "2026-10-22T19:13:29.861Z"
+    "openedAt": "2026-10-22T19:33:20.862Z"
   },
   "scannedSignals": [
     {
       "symbol": "POL/USDC",
-      "currentPrice": 0.09033,
-      "rsi14": 29,
+      "currentPrice": 0.09076,
+      "rsi14": 32,
       "support24": 0.08934,
       "resistance24": 0.09628,
       "isTrendBullish": true,
@@ -41,8 +41,8 @@
     },
     {
       "symbol": "BNB/USDC",
-      "currentPrice": 730.19,
-      "rsi14": 33,
+      "currentPrice": 732.29,
+      "rsi14": 38,
       "support24": 724.81,
       "resistance24": 750.34,
       "isTrendBullish": true,
@@ -53,8 +53,8 @@
     },
     {
       "symbol": "ETH/USDC",
-      "currentPrice": 2380.25,
-      "rsi14": 29,
+      "currentPrice": 2389.67,
+      "rsi14": 33,
       "support24": 2357.85,
       "resistance24": 2500,
       "isTrendBullish": true,
@@ -65,8 +65,8 @@
     },
     {
       "symbol": "SOL/USDC",
-      "currentPrice": 103.31,
-      "rsi14": 24,
+      "currentPrice": 103.77,
+      "rsi14": 29,
       "support24": 102.91,
       "resistance24": 108.44,
       "isTrendBullish": true,
@@ -77,8 +77,8 @@
     },
     {
       "symbol": "BTC/USDC",
-      "currentPrice": 81269.07,
-      "rsi14": 26,
+      "currentPrice": 81443.71,
+      "rsi14": 29,
       "support24": 80849.22,
       "resistance24": 84800.35,
       "isTrendBullish": true,
@@ -88,5 +88,5 @@
       "mentorVerdict": "🟢 AUTORIZADO POR #00"
     }
   ],
-  "lastEvaluation": "2026-10-22T19:13:29.861Z"
+  "lastEvaluation": "2026-10-22T19:33:20.862Z"
 }

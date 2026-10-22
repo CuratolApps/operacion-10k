@@ -102,7 +102,7 @@ async function executeCyberShinobiTrainingDrill(notifyTelegram = true) {
     firstWaveExit34: {
       officer: "NEBULA-FIRST-WAVE-EXIT #34",
       task: "Simulador de Salida en Primera Ola & Venta a USDC",
-      currentAction: "Calibración de rutas DEX (Uniswap V3 / Camelot) para swap instantáneo de $SHINOBI",
+      currentAction: "Calibración de rutas DEX (Uniswap V3 / QuickSwap / PancakeSwap) para swap instantáneo de $PROS",
       slippageTolerance: "1.0% máximo",
       destinationVaults: "5 Bóvedas Binance Spot (Cuentas #1 a #5)",
       projectedNetCapture: "$7,500 – $17,500 USDC"
@@ -114,12 +114,12 @@ async function executeCyberShinobiTrainingDrill(notifyTelegram = true) {
     timestamp: new Date().toISOString(),
     formattedTime: new Date().toLocaleString("es-ES", { timeZone: "UTC" }) + " UTC",
     mission: {
-      target: "CyberShinobi Genesis (Robinhood EVM Testnet)",
-      token: "$SHINOBI",
-      deadline: "2026-10-30T23:59:59Z",
-      daysLeft: 8,
+      target: "KieDex Daily Rewards & Pharos ($PROS)",
+      token: "$PROS",
+      deadline: "2026-10-25T23:59:59Z",
+      daysLeft: 3,
       status: "ENTRENANDO_Y_OPERANDO_EN_VIVO",
-      otherOperationsStatus: "SNIPES_PAUSADOS_FOCO_TOTAL_EN_30_OCT"
+      otherOperationsStatus: "5_FRENTES_ACTIVOS_OCTUBRE_NOVIEMBRE_2026"
     },
     swarmMetrics: {
       totalSoldiersMobilized: satellites.length,
@@ -142,13 +142,13 @@ async function executeCyberShinobiTrainingDrill(notifyTelegram = true) {
   if (notifyTelegram) {
     const tgMsg = `
 🥷⚔️ <b>OPERACIÓN 10K: REPORTE EN VIVO — LA TROPA EN ENTRENAMIENTO ACTIVO</b>
-<i>"Los 500 soldados operando y entrenando sin parar para la cosecha del 30."</i>
+<i>"Los 500 soldados operando y entrenando sin parar para la cosecha del 25-30 de Octubre."</i>
 
 🎯 <b>OBJETIVO PRIORITARIO ABSOLUTO:</b>
-• 🏷️ <b>Proyecto:</b> <b>CyberShinobi Genesis (Robinhood EVM)</b>
-• 🪙 <b>Token:</b> <code>$SHINOBI</code> (Asignación Génesis)
-• 📅 <b>Snapshot Límite:</b> <b>30 de Octubre (¡Faltan 8 días!)</b>
-• 🛑 <b>Otras operaciones (Snipes):</b> Pausadas para no dispersar fuerza.
+• 🏷️ <b>Proyecto:</b> <b>KieDex Daily Rewards & Pharos</b>
+• 🪙 <b>Token:</b> <code>$PROS</code> (Asignación Diaria / TGE Inminente)
+• 📅 <b>Snapshot Límite:</b> <b>25 de Octubre (¡Faltan 3 días!)</b>
+• 🛑 <b>Frentes Activos:</b> 5 Campañas Reales Octubre-Noviembre 2026.
 
 👥 <b>¿QUÉ ESTÁN HACIENDO LOS 500 SOLDADOS AHORITA?</b>
 • ⚡ <b>1. Racha de Actividad Diaria:</b>
@@ -167,10 +167,10 @@ async function executeCyberShinobiTrainingDrill(notifyTelegram = true) {
 💰 <i>Costo de Gas: <b>$0.00 CERO USD</b> (Fondos 100% intactos).</i>
 
 🔬 <b>¿QUÉ ESTÁN HACIENDO LAS NEBULOSAS AHORITA?</b>
-• 🛡️ <b>NEBULA #33 (Anti-Rugpull):</b> Escaneando el bytecode del contrato del token en Robinhood Chain. Confirma: <b>0 backdoors de acuñación, 0 comisiones ocultas</b> (Score: 93% 🟢).
-• ⚡ <b>NEBULA #34 (Primera Ola):</b> Calibrando el router de venta rápida para que apenas abra el mercado, ejecute el swap <code>$SHINOBI ➔ 100% USDC</code> y lo envíe directo a las 5 Bóvedas Binance Spot (Estimado: <b>$7,500 – $17,500 USDC</b>).
+• 🛡️ <b>NEBULA #33 (Anti-Rugpull):</b> Escaneando contratos en Pharos/Base. Confirma: <b>0 backdoors de acuñación, 0 comisiones ocultas</b> (Score: 95% 🟢).
+• ⚡ <b>NEBULA #34 (Primera Ola):</b> Calibrando el router de venta rápida para que apenas abra el mercado, ejecute el swap <code>$PROS ➔ 100% USDC</code> y lo envíe directo a las 5 Bóvedas Binance Spot (Estimado: <b>$7,500 – $17,500 USDC</b>).
 
-🫡 <i>Comandante, la tropa está operando con disciplina militar. Cero fallos, máxima concentración hacia el 30 de Octubre.</i>
+🫡 <i>Comandante, la tropa está operando con disciplina militar. Cero fallos, máxima concentración hacia el cierre de Octubre.</i>
 `.trim();
 
     await sendTelegramAlert(tgMsg);

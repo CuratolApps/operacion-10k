@@ -93,11 +93,11 @@ function loadGasUnitRatchet() {
     zeroGasDrainMode: true,
     opsecPrivate: true,
     sacredFleetReserve: {
-      totalFleetPolFloor: 265.86,
-      totalFleetBnbFloor: 0.0435
+      totalFleetPolFloor: 254.86,
+      totalFleetBnbFloor: 0.0400
     },
     floors: {
-      "#501": { floorPol: 121.024, floorBnb: 0.0065 },
+      "#501": { floorPol: 110.00, floorBnb: 0.0035 },
       "#001": { floorPol: 18.02, floorBnb: 0.0038 },
       "#101": { floorPol: 18.02, floorBnb: 0.0038 },
       "#201": { floorPol: 18.02, floorBnb: 0.0038 },

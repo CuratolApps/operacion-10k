@@ -4,8 +4,8 @@
   "strictNoGasSell": true,
   "floors": {
     "#501": {
-      "floorPol": 121.0241,
-      "floorBnb": 0.00702
+      "floorPol": 110.00,
+      "floorBnb": 0.0035
     },
     "#001": {
       "floorPol": 18.02,

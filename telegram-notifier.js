@@ -70,6 +70,20 @@ async function resolveChatId(token = null, timeoutSeconds = 0) {
 }
 
 /**
+ * Sanitiza y preserva el formato de moneda y texto para Telegram HTML
+ */
+function sanitizeTelegramHtml(text) {
+  if (!text) return "";
+  // Preserva signos de dólar y asegura que ampersands huérfanos se conviertan a &amp;
+  return text.replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/g, "&amp;");
+}
+
+function formatUsdc(amount) {
+  const num = typeof amount === "number" ? amount : parseFloat(amount || "0");
+  return `$${num.toFixed(2)} USDC`;
+}
+
+/**
  * Envía un mensaje a Telegram.
  * @param {string} messageText Mensaje a enviar
  * @param {string|null} customChatId Chat ID opcional
@@ -80,13 +94,14 @@ async function sendSingleTelegramChunk(chunkText, chatId, token) {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const cleanText = sanitizeTelegramHtml(chunkText);
 
     let response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text: chunkText,
+        text: cleanText,
         parse_mode: "HTML",
         disable_web_page_preview: true
       }),
@@ -477,5 +492,7 @@ if (require.main === module) {
 module.exports = {
   resolveChatId,
   sendTelegramAlert,
-  notifyRoundSummary
+  notifyRoundSummary,
+  sanitizeTelegramHtml,
+  formatUsdc
 };
