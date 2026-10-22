@@ -86,6 +86,7 @@ jobs:
           run_critical node nebula-ai-commanders.js
           run_critical node expert-captains-command.js
           run_critical node dual-capitalizer-engine.js
+          run_critical node live-launch-calendar-hunter.js
           run_critical node cybershinobi-swarm-strike.js
           run_critical node bounty-booty-commander.js
           if [ -n "$DRY" ]; then

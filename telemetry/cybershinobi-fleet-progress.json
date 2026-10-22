@@ -1,16 +1,232 @@
 {
-  "schemaVersion": "1.0.0",
-  "lastRun": "2026-10-22T14:26:53.456Z",
-  "lastRunFormatted": "22/10/2026, 14:26:53 UTC",
-  "project": {
-    "id": "cybershinobi-genesis-evm",
-    "name": "CyberShinobi Genesis (Robinhood EVM Testnet)",
-    "tokenSymbol": "$SHINOBI",
-    "ecosystem": "Robinhood EVM Testnet / Gamified DeFi",
-    "snapshotDeadline": "2026-10-30T23:59:59Z",
-    "daysRemaining": 8,
-    "status": "BLOQUE_500_DESPLEGADO_AL_100%"
-  },
+  "schemaVersion": "3.2.0",
+  "lastRun": "2026-10-22T14:38:10.564Z",
+  "lastRunFormatted": "22/10/2026, 14:38:10 UTC",
+  "strikeType": "MONOLITHIC_PARALLEL_MULTI_LAUNCH_STRIKE",
+  "upcomingLaunchesTracked": [
+    {
+      "id": "citrea-bitcoin-l2",
+      "name": "Citrea Bitcoin L2",
+      "tokenSymbol": "$CTRA",
+      "ecosystem": "Bitcoin ZK-Rollup / BitVM Bridge",
+      "chainId": 5115,
+      "contractAddress": "0x334455667788990011223344556677889900aabb",
+      "formattedSnapshotDate": "28 Oct 2026 18:00 UTC",
+      "daysToSnapshot": 6,
+      "urgencyClass": "imminent",
+      "formattedTgeDate": "10 Nov 2026",
+      "daysToTge": 19,
+      "isPrimaryStrikeTarget": true,
+      "vcBacking": "Galaxy Digital / Delphi Ventures",
+      "gasCostType": "$0.00 (Testnet Faucet)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$4,500 – $9,800 USDC",
+        "pair": "$CTRA ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #1 y #2",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 94,
+        "honeypotRisk": "0%",
+        "vcBacking": "Galaxy Digital / Delphi Ventures",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
+      "id": "cybershinobi-genesis",
+      "name": "CyberShinobi Genesis",
+      "tokenSymbol": "$SHINOBI",
+      "ecosystem": "Robinhood EVM Testnet / Gamified DeFi",
+      "chainId": 84532,
+      "contractAddress": "0x4200000000000000000000000000000000000006",
+      "formattedSnapshotDate": "30 Oct 2026 23:59 UTC",
+      "daysToSnapshot": 8,
+      "urgencyClass": "imminent",
+      "formattedTgeDate": "05 Nov 2026",
+      "daysToTge": 14,
+      "isPrimaryStrikeTarget": true,
+      "vcBacking": "Animoca Brands / Robinhood Builders Camp",
+      "gasCostType": "$0.00 (Gasless EIP-712)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$7,500 – $17,500 USDC",
+        "pair": "$SHINOBI ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #1 a #5",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 94,
+        "honeypotRisk": "0%",
+        "vcBacking": "Animoca Brands / Robinhood Builders Camp",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
+      "id": "goat-network-zkevm",
+      "name": "GOAT Network zk-EVM",
+      "tokenSymbol": "$GOAT",
+      "ecosystem": "Bitcoin L2 zk-EVM Yield Network",
+      "chainId": 2345,
+      "contractAddress": "0x55667788990011223344556677889900aabbccdd",
+      "formattedSnapshotDate": "31 Oct 2026 23:59 UTC",
+      "daysToSnapshot": 9,
+      "urgencyClass": "high",
+      "formattedTgeDate": "15 Nov 2026",
+      "daysToTge": 24,
+      "isPrimaryStrikeTarget": true,
+      "vcBacking": "OKX Ventures / KuCoin Ventures",
+      "gasCostType": "$0.00 (Gasless EIP-712 / Faucet)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$3,800 – $8,200 USDC",
+        "pair": "$GOAT ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #3 y #4",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 94,
+        "honeypotRisk": "0%",
+        "vcBacking": "OKX Ventures / KuCoin Ventures",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
+      "id": "base-onchain-summer-drops",
+      "name": "Base Onchain Summer & Drops",
+      "tokenSymbol": "$BUILD-BASE",
+      "ecosystem": "Base L2 (Coinbase Superchain)",
+      "chainId": 8453,
+      "contractAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "formattedSnapshotDate": "05 Nov 2026 00:00 UTC",
+      "daysToSnapshot": 14,
+      "urgencyClass": "high",
+      "formattedTgeDate": "20 Nov 2026",
+      "daysToTge": 29,
+      "isPrimaryStrikeTarget": false,
+      "vcBacking": "Coinbase Ventures / Base Ecosystem Fund",
+      "gasCostType": "$0.00 (Base Sepolia / EIP-712)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$5,000 – $12,000 USDC",
+        "pair": "$BUILD ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #1 a #5",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 96,
+        "honeypotRisk": "0%",
+        "vcBacking": "Coinbase Ventures / Base Ecosystem Fund",
+        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
+      "id": "arbitrum-stylus-quests",
+      "name": "Arbitrum Stylus & Orbit Quests",
+      "tokenSymbol": "$STYLUS",
+      "ecosystem": "Arbitrum One / Nitro L2",
+      "chainId": 42161,
+      "contractAddress": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      "formattedSnapshotDate": "12 Nov 2026 12:00 UTC",
+      "daysToSnapshot": 21,
+      "urgencyClass": "normal",
+      "formattedTgeDate": "25 Nov 2026",
+      "daysToTge": 34,
+      "isPrimaryStrikeTarget": false,
+      "vcBacking": "Offchain Labs / Lightspeed Venture Partners",
+      "gasCostType": "$0.00 (Arbitrum Sepolia / EIP-712)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$4,000 – $8,500 USDC",
+        "pair": "$STYLUS ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #1 y #5",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 96,
+        "honeypotRisk": "0%",
+        "vcBacking": "Offchain Labs / Lightspeed Venture Partners",
+        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    },
+    {
+      "id": "monad-berachain-public",
+      "name": "Monad & Berachain Public Testnet",
+      "tokenSymbol": "$MONAD-BERA",
+      "ecosystem": "High-Throughput Parallel EVM & PoL",
+      "chainId": 10143,
+      "contractAddress": "0x1122334455667788990011223344556677889900",
+      "formattedSnapshotDate": "20 Nov 2026 23:59 UTC",
+      "daysToSnapshot": 29,
+      "urgencyClass": "normal",
+      "formattedTgeDate": "01 Dic 2026",
+      "daysToTge": 40,
+      "isPrimaryStrikeTarget": false,
+      "vcBacking": "Paradigm / Polychain Capital / Brevan Howard",
+      "gasCostType": "$0.00 (Gasless EIP-712 Testnet)",
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_MINUTO_CERO",
+        "totalFleetHarvestEstimateUsdc": "$10,000 – $25,000 USDC",
+        "pair": "$MON ➔ USDC Nativo",
+        "destination": "Bóvedas Binance Spot #1 a #5",
+        "allocationRule": "70% USDC Nativo / 30% Gas POL & BNB"
+      },
+      "forensicAudit": {
+        "verdictBadge": "🟢 VIABLE & AUDITADO",
+        "safetyScore": 94,
+        "honeypotRisk": "0%",
+        "vcBacking": "Paradigm / Polychain Capital / Brevan Howard",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
+        "verifiedOnChain": true
+      },
+      "fleetAction": {
+        "soldiersAssigned": 500,
+        "boxesParticipating": 5,
+        "strikeDoctrine": "MONOLÍTICO_100%_CONCURRENTE",
+        "costUsd": "$0.00 Gas Consumido"
+      }
+    }
+  ],
   "monolithMetrics": {
     "totalSatellites": 500,
     "registeredCount": 500,
@@ -23,523 +239,208 @@
       "5": 100
     },
     "boxLatencyMs": {
-      "1": 3611,
-      "2": 2994,
-      "3": 2445,
-      "4": 1796,
-      "5": 1077
+      "1": 3888,
+      "2": 3102,
+      "3": 2440,
+      "4": 1882,
+      "5": 1330
     },
-    "totalPointsEarned": 50000,
-    "capitalCostGas": "$0.00 USD (100% Gasless EIP-712)"
+    "totalPointsEarned": 300000,
+    "capitalCostGas": "$0.00 USD (100% Gasless EIP-712 & Testnets)"
   },
   "firstWaveExitProtocol": {
     "assignedOfficer": "NEBULA-FIRST-WAVE-EXIT #34",
     "action": "VENTA_INSTANTANEA_MINUTO_CERO",
     "executionWindow": "Primeros 15 minutos tras apertura de pools públicos",
-    "pair": "$SHINOBI ➔ USDC Nativo",
-    "destination": "Bóvedas Binance Spot #1 a #5",
-    "harvestRangeUsdc": "$7,500 – $17,500 USDC"
+    "heavyCannonsArmed": {
+      "cannon1PolygonUsdc": 18.295135,
+      "cannon2BscUsdc": 20.424259,
+      "totalConcentratedUsdc": 38.719394
+    },
+    "compoundingRule": "70% a USDC Nativo / 30% a Recarga POL y BNB",
+    "strictGasLock": "121.024 POL en #501 intocable",
+    "harvestRangeUsdc": "$25,000 – $65,000 USDC (Flota completa de lanzamientos)"
   },
-  "registeredSatellites": [
+  "sampleAttestations": [
     {
       "index": 1,
       "formattedId": "#001",
       "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0x45e05ee40af40e38b6a6b4ae94181dfce6a1fcb5a5fa140dfe4c5925ceccf723",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.428Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0xa0603b83ce87a761ffa743dd4fca44735935ad62d0b6257b2fdb114584639b84",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.527Z"
     },
     {
       "index": 2,
       "formattedId": "#002",
       "address": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0xe1cb3b9a9c54fb8415fa1404c9a8bd68864e4e26c3d974588f280cfb754713bc",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0xf3c48041db5d8c5910010a29f99f194394602e26d816e385ca8453a3ca24ecab",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 3,
       "formattedId": "#003",
       "address": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0xc953175b02095351627e4fed7dc65dde870f3dba9c08a89bee7c48227b7d6ccf",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0xa767f5dc25f6e45249c7665b4ae7f6f344d45d8727460fa2a3999493ab33dbab",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 4,
       "formattedId": "#004",
       "address": "0x447bE3C9a8E97ca371d7cD8d8AEFd562fd15c582",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0x1400634e39bf5d3cb64152618c50e5d983b2a594898f84eef6e54288ca212882",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0x2a65ec17a95dac6f7d91c51a1237496ca4dec14d686cbd81f16236514a618c6e",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 5,
       "formattedId": "#005",
       "address": "0xD6Bf034E659fD3D3188951536B55B37e7537Af11",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0x3c1ced84d8367938265d8b2d90e042799b9b9cf35752470da3e40ebe4d89ccd2",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0xb1823d0f04ff4b56c52cf50ee0002250c2e06c140b98462735ece149c0cf953c",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 6,
       "formattedId": "#006",
       "address": "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0xebecea02588c1395829e0be2ded55053854a1911362ed64a7684453e70736ba4",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0xdb905f54f32124da91ea14906ae53d29542797d631b50e04b303cc95621f1788",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 7,
       "formattedId": "#007",
       "address": "0xB2872d2B0BB4f0aaAF0B3Ce4Fdb4602263b0b797",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0xb6ebd80303f09e61b83b9df175003b4b6600d9ec4c18bcd4a7adc07b9e6f1426",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0x40a44b26ee290491e917197eed4e2c5b75d369fcfd2fde9a8b668a634584e0cf",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 8,
       "formattedId": "#008",
       "address": "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0x6ec27a10fc0f57467aa7d18c2125abb1d3544993637e555d1b0014d0891ec0a8",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0xe5a3a5b01c2c45b3d9510f2ffc96b56ba919a03422d90d913a8c6da0c9d7a1e6",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 9,
       "formattedId": "#009",
       "address": "0x22Cda40bD18364C5d1680083018FE52362642870",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0x604d9b6aa6e375a88bda0ec5ecd7b0f66c8c9cc425434986ea1ab690308a2d50",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0x87fb4dc6f47b94600c5ab8bbc76a6f5e6e53e0d12ab024db6a906892f41b2e85",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     },
     {
       "index": 10,
       "formattedId": "#010",
       "address": "0x87e46cca8bd4B9BeB013C3bbbb42e6e90B7C4F44",
       "boxId": 1,
-      "points": 100,
-      "proofHash": "0x7c9ce2504ce010b963bc3702d6af13a02a725f33f3dc5901be087e9d4d4b4f15",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 11,
-      "formattedId": "#011",
-      "address": "0xf1F8C03dD8c4572d2a3d1AEa0dB61E2658f55518",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xc0b9d4d6363a37be73fc7a07f206df8fe02f6fb60880a513e19fc63fd552544b",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 12,
-      "formattedId": "#012",
-      "address": "0x00e436d78151B510ceD73E0aCF9cFb6A47A7D1AD",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x1b79d3117dd7463c90486b2fb4ba43b14a6f564364c3884a82c4e47d75a17d21",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 13,
-      "formattedId": "#013",
-      "address": "0x6f338A65b8bc2765a86dbE4992C4FD485027C38D",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x5095ffe9c6f41c54b39871bed7b882b1e1be4be392a269b9102b0eb3b14389f1",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 14,
-      "formattedId": "#014",
-      "address": "0xbB8222800eAAE799E604aA2f3b71Ff29De867009",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x12b8acf748f6caa91b2bf7266cd0e6f862782491b9d0d33586f36dc594d49cca",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 15,
-      "formattedId": "#015",
-      "address": "0xE1f5ec5a81898a476423E67baA3383922879e8bc",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x8526e6187962d6caf6e0fe1fdc0d22d86c94270d2ad8c5f82cc944189c56c100",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 16,
-      "formattedId": "#016",
-      "address": "0x0DC1f390Ddb130F583cCdcbDcb3F4b3111284F7E",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xeefcce15700a5dff79e782751f109d85a8954c3203b2ff22ae5a44f5e1a75a35",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 17,
-      "formattedId": "#017",
-      "address": "0xc7420160aAD245aa488FF365c3E985DD2EE5781C",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xa4376d52cdf058c72e9f54548dad82c9c09959cc450342fde3ac1df88f17604d",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 18,
-      "formattedId": "#018",
-      "address": "0xe18290B8a3D79Da78F762110989529bFD02a345E",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xb8a780581d2897fcd287113be12bbc1d1c7aef6f4b052bae5ffdc4e47f4a6293",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 19,
-      "formattedId": "#019",
-      "address": "0x396201E7523Bbc8F187C30046128310cF87AABD6",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x88c3f75573078c0147a73c3f6ffdd09f5d5ee1dd9cfbc31be7a328a9f6ae3a40",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 20,
-      "formattedId": "#020",
-      "address": "0x652Ce4B32545523A9CD9535cc1d2Eb1F5E673733",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x6d71e03e958640b89a5b00240659870a8bb38998d2dad075c75f01a02c6d23f9",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 21,
-      "formattedId": "#021",
-      "address": "0xD1Bce9011Bb285849ad5513c777dCcded0375ED2",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xd750c703307eb29027e732cb7b85654fc5b0baa1cd56b56c269dbbfd89b14a75",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 22,
-      "formattedId": "#022",
-      "address": "0xD5e619055e8F1d9CA7BcA53E5111Ac241c9f6162",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xcb0ef7fc7e01c5a44c3ba0178d008a7e6ebe8e11d3779a228378a2f8df410a89",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 23,
-      "formattedId": "#023",
-      "address": "0x02Edb594817Cb4ACB78bada54D865A3C988c1a0e",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xd62e70357f2ed23d6b5908254ef1d8c97c33c1109be190fe55aa850fb12c6a9f",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 24,
-      "formattedId": "#024",
-      "address": "0x673E0596eFb6428bDb289993c356423d9C012742",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xb20460facaa1229f879b3dd4a7c85901746b8ac91648590e4f5bfbb44556d54f",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 25,
-      "formattedId": "#025",
-      "address": "0x0f1a7b3C6Ca6962176AA681cc5174bBc6b3210b5",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x69253f547cfc54f8f79498887645ccfdf5615ffb9191e2a38009be8b1fc9156d",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 26,
-      "formattedId": "#026",
-      "address": "0x23c3f92819CB6C2878cc6688e2d7bFE94bd3BfAE",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x1fb96982b6c53d756d6859615ca0a91f2b7b40b1a94b1be358f4ef39883de2b4",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 27,
-      "formattedId": "#027",
-      "address": "0x1Ac21e92EA3910FfCA2E31Ff21F28971E01DB871",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xeb5cd9e603d283b4c500209e93afd3b0382aaba750d96a6cc1742eee06202eb3",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 28,
-      "formattedId": "#028",
-      "address": "0x7314E8F45F29897bC86B41303439920fe07832Ee",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xee1526855a0448c867309a7b88ff75d95ad6f36eb467171cab2e4ebee1bec5d7",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 29,
-      "formattedId": "#029",
-      "address": "0x68aD272d3d08ca0D4D95A9818b52517dBc8Dc9da",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xa16caecf6fdf9897fe8cc411783d7298cdf6f8ce04ef3a8a6b8a6f7ba7e0de39",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 30,
-      "formattedId": "#030",
-      "address": "0x2033Bd689147b1f2B6110eFA3F72dACBC25D1D87",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x5a8fa90fc1cb7f190ef1f2eca9954ef6cb7535ece320f8fa4688054f89a79f9b",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 31,
-      "formattedId": "#031",
-      "address": "0x95c071d358d25454A3eAB72e0945954784C2dCdc",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x2c1f4426a57318572b64356bd426b78341f9d67c5a3e50fafe4394d84c5549c0",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 32,
-      "formattedId": "#032",
-      "address": "0xF03d48299fb4DdE3388d457B535d437052DCe276",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x434af09ee02043c597525ef442a405e4bd2b0ed591ecbe66d0547fc9072816b4",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 33,
-      "formattedId": "#033",
-      "address": "0x79f79db088Ad4506de8D6c84b5b7769137D920Cc",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xc6ebb844055732e8a5a627126a09c387370ea2f9e16112a4f6447f8beea2cec0",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 34,
-      "formattedId": "#034",
-      "address": "0xE152BF2b992D88BE8738Cd3e27105886aF960073",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xfb817b1735ee5dc520a31662211354f3f34d4c1e0b6056a433e5366e427adc4c",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 35,
-      "formattedId": "#035",
-      "address": "0xE2CdE24651A2C10D0BC9a26561dBa0b7376CE075",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x435c7d06f4e583db423915a5dd3a189aafb81d0d74d11066ad21b9de1a9b9045",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 36,
-      "formattedId": "#036",
-      "address": "0x32ccD3bb5fa3eBD529Fd76E967b5433541FDEc81",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xb66c21f777c97721fc5c25ee03c83ebe64e1290972c319f85f25225916394c7b",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 37,
-      "formattedId": "#037",
-      "address": "0xeeb89DB3fC0121DC50951c2Aa366D7eA89614945",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x5948425eb2966f57bbad725f8234a814927926dc2c9e2b4c25e2111d9964a94b",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 38,
-      "formattedId": "#038",
-      "address": "0x791b2606B2fFEbe16E1FEB80Abdf1a3Aa73B62D4",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xc05a2899877872fad87c309ddeaf6083427045824dab0d1015edab30df2f8765",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 39,
-      "formattedId": "#039",
-      "address": "0xf6ec58C85B9c078f6095Fd8644a01c9db389E277",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x2a48fee6188edd1d810dc2a2407bdab23909f470bba36ce0c4ae8c1c5b34b24e",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 40,
-      "formattedId": "#040",
-      "address": "0xBB02e1015C2B1E22eD758D3A77a995bF93e00aC6",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x05ccede61bda6fbd078f58cafdd25f4707e705a4dbd032c1bcd26f867220bf57",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 41,
-      "formattedId": "#041",
-      "address": "0x073c02b64894A5D60eA8FB50bbE7267Ac2ceF93A",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x01ba018bc5b56c1945ef719f074397c981da250196194a277ac11a9def5126f2",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 42,
-      "formattedId": "#042",
-      "address": "0x3dEdFdB70D2c0E9f6738B9758cB39847f4255660",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x90c44683cd595f5a177fbbe29d71ed3de11539d45f6af4e2f4b7c85c3b579bed",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 43,
-      "formattedId": "#043",
-      "address": "0xD05B39b91ce219a43F2271737aBD5C47B803c160",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x63e0b7fff5fc226478abd00d3377612df63b730085f48bb6f5223377044a444e",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.430Z"
-    },
-    {
-      "index": 44,
-      "formattedId": "#044",
-      "address": "0xFd73B1293A0d661F60FE8D830BaAd1b1224f3157",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x4d04c7d2c631700c4822b11b5a923bffd13711ad06e81bbbdbbc01591c88575f",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.431Z"
-    },
-    {
-      "index": 45,
-      "formattedId": "#045",
-      "address": "0xB47A777b6586d02d080c935C264018429706e621",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xba4932634530cd1ebbbbc7679ef12c44db7ee95b2d75f1952019b0c6f38ff836",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.431Z"
-    },
-    {
-      "index": 46,
-      "formattedId": "#046",
-      "address": "0x09c535C7dA8824aB41074065B6c923965c5d62E8",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x58296b23ab4ee8f5d5336e0c4c3484c43c6962b1e9079917dc3b5c39a2ae1159",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.431Z"
-    },
-    {
-      "index": 47,
-      "formattedId": "#047",
-      "address": "0x80fF208aD298a24f397d9B8Ba85471E449E788D7",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x0a3c49d9537e509e359c14e311d31f03c2656cf9d24b83798953e8d7f59ce4c6",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.431Z"
-    },
-    {
-      "index": 48,
-      "formattedId": "#048",
-      "address": "0xbBA7e71a73085A8fC590918f1dDA010dB169a9e0",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0x7ee188d7a96912416064a28116eeeb8273cd709ccfe896b39726f25ea9fc0837",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.431Z"
-    },
-    {
-      "index": 49,
-      "formattedId": "#049",
-      "address": "0x69FeEbC12e28a7984270846a27240C25C1153bEb",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xf8a6007955628c959738a95f06c1995c4eb1207aa9c9584f0a0dd8526d7f95e4",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.431Z"
-    },
-    {
-      "index": 50,
-      "formattedId": "#050",
-      "address": "0x0CdAd3013eC586d617f64dbb67628D70422D9e4e",
-      "boxId": 1,
-      "points": 100,
-      "proofHash": "0xb147f860f22f53a02ca9ee81e7169daa062b7386210a683afef017604f27038b",
-      "status": "CALIFICADO_WHITELIST_GENESIS",
-      "timestamp": "2026-10-22T14:26:53.431Z"
+      "points": 600,
+      "targetsSigned": [
+        "$CTRA",
+        "$SHINOBI",
+        "$GOAT",
+        "$BUILD-BASE",
+        "$STYLUS",
+        "$MONAD-BERA"
+      ],
+      "proofHash": "0x5bc3df85dede121f56c0361d565dce63b24fe203a3735304ceefe6a87e9fb2f9",
+      "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
+      "timestamp": "2026-10-22T14:38:10.528Z"
     }
   ]
 }

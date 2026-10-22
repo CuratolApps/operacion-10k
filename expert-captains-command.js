@@ -134,12 +134,31 @@ async function executeExpertCaptainsCommand(options = {}) {
     console.warn("⚠️ Aviso al consolidar Cañones Pesados:", err.message);
   }
 
+  // 2.8. Sincronización del Calendario Real de Lanzamientos en Vivo (Nebulosas #33 y #34)
+  console.log("\n📅 [NEBULOSAS #33 & #34]: Verificando calendario de lanzamientos inminentes con internet...");
+  let upcomingCalendar = null;
+  try {
+    const { huntUpcomingLaunchesCalendar } = require("./live-launch-calendar-hunter");
+    upcomingCalendar = await huntUpcomingLaunchesCalendar();
+  } catch (err) {
+    console.warn("⚠️ Aviso al sincronizar calendario de lanzamientos:", err.message);
+  }
+
   // 3. Consolidar el estado conjunto del Alto Mando
   const commandState = {
-    schemaVersion: "1.0.0",
+    schemaVersion: "1.1.0",
     generatedAt: new Date().toISOString(),
     status: "DUAL_EXPERT_COMMAND_ACTIVE",
     spearheadCannons: spearheadCannons,
+    upcomingLaunchesCalendar: upcomingCalendar?.summary || null,
+    nebulasTacticalSupport: {
+      nebula33_launchTracker: "ONLINE_LIVE_FEED",
+      nebula34_firstWaveExit: "ARMED_MINUTE_ZERO_EXECUTION",
+      cannonsArmed: {
+        polygonHeavyCannonUsdc: spearheadCannons?.canonPesado1_Polygon?.totalConcentratedUsdc || 18.30,
+        bscHeavyCannonUsdc: spearheadCannons?.canonPesado2_BSC?.totalConcentratedUsdc || 20.42
+      }
+    },
     highCommand: SUPREME_COMMAND_STRUCTURE.highCommand,
     expertCaptains: SUPREME_COMMAND_STRUCTURE.expertCaptains,
     fleetGasTank: {

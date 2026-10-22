@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "timestamp": "2026-10-22T14:26:45.090Z",
+  "timestamp": "2026-10-22T14:39:47.544Z",
   "status": "VIGILANCIA_CENTINELA_ARMADA",
   "cannonsArmed": {
     "polygonHeavyCannon": 18.295135,
@@ -8,7 +8,7 @@
     "totalFirepowerUsdc": 38.719393999999994
   },
   "liveDEXRoutes": {
-    "polygonWinningRoute": "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
+    "polygonWinningRoute": "Piscina A2: Uniswap V3 (Fee Tier 0.30% = 3000 - Concentrada)",
     "bscWinningRoute": "Piscina #4 (BSC Directa - PancakeSwap V2)",
     "antiMevMaxSlippagePct": 0.15
   },

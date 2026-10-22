@@ -1,23 +1,23 @@
 {
   "schemaVersion": "3.0.0",
   "service": "Dedicated-Observers-6-Pools-12K",
-  "timestamp": "2026-10-22T14:26:44.244Z",
-  "latencyMs": 925,
+  "timestamp": "2026-10-22T14:39:46.757Z",
+  "latencyMs": 760,
   "sixPoolsMatrix": [
     {
       "id": "PISCINA-A",
       "network": "Polygon PoS",
       "name": "Uniswap V3 (Fee Tier 0.05% - Concentrada)",
       "dex": "Uniswap V3",
-      "quotePerNative": "0.091025 USDC",
-      "status": "🏆 GANADORA POLYGON"
+      "quotePerNative": "0.090707 USDC",
+      "status": "ALTERNATIVA_ACTIVA"
     },
     {
       "id": "PISCINA-B1",
       "network": "Polygon PoS",
       "name": "WPOL ➔ WETH ➔ USDC (Triangular WETH)",
       "dex": "QuickSwap V2 / SushiSwap V2",
-      "quotePerNative": "0.090394 USDC",
+      "quotePerNative": "0.090369 USDC",
       "status": "ALTERNATIVA_ACTIVA"
     },
     {
@@ -41,7 +41,7 @@
       "network": "BSC Mainnet",
       "name": "WBNB ➔ USDC Oficial BSC (Directa)",
       "dex": "PancakeSwap V2",
-      "quotePerNative": "$731.18 USDC",
+      "quotePerNative": "$731.05 USDC",
       "status": "🏆 GANADORA BSC"
     },
     {
@@ -49,7 +49,7 @@
       "network": "BSC Mainnet",
       "name": "WBNB ➔ ETH/BTCB ➔ USDC (Triangular)",
       "dex": "PancakeSwap V2",
-      "quotePerNative": "$729.02 USDC",
+      "quotePerNative": "$728.65 USDC",
       "status": "ALTERNATIVA_ACTIVA"
     }
   ],
@@ -58,14 +58,14 @@
     "pools": {
       "poolA_uniswap_v3": {
         "tier005": {
-          "quote1Pol": 0.091025,
-          "quote10Pol": 0.910249,
+          "quote1Pol": 0.090707,
+          "quote10Pol": 0.907074,
           "fee": 500,
           "router": "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45"
         },
         "tier030": {
-          "quote1Pol": 0.090852,
-          "quote10Pol": 0.908476,
+          "quote1Pol": 0.090757,
+          "quote10Pol": 0.907528,
           "fee": 3000,
           "router": "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45"
         },
@@ -86,13 +86,13 @@
       },
       "pool2_triangular_weth": {
         "quickswap": {
-          "quote1Pol": 0.090394,
-          "quote10Pol": 0.903888,
+          "quote1Pol": 0.090369,
+          "quote10Pol": 0.903629,
           "router": "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
         },
         "sushiswap": {
-          "quote1Pol": 0.042006,
-          "quote10Pol": 0.070803,
+          "quote1Pol": 0.041979,
+          "quote10Pol": 0.070795,
           "router": "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506"
         },
         "liquidityUsd": 10633533376336.191
@@ -125,8 +125,8 @@
           "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.091025,
-        "quote10Pol": 0.910249,
+        "quote1Pol": 0.090707,
+        "quote10Pol": 0.907074,
         "liquidityUsdEstimate": 48000000
       },
       {
@@ -142,8 +142,8 @@
           "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.090852,
-        "quote10Pol": 0.908476,
+        "quote1Pol": 0.090757,
+        "quote10Pol": 0.907528,
         "liquidityUsdEstimate": 22000000
       },
       {
@@ -185,8 +185,8 @@
           "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.090394,
-        "quote10Pol": 0.903888,
+        "quote1Pol": 0.090369,
+        "quote10Pol": 0.903629,
         "liquidityUsdEstimate": 10633533376336.191
       },
       {
@@ -200,8 +200,8 @@
           "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
           "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
         ],
-        "quote1Pol": 0.042006,
-        "quote10Pol": 0.070803,
+        "quote1Pol": 0.041979,
+        "quote10Pol": 0.070795,
         "liquidityUsdEstimate": 54.092998
       },
       {
@@ -236,27 +236,27 @@
       }
     ],
     "winningPoolRoutePolygon": {
-      "poolId": "pool-univ3-005",
-      "poolName": "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
+      "poolId": "pool-univ3-030",
+      "poolName": "Piscina A2: Uniswap V3 (Fee Tier 0.30% = 3000 - Concentrada)",
       "dex": "uniswap_v3",
       "router": "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
       "quoter": "0x61fFE014bA17989E743c5F6cB21bF9697530B21e",
-      "feeTier": 500,
+      "feeTier": 3000,
       "type": "uniswap_v3_concentrated",
       "path": [
         "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
       ],
-      "quote1Pol": 0.091025,
-      "quote10Pol": 0.910249,
+      "quote1Pol": 0.090757,
+      "quote10Pol": 0.907528,
       "baseQuote1Pol": 0.090721,
-      "extraUsdcPerPol": 0.000304,
-      "extraUsdcMicroCents": 3.04,
-      "advantagePct": 0.3351,
-      "liquidityUsdEstimate": 48000000
+      "extraUsdcPerPol": 0.000036,
+      "extraUsdcMicroCents": 0.36,
+      "advantagePct": 0.0397,
+      "liquidityUsdEstimate": 22000000
     },
     "bestDexRoutePolygon": "uniswap_v3",
-    "bestQuoteUsdcPerPol": 0.091025,
+    "bestQuoteUsdcPerPol": 0.090757,
     "standardBaseQuote": 0.090721,
     "grossSpreadPct": 0.216,
     "netSpreadPct": 0,
@@ -276,15 +276,15 @@
     "hasArbitrageOpportunity": false,
     "gasTrend": {
       "chainName": "Polygon",
-      "latestBlock": 95982557,
-      "gasPriceGwei": 273.332016067,
-      "baseFeePerGas": 248.006092631,
+      "latestBlock": 95983079,
+      "gasPriceGwei": 272.077214417,
+      "baseFeePerGas": 247.077214417,
       "baseFeeHistoryGwei": [
-        248.006092631,
-        250.521769328,
-        249.254504578
+        247.077214417,
+        250.202872262,
+        249.628482325
       ],
-      "deltaGwei": -1.25,
+      "deltaGwei": -2.55,
       "trend": "FALLING_OPTIMAL",
       "isWindowOptimal": true
     }
@@ -293,20 +293,20 @@
     "chain": "bscMainnet",
     "pools": {
       "pool4_direct": {
-        "quote001Bnb": 0.7311756017369618,
-        "quote01Bnb": 7.311435712872895,
-        "liquidityUsd": 409.8480994191953,
+        "quote001Bnb": 0.7310539921715805,
+        "quote01Bnb": 7.310219697158671,
+        "liquidityUsd": 409.88223073599966,
         "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
       },
       "pool5_triangular_eth": {
-        "quote001Bnb": 0.7290214483543684,
-        "quote01Bnb": 7.289812462533967,
-        "liquidityUsd": 257858.07006299394,
+        "quote001Bnb": 0.7286534718662132,
+        "quote01Bnb": 7.286132994274192,
+        "liquidityUsd": 257793.0640717563,
         "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
       },
       "pool6_triangular_btcb": {
-        "quote001Bnb": 0.7282053963786445,
-        "quote01Bnb": 7.24990398688094,
+        "quote001Bnb": 0.7281638470913874,
+        "quote01Bnb": 7.249492153732833,
         "liquidityUsd": 2958.5499398725365,
         "router": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
       }
@@ -322,10 +322,10 @@
           "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
           "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
         ],
-        "quote001Bnb": 0.7311756017369618,
-        "quote01Bnb": 7.311435712872895,
-        "bnbPriceUsd": 731.1756017369619,
-        "liquidityUsdEstimate": 409.8480994191953
+        "quote001Bnb": 0.7310539921715805,
+        "quote01Bnb": 7.310219697158671,
+        "bnbPriceUsd": 731.0539921715805,
+        "liquidityUsdEstimate": 409.88223073599966
       },
       {
         "poolId": "pool-5",
@@ -338,10 +338,10 @@
           "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
           "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
         ],
-        "quote001Bnb": 0.7290214483543684,
-        "quote01Bnb": 7.289812462533967,
-        "bnbPriceUsd": 729.0214483543684,
-        "liquidityUsdEstimate": 257858.07006299394
+        "quote001Bnb": 0.7286534718662132,
+        "quote01Bnb": 7.286132994274192,
+        "bnbPriceUsd": 728.6534718662132,
+        "liquidityUsdEstimate": 257793.0640717563
       },
       {
         "poolId": "pool-6",
@@ -354,9 +354,9 @@
           "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
           "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
         ],
-        "quote001Bnb": 0.7282053963786445,
-        "quote01Bnb": 7.24990398688094,
-        "bnbPriceUsd": 728.2053963786444,
+        "quote001Bnb": 0.7281638470913874,
+        "quote01Bnb": 7.249492153732833,
+        "bnbPriceUsd": 728.1638470913874,
         "liquidityUsdEstimate": 2958.5499398725365
       }
     ],
@@ -370,17 +370,17 @@
         "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
       ],
-      "quote001Bnb": 0.7311756017369618,
-      "quote01Bnb": 7.311435712872895,
-      "bnbPriceUsd": 731.18,
-      "baseQuote001Bnb": 0.7311756017369618,
+      "quote001Bnb": 0.7310539921715805,
+      "quote01Bnb": 7.310219697158671,
+      "bnbPriceUsd": 731.05,
+      "baseQuote001Bnb": 0.7310539921715805,
       "extraUsdcPer001Bnb": 0,
       "extraUsdcMicroCents": 0,
       "advantagePct": 0,
-      "liquidityUsdEstimate": 409.8480994191953
+      "liquidityUsdEstimate": 409.88223073599966
     },
     "bestDexRouteBsc": "pancakeswap_v2",
-    "bestQuoteUsdcPerBnb": 731.1756017369619,
+    "bestQuoteUsdcPerBnb": 731.0539921715805,
     "arbitrageCycle": {
       "chain": "BSC Mainnet",
       "mode": "CLOSED_LOOP_NET_ARBITRAGE",
@@ -397,7 +397,7 @@
     "hasArbitrageOpportunity": false,
     "gasTrend": {
       "chainName": "BSC",
-      "latestBlock": 129145743,
+      "latestBlock": 129147483,
       "gasPriceGwei": 0.05,
       "baseFeePerGas": 0.05,
       "baseFeeHistoryGwei": [
@@ -416,7 +416,7 @@
     "honeypotsDetected": 0,
     "circleOfficialBytecode": true,
     "simulationSuccessful": true,
-    "timestamp": "2026-10-22T14:26:43.724Z"
+    "timestamp": "2026-10-22T14:39:46.329Z"
   },
   "arbitrageCycle": {
     "mode": "CLOSED_LOOP_NET_ARBITRAGE",
@@ -453,24 +453,24 @@
   },
   "masterDirectives": {
     "winningPoolRoutePolygon": {
-      "poolId": "pool-univ3-005",
-      "poolName": "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
+      "poolId": "pool-univ3-030",
+      "poolName": "Piscina A2: Uniswap V3 (Fee Tier 0.30% = 3000 - Concentrada)",
       "dex": "uniswap_v3",
       "router": "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
       "quoter": "0x61fFE014bA17989E743c5F6cB21bF9697530B21e",
-      "feeTier": 500,
+      "feeTier": 3000,
       "type": "uniswap_v3_concentrated",
       "path": [
         "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
       ],
-      "quote1Pol": 0.091025,
-      "quote10Pol": 0.910249,
+      "quote1Pol": 0.090757,
+      "quote10Pol": 0.907528,
       "baseQuote1Pol": 0.090721,
-      "extraUsdcPerPol": 0.000304,
-      "extraUsdcMicroCents": 3.04,
-      "advantagePct": 0.3351,
-      "liquidityUsdEstimate": 48000000
+      "extraUsdcPerPol": 0.000036,
+      "extraUsdcMicroCents": 0.36,
+      "advantagePct": 0.0397,
+      "liquidityUsdEstimate": 22000000
     },
     "winningPoolRouteBsc": {
       "poolId": "pool-4",
@@ -482,14 +482,14 @@
         "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
       ],
-      "quote001Bnb": 0.7311756017369618,
-      "quote01Bnb": 7.311435712872895,
-      "bnbPriceUsd": 731.18,
-      "baseQuote001Bnb": 0.7311756017369618,
+      "quote001Bnb": 0.7310539921715805,
+      "quote01Bnb": 7.310219697158671,
+      "bnbPriceUsd": 731.05,
+      "baseQuote001Bnb": 0.7310539921715805,
       "extraUsdcPer001Bnb": 0,
       "extraUsdcMicroCents": 0,
       "advantagePct": 0,
-      "liquidityUsdEstimate": 409.8480994191953
+      "liquidityUsdEstimate": 409.88223073599966
     },
     "bestDexRoutePolygon": "uniswap_v3",
     "bestDexRouteBsc": "pancakeswap_v2",

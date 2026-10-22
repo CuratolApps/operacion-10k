@@ -1,10 +1,10 @@
 {
-  "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-22T14:26:36.416Z",
+  "schemaVersion": "1.1.0",
+  "generatedAt": "2026-10-22T14:39:41.287Z",
   "status": "DUAL_EXPERT_COMMAND_ACTIVE",
   "spearheadCannons": {
     "schemaVersion": "1.0.0",
-    "timestamp": "2026-10-22T14:26:36.414Z",
+    "timestamp": "2026-10-22T14:39:40.023Z",
     "status": "ARMADOS_Y_CONCENTRADOS",
     "canonPesado1_Polygon": {
       "name": "Cañón Pesado #1 (Polygon PoS)",
@@ -13,23 +13,7 @@
       "targetToken": "USDC Nativo Circle (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359)",
       "totalConcentratedUsdc": 18.295135,
       "estimatedSingleShotPower": "18.30 USDC (Supera comisiones DEX 0.05%)",
-      "transfersExecuted": [
-        {
-          "from": "#201",
-          "amountUsdc": 0.713556,
-          "txHash": "0x49e046193d183e8b46b814df1f60a3cd4c89ef0dec9a572e775c283c53020de2"
-        },
-        {
-          "from": "#301",
-          "amountUsdc": 0.699001,
-          "txHash": "0xcc52cd91c9734ddd168ce9b558d21b4bd60a64334bbedd269da6d160da6c7491"
-        },
-        {
-          "from": "#401",
-          "amountUsdc": 0.681524,
-          "txHash": "0x37b4aa3e3e7b36b9828b3d1b299812f66c0082fa98674eaba949b161fe0ebb49"
-        }
-      ]
+      "transfersExecuted": []
     },
     "canonPesado2_BSC": {
       "name": "Cañón Pesado #2 (BSC Mainnet)",
@@ -41,6 +25,21 @@
     },
     "totalHeavyArtilleryPowerUsdc": 38.719394,
     "netProfitDistribution": "70% a USDC Nativo / 30% a Recarga Gas (POL/BNB)"
+  },
+  "upcomingLaunchesCalendar": {
+    "totalUpcomingTracked": 6,
+    "imminentCount": 2,
+    "totalSoldiersEnlisted": 500,
+    "zeroGasAttestationReady": true,
+    "nextImmediateSnapshot": "Citrea Bitcoin L2 (en 6 días)"
+  },
+  "nebulasTacticalSupport": {
+    "nebula33_launchTracker": "ONLINE_LIVE_FEED",
+    "nebula34_firstWaveExit": "ARMED_MINUTE_ZERO_EXECUTION",
+    "cannonsArmed": {
+      "polygonHeavyCannonUsdc": 18.295135,
+      "bscHeavyCannonUsdc": 20.424259
+    }
   },
   "highCommand": {
     "mothership501": {
@@ -145,7 +144,7 @@
   "viaA_defiClosedLoop": {
     "leadCaptain": "#001",
     "dexArbitrageStatus": "VIGILANCIA_CENTINELA_0_GAS",
-    "bestRoutePolygon": "Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)",
+    "bestRoutePolygon": "Piscina A2: Uniswap V3 (Fee Tier 0.30% = 3000 - Concentrada)",
     "bestRouteBsc": "Piscina #4 (BSC Directa - PancakeSwap V2)",
     "antiMevMaxSlippagePct": 0.15
   },

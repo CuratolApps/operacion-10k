@@ -158,8 +158,23 @@ async function loadOrbitalData() {
       } catch (e) {}
     }
 
+    let launchCalendar = telemetryData?.airdropLaunchCalendar || null;
+    if (!launchCalendar) {
+      const calPaths = ['../telemetry/upcoming-launches-calendar.json', '/telemetry/upcoming-launches-calendar.json', 'telemetry/upcoming-launches-calendar.json'];
+      for (const p of calPaths) {
+        try {
+          const res = await fetch(`${p}?t=${Date.now()}`);
+          if (res.ok) {
+            launchCalendar = await res.json();
+            break;
+          }
+        } catch (e) {}
+      }
+    }
+
     state.telemetry = telemetryData;
     state.publicWallets = publicList;
+    state.launchCalendar = launchCalendar;
 
     // Ensamblar las 502 carteras
     assemble502Wallets();
@@ -557,7 +572,7 @@ function renderAirdropCalendar(telem) {
   const badge = document.getElementById('chronosCountdownBadge');
   if (!tbody) return;
 
-  const airdropData = telem?.airdropLaunchCalendar;
+  const airdropData = telem?.airdropLaunchCalendar || state.launchCalendar;
   const calendar = airdropData?.calendar || [];
 
   if (calendar.length === 0) {

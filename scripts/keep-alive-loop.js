@@ -72,6 +72,7 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
     runCommand("node nebula-ai-commanders.js", "Las 34 Nebulosas IA (Actualización de Directrices)");
     runCommand("node expert-captains-command.js", "Jefatura de Capitanes Expertos (#001 y #101)");
     runCommand("node dual-capitalizer-engine.js", "Motor Dual-Capitalizador (70/30 Compounding)");
+    runCommand("node live-launch-calendar-hunter.js", "Cazador en Vivo de Lanzamientos Próximos (#33 & #34)");
     runCommand("node cybershinobi-swarm-strike.js", "CyberShinobi Genesis Swarm Strike X500");
     runCommand("node bounty-booty-commander.js", "Bounty Booty Commander (Vía B $2,225 USDC)");
     runCommand("node scripts/onchain-snapshot.js", "Snapshot On-Chain Consolidado");
@@ -100,6 +101,9 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
 
   // 05. Motor Dual-Capitalizador (Regla 70/30 Compounding & Crecimiento USDC)
   runCommand("node dual-capitalizer-engine.js", "Motor Dual-Capitalizador (70/30 Compounding)");
+
+  // 05.5. Cazador en Vivo de Lanzamientos Próximos (#33 y #34)
+  runCommand("node live-launch-calendar-hunter.js", "Cazador en Vivo de Lanzamientos Próximos (#33 & #34)");
 
   // 06. Monolito CyberShinobi Génesis X500 (Ejecución Vectorial Sub-Segundo)
   runCommand("node cybershinobi-swarm-strike.js", "CyberShinobi Genesis Swarm Strike X500");
