@@ -1,11 +1,11 @@
 {
   "schemaVersion": "5.0.0",
-  "generatedAt": "2026-10-22T10:25:37.051Z",
+  "generatedAt": "2026-10-22T12:30:08.526Z",
   "totalNebulas": 32,
   "activeBinomials": 16,
   "authorizedBinomialsCount": 0,
   "averageOpportunityScore": 99,
-  "executionTimeMs": 890,
+  "executionTimeMs": 2206,
   "highWaterMarkRatchet": {
     "highWaterMarkUsdc": 41.579394,
     "lockedFloorUsdc": 35.342485,
@@ -60,12 +60,12 @@
         "WPOL/USDC",
         "WBNB/USDC"
       ],
-      "maxDislocationPct": 0.464,
+      "maxDislocationPct": 0.2456,
       "thresholdPct": 1.5,
       "opportunityScore": 88,
       "fireAuthorized": false,
-      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.46% < 1.5%, $0 gas)",
-      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.46% sin panic-selling en este bloque."
+      "status": "🛡️ VIGILANCIA CENTINELA (Desviación 0.25% < 1.5%, $0 gas)",
+      "diagnostic": "Monitoreo de 6 piscinas multi-DEX activo. Dispersión máxima 0.25% sin panic-selling en este bloque."
     },
     {
       "modelId": "MODEL-4-EPOCH-QUEST-POOLS",
@@ -120,12 +120,12 @@
         "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
       ],
-      "quote1Pol": 0.091495,
-      "quote10Pol": 0.91495,
-      "baseQuote1Pol": 0.091216,
-      "extraUsdcPerPol": 0.000279,
-      "extraUsdcMicroCents": 2.79,
-      "advantagePct": 0.3059,
+      "quote1Pol": 0.09141,
+      "quote10Pol": 0.914101,
+      "baseQuote1Pol": 0.091287,
+      "extraUsdcPerPol": 0.000123,
+      "extraUsdcMicroCents": 1.23,
+      "advantagePct": 0.1347,
       "liquidityUsdEstimate": 48000000
     },
     "winningPoolRouteBsc": {
@@ -138,18 +138,20 @@
         "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
       ],
-      "quote001Bnb": 0.7341684513130824,
-      "quote01Bnb": 7.341362228739442,
-      "bnbPriceUsd": 734.17,
-      "baseQuote001Bnb": 0.7341684513130824,
+      "quote001Bnb": 0.7319808367729917,
+      "quote01Bnb": 7.31948753361384,
+      "bnbPriceUsd": 731.98,
+      "baseQuote001Bnb": 0.7319808367729917,
       "extraUsdcPer001Bnb": 0,
       "extraUsdcMicroCents": 0,
       "advantagePct": 0,
-      "liquidityUsdEstimate": 408.99751705163476
+      "liquidityUsdEstimate": 409.6221443296111
     },
     "bestDexRoutePolygon": "uniswap_v3",
     "bestDexRouteBsc": "pancakeswap_v2",
     "antiRugPullShield": "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 5 CANDADOS BLINDADOS INC. ANTI-MEV / 5 MODELOS AUDITADOS)",
+    "tradingMentorSupervision": "NEBULA-MENTOR: SIMONS-MEDALLION #00 ACTIVO (DOCTRINA DE MENTE SECA & ASIMETRÍA 3:1)",
+    "mentorAxiomsEnforced": true,
     "zeroGasDrainMode": true,
     "surpriseStrikeActive": false,
     "operationalStatus": "🎯 FASE 1: RECUPERACIÓN 120 € ($130.00 USDC) — VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
@@ -166,7 +168,7 @@
     ],
     "mainnetExecutionPermitted": false,
     "gasLevels": {
-      "polygonGwei": 268.284546037,
+      "polygonGwei": 286.649906805,
       "bscGwei": 0.05
     },
     "autoSweepToBinance": false,
@@ -204,7 +206,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -220,12 +222,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -238,14 +240,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -254,7 +256,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -301,12 +303,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -319,14 +321,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -362,7 +364,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -378,12 +380,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -396,14 +398,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -412,7 +414,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -459,12 +461,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -477,14 +479,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -520,7 +522,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -536,12 +538,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -554,14 +556,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -570,7 +572,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -617,12 +619,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -635,14 +637,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -678,7 +680,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
         "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
         "tacticalPoolSelection": {
@@ -694,12 +696,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -712,14 +714,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -728,7 +730,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -775,12 +777,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -793,14 +795,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -836,7 +838,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -852,12 +854,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -870,14 +872,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -886,7 +888,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -933,12 +935,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -951,14 +953,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -994,7 +996,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1010,12 +1012,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1028,14 +1030,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -1044,7 +1046,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -1091,12 +1093,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1109,14 +1111,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -1152,7 +1154,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1168,12 +1170,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1186,14 +1188,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -1202,7 +1204,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -1249,12 +1251,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1267,14 +1269,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -1310,7 +1312,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1326,12 +1328,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1344,14 +1346,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -1360,7 +1362,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -1407,12 +1409,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1425,14 +1427,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -1468,7 +1470,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1484,12 +1486,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1502,14 +1504,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -1518,7 +1520,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -1565,12 +1567,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1583,14 +1585,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -1626,7 +1628,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1642,12 +1644,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1660,14 +1662,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -1676,7 +1678,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -1723,12 +1725,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1741,14 +1743,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -1784,7 +1786,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1800,12 +1802,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1818,14 +1820,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -1834,7 +1836,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -1881,12 +1883,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -1899,14 +1901,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -1942,7 +1944,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
         "secondaryOmniModel": null,
         "tacticalPoolSelection": {
@@ -1958,12 +1960,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -1976,14 +1978,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -1992,7 +1994,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -2039,12 +2041,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2057,14 +2059,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -2100,7 +2102,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2116,12 +2118,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2134,14 +2136,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -2150,7 +2152,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -2197,12 +2199,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2215,14 +2217,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -2258,7 +2260,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2274,12 +2276,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2292,14 +2294,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -2308,7 +2310,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -2355,12 +2357,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2373,14 +2375,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -2416,7 +2418,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2432,12 +2434,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2450,14 +2452,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -2466,7 +2468,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -2513,12 +2515,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2531,14 +2533,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -2574,7 +2576,7 @@
         "opportunityScore": 98,
         "satellitesGuided": 500,
         "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+        "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
         "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
         "secondaryOmniModel": "DUST-DOCTOR",
         "tacticalPoolSelection": {
@@ -2590,12 +2592,12 @@
               "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
               "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
             ],
-            "quote1Pol": 0.091495,
-            "quote10Pol": 0.91495,
-            "baseQuote1Pol": 0.091216,
-            "extraUsdcPerPol": 0.000279,
-            "extraUsdcMicroCents": 2.79,
-            "advantagePct": 0.3059,
+            "quote1Pol": 0.09141,
+            "quote10Pol": 0.914101,
+            "baseQuote1Pol": 0.091287,
+            "extraUsdcPerPol": 0.000123,
+            "extraUsdcMicroCents": 1.23,
+            "advantagePct": 0.1347,
             "liquidityUsdEstimate": 48000000
           },
           "bsc": {
@@ -2608,14 +2610,14 @@
               "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
               "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
             ],
-            "quote001Bnb": 0.7341684513130824,
-            "quote01Bnb": 7.341362228739442,
-            "bnbPriceUsd": 734.17,
-            "baseQuote001Bnb": 0.7341684513130824,
+            "quote001Bnb": 0.7319808367729917,
+            "quote01Bnb": 7.31948753361384,
+            "bnbPriceUsd": 731.98,
+            "baseQuote001Bnb": 0.7319808367729917,
             "extraUsdcPer001Bnb": 0,
             "extraUsdcMicroCents": 0,
             "advantagePct": 0,
-            "liquidityUsdEstimate": 408.99751705163476
+            "liquidityUsdEstimate": 409.6221443296111
           }
         },
         "liveData": {
@@ -2624,7 +2626,7 @@
           "bulletBnb": 0,
           "expectedUsdcHarvestPol": 0,
           "expectedUsdcHarvestBnb": 0,
-          "polGasGwei": 268.284546037,
+          "polGasGwei": 286.649906805,
           "bscGasGwei": 0.05,
           "floatingUsdcAvailable": 6.236909,
           "isGasOptimal": true
@@ -2671,12 +2673,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2689,14 +2691,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "doubleKeyAuthorized": false,
@@ -2714,7 +2716,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Nodriza Matriz (#501): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -2730,12 +2732,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2748,14 +2750,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -2764,7 +2766,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -2808,7 +2810,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 1 (#001): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -2824,12 +2826,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2842,14 +2844,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -2858,7 +2860,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -2902,7 +2904,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 2 (#101): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -2918,12 +2920,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -2936,14 +2938,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -2952,7 +2954,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -2996,7 +2998,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Liquidaciones DeFi & Flash Dips para Capitán Box 3 (#201): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-1-DEFI-LIQUIDATION",
       "secondaryOmniModel": "MODEL-3-WHALE-PANIC-DIP",
       "tacticalPoolSelection": {
@@ -3012,12 +3014,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3030,14 +3032,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3046,7 +3048,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3090,7 +3092,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 4 (#301): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3106,12 +3108,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3124,14 +3126,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3140,7 +3142,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3184,7 +3186,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Capitán Box 5 (#401): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3200,12 +3202,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3218,14 +3220,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3234,7 +3236,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3278,7 +3280,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#008): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3294,12 +3296,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3312,14 +3314,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3328,7 +3330,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3372,7 +3374,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Floor/Bid Arbitrage & GameFi Mints para Sub-Capitán Box 1 (#006): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-2-METAVERSE-GAMEFI",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3388,12 +3390,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3406,14 +3408,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3422,7 +3424,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3466,7 +3468,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#108): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3482,12 +3484,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3500,14 +3502,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3516,7 +3518,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3560,7 +3562,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 2 (#106): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3576,12 +3578,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3594,14 +3596,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3610,7 +3612,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3654,7 +3656,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#204): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3670,12 +3672,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3688,14 +3690,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3704,7 +3706,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3748,7 +3750,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Reclamo Óptimo de Época & Quest Rewards para Sub-Capitán Box 3 (#205): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-4-EPOCH-QUEST-POOLS",
       "secondaryOmniModel": null,
       "tacticalPoolSelection": {
@@ -3764,12 +3766,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3782,14 +3784,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3798,7 +3800,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3842,7 +3844,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#307): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -3858,12 +3860,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3876,14 +3878,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3892,7 +3894,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -3936,7 +3938,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 4 (#311): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -3952,12 +3954,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -3970,14 +3972,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -3986,7 +3988,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -4030,7 +4032,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#403): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -4046,12 +4048,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -4064,14 +4066,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -4080,7 +4082,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true
@@ -4124,7 +4126,7 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "🛡️ VIGILANCIA CENTINELA — CICLO CERRADO ($0 GAS)",
-      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091495 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($734.17 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
+      "reasoning": "Estratega Cuántica de Bounties Públicos (callFee > Gas*3) para Sub-Capitán Box 5 (#411): 🔒 STRICT_NO_GAS_SELL ACTIVO & MODO ACELERADOR 50/50. Operaciones restringidas a Ciclo Cerrado en USDC. Piscina Ganadora Polygon: [Piscina A: Uniswap V3 (Fee Tier 0.05% = 500 - Concentrada Institucional)] (0.091410 USDC/POL). Piscina Ganadora BSC: [Piscina #4 (BSC Directa - PancakeSwap V2)] ($731.98 USDC/BNB). Trinquete 85%: Piso $35.34 USDC protegido. Tanque blindado en ascenso (~266+ POL) con ley POL_Final >= POL_Inicial.",
       "assignedOmniModel": "MODEL-5-KEEPER-HARVESTER",
       "secondaryOmniModel": "DUST-DOCTOR",
       "tacticalPoolSelection": {
@@ -4140,12 +4142,12 @@
             "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
             "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
           ],
-          "quote1Pol": 0.091495,
-          "quote10Pol": 0.91495,
-          "baseQuote1Pol": 0.091216,
-          "extraUsdcPerPol": 0.000279,
-          "extraUsdcMicroCents": 2.79,
-          "advantagePct": 0.3059,
+          "quote1Pol": 0.09141,
+          "quote10Pol": 0.914101,
+          "baseQuote1Pol": 0.091287,
+          "extraUsdcPerPol": 0.000123,
+          "extraUsdcMicroCents": 1.23,
+          "advantagePct": 0.1347,
           "liquidityUsdEstimate": 48000000
         },
         "bsc": {
@@ -4158,14 +4160,14 @@
             "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
             "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
           ],
-          "quote001Bnb": 0.7341684513130824,
-          "quote01Bnb": 7.341362228739442,
-          "bnbPriceUsd": 734.17,
-          "baseQuote001Bnb": 0.7341684513130824,
+          "quote001Bnb": 0.7319808367729917,
+          "quote01Bnb": 7.31948753361384,
+          "bnbPriceUsd": 731.98,
+          "baseQuote001Bnb": 0.7319808367729917,
           "extraUsdcPer001Bnb": 0,
           "extraUsdcMicroCents": 0,
           "advantagePct": 0,
-          "liquidityUsdEstimate": 408.99751705163476
+          "liquidityUsdEstimate": 409.6221443296111
         }
       },
       "liveData": {
@@ -4174,7 +4176,7 @@
         "bulletBnb": 0,
         "expectedUsdcHarvestPol": 0,
         "expectedUsdcHarvestBnb": 0,
-        "polGasGwei": 268.284546037,
+        "polGasGwei": 286.649906805,
         "bscGasGwei": 0.05,
         "floatingUsdcAvailable": 6.236909,
         "isGasOptimal": true

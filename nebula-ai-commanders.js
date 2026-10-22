@@ -526,6 +526,8 @@ async function runNebulaCommanders(options = {}) {
       bestDexRoutePolygon: winningPol.dex,
       bestDexRouteBsc: winningBsc.dex,
       antiRugPullShield: "100% ACTIVO (0 ESTAFAS / 0 MEMECOINS / 5 CANDADOS BLINDADOS INC. ANTI-MEV / 5 MODELOS AUDITADOS)",
+      tradingMentorSupervision: "NEBULA-MENTOR: SIMONS-MEDALLION #00 ACTIVO (DOCTRINA DE MENTE SECA & ASIMETRÍA 3:1)",
+      mentorAxiomsEnforced: true,
       zeroGasDrainMode: !isBurstMode && !isSurpriseStrike,
       surpriseStrikeActive: isSurpriseStrike,
       operationalStatus: isSurpriseStrike

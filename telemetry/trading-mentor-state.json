@@ -1,0 +1,50 @@
+{
+  "mentorName": "NEBULA-MENTOR: SIMONS-MEDALLION #00",
+  "mentorTitle": "Mente Maestra Cuantitativa & Protector de Capital",
+  "inspiration": "Jim Simons (Renaissance Technologies / Medallion Fund)",
+  "timestamp": "2026-10-22T12:29:03.795Z",
+  "status": "ACTIVE_MENTORSHIP",
+  "mindset": "MENTE_SECA_100_CIENTIFICA",
+  "marketRegime": "ALCISTA_CONTROLADO_CON_TRAMPAS_LIQUIDADAS",
+  "trapsDetectedAndAvoidedToday": 6,
+  "fleetTradingSkillLevel": "INSTITUCIONAL_CUANTITATIVO",
+  "activeAxioms": [
+    {
+      "id": 1,
+      "name": "Probabilidad Asimétrica",
+      "rule": "P(win) >= 80% o no hay disparo. Cero corazonadas."
+    },
+    {
+      "id": 2,
+      "name": "Escudo Anti-Fakeout",
+      "rule": "Detectar barridos de liquidez institucional antes de validar entrada."
+    },
+    {
+      "id": 3,
+      "name": "Cero Dinero Atrapado",
+      "rule": "Stop-Loss innegociable al -1.0%. Salir a USDC en plano si no hay volumen."
+    },
+    {
+      "id": 4,
+      "name": "Mente Seca & Take Profit",
+      "rule": "Tomar ganancia en el objetivo predeterminado (+2% a +3.5%) sin avaricia."
+    },
+    {
+      "id": 5,
+      "name": "Protección Colectiva",
+      "rule": "Transmitir la visión del libro de órdenes a las 32 Nebulosas de la flota."
+    }
+  ],
+  "box6Supervision": {
+    "status": "AUDITORIA_ACTIVA_SOL/USDC_VIGILANDO_TP_SL",
+    "recommendedLotUsdc": 15,
+    "riskPerTradeMaxUsd": 0.15,
+    "targetProfitPerTradeUsd": 0.45
+  },
+  "box7Supervision": {
+    "status": "GOBERNANZA_ESTRICTA_APROBACION_HUMANA",
+    "maxAllocationPerEquityUsdc": 10,
+    "recommendedMinAsymmetryRatio": "3:1"
+  },
+  "nebulasShieldStatus": "32/32 NEBULOSAS INMUNIZADAS CONTRA FAKEOUTS Y BULL TRAPS"
+}

@@ -872,6 +872,30 @@ async function renderWallStreetTerminal() {
     } catch (_) {}
   }
 
+  let mentorData = null;
+  try {
+    const resMentor = await fetch(`../telemetry/trading-mentor-state.json?t=${Date.now()}`);
+    if (resMentor.ok) mentorData = await resMentor.json();
+  } catch (_) {}
+  if (!mentorData) {
+    try {
+      const resMentor = await fetch(`telemetry/trading-mentor-state.json?t=${Date.now()}`);
+      if (resMentor.ok) mentorData = await resMentor.json();
+    } catch (_) {}
+  }
+
+  // 0. HUD del Mentor Cuantitativo
+  if (mentorData) {
+    const elTraps = document.getElementById('mentorTrapsAvoided');
+    if (elTraps && mentorData.trapsDetectedAndAvoidedToday !== undefined) {
+      elTraps.textContent = `${mentorData.trapsDetectedAndAvoidedToday} Fakeouts Evitados`;
+    }
+    const elFleet = document.getElementById('mentorFleetShield');
+    if (elFleet && mentorData.nebulasShieldStatus) {
+      elFleet.textContent = mentorData.nebulasShieldStatus.includes('32/32') ? '32/32 Nebulosas Blindadas' : mentorData.nebulasShieldStatus;
+    }
+  }
+
   // 1. Tickers en Vivo
   const tickersGrid = document.getElementById('wallStreetTickersGrid');
   if (tickersGrid) {

@@ -829,6 +829,8 @@ async function generateUnifiedTelemetry() {
     bootyRadar: readJsonSafe(path.join(TELEMETRY_DIR, "expert-booty-radar.json")),
     titanScalper: readJsonSafe(path.join(TELEMETRY_DIR, "titan-scalper-state.json")),
     oracleStocks: readJsonSafe(path.join(TELEMETRY_DIR, "oracle-stocks-state.json")),
+    tradingMentor: readJsonSafe(path.join(TELEMETRY_DIR, "trading-mentor-state.json")),
+    nftSurgicalSquadron: readJsonSafe(path.join(TELEMETRY_DIR, "nft-squadron-radar.json")),
     dualCapitalizer: readJsonSafe(path.join(TELEMETRY_DIR, "dual-capitalizer.json")) || {
       status: "ACTIVE_COMPOUNDING",
       badges: ["🔒 Trinquete 85% USDC", "⛽ Capitalizador 75/25 Gas Activo", "🛡️ 5º Candado Anti-MEV <= 0.15%"],
@@ -836,9 +838,11 @@ async function generateUnifiedTelemetry() {
     },
     fastRecoveryOpportunities: readJsonSafe(path.join(TELEMETRY_DIR, "fast-recovery-opportunities.json")),
     badges: [
+      "👑 Nebula-Mentor: Simons-Medallion #00 Activo (Mente Seca)",
       "🎯 Meta 120 € ($130 USDC) en Marcha",
       "⚡ Box 6: Titan-Scalper #601 Activo (Flujo Diario)",
       "🧠 Box 7: Oracle-Global #701 Activo (Gobernanza Manual)",
+      "🎨 Escuadrón Quirúrgico NFT (Nebulas 25-32 & 5 Candados)",
       "🎖️ Capitán Experto #1 (#001 - On-Chain Vía A)",
       "🎖️ Capitán Experto #2 (#101 - Booty Vía B)",
       "💎 Ciclo Cerrado 70/30 Activo",
