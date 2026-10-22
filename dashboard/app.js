@@ -662,7 +662,7 @@ function filterRegistry(filterType) {
 // -------------------------------------------------------------
 
 // -------------------------------------------------------------
-// 9. RENDERIZADO DE LAS 12 NEBULOSAS IA (ESTACIÓN DE INTELIGENCIA)
+// 9. RENDERIZADO DE LAS 32 NEBULOSAS IA (16 BINOMIOS ESPECIALIZADOS)
 // -------------------------------------------------------------
 async function renderNebulaCommanders() {
   const telem = state.telemetry;
@@ -681,7 +681,7 @@ async function renderNebulaCommanders() {
   const container = document.getElementById('nebulaGridContainer');
   if (!container) return;
 
-  const avgScore = telem?.nebulaAverageScore || 96;
+  const avgScore = telem?.nebulaAverageScore || 100;
   const globalScorePill = document.getElementById('nebulaGlobalScorePill');
   if (globalScorePill) {
     globalScorePill.textContent = `SCORE: ${avgScore}% ÓPTIMO`;
@@ -689,33 +689,39 @@ async function renderNebulaCommanders() {
 
   const semaScore = document.getElementById('semaNebulaScore');
   if (semaScore) {
-    semaScore.textContent = `Score: ${avgScore}% • Guía Activa →`;
+    semaScore.textContent = `16 Binomios • Escudo 100% →`;
   }
 
   if (!commanders || commanders.length === 0) {
-    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 12 Nebulosas IA...</div>';
+    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.7rem; padding: 20px; font-family: JetBrains Mono;">Analizando sensores heurísticos de las 32 Nebulosas IA...</div>';
     return;
   }
 
-  container.innerHTML = commanders.map((cmd) => {
+  container.innerHTML = commanders.map((cmd, idx) => {
+    const isBodyguard = (idx % 2 === 1);
+    const badgeType = isBodyguard
+      ? '<span style="color: var(--neon-green); font-size: 0.52rem; font-weight: 800; display: block;">🛡️ GUARDAESPALDAS ANTI-RUG PULL (4 CANDADOS)</span>'
+      : '<span style="color: var(--neon-gold); font-size: 0.52rem; font-weight: 800; display: block;">🧠 ESTRATEGA CUÁNTICA (MULTI-DEX SPREAD)</span>';
+
     return `
-      <div class="nebula-card">
+      <div class="nebula-card" style="border-left: 3px solid ${isBodyguard ? 'var(--neon-green)' : 'var(--neon-cyan)'};">
         <div class="nebula-card-top">
           <div class="nebula-card-identity">
-            <span class="nebula-card-icon">${cmd.icon || '🌌'}</span>
+            <span class="nebula-card-icon">${cmd.icon || (isBodyguard ? '🛡️' : '🧠')}</span>
             <div class="nebula-card-title-group">
               <span class="nebula-card-id">${cmd.id}: ${cmd.name}</span>
+              ${badgeType}
               <span class="nebula-card-specialty">${cmd.specialty}</span>
             </div>
           </div>
-          <span class="nebula-score-pill">SCORE: ${cmd.opportunityScore}%</span>
+          <span class="nebula-score-pill" style="border-color: ${isBodyguard ? 'var(--neon-green)' : 'var(--neon-cyan)'};">SCORE: ${cmd.opportunityScore}%</span>
         </div>
         <div class="nebula-reasoning-box">
           <strong>Razonamiento en Vivo:</strong> ${cmd.reasoning}
         </div>
         <div class="nebula-card-footer">
-          <span class="nebula-sat-guiding">🛰️ Guía a: <strong>${cmd.satellitesGuided} Satélites</strong></span>
-          <span class="nebula-status-indicator"><span class="nebula-dot"></span> ${cmd.status || 'OPTIMAL'}</span>
+          <span class="nebula-sat-guiding">🎯 Asignada a: <strong>${cmd.assignedMothership || 'Nodriza Sniper'}</strong></span>
+          <span class="nebula-status-indicator"><span class="nebula-dot" style="background: ${isBodyguard ? 'var(--neon-green)' : 'var(--neon-cyan)'};"></span> ${cmd.status || 'SHIELD_SECURE'}</span>
         </div>
       </div>
     `;

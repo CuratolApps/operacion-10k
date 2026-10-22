@@ -88,7 +88,7 @@ const SNIPER_FRONTS = [
     address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
     sacredReservePol: 80.00,
     surveillanceFloorPol: 80.10,
-    bulletPol: 5.00,
+    bulletPol: 4.50,
     minBulletPol: 0.50,
     gasBuffer: 0.05,
     sacredReserveBnb: 0.010,
@@ -105,7 +105,7 @@ const SNIPER_FRONTS = [
     address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
     sacredReservePol: 20.00,
     surveillanceFloorPol: 20.10,
-    bulletPol: 2.50,
+    bulletPol: 2.00,
     minBulletPol: 0.50,
     gasBuffer: 0.05,
     sacredReserveBnb: 0.006,
@@ -121,7 +121,7 @@ const SNIPER_FRONTS = [
     address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
     sacredReservePol: 20.00,
     surveillanceFloorPol: 20.10,
-    bulletPol: 2.50,
+    bulletPol: 2.00,
     minBulletPol: 0.50,
     gasBuffer: 0.05,
     sacredReserveBnb: 0.006,
@@ -186,7 +186,7 @@ const SNIPER_FRONTS = [
     address: "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
@@ -201,7 +201,7 @@ const SNIPER_FRONTS = [
     address: "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
@@ -216,7 +216,7 @@ const SNIPER_FRONTS = [
     address: "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
@@ -231,7 +231,7 @@ const SNIPER_FRONTS = [
     address: "0x6C66C9724AeD2407e80E805B105d82270471785d",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
@@ -246,7 +246,7 @@ const SNIPER_FRONTS = [
     address: "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
@@ -261,7 +261,7 @@ const SNIPER_FRONTS = [
     address: "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
@@ -276,7 +276,7 @@ const SNIPER_FRONTS = [
     address: "0xc4E7Fc96695eF0593592EcE10A807bbF0C92f27d",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
@@ -291,7 +291,7 @@ const SNIPER_FRONTS = [
     address: "0xF3d19755705FdBE34f2930d9bABB51fE379E865d",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0x2734e8a984573856417d12478616187ff5d2ee7d",
@@ -306,7 +306,7 @@ const SNIPER_FRONTS = [
     address: "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
@@ -321,7 +321,7 @@ const SNIPER_FRONTS = [
     address: "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12",
     sacredReservePol: 5.00,
     surveillanceFloorPol: 5.05,
-    bulletPol: 1.50,
+    bulletPol: 1.20,
     minBulletPol: 0.50,
     gasBuffer: 0.04,
     binanceVault: "0xf94ef9da001c48367d78641e2e870db0e809dee9",
@@ -688,12 +688,24 @@ async function executeFrontShot(front, provider, options = {}) {
   console.log(`   Reserva Sagrada Blindada: ${front.sacredReservePol.toFixed(2)} POL | Bala táctica: ${front.bulletPol.toFixed(2)} POL`);
   console.log(`   Destino Barrido: ${front.binanceVaultName} (${front.binanceVault})`);
 
-  // 1. Verificación de Directivas NEBULA-11 (Gatillo >= 95%)
+  // 1. Verificación del Binomio IA Asignado (Estratega Cuántica + Guardaespaldas Anti-Rug Pull)
   const nebCheck = checkNebulaDirectives();
-  console.log(`🧠 [NEBULA-11 TRIGGER] Certeza Matemática: ${nebCheck.score}% (${nebCheck.authorized ? "AUTORIZADO ✅" : "BLOQUEADO ⛔"})`);
-  if (!nebCheck.authorized || nebCheck.score < 95) {
-    console.log(`⛔ [GATILLO BLOQUEADO] Certeza insuficiente (< 95%). Disparo abortado por protocolo de seguridad.`);
-    return { skipped: true, reason: "NEBULA_TRIGGER_NOT_MET", score: nebCheck.score };
+  const binomial = nebCheck.data?.binomialSquad?.find(b => b.mothership?.id === front.id);
+  if (binomial) {
+    console.log(`🧠 [BINOMIO IA ESCOLTA: ${binomial.oddNebula.id} + ${binomial.evenNebula.id}]`);
+    console.log(`   ↳ ${binomial.oddNebula.name} (Score: ${binomial.oddNebula.opportunityScore}%)`);
+    console.log(`   ↳ ${binomial.evenNebula.name} (Escudo: ${binomial.evenNebula.status} | Riesgo RugPull: ${binomial.evenNebula.rugPullRisk})`);
+    console.log(`   🔑 Doble Llave: ${binomial.doubleKeyAuthorized ? "AUTORIZADO ✅" : "BLOQUEADO ⛔"}`);
+    if (!binomial.doubleKeyAuthorized) {
+      console.log(`⛔ [DOBLE LLAVE BLOQUEADA] No se cumple la doble autorización de seguridad.`);
+      return { skipped: true, reason: "DOUBLE_KEY_NOT_AUTHORIZED", frontId: front.id };
+    }
+  } else {
+    console.log(`🧠 [NEBULA TRIGGER] Certeza Matemática: ${nebCheck.score}% (${nebCheck.authorized ? "AUTORIZADO ✅" : "BLOQUEADO ⛔"})`);
+    if (!nebCheck.authorized || nebCheck.score < 95) {
+      console.log(`⛔ [GATILLO BLOQUEADO] Certeza insuficiente (< 95%). Disparo abortado por protocolo de seguridad.`);
+      return { skipped: true, reason: "NEBULA_TRIGGER_NOT_MET", score: nebCheck.score };
+    }
   }
 
   // 2. Verificación de Cooldown Dinámico (30 Minutos)
@@ -1018,14 +1030,8 @@ async function runSupervisedSalvo16x(options = {}) {
     return { success: false, reason: "SCORE_BELOW_95" };
   }
 
-  // 2. Definición de Frentes a Disparar en la Salva Inaugural:
-  // Nodriza Matriz #501 (5.00 POL) + 10 Sub-Capitanes (#008 a #411 a 1.50 POL c/u)
-  // Los 5 Capitanes permanecen protegiendo sus pisos sagrados intocables
-  const targetIds = options.all
-    ? SNIPER_FRONTS.map(f => f.id)
-    : ["#501", "#008", "#006", "#108", "#106", "#204", "#205", "#307", "#311", "#403", "#411"];
-
-  const activeFronts = SNIPER_FRONTS.filter(f => targetIds.includes(f.id));
+  // 2. Frentes a disparar: Las 16 Nodrizas Sniper Expertas
+  const activeFronts = SNIPER_FRONTS;
   console.log(`🎯 Frentes seleccionados para la salva (${activeFronts.length} frentes en Polygon): ${activeFronts.map(f => f.id).join(", ")}`);
 
   const results = [];
