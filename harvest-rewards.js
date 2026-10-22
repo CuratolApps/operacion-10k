@@ -32,6 +32,15 @@ const BINANCE_VAULTS_MAP = {
 };
 
 // -------------------------------------------------------------------------------------
+// 🔒 POLÍTICA DE SEGURIDAD: BLOQUEO TOTAL DE MICRO-DEPÓSITOS A BINANCE (OPERACIÓN 12K)
+// -------------------------------------------------------------------------------------
+// Queda estrictamente PROHIBIDO enviar micro-depósitos automáticos ($1, $2, $5 USDC).
+// Todo el USDC Nativo permanece 100% on-chain en la Bóveda Máster #501 y en las
+// Cabeceras de Box como Fondo de Interés Compuesto para escalar a los Super Snipers.
+// Los retiros hacia Binance Spot solo se ejecutarán de forma MANUAL bajo orden explícita.
+const AUTO_SWEEP_TO_BINANCE = false;
+
+// -------------------------------------------------------------------------------------
 // CONTRATOS OFICIALES DE USDC NATIVO POR RED
 // -------------------------------------------------------------------------------------
 const NATIVE_USDC_CONTRACTS = {
@@ -306,7 +315,15 @@ async function scanOmnichainUsdcRewards(walletsToScan = null) {
  * Escanea y retira saldo de USDC nativo desde la Cartera Matriz #501
  * hacia la Bóveda #1 de Binance Spot (0x48b26dd0f9265573f31f7140cf01e9c48518531b).
  */
-async function checkAndHarvestVault501(options = { isDryRun: false, forceWithdraw: false }) {
+async function checkAndHarvestVault501(options = { isDryRun: false, forceWithdraw: false, manualOverride: false }) {
+  if (!AUTO_SWEEP_TO_BINANCE && !options.manualOverride) {
+    console.log(`\n🔒 [BÓVEDA MÁSTER ON-CHAIN #501] AUTO_SWEEP_TO_BINANCE = false.`);
+    console.log(`   ↳ PROHIBIDO MICRO-DEPÓSITOS AUTOMÁTICOS A BINANCE ($1, $2, $5 USDC).`);
+    console.log(`   ↳ Todos los fondos generados permanecen 100% ON-CHAIN en la Bóveda Matriz #501 como Fondo de Interés Compuesto.`);
+    console.log(`   ↳ Retiros a Binance Spot reservados exclusivamente para ejecución manual bajo orden explícita.`);
+    return { totalUsdc: 0, actions: [], mode: "ON_CHAIN_COMPOUNDING_LOCKED" };
+  }
+
   const BINANCE_VAULT_1 = BINANCE_VAULTS_MAP[1];
   const wallets = loadPublicWallets();
   const masterWallet = wallets.find((w) => w.index === 501);
@@ -363,7 +380,14 @@ async function checkAndHarvestVault501(options = { isDryRun: false, forceWithdra
 /**
  * Ejecuta el barrido de satélites que alcancen >= $1.00 USDC hacia su Bóveda de Binance asignada.
  */
-async function executeEligibleSweeps(eligibleList, options = { isDryRun: false }) {
+async function executeEligibleSweeps(eligibleList, options = { isDryRun: false, manualOverride: false }) {
+  if (!AUTO_SWEEP_TO_BINANCE && !options.manualOverride) {
+    console.log(`\n🔒 [POLÍTICA DE SEGURIDAD ON-CHAIN] AUTO_SWEEP_TO_BINANCE = false.`);
+    console.log(`   ↳ Micro-depósitos automáticos a Binance Spot totalmente desactivados.`);
+    console.log(`   ↳ Los saldos generados permanecen 100% on-chain en las carteras para el Fondo de Interés Compuesto rumbo a Super Snipers.`);
+    return { count: 0, harvestedUsdc: 0, actions: [], mode: "ON_CHAIN_COMPOUNDING_LOCKED" };
+  }
+
   if (!eligibleList || eligibleList.length === 0) {
     return { count: 0, harvestedUsdc: 0, actions: [] };
   }
@@ -483,8 +507,12 @@ function syncTelemetry(scanData, harvestedAmount = 0) {
 
     // Estado verificado de las 5 Bóvedas Receptoras
     tel.binanceVaultsVerification = {
-      status: "🟢 5/5 Verificadas (Solo USDC Nativo)",
-      mode: "100% USDC Nativo (Prohibido USDT)",
+      status: "🟢 5/5 Verificadas (Modo Manual Blindado)",
+      mode: "🔒 MANUAL (Cero Micro-Depósitos)",
+      autoSweep: false,
+      masterVaultOnChain: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      compoundingPoolActive: true,
+      compoundingPolicy: "100% USDC Nativo retenido en Bóveda Máster #501 y Cabeceras para Super Snipers",
       vaults: {
         box1_and_501: BINANCE_VAULTS_MAP[1],
         box2: BINANCE_VAULTS_MAP[2],
@@ -521,36 +549,31 @@ async function sendHarvestTelegramReport(scanData, harvestedAmount = 0, sendAlwa
   const consolidatedUsdc = totalConsolidated.toFixed(2);
 
   const reportMessage = `
-💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>
-   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $${floatingUsdc} USDC
-   • <b>Consolidado en Binance Spot (Meta 12K):</b> $${consolidatedUsdc} USDC
-   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)
+🔒 <b>BÓVEDA MÁSTER ON-CHAIN (#501) & ESTADO DE ACUMULACIÓN:</b>
+   • <b>En Bóveda Máster On-Chain (Compounding):</b> $${floatingUsdc} USDC
+   • <b>Recibido Previamente en Binance Spot:</b> $${consolidatedUsdc} USDC
+   • <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos)
+   • <b>Supervisión:</b> 12 Nebulosas IA (Gatillo >= 95% Certeza)
 
-🏦 <b>MAPEO ESTRICTO DE LAS 5 BÓVEDAS RECEPTORAS (BINANCE SPOT):</b>
+🏦 <b>MAPEO DE LAS 5 BÓVEDAS RECEPTORAS (SOLO RETIRO MANUAL CONSOLIDADO):</b>
    • <b>Box 1 (#001–#100 + Bóveda #501)</b> ➔ <code>${BINANCE_VAULTS_MAP[1]}</code>
    • <b>Box 2 (#101–#200)</b> ➔ <code>${BINANCE_VAULTS_MAP[2]}</code>
    • <b>Box 3 (#201–#300)</b> ➔ <code>${BINANCE_VAULTS_MAP[3]}</code>
    • <b>Box 4 (#301–#400)</b> ➔ <code>${BINANCE_VAULTS_MAP[4]}</code>
    • <b>Box 5 (#401–#500)</b> ➔ <code>${BINANCE_VAULTS_MAP[5]}</code>
 
-📦 <b>DESGLOSE DE CENTAVOS POR BOX:</b>
-   • <b>Box 1:</b> $${scanData.boxDust[1].toFixed(4)} USDC
-   • <b>Box 2:</b> $${scanData.boxDust[2].toFixed(4)} USDC
-   • <b>Box 3:</b> $${scanData.boxDust[3].toFixed(4)} USDC
-   • <b>Box 4:</b> $${scanData.boxDust[4].toFixed(4)} USDC
-   • <b>Box 5:</b> $${scanData.boxDust[5].toFixed(4)} USDC
-
-🌐 <b>REDES AUDITADAS CON MULTICALL3 (500 SATÉLITES):</b>
-   • <b>Base:</b> 500 satélites auditados ($${scanData.networkDust.base.toFixed(4)} USDC)
-   • <b>Arbitrum One:</b> 500 satélites auditados ($${scanData.networkDust.arbitrumOne.toFixed(4)} USDC)
-   • <b>Optimism:</b> 500 satélites auditados ($${scanData.networkDust.optimism.toFixed(4)} USDC)
-   • <b>BNB Smart Chain:</b> 500 satélites auditados ($${scanData.networkDust.bsc.toFixed(4)} USDC)
-   • <b>Polygon PoS:</b> 500 satélites auditados ($${scanData.networkDust.polygon.toFixed(4)} USDC)
+📦 <b>FONDO DE INTERÉS COMPUESTO POR BOX (ON-CHAIN):</b>
+   • <b>Box 1 (Matriz #501 + #001):</b> $${scanData.boxDust[1].toFixed(4)} USDC
+   • <b>Box 2 (Capitán #101):</b> $${scanData.boxDust[2].toFixed(4)} USDC
+   • <b>Box 3 (Capitán #201):</b> $${scanData.boxDust[3].toFixed(4)} USDC
+   • <b>Box 4 (Capitán #301):</b> $${scanData.boxDust[4].toFixed(4)} USDC
+   • <b>Box 5 (Capitán #401):</b> $${scanData.boxDust[5].toFixed(4)} USDC
 
 🛡️ <b>REGLAS Y BLINDAJES ACTIVOS:</b>
+   • <b>Micro-Depósitos a Binance:</b> 🚫 BLOQUEADOS TOTALMENTE (Cero spam on-chain al CEX)
+   • <b>Estrategia:</b> Compounding on-chain para escalar a Super Snipers
    • <b>Bóveda VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet / Solo Lectura)
-   • <b>Token Exclusivo:</b> 100% USDC Nativo (Prohibido USDT y otros tokens)
-   • <b>Barrido Automático:</b> Umbral >= $1.00 USDC con jitter 1.5%–4.0%
+   • <b>Token Exclusivo:</b> 100% USDC Nativo (Prohibido USDT por MiCA)
    • <b>Aislamiento Anti-Sybil:</b> Intra-bloque estanco verificado (5/5 Boxes)
 
 ⏰ <i>${timeUtc}</i>

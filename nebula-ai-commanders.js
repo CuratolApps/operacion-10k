@@ -350,8 +350,8 @@ async function runNebula09() {
 }
 
 /**
- * NEBULA-10: DEX Harvest Alchemist
- * Coordina la refinería hacia 100% USDC Nativo y barrido a Binance Spot
+ * NEBULA-10: DEX Harvest & Master Vault Alchemist
+ * Coordina la refinería hacia 100% USDC Nativo y acumulación en Bóveda Máster On-Chain
  */
 async function runNebula10(telemetry) {
   const pendingUsdc = Number(telemetry?.pendingHarvestUsdc?.totalPendingUsdc || 0).toFixed(2);
@@ -359,17 +359,18 @@ async function runNebula10(telemetry) {
 
   return {
     id: "NEBULA-10",
-    name: "DEX Harvest Alchemist",
+    name: "DEX Harvest & Master Vault Alchemist",
     icon: "💱",
-    specialty: "Enrutamiento Hacia 100% USDC Nativo & Barrido a Binance Spot",
+    specialty: "Enrutamiento Hacia 100% USDC Nativo & Bóveda Máster On-Chain (Compounding)",
     opportunityScore: 99,
     satellitesGuided: 502,
     status: "OPTIMAL",
-    reasoning: `Ruta DEX QuickSwap / PancakeSwap sincronizada hacia 100% USDC Nativo. Vigilando 5 Bóvedas Binance Spot (#01 a #05). Flotante actual: $${pendingUsdc} | Consolidado: $${harvestedUsdc} USDC.`,
+    reasoning: `Ruta DEX QuickSwap sincronizada hacia 100% USDC Nativo. Bóveda Máster #501 activa en Modo Compounding. Micro-depósitos automáticos a Binance bloqueados (Retiro Manual). Flotante on-chain listo para compounding: $${pendingUsdc} | En Binance: $${harvestedUsdc} USDC.`,
     liveData: {
-      sweepThreshold: ">= $1.00 USDC",
-      tokenPolicy: "100% USDC Nativo Exclusivo",
-      binanceVaultsCount: 5
+      masterVaultMode: "ON_CHAIN_COMPOUNDING",
+      binanceWithdrawalMode: "MANUAL_ONLY",
+      tokenPolicy: "100% USDC Nativo Exclusivo (Circle)",
+      masterVault: "0xD4D12077a61118372f7a367319fb11922Beb3743"
     }
   };
 }
@@ -581,19 +582,19 @@ async function runNebula12(polProvider, existingTelemetry) {
 
   return {
     id: "NEBULA-12",
-    name: "Micro-Goal & Binance Sweep Accelerator",
+    name: "Master Vault Compounding Accelerator",
     icon: "⚡",
-    specialty: "Monitoreo de Umbral $1.00 USDC & Acelerador de Barridos a Binance Spot",
-    opportunityScore: 97,
+    specialty: "Fondo de Interés Compuesto On-Chain & Supervisión de Super Snipers",
+    opportunityScore: 98,
     satellitesGuided: 502,
-    status: route1Ready ? "READY_TO_SWEEP" : "ACCELERATING",
-    reasoning: `Monitoreo de 6 Frentes hacia barrido >= $1.00 USDC a Binance Spot. Ruta #1 (#501 + #001) lidera con $${route1TotalUsdc.toFixed(4)} USDC acumulados (${route1Ready ? "UMBRAL ALCANZADO >= $1.00" : `faltan $${route1Missing.toFixed(4)} USDC`}). Prioridad de cobro asignada a Bóveda Binance #1.`,
+    status: "COMPOUNDING_ACTIVE",
+    reasoning: `Monitoreo de 6 Frentes en Polygon Mainnet. Todo el USDC Nativo retenido 100% on-chain para Fondo de Interés Compuesto rumbo a Super Snipers. Ruta #1 (#501 + #001) acumula $${route1TotalUsdc.toFixed(4)} USDC. Retiros a Binance Spot en modo 🔒 MANUAL (Cero Micro-Depósitos).`,
     liveData: {
-      sweepThresholdUsdc: 1.00,
+      autoSweepToBinance: false,
+      binanceWithdrawalMode: "🔒 MANUAL (Cero Micro-Depósitos)",
+      masterVault: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      compoundingStrategy: "Escalar potencia a Super Snipers antes de día 30",
       route1TotalUsdc,
-      route1MissingUsdc: route1Missing,
-      route1SweepReady: route1Ready,
-      closestFront: closest.name,
       frontsProgress
     }
   };

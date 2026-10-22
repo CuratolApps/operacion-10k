@@ -632,9 +632,12 @@ async function generateUnifiedTelemetry() {
       lastScanTimestamp: new Date().toISOString()
     },
     totalHarvestedToBinanceUsdc: existingTelemetry.totalHarvestedToBinanceUsdc || 0.00,
-    binanceVaultsVerification: existingTelemetry.binanceVaultsVerification || {
-      status: "🟢 5/5 Verificadas (Solo USDC Nativo)",
-      mode: "100% USDC Nativo (Prohibido USDT)"
+    binanceVaultsVerification: {
+      status: "🟢 5/5 Verificadas (Modo Manual Blindado)",
+      mode: "🔒 MANUAL (Cero Micro-Depósitos)",
+      autoSweepToBinance: false,
+      masterVaultOnChain: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      compoundingPoolActive: true
     },
     workStats: {
       totalRoundsCompleted: (existingTelemetry.workStats?.totalRoundsCompleted || 0) + 1,

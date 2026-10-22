@@ -329,10 +329,10 @@ function renderTopRadarBanner() {
   if (elMain) elMain.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
 
   const elUsd = document.getElementById('dashUsdLiqPill');
-  if (elUsd) elUsd.textContent = `Recibido en Binance: $${Number(totalBinanceNum || 0).toFixed(2)} USDC`;
+  if (elUsd) elUsd.textContent = `Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos)`;
 
   const elEur = document.getElementById('dashEurLiqPill');
-  if (elEur) elEur.textContent = `Acumulado en Flota: $${Number(pendingNum || 0).toFixed(2)} USDC`;
+  if (elEur) elEur.textContent = `En Bóveda Máster On-Chain (Compounding): $${Number(pendingNum || 0).toFixed(2)} USDC`;
 
   const elRes = document.getElementById('dashReserveLiqPill');
   const polReserve = telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || telem?.headersSurveillance?.find(h => h.id === '#501')?.polBal || '37.52';
@@ -473,7 +473,7 @@ function renderGalaxiesStreams() {
   const elG5Badge = document.getElementById('g5Badge');
   if (elG5Bots) elG5Bots.textContent = '500 Billeteras';
   if (elG5Mints) elG5Mints.textContent = `${mintsCount} Mints • ${honeypotsBlocked} Honeypot`;
-  if (elG5Badge) elG5Badge.textContent = 'BARRIDO AUTOMÁTICO';
+  if (elG5Badge) elG5Badge.textContent = 'COMPOUNDING ON-CHAIN';
 
   // Renderizado de Tablas de Galaxias
   const renderOrEmpty = (tbodyId, filterFn, defaultText) => {

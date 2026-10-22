@@ -41,8 +41,17 @@ const { sendTelegramAlert } = require("./telegram-notifier");
 const NATIVE_USDC_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // Circle oficial USDC, 6 dec
 const WPOL_POLYGON = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // Wrapped POL (WMATIC)
 const QUICKSWAP_V2_ROUTER = "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff";
-const SWEEP_THRESHOLD_USDC = 1.00; // Umbral de barrido hacia Binance Spot
+const SWEEP_THRESHOLD_USDC = 1.00; // Umbral de referencia
 const DYNAMIC_COOLDOWN_MS = 30 * 60 * 1000; // 30 Minutos de enfriamiento dinámico
+
+// -------------------------------------------------------------------------------------
+// 🔒 POLÍTICA DE SEGURIDAD ON-CHAIN: BLOQUEO TOTAL DE MICRO-DEPÓSITOS A BINANCE (12K)
+// -------------------------------------------------------------------------------------
+// Queda estrictamente PROHIBIDO enviar micro-depósitos automáticos ($1, $2, $5 USDC).
+// Todo el USDC Nativo Oficial permanece 100% on-chain en la Bóveda Matriz #501 y en las
+// Cabeceras de cada Box (#001, #101, #201, #301, #401) como Fondo de Interés Compuesto
+// (Compounding Pool) supervisado por las 12 Nebulosas IA rumbo a los Super Snipers.
+const AUTO_SWEEP_TO_BINANCE = false;
 
 // 6 Frentes Tácticos de Extracción Mainnet (Total 75.00 POL Blindados)
 const SNIPER_FRONTS = [
@@ -554,7 +563,7 @@ async function executeFrontShot(front, provider, options = {}) {
 /**
  * Ejecuta barrido a Binance Spot #1 para la Ruta 1 (#501 + #001) cuando se alcanza >= $1.00 USDC
  */
-async function checkAndExecuteRoute1Sweep(provider) {
+async function checkAndExecuteRoute1Sweep(provider, options = {}) {
   const usdcContract = new ethers.Contract(NATIVE_USDC_POLYGON, ERC20_ABI, provider);
   const binanceVault1 = "0x48b26dd0f9265573f31f7140cf01e9c48518531b";
 
@@ -569,10 +578,26 @@ async function checkAndExecuteRoute1Sweep(provider) {
 
   const totalRoute1Usdc = bal501 + bal001;
   console.log(`\n=========================================================================================`);
-  console.log(`⚡ [NEBULA-12 CHECK BARRIDO] Ruta #1 (#501 + #001) hacia Bóveda Binance #1:`);
-  console.log(`   • #501 (Matriz): $${bal501.toFixed(6)} USDC`);
+  console.log(`⚡ [ESTADO BÓVEDA MÁSTER ON-CHAIN #501] Ruta #1 (#501 + #001) para Interés Compuesto:`);
+  console.log(`   • #501 (Bóveda Matriz): $${bal501.toFixed(6)} USDC`);
   console.log(`   • #001 (Capitán Box 1): $${bal001.toFixed(6)} USDC`);
-  console.log(`   • Total Consolidado Ruta #1: $${totalRoute1Usdc.toFixed(6)} USDC (Umbral: >= $1.00 USDC)`);
+  console.log(`   • Total On-Chain Ruta #1: $${totalRoute1Usdc.toFixed(6)} USDC`);
+
+  // BLOQUEO ESTRICTO DE MICRO-DEPÓSITOS A BINANCE (COMPUNDING POOL ACTIVO)
+  if (!AUTO_SWEEP_TO_BINANCE && !options.manualSweep) {
+    console.log(`🔒 [BLOQUEO ACTIVO DE MICRO-DEPÓSITOS A BINANCE] AUTO_SWEEP_TO_BINANCE = false`);
+    console.log(`   ↳ FONDOS RETENIDOS 100% ON-CHAIN: Acumulación para Fondo de Interés Compuesto.`);
+    console.log(`   ↳ Supervisado por las 12 Nebulosas IA rumbo a los Super Snipers antes del día 30.`);
+    console.log(`   ↳ Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos automáticos).`);
+    return {
+      executed: false,
+      mode: "ON_CHAIN_COMPOUNDING_LOCKED",
+      totalRoute1Usdc,
+      bal501,
+      bal001,
+      reason: "AUTO_SWEEP_DISABLED_FOR_COMPOUNDING"
+    };
+  }
 
   if (totalRoute1Usdc < SWEEP_THRESHOLD_USDC) {
     const missing = SWEEP_THRESHOLD_USDC - totalRoute1Usdc;
@@ -664,12 +689,12 @@ async function runSupervisedSalvo6x(options = {}) {
     }
   }
 
-  // 2. Verificar y ejecutar barrido si Ruta #1 supera >= $1.00 USDC
+  // 2. Verificar estado de Bóveda Máster On-Chain (o barrido si manual)
   let sweepRes = null;
   try {
-    sweepRes = await checkAndExecuteRoute1Sweep(provider);
+    sweepRes = await checkAndExecuteRoute1Sweep(provider, options);
   } catch (err) {
-    console.warn(`⚠️ Aviso en verificación de barrido: ${err.message}`);
+    console.warn(`⚠️ Aviso en verificación de Bóveda Máster: ${err.message}`);
   }
 
   // 3. Sincronizar saldos de los 6 Frentes en la telemetría central

@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.2.0",
-  "generatedAt": "2026-10-22T00:36:13.663Z",
+  "generatedAt": "2026-10-22T00:50:04.505Z",
   "averageOpportunityScore": 97,
-  "executionTimeMs": 3090,
+  "executionTimeMs": 6348,
   "globalDirectives": {
     "fastestBtcL2": "Goat Network",
     "prioritizedBox": 1,
     "mainnetExecutionPermitted": true,
     "gasLevels": {
-      "polygonGwei": 274.97,
+      "polygonGwei": 268.2,
       "bscGwei": 0.05
     },
     "antiSybilJitterMs": [
@@ -19,7 +19,6 @@
     "binanceSweepThreshold": ">= $1.00 USDC",
     "sniperConfidenceScore": 98,
     "sniperFireAuthorized": true,
-    "route1SweepReady": false,
     "route1CombinedUsdc": 0.01487
   },
   "commanders": [
@@ -46,10 +45,10 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "OPTIMAL",
-      "reasoning": "Volumen 24h de $41.86M y liquidez pico de $28.13M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
+      "reasoning": "Volumen 24h de $42.52M y liquidez pico de $27.88M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
       "liveData": {
-        "volume24hUsd": 41855157.849999994,
-        "topLiquidityUsd": 28130205.44,
+        "volume24hUsd": 42522465.589999996,
+        "topLiquidityUsd": 27877363.52,
         "trackedPairs": 30
       }
     },
@@ -61,10 +60,10 @@
       "opportunityScore": 96,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48537525). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
+      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48541674). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
       "liveData": {
         "network": "Base Sepolia",
-        "blockHeight": 48537525,
+        "blockHeight": 48541674,
         "feeUsd": "$0.00"
       }
     },
@@ -91,15 +90,15 @@
       "opportunityScore": 90,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Citrea (1576ms, Blk #32913932) vs Goat (1452ms, Blk #17664963). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
+      "reasoning": "Citrea (3614ms, Blk #32914347) vs Goat (2557ms, Blk #17665209). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
       "liveData": {
         "citrea": {
-          "block": 32913932,
-          "latencyMs": 1576
+          "block": 32914347,
+          "latencyMs": 3614
         },
         "goat": {
-          "block": 17664963,
-          "latencyMs": 1452
+          "block": 17665209,
+          "latencyMs": 2557
         },
         "fastestL2": "Goat Network"
       }
@@ -112,10 +111,10 @@
       "opportunityScore": 95,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (3276 txs acumuladas). Priorizando Box 1 (#001–#100) para mantener uniformidad total.",
+      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (3416 txs acumuladas). Priorizando Box 1 (#001–#100) para mantener uniformidad total.",
       "liveData": {
         "prioritizedBox": 1,
-        "totalAllTimeTx": 3276,
+        "totalAllTimeTx": 3416,
         "coverageL2": "4 Redes EVM + Solana Devnet"
       }
     },
@@ -127,9 +126,9 @@
       "opportunityScore": 98,
       "satellitesGuided": 55,
       "status": "OPTIMAL",
-      "reasoning": "Gas Mainnet medido en vivo: Polygon 274.97 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
+      "reasoning": "Gas Mainnet medido en vivo: Polygon 268.20 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
       "liveData": {
-        "polygonGwei": 274.97,
+        "polygonGwei": 268.2,
         "bscGwei": 0.05,
         "mainnetPermitted": true
       }
@@ -174,17 +173,18 @@
     },
     {
       "id": "NEBULA-10",
-      "name": "DEX Harvest Alchemist",
+      "name": "DEX Harvest & Master Vault Alchemist",
       "icon": "💱",
-      "specialty": "Enrutamiento Hacia 100% USDC Nativo & Barrido a Binance Spot",
+      "specialty": "Enrutamiento Hacia 100% USDC Nativo & Bóveda Máster On-Chain (Compounding)",
       "opportunityScore": 99,
       "satellitesGuided": 502,
       "status": "OPTIMAL",
-      "reasoning": "Ruta DEX QuickSwap / PancakeSwap sincronizada hacia 100% USDC Nativo. Vigilando 5 Bóvedas Binance Spot (#01 a #05). Flotante actual: $0.93 | Consolidado: $1.00 USDC.",
+      "reasoning": "Ruta DEX QuickSwap sincronizada hacia 100% USDC Nativo. Bóveda Máster #501 activa en Modo Compounding. Micro-depósitos automáticos a Binance bloqueados (Retiro Manual). Flotante on-chain listo para compounding: $1.30 | En Binance: $1.00 USDC.",
       "liveData": {
-        "sweepThreshold": ">= $1.00 USDC",
-        "tokenPolicy": "100% USDC Nativo Exclusivo",
-        "binanceVaultsCount": 5
+        "masterVaultMode": "ON_CHAIN_COMPOUNDING",
+        "binanceWithdrawalMode": "MANUAL_ONLY",
+        "tokenPolicy": "100% USDC Nativo Exclusivo (Circle)",
+        "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743"
       }
     },
     {
@@ -195,12 +195,12 @@
       "opportunityScore": 98,
       "satellitesGuided": 502,
       "status": "FIRING_AUTHORIZED",
-      "reasoning": "4 condiciones evaluadas: Contrato USDC 100% verificado GoPlus (0 honeypots), Liquidez DEX $28.5M USD (> $20M), Gas 275.9 Gwei en rango seguro, Cotización QuickSwap sin anomalías (0.0944 USDC/POL). Certeza: 98%. GATILLO AUTORIZADO (Score >= 95%).",
+      "reasoning": "4 condiciones evaluadas: Contrato USDC 100% verificado GoPlus (0 honeypots), Liquidez DEX $28.5M USD (> $20M), Gas 268.2 Gwei en rango seguro, Cotización QuickSwap sin anomalías (0.0944 USDC/POL). Certeza: 98%. GATILLO AUTORIZADO (Score >= 95%).",
       "liveData": {
         "contractVerified": true,
         "honeypotsDetected": 0,
         "dexLiquidityUsd": 28500000,
-        "gasGwei": 275.892007934,
+        "gasGwei": 268.203469579,
         "quoteUsdcPerPol": 0.094373,
         "sniperConfidenceScore": 98,
         "sniperFireAuthorized": true
@@ -208,19 +208,19 @@
     },
     {
       "id": "NEBULA-12",
-      "name": "Micro-Goal & Binance Sweep Accelerator",
+      "name": "Master Vault Compounding Accelerator",
       "icon": "⚡",
-      "specialty": "Monitoreo de Umbral $1.00 USDC & Acelerador de Barridos a Binance Spot",
-      "opportunityScore": 97,
+      "specialty": "Fondo de Interés Compuesto On-Chain & Supervisión de Super Snipers",
+      "opportunityScore": 98,
       "satellitesGuided": 502,
-      "status": "ACCELERATING",
-      "reasoning": "Monitoreo de 6 Frentes hacia barrido >= $1.00 USDC a Binance Spot. Ruta #1 (#501 + #001) lidera con $0.0149 USDC acumulados (faltan $0.9851 USDC). Prioridad de cobro asignada a Bóveda Binance #1.",
+      "status": "COMPOUNDING_ACTIVE",
+      "reasoning": "Monitoreo de 6 Frentes en Polygon Mainnet. Todo el USDC Nativo retenido 100% on-chain para Fondo de Interés Compuesto rumbo a Super Snipers. Ruta #1 (#501 + #001) acumula $0.0149 USDC. Retiros a Binance Spot en modo 🔒 MANUAL (Cero Micro-Depósitos).",
       "liveData": {
-        "sweepThresholdUsdc": 1,
+        "autoSweepToBinance": false,
+        "binanceWithdrawalMode": "🔒 MANUAL (Cero Micro-Depósitos)",
+        "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+        "compoundingStrategy": "Escalar potencia a Super Snipers antes de día 30",
         "route1TotalUsdc": 0.01487,
-        "route1MissingUsdc": 0.98513,
-        "route1SweepReady": false,
-        "closestFront": "Capitán Box 2 (#101)",
         "frontsProgress": [
           {
             "id": "#001",
