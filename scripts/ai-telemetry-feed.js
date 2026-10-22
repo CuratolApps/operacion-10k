@@ -145,7 +145,7 @@ async function generateUnifiedTelemetry() {
 
   // 5. Meta 12,000 USDC (Modo Producción Real: Arranque en $0.00)
   const targetGoalUsdc = 12000.0;
-  const currentAccruedUsdc = parseFloat(process.env.CURRENT_ACCRUED_USDC || "0.00");
+  const currentAccruedUsdc = parseFloat(((existingTelemetry.totalHarvestedToBinanceUsdc || 0) + (existingTelemetry.pendingHarvestUsdc?.totalPendingUsdc || 0)).toFixed(2));
   const progressPct = parseFloat(((currentAccruedUsdc / targetGoalUsdc) * 100).toFixed(2));
   const remainingUsdc = parseFloat((targetGoalUsdc - currentAccruedUsdc).toFixed(2));
 
