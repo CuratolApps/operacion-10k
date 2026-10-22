@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.2.0",
-  "generatedAt": "2026-10-22T00:50:04.505Z",
+  "generatedAt": "2026-10-22T01:04:13.970Z",
   "averageOpportunityScore": 97,
-  "executionTimeMs": 6348,
+  "executionTimeMs": 5827,
   "globalDirectives": {
     "fastestBtcL2": "Goat Network",
-    "prioritizedBox": 1,
+    "prioritizedBox": 2,
     "mainnetExecutionPermitted": true,
     "gasLevels": {
-      "polygonGwei": 268.2,
+      "polygonGwei": 268.64,
       "bscGwei": 0.05
     },
     "antiSybilJitterMs": [
@@ -19,7 +19,7 @@
     "binanceSweepThreshold": ">= $1.00 USDC",
     "sniperConfidenceScore": 98,
     "sniperFireAuthorized": true,
-    "route1CombinedUsdc": 0.01487
+    "route1CombinedUsdc": 0.616635
   },
   "commanders": [
     {
@@ -45,10 +45,10 @@
       "opportunityScore": 98,
       "satellitesGuided": 500,
       "status": "OPTIMAL",
-      "reasoning": "Volumen 24h de $42.52M y liquidez pico de $27.88M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
+      "reasoning": "Volumen 24h de $55.78M y liquidez pico de $27.85M detectados en pares USDC (DEXScreener). Tracción orgánica confirmada en Base y Polygon.",
       "liveData": {
-        "volume24hUsd": 42522465.589999996,
-        "topLiquidityUsd": 27877363.52,
+        "volume24hUsd": 55776550.8,
+        "topLiquidityUsd": 27851691.06,
         "trackedPairs": 30
       }
     },
@@ -60,10 +60,10 @@
       "opportunityScore": 96,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48541674). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
+      "reasoning": "EIP-712 Loot Network activo en Base Sepolia (Bloque #48545922). Asignado 50% Daily Check-In y 50% Reclamo de Cofres con costo $0.00 gas.",
       "liveData": {
         "network": "Base Sepolia",
-        "blockHeight": 48541674,
+        "blockHeight": 48545922,
         "feeUsd": "$0.00"
       }
     },
@@ -75,10 +75,10 @@
       "opportunityScore": 97,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Turno de caza asignado a Box 1 (#001–#100). Canalizando 20 satélites hacia la piscina USDC con multiplicador de 5 tickets por firma.",
+      "reasoning": "Turno de caza asignado a Box 2 (#101–#200). Canalizando 20 satélites hacia la piscina USDC con multiplicador de 5 tickets por firma.",
       "liveData": {
-        "activeBox": 1,
-        "poolId": "POOL-USDC-B1",
+        "activeBox": 2,
+        "poolId": "POOL-USDC-B2",
         "ticketsPerSign": 5
       }
     },
@@ -90,15 +90,15 @@
       "opportunityScore": 90,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Citrea (3614ms, Blk #32914347) vs Goat (2557ms, Blk #17665209). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
+      "reasoning": "Citrea (3190ms, Blk #32914771) vs Goat (1225ms, Blk #17665461). Dirigiendo el carrusel minero prioritariamente hacia Goat Network por menor latencia.",
       "liveData": {
         "citrea": {
-          "block": 32914347,
-          "latencyMs": 3614
+          "block": 32914771,
+          "latencyMs": 3190
         },
         "goat": {
-          "block": 17665209,
-          "latencyMs": 2557
+          "block": 17665461,
+          "latencyMs": 1225
         },
         "fastestL2": "Goat Network"
       }
@@ -111,10 +111,10 @@
       "opportunityScore": 95,
       "satellitesGuided": 100,
       "status": "OPTIMAL",
-      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (3416 txs acumuladas). Priorizando Box 1 (#001–#100) para mantener uniformidad total.",
+      "reasoning": "Analizada la huella on-chain en Sepolia, Base, Arbitrum y Optimism (3477 txs acumuladas). Priorizando Box 2 (#101–#200) para mantener uniformidad total.",
       "liveData": {
-        "prioritizedBox": 1,
-        "totalAllTimeTx": 3416,
+        "prioritizedBox": 2,
+        "totalAllTimeTx": 3477,
         "coverageL2": "4 Redes EVM + Solana Devnet"
       }
     },
@@ -126,9 +126,9 @@
       "opportunityScore": 98,
       "satellitesGuided": 55,
       "status": "OPTIMAL",
-      "reasoning": "Gas Mainnet medido en vivo: Polygon 268.20 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
+      "reasoning": "Gas Mainnet medido en vivo: Polygon 268.64 Gwei · BSC 0.05 Gwei. Ventana de bajo costo confirmada; ejecución autorizada bajo escudo de 168h.",
       "liveData": {
-        "polygonGwei": 268.2,
+        "polygonGwei": 268.64,
         "bscGwei": 0.05,
         "mainnetPermitted": true
       }
@@ -179,7 +179,7 @@
       "opportunityScore": 99,
       "satellitesGuided": 502,
       "status": "OPTIMAL",
-      "reasoning": "Ruta DEX QuickSwap sincronizada hacia 100% USDC Nativo. Bóveda Máster #501 activa en Modo Compounding. Micro-depósitos automáticos a Binance bloqueados (Retiro Manual). Flotante on-chain listo para compounding: $1.30 | En Binance: $1.00 USDC.",
+      "reasoning": "Ruta DEX QuickSwap sincronizada hacia 100% USDC Nativo. Bóveda Máster #501 activa en Modo Compounding. Micro-depósitos automáticos a Binance bloqueados (Retiro Manual). Flotante on-chain listo para compounding: $1.85 | En Binance: $1.00 USDC.",
       "liveData": {
         "masterVaultMode": "ON_CHAIN_COMPOUNDING",
         "binanceWithdrawalMode": "MANUAL_ONLY",
@@ -195,13 +195,13 @@
       "opportunityScore": 98,
       "satellitesGuided": 502,
       "status": "FIRING_AUTHORIZED",
-      "reasoning": "4 condiciones evaluadas: Contrato USDC 100% verificado GoPlus (0 honeypots), Liquidez DEX $28.5M USD (> $20M), Gas 268.2 Gwei en rango seguro, Cotización QuickSwap sin anomalías (0.0944 USDC/POL). Certeza: 98%. GATILLO AUTORIZADO (Score >= 95%).",
+      "reasoning": "4 condiciones evaluadas: Contrato USDC 100% verificado GoPlus (0 honeypots), Liquidez DEX $28.5M USD (> $20M), Gas 268.6 Gwei en rango seguro, Cotización QuickSwap sin anomalías (0.0944 USDC/POL). Certeza: 98%. GATILLO AUTORIZADO (Score >= 95%).",
       "liveData": {
         "contractVerified": true,
         "honeypotsDetected": 0,
         "dexLiquidityUsd": 28500000,
-        "gasGwei": 268.203469579,
-        "quoteUsdcPerPol": 0.094373,
+        "gasGwei": 268.644989301,
+        "quoteUsdcPerPol": 0.094433,
         "sniperConfidenceScore": 98,
         "sniperFireAuthorized": true
       }
@@ -214,13 +214,13 @@
       "opportunityScore": 98,
       "satellitesGuided": 502,
       "status": "COMPOUNDING_ACTIVE",
-      "reasoning": "Monitoreo de 6 Frentes en Polygon Mainnet. Todo el USDC Nativo retenido 100% on-chain para Fondo de Interés Compuesto rumbo a Super Snipers. Ruta #1 (#501 + #001) acumula $0.0149 USDC. Retiros a Binance Spot en modo 🔒 MANUAL (Cero Micro-Depósitos).",
+      "reasoning": "Monitoreo de 6 Frentes en Polygon Mainnet. Todo el USDC Nativo retenido 100% on-chain para Fondo de Interés Compuesto rumbo a Super Snipers. Ruta #1 (#501 + #001) acumula $0.6166 USDC. Retiros a Binance Spot en modo 🔒 MANUAL (Cero Micro-Depósitos).",
       "liveData": {
         "autoSweepToBinance": false,
         "binanceWithdrawalMode": "🔒 MANUAL (Cero Micro-Depósitos)",
         "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
         "compoundingStrategy": "Escalar potencia a Super Snipers antes de día 30",
-        "route1TotalUsdc": 0.01487,
+        "route1TotalUsdc": 0.616635,
         "frontsProgress": [
           {
             "id": "#001",
@@ -228,9 +228,9 @@
             "name": "Capitán Box 1 (#001)",
             "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
             "vault": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
-            "currentUsdc": 0,
-            "missingUsdc": 1,
-            "progressPct": 0,
+            "currentUsdc": 0.175877,
+            "missingUsdc": 0.8241229999999999,
+            "progressPct": 18,
             "readyToSweep": false
           },
           {
@@ -239,9 +239,9 @@
             "name": "Capitán Box 2 (#101)",
             "address": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
             "vault": "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
-            "currentUsdc": 0.353648,
-            "missingUsdc": 0.646352,
-            "progressPct": 35,
+            "currentUsdc": 0.537938,
+            "missingUsdc": 0.462062,
+            "progressPct": 54,
             "readyToSweep": false
           },
           {
@@ -250,9 +250,9 @@
             "name": "Capitán Box 3 (#201)",
             "address": "0x2810aa0DabCA4511846194229d2c004B14016A7C",
             "vault": "0x409a4695efd6c919ca660cd86c5c24eb54bfca4e",
-            "currentUsdc": 0.188542,
-            "missingUsdc": 0.811458,
-            "progressPct": 19,
+            "currentUsdc": 0.231056,
+            "missingUsdc": 0.768944,
+            "progressPct": 23,
             "readyToSweep": false
           },
           {
@@ -261,9 +261,9 @@
             "name": "Capitán Box 4 (#301)",
             "address": "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
             "vault": "0x2734e8a984573856417d12478616187ff5d2ee7d",
-            "currentUsdc": 0.188492,
-            "missingUsdc": 0.811508,
-            "progressPct": 19,
+            "currentUsdc": 0.231,
+            "missingUsdc": 0.769,
+            "progressPct": 23,
             "readyToSweep": false
           },
           {
@@ -272,9 +272,9 @@
             "name": "Capitán Box 5 (#401)",
             "address": "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
             "vault": "0xf94ef9da001c48367d78641e2e870db0e809dee9",
-            "currentUsdc": 0.18844,
-            "missingUsdc": 0.8115600000000001,
-            "progressPct": 19,
+            "currentUsdc": 0.230943,
+            "missingUsdc": 0.769057,
+            "progressPct": 23,
             "readyToSweep": false
           },
           {
@@ -283,9 +283,9 @@
             "name": "Bóveda Matriz (#501)",
             "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
             "vault": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
-            "currentUsdc": 0.01487,
-            "missingUsdc": 0.98513,
-            "progressPct": 1,
+            "currentUsdc": 0.440758,
+            "missingUsdc": 0.559242,
+            "progressPct": 44,
             "readyToSweep": false
           }
         ]

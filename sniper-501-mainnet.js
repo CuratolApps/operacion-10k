@@ -474,9 +474,19 @@ async function executeFrontShot(front, provider, options = {}) {
   const surplus = polBal - front.sacredReservePol;
   console.log(`💰 Excedente Cazador Disponible: ${surplus.toFixed(4)} POL`);
 
+  // Margen de seguridad para cubrir el gas de la propia transacción (~0.08 POL)
+  const gasBuffer = 0.08;
+  const maxSafeBullet = Math.max(0, surplus - gasBuffer);
+
+  let bulletToFire = front.bulletPol;
   if (surplus < front.bulletPol) {
-    console.log(`⚠️ Excedente (${surplus.toFixed(4)} POL) < Bala táctica (${front.bulletPol} POL). En espera.`);
-    return { skipped: true, reason: "INSUFFICIENT_SURPLUS", surplus };
+    if (maxSafeBullet >= 0.40) {
+      bulletToFire = parseFloat(maxSafeBullet.toFixed(2));
+      console.log(`🎯 [MICRO-BALA ADAPTATIVA] Ajustada a ${bulletToFire} POL para proteger el piso de ${front.sacredReservePol.toFixed(2)} POL.`);
+    } else {
+      console.log(`⚠️ Excedente seguro (${maxSafeBullet.toFixed(4)} POL) < micro-bala mínima (0.40 POL). En espera.`);
+      return { skipped: true, reason: "INSUFFICIENT_SURPLUS", surplus };
+    }
   }
 
   // 4. Auditoría NEBULA-09 & Bytecode
@@ -484,8 +494,8 @@ async function executeFrontShot(front, provider, options = {}) {
 
   // 5. Cotización QuickSwap V2
   const router = new ethers.Contract(QUICKSWAP_V2_ROUTER, ROUTER_ABI, signer);
-  const quote = await scanLiquidityQuote(router, front.bulletPol);
-  console.log(`💱 Cotización QuickSwap: ${front.bulletPol} POL -> ${quote.expectedUsdcNum.toFixed(6)} USDC Nativo.`);
+  const quote = await scanLiquidityQuote(router, bulletToFire);
+  console.log(`💱 Cotización QuickSwap: ${bulletToFire} POL -> ${quote.expectedUsdcNum.toFixed(6)} USDC Nativo.`);
 
   // 6. Gas Óptimo en Polygon
   const gasFees = await getOptimalGasFees(provider);
@@ -497,7 +507,7 @@ async function executeFrontShot(front, provider, options = {}) {
   }
 
   // 7. Disparo On-Chain Fuego Real
-  console.log(`🔥 Disparando bala táctica (${front.bulletPol} POL) en Polygon Mainnet...`);
+  console.log(`🔥 Disparando bala táctica (${bulletToFire} POL) en Polygon Mainnet...`);
   const amountOutMin = (quote.amounts[1] * 99n) / 100n; // 1% slippage máximo
   const pathArr = [WPOL_POLYGON, NATIVE_USDC_POLYGON];
   const deadline = Math.floor(Date.now() / 1000) + 1200;
@@ -709,13 +719,45 @@ async function runSupervisedSalvo6x(options = {}) {
   );
 
   const totalUsdcInFleet = allFrontStatuses.reduce((acc, f) => acc + f.usdcBalance, 0);
-  console.log(`\n=========================================================================================`);
-  console.log(`🎉 SALVA TÁCTICA 6X FINALIZADA CON ÉXITO`);
-  console.log(`💵 Flotante Acumulado en Flota: $${totalUsdcInFleet.toFixed(6)} USDC`);
-  if (sweepRes?.executed) {
-    console.log(`🏦 Barrido Real a Binance Spot #1: $${sweepRes.sweepEvent.amount.toFixed(2)} USDC entregados.`);
+  // 4. Enviar Parte de Guerra confirmado a Sala de Mando 10K (Telegram)
+  const successfulShots = results.filter(r => r.success && r.txHash);
+  if (successfulShots.length > 0) {
+    const totalHarvestedThisRun = successfulShots.reduce((acc, r) => acc + (r.usdcHarvested || 0), 0);
+    const polTotalFleet = allFrontStatuses.reduce((acc, f) => acc + f.polBalance, 0);
+
+    const frontLines = successfulShots.map(s => 
+      `• <b>${s.front.id} (${s.front.name}):</b> +$${s.usdcHarvested.toFixed(6)} USDC\n  ↳ Tx: <code>${s.txHash}</code>`
+    ).join("\n");
+
+    const msg = `
+🦅🔥 <b>PARTE DE GUERRA // RONDA SNIPER 6X MAINNET EJECUTADA</b>
+
+🎯 <b>OPERACIÓN 12K — SALVA DE PRECISIÓN (CERTEZA >= 95%)</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💎 <b>RESULTADOS CONFIRMADOS ON-CHAIN:</b>
+• <b>Disparos Exitosos:</b> ${successfulShots.length}/6 Frentes Tácticos
+• <b>USDC Nativo Capturado en esta Ronda:</b> +$${totalHarvestedThisRun.toFixed(6)} USDC
+• <b>En Bóveda Máster On-Chain (Compounding Pool):</b> $${totalUsdcInFleet.toFixed(6)} USDC
+• <b>Gas Total Preservado en Flota:</b> ${polTotalFleet.toFixed(4)} POL (Piso sagrado 75.00 POL blindado)
+
+📦 <b>DETALLE POR FRENTE:</b>
+${frontLines}
+
+🔒 <b>POLÍTICA DE SEGURIDAD EN BÓVEDA MÁSTER (#501):</b>
+• <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos automáticos)
+• <b>Destino de los Fondos:</b> 100% Acumulación On-Chain para Fondo de Interés Compuesto rumbo a los Super Snipers.
+• <b>Supervisión:</b> 12 Nebulosas IA (Gatillo NEBULA-11 activo)
+
+⏰ <i>${new Date().toISOString()}</i>
+`.trim();
+
+    try {
+      await sendTelegramAlert(msg);
+      console.log("📱 [TELEGRAM] Parte de Guerra enviado exitosamente a Sala de Mando 10K.");
+    } catch (err) {
+      console.warn(`⚠️ Error enviando alerta a Telegram: ${err.message}`);
+    }
   }
-  console.log("=========================================================================================\n");
 
   return { results, allFrontStatuses, totalUsdcInFleet, sweepRes };
 }
