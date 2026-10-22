@@ -1,0 +1,84 @@
+{
+  "generatedAt": "2026-10-22T10:35:36.106Z",
+  "status": "CLOSED_CYCLE_ACTIVE",
+  "targetGoalPhase1": {
+    "targetUsdc": 130,
+    "targetEur": 120,
+    "escalon1": {
+      "targetUsdc": 65,
+      "targetEur": 60,
+      "progressPct": 61.1
+    },
+    "escalon2": {
+      "targetUsdc": 97.5,
+      "targetEur": 90,
+      "progressPct": 40.7
+    },
+    "escalon3": {
+      "targetUsdc": 130,
+      "targetEur": 120,
+      "progressPct": 30.6
+    },
+    "currentConsolidatedUsdc": 39.719394,
+    "currentConsolidatedEur": 36.66,
+    "remainingToEscalon1Usdc": 25.28,
+    "remainingToBreakEvenUsdc": 90.28
+  },
+  "gasReservesStatus": {
+    "mothership501Pol": 121.0241,
+    "box3CaptainPol": 18.025,
+    "captainsFloorPol": 18.02,
+    "fleetTotalPol": 265.86,
+    "fleetTotalBnb": 0.0435,
+    "strictNoGasSell": true,
+    "gasDrainStatus": "0.00 POL / 0.00 BNB DRENADOS (100% PRESERVADO)"
+  },
+  "liveClosedCycleSimulation": {
+    "capitalDeployedUsdc": 0,
+    "additionalUsdcCaptured": 0,
+    "gasBurnedUsd": 0,
+    "netProfitUsdc": 0,
+    "split70_30Applied": {
+      "usdcCompounding70": 0,
+      "gasRestock30": 0
+    },
+    "reason": "Las 32 Nebulosas IA mantienen el gatillo congelado a $0 gas porque los micro-spreads actuales de DEX no superan el slippage + fee tier institucional. Preservación estricta de capital."
+  },
+  "top3FastRecoveryOpportunities": [
+    {
+      "rank": 1,
+      "title": "Cosecha & Airdrops Galaxia 3 & Galaxia 4 (Piscinas Quest & Drops Gasless)",
+      "operationsAccumulated": 5771,
+      "networks": "Base Sepolia, Arbitrum Sepolia, Optimism Sepolia, Ethereum Sepolia",
+      "campaignsActive": 24,
+      "ticketsUsdcPools": 3850,
+      "dailyCheckIns": 590,
+      "gaslessQuestsSigned": 620,
+      "claimStatus": "Época en Curso • Reclamo Masivo al Snapshot Final",
+      "estimatedYieldUsdc": "$25.00 a $45.00 USDC directos a Bóvedas Binance",
+      "capitalCost": "$0.00 (100% Gasless y Testnets L2)"
+    },
+    {
+      "rank": 2,
+      "title": "Arbitraje Ciclo Cerrado Multi-DEX & Whale Panic-Dip (Modelos 1 & 3 Omni-Sniper)",
+      "capitalAvailable": 38.719394,
+      "floatingOperationalCapitalUsdc": 5.8079,
+      "lockedFloorUsdc": 32.9115,
+      "condition": "Gatillo de rebote >= 95% o spread neto > fees en Uniswap V3 (0.05%) / PancakeSwap V2",
+      "splitRule": "70% a USDC Nativo / 30% a recarga de POL y BNB",
+      "estimatedYieldUsdc": "$5.00 a $12.50 USDC por ciclo ganador",
+      "capitalCost": "0.00 Gas hasta confirmación estática de ganancia"
+    },
+    {
+      "rank": 3,
+      "title": "Minería Bitcoin L2 & Free Mints Galaxia 1 & Galaxia 2",
+      "operationsAccumulated": 860,
+      "networks": "Citrea L2, GOAT Network, Polygon Mints, GameFi Metaverso",
+      "pointsAccumulated": "12,450 pts BTC L2 + Cofres de Minería",
+      "claimStatus": "Acumulación Verificada • Convertibilidad Directa en TGE",
+      "estimatedYieldUsdc": "$15.00 a $30.00 USDC al lanzamiento de mainnet",
+      "capitalCost": "$0.00 (Firma polimórfica sin costo de gas)"
+    }
+  ],
+  "nextTacticalStep": "Mantener 100% de la flota en modo estanco, acumulando tickets de misiones a $0 gas y disparando únicamente cuando el spread de arbitraje en Uniswap V3 0.05% supere el 0.15% anti-MEV con ganancia neta demostrada."
+}

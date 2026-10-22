@@ -830,6 +830,7 @@ async function generateUnifiedTelemetry() {
       badges: ["🔒 Trinquete 85% USDC", "⛽ Capitalizador 75/25 Gas Activo", "🛡️ 5º Candado Anti-MEV <= 0.15%"],
       ratchet85: { model: "USDC_RATCHET_85", ratio: 0.85 }
     },
+    fastRecoveryOpportunities: readJsonSafe(path.join(TELEMETRY_DIR, "fast-recovery-opportunities.json")),
     badges: [
       "🎯 Meta 120 € ($130 USDC) en Marcha",
       "💎 Ciclo Cerrado 70/30 Activo",
