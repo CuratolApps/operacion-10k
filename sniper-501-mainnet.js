@@ -41,6 +41,24 @@ const { sendTelegramAlert } = require("./telegram-notifier");
 const NATIVE_USDC_POLYGON = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // Circle oficial USDC, 6 dec
 const WPOL_POLYGON = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // Wrapped POL (WMATIC)
 const QUICKSWAP_V2_ROUTER = "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff";
+const SUSHISWAP_V2_ROUTER = "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506";
+
+// 💱 Registro de DEXs Soportados en Polygon Mainnet para Enrutamiento Inteligente
+const MULTI_DEX_VENUES = [
+  {
+    id: "quickswap_v2",
+    name: "QuickSwap V2",
+    routerAddress: QUICKSWAP_V2_ROUTER,
+    icon: "⚡"
+  },
+  {
+    id: "sushiswap_v2",
+    name: "SushiSwap V2",
+    routerAddress: SUSHISWAP_V2_ROUTER,
+    icon: "🍣"
+  }
+];
+
 const SWEEP_THRESHOLD_USDC = 1.00; // Umbral de referencia
 const DYNAMIC_COOLDOWN_MS = 30 * 60 * 1000; // 30 Minutos de enfriamiento dinámico
 
@@ -252,7 +270,57 @@ async function getOptimalGasFees(provider) {
 }
 
 /**
- * NEBULA-10: Cotización de Liquidez QuickSwap V2
+ * NEBULA-10 & NEBULA-11: Cotizador Multi-DEX Inteligente en Tiempo Real
+ * Escanea QuickSwap V2 y SushiSwap V2 para enrutar automáticamente al DEX con mayor retorno de USDC
+ */
+async function scanMultiDexLiquidityQuote(provider, polAmount) {
+  const pathArr = [WPOL_POLYGON, NATIVE_USDC_POLYGON];
+  const polWei = ethers.parseEther(polAmount.toString());
+
+  const quotes = [];
+  for (const venue of MULTI_DEX_VENUES) {
+    try {
+      const routerContract = new ethers.Contract(venue.routerAddress, ROUTER_ABI, provider);
+      const amounts = await routerContract.getAmountsOut(polWei, pathArr);
+      const expectedUsdcUnits = amounts[1];
+      const expectedUsdcNum = parseFloat(ethers.formatUnits(expectedUsdcUnits, 6));
+      quotes.push({
+        venue,
+        amounts,
+        expectedUsdcUnits,
+        expectedUsdcNum,
+        rateUsdcPerPol: expectedUsdcNum / polAmount
+      });
+    } catch (err) {
+      console.warn(`⚠️ Error cotizando en ${venue.name}: ${err.message}`);
+    }
+  }
+
+  if (quotes.length === 0) {
+    throw new Error("❌ No se pudo obtener cotización de ningún DEX en Polygon.");
+  }
+
+  // Ordenar por mejor salida de USDC descendente
+  quotes.sort((a, b) => b.expectedUsdcNum - a.expectedUsdcNum);
+  const best = quotes[0];
+  const second = quotes[1] || quotes[0];
+  const spreadPct = second.expectedUsdcNum > 0
+    ? ((best.expectedUsdcNum - second.expectedUsdcNum) / second.expectedUsdcNum) * 100
+    : 0;
+
+  return {
+    polWei,
+    bestVenue: best.venue,
+    bestQuote: best,
+    allQuotes: quotes,
+    spreadPct,
+    expectedUsdcNum: best.expectedUsdcNum,
+    amounts: best.amounts
+  };
+}
+
+/**
+ * NEBULA-10: Cotización de Liquidez QuickSwap V2 (Compatibilidad)
  */
 async function scanLiquidityQuote(router, polAmount) {
   const pathArr = [WPOL_POLYGON, NATIVE_USDC_POLYGON];
@@ -494,22 +562,31 @@ async function executeFrontShot(front, provider, options = {}) {
   // 4. Auditoría NEBULA-09 & Bytecode
   await auditContractSecurity(provider, NATIVE_USDC_POLYGON);
 
-  // 5. Cotización QuickSwap V2
-  const router = new ethers.Contract(QUICKSWAP_V2_ROUTER, ROUTER_ABI, signer);
-  const quote = await scanLiquidityQuote(router, bulletToFire);
-  console.log(`💱 Cotización QuickSwap: ${bulletToFire} POL -> ${quote.expectedUsdcNum.toFixed(6)} USDC Nativo.`);
+  // 5. Cotización Multi-DEX Inteligente (QuickSwap V2 + SushiSwap V2)
+  const multiQuote = await scanMultiDexLiquidityQuote(provider, bulletToFire);
+  const bestVenue = multiQuote.bestVenue;
+  const quote = multiQuote.bestQuote;
+  console.log(`💱 [MULTI-DEX SCAN] Comparativa en vivo para ${bulletToFire} POL:`);
+  for (const q of multiQuote.allQuotes) {
+    const isWinner = q.venue.id === bestVenue.id;
+    console.log(`   ${q.venue.icon} ${q.venue.name}: ${q.expectedUsdcNum.toFixed(6)} USDC (${q.rateUsdcPerPol.toFixed(6)} USDC/POL) ${isWinner ? "🏆 MEJOR TASA SELECCIONADA" : ""}`);
+  }
+  if (multiQuote.spreadPct > 0) {
+    console.log(`   📊 Ventaja / Spread Seleccionado: +${multiQuote.spreadPct.toFixed(3)}% hacia ${bestVenue.name}`);
+  }
 
   // 6. Gas Óptimo en Polygon
   const gasFees = await getOptimalGasFees(provider);
   console.log(`⛽ GasPrice: ${gasFees.currentGasPriceGwei.toFixed(2)} Gwei.`);
 
   if (isDryRun) {
-    console.log(`🧪 [DRY-RUN] Simulación exitosa para ${front.name}.`);
-    return { success: true, mode: "DRY_RUN", quote };
+    console.log(`🧪 [DRY-RUN] Simulación exitosa para ${front.name} vía ${bestVenue.name}.`);
+    return { success: true, mode: "DRY_RUN", quote, bestVenue };
   }
 
-  // 7. Disparo On-Chain Fuego Real
-  console.log(`🔥 Disparando bala táctica (${bulletToFire} POL) en Polygon Mainnet...`);
+  // 7. Disparo On-Chain Fuego Real vía el DEX seleccionado
+  console.log(`🔥 Disparando bala táctica (${bulletToFire} POL) en Polygon Mainnet vía ${bestVenue.name}...`);
+  const router = new ethers.Contract(bestVenue.routerAddress, ROUTER_ABI, signer);
   const amountOutMin = (quote.amounts[1] * 99n) / 100n; // 1% slippage máximo
   const pathArr = [WPOL_POLYGON, NATIVE_USDC_POLYGON];
   const deadline = Math.floor(Date.now() / 1000) + 1200;
@@ -564,6 +641,7 @@ async function executeFrontShot(front, provider, options = {}) {
   return {
     success: true,
     front,
+    bestVenue,
     txHash: tx.hash,
     blockNumber: receipt.blockNumber,
     usdcHarvested: quote.expectedUsdcNum,
@@ -688,7 +766,7 @@ async function runSupervisedSalvo6x(options = {}) {
     const front = SNIPER_FRONTS[i];
     console.log(`\n================== [DISPARO ${i + 1}/6: ${front.name}] ==================`);
     try {
-      const res = await executeFrontShot(front, provider, { force });
+      const res = await executeFrontShot(front, provider, { force, dryRun: options.dryRun });
       results.push({ front, ...res });
     } catch (err) {
       console.error(`❌ Error en disparo de ${front.name}: ${err.message}`);
@@ -728,16 +806,17 @@ async function runSupervisedSalvo6x(options = {}) {
     const polTotalFleet = allFrontStatuses.reduce((acc, f) => acc + f.polBalance, 0);
 
     const frontLines = successfulShots.map(s => 
-      `• <b>${s.front.id} (${s.front.name}):</b> +$${s.usdcHarvested.toFixed(6)} USDC\n  ↳ Tx: <code>${s.txHash}</code>`
+      `• <b>${s.front.id} (${s.front.name}):</b> +$${s.usdcHarvested.toFixed(6)} USDC [${s.bestVenue?.icon || "⚡"} ${s.bestVenue?.name || "QuickSwap V2"}]\n  ↳ Tx: <code>${s.txHash}</code>`
     ).join("\n");
 
     const msg = `
-🦅🔥 <b>PARTE DE GUERRA // RONDA SNIPER 6X MAINNET EJECUTADA</b>
+🦅🔥 <b>PARTE DE GUERRA // RONDA SNIPER MULTI-DEX MAINNET EJECUTADA</b>
 
-🎯 <b>OPERACIÓN 12K — SALVA DE PRECISIÓN (CERTEZA >= 95%)</b>
+🎯 <b>OPERACIÓN 12K — SALVA MULTI-DEX DE PRECISIÓN (CERTEZA >= 95%)</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💎 <b>RESULTADOS CONFIRMADOS ON-CHAIN:</b>
 • <b>Disparos Exitosos:</b> ${successfulShots.length}/6 Frentes Tácticos
+• <b>Enrutamiento:</b> 💱 Multi-DEX Activo (QuickSwap V2 + SushiSwap V2)
 • <b>USDC Nativo Capturado en esta Ronda:</b> +$${totalHarvestedThisRun.toFixed(6)} USDC
 • <b>En Bóveda Máster On-Chain (Compounding Pool):</b> $${totalUsdcInFleet.toFixed(6)} USDC
 • <b>Gas Total Preservado en Flota:</b> ${polTotalFleet.toFixed(4)} POL (Piso sagrado 75.00 POL blindado)
@@ -770,6 +849,7 @@ ${frontLines}
 • <b>Escudo Sagrado:</b> ACTIVO en los 6 Frentes (0 violaciones de piso)
 • <b>Gas Total Preservado en Flota:</b> ${polTotalFleet.toFixed(4)} POL (Piso sagrado 75.00 POL blindado)
 • <b>En Bóveda Máster On-Chain (Compounding Pool):</b> $${totalUsdcInFleet.toFixed(6)} USDC
+• <b>Infraestructura:</b> 💱 Multi-DEX Habilitado (QuickSwap V2 + SushiSwap V2)
 • <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos automáticos)
 
 📦 <b>DETALLE POR FRENTE:</b>
@@ -852,17 +932,18 @@ module.exports = {
 };
 
 if (require.main === module) {
+  const isDryRun = process.argv.includes("--dry-run");
   if (
     process.argv.includes("--salvo-all") ||
     process.argv.includes("--salvo") ||
     process.argv.includes("--salvo-captains")
   ) {
-    runSupervisedSalvo6x().catch(err => {
+    runSupervisedSalvo6x({ dryRun: isDryRun, force: true }).catch(err => {
       console.error("❌ Error en Salva Supervisada 6X:", err);
       process.exit(1);
     });
   } else {
-    runSniper6x().catch(err => {
+    runSniper6x({ dryRun: isDryRun }).catch(err => {
       console.error("❌ Error en Sniper 6X:", err);
       process.exit(1);
     });

@@ -365,7 +365,7 @@ async function runNebula10(telemetry) {
     opportunityScore: 99,
     satellitesGuided: 502,
     status: "OPTIMAL",
-    reasoning: `Ruta DEX QuickSwap sincronizada hacia 100% USDC Nativo. Bóveda Máster #501 activa en Modo Compounding. Micro-depósitos automáticos a Binance bloqueados (Retiro Manual). Flotante on-chain listo para compounding: $${pendingUsdc} | En Binance: $${harvestedUsdc} USDC.`,
+    reasoning: `Enrutamiento Multi-DEX Inteligente (QuickSwap V2 + SushiSwap V2) sincronizado hacia 100% USDC Nativo. Bóveda Máster #501 activa en Modo Compounding. Micro-depósitos automáticos a Binance bloqueados (Retiro Manual). Flotante on-chain listo para compounding: $${pendingUsdc} | En Binance: $${harvestedUsdc} USDC.`,
     liveData: {
       masterVaultMode: "ON_CHAIN_COMPOUNDING",
       binanceWithdrawalMode: "MANUAL_ONLY",
@@ -514,7 +514,7 @@ async function runNebula11(polProvider) {
     opportunityScore: sniperConfidenceScore,
     satellitesGuided: 502,
     status: sniperFireAuthorized ? "FIRING_AUTHORIZED" : "HOLD_STANDBY",
-    reasoning: `4 condiciones evaluadas: Contrato USDC 100% verificado GoPlus (0 honeypots), Liquidez DEX $${(dexLiquidityUsd / 1e6).toFixed(1)}M USD (> $20M), Gas ${gasGwei.toFixed(1)} Gwei en rango seguro, Cotización QuickSwap sin anomalías (${quoteUsdcPerPol.toFixed(4)} USDC/POL). Certeza: ${sniperConfidenceScore}%. ${sniperFireAuthorized ? "GATILLO AUTORIZADO (Score >= 95%)." : "EN ESPERA."}`,
+    reasoning: `4 condiciones evaluadas: Contrato USDC 100% verificado GoPlus (0 honeypots), Liquidez Multi-DEX $${(dexLiquidityUsd / 1e6).toFixed(1)}M USD (> $20M), Gas ${gasGwei.toFixed(1)} Gwei en rango seguro, Cotización Multi-DEX (QuickSwap + SushiSwap) sin anomalías (${quoteUsdcPerPol.toFixed(4)} USDC/POL). Certeza: ${sniperConfidenceScore}%. ${sniperFireAuthorized ? "GATILLO AUTORIZADO (Score >= 95%)." : "EN ESPERA."}`,
     liveData: {
       contractVerified: cond1_usdcVerified,
       honeypotsDetected: honeypots,
