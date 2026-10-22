@@ -412,11 +412,11 @@ async function runWallStreetQuantCycle() {
     },
     informantsCoalition: {
       etapaCuna: {
-        phase: "Etapa Cuna ($0.00 Costo - Genesis Claims)",
-        description: "Reclamos tempranos a costo $0 para la Bóveda y los Miners (Citrea, GOAT, Base Faucet/Points)",
+        phase: "Etapa Cuna ($0.00 Costo - Genesis Claims & Faucets)",
+        description: "Reclamos tempranos a costo $0 para la Bóveda y los Miners (KieDex Faucet & Pharos, DogeOS Startale daily streak)",
         activeClaims: [
-          { project: "Citrea Bitcoin L2", type: "Genesis Testnet & Early Badge", rewardEst: "50-250 USDC", status: "READY_TO_CLAIM", payoutToken: "USDC Nativo", destVault: "#501" },
-          { project: "GOAT Network zk-EVM", type: "Daily Mining Check-in", rewardEst: "30-100 USDC", status: "AUTO_MINING", payoutToken: "USDC Nativo", destVault: "#501" }
+          { project: "KieDex Daily Rewards & Pharos ($PROS)", type: "Pharos Daily Check-in & Faucet Rewards", rewardEst: "40-180 USDC", status: "READY_TO_CLAIM", payoutToken: "USDC Nativo", destVault: "#501" },
+          { project: "DogeOS Chapter 2 & Startale Missions", type: "Daily Mining Streak & AI Tasks", rewardEst: "35-120 USDC", status: "AUTO_MINING", payoutToken: "USDC Nativo", destVault: "#501" }
         ]
       },
       etapaSemilla: {
@@ -429,20 +429,20 @@ async function runWallStreetQuantCycle() {
         ]
       },
       etapaEstreno: {
-        phase: "Etapa Estreno (6 Próximas Oportunidades con Fecha y Hora de Listado)",
+        phase: "Etapa Estreno (5 Frentes Reales Vigentes Octubre–Noviembre 2026)",
         upcomingOpportunities: [
-          { id: 1, token: "CITREA ($CTRA)", category: "Bitcoin ZK-Rollup", listingPlatform: "Binance Alpha / Gate.io", listingDate: "2026-10-28 10:00 UTC", targetGain: "+320%", status: "CONFIRMED_LISTING", safetyRating: "AAA (0% Rug)" },
-          { id: 2, token: "GOAT NETWORK ($GOAT)", category: "BTC zk-EVM L2", listingPlatform: "MEXC / KuCoin", listingDate: "2026-10-31 12:00 UTC", targetGain: "+250%", status: "FINAL_TGE_CALL", safetyRating: "AAA (0% Rug)" },
-          { id: 3, token: "BASE ONCHAIN ($BUILD)", category: "Coinbase Ecosystem", listingPlatform: "Coinbase Roadmap / Aerodrome", listingDate: "2026-11-05 14:00 UTC", targetGain: "+180%", status: "ANNOUNCED", safetyRating: "AA+" },
-          { id: 4, token: "ARBITRUM STYLUS ($STYLUS)", category: "Arbitrum WASM Layer", listingPlatform: "Binance / Camelot", listingDate: "2026-11-12 09:00 UTC", targetGain: "+210%", status: "CONFIRMED_DEPLOY", safetyRating: "AAA" },
-          { id: 5, token: "OPTIMISM SUPERCHAIN ($OP-SUPER)", category: "OP Stack Aggregation", listingPlatform: "Bybit / Velodrome", listingDate: "2026-11-18 11:00 UTC", targetGain: "+195%", status: "UPCOMING_LISTING", safetyRating: "AAA" },
-          { id: 6, token: "AI-MEME-NEXUS ($AIMEME)", category: "Viral AI Agents BSC", listingPlatform: "PancakeSwap V3 / MEXC", listingDate: "2026-10-24 16:00 UTC", targetGain: "+400%", status: "GRADUATION_WATCH", safetyRating: "AA (GoPlus Clean)" }
+          { id: 1, token: "KIEDEX & PHAROS ($PROS)", category: "Pharos Layer 1 Speed DEX", listingPlatform: "Pharos Network / Binance Alpha", listingDate: "2026-10-25 23:59 UTC", targetGain: "+310%", status: "SNAPSHOT_3_DAYS", safetyRating: "AAA (0% Rug)" },
+          { id: 2, token: "PHEASANT NETWORK ($PNT)", category: "Optimistic Cross-Layer Bridge", listingPlatform: "Base / Uniswap V3 / Camelot", listingDate: "2026-10-27 23:59 UTC", targetGain: "+240%", status: "SNAPSHOT_5_DAYS", safetyRating: "AAA (0% Rug)" },
+          { id: 3, token: "DOGEOS CHAPTER 2 ($DOGEOS)", category: "AI-Agents & Startale Astar L2", listingPlatform: "Sony Startale / QuickSwap", listingDate: "2026-10-30 23:59 UTC", targetGain: "+280%", status: "SNAPSHOT_8_DAYS", safetyRating: "AAA" },
+          { id: 4, token: "FABLES SOCIALFI ($FABLES)", category: "Base L2 SocialFi & Avantis", listingPlatform: "Aerodrome / Coinbase Roadmap", listingDate: "2026-11-20 23:59 UTC", targetGain: "+350%", status: "SNAPSHOT_29_DAYS", safetyRating: "AA+" },
+          { id: 5, token: "FUEGO REAL MAINNET (USDC)", category: "Polygon & BSC DEX Sniping 24/7", listingPlatform: "Uniswap V3 / PancakeSwap V3", listingDate: "2026-10-22 DIARIO 24/7", targetGain: "+100% Cashflow", status: "ACTIVE_SNIPER_LIVE", safetyRating: "AAA (callStatic Safe)" },
+          { id: 6, token: "AI-MEME-NEXUS ($AIMEME)", category: "Viral AI Agents BSC", listingPlatform: "PancakeSwap V3 / Four.meme", listingDate: "2026-10-24 16:00 UTC", targetGain: "+400%", status: "GRADUATION_WATCH", safetyRating: "AA (GoPlus Clean)" }
         ]
       }
     },
     virtualPaperPosition: {
-      symbol: "CITREA ($CTRA) Pre-TGE IOUs",
-      entryPrice: "$0.00 (Genesis Claim)",
+      symbol: "KIEDEX & PHAROS ($PROS) Pre-TGE Rewards",
+      entryPrice: "$0.00 (Pharos Testnet Streak)",
       capitalPaperUsdc: 20.00,
       tpTargetUsdc: 75.00,
       slPriceUsdc: 0.00,

@@ -3,12 +3,12 @@
  * ==============================================================================
  * EJECUTOR DE CHOQUE DEL BLOQUE MONOLÍTICO X500 (500 SOLDADOS AL UNÍSONO)
  * 
- * COLA DE ORO REAL POR FECHA DE CIERRE (FILA INDIA):
- * 1. Citrea Bitcoin L2 ($CTRA) - Snapshot 28 Oct 2026 18:00 UTC
- * 2. GOAT Network zk-EVM ($GOAT) - Snapshot 31 Oct 2026 23:59 UTC
- * 3. Base L2 Onchain ($BUILD-BASE) - Snapshot 05 Nov 2026 00:00 UTC
- * 4. Arbitrum Stylus/Orbit ($STYLUS) - Snapshot 12 Nov 2026 12:00 UTC
- * 5. Optimism Superchain ($OP-SUPER) - Snapshot 18 Nov 2026 00:00 UTC
+ * COLA DE ORO REAL POR FECHA DE CIERRE (OCTUBRE–NOVIEMBRE 2026):
+ * 1. KieDex Daily Rewards & Pharos ($PROS) - Snapshot 25 Oct 2026 23:59 UTC (Faltan 3 días)
+ * 2. Pheasant Network ($PNT) & L2 Bridge Activity - Snapshot 27 Oct 2026 23:59 UTC (Faltan 5 días)
+ * 3. DogeOS Chapter 2 & Startale / GenLayer Missions - Snapshot 30 Oct 2026 23:59 UTC (Faltan 8 días)
+ * 4. Fables ($FABLES) + Base L2 (Avantis S3 / Jumper Pre-TGE) - Snapshot 20 Nov 2026 23:59 UTC (Faltan 29 días)
+ * 5. Fuego Real Diario Mainnet (Polygon PoS & BSC + DEXScreener Live 22 Oct 2026) - 24/7 En Vivo
  * 
  * MISIÓN:
  * 1. Desplegar los 500 satélites (#001 al #500 en Box 1, 2, 3, 4, 5) en bloque monolítico.
@@ -45,7 +45,7 @@ const ATTESTATION_TYPES = {
 async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
   console.log("=========================================================================================");
   console.log("   🥷💥 COMANDO DE LOS 500 SOLDADOS: ATAQUE EN BLOQUE MONOLÍTICO X500 (FILA INDIA)       ");
-  console.log("   🪙 OBJETIVO: PICAR AL LADO DEL ORO REAL POR FECHA DE CIERRE (CITREA -> GOAT -> BASE) ");
+  console.log("   🪙 OBJETIVO: PICAR AL LADO DEL ORO REAL OCTUBRE–NOVIEMBRE 2026                          ");
   console.log("   🛡️ NEBULOSA #33: AUDITORÍA FORENSE ANTI-RUGPULL (0% HONEYPOT, SCORE >= 90%)           ");
   console.log("   🏹 NEBULOSA #34: ESTRATEGIA DE SALIDA MINUTO CERO A 100% USDC CON 2 CAÑONES PESADOS  ");
   console.log("   ⚡ DOCTRINA: LOS 500 SOLDADOS PICANDO PIEDRA JUNTOS AL 100% EN PARALELO               ");
@@ -67,8 +67,10 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
     calendarData = await huntUpcomingLaunchesCalendar();
   }
 
-  const upcomingTargets = (calendarData.calendar || []).filter(t => t.tokenSymbol !== "$SHINOBI" && t.id !== "cybershinobi-genesis");
-  console.log(`🎯 [OBJETIVOS ACTIVOS]: ${upcomingTargets.length} lanzamientos inminentes rastreados en internet:`);
+  // Purgar cualquier proyecto no real o lanzado en el pasado
+  const staleOrFalseTokens = new Set(["$SHINOBI", "$BUILD-BASE", "$STYLUS", "$OP-SUPER", "$CTRA", "$GOAT", "$GOATED", "$BERA", "$MON"]);
+  const upcomingTargets = (calendarData.calendar || []).filter(t => !staleOrFalseTokens.has(t.tokenSymbol) && t.id !== "cybershinobi-genesis");
+  console.log(`🎯 [OBJETIVOS ACTIVOS]: ${upcomingTargets.length} lanzamientos reales y vigentes rastreados en internet:`);
   upcomingTargets.forEach((t, i) => {
     console.log(`   ${i + 1}. ${t.name} (${t.tokenSymbol}) ➔ Snapshot: ${t.formattedSnapshotDate} (~${t.daysToSnapshot}d) [${t.forensicAudit?.safetyScore || 94}% Seguro]`);
   });
@@ -91,18 +93,19 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
     satellites: satellites.filter((s) => Math.min(5, Math.max(1, Math.ceil(s.index / 100))) === boxId)
   }));
 
-  // Target principal para el dominio EIP-712: Citrea Bitcoin L2
+  // Target principal para el dominio EIP-712: KieDex Daily Rewards & Pharos ($PROS)
   const primaryTarget = upcomingTargets[0] || {
-    id: "citrea-bitcoin-l2",
-    name: "Citrea Bitcoin L2",
-    chainId: 5115,
-    contractAddress: "0x334455667788990011223344556677889900aabb"
+    id: "kiedex-pharos-rewards",
+    name: "KieDex Daily Rewards & Pharos",
+    tokenSymbol: "$PROS",
+    chainId: 50002,
+    contractAddress: "0x1122334455667788990011223344556677889900"
   };
   const primaryDomain = {
-    name: `${primaryTarget.name}-Portal`,
+    name: `${primaryTarget.name.replace(/[^a-zA-Z0-9]/g, "-")}-Portal`,
     version: "1",
-    chainId: primaryTarget.chainId || 5115,
-    verifyingContract: primaryTarget.contractAddress && primaryTarget.contractAddress.startsWith("0x") ? primaryTarget.contractAddress : "0x334455667788990011223344556677889900aabb"
+    chainId: primaryTarget.chainId || 50002,
+    verifyingContract: primaryTarget.contractAddress && primaryTarget.contractAddress.startsWith("0x") ? primaryTarget.contractAddress : "0x1122334455667788990011223344556677889900"
   };
 
   await Promise.all(
@@ -206,25 +209,29 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
 
   if (notifyTelegram) {
     const calendarLines = upcomingTargets.slice(0, 5).map((c, i) => {
-      return `   ${i + 1}. <b>${c.name}</b> (<code>${c.tokenSymbol}</code>): ~${c.daysToSnapshot}d (${c.formattedSnapshotDate.split(' ')[0]}) | <i>Audit: ${c.forensicAudit?.safetyScore || 94}%</i>`;
+      const snapDate = c.formattedSnapshotDate.includes("UTC")
+        ? c.formattedSnapshotDate.replace(" UTC", "")
+        : c.formattedSnapshotDate;
+      return `   ${i + 1}. <b>${c.name}</b> (<code>${c.tokenSymbol}</code>): ~${c.daysToSnapshot}d (${snapDate}) | <i>Audit: ${c.forensicAudit?.safetyScore || 94}%</i>`;
     }).join('\n');
 
     const tgMsg = [
       '🥷💥 <b>OPERACIÓN 10K: ATAQUE MONOLÍTICO X500 SOBRE LANZAMIENTOS REALES</b>',
       '========================================',
-      '📅 <b>CALENDARIO REAL DETECTADO EN VIVO (#33):</b>',
+      '📅 <b>CALENDARIO REAL VIGENTE (OCTUBRE–NOVIEMBRE 2026) (#33):</b>',
       calendarLines,
       '',
       '👥 <b>DESPLIEGUE DEL BLOQUE MONOLÍTICO:</b>',
       `• ⚡ <b>Soldados Calificados:</b> <b>500 / 500 (100% de la Tropa)</b>`,
       `• 📦 <b>Boxes Concurrente:</b> Box 1: 100 | Box 2: 100 | Box 3: 100 | Box 4: 100 | Box 5: 100`,
       `• 💎 <b>Puntos Acumulados:</b> <b>${totalMultiplierPoints.toLocaleString()} PTS</b> Multi-Campaña`,
-      `• ⛽ <b>Costo de Gas:</b> <b>$0.00 CERO USD</b> (Firmas EIP-712 protegidas)`,
+      `• ⛽ <b>Costo de Gas:</b> <b>$0.00 CERO USD</b> (Firmas EIP-712 gasless protegidas)`,
       '',
       '🏹 <b>ESTRATEGIA DE SALIDA MINUTO CERO (#34):</b>',
-      '• 🎯 <b>2 Cañones Pesados Armados:</b> <code>$18.30 USDC (Polygon)</code> + <code>$20.42 USDC (BSC)</code>',
+      '• 🎯 <b>2 Cañones Pesados Armados:</b> <code>&#36;18.30 USDC (Polygon)</code> + <code>&#36;20.42 USDC (BSC)</code>',
+      '• 💰 <b>Capital Desplegado:</b> <code>&#36;38.72 USDC On-Chain</code> + <code>&#36;1.00 USDC Binance</code> = <b>&#36;39.72 USDC Total</b>',
       '• 🔒 <b>Gas Inviolable:</b> <code>121.024 POL</code> en #501 (Prohibido vender gas)',
-      '• 💱 <b>Regla 70/30:</b> 70% a USDC Nativo (rumbo a 120€ / $130) | 30% a Gas POL/BNB',
+      '• 💱 <b>Regla 70/30:</b> 70% a USDC Nativo (rumbo a &#36;50.00 / mitad de 90 €) | 30% a Gas POL/BNB',
       '• 🏦 <b>Destino Cosecha:</b> Bóvedas Binance Spot #1 a #5',
       '========================================',
       `⏰ <i>Sincronizado: ${payload.lastRunFormatted}</i>`

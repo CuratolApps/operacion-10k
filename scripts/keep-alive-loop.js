@@ -13,6 +13,7 @@ const path = require("path");
 
 const ROOT_DIR = path.resolve(__dirname, "..");
 const REPORT_FILE = path.join(ROOT_DIR, "last-run-report.json");
+const INTERVAL_MS = 25 * 60 * 1000; // 25 minutos entre ciclos de respaldo
 
 /**
  * Verificador inteligente Anti-Colisión (Keep-Alive vs GitHub Actions / Cloud Runner)
@@ -43,7 +44,7 @@ function runCommand(command, description) {
     execSync(command, {
       cwd: ROOT_DIR,
       stdio: "inherit",
-      timeout: 300000 // 5 minutos de timeout por comando
+      timeout: 600000 // 10 minutos de timeout por comando
     });
     console.log(`[${new Date().toISOString()}] ✅  ${description} completado.`);
     return true;
