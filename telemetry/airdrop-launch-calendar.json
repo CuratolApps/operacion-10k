@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
-  "lastUpdated": "2026-10-22T12:59:51.641Z",
-  "lastUpdatedFormatted": "22/10/2026, 12:59:51 UTC",
+  "lastUpdated": "2026-10-22T13:03:21.819Z",
+  "lastUpdatedFormatted": "22/10/2026, 13:03:21 UTC",
   "doctrine": "MONOLITO_X500_BLOQUE_INDIVISIBLE",
   "specialistOfficers": {
     "chronos": {
@@ -30,13 +30,167 @@
   },
   "monolithDeploymentSummary": {
     "totalSoldiersInBlock": 500,
-    "activeStrikeTargetName": "Citrea Bitcoin ZK-Rollup",
-    "daysToActiveSnapshot": 24,
+    "activeStrikeTargetName": "CyberShinobi Genesis (Robinhood EVM Testnet)",
+    "daysToActiveSnapshot": 9,
     "activeStrikeTargetStatus": "⚡ FRENTE ACTIVO DE CHOQUE X500 (500/500 Soldados Picando Piedra Juntos)",
     "capitalRisk": "$0.00 USD (100% Blindado)",
-    "estimatedHarvestUsdc": "$17,500 – $40,000 USDC"
+    "estimatedHarvestUsdc": "$7,500 – $17,500 USDC"
   },
   "calendar": [
+    {
+      "id": "cybershinobi-genesis-evm",
+      "name": "CyberShinobi Genesis (Robinhood EVM Testnet)",
+      "tokenSymbol": "$SHINOBI / Multiplier Airdrop",
+      "ecosystem": "Robinhood EVM Testnet / Gamified DeFi",
+      "stage": "Corte de Snapshot Whitelist & Airdrop Inminente",
+      "snapshotTargetDate": "2026-10-30T23:59:59Z",
+      "tgeTargetDate": "2026-11-08T14:00:00Z",
+      "certainty": "CONFIRMADA",
+      "certaintyScore": 97,
+      "criteria": "Interacción verificada en EVM testnet, firmas gasless y medalla genesis antes del 30 de Octubre",
+      "fleetQualifications": {
+        "readySatellites": 500,
+        "totalSatellites": 500,
+        "pointsAccumulated": 21000,
+        "status": "100% PREPARADO PARA GOLPE INMEDIATO"
+      },
+      "forensicAudit": {
+        "isRugpullRisk": false,
+        "safetyScore": 93,
+        "verdict": "VIABLE_CERTIFICADO",
+        "verdictBadge": "🟢 VIABLE & URGENTE (ANTES DEL 30 OCT)",
+        "vcBacking": "Ecosistema Robinhood Chain / Animoca Ventures",
+        "smartContractStatus": "AUDITADO_SIN_BACKDOOR",
+        "auditors": [
+          "CertiK",
+          "Hacken"
+        ],
+        "tokenomicsHealth": "Asignación directa a participantes de testnet",
+        "rugpullFlagsCount": 0
+      },
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_INSTANTANEA_MINUTO_CERO",
+        "executionWindow": "Primeros 15 minutos de apertura del pool",
+        "targetPair": "$SHINOBI ➔ USDC Nativo",
+        "primaryDex": "Robinhood DEX / Uniswap V3",
+        "cexDepositTarget": "Binance Spot (Bóvedas 1 a 5)",
+        "antiDumpRule": "Venta inmediata en la cresta de la 1ª ola para liquidar a USDC.",
+        "estimatedUsdcPerWalletRange": "$15.00 – $35.00 USDC",
+        "totalFleetHarvestEstimateUsdc": "$7,500 – $17,500 USDC"
+      },
+      "daysToSnapshot": 9,
+      "daysToTge": 18,
+      "statusBadge": "🔥 SNAPSHOT INMINENTE",
+      "urgencyClass": "imminent",
+      "formattedSnapshotDate": "30 oct 2026",
+      "formattedTgeDate": "08 nov 2026",
+      "isPrimaryStrikeTarget": true,
+      "assignedSoldiersCount": 500,
+      "percentOfFleet": "100% (BLOQUE COMPLETO)",
+      "swarmStatus": "⚡ FRENTE ACTIVO DE CHOQUE X500 (500/500 Soldados Picando Piedra Juntos)",
+      "tacticalDirective": "💥 MÁXIMA CONCENTRACIÓN DE FUERZA: Los 500 soldados (Box 1, 2, 3, 4, 5 al unísono) ejecutando Interacción verificada en EVM testnet, firmas gasless y medalla genesis antes del 30 de Octubre a $0 costo de gas.",
+      "forensicSummary": {
+        "id": "cybershinobi-genesis-evm",
+        "name": "CyberShinobi Genesis (Robinhood EVM Testnet)",
+        "safetyScore": 93,
+        "verdict": "VIABLE_CERTIFICADO",
+        "verdictBadge": "🟢 CERTIFICADO VIABLE (DUPLICAR FUERZA)",
+        "actionOrder": "✅ DUPLICAR FUERZA: El proyecto es legítimo, respaldado por Tier-1 y con código seguro.",
+        "vcBacking": "Ecosistema Robinhood Chain / Animoca Ventures",
+        "smartContractStatus": "AUDITADO_SIN_BACKDOOR"
+      },
+      "exitPlanSummary": {
+        "id": "cybershinobi-genesis-evm",
+        "name": "CyberShinobi Genesis (Robinhood EVM Testnet)",
+        "tokenSymbol": "$SHINOBI / Multiplier Airdrop",
+        "daysToSnapshot": 9,
+        "daysToTge": 18,
+        "strategyBadge": "⚡ SALIDA EN PRIMERA OLA (MINUTO CERO)",
+        "executionTiming": "Primeros 15 minutos de apertura del pool",
+        "targetPair": "$SHINOBI ➔ USDC Nativo",
+        "dexRoute": "Robinhood DEX / Uniswap V3",
+        "destinationVault": "Binance Spot (Bóvedas 1 a 5)",
+        "antiDumpRule": "Venta inmediata en la cresta de la 1ª ola para liquidar a USDC.",
+        "harvestEstimateUsdc": "$7,500 – $17,500 USDC"
+      }
+    },
+    {
+      "id": "pharos-testnet-airdrop",
+      "name": "Pharos Network Ultra-Fast EVM",
+      "tokenSymbol": "$PROS",
+      "ecosystem": "Pharos Layer 1 EVM Testnet",
+      "stage": "FECHA LÍMITE DE RECLAMO (CIERRE DEFINITIVO)",
+      "snapshotTargetDate": "2026-10-31T23:59:59Z",
+      "tgeTargetDate": "2026-10-31T18:00:00Z",
+      "certainty": "FECHA_LÍMITE_OFICIAL",
+      "certaintyScore": 98,
+      "criteria": "Reclamo final de asignación testnet antes del 31 de Octubre. Los tokens no reclamados se queman.",
+      "fleetQualifications": {
+        "readySatellites": 500,
+        "totalSatellites": 500,
+        "pointsAccumulated": 19500,
+        "status": "100% DEL BLOQUE APUNTANDO AL RECLAMO"
+      },
+      "forensicAudit": {
+        "isRugpullRisk": false,
+        "safetyScore": 95,
+        "verdict": "VIABLE_CERTIFICADO",
+        "verdictBadge": "🟢 CIERRE FINAL 31 OCT (URGENCIA MÁXIMA)",
+        "vcBacking": "Hack VC, Faction, SNZ Holding ($8M Seed)",
+        "smartContractStatus": "AUDITADO_INSTITUCIONAL",
+        "auditors": [
+          "Zellic",
+          "OpenZeppelin"
+        ],
+        "tokenomicsHealth": "Distribución estricta con quema de no reclamados",
+        "rugpullFlagsCount": 0
+      },
+      "firstWaveExitPlan": {
+        "strategy": "VENTA_INSTANTANEA_MINUTO_CERO",
+        "executionWindow": "Minuto cero tras reclamo en portal oficial",
+        "targetPair": "$PROS ➔ USDC Nativo",
+        "primaryDex": "Uniswap V3 / Pharos Swap",
+        "cexDepositTarget": "Binance Spot (Bóvedas 1 a 5)",
+        "antiDumpRule": "Swap masivo instantáneo a USDC Nativo. Cero demora.",
+        "estimatedUsdcPerWalletRange": "$20.00 – $45.00 USDC",
+        "totalFleetHarvestEstimateUsdc": "$10,000 – $22,500 USDC"
+      },
+      "daysToSnapshot": 10,
+      "daysToTge": 10,
+      "statusBadge": "🔥 SNAPSHOT INMINENTE",
+      "urgencyClass": "imminent",
+      "formattedSnapshotDate": "31 oct 2026",
+      "formattedTgeDate": "31 oct 2026",
+      "isPrimaryStrikeTarget": false,
+      "assignedSoldiersCount": 0,
+      "percentOfFleet": "0% (EN COLA DE ROTACIÓN)",
+      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar CyberShinobi Genesis (Robinhood EVM Testnet)",
+      "tacticalDirective": "🛡️ En espera activa. Sin dispersión de tropas.",
+      "forensicSummary": {
+        "id": "pharos-testnet-airdrop",
+        "name": "Pharos Network Ultra-Fast EVM",
+        "safetyScore": 95,
+        "verdict": "VIABLE_CERTIFICADO",
+        "verdictBadge": "🟢 CERTIFICADO VIABLE (DUPLICAR FUERZA)",
+        "actionOrder": "✅ DUPLICAR FUERZA: El proyecto es legítimo, respaldado por Tier-1 y con código seguro.",
+        "vcBacking": "Hack VC, Faction, SNZ Holding ($8M Seed)",
+        "smartContractStatus": "AUDITADO_INSTITUCIONAL"
+      },
+      "exitPlanSummary": {
+        "id": "pharos-testnet-airdrop",
+        "name": "Pharos Network Ultra-Fast EVM",
+        "tokenSymbol": "$PROS",
+        "daysToSnapshot": 10,
+        "daysToTge": 10,
+        "strategyBadge": "⚡ SALIDA EN PRIMERA OLA (MINUTO CERO)",
+        "executionTiming": "Minuto cero tras reclamo en portal oficial",
+        "targetPair": "$PROS ➔ USDC Nativo",
+        "dexRoute": "Uniswap V3 / Pharos Swap",
+        "destinationVault": "Binance Spot (Bóvedas 1 a 5)",
+        "antiDumpRule": "Swap masivo instantáneo a USDC Nativo. Cero demora.",
+        "harvestEstimateUsdc": "$10,000 – $22,500 USDC"
+      }
+    },
     {
       "id": "citrea-bitcoin-zk",
       "name": "Citrea Bitcoin ZK-Rollup",
@@ -84,11 +238,11 @@
       "urgencyClass": "imminent",
       "formattedSnapshotDate": "15 nov 2026",
       "formattedTgeDate": "10 dic 2026",
-      "isPrimaryStrikeTarget": true,
-      "assignedSoldiersCount": 500,
-      "percentOfFleet": "100% (BLOQUE COMPLETO)",
-      "swarmStatus": "⚡ FRENTE ACTIVO DE CHOQUE X500 (500/500 Soldados Picando Piedra Juntos)",
-      "tacticalDirective": "💥 MÁXIMA CONCENTRACIÓN DE FUERZA: Los 500 soldados (Box 1, 2, 3, 4, 5 al unísono) ejecutando Puntos ZK de prueba (25 pts/tx) + racha diaria de firmas EIP-712 verificadas a $0 costo de gas.",
+      "isPrimaryStrikeTarget": false,
+      "assignedSoldiersCount": 0,
+      "percentOfFleet": "0% (EN COLA DE ROTACIÓN)",
+      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar CyberShinobi Genesis (Robinhood EVM Testnet)",
+      "tacticalDirective": "🛡️ En espera activa. Sin dispersión de tropas.",
       "forensicSummary": {
         "id": "citrea-bitcoin-zk",
         "name": "Citrea Bitcoin ZK-Rollup",
@@ -164,7 +318,7 @@
       "isPrimaryStrikeTarget": false,
       "assignedSoldiersCount": 0,
       "percentOfFleet": "0% (EN COLA DE ROTACIÓN)",
-      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar Citrea Bitcoin ZK-Rollup",
+      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar CyberShinobi Genesis (Robinhood EVM Testnet)",
       "tacticalDirective": "🛡️ En espera activa. Sin dispersión de tropas.",
       "forensicSummary": {
         "id": "goat-network-btc-l2",
@@ -241,7 +395,7 @@
       "isPrimaryStrikeTarget": false,
       "assignedSoldiersCount": 0,
       "percentOfFleet": "0% (EN COLA DE ROTACIÓN)",
-      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar Citrea Bitcoin ZK-Rollup",
+      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar CyberShinobi Genesis (Robinhood EVM Testnet)",
       "tacticalDirective": "🛡️ En espera activa. Sin dispersión de tropas.",
       "forensicSummary": {
         "id": "scroll-sessions-marks",
@@ -317,7 +471,7 @@
       "isPrimaryStrikeTarget": false,
       "assignedSoldiersCount": 0,
       "percentOfFleet": "0% (EN COLA DE ROTACIÓN)",
-      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar Citrea Bitcoin ZK-Rollup",
+      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar CyberShinobi Genesis (Robinhood EVM Testnet)",
       "tacticalDirective": "🛡️ En espera activa. Sin dispersión de tropas.",
       "forensicSummary": {
         "id": "linea-voyage-token",
@@ -394,7 +548,7 @@
       "isPrimaryStrikeTarget": false,
       "assignedSoldiersCount": 0,
       "percentOfFleet": "0% (EN COLA DE ROTACIÓN)",
-      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar Citrea Bitcoin ZK-Rollup",
+      "swarmStatus": "⏳ EN COLA: El bloque completo de 500 soldados rotará aquí tras asegurar CyberShinobi Genesis (Robinhood EVM Testnet)",
       "tacticalDirective": "🛡️ En espera activa. Sin dispersión de tropas.",
       "forensicSummary": {
         "id": "monad-devnet-testnet",

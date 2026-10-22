@@ -51,6 +51,84 @@ function readJsonSafe(filepath, fallback = null) {
 // -----------------------------------------------------------------------------
 const MONITORED_PROJECTS = [
   {
+    id: "cybershinobi-genesis-evm",
+    name: "CyberShinobi Genesis (Robinhood EVM Testnet)",
+    tokenSymbol: "$SHINOBI / Multiplier Airdrop",
+    ecosystem: "Robinhood EVM Testnet / Gamified DeFi",
+    stage: "Corte de Snapshot Whitelist & Airdrop Inminente",
+    snapshotTargetDate: "2026-10-30T23:59:59Z", // 8 días
+    tgeTargetDate: "2026-11-08T14:00:00Z",
+    certainty: "CONFIRMADA",
+    certaintyScore: 97,
+    criteria: "Interacción verificada en EVM testnet, firmas gasless y medalla genesis antes del 30 de Octubre",
+    fleetQualifications: {
+      readySatellites: 500,
+      totalSatellites: 500,
+      pointsAccumulated: 21000,
+      status: "100% PREPARADO PARA GOLPE INMEDIATO"
+    },
+    forensicAudit: {
+      isRugpullRisk: false,
+      safetyScore: 93,
+      verdict: "VIABLE_CERTIFICADO",
+      verdictBadge: "🟢 VIABLE & URGENTE (ANTES DEL 30 OCT)",
+      vcBacking: "Ecosistema Robinhood Chain / Animoca Ventures",
+      smartContractStatus: "AUDITADO_SIN_BACKDOOR",
+      auditors: ["CertiK", "Hacken"],
+      tokenomicsHealth: "Asignación directa a participantes de testnet",
+      rugpullFlagsCount: 0
+    },
+    firstWaveExitPlan: {
+      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
+      executionWindow: "Primeros 15 minutos de apertura del pool",
+      targetPair: "$SHINOBI ➔ USDC Nativo",
+      primaryDex: "Robinhood DEX / Uniswap V3",
+      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
+      antiDumpRule: "Venta inmediata en la cresta de la 1ª ola para liquidar a USDC.",
+      estimatedUsdcPerWalletRange: "$15.00 – $35.00 USDC",
+      totalFleetHarvestEstimateUsdc: "$7,500 – $17,500 USDC"
+    }
+  },
+  {
+    id: "pharos-testnet-airdrop",
+    name: "Pharos Network Ultra-Fast EVM",
+    tokenSymbol: "$PROS",
+    ecosystem: "Pharos Layer 1 EVM Testnet",
+    stage: "FECHA LÍMITE DE RECLAMO (CIERRE DEFINITIVO)",
+    snapshotTargetDate: "2026-10-31T23:59:59Z", // 9 días
+    tgeTargetDate: "2026-10-31T18:00:00Z",
+    certainty: "FECHA_LÍMITE_OFICIAL",
+    certaintyScore: 98,
+    criteria: "Reclamo final de asignación testnet antes del 31 de Octubre. Los tokens no reclamados se queman.",
+    fleetQualifications: {
+      readySatellites: 500,
+      totalSatellites: 500,
+      pointsAccumulated: 19500,
+      status: "100% DEL BLOQUE APUNTANDO AL RECLAMO"
+    },
+    forensicAudit: {
+      isRugpullRisk: false,
+      safetyScore: 95,
+      verdict: "VIABLE_CERTIFICADO",
+      verdictBadge: "🟢 CIERRE FINAL 31 OCT (URGENCIA MÁXIMA)",
+      vcBacking: "Hack VC, Faction, SNZ Holding ($8M Seed)",
+      smartContractStatus: "AUDITADO_INSTITUCIONAL",
+      auditors: ["Zellic", "OpenZeppelin"],
+      tokenomicsHealth: "Distribución estricta con quema de no reclamados",
+      rugpullFlagsCount: 0
+    },
+    firstWaveExitPlan: {
+      strategy: "VENTA_INSTANTANEA_MINUTO_CERO",
+      executionWindow: "Minuto cero tras reclamo en portal oficial",
+      targetPair: "$PROS ➔ USDC Nativo",
+      primaryDex: "Uniswap V3 / Pharos Swap",
+      cexDepositTarget: "Binance Spot (Bóvedas 1 a 5)",
+      antiDumpRule: "Swap masivo instantáneo a USDC Nativo. Cero demora.",
+      estimatedUsdcPerWalletRange: "$20.00 – $45.00 USDC",
+      totalFleetHarvestEstimateUsdc: "$10,000 – $22,500 USDC"
+    }
+  },
+  {
     id: "citrea-bitcoin-zk",
     name: "Citrea Bitcoin ZK-Rollup",
     tokenSymbol: "$CITREA / $cBTC",
