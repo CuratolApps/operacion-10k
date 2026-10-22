@@ -471,8 +471,9 @@ async function executeFrontShot(front, provider, options = {}) {
     return { skipped: true, reason: "SURVEILLANCE_FLOOR_REACHED", polBal };
   }
 
-  const surplus = polBal - front.sacredReservePol;
-  console.log(`💰 Excedente Cazador Disponible: ${surplus.toFixed(4)} POL`);
+  const safeFloor = Math.max(front.sacredReservePol, front.surveillanceFloorPol);
+  const surplus = polBal - safeFloor;
+  console.log(`💰 Excedente Cazador Disponible: ${surplus.toFixed(4)} POL (Sobre piso sagrado de ${safeFloor.toFixed(2)} POL)`);
 
   // Margen de seguridad para cubrir el gas de la propia transacción (~0.08 POL)
   const gasBuffer = 0.08;
@@ -482,10 +483,11 @@ async function executeFrontShot(front, provider, options = {}) {
   if (surplus < front.bulletPol) {
     if (maxSafeBullet >= 0.40) {
       bulletToFire = parseFloat(maxSafeBullet.toFixed(2));
-      console.log(`🎯 [MICRO-BALA ADAPTATIVA] Ajustada a ${bulletToFire} POL para proteger el piso de ${front.sacredReservePol.toFixed(2)} POL.`);
+      console.log(`🎯 [MICRO-BALA ADAPTATIVA] Ajustada a ${bulletToFire} POL para proteger el piso de ${safeFloor.toFixed(2)} POL.`);
     } else {
-      console.log(`⚠️ Excedente seguro (${maxSafeBullet.toFixed(4)} POL) < micro-bala mínima (0.40 POL). En espera.`);
-      return { skipped: true, reason: "INSUFFICIENT_SURPLUS", surplus };
+      console.log(`🛡️ [ESCUDO SAGRADO ACTIVO] Excedente seguro (${maxSafeBullet.toFixed(4)} POL) < micro-bala mínima (0.40 POL).`);
+      console.log(`   Disparo abortado para proteger estrictamente el piso intocable de gas (${safeFloor.toFixed(2)} POL).`);
+      return { skipped: true, reason: "SACRED_FLOOR_PROTECTED", polBal, safeFloor };
     }
   }
 
