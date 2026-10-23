@@ -341,8 +341,8 @@ const RPC_CONFIG = {
   polygon: {
     endpoints: [
       "https://polygon.drpc.org",
-      "https://polygon-rpc.com",
-      "https://1rpc.io/matic"
+      "https://1rpc.io/matic",
+      "https://polygon-bor-rpc.publicnode.com"
     ],
     usdcAddress: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", // Circle Native USDC Polygon (6 decimals)
     decimals: 6
@@ -350,8 +350,8 @@ const RPC_CONFIG = {
   bsc: {
     endpoints: [
       "https://bsc-dataseed.binance.org",
-      "https://binance.llamarpc.com",
-      "https://bsc.drpc.org"
+      "https://bsc-dataseed1.defibit.io",
+      "https://bsc-dataseed1.ninicoin.io"
     ],
     usdcAddress: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", // Official Binance-Peg USDC (18 decimals)
     decimals: 18
@@ -428,9 +428,9 @@ const CONFIRMED_ON_CHAIN_TRANSACTIONS = [
 ];
 
 // =============================================================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN SEGURA (INMEDIATA O EN DOMCONTENTLOADED)
 // =============================================================================
-document.addEventListener("DOMContentLoaded", () => {
+function initApp() {
   setupCopyButtons();
   setupModalDossier();
   setupReserveFleetModal();
@@ -445,7 +445,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Primer sondeo inmediato y ciclo recurrente de 6 segundos
   pollLiveOnChain();
   setInterval(pollLiveOnChain, 6000);
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
+}
 
 // =============================================================================
 // BUCLE DE SONDEO JSON-RPC ON-CHAIN CADA 6 SEGUNDOS (CERO SIMULACIONES)
@@ -556,7 +562,7 @@ async function callRpc(chain, method, params = []) {
   for (const url of config.endpoints) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
 
       const res = await fetch(url, {
         method: "POST",
@@ -648,20 +654,20 @@ function updateCannonsLiveUi() {
 
   if (livePrices.polygon.spreadPct >= 0.12) {
     if (elP1Pill) {
-      elP1Pill.textContent = "🟢 SPREAD ACTIVO (>= +0.12%)";
+      elP1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 SPREAD ATÓMICO ACTIVO (>= +0.12%)';
       elP1Pill.className = "c-status-live opportunity";
     }
     if (elP1Trigger) {
-      elP1Trigger.textContent = `🟢 OPORTUNIDAD (+${livePrices.polygon.spreadPct.toFixed(4)}%)`;
+      elP1Trigger.innerHTML = `<span class="pulse-dot-tiny green"></span>🟢 OPORTUNIDAD (+${livePrices.polygon.spreadPct.toFixed(4)}%)`;
       elP1Trigger.className = "c-sentinel-tag active";
     }
   } else {
-    if (elP1Pill) {
-      elP1Pill.textContent = "🟡 ESCANEANDO ($0 GAS)";
+    if (elP1Pill && !elP1Pill.classList?.contains?.("scanning")) {
+      elP1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 RADAR ON-CHAIN ACTIVO ($0 GAS)';
       elP1Pill.className = "c-status-live";
     }
     if (elP1Trigger) {
-      elP1Trigger.textContent = "🟡 ESPERANDO SPREAD >= +0.12%";
+      elP1Trigger.innerHTML = `<span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+${livePrices.polygon.spreadPct.toFixed(4)}% · META 0.12%)`;
       elP1Trigger.className = "c-sentinel-tag";
     }
   }
@@ -684,20 +690,20 @@ function updateCannonsLiveUi() {
 
   if (livePrices.bsc.spreadPct >= 0.12) {
     if (elP2Pill) {
-      elP2Pill.textContent = "🟢 SPREAD ACTIVO (>= +0.12%)";
+      elP2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 SPREAD ATÓMICO ACTIVO (>= +0.12%)';
       elP2Pill.className = "c-status-live opportunity";
     }
     if (elP2Trigger) {
-      elP2Trigger.textContent = `🟢 OPORTUNIDAD (+${livePrices.bsc.spreadPct.toFixed(4)}%)`;
+      elP2Trigger.innerHTML = `<span class="pulse-dot-tiny green"></span>🟢 OPORTUNIDAD (+${livePrices.bsc.spreadPct.toFixed(4)}%)`;
       elP2Trigger.className = "c-sentinel-tag active";
     }
   } else {
-    if (elP2Pill) {
-      elP2Pill.textContent = "🟡 ESCANEANDO ($0 GAS)";
+    if (elP2Pill && !elP2Pill.classList?.contains?.("scanning")) {
+      elP2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 RADAR ON-CHAIN ACTIVO ($0 GAS)';
       elP2Pill.className = "c-status-live";
     }
     if (elP2Trigger) {
-      elP2Trigger.textContent = "🟡 ESPERANDO SPREAD >= +0.12%";
+      elP2Trigger.innerHTML = `<span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+${livePrices.bsc.spreadPct.toFixed(4)}% · META 0.12%)`;
       elP2Trigger.className = "c-sentinel-tag";
     }
   }
@@ -769,15 +775,16 @@ function renderTraceabilityTable() {
     </td>
     <td class="font-mono text-dim">${getUtcTimeString(0)}</td>
     <td>
-      <span class="c-sentinel-tag">
-        🟡 ESCANEANDO ($0 GAS)
+      <span class="c-status-live" style="cursor: pointer;" onclick="forceLiveScan('polygon')" title="Clic para forzar sondeo RPC en vivo">
+        <span class="pulse-dot-tiny green"></span>
+        CENTINELA ACTIVO ($0 GAS)
       </span>
     </td>
     <td><strong class="gold-text">#501 / #001 / #101</strong></td>
     <td class="font-mono text-dim" title="Uniswap V3 + PancakeSwap V3 (Vigilancia eth_call)">
       Uniswap V3 + PancakeSwap V3 (eth_call $0 Gas)
     </td>
-    <td><span class="cyan-text font-bold">Posición $180.26 USDC Intacta ➔ Esperando &gt;=95%</span></td>
+    <td><span class="green-text font-bold"><span class="pulse-dot-tiny green"></span>Capital $180.26 USDC Intacto · Vigilancia Activa</span></td>
     <td class="text-dim font-mono">0.00 Gas · ${spreadDetails}</td>
   `;
   tbody.appendChild(sentinelTr);
@@ -1015,21 +1022,152 @@ function inspectNodriza(id) {
 }
 window.inspectNodriza = inspectNodriza;
 
+function closeReserveFleetDossier() {
+  const overlay = document.getElementById("dossierOverlay");
+  if (overlay) {
+    overlay.style.display = "none";
+  }
+}
+window.closeReserveFleetDossier = closeReserveFleetDossier;
+window.openReserveFleetDossier = openReserveFleetDossier;
+
 function setupModalDossier() {
   const overlay = document.getElementById("dossierOverlay");
   const closeBtn = document.getElementById("dossierCloseBtn");
-  if (!overlay || !closeBtn) return;
+  if (!overlay) return;
 
-  closeBtn.onclick = () => {
-    overlay.style.display = "none";
-  };
+  if (closeBtn) {
+    closeBtn.onclick = (e) => {
+      e.stopPropagation();
+      closeReserveFleetDossier();
+    };
+  }
 
   overlay.onclick = (e) => {
     if (e.target === overlay) {
-      overlay.style.display = "none";
+      closeReserveFleetDossier();
     }
   };
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.style.display === "flex") {
+      closeReserveFleetDossier();
+    }
+  });
 }
+
+// =============================================================================
+// ESCANEO ON-CHAIN FORZADO EN TIEMPO REAL ($0 GAS)
+// =============================================================================
+async function forceLiveScan(chain = "all") {
+  const p1Pill = document.getElementById("cannon1StatusPill");
+  const p2Pill = document.getElementById("cannon2StatusPill");
+
+  if (chain === "polygon" || chain === "all") {
+    if (p1Pill) {
+      p1Pill.innerHTML = '<span class="pulse-dot-tiny cyan"></span>⚡ AUDITANDO ON-CHAIN...';
+      p1Pill.classList.add("scanning");
+    }
+  }
+  if (chain === "bsc" || chain === "all") {
+    if (p2Pill) {
+      p2Pill.innerHTML = '<span class="pulse-dot-tiny gold"></span>⚡ AUDITANDO ON-CHAIN...';
+      p2Pill.classList.add("scanning");
+    }
+  }
+
+  // Ejecución on-chain inmediata
+  await pollLiveOnChain();
+
+  // Confirmación táctica con feedback visual inmediato
+  setTimeout(() => {
+    if (p1Pill) {
+      p1Pill.classList.remove("scanning");
+      p1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 AUDITORÍA COMPLETADA ($0 GAS)';
+    }
+    if (p2Pill) {
+      p2Pill.classList.remove("scanning");
+      p2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 AUDITORÍA COMPLETADA ($0 GAS)';
+    }
+    setTimeout(() => {
+      updateCannonsLiveUi();
+    }, 1200);
+  }, 400);
+}
+window.forceLiveScan = forceLiveScan;
+
+// =============================================================================
+// AUDITORÍA INTERACTIVA DEL GATILLO ATÓMICO (SPREAD MATEMÁTICO REAL)
+// =============================================================================
+function inspectTriggerCondition(chain = "polygon") {
+  const isPoly = chain === "polygon";
+  const name = isPoly ? "CAÑÓN PESADO #1 (POLYGON POS)" : "CAÑÓN PESADO #2 (BSC MAINNET)";
+  const curSpread = isPoly ? livePrices.polygon.spreadPct : livePrices.bsc.spreadPct;
+  const p1 = isPoly ? livePrices.polygon.p005 : livePrices.bsc.p005;
+  const p2 = isPoly ? (livePrices.polygon.p030 || livePrices.polygon.p005) : (livePrices.bsc.p001 || livePrices.bsc.p005);
+  const unit = isPoly ? "USDC/POL" : "USDC/BNB";
+  const blockNum = isPoly ? latestPolygonBlock : latestBscBlock;
+
+  const overlay = document.getElementById("dossierOverlay");
+  const idBadge = document.getElementById("dossierIdBadge");
+  const title = document.getElementById("dossierTitle");
+  const body = document.getElementById("dossierBody");
+
+  if (!overlay || !body) return;
+
+  idBadge.textContent = isPoly ? "GATILLO #1" : "GATILLO #2";
+  title.textContent = `AUDITORÍA DEL GATILLO ATÓMICO: ${name}`;
+
+  body.innerHTML = `
+    <div style="display: flex; justify-content: flex-start; margin-bottom: 8px;">
+      <button class="dock-btn btn-return" onclick="openReserveFleetDossier()" style="width: auto; padding: 4px 10px; font-size: 0.54rem;">
+        <span class="material-symbols-rounded icon-xs">arrow_back</span>
+        <span>VER CATÁLOGO GENERAL DE LA FLOTA (16 NODRIZAS)</span>
+      </button>
+    </div>
+
+    <div class="dossier-card" style="padding: 14px; background: #05080e; border: 1px solid var(--border-gold); border-radius: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <strong class="gold-text" style="font-size: 0.88rem; font-family: var(--font-mono);">
+          <span class="material-symbols-rounded icon-xs cyan-text">radar</span>
+          CONDICIÓN MATEMÁTICA DEL GATILLO ATÓMICO ($0 GAS)
+        </strong>
+        <span class="d-card-badge green">VIGILANCIA EN TIEMPO REAL · BLOQUE #${blockNum.toLocaleString("en-US")}</span>
+      </div>
+      <p style="font-size: 0.62rem; color: var(--text-dim); margin-bottom: 12px; line-height: 1.4;">
+        El gatillo centinela protege el 100% de la munición USDC en cada bloque. Solo dispara si el diferencial entre piscinas cubre comisiones y garantiza retorno de base + beneficio neto en una sola transacción Flash-Swap atómica.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
+        <div style="padding: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;">
+          <div style="font-size: 0.52rem; color: var(--text-dim);">PISCINA PRIMARIA:</div>
+          <div style="font-size: 0.70rem; font-family: var(--font-mono); font-weight: 800; color: #fff;">${p1.toFixed(4)} ${unit}</div>
+        </div>
+        <div style="padding: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;">
+          <div style="font-size: 0.52rem; color: var(--text-dim);">PISCINA COMPARATIVA:</div>
+          <div style="font-size: 0.70rem; font-family: var(--font-mono); font-weight: 800; color: #fff;">${p2.toFixed(4)} ${unit}</div>
+        </div>
+        <div style="padding: 8px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px;">
+          <div style="font-size: 0.52rem; color: var(--green);">SPREAD REAL EN VIVO:</div>
+          <div style="font-size: 0.70rem; font-family: var(--font-mono); font-weight: 800; color: var(--green);">+${curSpread.toFixed(4)}%</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 6px;">
+        <span style="font-size: 0.58rem; color: #fff; font-family: var(--font-mono);">
+          UMBRAL REQUERIDO: <strong>&gt;= +0.1200%</strong> · ESTADO ACTUAL: <strong class="green-text">VIGILANCIA ETH_CALL ($0 RIESGO)</strong>
+        </span>
+        <button class="dock-btn btn-dossier" onclick="forceLiveScan('${chain}')" style="width: auto; padding: 4px 10px; font-size: 0.52rem;">
+          <span class="material-symbols-rounded icon-xs">refresh</span>
+          <span>SONDEAR AHORA MISMO</span>
+        </button>
+      </div>
+    </div>
+  `;
+
+  overlay.style.display = "flex";
+}
+window.inspectTriggerCondition = inspectTriggerCondition;
 
 // =============================================================================
 // BOTÓN COPIAR CON FEEDBACK (COPIA DIRECCIÓN COMPLETA DE 42 CARACTERES)

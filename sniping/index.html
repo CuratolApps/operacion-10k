@@ -279,7 +279,7 @@
       <!-- BOTONES DE ACCIÓN DOCK INFERIOR IZQUIERDO -->
       <div class="col-dock-group">
         <!-- BOTÓN VER EXPEDIENTE DE FLOTA -->
-        <button type="button" class="dock-btn btn-dossier" id="btnToggleReserveGrid" title="Ver Expediente Táctico Completo de la Flota">
+        <button type="button" class="dock-btn btn-dossier" id="btnToggleReserveGrid" onclick="openReserveFleetDossier()" title="Ver Expediente Táctico Completo de la Flota">
           <span class="material-symbols-rounded icon-sm gold-icon">folder_shared</span>
           <span class="dock-btn-txt">VER EXPEDIENTE DE FLOTA</span>
           <span class="material-symbols-rounded icon-xs dock-tail-icon">visibility</span>
@@ -335,7 +335,9 @@
               <div class="c-head-left">
                 <span class="material-symbols-rounded icon-sm cyan">adjust</span>
                 <span class="c-name">CAÑÓN PESADO #1 (POLYGON POS)</span>
-                <span class="c-status-live" id="cannon1StatusPill">🟡 ESCANEANDO ($0 GAS)</span>
+                <button type="button" class="c-status-live" id="cannon1StatusPill" onclick="forceLiveScan('polygon')" title="Clic para ejecutar escaneo on-chain forzado en tiempo real ($0 Gas)">
+                  <span class="pulse-dot-tiny green"></span>🟢 RADAR ON-CHAIN ACTIVO ($0 GAS)
+                </button>
               </div>
               <div class="c-head-right">
                 <span class="c-usdc-badge cyan" id="cannon1Badge">$158.84 USDC MUNICIÓN</span>
@@ -357,7 +359,9 @@
               </div>
               <div class="c-detail-col">
                 <span class="c-meta-label">ESTADO DEL GATILLO:</span>
-                <span class="c-sentinel-tag" id="cannon1TriggerState">🟡 ESPERANDO SPREAD &gt;= +0.12%</span>
+                <button type="button" class="c-sentinel-tag" id="cannon1TriggerState" onclick="inspectTriggerCondition('polygon')" title="Clic para auditar condición matemática del gatillo atómico">
+                  <span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+0.1140% · META 0.12%)
+                </button>
               </div>
               <div class="c-detail-col">
                 <span class="c-meta-label">NODRIZAS AL MANDO:</span>
@@ -381,7 +385,9 @@
               <div class="c-head-left">
                 <span class="material-symbols-rounded icon-sm gold">adjust</span>
                 <span class="c-name">CAÑÓN PESADO #2 (BSC MAINNET)</span>
-                <span class="c-status-live" id="cannon2StatusPill">🟡 ESCANEANDO ($0 GAS)</span>
+                <button type="button" class="c-status-live" id="cannon2StatusPill" onclick="forceLiveScan('bsc')" title="Clic para ejecutar escaneo on-chain forzado en tiempo real ($0 Gas)">
+                  <span class="pulse-dot-tiny green"></span>🟢 RADAR ON-CHAIN ACTIVO ($0 GAS)
+                </button>
               </div>
               <div class="c-head-right">
                 <span class="c-usdc-badge gold" id="cannon2Badge">$20.42 USDC MUNICIÓN</span>
@@ -403,7 +409,9 @@
               </div>
               <div class="c-detail-col">
                 <span class="c-meta-label">ESTADO DEL GATILLO:</span>
-                <span class="c-sentinel-tag" id="cannon2TriggerState">🟡 ESPERANDO SPREAD &gt;= +0.12%</span>
+                <button type="button" class="c-sentinel-tag" id="cannon2TriggerState" onclick="inspectTriggerCondition('bsc')" title="Clic para auditar condición matemática del gatillo atómico">
+                  <span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+0.0269% · META 0.12%)
+                </button>
               </div>
               <div class="c-detail-col">
                 <span class="c-meta-label">NODRIZAS AL MANDO:</span>
@@ -447,11 +455,11 @@
                 <div class="nmp-top">
                   <span class="nmp-id gold">#201</span>
                   <span class="nmp-role">Capitán Box 3</span>
-                  <span class="nmp-pulse-dot amber" title="En espera de liquidez"></span>
+                  <span class="nmp-pulse-dot cyan" title="Reserva táctica blindada 5/5"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">18.01 POL · 0.008 BNB</span>
-                  <span class="nmp-status-lbl">EN ESPERA (PISCINAS)</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA (PISCINAS)</span>
                 </div>
               </div>
 
@@ -460,11 +468,11 @@
                 <div class="nmp-top">
                   <span class="nmp-id gold">#301</span>
                   <span class="nmp-role">Capitán Box 4</span>
-                  <span class="nmp-pulse-dot amber" title="En espera de liquidez"></span>
+                  <span class="nmp-pulse-dot cyan" title="Reserva táctica blindada 5/5"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">12.01 POL · 0.008 BNB</span>
-                  <span class="nmp-status-lbl">EN ESPERA (AIRDROPS L2)</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA (AIRDROPS L2)</span>
                 </div>
               </div>
 
@@ -473,11 +481,11 @@
                 <div class="nmp-top">
                   <span class="nmp-id gold">#401</span>
                   <span class="nmp-role">Capitán Box 5</span>
-                  <span class="nmp-pulse-dot amber" title="En espera de liquidez"></span>
+                  <span class="nmp-pulse-dot cyan" title="Reserva táctica blindada 5/5"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">12.01 POL · 0.008 BNB</span>
-                  <span class="nmp-status-lbl">EN ESPERA (MINTS DEX)</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA (MINTS DEX)</span>
                 </div>
               </div>
             </div>
@@ -492,7 +500,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id cyan">#008</span>
                   <span class="nmp-role">Alfa Box 1</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · GameFi</span>
@@ -505,7 +513,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id cyan">#108</span>
                   <span class="nmp-role">Alfa Box 2</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Thena V3</span>
@@ -518,7 +526,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id cyan">#204</span>
                   <span class="nmp-role">Alfa Box 3</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Balancer</span>
@@ -531,7 +539,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id cyan">#307</span>
                   <span class="nmp-role">Alfa Box 4</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Permit2</span>
@@ -544,7 +552,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id cyan">#403</span>
                   <span class="nmp-role">Alfa Box 5</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Keeper</span>
@@ -563,7 +571,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id purple">#006</span>
                   <span class="nmp-role">Beta Box 1</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Micro-Pools</span>
@@ -576,7 +584,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id purple">#106</span>
                   <span class="nmp-role">Beta Box 2</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · WBNB V3</span>
@@ -589,7 +597,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id purple">#205</span>
                   <span class="nmp-role">Beta Box 3</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Curve</span>
@@ -602,7 +610,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id purple">#311</span>
                   <span class="nmp-role">Beta Box 4</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Zero-Gas</span>
@@ -615,7 +623,7 @@
                 <div class="nmp-top">
                   <span class="nmp-id purple">#411</span>
                   <span class="nmp-role">Beta Box 5</span>
-                  <span class="nmp-pulse-dot amber"></span>
+                  <span class="nmp-pulse-dot cyan"></span>
                 </div>
                 <div class="nmp-bottom">
                   <span class="nmp-bal">6.50 POL · Algebra V3</span>
@@ -688,7 +696,7 @@
           <span class="dossier-id-badge" id="dossierIdBadge">#501</span>
           <h3 class="dossier-title" id="dossierTitle">EXPEDIENTE DE NODRIZA SNIPER</h3>
         </div>
-        <button class="dossier-close-btn" id="dossierCloseBtn">
+        <button class="dossier-close-btn" id="dossierCloseBtn" onclick="closeReserveFleetDossier()" title="Cerrar Expediente">
           <span class="material-symbols-rounded">close</span>
         </button>
       </div>
