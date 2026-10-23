@@ -113,7 +113,7 @@ html, body {
   align-items: stretch;
   justify-content: space-between;
   gap: clamp(6px, 0.8vw, 10px);
-  padding: 8px 145px 6px clamp(12px, 1.4vw, 18px);
+  padding: 8px 50px 6px clamp(12px, 1.4vw, 18px);
   background: transparent;
   border-bottom: none;
   z-index: 100;
@@ -238,24 +238,30 @@ html, body {
 .queen-top-row {
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 4px;
 }
 
 .queen-title {
-  font-size: 0.55rem;
+  font-size: 0.53rem;
   font-weight: 800;
   color: var(--green);
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .queen-badge {
-  font-size: 0.46rem;
+  font-size: 0.44rem;
   font-family: var(--font-mono);
   font-weight: 800;
   padding: 1px 4px;
   background: rgba(16, 185, 129, 0.22);
   color: #fff;
   border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .queen-data-row {
@@ -301,16 +307,18 @@ html, body {
 .cycle-pod-flow {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   font-family: var(--font-mono);
-  font-size: 0.54rem;
+  font-size: 0.49rem;
   font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .c-step { color: var(--text-muted); }
 .c-step.active { color: var(--green); }
 .c-step.gold-txt { color: var(--gold); }
-.c-sep { color: var(--text-dim); font-size: 0.50rem; }
+.c-sep { color: var(--text-dim); font-size: 0.46rem; }
 
 /* TARJETA FLOTANTE 4: CAJA DE RETIRO & RECARGA (AJUSTADA AL MEDIO) */
 .profit-vault-pod {
@@ -1512,7 +1520,7 @@ button.c-sentinel-tag {
 .quant-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.58rem;
+  font-size: 0.51rem;
   font-family: var(--font-mono);
   background: #000000;
 }
@@ -1526,29 +1534,29 @@ button.c-sentinel-tag {
 }
 
 .quant-table th {
-  padding: 6px 12px;
+  padding: 5px 8px;
   text-align: left;
-  font-size: 0.50rem;
+  font-size: 0.47rem;
   font-weight: 800;
   color: #94A3B8;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   white-space: nowrap;
   background: #040507;
 }
 
 .quant-table td {
-  padding: 5px 12px;
+  padding: 4px 8px;
   color: #F8FAFC;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   white-space: nowrap;
-  font-size: clamp(0.54rem, 0.9vh, 0.60rem);
+  font-size: clamp(0.48rem, 0.8vh, 0.53rem);
   background: transparent;
 }
 
 .quant-table th:last-child,
 .quant-table td:last-child {
-  padding-right: 32px !important;
+  padding-right: 20px !important;
   text-align: right;
 }
 

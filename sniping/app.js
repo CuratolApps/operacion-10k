@@ -421,9 +421,9 @@ const CONFIRMED_ON_CHAIN_TRANSACTIONS = [
     timeUtc: "11:15:30 UTC",
     nebulas: "Nebulosa #01 (98%) + #02 (5/5 OK)",
     mothership: "#501 (Matriz Dual)",
-    route: "Polygon / Uniswap V3 0.05% (WPOL ➔ USDC Nativo)",
-    cycleInOut: "1,519.24 POL ➔ +$138.54 USDC Nativo",
-    gasUsed: "0.0210 POL ($0.00 pérdida / Fondo Intacto)",
+    route: "Polygon / Uniswap V3 (WPOL ➔ USDC)",
+    cycleInOut: "1,519 POL ➔ +$138.54 USDC Nativo",
+    gasUsed: "0.0210 POL ($0 Pérdida)",
     netProfit: "+$138.54 USDC (Posición: $180.26 USDC)",
     statusType: "CONFIRMED"
   }
@@ -768,7 +768,7 @@ function renderTraceabilityTable() {
 
   // 1. Fila Centinela en Vivo (se actualiza in-situ en cada sondeo sin duplicar filas)
   const sentinelTr = document.createElement("tr");
-  const spreadDetails = `POL: +${livePrices.polygon.spreadPct.toFixed(4)}% · BSC: +${livePrices.bsc.spreadPct.toFixed(4)}%`;
+  const spreadDetails = `POL +${livePrices.polygon.spreadPct.toFixed(3)}% · BSC +${livePrices.bsc.spreadPct.toFixed(3)}%`;
   sentinelTr.innerHTML = `
     <td>
       <span class="op-badge-live">
@@ -786,8 +786,8 @@ function renderTraceabilityTable() {
     <td class="font-mono text-dim" title="Uniswap V3 + PancakeSwap V3 (Vigilancia eth_call)">
       Uniswap V3 + PancakeSwap V3 (eth_call $0 Gas)
     </td>
-    <td><span class="green-text font-bold"><span class="pulse-dot-tiny green"></span>Capital $180.26 USDC Intacto · Vigilancia Activa</span></td>
-    <td class="text-dim font-mono">0.00 Gas · ${spreadDetails}</td>
+    <td><span class="green-text font-bold"><span class="pulse-dot-tiny green"></span>$180.26 USDC Intacto · Vigilancia</span></td>
+    <td class="text-dim font-mono"><strong class="green-text">$0 Gas</strong> · ${spreadDetails}</td>
   `;
   tbody.appendChild(sentinelTr);
 

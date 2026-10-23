@@ -193,44 +193,62 @@
   75% { transform: translateX(6px); }
 }
 
-/* Floating Lock / Logout Button (Top-Right Navbar Integrated) */
+/* App-Icon Style Lock / Logout Square Button */
 .area501-lockout-btn {
   position: fixed;
-  top: 9px;
-  right: 18px;
-  background: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(0, 240, 255, 0.4);
+  top: 7px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(8, 14, 26, 0.96));
+  border: 1px solid rgba(0, 240, 255, 0.45);
   color: #38bdf8;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  letter-spacing: 0.8px;
+  padding: 0;
+  border-radius: 8px;
   cursor: pointer;
   z-index: 999999;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   backdrop-filter: blur(16px);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 240, 255, 0.15);
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.65), 0 0 10px rgba(0, 240, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.area501-lockout-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: #38bdf8;
+  transition: stroke 0.2s ease, transform 0.2s ease;
 }
 
 .area501-lockout-btn:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.65);
-  color: #ef4444;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
-  transform: translateY(-1px);
+  background: rgba(239, 68, 68, 0.22);
+  border-color: rgba(239, 68, 68, 0.75);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+  transform: translateY(-1px) scale(1.04);
+}
+
+.area501-lockout-btn:hover svg {
+  stroke: #ef4444;
+  transform: scale(1.08);
+}
+
+.area501-lockout-btn:active {
+  transform: translateY(0) scale(0.96);
 }
 
 @media (max-width: 768px) {
   .area501-lockout-btn {
-    top: 7px;
-    right: 10px;
-    padding: 5px 10px;
-    font-size: 10px;
+    top: 6px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+  .area501-lockout-btn svg {
+    width: 14px;
+    height: 14px;
   }
 }
 
