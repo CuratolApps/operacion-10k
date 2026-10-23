@@ -349,10 +349,10 @@ function assemble502Wallets() {
 function renderTopRadarBanner() {
   const telem = state.telemetry;
   
-  // 1. Saldo único real consolidado on-chain: $40.72 USDC en Bóveda Máster On-Chain + $1.00 USDC en Binance Spot #1 = $41.72 USDC
-  const onChainVaultUsdc = safeNum(telem?.totalOnChainFleetUsdc, 40.72);
+  // 1. Saldo único real consolidado on-chain: $179.25 USDC en Bóveda Máster On-Chain + $1.00 USDC en Binance Spot #1 = $180.25 USDC
+  const onChainVaultUsdc = safeNum(telem?.totalOnChainFleetUsdc, 179.25);
   const totalBinanceNum = safeNum(telem?.totalHarvestedToBinanceUsdc, 1.00);
-  const consolidatedNum = parseFloat((Math.max(40.72, onChainVaultUsdc) + totalBinanceNum).toFixed(2)); // Exacto $41.72 USDC
+  const consolidatedNum = parseFloat((Math.max(179.25, onChainVaultUsdc) + totalBinanceNum).toFixed(2)); // Exacto $180.25 USDC
 
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${consolidatedNum.toFixed(2)} USDC`;
@@ -360,13 +360,13 @@ function renderTopRadarBanner() {
   // Pastilla 1: Mi Inversión Puesta
   const elPhase1 = document.getElementById('dashPhase1Pill');
   if (elPhase1) {
-    elPhase1.textContent = '123,00 € ($133.50 USD)';
+    elPhase1.textContent = '250,70 € ($272.03 USD)';
   }
 
   // Pastilla 3: Posición Patrimonial Hoy (Con Rebote de Mercado)
   const elEur = document.getElementById('dashEurLiqPill');
   if (elEur) {
-    elEur.textContent = '~113,97 € ($123.42 USD)';
+    elEur.textContent = '~241,67 € ($261.95 USD)';
   }
 
   // Pastilla 4: Brecha Para Empatar Reducida

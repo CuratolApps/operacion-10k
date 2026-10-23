@@ -32,8 +32,8 @@ const RATCHET_FILE = path.join(TELEMETRY_DIR, "profit-lock-ratchet.json");
 const ATOMIC_ONLY_MODE = true;           // Prohibido quedarse comprado en volátiles / riesgo direccional
 const ZERO_INTERNAL_SWEEP = true;        // PROHIBIDO mover USDC entre carteras propias (cero gas malgastado)
 const DAILY_ATOMIC_TARGET = 15;          // Meta de 15 disparos atómicos al día
-const MIN_ATOMIC_SPREAD_NET = 0.0012;    // +0.12% neto (mínimo +$0.05 a +$0.35 USDC limpios tras gas)
-const STRICT_NO_GAS_SELL = true;         // Prohibido vender POL/BNB del tanque de gas
+const MIN_ATOMIC_SPREAD_NET = 0.0010;    // +0.10% neto (mínimo +$0.05 a +$0.35 USDC limpios tras gas)
+const STRICT_NO_GAS_SELL = true;         // Prohibido vender POL/BNB del tanque de gas sagrado
 
 const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 const MULTICALL3_ABI = [

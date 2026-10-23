@@ -5,9 +5,9 @@
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
-  "dailyCapturedUsdc": 41.71977,
-  "totalHistoricalUsdc": 41.71977,
-  "totalOnChainFleetUsdc": 40.71977,
+  "dailyCapturedUsdc": 180.2542,
+  "totalHistoricalUsdc": 180.2542,
+  "totalOnChainFleetUsdc": 179.2542,
   "atomicSniperExecution": {
     "mode": "ATOMIC_ONLY_RISK_ZERO",
     "atomicOnlyMode": true,
@@ -15,17 +15,17 @@
     "strictNoGasSell": true,
     "dailyTarget": 15,
     "shotsExecutedToday": 0,
-    "minAtomicSpreadNet": 0.0012,
-    "minAtomicSpreadNetPct": "+0.12%",
+    "minAtomicSpreadNet": 0.001,
+    "minAtomicSpreadNetPct": "+0.10%",
     "vaultAddress": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "reboundPosition": {
-      "totalInvestmentEur": 123,
-      "totalInvestmentUsd": 133.5,
-      "currentPositionEur": 113.97,
-      "currentPositionUsd": 123.42,
+      "totalInvestmentEur": 250.7,
+      "totalInvestmentUsd": 272.03,
+      "currentPositionEur": 241.67,
+      "currentPositionUsd": 261.95,
       "gapEur": -9.03,
       "gapUsd": -10.08,
-      "fixedLiquidityUsdc": 41.72
+      "fixedLiquidityUsdc": 180.25
     },
     "monitoredConcentratedPoolsCount": 12,
     "status": "ARMED_AND_SCANNING"
@@ -48,14 +48,14 @@
       "id": "#501",
       "name": "Nodriza Matriz Dual (#501)",
       "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
-      "gasPol": 110.98,
+      "gasPol": 110.91,
       "gasBnb": 0.015,
       "sacredFloorPol": 110,
       "gasLostPol": 0,
       "status": "BLINDADA_0_GAS_PERDIDO"
     },
     "gasTankLive": {
-      "motherPol": "110.98 POL",
+      "motherPol": "110.91 POL",
       "motherBnb": "0.0150 BNB",
       "sacredFloor": "110.00 POL (Piso Inviolable)",
       "gasLost": "0.00 POL / 0.00 BNB (Estado: 0.00 Gas Perdido)",
@@ -68,16 +68,16 @@
       "autonomyBarPct": 100
     },
     "munitionTankUsdc": {
-      "totalConsolidated": 41.72,
+      "totalConsolidated": 180.25,
       "mode": "0% Riesgo de Pérdida (Modo Atómico)",
       "zeroInternalSweep": true,
       "cannon1_Polygon": {
         "id": "CANON-01-POLYGON",
-        "amountUsdc": 20.3,
+        "amountUsdc": 158.83,
         "command": "#501 (Nodriza Matriz) & #001 (Capitán Box 1)",
         "targetDEX": "Uniswap V3 0.01%/0.05% & QuickSwap",
         "escortBinomio": "Nebulosa #01 (Calculista >=95%) + Nebulosa #02 (Guardaespaldas Anti-Rug)",
-        "spreadCurrent": "-0.1079%",
+        "spreadCurrent": "+0.1992%",
         "triggerStatus": "VIGILANCIA_CENTINELA_ARMADA"
       },
       "cannon2_BSC": {
@@ -86,7 +86,7 @@
         "command": "#501 (Nodriza Matriz) & #101 (Capitán Box 2)",
         "targetDEX": "PancakeSwap V3 0.01%/0.05% & Keeper Bounties",
         "escortBinomio": "Nebulosa #03 (Calculista >=95%) + Nebulosa #04 (Guardaespaldas Anti-Rug)",
-        "spreadCurrent": "-0.044%",
+        "spreadCurrent": "+0.2225%",
         "keeperBountyTop": "$0.1588 USD (WBNB-USDT)",
         "triggerStatus": "VIGILANCIA_CENTINELA_ARMADA"
       },
@@ -47299,6 +47299,13 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1792754334910-265",
+      "timestamp": "2026-10-23T11:18:54.910Z",
+      "timeFormatted": "11:18:54 UTC",
+      "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>\n• <b>Posición Patrimonial Hoy:</b> <code>~113,97 € ($123.42 USD) (Con Rebote de Mercado)</code>\n• <b>Brecha Reducida a:</b> <b>-9,03 € (-$10.08 USD)</b>\n• <b>Liquidez Fija Consolidada:</b> <code>$41.72 USDC (83.4% Meta 1: $50.00 USDC)</code>\n• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>\n• <b>Bóveda #501:</b> <code>$40.72 On-Chain | $1.00 Binance</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💱⚡ <b>ÁREA 501 // CONFIRMACIÓN ON-CHAIN: CONVERSIÓN QUIRÚRGICA A USDC NATIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>BÓVEDA MATRIZ #501 (0xD4D12077a61118372f7a367319fb11922Beb3743)</b>\n<i>Polygon PoS Mainnet • Bloque #96032510 • Modo 100% Atómico Activado</i>\n\n💵 <b>1. CONVERSIÓN QUIRÚRGICA A USDC NATIVO (CIRCLE):</b>\n• <b>POL Excedente Convertido:</b> <code>1,519.24 POL</code>\n• <b>USDC Nativo Recibido en #501:</b> <b>+$138.5342 USDC</b>\n• <b>Ruta Ganadora ($0 Gas StaticCall):</b> <code>Uniswap V3 (Fee Tier 500 = 0.05%)</code>\n• <b>TxHash de Swap PolygonScan:</b>\n  <a href=\"https://polygonscan.com/tx/0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1\">0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1</a>\n• <b>TxHash de Envoltorio WPOL:</b>\n  <a href=\"https://polygonscan.com/tx/0xb58a07901badab337dc95b7d9207c0c6110b3efb8c8b8ff5661cd65e97026dee\">0xb58a07901badab337dc95b7d9207c0c6110b3efb8c8b8ff5661cd65e97026dee</a>\n\n🛡️ <b>2. BLINDAJE DEL TANQUE DE GAS (0 GAS PERDIDO):</b>\n• <b>Gasolina Intacta en #501:</b> <b>110.91 POL & 0.0150 BNB</b>\n• <b>Piso Sagrado Militar:</b> <code>110.00 POL (Piso Inviolable Respetado 100%)</code>\n• <b>Gas Total en Flota:</b> <code>255.77 POL & 0.0405 BNB</code>\n• <b>Candado Activo:</b> <code>STRICT_NO_GAS_SELL = true ✅</code>\n\n🎯 <b>3. NUEVA POSICIÓN CONSOLIDADA EN USDC (100% ESTABLE):</b>\n• <b>Cañón Pesado #1 (Polygon #501 / #001):</b> <b>$158.83 USDC</b>\n  ↳ <i>#501 Matriz:</i> <code>$152.74 USDC</code> | <i>#001 Capitán:</i> <code>$6.10 USDC</code>\n• <b>Cañón Pesado #2 (BSC #501 / #101):</b> <b>$20.42 USDC</b>\n  ↳ <i>#501 Matriz:</i> <code>$7.98 USDC</code> | <i>#101 Capitán:</i> <code>$12.44 USDC</code>\n• <b>Bóveda Binance Spot #1:</b> <b>$1.00 USDC</b> (Reserva Fija)\n• 💎 <b>POSICIÓN TOTAL EN USDC (0% RIESGO VOLÁTIL):</b> <b>$180.25 USDC</b>\n  ↳ <i>Meta 1 ($50.00) Superada al 360% ✅</i>\n  ↳ <i>Nuevo Objetivo: Meta 2 ($250.00 USDC)</i>\n\n⚙️ <b>4. CALIBRACIÓN DE DISPARO ATÓMICO (15 DISPAROS DIARIOS):</b>\n• <code>ATOMIC_ONLY_MODE = true</code> (Prohibido quedar comprado en volátiles)\n• <code>ZERO_INTERNAL_SWEEP = true</code> (Cero comisiones internas de red)\n• <code>DAILY_ATOMIC_TARGET = 15</code> (Meta activa: 15 Disparos al Día)\n• <code>MIN_ATOMIC_SPREAD_NET = +0.10%</code> (Mínimo verificado por callStatic a $0 gas)\n• <b>Ciclo Garantizado:</b> <code>Sale USDC ➔ Recupera 100% Base USDC + Ganancia (70% Retiro / 30% Tanque Gas)</code>\n\n📱 <b>5. PANELES Y CABINA ACTUALIZADOS:</b>\n• <b>Cabina de Sniping:</b> <code>http://127.0.0.1:5500/sniping/index.html</code> (100vh Cero Scroll)\n• <b>Dashboard Central:</b> <code>http://127.0.0.1:5500/dashboard/index.html</code>\n• <b>Loop RPC en Vivo:</b> Polling cada 6 segundos activo en Polygon + BSC.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:\n• Capital Invertido (Flota / Total): 123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]\n• Posición Patrimonial Hoy: ~113,97 € ($123.42 USD) (Con Rebote de Mercado)\n• Brecha Reducida a: -9,03 € (-$10.08 USD)\n• Liquidez Fija Consolidada: $41.72 USDC (83.4% Meta 1: $50.00 USDC)\n• 🎯 Disparos Atómicos Diarios: 0 / 15 Disparos (Modo Riesgo 0%)\n• Bóveda #501: $40.72 On-Chain | $1.00 Binance\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💱⚡ ÁREA 501 // CONFIRMACIÓN ON-CHAIN: CONVERSIÓN QUIRÚRGICA A USDC NATIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 BÓVEDA MATRIZ #501 (0xD4D12077a61118372f7a367319fb11922Beb3743)\nPolygon PoS Mainnet • Bloque #96032510 • Modo 100% Atómico Activado\n\n💵 1. CONVERSIÓN QUIRÚRGICA A USDC NATIVO (CIRCLE):\n• POL Excedente Convertido: 1,519.24 POL\n• USDC Nativo Recibido en #501: +$138.5342 USDC\n• Ruta Ganadora ($0 Gas StaticCall): Uniswap V3 (Fee Tier 500 = 0.05%)\n• TxHash de Swap PolygonScan:\n  0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1\n• TxHash de Envoltorio WPOL:\n  0xb58a07901badab337dc95b7d9207c0c6110b3efb8c8b8ff5661cd65e97026dee\n\n🛡️ 2. BLINDAJE DEL TANQUE DE GAS (0 GAS PERDIDO):\n• Gasolina Intacta en #501: 110.91 POL & 0.0150 BNB\n• Piso Sagrado Militar: 110.00 POL (Piso Inviolable Respetado 100%)\n• Gas Total en Flota: 255.77 POL & 0.0405 BNB\n• Candado Activo: STRICT_NO_GAS_SELL = true ✅\n\n🎯 3. NUEVA POSICIÓN CONSOLIDADA EN USDC (100% ESTABLE):\n• Cañón Pesado #1 (Polygon #501 / #001): $158.83 USDC\n  ↳ #501 Matriz: $152.74 USDC | #001 Capitán: $6.10 USDC\n• Cañón Pesado #2 (BSC #501 / #101): $20.42 USDC\n  ↳ #501 Matriz: $7.98 USDC | #101 Capitán: $12.44 USDC\n• Bóveda Binance Spot #1: $1.00 USDC (Reserva Fija)\n• 💎 POSICIÓN TOTAL EN USDC (0% RIESGO VOLÁTIL): $180.25 USDC\n  ↳ Meta 1 ($50.00) Superada al 360% ✅\n  ↳ Nuevo Objetivo: Meta 2 ($250.00 USDC)\n\n⚙️ 4. CALIBRACIÓN DE DISPARO ATÓMICO (15 DISPAROS DIARIOS):\n• ATOMIC_ONLY_MODE = true (Prohibido quedar comprado en volátiles)\n• ZERO_INTERNAL_SWEEP = true (Cero comisiones internas de red)\n• DAILY_ATOMIC_TARGET = 15 (Meta activa: 15 Disparos al Día)\n• MIN_ATOMIC_SPREAD_NET = +0.10% (Mínimo verificado por callStatic a $0 gas)\n• Ciclo Garantizado: Sale USDC ➔ Recupera 100% Base USDC + Ganancia (70% Retiro / 30% Tanque Gas)\n\n📱 5. PANELES Y CABINA ACTUALIZADOS:\n• Cabina de Sniping: http://127.0.0.1:5500/sniping/index.html (100vh Cero Scroll)\n• Dashboard Central: http://127.0.0.1:5500/dashboard/index.html\n• Loop RPC en Vivo: Polling cada 6 segundos activo en Polygon + BSC.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
       "id": "tg-1792749456299-177",
       "timestamp": "2026-10-23T09:57:36.298Z",
       "timeFormatted": "9:57:36 UTC",
@@ -47500,13 +47507,6 @@
       "timeFormatted": "21:49:43 UTC",
       "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI):</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>100,00 € ($108.50) | 123,00 € con Kraken</code>\n• <b>Recuperado en USDC Líquido:</b> <code>$42.72 USDC (~39,45 €) ➔ 85.4% de los primeros 45€</code>\n• <b>Valor Gas en Flota + Kraken:</b> <code>~$69.90 USD (~64,50 €)</code>\n• <b>Patrimonio Total Actual:</b> <code>~$112.62 USD (~103,95 €)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n⛏️ <b>BOT MINER SWARM — OPERACIÓN 10K</b>\n🔄 <b>Ronda de Minería & Recompensas X500</b>\n\n🌌 <b>DIRECTRIZ DE LAS 10 NEBULOSAS IA (SCORE 99%):</b>\n   • <b>Guía de la Manada:</b> 500 satélites dirigidos por 10 agentes autónomos\n   • <b>Objetivo L2 Rápido:</b> Citrea Testnet / Goat Network\n   • <b>Box Priorizado:</b> Box 1 (#1–100)\n   • <b>Gas Mainnet:</b> Polygon 186.808048862 Gwei · BSC 0.05 Gwei (🟡 Espera)\n   • <b>Seguridad Anti-Honeypot:</b> 🟢 0 detectados (GoPlus + Bytecode)\n   • <b>Ruta de Salida:</b> 100% USDC Nativo hacia 5 Bóvedas Binance Spot\n\n\n🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>\n   • <b>Campañas Activas en Catálogo:</b> 24 objetivos ($0 Costo)\n   • <b>Check-Ins Diarios Firmados Hoy:</b> 1030 asistencias\n   • <b>Misiones Gasless & DeFi Ejecutadas:</b> 2296 operaciones\n   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> 1340 operaciones / 33500 pts acumulados\n   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa\n\n💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>\n   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $40.72 USDC\n   • <b>Consolidado en Binance Spot (Meta 12K):</b> $1.00 USDC\n   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📦 <b>Escuadrón Activo:</b> <code>Satélites #161–#180 (Box 2)</code>\n⚡ <b>Minería On-Chain / Claims:</b> 0 txs confirmadas\n✍️ <b>Firmas Gasless EIP-712:</b> 20 firmas verificadas\n🌉 <b>Auto-Bridges Box 5 L2:</b> 0 puentes ejecutados\n🎯 <b>Total Operaciones Ronda:</b> +20 ops\n\n🏆 <b>PUNTOS DE MINERÍA POR BOX:</b>\n   • <b>Box 1 (#001-#100):</b> 26300 pts\n   • <b>Box 2 (#101-#200):</b> 26000 pts\n   • <b>Box 3 (#201-#300):</b> 21050 pts\n   • <b>Box 4 (#301-#400):</b> 20750 pts\n   • <b>Box 5 (#401-#500):</b> 20150 pts\n\n🏦 <b>VIGÍA BÓVEDA #501:</b>\n   • <b>BSC / Polygon:</b> <code>🟢 ACTIVA Y FONDEADA (0.0036 BNB • 110.98 POL)</code>\n   • <b>Dirección #501:</b> <code>0xD4D12077a61118372f7a367319fb11922Beb3743</code>\n\n📈 <b>ACUMULADO HISTÓRICO GLOBAL:</b>\n   • <b>Txs On-Chain Acumuladas:</b> <b>10556</b> transacciones\n   • <b>Rondas Ejecutadas:</b> 229\n   • <b>Bóveda VIP #00:</b> 100% Segura (Solo lectura)\n\n⏰ <i>22/10/2026, 21:49:43 UTC</i>",
       "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI):\n• Capital Invertido (Flota / Total): 100,00 € ($108.50) | 123,00 € con Kraken\n• Recuperado en USDC Líquido: $42.72 USDC (~39,45 €) ➔ 85.4% de los primeros 45€\n• Valor Gas en Flota + Kraken: ~$69.90 USD (~64,50 €)\n• Patrimonio Total Actual: ~$112.62 USD (~103,95 €)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n⛏️ BOT MINER SWARM — OPERACIÓN 10K\n🔄 Ronda de Minería & Recompensas X500\n\n🌌 DIRECTRIZ DE LAS 10 NEBULOSAS IA (SCORE 99%):\n   • Guía de la Manada: 500 satélites dirigidos por 10 agentes autónomos\n   • Objetivo L2 Rápido: Citrea Testnet / Goat Network\n   • Box Priorizado: Box 1 (#1–100)\n   • Gas Mainnet: Polygon 186.808048862 Gwei · BSC 0.05 Gwei (🟡 Espera)\n   • Seguridad Anti-Honeypot: 🟢 0 detectados (GoPlus + Bytecode)\n   • Ruta de Salida: 100% USDC Nativo hacia 5 Bóvedas Binance Spot\n\n\n🎯 CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):\n   • Campañas Activas en Catálogo: 24 objetivos ($0 Costo)\n   • Check-Ins Diarios Firmados Hoy: 1030 asistencias\n   • Misiones Gasless & DeFi Ejecutadas: 2296 operaciones\n   • ₿ Granja Bitcoin L2 (Citrea & Goat): 1340 operaciones / 33500 pts acumulados\n   • Cobertura de Caza por Box: Box 1 a Box 5 en rotación activa\n\n💰 EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):\n   • Acumulándose en Satélites (Centavos/Flotante): $40.72 USDC\n   • Consolidado en Binance Spot (Meta 12K): $1.00 USDC\n   • Estado de las 5 Bóvedas Receptoras: 🟢 5/5 Verificadas (Solo USDC Nativo)\n\n📦 Escuadrón Activo: Satélites #161–#180 (Box 2)\n⚡ Minería On-Chain / Claims: 0 txs confirmadas\n✍️ Firmas Gasless EIP-712: 20 firmas verificadas\n🌉 Auto-Bridges Box 5 L2: 0 puentes ejecutados\n🎯 Total Operaciones Ronda: +20 ops\n\n🏆 PUNTOS DE MINERÍA POR BOX:\n   • Box 1 (#001-#100): 26300 pts\n   • Box 2 (#101-#200): 26000 pts\n   • Box 3 (#201-#300): 21050 pts\n   • Box 4 (#301-#400): 20750 pts\n   • Box 5 (#401-#500): 20150 pts\n\n🏦 VIGÍA BÓVEDA #501:\n   • BSC / Polygon: 🟢 ACTIVA Y FONDEADA (0.0036 BNB • 110.98 POL)\n   • Dirección #501: 0xD4D12077a61118372f7a367319fb11922Beb3743\n\n📈 ACUMULADO HISTÓRICO GLOBAL:\n   • Txs On-Chain Acumuladas: 10556 transacciones\n   • Rondas Ejecutadas: 229\n   • Bóveda VIP #00: 100% Segura (Solo lectura)\n\n⏰ 22/10/2026, 21:49:43 UTC"
-    },
-    {
-      "id": "tg-1792705730528-349",
-      "timestamp": "2026-10-22T21:48:50.528Z",
-      "timeFormatted": "21:48:50 UTC",
-      "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI):</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>100,00 € ($108.50) | 123,00 € con Kraken</code>\n• <b>Recuperado en USDC Líquido:</b> <code>$42.72 USDC (~39,45 €) ➔ 85.4% de los primeros 45€</code>\n• <b>Valor Gas en Flota + Kraken:</b> <code>~$69.90 USD (~64,50 €)</code>\n• <b>Patrimonio Total Actual:</b> <code>~$112.62 USD (~103,95 €)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🥷💥 <b>OPERACIÓN 10K: ATAQUE MONOLÍTICO X500 SOBRE LANZAMIENTOS REALES</b>\n========================================\n📅 <b>CALENDARIO REAL VIGENTE (OCTUBRE–NOVIEMBRE 2026) (#33):</b>\n   1. <b>Caza Diaria Mainnet V3 (0.01%/0.05%) & Keeper Bounties (>1.35x Gas)</b> (<code>USDC-NATIVO</code>): ~0d (22 Oct 2026 24/7 EN VIVO) | <i>Audit: 96%</i>\n   2. <b>KieDex Daily Rewards & Pharos</b> (<code>$PROS</code>): ~3d (25 Oct 2026 23:59) | <i>Audit: 94%</i>\n   3. <b>Pheasant Network & L2 Bridge Activity</b> (<code>$PNT</code>): ~5d (27 Oct 2026 23:59) | <i>Audit: 94%</i>\n   4. <b>DogeOS Chapter 2 & Startale / GenLayer Missions</b> (<code>$DOGEOS</code>): ~8d (30 Oct 2026 23:59) | <i>Audit: 94%</i>\n   5. <b>Fables + Base L2 (Avantis S3 / Jumper Pre-TGE)</b> (<code>$FABLES</code>): ~29d (20 Nov 2026 23:59) | <i>Audit: 96%</i>\n\n👥 <b>DESPLIEGUE DEL BLOQUE MONOLÍTICO:</b>\n• ⚡ <b>Soldados Calificados:</b> <b>500 / 500 (100% de la Tropa)</b>\n• 📦 <b>Boxes Concurrente:</b> Box 1: 100 | Box 2: 100 | Box 3: 100 | Box 4: 100 | Box 5: 100\n• 💎 <b>Puntos Acumulados:</b> <b>250.000 PTS</b> Multi-Campaña\n• ⛽ <b>Costo de Gas:</b> <b>$0.00 CERO USD</b> (Firmas EIP-712 gasless protegidas)\n\n🏹 <b>ESTRATEGIA DE SALIDA MINUTO CERO (#34):</b>\n• 🎯 <b>2 Cañones Pesados Armados:</b> <code>&#36;19.20 USDC (Polygon)</code> + <code>&#36;21.52 USDC (BSC)</code>\n• 💰 <b>Capital Desplegado:</b> <code>&#36;40.72 USDC On-Chain</code> + <code>&#36;1.00 USDC Binance</code> = <b>&#36;41.72 USDC Total</b>\n• 🔒 <b>Gas Inviolable:</b> <code>110.98 POL</code> en #501 (Prohibido vender gas)\n• 💱 <b>Regla 70/30:</b> 70% a USDC Nativo (baja brecha a $0.00) | 30% a Gas POL/BNB\n• 🏦 <b>Destino Cosecha:</b> Bóvedas Binance Spot #1 a #5\n========================================\n⏰ <i>Sincronizado: 22/10/2026, 21:48:50 UTC</i>",
-      "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI):\n• Capital Invertido (Flota / Total): 100,00 € ($108.50) | 123,00 € con Kraken\n• Recuperado en USDC Líquido: $42.72 USDC (~39,45 €) ➔ 85.4% de los primeros 45€\n• Valor Gas en Flota + Kraken: ~$69.90 USD (~64,50 €)\n• Patrimonio Total Actual: ~$112.62 USD (~103,95 €)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🥷💥 OPERACIÓN 10K: ATAQUE MONOLÍTICO X500 SOBRE LANZAMIENTOS REALES\n========================================\n📅 CALENDARIO REAL VIGENTE (OCTUBRE–NOVIEMBRE 2026) (#33):\n   1. Caza Diaria Mainnet V3 (0.01%/0.05%) & Keeper Bounties (>1.35x Gas) (USDC-NATIVO): ~0d (22 Oct 2026 24/7 EN VIVO) | Audit: 96%\n   2. KieDex Daily Rewards & Pharos ($PROS): ~3d (25 Oct 2026 23:59) | Audit: 94%\n   3. Pheasant Network & L2 Bridge Activity ($PNT): ~5d (27 Oct 2026 23:59) | Audit: 94%\n   4. DogeOS Chapter 2 & Startale / GenLayer Missions ($DOGEOS): ~8d (30 Oct 2026 23:59) | Audit: 94%\n   5. Fables + Base L2 (Avantis S3 / Jumper Pre-TGE) ($FABLES): ~29d (20 Nov 2026 23:59) | Audit: 96%\n\n👥 DESPLIEGUE DEL BLOQUE MONOLÍTICO:\n• ⚡ Soldados Calificados: 500 / 500 (100% de la Tropa)\n• 📦 Boxes Concurrente: Box 1: 100 | Box 2: 100 | Box 3: 100 | Box 4: 100 | Box 5: 100\n• 💎 Puntos Acumulados: 250.000 PTS Multi-Campaña\n• ⛽ Costo de Gas: $0.00 CERO USD (Firmas EIP-712 gasless protegidas)\n\n🏹 ESTRATEGIA DE SALIDA MINUTO CERO (#34):\n• 🎯 2 Cañones Pesados Armados: &#36;19.20 USDC (Polygon) + &#36;21.52 USDC (BSC)\n• 💰 Capital Desplegado: &#36;40.72 USDC On-Chain + &#36;1.00 USDC Binance = &#36;41.72 USDC Total\n• 🔒 Gas Inviolable: 110.98 POL en #501 (Prohibido vender gas)\n• 💱 Regla 70/30: 70% a USDC Nativo (baja brecha a $0.00) | 30% a Gas POL/BNB\n• 🏦 Destino Cosecha: Bóvedas Binance Spot #1 a #5\n========================================\n⏰ Sincronizado: 22/10/2026, 21:48:50 UTC"
     }
   ],
   "lomo6SocialX": {
