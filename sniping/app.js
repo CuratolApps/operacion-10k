@@ -139,7 +139,7 @@ const MOTHERSHIPS_REGISTRY = [
     role: "Sub-Capitán Alfa Box 1",
     box: "Box 1",
     address: "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
-    gasPol: "6.50",
+    gasPol: "4.96",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -158,8 +158,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 1 Beta",
     role: "Sub-Capitán Beta Box 1",
     box: "Box 1",
-    address: "0x89d20c5A2338A9A29388B9741544a0499C53775b",
-    gasPol: "6.50",
+    address: "0x0a16cA725A468f4D6c14885a24DC8e9B4D1c1cA7",
+    gasPol: "4.47",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -178,8 +178,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 2 Alfa",
     role: "Sub-Capitán Alfa Box 2",
     box: "Box 2",
-    address: "0xa3872124564c767468160B5B31c4f82662fa9D01",
-    gasPol: "6.50",
+    address: "0x0526D0f58a4FE4A427AC4da8e3BDF8756f8bb7bC",
+    gasPol: "4.97",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -198,8 +198,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 2 Beta",
     role: "Sub-Capitán Beta Box 2",
     box: "Box 2",
-    address: "0x2C467E0A5aB960e6e7d6928e46123490795493c6",
-    gasPol: "6.50",
+    address: "0x6C66C9724AeD2407e80E805B105d82270471785d",
+    gasPol: "4.48",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -218,8 +218,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 3 Alfa",
     role: "Sub-Capitán Alfa Box 3",
     box: "Box 3",
-    address: "0x2cE03Fe039757620Fa896cfaFcf56185897645f0",
-    gasPol: "6.50",
+    address: "0x1F25792B65D36DF127E6d6C6AcEe07811cA3d119",
+    gasPol: "4.98",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -238,8 +238,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 3 Beta",
     role: "Sub-Capitán Beta Box 3",
     box: "Box 3",
-    address: "0x6A9e97f0aA4480A2b4c10D7018c64C2E499f57E2",
-    gasPol: "6.50",
+    address: "0xf2CC5e4dfBE74B1945D7dACfD5ef652A6c045a08",
+    gasPol: "4.48",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -258,8 +258,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 4 Alfa",
     role: "Sub-Capitán Alfa Box 4",
     box: "Box 4",
-    address: "0xb7976eB684617343e86c07B31b54a85265691079",
-    gasPol: "6.50",
+    address: "0xc4E7Fc96695eF0593592EcE10A807bbF0C92f27d",
+    gasPol: "5.01",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -278,8 +278,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 4 Beta",
     role: "Sub-Capitán Beta Box 4",
     box: "Box 4",
-    address: "0x2A88a096c1481bF5aC74F44eFa76313f8A2222E4",
-    gasPol: "6.50",
+    address: "0xF3d19755705FdBE34f2930d9bABB51fE379E865d",
+    gasPol: "4.48",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -298,8 +298,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 5 Alfa",
     role: "Sub-Capitán Alfa Box 5",
     box: "Box 5",
-    address: "0x16b04C6f3bDE197e416f43700E2cfD47b1c11066",
-    gasPol: "6.50",
+    address: "0x8B857C207A2456022bE5e5DfD3e205E95CA75be5",
+    gasPol: "5.03",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -318,8 +318,8 @@ const MOTHERSHIPS_REGISTRY = [
     name: "Sub-Capitán Box 5 Beta",
     role: "Sub-Capitán Beta Box 5",
     box: "Box 5",
-    address: "0xa2F606F6f1E229eB59d6e4C94C1113c233eD0c56",
-    gasPol: "6.50",
+    address: "0x3Bc2dBFA23294231a30683D691BFEaCDf56d3c12",
+    gasPol: "4.48",
     gasBnb: "0.0010",
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
@@ -706,51 +706,56 @@ async function pollLiveOnChain() {
       liveTelemetry.polygonGasGwei = polyGas;
     }
 
-    // 2. Saldos Reales de Gas (POL y BNB) en #501 y en las 16 Nodrizas
-    // Solo #501 se consulta en vivo (evita rate-limit RPC); el resto conserva saldo verificado del registro
-    const vault = MOTHERSHIPS_REGISTRY.find(m => m.id === "#501");
-    const [vaultPol, vaultBnb] = await Promise.all([
-      fetchNativeBalance("polygon", vault.address),
-      fetchNativeBalance("bsc", vault.address)
+    // 2. Censo real en vivo vía Multicall3 (1 llamada aggregate3 por red) de las 16 Nodrizas
+    const addrs16 = MOTHERSHIPS_REGISTRY.map(m => m.address);
+    const [cenPoly, cenBsc] = await Promise.all([
+      multicallCensus("polygon", addrs16, RPC_CONFIG.polygon.usdcAddress, 6),
+      multicallCensus("bsc", addrs16, RPC_CONFIG.bsc.usdcAddress, 18)
     ]);
+    loadSatelliteCensus(); // no bloquea: refresco cada 60 s
 
-    let sumFleetPol = 0;
-    let sumFleetBnb = 0;
+    let sumPol16 = 0, sumBnb16 = 0, sumUsdcPol16 = 0, sumUsdcBsc16 = 0, captainsUsdcPol = 0, captainsUsdcBsc = 0;
 
-    MOTHERSHIPS_REGISTRY.forEach((m) => {
-      const isVault = m.id === "#501";
-      const pVal = isVault ? vaultPol : null;
-      const bVal = isVault ? vaultBnb : null;
-      const parsedPol = (pVal !== null && !isNaN(pVal) && pVal >= 0.1) ? pVal : parseFloat(m.gasPol);
-      const parsedBnb = (bVal !== null && !isNaN(bVal) && bVal > 0) ? bVal : parseFloat(m.gasBnb);
-
-      m.gasPol = parsedPol.toFixed(2);
-      m.gasBnb = parsedBnb.toFixed(4);
+    MOTHERSHIPS_REGISTRY.forEach((m, idx) => {
+      const p = cenPoly ? cenPoly[idx] : null;
+      const b = cenBsc ? cenBsc[idx] : null;
+      // Si una red falla se conserva la última lectura real (nunca se inventa un valor)
+      if (p) { m.gasPol = p.native.toFixed(2); m.usdcPol = p.token; }
+      if (b) { m.gasBnb = b.native.toFixed(4); m.usdcBsc = b.token; }
+      const polV = parseFloat(m.gasPol) || 0;
+      const bnbV = parseFloat(m.gasBnb) || 0;
+      const uPol = m.usdcPol || 0;
+      const uBsc = m.usdcBsc || 0;
 
       if (m.id === "#501") {
-        liveState.motherPol = parsedPol;
-        liveState.motherBnb = parsedBnb;
+        liveState.motherPol = polV;
+        liveState.motherBnb = bnbV;
+        liveState.usdc501Pol = uPol;
+        liveState.usdc501Bsc = uBsc;
         m.lockedFloorPol = "150.00";
       } else {
-        // Actualizar mini-pod en la consola de reserva si existe en DOM
+        captainsUsdcPol += uPol;
+        captainsUsdcBsc += uBsc;
         const cleanId = m.id.replace("#", "");
         const elPod = document.getElementById(`podBal-${cleanId}`);
         if (elPod) {
-          if (["201", "301", "401"].includes(cleanId)) {
-            elPod.textContent = `${parsedPol.toFixed(2)} POL · ${parsedBnb.toFixed(3)} BNB`;
-          } else {
-            elPod.textContent = `${parsedPol.toFixed(2)} POL · ${parsedBnb.toFixed(3)} BNB`;
-          }
+          elPod.textContent = `${polV.toFixed(2)} POL · ${bnbV.toFixed(3)} BNB · $${(uPol + uBsc).toFixed(2)}`;
         }
       }
 
-      sumFleetPol += parsedPol;
-      sumFleetBnb += parsedBnb;
+      sumPol16 += polV;
+      sumBnb16 += bnbV;
+      sumUsdcPol16 += uPol;
+      sumUsdcBsc16 += uBsc;
     });
 
-    // Asegurar representación del tanque de flota respecto al piso de 300.00 POL
-    liveState.fleetTotalPol = liveState.motherPol + 145.05;
-    liveState.fleetTotalBnb = liveState.motherBnb + 0.0255;
+    liveState.captainsUsdcPol = captainsUsdcPol;
+    liveState.captainsUsdcBsc = captainsUsdcBsc;
+
+    // Tanque de flota = 16 Nodrizas reales + resto de satélites (lecturas reales)
+    liveState.fleetTotalPol = sumPol16 + satelliteCensus.pol;
+    liveState.fleetTotalBnb = sumBnb16 + satelliteCensus.bnb;
+    const missingPol = Math.max(0, 300 - liveState.fleetTotalPol);
 
     const elMotherPol = document.getElementById("gasMotherPol");
     if (elMotherPol) elMotherPol.textContent = `${liveState.motherPol.toFixed(2)} POL`;
@@ -759,34 +764,27 @@ async function pollLiveOnChain() {
     if (elMotherBnb) elMotherBnb.textContent = `& ${liveState.motherBnb.toFixed(4)} BNB`;
 
     const elFleetPol = document.getElementById("gasFleetPol");
-    if (elFleetPol) elFleetPol.textContent = `${liveState.fleetTotalPol.toFixed(2)} / 300.00 POL`;
+    if (elFleetPol) {
+      elFleetPol.textContent = `${liveState.fleetTotalPol.toFixed(2)} / 300.00 POL`;
+      elFleetPol.title = missingPol > 0 ? `Faltan +${missingPol.toFixed(2)} POL para la meta de 300.00 POL (se llenan con ganancias)` : "Meta de 300.00 POL alcanzada";
+    }
 
     const elFleetBnb = document.getElementById("gasFleetBnb");
     if (elFleetBnb) elFleetBnb.textContent = `& ${liveState.fleetTotalBnb.toFixed(4)} BNB`;
 
     const elResMetaPol = document.getElementById("reserveMetaPol");
-    if (elResMetaPol) elResMetaPol.textContent = `${liveState.fleetTotalPol.toFixed(2)} / 300.00 POL FLOTA`;
+    if (elResMetaPol) {
+      elResMetaPol.textContent = `${liveState.fleetTotalPol.toFixed(2)} / 300.00 POL FLOTA`;
+      elResMetaPol.title = missingPol > 0 ? `Faltan +${missingPol.toFixed(2)} POL` : "Meta alcanzada";
+    }
 
     const elResMetaBnb = document.getElementById("reserveMetaBnb");
     if (elResMetaBnb) elResMetaBnb.textContent = `${liveState.fleetTotalBnb.toFixed(4)} BNB`;
 
-    // 3. Saldos Reales On-Chain de USDC en Polygon (#501 y #001) y BSC (#501 y #101)
-    const [u501Pol, u001Pol, u501Bsc, u101Bsc] = await Promise.all([
-      fetchTokenBalance("polygon", RPC_CONFIG.polygon.usdcAddress, RPC_CONFIG.masterVault, 6),
-      fetchTokenBalance("polygon", RPC_CONFIG.polygon.usdcAddress, RPC_CONFIG.captain001, 6),
-      fetchTokenBalance("bsc", RPC_CONFIG.bsc.usdcAddress, RPC_CONFIG.masterVault, 18),
-      fetchTokenBalance("bsc", RPC_CONFIG.bsc.usdcAddress, RPC_CONFIG.captain101, 18)
-    ]);
-
-    if (u501Pol !== null && u501Pol > 0) liveState.usdc501Pol = u501Pol;
-
-    // Cañón #1 (Polygon): #501 en vivo + $6.10 en Capitanes
-    liveState.cannon1Usdc = liveState.usdc501Pol + 6.10;
-
-    // Cañón #2 (BSC) verificado y Binance Spot fijos
-    const bscLiveTotal = (u501Bsc !== null && u101Bsc !== null) ? (u501Bsc + u101Bsc + 9.73) : 20.42;
-    liveState.cannon2Usdc = Math.max(20.42, bscLiveTotal);
-    liveState.binanceUsdc = 1.00;
+    // 3. USDC real de las 16 Nodrizas (Cañón #1 Polygon, Cañón #2 BSC) + Bóveda Spot Binance
+    if (cenPoly) liveState.cannon1Usdc = sumUsdcPol16;
+    if (cenBsc) liveState.cannon2Usdc = sumUsdcBsc16;
+    liveState.binanceUsdc = 1.00; // saldo confirmado por el usuario en Binance Spot #1 (no verificable on-chain)
 
     liveState.grandTotalUsdc = liveState.cannon1Usdc + liveState.cannon2Usdc + liveState.binanceUsdc;
     const activeCannonsUsdc = liveState.cannon1Usdc + liveState.cannon2Usdc;
@@ -924,6 +922,86 @@ async function fetchTokenBalance(chain, tokenAddress, walletAddress, decimals = 
     return parseInt(result, 16) / (10 ** decimals);
   }
   return null;
+}
+
+// =============================================================================
+// MULTICALL3 (0xcA11bde05977b3631167028862bE2a173976CA11): 1 llamada aggregate3 por red
+// =============================================================================
+const MULTICALL3 = "0xcA11bde05977b3631167028862bE2a173976CA11";
+const satelliteCensus = { pol: 0, bnb: 0, count: 0, loadedAt: 0, loading: false };
+
+function mcWord(hexNo0x) { return hexNo0x.padStart(64, "0"); }
+function mcAddr(a) { return mcWord(a.toLowerCase().replace("0x", "")); }
+
+function encodeAggregate3(calls) {
+  // calls: [{ target, data(hex con 0x) }], allowFailure = true
+  const tuples = calls.map(c => {
+    const data = c.data.replace("0x", "");
+    const padded = data.padEnd(Math.ceil(data.length / 64) * 64, "0");
+    return mcAddr(c.target) + mcWord("1") + mcWord("60") + mcWord((data.length / 2).toString(16)) + padded;
+  });
+  let offset = calls.length * 32;
+  const offsets = tuples.map(t => { const o = mcWord(offset.toString(16)); offset += t.length / 2; return o; });
+  return "0x82ad56cb" + mcWord("20") + mcWord(calls.length.toString(16)) + offsets.join("") + tuples.join("");
+}
+
+function decodeAggregate3(hex) {
+  const d = hex.replace("0x", "");
+  const w = i => d.slice(i * 2, i * 2 + 64);
+  const arrStart = parseInt(w(0), 16);
+  const n = parseInt(d.slice(arrStart * 2, arrStart * 2 + 64), 16);
+  const base = arrStart + 32;
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const tOff = base + parseInt(d.slice((base + i * 32) * 2, (base + i * 32) * 2 + 64), 16);
+    const success = parseInt(d.slice(tOff * 2, tOff * 2 + 64), 16) === 1;
+    const bOff = tOff + parseInt(d.slice((tOff + 32) * 2, (tOff + 32) * 2 + 64), 16);
+    const len = parseInt(d.slice(bOff * 2, bOff * 2 + 64), 16);
+    out.push({ success, data: "0x" + d.slice((bOff + 32) * 2, (bOff + 32 + len) * 2) });
+  }
+  return out;
+}
+
+// Devuelve [{ native, token }] por dirección, o null si la llamada falla completa
+async function multicallCensus(chain, addrs, tokenAddress, tokenDecimals) {
+  const calls = [];
+  addrs.forEach(a => {
+    calls.push({ target: MULTICALL3, data: "0x4d2301cc" + mcAddr(a) });          // getEthBalance(address)
+    calls.push({ target: tokenAddress, data: "0x70a08231" + mcAddr(a) });        // balanceOf(address)
+  });
+  try {
+    const raw = await callRpc(chain, "eth_call", [{ to: MULTICALL3, data: encodeAggregate3(calls) }, "latest"]);
+    if (!raw || raw === "0x") return null;
+    const res = decodeAggregate3(raw);
+    if (res.length !== calls.length) return null;
+    const val = (r, dec) => (r.success && r.data.length > 2) ? Number(BigInt(r.data)) / (10 ** dec) : 0;
+    return addrs.map((_, i) => ({ native: val(res[i * 2], 18), token: val(res[i * 2 + 1], tokenDecimals) }));
+  } catch (e) {
+    return null;
+  }
+}
+
+// Censo del resto de satélites (wallets-public-list.json), 1 llamada por red, cada 60 s
+async function loadSatelliteCensus() {
+  if (satelliteCensus.loading || Date.now() - satelliteCensus.loadedAt < 60000) return;
+  satelliteCensus.loading = true;
+  try {
+    const res = await fetch(`../wallets-public-list.json?t=${Math.floor(Date.now() / 60000)}`);
+    if (!res.ok) return;
+    const list = await res.json();
+    const known = new Set(MOTHERSHIPS_REGISTRY.map(m => m.address.toLowerCase()));
+    const rest = list.filter(w => w.index !== 0 && w.address && !known.has(w.address.toLowerCase())).map(w => w.address);
+    const [cp, cb] = await Promise.all([
+      multicallCensus("polygon", rest, RPC_CONFIG.polygon.usdcAddress, 6),
+      multicallCensus("bsc", rest, RPC_CONFIG.bsc.usdcAddress, 18)
+    ]);
+    if (cp) satelliteCensus.pol = cp.reduce((s, x) => s + x.native, 0);
+    if (cb) satelliteCensus.bnb = cb.reduce((s, x) => s + x.native, 0);
+    satelliteCensus.count = rest.length;
+    if (cp || cb) satelliteCensus.loadedAt = Date.now();
+  } catch (e) { } finally {
+    satelliteCensus.loading = false;
+  }
 }
 
 async function fetchPoolPriceV3(chain, poolInfo) {
