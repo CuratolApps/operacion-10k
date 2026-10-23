@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.2.0",
-  "lastRun": "2026-10-22T21:48:50.521Z",
-  "lastRunFormatted": "22/10/2026, 21:48:50 UTC",
+  "lastRun": "2026-10-23T09:22:52.470Z",
+  "lastRunFormatted": "23/10/2026, 9:22:52 UTC",
   "strikeType": "MONOLITHIC_PARALLEL_MULTI_LAUNCH_STRIKE",
   "upcomingLaunchesTracked": [
     {
@@ -49,10 +49,10 @@
       "chainId": 8888,
       "contractAddress": "0x1122334455667788990011223344556677889900",
       "formattedSnapshotDate": "25 Oct 2026 23:59 UTC",
-      "daysToSnapshot": 3,
+      "daysToSnapshot": 2,
       "urgencyClass": "imminent",
       "formattedTgeDate": "02 Nov 2026",
-      "daysToTge": 11,
+      "daysToTge": 10,
       "isPrimaryStrikeTarget": true,
       "vcBacking": "Hack VC / Dispersion Capital",
       "gasCostType": "$0.00 (Pharos Testnet Daily Rewards)",
@@ -86,10 +86,10 @@
       "chainId": 8453,
       "contractAddress": "0x2233445566778899001122334455667788990011",
       "formattedSnapshotDate": "27 Oct 2026 23:59 UTC",
-      "daysToSnapshot": 5,
+      "daysToSnapshot": 4,
       "urgencyClass": "imminent",
       "formattedTgeDate": "05 Nov 2026",
-      "daysToTge": 14,
+      "daysToTge": 13,
       "isPrimaryStrikeTarget": true,
       "vcBacking": "ConsenSys / Protocol Labs",
       "gasCostType": "$0.00 (Gasless EIP-712 Attestations)",
@@ -123,10 +123,10 @@
       "chainId": 592,
       "contractAddress": "0x3344556677889900112233445566778899002233",
       "formattedSnapshotDate": "30 Oct 2026 23:59 UTC",
-      "daysToSnapshot": 8,
+      "daysToSnapshot": 7,
       "urgencyClass": "high",
       "formattedTgeDate": "12 Nov 2026",
-      "daysToTge": 21,
+      "daysToTge": 20,
       "isPrimaryStrikeTarget": true,
       "vcBacking": "Sony / Startale Labs / Polychain",
       "gasCostType": "$0.00 (Testnet Missions & Daily Streak)",
@@ -202,11 +202,11 @@
       "5": 100
     },
     "boxLatencyMs": {
-      "1": 3400,
-      "2": 2798,
-      "3": 2157,
-      "4": 1596,
-      "5": 1046
+      "1": 2728,
+      "2": 2199,
+      "3": 1737,
+      "4": 1277,
+      "5": 810
     },
     "totalPointsEarned": 250000,
     "capitalCostGas": "$0.00 USD (100% Gasless EIP-712 & Testnets)"
@@ -238,9 +238,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x7f1b00f57608d68c7db6b13f8402746b95a06a950c3b69bc86e8b08b9914474d",
+      "proofHash": "0x7f3db5d778ed88163a5251a6f2dd19d7e8190f05789271ee515ec7d152b695fd",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.489Z"
+      "timestamp": "2026-10-23T09:22:52.405Z"
     },
     {
       "index": 2,
@@ -255,9 +255,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x4a6ee6128b17b6ecb8d1400a561e0fe9cedf51c1d173b09132334349848386fd",
+      "proofHash": "0x97ee5ff4ddd48bcece49106c0307a83abe74d2c4c2ee1995c041ac2a2c412df6",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.493Z"
+      "timestamp": "2026-10-23T09:22:52.407Z"
     },
     {
       "index": 3,
@@ -272,9 +272,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xecb0ce28b386b4fe45d87821f4f6d6169f5871316606719e66e9ef365c1a2621",
+      "proofHash": "0xbada3d7153b56c7e6114551165fc38524c108b8451e2ccdd2ef5a741a41c7f0a",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.407Z"
     },
     {
       "index": 4,
@@ -289,9 +289,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x8311d291d35245a33eef8c3383097de1c6101219ee7a2f2f618b653618e2b39a",
+      "proofHash": "0x5069f29470f98f66dea437a16ce35e31e02f24577bfd9129f14122436256e4bb",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.408Z"
     },
     {
       "index": 5,
@@ -306,9 +306,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xa4cd20d3aeff40138b4459f8f0e95d395991a19eba6893f48854354ce7d6fd49",
+      "proofHash": "0x016b602be67e6acf2be03f64e9bdba685e09e68e5c9c61d31af59cc105d1264d",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.408Z"
     },
     {
       "index": 6,
@@ -323,9 +323,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x364c4d5b3d8048881884b8988751f544cc4cfa61ed67ec8cb891682354a91884",
+      "proofHash": "0x54070df792244b5644c4c9fad3a4da0207c983bb29411756cd1ac731c760920b",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.408Z"
     },
     {
       "index": 7,
@@ -340,9 +340,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x1a97a49ad5a2ecce57c70d916d3c7761e83c8f344ac249df09f873c3b440808b",
+      "proofHash": "0x9883ef6eeb4e598ff87f747fef1aeb78dbdc0182195d98eb408d9d3c98852604",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.408Z"
     },
     {
       "index": 8,
@@ -357,9 +357,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0xb333b89d6c68ee8950103bb83fb7c5e9101fe004a29f33c6f3fcfe9520cd31d6",
+      "proofHash": "0xe03a92cea0168e32896df50a6b5dacae2c83041288b5b59dbabc0a9c7798ff4e",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.408Z"
     },
     {
       "index": 9,
@@ -374,9 +374,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x3e0a6192ccff33622d757563ad344ad0ccba5bb518d58c0d354451ca48221c88",
+      "proofHash": "0x0e414c9e32f77a11a9cfa0fe6baac97adbfc26e9dc5839f25b7ff115f3d8cb77",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.408Z"
     },
     {
       "index": 10,
@@ -391,9 +391,9 @@
         "$DOGEOS",
         "$FABLES"
       ],
-      "proofHash": "0x98a0ae35d19b02a915c0d651d7618835beac86e88635613a9bbed4ae8c24370f",
+      "proofHash": "0xb749ac1c9ca902e2f55e3ceca2ba675b19f68aee0e0c2a3a33622cb7ba8665be",
       "status": "CALIFICADO_WHITELIST_GENESIS_ALL_PROJECTS",
-      "timestamp": "2026-10-22T21:48:50.494Z"
+      "timestamp": "2026-10-23T09:22:52.408Z"
     }
   ]
 }

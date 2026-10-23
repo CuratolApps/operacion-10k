@@ -22,17 +22,20 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
       :root {
         --bg-main: #06080e;
-        --card-bg: rgba(10, 14, 24, 0.96);
+        --card-bg: rgba(12, 16, 26, 0.96);
         --card-border: rgba(255, 255, 255, 0.08);
-        --neon-gold: #ffb703;
-        --neon-cyan: #21c7cd;
-        --neon-magenta: #ff00e6;
-        --neon-purple: #b026ff;
-        --neon-green: #39ff14;
-        --neon-red: #ff0033;
-        --text-main: #ffffff;
-        --text-muted: #8a99ad;
-        --text-sub: #b2c0d2;
+        --neon-gold: #f59e0b;
+        --gold-accent: #ffb703;
+        --neon-cyan: #38bdf8;
+        --neon-magenta: #a855f7;
+        --neon-purple: #8b5cf6;
+        --neon-green: #10b981;
+        --neon-green-dark: #059669;
+        --neon-red: #ef4444;
+        --neon-alert: #f97316;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --text-sub: #cbd5e1;
         --glass-blur: blur(20px);
       }
       * {
@@ -476,122 +479,169 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         justify-content: space-between;
       }
 
-      /* 1. TOP: BANNER DE LIQUIDEZ Y CAPITAL NETO (ANCHO Y PROTAGÓNICO ARRIBA) */
+      /* 1. TOP: BANNER DE LIQUIDEZ Y CAPITAL NETO (4 BLOQUES FINANCIEROS CLASE EJECUTIVA) */
       .top-liquidity-radar-banner {
-        padding: 8px 14px;
+        padding: 6px 10px;
         border-radius: 10px;
         background: linear-gradient(
           135deg,
-          rgba(22, 16, 5, 0.98) 0%,
-          rgba(10, 14, 26, 0.98) 100%
-        );
-        border: 1.8px solid var(--neon-gold);
-        display: grid;
-        grid-template-columns: 36px 155px 1fr 98px !important;
-        align-items: center;
-        gap: 8px !important;
-        flex: none;
-        height: 76px;
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
-      }
-      .radar-holo-wrap {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        background: radial-gradient(
-          circle,
-          rgba(255, 183, 3, 0.3) 0%,
-          rgba(10, 14, 24, 0.95) 70%
+          rgba(20, 16, 8, 0.98) 0%,
+          rgba(12, 16, 26, 0.98) 100%
         );
         border: 1.5px solid var(--neon-gold);
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr) !important;
+        align-items: stretch;
+        gap: 8px !important;
+        flex: none;
+        height: 74px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
       }
-      .radar-sweep-beam {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background: conic-gradient(
-          from 0deg,
-          transparent 70%,
-          rgba(33, 199, 205, 0.7) 100%
-        );
-        animation: radarSpin 3s linear infinite;
-        pointer-events: none;
-      }
-      @keyframes radarSpin {
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      .radar-center-core {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background: #07080d;
-        border: 1.2px solid var(--neon-cyan);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-      }
-      .liquidity-breakdown-info {
+
+      .fin-stat-box {
         display: flex;
         flex-direction: column;
-        gap: 2px;
+        justify-content: space-between;
+        background: rgba(18, 24, 38, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        padding: 5px 8px;
+        height: 100%;
+        min-width: 0;
       }
-      .liq-tag-head {
-        font-size: 0.52rem;
-        font-family: "JetBrains Mono", monospace;
-        color: var(--neon-gold);
-        font-weight: 800;
-        letter-spacing: 0.5px;
+      .fin-stat-box.box-main-liquidity {
+        border-left: 3px solid var(--neon-gold);
       }
-      .liq-main-total {
-        font-size: 1.32rem !important;
-        font-weight: 900;
-        font-family: "JetBrains Mono", monospace;
-        color: #ffffff;
-        line-height: 1;
+      .fin-stat-box.box-investment {
+        border-left: 3px solid #f59e0b;
       }
-      .liq-sub-pills {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 4px 6px;
+      .fin-stat-box.box-patrimony {
+        border-left: 3px solid var(--neon-green);
+      }
+      .fin-stat-box.box-gap {
+        border-left: 3px solid var(--neon-alert);
+      }
+
+      .fin-stat-header {
+        display: flex;
+        justify-content: space-between;
         align-items: center;
+        gap: 4px;
       }
-      .badge-liq-sub {
-        font-size: 0.47rem !important;
+      .fin-stat-title {
+        font-size: 0.50rem;
+        font-family: 'JetBrains Mono', monospace;
         font-weight: 800;
-        padding: 3px 5px !important;
-        border-radius: 4px;
-        font-family: "JetBrains Mono", monospace;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .badge-liq-sub.usd {
-        background: rgba(57, 255, 20, 0.15);
+      .fin-stat-badge {
+        font-size: 0.44rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        padding: 1px 5px;
+        border-radius: 3px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .fin-stat-badge.gold {
+        background: rgba(245, 158, 11, 0.18);
+        color: var(--neon-gold);
+        border: 1px solid rgba(245, 158, 11, 0.4);
+      }
+      .fin-stat-badge.green {
+        background: rgba(16, 185, 129, 0.18);
         color: var(--neon-green);
-        border: 1px solid rgba(57, 255, 20, 0.4);
+        border: 1px solid rgba(16, 185, 129, 0.4);
       }
-      .badge-liq-sub.eur {
-        background: rgba(33, 199, 205, 0.15);
-        color: var(--neon-cyan);
-        border: 1px solid rgba(33, 199, 205, 0.4);
+      .fin-stat-badge.alert {
+        background: rgba(249, 115, 22, 0.18);
+        color: var(--neon-alert);
+        border: 1px solid rgba(249, 115, 22, 0.4);
       }
-      .badge-liq-sub.res {
-        background: rgba(255, 183, 3, 0.15);
+      .fin-stat-badge.muted {
+        background: rgba(148, 163, 184, 0.15);
+        color: var(--text-sub);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+      }
+
+      .fin-stat-val-row {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+      .liq-main-total {
+        font-size: 1.15rem !important;
+        font-weight: 900;
+        font-family: 'JetBrains Mono', monospace;
+        color: #ffffff;
+        line-height: 1;
+      }
+      .fin-stat-target {
+        font-size: 0.50rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+      .fin-stat-value {
+        font-size: 0.92rem;
+        font-weight: 900;
+        font-family: 'JetBrains Mono', monospace;
+        line-height: 1.1;
+      }
+      .fin-stat-value.gold {
         color: var(--neon-gold);
-        border: 1px solid rgba(255, 183, 3, 0.4);
       }
-      .badge-liq-sub.phase1 {
-        background: rgba(255, 183, 3, 0.16);
-        color: var(--neon-gold);
-        border: 1px solid rgba(255, 183, 3, 0.55);
+      .fin-stat-value.green {
+        color: var(--neon-green);
+      }
+      .fin-stat-value.alert {
+        color: var(--neon-alert);
+      }
+      .fin-stat-note {
+        font-size: 0.48rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* QUANT GRID CARDS (MALLA CUADRICULADA) */
+      .quant-grid-card {
+        background-color: rgba(12, 16, 26, 0.96) !important;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px) !important;
+        background-size: 16px 16px !important;
+        border: 1.2px solid rgba(245, 158, 11, 0.3) !important;
+        transition: border-color 0.2s ease, transform 0.15s ease;
+      }
+      .quant-grid-card:hover {
+        border-color: var(--neon-gold) !important;
+        transform: translateY(-1px);
+      }
+      .mkt-trend-quant-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+        line-height: 1.2;
+      }
+      .mkt-trend-quant-lbl {
+        font-size: 0.49rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--text-muted);
+      }
+      .mkt-trend-quant-val {
+        font-size: 0.52rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        color: #f8fafc;
       }
 
       /* 2. MERCADOS TECH CON TENDENCIA (DEBAJO DEL BANNER) */

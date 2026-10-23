@@ -1,5 +1,5 @@
 /**
- * OPERACIÓN 12K — SISTEMA ORBITAL // WE CAN DO IT
+ * ÁREA 501 — TERMINAL CUANTITATIVA // WE CAN DO IT
  * 100% Modo Observación Pasiva • Tablas a Ancho Completo • 5 Bóvedas Binance
  */
 
@@ -248,7 +248,7 @@ function assemble502Wallets() {
     solanaAddress: vipPub?.solanaAddress || vipTelem?.solanaAddress || '8araHYNYkJAbeDa6NntrnUMdy2VEtU8NaZYkhKuV2gPL',
     derivationPath: "m/44'/60'/0'/0/0",
     assignedVault: 'Blindada (Solo Lectura)',
-    galaxyName: 'Supervisión General 12K',
+    galaxyName: 'Supervisión General ÁREA 501',
     dnaRole: 'SUPREME_COMMANDER',
     pol: '0.0000',
     bnb: '0.0000',
@@ -357,28 +357,28 @@ function renderTopRadarBanner() {
   const elMain = document.getElementById('dashConsolidatedNetTitle');
   if (elMain) elMain.textContent = `$${consolidatedNum.toFixed(2)} USDC`;
 
-  // Pastilla 1: Invertido
+  // Pastilla 1: Mi Inversión Puesta
   const elPhase1 = document.getElementById('dashPhase1Pill');
   if (elPhase1) {
-    elPhase1.textContent = '💶 Invertido: 123€ ($133.50) | Hoy: ~103€ ($111.62)';
+    elPhase1.textContent = '123,00 € ($133.50 USD)';
   }
 
-  // Pastilla 2: Brecha p/ Empatar
+  // Pastilla 3: Posición Patrimonial Hoy
   const elEur = document.getElementById('dashEurLiqPill');
   if (elEur) {
-    elEur.textContent = '🎯 Brecha p/ Empatar: -$21.88 USD (-19.95€)';
+    elEur.textContent = '~103,05 € ($111.62 USD)';
   }
 
-  // Pastilla 3: Meta 1
+  // Pastilla 4: Brecha Para Empatar al 100%
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) {
-    elUsd.textContent = `💵 Meta 1 (45€): $${consolidatedNum.toFixed(2)} / $50.00 USDC (83.4%)`;
+    elUsd.textContent = '-$21.88 USD (-19,95 €)';
   }
 
-  // Pastilla 4: Bóveda
+  // Pastilla 4 Subnota: Bóveda
   const elRes = document.getElementById('dashReserveLiqPill');
   if (elRes) {
-    elRes.textContent = `🏦 Bóveda: $${onChainVaultUsdc.toFixed(2)} On-Chain + $${totalBinanceNum.toFixed(2)} Binance #1`;
+    elRes.textContent = `🏦 Bóveda #501: $${onChainVaultUsdc.toFixed(2)} On-Chain | $${totalBinanceNum.toFixed(2)} Binance`;
   }
 
   const motherPol = Math.max(Number(telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || 0), 110.98);
@@ -425,9 +425,9 @@ function renderTopRadarBanner() {
 
   const elQuotaVal = document.getElementById("ratioQuotaVal");
   const elQuotaSub = document.getElementById("ratioQuotaSub");
-  const pct = ((consolidatedNum / 12000) * 100).toFixed(2);
+  const pct = ((consolidatedNum / 133.50) * 100).toFixed(1);
   if (elQuotaVal) elQuotaVal.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
-  if (elQuotaSub) elQuotaSub.textContent = `${pct}% de la Meta $12,000 USDC`;
+  if (elQuotaSub) elQuotaSub.textContent = `${pct}% Cierre Brecha Break-Even ($133.50 USD)`;
 
   const findCaptainGas = (id, defVal) => {
     return telem?.headersSurveillance?.find(h => h.id === id)?.polBal ||
@@ -436,9 +436,9 @@ function renderTopRadarBanner() {
   };
   const box1Gas = findCaptainGas("#001", "18.02");
   const box2Gas = findCaptainGas("#101", "18.03");
-  const box3Gas = findCaptainGas("#201", "18.03");
-  const box4Gas = findCaptainGas("#301", "12.02");
-  const box5Gas = findCaptainGas("#401", "12.03");
+  const box3Gas = findCaptainGas("#201", "18.01");
+  const box4Gas = findCaptainGas("#301", "12.01");
+  const box5Gas = findCaptainGas("#401", "12.01");
 
   const elB1 = document.getElementById("box1GasVal");
   const elB2 = document.getElementById("box2GasVal");

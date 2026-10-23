@@ -1,14 +1,14 @@
 /**
- * cybershinobi-swarm-strike.js - OPERACIÓN 10K / 12K
+ * cybershinobi-swarm-strike.js - ÁREA 501
  * ==============================================================================
  * EJECUTOR DE CHOQUE DEL BLOQUE MONOLÍTICO X500 (500 SOLDADOS AL UNÍSONO)
  * 
  * COLA DE ORO REAL POR FECHA DE CIERRE (OCTUBRE–NOVIEMBRE 2026):
- * 1. KieDex Daily Rewards & Pharos ($PROS) - Snapshot 25 Oct 2026 23:59 UTC (Faltan 3 días)
- * 2. Pheasant Network ($PNT) & L2 Bridge Activity - Snapshot 27 Oct 2026 23:59 UTC (Faltan 5 días)
- * 3. DogeOS Chapter 2 & Startale / GenLayer Missions - Snapshot 30 Oct 2026 23:59 UTC (Faltan 8 días)
- * 4. Fables ($FABLES) + Base L2 (Avantis S3 / Jumper Pre-TGE) - Snapshot 20 Nov 2026 23:59 UTC (Faltan 29 días)
- * 5. Fuego Real Diario Mainnet (Polygon PoS & BSC + DEXScreener Live 22 Oct 2026) - 24/7 En Vivo
+ * 1. KieDex Daily Rewards & Pharos ($PROS) - Snapshot 25 Oct 2026 23:59 UTC (Faltan 2 días)
+ * 2. Pheasant Network ($PNT) & L2 Bridge Activity - Snapshot 27 Oct 2026 23:59 UTC (Faltan 4 días)
+ * 3. DogeOS Chapter 2 & Startale / GenLayer Missions - Snapshot 30 Oct 2026 23:59 UTC (Faltan 7 días)
+ * 4. Fables ($FABLES) + Base L2 (Avantis S3 / Jumper Pre-TGE) - Snapshot 20 Nov 2026 23:59 UTC (Faltan 28 días)
+ * 5. Fuego Real Diario Mainnet (Polygon PoS & BSC + DEXScreener Live 23 Oct 2026) - 24/7 En Vivo
  * 
  * MISIÓN:
  * 1. Desplegar los 500 satélites (#001 al #500 en Box 1, 2, 3, 4, 5) en bloque monolítico.
@@ -216,7 +216,7 @@ async function runCyberShinobiSwarmStrike(notifyTelegram = true) {
     }).join('\n');
 
     const tgMsg = [
-      '🥷💥 <b>OPERACIÓN 10K: ATAQUE MONOLÍTICO X500 SOBRE LANZAMIENTOS REALES</b>',
+      '🛸🏛️ <b>ÁREA 501: ATAQUE MONOLÍTICO X500 SOBRE LANZAMIENTOS REALES</b>',
       '========================================',
       '📅 <b>CALENDARIO REAL VIGENTE (OCTUBRE–NOVIEMBRE 2026) (#33):</b>',
       calendarLines,

@@ -92,7 +92,7 @@ async function callTelegram(method, body = {}) {
 
 async function sendMenu(chatId) {
   const text = `
-🎛️ <b>OPERACIÓN 10K — CENTRO DE MANDO OMNICHAIN</b>
+🛸 <b>ÁREA 501 — SALA DE MANDO CUANTITATIVA</b>
 
 Bienvenido al panel de control remoto de la flota (502 Billeteras).
 Toca cualquiera de las opciones para consultar la telemetría en tiempo real:
@@ -128,7 +128,7 @@ Toca cualquiera de las opciones para consultar la telemetría en tiempo real:
         { text: "📅 Cronograma Lanzamientos", callback_data: "cmd_lanzamientos" }
       ],
       [
-        { text: "🥷 Choque CyberShinobi (30 Oct)", callback_data: "cmd_shinobi" }
+        { text: "🛸 Tropa X500 (KieDex 25 Oct)", callback_data: "cmd_shinobi" }
       ]
     ]
   };
@@ -1010,7 +1010,7 @@ async function startCommanderBot() {
               await handleMentor(effectiveChatId);
             } else if (cmd === "/lanzamientos" || cmd === "/cronograma" || cmd === "/especialistas" || cmd === "/airdrop" || cmd === "/fechas") {
               await handleLanzamientos(effectiveChatId);
-            } else if (cmd === "/shinobi" || cmd === "/cybershinobi" || cmd === "/30oct") {
+            } else if (cmd === "/shinobi" || cmd === "/cybershinobi" || cmd === "/30oct" || cmd === "/tropa" || cmd === "/kiedex" || cmd === "/25oct") {
               await handleCyberShinobi(effectiveChatId);
             } else {
               await callTelegram("sendMessage", {

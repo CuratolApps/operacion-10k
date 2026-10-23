@@ -140,11 +140,37 @@ async function sendSingleTelegramChunk(chunkText, chatId, token) {
   }
 }
 
-const INVESTMENT_ROI_HEADER = `💶 <b>ESTADO DE MI INVERSIÓN (ROI):</b>
-• <b>Capital Invertido (Flota / Total):</b> <code>100,00 € ($108.50) | 123,00 € con Kraken</code>
-• <b>Recuperado en USDC Líquido:</b> <code>$42.72 USDC (~39,45 €) ➔ 85.4% de los primeros 45€</code>
-• <b>Valor Gas en Flota + Kraken:</b> <code>~$69.90 USD (~64,50 €)</code>
-• <b>Patrimonio Total Actual:</b> <code>~$112.62 USD (~103,95 €)</code>
+async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
+  const token = getCleanToken();
+  if (!token) return false;
+  let chatId = await resolveChatId(token);
+  if (chatId === "-5101181644") chatId = "-1004342131598";
+  if (!chatId) return false;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/setChatTitle`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, title: title })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      console.log(`🛸 [TELEGRAM] Grupo renombrado a: "${title}" ✅`);
+      return true;
+    } else {
+      // Si el bot no tiene permiso de cambio de info, se notifica limpiamente
+      return false;
+    }
+  } catch (_) {
+    return false;
+  }
+}
+
+const INVESTMENT_ROI_HEADER = `💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>
+• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>
+• <b>Recuperado en USDC Líquido:</b> <code>$41.72 USDC (~38,50 €) ➔ 83.4% de Meta 1 ($50.00 USDC)</code>
+• <b>Posición Patrimonial Hoy:</b> <code>~103,05 € ($111.62 USD)</code>
+• <b>Brecha para Empatar:</b> <code>-$21.88 USD (-19,95 €)</code>
+• <b>Bóveda #501:</b> <code>$40.72 On-Chain | $1.00 Binance</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
 /**
@@ -156,7 +182,7 @@ const INVESTMENT_ROI_HEADER = `💶 <b>ESTADO DE MI INVERSIÓN (ROI):</b>
 async function sendTelegramAlert(messageText, customChatId = null) {
   let formattedMessage = messageText;
   if (!formattedMessage.includes("ESTADO DE MI INVERSIÓN") && !formattedMessage.includes("Capital Invertido")) {
-    if (formattedMessage.length > 80 || formattedMessage.includes("OPERACIÓN") || formattedMessage.includes("DIAGNÓSTICO") || formattedMessage.includes("REPORTE")) {
+    if (formattedMessage.length > 80 || formattedMessage.includes("ÁREA 501") || formattedMessage.includes("OPERACIÓN") || formattedMessage.includes("DIAGNÓSTICO") || formattedMessage.includes("REPORTE")) {
       formattedMessage = `${INVESTMENT_ROI_HEADER}\n\n${formattedMessage}`;
     }
   }
@@ -398,7 +424,7 @@ ${deptsLines}
     const text = `
 ${INVESTMENT_ROI_HEADER}
 
-🚀 <b>OPERACIÓN 12K — REPORTE DE OPERACIONES DE CARTERAS</b>
+🛸 <b>ÁREA 501 — REPORTE DE MANDO</b>
 ${modeBadge}
 ${nebulaBlock}
 ${hqDeptsSection}
@@ -507,6 +533,7 @@ if (require.main === module) {
 
 module.exports = {
   INVESTMENT_ROI_HEADER,
+  setTelegramChatTitle,
   resolveChatId,
   sendTelegramAlert,
   notifyRoundSummary,

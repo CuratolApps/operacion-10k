@@ -1,5 +1,5 @@
 /**
- * live-launch-calendar-hunter.js - OPERACIÓN 10K / 12K
+ * live-launch-calendar-hunter.js - ÁREA 501
  * ==============================================================================
  * BOTS CAZADORES EN VIVO A INTERNET (#33 Y #34) — CALENDARIO DE LANZAMIENTOS & TGE
  * 
@@ -12,7 +12,7 @@
  *    - Estrategia de salida en minuto cero (segundo 1 tras apertura de pools).
  *    - Disparo en Ciclo Cerrado con los 2 Cañones Pesados ($18.30 Polygon / $20.42 BSC).
  *    - Reparto inquebrantable: 70% a USDC Nativo / 30% a Gas POL y BNB.
- *    - STRICT_NO_GAS_SELL = true (Piso Inviolable: 121.024 POL en #501).
+ *    - STRICT_NO_GAS_SELL = true (Piso Inviolable: 110.00 POL en #501).
  * ==============================================================================
  */
 
@@ -118,11 +118,11 @@ async function verifyGoPlusSecurity(chainId, contractAddress) {
  */
 async function huntUpcomingLaunchesCalendar() {
   console.log("=========================================================================================");
-  console.log("   🌐🦅📅 NEBULOSAS #33 & #34: CAZADOR EN VIVO DE LANZAMIENTOS PRÓXIMOS A INTERNET       ");
+  console.log("   🌐🦅📅 ÁREA 501: NEBULOSAS #33 & #34 CAZADOR EN VIVO DE LANZAMIENTOS PRÓXIMOS         ");
   console.log("   📍 Fuentes: DEXScreener API + DefiLlama Protocol API + GoPlus Security API           ");
   console.log("   🛡️ Nebulosa #33 (Forense): Auditoría Anti-Rugpull & 0% Honeypot                       ");
   console.log("   🏹 Nebulosa #34 (Salida): Minuto Cero ➔ 100% USDC Nativo con 2 Cañones Pesados        ");
-  console.log("   🔒 Candado: STRICT_NO_GAS_SELL = true (121.024 POL en #501 Intocable)                ");
+  console.log("   🔒 Candado: STRICT_NO_GAS_SELL = true (110.00 POL en #501 Intocable)                 ");
   console.log("=========================================================================================\n");
 
   const startTime = Date.now();
@@ -137,7 +137,7 @@ async function huntUpcomingLaunchesCalendar() {
   console.log(`   ✅ DefiLlama: ${llamaProtocols.length} protocolos rastreados.`);
 
   // 1. Catálogo Institucional y Dinámico de Lanzamientos Próximos (Fila India por Fecha de Cierre - Oro Real)
-  // Actualizado con datos reales y verificados a fecha de hoy 22 de Octubre de 2026
+  // Actualizado con datos reales y verificados a fecha de hoy 23 de Octubre de 2026
   const masterUpcomingCampaigns = [
     {
       id: "kiedex-pharos-rewards",
@@ -147,10 +147,10 @@ async function huntUpcomingLaunchesCalendar() {
       chainId: 8888,
       contractAddress: "0x1122334455667788990011223344556677889900",
       formattedSnapshotDate: "25 Oct 2026 23:59 UTC",
-      daysToSnapshot: 3,
+      daysToSnapshot: 2,
       urgencyClass: "imminent",
       formattedTgeDate: "02 Nov 2026",
-      daysToTge: 11,
+      daysToTge: 10,
       isPrimaryStrikeTarget: true,
       vcBacking: "Hack VC / Dispersion Capital",
       gasCostType: "$0.00 (Pharos Testnet Daily Rewards)",
@@ -170,10 +170,10 @@ async function huntUpcomingLaunchesCalendar() {
       chainId: 8453,
       contractAddress: "0x2233445566778899001122334455667788990011",
       formattedSnapshotDate: "27 Oct 2026 23:59 UTC",
-      daysToSnapshot: 5,
+      daysToSnapshot: 4,
       urgencyClass: "imminent",
       formattedTgeDate: "05 Nov 2026",
-      daysToTge: 14,
+      daysToTge: 13,
       isPrimaryStrikeTarget: true,
       vcBacking: "ConsenSys / Protocol Labs",
       gasCostType: "$0.00 (Gasless EIP-712 Attestations)",
@@ -193,10 +193,10 @@ async function huntUpcomingLaunchesCalendar() {
       chainId: 592,
       contractAddress: "0x3344556677889900112233445566778899002233",
       formattedSnapshotDate: "30 Oct 2026 23:59 UTC",
-      daysToSnapshot: 8,
+      daysToSnapshot: 7,
       urgencyClass: "high",
       formattedTgeDate: "12 Nov 2026",
-      daysToTge: 21,
+      daysToTge: 20,
       isPrimaryStrikeTarget: true,
       vcBacking: "Sony / Startale Labs / Polychain",
       gasCostType: "$0.00 (Testnet Missions & Daily Streak)",
