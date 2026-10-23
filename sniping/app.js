@@ -420,6 +420,12 @@ let latestPolygonBlock = 96032510;
 let latestBscBlock = 129310210;
 let atomicExecutorAddress = null; // AtomicSniperExecutor desplegado en Polygon (telemetry)
 let atomicExecutorTx = null;
+let atomicExecutorAddressBsc = null; // gemelo en BSC (telemetry)
+let atomicExecutorTxBsc = null;
+let atomicShooter = null; // estado de scripts/atomic-auto-shooter.js (telemetry.atomicAutoShooter)
+// Respaldo si la telemetría aún no cargó (mismos valores que telemetry/fleet-telemetry.json)
+const ATOMIC_EXECUTOR_POLYGON_FALLBACK = "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67";
+const ATOMIC_EXECUTOR_BSC_FALLBACK = "0xD935F7B80237aA14B6D8F9D45070800e9E23Db20";
 let atomicRadar = null; // resumen de atomic-profit-guard.js (telemetry/fleet-telemetry.json)
 let currentShotsDone = 0;
 const DAILY_TARGET = 15;
@@ -1113,13 +1119,17 @@ async function syncLocalTelemetry() {
     const res = await fetch(`../telemetry/fleet-telemetry.json?t=${Date.now()}`);
     if (res.ok) {
       const telem = await res.json();
-      const shots = telem.atomicSniperExecution?.shotsExecutedToday ||
+      const autoShots = (telem.atomicAutoShooter && telem.atomicAutoShooter.dayUtc === new Date().toISOString().slice(0, 10)) ? (telem.atomicAutoShooter.shotsToday || 0) : 0;
+      const shots = Math.max(autoShots, telem.atomicSniperExecution?.shotsExecutedToday ||
         telem.snipingEcosystem?.dailyAtomicOperations?.completedToday ||
-        0;
+        0);
       currentShotsDone = shots;
       atomicRadar = telem.atomicProfitRadar || null;
       atomicExecutorAddress = telem.atomicExecutorAddressPolygon || null;
       atomicExecutorTx = telem.atomicExecutorDeployTxPolygon || null;
+      atomicExecutorAddressBsc = telem.atomicExecutorAddressBsc || null;
+      atomicExecutorTxBsc = telem.atomicExecutorDeployTxBsc || null;
+      atomicShooter = telem.atomicAutoShooter || null;
       renderAtomicRadarUi();
 
       const elBatteryFraction = document.getElementById("batteryQuotaFraction");
@@ -1480,7 +1490,7 @@ const RADAR_PCS_QUOTER = "0xB048Bbc1Ee6b733FFfCFb9e9CeF7375518e25997";
 const RADAR_PCS_V2 = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
 const RADAR_GAS_LIMIT = { polygon: 240000, bsc: 400000 }; // gas estimado del ciclo (2 swaps) por red
 const RADAR_SUSHI_V3_QUOTER = "0xb1e835dc2785b52265711e17fccb0fd018226a6e"; // SushiSwap V3 QuoterV2 (Polygon, con código verificado)
-const RADAR_MIN_NET = 0.05;
+const RADAR_MIN_NET = 0.03;
 
 const RADAR_CFG = {
   polygon: {
@@ -1676,11 +1686,18 @@ function refreshOpenTriggerModal() {
   if (inner) box.innerHTML = inner;
 }
 
-function executorModalBlock() {
-  const addr = atomicExecutorAddress;
-  if (!addr) return `<div style="margin-top:10px;padding:8px 12px;border:1px dashed rgba(255,255,255,0.15);border-radius:6px;font-size:0.56rem;font-family:var(--font-mono);color:var(--text-dim);">CONTRATO EJECUTOR ATÓMICO (Polygon): <strong>aún no desplegado</strong></div>`;
-  const tx = atomicExecutorTx ? ` · <a href="https://polygonscan.com/tx/${atomicExecutorTx}" target="_blank" rel="noopener" style="color:var(--cyan);">tx deploy</a>` : "";
-  return `<div style="margin-top:10px;padding:8px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:6px;font-size:0.56rem;font-family:var(--font-mono);color:#fff;word-break:break-all;">CONTRATO EJECUTOR ATÓMICO (Polygon): <a href="https://polygonscan.com/address/${addr}" target="_blank" rel="noopener" style="color:var(--green);font-weight:800;">${addr}</a>${tx}<div style="color:var(--text-dim);margin-top:3px;">Saldo USDC del contrato: $0.00 · sin disparos ejecutados</div></div>`;
+function executorModalBlock(chain = "polygon") {
+  const isPoly = chain === "polygon";
+  const addr = isPoly ? (atomicExecutorAddress || ATOMIC_EXECUTOR_POLYGON_FALLBACK) : (atomicExecutorAddressBsc || ATOMIC_EXECUTOR_BSC_FALLBACK);
+  const tx = isPoly ? atomicExecutorTx : atomicExecutorTxBsc;
+  const base = isPoly ? "https://polygonscan.com" : "https://bscscan.com";
+  const netName = isPoly ? "Polygon" : "BSC";
+  const txLink = tx ? ` · <a href="${base}/tx/${tx}" target="_blank" rel="noopener" style="color:var(--cyan);">tx deploy</a>` : "";
+  const sh = atomicShooter && atomicShooter.chains ? atomicShooter.chains[chain] : null;
+  const shotsToday = atomicShooter && atomicShooter.dayUtc === new Date().toISOString().slice(0, 10) ? (atomicShooter.shotsToday || 0) : 0;
+  const stateTxt = sh ? `${sh.armed ? "ARMADO" : "SIN ARMAR"} · ${String(sh.state || "").replace(/_/g, " ")}` : "esperando primera pasada del disparador";
+  const upd = atomicShooter && atomicShooter.updatedAt ? atomicShooter.updatedAt.slice(11, 16) + " UTC" : "—";
+  return `<div style="margin-top:10px;padding:8px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:6px;font-size:0.56rem;font-family:var(--font-mono);color:#fff;word-break:break-all;">CONTRATO EJECUTOR ATÓMICO (${netName}): <a href="${base}/address/${addr}" target="_blank" rel="noopener" style="color:var(--green);font-weight:800;">${addr}</a>${txLink}<div style="color:var(--text-dim);margin-top:3px;">Saldo USDC del contrato: $0.00 (los fondos se quedan en #501) · Disparador: <strong style="color:#fff;">${stateTxt}</strong> · Disparos hoy: ${shotsToday}/${DAILY_TARGET} · umbral neto +$${RADAR_MIN_NET.toFixed(2)} · actualizado ${upd}</div></div>`;
 }
 
 function inspectTriggerCondition(chain = "polygon") {
@@ -1747,7 +1764,7 @@ function inspectTriggerCondition(chain = "polygon") {
         </button>
       </div>
       ${atomicRadarModalBlock(chain)}
-      ${isPoly ? executorModalBlock() : ""}
+      ${executorModalBlock(chain)}
     </div>
   `;
 

@@ -10,7 +10,7 @@
 require("dotenv").config();
 const { ethers } = require("ethers");
 
-const MIN_NET_PROFIT_USDC = 0.05;
+const MIN_NET_PROFIT_USDC = 0.03;
 const GAS_LIMIT_ROUND_TRIP = 400000n; // 2 swaps (por defecto, BSC)
 const GAS_LIMIT_POLYGON = 240000n;   // ciclo Polygon (orden del usuario)
 const ODOS_QUOTE_URL = "https://api.odos.xyz/sor/quote/v2"; // pública, sin API key
@@ -38,7 +38,7 @@ const CURVE_AM3CRV_POLYGON = "0x445fe580ef8d70ff569ab36e80c647af338db351";
 
 const CHAINS = {
   polygon: {
-    rpcEnv: "POLYGON_RPC_URL", usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", usdcDec: 6,
+    rpcEnv: "POLYGON_RPC_URL", publicRpc: "https://polygon-rpc.com", usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", usdcDec: 6,
     nativeWrapped: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", nativeSymbol: "WPOL", defaultUsdc: 160,
     tokens: [
       { symbol: "WPOL", address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", dec: 18 },
@@ -60,7 +60,7 @@ const CHAINS = {
     ]
   },
   bsc: {
-    rpcEnv: "BNB_RPC_URL", usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", usdcDec: 18,
+    rpcEnv: "BNB_RPC_URL", publicRpc: "https://bsc-dataseed.binance.org", usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", usdcDec: 18,
     nativeWrapped: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", nativeSymbol: "WBNB", defaultUsdc: 20,
     tokens: [
       { symbol: "WBNB", address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", dec: 18 },
@@ -76,6 +76,27 @@ const CHAINS = {
     ]
   }
 };
+
+// Rutas de EJECUCIÓN para AtomicSniperExecutor.execute(): kind 0=V3_NO_DEADLINE, 1=V3_DEADLINE, 2=ALGEBRA, 3=V2.
+// Todos los routers verificados con getCode en su red. Cada venue queda con `exec = { kind, router, fee }`.
+const EXEC_ROUTERS = {
+  polygon: [
+    ["Uniswap V3", 0, "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45"],     // SwapRouter02
+    ["SushiSwap V3", 1, "0x0aF89E1620b96170e2a9D0b68fEebb767eD044c3"],  // SwapRouter con deadline
+    ["QuickSwap Algebra", 2, ALGEBRA_ROUTER],
+    ["QuickSwap V2", 3, null], ["SushiSwap V2", 3, null]
+  ],
+  bsc: [
+    ["PancakeSwap V3", 0, "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4"],  // SmartRouter
+    ["PancakeSwap V2", 3, null], ["BiSwap V2", 3, null]
+  ]
+};
+for (const [ck, list] of Object.entries(EXEC_ROUTERS)) {
+  for (const v of CHAINS[ck].venues) {
+    const m = list.find(([prefix]) => v.name.startsWith(prefix));
+    if (m) v.exec = { kind: m[1], router: m[2] || v.router, fee: v.fee || 0 };
+  }
+}
 
 // Odos Smart Order Router (público). Devuelve outAmount (BigInt) o null. Informativo: el ejecutor no consume su calldata.
 async function odosQuote(chainId, tokenIn, tokenOut, amountIn) {
@@ -143,16 +164,15 @@ async function evaluateToken(provider, c, token, usdcAmount, gasUsdc, venues) {
       if (!s) return;
       const finalUsdc = Number(ethers.formatUnits(s, c.usdcDec));
       const net = finalUsdc - usdcAmount - gasUsdc;
-      rows.push({ token: token.symbol, buy: vb.name, sell: venues[j].name, finalUsdc, grossUsdc: finalUsdc - usdcAmount, gasUsdc, netUsdc: net, netPct: (net / usdcAmount) * 100 });
+      rows.push({ token: token.symbol, tokenAddress: token.address, buy: vb.name, sell: venues[j].name, buyOutRaw: buys[i].toString(), sellOutRaw: s.toString(), finalUsdc, grossUsdc: finalUsdc - usdcAmount, gasUsdc, netUsdc: net, netPct: (net / usdcAmount) * 100 });
     });
   }));
   return rows;
 }
 
-async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride) {
+async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride, opts = {}) {
   const c = CHAINS[chainKey];
-  const url = process.env[c.rpcEnv];
-  if (!providerOverride && !url) throw new Error(`Falta ${c.rpcEnv} en .env`);
+  const url = process.env[c.rpcEnv] || c.publicRpc; // en CI sin secreto cae a RPC pública
   const provider = providerOverride || new ethers.JsonRpcProvider(url);
   usdcAmount = usdcAmount || c.defaultUsdc;
 
@@ -178,7 +198,7 @@ async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride) {
   const crossRows = rows.filter(r => r.buy !== r.sell);
   const best = crossRows[0] || rows[0] || null;
   let odos = null;
-  try { odos = await odosRoundTrip(c, chainKey === "polygon" ? 137 : 56, usdcAmount, gasUsdc); } catch (_) {}
+  if (!opts.skipOdos) try { odos = await odosRoundTrip(c, chainKey === "polygon" ? 137 : 56, usdcAmount, gasUsdc); } catch (_) {}
   return { chain: chainKey, usdcAmount, gasUsdc, gasLimit: Number(gasLimit), nativePriceUsdc, best, bestIsCrossPool: !!crossRows[0], legacyBest: legacyRows[0] || null, rows, odos, perToken: c.tokens.map((t, i) => ({ symbol: t.symbol, best: perTokenRows[i].filter(r => r.buy !== r.sell).concat(perTokenRows[i]).sort((a, b) => (a.buy === a.sell) - (b.buy === b.sell) || b.netUsdc - a.netUsdc)[0] || null })), shouldFire: !!best && best.netUsdc >= MIN_NET_PROFIT_USDC };
 }
 
@@ -243,6 +263,6 @@ function persistRadarSummary(out) {
     fs.writeFileSync(file, JSON.stringify(tel, null, 2));
   } catch (_) {}
 }
-module.exports = { evaluateRoundTrip, computeProfitSplit, runRadar, MIN_NET_PROFIT_USDC, CHAINS, ALGEBRA_ROUTER, MOTHERSHIP_MIN_POL_FLOOR, FLEET_TARGET_POL_FLOOR };
+module.exports = { quote, evaluateRoundTrip, computeProfitSplit, runRadar, MIN_NET_PROFIT_USDC, CHAINS, ALGEBRA_ROUTER, MOTHERSHIP_MIN_POL_FLOOR, FLEET_TARGET_POL_FLOOR };
 
 if (require.main === module) runRadar().then(() => process.exit(0));

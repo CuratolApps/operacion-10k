@@ -1331,6 +1331,13 @@ async function runDedicatedObservers() {
     console.warn(`⚠️ Radar atómico multi-piscina no disponible: ${radarErr.message}`);
   }
 
+  // Disparador automático: solo firma si callStatic pasa y el neto cruza +$0.03 (si no, $0 gas). Kill-switch: AUTO_SHOOTER_DISABLE=1
+  try {
+    liveReport.atomicAutoShooter = await require("./scripts/atomic-auto-shooter").runAutoShooter({ passes: 1 });
+  } catch (shootErr) {
+    console.warn(`⚠️ Disparador atómico no disponible: ${shootErr.message}`);
+  }
+
   return liveReport;
 }
 

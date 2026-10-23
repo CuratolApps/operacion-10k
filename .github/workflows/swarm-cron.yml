@@ -33,8 +33,10 @@ jobs:
       TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
       SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
       SWARM_SIZE: ${{ secrets.SWARM_SIZE || '500' }}
+      POLYGON_RPC_URL: ${{ secrets.POLYGON_RPC_URL }}
+      BNB_RPC_URL: ${{ secrets.BNB_RPC_URL }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '-5101181644' }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '-1004342131598' }}
       VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}
       # 🛑 X/Twitter BLINDADO: sin credenciales X_* en este job mientras @yozapata está en revisión.
 
@@ -68,6 +70,8 @@ jobs:
           run_safe node swarm-engine.js --only-generate
           run_safe node solana-faucet-refuel.js
           run_safe node dedicated-observers.js
+          # Disparador atómico (AtomicSniperExecutor Polygon + BSC): callStatic obligatorio, neto >= +$0.03, máx 15/día, piso 150 POL.
+          run_safe node scripts/atomic-auto-shooter.js --passes 2 --interval 25
           run_safe node security-fortress-shield.js
           run_safe node omni-sniper-5models.js
           run_safe node nebula-ai-commanders.js
