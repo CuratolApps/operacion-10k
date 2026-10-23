@@ -1125,3 +1125,168 @@ body.area501-flota-body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* =============================================================================
+   BOTONERA INFERIOR DE MÓDULOS (40PX - UNIFICADA Y CENTRADA)
+   ============================================================================= */
+.bottom-module-dock {
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(7, 9, 14, 0.96);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.dock-left-status {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dock-status-txt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.dock-center-modules {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dock-right-controls {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dock-module-icon {
+  font-size: 13px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dock-module-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.dock-module-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.dock-module-btn.active {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(176, 38, 255, 0.08) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.dock-module-btn .dock-label {
+  line-height: 1;
+}
+
+/* Reloj Maestro UTC en Vivo */
+.dock-utc-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.5px;
+  cursor: default;
+  user-select: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dock-utc-clock:hover {
+  background: rgba(56, 189, 248, 0.06);
+  border-color: rgba(56, 189, 248, 0.25);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+}
+
+.dock-utc-clock .clock-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.dock-utc-clock .clock-time {
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Botón Candado en el Dock */
+.dock-lock-btn {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dock-lock-btn:hover {
+  color: #ff3366;
+  border-color: rgba(255, 51, 102, 0.4);
+  background: rgba(255, 51, 102, 0.1);
+  box-shadow: 0 0 10px rgba(255, 51, 102, 0.25);
+  transform: translateY(-1px);
+}
+

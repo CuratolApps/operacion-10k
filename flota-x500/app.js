@@ -204,9 +204,9 @@ if (document.readyState === "loading") {
 // 4.1 RELOJ MAESTRO UTC EN VIVO (ACTUALIZADO CADA 1 SEGUNDO)
 // =============================================================================
 function initDockUtcClock() {
-  const clockEl = document.getElementById("dockUtcClock");
-  const timeEl = document.getElementById("dockUtcTimeText");
-  if (!clockEl || !timeEl) return;
+  const clockEl = document.getElementById("masterUtcClockPod") || document.getElementById("dockUtcClock");
+  const timeEl = document.getElementById("masterUtcClockTime") || document.getElementById("dockUtcTimeText");
+  if (!clockEl && !timeEl) return;
 
   function updateClock() {
     const now = new Date();
@@ -214,13 +214,21 @@ function initDockUtcClock() {
     const utcHours = pad(now.getUTCHours());
     const utcMinutes = pad(now.getUTCMinutes());
     const utcSeconds = pad(now.getUTCSeconds());
-    timeEl.textContent = `${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+    const utcStr = `${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+
+    if (timeEl) {
+      timeEl.textContent = utcStr;
+    }
 
     try {
       const localStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-      clockEl.title = `Hora Oficial UTC del Motor: ${utcHours}:${utcMinutes}:${utcSeconds} UTC | Hora Local: ${localStr}`;
+      if (clockEl) {
+        clockEl.title = `Hora Oficial UTC del Motor: ${utcStr} | Tu Hora Local: ${localStr}`;
+      }
     } catch (_) {
-      clockEl.title = `Hora Oficial UTC del Motor: ${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+      if (clockEl) {
+        clockEl.title = `Hora Oficial UTC del Motor: ${utcStr}`;
+      }
     }
   }
 

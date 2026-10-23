@@ -139,9 +139,9 @@
     if (!btn) {
       btn = document.createElement("button");
       btn.id = "area501-lockout-btn";
-      btn.className = "area501-lockout-btn";
+      btn.className = "area501-lockout-btn dock-lock-btn";
       btn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
@@ -149,10 +149,9 @@
       btn.title = "ÁREA 501 // Bloquear y Proteger Acceso";
       btn.setAttribute("aria-label", "Bloquear acceso");
 
-      const navRow = document.querySelector(".nav-modules-row");
-      if (navRow) {
-        btn.classList.add("floating-card", "nav-lock-card");
-        navRow.appendChild(btn);
+      const dockControls = document.querySelector(".dock-right-controls") || document.querySelector(".bottom-module-dock");
+      if (dockControls) {
+        dockControls.appendChild(btn);
       } else {
         document.body.appendChild(btn);
       }
