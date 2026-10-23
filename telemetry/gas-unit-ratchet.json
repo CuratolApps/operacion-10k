@@ -1,11 +1,16 @@
 {
   "schemaVersion": "1.0.0",
-  "lastUpdate": "2026-10-22T10:17:11.848Z",
+  "lastUpdate": "2026-10-23T16:19:00.000Z",
   "strictNoGasSell": true,
+  "sacredFleetReserve": {
+    "totalFleetPolFloor": 295.02,
+    "targetFleetPolFloor": 300.00,
+    "totalFleetBnbFloor": 0.0595
+  },
   "floors": {
     "#501": {
-      "floorPol": 110.00,
-      "floorBnb": 0.0035
+      "floorPol": 150.00,
+      "floorBnb": 0.0227
     },
     "#001": {
       "floorPol": 18.02,

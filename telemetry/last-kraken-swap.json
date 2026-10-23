@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "timestamp": "2026-10-23T16:18:54.274Z",
+  "wrapTxHash": "0x45885ff085b44ff54ec5a49de6b5145b4cd84f075c18f185a975d69b4aa36a50",
+  "swapTxHash": "0x39ef70b4d627e07b748a4734a01f56aa01ef81a7a4fe36743b20f4dd492b5106",
+  "blockNumber": 96044641,
+  "polConverted": 72.75,
+  "usdcReceived": 6.661682000000013,
+  "finalUsdcNum": 159.401972,
+  "finalPolNum": 150.4846385501224,
+  "floorPol": 150.5
+}
