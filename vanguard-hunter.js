@@ -93,7 +93,7 @@ const SCAN_NETWORKS = [
   }
 ];
 
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-5101181644";
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-1004342131598";
 
 function getVanguardToken() {
   const token = process.env.VANGUARD_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || "";
@@ -108,14 +108,14 @@ async function resolveChatId(token) {
   let raw = (process.env.TELEGRAM_CHAT_ID && process.env.TELEGRAM_CHAT_ID.trim() !== "")
     ? process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim()
     : CHAT_ID;
-  if (raw === "-5101181644") raw = "-1004342131598";
+  if (raw === "-1004342131598") raw = "-1004342131598";
   return raw;
 }
 
 async function sendTelegramMessage(token, chatId, text) {
   if (!token) return false;
   let targetChatId = chatId || (await resolveChatId(token));
-  if (targetChatId === "-5101181644") targetChatId = "-1004342131598";
+  if (targetChatId === "-1004342131598") targetChatId = "-1004342131598";
 
   // Manejo de límite de Telegram (4096 caracteres)
   if (text && text.length > 3800) {

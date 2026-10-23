@@ -43,7 +43,7 @@ function recordTelegramAlert(text) {
   } catch (_) {}
 }
 
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-5101181644";
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-1004342131598";
 
 function getCleanToken() {
   const raw = process.env.VANGUARD_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || "";
@@ -64,7 +64,7 @@ async function resolveChatId(token = null, timeoutSeconds = 0) {
     ? process.env.TELEGRAM_CHAT_ID.trim().replace(/^["']|["']$/g, "").trim()
     : CHAT_ID;
 
-  if (raw === "-5101181644") raw = "-1004342131598";
+  if (raw === "-1004342131598") raw = "-1004342131598";
   cachedChatId = raw;
   return cachedChatId;
 }
@@ -144,7 +144,7 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
   const token = getCleanToken();
   if (!token) return false;
   let chatId = await resolveChatId(token);
-  if (chatId === "-5101181644") chatId = "-1004342131598";
+  if (chatId === "-1004342131598") chatId = "-1004342131598";
   if (!chatId) return false;
   try {
     const res = await fetch(`https://api.telegram.org/bot${token}/setChatTitle`, {
@@ -197,7 +197,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
   }
 
   let chatId = customChatId || (await resolveChatId(token));
-  if (chatId === "-5101181644") chatId = "-1004342131598";
+  if (chatId === "-1004342131598") chatId = "-1004342131598";
   if (!chatId) {
     console.log("ℹ️ [No se pudo detectar el Chat ID. Envía un mensaje al bot en Telegram primero]");
     return false;

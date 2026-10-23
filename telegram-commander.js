@@ -30,7 +30,7 @@ function getCleanToken() {
 function getAuthorizedChatId() {
   let raw = process.env.TELEGRAM_CHAT_ID || "";
   raw = raw.trim().replace(/^["']|["']$/g, "").trim();
-  if (raw === "-5101181644") raw = "-1004342131598";
+  if (raw === "-1004342131598") raw = "-1004342131598";
   return raw;
 }
 
@@ -64,7 +64,7 @@ async function callTelegram(method, body = {}) {
   const token = getCleanToken();
   if (!token) return null;
   const endpoint = `https://api.telegram.org/bot${token}/${method}`;
-  if (body.chat_id === "-5101181644") {
+  if (body.chat_id === "-1004342131598") {
     body.chat_id = "-1004342131598";
   }
   try {

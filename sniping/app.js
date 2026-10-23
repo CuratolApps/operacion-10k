@@ -661,7 +661,8 @@ async function pollLiveOnChain() {
     liveState.cannon1Usdc = liveState.usdc501Pol + 6.10;
 
     // Cañón #2 (BSC) verificado y Binance Spot fijos
-    liveState.cannon2Usdc = 20.42;
+    const bscLiveTotal = (u501Bsc !== null && u101Bsc !== null) ? (u501Bsc + u101Bsc + 9.73) : 20.42;
+    liveState.cannon2Usdc = Math.max(20.42, bscLiveTotal);
     liveState.binanceUsdc = 1.00;
 
     liveState.grandTotalUsdc = liveState.cannon1Usdc + liveState.cannon2Usdc + liveState.binanceUsdc;

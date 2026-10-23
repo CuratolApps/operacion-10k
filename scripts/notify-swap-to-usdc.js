@@ -1,7 +1,7 @@
 /**
  * scripts/notify-swap-to-usdc.js
  * Reporte oficial de conversión quirúrgica de los 1,519.24 POL a USDC Nativo
- * Enviado a 🛰️ SALA DE MANDO 10K (-5101181644)
+ * Enviado a 🛰️ SALA DE MANDO 10K (-1004342131598)
  */
 
 require("dotenv").config();
@@ -52,7 +52,7 @@ async function main() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
   console.log("Enviando reporte a Telegram...");
-  const ok = await sendTelegramAlert(reportHtml, "-5101181644");
+  const ok = await sendTelegramAlert(reportHtml, "-1004342131598");
   console.log("Resultado envío Telegram:", ok ? "EXITOSO ✅" : "GUARDADO EN TELEMETRÍA ℹ️");
 }
 

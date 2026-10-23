@@ -270,7 +270,7 @@ async function runRadarHunter() {
   // -------------------------------------------------------------------------------------
   // 5. ENVIAR REPORTE EJECUTIVO A TELEGRAM
   // -------------------------------------------------------------------------------------
-  const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-5101181644";
+  const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-1004342131598";
   console.log("📱 Enviando Reporte Ejecutivo a Telegram...");
   const autoBridgeBadge = rechargedCount > 0
     ? `⚡ <b>ACTIVO:</b> ${rechargedCount} satélites recargados (+0.015 ETH c/u)`
