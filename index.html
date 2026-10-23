@@ -155,6 +155,9 @@
     .card-sniping::before {
       background: linear-gradient(90deg, var(--cyan), #3b82f6);
     }
+    .card-flota::before {
+      background: linear-gradient(90deg, var(--gold), #f97316);
+    }
     .card-dashboard::before {
       background: linear-gradient(90deg, var(--purple), #ec4899);
     }
@@ -165,6 +168,10 @@
     .card-sniping:hover {
       border-color: var(--border-cyan);
       box-shadow: 0 20px 40px rgba(0, 240, 255, 0.15);
+    }
+    .card-flota:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
     }
     .card-dashboard:hover {
       border-color: var(--border-purple);
@@ -193,6 +200,11 @@
       color: var(--cyan);
       border: 1px solid var(--border-cyan);
     }
+    .card-flota .card-icon {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--gold);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
     .card-dashboard .card-icon {
       background: rgba(176, 38, 255, 0.1);
       color: var(--purple);
@@ -209,6 +221,10 @@
     .card-sniping .card-tag {
       background: rgba(0, 240, 255, 0.12);
       color: var(--cyan);
+    }
+    .card-flota .card-tag {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--gold);
     }
     .card-dashboard .card-tag {
       background: rgba(176, 38, 255, 0.12);
@@ -270,6 +286,16 @@
       background: var(--cyan);
       color: #000;
       box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+    .card-flota .card-action-btn {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(249, 115, 22, 0.2));
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: var(--gold);
+    }
+    .card-flota:hover .card-action-btn {
+      background: var(--gold);
+      color: #000;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
     }
     .card-dashboard .card-action-btn {
       background: linear-gradient(135deg, rgba(176, 38, 255, 0.2), rgba(236, 72, 153, 0.2));
@@ -337,7 +363,30 @@
         </div>
       </a>
 
-      <!-- MÓDULO 2: TERMINAL CUANTITATIVA Y CENSO -->
+      <!-- MÓDULO 2: FLOTA X500 (NUEVO MÓDULO INDEPENDIENTE) -->
+      <a href="./flota-x500/" class="portal-card card-flota">
+        <div class="card-header-row">
+          <div class="card-icon">
+            <span class="material-symbols-rounded">military_tech</span>
+          </div>
+          <span class="card-tag">FLOTA X500</span>
+        </div>
+        <h2 class="card-title">Cabina Flota X500 (500 Satélites)</h2>
+        <p class="card-desc">
+          Supervisión táctica 100% on-chain sin mocks de los Satélites #001 al #500 en sus 5 Boxes, 5 Bóvedas Binance Spot y frentes activos de airdrops.
+        </p>
+        <ul class="card-features">
+          <li><span class="material-symbols-rounded">check_circle</span> 5 Boxes reales (Capitanes B1–B5)</li>
+          <li><span class="material-symbols-rounded">check_circle</span> Carrusel 24/7 (20 sats/turno)</li>
+          <li><span class="material-symbols-rounded">check_circle</span> Bitácora on-chain + Espejo Telegram</li>
+        </ul>
+        <div class="card-action-btn">
+          <span>Abrir Cabina Flota X500</span>
+          <span class="material-symbols-rounded">arrow_forward</span>
+        </div>
+      </a>
+
+      <!-- MÓDULO 3: TERMINAL CUANTITATIVA Y CENSO -->
       <a href="./dashboard/" class="portal-card card-dashboard">
         <div class="card-header-row">
           <div class="card-icon">

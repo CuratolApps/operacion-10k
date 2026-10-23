@@ -1,7 +1,9 @@
 {
   "name": "operacion-10k",
+  "main": "worker.js",
   "compatibility_date": "2024-09-23",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   }
 }
