@@ -1,19 +1,19 @@
 /**
- * ÃREA 501 // CABINA DE SNIPING ATÃ“MICO (MODO RIESGO 0%)
+ * ÁREA 501 // CABINA DE SNIPING ATÓMICO (MODO RIESGO 0%)
  * sniping/app.js - Monitoreo Cuantitativo 100% On-Chain en Tiempo Real
- * ConexiÃ³n JSON-RPC en Vivo vÃ­a Alchemy RPC (Polygon + BSC) cada 4 segundos
+ * Conexión JSON-RPC en Vivo vía Alchemy RPC (Polygon + BSC) cada 4 segundos
  * Piso Sagrado #501: 150.00 POL | Piso Sagrado Flota: 300.00 POL | 100% Datos Reales
  */
 
 // =============================================================================
-// CATÃLOGO DE LAS 16 NODRIZAS SNIPER & SUS 32 NEBULOSAS IA (ACTUALIZADO EN VIVO)
+// CATÁLOGO DE LAS 16 NODRIZAS SNIPER & SUS 32 NEBULOSAS IA (ACTUALIZADO EN VIVO)
 // =============================================================================
 const MOTHERSHIPS_REGISTRY = [
   {
     id: "#501",
     index: 501,
     name: "Nodriza Matriz Dual",
-    role: "TesorerÃ­a & BÃ³veda Matriz Dual",
+    role: "Tesorería & Bóveda Matriz Dual",
     box: "Matriz / Box 0",
     address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
     gasPol: "150.48",
@@ -21,20 +21,20 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "150.00",
     gasLostPol: "0.00",
     status: "FUEGO_ACTIVO",
-    statusLabel: "Fuego Activo (CaÃ±Ã³n Dual)",
+    statusLabel: "Fuego Activo (Cañón Dual)",
     activeCannon: true,
     cannonChain: "POLYGON + BSC",
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-01", name: "Estratega CuÃ¡ntica Liquidaciones & Flash Dips", role: "Calculista", certainty: 98, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-01", name: "Estratega Cuántica Liquidaciones & Flash Dips", role: "Calculista", certainty: 98, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-02", name: "Guardaespaldas Anti-Rug & Solvencia Aave/Venus", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#001",
     index: 1,
-    name: "CapitÃ¡n Box 1",
-    role: "CapitÃ¡n Box 1 (Bitcoin L2 & MinerÃ­a)",
+    name: "Capitán Box 1",
+    role: "Capitán Box 1 (Bitcoin L2 & Minería)",
     box: "Box 1",
     address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
     gasPol: "18.02",
@@ -42,20 +42,20 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "5.00",
     gasLostPol: "0.00",
     status: "FUEGO_ACTIVO",
-    statusLabel: "Fuego Activo (CaÃ±Ã³n #1 Polygon)",
+    statusLabel: "Fuego Activo (Cañón #1 Polygon)",
     activeCannon: true,
     cannonChain: "POLYGON",
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-03", name: "Estratega CuÃ¡ntica Liquidaciones Flash L2", role: "Calculista", certainty: 97, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-03", name: "Estratega Cuántica Liquidaciones Flash L2", role: "Calculista", certainty: 97, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-04", name: "Guardaespaldas Anti-Rug Pull Blue-Chip", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#101",
     index: 101,
-    name: "CapitÃ¡n Box 2",
-    role: "CapitÃ¡n Box 2 (Juegos & Metaverso)",
+    name: "Capitán Box 2",
+    role: "Capitán Box 2 (Juegos & Metaverso)",
     box: "Box 2",
     address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
     gasPol: "18.03",
@@ -63,20 +63,20 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "5.00",
     gasLostPol: "0.00",
     status: "FUEGO_ACTIVO",
-    statusLabel: "Fuego Activo (CaÃ±Ã³n #2 BSC)",
+    statusLabel: "Fuego Activo (Cañón #2 BSC)",
     activeCannon: true,
     cannonChain: "BSC",
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-05", name: "Estratega CuÃ¡ntica Arbitraje Cross-Fee V3", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-05", name: "Estratega Cuántica Arbitraje Cross-Fee V3", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-06", name: "Guardaespaldas Anti-Honeypot PancakeSwap V3", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#201",
     index: 201,
-    name: "CapitÃ¡n Box 3",
-    role: "CapitÃ¡n Box 3 (Piscinas & Sorteos USDC)",
+    name: "Capitán Box 3",
+    role: "Capitán Box 3 (Piscinas & Sorteos USDC)",
     box: "Box 3",
     address: "0x2810aa0DabCA4511846194229d2c004B14016A7C",
     gasPol: "18.01",
@@ -84,19 +84,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "5.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-07", name: "Estratega CuÃ¡ntica Liquidaciones & Panic-Dip", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-07", name: "Estratega Cuántica Liquidaciones & Panic-Dip", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-08", name: "Guardaespaldas Anti-Slippage & MEV Shield", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#301",
     index: 301,
-    name: "CapitÃ¡n Box 4",
-    role: "CapitÃ¡n Box 4 (Airdrops L2 Gasless)",
+    name: "Capitán Box 4",
+    role: "Capitán Box 4 (Airdrops L2 Gasless)",
     box: "Box 4",
     address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
     gasPol: "12.01",
@@ -104,19 +104,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "5.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-09", name: "Estratega CuÃ¡ntica Floor/Bid Flipping", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-09", name: "Estratega Cuántica Floor/Bid Flipping", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-10", name: "Guardaespaldas Anti-Honeypot ERC-1155/721", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#401",
     index: 401,
-    name: "CapitÃ¡n Box 5",
-    role: "CapitÃ¡n Box 5 (Mints & RefinerÃ­a DEX)",
+    name: "Capitán Box 5",
+    role: "Capitán Box 5 (Mints & Refinería DEX)",
     box: "Box 5",
     address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
     gasPol: "12.01",
@@ -124,19 +124,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "5.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-11", name: "Estratega CuÃ¡ntica Mints & Floor Swaps", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-11", name: "Estratega Cuántica Mints & Floor Swaps", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-12", name: "Guardaespaldas Whitelist Marketplaces", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#008",
     index: 8,
-    name: "Sub-CapitÃ¡n Box 1 Alfa",
-    role: "Sub-CapitÃ¡n Alfa Box 1",
+    name: "Sub-Capitán Box 1 Alfa",
+    role: "Sub-Capitán Alfa Box 1",
     box: "Box 1",
     address: "0x0EE1dE68C1F101233F9607FfD124DaA55943Ce42",
     gasPol: "6.50",
@@ -144,19 +144,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-13", name: "Estratega CuÃ¡ntica Arbitraje GameFi", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-13", name: "Estratega Cuántica Arbitraje GameFi", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-14", name: "Guardaespaldas Gas-Price Ceiling", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#006",
     index: 6,
-    name: "Sub-CapitÃ¡n Box 1 Beta",
-    role: "Sub-CapitÃ¡n Beta Box 1",
+    name: "Sub-Capitán Box 1 Beta",
+    role: "Sub-Capitán Beta Box 1",
     box: "Box 1",
     address: "0x89d20c5A2338A9A29388B9741544a0499C53775b",
     gasPol: "6.50",
@@ -164,19 +164,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-15", name: "Estratega CuÃ¡ntica Micro-Pools Arbitrage", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-15", name: "Estratega Cuántica Micro-Pools Arbitrage", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-16", name: "Guardaespaldas Anti-Reentrancy Guard", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#108",
     index: 108,
-    name: "Sub-CapitÃ¡n Box 2 Alfa",
-    role: "Sub-CapitÃ¡n Alfa Box 2",
+    name: "Sub-Capitán Box 2 Alfa",
+    role: "Sub-Capitán Alfa Box 2",
     box: "Box 2",
     address: "0xa3872124564c767468160B5B31c4f82662fa9D01",
     gasPol: "6.50",
@@ -184,19 +184,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-17", name: "Estratega CuÃ¡ntica Thena & Biswap Spreads", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-17", name: "Estratega Cuántica Thena & Biswap Spreads", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-18", name: "Guardaespaldas Token Decimals & Fee-on-Transfer", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#106",
     index: 106,
-    name: "Sub-CapitÃ¡n Box 2 Beta",
-    role: "Sub-CapitÃ¡n Beta Box 2",
+    name: "Sub-Capitán Box 2 Beta",
+    role: "Sub-Capitán Beta Box 2",
     box: "Box 2",
     address: "0x2C467E0A5aB960e6e7d6928e46123490795493c6",
     gasPol: "6.50",
@@ -204,19 +204,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-19", name: "Estratega CuÃ¡ntica WBNB/USDC 0.01% V3", role: "Calculista", certainty: 97, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-19", name: "Estratega Cuántica WBNB/USDC 0.01% V3", role: "Calculista", certainty: 97, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-20", name: "Guardaespaldas Multicall3 Simulation Engine", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#204",
     index: 204,
-    name: "Sub-CapitÃ¡n Box 3 Alfa",
-    role: "Sub-CapitÃ¡n Alfa Box 3",
+    name: "Sub-Capitán Box 3 Alfa",
+    role: "Sub-Capitán Alfa Box 3",
     box: "Box 3",
     address: "0x2cE03Fe039757620Fa896cfaFcf56185897645f0",
     gasPol: "6.50",
@@ -224,19 +224,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-21", name: "Estratega CuÃ¡ntica Balancer V2 USDC Vaults", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-21", name: "Estratega Cuántica Balancer V2 USDC Vaults", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-22", name: "Guardaespaldas Flash Loan Fee Guard", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#205",
     index: 205,
-    name: "Sub-CapitÃ¡n Box 3 Beta",
-    role: "Sub-CapitÃ¡n Beta Box 3",
+    name: "Sub-Capitán Box 3 Beta",
+    role: "Sub-Capitán Beta Box 3",
     box: "Box 3",
     address: "0x6A9e97f0aA4480A2b4c10D7018c64C2E499f57E2",
     gasPol: "6.50",
@@ -244,19 +244,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-23", name: "Estratega CuÃ¡ntica Curve Finance Stable Swaps", role: "Calculista", certainty: 98, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-23", name: "Estratega Cuántica Curve Finance Stable Swaps", role: "Calculista", certainty: 98, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-24", name: "Guardaespaldas Depeg Monitor (USDC/USDT)", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#307",
     index: 307,
-    name: "Sub-CapitÃ¡n Box 4 Alfa",
-    role: "Sub-CapitÃ¡n Alfa Box 4",
+    name: "Sub-Capitán Box 4 Alfa",
+    role: "Sub-Capitán Alfa Box 4",
     box: "Box 4",
     address: "0xb7976eB684617343e86c07B31b54a85265691079",
     gasPol: "6.50",
@@ -264,19 +264,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-25", name: "Estratega CuÃ¡ntica Gasless Permit2 Approvals", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-25", name: "Estratega Cuántica Gasless Permit2 Approvals", role: "Calculista", certainty: 96, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-26", name: "Guardaespaldas Expire Nonce & Replay Shield", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#311",
     index: 311,
-    name: "Sub-CapitÃ¡n Box 4 Beta",
-    role: "Sub-CapitÃ¡n Beta Box 4",
+    name: "Sub-Capitán Box 4 Beta",
+    role: "Sub-Capitán Beta Box 4",
     box: "Box 4",
     address: "0x2A88a096c1481bF5aC74F44eFa76313f8A2222E4",
     gasPol: "6.50",
@@ -284,19 +284,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-27", name: "Estratega CuÃ¡ntica Zero-Gas Flash Arbitrage", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-27", name: "Estratega Cuántica Zero-Gas Flash Arbitrage", role: "Calculista", certainty: 95, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-28", name: "Guardaespaldas Block Reorg Protection", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#403",
     index: 403,
-    name: "Sub-CapitÃ¡n Box 5 Alfa",
-    role: "Sub-CapitÃ¡n Alfa Box 5",
+    name: "Sub-Capitán Box 5 Alfa",
+    role: "Sub-Capitán Alfa Box 5",
     box: "Box 5",
     address: "0x16b04C6f3bDE197e416f43700E2cfD47b1c11066",
     gasPol: "6.50",
@@ -304,19 +304,19 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-29", name: "Estratega CuÃ¡ntica Keeper Harvest Bounty", role: "Calculista", certainty: 98, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-29", name: "Estratega Cuántica Keeper Harvest Bounty", role: "Calculista", certainty: 98, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-30", name: "Guardaespaldas Vault Balance Rebalance", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   },
   {
     id: "#411",
     index: 411,
-    name: "Sub-CapitÃ¡n Box 5 Beta",
-    role: "Sub-CapitÃ¡n Beta Box 5",
+    name: "Sub-Capitán Box 5 Beta",
+    role: "Sub-Capitán Beta Box 5",
     box: "Box 5",
     address: "0xa2F606F6f1E229eB59d6e4C94C1113c233eD0c56",
     gasPol: "6.50",
@@ -324,18 +324,18 @@ const MOTHERSHIPS_REGISTRY = [
     lockedFloorPol: "2.00",
     gasLostPol: "0.00",
     status: "RESERVA_TACTICA_LISTA",
-    statusLabel: "Reserva TÃ¡ctica Lista",
+    statusLabel: "Reserva Táctica Lista",
     activeCannon: false,
     locksVerified: "5/5 BLINDADO",
     assignedNebulaPair: {
-      odd: { id: "NEBULA-31", name: "Estratega CuÃ¡ntica Algebra V3 Flash Swaps", role: "Calculista", certainty: 97, status: "ACTIVA (>=95%)" },
+      odd: { id: "NEBULA-31", name: "Estratega Cuántica Algebra V3 Flash Swaps", role: "Calculista", certainty: 97, status: "ACTIVA (>=95%)" },
       even: { id: "NEBULA-32", name: "Guardaespaldas Strict Atomic Revert Enforcer", role: "Guardaespaldas", locks: "5/5 OK", status: "BLINDADO" }
     }
   }
 ];
 
 // =============================================================================
-// CONFIGURACIÃ“N DE CONEXIÃ“N ON-CHAIN JSON-RPC EN VIVO (ALCHEMY PRIMARIO)
+// CONFIGURACIÓN DE CONEXIÓN ON-CHAIN JSON-RPC EN VIVO (ALCHEMY PRIMARIO)
 // =============================================================================
 const RPC_CONFIG = {
   polygon: {
@@ -586,7 +586,7 @@ if (document.readyState === "loading") {
 }
 
 // =============================================================================
-// ESTADO DE TELEMETRÃA DE RED & LATENCIA RPC EN VIVO
+// ESTADO DE TELEMETRÍA DE RED & LATENCIA RPC EN VIVO
 // =============================================================================
 const liveTelemetry = {
   polygonPing: 42,
@@ -607,15 +607,15 @@ function updateTelemetryUi() {
   if (elPolyBadge) {
     if (polyMs < 130) {
       elPolyBadge.className = "telem-health-badge health-optimal";
-      elPolyBadge.textContent = `${polyMs} ms Â· Ã“PTIMO`;
+      elPolyBadge.textContent = `${polyMs} ms · ÓPTIMO`;
       if (elPolyDot) elPolyDot.className = "pulse-dot-tiny green";
     } else if (polyMs <= 280) {
       elPolyBadge.className = "telem-health-badge health-nominal";
-      elPolyBadge.textContent = `${polyMs} ms Â· NOMINAL`;
+      elPolyBadge.textContent = `${polyMs} ms · NOMINAL`;
       if (elPolyDot) elPolyDot.className = "pulse-dot-tiny cyan";
     } else {
       elPolyBadge.className = "telem-health-badge health-warning";
-      elPolyBadge.textContent = `${polyMs} ms Â· LAG RPC`;
+      elPolyBadge.textContent = `${polyMs} ms · LAG RPC`;
       if (elPolyDot) elPolyDot.className = "pulse-dot-tiny red";
     }
   }
@@ -629,15 +629,15 @@ function updateTelemetryUi() {
   if (elBscBadge) {
     if (bscMs < 150) {
       elBscBadge.className = "telem-health-badge health-optimal";
-      elBscBadge.textContent = `${bscMs} ms Â· Ã“PTIMO`;
+      elBscBadge.textContent = `${bscMs} ms · ÓPTIMO`;
       if (elBscDot) elBscDot.className = "pulse-dot-tiny green";
     } else if (bscMs <= 300) {
       elBscBadge.className = "telem-health-badge health-nominal";
-      elBscBadge.textContent = `${bscMs} ms Â· NOMINAL`;
+      elBscBadge.textContent = `${bscMs} ms · NOMINAL`;
       if (elBscDot) elBscDot.className = "pulse-dot-tiny gold";
     } else {
       elBscBadge.className = "telem-health-badge health-warning";
-      elBscBadge.textContent = `${bscMs} ms Â· LAG RPC`;
+      elBscBadge.textContent = `${bscMs} ms · LAG RPC`;
       if (elBscDot) elBscDot.className = "pulse-dot-tiny red";
     }
   }
@@ -650,13 +650,13 @@ function updateTelemetryUi() {
 
   if (elTickVal) elTickVal.textContent = `${tick}s / ciclo`;
   if (elTickBadge) elTickBadge.textContent = `CICLO #${liveState.sessionScans}`;
-  if (elScansSub) elScansSub.textContent = `ESCANEOS VIVO: ${liveState.sessionScans} Â· $0 GAS`;
+  if (elScansSub) elScansSub.textContent = `ESCANEOS VIVO: ${liveState.sessionScans} · $0 GAS`;
   if (elScanFoot) elScanFoot.textContent = `${liveState.sessionScans} lecturas eth_call en vivo ($0.00 gas)`;
 
   const polyGwei = liveTelemetry.polygonGasGwei || 32;
   const elGasVal = document.getElementById("telemGasVal");
   const elGasBadge = document.getElementById("telemGasBadge");
-  if (elGasVal) elGasVal.textContent = `${polyGwei} Gwei Â· <$0.003`;
+  if (elGasVal) elGasVal.textContent = `${polyGwei} Gwei · <$0.003`;
   if (elGasBadge) {
     elGasBadge.className = polyGwei <= 400 ? "telem-health-badge health-shielded" : "telem-health-badge health-nominal";
     elGasBadge.textContent = polyGwei <= 400 ? "CANAL LIMPIO" : "GWEI MODERADO";
@@ -737,9 +737,9 @@ async function pollLiveOnChain() {
         const elPod = document.getElementById(`podBal-${cleanId}`);
         if (elPod) {
           if (["201", "301", "401"].includes(cleanId)) {
-            elPod.textContent = `${parsedPol.toFixed(2)} POL Â· ${parsedBnb.toFixed(3)} BNB`;
+            elPod.textContent = `${parsedPol.toFixed(2)} POL · ${parsedBnb.toFixed(3)} BNB`;
           } else {
-            elPod.textContent = `${parsedPol.toFixed(2)} POL Â· ${parsedBnb.toFixed(3)} BNB`;
+            elPod.textContent = `${parsedPol.toFixed(2)} POL · ${parsedBnb.toFixed(3)} BNB`;
           }
         }
       }
@@ -748,7 +748,7 @@ async function pollLiveOnChain() {
       sumFleetBnb += parsedBnb;
     });
 
-    // Asegurar representaciÃ³n del tanque de flota respecto al piso de 300.00 POL
+    // Asegurar representación del tanque de flota respecto al piso de 300.00 POL
     liveState.fleetTotalPol = liveState.motherPol + 145.05;
     liveState.fleetTotalBnb = liveState.motherBnb + 0.0255;
 
@@ -780,10 +780,10 @@ async function pollLiveOnChain() {
 
     if (u501Pol !== null && u501Pol > 0) liveState.usdc501Pol = u501Pol;
 
-    // CaÃ±Ã³n #1 (Polygon): #501 en vivo + $6.10 en Capitanes
+    // Cañón #1 (Polygon): #501 en vivo + $6.10 en Capitanes
     liveState.cannon1Usdc = liveState.usdc501Pol + 6.10;
 
-    // CaÃ±Ã³n #2 (BSC) verificado y Binance Spot fijos
+    // Cañón #2 (BSC) verificado y Binance Spot fijos
     const bscLiveTotal = (u501Bsc !== null && u101Bsc !== null) ? (u501Bsc + u101Bsc + 9.73) : 20.42;
     liveState.cannon2Usdc = Math.max(20.42, bscLiveTotal);
     liveState.binanceUsdc = 1.00;
@@ -792,7 +792,7 @@ async function pollLiveOnChain() {
     const activeCannonsUsdc = liveState.cannon1Usdc + liveState.cannon2Usdc;
     const pctHito2 = ((liveState.grandTotalUsdc / 250.0) * 100).toFixed(1);
 
-    // Actualizar todos los nodos DOM de PosiciÃ³n USDC
+    // Actualizar todos los nodos DOM de Posición USDC
     const elTopUsdc = document.getElementById("topUsdcStableVal");
     if (elTopUsdc) elTopUsdc.textContent = `$${liveState.grandTotalUsdc.toFixed(2)} USDC`;
 
@@ -803,31 +803,31 @@ async function pollLiveOnChain() {
     if (elMunTotal) elMunTotal.textContent = `$${liveState.grandTotalUsdc.toFixed(2)} USDC`;
 
     const elMilestonePct = document.getElementById("milestonePctText");
-    if (elMilestonePct) elMilestonePct.textContent = `${pctHito2}% (Meta 1 Superada âœ…)`;
+    if (elMilestonePct) elMilestonePct.textContent = `${pctHito2}% (Meta 1 Superada ✅)`;
 
     const elMunCanon1 = document.getElementById("munitionCanon1");
     if (elMunCanon1) elMunCanon1.textContent = `$${liveState.cannon1Usdc.toFixed(2)} USDC`;
 
     const elMunCanon1Desc = document.getElementById("munitionCanon1Desc");
-    if (elMunCanon1Desc) elMunCanon1Desc.textContent = `En Nodriza #501 ($${liveState.usdc501Pol.toFixed(2)}) & #001 ($${liveState.usdc001Pol.toFixed(2)}) Â· Circle`;
+    if (elMunCanon1Desc) elMunCanon1Desc.textContent = `En Nodriza #501 ($${liveState.usdc501Pol.toFixed(2)}) & #001 ($${liveState.usdc001Pol.toFixed(2)}) · Circle`;
 
     const elMunCanon2 = document.getElementById("munitionCanon2");
     if (elMunCanon2) elMunCanon2.textContent = `$${liveState.cannon2Usdc.toFixed(2)} USDC`;
 
     const elEcoTitle = document.getElementById("ecoMainTitle");
-    if (elEcoTitle) elEcoTitle.textContent = `LOS 2 CAÃ‘ONES PESADOS ACTIVOS ($${activeCannonsUsdc.toFixed(2)} USDC MUNICIÃ“N ON-CHAIN)`;
+    if (elEcoTitle) elEcoTitle.textContent = `LOS 2 CAÑONES PESADOS ACTIVOS ($${activeCannonsUsdc.toFixed(2)} USDC MUNICIÓN ON-CHAIN)`;
 
     const elCanon1Badge = document.getElementById("cannon1Badge");
-    if (elCanon1Badge) elCanon1Badge.textContent = `$${liveState.cannon1Usdc.toFixed(2)} USDC MUNICIÃ“N`;
+    if (elCanon1Badge) elCanon1Badge.textContent = `$${liveState.cannon1Usdc.toFixed(2)} USDC MUNICIÓN`;
 
     const elCanon1Foot = document.getElementById("cannon1FootCycle");
-    if (elCanon1Foot) elCanon1Foot.textContent = `CICLO ATÃ“MICO: SALE $${liveState.cannon1Usdc.toFixed(2)} USDC âž” RECUPERA BASE + GANANCIA`;
+    if (elCanon1Foot) elCanon1Foot.textContent = `CICLO ATÓMICO: SALE $${liveState.cannon1Usdc.toFixed(2)} USDC ➔ RECUPERA BASE + GANANCIA`;
 
     const elCanon2Badge = document.getElementById("cannon2Badge");
-    if (elCanon2Badge) elCanon2Badge.textContent = `$${liveState.cannon2Usdc.toFixed(2)} USDC MUNICIÃ“N`;
+    if (elCanon2Badge) elCanon2Badge.textContent = `$${liveState.cannon2Usdc.toFixed(2)} USDC MUNICIÓN`;
 
     const elCanon2Foot = document.getElementById("cannon2FootCycle");
-    if (elCanon2Foot) elCanon2Foot.textContent = `CICLO ATÃ“MICO: SALE $${liveState.cannon2Usdc.toFixed(2)} USDC âž” RECUPERA BASE + GANANCIA`;
+    if (elCanon2Foot) elCanon2Foot.textContent = `CICLO ATÓMICO: SALE $${liveState.cannon2Usdc.toFixed(2)} USDC ➔ RECUPERA BASE + GANANCIA`;
 
     // 4. Lectura On-Chain en Vivo de Precios en Piscinas Uniswap V3 y PancakeSwap V3
     const [polyP1, polyP2, bscP1, bscP2] = await Promise.all([
@@ -851,7 +851,7 @@ async function pollLiveOnChain() {
       livePrices.bsc.spreadPct = (Math.abs(livePrices.bsc.p005 - livePrices.bsc.p001) / minP) * 100;
     }
 
-    // 5. Sincronizar telemetrÃ­a local y refrescar UI
+    // 5. Sincronizar telemetría local y refrescar UI
     await syncLocalTelemetry();
     loadWalletTransfers().then(renderTraceabilityTable).catch(() => {});
     updateCannonsLiveUi();
@@ -859,11 +859,11 @@ async function pollLiveOnChain() {
     renderTraceabilityTable();
 
   } catch (err) {
-    console.warn("[ÃREA 501] Aviso en ciclo RPC en vivo:", err.message);
+    console.warn("[ÁREA 501] Aviso en ciclo RPC en vivo:", err.message);
   }
 }
 
-// Llamada JSON-RPC genÃ©rica con mediciÃ³n de latencia real y fallback
+// Llamada JSON-RPC genérica con medición de latencia real y fallback
 async function callRpc(chain, method, params = []) {
   const config = RPC_CONFIG[chain];
   if (!config) return null;
@@ -938,7 +938,7 @@ async function fetchPoolPriceV3(chain, poolInfo) {
       let p = price;
       if (chain === "bsc") {
         if (p > 0 && p < 1) p = 1 / p;
-        if (!(p >= 200 && p <= 2000)) return null; // conserva Ãºltimo precio vÃ¡lido
+        if (!(p >= 200 && p <= 2000)) return null; // conserva último precio válido
       }
       if (p > 0 && !isNaN(p) && isFinite(p)) {
         return p;
@@ -949,7 +949,7 @@ async function fetchPoolPriceV3(chain, poolInfo) {
 }
 
 // =============================================================================
-// ACTUALIZACIÃ“N DE TARJETAS DE CAÃ‘ONES (PRECIOS REALES & ESTADO HONESTO)
+// ACTUALIZACIÓN DE TARJETAS DE CAÑONES (PRECIOS REALES & ESTADO HONESTO)
 // =============================================================================
 function updateCannonsLiveUi() {
   const elP1Price = document.getElementById("cannon1PricePol");
@@ -969,20 +969,20 @@ function updateCannonsLiveUi() {
 
   if (livePrices.polygon.spreadPct >= 0.12) {
     if (elP1Pill) {
-      elP1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>ðŸŸ¢ SPREAD ATÃ“MICO ACTIVO (>= +0.12%)';
+      elP1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 SPREAD ATÓMICO ACTIVO (>= +0.12%)';
       elP1Pill.className = "c-status-live opportunity";
     }
     if (elP1Trigger) {
-      elP1Trigger.innerHTML = `<span class="pulse-dot-tiny green"></span>ðŸŸ¢ OPORTUNIDAD (+${livePrices.polygon.spreadPct.toFixed(4)}%)`;
+      elP1Trigger.innerHTML = `<span class="pulse-dot-tiny green"></span>🟢 OPORTUNIDAD (+${livePrices.polygon.spreadPct.toFixed(4)}%)`;
       elP1Trigger.className = "c-sentinel-tag active";
     }
   } else {
     if (elP1Pill && !elP1Pill.classList?.contains?.("scanning")) {
-      elP1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>ðŸŸ¢ RADAR ON-CHAIN ACTIVO ($0 GAS)';
+      elP1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 RADAR ON-CHAIN ACTIVO ($0 GAS)';
       elP1Pill.className = "c-status-live";
     }
     if (elP1Trigger) {
-      elP1Trigger.innerHTML = `<span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+${livePrices.polygon.spreadPct.toFixed(4)}% Â· META 0.12%)`;
+      elP1Trigger.innerHTML = `<span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+${livePrices.polygon.spreadPct.toFixed(4)}% · META 0.12%)`;
       elP1Trigger.className = "c-sentinel-tag";
     }
   }
@@ -1004,27 +1004,27 @@ function updateCannonsLiveUi() {
 
   if (livePrices.bsc.spreadPct >= 0.12) {
     if (elP2Pill) {
-      elP2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>ðŸŸ¢ SPREAD ATÃ“MICO ACTIVO (>= +0.12%)';
+      elP2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 SPREAD ATÓMICO ACTIVO (>= +0.12%)';
       elP2Pill.className = "c-status-live opportunity";
     }
     if (elP2Trigger) {
-      elP2Trigger.innerHTML = `<span class="pulse-dot-tiny green"></span>ðŸŸ¢ OPORTUNIDAD (+${livePrices.bsc.spreadPct.toFixed(4)}%)`;
+      elP2Trigger.innerHTML = `<span class="pulse-dot-tiny green"></span>🟢 OPORTUNIDAD (+${livePrices.bsc.spreadPct.toFixed(4)}%)`;
       elP2Trigger.className = "c-sentinel-tag active";
     }
   } else {
     if (elP2Pill && !elP2Pill.classList?.contains?.("scanning")) {
-      elP2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>ðŸŸ¢ RADAR ON-CHAIN ACTIVO ($0 GAS)';
+      elP2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 RADAR ON-CHAIN ACTIVO ($0 GAS)';
       elP2Pill.className = "c-status-live";
     }
     if (elP2Trigger) {
-      elP2Trigger.innerHTML = `<span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+${livePrices.bsc.spreadPct.toFixed(4)}% Â· META 0.12%)`;
+      elP2Trigger.innerHTML = `<span class="pulse-dot-tiny cyan"></span>GATILLO CENTINELA (+${livePrices.bsc.spreadPct.toFixed(4)}% · META 0.12%)`;
       elP2Trigger.className = "c-sentinel-tag";
     }
   }
 }
 
 // =============================================================================
-// SINCRONIZACIÃ“N CON TELEMETRÃA LOCAL (SIN GENERAR FILAS SIMULADAS)
+// SINCRONIZACIÓN CON TELEMETRÍA LOCAL (SIN GENERAR FILAS SIMULADAS)
 // =============================================================================
 async function syncLocalTelemetry() {
   try {
@@ -1082,7 +1082,7 @@ function renderTraceabilityTable() {
 
   // 1. Fila Centinela en Vivo (Bloque real + Hora actual + Spread real en vivo)
   const sentinelTr = document.createElement("tr");
-  const spreadDetails = `POL +${livePrices.polygon.spreadPct.toFixed(3)}% Â· BSC +${livePrices.bsc.spreadPct.toFixed(3)}%`;
+  const spreadDetails = `POL +${livePrices.polygon.spreadPct.toFixed(3)}% · BSC +${livePrices.bsc.spreadPct.toFixed(3)}%`;
   sentinelTr.innerHTML = `
     <td>
       <span class="op-badge-live">
@@ -1100,18 +1100,18 @@ function renderTraceabilityTable() {
     <td class="font-mono text-dim">
       Uniswap V3 + PancakeSwap V3 (Alchemy RPC $0 Gas)
     </td>
-    <td><span class="green-text font-bold"><span class="pulse-dot-tiny green"></span>$${liveState.grandTotalUsdc.toFixed(2)} USDC Intacto Â· Vigilancia</span></td>
-    <td class="text-dim font-mono"><strong class="green-text">$0 Gas</strong> Â· ${spreadDetails}</td>
+    <td><span class="green-text font-bold"><span class="pulse-dot-tiny green"></span>$${liveState.grandTotalUsdc.toFixed(2)} USDC Intacto · Vigilancia</span></td>
+    <td class="text-dim font-mono"><strong class="green-text">$0 Gas</strong> · ${spreadDetails}</td>
   `;
   tbody.appendChild(sentinelTr);
 
-  // 2. ÃšNICAMENTE Operaciones Reales Confirmadas On-Chain con TxHash verificado
+  // 2. ÚNICAMENTE Operaciones Reales Confirmadas On-Chain con TxHash verificado
   allRows.forEach(row => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>
         <a href="${row.explorerUrl}" target="_blank" rel="noopener noreferrer" class="tx-link" title="Verificar TxHash en Explorador Blockchain Oficial">
-          <span class="op-badge-done">${row.blockId} â†—</span>
+          <span class="op-badge-done">${row.blockId} ↗</span>
         </a>
       </td>
       <td class="font-mono text-dim">${row.timeUtc}</td>
@@ -1137,7 +1137,7 @@ function getUtcTimeString(offsetSeconds = 0) {
 }
 
 // =============================================================================
-// REGLETA DE LAS 15 CÃPSULAS ATÃ“MICAS ([#01] a [#15])
+// REGLETA DE LAS 15 CÁPSULAS ATÓMICAS ([#01] a [#15])
 // =============================================================================
 function renderBatteryCapsules(completedCount, totalTarget = 15) {
   const row = document.getElementById("capsulesBatteryRow");
@@ -1179,7 +1179,7 @@ function openReserveFleetDossier() {
   if (!overlay || !body) return;
 
   idBadge.textContent = "FLOTA MATRIZ 16";
-  title.textContent = "EXPEDIENTE TÃCTICO EN VIVO: 3 MANDOS ACTIVOS + 13 NODRIZAS EN RESERVA";
+  title.textContent = "EXPEDIENTE TÁCTICO EN VIVO: 3 MANDOS ACTIVOS + 13 NODRIZAS EN RESERVA";
 
   const m501 = MOTHERSHIPS_REGISTRY.find(m => m.id === "#501");
   const m001 = MOTHERSHIPS_REGISTRY.find(m => m.id === "#001");
@@ -1194,14 +1194,14 @@ function openReserveFleetDossier() {
     const isPoly = m.id === "#001";
     const colorClass = isDual ? "active-dual" : (isPoly ? "active-poly" : "active-bsc");
     const titleColor = isDual ? "gold" : (isPoly ? "cyan" : "gold");
-    const roleBadge = isDual ? "BÃ“VEDA MATRIZ DUAL (PISO 150 POL)" : (isPoly ? "CAÃ‘Ã“N #1 (POLYGON)" : "CAÃ‘Ã“N #2 (BSC)");
+    const roleBadge = isDual ? "BÓVEDA MATRIZ DUAL (PISO 150 POL)" : (isPoly ? "CAÑÓN #1 (POLYGON)" : "CAÑÓN #2 (BSC)");
 
     html += `
       <div class="dossier-card ${colorClass}" onclick="inspectNodriza('${m.id}')" style="cursor: pointer;" title="Ver detalle completo de ${m.id}">
         <div class="d-card-head">
           <span class="d-card-title ${titleColor}">
             <span class="material-symbols-rounded icon-xs">shield</span>
-            ${m.id} Â· ${m.name}
+            ${m.id} · ${m.name}
           </span>
           <span class="d-card-badge green">${roleBadge}</span>
         </div>
@@ -1211,7 +1211,7 @@ function openReserveFleetDossier() {
           <span>Gas BNB: <strong class="gold-text">${m.gasBnb} BNB</strong></span>
         </div>
         <div class="d-card-nebulas">
-          <span class="purple-text">${m.assignedNebulaPair.odd.id}</span> (${m.assignedNebulaPair.odd.certainty}%) Â· 
+          <span class="purple-text">${m.assignedNebulaPair.odd.id}</span> (${m.assignedNebulaPair.odd.certainty}%) · 
           <span class="green-text">${m.assignedNebulaPair.even.id}</span> (5/5 Blindado)
         </div>
       </div>
@@ -1224,7 +1224,7 @@ function openReserveFleetDossier() {
       <div class="d-res-head">
         <div class="d-res-title">
           <span class="material-symbols-rounded icon-xs gold">dns</span>
-          <span>CONSOLA DE RESERVA TÃCTICA: 13 NODRIZAS EN ESPERA DE LIQUIDEZ</span>
+          <span>CONSOLA DE RESERVA TÁCTICA: 13 NODRIZAS EN ESPERA DE LIQUIDEZ</span>
         </div>
         <div class="d-res-meta">
           <span class="r-meta-pill gold">${liveState.fleetTotalPol.toFixed(2)} / 300.00 POL BLINDADOS</span>
@@ -1239,12 +1239,12 @@ function openReserveFleetDossier() {
     html += `
       <div class="d-res-item" onclick="inspectNodriza('${m.id}')" title="Clic para ver detalle de ${m.id}">
         <div class="d-res-item-top">
-          <span class="d-res-id">${m.id} Â· ${m.name}</span>
+          <span class="d-res-id">${m.id} · ${m.name}</span>
           <span class="d-res-tag">EN ESPERA</span>
         </div>
         <div class="d-res-role">${m.role}</div>
         <div class="d-res-stats">
-          <span>${m.gasPol} POL Â· ${m.gasBnb} BNB</span>
+          <span>${m.gasPol} POL · ${m.gasBnb} BNB</span>
           <span class="purple-text">${m.assignedNebulaPair.odd.id} + ${m.assignedNebulaPair.even.id}</span>
         </div>
       </div>
@@ -1276,24 +1276,24 @@ function inspectNodriza(id) {
     <div style="display: flex; justify-content: flex-start; margin-bottom: 6px;">
       <button class="dock-btn btn-return" onclick="openReserveFleetDossier()" style="width: auto; padding: 4px 10px; font-size: 0.54rem;">
         <span class="material-symbols-rounded icon-xs">arrow_back</span>
-        <span>VER CATÃLOGO GENERAL DE LA FLOTA (16 NODRIZAS)</span>
+        <span>VER CATÁLOGO GENERAL DE LA FLOTA (16 NODRIZAS)</span>
       </button>
     </div>
 
     <div class="dossier-card" style="padding: 12px; background: #05080e; border: 1px solid var(--border-gold); border-radius: 8px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <strong class="gold-text" style="font-size: 0.85rem; font-family: var(--font-mono);">${m.id} Â· ${m.name}</strong>
-        <span class="d-card-badge green">${m.statusLabel || "RESERVA TÃCTICA"}</span>
+        <strong class="gold-text" style="font-size: 0.85rem; font-family: var(--font-mono);">${m.id} · ${m.name}</strong>
+        <span class="d-card-badge green">${m.statusLabel || "RESERVA TÁCTICA"}</span>
       </div>
-      <div style="font-size: 0.58rem; color: var(--text-dim); margin-bottom: 6px;">${m.role} Â· ${m.box}</div>
+      <div style="font-size: 0.58rem; color: var(--text-dim); margin-bottom: 6px;">${m.role} · ${m.box}</div>
       <div style="font-size: 0.62rem; font-family: var(--font-mono); color: #fff; margin-bottom: 8px; word-break: break-all;">
-        <strong style="color: var(--text-muted)">DirecciÃ³n On-Chain:</strong> ${m.address}
+        <strong style="color: var(--text-muted)">Dirección On-Chain:</strong> ${m.address}
       </div>
       <div style="display: flex; gap: 14px; font-size: 0.62rem; font-family: var(--font-mono); padding: 6px; background: rgba(255,255,255,0.02); border-radius: 4px;">
         <span>Gas POL (En Vivo): <strong class="cyan-text">${m.gasPol} POL</strong></span>
         <span>Gas BNB (En Vivo): <strong class="gold-text">${m.gasBnb} BNB</strong></span>
         <span>Piso Sagrado: <strong>${m.lockedFloorPol} POL</strong></span>
-        <span>AuditorÃ­a: <strong class="green-text">${m.locksVerified}</strong></span>
+        <span>Auditoría: <strong class="green-text">${m.locksVerified}</strong></span>
       </div>
     </div>
 
@@ -1306,14 +1306,14 @@ function inspectNodriza(id) {
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px;">
         <div style="padding: 10px; background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 6px;">
-          <div class="purple-text" style="font-weight: 800; font-size: 0.65rem; font-family: var(--font-mono);">${m.assignedNebulaPair.odd.id} Â· Calculista CuÃ¡ntica</div>
+          <div class="purple-text" style="font-weight: 800; font-size: 0.65rem; font-family: var(--font-mono);">${m.assignedNebulaPair.odd.id} · Calculista Cuántica</div>
           <div style="font-size: 0.55rem; color: var(--text-dim); margin: 4px 0;">${m.assignedNebulaPair.odd.name}</div>
-          <div style="font-size: 0.55rem; color: var(--green); font-weight: 700;">Certeza: ${m.assignedNebulaPair.odd.certainty}% Â· ${m.assignedNebulaPair.odd.status}</div>
+          <div style="font-size: 0.55rem; color: var(--green); font-weight: 700;">Certeza: ${m.assignedNebulaPair.odd.certainty}% · ${m.assignedNebulaPair.odd.status}</div>
         </div>
         <div style="padding: 10px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px;">
-          <div class="green-text" style="font-weight: 800; font-size: 0.65rem; font-family: var(--font-mono);">${m.assignedNebulaPair.even.id} Â· Guardaespaldas Anti-Riesgo</div>
+          <div class="green-text" style="font-weight: 800; font-size: 0.65rem; font-family: var(--font-mono);">${m.assignedNebulaPair.even.id} · Guardaespaldas Anti-Riesgo</div>
           <div style="font-size: 0.55rem; color: var(--text-dim); margin: 4px 0;">${m.assignedNebulaPair.even.name}</div>
-          <div style="font-size: 0.55rem; color: var(--green); font-weight: 700;">Filtros: ${m.assignedNebulaPair.even.locks} Â· ${m.assignedNebulaPair.even.status}</div>
+          <div style="font-size: 0.55rem; color: var(--green); font-weight: 700;">Filtros: ${m.assignedNebulaPair.even.locks} · ${m.assignedNebulaPair.even.status}</div>
         </div>
       </div>
     </div>
@@ -1357,13 +1357,13 @@ async function forceLiveScan(chain = "all") {
 
   if (chain === "polygon" || chain === "all") {
     if (p1Pill) {
-      p1Pill.innerHTML = '<span class="pulse-dot-tiny cyan"></span>âš¡ AUDITANDO ON-CHAIN...';
+      p1Pill.innerHTML = '<span class="pulse-dot-tiny cyan"></span>⚡ AUDITANDO ON-CHAIN...';
       p1Pill.classList.add("scanning");
     }
   }
   if (chain === "bsc" || chain === "all") {
     if (p2Pill) {
-      p2Pill.innerHTML = '<span class="pulse-dot-tiny gold"></span>âš¡ AUDITANDO ON-CHAIN...';
+      p2Pill.innerHTML = '<span class="pulse-dot-tiny gold"></span>⚡ AUDITANDO ON-CHAIN...';
       p2Pill.classList.add("scanning");
     }
   }
@@ -1373,11 +1373,11 @@ async function forceLiveScan(chain = "all") {
   setTimeout(() => {
     if (p1Pill) {
       p1Pill.classList.remove("scanning");
-      p1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>ðŸŸ¢ AUDITORÃA COMPLETADA ($0 GAS)';
+      p1Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 AUDITORÍA COMPLETADA ($0 GAS)';
     }
     if (p2Pill) {
       p2Pill.classList.remove("scanning");
-      p2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>ðŸŸ¢ AUDITORÃA COMPLETADA ($0 GAS)';
+      p2Pill.innerHTML = '<span class="pulse-dot-tiny green"></span>🟢 AUDITORÍA COMPLETADA ($0 GAS)';
     }
     setTimeout(() => updateCannonsLiveUi(), 1200);
   }, 400);
@@ -1386,7 +1386,7 @@ window.forceLiveScan = forceLiveScan;
 
 function inspectTriggerCondition(chain = "polygon") {
   const isPoly = chain === "polygon";
-  const name = isPoly ? "CAÃ‘Ã“N PESADO #1 (POLYGON POS)" : "CAÃ‘Ã“N PESADO #2 (BSC MAINNET)";
+  const name = isPoly ? "CAÑÓN PESADO #1 (POLYGON POS)" : "CAÑÓN PESADO #2 (BSC MAINNET)";
   const curSpread = isPoly ? livePrices.polygon.spreadPct : livePrices.bsc.spreadPct;
   const p1 = isPoly ? livePrices.polygon.p005 : livePrices.bsc.p005;
   const p2 = isPoly ? (livePrices.polygon.p030 || livePrices.polygon.p005) : (livePrices.bsc.p001 || livePrices.bsc.p005);
@@ -1401,13 +1401,13 @@ function inspectTriggerCondition(chain = "polygon") {
   if (!overlay || !body) return;
 
   idBadge.textContent = isPoly ? "GATILLO #1" : "GATILLO #2";
-  title.textContent = `AUDITORÃA DEL GATILLO ATÃ“MICO: ${name}`;
+  title.textContent = `AUDITORÍA DEL GATILLO ATÓMICO: ${name}`;
 
   body.innerHTML = `
     <div style="display: flex; justify-content: flex-start; margin-bottom: 8px;">
       <button class="dock-btn btn-return" onclick="openReserveFleetDossier()" style="width: auto; padding: 4px 10px; font-size: 0.54rem;">
         <span class="material-symbols-rounded icon-xs">arrow_back</span>
-        <span>VER CATÃLOGO GENERAL DE LA FLOTA (16 NODRIZAS)</span>
+        <span>VER CATÁLOGO GENERAL DE LA FLOTA (16 NODRIZAS)</span>
       </button>
     </div>
 
@@ -1415,12 +1415,12 @@ function inspectTriggerCondition(chain = "polygon") {
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
         <strong class="gold-text" style="font-size: 0.88rem; font-family: var(--font-mono);">
           <span class="material-symbols-rounded icon-xs cyan-text">radar</span>
-          CONDICIÃ“N MATEMÃTICA DEL GATILLO ATÃ“MICO ($0 GAS)
+          CONDICIÓN MATEMÁTICA DEL GATILLO ATÓMICO ($0 GAS)
         </strong>
-        <span class="d-card-badge green">VIGILANCIA EN TIEMPO REAL Â· BLOQUE #${blockNum.toLocaleString("en-US")}</span>
+        <span class="d-card-badge green">VIGILANCIA EN TIEMPO REAL · BLOQUE #${blockNum.toLocaleString("en-US")}</span>
       </div>
       <p style="font-size: 0.62rem; color: var(--text-dim); margin-bottom: 12px; line-height: 1.4;">
-        El gatillo centinela protege el 100% de la municiÃ³n USDC en cada bloque. Solo dispara si el diferencial entre piscinas cubre comisiones y garantiza retorno de base + beneficio neto en una sola transacciÃ³n Flash-Swap atÃ³mica.
+        El gatillo centinela protege el 100% de la munición USDC en cada bloque. Solo dispara si el diferencial entre piscinas cubre comisiones y garantiza retorno de base + beneficio neto en una sola transacción Flash-Swap atómica.
       </p>
 
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
@@ -1440,7 +1440,7 @@ function inspectTriggerCondition(chain = "polygon") {
 
       <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 6px;">
         <span style="font-size: 0.58rem; color: #fff; font-family: var(--font-mono);">
-          UMBRAL REQUERIDO: <strong>&gt;= +0.1200%</strong> Â· ESTADO ACTUAL: <strong class="green-text">VIGILANCIA ETH_CALL ($0 RIESGO)</strong>
+          UMBRAL REQUERIDO: <strong>&gt;= +0.1200%</strong> · ESTADO ACTUAL: <strong class="green-text">VIGILANCIA ETH_CALL ($0 RIESGO)</strong>
         </span>
         <button class="dock-btn btn-dossier" onclick="forceLiveScan('${chain}')" style="width: auto; padding: 4px 10px; font-size: 0.52rem;">
           <span class="material-symbols-rounded icon-xs">refresh</span>
