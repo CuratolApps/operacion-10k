@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ÃREA 501 // CABINA DE SNIPING ATÃ“MICO (MODO RIESGO 0%)
  * sniping/app.js - Monitoreo Cuantitativo 100% On-Chain en Tiempo Real
  * ConexiÃ³n JSON-RPC en Vivo vÃ­a Alchemy RPC (Polygon + BSC) cada 4 segundos
@@ -421,119 +421,147 @@ let latestBscBlock = 129310210;
 let currentShotsDone = 0;
 const DAILY_TARGET = 15;
 
-// HISTORIAL ON-CHAIN 100% REAL CON TXHASH COMPROBADO EN BLOCKCHAIN
-const CONFIRMED_ON_CHAIN_TRANSACTIONS = [
-  {
-    blockId: "#POL 96032510",
-    txHash: "0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1",
-    explorerUrl: "https://polygonscan.com/tx/0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1",
-    timeUtc: "11:15:30 UTC",
-    nebulas: "Nebulosa #01 (98%) + #02 (5/5 OK)",
-    mothership: "#501 (Matriz Dual)",
-    route: "Polygon / Uniswap V3 (WPOL âž” USDC)",
-    cycleInOut: "1,519 POL âž” +$138.54 USDC Nativo",
-    gasUsed: "0.0210 POL ($0 PÃ©rdida)",
-    netProfit: "+$138.54 USDC",
-    statusType: "CONFIRMED"
-  }
-];
-
 // =============================================================================
-// INICIALIZACIÃ“N SEGURA
+// LIBRO MAYOR ON-CHAIN PERSISTENTE (MASTER_ONCHAIN_LEDGER)
+// Nunca se vacía ni se reemplaza: solo se le agregan filas nuevas (dedupe por txHash / id).
 // =============================================================================
-// Base histÃ³rica verificada (hashes completos tomados de sniper-501-mainnet.js / notify-swap-to-usdc.js)
-CONFIRMED_ON_CHAIN_TRANSACTIONS.push(
-  {
-    blockId: "#POL 95950545",
-    txHash: "0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f",
-    explorerUrl: "https://polygonscan.com/tx/0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f",
-    timeUtc: "â€”",
-    nebulas: "Nebulosa IA (>=95%)",
-    mothership: "#501 (Matriz Dual)",
-    route: "Disparo #1 Â· Polygon / Uniswap V3",
-    cycleInOut: "+$14.21 USDC",
-    gasUsed: "$0 PÃ©rdida",
-    statusType: "CONFIRMED"
-  },
-  {
-    blockId: "#BSC",
-    txHash: "0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567",
-    explorerUrl: "https://bscscan.com/tx/0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567",
-    timeUtc: "â€”",
-    nebulas: "Nebulosa IA (>=95%)",
-    mothership: "#501 (Matriz Dual)",
-    route: "Disparo #2 Â· BSC / PancakeSwap",
-    cycleInOut: "+$7.98 USDC",
-    gasUsed: "$0 PÃ©rdida",
-    statusType: "CONFIRMED"
-  }
-);
+const MASTER_ONCHAIN_LEDGER = [];
+const CONFIRMED_ON_CHAIN_TRANSACTIONS = MASTER_ONCHAIN_LEDGER; // alias de compatibilidad
 
-// Movimientos reales vÃ­a Alchemy (alchemy_getAssetTransfers) de #501, #001 y #101
+function ledgerHas(row) {
+  return MASTER_ONCHAIN_LEDGER.some(r =>
+    (row.txHash && r.txHash === row.txHash) || (row.id && r.id === row.id));
+}
+function ledgerAdd(row, atTop = false) {
+  if (ledgerHas(row)) return false;
+  if (atTop) MASTER_ONCHAIN_LEDGER.unshift(row); else MASTER_ONCHAIN_LEDGER.push(row);
+  return true;
+}
+
+(function seedLedger() {
+  const POLY = "https://polygonscan.com", BSC = "https://bscscan.com";
+  const row = (o) => Object.assign({
+    nebulas: "Nebulosa IA (>=95%)", mothership: "#501 (Matriz Dual)",
+    timeUtc: "—", gasUsed: "$0 Pérdida", statusType: "CONFIRMED"
+  }, o);
+  const tx = (base, h) => `${base}/tx/${h}`;
+  const adr = (base, a) => `${base}/address/${a}`;
+
+  const V501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
+  const seed = [
+    row({ id: "kraken-lot", blockId: "#POL 96045822", explorerUrl: adr(POLY, V501),
+      route: "Kraken ➔ #501 (Piso 150.48 POL + $165.50 USDC)", cycleInOut: "+39.50 POL Piso + $6.66 USDC", gasUsed: "0.004 POL ($0 Pérdida)" }),
+    row({ txHash: "0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1", blockId: "#POL 96032510",
+      explorerUrl: tx(POLY, "0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1"), timeUtc: "11:15:30 UTC",
+      route: "Polygon / Uniswap V3 (WPOL ➔ USDC)", cycleInOut: "1,519.24 POL ➔ +$138.54 USDC Nativo", gasUsed: "0.0210 POL" }),
+    row({ txHash: "0x06d5f96baed1eda3a59339533b91ef0a4b9eea525f486b8672b60e8f5c6fb596", blockId: "#POL 96032104",
+      explorerUrl: tx(POLY, "0x06d5f96baed1eda3a59339533b91ef0a4b9eea525f486b8672b60e8f5c6fb596"),
+      route: "Polygon PoS / Recepción #501 (KuCoin)", cycleInOut: "Entrada +1,519.2477 POL", gasUsed: "0.00 POL" }),
+    row({ txHash: "0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f", blockId: "#POL 95950545",
+      explorerUrl: tx(POLY, "0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f"), mothership: "#501 / #001",
+      route: "Disparo #1 · Polygon / Uniswap V3 (0.05%)", cycleInOut: "Disparo ➔ +$14.2060 USDC", gasUsed: "0.0045 POL" }),
+    row({ txHash: "0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567", blockId: "#BSC",
+      explorerUrl: tx(BSC, "0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567"), mothership: "#501 / #101",
+      route: "Disparo #2 · BSC / PancakeSwap (WBNB ➔ USDC)", cycleInOut: "Disparo ➔ +$7.9776 USDC", gasUsed: "0.00018 BNB" }),
+    row({ txHash: "0xe48c2fd94335edcbda7ec3ab035cf5cbd20fa05a02f484d4408cc060a40cc4e1", blockId: "#BSC",
+      explorerUrl: tx(BSC, "0xe48c2fd94335edcbda7ec3ab035cf5cbd20fa05a02f484d4408cc060a40cc4e1"),
+      route: "BSC Mainnet / Recepción BEP20", cycleInOut: "Entrada +0.035511 BNB", gasUsed: "0.00 BNB" }),
+    row({ txHash: "0x5fd784a5e0296656eed4f84b247ae6c33adbe27c66bd9d899c31ab36741830ff", blockId: "#POL 95951200",
+      explorerUrl: tx(POLY, "0x5fd784a5e0296656eed4f84b247ae6c33adbe27c66bd9d899c31ab36741830ff"),
+      route: "Polygon PoS / Recepción #501", cycleInOut: "Entrada +348.101 POL", gasUsed: "0.00 POL" }),
+    row({ id: "salva-401", blockId: "#POL 95948335", mothership: "#401 (Capitán Box 5)", explorerUrl: adr(POLY, "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070"),
+      route: "Salva 6 Frentes · Polygon", cycleInOut: "1.00 POL ➔ +$0.0942 USDC" }),
+    row({ id: "salva-301", blockId: "#POL 95948329", mothership: "#301 (Capitán Box 4)", explorerUrl: adr(POLY, "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f"),
+      route: "Salva 6 Frentes · Polygon", cycleInOut: "1.00 POL ➔ +$0.0943 USDC" }),
+    row({ id: "salva-201", blockId: "#POL 95948322", mothership: "#201 (Capitán Box 3)", explorerUrl: adr(POLY, "0x2810aa0DabCA4511846194229d2c004B14016A7C"),
+      route: "Salva 6 Frentes · Polygon", cycleInOut: "1.00 POL ➔ +$0.0943 USDC" }),
+    row({ id: "salva-101", blockId: "#POL 95948316", mothership: "#101 (Capitán Box 2)", explorerUrl: adr(POLY, "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA"),
+      route: "Salva 6 Frentes · Polygon", cycleInOut: "1.50 POL ➔ +$0.1415 USDC" }),
+    row({ id: "salva-001", blockId: "#POL 95948310", mothership: "#001 (Capitán Box 1)", explorerUrl: adr(POLY, "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F"),
+      route: "Salva 6 Frentes · Polygon", cycleInOut: "1.50 POL ➔ +$0.1415 USDC" }),
+    row({ id: "salva-501", blockId: "#POL 95947542", mothership: "#501 (Nodriza Matriz)", explorerUrl: adr(POLY, V501),
+      route: "Salva 6 Frentes · Polygon", cycleInOut: "2.50 POL ➔ +$0.2360 USDC" }),
+    row({ id: "binance-1", blockId: "#POL 95949100", mothership: "#501 ➔ Binance #1", explorerUrl: adr(POLY, "0x48b26dd0f9265573f31f7140cf01e9c48518531b"),
+      route: "Polygon / Transferencia USDC Oficial", cycleInOut: "+$1.00 USDC en Bóveda Spot #1" })
+  ];
+  seed.forEach(r => ledgerAdd(r));
+})();
+
+// Movimientos nuevos: Alchemy (Polygon) + eth_getLogs Transfer USDC (BSC). Solo SUMAN al libro mayor.
 const TRACKED_WALLETS = [
   { label: "#501 (Matriz Dual)", address: "0xD4D12077a61118372f7a367319fb11922Beb3743" },
-  { label: "#001 (CapitÃ¡n)", address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F" },
-  { label: "#101 (CapitÃ¡n)", address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA" }
+  { label: "#001 (Capitán)", address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F" },
+  { label: "#101 (Capitán)", address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA" }
 ];
 const ALLOWED_TRANSFER_ASSETS = ["USDC", "USDT", "POL", "MATIC", "WPOL", "WMATIC", "BNB", "WBNB"];
-let liveTransfers = [];
+const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 let lastTransfersFetch = 0;
 
 async function loadWalletTransfers() {
   if (Date.now() - lastTransfersFetch < 60000) return;
   lastTransfersFetch = Date.now();
-  const found = [];
-  for (const chain of ["polygon", "bsc"]) {
-    for (const w of TRACKED_WALLETS) {
-      for (const dir of ["fromAddress", "toAddress"]) {
-        const res = await callRpc(chain, "alchemy_getAssetTransfers", [{
-          [dir]: w.address,
-          category: ["external", "erc20"],
-          maxCount: "0x19",
-          order: "desc",
-          withMetadata: true,
-          excludeZeroValue: true,
-          fromBlock: "0x0",
-          toBlock: "latest"
-        }]);
-        const list = res && Array.isArray(res.transfers) ? res.transfers : [];
-        list.forEach(t => {
-          if (!t.hash || !ALLOWED_TRANSFER_ASSETS.includes(t.asset)) return;
-          const isPoly = chain === "polygon";
-          const outgoing = dir === "fromAddress";
-          const val = Number(t.value || 0);
-          const short = a => a ? `${a.slice(0, 6)}â€¦${a.slice(-4)}` : "?";
-          const blk = t.blockNum ? parseInt(t.blockNum, 16) : null;
-          const iso = t.metadata && t.metadata.blockTimestamp;
-          found.push({
-            key: `${t.uniqueId || t.hash}:${dir}`,
-            ts: iso ? Date.parse(iso) : 0,
-            blockId: `#${isPoly ? "POL" : "BSC"} ${blk ? blk.toLocaleString("en-US") : ""}`.trim(),
-            txHash: t.hash,
-            explorerUrl: `${isPoly ? "https://polygonscan.com" : "https://bscscan.com"}/tx/${t.hash}`,
-            timeUtc: iso ? new Date(iso).toISOString().slice(11, 19) + " UTC" : "â€”",
-            nebulas: "Transferencia on-chain (Alchemy)",
-            mothership: w.label,
-            route: `${isPoly ? "Polygon PoS" : "BSC"} Â· ${outgoing ? "EnvÃ­o a " + short(t.to) : "Recibido de " + short(t.from)}`,
-            cycleInOut: `${outgoing ? "-" : "+"}${val.toLocaleString("en-US", { maximumFractionDigits: 4 })} ${t.asset}`,
-            gasUsed: "â€”",
-            statusType: "CONFIRMED"
-          });
+  const short = a => a ? `${a.slice(0, 6)}…${a.slice(-4)}` : "?";
+  const pad = a => "0x" + a.toLowerCase().replace("0x", "").padStart(64, "0");
+  const fresh = [];
+
+  // Polygon: alchemy_getAssetTransfers
+  for (const w of TRACKED_WALLETS) {
+    for (const dir of ["fromAddress", "toAddress"]) {
+      const res = await callRpc("polygon", "alchemy_getAssetTransfers", [{
+        [dir]: w.address, category: ["external", "erc20"], maxCount: "0x19", order: "desc",
+        withMetadata: true, excludeZeroValue: true, fromBlock: "0x0", toBlock: "latest"
+      }]);
+      const list = res && Array.isArray(res.transfers) ? res.transfers : [];
+      list.forEach(t => {
+        if (!t.hash || !ALLOWED_TRANSFER_ASSETS.includes(t.asset)) return;
+        const outgoing = dir === "fromAddress";
+        const iso = t.metadata && t.metadata.blockTimestamp;
+        const blk = t.blockNum ? parseInt(t.blockNum, 16) : null;
+        fresh.push({
+          txHash: t.hash, ts: iso ? Date.parse(iso) : 0,
+          blockId: `#POL ${blk ? blk.toLocaleString("en-US") : ""}`.trim(),
+          explorerUrl: `https://polygonscan.com/tx/${t.hash}`,
+          timeUtc: iso ? new Date(iso).toISOString().slice(11, 19) + " UTC" : "—",
+          nebulas: "Transferencia on-chain (Alchemy)", mothership: w.label,
+          route: `Polygon PoS · ${outgoing ? "Envío a " + short(t.to) : "Recibido de " + short(t.from)}`,
+          cycleInOut: `${outgoing ? "-" : "+"}${Number(t.value || 0).toLocaleString("en-US", { maximumFractionDigits: 4 })} ${t.asset}`,
+          gasUsed: "—", statusType: "CONFIRMED"
         });
-      }
+      });
     }
   }
-  if (found.length) {
-    const seen = new Set();
-    liveTransfers = found.filter(r => !seen.has(r.key) && seen.add(r.key))
-      .sort((a, b) => b.ts - a.ts);
+
+  // BSC: eth_getLogs Transfer de USDC BEP20 (Alchemy no soporta getAssetTransfers en BSC)
+  const fromBlk = "0x" + Math.max(0, latestBscBlock - 200000).toString(16);
+  for (const w of TRACKED_WALLETS.slice(0, 3)) {
+    for (const dir of ["out", "in"]) {
+      const topics = dir === "out" ? [TRANSFER_TOPIC, pad(w.address)] : [TRANSFER_TOPIC, null, pad(w.address)];
+      const logs = await callRpc("bsc", "eth_getLogs", [{
+        address: RPC_CONFIG.bsc.usdcAddress, topics, fromBlock: fromBlk, toBlock: "latest"
+      }]);
+      (Array.isArray(logs) ? logs : []).forEach(l => {
+        const val = parseInt(l.data, 16) / 1e18;
+        if (!l.transactionHash || !(val > 0)) return;
+        const other = "0x" + (dir === "out" ? l.topics[2] : l.topics[1]).slice(26);
+        fresh.push({
+          txHash: l.transactionHash, ts: 0,
+          blockId: `#BSC ${parseInt(l.blockNumber, 16).toLocaleString("en-US")}`,
+          explorerUrl: `https://bscscan.com/tx/${l.transactionHash}`, timeUtc: "—",
+          nebulas: "Transferencia on-chain (eth_getLogs)", mothership: w.label,
+          route: `BSC · USDC ${dir === "out" ? "Envío a " + short(other) : "Recibido de " + short(other)}`,
+          cycleInOut: `${dir === "out" ? "-" : "+"}${val.toLocaleString("en-US", { maximumFractionDigits: 4 })} USDC`,
+          gasUsed: "—", statusType: "CONFIRMED"
+        });
+      });
+    }
   }
+
+  // Solo agregar lo nuevo, arriba; jamás borrar ni reemplazar
+  fresh.sort((a, b) => a.ts - b.ts).forEach(r => { delete r.ts; ledgerAdd(r, true); });
 }
 
 function getAllTraceRows() {
-  const baseHashes = new Set(CONFIRMED_ON_CHAIN_TRANSACTIONS.map(r => r.txHash));
-  const extra = liveTransfers.filter(r => !baseHashes.has(r.txHash));
-  return extra.concat(CONFIRMED_ON_CHAIN_TRANSACTIONS);
+  return MASTER_ONCHAIN_LEDGER;
 }
 
 function initApp() {
