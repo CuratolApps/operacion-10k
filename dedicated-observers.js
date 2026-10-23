@@ -1319,10 +1319,17 @@ async function runDedicatedObservers() {
   console.log(`    ↳ Cañón #1 Polygon: In: $${polygonScan.arbitrageCycle.usdcIn} USDC ➔ Out: $${polygonScan.arbitrageCycle.bestUsdcOut} USDC (Spread: ${polygonScan.arbitrageCycle.spreadPct}%) ➔ ${polygonScan.arbitrageCycle.status}`);
   console.log(`    ↳ Cañón #2 BSC: In: $${bscScan.arbitrageCycle.usdcIn} USDC ➔ Out: $${bscScan.arbitrageCycle.bestUsdcOut} USDC (Spread: ${bscScan.arbitrageCycle.spreadPct}%) ➔ ${bscScan.arbitrageCycle.status}`);
   console.log(`  • 🛡️ ESTADO TÁCTICO: ${liveReport.arbitrageCycle.overallStatus}`);
-  console.log(`  • ⛽ Tanque de Gas: ~384 POL y ~0.064 BNB 100% blindados ($0 gas consumido).`);
+  console.log(`  • ⛽ Tanque de Gas: ver censo en vivo (scripts/audit-full-panorama.js). Escáner de solo lectura: $0 gas consumido.`);
   console.log(`  • Gas Polygon: ${polGas.gasPriceGwei.toFixed(1)} Gwei (${polGas.trend}) | Gas BSC: ${bscGas.gasPriceGwei.toFixed(2)} Gwei (${bscGas.trend})`);
   console.log(`  • Escudo Seguridad: 0 Honeypots, 100% Whitelist Institucional Oficial`);
   console.log(`💾 Radiografía guardada en ${LIVE_OBSERVER_FILE}\n`);
+
+  // Radar multi-piscina de ciclo cerrado USDC ➔ token ➔ USDC (solo lectura, no firma nada)
+  try {
+    liveReport.atomicProfitRadar = await require("./atomic-profit-guard").runRadar();
+  } catch (radarErr) {
+    console.warn(`⚠️ Radar atómico multi-piscina no disponible: ${radarErr.message}`);
+  }
 
   return liveReport;
 }
