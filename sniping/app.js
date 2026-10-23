@@ -714,6 +714,7 @@ async function pollLiveOnChain() {
       multicallCensus("bsc", addrs16, RPC_CONFIG.bsc.usdcAddress, 18)
     ]);
     loadSatelliteCensus(); // no bloquea: refresco cada 60 s
+    liveAtomicRadarTick(); // radar atómico multi-piscina en vivo (no bloquea)
 
     let sumPol16 = 0, sumBnb16 = 0, sumUsdcPol16 = 0, sumUsdcBsc16 = 0, captainsUsdcPol = 0, captainsUsdcBsc = 0;
 
@@ -1465,20 +1466,159 @@ async function forceLiveScan(chain = "all") {
 }
 window.forceLiveScan = forceLiveScan;
 
-// Radar atómico multi-piscina (atomic-profit-guard.js): mejor ciclo real USDC -> token -> USDC
+// =============================================================================
+// RADAR ATÓMICO MULTI-PISCINA EN VIVO (cada 4 s, eth_call $0 gas, 2 llamadas Multicall3 por red)
+// Ciclo cerrado USDC -> token -> USDC cotizado en Quoters reales, neto de gas del bloque actual.
+// =============================================================================
+const RADAR_UNI_QUOTER = "0x61fFE014bA17989E743c5F6cB21bF9697530B21e";
+const RADAR_ALGEBRA_QUOTER = "0xa15F0D7377B2A0C0c10db057f641beD21028FC89";
+const RADAR_PCS_QUOTER = "0xB048Bbc1Ee6b733FFfCFb9e9CeF7375518e25997";
+const RADAR_PCS_V2 = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
+const RADAR_GAS_LIMIT = 400000; // 2 swaps
+const RADAR_MIN_NET = 0.05;
+
+const RADAR_CFG = {
+  polygon: {
+    usdcDec: 6, amount: 160,
+    tokens: [
+      { s: "WPOL", a: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270" },
+      { s: "WETH", a: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619" },
+      { s: "USDT", a: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F" }
+    ],
+    venues: [
+      { n: "Uniswap V3 0.01%", t: "v3", q: RADAR_UNI_QUOTER, f: 100 },
+      { n: "Uniswap V3 0.05%", t: "v3", q: RADAR_UNI_QUOTER, f: 500 },
+      { n: "Uniswap V3 0.30%", t: "v3", q: RADAR_UNI_QUOTER, f: 3000 },
+      { n: "QuickSwap Algebra V3", t: "algebra", q: RADAR_ALGEBRA_QUOTER }
+    ]
+  },
+  bsc: {
+    usdcDec: 18, amount: 20,
+    tokens: [
+      { s: "WBNB", a: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c" },
+      { s: "USDT", a: "0x55d398326f99059fF775485246999027B3197955" }
+    ],
+    venues: [
+      { n: "PancakeSwap V3 0.01%", t: "v3", q: RADAR_PCS_QUOTER, f: 100 },
+      { n: "PancakeSwap V3 0.05%", t: "v3", q: RADAR_PCS_QUOTER, f: 500 },
+      { n: "PancakeSwap V2", t: "v2", q: RADAR_PCS_V2 }
+    ]
+  }
+};
+
+let liveRadar = { polygon: null, bsc: null };
+let liveRadarBusy = false;
+
+function radarQuoteCall(v, tIn, tOut, amt) {
+  const hex = amt.toString(16);
+  if (v.t === "v3") {
+    return { target: v.q, data: "0xc6a5026a" + mcAddr(tIn) + mcAddr(tOut) + mcWord(hex) + mcWord(v.f.toString(16)) + mcWord("0") };
+  }
+  if (v.t === "algebra") {
+    return { target: v.q, data: "0x2d9ebd1d" + mcAddr(tIn) + mcAddr(tOut) + mcWord(hex) + mcWord("0") };
+  }
+  // PancakeSwap V2 getAmountsOut(uint256,address[])
+  return { target: v.q, data: "0xd06ca61f" + mcWord(hex) + mcWord("40") + mcWord("2") + mcAddr(tIn) + mcAddr(tOut) };
+}
+
+function radarReadOut(v, r) {
+  if (!r || !r.success || r.data.length < 66) return null;
+  const idx = v.t === "v2" ? 3 : 0; // V2: amounts[1]; V3/Algebra: primera palabra
+  if (r.data.length < 2 + (idx + 1) * 64) return null;
+  const val = BigInt("0x" + r.data.slice(2 + idx * 64, 2 + (idx + 1) * 64));
+  return val > 0n ? val : null;
+}
+
+async function radarBatch(chain, calls) {
+  if (!calls.length) return [];
+  const raw = await callRpc(chain, "eth_call", [{ to: MULTICALL3, data: encodeAggregate3(calls) }, "latest"]);
+  if (!raw || raw === "0x") return null;
+  const res = decodeAggregate3(raw);
+  return res.length === calls.length ? res : null;
+}
+
+async function computeLiveRadar(chain) {
+  const cfg = RADAR_CFG[chain];
+  const usdc = RPC_CONFIG[chain].usdcAddress;
+  const amt = BigInt(cfg.amount) * (10n ** BigInt(cfg.usdcDec));
+
+  // 1) Compras USDC -> token en todas las piscinas (1 llamada)
+  const buyKeys = [];
+  const buyCalls = [];
+  cfg.tokens.forEach((t, ti) => cfg.venues.forEach((v, vi) => { buyKeys.push({ ti, vi }); buyCalls.push(radarQuoteCall(v, usdc, t.a, amt)); }));
+  const [buyRes, gasHex] = await Promise.all([radarBatch(chain, buyCalls), callRpc(chain, "eth_gasPrice", [])]);
+  if (!buyRes) return null;
+
+  const buys = buyKeys.map((k, i) => ({ ...k, out: radarReadOut(cfg.venues[k.vi], buyRes[i]) })).filter(b => b.out);
+  if (!buys.length) return null;
+
+  // Precio del token nativo en USDC (para convertir gas): mejor compra del token nativo (índice 0, 18 dec)
+  const nativeBest = buys.filter(b => b.ti === 0).reduce((m, b) => (b.out > m ? b.out : m), 0n);
+  const nativePriceUsdc = nativeBest > 0n ? cfg.amount / (Number(nativeBest) / 1e18) : 0;
+  const gasPriceWei = gasHex ? Number(BigInt(gasHex)) : 0;
+  const gasUsdc = (gasPriceWei * RADAR_GAS_LIMIT / 1e18) * nativePriceUsdc;
+
+  // 2) Ventas token -> USDC para cada compra válida en todas las piscinas (1 llamada)
+  const sellKeys = [];
+  const sellCalls = [];
+  buys.forEach((b, bi) => cfg.venues.forEach((v, vi) => { sellKeys.push({ bi, vi }); sellCalls.push(radarQuoteCall(v, cfg.tokens[b.ti].a, usdc, b.out)); }));
+  const sellRes = await radarBatch(chain, sellCalls);
+  if (!sellRes) return null;
+
+  const rows = [];
+  sellKeys.forEach((k, i) => {
+    const out = radarReadOut(cfg.venues[k.vi], sellRes[i]);
+    if (!out) return;
+    const b = buys[k.bi];
+    const finalUsdc = Number(out) / (10 ** cfg.usdcDec);
+    const net = finalUsdc - cfg.amount - gasUsdc;
+    rows.push({ token: cfg.tokens[b.ti].s, ti: b.ti, buy: cfg.venues[b.vi].n, sell: cfg.venues[k.vi].n, netUsdc: net, netPct: (net / cfg.amount) * 100 });
+  });
+  if (!rows.length) return null;
+  rows.sort((a, b) => b.netUsdc - a.netUsdc);
+  const best = rows[0];
+  const nativeBestRow = rows.find(r => r.ti === 0);
+  return {
+    usdcAmount: cfg.amount, gasUsdc, token: best.token, buy: best.buy, sell: best.sell,
+    netUsdc: best.netUsdc, netPct: best.netPct, shouldFire: best.netUsdc >= RADAR_MIN_NET,
+    legacyNetUsdc: nativeBestRow ? nativeBestRow.netUsdc : null, atMs: Date.now()
+  };
+}
+
+async function liveAtomicRadarTick() {
+  if (liveRadarBusy) return;
+  liveRadarBusy = true;
+  try {
+    const [p, b] = await Promise.all([computeLiveRadar("polygon"), computeLiveRadar("bsc")]);
+    if (p) liveRadar.polygon = p;
+    if (b) liveRadar.bsc = b;
+    renderAtomicRadarUi();
+    refreshOpenTriggerModal();
+  } catch (e) { } finally {
+    liveRadarBusy = false;
+  }
+}
+
+// Resumen mostrado en tarjetas y modal: EN VIVO si la lectura es reciente (<30 s), si no la instantánea de telemetría
 function atomicRadarSummary(chain) {
-  const r = atomicRadar && atomicRadar[chain];
+  const live = liveRadar[chain];
+  const isLive = !!live && (Date.now() - live.atMs) < 30000;
+  const r = isLive ? live : (atomicRadar && atomicRadar[chain]);
   if (!r) return null;
   const sign = r.netUsdc >= 0 ? "+" : "-";
   const money = `${sign}$${Math.abs(r.netUsdc).toFixed(3)} USD (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(3)}%)`;
-  const min = atomicRadar.minNetProfitUsdc || 0.05;
+  const min = (atomicRadar && atomicRadar.minNetProfitUsdc) || RADAR_MIN_NET;
+  const at = isLive
+    ? `${getUtcTimeString(0)} EN VIVO`
+    : (atomicRadar && atomicRadar.updatedAt ? new Date(atomicRadar.updatedAt).toISOString().slice(11, 16) + " UTC (instantánea)" : "—");
   return {
     route: `USDC ↔ ${r.token} · ${r.buy} ➔ ${r.sell}`,
     money,
     state: r.shouldFire ? "UMBRAL SUPERADO" : `esperando cruce a +$${min.toFixed(2)} USDC`,
     legacy: r.legacyNetUsdc,
-    at: atomicRadar.updatedAt ? new Date(atomicRadar.updatedAt).toISOString().slice(11, 16) + " UTC" : "—",
-    ok: r.shouldFire
+    at,
+    ok: r.shouldFire,
+    live: isLive
   };
 }
 
@@ -1498,18 +1638,34 @@ function renderAtomicRadarUi() {
   });
 }
 
-function atomicRadarModalBlock(chain) {
+function atomicRadarModalInner(chain) {
   const s = atomicRadarSummary(chain);
   if (!s) return "";
-  const legacy = (s.legacy !== null && s.legacy !== undefined) ? ` · antes (solo token nativo): ${s.legacy >= 0 ? "+" : "-"}$${Math.abs(s.legacy).toFixed(3)}` : "";
+  const legacy = (s.legacy !== null && s.legacy !== undefined) ? ` · solo token nativo: ${s.legacy >= 0 ? "+" : "-"}$${Math.abs(s.legacy).toFixed(3)}` : "";
   return `
-      <div style="margin-top: 10px; padding: 8px 12px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 6px; font-family: var(--font-mono);">
         <div style="font-size: 0.52rem; color: var(--text-dim);">RADAR ATÓMICO MULTI-PISCINA (ciclo cerrado USDC ➔ token ➔ USDC, tras fees y gas · actualizado ${s.at})</div>
         <div style="font-size: 0.66rem; font-weight: 800; color: #fff; margin-top: 3px;">${s.route}</div>
-        <div style="font-size: 0.62rem; margin-top: 2px;">Mejor ciclo real hoy: <strong class="${s.ok ? "green-text" : "gold-text"}">${s.money}</strong>${legacy}</div>
-        <div style="font-size: 0.54rem; color: var(--text-dim); margin-top: 2px;">Estado: ${s.state}. Solo lectura: no se firma ninguna transacción.</div>
+        <div style="font-size: 0.62rem; margin-top: 2px;">Mejor ciclo real: <strong class="${s.ok ? "green-text" : "gold-text"}">${s.money}</strong>${legacy}</div>
+        <div style="font-size: 0.54rem; color: var(--text-dim); margin-top: 2px;">Estado: ${s.state}. Solo lectura: no se firma ninguna transacción.</div>`;
+}
+
+function atomicRadarModalBlock(chain) {
+  const inner = atomicRadarModalInner(chain);
+  if (!inner) return "";
+  return `
+      <div id="atomicRadarModalBox" data-chain="${chain}" style="margin-top: 10px; padding: 8px 12px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 6px; font-family: var(--font-mono);">${inner}
       </div>`;
 }
+
+// Si el modal del Gatillo está abierto, refresca su caja del radar cada 4 s
+function refreshOpenTriggerModal() {
+  const box = document.getElementById("atomicRadarModalBox");
+  const overlay = document.getElementById("dossierOverlay");
+  if (!box || !overlay || overlay.style.display !== "flex") return;
+  const inner = atomicRadarModalInner(box.getAttribute("data-chain"));
+  if (inner) box.innerHTML = inner;
+}
+
 function inspectTriggerCondition(chain = "polygon") {
   const isPoly = chain === "polygon";
   const name = isPoly ? "CAÑÓN PESADO #1 (POLYGON POS)" : "CAÑÓN PESADO #2 (BSC MAINNET)";
