@@ -135,20 +135,30 @@
   }
 
   function renderLockoutButton() {
-    if (document.getElementById("area501-lockout-btn")) return;
-    const btn = document.createElement("button");
-    btn.id = "area501-lockout-btn";
-    btn.className = "area501-lockout-btn";
-    btn.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-      </svg>
-    `;
-    btn.title = "ÁREA 501 // Bloquear y Proteger Acceso";
-    btn.setAttribute("aria-label", "Bloquear acceso");
-    btn.addEventListener("click", lockout);
-    document.body.appendChild(btn);
+    let btn = document.getElementById("area501-lockout-btn");
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.id = "area501-lockout-btn";
+      btn.className = "area501-lockout-btn";
+      btn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      `;
+      btn.title = "ÁREA 501 // Bloquear y Proteger Acceso";
+      btn.setAttribute("aria-label", "Bloquear acceso");
+
+      const navRow = document.querySelector(".nav-modules-row");
+      if (navRow) {
+        btn.classList.add("floating-card", "nav-lock-card");
+        navRow.appendChild(btn);
+      } else {
+        document.body.appendChild(btn);
+      }
+    }
+    btn.style.display = "";
+    btn.onclick = lockout;
   }
 
   // Inicialización al cargar la página
@@ -156,6 +166,8 @@
     if (isAuthenticated()) {
       renderLockoutButton();
     } else {
+      const existingBtn = document.getElementById("area501-lockout-btn");
+      if (existingBtn) existingBtn.style.display = "none";
       renderLockScreen();
     }
   }

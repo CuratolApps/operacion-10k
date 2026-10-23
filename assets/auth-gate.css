@@ -215,6 +215,23 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Modificador cuando está integrado en la barra de navegación (Sniping) */
+.area501-lockout-btn.nav-lock-card {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  width: clamp(38px, 2.5vw, 44px) !important;
+  min-width: 38px !important;
+  max-width: 44px !important;
+  height: auto !important;
+  min-height: 100% !important;
+  align-self: stretch !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+  z-index: 10 !important;
+}
+
 .area501-lockout-btn svg {
   width: 16px;
   height: 16px;
@@ -239,14 +256,14 @@
 }
 
 @media (max-width: 768px) {
-  .area501-lockout-btn {
+  .area501-lockout-btn:not(.nav-lock-card) {
     top: 6px;
     right: 8px;
     width: 28px;
     height: 28px;
     border-radius: 6px;
   }
-  .area501-lockout-btn svg {
+  .area501-lockout-btn:not(.nav-lock-card) svg {
     width: 14px;
     height: 14px;
   }
