@@ -78,7 +78,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         position: relative;
         z-index: 10;
         height: 48px;
-        padding: 0 16px;
+        padding: 0 145px 0 16px;
         background: rgba(10, 14, 22, 0.95);
         backdrop-filter: var(--glass-blur);
         border-bottom: 1.5px solid rgba(255, 183, 3, 0.4);
@@ -274,7 +274,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         display: grid;
         grid-template-columns: 220px 1fr 350px;
         gap: 8px;
-        padding: 6px 12px 8px 12px;
+        padding: 6px 16px 10px 16px;
         overflow: hidden;
         height: calc(100vh - 48px);
       }
@@ -1143,6 +1143,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         padding: 5px 6px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         color: var(--text-sub);
+      }
+      .fino-table th:last-child,
+      .fino-table td:last-child {
+        padding-right: 18px !important;
+        text-align: right;
       }
 
       .badge-fino-status,
@@ -2824,6 +2829,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .sniper-table td {
   padding: 6px 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.sniper-table th:last-child,
+.sniper-table td:last-child {
+  padding-right: 20px !important;
+  text-align: right;
 }
 .sniper-table tr:hover td {
   background: rgba(255, 255, 255, 0.03);

@@ -113,7 +113,7 @@ html, body {
   align-items: stretch;
   justify-content: space-between;
   gap: clamp(6px, 0.8vw, 10px);
-  padding: 8px clamp(8px, 1.2vw, 12px) 6px clamp(8px, 1.2vw, 12px);
+  padding: 8px 145px 6px clamp(12px, 1.4vw, 18px);
   background: transparent;
   border-bottom: none;
   z-index: 100;
@@ -508,8 +508,8 @@ html, body {
   flex: 1;
   min-height: 0;
   display: flex;
-  gap: clamp(6px, 0.8vw, 10px);
-  padding: 0 clamp(8px, 1.2vw, 12px) 8px clamp(8px, 1.2vw, 12px);
+  gap: clamp(8px, 1vw, 14px);
+  padding: 0 clamp(16px, 1.8vw, 24px) 12px clamp(16px, 1.8vw, 24px);
   overflow: hidden !important;
 }
 
@@ -1186,7 +1186,7 @@ button.c-sentinel-tag {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 4px 7px;
+  padding: 5px 12px;
   background: rgba(3, 5, 8, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
@@ -1377,7 +1377,7 @@ button.c-sentinel-tag {
   display: flex;
   flex-direction: column;
   gap: clamp(4px, 0.6vh, 6px);
-  padding: clamp(6px, 0.8vh, 10px) clamp(8px, 0.8vw, 12px);
+  padding: clamp(6px, 0.8vh, 10px) clamp(16px, 1.4vw, 22px);
   overflow: hidden;
   background: #000000 !important;
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
@@ -1393,7 +1393,7 @@ button.c-sentinel-tag {
   background: #030406;
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: var(--radius-sm);
-  padding: 4px 8px;
+  padding: 5px 12px;
 }
 
 .battery-meta-row {
@@ -1526,7 +1526,7 @@ button.c-sentinel-tag {
 }
 
 .quant-table th {
-  padding: 5px 6px;
+  padding: 6px 12px;
   text-align: left;
   font-size: 0.50rem;
   font-weight: 800;
@@ -1538,12 +1538,18 @@ button.c-sentinel-tag {
 }
 
 .quant-table td {
-  padding: 4px 6px;
+  padding: 5px 12px;
   color: #F8FAFC;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   white-space: nowrap;
   font-size: clamp(0.54rem, 0.9vh, 0.60rem);
   background: transparent;
+}
+
+.quant-table th:last-child,
+.quant-table td:last-child {
+  padding-right: 32px !important;
+  text-align: right;
 }
 
 .quant-table tbody tr {
