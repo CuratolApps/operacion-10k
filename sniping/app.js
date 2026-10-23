@@ -920,6 +920,60 @@ function openReserveFleetDossier() {
   overlay.style.display = "flex";
 }
 
+function inspectNodriza(id) {
+  const m = MOTHERSHIPS_REGISTRY.find(item => item.id === id);
+  if (!m) {
+    openReserveFleetDossier();
+    return;
+  }
+  const overlay = document.getElementById("dossierOverlay");
+  const idBadge = document.getElementById("dossierIdBadge");
+  const title = document.getElementById("dossierTitle");
+  const body = document.getElementById("dossierBody");
+
+  if (!overlay || !body) return;
+
+  idBadge.textContent = m.id;
+  title.textContent = `EXPEDIENTE DE NODRIZA: ${m.name.toUpperCase()}`;
+
+  body.innerHTML = `
+    <div class="dossier-section">
+      <span class="dossier-sec-title">ESTADO DE RESERVA &amp; TELEMETRÍA ON-CHAIN</span>
+      <div style="padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-gold); border-radius: 6px; display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <strong class="gold-text" style="font-size: 0.80rem;">${m.id} · ${m.name}</strong>
+          <span style="font-size: 0.54rem; padding: 2px 6px; background: rgba(245, 158, 11, 0.2); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 4px;">EN ESPERA DE LIQUIDEZ HITO 2</span>
+        </div>
+        <div style="font-size: 0.60rem; font-family: var(--font-mono); color: #fff;">
+          <strong>Dirección:</strong> ${m.address}
+        </div>
+        <div style="display: flex; gap: 12px; font-size: 0.60rem; font-family: var(--font-mono);">
+          <span>Gas POL: <strong class="cyan-text">${m.gasPol} POL</strong></span>
+          <span>Gas BNB: <strong class="gold-text">${m.gasBnb} BNB</strong></span>
+          <span>Piso Blindado: <strong>${m.lockedFloorPol} POL</strong></span>
+        </div>
+      </div>
+    </div>
+    <div class="dossier-section">
+      <span class="dossier-sec-title">BINOMIO DE NEBULOSAS IA ASIGNADAS ($0 GAS)</span>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <div style="padding: 8px; background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 6px;">
+          <div class="purple-text" style="font-weight: 800; font-size: 0.62rem;">${m.assignedNebulaPair.odd.id} (Calculista)</div>
+          <div style="font-size: 0.54rem; color: var(--text-dim); margin: 3px 0;">${m.assignedNebulaPair.odd.name}</div>
+          <div style="font-size: 0.54rem; color: var(--green);">Certeza: ${m.assignedNebulaPair.odd.certainty}% · ${m.assignedNebulaPair.odd.status}</div>
+        </div>
+        <div style="padding: 8px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px;">
+          <div class="green-text" style="font-weight: 800; font-size: 0.62rem;">${m.assignedNebulaPair.even.id} (Guardaespaldas)</div>
+          <div style="font-size: 0.54rem; color: var(--text-dim); margin: 3px 0;">${m.assignedNebulaPair.even.name}</div>
+          <div style="font-size: 0.54rem; color: var(--green);">Filtros: ${m.assignedNebulaPair.even.locks} · ${m.assignedNebulaPair.even.status}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  overlay.style.display = "flex";
+}
+window.inspectNodriza = inspectNodriza;
+
 function setupModalDossier() {
   const overlay = document.getElementById("dossierOverlay");
   const closeBtn = document.getElementById("dossierCloseBtn");

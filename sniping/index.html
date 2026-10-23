@@ -276,12 +276,22 @@
         </div>
       </section>
 
-      <!-- BOTÓN VOLVER A FLOTA GENERAL (DOCK INFERIOR IZQUIERDO) -->
-      <a href="../dashboard/index.html" class="back-fleet-dock-btn" title="Volver a la Terminal General de la Flota">
-        <span class="material-symbols-rounded icon-sm">arrow_back</span>
-        <span>VOLVER A TERMINAL DE FLOTA</span>
-        <span class="material-symbols-rounded icon-xs dock-arrow-tail">chevron_right</span>
-      </a>
+      <!-- BOTONES DE ACCIÓN DOCK INFERIOR IZQUIERDO -->
+      <div class="col-dock-group">
+        <!-- BOTÓN VER EXPEDIENTE DE FLOTA -->
+        <button type="button" class="dock-btn btn-dossier" id="btnToggleReserveGrid" title="Ver Expediente Táctico Completo de la Flota">
+          <span class="material-symbols-rounded icon-sm gold-icon">folder_shared</span>
+          <span class="dock-btn-txt">VER EXPEDIENTE DE FLOTA</span>
+          <span class="material-symbols-rounded icon-xs dock-tail-icon">visibility</span>
+        </button>
+
+        <!-- BOTÓN VOLVER A TERMINAL FLOTA (COLOR CONTRASTANTE) -->
+        <a href="../dashboard/index.html" class="dock-btn btn-return" title="Volver a la Terminal General de la Flota">
+          <span class="material-symbols-rounded icon-sm">arrow_back</span>
+          <span class="dock-btn-txt">VOLVER A TERMINAL FLOTA</span>
+          <span class="material-symbols-rounded icon-xs dock-tail-icon">chevron_right</span>
+        </a>
+      </div>
 
     </aside>
 
@@ -413,18 +423,207 @@
 
         </div>
 
-        <!-- RESUMEN LIMPIO DE LAS OTRAS 14 NODRIZAS EN RESERVA TÁCTICA -->
-        <div class="reserve-fleet-bar">
-          <div class="reserve-fleet-info">
-            <span class="material-symbols-rounded icon-sm gold">shield</span>
-            <span class="reserve-title">14 NODRIZAS EN RESERVA TÁCTICA:</span>
-            <span class="reserve-stats"><strong>255.77 POL</strong> blindados · <strong>0.0405 BNB</strong> · <strong>28 Nebulosas IA</strong> escoltando a $0 gas</span>
-            <span class="reserve-pills">#201 · #301 · #401 · #008 · #006 · #108 · #106 · #204 · #205 · #307 · #311 · #403 · #411</span>
+        <!-- TERMINAL DE RESERVA TÁCTICA: 14 NODRIZAS EN ESPERA DE LIQUIDEZ (DESPLEGADA EN 3 LÍNEAS EN VIVO) -->
+        <div class="reserve-terminal-console" id="reserveTerminalConsole">
+          <div class="reserve-console-header">
+            <div class="r-console-title-group">
+              <span class="material-symbols-rounded icon-xs gold">dns</span>
+              <span class="r-console-title">TERMINAL DE RESERVA TÁCTICA: 14 NODRIZAS EN ESPERA DE LIQUIDEZ</span>
+              <span class="r-console-sub">(EN VIVO · BLINDADAS 5/5 · $0 GAS · ESCOLTADAS POR 28 NEBULOSAS IA)</span>
+            </div>
+            <div class="r-console-meta">
+              <span class="r-meta-pill gold">255.77 POL BLINDADOS</span>
+              <span class="r-meta-pill blue">0.0405 BNB</span>
+              <span class="r-meta-pill green">LISTAS PARA HITO 2 ($250+)</span>
+            </div>
           </div>
-          <button class="btn-view-reserve" id="btnToggleReserveGrid" title="Ver detalle de las 14 Nodrizas y 28 Nebulosas en reserva">
-            <span class="material-symbols-rounded icon-xs">visibility</span>
-            <span>Ver Expediente Flota</span>
-          </button>
+
+          <!-- LÍNEA 1: CAPITANES DE ESCUADRÓN EN RESERVA -->
+          <div class="reserve-line-row">
+            <div class="line-badge-tag gold-border">L-01 CAPITANES</div>
+            <div class="line-nodrizas-track">
+              <!-- #201 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#201')" title="Clic para ver expediente #201 (Capitán Box 3)">
+                <div class="nmp-top">
+                  <span class="nmp-id gold">#201</span>
+                  <span class="nmp-role">Capitán Box 3</span>
+                  <span class="nmp-pulse-dot amber" title="En espera de liquidez"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">18.01 POL · 0.008 BNB</span>
+                  <span class="nmp-status-lbl">EN ESPERA (PISCINAS)</span>
+                </div>
+              </div>
+
+              <!-- #301 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#301')" title="Clic para ver expediente #301 (Capitán Box 4)">
+                <div class="nmp-top">
+                  <span class="nmp-id gold">#301</span>
+                  <span class="nmp-role">Capitán Box 4</span>
+                  <span class="nmp-pulse-dot amber" title="En espera de liquidez"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">12.01 POL · 0.008 BNB</span>
+                  <span class="nmp-status-lbl">EN ESPERA (AIRDROPS L2)</span>
+                </div>
+              </div>
+
+              <!-- #401 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#401')" title="Clic para ver expediente #401 (Capitán Box 5)">
+                <div class="nmp-top">
+                  <span class="nmp-id gold">#401</span>
+                  <span class="nmp-role">Capitán Box 5</span>
+                  <span class="nmp-pulse-dot amber" title="En espera de liquidez"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">12.01 POL · 0.008 BNB</span>
+                  <span class="nmp-status-lbl">EN ESPERA (MINTS DEX)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LÍNEA 2: SUB-CAPITANES ALFA EN ESPERA -->
+          <div class="reserve-line-row">
+            <div class="line-badge-tag cyan-border">L-02 SUB-ALFA</div>
+            <div class="line-nodrizas-track">
+              <!-- #008 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#008')" title="Clic para ver expediente #008 (Sub-Capitán Box 1 Alfa)">
+                <div class="nmp-top">
+                  <span class="nmp-id cyan">#008</span>
+                  <span class="nmp-role">Alfa Box 1</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · GameFi</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #108 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#108')" title="Clic para ver expediente #108 (Sub-Capitán Box 2 Alfa)">
+                <div class="nmp-top">
+                  <span class="nmp-id cyan">#108</span>
+                  <span class="nmp-role">Alfa Box 2</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Thena V3</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #204 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#204')" title="Clic para ver expediente #204 (Sub-Capitán Box 3 Alfa)">
+                <div class="nmp-top">
+                  <span class="nmp-id cyan">#204</span>
+                  <span class="nmp-role">Alfa Box 3</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Balancer</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #307 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#307')" title="Clic para ver expediente #307 (Sub-Capitán Box 4 Alfa)">
+                <div class="nmp-top">
+                  <span class="nmp-id cyan">#307</span>
+                  <span class="nmp-role">Alfa Box 4</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Permit2</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #403 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#403')" title="Clic para ver expediente #403 (Sub-Capitán Box 5 Alfa)">
+                <div class="nmp-top">
+                  <span class="nmp-id cyan">#403</span>
+                  <span class="nmp-role">Alfa Box 5</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Keeper</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LÍNEA 3: SUB-CAPITANES BETA EN ESPERA -->
+          <div class="reserve-line-row">
+            <div class="line-badge-tag purple-border">L-03 SUB-BETA</div>
+            <div class="line-nodrizas-track">
+              <!-- #006 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#006')" title="Clic para ver expediente #006 (Sub-Capitán Box 1 Beta)">
+                <div class="nmp-top">
+                  <span class="nmp-id purple">#006</span>
+                  <span class="nmp-role">Beta Box 1</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Micro-Pools</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #106 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#106')" title="Clic para ver expediente #106 (Sub-Capitán Box 2 Beta)">
+                <div class="nmp-top">
+                  <span class="nmp-id purple">#106</span>
+                  <span class="nmp-role">Beta Box 2</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · WBNB V3</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #205 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#205')" title="Clic para ver expediente #205 (Sub-Capitán Box 3 Beta)">
+                <div class="nmp-top">
+                  <span class="nmp-id purple">#205</span>
+                  <span class="nmp-role">Beta Box 3</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Curve</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #311 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#311')" title="Clic para ver expediente #311 (Sub-Capitán Box 4 Beta)">
+                <div class="nmp-top">
+                  <span class="nmp-id purple">#311</span>
+                  <span class="nmp-role">Beta Box 4</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Zero-Gas</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+
+              <!-- #411 -->
+              <div class="nodriza-mini-pod" onclick="inspectNodriza('#411')" title="Clic para ver expediente #411 (Sub-Capitán Box 5 Beta)">
+                <div class="nmp-top">
+                  <span class="nmp-id purple">#411</span>
+                  <span class="nmp-role">Beta Box 5</span>
+                  <span class="nmp-pulse-dot amber"></span>
+                </div>
+                <div class="nmp-bottom">
+                  <span class="nmp-bal">6.50 POL · Algebra V3</span>
+                  <span class="nmp-status-lbl">RESERVA LISTA</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </section>

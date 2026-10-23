@@ -428,33 +428,77 @@ html, body {
   border-radius: 3px;
 }
 
-/* Botón Dock Volver a Flota (Abajo en Columna Izquierda, llena el espacio inferior) */
-.back-fleet-dock-btn {
+/* BOTONES DE ACCIÓN DOCK (COLUMNA IZQUIERDA INFERIOR) */
+.col-dock-group {
   margin-top: auto;
   display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.dock-btn {
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 8px;
-  padding: clamp(9px, 1.3vh, 12px) 14px;
-  background: linear-gradient(180deg, #15223c 0%, #0c1424 100%) !important;
-  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  padding: clamp(7px, 1vh, 9px) 12px;
   border-radius: var(--radius-md);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  color: #e2e8f0;
   text-decoration: none;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 0.75px;
-  flex-shrink: 0;
+  letter-spacing: 0.6px;
+  cursor: pointer;
   transition: all 0.2s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
 }
-.back-fleet-dock-btn:hover {
-  background: linear-gradient(180deg, #1c2d50 0%, #101b32 100%) !important;
-  border-color: rgba(56, 189, 248, 0.65) !important;
+
+/* BOTÓN 1: VER EXPEDIENTE DE FLOTA (CONTRASTE ORO / ÁMBAR TÁCTICO) */
+.dock-btn.btn-dossier {
+  background: linear-gradient(180deg, #241c0e 0%, #151006 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.45) !important;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: #fbbf24;
+}
+.dock-btn.btn-dossier:hover {
+  background: linear-gradient(180deg, #322512 0%, #1e1608 100%) !important;
+  border-color: rgba(245, 158, 11, 0.8) !important;
   color: #ffffff;
-  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transform: translateY(-1px);
+}
+
+/* BOTÓN 2: VOLVER A TERMINAL FLOTA (CONTRASTE AZUL NOCHE / ACERO) */
+.dock-btn.btn-return {
+  background: linear-gradient(180deg, #101a2f 0%, #080f1d 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.28) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+}
+.dock-btn.btn-return:hover {
+  background: linear-gradient(180deg, #182645 0%, #0f192d 100%) !important;
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.dock-btn-txt {
+  flex: 1;
+  text-align: center;
+}
+
+.dock-tail-icon {
+  font-size: 13px !important;
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+.dock-btn:hover .dock-tail-icon {
+  transform: translateX(2px);
+  opacity: 1;
 }
 
 /* ==========================================================================
@@ -1068,67 +1112,191 @@ html, body {
 .c-foot-tag { color: var(--text-muted); font-weight: 700; }
 .c-foot-status { color: var(--green); font-weight: 800; }
 
-/* RESUMEN LIMPIO DE LAS 14 NODRIZAS EN RESERVA */
-.reserve-fleet-bar {
+/* TERMINAL DE RESERVA EN VIVO: 14 NODRIZAS EN ESPERA DE LIQUIDEZ (3 LÍNEAS TÁCTICAS) */
+.reserve-terminal-console {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 5px 8px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 7px;
+  background: rgba(3, 5, 8, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
   flex-shrink: 0;
 }
 
-.reserve-fleet-info {
+.reserve-console-header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.54rem;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 1px 2px 3px 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.r-console-title-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-mono);
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.reserve-title {
+.r-console-title {
+  font-size: 0.54rem;
   font-weight: 800;
   color: var(--gold);
+  letter-spacing: 0.35px;
 }
 
-.reserve-stats {
-  color: var(--text-muted);
-}
-.reserve-stats strong {
-  color: #fff;
-}
-
-.reserve-pills {
+.r-console-sub {
+  font-size: 0.47rem;
   color: var(--text-dim);
-  font-size: 0.50rem;
 }
 
-.btn-view-reserve {
+.r-console-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.r-meta-pill {
+  font-size: 0.46rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.r-meta-pill.gold {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+.r-meta-pill.blue {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+.r-meta-pill.green {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--green);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+/* FILAS LINEALES TÁCTICAS */
+.reserve-line-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.line-badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.46rem;
+  font-weight: 800;
+  padding: 2px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: 74px;
+  text-align: center;
+}
+.line-badge-tag.gold-border {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+.line-badge-tag.cyan-border {
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+}
+.line-badge-tag.purple-border {
+  background: rgba(168, 85, 247, 0.12);
+  color: var(--purple);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.line-nodrizas-track {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 6px;
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid var(--border-gold);
+  flex: 1;
+  min-width: 0;
+}
+
+/* MINI POD DE CADA NODRIZA */
+.nodriza-mini-pod {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 5px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 3px;
-  color: var(--gold);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.nodriza-mini-pod:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(56, 189, 248, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.nmp-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.nmp-id {
+  font-family: var(--font-mono);
   font-size: 0.52rem;
   font-weight: 800;
-  cursor: pointer;
-  white-space: nowrap;
+}
+.nmp-id.gold { color: var(--gold); }
+.nmp-id.cyan { color: var(--cyan); }
+.nmp-id.purple { color: #c084fc; }
+
+.nmp-role {
+  font-size: 0.46rem;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.nmp-pulse-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   flex-shrink: 0;
-  transition: all 0.15s ease;
 }
-.btn-view-reserve:hover {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fff;
+.nmp-pulse-dot.amber {
+  background: #f59e0b;
+  box-shadow: 0 0 5px #f59e0b;
+  animation: pulse-ring 2.2s infinite;
 }
+
+.nmp-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.45rem;
+}
+.nmp-bal { color: var(--text-muted); font-weight: 600; }
+.nmp-status-lbl { color: var(--green); font-weight: 700; }
 
 /* ==========================================================================
    BLOQUE 4: ZONA INFERIOR (REGLETA 15 DISPAROS + BITÁCORA ON-CHAIN)
