@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.0.0",
-  "timestamp": "2026-10-23T10:27:54.738Z",
+  "timestamp": "2026-10-23T11:30:00.000Z",
   "status": "ARMADOS_Y_CONCENTRADOS",
   "canonPesado1_Polygon": {
     "name": "Cañón Pesado #1 (Polygon PoS)",
     "commandVault": "#501 (Nodriza Matriz) & #001 (Capitán Box 1)",
     "firingAddress": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "targetToken": "USDC Nativo Circle (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359)",
-    "totalConcentratedUsdc": 19.202166,
-    "estimatedSingleShotPower": "18.30 USDC (Supera comisiones DEX 0.05%)",
+    "totalConcentratedUsdc": 158.84,
+    "estimatedSingleShotPower": "158.84 USDC (Supera comisiones DEX 0.05%)",
     "transfersExecuted": []
   },
   "canonPesado2_BSC": {
@@ -16,9 +16,10 @@
     "commandVault": "#101 (Capitán Experto #2) & #501 (Nodriza Matriz)",
     "firingAddress": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "targetToken": "USDC Oficial Binance-Peg (0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d)",
-    "totalConcentratedUsdc": 21.517604,
+    "totalConcentratedUsdc": 20.42,
     "estimatedSingleShotPower": "20.42 USDC (Supera comisiones PancakeSwap 0.05%)"
   },
-  "totalHeavyArtilleryPowerUsdc": 40.71977,
+  "totalHeavyArtilleryPowerUsdc": 179.26,
+  "grandTotalFleetUsdc": 180.26,
   "netProfitDistribution": "70% a USDC Nativo / 30% a Recarga Gas (POL/BNB)"
 }

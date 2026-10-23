@@ -1864,9 +1864,9 @@ async function consolidateUsdcSpearheads(options = {}) {
       fl.spearheadCannons = cannonsPayload;
       if (fl.snipingEcosystem && fl.snipingEcosystem.munitionTankUsdc) {
         fl.snipingEcosystem.updatedAt = new Date().toISOString();
-        fl.snipingEcosystem.munitionTankUsdc.totalConsolidated = 41.72;
-        fl.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.amountUsdc = 20.30;
-        fl.snipingEcosystem.munitionTankUsdc.cannon2_BSC.amountUsdc = 20.42;
+        fl.snipingEcosystem.munitionTankUsdc.totalConsolidated = parseFloat((totalPolygonUsdc + totalBscUsdc + 1.00).toFixed(2));
+        fl.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.amountUsdc = parseFloat(totalPolygonUsdc.toFixed(2));
+        fl.snipingEcosystem.munitionTankUsdc.cannon2_BSC.amountUsdc = parseFloat(totalBscUsdc.toFixed(2));
       }
       fs.writeFileSync(FLEET_FILE, JSON.stringify(fl, null, 2));
     }

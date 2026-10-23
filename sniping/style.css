@@ -106,14 +106,14 @@ html, body {
    BLOQUE 1: BARRA SUPERIOR (HEADER) — 1 SOLA LÍNEA, SIN DESBORDES
    ========================================================================== */
 .top-nav-bar {
-  height: 52px;
+  height: clamp(38px, 4.5vh, 44px);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 0 12px;
-  background: rgba(15, 20, 32, 0.90);
+  gap: 6px;
+  padding: 0 clamp(6px, 1vw, 10px);
+  background: rgba(15, 20, 32, 0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
   z-index: 100;
@@ -417,8 +417,8 @@ html, body {
   flex: 1;
   min-height: 0;
   display: flex;
-  gap: 10px;
-  padding: 6px 12px 8px 12px;
+  gap: clamp(6px, 0.8vw, 10px);
+  padding: clamp(4px, 0.6vh, 6px) clamp(6px, 0.8vw, 10px);
   overflow: hidden;
 }
 
@@ -426,13 +426,13 @@ html, body {
    BLOQUE 2: COLUMNA IZQUIERDA (MUNICIÓN USDC & TANQUE GAS)
    ========================================================================== */
 .col-gas-munition {
-  width: 285px;
-  min-width: 285px;
-  max-width: 285px;
+  width: clamp(240px, 19vw, 275px);
+  min-width: 235px;
+  max-width: 280px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(4px, 0.6vh, 6px);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -782,12 +782,11 @@ html, body {
    BLOQUE 3: CENTRO (LOS 2 CAÑONES PESADOS + RESUMEN RESERVA)
    ========================================================================== */
 .block-ecosystem {
-  flex: 1.15;
-  min-height: 0;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 10px;
+  gap: clamp(3px, 0.5vh, 5px);
+  padding: clamp(5px, 0.7vh, 8px) clamp(8px, 0.8vw, 10px);
   overflow: hidden;
 }
 
@@ -855,24 +854,23 @@ html, body {
 .rpc-txt { color: var(--text-muted); }
 .rpc-txt strong { color: #fff; font-weight: 800; }
 
-/* LOS 2 CAÑONES PESADOS ACTIVOS CON DISEÑO AMPLIO Y SIN DESBORDE */
+/* LOS 2 CAÑONES PESADOS ACTIVOS CON DISEÑO AMPLIO Y SIN DESBORDE NI HUECOS VACÍOS */
 .cannons-active-banner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  flex: 1;
-  min-height: 0;
+  gap: clamp(5px, 0.8vw, 8px);
+  flex: 0 0 auto;
   min-width: 0;
   overflow: hidden;
 }
 
 .cannon-pod {
-  padding: 8px 10px;
+  padding: clamp(5px, 0.7vh, 7px) clamp(7px, 0.8vw, 10px);
   border-radius: var(--radius-sm);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 6px;
+  justify-content: flex-start;
+  gap: clamp(3px, 0.5vh, 5px);
   min-width: 0;
   overflow: hidden;
 }
@@ -897,31 +895,37 @@ html, body {
 .c-head-left {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   min-width: 0;
 }
 
 .c-name {
-  font-size: 0.65rem;
+  font-size: clamp(0.60rem, 1vh, 0.66rem);
   font-weight: 800;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   white-space: nowrap;
 }
 
 .c-status-live {
-  font-size: 0.48rem;
+  font-size: 0.46rem;
   font-family: var(--font-mono);
   font-weight: 800;
   padding: 1px 4px;
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--green);
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   border-radius: 3px;
   white-space: nowrap;
+}
+.c-status-live.opportunity {
+  background: rgba(16, 185, 129, 0.18);
+  color: var(--green);
+  border-color: rgba(16, 185, 129, 0.4);
 }
 
 .c-usdc-badge {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: clamp(0.66rem, 1.1vh, 0.74rem);
   font-weight: 900;
   white-space: nowrap;
 }
@@ -931,7 +935,7 @@ html, body {
 .cannon-pod-body {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px 12px;
+  gap: clamp(2px, 0.4vh, 4px) clamp(8px, 1vw, 14px);
   min-width: 0;
 }
 
@@ -943,14 +947,15 @@ html, body {
 }
 
 .c-meta-label {
-  font-size: 0.50rem;
+  font-size: 0.48rem;
   color: var(--text-dim);
   font-weight: 700;
   white-space: nowrap;
+  letter-spacing: 0.2px;
 }
 
 .c-meta-val {
-  font-size: 0.58rem;
+  font-size: clamp(0.55rem, 0.95vh, 0.62rem);
   font-family: var(--font-mono);
   color: var(--text-main);
   white-space: nowrap;
@@ -959,14 +964,34 @@ html, body {
   min-width: 0;
 }
 
+.c-sentinel-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.50rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  white-space: nowrap;
+}
+.c-sentinel-tag.active {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--green);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
 .cannon-pod-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 4px;
+  padding-top: 3px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   font-family: var(--font-mono);
-  font-size: 0.50rem;
+  font-size: 0.48rem;
 }
 .c-foot-tag { color: var(--text-muted); font-weight: 700; }
 .c-foot-status { color: var(--green); font-weight: 800; }
@@ -1037,12 +1062,12 @@ html, body {
    BLOQUE 4: ZONA INFERIOR (REGLETA 15 DISPAROS + BITÁCORA ON-CHAIN)
    ========================================================================== */
 .block-atomic-battery {
-  flex: 0.85;
+  flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 6px 10px;
+  gap: clamp(3px, 0.5vh, 5px);
+  padding: clamp(5px, 0.7vh, 8px) clamp(8px, 0.8vw, 10px);
   overflow: hidden;
 }
 
@@ -1172,14 +1197,28 @@ html, body {
 }
 
 .quant-table td {
-  padding: 4px 6px;
+  padding: 3px 6px;
   color: var(--text-main);
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   white-space: nowrap;
+  font-size: clamp(0.54rem, 0.9vh, 0.60rem);
 }
 
 .quant-table tbody tr:hover {
   background: rgba(255, 255, 255, 0.03);
+}
+
+.tx-link {
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.tx-link:hover {
+  text-decoration: underline;
+  color: #fff;
 }
 
 .op-badge-done {
@@ -1200,8 +1239,9 @@ html, body {
 }
 .op-badge-scan {
   padding: 1px 4px;
-  background: rgba(6, 182, 212, 0.15);
-  color: var(--cyan);
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   border-radius: 3px;
   font-weight: 800;
 }
