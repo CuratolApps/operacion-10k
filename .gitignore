@@ -16,4 +16,5 @@ radar-report.json
 test_*.js
 sniping/config.js
 dashboard/config.js
+.wrangler/
 scratch/
