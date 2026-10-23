@@ -54666,5 +54666,47 @@
     "⛽ #501 >= 121.0241 POL / Capitanes >= 18.02 POL",
     "🛡️ 5º Candado Anti-MEV <= 0.15%",
     "🚫 STRICT_NO_GAS_SELL = true"
-  ]
+  ],
+  "atomicExecutorAddressPolygon": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
+  "atomicExecutorDeployTxPolygon": "0x6f793c6dce9c99b6b8b18b6d5390acb6ec1adcd4b8b0156e324bbe1cd1622224",
+  "atomicExecutorDeployInfo": {
+    "deployedAt": "2026-10-23T21:12:41.222Z",
+    "deployer": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    "gasUsed": "1078410",
+    "costPol": 0.3303541576583493,
+    "usdcInContract": 0,
+    "shotsExecuted": 0
+  },
+  "atomicProfitRadar": {
+    "updatedAt": "2026-10-23T21:11:26.985Z",
+    "minNetProfitUsdc": 0.05,
+    "polygon": {
+      "usdcAmount": 160,
+      "gasUsdc": 0.0096,
+      "token": "USDT",
+      "buy": "QuickSwap Algebra V3",
+      "sell": "Uniswap V3 0.01%",
+      "netUsdc": -0.0109,
+      "netPct": -0.0068,
+      "shouldFire": false,
+      "legacyNetUsdc": -0.2819,
+      "crossPool": true,
+      "gasLimit": 240000,
+      "odosBest": null
+    },
+    "bsc": {
+      "usdcAmount": 20,
+      "gasUsdc": 0,
+      "token": "USDT",
+      "buy": "PancakeSwap V2",
+      "sell": "PancakeSwap V3 0.01%",
+      "netUsdc": -0.0041,
+      "netPct": -0.0207,
+      "shouldFire": false,
+      "legacyNetUsdc": -0.0215,
+      "crossPool": true,
+      "gasLimit": 400000,
+      "odosBest": null
+    }
+  }
 }

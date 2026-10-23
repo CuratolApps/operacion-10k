@@ -418,6 +418,8 @@ let liveState = {
 
 let latestPolygonBlock = 96032510;
 let latestBscBlock = 129310210;
+let atomicExecutorAddress = null; // AtomicSniperExecutor desplegado en Polygon (telemetry)
+let atomicExecutorTx = null;
 let atomicRadar = null; // resumen de atomic-profit-guard.js (telemetry/fleet-telemetry.json)
 let currentShotsDone = 0;
 const DAILY_TARGET = 15;
@@ -1116,6 +1118,8 @@ async function syncLocalTelemetry() {
         0;
       currentShotsDone = shots;
       atomicRadar = telem.atomicProfitRadar || null;
+      atomicExecutorAddress = telem.atomicExecutorAddressPolygon || null;
+      atomicExecutorTx = telem.atomicExecutorDeployTxPolygon || null;
       renderAtomicRadarUi();
 
       const elBatteryFraction = document.getElementById("batteryQuotaFraction");
@@ -1474,7 +1478,8 @@ const RADAR_UNI_QUOTER = "0x61fFE014bA17989E743c5F6cB21bF9697530B21e";
 const RADAR_ALGEBRA_QUOTER = "0xa15F0D7377B2A0C0c10db057f641beD21028FC89";
 const RADAR_PCS_QUOTER = "0xB048Bbc1Ee6b733FFfCFb9e9CeF7375518e25997";
 const RADAR_PCS_V2 = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
-const RADAR_GAS_LIMIT = 400000; // 2 swaps
+const RADAR_GAS_LIMIT = { polygon: 240000, bsc: 400000 }; // gas estimado del ciclo (2 swaps) por red
+const RADAR_SUSHI_V3_QUOTER = "0xb1e835dc2785b52265711e17fccb0fd018226a6e"; // SushiSwap V3 QuoterV2 (Polygon, con código verificado)
 const RADAR_MIN_NET = 0.05;
 
 const RADAR_CFG = {
@@ -1483,12 +1488,15 @@ const RADAR_CFG = {
     tokens: [
       { s: "WPOL", a: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270" },
       { s: "WETH", a: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619" },
-      { s: "USDT", a: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F" }
+      { s: "USDT", a: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F" },
+      { s: "USDC.e", a: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174" }
     ],
     venues: [
       { n: "Uniswap V3 0.01%", t: "v3", q: RADAR_UNI_QUOTER, f: 100 },
       { n: "Uniswap V3 0.05%", t: "v3", q: RADAR_UNI_QUOTER, f: 500 },
       { n: "Uniswap V3 0.30%", t: "v3", q: RADAR_UNI_QUOTER, f: 3000 },
+      { n: "SushiSwap V3 0.05%", t: "v3", q: RADAR_SUSHI_V3_QUOTER, f: 500 },
+      { n: "SushiSwap V3 0.30%", t: "v3", q: RADAR_SUSHI_V3_QUOTER, f: 3000 },
       { n: "QuickSwap Algebra V3", t: "algebra", q: RADAR_ALGEBRA_QUOTER }
     ]
   },
@@ -1496,7 +1504,8 @@ const RADAR_CFG = {
     usdcDec: 18, amount: 20,
     tokens: [
       { s: "WBNB", a: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c" },
-      { s: "USDT", a: "0x55d398326f99059fF775485246999027B3197955" }
+      { s: "USDT", a: "0x55d398326f99059fF775485246999027B3197955" },
+      { s: "FDUSD", a: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409" }
     ],
     venues: [
       { n: "PancakeSwap V3 0.01%", t: "v3", q: RADAR_PCS_QUOTER, f: 100 },
@@ -1556,7 +1565,7 @@ async function computeLiveRadar(chain) {
   const nativeBest = buys.filter(b => b.ti === 0).reduce((m, b) => (b.out > m ? b.out : m), 0n);
   const nativePriceUsdc = nativeBest > 0n ? cfg.amount / (Number(nativeBest) / 1e18) : 0;
   const gasPriceWei = gasHex ? Number(BigInt(gasHex)) : 0;
-  const gasUsdc = (gasPriceWei * RADAR_GAS_LIMIT / 1e18) * nativePriceUsdc;
+  const gasUsdc = (gasPriceWei * RADAR_GAS_LIMIT[chain] / 1e18) * nativePriceUsdc;
 
   // 2) Ventas token -> USDC para cada compra válida en todas las piscinas (1 llamada)
   const sellKeys = [];
@@ -1576,7 +1585,8 @@ async function computeLiveRadar(chain) {
   });
   if (!rows.length) return null;
   rows.sort((a, b) => b.netUsdc - a.netUsdc);
-  const best = rows[0];
+  // Prioridad cross-pool (Piscina A -> Piscina B distintas); si no existe ninguna, cae a cualquier fila
+  const best = rows.find(r => r.buy !== r.sell) || rows[0];
   const nativeBestRow = rows.find(r => r.ti === 0);
   return {
     usdcAmount: cfg.amount, gasUsdc, token: best.token, buy: best.buy, sell: best.sell,
@@ -1666,6 +1676,13 @@ function refreshOpenTriggerModal() {
   if (inner) box.innerHTML = inner;
 }
 
+function executorModalBlock() {
+  const addr = atomicExecutorAddress;
+  if (!addr) return `<div style="margin-top:10px;padding:8px 12px;border:1px dashed rgba(255,255,255,0.15);border-radius:6px;font-size:0.56rem;font-family:var(--font-mono);color:var(--text-dim);">CONTRATO EJECUTOR ATÓMICO (Polygon): <strong>aún no desplegado</strong></div>`;
+  const tx = atomicExecutorTx ? ` · <a href="https://polygonscan.com/tx/${atomicExecutorTx}" target="_blank" rel="noopener" style="color:var(--cyan);">tx deploy</a>` : "";
+  return `<div style="margin-top:10px;padding:8px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:6px;font-size:0.56rem;font-family:var(--font-mono);color:#fff;word-break:break-all;">CONTRATO EJECUTOR ATÓMICO (Polygon): <a href="https://polygonscan.com/address/${addr}" target="_blank" rel="noopener" style="color:var(--green);font-weight:800;">${addr}</a>${tx}<div style="color:var(--text-dim);margin-top:3px;">Saldo USDC del contrato: $0.00 · sin disparos ejecutados</div></div>`;
+}
+
 function inspectTriggerCondition(chain = "polygon") {
   const isPoly = chain === "polygon";
   const name = isPoly ? "CAÑÓN PESADO #1 (POLYGON POS)" : "CAÑÓN PESADO #2 (BSC MAINNET)";
@@ -1730,6 +1747,7 @@ function inspectTriggerCondition(chain = "polygon") {
         </button>
       </div>
       ${atomicRadarModalBlock(chain)}
+      ${isPoly ? executorModalBlock() : ""}
     </div>
   `;
 

@@ -11,7 +11,10 @@ require("dotenv").config();
 const { ethers } = require("ethers");
 
 const MIN_NET_PROFIT_USDC = 0.05;
-const GAS_LIMIT_ROUND_TRIP = 400000n; // 2 swaps
+const GAS_LIMIT_ROUND_TRIP = 400000n; // 2 swaps (por defecto, BSC)
+const GAS_LIMIT_POLYGON = 240000n;   // ciclo Polygon (orden del usuario)
+const ODOS_QUOTE_URL = "https://api.odos.xyz/sor/quote/v2"; // pública, sin API key
+const ODOS_PROBE_USER = "0xD4D12077a61118372f7a367319fb11922Beb3743"; // #501 (solo como userAddr de cotización)
 
 // Reglas de pisos y reparto (se aplican sobre la ganancia neta de un disparo ya ganado)
 const MOTHERSHIP_MIN_POL_FLOOR = 150.00;   // piso inviolable de #501
@@ -27,6 +30,11 @@ const UNI_QUOTER = "0x61fFE014bA17989E743c5F6cB21bF9697530B21e";
 const PCS_QUOTER = "0xB048Bbc1Ee6b733FFfCFb9e9CeF7375518e25997";
 const ALGEBRA_QUOTER = "0xa15F0D7377B2A0C0c10db057f641beD21028FC89"; // QuickSwap Algebra V3 (Polygon)
 const ALGEBRA_ROUTER = "0xf5b509bB0909a69B1c207E495f687a596C168E12"; // referencia para el ejecutor
+// SushiSwap V3 QuoterV2 (Polygon). La dirección 0x052f00d8…7A del pedido NO tiene código en Polygon (verificado con getCode);
+// se usa el QuoterV2 verificado con código on-chain. Minúsculas para evitar errores de checksum.
+const SUSHI_V3_QUOTER = "0xb1e835dc2785b52265711e17fccb0fd018226a6e";
+// Curve am3CRV (Polygon): su pool opera DAI/USDC.e/USDT, NO USDC nativo → no puede ser pata de un ciclo USDC nativo ➔ X ➔ USDC.
+const CURVE_AM3CRV_POLYGON = "0x445fe580ef8d70ff569ab36e80c647af338db351";
 
 const CHAINS = {
   polygon: {
@@ -36,12 +44,16 @@ const CHAINS = {
       { symbol: "WPOL", address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", dec: 18 },
       { symbol: "WETH", address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", dec: 18 },
       { symbol: "WBTC", address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", dec: 8 },
-      { symbol: "USDT", address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", dec: 6, stable: true }
+      { symbol: "USDT", address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", dec: 6, stable: true },
+      { symbol: "USDC.e", address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", dec: 6, stable: true }
     ],
     venues: [
       { name: "Uniswap V3 0.01%", type: "v3", quoter: UNI_QUOTER, fee: 100 },
       { name: "Uniswap V3 0.05%", type: "v3", quoter: UNI_QUOTER, fee: 500 },
       { name: "Uniswap V3 0.30%", type: "v3", quoter: UNI_QUOTER, fee: 3000 },
+      { name: "SushiSwap V3 0.01%", type: "v3", quoter: SUSHI_V3_QUOTER, fee: 100 },
+      { name: "SushiSwap V3 0.05%", type: "v3", quoter: SUSHI_V3_QUOTER, fee: 500 },
+      { name: "SushiSwap V3 0.30%", type: "v3", quoter: SUSHI_V3_QUOTER, fee: 3000 },
       { name: "QuickSwap Algebra V3", type: "algebra", quoter: ALGEBRA_QUOTER },
       { name: "QuickSwap V2", type: "v2", router: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff" },
       { name: "SushiSwap V2", type: "v2", router: "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506" }
@@ -52,7 +64,8 @@ const CHAINS = {
     nativeWrapped: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", nativeSymbol: "WBNB", defaultUsdc: 20,
     tokens: [
       { symbol: "WBNB", address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", dec: 18 },
-      { symbol: "USDT", address: "0x55d398326f99059fF775485246999027B3197955", dec: 18, stable: true }
+      { symbol: "USDT", address: "0x55d398326f99059fF775485246999027B3197955", dec: 18, stable: true },
+      { symbol: "FDUSD", address: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409", dec: 18, stable: true }
     ],
     venues: [
       { name: "PancakeSwap V3 0.01%", type: "v3", quoter: PCS_QUOTER, fee: 100 },
@@ -63,6 +76,38 @@ const CHAINS = {
     ]
   }
 };
+
+// Odos Smart Order Router (público). Devuelve outAmount (BigInt) o null. Informativo: el ejecutor no consume su calldata.
+async function odosQuote(chainId, tokenIn, tokenOut, amountIn) {
+  try {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), 8000);
+    const res = await fetch(ODOS_QUOTE_URL, {
+      method: "POST", headers: { "Content-Type": "application/json" }, signal: ctl.signal,
+      body: JSON.stringify({ chainId, inputTokens: [{ tokenAddress: tokenIn, amount: amountIn.toString() }], outputTokens: [{ tokenAddress: tokenOut, proportion: 1 }], userAddr: ODOS_PROBE_USER, slippageLimitPercent: 0.3, compact: true })
+    });
+    clearTimeout(t);
+    if (!res.ok) return null;
+    const j = await res.json();
+    return j.outAmounts && j.outAmounts[0] ? BigInt(j.outAmounts[0]) : null;
+  } catch (_) { return null; }
+}
+
+// Ciclo USDC ➔ X ➔ USDC con Odos (2 cotizaciones, Odos exige token de entrada ≠ salida). Tokens: USDT/USDC.e/WPOL|WBNB/WETH/FDUSD.
+async function odosRoundTrip(c, chainId, usdcAmount, gasUsdc) {
+  const amtIn = ethers.parseUnits(String(usdcAmount), c.usdcDec);
+  const rows = [];
+  for (const t of c.tokens.filter(x => x.symbol !== "WBTC")) {
+    const a = await odosQuote(chainId, c.usdc, t.address, amtIn);
+    if (!a) continue;
+    const b = await odosQuote(chainId, t.address, c.usdc, a);
+    if (!b) continue;
+    const finalUsdc = Number(ethers.formatUnits(b, c.usdcDec));
+    rows.push({ token: t.symbol, finalUsdc, grossUsdc: finalUsdc - usdcAmount, netUsdc: finalUsdc - usdcAmount - gasUsdc });
+  }
+  rows.sort((x, y) => y.netUsdc - x.netUsdc);
+  return rows;
+}
 
 async function quote(provider, v, tokenIn, tokenOut, amountIn) {
   try {
@@ -119,7 +164,8 @@ async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride) {
   const nativePriceUsdc = nativeOut > 0 ? usdcAmount / nativeOut : 0;
   const fee = await provider.getFeeData();
   const gasPrice = fee.maxFeePerGas || fee.gasPrice || 0n;
-  const gasUsdc = Number(ethers.formatUnits(gasPrice * GAS_LIMIT_ROUND_TRIP, 18)) * nativePriceUsdc;
+  const gasLimit = chainKey === "polygon" ? GAS_LIMIT_POLYGON : GAS_LIMIT_ROUND_TRIP;
+  const gasUsdc = Number(ethers.formatUnits(gasPrice * gasLimit, 18)) * nativePriceUsdc;
 
   // Base comparativa: solo el par nativo con las piscinas del radar anterior (sin Algebra)
   const legacyVenues = c.venues.filter(v => v.type !== "algebra" && v.fee !== 100 && v.fee !== 2500 && !/Biswap|BiSwap/.test(v.name));
@@ -128,8 +174,12 @@ async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride) {
 
   const perTokenRows = await Promise.all(c.tokens.map(t => evaluateToken(provider, c, t, usdcAmount, gasUsdc, c.venues)));
   const rows = perTokenRows.flat().sort((a, b) => b.netUsdc - a.netUsdc);
-  const best = rows[0] || null;
-  return { chain: chainKey, usdcAmount, gasUsdc, nativePriceUsdc, best, legacyBest: legacyRows[0] || null, rows, perToken: c.tokens.map((t, i) => ({ symbol: t.symbol, best: perTokenRows[i].sort((a, b) => b.netUsdc - a.netUsdc)[0] || null })), shouldFire: !!best && best.netUsdc >= MIN_NET_PROFIT_USDC };
+  // Prioridad cross-pool (Piscina A ➔ Piscina B distintas); solo si no hay ninguna se cae a misma piscina.
+  const crossRows = rows.filter(r => r.buy !== r.sell);
+  const best = crossRows[0] || rows[0] || null;
+  let odos = null;
+  try { odos = await odosRoundTrip(c, chainKey === "polygon" ? 137 : 56, usdcAmount, gasUsdc); } catch (_) {}
+  return { chain: chainKey, usdcAmount, gasUsdc, gasLimit: Number(gasLimit), nativePriceUsdc, best, bestIsCrossPool: !!crossRows[0], legacyBest: legacyRows[0] || null, rows, odos, perToken: c.tokens.map((t, i) => ({ symbol: t.symbol, best: perTokenRows[i].filter(r => r.buy !== r.sell).concat(perTokenRows[i]).sort((a, b) => (a.buy === a.sell) - (b.buy === b.sell) || b.netUsdc - a.netUsdc)[0] || null })), shouldFire: !!best && best.netUsdc >= MIN_NET_PROFIT_USDC };
 }
 
 /**
@@ -161,6 +211,7 @@ async function runRadar() {
       r.perToken.forEach(t => t.best
         ? console.log(`    ${t.symbol.padEnd(5)} mejor: ${t.best.buy} ➔ ${t.best.sell} | neto ${t.best.netUsdc >= 0 ? "+" : ""}${t.best.netUsdc.toFixed(4)} USDC (${t.best.netPct.toFixed(3)}%)`)
         : console.log(`    ${t.symbol.padEnd(5)} sin cotizaciones`));
+      if (r.odos) console.log(r.odos.length ? `    Odos (${r.odos.length} tokens): mejor ${r.odos[0].token} neto ${r.odos[0].netUsdc >= 0 ? "+" : ""}${r.odos[0].netUsdc.toFixed(4)} USDC (informativo)` : "    Odos: sin cotizaciones");
       if (r.legacyBest && r.best) console.log(`    Mejora vs radar anterior (solo ${CHAINS[key].tokens[0].symbol}): ${r.legacyBest.netUsdc.toFixed(4)} ➔ ${r.best.netUsdc.toFixed(4)} USDC`);
       console.log(r.shouldFire
         ? `    ✅ Umbral superado (neto >= +$${MIN_NET_PROFIT_USDC}). Solo informativo: ningún disparo se firma desde aquí.`
@@ -184,7 +235,9 @@ function persistRadarSummary(out) {
     const pick = r => r && r.best ? {
       usdcAmount: r.usdcAmount, gasUsdc: Number(r.gasUsdc.toFixed(4)), token: r.best.token, buy: r.best.buy, sell: r.best.sell,
       netUsdc: Number(r.best.netUsdc.toFixed(4)), netPct: Number(r.best.netPct.toFixed(4)), shouldFire: r.shouldFire,
-      legacyNetUsdc: r.legacyBest ? Number(r.legacyBest.netUsdc.toFixed(4)) : null
+      legacyNetUsdc: r.legacyBest ? Number(r.legacyBest.netUsdc.toFixed(4)) : null,
+      crossPool: !!r.bestIsCrossPool, gasLimit: r.gasLimit,
+      odosBest: r.odos && r.odos[0] ? { token: r.odos[0].token, netUsdc: Number(r.odos[0].netUsdc.toFixed(4)) } : null
     } : null;
     tel.atomicProfitRadar = { updatedAt: new Date().toISOString(), minNetProfitUsdc: MIN_NET_PROFIT_USDC, polygon: pick(out.polygon), bsc: pick(out.bsc) };
     fs.writeFileSync(file, JSON.stringify(tel, null, 2));
