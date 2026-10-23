@@ -211,7 +211,7 @@ html, body {
   letter-spacing: 0.35px;
 }
 
-/* GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS DEL MISMO ANCHO */
+/* GRUPO BALANCEADO Y HOLGADO: TARJETAS SUPERIORES */
 .nav-modules-row {
   flex: 1;
   min-width: 0;
@@ -221,7 +221,6 @@ html, body {
 }
 
 .nav-modules-row > .floating-card {
-  flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -230,6 +229,7 @@ html, body {
 
 /* TARJETA FLOTANTE 2: POSICIÓN EN USDC (ESTABLE 1:1) */
 .usdc-queen-card {
+  flex: 0.95 1 0;
   padding: 4px 10px;
   border-color: rgba(16, 185, 129, 0.35);
   background: linear-gradient(180deg, #0e1e24 0%, #09171c 100%) !important;
@@ -278,9 +278,10 @@ html, body {
   font-weight: 700;
 }
 
-/* TARJETA FLOTANTE 3: CICLO DEL DISPARO ATÓMICO */
+/* TARJETA FLOTANTE 3: CICLO DEL DISPARO ATÓMICO (AJUSTADA AL MEDIO) */
 .atomic-cycle-pod {
-  padding: 4px 10px;
+  flex: 0.85 1 0;
+  padding: 4px 8px;
   border-color: rgba(6, 182, 212, 0.30);
 }
 
@@ -291,10 +292,10 @@ html, body {
 }
 
 .cycle-title {
-  font-size: 0.53rem;
+  font-size: 0.52rem;
   font-weight: 800;
   color: var(--cyan);
-  letter-spacing: 0.4px;
+  letter-spacing: 0.35px;
 }
 
 .cycle-pod-flow {
@@ -302,7 +303,7 @@ html, body {
   align-items: center;
   gap: 4px;
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.54rem;
   font-weight: 800;
 }
 
@@ -311,8 +312,9 @@ html, body {
 .c-step.gold-txt { color: var(--gold); }
 .c-sep { color: var(--text-dim); font-size: 0.50rem; }
 
-/* TARJETA FLOTANTE 4: CAJA DE RETIRO & RECARGA */
+/* TARJETA FLOTANTE 4: CAJA DE RETIRO & RECARGA (AJUSTADA AL MEDIO) */
 .profit-vault-pod {
+  flex: 0.85 1 0;
   padding: 4px 8px;
   border-color: rgba(245, 158, 11, 0.35);
   background: linear-gradient(180deg, #1a1710 0%, #110e08 100%) !important;
@@ -332,15 +334,17 @@ html, body {
 
 .pv-desc {
   font-family: var(--font-mono);
-  font-size: 0.53rem;
+  font-size: 0.52rem;
   color: var(--text-muted);
   font-weight: 700;
 }
 .pv-divider { margin: 0 2px; color: var(--text-dim); }
 
-/* TARJETA FLOTANTE 5: BÓVEDA #501 (CÓDIGO COMPLETO) */
+/* TARJETA FLOTANTE 5: BÓVEDA #501 (135%+ MÁS ANCHA, DIRECCIÓN COMPLETA Y BLINDADA HOLGADA) */
 .master-vault-card {
-  padding: 4px 10px;
+  flex: 1.38 1 0 !important;
+  min-width: 320px;
+  padding: 4px 12px;
   background: linear-gradient(180deg, #1b1710 0%, #110f0a 100%) !important;
   border: 1px solid rgba(245, 158, 11, 0.45) !important;
   box-shadow: 0 6px 18px rgba(245, 158, 11, 0.12), var(--shadow-3d-floating) !important;
@@ -350,45 +354,51 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 10px;
+  margin-bottom: 2px;
 }
 
 .vault-badge-gold {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   font-family: var(--font-mono);
   font-size: 0.58rem;
   font-weight: 800;
   color: var(--gold);
+  letter-spacing: 0.4px;
 }
 
 .vault-status-pill {
-  font-size: 0.50rem;
-  padding: 1px 4px;
-  background: rgba(16, 185, 129, 0.20);
-  color: var(--green);
-  border-radius: 3px;
+  font-size: 0.52rem;
+  padding: 2px 8px;
+  background: rgba(16, 185, 129, 0.18);
+  color: #10b981;
+  border-radius: 4px;
   font-weight: 800;
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  letter-spacing: 0.6px;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+  white-space: nowrap;
 }
 
 .vault-addr-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 8px;
 }
 
 .vault-address-mono {
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: clamp(0.56rem, 0.72vw, 0.64rem);
   color: #FFFFFF;
   font-weight: 700;
-  letter-spacing: 0.35px;
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
-  overflow: hidden;
-  text-overflow: ellipsis;
+  letter-spacing: 0.25px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  white-space: nowrap;
+  user-select: all;
+  flex: 1;
 }
 
 .copy-btn {
@@ -399,7 +409,7 @@ html, body {
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 1px;
+  padding: 2px;
   transition: color 0.15s ease;
   flex-shrink: 0;
 }
@@ -418,31 +428,32 @@ html, body {
   border-radius: 3px;
 }
 
-/* Botón Dock Volver a Flota (Abajo en Columna Izquierda) */
+/* Botón Dock Volver a Flota (Abajo en Columna Izquierda, llena el espacio inferior) */
 .back-fleet-dock-btn {
+  margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: clamp(5px, 0.7vh, 7px) 10px;
-  background: linear-gradient(180deg, #121c32 0%, #0a1120 100%) !important;
-  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  gap: 8px;
+  padding: clamp(9px, 1.3vh, 12px) 14px;
+  background: linear-gradient(180deg, #15223c 0%, #0c1424 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-3d-card);
-  color: var(--text-main);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  color: #e2e8f0;
   text-decoration: none;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.75px;
   flex-shrink: 0;
   transition: all 0.2s ease;
 }
 .back-fleet-dock-btn:hover {
-  background: linear-gradient(180deg, #182645 0%, #0f192d 100%) !important;
-  border-color: rgba(56, 189, 248, 0.5) !important;
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background: linear-gradient(180deg, #1c2d50 0%, #101b32 100%) !important;
+  border-color: rgba(56, 189, 248, 0.65) !important;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transform: translateY(-1px);
 }
 
@@ -470,6 +481,7 @@ html, body {
   flex-direction: column;
   gap: clamp(4px, 0.6vh, 6px);
   overflow: hidden !important;
+  height: 100%;
   max-height: 100%;
 }
 
