@@ -21,10 +21,12 @@
   "type": "commonjs",
   "dependencies": {
     "@solana/web3.js": "^1.99.0",
+    "bufferutil": "^4.1.0",
     "dotenv": "^18.0.8",
     "ethers": "^6.17.0",
     "node-cron": "^4.6.0",
     "sharp": "^0.35.5",
-    "twitter-api-v2": "^1.29.1"
+    "twitter-api-v2": "^1.29.1",
+    "utf-8-validate": "^6.0.6"
   }
 }
