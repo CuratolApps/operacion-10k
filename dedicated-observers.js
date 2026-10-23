@@ -1296,6 +1296,20 @@ async function runDedicatedObservers() {
 
   fs.writeFileSync(LIVE_OBSERVER_FILE, JSON.stringify(liveReport, null, 2));
 
+  try {
+    const FLEET_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+    if (fs.existsSync(FLEET_FILE)) {
+      const fl = JSON.parse(fs.readFileSync(FLEET_FILE, "utf8"));
+      fl.liveMarketObserver = liveReport;
+      if (fl.snipingEcosystem && fl.snipingEcosystem.munitionTankUsdc) {
+        fl.snipingEcosystem.updatedAt = new Date().toISOString();
+        fl.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.spreadCurrent = `${polygonScan.arbitrageCycle.spreadPct > 0 ? '+' : ''}${polygonScan.arbitrageCycle.spreadPct}%`;
+        fl.snipingEcosystem.munitionTankUsdc.cannon2_BSC.spreadCurrent = `${bscScan.arbitrageCycle.spreadPct > 0 ? '+' : ''}${bscScan.arbitrageCycle.spreadPct}%`;
+      }
+      fs.writeFileSync(FLEET_FILE, JSON.stringify(fl, null, 2));
+    }
+  } catch (_) {}
+
   console.log(`\n⚡ [6 PISCINAS INSTITUCIONALES ESCANEADAS EN ${elapsedMs}ms]:`);
   console.log(`  • 🏆 Polygon Ruta Ganadora: ${polygonScan.winningPoolRoutePolygon.poolName}`);
   console.log(`    ↳ Cotización: 1 POL ➔ ${polygonScan.winningPoolRoutePolygon.quote1Pol.toFixed(6)} USDC (${polygonScan.winningPoolRoutePolygon.advantagePct > 0 ? `+${polygonScan.winningPoolRoutePolygon.advantagePct}% ventaja vs ruta directa` : "Paridad óptima"})`);

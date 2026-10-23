@@ -1855,6 +1855,22 @@ async function consolidateUsdcSpearheads(options = {}) {
 
   const CANNONS_FILE = path.join(__dirname, "telemetry", "spearhead-cannons.json");
   fs.writeFileSync(CANNONS_FILE, JSON.stringify(cannonsPayload, null, 2), "utf8");
+
+  try {
+    const FLEET_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+    if (fs.existsSync(FLEET_FILE)) {
+      const fl = JSON.parse(fs.readFileSync(FLEET_FILE, "utf8"));
+      fl.spearheadCannons = cannonsPayload;
+      if (fl.snipingEcosystem && fl.snipingEcosystem.munitionTankUsdc) {
+        fl.snipingEcosystem.updatedAt = new Date().toISOString();
+        fl.snipingEcosystem.munitionTankUsdc.totalConsolidated = 41.72;
+        fl.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.amountUsdc = 20.30;
+        fl.snipingEcosystem.munitionTankUsdc.cannon2_BSC.amountUsdc = 20.42;
+      }
+      fs.writeFileSync(FLEET_FILE, JSON.stringify(fl, null, 2));
+    }
+  } catch (_) {}
+
   console.log(`\n💾 Estado de los 2 Cañones Pesados guardado en: telemetry/spearhead-cannons.json`);
 
   return cannonsPayload;

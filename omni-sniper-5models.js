@@ -687,6 +687,22 @@ async function executeUnifiedShinobiSnipe(options = {}) {
 
     if (!fs.existsSync(TELEMETRY_DIR)) fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
     fs.writeFileSync(UNIFIED_EXECUTION_FILE, JSON.stringify(executionPayload, null, 2), "utf8");
+
+    try {
+      const FLEET_FILE = path.join(TELEMETRY_DIR, "fleet-telemetry.json");
+      if (fs.existsSync(FLEET_FILE)) {
+        const fl = JSON.parse(fs.readFileSync(FLEET_FILE, "utf8"));
+        fl.unifiedSniperExecution = executionPayload;
+        if (fl.snipingEcosystem) {
+          fl.snipingEcosystem.updatedAt = new Date().toISOString();
+          fl.snipingEcosystem.atomicOnlyMode = ATOMIC_ONLY_MODE;
+          fl.snipingEcosystem.zeroInternalSweep = ZERO_INTERNAL_SWEEP;
+          fl.snipingEcosystem.strictNoGasSell = STRICT_NO_GAS_SELL;
+        }
+        fs.writeFileSync(FLEET_FILE, JSON.stringify(fl, null, 2));
+      }
+    } catch (_) {}
+
     console.log(`💾 Reporte de Snipe Unificado guardado en: telemetry/unified-sniper-execution.json\n`);
 
     return executionPayload;

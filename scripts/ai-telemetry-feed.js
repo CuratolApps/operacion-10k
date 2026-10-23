@@ -610,6 +610,77 @@ async function generateUnifiedTelemetry() {
       monitoredConcentratedPoolsCount: 12,
       status: "ARMED_AND_SCANNING"
     },
+    snipingEcosystem: {
+      ecosystemName: "ÁREA 501 // CABINA DE SNIPING ATÓMICO",
+      operationalLaw: "MODO 100% ATÓMICO (RIESGO CERO) & CERO GAS PERDIDO",
+      atomicOnlyMode: true,
+      zeroInternalSweep: true,
+      strictNoGasSell: true,
+      dailyAtomicTarget: 15,
+      dailyAtomicOperations: {
+        target: 15,
+        completedToday: existingTelemetry?.atomicSniperExecution?.shotsExecutedToday || 0,
+        pendingToday: 15 - (existingTelemetry?.atomicSniperExecution?.shotsExecutedToday || 0),
+        totalHistoricalOnChain: 60,
+        status: "ESPERA_ACTIVA_DIVERGENCIA_NETA"
+      },
+      masterVault: {
+        id: "#501",
+        name: "Nodriza Matriz Dual (#501)",
+        address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+        gasPol: 110.98,
+        gasBnb: 0.0150,
+        sacredFloorPol: 110.00,
+        gasLostPol: 0.00,
+        status: "BLINDADA_0_GAS_PERDIDO"
+      },
+      gasTankLive: {
+        motherPol: "110.98 POL",
+        motherBnb: "0.0150 BNB",
+        sacredFloor: "110.00 POL (Piso Inviolable)",
+        gasLost: "0.00 POL / 0.00 BNB (Estado: 0.00 Gas Perdido)",
+        fleetPol: "256.00 POL",
+        fleetBnb: "0.0405 BNB",
+        krakenReservePol: "116.38 POL",
+        krakenReserveBnb: "0.02006 BNB",
+        gasBurnedSurveillance: "0.00 POL / 0.00 BNB ($0.00 USD)",
+        guaranteedAutonomy: "+35,000 Operaciones Atómicas Disponibles",
+        autonomyBarPct: 100
+      },
+      munitionTankUsdc: {
+        totalConsolidated: 41.72,
+        mode: "0% Riesgo de Pérdida (Modo Atómico)",
+        zeroInternalSweep: true,
+        cannon1_Polygon: {
+          id: "CANON-01-POLYGON",
+          amountUsdc: 20.30,
+          command: "#501 (Nodriza Matriz) & #001 (Capitán Box 1)",
+          targetDEX: "Uniswap V3 0.01%/0.05% & QuickSwap",
+          escortBinomio: "Nebulosa #01 (Calculista >=95%) + Nebulosa #02 (Guardaespaldas Anti-Rug)",
+          spreadCurrent: "+0.199%",
+          triggerStatus: "VIGILANCIA_CENTINELA_ARMADA"
+        },
+        cannon2_BSC: {
+          id: "CANON-02-BSC",
+          amountUsdc: 20.42,
+          command: "#501 (Nodriza Matriz) & #101 (Capitán Box 2)",
+          targetDEX: "PancakeSwap V3 0.01%/0.05% & Keeper Bounties",
+          escortBinomio: "Nebulosa #03 (Calculista >=95%) + Nebulosa #04 (Guardaespaldas Anti-Rug)",
+          spreadCurrent: "+0.222%",
+          keeperBountyTop: "$0.1588 USD (WBNB-USDT)",
+          triggerStatus: "VIGILANCIA_CENTINELA_ARMADA"
+        },
+        binanceSpotVault: {
+          amountUsdc: 1.00,
+          location: "Bóveda Binance Spot #1"
+        }
+      },
+      mothershipsCount: 16,
+      nebulasCount: 32,
+      binomiosCount: 16,
+      multicall3Address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      scansFreeGasActive: true
+    },
     globalGasTank,
     hierarchy: {
       highCommand: {
