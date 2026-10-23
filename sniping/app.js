@@ -937,7 +937,7 @@ function setupModalDossier() {
 }
 
 // =============================================================================
-// BOTÓN COPIAR CON FEEDBACK
+// BOTÓN COPIAR CON FEEDBACK (COPIA DIRECCIÓN COMPLETA DE 42 CARACTERES)
 // =============================================================================
 function setupCopyButtons() {
   const btn = document.getElementById("btnCopy501");
@@ -947,7 +947,8 @@ function setupCopyButtons() {
   if (!btn || !toast || !addr) return;
 
   btn.onclick = () => {
-    navigator.clipboard.writeText(addr.textContent.trim()).then(() => {
+    const textToCopy = addr.getAttribute("data-full-address") || addr.textContent.trim();
+    navigator.clipboard.writeText(textToCopy).then(() => {
       toast.style.display = "inline-block";
       setTimeout(() => {
         toast.style.display = "none";

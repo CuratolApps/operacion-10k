@@ -103,17 +103,17 @@ html, body {
 .text-dim { color: var(--text-dim); }
 
 /* ==========================================================================
-   BLOQUE 1: BARRA SUPERIOR (HEADER) — 1 SOLA LÍNEA, SIN DESBORDES
+   BLOQUE 1: BARRA SUPERIOR (HEADER) — 2 RENGLONES IZQUIERDA, SIN DESBORDES
    ========================================================================== */
 .top-nav-bar {
-  height: clamp(38px, 4.5vh, 44px);
+  height: clamp(50px, 6.2vh, 56px);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
-  padding: 0 clamp(6px, 1vw, 10px);
-  background: rgba(15, 20, 32, 0.92);
+  gap: clamp(6px, 1vw, 12px);
+  padding: 0 clamp(8px, 1.2vw, 14px);
+  background: rgba(12, 16, 26, 0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
   z-index: 100;
@@ -122,43 +122,46 @@ html, body {
 
 .nav-identity-col {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
   flex-shrink: 0;
 }
 
 .brand-pill {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  background: rgba(6, 182, 212, 0.08);
+  gap: 5px;
+  padding: 2px 7px;
+  background: rgba(6, 182, 212, 0.10);
   border: 1px solid var(--border-cyan);
   border-radius: var(--radius-sm);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.12);
 }
 
 .brand-tag {
   font-family: var(--font-mono);
   font-weight: 800;
-  font-size: 0.76rem;
+  font-size: 0.70rem;
   color: var(--cyan);
   letter-spacing: 0.5px;
 }
 
-/* Indicador de Estado Conectado en Vivo */
+/* Indicador de Estado Conectado en Vivo (Renglón 2) */
 .live-connection-badge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
+  gap: 5px;
+  padding: 1px 6px;
   background: rgba(16, 185, 129, 0.08);
   border: 1px solid rgba(16, 185, 129, 0.35);
   border-radius: var(--radius-sm);
 }
 
 .pulse-dot-green {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background-color: var(--green);
   box-shadow: 0 0 8px var(--green);
@@ -172,7 +175,7 @@ html, body {
 }
 
 .live-conn-text {
-  font-size: 0.62rem;
+  font-size: 0.56rem;
   font-weight: 800;
   color: var(--green);
   font-family: var(--font-mono);
@@ -310,18 +313,20 @@ html, body {
 .nav-right-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(5px, 0.8vw, 8px);
   flex-shrink: 0;
 }
 
 .master-vault-card {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   padding: 3px 8px;
-  background: rgba(245, 158, 11, 0.06);
+  background: rgba(245, 158, 11, 0.08);
   border: 1px solid var(--border-gold);
   border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.10);
 }
 
 .vault-label-row {
@@ -344,23 +349,24 @@ html, body {
 .vault-status-pill {
   font-size: 0.50rem;
   padding: 1px 4px;
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.18);
   color: var(--green);
   border-radius: 3px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .vault-addr-row {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .vault-address-mono {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.70rem;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.4px;
 }
 
 .copy-btn {
@@ -1060,23 +1066,31 @@ html, body {
 
 /* ==========================================================================
    BLOQUE 4: ZONA INFERIOR (REGLETA 15 DISPAROS + BITÁCORA ON-CHAIN)
+   FONDO NEGRO PROFUNDO (NEGRO NEGRO OSCURO) PARA MÁXIMA DISTINCIÓN
    ========================================================================== */
 .block-atomic-battery {
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: clamp(3px, 0.5vh, 5px);
-  padding: clamp(5px, 0.7vh, 8px) clamp(8px, 0.8vw, 10px);
+  gap: clamp(4px, 0.6vh, 6px);
+  padding: clamp(6px, 0.8vh, 10px) clamp(8px, 0.8vw, 12px);
   overflow: hidden;
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.98), inset 0 0 50px rgba(0, 0, 0, 0.98) !important;
 }
 
-/* Regleta de 15 Cápsulas */
+/* Regleta de 15 Cápsulas con Contraste Puro */
 .battery-strip-wrapper {
   display: flex;
   flex-direction: column;
   gap: 3px;
   flex-shrink: 0;
+  background: #030406;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
 }
 
 .battery-meta-row {
@@ -1092,10 +1106,10 @@ html, body {
   font-size: 0.60rem;
   white-space: nowrap;
 }
-.b-txt { color: var(--text-muted); font-weight: 700; }
+.b-txt { color: #CBD5E1; font-weight: 700; }
 .b-sub-tag {
   font-size: 0.50rem;
-  color: var(--text-dim);
+  color: #64748B;
   font-family: var(--font-mono);
   margin-left: 4px;
 }
@@ -1106,7 +1120,7 @@ html, body {
   gap: 8px;
   font-size: 0.52rem;
   font-family: var(--font-mono);
-  color: var(--text-dim);
+  color: #94A3B8;
   white-space: nowrap;
 }
 
@@ -1120,8 +1134,8 @@ html, body {
 .shot-capsule {
   padding: 3px 2px;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
+  background: #05070a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1130,20 +1144,21 @@ html, body {
 }
 
 .shot-capsule.pending {
-  border-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.05);
+  background: #020305;
 }
 
 .shot-capsule.executed {
-  background: rgba(16, 185, 129, 0.12);
+  background: rgba(16, 185, 129, 0.16);
   border-color: var(--green);
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 .capsule-idx {
   font-family: var(--font-mono);
   font-size: 0.56rem;
   font-weight: 800;
-  color: var(--text-muted);
+  color: #64748B;
 }
 .shot-capsule.executed .capsule-idx {
   color: var(--green);
@@ -1155,20 +1170,21 @@ html, body {
   font-weight: 800;
 }
 .shot-capsule.pending .capsule-badge {
-  color: var(--text-dim);
+  color: #475569;
 }
 .shot-capsule.executed .capsule-badge {
   color: #fff;
 }
 
-/* Tabla de Trazabilidad */
+/* Tabla de Trazabilidad y Operaciones: Fondo Negro Puro */
 .atomic-log-table-container {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
-  background: rgba(0, 0, 0, 0.25);
+  background: #000000 !important;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.99);
 }
 
 .quant-table {
@@ -1176,36 +1192,45 @@ html, body {
   border-collapse: collapse;
   font-size: 0.58rem;
   font-family: var(--font-mono);
+  background: #000000;
 }
 
 .quant-table thead {
   position: sticky;
   top: 0;
-  background: #111726;
+  background: #040507 !important;
   z-index: 10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .quant-table th {
-  padding: 4px 6px;
+  padding: 5px 6px;
   text-align: left;
   font-size: 0.50rem;
   font-weight: 800;
-  color: var(--text-dim);
-  border-bottom: 1px solid var(--border-subtle);
-  letter-spacing: 0.3px;
+  color: #94A3B8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  letter-spacing: 0.4px;
   white-space: nowrap;
+  background: #040507;
 }
 
 .quant-table td {
-  padding: 3px 6px;
-  color: var(--text-main);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 4px 6px;
+  color: #F8FAFC;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   white-space: nowrap;
   font-size: clamp(0.54rem, 0.9vh, 0.60rem);
+  background: transparent;
+}
+
+.quant-table tbody tr {
+  background: #000000;
+  transition: background 0.15s ease;
 }
 
 .quant-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .tx-link {
