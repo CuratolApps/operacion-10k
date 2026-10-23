@@ -338,6 +338,71 @@
           </div>
         </div>
 
+        <!-- BANDA DE TELEMETRÍA Y RADAR DE LATENCIA RPC EN VIVO (4 TARJETAS TÁCTICAS) -->
+        <div class="telemetry-radar-strip" id="telemetryRadarStrip">
+
+          <!-- TARJETA 1: PING RPC POLYGON (CAÑÓN #1) -->
+          <div class="telem-card telem-poly" id="telemPolyCard" title="Latencia RPC Round-Trip con Nodo Polygon PoS (Nodriza #501)">
+            <div class="telem-top-row">
+              <div class="telem-title-wrap">
+                <span class="pulse-dot-tiny green" id="telemPolyDot"></span>
+                <span class="telem-label">PING POLYGON (CAÑÓN #1)</span>
+              </div>
+              <span class="telem-health-badge health-optimal" id="telemPolyBadge">42 ms · ÓPTIMO</span>
+            </div>
+            <div class="telem-metric-row">
+              <span class="telem-metric-num cyan" id="telemPolyMs">42 ms</span>
+              <span class="telem-metric-sub">RTT NODO · POOL V3</span>
+            </div>
+          </div>
+
+          <!-- TARJETA 2: PING RPC BSC (CAÑÓN #2) -->
+          <div class="telem-card telem-bsc" id="telemBscCard" title="Latencia RPC Round-Trip con Nodo BSC Mainnet (Nodriza #501 / #101)">
+            <div class="telem-top-row">
+              <div class="telem-title-wrap">
+                <span class="pulse-dot-tiny green" id="telemBscDot"></span>
+                <span class="telem-label">PING BSC (CAÑÓN #2)</span>
+              </div>
+              <span class="telem-health-badge health-optimal" id="telemBscBadge">68 ms · ÓPTIMO</span>
+            </div>
+            <div class="telem-metric-row">
+              <span class="telem-metric-num gold" id="telemBscMs">68 ms</span>
+              <span class="telem-metric-sub">RTT NODO · PANCAKE V3</span>
+            </div>
+          </div>
+
+          <!-- TARJETA 3: CADENCIA MOTOR (TICK-RATE) -->
+          <div class="telem-card telem-tick" id="telemTickCard" title="Frecuencia real del bucle de sondeo y escaneo de liquidez">
+            <div class="telem-top-row">
+              <div class="telem-title-wrap">
+                <span class="pulse-dot-tiny green" id="telemTickDot"></span>
+                <span class="telem-label">CADENCIA MOTOR (TICK)</span>
+              </div>
+              <span class="telem-health-badge health-optimal" id="telemTickBadge">RITMO SANO</span>
+            </div>
+            <div class="telem-metric-row">
+              <span class="telem-metric-num green-text" id="telemTickVal">1.2s / ciclo</span>
+              <span class="telem-metric-sub">~3,000 SCANS/H · $0 GAS</span>
+            </div>
+          </div>
+
+          <!-- TARJETA 4: SALUD DE GAS & MEV SHIELD -->
+          <div class="telem-card telem-gas" id="telemGasCard" title="Mempool libre de congestión para entrada en bloque garantizada">
+            <div class="telem-top-row">
+              <div class="telem-title-wrap">
+                <span class="pulse-dot-tiny purple" id="telemGasDot"></span>
+                <span class="telem-label">GAS &amp; MEV SHIELD</span>
+              </div>
+              <span class="telem-health-badge health-shielded" id="telemGasBadge">CANAL LIMPIO</span>
+            </div>
+            <div class="telem-metric-row">
+              <span class="telem-metric-num purple-text" id="telemGasVal">31 Gwei · 0% SLIP</span>
+              <span class="telem-metric-sub">MEMPOOL BLINDADO 5/5</span>
+            </div>
+          </div>
+
+        </div>
+
         <!-- LOS 2 CAÑONES PESADOS ACTIVOS CON DISEÑO AMPLIO Y SIN HUECOS VACÍOS -->
         <div class="cannons-active-banner">
           

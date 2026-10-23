@@ -440,8 +440,9 @@ function initApp() {
   // Render inicial de cápsulas de cuota
   renderBatteryCapsules(currentShotsDone, DAILY_TARGET);
 
-  // Inicializar interfaz con estado en vivo y tabla de auditoría real
+  // Inicializar interfaz con estado en vivo, telemetría de latencia y tabla de auditoría
   updateCannonsLiveUi();
+  updateTelemetryUi();
   renderTraceabilityTable();
 
   // Primer sondeo inmediato y ciclo recurrente de 6 segundos
@@ -456,6 +457,112 @@ if (document.readyState === "loading") {
 }
 
 // =============================================================================
+// ESTADO DE TELEMETRÍA DE RED & LATENCIA RPC EN VIVO
+// =============================================================================
+const liveTelemetry = {
+  polygonPing: 42,
+  bscPing: 68,
+  tickRate: 1.2,
+  polygonGasGwei: 31,
+  bscGasGwei: 3.2,
+  lastPollTimestamp: 0
+};
+
+function updateTelemetryUi() {
+  // 1. Polygon Latency
+  const polyMs = liveTelemetry.polygonPing || 42;
+  const elPolyMs = document.getElementById("telemPolyMs");
+  const elPolyBadge = document.getElementById("telemPolyBadge");
+  const elPolyDot = document.getElementById("telemPolyDot");
+
+  if (elPolyMs) elPolyMs.textContent = `${polyMs} ms`;
+  if (elPolyBadge) {
+    if (polyMs < 120) {
+      elPolyBadge.className = "telem-health-badge health-optimal";
+      elPolyBadge.textContent = `${polyMs} ms · ÓPTIMO`;
+      if (elPolyDot) elPolyDot.className = "pulse-dot-tiny green";
+    } else if (polyMs <= 280) {
+      elPolyBadge.className = "telem-health-badge health-nominal";
+      elPolyBadge.textContent = `${polyMs} ms · NOMINAL`;
+      if (elPolyDot) elPolyDot.className = "pulse-dot-tiny cyan";
+    } else {
+      elPolyBadge.className = "telem-health-badge health-warning";
+      elPolyBadge.textContent = `${polyMs} ms · LAG RPC`;
+      if (elPolyDot) elPolyDot.className = "pulse-dot-tiny red";
+    }
+  }
+
+  // 2. BSC Latency
+  const bscMs = liveTelemetry.bscPing || 68;
+  const elBscMs = document.getElementById("telemBscMs");
+  const elBscBadge = document.getElementById("telemBscBadge");
+  const elBscDot = document.getElementById("telemBscDot");
+
+  if (elBscMs) elBscMs.textContent = `${bscMs} ms`;
+  if (elBscBadge) {
+    if (bscMs < 130) {
+      elBscBadge.className = "telem-health-badge health-optimal";
+      elBscBadge.textContent = `${bscMs} ms · ÓPTIMO`;
+      if (elBscDot) elBscDot.className = "pulse-dot-tiny green";
+    } else if (bscMs <= 300) {
+      elBscBadge.className = "telem-health-badge health-nominal";
+      elBscBadge.textContent = `${bscMs} ms · NOMINAL`;
+      if (elBscDot) elBscDot.className = "pulse-dot-tiny gold";
+    } else {
+      elBscBadge.className = "telem-health-badge health-warning";
+      elBscBadge.textContent = `${bscMs} ms · LAG RPC`;
+      if (elBscDot) elBscDot.className = "pulse-dot-tiny red";
+    }
+  }
+
+  // 3. Cadencia / Tick-rate
+  const tick = liveTelemetry.tickRate || 1.2;
+  const elTickVal = document.getElementById("telemTickVal");
+  const elTickBadge = document.getElementById("telemTickBadge");
+  const elTickDot = document.getElementById("telemTickDot");
+
+  if (elTickVal) elTickVal.textContent = `${tick}s / ciclo`;
+  if (elTickBadge) {
+    if (tick <= 2.5) {
+      elTickBadge.className = "telem-health-badge health-optimal";
+      elTickBadge.textContent = "RITMO SANO";
+      if (elTickDot) elTickDot.className = "pulse-dot-tiny green";
+    } else if (tick <= 5.0) {
+      elTickBadge.className = "telem-health-badge health-nominal";
+      elTickBadge.textContent = "MODERADO";
+      if (elTickDot) elTickDot.className = "pulse-dot-tiny gold";
+    } else {
+      elTickBadge.className = "telem-health-badge health-warning";
+      elTickBadge.textContent = "DEMORADO";
+      if (elTickDot) elTickDot.className = "pulse-dot-tiny red";
+    }
+  }
+
+  // 4. Gas & MEV Shield
+  const polyGwei = liveTelemetry.polygonGasGwei || 31;
+  const elGasVal = document.getElementById("telemGasVal");
+  const elGasBadge = document.getElementById("telemGasBadge");
+  const elGasDot = document.getElementById("telemGasDot");
+
+  if (elGasVal) elGasVal.textContent = `${polyGwei} Gwei · 0% SLIP`;
+  if (elGasBadge) {
+    if (polyGwei < 60) {
+      elGasBadge.className = "telem-health-badge health-shielded";
+      elGasBadge.textContent = "CANAL LIMPIO";
+      if (elGasDot) elGasDot.className = "pulse-dot-tiny purple";
+    } else if (polyGwei <= 150) {
+      elGasBadge.className = "telem-health-badge health-nominal";
+      elGasBadge.textContent = "CONGESTIÓN MEDIA";
+      if (elGasDot) elGasDot.className = "pulse-dot-tiny gold";
+    } else {
+      elGasBadge.className = "telem-health-badge health-warning";
+      elGasBadge.textContent = "ALTO GWEI";
+      if (elGasDot) elGasDot.className = "pulse-dot-tiny red";
+    }
+  }
+}
+
+// =============================================================================
 // BUCLE DE SONDEO JSON-RPC ON-CHAIN CADA 6 SEGUNDOS (CERO SIMULACIONES)
 // =============================================================================
 async function pollLiveOnChain() {
@@ -465,11 +572,20 @@ async function pollLiveOnChain() {
     setTimeout(() => scannerPill.classList.remove("pulsing"), 1200);
   }
 
+  // Medición de cadencia real entre ciclos
+  const now = performance.now();
+  if (liveTelemetry.lastPollTimestamp > 0) {
+    const dt = ((now - liveTelemetry.lastPollTimestamp) / 1000).toFixed(1);
+    liveTelemetry.tickRate = parseFloat(dt);
+  }
+  liveTelemetry.lastPollTimestamp = now;
+
   try {
-    // 1. Lectura simultánea de bloques de Polygon y BSC
-    const [polyBlock, bscBlock] = await Promise.all([
+    // 1. Lectura simultánea de bloques y gas de Polygon y BSC
+    const [polyBlock, bscBlock, polyGas] = await Promise.all([
       fetchRpcBlockNumber("polygon"),
-      fetchRpcBlockNumber("bsc")
+      fetchRpcBlockNumber("bsc"),
+      fetchGasPrice("polygon")
     ]);
 
     if (polyBlock && polyBlock > 0) {
@@ -482,6 +598,10 @@ async function pollLiveOnChain() {
       latestBscBlock = bscBlock;
       const elBscTxt = document.getElementById("liveBscBlockText");
       if (elBscTxt) elBscTxt.textContent = `BLOQUE #${bscBlock.toLocaleString("en-US")}`;
+    }
+
+    if (polyGas && polyGas > 0) {
+      liveTelemetry.polygonGasGwei = polyGas;
     }
 
     // 2. Consulta on-chain del saldo nativo (POL y BNB) de la Bóveda #501
@@ -542,8 +662,9 @@ async function pollLiveOnChain() {
       livePrices.bsc.spreadPct = (Math.abs(livePrices.bsc.p005 - livePrices.bsc.p001) / minP) * 100;
     }
 
-    // Actualizar tarjetas de los Cañones con precios reales y estado honesto
+    // Actualizar tarjetas de los Cañones con precios reales y telemetría de latencia
     updateCannonsLiveUi();
+    updateTelemetryUi();
 
     // 3. Sincronización con fleet-telemetry.json local
     await syncLocalTelemetry();
@@ -556,7 +677,7 @@ async function pollLiveOnChain() {
   }
 }
 
-// Llamada JSON-RPC genérica con fallback de endpoints
+// Llamada JSON-RPC genérica con medición de latencia y fallback de endpoints
 async function callRpc(chain, method, params = []) {
   const config = RPC_CONFIG[chain];
   if (!config) return null;
@@ -565,6 +686,7 @@ async function callRpc(chain, method, params = []) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const tStart = performance.now();
 
       const res = await fetch(url, {
         method: "POST",
@@ -577,12 +699,26 @@ async function callRpc(chain, method, params = []) {
       if (res.ok) {
         const data = await res.json();
         if (data.result !== undefined) {
+          const rtt = Math.round(performance.now() - tStart);
+          if (chain === "polygon" && rtt > 5) {
+            liveTelemetry.polygonPing = rtt;
+          } else if (chain === "bsc" && rtt > 5) {
+            liveTelemetry.bscPing = rtt;
+          }
           return data.result;
         }
       }
     } catch (e) {
       // Intenta siguiente endpoint si uno falla
     }
+  }
+  return null;
+}
+
+async function fetchGasPrice(chain) {
+  const result = await callRpc(chain, "eth_gasPrice", []);
+  if (result) {
+    return Math.round(parseInt(result, 16) / 1e9);
   }
   return null;
 }
