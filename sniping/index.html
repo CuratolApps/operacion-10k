@@ -19,107 +19,204 @@
 <body class="area501-sniping-body">
 
   <!-- ========================================================================= -->
-  <!-- BLOQUE 1 (BARRA SUPERIOR): POSICIÓN PATRIMONIAL, CARTERA #501 & CONTADOR -->
+  <!-- BLOQUE 1 (BARRA SUPERIOR): POSICIÓN 100% USDC, CICLO ATÓMICO & CARTERA    -->
   <!-- ========================================================================= -->
   <header class="top-nav-bar" id="block-header">
+    
+    <!-- Identidad Limpia en Una Sola Línea -->
     <div class="nav-identity-col">
       <div class="brand-pill">
         <span class="material-symbols-rounded icon-symbol cyan-glow">shield_locked</span>
-        <span class="brand-tag">ÁREA 501</span>
-        <span class="brand-badge-mode">RIESGO 0%</span>
+        <span class="brand-tag">ÁREA 501 // SNIPING ATÓMICO</span>
       </div>
-      <div class="brand-titles">
-        <h1 class="brand-main-title">CABINA DE SNIPING ATÓMICO</h1>
-        <span class="brand-sub-title">16 NODRIZAS · 32 NEBULOSAS IA · CALLSTATIC $0 GAS</span>
-      </div>
-    </div>
-
-    <!-- Botón Rápido a Dashboard General -->
-    <a href="../dashboard/index.html" class="quick-nav-btn" title="Ir a la Terminal Central del Ecosistema">
-      <span class="material-symbols-rounded">dashboard</span>
-      <span class="btn-text">DASHBOARD CENTRAL</span>
-    </a>
-
-    <!-- Cartera Maestra #501 con Copiar -->
-    <div class="master-vault-card" id="vaultCard501">
-      <div class="vault-label-row">
-        <span class="vault-badge-gold">
-          <span class="material-symbols-rounded tiny-icon">account_balance</span>
-          BÓVEDA MATRIZ #501
-        </span>
-        <span class="vault-status-pill">100% BLINDADA</span>
-      </div>
-      <div class="vault-addr-row">
-        <span class="vault-address-mono" id="masterVaultAddr">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
-        <button class="copy-btn" id="btnCopy501" title="Copiar dirección completa">
-          <span class="material-symbols-rounded icon-sm">content_copy</span>
-          <span class="copy-feedback-toast" id="copyToast">COPIADO</span>
-        </button>
+      <!-- Indicador de Estado Conectado en Vivo -->
+      <div class="live-connection-badge">
+        <span class="pulse-dot-green"></span>
+        <span class="live-conn-text">CONECTADO EN VIVO (POLYGON + BSC)</span>
       </div>
     </div>
 
-    <!-- Posición Financiera Consolidada en Vivo -->
-    <div class="fin-position-pod">
-      <div class="fin-stat-col">
-        <span class="fin-label">INVERSIÓN TOTAL</span>
-        <span class="fin-val gold" id="topInvVal">123,00 € ($133.50)</span>
+    <!-- MÉTRICA REINA: POSICIÓN 100% EN USDC ESTABLE (0% VOLATILIDAD) -->
+    <div class="usdc-queen-card">
+      <div class="queen-top-row">
+        <span class="material-symbols-rounded icon-xs green-text">monetization_on</span>
+        <span class="queen-title">POSICIÓN EN USDC (ESTABLE 1:1)</span>
+        <span class="queen-badge">0% RIESGO VOLATILIDAD</span>
       </div>
-      <div class="fin-divider"></div>
-      <div class="fin-stat-col">
-        <span class="fin-label">POSICIÓN HOY (REBOTE)</span>
-        <span class="fin-val green" id="topPosVal">~113,97 € ($123.42)</span>
+      <div class="queen-data-row">
+        <span class="queen-amount" id="topUsdcStableVal">$41.72 USDC</span>
+        <span class="queen-status-text">EN USDC OFICIAL AHORA MISMO</span>
       </div>
-      <div class="fin-divider"></div>
-      <div class="fin-stat-col">
-        <span class="fin-label">BRECHA P/ EMPATE</span>
-        <span class="fin-val red" id="topGapVal">-9,03 € (-$10.08)</span>
-      </div>
-      <div class="parity-badge" id="topParityBadge">92.6% EMPATE</div>
     </div>
 
-    <!-- Marcadores Operativos Globales -->
-    <div class="global-ops-pod">
-      <div class="ops-counter-pill" id="pillDailyQuota">
-        <span class="material-symbols-rounded icon-sm green-glow">adjust</span>
-        <span class="ops-pill-txt">ATÓMICOS HOY: <strong class="green-text" id="topAtomicShotsText">0 / 15</strong></span>
+    <!-- CICLO DEL DISPARO ATÓMICO: SALIDA USDC ➔ RETORNO USDC + GANANCIA -->
+    <div class="atomic-cycle-pod">
+      <div class="cycle-pod-header">
+        <span class="material-symbols-rounded icon-xs cyan">sync_alt</span>
+        <span class="cycle-title">CICLO DEL DISPARO ATÓMICO</span>
       </div>
-      <div class="ops-counter-pill alt">
-        <span class="material-symbols-rounded icon-sm gold-glow">history</span>
-        <span class="ops-pill-txt">HISTÓRICO: <strong id="topHistoricalTx">60 CONFIRMADAS</strong></span>
+      <div class="cycle-pod-flow">
+        <span class="c-step">SALE USDC</span>
+        <span class="c-sep">➔</span>
+        <span class="c-step active">RECUPERA 100% BASE USDC</span>
+        <span class="c-sep">➔</span>
+        <span class="c-step gold-txt">+ GANANCIA</span>
       </div>
-      <div class="ops-counter-pill radar-pill">
-        <span class="pulse-indicator-green"></span>
-        <span class="ops-pill-txt">$0 GAS ACTIVO</span>
-      </div>
-      <button class="refresh-radar-btn" id="btnRefreshRadar" title="Refrescar Telemetría On-Chain">
-        <span class="material-symbols-rounded icon-sm">sync</span>
-      </button>
     </div>
+
+    <!-- CAJA DE RETIRO & RECARGA DE TANQUES -->
+    <div class="profit-vault-pod">
+      <div class="pv-header">
+        <span class="material-symbols-rounded icon-xs gold">savings</span>
+        <span class="pv-title">DESTINO GANANCIA</span>
+      </div>
+      <div class="pv-desc">
+        <span>70% CAJA RETIRO USDC</span>
+        <span class="pv-divider">·</span>
+        <span>30% RECARGA TANQUES GAS</span>
+      </div>
+    </div>
+
+    <!-- Cartera Maestra #501 + Botón Volver a Flota -->
+    <div class="nav-right-actions">
+      <div class="master-vault-card" id="vaultCard501" title="Dirección de la Bóveda Matriz #501">
+        <div class="vault-label-row">
+          <span class="vault-badge-gold">
+            <span class="material-symbols-rounded tiny-icon">account_balance</span>
+            BÓVEDA #501
+          </span>
+          <span class="vault-status-pill">BLINDADA</span>
+        </div>
+        <div class="vault-addr-row">
+          <span class="vault-address-mono" id="masterVaultAddr">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
+          <button class="copy-btn" id="btnCopy501" title="Copiar dirección completa">
+            <span class="material-symbols-rounded icon-sm">content_copy</span>
+            <span class="copy-feedback-toast" id="copyToast">COPIADO</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón Pequeño de Retorno -->
+      <a href="../dashboard/index.html" class="back-fleet-btn" title="Volver a la Terminal General de la Flota">
+        <span class="material-symbols-rounded icon-xs">arrow_back</span>
+        <span>Volver a Flota</span>
+      </a>
+    </div>
+
   </header>
 
   <!-- ========================================================================= -->
-  <!-- MAIN WORKSPACE: LAYOUT 100VH CERO SCROLL -->
+  <!-- MAIN WORKSPACE: LAYOUT 100VH CERO SCROLL                                  -->
   <!-- ========================================================================= -->
   <main class="sniping-workspace">
 
     <!-- ======================================================================= -->
-    <!-- BLOQUE 2 (COLUMNA IZQUIERDA): TANQUE DE GAS (0 GAS PERDIDO) + MUNICIÓN -->
+    <!-- BLOQUE 2 (COLUMNA IZQUIERDA): MUNICIÓN 100% USDC + TANQUE DE GAS        -->
     <!-- ======================================================================= -->
     <aside class="col-gas-munition">
 
-      <!-- TARJETA 1: TANQUE DE GASOLINA CONECTADO -->
+      <!-- TARJETA 1: POSICIÓN ACTIVA EN USDC (MUNICIÓN DE DISPARO) -->
+      <section class="quant-card munition-card" id="cardMunition">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded card-icon gold">account_balance_wallet</span>
+            <h2 class="card-title">POSICIÓN ACTIVA EN USDC</h2>
+          </div>
+          <span class="status-badge green-badge">100% EN USDC AHORA</span>
+        </div>
+
+        <div class="card-sub-policy">
+          <span class="material-symbols-rounded icon-xs">verified</span>
+          <span>FONDOS EN PODER: $41.72 USDC (CERO VOLATILIDAD)</span>
+        </div>
+
+        <!-- Total Consolidado en #501 -->
+        <div class="munition-total-display">
+          <div class="munition-total-meta">
+            <span class="m-meta-lbl">MUNICIÓN TOTAL DISPONIBLE</span>
+            <span class="m-meta-tag green-text">ESTABLE 1:1</span>
+          </div>
+          <div class="munition-big-price" id="munitionTotalUsdc">$41.72 USDC</div>
+          <div class="munition-progress-desc">
+            <span>Objetivo Hito 1: $50.00 USDC</span>
+            <span class="gold-text">83.4% Alcanzado</span>
+          </div>
+        </div>
+
+        <!-- Desglose de los 2 Cañones + Binance (Fondos ya en USDC) -->
+        <div class="munition-breakdown-list">
+          <div class="munition-row-card highlight-cyan">
+            <div class="m-row-head">
+              <div class="m-canon-title">
+                <span class="material-symbols-rounded icon-xs cyan">target</span>
+                <span>CAÑÓN #1 (POLYGON POS)</span>
+              </div>
+              <span class="m-canon-amt cyan" id="munitionCanon1">$20.30 USDC</span>
+            </div>
+            <div class="m-row-desc">En Nodriza #501 / #001 · USDC Nativo Circle</div>
+          </div>
+
+          <div class="munition-row-card highlight-gold">
+            <div class="m-row-head">
+              <div class="m-canon-title">
+                <span class="material-symbols-rounded icon-xs gold">target</span>
+                <span>CAÑÓN #2 (BSC MAINNET)</span>
+              </div>
+              <span class="m-canon-amt gold" id="munitionCanon2">$20.42 USDC</span>
+            </div>
+            <div class="m-row-desc">En Nodriza #501 / #101 · USDC Oficial BSC</div>
+          </div>
+
+          <div class="munition-row-card">
+            <div class="m-row-head">
+              <div class="m-canon-title">
+                <span class="material-symbols-rounded icon-xs purple">account_balance</span>
+                <span>BÓVEDA SPOT #1</span>
+              </div>
+              <span class="m-canon-amt" id="munitionBinance">$1.00 USDC</span>
+            </div>
+            <div class="m-row-desc">Retiro Seguro en Binance Spot #1 · Reserva Fija</div>
+          </div>
+        </div>
+
+        <!-- DIAGRAMA DE FLUJO DE 3 PASOS DEL CICLO DE DISPARO -->
+        <div class="cycle-flowchart-card">
+          <div class="flowchart-title">
+            <span class="material-symbols-rounded icon-xs green-text">autorenew</span>
+            <span>DIAGRAMA DE FLUJO DEL CICLO ATÓMICO:</span>
+          </div>
+          <div class="flowchart-steps">
+            <div class="flow-step-box">
+              <span class="step-badge">1º</span>
+              <span class="step-text">Dispara Posición USDC</span>
+            </div>
+            <div class="flow-connector">➔</div>
+            <div class="flow-step-box active">
+              <span class="step-badge green">2º</span>
+              <span class="step-text">Recupera 100% Base USDC</span>
+            </div>
+            <div class="flow-connector">➔</div>
+            <div class="flow-step-box">
+              <span class="step-badge gold">3º</span>
+              <span class="step-text">Ganancia: Recarga Gas + Caja Retiro</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TARJETA 2: TANQUE DE GASOLINA CONECTADO (0 GAS PERDIDO) -->
       <section class="quant-card gas-card" id="cardGasTank">
         <div class="card-header">
           <div class="card-title-group">
             <span class="material-symbols-rounded card-icon cyan">local_gas_station</span>
-            <h2 class="card-title">TANQUE DE GAS CONECTADO</h2>
+            <h2 class="card-title">TANQUE DE GASOLINA</h2>
           </div>
           <span class="status-badge green-badge">0 GAS PERDIDO</span>
         </div>
         
         <div class="card-sub-policy">
           <span class="material-symbols-rounded icon-xs">lock</span>
-          <span>STRICT_NO_GAS_SELL = TRUE · VENTA DE GAS PROHIBIDA</span>
+          <span>STRICT_NO_GAS_SELL = TRUE · PISO INVIOLABLE</span>
         </div>
 
         <div class="gas-tank-items">
@@ -131,56 +228,41 @@
             </div>
             <div class="gas-numbers">
               <span class="gas-main-num cyan" id="gasMotherPol">110.98 POL</span>
-              <span class="gas-sub-num">&amp; 0.0150 BNB</span>
+              <span class="gas-sub-num" id="gasMotherBnb">&amp; 0.0150 BNB</span>
             </div>
             <div class="gas-footnote">
               <span class="material-symbols-rounded icon-xs green-text">verified</span>
-              <span class="green-text">Piso Inviolable Blindado · 0.00 POL Perdidos</span>
+              <span class="green-text">Piso Sagrado Intacto · 0.00 POL Perdidos</span>
             </div>
           </div>
 
-          <!-- Gas Total en 16 Nodrizas -->
+          <!-- Gas Total en Flota -->
           <div class="gas-row-box">
             <div class="gas-row-top">
-              <span class="gas-row-title">FLOTA 16 NODRIZAS</span>
+              <span class="gas-row-title">GAS TOTAL EN FLOTA</span>
               <span class="gas-net-tag">POLYGON + BSC</span>
             </div>
             <div class="gas-numbers">
               <span class="gas-main-num gold" id="gasFleetPol">256.00 POL</span>
-              <span class="gas-sub-num">&amp; 0.0405 BNB</span>
+              <span class="gas-sub-num" id="gasFleetBnb">&amp; 0.0405 BNB</span>
             </div>
             <div class="gas-footnote">
-              <span class="text-dim">16 Tanques Protegidos con Ley POL_Final &gt;= POL_Inicial</span>
+              <span class="text-dim">+ 116.38 POL y 0.0200 BNB Listos en Kraken</span>
             </div>
           </div>
 
-          <!-- Reserva Lista en Kraken -->
-          <div class="gas-row-box">
-            <div class="gas-row-top">
-              <span class="gas-row-title">RESERVA LISTA EN KRAKEN</span>
-              <span class="gas-net-tag gold">REPOSTAJE INMEDIATO</span>
-            </div>
-            <div class="gas-numbers">
-              <span class="gas-main-num" id="gasKrakenPol">116.38 POL</span>
-              <span class="gas-sub-num">&amp; 0.02006 BNB</span>
-            </div>
-            <div class="gas-footnote">
-              <span class="text-dim">Sin Riesgo de Interrupción · Listo p/ Inyección</span>
-            </div>
-          </div>
-
-          <!-- Vigilancia $0 Gas -->
+          <!-- Vigilancia a $0 Gas -->
           <div class="gas-row-box zero-cost">
             <div class="gas-row-top">
               <span class="gas-row-title">VIGILANCIA EN TIEMPO REAL</span>
-              <span class="gas-lock-tag green">MULTICALL3 + STATICCALL</span>
+              <span class="gas-lock-tag green">MULTICALL3 ($0 GAS)</span>
             </div>
             <div class="gas-numbers">
               <span class="gas-main-num green-text">0.00 POL / 0.00 BNB</span>
               <span class="gas-sub-num green-text">($0.00 USD)</span>
             </div>
             <div class="gas-footnote">
-              <span class="text-dim">Escaneo infinito a $0 gas sin tocar munición</span>
+              <span class="text-dim">callStatic estático sin gastar ni un céntimo</span>
             </div>
           </div>
         </div>
@@ -188,8 +270,8 @@
         <!-- Barra de Autonomía -->
         <div class="autonomy-box">
           <div class="autonomy-labels">
-            <span class="autonomy-txt">AUTONOMÍA ESTIMADA</span>
-            <span class="autonomy-ops green-text">+35,000 OPERACIONES</span>
+            <span class="autonomy-txt">AUTONOMÍA DISPONIBLE</span>
+            <span class="autonomy-ops green-text">+35,000 DISPAROS</span>
           </div>
           <div class="autonomy-bar-track">
             <div class="autonomy-bar-fill" style="width: 100%;"></div>
@@ -197,98 +279,40 @@
         </div>
       </section>
 
-      <!-- TARJETA 2: TANQUE DE MUNICIÓN USDC (#501) -->
-      <section class="quant-card munition-card" id="cardMunition">
-        <div class="card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded card-icon gold">account_balance_wallet</span>
-            <h2 class="card-title">TANQUE DE MUNICIÓN USDC</h2>
-          </div>
-          <span class="status-badge gold-badge">MODO ATÓMICO</span>
-        </div>
-
-        <div class="card-sub-policy">
-          <span class="material-symbols-rounded icon-xs">block</span>
-          <span>ZERO_INTERNAL_SWEEP = TRUE · CERO COMISIÓN INTERNA</span>
-        </div>
-
-        <!-- Total Consolidado en #501 -->
-        <div class="munition-total-display">
-          <div class="munition-total-meta">
-            <span class="m-meta-lbl">TOTAL CONSOLIDADO FIJO</span>
-            <span class="m-meta-tag green-text">0% RIESGO DE PÉRDIDA</span>
-          </div>
-          <div class="munition-big-price" id="munitionTotalUsdc">$41.72 USDC</div>
-          <div class="munition-progress-desc">
-            <span>Objetivo Hito 1: $50.00 USDC</span>
-            <span class="gold-text">83.4% Alcanzado</span>
-          </div>
-        </div>
-
-        <!-- Desglose de los 2 Cañones + Binance -->
-        <div class="munition-breakdown-list">
-          <div class="munition-row-card">
-            <div class="m-row-head">
-              <div class="m-canon-title">
-                <span class="material-symbols-rounded icon-xs cyan">target</span>
-                <span>CAÑÓN #1 (POLYGON)</span>
-              </div>
-              <span class="m-canon-amt cyan" id="munitionCanon1">$20.30 USDC</span>
-            </div>
-            <div class="m-row-desc">Nodrizas #501 &amp; #001 · Uniswap V3 0.01%/0.05%</div>
-          </div>
-
-          <div class="munition-row-card">
-            <div class="m-row-head">
-              <div class="m-canon-title">
-                <span class="material-symbols-rounded icon-xs gold">target</span>
-                <span>CAÑÓN #2 (BSC)</span>
-              </div>
-              <span class="m-canon-amt gold" id="munitionCanon2">$20.42 USDC</span>
-            </div>
-            <div class="m-row-desc">Nodrizas #501 &amp; #101 · PancakeSwap V3 &amp; Keeper</div>
-          </div>
-
-          <div class="munition-row-card">
-            <div class="m-row-head">
-              <div class="m-canon-title">
-                <span class="material-symbols-rounded icon-xs purple">account_balance</span>
-                <span>BINANCE SPOT #1</span>
-              </div>
-              <span class="m-canon-amt" id="munitionBinance">$1.00 USDC</span>
-            </div>
-            <div class="m-row-desc">Bóveda Externa de Seguridad · Sin Riesgo de Red</div>
-          </div>
-        </div>
-      </section>
-
     </aside>
 
     <!-- ======================================================================= -->
-    <!-- COLUMNA CENTRAL & DERECHA: BLOQUE 3 (CENTRO) + BLOQUE 4 (INFERIOR)      -->
+    <!-- COLUMNA CENTRAL & DERECHA: LOS 2 CAÑONES PESADOS + BITÁCORA ON-CHAIN    -->
     <!-- ======================================================================= -->
     <div class="col-center-workspace">
 
       <!-- ===================================================================== -->
-      <!-- BLOQUE 3 (CENTRO PANORÁMICO): 16 NODRIZAS + 32 NEBULOSAS IA (BINOMIOS) -->
+      <!-- BLOQUE 3 (CENTRO): LOS 2 CAÑONES ACTIVOS + RESUMEN DE 14 EN RESERVA   -->
       <!-- ===================================================================== -->
       <section class="quant-card block-ecosystem" id="blockEcosystem">
+        
+        <!-- Cabecera del Centro con Monitoreo de Bloques RPC en Vivo -->
         <div class="ecosystem-header-bar">
           <div class="eco-title-group">
             <span class="material-symbols-rounded card-icon purple">rocket_launch</span>
             <div>
-              <h2 class="eco-main-title">16 NODRIZAS SNIPER &amp; 32 NEBULOSAS IA (16 BINOMIOS ESCOLTA)</h2>
-              <span class="eco-sub-title">Binomio Indivisible: Impar (Calculista &gt;=95%) + Par (Guardaespaldas Anti-Rug 5 Candados) · Observadores Multicall3</span>
+              <h2 class="eco-main-title">LOS 2 CAÑONES PESADOS ACTIVOS ($40.72 USDC MUNICIÓN HOY)</h2>
+              <span class="eco-sub-title">Escolta IA: 4 Nebulosas Especializadas (Calculistas &gt;=95% + Guardaespaldas 5 Candados) · Cero Riesgo Direccional</span>
             </div>
           </div>
-          <div class="eco-stats-pills">
-            <span class="eco-pill cyan"><span class="material-symbols-rounded icon-xs">radar</span> 12 PISCINAS V3 MONITOREADAS</span>
-            <span class="eco-pill green"><span class="material-symbols-rounded icon-xs">security</span> 5/5 CANDADOS ACTIVOS</span>
-            <span class="eco-pill gold"><span class="material-symbols-rounded icon-xs">bolt</span> ZERO-COLLISION MUTEX OK</span>
+          <div class="eco-live-rpc-badges">
+            <div class="rpc-block-pill" id="pillPolygonBlock">
+              <span class="rpc-dot cyan"></span>
+              <span class="rpc-txt">POLYGON: <strong id="livePolygonBlockText">BLOQUE #96,031,691</strong></span>
+            </div>
+            <div class="rpc-block-pill" id="pillBscBlock">
+              <span class="rpc-dot gold"></span>
+              <span class="rpc-txt">BSC: <strong id="liveBscBlockText">BLOQUE #129,309,488</strong></span>
+            </div>
           </div>
         </div>
 
-        <!-- SECCIÓN DESTACADA: LOS 2 CAÑONES PESADOS ACTIVOS CON MUNICIÓN HOY -->
+        <!-- LOS 2 CAÑONES PESADOS ACTIVOS CON DISEÑO AMPLIO Y SIN DESBORDES -->
         <div class="cannons-active-banner">
           
           <!-- Cañón #1 Polygon -->
@@ -303,23 +327,29 @@
                 <span class="c-usdc-badge cyan" id="cannon1Badge">$20.30 USDC MUNICIÓN</span>
               </div>
             </div>
+            
             <div class="cannon-pod-body">
               <div class="c-detail-col">
                 <span class="c-meta-label">NODRIZAS AL MANDO:</span>
-                <span class="c-meta-val">#501 (Matriz Dual) &amp; #001 (Capitán Box 1)</span>
+                <span class="c-meta-val" title="#501 (Matriz Dual) &amp; #001 (Capitán Box 1)">#501 (Matriz Dual) &amp; #001 (Capitán Box 1)</span>
               </div>
               <div class="c-detail-col">
-                <span class="c-meta-label">BINOMIO ESCOLTA IA:</span>
-                <span class="c-meta-val purple-text">Nebulosa #01 (Calculista 98%) + Nebulosa #02 (Guardaespaldas 5 Candados)</span>
+                <span class="c-meta-label">ESCOLTA IA DEDICADA:</span>
+                <span class="c-meta-val purple-text" title="Nebulosa #01 (Calculista 98%) + Nebulosa #02 (Guardaespaldas 5 Candados)">Nebulosa #01 (Calculista 98%) + Nebulosa #02 (5 Candados)</span>
               </div>
               <div class="c-detail-col">
                 <span class="c-meta-label">RUTA V3 PREFERENTE:</span>
-                <span class="c-meta-val">Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)</span>
+                <span class="c-meta-val" title="Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)">Triangular WETH 0.05% (USDC ➔ WETH ➔ WPOL ➔ USDC)</span>
               </div>
               <div class="c-detail-col">
                 <span class="c-meta-label">SPREAD EN VIVO / GATILLO:</span>
                 <span class="c-meta-val green-text" id="cannon1SpreadVal">+0.1992% Ventaja · callStatic OK ($0 Gas)</span>
               </div>
+            </div>
+
+            <div class="cannon-pod-footer">
+              <span class="c-foot-tag">CICLO GARANTIZADO: USDC ➔ USDC</span>
+              <span class="c-foot-status">CERO RIESGO VOLÁTIL</span>
             </div>
           </div>
 
@@ -335,40 +365,52 @@
                 <span class="c-usdc-badge gold" id="cannon2Badge">$20.42 USDC MUNICIÓN</span>
               </div>
             </div>
+            
             <div class="cannon-pod-body">
               <div class="c-detail-col">
                 <span class="c-meta-label">NODRIZAS AL MANDO:</span>
-                <span class="c-meta-val">#501 (Matriz Dual) &amp; #101 (Capitán Box 2)</span>
+                <span class="c-meta-val" title="#501 (Matriz Dual) &amp; #101 (Capitán Box 2)">#501 (Matriz Dual) &amp; #101 (Capitán Box 2)</span>
               </div>
               <div class="c-detail-col">
-                <span class="c-meta-label">BINOMIO ESCOLTA IA:</span>
-                <span class="c-meta-val purple-text">Nebulosa #03 (Calculista 97%) + Nebulosa #04 (Guardaespaldas 5 Candados)</span>
+                <span class="c-meta-label">ESCOLTA IA DEDICADA:</span>
+                <span class="c-meta-val purple-text" title="Nebulosa #03 (Calculista 97%) + Nebulosa #04 (Guardaespaldas 5 Candados)">Nebulosa #03 (Calculista 97%) + Nebulosa #04 (5 Candados)</span>
               </div>
               <div class="c-detail-col">
-                <span class="c-meta-label">RUTA V3 / KEEPER:</span>
-                <span class="c-meta-val">Cross-Fee V3 0.01% ➔ 0.05% &amp; Keeper Harvest ($0.1588)</span>
+                <span class="c-meta-label">RUTA V3 / KEEPER BOUNTY:</span>
+                <span class="c-meta-val" title="Cross-Fee V3 0.01% ➔ 0.05% &amp; Keeper Harvest ($0.1588)">Cross-Fee V3 0.01% ➔ 0.05% &amp; Keeper ($0.1588)</span>
               </div>
               <div class="c-detail-col">
                 <span class="c-meta-label">SPREAD EN VIVO / GATILLO:</span>
                 <span class="c-meta-val green-text" id="cannon2SpreadVal">+0.2225% Ventaja · callStatic OK ($0 Gas)</span>
               </div>
             </div>
+
+            <div class="cannon-pod-footer">
+              <span class="c-foot-tag">CICLO GARANTIZADO: USDC ➔ USDC</span>
+              <span class="c-foot-status">CERO RIESGO VOLÁTIL</span>
+            </div>
           </div>
 
         </div>
 
-        <!-- GRILLA COMPACTA DE LAS 16 NODRIZAS & 32 NEBULOSAS (MICRO-SCROLL INVISIBLE) -->
-        <div class="motherships-grid-container" id="mothershipsGridContainer">
-          <!-- Generado dinámicamente por app.js con las 16 Nodrizas oficiales -->
-          <div class="grid-loading-placeholder">
-            <span class="material-symbols-rounded spin">sync</span>
-            <span>Cargando las 16 Nodrizas y 32 Nebulosas del Ecosistema...</span>
+        <!-- RESUMEN LIMPIO DE LAS OTRAS 14 NODRIZAS EN RESERVA TÁCTICA -->
+        <div class="reserve-fleet-bar">
+          <div class="reserve-fleet-info">
+            <span class="material-symbols-rounded icon-sm gold">shield</span>
+            <span class="reserve-title">14 NODRIZAS EN RESERVA TÁCTICA:</span>
+            <span class="reserve-stats"><strong>255.77 POL</strong> blindados · <strong>0.0405 BNB</strong> · <strong>28 Nebulosas IA</strong> escoltando a $0 gas</span>
+            <span class="reserve-pills">#201 · #301 · #401 · #008 · #006 · #108 · #106 · #204 · #205 · #307 · #311 · #403 · #411</span>
           </div>
+          <button class="btn-view-reserve" id="btnToggleReserveGrid" title="Ver detalle de las 14 Nodrizas y 28 Nebulosas en reserva">
+            <span class="material-symbols-rounded icon-xs">visibility</span>
+            <span>Ver Expediente Flota</span>
+          </button>
         </div>
+
       </section>
 
       <!-- ===================================================================== -->
-      <!-- BLOQUE 4 (ZONA INFERIOR): REGLETA 15 DISPAROS + BITÁCORA EN VIVO       -->
+      <!-- BLOQUE 4 (ZONA INFERIOR): REGLETA 15 DISPAROS + ESCÁNER ON-CHAIN VIVO  -->
       <!-- ===================================================================== -->
       <section class="quant-card block-atomic-battery" id="blockAtomicBattery">
         
@@ -379,11 +421,11 @@
               <span class="material-symbols-rounded icon-sm green-text">battery_charging_full</span>
               <span class="b-txt">CUOTA ATÓMICA DIARIA:</span>
               <strong class="green-text" id="batteryQuotaFraction">0 / 15 DISPAROS HOY</strong>
-              <span class="b-sub-tag">MODO RIESGO 0% · MÍNIMO +$0.05 A +$0.35 USDC LIBRES</span>
+              <span class="b-sub-tag">MODO RIESGO 0% · MÍNIMO +$0.05 A +$0.35 USDC LIBRES TRAS GAS</span>
             </div>
             <div class="b-meta-stats">
-              <span class="b-stat-item">SPREAD NETO: <strong class="green-text">&gt;= +0.12%</strong></span>
-              <span class="b-stat-item">REGLA CRECIMIENTO: <strong class="gold-text">70% USDC / 30% GAS</strong></span>
+              <span class="b-stat-item">ESCANEO ON-CHAIN: <strong class="green-text" id="scannerStatusPill">CADA 6 SEGUNDOS</strong></span>
+              <span class="b-stat-item">DISPAROS CONFIRMADOS: <strong class="gold-text" id="confirmedOpsCount">60 HISTÓRICAS</strong></span>
             </div>
           </div>
 
@@ -393,23 +435,23 @@
           </div>
         </div>
 
-        <!-- TABLA DE TRAZABILIDAD ATÓMICA Y OPERACIONES CONFIRMADAS -->
+        <!-- TABLA DE TRAZABILIDAD ON-CHAIN Y ESCÁNER DE BLOQUES EN VIVO -->
         <div class="atomic-log-table-container">
           <table class="quant-table" id="atomicTraceTable">
             <thead>
               <tr>
-                <th style="width: 7%;">Nº OP</th>
+                <th style="width: 11%;">BLOQUE / ID</th>
                 <th style="width: 9%;">HORA (UTC)</th>
-                <th style="width: 20%;">NEBULOSAS QUE AUTORIZARON (&gt;=95%)</th>
-                <th style="width: 14%;">NODRIZA DISPARADORA</th>
-                <th style="width: 19%;">RED / RUTA V3 O KEEPER</th>
-                <th style="width: 15%;">USDC ENTRADA ➔ SALIDA</th>
-                <th style="width: 8%;">GAS USADO</th>
+                <th style="width: 17%;">ESTADO / NEBULOSAS</th>
+                <th style="width: 13%;">NODRIZA</th>
+                <th style="width: 18%;">RED / RUTA ATÓMICA</th>
+                <th style="width: 16%;">CICLO: ENTRADA ➔ RETORNO</th>
+                <th style="width: 8%;">GAS ($0 PÉRDIDA)</th>
                 <th style="width: 8%; text-align: right;">GANANCIA NETA</th>
               </tr>
             </thead>
             <tbody id="atomicTraceTbody">
-              <!-- Renglones generados dinámicamente con operaciones confirmadas -->
+              <!-- Renglones de bloques y operaciones confirmadas en tiempo real -->
             </tbody>
           </table>
         </div>
@@ -420,7 +462,7 @@
 
   </main>
 
-  <!-- Modal / Dossier Emergente para Inspección de Nodriza & Binomio Nebulosa -->
+  <!-- Modal / Expediente Emergente para Detalle de Flota & 16 Nodrizas -->
   <div class="dossier-overlay" id="dossierOverlay" style="display: none;">
     <div class="dossier-modal">
       <div class="dossier-header">
@@ -433,7 +475,7 @@
         </button>
       </div>
       <div class="dossier-body" id="dossierBody">
-        <!-- Contenido inyectado dinámicamente -->
+        <!-- Inyectado dinámicamente -->
       </div>
     </div>
   </div>
