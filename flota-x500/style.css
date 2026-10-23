@@ -49,10 +49,10 @@
 }
 
 html, body {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   max-height: 100vh;
-  overflow: hidden;
+  overflow: hidden !important;
   background-color: var(--bg-deep);
   color: var(--text-main);
   font-family: var(--font-sans);
@@ -61,6 +61,11 @@ html, body {
 }
 
 body.area501-flota-body {
+  width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden !important;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) 40px;
   background-image:
@@ -99,21 +104,28 @@ body.area501-flota-body {
 .top-nav-bar {
   display: flex;
   align-items: stretch;
-  gap: 10px;
-  padding: 8px 14px;
+  justify-content: space-between;
+  gap: clamp(6px, 0.8vw, 10px);
+  padding: 6px clamp(12px, 1.5vw, 18px);
   background: rgba(7, 9, 14, 0.94);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
   flex-shrink: 0;
-  height: 64px;
+  height: 56px;
+  max-height: 56px;
   z-index: 100;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .floating-card {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: 10px;
-  padding: 6px 12px;
+  padding: 4px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -131,9 +143,12 @@ body.area501-flota-body {
 
 /* Tarjeta 1: Identidad Área 501 & Conectividad Cloud */
 .nav-identity-card {
-  min-width: 275px;
-  max-width: 300px;
+  width: clamp(230px, 18vw, 275px);
+  min-width: 220px;
+  max-width: 280px;
+  flex-shrink: 0;
   border-left: 3px solid var(--cyan);
+  padding: 4px 10px;
 }
 
 .id-card-top-row {
@@ -143,8 +158,8 @@ body.area501-flota-body {
 }
 
 .shield-lock-icon-badge {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 6px;
   background: rgba(0, 240, 255, 0.12);
   border: 1px solid var(--border-cyan);
@@ -152,6 +167,7 @@ body.area501-flota-body {
   align-items: center;
   justify-content: center;
   color: var(--cyan);
+  flex-shrink: 0;
 }
 
 .brand-tag {
@@ -160,13 +176,14 @@ body.area501-flota-body {
   font-weight: 800;
   letter-spacing: 0.8px;
   color: var(--text-main);
+  white-space: nowrap;
 }
 
 .id-card-sub-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 3px;
+  gap: 6px;
+  margin-top: 2px;
   font-size: 9px;
   font-family: var(--font-mono);
   color: var(--text-dim);
@@ -175,18 +192,18 @@ body.area501-flota-body {
 .id-pills-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .id-cloud-pill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 1px 5px;
+  gap: 3px;
+  padding: 1px 4px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
-  font-size: 9px;
+  font-size: 8.5px;
 }
 
 .pulse-dot-green {
@@ -196,6 +213,7 @@ body.area501-flota-body {
   background: var(--green);
   box-shadow: 0 0 8px var(--green);
   animation: pulse-ring 2s infinite;
+  flex-shrink: 0;
 }
 
 @keyframes pulse-ring {
@@ -209,13 +227,17 @@ body.area501-flota-body {
 .nav-modules-row {
   display: flex;
   align-items: stretch;
-  gap: 10px;
+  gap: clamp(6px, 0.8vw, 10px);
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .nav-card-col {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
+  padding: 4px 8px;
+  overflow: hidden;
 }
 
 .card-top-meta {
@@ -259,14 +281,14 @@ body.area501-flota-body {
 
 .metric-big-bold {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: clamp(12px, 1.1vw, 15px);
   font-weight: 800;
   letter-spacing: -0.3px;
   white-space: nowrap;
 }
 
 .metric-sub-detail {
-  font-size: 10px;
+  font-size: 9.5px;
   font-family: var(--font-mono);
   color: var(--text-muted);
   white-space: nowrap;
@@ -278,25 +300,27 @@ body.area501-flota-body {
 .binance-vaults-strip {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   overflow-x: auto;
   scrollbar-width: none;
+  min-width: 0;
 }
 
 .vault-mini-pill {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
   border-radius: 4px;
-  padding: 2px 5px;
+  padding: 2px 4px;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 8.5px;
   color: var(--text-dim);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   transition: all 0.15s ease;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .vault-mini-pill:hover {
@@ -339,10 +363,13 @@ body.area501-flota-body {
   height: 100%;
   max-height: 100%;
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: clamp(270px, 22vw, 330px) minmax(0, 1fr);
   gap: 10px;
-  padding: 6px 14px 4px;
-  overflow: hidden;
+  padding: 4px clamp(12px, 1.5vw, 18px);
+  overflow: hidden !important;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* =============================================================================
@@ -351,8 +378,9 @@ body.area501-flota-body {
 .col-fleet-left {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   height: 100%;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -525,157 +553,14 @@ body.area501-flota-body {
 }
 
 /* =============================================================================
-   BOTONERA INFERIOR DE MÓDULOS (40PX - UNIFICADA Y CENTRADA)
-   ============================================================================= */
-.bottom-module-dock {
-  height: 40px;
-  min-height: 40px;
-  max-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  background: rgba(7, 9, 14, 0.96);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
-  z-index: 100;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.dock-spacer-left {
-  flex: 1;
-  min-width: 0;
-}
-
-.dock-center-modules {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.dock-right-controls {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  min-width: 0;
-}
-
-.dock-module-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 30px;
-  padding: 0 14px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #94a3b8;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  white-space: nowrap;
-}
-
-.dock-module-btn:hover {
-  background: rgba(255, 255, 255, 0.07);
-  color: #f8fafc;
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
-}
-
-.dock-module-btn.active {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(251, 191, 36, 0.08) 100%);
-  color: #ffffff;
-  border: 1px solid rgba(245, 158, 11, 0.5);
-  box-shadow: 0 0 14px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-.dock-module-btn .dock-label {
-  line-height: 1;
-}
-
-/* Reloj Maestro UTC en Vivo */
-.dock-utc-clock {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 28px;
-  padding: 0 10px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  color: #38bdf8;
-  letter-spacing: 0.5px;
-  cursor: default;
-  user-select: none;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.dock-utc-clock:hover {
-  background: rgba(56, 189, 248, 0.06);
-  border-color: rgba(56, 189, 248, 0.25);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
-}
-
-.dock-utc-clock .clock-icon {
-  font-size: 11px;
-  line-height: 1;
-}
-
-.dock-utc-clock .clock-time {
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Botón Candado en el Dock */
-.dock-lock-btn {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: #94a3b8;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dock-lock-btn:hover {
-  color: #ff3366;
-  border-color: rgba(255, 51, 102, 0.4);
-  background: rgba(255, 51, 102, 0.1);
-  box-shadow: 0 0 10px rgba(255, 51, 102, 0.25);
-  transform: translateY(-1px);
-}
-
-/* =============================================================================
    COLUMNA CENTRAL/DERECHA: ZONA 3 (CALENDARIO AIRDROPS) + ZONA 4 (BITÁCORA/TELEGRAM)
    ============================================================================= */
 .col-fleet-center {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   height: 100%;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -685,6 +570,8 @@ body.area501-flota-body {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .fronts-table-wrap {
@@ -785,6 +672,8 @@ body.area501-flota-body {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .activity-tabs-header {
@@ -1136,7 +1025,7 @@ body.area501-flota-body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 clamp(12px, 1.5vw, 18px);
   background: rgba(7, 9, 14, 0.96);
   backdrop-filter: blur(16px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -1144,6 +1033,9 @@ body.area501-flota-body {
   z-index: 100;
   flex-shrink: 0;
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .dock-left-status {
@@ -1171,6 +1063,7 @@ body.area501-flota-body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .dock-right-controls {
@@ -1180,6 +1073,7 @@ body.area501-flota-body {
   justify-content: flex-end;
   gap: 8px;
   min-width: 0;
+  white-space: nowrap;
 }
 
 .dock-module-icon {
@@ -1218,10 +1112,10 @@ body.area501-flota-body {
 }
 
 .dock-module-btn.active {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(176, 38, 255, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(251, 191, 36, 0.08) 100%);
   color: #ffffff;
-  border: 1px solid rgba(0, 240, 255, 0.45);
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .dock-module-btn .dock-label {
