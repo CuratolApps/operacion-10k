@@ -445,9 +445,9 @@ function initApp() {
   updateTelemetryUi();
   renderTraceabilityTable();
 
-  // Primer sondeo inmediato y ciclo recurrente de 6 segundos
+  // Primer sondeo inmediato y ciclo recurrente de 4 segundos
   pollLiveOnChain();
-  setInterval(pollLiveOnChain, 6000);
+  setInterval(pollLiveOnChain, 4000);
 }
 
 if (document.readyState === "loading") {
@@ -462,7 +462,7 @@ if (document.readyState === "loading") {
 const liveTelemetry = {
   polygonPing: 42,
   bscPing: 68,
-  tickRate: 1.2,
+  tickRate: 4.0,
   polygonGasGwei: 31,
   bscGasGwei: 3.2,
   lastPollTimestamp: 0
@@ -515,21 +515,21 @@ function updateTelemetryUi() {
     }
   }
 
-  // 3. Cadencia / Tick-rate
-  const tick = liveTelemetry.tickRate || 1.2;
+  // 3. Cadencia / Tick-rate (Calibrado al bucle programado de 4.0s)
+  const tick = liveTelemetry.tickRate || 4.0;
   const elTickVal = document.getElementById("telemTickVal");
   const elTickBadge = document.getElementById("telemTickBadge");
   const elTickDot = document.getElementById("telemTickDot");
 
   if (elTickVal) elTickVal.textContent = `${tick}s / ciclo`;
   if (elTickBadge) {
-    if (tick <= 2.5) {
+    if (tick <= 5.5) {
       elTickBadge.className = "telem-health-badge health-optimal";
       elTickBadge.textContent = "RITMO SANO";
       if (elTickDot) elTickDot.className = "pulse-dot-tiny green";
-    } else if (tick <= 5.0) {
+    } else if (tick <= 9.0) {
       elTickBadge.className = "telem-health-badge health-nominal";
-      elTickBadge.textContent = "MODERADO";
+      elTickBadge.textContent = "NOMINAL";
       if (elTickDot) elTickDot.className = "pulse-dot-tiny gold";
     } else {
       elTickBadge.className = "telem-health-badge health-warning";
@@ -538,25 +538,25 @@ function updateTelemetryUi() {
     }
   }
 
-  // 4. Gas & MEV Shield
-  const polyGwei = liveTelemetry.polygonGasGwei || 31;
+  // 4. Gas & MEV Shield (Calibrado para Polygon PoS: 200-350 Gwei = <$0.003 USD)
+  const polyGwei = liveTelemetry.polygonGasGwei || 260;
   const elGasVal = document.getElementById("telemGasVal");
   const elGasBadge = document.getElementById("telemGasBadge");
   const elGasDot = document.getElementById("telemGasDot");
 
-  if (elGasVal) elGasVal.textContent = `${polyGwei} Gwei · 0% SLIP`;
+  if (elGasVal) elGasVal.textContent = `${polyGwei} Gwei · <$0.003`;
   if (elGasBadge) {
-    if (polyGwei < 60) {
+    if (polyGwei <= 380) {
       elGasBadge.className = "telem-health-badge health-shielded";
       elGasBadge.textContent = "CANAL LIMPIO";
-      if (elGasDot) elGasDot.className = "pulse-dot-tiny purple";
-    } else if (polyGwei <= 150) {
+      if (elGasDot) elGasDot.className = "pulse-dot-tiny green";
+    } else if (polyGwei <= 600) {
       elGasBadge.className = "telem-health-badge health-nominal";
-      elGasBadge.textContent = "CONGESTIÓN MEDIA";
+      elGasBadge.textContent = "GWEI MODERADO";
       if (elGasDot) elGasDot.className = "pulse-dot-tiny gold";
     } else {
       elGasBadge.className = "telem-health-badge health-warning";
-      elGasBadge.textContent = "ALTO GWEI";
+      elGasBadge.textContent = "CONGESTIÓN ALTA";
       if (elGasDot) elGasDot.className = "pulse-dot-tiny red";
     }
   }
