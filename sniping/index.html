@@ -121,15 +121,6 @@
         </div>
       </div>
 
-      <!-- BOTÓN BLOQUEO / CANDADO INTEGRADO FLOTANTE -->
-      <button class="area501-lockout-btn floating-card nav-lock-card" id="area501-lockout-btn"
-        title="ÁREA 501 // Bloquear y Proteger Acceso" aria-label="Bloquear Acceso">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-      </button>
 
     </div>
 
@@ -716,30 +707,36 @@
   <!-- BLOQUE INFERIOR: BOTONERA UNIFICADA DE MÓDULOS (42PX - CERO SCROLL)       -->
   <!-- ========================================================================= -->
   <footer class="bottom-module-dock">
-    <div class="dock-inner-bar">
+    <div class="dock-spacer-left"></div>
+
+    <div class="dock-center-modules">
       <!-- 1. Sniping Atómico (Activo) -->
       <a href="./" class="dock-module-btn active" id="dockBtnSniping" title="Cabina de Sniping Atómico">
         <span class="material-symbols-rounded icon-sm cyan">radar</span>
-        <span class="dock-label">🎯 SNIPING ATÓMICO</span>
+        <span class="dock-label">SNIPING ATÓMICO</span>
       </a>
 
       <!-- 2. Flota X500 -->
       <a href="../flota-x500/" class="dock-module-btn" id="dockBtnFlota" title="Ir a Cabina de la Flota X500 (500 Satélites)">
         <span class="material-symbols-rounded icon-sm gold">military_tech</span>
-        <span class="dock-label">🪖 FLOTA X500</span>
+        <span class="dock-label">FLOTA X500</span>
       </a>
+    </div>
 
-      <!-- 3. Expediente 500 Bots -->
-      <button type="button" class="dock-module-btn" id="btnToggleReserveGrid" onclick="openReserveFleetDossier()" title="Ver Expediente Táctico Completo de la Flota">
-        <span class="material-symbols-rounded icon-sm" style="color: #f59e0b;">folder_shared</span>
-        <span class="dock-label">🗂️ EXPEDIENTE 500 BOTS</span>
+    <div class="dock-right-controls">
+      <!-- Reloj Maestro UTC en Vivo -->
+      <div class="dock-utc-clock" id="dockUtcClock" title="Hora Oficial UTC del Motor">
+        <span class="clock-icon">🕒</span>
+        <span class="clock-time font-mono" id="dockUtcTimeText">--:--:-- UTC</span>
+      </div>
+
+      <!-- Botón de Candado Global (Bloqueo de Sesión) -->
+      <button class="area501-lockout-btn dock-lock-btn" id="area501-lockout-btn" title="ÁREA 501 // Bloquear y Proteger Acceso" aria-label="Bloquear Acceso">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
       </button>
-
-      <!-- 4. Dashboard General -->
-      <a href="../dashboard/" class="dock-module-btn" id="dockBtnDashboard" title="Dashboard General de Operación 10K">
-        <span class="material-symbols-rounded icon-sm purple" style="color: #c084fc;">account_balance</span>
-        <span class="dock-label">🏛️ DASHBOARD GENERAL</span>
-      </a>
     </div>
   </footer>
 

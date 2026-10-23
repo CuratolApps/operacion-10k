@@ -175,6 +175,9 @@ const state = {
 async function initFlotaApp() {
   console.log("🪖 [FLOTA X500] Inicializando cabina cuantitativa en vivo...");
 
+  // Iniciar reloj maestro UTC en el dock inferior
+  initDockUtcClock();
+
   // Iniciar temporizador de cuenta atrás del carrusel (30 min)
   startCarouselCountdown();
 
@@ -195,6 +198,34 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initFlotaApp);
 } else {
   initFlotaApp();
+}
+
+// =============================================================================
+// 4.1 RELOJ MAESTRO UTC EN VIVO (ACTUALIZADO CADA 1 SEGUNDO)
+// =============================================================================
+function initDockUtcClock() {
+  const clockEl = document.getElementById("dockUtcClock");
+  const timeEl = document.getElementById("dockUtcTimeText");
+  if (!clockEl || !timeEl) return;
+
+  function updateClock() {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    const utcHours = pad(now.getUTCHours());
+    const utcMinutes = pad(now.getUTCMinutes());
+    const utcSeconds = pad(now.getUTCSeconds());
+    timeEl.textContent = `${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+
+    try {
+      const localStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+      clockEl.title = `Hora Oficial UTC del Motor: ${utcHours}:${utcMinutes}:${utcSeconds} UTC | Hora Local: ${localStr}`;
+    } catch (_) {
+      clockEl.title = `Hora Oficial UTC del Motor: ${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+    }
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
 }
 
 // =============================================================================

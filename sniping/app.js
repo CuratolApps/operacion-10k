@@ -583,6 +583,9 @@ function initApp() {
   updateTelemetryUi();
   renderTraceabilityTable();
 
+  // Iniciar reloj maestro UTC en el dock inferior
+  initDockUtcClock();
+
   // Primer sondeo inmediato y ciclo en vivo cada 4 segundos
   pollLiveOnChain();
   setInterval(pollLiveOnChain, 4000);
@@ -592,6 +595,34 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initApp);
 } else {
   initApp();
+}
+
+// =============================================================================
+// RELOJ MAESTRO UTC EN VIVO (ACTUALIZADO CADA 1 SEGUNDO)
+// =============================================================================
+function initDockUtcClock() {
+  const clockEl = document.getElementById("dockUtcClock");
+  const timeEl = document.getElementById("dockUtcTimeText");
+  if (!clockEl || !timeEl) return;
+
+  function updateClock() {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    const utcHours = pad(now.getUTCHours());
+    const utcMinutes = pad(now.getUTCMinutes());
+    const utcSeconds = pad(now.getUTCSeconds());
+    timeEl.textContent = `${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+
+    try {
+      const localStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+      clockEl.title = `Hora Oficial UTC del Motor: ${utcHours}:${utcMinutes}:${utcSeconds} UTC | Hora Local: ${localStr}`;
+    } catch (_) {
+      clockEl.title = `Hora Oficial UTC del Motor: ${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+    }
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
 }
 
 // =============================================================================
