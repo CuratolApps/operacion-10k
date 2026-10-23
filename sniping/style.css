@@ -4,17 +4,23 @@
    ========================================================================== */
 
 :root {
-  --bg-obsidian: #06080E;
-  --bg-surface: #0B0F19;
-  --bg-card: #0F1420;
-  --bg-card-highlight: #131A29;
-  --bg-card-hover: #172133;
+  --bg-obsidian: #020408;          /* Fondo base ultra oscuro de la cabina */
+  --bg-cockpit: #03060c;           /* Base ambiental terminal */
+  --bg-night-blue-light: #101a2f;  /* Azul nocturno superior para gradiente 3D */
+  --bg-night-blue-dark: #0a1120;   /* Azul nocturno inferior para gradiente 3D */
+  --bg-card: #0d1629;
+  --bg-card-elevated: #111c34;
 
+  --border-card-3d: rgba(56, 189, 248, 0.18);
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-gold: rgba(245, 158, 11, 0.35);
   --border-cyan: rgba(6, 182, 212, 0.35);
   --border-green: rgba(16, 185, 129, 0.35);
   --border-purple: rgba(168, 85, 247, 0.35);
+
+  --shadow-3d-card: 0 8px 22px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.45);
+  --shadow-3d-floating: 0 8px 24px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  --shadow-ops-battery: 0 12px 35px rgba(0, 0, 0, 0.98), inset 0 0 50px rgba(0, 0, 0, 0.98);
 
   --gold: #F59E0B;
   --gold-glow: rgba(245, 158, 11, 0.25);
@@ -32,7 +38,7 @@
   --font-mono: 'JetBrains Mono', monospace;
 
   --radius-sm: 6px;
-  --radius-md: 8px;
+  --radius-md: 9px;
   --radius-lg: 12px;
 }
 
@@ -49,7 +55,7 @@ html, body {
   width: 100%;
   height: 100vh;
   max-height: 100vh;
-  overflow: hidden;
+  overflow: hidden !important;
   background-color: var(--bg-obsidian);
   color: var(--text-main);
   font-family: var(--font-ui);
@@ -62,10 +68,10 @@ html, body {
   flex-direction: column;
   height: 100vh;
   max-height: 100vh;
-  overflow: hidden;
+  overflow: hidden !important;
   background: 
-    radial-gradient(circle at 10% 10%, rgba(6, 182, 212, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 90% 85%, rgba(245, 158, 11, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 12% 10%, rgba(6, 182, 212, 0.05) 0%, transparent 42%),
+    radial-gradient(circle at 88% 85%, rgba(245, 158, 11, 0.04) 0%, transparent 45%),
     radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.03) 0%, transparent 50%),
     var(--bg-obsidian);
 }
@@ -82,15 +88,11 @@ html, body {
 .icon-sm { font-size: 16px !important; }
 .tiny-icon { font-size: 12px !important; }
 
-/* Micro-Scrollbars Invisibles */
-.col-gas-munition,
-.atomic-log-table-container,
+/* Micro-Scrollbars Invisibles para modales auxiliares */
 .dossier-body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-.col-gas-munition::-webkit-scrollbar,
-.atomic-log-table-container::-webkit-scrollbar,
 .dossier-body::-webkit-scrollbar {
   display: none;
 }
@@ -103,60 +105,84 @@ html, body {
 .text-dim { color: var(--text-dim); }
 
 /* ==========================================================================
-   BLOQUE 1: BARRA SUPERIOR (HEADER) — 2 RENGLONES IZQUIERDA, SIN DESBORDES
+   BLOQUE 1: BARRA SUPERIOR CON TARJETAS 3D FLOTANTES (SIN DESBORDES)
    ========================================================================== */
 .top-nav-bar {
-  height: clamp(50px, 6.2vh, 56px);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(6px, 1vw, 12px);
-  padding: 0 clamp(8px, 1.2vw, 14px);
-  background: rgba(12, 16, 26, 0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
+  gap: clamp(8px, 1.2vw, 14px);
+  padding: 8px 12px 6px 12px;
+  background: transparent;
+  border-bottom: none;
   z-index: 100;
   white-space: nowrap;
 }
 
-.nav-identity-col {
+/* Estilo Base de las Tarjetas Flotantes 3D */
+.floating-card {
+  background: linear-gradient(180deg, var(--bg-night-blue-light) 0%, var(--bg-night-blue-dark) 100%);
+  border: 1px solid var(--border-card-3d);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-3d-floating);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.floating-card:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+/* TARJETA FLOTANTE 1: IDENTIDAD ÁREA 501 + ESTADO CONECTADO EN VIVO */
+.nav-identity-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
+  padding: 4px 10px;
+  flex-shrink: 0;
+  border-color: rgba(6, 182, 212, 0.35);
+}
+
+.id-card-top-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shield-lock-icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.28), rgba(59, 130, 246, 0.38));
+  border: 1px solid rgba(6, 182, 212, 0.55);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.40);
   flex-shrink: 0;
 }
 
-.brand-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 2px 7px;
-  background: rgba(6, 182, 212, 0.10);
-  border: 1px solid var(--border-cyan);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.12);
+.shield-icon {
+  font-size: 14px !important;
+  color: #38bdf8;
+  filter: drop-shadow(0 0 4px #06b6d4);
 }
 
 .brand-tag {
   font-family: var(--font-mono);
   font-weight: 800;
   font-size: 0.70rem;
-  color: var(--cyan);
+  color: #38bdf8;
   letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.25);
 }
 
-/* Indicador de Estado Conectado en Vivo (Renglón 2) */
-.live-connection-badge {
-  display: inline-flex;
+.id-card-sub-row {
+  display: flex;
   align-items: center;
   gap: 5px;
-  padding: 1px 6px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  border-radius: var(--radius-sm);
+  padding-left: 2px;
 }
 
 .pulse-dot-green {
@@ -175,24 +201,23 @@ html, body {
 }
 
 .live-conn-text {
-  font-size: 0.56rem;
+  font-size: 0.55rem;
   font-weight: 800;
   color: var(--green);
   font-family: var(--font-mono);
-  letter-spacing: 0.3px;
+  letter-spacing: 0.35px;
 }
 
-/* MÉTRICA REINA: POSICIÓN EN USDC (ESTABLE 1:1) */
+/* TARJETA FLOTANTE 2: POSICIÓN EN USDC (ESTABLE 1:1) */
 .usdc-queen-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1px;
-  padding: 3px 10px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid var(--border-green);
-  border-radius: var(--radius-sm);
+  padding: 4px 10px;
   flex-shrink: 0;
+  border-color: rgba(16, 185, 129, 0.35);
+  background: linear-gradient(180deg, #0e1e24 0%, #09171c 100%) !important;
 }
 
 .queen-top-row {
@@ -202,18 +227,18 @@ html, body {
 }
 
 .queen-title {
-  font-size: 0.56rem;
+  font-size: 0.55rem;
   font-weight: 800;
   color: var(--green);
   letter-spacing: 0.4px;
 }
 
 .queen-badge {
-  font-size: 0.48rem;
+  font-size: 0.46rem;
   font-family: var(--font-mono);
   font-weight: 800;
   padding: 1px 4px;
-  background: rgba(16, 185, 129, 0.2);
+  background: rgba(16, 185, 129, 0.22);
   color: #fff;
   border-radius: 3px;
 }
@@ -226,28 +251,27 @@ html, body {
 
 .queen-amount {
   font-family: var(--font-mono);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 900;
   color: #fff;
 }
 
 .queen-status-text {
-  font-size: 0.52rem;
+  font-size: 0.50rem;
   font-family: var(--font-mono);
   color: var(--green);
   font-weight: 700;
 }
 
-/* CICLO DEL DISPARO ATÓMICO */
+/* TARJETA FLOTANTE 3: CICLO DEL DISPARO ATÓMICO */
 .atomic-cycle-pod {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1px;
-  padding: 3px 10px;
-  background: rgba(6, 182, 212, 0.05);
-  border: 1px solid var(--border-cyan);
-  border-radius: var(--radius-sm);
+  padding: 4px 10px;
   flex-shrink: 0;
+  border-color: rgba(6, 182, 212, 0.30);
 }
 
 .cycle-pod-header {
@@ -257,7 +281,7 @@ html, body {
 }
 
 .cycle-title {
-  font-size: 0.54rem;
+  font-size: 0.53rem;
   font-weight: 800;
   color: var(--cyan);
   letter-spacing: 0.4px;
@@ -268,7 +292,7 @@ html, body {
   align-items: center;
   gap: 4px;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 800;
 }
 
@@ -277,16 +301,16 @@ html, body {
 .c-step.gold-txt { color: var(--gold); }
 .c-sep { color: var(--text-dim); font-size: 0.50rem; }
 
-/* CAJA DE RETIRO & RECARGA */
+/* TARJETA FLOTANTE 4: CAJA DE RETIRO & RECARGA */
 .profit-vault-pod {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1px;
-  padding: 3px 8px;
-  background: rgba(245, 158, 11, 0.05);
-  border: 1px solid var(--border-gold);
-  border-radius: var(--radius-sm);
+  padding: 4px 8px;
   flex-shrink: 0;
+  border-color: rgba(245, 158, 11, 0.35);
+  background: linear-gradient(180deg, #1a1710 0%, #110e08 100%) !important;
 }
 
 .pv-header {
@@ -303,13 +327,13 @@ html, body {
 
 .pv-desc {
   font-family: var(--font-mono);
-  font-size: 0.54rem;
+  font-size: 0.53rem;
   color: var(--text-muted);
   font-weight: 700;
 }
 .pv-divider { margin: 0 2px; color: var(--text-dim); }
 
-/* Bóveda #501 + Botón Retorno */
+/* TARJETA FLOTANTE 5: BÓVEDA #501 (CÓDIGO COMPLETO) + BOTÓN RETORNO */
 .nav-right-actions {
   display: flex;
   align-items: center;
@@ -321,12 +345,12 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 3px 8px;
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid var(--border-gold);
-  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  background: linear-gradient(180deg, #1b1710 0%, #110f0a 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.45) !important;
+  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.12), var(--shadow-3d-floating) !important;
+  border-radius: var(--radius-md);
   flex-shrink: 0;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.10);
 }
 
 .vault-label-row {
@@ -349,10 +373,11 @@ html, body {
 .vault-status-pill {
   font-size: 0.50rem;
   padding: 1px 4px;
-  background: rgba(16, 185, 129, 0.18);
+  background: rgba(16, 185, 129, 0.20);
   color: var(--green);
   border-radius: 3px;
   font-weight: 800;
+  border: 1px solid rgba(16, 185, 129, 0.4);
 }
 
 .vault-addr-row {
@@ -363,10 +388,11 @@ html, body {
 
 .vault-address-mono {
   font-family: var(--font-mono);
-  font-size: 0.70rem;
-  color: #fff;
+  font-size: 0.63rem;
+  color: #FFFFFF;
   font-weight: 700;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.35px;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
 }
 
 .copy-btn {
@@ -395,65 +421,66 @@ html, body {
   border-radius: 3px;
 }
 
-/* Botón pequeño de vuelta a la Flota */
+/* Botón flotante de vuelta a la Flota */
 .back-fleet-btn {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 5px 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  background: linear-gradient(180deg, #131a29 0%, #0d121d 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: var(--radius-md);
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.62rem;
+  font-size: 0.60rem;
   font-weight: 700;
   transition: all 0.2s ease;
 }
 .back-fleet-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #192337 0%, #111726 100%) !important;
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
-   MAIN WORKSPACE (100VH LAYOUT)
+   MAIN WORKSPACE (CERO SCROLL ESTRICTO)
    ========================================================================== */
 .sniping-workspace {
   flex: 1;
   min-height: 0;
   display: flex;
   gap: clamp(6px, 0.8vw, 10px);
-  padding: clamp(4px, 0.6vh, 6px) clamp(6px, 0.8vw, 10px);
-  overflow: hidden;
+  padding: 0 clamp(8px, 1.2vw, 12px) 8px clamp(8px, 1.2vw, 12px);
+  overflow: hidden !important;
 }
 
 /* ==========================================================================
-   BLOQUE 2: COLUMNA IZQUIERDA (MUNICIÓN USDC & TANQUE GAS)
+   BLOQUE 2: COLUMNA IZQUIERDA (MUNICIÓN USDC & TANQUE GAS - CERO SCROLL)
    ========================================================================== */
 .col-gas-munition {
-  width: clamp(240px, 19vw, 275px);
-  min-width: 235px;
+  width: clamp(245px, 19vw, 275px);
+  min-width: 240px;
   max-width: 280px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: clamp(4px, 0.6vh, 6px);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden !important;
+  max-height: 100%;
 }
 
 .quant-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, var(--bg-night-blue-light) 0%, var(--bg-night-blue-dark) 100%);
+  border: 1px solid var(--border-card-3d);
   border-radius: var(--radius-md);
-  padding: 8px 10px;
+  box-shadow: var(--shadow-3d-card);
+  padding: clamp(5px, 0.6vh, 7px) clamp(7px, 0.8vw, 9px);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: clamp(3px, 0.5vh, 4px);
   min-width: 0;
 }
-
 .card-header {
   display: flex;
   align-items: center;
@@ -467,9 +494,9 @@ html, body {
 }
 
 .card-title {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   color: var(--text-main);
 }
 
@@ -479,14 +506,14 @@ html, body {
 .card-icon.purple { color: var(--purple); }
 
 .status-badge {
-  font-size: 0.54rem;
+  font-size: 0.52rem;
   font-weight: 800;
   padding: 1px 5px;
   border-radius: 3px;
   font-family: var(--font-mono);
 }
 .green-badge {
-  background: rgba(16, 185, 129, 0.12);
+  background: rgba(16, 185, 129, 0.15);
   color: var(--green);
   border: 1px solid rgba(16, 185, 129, 0.35);
 }
@@ -495,18 +522,18 @@ html, body {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.52rem;
+  font-size: 0.50rem;
   font-family: var(--font-mono);
   font-weight: 700;
   color: var(--text-dim);
-  padding: 3px 6px;
+  padding: 2px 5px;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 4px;
 }
 
 /* Tanque de Munición */
 .munition-total-display {
-  padding: 6px 8px;
+  padding: 4px 6px;
   background: rgba(245, 158, 11, 0.05);
   border: 1px solid var(--border-gold);
   border-radius: var(--radius-sm);
@@ -518,7 +545,7 @@ html, body {
 .munition-total-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.52rem;
+  font-size: 0.50rem;
   font-family: var(--font-mono);
 }
 .m-meta-lbl { color: var(--text-muted); font-weight: 700; }
@@ -526,15 +553,16 @@ html, body {
 
 .munition-big-price {
   font-family: var(--font-mono);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 900;
   color: var(--gold);
+  line-height: 1.1;
 }
 
 .munition-progress-desc {
   display: flex;
   justify-content: space-between;
-  font-size: 0.52rem;
+  font-size: 0.50rem;
   color: var(--text-dim);
   font-family: var(--font-mono);
 }
@@ -542,11 +570,11 @@ html, body {
 .munition-breakdown-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .munition-row-card {
-  padding: 5px 7px;
+  padding: 3px 5px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
@@ -555,12 +583,12 @@ html, body {
   gap: 1px;
 }
 .munition-row-card.highlight-cyan {
-  border-color: rgba(6, 182, 212, 0.3);
-  background: rgba(6, 182, 212, 0.03);
+  border-color: rgba(6, 182, 212, 0.35);
+  background: rgba(6, 182, 212, 0.04);
 }
 .munition-row-card.highlight-gold {
-  border-color: rgba(245, 158, 11, 0.3);
-  background: rgba(245, 158, 11, 0.03);
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.04);
 }
 
 .m-row-head {
@@ -573,20 +601,20 @@ html, body {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.56rem;
+  font-size: 0.54rem;
   font-weight: 800;
 }
 
 .m-canon-amt {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.70rem;
   font-weight: 800;
 }
 .m-canon-amt.cyan { color: var(--cyan); }
 .m-canon-amt.gold { color: var(--gold); }
 
 .m-row-desc {
-  font-size: 0.50rem;
+  font-size: 0.48rem;
   color: var(--text-dim);
   font-family: var(--font-mono);
 }
@@ -595,8 +623,8 @@ html, body {
 .cycle-flowchart-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 6px 8px;
+  gap: 2px;
+  padding: 3px 6px;
   background: rgba(16, 185, 129, 0.03);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-sm);
@@ -606,7 +634,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.52rem;
+  font-size: 0.50rem;
   font-weight: 800;
   color: var(--green);
   letter-spacing: 0.3px;
@@ -615,31 +643,31 @@ html, body {
 .flowchart-steps {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .flow-step-box {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 6px;
+  gap: 4px;
+  padding: 2px 5px;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: 4px;
-  font-size: 0.52rem;
+  border-radius: 3px;
+  font-size: 0.49rem;
   color: var(--text-main);
   font-family: var(--font-mono);
 }
 .flow-step-box.active {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.35);
   color: var(--green);
   font-weight: 700;
 }
 
 .step-badge {
-  font-size: 0.48rem;
+  font-size: 0.46rem;
   font-weight: 800;
-  padding: 1px 4px;
+  padding: 1px 3px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
 }
@@ -647,21 +675,21 @@ html, body {
 .step-badge.gold { background: var(--gold); color: #000; }
 
 .flow-connector {
-  font-size: 0.50rem;
+  font-size: 0.46rem;
   color: var(--text-dim);
   text-align: center;
-  line-height: 0.8;
+  line-height: 0.7;
 }
 
 /* Gas Tank Items */
 .gas-tank-items {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .gas-row-box {
-  padding: 5px 7px;
+  padding: 3px 6px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
@@ -671,11 +699,11 @@ html, body {
 }
 .gas-row-box.highlight {
   border-color: rgba(6, 182, 212, 0.35);
-  background: rgba(6, 182, 212, 0.03);
+  background: rgba(6, 182, 212, 0.04);
 }
 .gas-row-box.zero-cost {
   border-color: rgba(16, 185, 129, 0.3);
-  background: rgba(16, 185, 129, 0.02);
+  background: rgba(16, 185, 129, 0.03);
 }
 
 .gas-row-top {
@@ -685,16 +713,16 @@ html, body {
 }
 
 .gas-row-title {
-  font-size: 0.54rem;
+  font-size: 0.52rem;
   font-weight: 700;
   color: var(--text-muted);
 }
 
 .gas-lock-tag {
-  font-size: 0.48rem;
+  font-size: 0.46rem;
   font-family: var(--font-mono);
   font-weight: 800;
-  padding: 1px 4px;
+  padding: 1px 3px;
   background: rgba(6, 182, 212, 0.15);
   color: var(--cyan);
   border-radius: 3px;
@@ -705,7 +733,7 @@ html, body {
 }
 
 .gas-net-tag {
-  font-size: 0.48rem;
+  font-size: 0.46rem;
   font-family: var(--font-mono);
   color: var(--text-dim);
 }
@@ -713,12 +741,12 @@ html, body {
 .gas-numbers {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 5px;
 }
 
 .gas-main-num {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 800;
   color: var(--text-main);
 }
@@ -727,15 +755,15 @@ html, body {
 
 .gas-sub-num {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   color: var(--text-dim);
 }
 
 .gas-footnote {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.48rem;
+  gap: 3px;
+  font-size: 0.46rem;
   font-family: var(--font-mono);
 }
 
@@ -743,15 +771,15 @@ html, body {
 .autonomy-box {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding-top: 3px;
+  gap: 2px;
+  padding-top: 2px;
   border-top: 1px solid var(--border-subtle);
 }
 
 .autonomy-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.52rem;
+  font-size: 0.50rem;
   font-family: var(--font-mono);
 }
 .autonomy-txt { color: var(--text-dim); }
@@ -759,7 +787,7 @@ html, body {
 
 .autonomy-bar-track {
   width: 100%;
-  height: 4px;
+  height: 3px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 2px;
   overflow: hidden;
@@ -779,9 +807,9 @@ html, body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(5px, 0.7vh, 8px);
   min-height: 0;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 /* ==========================================================================
@@ -792,8 +820,8 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: clamp(3px, 0.5vh, 5px);
-  padding: clamp(5px, 0.7vh, 8px) clamp(8px, 0.8vw, 10px);
-  overflow: hidden;
+  padding: clamp(5px, 0.6vh, 7px) clamp(8px, 0.8vw, 10px);
+  overflow: hidden !important;
 }
 
 .ecosystem-header-bar {
@@ -1176,15 +1204,34 @@ html, body {
   color: #fff;
 }
 
-/* Tabla de Trazabilidad y Operaciones: Fondo Negro Puro */
+/* Tabla de Trazabilidad y Operaciones: Fondo Negro Puro (Único contenedor con scroll) */
 .atomic-log-table-container {
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
-  overflow-y: auto;
+  overflow-y: auto !important;
+  overflow-x: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
   background: #000000 !important;
   box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.99);
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #000000;
+}
+
+.atomic-log-table-container::-webkit-scrollbar {
+  width: 6px;
+  display: block !important;
+}
+.atomic-log-table-container::-webkit-scrollbar-track {
+  background: #000000;
+}
+.atomic-log-table-container::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+.atomic-log-table-container::-webkit-scrollbar-thumb:hover {
+  background: #334155;
 }
 
 .quant-table {

@@ -19,25 +19,26 @@
 <body class="area501-sniping-body">
 
   <!-- ========================================================================= -->
-  <!-- BLOQUE 1 (BARRA SUPERIOR): POSICIÓN 100% USDC, CICLO ATÓMICO & CARTERA    -->
+  <!-- BLOQUE 1 (BARRA SUPERIOR FLOTANTE): TARJETAS 3D FLOTANTES & CÓDIGO COMPLETO -->
   <!-- ========================================================================= -->
   <header class="top-nav-bar" id="block-header">
     
-    <!-- Identidad Limpia en Dos Renglones: Renglón 1 = ÁREA 501 // SNIPING ATÓMICO, Renglón 2 = CONECTADO EN VIVO -->
-    <div class="nav-identity-col">
-      <div class="brand-pill">
-        <span class="material-symbols-rounded icon-symbol cyan-glow">shield_locked</span>
+    <!-- TARJETA FLOTANTE 1: IDENTIDAD ÁREA 501 + ESTADO CONECTADO EN VIVO -->
+    <div class="nav-identity-card floating-card">
+      <div class="id-card-top-row">
+        <div class="shield-lock-icon-badge" title="Escudo Blindado de Sniping Atómico">
+          <span class="material-symbols-rounded shield-icon">shield_lock</span>
+        </div>
         <span class="brand-tag">ÁREA 501 // SNIPING ATÓMICO</span>
       </div>
-      <!-- Indicador de Estado Conectado en Vivo (Renglón 2) -->
-      <div class="live-connection-badge">
+      <div class="id-card-sub-row">
         <span class="pulse-dot-green"></span>
         <span class="live-conn-text">CONECTADO EN VIVO (POLYGON + BSC)</span>
       </div>
     </div>
 
-    <!-- MÉTRICA REINA: POSICIÓN 100% EN USDC ESTABLE (0% VOLATILIDAD) -->
-    <div class="usdc-queen-card">
+    <!-- TARJETA FLOTANTE 2: POSICIÓN 100% EN USDC ESTABLE (0% VOLATILIDAD) -->
+    <div class="usdc-queen-card floating-card">
       <div class="queen-top-row">
         <span class="material-symbols-rounded icon-xs green-text">monetization_on</span>
         <span class="queen-title">POSICIÓN EN USDC (ESTABLE 1:1)</span>
@@ -49,8 +50,8 @@
       </div>
     </div>
 
-    <!-- CICLO DEL DISPARO ATÓMICO: SALIDA USDC ➔ RETORNO USDC + GANANCIA -->
-    <div class="atomic-cycle-pod">
+    <!-- TARJETA FLOTANTE 3: CICLO DEL DISPARO ATÓMICO -->
+    <div class="atomic-cycle-pod floating-card">
       <div class="cycle-pod-header">
         <span class="material-symbols-rounded icon-xs cyan">sync_alt</span>
         <span class="cycle-title">CICLO DEL DISPARO ATÓMICO</span>
@@ -64,8 +65,8 @@
       </div>
     </div>
 
-    <!-- CAJA DE RETIRO & RECARGA DE TANQUES -->
-    <div class="profit-vault-pod">
+    <!-- TARJETA FLOTANTE 4: CAJA DE RETIRO & RECARGA DE TANQUES -->
+    <div class="profit-vault-pod floating-card">
       <div class="pv-header">
         <span class="material-symbols-rounded icon-xs gold">savings</span>
         <span class="pv-title">DESTINO GANANCIA</span>
@@ -77,9 +78,9 @@
       </div>
     </div>
 
-    <!-- Cartera Maestra #501 + Botón Volver a Flota -->
+    <!-- TARJETA FLOTANTE 5: BÓVEDA MAESTRA #501 (CÓDIGO COMPLETO) + BOTÓN RETORNO -->
     <div class="nav-right-actions">
-      <div class="master-vault-card" id="vaultCard501" title="Bóveda Matriz #501: 0xD4D12077a61118372f7a367319fb11922Beb3743">
+      <div class="master-vault-card floating-card" id="vaultCard501" title="Bóveda Matriz #501: 0xD4D12077a61118372f7a367319fb11922Beb3743">
         <div class="vault-label-row">
           <span class="vault-badge-gold">
             <span class="material-symbols-rounded tiny-icon">account_balance</span>
@@ -88,7 +89,7 @@
           <span class="vault-status-pill">BLINDADA</span>
         </div>
         <div class="vault-addr-row">
-          <span class="vault-address-mono" id="masterVaultAddr" data-full-address="0xD4D12077a61118372f7a367319fb11922Beb3743" title="Bóveda Matriz #501: 0xD4D12077a61118372f7a367319fb11922Beb3743">0xD4D1...3743</span>
+          <span class="vault-address-mono" id="masterVaultAddr" data-full-address="0xD4D12077a61118372f7a367319fb11922Beb3743">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
           <button class="copy-btn" id="btnCopy501" title="Copiar dirección completa (0xD4D12077a61118372f7a367319fb11922Beb3743)">
             <span class="material-symbols-rounded icon-sm">content_copy</span>
             <span class="copy-feedback-toast" id="copyToast">COPIADO</span>
@@ -96,8 +97,8 @@
         </div>
       </div>
 
-      <!-- Botón Pequeño de Retorno -->
-      <a href="../dashboard/index.html" class="back-fleet-btn" title="Volver a la Terminal General de la Flota">
+      <!-- Botón Flotante de Retorno -->
+      <a href="../dashboard/index.html" class="back-fleet-btn floating-card" title="Volver a la Terminal General de la Flota">
         <span class="material-symbols-rounded icon-xs">arrow_back</span>
         <span>Volver a Flota</span>
       </a>
