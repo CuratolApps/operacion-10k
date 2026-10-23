@@ -858,54 +858,83 @@ function openReserveFleetDossier() {
 
   if (!overlay || !body) return;
 
-  idBadge.textContent = "FLOTA 16";
-  title.textContent = "EXPEDIENTE TÁCTICO: 2 CAÑONES ACTIVOS + 14 NODRIZAS EN RESERVA";
+  idBadge.textContent = "FLOTA MATRIZ 16";
+  title.textContent = "EXPEDIENTE TÁCTICO: 3 MANDOS ACTIVOS + 13 NODRIZAS EN RESERVA";
 
-  // Filtramos las 14 nodrizas en reserva
-  const reserveNodrizas = MOTHERSHIPS_REGISTRY.filter(m => !m.activeCannon);
-  const activeNodrizas = MOTHERSHIPS_REGISTRY.filter(m => m.activeCannon);
+  // Identificamos las 3 nodrizas de mando (Matriz Dual + los 2 Cañones)
+  const m501 = MOTHERSHIPS_REGISTRY.find(m => m.id === "#501");
+  const m001 = MOTHERSHIPS_REGISTRY.find(m => m.id === "#001");
+  const m101 = MOTHERSHIPS_REGISTRY.find(m => m.id === "#101");
+  const activeCommanders = [m501, m001, m101].filter(Boolean);
+
+  // Las 13 nodrizas en reserva
+  const reserveNodrizas = MOTHERSHIPS_REGISTRY.filter(m => !activeCommanders.includes(m));
 
   let html = `
-    <div class="dossier-section">
-      <span class="dossier-sec-title">LOS 2 CAÑONES PESADOS ACTIVOS HOY ($40.72 USDC MUNICIÓN)</span>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+    <!-- FILA SUPERIOR: 3 TARJETAS UNIFORMES EN UNA SOLA LÍNEA -->
+    <div class="dossier-commanders-row">
   `;
 
-  activeNodrizas.forEach(m => {
+  activeCommanders.forEach(m => {
+    const isDual = m.id === "#501";
+    const isPoly = m.id === "#001";
+    const colorClass = isDual ? "active-dual" : (isPoly ? "active-poly" : "active-bsc");
+    const titleColor = isDual ? "gold" : (isPoly ? "cyan" : "gold");
+    const roleBadge = isDual ? "BÓVEDA MATRIZ DUAL" : (isPoly ? "CAÑÓN #1 (POLYGON)" : "CAÑÓN #2 (BSC)");
+
     html += `
-      <div style="padding: 8px; background: rgba(6, 182, 212, 0.06); border: 1px solid var(--border-cyan); border-radius: 6px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <strong class="cyan-text">${m.id} · ${m.name}</strong>
-          <span style="font-size: 0.52rem; padding: 1px 4px; background: rgba(16, 185, 129, 0.2); color: var(--green); border-radius: 3px;">FUEGO ACTIVO</span>
+      <div class="dossier-card ${colorClass}" onclick="inspectNodriza('${m.id}')" style="cursor: pointer;" title="Ver detalle completo de ${m.id}">
+        <div class="d-card-head">
+          <span class="d-card-title ${titleColor}">
+            <span class="material-symbols-rounded icon-xs">shield</span>
+            ${m.id} · ${m.name}
+          </span>
+          <span class="d-card-badge green">${roleBadge}</span>
         </div>
-        <div style="font-size: 0.58rem; color: var(--text-dim); margin-bottom: 4px;">${m.address}</div>
-        <div style="font-size: 0.60rem; color: var(--text-main); font-weight: 700;">
-          Escolta: <span class="purple-text">${m.assignedNebulaPair.odd.id}</span> + <span class="green-text">${m.assignedNebulaPair.even.id}</span>
+        <div class="d-card-addr" title="${m.address}">${m.address}</div>
+        <div class="d-card-balances">
+          <span>Gas POL: <strong class="cyan-text">${m.gasPol} POL</strong></span>
+          <span>Gas BNB: <strong class="gold-text">${m.gasBnb} BNB</strong></span>
+        </div>
+        <div class="d-card-nebulas">
+          <span class="purple-text">${m.assignedNebulaPair.odd.id}</span> (${m.assignedNebulaPair.odd.certainty}%) · 
+          <span class="green-text">${m.assignedNebulaPair.even.id}</span> (5/5 Blindado)
         </div>
       </div>
     `;
   });
 
   html += `
-      </div>
     </div>
 
-    <div class="dossier-section">
-      <span class="dossier-sec-title">14 NODRIZAS EN RESERVA TÁCTICA (255.77 POL BLINDADOS · 28 NEBULOSAS IA A $0 GAS)</span>
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 260px; overflow-y: auto;">
+    <!-- TERMINAL DE RESERVA TÁCTICA: 13 NODRIZAS EN FONDO NEGRO PURO CON SCROLL INVISIBLE -->
+    <div class="dossier-reserve-terminal">
+      <div class="d-res-head">
+        <div class="d-res-title">
+          <span class="material-symbols-rounded icon-xs gold">dns</span>
+          <span>CONSOLA DE RESERVA TÁCTICA: 13 NODRIZAS EN ESPERA DE LIQUIDEZ</span>
+        </div>
+        <div class="d-res-meta">
+          <span class="r-meta-pill gold">255.77 POL BLINDADOS</span>
+          <span class="r-meta-pill blue">0.0405 BNB</span>
+          <span class="r-meta-pill green">28 NEBULOSAS ESCOLTA $0 GAS</span>
+        </div>
+      </div>
+
+      <div class="dossier-reserve-grid">
   `;
 
   reserveNodrizas.forEach(m => {
     html += `
-      <div style="padding: 6px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 4px; display: flex; flex-direction: column; gap: 2px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <strong class="gold-text">${m.id} ${m.name}</strong>
-          <span style="font-size: 0.50rem; color: var(--cyan);">${m.gasPol} POL</span>
+      <div class="d-res-item" onclick="inspectNodriza('${m.id}')" title="Clic para ver detalle de ${m.id}">
+        <div class="d-res-item-top">
+          <span class="d-res-id">${m.id} · ${m.name}</span>
+          <span class="d-res-tag">EN ESPERA</span>
         </div>
-        <div style="font-size: 0.52rem; color: var(--text-dim);">${m.role}</div>
-        <div style="font-size: 0.52rem; font-family: var(--font-mono);">
-          <span class="purple-text">${m.assignedNebulaPair.odd.id}</span> (${m.assignedNebulaPair.odd.certainty}%) + 
-          <span class="green-text">${m.assignedNebulaPair.even.id}</span> (5/5)
+        <div class="d-res-role">${m.role}</div>
+        <div class="d-res-stats">
+          <span>${m.gasPol} POL · ${m.gasBnb} BNB</span>
+          <span class="purple-text">${m.assignedNebulaPair.odd.id} + ${m.assignedNebulaPair.even.id}</span>
         </div>
       </div>
     `;
@@ -937,35 +966,47 @@ function inspectNodriza(id) {
   title.textContent = `EXPEDIENTE DE NODRIZA: ${m.name.toUpperCase()}`;
 
   body.innerHTML = `
-    <div class="dossier-section">
-      <span class="dossier-sec-title">ESTADO DE RESERVA &amp; TELEMETRÍA ON-CHAIN</span>
-      <div style="padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-gold); border-radius: 6px; display: flex; flex-direction: column; gap: 6px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <strong class="gold-text" style="font-size: 0.80rem;">${m.id} · ${m.name}</strong>
-          <span style="font-size: 0.54rem; padding: 2px 6px; background: rgba(245, 158, 11, 0.2); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 4px;">EN ESPERA DE LIQUIDEZ HITO 2</span>
-        </div>
-        <div style="font-size: 0.60rem; font-family: var(--font-mono); color: #fff;">
-          <strong>Dirección:</strong> ${m.address}
-        </div>
-        <div style="display: flex; gap: 12px; font-size: 0.60rem; font-family: var(--font-mono);">
-          <span>Gas POL: <strong class="cyan-text">${m.gasPol} POL</strong></span>
-          <span>Gas BNB: <strong class="gold-text">${m.gasBnb} BNB</strong></span>
-          <span>Piso Blindado: <strong>${m.lockedFloorPol} POL</strong></span>
-        </div>
+    <div style="display: flex; justify-content: flex-start; margin-bottom: 6px;">
+      <button class="dock-btn btn-return" onclick="openReserveFleetDossier()" style="width: auto; padding: 4px 10px; font-size: 0.54rem;">
+        <span class="material-symbols-rounded icon-xs">arrow_back</span>
+        <span>VER CATÁLOGO GENERAL DE LA FLOTA (16 NODRIZAS)</span>
+      </button>
+    </div>
+
+    <div class="dossier-card" style="padding: 12px; background: #05080e; border: 1px solid var(--border-gold); border-radius: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <strong class="gold-text" style="font-size: 0.85rem; font-family: var(--font-mono);">${m.id} · ${m.name}</strong>
+        <span class="d-card-badge green">${m.statusLabel || "RESERVA TÁCTICA"}</span>
+      </div>
+      <div style="font-size: 0.58rem; color: var(--text-dim); margin-bottom: 6px;">${m.role} · ${m.box}</div>
+      <div style="font-size: 0.62rem; font-family: var(--font-mono); color: #fff; margin-bottom: 8px; word-break: break-all;">
+        <strong style="color: var(--text-muted)">Dirección On-Chain:</strong> ${m.address}
+      </div>
+      <div style="display: flex; gap: 14px; font-size: 0.62rem; font-family: var(--font-mono); padding: 6px; background: rgba(255,255,255,0.02); border-radius: 4px;">
+        <span>Gas POL: <strong class="cyan-text">${m.gasPol} POL</strong></span>
+        <span>Gas BNB: <strong class="gold-text">${m.gasBnb} BNB</strong></span>
+        <span>Piso Blindado: <strong>${m.lockedFloorPol} POL</strong></span>
+        <span>Auditoría: <strong class="green-text">${m.locksVerified}</strong></span>
       </div>
     </div>
-    <div class="dossier-section">
-      <span class="dossier-sec-title">BINOMIO DE NEBULOSAS IA ASIGNADAS ($0 GAS)</span>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-        <div style="padding: 8px; background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 6px;">
-          <div class="purple-text" style="font-weight: 800; font-size: 0.62rem;">${m.assignedNebulaPair.odd.id} (Calculista)</div>
-          <div style="font-size: 0.54rem; color: var(--text-dim); margin: 3px 0;">${m.assignedNebulaPair.odd.name}</div>
-          <div style="font-size: 0.54rem; color: var(--green);">Certeza: ${m.assignedNebulaPair.odd.certainty}% · ${m.assignedNebulaPair.odd.status}</div>
+
+    <div class="dossier-reserve-terminal" style="margin-top: 8px;">
+      <div class="d-res-head">
+        <div class="d-res-title">
+          <span class="material-symbols-rounded icon-xs purple-text">smart_toy</span>
+          <span>BINOMIO DE NEBULOSAS IA ASIGNADAS ($0 GAS)</span>
         </div>
-        <div style="padding: 8px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px;">
-          <div class="green-text" style="font-weight: 800; font-size: 0.62rem;">${m.assignedNebulaPair.even.id} (Guardaespaldas)</div>
-          <div style="font-size: 0.54rem; color: var(--text-dim); margin: 3px 0;">${m.assignedNebulaPair.even.name}</div>
-          <div style="font-size: 0.54rem; color: var(--green);">Filtros: ${m.assignedNebulaPair.even.locks} · ${m.assignedNebulaPair.even.status}</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px;">
+        <div style="padding: 10px; background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 6px;">
+          <div class="purple-text" style="font-weight: 800; font-size: 0.65rem; font-family: var(--font-mono);">${m.assignedNebulaPair.odd.id} · Calculista Cuántica</div>
+          <div style="font-size: 0.55rem; color: var(--text-dim); margin: 4px 0;">${m.assignedNebulaPair.odd.name}</div>
+          <div style="font-size: 0.55rem; color: var(--green); font-weight: 700;">Certeza: ${m.assignedNebulaPair.odd.certainty}% · ${m.assignedNebulaPair.odd.status}</div>
+        </div>
+        <div style="padding: 10px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px;">
+          <div class="green-text" style="font-weight: 800; font-size: 0.65rem; font-family: var(--font-mono);">${m.assignedNebulaPair.even.id} · Guardaespaldas Anti-Riesgo</div>
+          <div style="font-size: 0.55rem; color: var(--text-dim); margin: 4px 0;">${m.assignedNebulaPair.even.name}</div>
+          <div style="font-size: 0.55rem; color: var(--green); font-weight: 700;">Filtros: ${m.assignedNebulaPair.even.locks} · ${m.assignedNebulaPair.even.status}</div>
         </div>
       </div>
     </div>
