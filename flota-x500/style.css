@@ -61,8 +61,8 @@ html, body {
 }
 
 body.area501-flota-body {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) 42px;
   background-image:
     radial-gradient(circle at 10% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
     radial-gradient(circle at 88% 82%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
@@ -131,8 +131,8 @@ body.area501-flota-body {
 
 /* Tarjeta 1: Identidad Área 501 & Conectividad Cloud */
 .nav-identity-card {
-  min-width: 250px;
-  max-width: 270px;
+  min-width: 275px;
+  max-width: 300px;
   border-left: 3px solid var(--cyan);
 }
 
@@ -204,44 +204,6 @@ body.area501-flota-body {
   100% { opacity: 0.6; transform: scale(0.9); }
 }
 
-/* Selector Superior de Consola: Sniping <-> Flota */
-.nav-switcher-wrap {
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 2px;
-  gap: 2px;
-  flex-shrink: 0;
-}
-
-.switcher-tab {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  text-decoration: none;
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.switcher-tab:hover {
-  color: var(--text-main);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.switcher-tab.active-tab {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(176, 38, 255, 0.2));
-  color: var(--text-main);
-  border: 1px solid var(--border-cyan);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
-}
 
 /* Grupo de las otras 4 tarjetas simétricas */
 .nav-modules-row {
@@ -373,13 +335,13 @@ body.area501-flota-body {
    LAYOUT PRINCIPAL CERO SCROLL (100VH EXACTO)
    ============================================================================= */
 .flota-workspace {
-  flex: 1;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
   display: grid;
   grid-template-columns: 360px 1fr;
   gap: 10px;
-  padding: 10px 14px 12px;
-  height: calc(100vh - 64px);
-  max-height: calc(100vh - 64px);
+  padding: 6px 14px 4px;
   overflow: hidden;
 }
 
@@ -562,53 +524,69 @@ body.area501-flota-body {
   color: var(--text-muted);
 }
 
-/* Dock Inferior Izquierdo */
-.fleet-dock-group {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
-  flex-shrink: 0;
-}
-
-.dock-btn {
-  flex: 1;
+/* =============================================================================
+   BOTONERA INFERIOR DE MÓDULOS (42PX - UNIFICADA Y CENTRADA)
+   ============================================================================= */
+.bottom-module-dock {
+  height: 42px;
+  min-height: 42px;
+  max-height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 0 16px;
+  background: rgba(7, 9, 14, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.dock-inner-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.dock-module-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.4px;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid var(--border-subtle);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
 }
 
-.dock-btn-dossier {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
-  border-color: var(--border-gold);
-  color: var(--gold);
+.dock-module-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
 }
 
-.dock-btn-dossier:hover {
-  background: rgba(245, 158, 11, 0.25);
-  box-shadow: var(--shadow-gold);
-  color: #fff;
+.dock-module-btn.active {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(251, 191, 36, 0.08) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-.dock-btn-sniping {
-  background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(0, 240, 255, 0.05));
-  border-color: var(--border-cyan);
-  color: var(--cyan);
-}
-
-.dock-btn-sniping:hover {
-  background: rgba(0, 240, 255, 0.25);
-  box-shadow: var(--shadow-cyan);
-  color: #000;
+.dock-module-btn .dock-label {
+  line-height: 1;
 }
 
 /* =============================================================================

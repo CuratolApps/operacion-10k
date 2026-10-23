@@ -47,25 +47,13 @@
             <span class="material-symbols-rounded icon-xs cyan">cloud_done</span> CF WORKERS
           </span>
           <span class="id-cloud-pill" title="Crons 24/7 (30m)" id="cronStatusPill">
-            <span class="material-symbols-rounded icon-xs green-text">schedule</span> CRON 30M
+            <span class="material-symbols-rounded icon-xs green-text">schedule</span> CRON GHA
           </span>
           <span class="id-cloud-pill" title="Telegram: 🛰️ SALA DE MANDO 10K" id="tgStatusPill">
             <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span> TELEGRAM
           </span>
         </div>
       </div>
-    </div>
-
-    <!-- SELECTOR DE CABINA: SNIPING <-> FLOTA X500 -->
-    <div class="nav-switcher-wrap" title="Alternar entre Cabina de Sniping y Flota X500">
-      <a href="../sniping/" class="switcher-tab" id="tabGoSniping">
-        <span class="material-symbols-rounded icon-xs">radar</span>
-        <span>SNIPING</span>
-      </a>
-      <a href="./" class="switcher-tab active-tab" id="tabActiveFlota">
-        <span class="material-symbols-rounded icon-xs gold">military_tech</span>
-        <span>FLOTA X500</span>
-      </a>
     </div>
 
     <!-- GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS -->
@@ -302,17 +290,6 @@
         </div>
       </section>
 
-      <!-- DOCK INFERIOR IZQUIERDO -->
-      <div class="fleet-dock-group">
-        <button type="button" class="dock-btn dock-btn-dossier" onclick="openBoxDossier('ALL')" title="Abrir Censo y Auditoría de las 500 Carteras Reales">
-          <span class="material-symbols-rounded icon-xs">folder_shared</span>
-          <span>EXPEDIENTE 500 BOTS</span>
-        </button>
-        <a href="../sniping/" class="dock-btn dock-btn-sniping" title="Ir a Cabina de Sniping Atómico">
-          <span class="material-symbols-rounded icon-xs">radar</span>
-          <span>SNIPING ATÓMICO</span>
-        </a>
-      </div>
 
     </aside>
 
@@ -570,6 +547,37 @@
     </div>
 
   </main>
+
+  <!-- ========================================================================= -->
+  <!-- BLOQUE INFERIOR: BOTONERA UNIFICADA DE MÓDULOS (42PX - CERO SCROLL)       -->
+  <!-- ========================================================================= -->
+  <footer class="bottom-module-dock">
+    <div class="dock-inner-bar">
+      <!-- 1. Sniping Atómico -->
+      <a href="../sniping/" class="dock-module-btn" id="dockBtnSniping" title="Módulo de Sniping Atómico y Arbitraje Directo">
+        <span class="material-symbols-rounded icon-sm cyan">radar</span>
+        <span class="dock-label">🎯 SNIPING ATÓMICO</span>
+      </a>
+
+      <!-- 2. Flota X500 -->
+      <a href="./" class="dock-module-btn active" id="dockBtnFlota" title="Cabina Cuantitativa de la Flota X500 (500 Satélites)">
+        <span class="material-symbols-rounded icon-sm gold">military_tech</span>
+        <span class="dock-label">🪖 FLOTA X500</span>
+      </a>
+
+      <!-- 3. Expediente 500 Bots -->
+      <button type="button" class="dock-module-btn" id="dockBtnDossier" onclick="openBoxDossier('ALL')" title="Censo y Auditoría de las 500 Carteras Reales">
+        <span class="material-symbols-rounded icon-sm" style="color: #f59e0b;">folder_shared</span>
+        <span class="dock-label">🗂️ EXPEDIENTE 500 BOTS</span>
+      </button>
+
+      <!-- 4. Dashboard General -->
+      <a href="../dashboard/" class="dock-module-btn" id="dockBtnDashboard" title="Dashboard General de Operación 10K">
+        <span class="material-symbols-rounded icon-sm purple" style="color: #c084fc;">account_balance</span>
+        <span class="dock-label">🏛️ DASHBOARD GENERAL</span>
+      </a>
+    </div>
+  </footer>
 
   <!-- ========================================================================= -->
   <!-- MODAL / EXPEDIENTE DE FLOTA X500 (LAS 100 O 500 CARTERAS EN VIVO)         -->

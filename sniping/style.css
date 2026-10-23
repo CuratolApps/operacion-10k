@@ -64,8 +64,8 @@ html, body {
 }
 
 .area501-sniping-body {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) 42px;
   height: 100vh;
   max-height: 100vh;
   overflow: hidden !important;
@@ -135,9 +135,9 @@ html, body {
 
 /* TARJETA FLOTANTE 1: IDENTIDAD ÁREA 501 (ALINEADA EXACTA CON COLUMNA IZQUIERDA) */
 .nav-identity-card {
-  width: clamp(245px, 19vw, 275px);
-  min-width: 240px;
-  max-width: 280px;
+  width: clamp(265px, 20vw, 305px);
+  min-width: 260px;
+  max-width: 310px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -203,12 +203,24 @@ html, body {
   100% { transform: scale(0.95); opacity: 0.8; }
 }
 
-.live-conn-text {
-  font-size: 0.55rem;
-  font-weight: 800;
-  color: var(--green);
+.id-pills-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.id-cloud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.50rem;
   font-family: var(--font-mono);
-  letter-spacing: 0.35px;
+  color: var(--text-dim);
+  line-height: 1;
 }
 
 /* GRUPO BALANCEADO Y HOLGADO: TARJETAS SUPERIORES */
@@ -565,11 +577,12 @@ html, body {
    MAIN WORKSPACE (CERO SCROLL ESTRICTO)
    ========================================================================== */
 .sniping-workspace {
-  flex: 1;
   min-height: 0;
+  height: 100%;
+  max-height: 100%;
   display: flex;
   gap: clamp(8px, 1vw, 14px);
-  padding: 0 clamp(16px, 1.8vw, 24px) 12px clamp(16px, 1.8vw, 24px);
+  padding: 2px clamp(16px, 1.8vw, 24px) 4px clamp(16px, 1.8vw, 24px);
   overflow: hidden !important;
 }
 
@@ -2116,4 +2129,69 @@ button.c-sentinel-tag {
 @keyframes flash-border {
   0% { border-color: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
   100% { border-color: var(--border-subtle); box-shadow: none; }
+}
+
+/* =============================================================================
+   BOTONERA INFERIOR DE MÓDULOS (42PX - UNIFICADA Y CENTRADA)
+   ============================================================================= */
+.bottom-module-dock {
+  height: 42px;
+  min-height: 42px;
+  max-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  background: rgba(7, 9, 14, 0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.dock-inner-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.dock-module-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.dock-module-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.dock-module-btn.active {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(176, 38, 255, 0.08) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.dock-module-btn .dock-label {
+  line-height: 1;
 }

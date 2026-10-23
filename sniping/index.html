@@ -42,20 +42,18 @@
       </div>
       <div class="id-card-sub-row">
         <span class="pulse-dot-green" id="liveConnDot"></span>
-        <span class="live-conn-text" id="liveConnStatusText">CONECTADO EN VIVO (ALCHEMY RPC)</span>
+        <div class="id-pills-wrap">
+          <span class="id-cloud-pill" title="Cloudflare Workers Edge Network" id="cfStatusPill">
+            <span class="material-symbols-rounded icon-xs cyan">cloud_done</span> CF WORKERS
+          </span>
+          <span class="id-cloud-pill" title="Crons 24/7 (30m)" id="cronStatusPill">
+            <span class="material-symbols-rounded icon-xs green-text">schedule</span> CRON GHA
+          </span>
+          <span class="id-cloud-pill" title="Telegram: 🛰️ SALA DE MANDO 10K" id="tgStatusPill">
+            <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span> TELEGRAM
+          </span>
+        </div>
       </div>
-    </div>
-
-    <!-- SELECTOR DE CABINA: SNIPING <-> FLOTA X500 -->
-    <div class="nav-switcher-wrap" title="Alternar entre Cabina de Sniping y Flota X500" style="display: flex; align-items: center; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 2px; gap: 2px; flex-shrink: 0;">
-      <a href="./" class="switcher-tab active-tab" style="display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-decoration: none; font-family: 'JetBrains Mono', monospace; background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(176, 38, 255, 0.2)); color: #fff; border: 1px solid rgba(0, 240, 255, 0.32);">
-        <span class="material-symbols-rounded icon-xs cyan">radar</span>
-        <span>SNIPING</span>
-      </a>
-      <a href="../flota-x500/" class="switcher-tab" style="display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-decoration: none; font-family: 'JetBrains Mono', monospace; color: #94a3b8;">
-        <span class="material-symbols-rounded icon-xs gold">military_tech</span>
-        <span>FLOTA X500</span>
-      </a>
     </div>
 
     <!-- GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS DEL MISMO ANCHO -->
@@ -311,21 +309,6 @@
         </div>
       </section>
 
-      <!-- BOTONES DE ACCIÓN DOCK INFERIOR IZQUIERDO -->
-      <div class="col-dock-group">
-        <button type="button" class="dock-btn btn-dossier" id="btnToggleReserveGrid" onclick="openReserveFleetDossier()"
-          title="Ver Expediente Táctico Completo de la Flota">
-          <span class="material-symbols-rounded icon-sm gold-icon">folder_shared</span>
-          <span class="dock-btn-txt">VER EXPEDIENTE DE FLOTA</span>
-          <span class="material-symbols-rounded icon-xs dock-tail-icon">visibility</span>
-        </button>
-
-        <a href="../flota-x500/" class="dock-btn btn-return" title="Ir a la Cabina de la Flota X500">
-          <span class="material-symbols-rounded icon-sm gold">military_tech</span>
-          <span class="dock-btn-txt">CABINA FLOTA X500</span>
-          <span class="material-symbols-rounded icon-xs dock-tail-icon">chevron_right</span>
-        </a>
-      </div>
 
     </aside>
 
@@ -728,6 +711,37 @@
     </div>
 
   </main>
+
+  <!-- ========================================================================= -->
+  <!-- BLOQUE INFERIOR: BOTONERA UNIFICADA DE MÓDULOS (42PX - CERO SCROLL)       -->
+  <!-- ========================================================================= -->
+  <footer class="bottom-module-dock">
+    <div class="dock-inner-bar">
+      <!-- 1. Sniping Atómico (Activo) -->
+      <a href="./" class="dock-module-btn active" id="dockBtnSniping" title="Cabina de Sniping Atómico">
+        <span class="material-symbols-rounded icon-sm cyan">radar</span>
+        <span class="dock-label">🎯 SNIPING ATÓMICO</span>
+      </a>
+
+      <!-- 2. Flota X500 -->
+      <a href="../flota-x500/" class="dock-module-btn" id="dockBtnFlota" title="Ir a Cabina de la Flota X500 (500 Satélites)">
+        <span class="material-symbols-rounded icon-sm gold">military_tech</span>
+        <span class="dock-label">🪖 FLOTA X500</span>
+      </a>
+
+      <!-- 3. Expediente 500 Bots -->
+      <button type="button" class="dock-module-btn" id="btnToggleReserveGrid" onclick="openReserveFleetDossier()" title="Ver Expediente Táctico Completo de la Flota">
+        <span class="material-symbols-rounded icon-sm" style="color: #f59e0b;">folder_shared</span>
+        <span class="dock-label">🗂️ EXPEDIENTE 500 BOTS</span>
+      </button>
+
+      <!-- 4. Dashboard General -->
+      <a href="../dashboard/" class="dock-module-btn" id="dockBtnDashboard" title="Dashboard General de Operación 10K">
+        <span class="material-symbols-rounded icon-sm purple" style="color: #c084fc;">account_balance</span>
+        <span class="dock-label">🏛️ DASHBOARD GENERAL</span>
+      </a>
+    </div>
+  </footer>
 
   <!-- Modal / Expediente Emergente -->
   <div class="dossier-overlay" id="dossierOverlay" style="display: none;">
