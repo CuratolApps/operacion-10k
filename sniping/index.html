@@ -19,11 +19,11 @@
 <body class="area501-sniping-body">
 
   <!-- ========================================================================= -->
-  <!-- BLOQUE 1 (BARRA SUPERIOR FLOTANTE): TARJETAS 3D FLOTANTES & CÓDIGO COMPLETO -->
+  <!-- BLOQUE 1 (BARRA SUPERIOR FLOTANTE): 5 TARJETAS 3D FLOTANTES Y SIMÉTRICAS  -->
   <!-- ========================================================================= -->
   <header class="top-nav-bar" id="block-header">
     
-    <!-- TARJETA FLOTANTE 1: IDENTIDAD ÁREA 501 + ESTADO CONECTADO EN VIVO -->
+    <!-- TARJETA FLOTANTE 1: IDENTIDAD ÁREA 501 (ALINEADA EXACTA CON COLUMNA IZQUIERDA) -->
     <div class="nav-identity-card floating-card">
       <div class="id-card-top-row">
         <div class="shield-lock-icon-badge" title="Escudo Blindado de Sniping Atómico">
@@ -37,49 +37,51 @@
       </div>
     </div>
 
-    <!-- TARJETA FLOTANTE 2: POSICIÓN 100% EN USDC ESTABLE (0% VOLATILIDAD) -->
-    <div class="usdc-queen-card floating-card">
-      <div class="queen-top-row">
-        <span class="material-symbols-rounded icon-xs green-text">monetization_on</span>
-        <span class="queen-title">POSICIÓN EN USDC (ESTABLE 1:1)</span>
-        <span class="queen-badge">0% RIESGO VOLATILIDAD</span>
-      </div>
-      <div class="queen-data-row">
-        <span class="queen-amount" id="topUsdcStableVal">$180.26 USDC</span>
-        <span class="queen-status-text">EN USDC OFICIAL AHORA MISMO</span>
-      </div>
-    </div>
+    <!-- GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS DEL MISMO ANCHO -->
+    <div class="nav-modules-row">
 
-    <!-- TARJETA FLOTANTE 3: CICLO DEL DISPARO ATÓMICO -->
-    <div class="atomic-cycle-pod floating-card">
-      <div class="cycle-pod-header">
-        <span class="material-symbols-rounded icon-xs cyan">sync_alt</span>
-        <span class="cycle-title">CICLO DEL DISPARO ATÓMICO</span>
+      <!-- TARJETA FLOTANTE 2: POSICIÓN EN USDC ESTABLE (0% VOLATILIDAD) -->
+      <div class="usdc-queen-card floating-card">
+        <div class="queen-top-row">
+          <span class="material-symbols-rounded icon-xs green-text">monetization_on</span>
+          <span class="queen-title">POSICIÓN EN USDC (ESTABLE 1:1)</span>
+          <span class="queen-badge">0% VOLATILIDAD</span>
+        </div>
+        <div class="queen-data-row">
+          <span class="queen-amount" id="topUsdcStableVal">$180.26 USDC</span>
+          <span class="queen-status-text">EN USDC OFICIAL AHORA</span>
+        </div>
       </div>
-      <div class="cycle-pod-flow">
-        <span class="c-step">SALE USDC</span>
-        <span class="c-sep">➔</span>
-        <span class="c-step active">RECUPERA 100% BASE USDC</span>
-        <span class="c-sep">➔</span>
-        <span class="c-step gold-txt">+ GANANCIA</span>
-      </div>
-    </div>
 
-    <!-- TARJETA FLOTANTE 4: CAJA DE RETIRO & RECARGA DE TANQUES -->
-    <div class="profit-vault-pod floating-card">
-      <div class="pv-header">
-        <span class="material-symbols-rounded icon-xs gold">savings</span>
-        <span class="pv-title">DESTINO GANANCIA</span>
+      <!-- TARJETA FLOTANTE 3: CICLO DEL DISPARO ATÓMICO -->
+      <div class="atomic-cycle-pod floating-card">
+        <div class="cycle-pod-header">
+          <span class="material-symbols-rounded icon-xs cyan">sync_alt</span>
+          <span class="cycle-title">CICLO DEL DISPARO ATÓMICO</span>
+        </div>
+        <div class="cycle-pod-flow">
+          <span class="c-step">SALE USDC</span>
+          <span class="c-sep">➔</span>
+          <span class="c-step active">RECUPERA 100% BASE</span>
+          <span class="c-sep">➔</span>
+          <span class="c-step gold-txt">+ GANANCIA</span>
+        </div>
       </div>
-      <div class="pv-desc">
-        <span>70% CAJA RETIRO USDC</span>
-        <span class="pv-divider">·</span>
-        <span>30% RECARGA TANQUES GAS</span>
-      </div>
-    </div>
 
-    <!-- TARJETA FLOTANTE 5: BÓVEDA MAESTRA #501 (CÓDIGO COMPLETO) + BOTÓN RETORNO -->
-    <div class="nav-right-actions">
+      <!-- TARJETA FLOTANTE 4: CAJA DE RETIRO & RECARGA DE TANQUES -->
+      <div class="profit-vault-pod floating-card">
+        <div class="pv-header">
+          <span class="material-symbols-rounded icon-xs gold">savings</span>
+          <span class="pv-title">DESTINO GANANCIA</span>
+        </div>
+        <div class="pv-desc">
+          <span>70% CAJA RETIRO USDC</span>
+          <span class="pv-divider">·</span>
+          <span>30% RECARGA GAS</span>
+        </div>
+      </div>
+
+      <!-- TARJETA FLOTANTE 5: BÓVEDA MAESTRA #501 (CÓDIGO COMPLETO) -->
       <div class="master-vault-card floating-card" id="vaultCard501" title="Bóveda Matriz #501: 0xD4D12077a61118372f7a367319fb11922Beb3743">
         <div class="vault-label-row">
           <span class="vault-badge-gold">
@@ -97,11 +99,6 @@
         </div>
       </div>
 
-      <!-- Botón Flotante de Retorno -->
-      <a href="../dashboard/index.html" class="back-fleet-btn floating-card" title="Volver a la Terminal General de la Flota">
-        <span class="material-symbols-rounded icon-xs">arrow_back</span>
-        <span>Volver a Flota</span>
-      </a>
     </div>
 
   </header>
@@ -121,13 +118,12 @@
         <div class="card-header">
           <div class="card-title-group">
             <span class="material-symbols-rounded card-icon gold">account_balance_wallet</span>
-            <h2 class="card-title">POSICIÓN ACTIVA EN USDC</h2>
+            <h2 class="card-title">POSICIÓN USDC</h2>
           </div>
-          <span class="status-badge green-badge">100% EN USDC AHORA</span>
         </div>
 
         <div class="card-sub-policy">
-          <span class="material-symbols-rounded icon-xs">verified</span>
+          <span class="material-symbols-rounded icon-xs green-text">verified</span>
           <span>FONDOS EN PODER: $180.26 USDC (CERO VOLATILIDAD)</span>
         </div>
 
@@ -138,9 +134,9 @@
             <span class="m-meta-tag green-text">ESTABLE 1:1</span>
           </div>
           <div class="munition-big-price" id="munitionTotalUsdc">$180.26 USDC</div>
-          <div class="munition-progress-desc">
-            <span>Objetivo Hito 2: $250.00 USDC</span>
-            <span class="gold-text">72.1% (Meta 1 Superada ✅)</span>
+          <div class="munition-progress-stacked">
+            <div class="m-prog-row1">Objetivo Hito 2: $250.00 USDC</div>
+            <div class="m-prog-row2 gold-text">72.1% (Meta 1 Superada ✅)</div>
           </div>
         </div>
 
@@ -279,6 +275,12 @@
           </div>
         </div>
       </section>
+
+      <!-- BOTÓN VOLVER A FLOTA GENERAL (DOCK INFERIOR IZQUIERDO) -->
+      <a href="../dashboard/index.html" class="back-fleet-dock-btn" title="Volver a la Terminal General de la Flota">
+        <span class="material-symbols-rounded icon-sm">arrow_back</span>
+        <span>VOLVER A TERMINAL FLOTA</span>
+      </a>
 
     </aside>
 
