@@ -24,6 +24,15 @@ const path = require("path");
 const { ethers } = require("ethers");
 
 // =====================================================================================
+// LEY OPERATIVA ÁREA 501: MODO 100% ATÓMICO (RIESGO CERO) & META 15 DISPAROS DIARIOS
+// =====================================================================================
+const ATOMIC_ONLY_MODE = true;           // Prohibido quedarse comprado en volátiles / riesgo direccional
+const ZERO_INTERNAL_SWEEP = true;        // PROHIBIDO mover USDC entre carteras propias (cero gas malgastado)
+const DAILY_ATOMIC_TARGET = 15;          // Meta de 15 disparos atómicos al día
+const MIN_ATOMIC_SPREAD_NET = 0.0012;    // +0.12% neto (mínimo +$0.05 a +$0.35 USDC limpios tras gas)
+const STRICT_NO_GAS_SELL = true;         // Prohibido vender POL/BNB del tanque de gas
+
+// =====================================================================================
 // CONSTANTES Y CONFIGURACIÓN ON-CHAIN
 // =====================================================================================
 const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
@@ -1251,6 +1260,37 @@ async function runDedicatedObservers() {
         ? "ARBITRAJE_NETO_ACTIVO"
         : "🛡️ VIGILANCIA CENTINELA ($0 GAS CONSUMIDO)",
       zeroGasTelemetry: true
+    },
+    atomicExecution: {
+      atomicOnlyMode: ATOMIC_ONLY_MODE,
+      zeroInternalSweep: ZERO_INTERNAL_SWEEP,
+      strictNoGasSell: STRICT_NO_GAS_SELL,
+      dailyAtomicTarget: DAILY_ATOMIC_TARGET,
+      minAtomicSpreadNet: "+0.12%",
+      minUsdcProfitPerShot: "+$0.05 a +$0.35 USDC",
+      status: "RIESGO_CERO_100_PORCIENTO_ATOMICO",
+      rule: "USDC_Out > USDC_In + Gas_Cost"
+    },
+    twelveConcentratedPools: {
+      totalMonitored: 12,
+      polygonPools: [
+        "Uniswap V3 0.01% (Fee 100)",
+        "Uniswap V3 0.05% (Fee 500)",
+        "QuickSwap Algebra V3",
+        "QuickSwap V2",
+        "SushiSwap V2",
+        "Curve Finance Polygon"
+      ],
+      bscPools: [
+        "PancakeSwap V3 0.01% (Fee 100)",
+        "PancakeSwap V3 0.05% (Fee 500)",
+        "Thena Algebra V3",
+        "BiSwap"
+      ],
+      publicKeeperVaults: [
+        "Beefy Finance & Gamma Strategies",
+        "Venus Protocol & Aave V3"
+      ]
     }
   };
 
@@ -1297,5 +1337,10 @@ module.exports = {
   SUSHISWAP_ROUTER,
   PANCAKE_ROUTER,
   UNISWAP_V3_QUOTER_V2,
-  UNISWAP_V3_SWAP_ROUTER_02
+  UNISWAP_V3_SWAP_ROUTER_02,
+  ATOMIC_ONLY_MODE,
+  ZERO_INTERNAL_SWEEP,
+  DAILY_ATOMIC_TARGET,
+  MIN_ATOMIC_SPREAD_NET,
+  STRICT_NO_GAS_SELL
 };

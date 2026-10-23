@@ -169,7 +169,7 @@
             <div class="fin-stat-box box-liquidity">
               <div class="fin-stat-header">
                 <span class="fin-stat-title">1. LIQUIDEZ CONSOLIDADA (USDC FIJO)</span>
-                <span class="fin-stat-badge gold">83.4% META 1</span>
+                <span class="fin-stat-badge gold" id="dashAtomicDailyPill">🎯 ATÓMICOS: 0 / 15</span>
               </div>
               <div class="fin-stat-val-row">
                 <h2 class="liq-main-total" id="dashConsolidatedNetTitle">$41.72 USDC</h2>
@@ -192,23 +192,23 @@
             <!-- BLOQUE 3: POSICIÓN PATRIMONIAL HOY -->
             <div class="fin-stat-box box-patrimony">
               <div class="fin-stat-header">
-                <span class="fin-stat-title">3. POSICIÓN PATRIMONIAL HOY</span>
+                <span class="fin-stat-title">3. POSICIÓN HOY (REBOTE MERCADO)</span>
                 <span class="fin-stat-badge green">EN PODER</span>
               </div>
               <div class="fin-stat-val-row">
-                <div class="fin-stat-value green" id="dashEurLiqPill">~103,05 € ($111.62 USD)</div>
+                <div class="fin-stat-value green" id="dashEurLiqPill">~113,97 € ($123.42 USD)</div>
               </div>
-              <div class="fin-stat-note">(USDC Fijo + Valor Gas + Kraken)</div>
+              <div class="fin-stat-note">(Con Rebote de Mercado • Gas + Kraken)</div>
             </div>
 
             <!-- BLOQUE 4: BRECHA PARA EMPATAR -->
             <div class="fin-stat-box box-gap">
               <div class="fin-stat-header">
-                <span class="fin-stat-title">4. BRECHA PARA EMPATAR AL 100%</span>
+                <span class="fin-stat-title">4. BRECHA REDUCIDA P/ EMPATAR</span>
                 <span class="fin-stat-badge alert">RECUPERACIÓN</span>
               </div>
               <div class="fin-stat-val-row">
-                <div class="fin-stat-value alert" id="dashUsdLiqPill">-$21.88 USD (-19,95 €)</div>
+                <div class="fin-stat-value alert" id="dashUsdLiqPill">-9,03 € (-$10.08 USD)</div>
               </div>
               <div class="fin-stat-note" id="dashReserveLiqPill">🏦 Bóveda #501: $40.72 On-Chain | $1.00 Binance</div>
             </div>
@@ -246,18 +246,18 @@
               </div>
             </div>
 
-            <!-- TARJETA 3: CURVA DE EQUILIBRIO & ESCALERA 2.000 € -->
+            <!-- TARJETA 3: CUOTA ATÓMICA & ESCALERA -->
             <div class="market-trend-card quant-grid-card" id="card-breakeven-ladder">
               <div class="mkt-trend-top">
-                <span class="mkt-trend-name">3. CURVA DE EQUILIBRIO &amp; ESCALERA</span>
-                <span class="mkt-trend-badge pos">ESTADO ÁREA 501</span>
+                <span class="mkt-trend-name">3. CUOTA ATÓMICA &amp; ESCALERA</span>
+                <span class="mkt-trend-badge pos" id="dashAtomicQuotaBadge">0 / 15 HOY (RIESGO 0%)</span>
               </div>
               <div class="mkt-trend-body">
                 <div class="mkt-trend-quant-row">
-                  <span class="mkt-trend-price green" style="font-size: 0.88rem;">$41.72 ➔ $50.00</span>
-                  <span class="mkt-trend-extra gold" style="font-size: 0.68rem;">➔ $133.50 (Empate)</span>
+                  <span class="mkt-trend-price green" style="font-size: 0.82rem;" id="dashAtomicQuotaText">🎯 0 / 15 DISPAROS</span>
+                  <span class="mkt-trend-extra gold" style="font-size: 0.65rem;">USDC ➔ +USDC</span>
                 </div>
-                <div class="mkt-sub-single-line">Escalera: Empate $133.50 ➔ $2,200 USDC (Renta 100€/día)</div>
+                <div class="mkt-sub-single-line">Modo 100% Atómico • Spread &gt;= +0.12% • Cero Volátiles</div>
               </div>
             </div>
 
@@ -409,9 +409,9 @@
               <span class="rl-sub" id="ratioG5Sub">0 Free Mints • 0 Honeypots</span>
             </div>
             <div class="ratio-card-box-large magenta">
-              <span class="rl-head">Cierre de Brecha &amp; Avance ROI</span>
+              <span class="rl-head">Cierre de Brecha &amp; Cuota Atómica</span>
               <span class="rl-val" id="ratioQuotaVal">$41.72 USDC</span>
-              <span class="rl-sub" id="ratioQuotaSub">31.3% Cierre Brecha Break-Even ($133.50 USD)</span>
+              <span class="rl-sub" id="ratioQuotaSub">Brecha: -9,03 € (-$10.08 USD) • 15 Disparos/Día</span>
             </div>
           </div>
 

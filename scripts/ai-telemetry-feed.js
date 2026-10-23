@@ -580,7 +580,7 @@ async function generateUnifiedTelemetry() {
 
   const payload = {
     schemaVersion: "3.0.0",
-    projectName: "Operación 10K",
+    projectName: "ÁREA 501",
     timestamp: new Date().toISOString(),
     systemHealthScore,
     sybilRiskIndex: 0.01, // 0.01 = Riesgo mínimo / Aislamiento verificado
@@ -588,6 +588,28 @@ async function generateUnifiedTelemetry() {
     dailyCapturedUsdc: totalHistoricalUsdc,
     totalHistoricalUsdc: totalHistoricalUsdc,
     totalOnChainFleetUsdc: totalOnChainSniperUsdc,
+    atomicSniperExecution: {
+      mode: "ATOMIC_ONLY_RISK_ZERO",
+      atomicOnlyMode: true,
+      zeroInternalSweep: true,
+      strictNoGasSell: true,
+      dailyTarget: 15,
+      shotsExecutedToday: existingTelemetry?.atomicSniperExecution?.shotsExecutedToday || 0,
+      minAtomicSpreadNet: 0.0012,
+      minAtomicSpreadNetPct: "+0.12%",
+      vaultAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      reboundPosition: {
+        totalInvestmentEur: 123.00,
+        totalInvestmentUsd: 133.50,
+        currentPositionEur: 113.97,
+        currentPositionUsd: 123.42,
+        gapEur: -9.03,
+        gapUsd: -10.08,
+        fixedLiquidityUsdc: 41.72
+      },
+      monitoredConcentratedPoolsCount: 12,
+      status: "ARMED_AND_SCANNING"
+    },
     globalGasTank,
     hierarchy: {
       highCommand: {

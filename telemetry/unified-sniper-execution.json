@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.1.0",
-  "timestamp": "2026-10-22T21:50:51.857Z",
+  "timestamp": "2026-10-23T09:57:14.144Z",
   "directorDeTiro": {
     "zeroCollisionMutex": "ACTIVO_Y_VERIFICADO",
     "activeSlotLeader": "#501 (Nodriza Matriz)",
@@ -15,17 +15,17 @@
     {
       "vectorId": "VECTOR-1-CONCENTRATED-V3",
       "name": "Arbitraje Concentrado V3 (0.01% / 0.05% Tiers)",
-      "spreadPolygon": 0.0111,
-      "spreadBsc": 0.2862,
+      "spreadPolygon": 0.2747,
+      "spreadBsc": 0.3894,
       "isProfitable": false,
       "status": "🛡️ VIGILANCIA CENTINELA (Spread V3 < 1.35x Gas, $0 gas consumido)"
     },
     {
       "vectorId": "VECTOR-2-KEEPER-BOUNTIES",
       "name": "Keeper Harvest Bounties (30+ Bóvedas Beefy & Gamma)",
-      "topRewardUsd": 0.020374,
+      "topRewardUsd": 0.158815,
       "thresholdMultiplier": "1.35x Costo de Gas",
-      "isProfitable": false,
+      "isProfitable": true,
       "status": "🛡️ VIGILANCIA CENTINELA (Reward < 1.35x Gas, $0 gas consumido)"
     },
     {
@@ -37,12 +37,22 @@
         "WETH/USDC",
         "WBTC/USDC"
       ],
-      "maxDislocationPct": 0.2862,
+      "maxDislocationPct": 0.3894,
       "locksVerified": "5 Candados de las 32 Nebulosas Activos",
       "isProfitable": false,
       "status": "🛡️ VIGILANCIA CENTINELA (Sin panic-sell institucional, $0 gas consumido)"
     }
   ],
+  "atomicPolicy": {
+    "atomicOnlyMode": true,
+    "zeroInternalSweep": true,
+    "strictNoGasSell": true,
+    "dailyAtomicTarget": 15,
+    "minAtomicSpreadNet": "+0.12%",
+    "minProfitUsdcPerShot": "+$0.05 a +$0.35 USDC",
+    "condition": "USDC_Out > USDC_In + Gas_Cost (callStatic verified)",
+    "status": "RIESGO_CERO_100_PORCIENTO_ATOMICO"
+  },
   "atomicPreFlightPolicy": {
     "formula": "USDC_Salida > USDC_Entrada + Costo_Gas * 1.35",
     "status": "EVALUADO_A_0_GAS_VIA_CALLSTATIC"

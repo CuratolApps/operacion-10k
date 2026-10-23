@@ -26,6 +26,15 @@ const LIVE_OBSERVER_FILE = path.join(TELEMETRY_DIR, "live-market-observer.json")
 const COMPETITIONS_FILE = path.join(TELEMETRY_DIR, "competitions-live.json");
 const RATCHET_FILE = path.join(TELEMETRY_DIR, "profit-lock-ratchet.json");
 
+// =====================================================================================
+// LEY OPERATIVA ÁREA 501: MODO 100% ATÓMICO (RIESGO CERO) & META 15 DISPAROS DIARIOS
+// =====================================================================================
+const ATOMIC_ONLY_MODE = true;           // Prohibido quedarse comprado en volátiles / riesgo direccional
+const ZERO_INTERNAL_SWEEP = true;        // PROHIBIDO mover USDC entre carteras propias (cero gas malgastado)
+const DAILY_ATOMIC_TARGET = 15;          // Meta de 15 disparos atómicos al día
+const MIN_ATOMIC_SPREAD_NET = 0.0012;    // +0.12% neto (mínimo +$0.05 a +$0.35 USDC limpios tras gas)
+const STRICT_NO_GAS_SELL = true;         // Prohibido vender POL/BNB del tanque de gas
+
 const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 const MULTICALL3_ABI = [
   "function aggregate3(tuple(address target, bool allowFailure, bytes callData)[] calls) payable returns (tuple(bool success, bytes returnData)[] returnData)"
@@ -649,6 +658,16 @@ async function executeUnifiedShinobiSnipe(options = {}) {
         totalFirepowerUsdc: cannon1Input + cannon2Input
       },
       threeVectorsStatus: vectorsSummary,
+      atomicPolicy: {
+        atomicOnlyMode: ATOMIC_ONLY_MODE,
+        zeroInternalSweep: ZERO_INTERNAL_SWEEP,
+        strictNoGasSell: STRICT_NO_GAS_SELL,
+        dailyAtomicTarget: DAILY_ATOMIC_TARGET,
+        minAtomicSpreadNet: "+0.12%",
+        minProfitUsdcPerShot: "+$0.05 a +$0.35 USDC",
+        condition: "USDC_Out > USDC_In + Gas_Cost (callStatic verified)",
+        status: "RIESGO_CERO_100_PORCIENTO_ATOMICO"
+      },
       atomicPreFlightPolicy: {
         formula: "USDC_Salida > USDC_Entrada + Costo_Gas * 1.35",
         status: "EVALUADO_A_0_GAS_VIA_CALLSTATIC"
@@ -687,5 +706,10 @@ module.exports = {
   runOmniSniper5Models,
   executeUnifiedShinobiSnipe,
   zeroCollisionMutex,
+  ATOMIC_ONLY_MODE,
+  ZERO_INTERNAL_SWEEP,
+  DAILY_ATOMIC_TARGET,
+  MIN_ATOMIC_SPREAD_NET,
+  STRICT_NO_GAS_SELL,
   PROTOCOLS
 };

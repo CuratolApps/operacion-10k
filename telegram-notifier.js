@@ -167,9 +167,10 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
 
 const INVESTMENT_ROI_HEADER = `💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>
 • <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>
-• <b>Recuperado en USDC Líquido:</b> <code>$41.72 USDC (~38,50 €) ➔ 83.4% de Meta 1 ($50.00 USDC)</code>
-• <b>Posición Patrimonial Hoy:</b> <code>~103,05 € ($111.62 USD)</code>
-• <b>Brecha para Empatar:</b> <code>-$21.88 USD (-19,95 €)</code>
+• <b>Posición Patrimonial Hoy:</b> <code>~113,97 € ($123.42 USD) (Con Rebote de Mercado)</code>
+• <b>Brecha Reducida a:</b> <b>-9,03 € (-$10.08 USD)</b>
+• <b>Liquidez Fija Consolidada:</b> <code>$41.72 USDC (83.4% Meta 1: $50.00 USDC)</code>
+• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>
 • <b>Bóveda #501:</b> <code>$40.72 On-Chain | $1.00 Binance</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
@@ -522,7 +523,7 @@ if (require.main === module) {
     console.log(`\n🎯 Chat ID confirmado: ${chatId}`);
     console.log("📨 Enviando mensaje de prueba al teléfono...");
 
-    const testMsg = "🐝 <b>OPERACIÓN 10K:</b> Conexión establecida con éxito. El enjambre está en línea.";
+    const testMsg = "🛡️ <b>ÁREA 501:</b> Conexión establecida con éxito. Modo 100% Atómico activo (15 Disparos/Día).";
     const ok = await sendTelegramAlert(testMsg, chatId);
     if (ok) {
       console.log("🎉 ¡Listo! Notificación de prueba enviada con éxito.");

@@ -68,9 +68,16 @@ const SWEEP_THRESHOLD_USDC = 1.00;
 const DYNAMIC_COOLDOWN_MS = 30 * 60 * 1000;
 const AUTO_SWEEP_TO_BINANCE = false;
 let ZERO_GAS_DRAIN_MODE = true; // ORDEN DE PROTECCIÓN DE TANQUE: Prohibido drenar POL y BNB en swaps unidireccionales
-// STRICT_NO_GAS_SELL importado de security-fortress-shield (true por orden táctica de emergencia)
-const ALLOW_POL_TO_USDC_SWAP = false; // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar POL por USDC
-const ALLOW_BNB_TO_USDC_SWAP = false; // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar BNB por USDC
+
+// =====================================================================================
+// LEY OPERATIVA ÁREA 501: MODO 100% ATÓMICO (RIESGO CERO) & META 15 DISPAROS DIARIOS
+// =====================================================================================
+const ATOMIC_ONLY_MODE = true;           // Prohibido quedarse comprado en volátiles / riesgo direccional
+const ZERO_INTERNAL_SWEEP = true;        // PROHIBIDO mover USDC entre carteras propias (cero gas malgastado)
+const DAILY_ATOMIC_TARGET = 15;          // Meta de 15 disparos atómicos al día
+const MIN_ATOMIC_SPREAD_NET = 0.0012;    // +0.12% neto (mínimo +$0.05 a +$0.35 USDC limpios tras gas)
+const ALLOW_POL_TO_USDC_SWAP = false;    // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar POL por USDC
+const ALLOW_BNB_TO_USDC_SWAP = false;    // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar BNB por USDC
 
 // =====================================================================================
 // PUNTA DE LANZA CONCENTRADA (SPEARHEAD CONCENTRATION MODE — CYBER SHINOBI)
@@ -1789,7 +1796,9 @@ async function consolidateUsdcSpearheads(options = {}) {
 
   console.log(`💎 [POLYGON POS] Munición Total Disponible: $${totalPolygonUsdc.toFixed(6)} USDC`);
 
-  if (gasCostPermitted && !dryRun) {
+  if (ZERO_INTERNAL_SWEEP) {
+    console.log(`   🔒 [ZERO_INTERNAL_SWEEP = true] Prohibido mover USDC entre carteras propias. Cero comisiones de red malgastadas.`);
+  } else if (gasCostPermitted && !dryRun) {
     for (const sub of subCaptains) {
       try {
         const rawBal = await usdcPol.balanceOf(sub.address);
@@ -2246,6 +2255,10 @@ module.exports = {
   UNISWAP_V3_QUOTER_V2,
   UNISWAP_V3_SWAP_ROUTER_02,
   STRICT_NO_GAS_SELL,
+  ATOMIC_ONLY_MODE,
+  ZERO_INTERNAL_SWEEP,
+  DAILY_ATOMIC_TARGET,
+  MIN_ATOMIC_SPREAD_NET,
   ALLOW_POL_TO_USDC_SWAP,
   ALLOW_BNB_TO_USDC_SWAP,
   executeUnifiedShinobiSnipe: require("./omni-sniper-5models").executeUnifiedShinobiSnipe,

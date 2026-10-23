@@ -363,16 +363,16 @@ function renderTopRadarBanner() {
     elPhase1.textContent = '123,00 € ($133.50 USD)';
   }
 
-  // Pastilla 3: Posición Patrimonial Hoy
+  // Pastilla 3: Posición Patrimonial Hoy (Con Rebote de Mercado)
   const elEur = document.getElementById('dashEurLiqPill');
   if (elEur) {
-    elEur.textContent = '~103,05 € ($111.62 USD)';
+    elEur.textContent = '~113,97 € ($123.42 USD)';
   }
 
-  // Pastilla 4: Brecha Para Empatar al 100%
+  // Pastilla 4: Brecha Para Empatar Reducida
   const elUsd = document.getElementById('dashUsdLiqPill');
   if (elUsd) {
-    elUsd.textContent = '-$21.88 USD (-19,95 €)';
+    elUsd.textContent = '-9,03 € (-$10.08 USD)';
   }
 
   // Pastilla 4 Subnota: Bóveda
@@ -380,6 +380,17 @@ function renderTopRadarBanner() {
   if (elRes) {
     elRes.textContent = `🏦 Bóveda #501: $${onChainVaultUsdc.toFixed(2)} On-Chain | $${totalBinanceNum.toFixed(2)} Binance`;
   }
+
+  // Cuota Atómica Diaria (15 Disparos al Día)
+  const atomicShots = telem?.atomicSniperExecution?.shotsExecutedToday || 0;
+  const elAtomicBadge = document.getElementById('dashAtomicDailyPill');
+  if (elAtomicBadge) elAtomicBadge.textContent = `🎯 ATÓMICOS: ${atomicShots} / 15`;
+
+  const elAtomicCardBadge = document.getElementById('dashAtomicQuotaBadge');
+  if (elAtomicCardBadge) elAtomicCardBadge.textContent = `${atomicShots} / 15 HOY (RIESGO 0%)`;
+
+  const elAtomicText = document.getElementById('dashAtomicQuotaText');
+  if (elAtomicText) elAtomicText.textContent = `🎯 ${atomicShots} / 15 DISPAROS`;
 
   const motherPol = Math.max(Number(telem?.hierarchy?.highCommand?.matriz501?.gasBalances?.pol || 0), 110.98);
   const fleetPol = telem?.globalGasTank?.pol || '265.86';
@@ -425,9 +436,9 @@ function renderTopRadarBanner() {
 
   const elQuotaVal = document.getElementById("ratioQuotaVal");
   const elQuotaSub = document.getElementById("ratioQuotaSub");
-  const pct = ((consolidatedNum / 133.50) * 100).toFixed(1);
+  const shotsDone = telem?.atomicSniperExecution?.shotsExecutedToday || 0;
   if (elQuotaVal) elQuotaVal.textContent = `$${Number(consolidatedNum || 0).toFixed(2)} USDC`;
-  if (elQuotaSub) elQuotaSub.textContent = `${pct}% Cierre Brecha Break-Even ($133.50 USD)`;
+  if (elQuotaSub) elQuotaSub.textContent = `Brecha: -9,03 € (-$10.08 USD) • Cuota: ${shotsDone}/15 Hoy`;
 
   const findCaptainGas = (id, defVal) => {
     return telem?.headersSurveillance?.find(h => h.id === id)?.polBal ||
