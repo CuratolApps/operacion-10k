@@ -6,6 +6,7 @@
  * Implementa FallbackProvider resiliente y optimización de batching con Multicall3.
  */
 
+require("dotenv").config();
 const { ethers } = require("ethers");
 
 const MULTICALL3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
@@ -156,44 +157,20 @@ const networks = {
   },
 
   // -------------------------------------------------------------------------------------
-  // MAINNETS ECONÓMICAS PREPARADAS (BSC, POLYGON, BASE)
+  // MAINNETS ECONÓMICAS PREPARADAS (POLYGON, BSC, BASE, ARBITRUM, ETHEREUM)
   // -------------------------------------------------------------------------------------
-  bscMainnet: {
-    id: "bscMainnet",
-    name: "BNB Smart Chain",
-    rpc: "https://bsc-dataseed.binance.org",
-    fallbackRpc: "https://bsc-rpc.publicnode.com",
-    extraRpcs: ["https://bsc.drpc.org", "https://1rpc.io/bnb"],
-    backupRpcs: [
-      "https://bsc-dataseed.binance.org",
-      "https://bsc-rpc.publicnode.com",
-      "https://1rpc.io/bnb",
-      "https://binance.llamarpc.com"
-    ],
-    chainId: 56,
-    symbol: "BNB",
-    category: "Mainnet",
-    defiToken: {
-      symbol: "WBNB",
-      address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
-    },
-    usdcToken: {
-      symbol: "USDC",
-      address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-      decimals: 18
-    }
-  },
   polygonMainnet: {
     id: "polygonMainnet",
     name: "Polygon PoS",
-    rpc: "https://polygon.drpc.org",
+    rpc: process.env.POLYGON_RPC_URL || "https://polygon.drpc.org",
     fallbackRpc: "https://polygon-bor-rpc.publicnode.com",
     extraRpcs: ["https://polygon.meowrpc.com", "https://polygon-rpc.com", "https://1rpc.io/matic"],
     backupRpcs: [
+      process.env.POLYGON_RPC_URL,
       "https://polygon.drpc.org",
       "https://polygon-bor-rpc.publicnode.com",
       "https://polygon.meowrpc.com"
-    ],
+    ].filter(Boolean),
     chainId: 137,
     symbol: "POL",
     category: "Mainnet",
@@ -207,16 +184,71 @@ const networks = {
       decimals: 6
     }
   },
+  bscMainnet: {
+    id: "bscMainnet",
+    name: "BNB Smart Chain",
+    rpc: process.env.BNB_RPC_URL || "https://bsc-dataseed.binance.org",
+    fallbackRpc: "https://bsc-rpc.publicnode.com",
+    extraRpcs: ["https://bsc.drpc.org", "https://1rpc.io/bnb"],
+    backupRpcs: [
+      process.env.BNB_RPC_URL,
+      "https://bsc-dataseed.binance.org",
+      "https://bsc-rpc.publicnode.com",
+      "https://1rpc.io/bnb",
+      "https://binance.llamarpc.com"
+    ].filter(Boolean),
+    chainId: 56,
+    symbol: "BNB",
+    category: "Mainnet",
+    defiToken: {
+      symbol: "WBNB",
+      address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+    },
+    usdcToken: {
+      symbol: "USDC",
+      address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+      decimals: 18
+    }
+  },
   baseMainnet: {
     id: "baseMainnet",
     name: "Base Mainnet",
-    rpc: "https://mainnet.base.org",
+    rpc: process.env.BASE_RPC_URL || "https://mainnet.base.org",
+    fallbackRpc: "https://base-rpc.publicnode.com",
     chainId: 8453,
     symbol: "ETH",
     category: "Mainnet (Escuadrón C)",
     usdcToken: {
       symbol: "USDC",
       address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      decimals: 6
+    }
+  },
+  arbitrumMainnet: {
+    id: "arbitrumMainnet",
+    name: "Arbitrum One",
+    rpc: process.env.ARBITRUM_RPC_URL || "https://arb1.arbitrum.io/rpc",
+    fallbackRpc: "https://arbitrum-one-rpc.publicnode.com",
+    chainId: 42161,
+    symbol: "ETH",
+    category: "Mainnet",
+    usdcToken: {
+      symbol: "USDC",
+      address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      decimals: 6
+    }
+  },
+  ethereumMainnet: {
+    id: "ethereumMainnet",
+    name: "Ethereum Mainnet",
+    rpc: process.env.ETHEREUM_RPC_URL || "https://eth.drpc.org",
+    fallbackRpc: "https://ethereum-rpc.publicnode.com",
+    chainId: 1,
+    symbol: "ETH",
+    category: "Mainnet",
+    usdcToken: {
+      symbol: "USDC",
+      address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       decimals: 6
     }
   }

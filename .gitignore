@@ -13,4 +13,7 @@ last-run-report.json
 bridge-base-report.json
 radar-report.json
 *.log
+test_*.js
+sniping/config.js
+dashboard/config.js
 scratch/

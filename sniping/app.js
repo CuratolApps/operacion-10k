@@ -340,19 +340,21 @@ const MOTHERSHIPS_REGISTRY = [
 const RPC_CONFIG = {
   polygon: {
     endpoints: [
+      (typeof window !== "undefined" && window.ALCHEMY_CONFIG && window.ALCHEMY_CONFIG.polygonRpc),
       "https://polygon.drpc.org",
       "https://1rpc.io/matic",
       "https://polygon-bor-rpc.publicnode.com"
-    ],
+    ].filter(Boolean),
     usdcAddress: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", // Circle Native USDC Polygon (6 decimals)
     decimals: 6
   },
   bsc: {
     endpoints: [
+      (typeof window !== "undefined" && window.ALCHEMY_CONFIG && window.ALCHEMY_CONFIG.bscRpc),
       "https://bsc-dataseed.binance.org",
       "https://bsc-dataseed1.defibit.io",
       "https://bsc-dataseed1.ninicoin.io"
-    ],
+    ].filter(Boolean),
     usdcAddress: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", // Official Binance-Peg USDC (18 decimals)
     decimals: 18
   },
