@@ -418,6 +418,7 @@ let liveState = {
 
 let latestPolygonBlock = 96032510;
 let latestBscBlock = 129310210;
+let atomicRadar = null; // resumen de atomic-profit-guard.js (telemetry/fleet-telemetry.json)
 let currentShotsDone = 0;
 const DAILY_TARGET = 15;
 
@@ -1113,6 +1114,8 @@ async function syncLocalTelemetry() {
         telem.snipingEcosystem?.dailyAtomicOperations?.completedToday ||
         0;
       currentShotsDone = shots;
+      atomicRadar = telem.atomicProfitRadar || null;
+      renderAtomicRadarUi();
 
       const elBatteryFraction = document.getElementById("batteryQuotaFraction");
       if (elBatteryFraction) elBatteryFraction.textContent = `${shots} / ${DAILY_TARGET} DISPAROS HOY`;
@@ -1462,6 +1465,51 @@ async function forceLiveScan(chain = "all") {
 }
 window.forceLiveScan = forceLiveScan;
 
+// Radar atómico multi-piscina (atomic-profit-guard.js): mejor ciclo real USDC -> token -> USDC
+function atomicRadarSummary(chain) {
+  const r = atomicRadar && atomicRadar[chain];
+  if (!r) return null;
+  const sign = r.netUsdc >= 0 ? "+" : "-";
+  const money = `${sign}$${Math.abs(r.netUsdc).toFixed(3)} USD (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(3)}%)`;
+  const min = atomicRadar.minNetProfitUsdc || 0.05;
+  return {
+    route: `USDC ↔ ${r.token} · ${r.buy} ➔ ${r.sell}`,
+    money,
+    state: r.shouldFire ? "UMBRAL SUPERADO" : `esperando cruce a +$${min.toFixed(2)} USDC`,
+    legacy: r.legacyNetUsdc,
+    at: atomicRadar.updatedAt ? new Date(atomicRadar.updatedAt).toISOString().slice(11, 16) + " UTC" : "—",
+    ok: r.shouldFire
+  };
+}
+
+function renderAtomicRadarUi() {
+  [["polygon", 1], ["bsc", 2]].forEach(([chain, n]) => {
+    const s = atomicRadarSummary(chain);
+    const anchor = document.getElementById(`cannon${n}TriggerState`);
+    if (!s || !anchor) return;
+    let el = document.getElementById(`cannon${n}RadarLine`);
+    if (!el) {
+      el = document.createElement("div");
+      el.id = `cannon${n}RadarLine`;
+      el.style.cssText = "margin-top:6px;font-size:0.54rem;font-family:var(--font-mono);color:var(--text-dim);line-height:1.35;";
+      anchor.insertAdjacentElement("afterend", el);
+    }
+    el.innerHTML = `RADAR ATÓMICO (${s.at}): <strong class="${s.ok ? "green-text" : "gold-text"}">${s.money}</strong><br>${s.route} · ${s.state}`;
+  });
+}
+
+function atomicRadarModalBlock(chain) {
+  const s = atomicRadarSummary(chain);
+  if (!s) return "";
+  const legacy = (s.legacy !== null && s.legacy !== undefined) ? ` · antes (solo token nativo): ${s.legacy >= 0 ? "+" : "-"}$${Math.abs(s.legacy).toFixed(3)}` : "";
+  return `
+      <div style="margin-top: 10px; padding: 8px 12px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 6px; font-family: var(--font-mono);">
+        <div style="font-size: 0.52rem; color: var(--text-dim);">RADAR ATÓMICO MULTI-PISCINA (ciclo cerrado USDC ➔ token ➔ USDC, tras fees y gas · actualizado ${s.at})</div>
+        <div style="font-size: 0.66rem; font-weight: 800; color: #fff; margin-top: 3px;">${s.route}</div>
+        <div style="font-size: 0.62rem; margin-top: 2px;">Mejor ciclo real hoy: <strong class="${s.ok ? "green-text" : "gold-text"}">${s.money}</strong>${legacy}</div>
+        <div style="font-size: 0.54rem; color: var(--text-dim); margin-top: 2px;">Estado: ${s.state}. Solo lectura: no se firma ninguna transacción.</div>
+      </div>`;
+}
 function inspectTriggerCondition(chain = "polygon") {
   const isPoly = chain === "polygon";
   const name = isPoly ? "CAÑÓN PESADO #1 (POLYGON POS)" : "CAÑÓN PESADO #2 (BSC MAINNET)";
@@ -1525,6 +1573,7 @@ function inspectTriggerCondition(chain = "polygon") {
           <span>SONDEAR AHORA MISMO</span>
         </button>
       </div>
+      ${atomicRadarModalBlock(chain)}
     </div>
   `;
 

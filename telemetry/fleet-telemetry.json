@@ -55420,5 +55420,31 @@
         "Venus Protocol & Aave V3"
       ]
     }
+  },
+  "atomicProfitRadar": {
+    "updatedAt": "2026-10-23T18:13:55.168Z",
+    "minNetProfitUsdc": 0.05,
+    "polygon": {
+      "usdcAmount": 160,
+      "gasUsdc": 0.0144,
+      "token": "USDT",
+      "buy": "QuickSwap Algebra V3",
+      "sell": "QuickSwap Algebra V3",
+      "netUsdc": -0.0199,
+      "netPct": -0.0124,
+      "shouldFire": false,
+      "legacyNetUsdc": -0.2732
+    },
+    "bsc": {
+      "usdcAmount": 20,
+      "gasUsdc": 0.0149,
+      "token": "USDT",
+      "buy": "PancakeSwap V2",
+      "sell": "PancakeSwap V3 0.01%",
+      "netUsdc": -0.0182,
+      "netPct": -0.091,
+      "shouldFire": false,
+      "legacyNetUsdc": -0.0363
+    }
   }
 }
