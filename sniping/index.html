@@ -73,10 +73,11 @@
       </div>
 
       <!-- TARJETA FLOTANTE 3: CICLO DEL DISPARO ATÓMICO -->
-      <div class="atomic-cycle-pod floating-card">
+      <div class="atomic-cycle-pod floating-card" onclick="openPoolsModal('ALL')" style="cursor: pointer;" title="Clic para abrir Explorador de las 21 Piscinas y Oportunidades en Vivo ($0 Gas)">
         <div class="cycle-pod-header">
           <span class="material-symbols-rounded icon-xs cyan">sync_alt</span>
           <span class="cycle-title">CICLO DISPARO ATÓMICO</span>
+          <span class="cycle-pools-btn-pill">VER 21 PISCINAS</span>
         </div>
         <div class="cycle-pod-flow">
           <span class="c-step">SALE USDC</span>
@@ -419,6 +420,11 @@
                 </button>
               </div>
               <div class="c-head-right">
+                <button type="button" class="btn-cannon-pools cyan" onclick="openPoolsModal('polygon')"
+                  title="Abrir Explorador de Piscinas en Vivo · Polygon PoS (13 Pares)">
+                  <span class="material-symbols-rounded icon-xxs">waves</span>
+                  <span>VER PISCINAS (13)</span>
+                </button>
                 <span class="c-usdc-badge cyan" id="cannon1Badge">$243.99 USDC MUNICIÓN</span>
               </div>
             </div>
@@ -488,6 +494,7 @@
               <div class="cr-sub-row">
                 <span class="cr-meta-time" id="c1RadarTimeUtc">--:--:-- UTC</span>
                 <span class="cr-meta-guard">NO_PROFIT_REVERT (0% RIESGO) · $0 GAS</span>
+                <button type="button" class="cr-link-pools" onclick="openPoolsModal('polygon')" title="Ver matriz completa de 13 piscinas en Polygon">EXPLORAR PISCINAS ➔</button>
               </div>
             </div>
 
@@ -510,6 +517,11 @@
                 </button>
               </div>
               <div class="c-head-right">
+                <button type="button" class="btn-cannon-pools gold" onclick="openPoolsModal('bsc')"
+                  title="Abrir Explorador de Piscinas en Vivo · BSC Mainnet (8 Pares)">
+                  <span class="material-symbols-rounded icon-xxs">waves</span>
+                  <span>VER PISCINAS (8)</span>
+                </button>
                 <span class="c-usdc-badge gold" id="cannon2Badge">$21.52 USDC MUNICIÓN</span>
               </div>
             </div>
@@ -579,6 +591,7 @@
               <div class="cr-sub-row">
                 <span class="cr-meta-time" id="c2RadarTimeUtc">--:--:-- UTC</span>
                 <span class="cr-meta-guard">NO_PROFIT_REVERT (0% RIESGO) · $0 GAS</span>
+                <button type="button" class="cr-link-pools" onclick="openPoolsModal('bsc')" title="Ver matriz completa de 8 piscinas en BSC">EXPLORAR PISCINAS ➔</button>
               </div>
             </div>
 
@@ -838,6 +851,116 @@
         </button>
       </div>
       <div class="dossier-body" id="dossierBody"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL / MATRIZ DE PISCINAS & OPORTUNIDADES EN VIVO (21 PARES)              -->
+  <!-- ========================================================================= -->
+  <div class="pools-modal-overlay" id="poolsModalOverlay" style="display: none;">
+    <div class="pools-modal-container">
+      <!-- Encabezado del Modal -->
+      <div class="pools-modal-header">
+        <div class="pm-head-left">
+          <div class="pm-title-row">
+            <span class="pm-live-dot"></span>
+            <h3 class="pm-title">MATRIZ DE PISCINAS &amp; OPORTUNIDADES EN VIVO</h3>
+            <span class="pm-badge-count" id="poolsModalCountBadge">21 PARES</span>
+          </div>
+          <div class="pm-badges-row">
+            <span class="pm-tag cyan"><span class="material-symbols-rounded icon-xxs">radar</span> MULTICALL3 ($0 GAS)</span>
+            <span class="pm-tag green"><span class="material-symbols-rounded icon-xxs">verified_user</span> GOPLUS 100% AUDITADO</span>
+            <span class="pm-tag gold"><span class="material-symbols-rounded icon-xxs">shield</span> 0% RIESGO CAPITAL (REVERT PROTECTED)</span>
+            <span class="pm-tag purple"><span class="material-symbols-rounded icon-xxs">timer</span> SONDEO CADA 4.0s</span>
+          </div>
+        </div>
+        <button type="button" class="pools-modal-close" onclick="closePoolsModal()" title="Cerrar Explorador de Piscinas (Esc)">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+
+      <!-- Barra de Filtros y Búsqueda -->
+      <div class="pools-controls-bar">
+        <div class="pools-filter-tabs" id="poolsFilterTabs">
+          <button type="button" class="pm-tab active" data-filter="ALL" onclick="filterPoolsView('ALL')">
+            <span>TODAS</span> <span class="tab-cnt">21</span>
+          </button>
+          <button type="button" class="pm-tab" data-filter="volatile" onclick="filterPoolsView('volatile')">
+            <span>🔥 ALTA VOLATILIDAD</span> <span class="tab-cnt gold">6</span>
+          </button>
+          <button type="button" class="pm-tab" data-filter="polygon" onclick="filterPoolsView('polygon')">
+            <span>🔷 POLYGON POS</span> <span class="tab-cnt cyan">13</span>
+          </button>
+          <button type="button" class="pm-tab" data-filter="bsc" onclick="filterPoolsView('bsc')">
+            <span>🟡 BSC MAINNET</span> <span class="tab-cnt gold">8</span>
+          </button>
+          <button type="button" class="pm-tab" data-filter="stables" onclick="filterPoolsView('stables')">
+            <span>🛡️ STABLES &amp; LST</span> <span class="tab-cnt green">5</span>
+          </button>
+        </div>
+
+        <div class="pools-search-box">
+          <span class="material-symbols-rounded search-icon">search</span>
+          <input type="text" id="poolsSearchInput" placeholder="Buscar por token o DEX (ej: GHST, QUICK, Uniswap, Pancake)..." oninput="handlePoolsSearch(this.value)" autocomplete="off" spellcheck="false">
+          <button type="button" class="pools-search-clear" id="poolsSearchClear" onclick="clearPoolsSearch()" style="display: none;">
+            <span class="material-symbols-rounded">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Resumen Diagnóstico Superior -->
+      <div class="pools-diagnostic-strip">
+        <div class="pds-item highlight">
+          <span class="pds-label">MEJOR SPREAD EN ESTE BLOQUE:</span>
+          <span class="pds-val" id="pdsBestSpread">Calculando...</span>
+        </div>
+        <div class="pds-item">
+          <span class="pds-label">VOLATILIDAD DESTACADA:</span>
+          <span class="pds-val gold-text" id="pdsVolatileHighlight">QUICK · GHST · SAND · CAKE · XVS · TWT</span>
+        </div>
+        <div class="pds-item">
+          <span class="pds-label">CONDICIÓN DE DISPARO:</span>
+          <span class="pds-val green-text">BENEFICIO NETO &gt;= +$0.05 USDC (REVERT AUTOMÁTICO SI ES MENOR)</span>
+        </div>
+        <div class="pds-item">
+          <span class="pds-label">COSTO DE SONDEO:</span>
+          <span class="pds-val cyan-text">$0.00 USD (eth_call / Multicall3)</span>
+        </div>
+      </div>
+
+      <!-- Contenedor de la Tabla Cuantitativa -->
+      <div class="pools-table-wrapper">
+        <table class="pools-quant-table">
+          <thead>
+            <tr>
+              <th style="width: 14%;">TOKEN / PAR</th>
+              <th style="width: 11%;">CATEGORÍA</th>
+              <th style="width: 18%;">PISCINA DE ENTRADA (COMPRA)</th>
+              <th style="width: 18%;">PISCINA DE SALIDA (VENTA)</th>
+              <th style="width: 13%;">SPREAD NETO USD</th>
+              <th style="width: 10%;">RETORNO %</th>
+              <th style="width: 8%;">ESCOLTA IA</th>
+              <th style="width: 8%;">GOPLUS AUDIT</th>
+            </tr>
+          </thead>
+          <tbody id="poolsTableLiveTbody">
+            <!-- Renders dynamically every 4 seconds -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pie del Modal: Blindaje Matemático y Explicación -->
+      <div class="pools-modal-footer">
+        <div class="pm-foot-left">
+          <span class="material-symbols-rounded icon-xs green-text">verified</span>
+          <span class="pm-foot-text">
+            <strong>BLINDAJE DE CAPITAL AL 100%:</strong> La función <code>AtomicSniperExecutor.execute()</code> verifica <code>require(finalBalance &gt;= initialBalance + minProfitUsdc)</code> en la misma transacción EVM. Si el diferencial real no alcanza +$0.05 USDC, la transacción revierte y <strong>no se pierde ni 1 solo centavo</strong>.
+          </span>
+        </div>
+        <div class="pm-foot-right">
+          <span class="pm-foot-clock font-mono" id="poolsModalUtcClock">--:--:-- UTC</span>
+        </div>
+      </div>
     </div>
   </div>
 
