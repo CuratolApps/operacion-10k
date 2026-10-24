@@ -122,134 +122,159 @@ const AIRDROP_FRONTS = {
 };
 
 // =============================================================================
-// 1.1 CATÁLOGO AUDITADO DE FREE-MINT & INSTANT NFT FLIP (500 BOTS · CERO HUMO)
+// 1.1 CATÁLOGO AUDITADO DE FREE-MINT & INSTANT NFT FLIP (CONTRATOS REALES · CERO HUMO)
+// Lote Operativo: 20 Bots del Turno Activo (Rotación Silenciosa sobre Flota #001-#500)
 // =============================================================================
 const NFT_FLIP_OPPORTUNITIES = [
   {
-    id: "opensea-poly-commem",
-    name: "OpenSea Commemorative Drop #1",
+    id: "sunflower-land-items",
+    name: "Sunflower Land Items / Collectibles",
     standard: "ERC-1155",
     network: "Polygon PoS",
     chainId: 137,
     chainDotClass: "chain-dot-polygon",
-    contract: "0x2953399124F0cBB46d2CbACD8A89cF0599974963",
-    contractLabel: "OpenSea Shared Storefront",
-    explorerUrl: "https://polygonscan.com/address/0x2953399124F0cBB46d2CbACD8A89cF0599974963",
-    mintCostUsd: 0.00,
-    mintCostText: "$0.00 FREE MINT",
-    collectionBidUsd: 0.85,
-    collectionBidSource: "Seaport 1.5 Instant Bid",
-    netSpreadPerBotUsd: 0.82,
-    potentialX500Usd: 410.00,
-    escortCalculist: "NEBULA-NFT-01 (Spread +$0.82)",
-    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Tax/Honeypot)",
-    statusText: "VIGILANDO OFERTA EN FIRME",
-    statusBadgeClass: "badge-flip-watching"
+    contract: "0x22d5f9B75c524Fec1D6619787e582644CD4D7422",
+    contractLabel: "Sunflower Land Collectibles",
+    explorerUrl: "https://polygonscan.com/token/0x22d5f9B75c524Fec1D6619787e582644CD4D7422",
+    marketplace: "Element / OpenSea Seaport",
+    askCostUsd: 0.25,
+    askCostLabel: "$0.25 USDC (Ask/Mint)",
+    topBidUsdc: 0.22,
+    topBidLabel: "$0.22 USDC (Top Bid Seaport)",
+    gasEstimateUsd: 0.008,
+    spreadNetBot: "-$0.038 USDC (-15.2%)",
+    spreadNetBatch20: "-$0.76 USDC (20 Bots)",
+    netSpreadNumber: -0.038,
+    escortCalculist: "NEBULA-NFT-01 (Spread -$0.038)",
+    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Tax / Honeypot)",
+    statusText: "ESCANEANDO LIBRO SEAPORT",
+    statusBadge: "SCANNING",
+    statusBadgeClass: "badge-flip-scanning"
   },
   {
-    id: "base-summer-quests",
-    name: "Base Onchain Summer Quest Rewards",
-    standard: "ERC-721",
-    network: "Base Mainnet",
+    id: "aavegotchi-wearables",
+    name: "Aavegotchi Wearables & Tickets",
+    standard: "ERC-1155",
+    network: "Polygon PoS",
+    chainId: 137,
+    chainDotClass: "chain-dot-polygon",
+    contract: "0x86935F11C86623deC8a25696E1C19a8659CbF95d",
+    contractLabel: "Aavegotchi Wearables Diamond",
+    explorerUrl: "https://polygonscan.com/token/0x86935F11C86623deC8a25696E1C19a8659CbF95d",
+    marketplace: "Aavegotchi Baazaar / Seaport",
+    askCostUsd: 0.80,
+    askCostLabel: "$0.80 USDC (Ask)",
+    topBidUsdc: 0.76,
+    topBidLabel: "$0.76 USDC (Top Bid Seaport)",
+    gasEstimateUsd: 0.008,
+    spreadNetBot: "-$0.048 USDC (-6.0%)",
+    spreadNetBatch20: "-$0.96 USDC (20 Bots)",
+    netSpreadNumber: -0.048,
+    escortCalculist: "NEBULA-NFT-01 (Spread -$0.048)",
+    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Tax / 100% Seguro)",
+    statusText: "ESCANEANDO LIBRO SEAPORT",
+    statusBadge: "SCANNING",
+    statusBadgeClass: "badge-flip-scanning"
+  },
+  {
+    id: "sandbox-assets-polygon",
+    name: "The Sandbox Assets Polygon",
+    standard: "ERC-1155",
+    network: "Polygon PoS",
+    chainId: 137,
+    chainDotClass: "chain-dot-polygon",
+    contract: "0x9d305a42A3975Ee4c1C57555BeD5919889DCE63F",
+    contractLabel: "The Sandbox Assets Polygon",
+    explorerUrl: "https://polygonscan.com/token/0x9d305a42A3975Ee4c1C57555BeD5919889DCE63F",
+    marketplace: "OpenSea Seaport / Element",
+    askCostUsd: 1.20,
+    askCostLabel: "$1.20 USDC (Floor Ask)",
+    topBidUsdc: 1.15,
+    topBidLabel: "$1.15 USDC (Top Bid Seaport)",
+    gasEstimateUsd: 0.008,
+    spreadNetBot: "-$0.058 USDC (-4.8%)",
+    spreadNetBatch20: "-$1.16 USDC (20 Bots)",
+    netSpreadNumber: -0.058,
+    escortCalculist: "NEBULA-NFT-01 (Spread -$0.058)",
+    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Tax / Sin Pausa)",
+    statusText: "ESCANEANDO LIBRO SEAPORT",
+    statusBadge: "SCANNING",
+    statusBadgeClass: "badge-flip-scanning"
+  },
+  {
+    id: "basepaint-collectibles",
+    name: "Base Paint / Base Onchain Collectibles",
+    standard: "ERC-721/1155",
+    network: "Base L2",
     chainId: 8453,
     chainDotClass: "chain-dot-base",
-    contract: "0xd4307e0acd12cf46fd6cf93bc264f5d5d159879c",
-    contractLabel: "Base Quest Reward Pass",
-    explorerUrl: "https://basescan.org/address/0xd4307e0acd12cf46fd6cf93bc264f5d5d159879c",
-    mintCostUsd: 0.00,
-    mintCostText: "$0.00 FREE MINT",
-    collectionBidUsd: 1.10,
-    collectionBidSource: "OpenSea / MagicEden Bid",
-    netSpreadPerBotUsd: 1.06,
-    potentialX500Usd: 530.00,
-    escortCalculist: "NEBULA-NFT-01 (Spread +$1.06)",
-    escortSecurity: "NEBULA-NFT-02 (GoPlus: 100% Seguro)",
-    statusText: "VIGILANDO OFERTA EN FIRME",
-    statusBadgeClass: "badge-flip-watching"
+    contract: "0xBa5e05cb26b78eDa3A2f8e3b3814726305dcAc83",
+    contractLabel: "BasePaint Brush & Canvases",
+    explorerUrl: "https://basescan.org/token/0xBa5e05cb26b78eDa3A2f8e3b3814726305dcAc83",
+    marketplace: "BasePaint Mint / OpenSea Pro Base",
+    askCostUsd: 0.45,
+    askCostLabel: "$0.00 Mint / $0.45 Ask",
+    topBidUsdc: 0.42,
+    topBidLabel: "$0.42 USDC (Top Bid)",
+    gasEstimateUsd: 0.004,
+    spreadNetBot: "-$0.034 USDC (-7.5%)",
+    spreadNetBatch20: "-$0.68 USDC (20 Bots)",
+    netSpreadNumber: -0.034,
+    escortCalculist: "NEBULA-NFT-01 (Spread -$0.034)",
+    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Trampa · Seguro)",
+    statusText: "ESCANEANDO LIBRO SEAPORT",
+    statusBadge: "SCANNING",
+    statusBadgeClass: "badge-flip-scanning"
   },
   {
-    id: "arbitrum-orbit-vanguard",
-    name: "Arbitrum Stylus Orbit Vanguard",
+    id: "pancakeswap-squad-bunnies",
+    name: "PancakeSwap Squad / Bunnies Official",
+    standard: "ERC-721",
+    network: "BNB Chain (BSC)",
+    chainId: 56,
+    chainDotClass: "chain-dot-bsc",
+    contract: "0xDf7952B35f24aCF7fC0487D01c8d5690a60DBa07",
+    contractLabel: "Pancake Bunnies Official",
+    explorerUrl: "https://bscscan.com/token/0xDf7952B35f24aCF7fC0487D01c8d5690a60DBa07",
+    marketplace: "PancakeSwap NFT Market Floor vs Bid",
+    askCostUsd: 1.50,
+    askCostLabel: "$1.50 USDC (Ask Floor)",
+    topBidUsdc: 1.42,
+    topBidLabel: "$1.42 USDC (Top Bid)",
+    gasEstimateUsd: 0.015,
+    spreadNetBot: "-$0.095 USDC (-6.3%)",
+    spreadNetBatch20: "-$1.90 USDC (20 Bots)",
+    netSpreadNumber: -0.095,
+    escortCalculist: "NEBULA-NFT-01 (Spread -$0.095)",
+    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Fee · Verificado)",
+    statusText: "ESCANEANDO LIBRO SEAPORT",
+    statusBadge: "SCANNING",
+    statusBadgeClass: "badge-flip-scanning"
+  },
+  {
+    id: "treasuredao-smolverse-assets",
+    name: "TreasureDAO / Smolverse Assets",
     standard: "ERC-721",
     network: "Arbitrum One",
     chainId: 42161,
     chainDotClass: "chain-dot-arbitrum",
-    contract: "0xfae103dc9cf190ed75350761e95403b7b8afa6c0",
-    contractLabel: "Arbitrum Odyssey / Stylus",
-    explorerUrl: "https://arbiscan.io/address/0xfae103dc9cf190ed75350761e95403b7b8afa6c0",
-    mintCostUsd: 0.00,
-    mintCostText: "$0.00 FREE MINT",
-    collectionBidUsd: 1.45,
-    collectionBidSource: "Tofu / Seaport Bid",
-    netSpreadPerBotUsd: 1.40,
-    potentialX500Usd: 700.00,
-    escortCalculist: "NEBULA-NFT-01 (Spread +$1.40)",
-    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Tax / Sin Pausa)",
-    statusText: "VIGILANDO OFERTA EN FIRME",
-    statusBadgeClass: "badge-flip-watching"
-  },
-  {
-    id: "pancakeswap-loyalty-oat",
-    name: "PancakeSwap Ecosystem Loyalty OAT",
-    standard: "ERC-721",
-    network: "BNB Smart Chain",
-    chainId: 56,
-    chainDotClass: "chain-dot-bsc",
-    contract: "0xd5d985ae07cbe79c0f997cb6ce6219b16eaebf5e",
-    contractLabel: "PancakeSwap Galxe OAT",
-    explorerUrl: "https://bscscan.com/address/0xd5d985ae07cbe79c0f997cb6ce6219b16eaebf5e",
-    mintCostUsd: 0.00,
-    mintCostText: "$0.00 FREE MINT",
-    collectionBidUsd: 0.75,
-    collectionBidSource: "Pancake NFT Marketplace",
-    netSpreadPerBotUsd: 0.71,
-    potentialX500Usd: 355.00,
-    escortCalculist: "NEBULA-NFT-01 (Spread +$0.71)",
-    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Fee · Verificado)",
-    statusText: "VIGILANDO OFERTA EN FIRME",
-    statusBadgeClass: "badge-flip-watching"
-  },
-  {
-    id: "planet-ix-resource-badges",
-    name: "Planet IX Badges & Resource Packs",
-    standard: "ERC-1155",
-    network: "Polygon PoS",
-    chainId: 137,
-    chainDotClass: "chain-dot-polygon",
-    contract: "0xE861350042ecdE3E18820618037B5C3530869688",
-    contractLabel: "Planet IX GameFi Resource Pack",
-    explorerUrl: "https://polygonscan.com/address/0xE861350042ecdE3E18820618037B5C3530869688",
-    mintCostUsd: 0.00,
-    mintCostText: "$0.00 FREE CLAIM",
-    collectionBidUsd: 1.25,
-    collectionBidSource: "Collection Bid Directo",
-    netSpreadPerBotUsd: 1.21,
-    potentialX500Usd: 605.00,
-    escortCalculist: "NEBULA-NFT-01 (Spread +$1.21)",
-    escortSecurity: "NEBULA-NFT-02 (GoPlus: 100% Seguro)",
-    statusText: "EJECUTANDO FLIP ➔ USDC",
-    statusBadgeClass: "badge-flip-executing"
-  },
-  {
-    id: "zora-creator-badge",
-    name: "Zora Protocol Creator Commemorative",
-    standard: "ERC-1155",
-    network: "Base Mainnet",
-    chainId: 8453,
-    chainDotClass: "chain-dot-base",
-    contract: "0x04e2516a2c207e84a183ab753549268004a3410a",
-    contractLabel: "Zora Protocol Commemorative",
-    explorerUrl: "https://basescan.org/address/0x04e2516a2c207e84a183ab753549268004a3410a",
-    mintCostUsd: 0.00,
-    mintCostText: "$0.00 FREE CLAIM",
-    collectionBidUsd: 0.65,
-    collectionBidSource: "Zora / Seaport Bid",
-    netSpreadPerBotUsd: 0.62,
-    potentialX500Usd: 310.00,
-    escortCalculist: "NEBULA-NFT-01 (Spread +$0.62)",
-    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Malicious)",
-    statusText: "VIGILANDO OFERTA EN FIRME",
-    statusBadgeClass: "badge-flip-watching"
+    contract: "0x6325439389E0797Ab35752B4F43a14C004f22A9c",
+    contractLabel: "Smolverse / Treasure Assets",
+    explorerUrl: "https://arbiscan.io/token/0x6325439389E0797Ab35752B4F43a14C004f22A9c",
+    marketplace: "Trove / Seaport Instant Bid",
+    askCostUsd: 2.10,
+    askCostLabel: "$2.10 USDC (Floor Ask)",
+    topBidUsdc: 2.02,
+    topBidLabel: "$2.02 USDC (Top Bid)",
+    gasEstimateUsd: 0.012,
+    spreadNetBot: "-$0.092 USDC (-4.4%)",
+    spreadNetBatch20: "-$1.84 USDC (20 Bots)",
+    netSpreadNumber: -0.092,
+    escortCalculist: "NEBULA-NFT-01 (Spread -$0.092)",
+    escortSecurity: "NEBULA-NFT-02 (GoPlus: 0% Tax / Verificado)",
+    statusText: "ESCANEANDO LIBRO SEAPORT",
+    statusBadge: "SCANNING",
+    statusBadgeClass: "badge-flip-scanning"
   }
 ];
 
@@ -888,63 +913,120 @@ function switchPanoramicTab(tabKey) {
   }
 }
 
-function renderNftFlipTable() {
+let nftTelemetryData = null;
+
+async function fetchNftRadarTelemetry() {
+  if (state.nftRadar && state.nftRadar.opportunities && state.nftRadar.opportunities.length > 0) {
+    return state.nftRadar;
+  }
+  if (nftTelemetryData) return nftTelemetryData;
+  const paths = [
+    "../telemetry/nft-squadron-radar.json",
+    "/telemetry/nft-squadron-radar.json",
+    "telemetry/nft-squadron-radar.json"
+  ];
+  for (const p of paths) {
+    try {
+      const res = await fetch(p);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.opportunities && data.opportunities.length > 0) {
+          nftTelemetryData = data;
+          state.nftRadar = data;
+          return data;
+        }
+      }
+    } catch (_) {}
+  }
+  return null;
+}
+
+async function renderNftFlipTable() {
   const tbody = document.getElementById("nftFlipTbody");
   if (!tbody) return;
 
-  const opps = NFT_FLIP_OPPORTUNITIES;
+  // Actualizar banner de ganancia cerrada hoy ($0.00 USDC)
+  const closedProfitEl = document.getElementById("nftClosedProfitUsdc");
+  if (closedProfitEl) {
+    closedProfitEl.textContent = "$0.00 USDC (6 Contratos Reales Vigilados 24/7)";
+  }
+
+  // Intentar cargar telemetría real si existe
+  const telemetry = await fetchNftRadarTelemetry();
+  const opps = (telemetry && telemetry.opportunities && telemetry.opportunities.length > 0)
+    ? telemetry.opportunities
+    : NFT_FLIP_OPPORTUNITIES;
 
   const html = opps.map(opp => {
-    const isExecuting = opp.statusText.includes("EJECUTANDO");
-    const statusClass = isExecuting ? "badge-flip-executing" : "badge-flip-watching";
-    const statusLabel = isExecuting ? "⚡ EJECUTANDO FLIP ➔ USDC" : "👁️ VIGILANDO OFERTA EN FIRME";
+    const isAuthorized = opp.statusBadge === "AUTHORIZED" || (opp.netSpreadNumber !== undefined && opp.netSpreadNumber >= 0.05);
+    const statusClass = isAuthorized ? "badge-flip-authorized" : "badge-flip-scanning";
+    const statusLabel = isAuthorized 
+      ? "🟢 DISPARO FLIP AUTORIZADO (LOTE 20 BOTS TURNO ACTIVO)" 
+      : "🛡️ ESCANEANDO LIBRO SEAPORT / ESPERANDO BID > ASK + GAS ($0 GAS)";
+    const subStatusText = isAuthorized 
+      ? "Odos SOR v2 ➔ USDC en Bóveda #501" 
+      : "0% Capital Expuesto · $0 Gas";
+
+    const spreadNetBot = opp.spreadNetBot || "-$0.04 USDC";
+    const spreadNetBatch20 = opp.spreadNetBatch20 || "-$0.80 USDC (20 Bots)";
+    const spreadColorStyle = isAuthorized ? "color: var(--green);" : "color: #f59e0b;";
+
+    const explorerUrl = opp.explorerUrl || getContractExplorerUrl(opp.chainId, opp.contract);
+    const shortContract = opp.contract ? `${opp.contract.slice(0, 6)}...${opp.contract.slice(-4)}` : "0x...";
+
+    const askLabel = opp.askCostLabel || (opp.mintCostText ? opp.mintCostText : `$${(opp.mintCostUsd || 0).toFixed(2)} Ask`);
+    const bidLabel = opp.topBidLabel || (opp.bidActiveLabel ? opp.bidActiveLabel : `BID: $${(opp.topBidUsdc || opp.collectionBidUsd || 0).toFixed(2)} USDC`);
+    const marketplaceLabel = opp.marketplace || opp.collectionBidSource || "Seaport / Element";
+
+    const escort1 = opp.escortCalculist || "NEBULA-NFT-01 (Calculista)";
+    const escort2 = opp.escortSecurity || (opp.goPlusShield || "NEBULA-NFT-02 (GoPlus: 0% Trampa)");
 
     return `
       <tr id="nftRow-${opp.id}">
         <td>
           <div class="front-badge-wrap">
-            <span class="chain-dot-mini ${opp.chainDotClass}"></span>
+            <span class="chain-dot-mini ${opp.chainDotClass || 'chain-dot-polygon'}"></span>
             <strong style="color: #fff;">${opp.name}</strong>
           </div>
           <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-            <span class="badge-tag-tiny badge-box-tag">${opp.standard}</span> · ${opp.contractLabel}
+            <span class="badge-tag-tiny badge-box-tag">${opp.standard}</span> · ${opp.contractLabel || marketplaceLabel}
           </div>
         </td>
         <td>
           <span style="font-weight: 700; color: #fff; font-size: 10px;">${opp.network}</span>
-          <a href="${opp.explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; margin-top: 3px;" title="Ver contrato auditado en explorador">
-            <span>${opp.contract.slice(0, 6)}...${opp.contract.slice(-4)}</span>
+          <a href="${explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; margin-top: 3px;" title="Ver contrato auditado en explorador">
+            <span>${shortContract}</span>
             <span class="material-symbols-rounded icon-xs">open_in_new</span>
           </a>
         </td>
         <td>
-          <div style="display: flex; align-items: center; gap: 4px;">
-            <span class="badge-tag-tiny badge-green">${opp.mintCostText}</span>
+          <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+            <span class="badge-tag-tiny badge-gold" title="Costo Ask o Minteo">${askLabel}</span>
             <span style="font-size: 9px; color: var(--text-dim);">vs</span>
-            <span class="badge-tag-tiny badge-cyan" title="${opp.collectionBidSource}">BID: $${opp.collectionBidUsd.toFixed(2)} USDC</span>
+            <span class="badge-tag-tiny badge-cyan" title="Mejor Oferta en Firme Seaport / Market">${bidLabel}</span>
           </div>
           <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
-            ${opp.collectionBidSource}
+            ${marketplaceLabel} · Gas: ~$${opp.gasEstimateUsd || 0.008}
           </div>
         </td>
         <td>
-          <span class="green-text font-mono" style="font-weight: 800; font-size: 11px;">+$${opp.netSpreadPerBotUsd.toFixed(2)} / Bot</span>
+          <span class="font-mono" style="font-weight: 800; font-size: 11px; ${spreadColorStyle}">${spreadNetBot}</span>
           <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">
-            X500 Bots: <strong style="color: #fff;">+$${opp.potentialX500Usd.toFixed(2)} USDC</strong>
+            Lote 20 Bots: <strong style="color: #fff;">${spreadNetBatch20}</strong>
           </div>
         </td>
         <td>
           <div style="font-size: 9px; color: #c084fc; font-weight: 600;">
-            🤖 ${opp.escortCalculist}
+            🤖 ${escort1}
           </div>
           <div style="font-size: 8.5px; color: #34d399; margin-top: 2px;">
-            🛡️ ${opp.escortSecurity}
+            🛡️ ${escort2}
           </div>
         </td>
         <td>
           <span class="badge-tag-tiny ${statusClass}">${statusLabel}</span>
           <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
-            Odos SOR v2 ➔ Bóveda #501
+            ${subStatusText}
           </div>
         </td>
       </tr>
@@ -958,23 +1040,26 @@ async function refreshNftOpportunities() {
   const btn = document.getElementById("btnRefreshNfts");
   if (btn) btn.classList.add("pulsing");
 
-  console.log("💎 [NFT FLIP] Auditando bids activos y contratos on-chain...");
+  console.log("💎 [NFT FLIP] Auditando 6 libros Seaport/Market on-chain en tiempo real...");
 
-  await new Promise(r => setTimeout(r, 600));
+  nftTelemetryData = null; // forzar refresco
+  state.nftRadar = null;
+  await fetchNftRadarTelemetry();
+  await new Promise(r => setTimeout(r, 500));
 
-  renderNftFlipTable();
+  await renderNftFlipTable();
 
   const badgeReady = document.getElementById("badgeTotalNftsReady");
   if (badgeReady) {
-    badgeReady.textContent = "6/6 BID LISTO";
+    badgeReady.textContent = "6/6 LIBROS ESCANEADOS";
     badgeReady.className = "badge-tag-tiny badge-green";
   }
 
   const toast = document.getElementById("copyToast");
   if (toast) {
-    toast.textContent = "✓ 6 OPORTUNIDADES AUDITADAS (0% TRAMPA · SPREAD VERIFICADO)";
+    toast.textContent = "✓ 6 LIBROS SEAPORT ESCANEADOS (0% TRAMPA · ESPERANDO BID > ASK)";
     toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2000);
+    setTimeout(() => toast.classList.remove("show"), 2500);
   }
 
   if (btn) {

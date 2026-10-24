@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "title": "Cazador de Semillas y Airdrops por Fecha de Entrega — Área 501",
-  "lastUpdated": "2026-10-24T10:37:51.216Z",
+  "lastUpdated": "2026-10-24T11:00:54.136Z",
   "deliveryCalendarSeason": "Octubre–Noviembre 2026",
   "priorityDistribution": {
     "priority1Count": 3,
@@ -50,7 +50,7 @@
       "bsc": "$7.87B",
       "polygon": "$733.3M"
     },
-    "timestamp": "2026-10-24T10:37:47.759Z"
+    "timestamp": "2026-10-24T11:00:50.649Z"
   },
   "targets": [
     {
@@ -75,7 +75,7 @@
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
       "rpcPingMs": 318,
-      "currentBlock": 33018320,
+      "currentBlock": 33019011,
       "isSafeToExecute": true
     },
     {
@@ -99,8 +99,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 688,
-      "currentBlock": 17726871,
+      "rpcPingMs": 686,
+      "currentBlock": 17727281,
       "isSafeToExecute": true
     },
     {
@@ -149,8 +149,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 261,
-      "currentBlock": 53024462,
+      "rpcPingMs": 268,
+      "currentBlock": 53025154,
       "isSafeToExecute": true
     },
     {
@@ -175,8 +175,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 332,
-      "currentBlock": 517813648,
+      "rpcPingMs": 349,
+      "currentBlock": 517818596,
       "isSafeToExecute": true
     }
   ]

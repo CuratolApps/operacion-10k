@@ -1341,6 +1341,27 @@ body.area501-flota-body {
   font-weight: 700;
 }
 
+.badge-flip-scanning {
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-flip-authorized {
+  background: rgba(16, 185, 129, 0.22);
+  border: 1px solid #10b981;
+  color: #34d399;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .badge-escort-ai {
   background: rgba(130, 71, 229, 0.12);
   border: 1px solid rgba(130, 71, 229, 0.35);
