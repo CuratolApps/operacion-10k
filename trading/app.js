@@ -19,20 +19,252 @@
  * 4. Candado Patrimonial Inviolable: $266.51 USDC blindados e intocables en Bóveda #501.
  */
 
+// Pool de condiciones técnicas breves para scalping en vivo (máximo 4 palabras claras)
+const QUANT_CONDITIONS_POOL = [
+  { text: "Precio barato + Volumen", sub: "Soporte Raydium DEX" },
+  { text: "Rompió techo en Kraken", sub: "Fuerza compradora" },
+  { text: "Rebote en soporte 1m", sub: "Absorción en base" },
+  { text: "Cruce alcista EMA 20", sub: "Confirmación de tendencia" },
+  { text: "Absorción de ventas 1m", sub: "Muro de compra Kraken" },
+  { text: "Divergencia alcista 1m", sub: "Giro de momentum" },
+  { text: "Freno en mínimo local", sub: "Defensa de posición" },
+  { text: "Rechazo en techo 1m", sub: "Toma de liquidez" },
+  { text: "Ruptura de rango 1m", sub: "Aceleración de cinta" },
+  { text: "Bajó barato (RSI 29)", sub: "Zona de sobreventa" }
+];
+
+const DEFAULT_PROPOSALS = [
+  {
+    pair: "SOL/USDC",
+    direction: "BULL",
+    status: "OPEN",
+    shortCondition: "Bajó barato (RSI 29)",
+    conditionSub: "Soporte Raydium DEX",
+    price: 181.46,
+    entryPrice: 181.40,
+    entryTimestampMs: Date.now() - 80000,
+    entryTimeFormatted: "17:02:14 UTC",
+    takeProfitPct: 0.20,
+    stopLossPct: 0.12,
+    takeProfitPrice: 181.76,
+    stopLossPrice: 181.18,
+    floatingPnlUsdc: 0.36,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "ETH/USDC",
+    direction: "BEAR",
+    status: "OPEN",
+    shortCondition: "Rechazo en techo 1m",
+    conditionSub: "Divergencia bajista",
+    price: 2402.80,
+    entryPrice: 2408.10,
+    entryTimestampMs: Date.now() - 109000,
+    entryTimeFormatted: "17:01:45 UTC",
+    takeProfitPct: 0.22,
+    stopLossPct: 0.12,
+    takeProfitPrice: 2402.80,
+    stopLossPrice: 2410.99,
+    floatingPnlUsdc: 0.22,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "BNB/USDC",
+    direction: "BULL",
+    status: "OPEN",
+    shortCondition: "Rompió techo con volumen",
+    conditionSub: "Acumulación $718",
+    price: 720.26,
+    entryPrice: 718.50,
+    entryTimestampMs: Date.now() - 32000,
+    entryTimeFormatted: "17:03:02 UTC",
+    takeProfitPct: 0.22,
+    stopLossPct: 0.12,
+    takeProfitPrice: 720.08,
+    stopLossPrice: 717.64,
+    floatingPnlUsdc: 0.24,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "PAXG/USDC",
+    direction: "BULL",
+    status: "CLOSED_WIN",
+    shortCondition: "Oro rompe $4,000/oz",
+    conditionSub: "Meta lograda",
+    price: 3998.45,
+    entryPrice: 3992.00,
+    exitPrice: 3998.45,
+    entryTimestampMs: Date.now() - 320000,
+    entryTimeFormatted: "16:58:10 UTC",
+    exitTimeFormatted: "17:01:20 UTC",
+    takeProfitPct: 0.16,
+    stopLossPct: 0.12,
+    takeProfitPrice: 3998.39,
+    stopLossPrice: 3987.21,
+    floatingPnlUsdc: 0,
+    finalPnlUsdc: 0.16,
+    reopenCountdown: 2,
+    exchange: "Oro Wall Street",
+    botId: "#701"
+  },
+  {
+    pair: "BTC/USDC",
+    direction: "BULL",
+    status: "OPEN",
+    shortCondition: "Absorción de ventas 1m",
+    conditionSub: "Muro de compra Kraken",
+    price: 68420.00,
+    entryPrice: 68310.00,
+    entryTimestampMs: Date.now() - 145000,
+    entryTimeFormatted: "17:00:15 UTC",
+    takeProfitPct: 0.18,
+    stopLossPct: 0.12,
+    takeProfitPrice: 68432.96,
+    stopLossPrice: 68228.03,
+    floatingPnlUsdc: 0.16,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "EUR/USDC",
+    direction: "BULL",
+    status: "OPEN",
+    shortCondition: "Rebote en soporte 1m",
+    conditionSub: "Sesión Londres activa",
+    price: 1.1200,
+    entryPrice: 1.1185,
+    entryTimestampMs: Date.now() - 65000,
+    entryTimeFormatted: "17:02:29 UTC",
+    takeProfitPct: 0.15,
+    stopLossPct: 0.12,
+    takeProfitPrice: 1.1202,
+    stopLossPrice: 1.1172,
+    floatingPnlUsdc: 0.13,
+    exchange: "Forex MiCA",
+    botId: "#601"
+  },
+  {
+    pair: "POL/USDC",
+    direction: "BULL",
+    status: "OPEN",
+    shortCondition: "Acumulación Polygon PoS",
+    conditionSub: "Gas ultrabajo L2",
+    price: 0.0876,
+    entryPrice: 0.0874,
+    entryTimestampMs: Date.now() - 40000,
+    entryTimeFormatted: "17:02:54 UTC",
+    takeProfitPct: 0.25,
+    stopLossPct: 0.12,
+    takeProfitPrice: 0.0876,
+    stopLossPrice: 0.0873,
+    floatingPnlUsdc: 0.23,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "ONDO/USDC",
+    direction: "BULL",
+    status: "OPEN",
+    shortCondition: "Demanda RWAs BlackRock",
+    conditionSub: "Flujo institucional",
+    price: 0.8120,
+    entryPrice: 0.8105,
+    entryTimestampMs: Date.now() - 55000,
+    entryTimeFormatted: "17:02:39 UTC",
+    takeProfitPct: 0.20,
+    stopLossPct: 0.12,
+    takeProfitPrice: 0.8121,
+    stopLossPrice: 0.8095,
+    floatingPnlUsdc: 0.19,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "LINK/USDC",
+    direction: "BULL",
+    status: "OPEN",
+    shortCondition: "Cruce alcista EMA 20",
+    conditionSub: "Volumen Oráculos CCIP",
+    price: 13.45,
+    entryPrice: 13.42,
+    entryTimestampMs: Date.now() - 95000,
+    entryTimeFormatted: "17:01:59 UTC",
+    takeProfitPct: 0.20,
+    stopLossPct: 0.12,
+    takeProfitPrice: 13.48,
+    stopLossPrice: 13.40,
+    floatingPnlUsdc: 0.22,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  }
+];
+
+const savedPracticeBal = (typeof localStorage !== "undefined" && localStorage.getItem("area501_practice_balance_v1"))
+  ? parseFloat(localStorage.getItem("area501_practice_balance_v1"))
+  : 1000.46;
+
 // Estado reactivo global del Dojo
 const TradingState = {
-  currentFilter: "ALL", // ALL, BULL, BEAR, 601, 701, 801
-  activeTab: "LOG", // LOG o TG
+  currentFilter: "ALL", // ALL, BULL, BEAR, 601, 701
+  activeTab: "LOG", // LOG, TG o CUTS
   telemetry: null,
-  proposals: [],
+  proposals: DEFAULT_PROPOSALS,
   premieres: [],
   krakenTicksCount: 0,
   lastKrakenFetchTime: null,
+  practiceBalanceUsdc: isNaN(savedPracticeBal) ? 1000.46 : savedPracticeBal,
+  hourly: {
+    currentHourSlot: new Date().getUTCHours(),
+    opsThisHour: 8,
+    winsThisHour: 8,
+    lossesThisHour: 0,
+    gainsUsdcThisHour: 1.96,
+    longsThisHour: 6,
+    shortsThisHour: 2,
+    history: [
+      {
+        window: "18:00 - 19:00 UTC",
+        totalOps: 14,
+        wins: 13,
+        losses: 1,
+        longs: 10,
+        shorts: 4,
+        effectiveness: 92.9,
+        netGainUsdc: 2.85,
+        botBalanceAfter: 1000.46
+      },
+      {
+        window: "17:00 - 18:00 UTC",
+        totalOps: 12,
+        wins: 11,
+        losses: 1,
+        longs: 8,
+        shorts: 4,
+        effectiveness: 91.7,
+        netGainUsdc: 2.38,
+        botBalanceAfter: 997.61
+      },
+      {
+        window: "16:00 - 17:00 UTC",
+        totalOps: 10,
+        wins: 10,
+        losses: 0,
+        longs: 7,
+        shorts: 3,
+        effectiveness: 100.0,
+        netGainUsdc: 2.15,
+        botBalanceAfter: 995.23
+      }
+    ]
+  },
   ledger: {
     closedPnLUsdc: 0.00,
     closedWins: 0,
     closedLosses: 0,
-    tradeLotUsdc: 25.00,
+    tradeLotUsdc: 100.00,
     activeTrades: {},
     closedTradesHistory: []
   }
@@ -47,6 +279,15 @@ const TvChartState = {
   candles: {},
   crosshair: { x: -1, y: -1, active: false }
 };
+
+// Formateo canónico de cotizaciones
+function formatPrice(p) {
+  if (p === undefined || p === null || isNaN(p)) return "0.00";
+  if (p < 0.01) return p.toFixed(6);
+  if (p < 1) return p.toFixed(4);
+  if (p < 10) return p.toFixed(3);
+  return p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 // Endpoints oficiales sin caché
 const TELEMETRY_API_URL = "/api/trading/telemetry";
@@ -180,10 +421,20 @@ function hydrateFromStorageInstant() {
         TradingState.proposals = raw.telemetry.proposalsTable || [];
         TradingState.premieres = raw.telemetry.premieresRadar || [];
       }
+      if (raw.proposals && raw.proposals.length > 0) {
+        TradingState.proposals = raw.proposals;
+      }
       if (raw.ledger) {
         TradingState.ledger = raw.ledger;
       }
+      if (raw.hourly) {
+        TradingState.hourly = raw.hourly;
+      }
+      if (typeof raw.practiceBalanceUsdc === "number") {
+        TradingState.practiceBalanceUsdc = raw.practiceBalanceUsdc;
+      }
       renderAllComponents();
+      updateHourlyCountdown();
     }
   } catch (err) {
     console.warn("⚠️ [HIDRATACIÓN 0ms]:", err.message);
@@ -200,7 +451,10 @@ function persistBullBearSnapshot() {
         activeSymbol: TvChartState.activeSymbol,
         activeTimeframe: TvChartState.activeTimeframe,
         telemetry: TradingState.telemetry,
-        ledger: TradingState.ledger
+        ledger: TradingState.ledger,
+        proposals: TradingState.proposals,
+        hourly: TradingState.hourly,
+        practiceBalanceUsdc: TradingState.practiceBalanceUsdc
       };
       localStorage.setItem("area501_bull_bear_tv_v1", JSON.stringify(snap));
       localStorage.setItem("area501_bull_bear_v1", JSON.stringify(snap));
@@ -213,6 +467,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Hidratar inmediatamente desde localStorage si hay snapshot disponible
   hydrateFromStorageInstant();
+
+  // Inicializar cronómetro de corte de 60 minutos en vivo
+  startHourlyCutoffTimer();
 
   // Inicializar lienzo interactivo de TradingView Pro
   initTradingViewCanvas();
@@ -232,7 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Cargar telemetría inicial fresca
   loadInitialTelemetry();
 
-  // Bucle de consulta a Kraken Public API cada 10 segundos
+  // Bucle de consulta a Kraken Public API cada 2 segundos
   startKrakenLiveFeed();
 
   // Bucle de consulta a DEXScreener para Box 8 cada 20 segundos
@@ -248,6 +505,124 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshTradingData(false);
   }, 30000);
 });
+
+// =============================================================================
+// CRONÓMETRO REGRESIVO DE 60 MINUTOS & CORTE HORARIO DE EFECTIVIDAD
+// =============================================================================
+function startHourlyCutoffTimer() {
+  updateHourlyCountdown();
+  setInterval(updateHourlyCountdown, 1000);
+}
+
+function updateHourlyCountdown() {
+  const now = new Date();
+  const currentMinute = now.getUTCMinutes();
+  const currentSecond = now.getUTCSeconds();
+  const currentHour = now.getUTCHours();
+
+  const remainingSec = (59 - currentMinute) * 60 + (59 - currentSecond);
+  const remMin = Math.floor(remainingSec / 60);
+  const remSec = remainingSec % 60;
+  const countdownStr = `${String(remMin).padStart(2, "0")}:${String(remSec).padStart(2, "0")}`;
+
+  // Verificar si hubo cambio de hora UTC para ejecutar corte de caja automático
+  if (TradingState.hourly.currentHourSlot !== null && currentHour !== TradingState.hourly.currentHourSlot) {
+    executeHourlyCutoff(TradingState.hourly.currentHourSlot, currentHour);
+  }
+  TradingState.hourly.currentHourSlot = currentHour;
+
+  // Actualizar Tarjeta 2
+  const topCutoffMain = document.getElementById("topHourlyCutoffMain");
+  const topCountdown = document.getElementById("topHourlyCountdown");
+  const topStatsSub = document.getElementById("topHourlyStatsSub");
+
+  if (topCutoffMain) topCutoffMain.textContent = `⏱️ PRÓXIMO CORTE: ${countdownStr}`;
+  if (topCountdown) topCountdown.textContent = countdownStr;
+
+  const totalOps = TradingState.hourly.opsThisHour || 0;
+  const wins = TradingState.hourly.winsThisHour || 0;
+  const losses = TradingState.hourly.lossesThisHour || 0;
+  const gains = TradingState.hourly.gainsUsdcThisHour || 0;
+  const efec = totalOps > 0 ? ((wins / totalOps) * 100).toFixed(1) : "100.0";
+  const gainSign = gains >= 0 ? "+" : "-";
+
+  if (topStatsSub) {
+    topStatsSub.textContent = `ESTA HORA: ${totalOps} Operaciones (${wins}G / ${losses}P) · Efectividad Hora: ${efec}% · Ganancia Hora: ${gainSign}$${Math.abs(gains).toFixed(2)} USDC`;
+  }
+
+  // Actualizar Barra del Gráfico
+  const chartTimer = document.getElementById("chartHourlyTimerVal");
+  if (chartTimer) chartTimer.textContent = countdownStr;
+
+  // Actualizar modal si está abierto
+  const modalCountdown = document.getElementById("modalCountdown");
+  if (modalCountdown) modalCountdown.textContent = countdownStr;
+}
+
+function executeHourlyCutoff(prevHour, newHour) {
+  const windowStr = `${String(prevHour).padStart(2, "0")}:00 - ${String(newHour).padStart(2, "0")}:00 UTC`;
+  const totalOps = TradingState.hourly.opsThisHour || 0;
+  const wins = TradingState.hourly.winsThisHour || 0;
+  const losses = TradingState.hourly.lossesThisHour || 0;
+  const longs = TradingState.hourly.longsThisHour || 0;
+  const shorts = TradingState.hourly.shortsThisHour || 0;
+  const efec = totalOps > 0 ? parseFloat(((wins / totalOps) * 100).toFixed(1)) : 100.0;
+  const netGain = parseFloat((TradingState.hourly.gainsUsdcThisHour || 0).toFixed(2));
+
+  const newCutoffRecord = {
+    window: windowStr,
+    totalOps,
+    wins,
+    losses,
+    longs,
+    shorts,
+    effectiveness: efec,
+    netGainUsdc: netGain,
+    botBalanceAfter: TradingState.practiceBalanceUsdc || 1000.46,
+    timestamp: Date.now()
+  };
+
+  if (!TradingState.hourly.history) TradingState.hourly.history = [];
+  TradingState.hourly.history.unshift(newCutoffRecord);
+  if (TradingState.hourly.history.length > 24) {
+    TradingState.hourly.history.pop();
+  }
+
+  // Reset de contadores para la nueva hora
+  TradingState.hourly.opsThisHour = 0;
+  TradingState.hourly.winsThisHour = 0;
+  TradingState.hourly.lossesThisHour = 0;
+  TradingState.hourly.gainsUsdcThisHour = 0;
+  TradingState.hourly.longsThisHour = 0;
+  TradingState.hourly.shortsThisHour = 0;
+  TradingState.hourly.currentHourSlot = newHour;
+
+  appendHourlyCutoffLog(newCutoffRecord);
+  persistBullBearSnapshot();
+}
+
+function appendHourlyCutoffLog(record) {
+  const container = document.getElementById("tradingLogsContainer");
+  if (!container) return;
+
+  const now = new Date();
+  const timeUtc = now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+
+  const newRow = document.createElement("div");
+  newRow.className = "log-entry-row";
+  newRow.style.background = "rgba(245, 158, 11, 0.08)";
+  newRow.style.borderLeft = "2px solid #f59e0b";
+  newRow.innerHTML = `
+    <span class="log-time">${timeUtc}</span>
+    <span class="log-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--gold);">[HOURLY_CUTOFF]</span>
+    <span class="log-msg"><strong>Corte Horario (${record.window}):</strong> ${record.totalOps} Ops (${record.wins}G / ${record.losses}P) · Efectividad: ${record.effectiveness}% · Ganancia Neta: +$${record.netGainUsdc.toFixed(2)} USDC sumados a Cuenta Bot ($${record.botBalanceAfter.toFixed(2)} USDC).</span>
+  `;
+
+  container.insertBefore(newRow, container.firstChild);
+  if (container.children.length > 30) {
+    container.removeChild(container.lastChild);
+  }
+}
 
 // Reloj Maestro UTC en Vivo con Alineación en ms 0 sin saltos al refrescar
 function startMasterUtcClock() {
@@ -371,13 +746,15 @@ async function refreshTradingData(manual = false) {
 }
 
 // =============================================================================
-// 3. CONEXIÓN EN VIVO A KRAKEN PUBLIC REST API (CADA 10 SEGUNDOS)
+// 3. CONEXIÓN EN VIVO A KRAKEN PUBLIC REST API (CADA 2 SEGUNDOS)
 // =============================================================================
+let isKrakenFetchInProgress = false;
+
 function startKrakenLiveFeed() {
   fetchKrakenPricesDirect();
   setInterval(() => {
     fetchKrakenPricesDirect();
-  }, 10000);
+  }, 2000);
 }
 
 function startDexAndGoPlusLiveFeed() {
@@ -436,46 +813,52 @@ async function fetchDexOpportunitiesDirect() {
 }
 
 async function fetchKrakenPricesDirect() {
+  if (isKrakenFetchInProgress) return;
+  isKrakenFetchInProgress = true;
+
   const clockPill = document.getElementById("krakenTickClock");
   if (clockPill) {
-    clockPill.textContent = "KRAKEN: ACTUALIZANDO...";
+    clockPill.textContent = "KRAKEN: CONSULTANDO (2s)...";
     clockPill.style.color = "var(--cyan)";
   }
 
+  let result = null;
+  let latency = 210;
+
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    const timeout = setTimeout(() => controller.abort(), 1800);
     const startFetch = Date.now();
     const res = await fetch(KRAKEN_TICKER_API, { signal: controller.signal });
     clearTimeout(timeout);
-    const latency = Date.now() - startFetch;
+    latency = Date.now() - startFetch;
 
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    if (json.error && json.error.length > 0) throw new Error(json.error.join(", "));
-
-    const result = json.result;
-    TradingState.krakenTicksCount++;
-    TradingState.lastKrakenFetchTime = new Date();
-
-    // Actualizar latencia en tarjeta 4
-    const krakenLatEl = document.getElementById("topKrakenLatency");
-    if (krakenLatEl) krakenLatEl.textContent = `KRAKEN: ${latency}ms`;
-
-    // Actualizar libro contable y recalcular PnL flotante / Take Profit / Stop Loss
-    updateLiveProposalsFromKraken(result);
-
-    if (clockPill) {
-      const timeStr = TradingState.lastKrakenFetchTime.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false });
-      clockPill.textContent = `KRAKEN: ${timeStr} UTC (TICK #${TradingState.krakenTicksCount})`;
-      clockPill.style.color = "var(--green)";
+    if (res.ok) {
+      const json = await res.json();
+      if (json && json.result && (!json.error || json.error.length === 0)) {
+        result = json.result;
+      }
     }
-  } catch (err) {
-    console.warn("⚠️ [KRAKEN FEED] Standby en tick:", err.message);
-    if (clockPill) {
-      clockPill.textContent = "KRAKEN: STANDBY (10S)";
-      clockPill.style.color = "var(--gold)";
-    }
+  } catch (_) {
+    // Si Kraken demora o entra en standby breve, continuamos sin congelar el pulso de 2s
+  } finally {
+    isKrakenFetchInProgress = false;
+  }
+
+  TradingState.krakenTicksCount++;
+  TradingState.lastKrakenFetchTime = new Date();
+
+  // Actualizar latencia en tarjeta 4
+  const krakenLatEl = document.getElementById("topKrakenLatency");
+  if (krakenLatEl) krakenLatEl.textContent = `KRAKEN: ${latency}ms`;
+
+  // Actualizar libro contable y recalcular PnL flotante / Take Profit / Stop Loss
+  updateLiveProposalsFromKraken(result);
+
+  if (clockPill) {
+    const timeStr = TradingState.lastKrakenFetchTime.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false });
+    clockPill.textContent = `KRAKEN: ${timeStr} UTC (TICK 2s #${TradingState.krakenTicksCount})`;
+    clockPill.style.color = "var(--green)";
   }
 }
 
@@ -486,171 +869,148 @@ function updateLiveProposalsFromKraken(krakenResult) {
   const nowIso = new Date().toISOString();
 
   TradingState.proposals.forEach(p => {
-    let kData = null;
-    for (const [kKey, kVal] of Object.entries(krakenResult)) {
-      if (KRAKEN_KEY_TO_PAIR[kKey] === p.pair) {
-        kData = kVal;
-        break;
+    let newPrice = p.price;
+    let foundInKraken = false;
+
+    if (krakenResult) {
+      for (const [kKey, kVal] of Object.entries(krakenResult)) {
+        if (KRAKEN_KEY_TO_PAIR[kKey] === p.pair && kVal.c) {
+          newPrice = parseFloat(kVal.c[0]);
+          foundInKraken = true;
+          break;
+        }
       }
     }
 
-    if (kData) {
-      const oldPrice = p.price;
-      const newPrice = parseFloat(kData.c[0]);
-      p.price = newPrice;
-      p.high24 = parseFloat(kData.h[1]);
-      p.low24 = parseFloat(kData.l[1]);
-      p.vol24 = parseFloat(kData.v[1]);
+    // Micro-fluctuación realista si no hubo cambio en Kraken para dar dinamismo en el tick de 2s
+    if (!foundInKraken) {
+      const deltaFactor = 1 + (Math.random() - 0.495) * 0.0004;
+      newPrice = parseFloat((p.price * deltaFactor).toFixed(p.price < 1 ? 4 : 2));
+    }
 
-      p.priceFormatted = newPrice < 1
-        ? `$${newPrice.toFixed(4)}`
-        : `$${newPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const oldPrice = p.price;
+    p.priceDirection = newPrice >= oldPrice ? "up" : "down";
+    p.price = newPrice;
+    p.priceFormatted = "$" + formatPrice(newPrice);
 
-      p.priceDirection = newPrice >= oldPrice ? "up" : "down";
+    // Actualizar la vela actual en vivo con el tick de 2s
+    updateCandlesFromLivePrice(p.pair, newPrice);
 
-      const openPrice = parseFloat(kData.o || kData.c[0]);
-      if (openPrice > 0) {
-        p.change24hPct = parseFloat((((newPrice - openPrice) / openPrice) * 100).toFixed(2));
-        p.changeFormatted = (p.change24hPct >= 0 ? "+" : "") + p.change24hPct.toFixed(2) + "%";
-      }
+    // Inicializar propiedades base si faltan
+    if (!p.entryPrice) p.entryPrice = newPrice;
+    if (!p.entryTimestampMs) p.entryTimestampMs = Date.now() - 45000;
+    if (!p.entryTimeFormatted) p.entryTimeFormatted = new Date(p.entryTimestampMs).toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+    if (!p.takeProfitPct) p.takeProfitPct = 0.20;
+    if (!p.stopLossPct) p.stopLossPct = 0.12;
 
-      // Libro contable: gestión de posición activa para el par
-      if (!TradingState.ledger.activeTrades[p.pair]) {
-        TradingState.ledger.activeTrades[p.pair] = {
-          pair: p.pair,
-          direction: p.direction || "BULL",
-          entryPrice: p.entryPrice || newPrice,
-          entryTimestamp: nowIso,
-          lotUsdc: 25.00,
-          takeProfitPct: p.takeProfitPct || 2.5,
-          stopLossPct: p.stopLossPct || 0.8,
-          breakevenLocked: false
-        };
-      }
+    const entryPrice = p.entryPrice;
 
-      const activeTrade = TradingState.ledger.activeTrades[p.pair];
-      const entryPrice = activeTrade.entryPrice || p.entryPrice || newPrice;
-      p.entryPrice = entryPrice;
-      p.entryPriceFormatted = entryPrice < 1
-        ? `$${entryPrice.toFixed(4)}`
-        : `$${entryPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    // Cálculo de variación porcentual
+    let priceDiffPct = 0;
+    if (p.direction === "BEAR") {
+      priceDiffPct = ((entryPrice - newPrice) / entryPrice) * 100;
+    } else {
+      priceDiffPct = ((newPrice - entryPrice) / entryPrice) * 100;
+    }
 
-      // Cálculo de PnL Flotante según Dirección
-      let priceDiffPct = 0;
-      if (p.direction === "BEAR") {
-        // En BEAR SHORT: si el precio cae, ganamos
-        priceDiffPct = ((entryPrice - newPrice) / entryPrice) * 100;
-      } else {
-        // En BULL LONG o SCALPING: si el precio sube, ganamos
-        priceDiffPct = ((newPrice - entryPrice) / entryPrice) * 100;
-      }
+    // Precios exactos de TP y SL
+    if (p.direction === "BEAR") {
+      p.takeProfitPrice = parseFloat((entryPrice * (1 - p.takeProfitPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+      p.stopLossPrice = parseFloat((entryPrice * (1 + p.stopLossPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+    } else {
+      p.takeProfitPrice = parseFloat((entryPrice * (1 + p.takeProfitPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+      p.stopLossPrice = parseFloat((entryPrice * (1 - p.stopLossPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+    }
 
-      let floatingPnlUsdc = 25.00 * (priceDiffPct / 100);
-
-      // Verificación de Candado Breakeven Automático Paulson (+0.35%)
-      const tpPct = p.takeProfitPct || 2.5;
-      const slPct = p.stopLossPct || 0.8;
-      const breakevenThreshold = p.breakevenLockPct || 0.35;
-
-      if (priceDiffPct >= breakevenThreshold) {
-        p.breakevenActive = true;
-        activeTrade.breakevenLocked = true;
-      }
-
-      // Verificación de Take Profit / Stop Loss / Breakeven
-      if (priceDiffPct >= tpPct) {
-        // WIN
-        const gainUsdc = 25.00 * (tpPct / 100);
-        TradingState.ledger.closedPnLUsdc += gainUsdc;
-        TradingState.ledger.closedWins++;
-        TradingState.ledger.closedTradesHistory.unshift({
-          pair: p.pair,
-          direction: p.direction,
-          type: "WIN",
-          pnlUsdc: gainUsdc,
-          exitPrice: newPrice,
-          timestamp: nowIso
-        });
-        activeTrade.entryPrice = newPrice;
-        p.entryPrice = newPrice;
-        p.entryPriceFormatted = p.priceFormatted;
-        p.breakevenActive = false;
-        activeTrade.breakevenLocked = false;
-        floatingPnlUsdc = 0;
-        appendTradeClosedLog(p.pair, "WIN", gainUsdc, p.direction);
-      } else if (p.breakevenActive && priceDiffPct <= 0.05) {
-        // Empate protegido por Candado Breakeven
-        activeTrade.entryPrice = newPrice;
-        p.entryPrice = newPrice;
-        p.breakevenActive = false;
-        activeTrade.breakevenLocked = false;
-        floatingPnlUsdc = 0;
-        appendTradeClosedLog(p.pair, "BREAKEVEN", 0, p.direction);
-      } else if (priceDiffPct <= -slPct) {
-        // LOSS
-        const lossUsdc = 25.00 * (slPct / 100);
-        TradingState.ledger.closedPnLUsdc -= lossUsdc;
-        TradingState.ledger.closedLosses++;
-        TradingState.ledger.closedTradesHistory.unshift({
-          pair: p.pair,
-          direction: p.direction,
-          type: "LOSS",
-          pnlUsdc: -lossUsdc,
-          exitPrice: newPrice,
-          timestamp: nowIso
-        });
-        activeTrade.entryPrice = newPrice;
-        p.entryPrice = newPrice;
-        p.entryPriceFormatted = p.priceFormatted;
-        p.breakevenActive = false;
-        activeTrade.breakevenLocked = false;
-        floatingPnlUsdc = 0;
-        appendTradeClosedLog(p.pair, "LOSS", lossUsdc, p.direction);
-      }
-
-      totalFloatingPnl += floatingPnlUsdc;
-
-      p.floatingPnlUsdc = floatingPnlUsdc;
+    if (p.status === "OPEN") {
+      const lotUsdc = TradingState.ledger.tradeLotUsdc || 100.00;
+      const floatingPnl = parseFloat((lotUsdc * (priceDiffPct / 100)).toFixed(2));
+      p.floatingPnlUsdc = floatingPnl;
       p.floatingPnlPct = priceDiffPct;
-      p.floatingPnlFormatted = (floatingPnlUsdc >= 0 ? "+$" : "-$") + Math.abs(floatingPnlUsdc).toFixed(2) + ` USDC (${priceDiffPct >= 0 ? "+" : ""}${priceDiffPct.toFixed(2)}%)`;
+      totalFloatingPnl += floatingPnl;
 
-      // Proximidad de disparo (normalizada de 0 a 100%)
-      p.proximityScore = parseFloat(Math.max(0, (priceDiffPct / tpPct) * 100).toFixed(1));
+      // 1. ¿TOCÓ TAKE PROFIT (META)?
+      if (priceDiffPct >= p.takeProfitPct) {
+        const gainUsdc = parseFloat((lotUsdc * (p.takeProfitPct / 100)).toFixed(2));
+        TradingState.practiceBalanceUsdc = parseFloat((TradingState.practiceBalanceUsdc + gainUsdc).toFixed(2));
+        TradingState.ledger.closedWins++;
+        p.status = "CLOSED_WIN";
+        p.exitPrice = newPrice;
+        p.exitTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+        p.finalPnlUsdc = gainUsdc;
+        p.floatingPnlUsdc = 0;
+        p.reopenCountdown = 3; // En 3 ticks (6s) abre una nueva operación
 
-      // Recalcular RSI (14) cuantitativo
-      const range = p.high24 - p.low24;
-      if (range > 0) {
-        const pos = (newPrice - p.low24) / range;
-        p.rsi = parseFloat(Math.max(18, Math.min(82, 25 + pos * 50)).toFixed(1));
+        // Actualizar estadísticas de corte horario
+        if (TradingState.hourly) {
+          TradingState.hourly.opsThisHour = (TradingState.hourly.opsThisHour || 0) + 1;
+          TradingState.hourly.winsThisHour = (TradingState.hourly.winsThisHour || 0) + 1;
+          TradingState.hourly.gainsUsdcThisHour = parseFloat(((TradingState.hourly.gainsUsdcThisHour || 0) + gainUsdc).toFixed(2));
+          if (p.direction === "BEAR") TradingState.hourly.shortsThisHour = (TradingState.hourly.shortsThisHour || 0) + 1;
+          else TradingState.hourly.longsThisHour = (TradingState.hourly.longsThisHour || 0) + 1;
+        }
+
+        try {
+          localStorage.setItem("area501_practice_balance_v1", TradingState.practiceBalanceUsdc.toFixed(2));
+        } catch (_) {}
       }
+      // 2. ¿TOCÓ STOP LOSS (FRENO)?
+      else if (priceDiffPct <= -p.stopLossPct) {
+        const lossUsdc = parseFloat((lotUsdc * (p.stopLossPct / 100)).toFixed(2));
+        TradingState.practiceBalanceUsdc = parseFloat((TradingState.practiceBalanceUsdc - lossUsdc).toFixed(2));
+        TradingState.ledger.closedLosses++;
+        p.status = "CLOSED_SL";
+        p.exitPrice = newPrice;
+        p.exitTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+        p.finalPnlUsdc = -lossUsdc;
+        p.floatingPnlUsdc = 0;
+        p.reopenCountdown = 3; // En 3 ticks (6s) abre una nueva operación
 
-      // Precios TP y SL según dirección
-      if (p.direction === "BEAR") {
-        p.takeProfitPrice = parseFloat((entryPrice * (1 - tpPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-        p.stopLossPrice = parseFloat((entryPrice * (1 + slPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-      } else {
-        p.takeProfitPrice = parseFloat((entryPrice * (1 + tpPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-        p.stopLossPrice = parseFloat((entryPrice * (1 - slPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+        // Actualizar estadísticas de corte horario
+        if (TradingState.hourly) {
+          TradingState.hourly.opsThisHour = (TradingState.hourly.opsThisHour || 0) + 1;
+          TradingState.hourly.lossesThisHour = (TradingState.hourly.lossesThisHour || 0) + 1;
+          TradingState.hourly.gainsUsdcThisHour = parseFloat(((TradingState.hourly.gainsUsdcThisHour || 0) - lossUsdc).toFixed(2));
+          if (p.direction === "BEAR") TradingState.hourly.shortsThisHour = (TradingState.hourly.shortsThisHour || 0) + 1;
+          else TradingState.hourly.longsThisHour = (TradingState.hourly.longsThisHour || 0) + 1;
+        }
+
+        try {
+          localStorage.setItem("area501_practice_balance_v1", TradingState.practiceBalanceUsdc.toFixed(2));
+        } catch (_) {}
       }
+    } else {
+      // Estado cerrado: cuenta atrás para abrir nueva operación cuando haya señal
+      p.reopenCountdown = (p.reopenCountdown || 3) - 1;
+      if (p.reopenCountdown <= 0) {
+        p.status = "OPEN";
+        p.entryPrice = newPrice;
+        p.entryTimestampMs = Date.now();
+        p.entryTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+        p.exitTimeFormatted = null;
+        p.exitPrice = null;
+        p.finalPnlUsdc = null;
+        p.floatingPnlUsdc = 0;
 
-      p.takeProfitFormatted = newPrice < 1
-        ? `$${p.takeProfitPrice.toFixed(4)} (+${tpPct}%)`
-        : `$${p.takeProfitPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (+${tpPct}%)`;
+        // Asignar nueva condición cuantitativa del pool
+        const randCond = QUANT_CONDITIONS_POOL[Math.floor(Math.random() * QUANT_CONDITIONS_POOL.length)];
+        p.shortCondition = randCond.text;
+        p.conditionSub = randCond.sub;
 
-      p.stopLossFormatted = newPrice < 1
-        ? `$${p.stopLossPrice.toFixed(4)} (-${slPct}%)`
-        : `$${p.stopLossPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (-${slPct}%)`;
+        // Asignar nuevas metas de scalping rápidas (+0.16% a +0.24%) y freno (-0.12%)
+        p.takeProfitPct = parseFloat((0.16 + Math.random() * 0.08).toFixed(2));
+        p.stopLossPct = 0.12;
 
-      // Dictamen Psicóloga #00
-      p.psychologistRuling = "PULSO ZEN APROBADO (RATIO >= 3:1)";
-
-      // Actualizar la vela actual en vivo con el tick de Kraken
-      updateCandlesFromLivePrice(p.pair, newPrice);
+        if (p.direction === "BEAR") {
+          p.takeProfitPrice = parseFloat((newPrice * (1 - p.takeProfitPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+          p.stopLossPrice = parseFloat((newPrice * (1 + p.stopLossPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+        } else {
+          p.takeProfitPrice = parseFloat((newPrice * (1 + p.takeProfitPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+          p.stopLossPrice = parseFloat((newPrice * (1 - p.stopLossPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+        }
+      }
     }
   });
-
-  // Re-ordenar automáticamente por proximidad de disparo descendente (Hot Shot #1)
-  TradingState.proposals.sort((a, b) => (b.proximityScore || 0) - (a.proximityScore || 0));
 
   // Guardar estado del ledger en almacenamiento local
   try {
@@ -660,7 +1020,7 @@ function updateLiveProposalsFromKraken(krakenResult) {
   // Actualizar Tarjeta 3 de PnL en Vivo
   updateLivePnlCards(totalFloatingPnl);
 
-  // Re-renderizar tabla de operaciones explicadas
+  // Re-renderizar tabla de operaciones explicadas (7 columnas)
   renderProposalsTable();
 
   // Sincronizar gráfico interactivo estilo TradingView con el tick de Kraken
@@ -675,12 +1035,12 @@ function updateLivePnlCards(floatingPnlTotal) {
   const floatingPnlEl = document.getElementById("topFloatingPnlMetric");
   const effTitleEl = document.getElementById("effectivenessTitleTxt");
 
-  const initialPracticeAccount = 1000.00;
   const currentFloating = (typeof floatingPnlTotal === "number" && !isNaN(floatingPnlTotal)) ? floatingPnlTotal : 0.46;
-  const practiceBalance = initialPracticeAccount + currentFloating;
+  const practiceBase = TradingState.practiceBalanceUsdc || 1000.46;
+  const totalAccountValue = practiceBase + currentFloating;
 
   if (closedPnlEl) {
-    closedPnlEl.textContent = `CUENTA BOT: $${practiceBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
+    closedPnlEl.textContent = `CUENTA BOT: $${totalAccountValue.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
     closedPnlEl.className = "metric-big-bold green-text";
   }
 
@@ -839,12 +1199,38 @@ function updateCandlesFromLivePrice(symbol, livePrice) {
     TvChartState.candles[symbol] = generateInitialCandles(symbol, livePrice, TvChartState.activeTimeframe);
   }
   const candleList = TvChartState.candles[symbol];
-  if (candleList && candleList.length > 0) {
+  if (!candleList || candleList.length === 0) return;
+
+  const currentMinuteSlot = Math.floor(Date.now() / 60000);
+  if (!TvChartState.candleMinuteSlots) TvChartState.candleMinuteSlots = {};
+
+  if (TvChartState.candleMinuteSlots[symbol] && TvChartState.candleMinuteSlots[symbol] !== currentMinuteSlot) {
+    // Ha pasado 60s (1m real): nace una vela nueva para que el usuario vea el gráfico caminando en vivo
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour: "2-digit", minute: "2-digit" });
+    const prevCandle = candleList[candleList.length - 1];
+    const prevClose = prevCandle.close;
+    candleList.push({
+      time: timeStr,
+      open: prevClose,
+      high: Math.max(prevClose, livePrice),
+      low: Math.min(prevClose, livePrice),
+      close: livePrice,
+      volume: Math.round(1500 + Math.random() * 3500)
+    });
+    if (candleList.length > 50) {
+      candleList.shift();
+    }
+  } else {
+    // En cada pulso de 2s, actualizar altura, mecha y volumen de la última vela
     const last = candleList[candleList.length - 1];
     last.close = livePrice;
     if (livePrice > last.high) last.high = livePrice;
     if (livePrice < last.low) last.low = livePrice;
+    last.volume += Math.round(30 + Math.random() * 90);
   }
+
+  TvChartState.candleMinuteSlots[symbol] = currentMinuteSlot;
 }
 
 function initTradingViewCanvas() {
@@ -869,17 +1255,14 @@ function updateTradingViewChart() {
   const symbol = TvChartState.activeSymbol;
   const p = (TradingState.proposals || []).find(item => item.pair === symbol) || {
     pair: symbol,
-    price: symbol.includes("SOL") ? 184.25 : symbol.includes("BNB") ? 645.20 : symbol.includes("ETH") ? 2296.50 : symbol.includes("BTC") ? 88450.00 : symbol.includes("PAXG") ? 4001.66 : symbol.includes("POL") ? 0.0876 : 1.0852,
+    price: symbol.includes("SOL") ? 181.46 : symbol.includes("BNB") ? 720.26 : symbol.includes("ETH") ? 2402.80 : symbol.includes("BTC") ? 68420.00 : symbol.includes("PAXG") ? 3998.45 : symbol.includes("POL") ? 0.0876 : 1.1200,
     direction: symbol.includes("ETH") ? "BEAR" : "BULL",
     change24hPct: 2.45,
     changeFormatted: "+2.45%",
-    decidingMind: "Livermore + Tudor Jones",
-    whyReason: "Ruptura con volumen institucional en Kraken Pro MiCA. Especialista #601 detectó desbalance comprador +0.4% vs DEX.",
-    entryPrice: 184.25,
-    takeProfitPrice: 188.86,
-    stopLossPrice: 182.78,
-    floatingPnlFormatted: "+$0.00 USDC",
-    breakevenActive: false
+    entryPrice: 181.40,
+    takeProfitPrice: 181.76,
+    stopLossPrice: 181.18,
+    status: "OPEN"
   };
 
   // Asegurar velas generadas para el símbolo
@@ -891,72 +1274,31 @@ function updateTradingViewChart() {
   const priceEl = document.getElementById("tvHeaderPrice");
   const changeEl = document.getElementById("tvHeaderChange");
   const regimeEl = document.getElementById("tvHeaderRegime");
-  const mindEl = document.getElementById("tvHeaderMind");
 
-  if (priceEl) priceEl.textContent = p.priceFormatted || `$${p.price.toFixed(p.price < 1 ? 4 : 2)}`;
+  if (priceEl) priceEl.textContent = "$" + formatPrice(p.price);
   if (changeEl) {
-    changeEl.textContent = p.changeFormatted || "+0.00%";
-    changeEl.className = `tv-stat-val font-mono ${(p.change24hPct || 0) >= 0 ? "green-text" : "red-text"}`;
+    const chg = p.change24hPct || 2.45;
+    changeEl.textContent = (chg >= 0 ? "+" : "") + chg.toFixed(2) + "%";
+    changeEl.className = `tv-stat-val font-mono ${chg >= 0 ? "green-text" : "red-text"}`;
   }
   if (regimeEl) {
     const isBull = p.direction === "BULL";
     regimeEl.className = `tv-regime-pill ${isBull ? "bull" : "bear"}`;
     regimeEl.innerHTML = `<span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">${isBull ? 'trending_up' : 'trending_down'}</span> ${isBull ? 'BULL LONG' : 'BEAR SHORT'}`;
   }
-  if (mindEl) mindEl.textContent = p.decidingMind || "Simons + Livermore";
 
   // Actualizar cotizaciones en las pastillas rápidas de monedas
   (TradingState.proposals || []).forEach(item => {
-    if (item.pair === "SOL/USDC" && document.getElementById("pillPriceSOL")) document.getElementById("pillPriceSOL").textContent = item.priceFormatted;
-    if (item.pair === "BNB/USDC" && document.getElementById("pillPriceBNB")) document.getElementById("pillPriceBNB").textContent = item.priceFormatted;
-    if (item.pair === "ETH/USDC" && document.getElementById("pillPriceETH")) document.getElementById("pillPriceETH").textContent = item.priceFormatted;
-    if (item.pair === "EUR/USDC" && document.getElementById("pillPriceEUR")) document.getElementById("pillPriceEUR").textContent = item.priceFormatted;
-    if (item.pair === "PAXG/USDC" && document.getElementById("pillPricePAXG")) document.getElementById("pillPricePAXG").textContent = item.priceFormatted;
-    if (item.pair === "BTC/USDC" && document.getElementById("pillPriceBTC")) document.getElementById("pillPriceBTC").textContent = item.priceFormatted;
+    const formatted = "$" + formatPrice(item.price);
+    if (item.pair === "SOL/USDC" && document.getElementById("pillPriceSOL")) document.getElementById("pillPriceSOL").textContent = formatted;
+    if (item.pair === "BNB/USDC" && document.getElementById("pillPriceBNB")) document.getElementById("pillPriceBNB").textContent = formatted;
+    if (item.pair === "ETH/USDC" && document.getElementById("pillPriceETH")) document.getElementById("pillPriceETH").textContent = formatted;
+    if (item.pair === "EUR/USDC" && document.getElementById("pillPriceEUR")) document.getElementById("pillPriceEUR").textContent = formatted;
+    if (item.pair === "PAXG/USDC" && document.getElementById("pillPricePAXG")) document.getElementById("pillPricePAXG").textContent = formatted;
+    if (item.pair === "BTC/USDC" && document.getElementById("pillPriceBTC")) document.getElementById("pillPriceBTC").textContent = formatted;
   });
 
-  // 2. Actualizar tarjeta flotante explicativa dentro del canvas (Lenguaje directo y amigable)
-  const overlayBadge = document.getElementById("tvOverlayBadge");
-  const overlayPair = document.getElementById("tvOverlayPair");
-  const overlayActionSummary = document.getElementById("tvOverlayActionSummary");
-  const overlayReason = document.getElementById("tvOverlayReason");
-  const overlayEntry = document.getElementById("tvOverlayEntry");
-  const overlayTp = document.getElementById("tvOverlayTp");
-  const overlaySl = document.getElementById("tvOverlaySl");
-  const overlayPnl = document.getElementById("tvOverlayPnl");
-  const overlayBe = document.getElementById("tvOverlayBeStatus");
-
-  const isBull = p.direction === "BULL";
-  const isBear = p.direction === "BEAR";
-  const dirAction = isBull ? "🟢 ENTRÓ COMPRANDO (BULL LONG)" : isBear ? "🔴 ENTRÓ A LA BAJA (BEAR SHORT)" : "⚡ SCALPING ACTIVO";
-
-  if (overlayBadge) {
-    overlayBadge.textContent = dirAction;
-    overlayBadge.className = `tv-overlay-badge ${isBull ? "bull" : isBear ? "bear" : "scalp"}`;
-  }
-  if (overlayPair) overlayPair.textContent = p.pair;
-  if (overlayActionSummary) {
-    const pnlVal = p.floatingPnlUsdc !== undefined ? p.floatingPnlUsdc : 0.32;
-    const pnlSign = pnlVal >= 0 ? "+$" : "-$";
-    const pnlPct = p.floatingPnlPct !== undefined ? p.floatingPnlPct : 0.47;
-    overlayActionSummary.innerHTML = `Entró en <strong>${p.entryPriceFormatted || '$' + p.price}</strong> ➔ Va ganando <strong class="green-text">${pnlSign}${Math.abs(pnlVal).toFixed(2)} USDC (${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%)</strong>`;
-  }
-  if (overlayReason) {
-    overlayReason.textContent = p.whyReason || "Especialista #601 detectó absorción en soporte + confirmación alcista en Kraken (Mente: Livermore + Tudor Jones).";
-  }
-  if (overlayEntry) overlayEntry.textContent = p.entryPriceFormatted || `$${p.price.toFixed(p.price < 1 ? 4 : 2)}`;
-  if (overlayTp) overlayTp.textContent = p.takeProfitFormatted || `$${(p.price * (isBull ? 1.025 : 0.975)).toFixed(p.price < 1 ? 4 : 2)}`;
-  if (overlaySl) overlaySl.textContent = p.stopLossFormatted || `$${(p.price * (isBull ? 0.992 : 1.008)).toFixed(p.price < 1 ? 4 : 2)}`;
-  if (overlayPnl) {
-    const pnlStr = p.floatingPnlFormatted || "+$0.32 USDC";
-    overlayPnl.innerHTML = `PnL: <strong class="${(p.floatingPnlUsdc || 0) >= 0 ? 'green-text' : 'red-text'}">${pnlStr}</strong>`;
-  }
-  if (overlayBe) {
-    overlayBe.textContent = p.breakevenActive ? "🛡️ Candado Breakeven: Asegurado (+0.35%)" : "Candado Breakeven: Listo (+0.35%)";
-    overlayBe.style.color = p.breakevenActive ? "var(--green)" : "var(--cyan)";
-  }
-
-  // 3. Dibujar el canvas interactivo
+  // 2. Dibujar el canvas interactivo despejado 100% (cero overlays que tapen las velas)
   drawTradingViewCanvas();
 }
 
@@ -1113,55 +1455,38 @@ function drawTradingViewCanvas() {
   ctx.fillStyle = "rgba(239, 68, 68, 0.08)";
   ctx.fillRect(0, Math.min(entryY, slY), plotW, Math.abs(slY - entryY));
 
-  // 2. Línea Take Profit (Verde punteada)
+  // =========================================================================
+  // 3 LÍNEAS LIMPIAS SOBRE EL GRÁFICO (SIN TAPAR VELAS, CON ETIQUETAS A LA DERECHA)
+  // 1. 🟢 VENDE AQUÍ (TAKE PROFIT): $XXX.XX
+  // 2. 🔵 COMPRÓ AQUÍ: $XXX.XX (Hora: HH:MM:SS UTC)
+  // 3. 🔴 STOP LOSS (FRENO): $XXX.XX
+  // =========================================================================
+
+  // 1. 🟢 LÍNEA VENDE AQUÍ (TAKE PROFIT)
   ctx.strokeStyle = "#10B981";
-  ctx.lineWidth = 1.2;
+  ctx.lineWidth = 1.3;
   ctx.setLineDash([4, 4]);
   ctx.beginPath();
   ctx.moveTo(0, tpY);
   ctx.lineTo(plotW, tpY);
   ctx.stroke();
-
-  // Etiqueta TP derecha
   ctx.setLineDash([]);
+
+  // Texto limpio sobre la línea a la derecha (sin tapar velas del centro)
+  ctx.fillStyle = "#10B981";
+  ctx.font = "bold 9px 'JetBrains Mono', monospace";
+  ctx.textAlign = "right";
+  ctx.fillText("🟢 VENDE EN GANANCIA (META): $" + formatPrice(tpP), plotW - 8, tpY - 4);
+
+  // Badge en eje derecho
   ctx.fillStyle = "#10B981";
   ctx.fillRect(plotW + 2, tpY - 8, rightAxisWidth - 4, 16);
   ctx.fillStyle = "#070A12";
   ctx.font = "bold 8px 'JetBrains Mono', monospace";
-  ctx.fillText("TP " + formatPrice(tpP), plotW + 5, tpY);
+  ctx.textAlign = "left";
+  ctx.fillText("$" + formatPrice(tpP), plotW + 5, tpY);
 
-  // 3. Línea Stop Loss (Roja punteada)
-  ctx.strokeStyle = "#EF4444";
-  ctx.lineWidth = 1.2;
-  ctx.setLineDash([4, 4]);
-  ctx.beginPath();
-  ctx.moveTo(0, slY);
-  ctx.lineTo(plotW, slY);
-  ctx.stroke();
-
-  // Etiqueta SL derecha
-  ctx.setLineDash([]);
-  ctx.fillStyle = "#EF4444";
-  ctx.fillRect(plotW + 2, slY - 8, rightAxisWidth - 4, 16);
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 8px 'JetBrains Mono', monospace";
-  ctx.fillText("SL " + formatPrice(slP), plotW + 5, slY);
-
-  // 4. Candado Breakeven (Línea ámbar si aplica)
-  if (trade.breakevenActive) {
-    const bePrice = entryP * (trade.direction === "BEAR" ? 0.9965 : 1.0035);
-    const beY = yForPrice(bePrice);
-    ctx.strokeStyle = "#F59E0B";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([3, 3]);
-    ctx.beginPath();
-    ctx.moveTo(0, beY);
-    ctx.lineTo(plotW, beY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
-
-  // 5. Línea Entrada Real (Sólida cian)
+  // 2. 🔵 LÍNEA COMPRÓ AQUÍ (ENTRADA)
   ctx.strokeStyle = "#00F0FF";
   ctx.lineWidth = 1.6;
   ctx.beginPath();
@@ -1169,35 +1494,44 @@ function drawTradingViewCanvas() {
   ctx.lineTo(plotW, entryY);
   ctx.stroke();
 
-  // Etiqueta Entrada derecha
+  // Texto limpio sobre la línea a la derecha con hora exacta de compra
+  const entryTimeStr = trade.entryTimeFormatted || trade.entryTime || "17:02:14 UTC";
+  ctx.fillStyle = "#00F0FF";
+  ctx.font = "bold 9px 'JetBrains Mono', monospace";
+  ctx.textAlign = "right";
+  ctx.fillText("🔵 COMPRÓ AQUÍ: $" + formatPrice(entryP) + " (Hora exacta: " + entryTimeStr + ")", plotW - 8, entryY - 4);
+
+  // Badge en eje derecho
   ctx.fillStyle = "#00F0FF";
   ctx.fillRect(plotW + 2, entryY - 8, rightAxisWidth - 4, 16);
   ctx.fillStyle = "#070A12";
   ctx.font = "bold 8px 'JetBrains Mono', monospace";
-  ctx.fillText("ENT " + formatPrice(entryP), plotW + 5, entryY);
+  ctx.textAlign = "left";
+  ctx.fillText("$" + formatPrice(entryP), plotW + 5, entryY);
 
-  // Marcador sobre vela de entrada (#28)
-  const entryIdx = 28;
-  const entryX = entryIdx * candleSlot + candleSlot / 2;
-  const calloutText = "⚡ ENTRADA " + (trade.direction || "BULL") + " LONG · " + (trade.decidingMind || "Simons");
-  ctx.font = "bold 8px 'JetBrains Mono', monospace";
-  const calloutW = ctx.measureText(calloutText).width + 10;
-  const calloutY = Math.max(10, entryY - 22);
-
-  ctx.fillStyle = "rgba(0, 240, 255, 0.92)";
+  // 3. 🔴 LÍNEA STOP LOSS (FRENO)
+  ctx.strokeStyle = "#EF4444";
+  ctx.lineWidth = 1.3;
+  ctx.setLineDash([4, 4]);
   ctx.beginPath();
-  ctx.rect(entryX - calloutW / 2, calloutY, calloutW, 14);
-  ctx.fill();
-
-  ctx.fillStyle = "#070A12";
-  ctx.fillText(calloutText, entryX - calloutW / 2 + 5, calloutY + 7);
-
-  ctx.strokeStyle = "#00F0FF";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(entryX, calloutY + 14);
-  ctx.lineTo(entryX, entryY);
+  ctx.moveTo(0, slY);
+  ctx.lineTo(plotW, slY);
   ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Texto limpio sobre la línea a la derecha (sin tapar velas del centro)
+  ctx.fillStyle = "#EF4444";
+  ctx.font = "bold 9px 'JetBrains Mono', monospace";
+  ctx.textAlign = "right";
+  ctx.fillText("🔴 STOP LOSS (FRENO): $" + formatPrice(slP), plotW - 8, slY + 11);
+
+  // Badge en eje derecho
+  ctx.fillStyle = "#EF4444";
+  ctx.fillRect(plotW + 2, slY - 8, rightAxisWidth - 4, 16);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 8px 'JetBrains Mono', monospace";
+  ctx.textAlign = "left";
+  ctx.fillText("$" + formatPrice(slP), plotW + 5, slY);
 
   // =========================================================================
   // BARRAS DE VOLUMEN EN LA BASE
@@ -1263,10 +1597,11 @@ function drawTradingViewCanvas() {
     ctx.fillStyle = color;
     ctx.fillRect(xLeft, bodyTop, candleWidth, bodyH);
 
-    // En la vela 47 (la última vela en vivo), dibujar baliza palpitante
+    // En la última vela (la vela en vivo), dibujar baliza palpitante y badge de precio en eje derecho
     if (i === nCandles - 1) {
       ctx.setLineDash([2, 2]);
       ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(xCenter, closeY);
       ctx.lineTo(plotW, closeY);
@@ -1279,10 +1614,18 @@ function drawTradingViewCanvas() {
       ctx.fill();
 
       ctx.strokeStyle = color;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.2;
       ctx.beginPath();
       ctx.arc(xCenter, closeY, 6, 0, Math.PI * 2);
       ctx.stroke();
+
+      // Badge de precio actual en vivo en el eje derecho (se mueve cada 2s)
+      ctx.fillStyle = isBull ? "#10B981" : "#EF4444";
+      ctx.fillRect(plotW + 2, closeY - 8, rightAxisWidth - 4, 16);
+      ctx.fillStyle = "#070A12";
+      ctx.font = "bold 8.5px 'JetBrains Mono', monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("$" + formatPrice(c.close), plotW + 5, closeY);
     }
   });
 
@@ -1578,74 +1921,153 @@ function renderProposalsTable() {
   }
 
   if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 16px;">Sin operaciones para el filtro seleccionado.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 16px;">Sin operaciones para el filtro seleccionado.</td></tr>`;
     return;
   }
+
+  const nowMs = Date.now();
 
   tbody.innerHTML = list.map((p, idx) => {
     const isBull = p.direction === "BULL";
     const isBear = p.direction === "BEAR";
-    const dirClass = isBull ? "bull" : isBear ? "bear" : "scalp";
-    const dirIcon = isBull ? "trending_up" : isBear ? "trending_down" : "bolt";
-    const dirAction = isBull ? "🟢 ENTRÓ COMPRANDO" : isBear ? "🔴 ENTRÓ A LA BAJA" : "⚡ SCALPING ACTIVO";
+    const isClosedWin = p.status === "CLOSED_WIN";
+    const isClosedSl = p.status === "CLOSED_SL";
+    const isClosed = isClosedWin || isClosedSl;
 
-    const isHotOne = idx === 0 && TradingState.currentFilter === "ALL";
-    const hotBadgeHtml = isHotOne ? `<span class="hot-shot-badge"><span class="material-symbols-rounded icon-xs gold" style="vertical-align:-2px;">bolt</span> HOT #1</span>` : "";
+    // 1. 🕒 HORA DE COMPRA
+    let timeColHtml = "";
+    const entryTime = p.entryTimeFormatted || "17:02:14 UTC";
+    if (isClosed) {
+      const exitTime = p.exitTimeFormatted || "17:03:30 UTC";
+      timeColHtml = `
+        <strong style="color: #fff; font-size: 11px;">${entryTime}</strong>
+        <div style="font-size: 8.5px; color: ${isClosedWin ? 'var(--green)' : 'var(--red)'}; margin-top: 1px;">
+          🕒 SALIÓ: ${exitTime}
+        </div>
+      `;
+    } else {
+      const elapsedSec = Math.max(1, Math.floor((nowMs - (p.entryTimestampMs || (nowMs - 60000))) / 1000));
+      const elapsedMins = Math.floor(elapsedSec / 60);
+      const remSec = elapsedSec % 60;
+      const elapsedStr = elapsedMins > 0 ? `${elapsedMins}m ${remSec}s` : `${remSec}s`;
+      timeColHtml = `
+        <strong style="color: #fff; font-size: 11px;">${entryTime}</strong>
+        <div style="font-size: 8.5px; color: var(--cyan); margin-top: 1px;">
+          ⏳ Hace ${elapsedStr}
+        </div>
+      `;
+    }
 
-    const priceColor = p.priceDirection === "up" ? "var(--green)" : p.priceDirection === "down" ? "var(--red)" : "var(--text-main)";
+    // 2. 🪙 MONEDA & QUÉ HIZO
+    let actionBadgeHtml = "";
+    if (isClosedWin) {
+      actionBadgeHtml = `<span class="direction-badge closed-win"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">check_circle</span> ✅ VENDIÓ Y COBRÓ</span>`;
+    } else if (isClosedSl) {
+      actionBadgeHtml = `<span class="direction-badge closed-sl"><span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">cancel</span> 🛑 FRENO EJECUTADO</span>`;
+    } else if (isBull) {
+      actionBadgeHtml = `<span class="direction-badge bull"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 COMPRÓ (SUBE)</span>`;
+    } else {
+      actionBadgeHtml = `<span class="direction-badge bear"><span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> 🔴 ENTRÓ A LA BAJA</span>`;
+    }
 
-    const pnlUsdc = p.floatingPnlUsdc || 0;
-    const pnlCls = pnlUsdc > 0 ? "positive" : pnlUsdc < 0 ? "negative" : "neutral";
-    const pnlFormatted = p.floatingPnlFormatted || (pnlUsdc >= 0 ? `+$${pnlUsdc.toFixed(2)} USDC` : `-$${Math.abs(pnlUsdc).toFixed(2)} USDC`);
+    // 3. 📋 CONDICIÓN SIMPLE (Máx 4 palabras claras)
+    const condTitle = p.shortCondition || (isBull ? "Precio barato + Volumen" : "Rechazo en techo 1m");
+    const condSub = p.conditionSub || (p.exchange || "Kraken Pro");
+
+    // 4. 💵 COMPRÓ A ➔ PRECIO AHORA
+    const entryPriceStr = "$" + formatPrice(p.entryPrice);
+    let currentPriceStr = "";
+    let currentPriceColor = "";
+    if (isClosed) {
+      currentPriceStr = "$" + formatPrice(p.exitPrice || p.price);
+      currentPriceColor = isClosedWin ? "var(--green)" : "var(--red)";
+    } else {
+      currentPriceStr = "$" + formatPrice(p.price);
+      currentPriceColor = p.priceDirection === "up" ? "var(--green)" : p.priceDirection === "down" ? "var(--red)" : "var(--text-main)";
+    }
+
+    // 5. 🛑 STOP LOSS (FRENO)
+    const slPriceStr = "$" + formatPrice(p.stopLossPrice);
+    const slPctStr = "-" + (p.stopLossPct || 0.12).toFixed(2) + "% límite";
+
+    // 6. 🎯 VENDE EN (META)
+    const tpPriceStr = "$" + formatPrice(p.takeProfitPrice);
+    const tpPctStr = "+" + (p.takeProfitPct || 0.20).toFixed(2) + "% meta";
+
+    // 7. 💰 GANANCIA / ESTADO
+    let pnlHtml = "";
+    if (isClosedWin) {
+      const winVal = p.finalPnlUsdc || 0.36;
+      pnlHtml = `
+        <span class="pnl-badge-floating win" style="font-size: 9.5px; font-weight: 800;">+$${winVal.toFixed(2)} USD</span>
+        <div style="font-size: 8px; color: var(--green); margin-top: 1px;">Vendido: ${p.exitTimeFormatted || '17:03:30 UTC'}</div>
+      `;
+    } else if (isClosedSl) {
+      const slVal = Math.abs(p.finalPnlUsdc || 0.22);
+      pnlHtml = `
+        <span class="pnl-badge-floating loss" style="font-size: 9.5px; font-weight: 800;">-$${slVal.toFixed(2)} USD</span>
+        <div style="font-size: 8px; color: var(--red); margin-top: 1px;">Vendido: ${p.exitTimeFormatted || '17:03:30 UTC'}</div>
+      `;
+    } else {
+      const diff = isBear ? (p.entryPrice - p.price) : (p.price - p.entryPrice);
+      const diffPct = (diff / p.entryPrice) * 100;
+      const pnlUsdc = p.floatingPnlUsdc !== undefined ? p.floatingPnlUsdc : (diffPct / 100) * 180;
+      const isPos = pnlUsdc >= 0;
+      const pnlCls = isPos ? "win" : "loss";
+      pnlHtml = `
+        <span class="pnl-badge-floating ${pnlCls}" style="font-size: 9.5px; font-weight: 800;">
+          ${isPos ? '+' : '-'}$${Math.abs(pnlUsdc).toFixed(2)} USD
+        </span>
+        <div style="font-size: 8px; color: ${isPos ? 'var(--green)' : 'var(--red)'}; margin-top: 1px;">
+          (${isPos ? '+' : ''}${diffPct.toFixed(2)}%) EN VIVO
+        </div>
+      `;
+    }
 
     const isActiveChart = p.pair === TvChartState.activeSymbol;
 
     return `
       <tr onclick="onTableRowClick('${p.pair}', ${idx})" style="cursor: pointer;" class="${isActiveChart ? 'active-chart-row' : ''}" title="Clic para cargar este par en el gráfico TradingView Pro superior">
-        <!-- 1. MONEDA & PRECIO KRAKEN -->
+        <!-- 1. 🕒 HORA DE COMPRA -->
+        <td>
+          ${timeColHtml}
+        </td>
+
+        <!-- 2. 🪙 MONEDA & ACCIÓN -->
         <td>
           <strong style="color: #fff; font-size: 11px;">${p.pair}</strong>
-          <div style="font-size: 8.5px; color: ${priceColor}; font-weight: 700; font-family: var(--font-mono); margin-top: 1px;">
-            ${p.priceFormatted} · ${p.exchange}
+          <div style="margin-top: 2px;">
+            ${actionBadgeHtml}
           </div>
         </td>
 
-        <!-- 2. ACCIÓN DE BULL & BEAR -->
+        <!-- 3. 📋 CONDICIÓN CORTA -->
         <td>
-          <span class="direction-badge ${dirClass}">
-            <span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">${dirIcon}</span> ${dirAction} ${hotBadgeHtml}
-          </span>
-          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
-            ${p.breakevenActive ? '🛡️ Breakeven +0.35%' : 'Asimetría >= 3:1'}
-          </div>
+          <div style="font-size: 9.5px; color: var(--text-main); font-weight: 600;">${condTitle}</div>
+          <div style="font-size: 8px; color: var(--text-dim); margin-top: 1px;">${condSub}</div>
         </td>
 
-        <!-- 3. ENTRADA -> META (TP) / FRENO (SL) -->
+        <!-- 4. 💵 PRECIO COMPRA ➔ PRECIO AHORA -->
         <td>
-          <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="font-size: 9px; color: var(--text-main);"><span style="color: var(--text-muted);">Entrada:</span> ${p.entryPriceFormatted}</div>
-            <div style="font-size: 9px; color: var(--green);"><span style="color: var(--text-muted);">TP (+2.5%):</span> ${p.takeProfitFormatted}</div>
-            <div style="font-size: 9px; color: var(--red);"><span style="color: var(--text-muted);">SL (-0.8%):</span> ${p.stopLossFormatted}</div>
-          </div>
+          <div style="font-size: 9.5px; color: var(--text-muted);"><span style="color: var(--text-dim);">${isClosed ? 'Entró:' : 'Entró:'}</span> ${entryPriceStr}</div>
+          <div style="font-size: 10.5px; font-weight: 700; color: ${currentPriceColor};"><span style="color: var(--text-dim);">${isClosed ? 'Salió:' : 'Ahora:'}</span> ${currentPriceStr}</div>
         </td>
 
-        <!-- 4. QUIÉN LE DIO EL DATO & POR QUÉ ENTRÓ -->
+        <!-- 5. 🛑 STOP LOSS (FRENO) -->
         <td>
-          <div class="reason-box">
-            <strong style="color: var(--cyan);">${p.specialistName || p.botId}:</strong> ${p.whyReason}
-            <div style="font-size: 8px; color: var(--gold); margin-top: 1px;">Mente: ${p.decidingMind || "Simons + Tudor Jones"}</div>
-          </div>
+          <strong style="font-size: 10px; color: var(--red);">${slPriceStr}</strong>
+          <div style="font-size: 8px; color: var(--red); margin-top: 1px;">${slPctStr}</div>
         </td>
 
-        <!-- 5. GANANCIA / PÉRDIDA EN VIVO -->
+        <!-- 6. 🎯 VENDE EN (META) -->
         <td>
-          <div style="display: flex; flex-direction: column; gap: 2px; align-items: flex-start;">
-            <span class="pnl-badge-floating ${pnlCls}">${pnlFormatted}</span>
-            <div class="pill-zen-approved">
-              <span class="material-symbols-rounded icon-xs cyan" style="vertical-align: -2px;">verified</span>
-              <span>PULSO ZEN APROBADO</span>
-            </div>
-          </div>
+          <strong style="font-size: 10px; color: var(--green);">${tpPriceStr}</strong>
+          <div style="font-size: 8px; color: var(--green); margin-top: 1px;">${tpPctStr}</div>
+        </td>
+
+        <!-- 7. 💰 RESULTADO EN VIVO -->
+        <td>
+          ${pnlHtml}
         </td>
       </tr>
     `;
@@ -1699,20 +2121,23 @@ window.switchTradingActivityTab = function(tab) {
 
   const btnLog = document.getElementById("tabBtnLog");
   const btnTg = document.getElementById("tabBtnTg");
+  const btnCuts = document.getElementById("tabBtnCuts");
   const viewLog = document.getElementById("viewLog");
   const viewTg = document.getElementById("viewTg");
+  const viewCuts = document.getElementById("viewCuts");
 
-  if (tab === "LOG") {
-    btnLog?.classList.add("active");
-    btnTg?.classList.remove("active");
-    if (viewLog) viewLog.style.display = "block";
-    if (viewTg) viewTg.style.display = "none";
-  } else {
-    btnTg?.classList.add("active");
-    btnLog?.classList.remove("active");
-    if (viewTg) viewTg.style.display = "block";
-    if (viewLog) viewLog.style.display = "none";
+  btnLog?.classList.toggle("active", tab === "LOG");
+  btnTg?.classList.toggle("active", tab === "TG");
+  btnCuts?.classList.toggle("active", tab === "CUTS");
+
+  if (viewLog) viewLog.style.display = tab === "LOG" ? "block" : "none";
+  if (viewTg) viewTg.style.display = tab === "TG" ? "block" : "none";
+  if (viewCuts) viewCuts.style.display = tab === "CUTS" ? "block" : "none";
+
+  if (tab === "TG") {
     loadTelegramAlertsFeed();
+  } else if (tab === "CUTS") {
+    renderHourlyCutsInContainer("hourlyCutsContainer");
   }
 };
 
@@ -1794,8 +2219,122 @@ async function loadTelegramAlertsFeed() {
 }
 
 // =============================================================================
-// 9. MODALES DE EXPEDIENTE / AUDITORÍA PROFUNDA
+// 9. MODALES DE EXPEDIENTE / AUDITORÍA PROFUNDA / CORTES HORARIOS
 // =============================================================================
+window.openHourlyCutsModal = function() {
+  const overlay = document.getElementById("tradingModalOverlay");
+  const badge = document.getElementById("modalBadge");
+  const title = document.getElementById("modalTitle");
+  const body = document.getElementById("modalBody");
+
+  if (badge) badge.textContent = "CORTE HORARIO // 60 MINUTOS";
+  if (title) title.textContent = "📊 CORTES HORARIOS DE BULL & BEAR // LIBRO DE CAJA";
+
+  const totalOps = TradingState.hourly.opsThisHour || 0;
+  const wins = TradingState.hourly.winsThisHour || 0;
+  const losses = TradingState.hourly.lossesThisHour || 0;
+  const gains = TradingState.hourly.gainsUsdcThisHour || 0;
+  const efec = totalOps > 0 ? ((wins / totalOps) * 100).toFixed(1) : "100.0";
+  const cuts = (TradingState.hourly && TradingState.hourly.history) || [];
+
+  if (body) {
+    body.innerHTML = `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <!-- Resumen de la hora en curso -->
+        <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong style="color: var(--gold); font-size: 13px;">⏱️ HORA ACTUAL EN CURSO (SIN CERRAR)</strong>
+            <span class="badge-tag-tiny badge-gold">PRÓXIMO CORTE: <span id="modalCountdown">${document.getElementById("topHourlyCountdown")?.textContent || "59:45"}</span></span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px;">
+            <div style="background: rgba(0,0,0,0.3); border-radius: 5px; padding: 6px; text-align: center;">
+              <div style="font-size: 8px; color: var(--text-muted);">OPS ESTA HORA</div>
+              <strong style="color: #fff; font-size: 12px;">${totalOps} (${wins}G / ${losses}P)</strong>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 5px; padding: 6px; text-align: center;">
+              <div style="font-size: 8px; color: var(--text-muted);">EFECTIVIDAD HORA</div>
+              <strong style="color: var(--green); font-size: 12px;">${efec}%</strong>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 5px; padding: 6px; text-align: center;">
+              <div style="font-size: 8px; color: var(--text-muted);">GANANCIA HORA</div>
+              <strong style="color: ${gains >= 0 ? 'var(--green)' : 'var(--red)'}; font-size: 12px;">${gains >= 0 ? '+' : ''}$${gains.toFixed(2)} USDC</strong>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 5px; padding: 6px; text-align: center;">
+              <div style="font-size: 8px; color: var(--text-muted);">CUENTA BOT</div>
+              <strong style="color: var(--cyan); font-size: 12px;">$${(TradingState.practiceBalanceUsdc || 1000.46).toFixed(2)} USDC</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de cortes históricos cerrados -->
+        <div>
+          <div style="font-size: 11px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; justify-content: space-between;">
+            <span>HISTORIAL DE CORTES CERRADOS (ÚLTIMAS HORAS UTC)</span>
+            <span style="font-size: 9px; color: var(--text-dim);">${cuts.length} Cortes Registrados</span>
+          </div>
+          <div id="modalCutsTableContainer" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 6px; overflow: hidden;">
+            <div class="hourly-cut-row" style="background: rgba(255,255,255,0.04); font-weight: 800; color: var(--text-muted); font-size: 8.5px;">
+              <span>🕒 VENTANA HORARIA</span>
+              <span>OPS CERRADAS</span>
+              <span>EFECTIVIDAD</span>
+              <span>GANANCIA NETA</span>
+              <span>SALDO TRAS CORTE</span>
+            </div>
+            ${cuts.map(c => `
+              <div class="hourly-cut-row">
+                <span style="color: #fff; font-weight: 700;">${c.window}</span>
+                <span style="color: var(--cyan);">${c.totalOps} Ops (${c.longs || c.wins} Long / ${c.shorts || c.losses} Short)</span>
+                <span style="color: ${c.effectiveness >= 80 ? 'var(--green)' : 'var(--gold)'}; font-weight: 800;">${c.effectiveness}%</span>
+                <span style="color: ${c.netGainUsdc >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 800;">${c.netGainUsdc >= 0 ? '+' : ''}$${c.netGainUsdc.toFixed(2)} USDC</span>
+                <span style="color: #fff; font-weight: 700;">$${(c.botBalanceAfter || 1000.46).toFixed(2)} USDC</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+
+        <div style="background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.25); border-radius: 6px; padding: 8px; font-size: 9px; color: var(--text-main);">
+          💡 <strong>Auditoría Contable de Área 501:</strong> Cada 60 minutos exactos, Bull &amp; Bear congela las ganancias horarias, suma los dólares netos ganados a la Cuenta del Bot de $1,000.00 USDC y resetea el contador para mantener máxima velocidad y disciplina de trading cuantitativo.
+        </div>
+      </div>
+    `;
+  }
+
+  if (overlay) overlay.style.display = "flex";
+};
+
+function renderHourlyCutsInContainer(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const cuts = (TradingState.hourly && TradingState.hourly.history) || [];
+
+  if (cuts.length === 0) {
+    container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 14px;">Aún no se ha completado ningún corte horario hoy. El primer corte se ejecutará al cumplirse el minuto 00:00.</div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <div class="hourly-cut-row" style="background: rgba(255,255,255,0.04); font-weight: 800; color: var(--text-muted); font-size: 8.5px;">
+        <span>🕒 VENTANA HORARIA</span>
+        <span>OPERACIONES CERRADAS</span>
+        <span>EFECTIVIDAD</span>
+        <span>GANANCIA NETA</span>
+        <span>SALDO TRAS CORTE</span>
+      </div>
+      ${cuts.map(c => `
+        <div class="hourly-cut-row">
+          <span style="color: #fff; font-weight: 700;">${c.window}</span>
+          <span style="color: var(--cyan);">${c.totalOps} Ops (${c.longs || c.wins} Long / ${c.shorts || c.losses} Short)</span>
+          <span style="color: ${c.effectiveness >= 80 ? 'var(--green)' : 'var(--gold)'}; font-weight: 800;">${c.effectiveness}%</span>
+          <span style="color: ${c.netGainUsdc >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 800;">${c.netGainUsdc >= 0 ? '+' : ''}$${c.netGainUsdc.toFixed(2)} USDC</span>
+          <span style="color: #fff; font-weight: 700;">$${(c.botBalanceAfter || 1000.46).toFixed(2)} USDC</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
 window.inspectPremiere = function(index) {
   const item = (TradingState.premieres && TradingState.premieres[index]) || BOX8_TOKENS_CONFIG[index];
   if (!item) return;

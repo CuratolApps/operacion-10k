@@ -629,6 +629,42 @@ body.area501-trading-body {
   white-space: nowrap;
 }
 
+.tv-hourly-stopwatch-pill {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.tv-hourly-stopwatch-pill:hover {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: var(--gold);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.hourly-cut-row {
+  display: grid;
+  grid-template-columns: 18% 28% 18% 18% 18%;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+}
+
+.hourly-cut-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 /* 2. LIENZO CANVAS DE VELAS (68% DE LA ALTURA CENTRAL) */
 .tv-canvas-wrapper {
   height: 64%;
@@ -649,76 +685,10 @@ body.area501-trading-body {
   display: block;
 }
 
-/* CAJA FLOTANTE TRANSPARENTE DENTRO DEL GRÁFICO (EXPLICACIÓN CLARA DEL BOT) */
+/* 2. LIENZO CANVAS DE VELAS (68% DE LA ALTURA CENTRAL - DESPEJADO 100% CERO OVERLAYS) */
 .tv-chart-overlay-card {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(10, 14, 23, 0.92);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  border-radius: 6px;
-  padding: 8px 12px;
-  max-width: 360px;
-  pointer-events: none;
-  z-index: 5;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: none !important;
 }
-
-.tv-overlay-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2px;
-}
-
-.tv-overlay-badge {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 800;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: rgba(16, 185, 129, 0.2);
-  color: var(--green);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-}
-
-.tv-overlay-pair {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 800;
-  color: #fff;
-}
-
-.tv-overlay-direct-row {
-  font-size: 9.5px;
-  line-height: 1.35;
-  color: #cbd5e1;
-  display: flex;
-  gap: 5px;
-}
-
-.tv-overlay-direct-row strong {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-}
-
-.tv-overlay-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  color: var(--text-dim);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 4px;
-  margin-top: 2px;
-}
-.tv-overlay-meta strong { color: var(--text-main); }
 
 /* 3. MESA DE POSICIONES EN VIVO (STRATEGY TESTER / TRADING PANEL — 32% INFERIOR) */
 .operations-live-section {
@@ -860,6 +830,16 @@ body.area501-trading-body {
   background: rgba(0, 240, 255, 0.14);
   color: var(--cyan);
   border: 1px solid rgba(0, 240, 255, 0.4);
+}
+.direction-badge.closed-win {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--green);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+}
+.direction-badge.closed-sl {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--red);
+  border: 1px solid rgba(239, 68, 68, 0.45);
 }
 
 .hot-shot-badge {

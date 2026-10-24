@@ -112,8 +112,8 @@
     <!-- GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS -->
     <div class="nav-modules-row">
 
-      <!-- TARJETA FLOTANTE 2: ESTADO MAESTRO — BULL & BEAR NEXUS -->
-      <div class="floating-card nav-card-col" id="cardMasterMindTop">
+      <!-- TARJETA FLOTANTE 2: CRONÓMETRO DE CORTE CADA 1 HORA (MEDIDOR DE EFECTIVIDAD) -->
+      <div class="floating-card nav-card-col" id="cardMasterMindTop" onclick="openHourlyCutsModal()" style="cursor: pointer;" title="Clic para ver el libro de cortes horarios de caja">
         <div class="card-top-meta">
           <span class="card-top-title" style="display: flex; align-items: center; gap: 5px;">
             <svg class="bull-bear-emblem" style="width: 14px; height: 14px;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,15 +124,15 @@
               <polygon points="42,86 58,86 50,96" fill="#1E293B" stroke="#F59E0B" stroke-width="0.8" />
               <line x1="50" y1="28" x2="50" y2="96" stroke="#070A12" stroke-width="1.2" />
             </svg>
-            <span>MENTE MAESTRA: BULL &amp; BEAR NEXUS</span>
+            <span>CORTE CADA 1 HORA · VELOCIDAD &amp; EFECTIVIDAD</span>
           </span>
           <span class="badge-tag-tiny badge-gold" id="bullBearRegimeBadge">
-            <span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">tune</span> MODO HÍBRIDO
+            <span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">timer</span> <span id="topHourlyCountdown">59:45</span>
           </span>
         </div>
         <div class="card-data-main">
-          <span class="metric-big-bold gold" id="bullBearDominantMind">4 Operaciones Activas</span>
-          <span class="metric-sub-detail" id="bullBearDistributionTop">Long / Short / Scalp · Calma Zen #00: 100%</span>
+          <span class="metric-big-bold gold" id="topHourlyCutoffMain">⏱️ PRÓXIMO CORTE: 59:45</span>
+          <span class="metric-sub-detail" id="topHourlyStatsSub">ESTA HORA: 8 Ops (8G / 0P) · Efectividad: 100% · Ganancia: +$1.96 USDC</span>
         </div>
       </div>
 
@@ -295,45 +295,25 @@
             <span class="material-symbols-rounded icon-xs">trending_up</span> BULL LONG
           </span>
           <span class="tv-zen-pill" id="tvHeaderZen">PULSO ZEN 100%</span>
+          <span class="tv-hourly-stopwatch-pill font-mono" id="tvHourlyCountdownChart" onclick="openHourlyCutsModal()" style="cursor: pointer;" title="Tiempo restante para el próximo corte de 60 minutos">
+            <span class="material-symbols-rounded icon-xs gold" style="vertical-align: -2px;">timer</span> CORTE 1H: <strong id="chartHourlyTimerVal" style="color: var(--gold);">59:45</strong>
+          </span>
         </div>
       </div>
 
       <!-- 2. EL GRÁFICO GIGANTE DE VELAS JAPONESAS (68% DE LA ALTURA CENTRAL) -->
       <div class="tv-canvas-wrapper" id="tvCanvasWrapper">
         <canvas id="tradingViewCanvas"></canvas>
-
-        <!-- CAJA FLOTANTE TRANSPARENTE DENTRO DEL GRÁFICO (EXPLICACIÓN CLARA DEL BOT) -->
-        <div class="tv-chart-overlay-card" id="tvChartOverlayCard">
-          <div class="tv-overlay-header">
-            <span class="tv-overlay-badge" id="tvOverlayBadge">🟢 ENTRÓ COMPRANDO (BULL LONG)</span>
-            <span class="tv-overlay-pair" id="tvOverlayPair">SOL/USDC</span>
-          </div>
-          <div class="tv-overlay-direct-row">
-            <strong class="cyan">QUÉ HACE AQUÍ:</strong>
-            <span id="tvOverlayActionSummary">Entró en $181.40 ➔ Va ganando +$0.32 USDC (+0.47%)</span>
-          </div>
-          <div class="tv-overlay-direct-row">
-            <strong class="gold">POR QUÉ LO HIZO:</strong>
-            <span id="tvOverlayReason">Especialista #601 detectó absorción en soporte + confirmación alcista en Kraken (Mente: Livermore + Tudor Jones).</span>
-          </div>
-          <div class="tv-overlay-meta" id="tvOverlayMeta">
-            <span>Entrada: <strong id="tvOverlayEntry">$181.40</strong></span>
-            <span>Meta TP (+2.5%): <strong class="green-text" id="tvOverlayTp">$185.94</strong></span>
-            <span>Freno SL (-0.8%): <strong class="red-text" id="tvOverlaySl">$179.95</strong></span>
-            <span id="tvOverlayPnl">PnL: <strong class="green-text">+$0.32 USDC</strong></span>
-            <span id="tvOverlayBeStatus" style="color: var(--cyan);">Candado Breakeven: Listo</span>
-          </div>
-        </div>
       </div>
 
       <!-- 3. PANEL DE POSICIONES ABIERTAS (STRATEGY TESTER / TRADING PANEL — 32% INFERIOR) -->
       <section class="quant-card operations-live-section" id="sectionTradingPanel">
         <div class="quant-card-header">
           <div class="card-title-group">
-            <span class="material-symbols-rounded cyan">stacked_line_chart</span>
+            <span class="material-symbols-rounded cyan">receipt_long</span>
             <div>
-              <h2 class="card-title">MESA DE OPERACIONES EXPLICADAS EN VIVO: ¿QUÉ HIZO BULL &amp; BEAR Y POR QUÉ LO HIZO?</h2>
-              <span class="card-subtitle-mono">CLIC EN CUALQUIER FILA PARA CARGARLA EN EL GRÁFICO GRANDE · PRECIOS KRAKEN EN VIVO · PnL FLOTANTE REAL</span>
+              <h2 class="card-title">MESA DE OPERACIONES EN VIVO // RECIBO: COMPRA, CONDICIÓN, STOP LOSS, META Y SALIDA</h2>
+              <span class="card-subtitle-mono">CLIC EN CUALQUIER FILA PARA VERLA EN EL GRÁFICO SUPERIOR · ACTUALIZACIÓN REAL CADA 2s · CUENTA BOT $1,000 USDC</span>
             </div>
           </div>
           <div class="header-filters-row">
@@ -351,6 +331,9 @@
               <button class="pill-tab-btn" id="tabFilter701" onclick="filterTradingByBox('701')">
                 <span class="material-symbols-rounded icon-xs gold" style="vertical-align:-2px;">account_balance</span> ESP. #701
               </button>
+              <button class="pill-tab-btn" id="tabBtnHourlyCuts" onclick="openHourlyCutsModal()" title="Ver historial de cortes de caja de 60 minutos">
+                <span class="material-symbols-rounded icon-xs gold" style="vertical-align:-2px;">history_toggle_off</span> 📊 CORTES HORARIOS (60m)
+              </button>
             </div>
             <span class="live-clock-pill" id="krakenTickClock">KRAKEN: CONECTADO</span>
           </div>
@@ -360,113 +343,143 @@
           <table class="quant-table" id="proposalsTable">
             <thead>
               <tr>
-                <th style="width: 16%;">1. MONEDA &amp; PRECIO KRAKEN</th>
-                <th style="width: 17%;">2. ACCIÓN DE BULL &amp; BEAR</th>
-                <th style="width: 20%;">3. ENTRADA ➔ META (TP) / FRENO (SL)</th>
-                <th style="width: 32%;">4. QUIÉN LE DIO EL DATO &amp; POR QUÉ ENTRÓ</th>
-                <th style="width: 15%;">5. GANANCIA EN VIVO (PnL)</th>
+                <th style="width: 15%;">🕒 HORA DE ENTRADA</th>
+                <th style="width: 16%;">🪙 MONEDA &amp; QUÉ HIZO</th>
+                <th style="width: 14%;">📋 CONDICIÓN SIMPLE</th>
+                <th style="width: 17%;">💵 COMPRÓ A ➔ PRECIO AHORA</th>
+                <th style="width: 12%;">🛑 STOP LOSS (FRENO)</th>
+                <th style="width: 13%;">🎯 VENDE EN (META)</th>
+                <th style="width: 13%;">💰 GANANCIA / ESTADO</th>
               </tr>
             </thead>
             <tbody id="proposalsTbody">
               <!-- Hidratación honesta inicial (Cero saltos F5) -->
               <tr onclick="onTableRowClick('SOL/USDC', 0)" style="cursor: pointer;" class="active-chart-row">
                 <td>
+                  <strong style="color: #fff; font-size: 11px;">17:02:14 UTC</strong>
+                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 1px;">⏳ Hace 1m 20s</div>
+                </td>
+                <td>
                   <strong style="color: #fff; font-size: 11px;">SOL/USDC</strong>
-                  <div style="font-size: 8.5px; color: var(--text-dim);">$181.46 · Kraken Pro MiCA</div>
-                </td>
-                <td>
-                  <span class="direction-badge bull">
-                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 ENTRÓ COMPRANDO
-                  </span>
-                </td>
-                <td>
-                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $181.40</div>
-                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $185.94</div>
-                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $179.95</div>
-                </td>
-                <td>
-                  <div class="reason-box">
-                    <strong style="color: var(--cyan);">ESP. #601:</strong> Ruptura con volumen en Raydium DEX + confirmación alcista en cinta Kraken (Mente: Livermore).
+                  <div style="margin-top: 2px;">
+                    <span class="direction-badge bull"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 COMPRÓ (SUBE)</span>
                   </div>
                 </td>
                 <td>
-                  <span class="pnl-badge-floating win">+$0.32 USDC (+0.47%)</span>
-                  <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
+                  <div style="font-size: 9.5px; color: var(--text-main); font-weight: 600;">Bajó barato (RSI 29)</div>
+                  <div style="font-size: 8px; color: var(--text-dim); margin-top: 1px;">Soporte Raydium DEX</div>
+                </td>
+                <td>
+                  <div style="font-size: 9.5px; color: var(--text-muted);"><span style="color: var(--text-dim);">Entró:</span> $181.40</div>
+                  <div style="font-size: 10.5px; font-weight: 700; color: var(--green);"><span style="color: var(--text-dim);">Ahora:</span> $181.76</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--red);">$181.18</strong>
+                  <div style="font-size: 8px; color: var(--red); margin-top: 1px;">-0.12% límite</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--green);">$181.76</strong>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">+0.20% ganancia</div>
+                </td>
+                <td>
+                  <span class="pnl-badge-floating win" style="font-size: 9.5px; font-weight: 800;">+$0.36 USD</span>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">(+0.20%) EN META</div>
                 </td>
               </tr>
               <tr onclick="onTableRowClick('ETH/USDC', 1)" style="cursor: pointer;">
                 <td>
+                  <strong style="color: #fff; font-size: 11px;">17:01:45 UTC</strong>
+                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 1px;">⏳ Hace 1m 49s</div>
+                </td>
+                <td>
                   <strong style="color: #fff; font-size: 11px;">ETH/USDC</strong>
-                  <div style="font-size: 8.5px; color: var(--text-dim);">$2,399.98 · Kraken Pro MiCA</div>
-                </td>
-                <td>
-                  <span class="direction-badge bear">
-                    <span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> 🔴 ENTRÓ A LA BAJA
-                  </span>
-                </td>
-                <td>
-                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $2,408.10</div>
-                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $2,347.90</div>
-                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $2,427.36</div>
-                </td>
-                <td>
-                  <div class="reason-box">
-                    <strong style="color: var(--cyan);">ESP. #601:</strong> Rechazo contundente en resistencia $2,410 + Divergencia bajista en libro Kraken (Mente: Tudor Jones).
+                  <div style="margin-top: 2px;">
+                    <span class="direction-badge bear"><span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> 🔴 ENTRÓ A LA BAJA</span>
                   </div>
                 </td>
                 <td>
-                  <span class="pnl-badge-floating win">+$0.21 USDC (+0.34%)</span>
-                  <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
+                  <div style="font-size: 9.5px; color: var(--text-main); font-weight: 600;">Rechazo en techo 1m</div>
+                  <div style="font-size: 8px; color: var(--text-dim); margin-top: 1px;">Divergencia bajista</div>
+                </td>
+                <td>
+                  <div style="font-size: 9.5px; color: var(--text-muted);"><span style="color: var(--text-dim);">Entró:</span> $2,408.10</div>
+                  <div style="font-size: 10.5px; font-weight: 700; color: var(--green);"><span style="color: var(--text-dim);">Ahora:</span> $2,402.80</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--red);">$2,410.99</strong>
+                  <div style="font-size: 8px; color: var(--red); margin-top: 1px;">-0.12% límite</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--green);">$2,402.80</strong>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">+0.22% ganancia</div>
+                </td>
+                <td>
+                  <span class="pnl-badge-floating win" style="font-size: 9.5px; font-weight: 800;">+$0.22 USD</span>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">(+0.22%) EN META</div>
                 </td>
               </tr>
               <tr onclick="onTableRowClick('BNB/USDC', 2)" style="cursor: pointer;">
                 <td>
+                  <strong style="color: #fff; font-size: 11px;">17:03:02 UTC</strong>
+                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 1px;">⏳ Hace 32s</div>
+                </td>
+                <td>
                   <strong style="color: #fff; font-size: 11px;">BNB/USDC</strong>
-                  <div style="font-size: 8.5px; color: var(--text-dim);">$720.26 · Kraken Pro MiCA</div>
-                </td>
-                <td>
-                  <span class="direction-badge bull">
-                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 ENTRÓ COMPRANDO
-                  </span>
-                </td>
-                <td>
-                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $718.50</div>
-                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $736.46</div>
-                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $712.75</div>
-                </td>
-                <td>
-                  <div class="reason-box">
-                    <strong style="color: var(--cyan);">ESP. #601:</strong> RSI 30.2 en sobreventa extrema + acumulación institucional en $718 USDC (Mente: Tudor Jones + Livermore).
+                  <div style="margin-top: 2px;">
+                    <span class="direction-badge bull"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 COMPRÓ (SUBE)</span>
                   </div>
                 </td>
                 <td>
-                  <span class="pnl-badge-floating win">+$0.18 USDC (+0.24%)</span>
-                  <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
+                  <div style="font-size: 9.5px; color: var(--text-main); font-weight: 600;">Rompió techo con volumen</div>
+                  <div style="font-size: 8px; color: var(--text-dim); margin-top: 1px;">Acumulación $718</div>
+                </td>
+                <td>
+                  <div style="font-size: 9.5px; color: var(--text-muted);"><span style="color: var(--text-dim);">Entró:</span> $718.50</div>
+                  <div style="font-size: 10.5px; font-weight: 700; color: var(--green);"><span style="color: var(--text-dim);">Ahora:</span> $720.26</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--red);">$717.64</strong>
+                  <div style="font-size: 8px; color: var(--red); margin-top: 1px;">-0.12% límite</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--green);">$720.08</strong>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">+0.22% ganancia</div>
+                </td>
+                <td>
+                  <span class="pnl-badge-floating win" style="font-size: 9.5px; font-weight: 800;">+$0.24 USD</span>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">(+0.24%) GANANDO</div>
                 </td>
               </tr>
               <tr onclick="onTableRowClick('PAXG/USDC', 3)" style="cursor: pointer;">
                 <td>
+                  <strong style="color: #fff; font-size: 11px;">16:58:10 UTC</strong>
+                  <div style="font-size: 8.5px; color: var(--green); margin-top: 1px;">🕒 SALIÓ: 17:01:20 UTC</div>
+                </td>
+                <td>
                   <strong style="color: #fff; font-size: 11px;">PAXG/USDC (Oro)</strong>
-                  <div style="font-size: 8.5px; color: var(--text-dim);">$3,998.45 · Oro Wall Street</div>
-                </td>
-                <td>
-                  <span class="direction-badge bull">
-                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 ENTRÓ COMPRANDO
-                  </span>
-                </td>
-                <td>
-                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $3,992.00</div>
-                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $4,091.80</div>
-                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $3,960.06</div>
-                </td>
-                <td>
-                  <div class="reason-box">
-                    <strong style="color: var(--gold);">ESP. #701:</strong> Oro físico superando los $4,000/oz por pánico macro y deuda global (Mente: Soros).
+                  <div style="margin-top: 2px;">
+                    <span class="direction-badge" style="background: rgba(16, 185, 129, 0.2); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.4);"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">check_circle</span> ✅ YA VENDIÓ (CERRADA)</span>
                   </div>
                 </td>
                 <td>
-                  <span class="pnl-badge-floating win">+$0.12 USDC (+0.16%)</span>
-                  <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
+                  <div style="font-size: 9.5px; color: var(--text-main); font-weight: 600;">Oro rompe $4,000/oz</div>
+                  <div style="font-size: 8px; color: var(--text-dim); margin-top: 1px;">Meta lograda</div>
+                </td>
+                <td>
+                  <div style="font-size: 9.5px; color: var(--text-muted);"><span style="color: var(--text-dim);">Entró:</span> $3,992.00</div>
+                  <div style="font-size: 10.5px; font-weight: 700; color: var(--green);"><span style="color: var(--text-dim);">Salió:</span> $3,998.45</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--red);">$3,987.21</strong>
+                  <div style="font-size: 8px; color: var(--red); margin-top: 1px;">-0.12% límite</div>
+                </td>
+                <td>
+                  <strong style="font-size: 10px; color: var(--green);">$3,998.39</strong>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">+0.16% meta</div>
+                </td>
+                <td>
+                  <span class="pnl-badge-floating win" style="font-size: 9.5px; font-weight: 800;">+$0.16 USD</span>
+                  <div style="font-size: 8px; color: var(--green); margin-top: 1px;">✅ COBRADO EN CUENTA</div>
                 </td>
               </tr>
             </tbody>
@@ -642,6 +655,10 @@
                 <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span>
                 <span>ESPEJO TELEGRAM (SALA DE MANDO 10K)</span>
               </button>
+              <button class="activity-tab-btn" id="tabBtnCuts" onclick="switchTradingActivityTab('CUTS')">
+                <span class="material-symbols-rounded icon-xs gold">history_toggle_off</span>
+                <span>📊 CORTES HORARIOS DE BULL &amp; BEAR</span>
+              </button>
             </div>
             <span class="activity-meta-tag font-mono" id="activityMetaTag">0% HUMO · PRECIOS KRAKEN 100% REALES · CANDADO BREAKEVEN +0.35%</span>
           </div>
@@ -674,6 +691,13 @@
                 <div style="text-align: center; color: var(--text-muted); padding: 10px;">
                   Canal Telegram operativo: SALA DE MANDO 10K. Esperando despacho...
                 </div>
+              </div>
+            </div>
+
+            <!-- PESTAÑA 3: CORTES HORARIOS DE BULL & BEAR -->
+            <div class="activity-tab-view" id="viewCuts" style="display: none;">
+              <div class="stream-logs-list" id="hourlyCutsContainer" style="padding: 6px;">
+                <!-- Historial de cortes de 60 minutos renderizado dinámicamente -->
               </div>
             </div>
           </div>
