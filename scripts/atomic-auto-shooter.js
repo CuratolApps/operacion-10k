@@ -106,7 +106,7 @@ async function scanChain(key, state, opts) {
   // 2) DOBLE LLAVE DE LAS NEBULOSAS ESCOLTAS (Abridora >=95% + Guardaespaldas 5 Candados)
   const escort = await evaluateEscortPairForRoute(key, cand, prov);
   st.escortPair = escort;
-  if (!escort.authorized || escort.score < 95) {
+  if (!escort.nebulaEscortCleared || !escort.authorized || escort.score < 95) {
     st.state = "NEBULA_DOBLE_LLAVE_BLOQUEADA";
     st.escortReason = `${escort.oddNebula.id}: ${escort.oddNebula.status} | ${escort.evenNebula.id}: ${escort.evenNebula.status}`;
     return { st };

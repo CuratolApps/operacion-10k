@@ -1,4 +1,4 @@
-name: ÁREA 501 - Sniper Atómico 24/7 (Observadores + 32 Nebulosas + Disparo)
+name: "ÁREA 501 - Sniper Atómico 24/7 (Observadores + 32 Nebulosas + Disparo)"
 
 on:
   schedule:
@@ -28,7 +28,7 @@ env:
 
 jobs:
   sniper-loop:
-    name: Bucle 24/7 · Observadores + 32 Nebulosas + Sniper Atómico
+    name: "Bucle 24/7 · Observadores + 32 Nebulosas + Sniper Atómico"
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -43,30 +43,30 @@ jobs:
       AUTO_SHOOTER_DRY: ${{ github.event.inputs.dry_run == 'true' && '1' || '0' }}
 
     steps:
-      - name: 📥 Clonar repositorio
+      - name: "📥 Clonar repositorio"
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ⚙️ Configurar Node.js 24 LTS
+      - name: "⚙️ Configurar Node.js 24 LTS"
         uses: actions/setup-node@v4
         with:
           node-version: '24'
 
-      - name: 📦 Instalar dependencias de forma resiliente
+      - name: "📦 Instalar dependencias de forma resiliente"
         run: npm install --no-audit --no-fund
 
-      - name: 🚀 Bucle Continuo: Observadores ➔ 32 Nebulosas (Doble Llave) ➔ Sniper Atómico
+      - name: "🚀 Bucle Continuo - Observadores, 32 Nebulosas (Doble Llave) y Sniper"
         shell: bash
         run: |
           DUR="${{ github.event.inputs.duration_sec || '260' }}"
           echo "========================================================================="
           echo "🌌 INICIANDO BUCLE CONTINUO DE SNIPING ($DUR seg): ÁREA 501"
           echo "========================================================================="
-          node scripts/sniper-continuous-daemon.js --duration "$DUR" --interval 4
+          node scripts/sniper-continuous-daemon.js --duration "$DUR" --interval 3
 
-      - name: 💾 Sincronizar telemetría hacia Git
+      - name: "💾 Sincronizar telemetría hacia Git"
         if: always()
         shell: bash
         run: |

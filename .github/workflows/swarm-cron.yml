@@ -1,4 +1,4 @@
-name: ÁREA 501 - Swarm Engine Automation
+name: "ÁREA 501 - Swarm Engine Automation"
 
 on:
   schedule:
@@ -24,7 +24,7 @@ env:
 
 jobs:
   run-swarm:
-    name: Ejecutar Ronda de Enjambre Multi-Red
+    name: "Ejecutar Ronda de Enjambre Multi-Red"
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
@@ -41,21 +41,21 @@ jobs:
       # 🛑 X/Twitter BLINDADO: sin credenciales X_* en este job mientras @yozapata está en revisión.
 
     steps:
-      - name: 📥 Clonar repositorio
+      - name: "📥 Clonar repositorio"
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ⚙️ Configurar Node.js 24 LTS
+      - name: "⚙️ Configurar Node.js 24 LTS"
         uses: actions/setup-node@v4
         with:
           node-version: '24'
 
-      - name: 📦 Instalar dependencias de forma resiliente
+      - name: "📦 Instalar dependencias de forma resiliente"
         run: npm install --no-audit --no-fund
 
-      - name: 🚀 Ejecutar Carrusel Omnichain + Radar 500 Satélites
+      - name: "🚀 Ejecutar Carrusel Omnichain + Radar 500 Satélites"
         shell: bash
         run: |
           run_safe() {
@@ -104,7 +104,7 @@ jobs:
 
           echo "✅ [SWARM-CRON]: Ronda omnichain ejecutada con timeouts seguros de 180s por paso."
 
-      - name: 💾 Sincronizar Telemetría al Dashboard
+      - name: "💾 Sincronizar Telemetría al Dashboard"
         if: always()
         run: |
           git config user.name "Operacion10K-Bot"
@@ -120,7 +120,7 @@ jobs:
             done
           fi
 
-      - name: 📦 Guardar Artefacto de Telemetría
+      - name: "📦 Guardar Artefacto de Telemetría"
         uses: actions/upload-artifact@v4
         if: always()
         continue-on-error: true

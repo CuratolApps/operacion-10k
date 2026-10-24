@@ -617,6 +617,7 @@ async function evaluateEscortPairForRoute(chainKey, candidate, provider = null) 
 
   return {
     authorized: doubleKeyAuthorized,
+    nebulaEscortCleared: doubleKeyAuthorized,
     score: avgScore,
     chainKey,
     oddNebula: {

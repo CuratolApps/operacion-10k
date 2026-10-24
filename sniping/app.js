@@ -1816,14 +1816,14 @@ function renderEscortNebulasUi() {
   const cand1 = liveRadar.polygon;
   const odd1Score = (cand1 && cand1.netUsdc >= 0.03) ? Math.min(100, Math.floor(95 + (cand1.netUsdc / 0.10) * 5)) : 98;
   const odd1Status = (cand1 && cand1.netUsdc >= 0.03) ? "AUTORIZANDO ENTRADA" : "ABRIENDO RUTA (>=95%)";
-  if (elOdd1) elOdd1.textContent = `🌌 NEBULA ESCOLTA #01: ${odd1Status} (CERTEZA ${odd1Score}%)`;
-  if (elEven1) elEven1.textContent = `🛡️ NEBULA ESCOLTA #02: CAMINO LIMPIO 5/5 CANDADOS — 24/7 ACTIVO`;
+  if (elOdd1) elOdd1.textContent = `🌌 ESCOLTA 24/7: NEBULA-01 ABRIDORA >=${odd1Score}% (${odd1Status})`;
+  if (elEven1) elEven1.textContent = `🛡️ NEBULA-02: GUARDAESPALDAS 5/5 CANDADOS OK — 24/7 ACTIVO`;
 
   const cand2 = liveRadar.bsc;
   const odd2Score = (cand2 && cand2.netUsdc >= 0.03) ? Math.min(100, Math.floor(95 + (cand2.netUsdc / 0.10) * 5)) : 97;
   const odd2Status = (cand2 && cand2.netUsdc >= 0.03) ? "AUTORIZANDO ENTRADA" : "ABRIENDO RUTA (>=95%)";
-  if (elOdd2) elOdd2.textContent = `🌌 NEBULA ESCOLTA #03: ${odd2Status} (CERTEZA ${odd2Score}%)`;
-  if (elEven2) elEven2.textContent = `🛡️ NEBULA ESCOLTA #04: CAMINO LIMPIO 5/5 CANDADOS — 24/7 ACTIVO`;
+  if (elOdd2) elOdd2.textContent = `🌌 ESCOLTA 24/7: NEBULA-03 ABRIDORA >=${odd2Score}% (${odd2Status})`;
+  if (elEven2) elEven2.textContent = `🛡️ NEBULA-04: GUARDAESPALDAS 5/5 CANDADOS OK — 24/7 ACTIVO`;
 }
 
 function atomicRadarModalInner(chain) {

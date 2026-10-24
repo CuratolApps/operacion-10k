@@ -22,7 +22,7 @@ const parseArg = (flag, def) => {
   return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : def;
 };
 
-const INTERVAL_SEC = Math.max(2, Number(parseArg("--interval", 4)));
+const INTERVAL_SEC = Math.max(2, Number(parseArg("--interval", 3)));
 const DURATION_SEC = Number(parseArg("--duration", 0)); // 0 = infinito
 const DRY_RUN = process.argv.includes("--dry-run") || process.env.AUTO_SHOOTER_DRY === "1";
 
