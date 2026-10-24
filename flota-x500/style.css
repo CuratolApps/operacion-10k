@@ -143,24 +143,29 @@ body.area501-flota-body {
 
 /* Tarjeta 1: Identidad Área 501 & Conectividad Cloud */
 .nav-identity-card {
-  width: clamp(225px, 17vw, 255px);
-  min-width: 215px;
-  max-width: 265px;
+  width: clamp(265px, 20vw, 305px);
+  min-width: 260px;
+  max-width: 310px;
   flex-shrink: 0;
-  border-left: 3px solid var(--cyan);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
   padding: 4px 10px;
+  border-color: rgba(6, 182, 212, 0.35);
+  border-left: 3px solid var(--cyan);
 }
 
 .id-card-top-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .shield-lock-icon-badge {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
   background: rgba(0, 240, 255, 0.12);
   border: 1px solid var(--border-cyan);
   display: flex;
@@ -170,56 +175,24 @@ body.area501-flota-body {
   flex-shrink: 0;
 }
 
+.shield-lock-icon-badge .material-symbols-rounded {
+  font-size: 14px !important;
+}
+
 .brand-tag {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.8px;
-  color: var(--text-main);
+  letter-spacing: 0.03em;
+  color: #fff;
   white-space: nowrap;
 }
 
 .id-card-sub-row {
   display: flex;
   align-items: center;
-  margin-top: 3px;
-  font-family: var(--font-mono);
-}
-
-.id-pills-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  flex-wrap: nowrap;
-}
-
-.id-cloud-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: var(--text-main);
-  white-space: nowrap;
-  letter-spacing: 0.2px;
-}
-
-.id-cloud-pill.pill-cf {
-  background: rgba(0, 255, 136, 0.08);
-  border-color: rgba(0, 255, 136, 0.3);
-  color: #34d399;
-}
-
-.id-cloud-pill.pill-tg {
-  background: rgba(56, 189, 248, 0.08);
-  border-color: rgba(56, 189, 248, 0.3);
-  color: #38bdf8;
+  gap: 5px;
+  padding-left: 2px;
 }
 
 .pulse-dot-green {
@@ -236,6 +209,34 @@ body.area501-flota-body {
   0% { opacity: 0.6; transform: scale(0.9); }
   50% { opacity: 1; transform: scale(1.15); }
   100% { opacity: 0.6; transform: scale(0.9); }
+}
+
+.id-pills-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.id-cloud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.id-cloud-pill .material-symbols-rounded {
+  font-size: 11px !important;
 }
 
 
