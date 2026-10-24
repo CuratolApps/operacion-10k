@@ -57,7 +57,7 @@ jobs:
       - name: "📦 Instalar dependencias de forma resiliente"
         run: npm install --no-audit --no-fund
 
-      - name: "🚀 Bucle Continuo - Observadores, 32 Nebulosas (Doble Llave) y Sniper"
+      - name: "🚀 Bucle Continuo - Observadores a 32 Nebulosas a Sniper"
         shell: bash
         run: |
           DUR="${{ github.event.inputs.duration_sec || '260' }}"
