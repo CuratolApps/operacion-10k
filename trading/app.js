@@ -33,6 +33,11 @@ const QUANT_CONDITIONS_POOL = [
   { text: "Bajó barato (RSI 29)", sub: "Zona de sobreventa" }
 ];
 
+const _sessionInitTimeMs = Date.now();
+function getUtcTimeFormatted(ts) {
+  return new Date(ts || Date.now()).toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+}
+
 const REAL_MONEY_VALVE = false;
 const MAX_ACTIVE_TRADES = 2; // Máximo 2 a 3 operaciones simultáneas de alta probabilidad (Filtro #00)
 const COMMISSION_RATE_PCT = 0.05; // 0.05% por leg (0.10% roundtrip en Kraken) -> $0.10 USD en lote de $100
@@ -48,13 +53,13 @@ const DEFAULT_PROPOSALS = [
     conditionSub: "Soporte Raydium DEX",
     price: 181.46,
     entryPrice: 181.40,
-    entryTimestampMs: Date.now() - 80000,
-    entryTimeFormatted: "17:02:14 UTC",
+    entryTimestampMs: _sessionInitTimeMs - 80000,
+    entryTimeFormatted: getUtcTimeFormatted(_sessionInitTimeMs - 80000),
     takeProfitPct: 0.32,
     stopLossPct: 0.15,
     takeProfitPrice: 181.98,
     stopLossPrice: 181.13,
-    floatingPnlUsdc: 0.26,
+    floatingPnlUsdc: 0.06,
     exchange: "Kraken Pro",
     botId: "#601"
   },
@@ -68,8 +73,8 @@ const DEFAULT_PROPOSALS = [
     conditionSub: "Acumulación $718",
     price: 720.26,
     entryPrice: 718.50,
-    entryTimestampMs: Date.now() - 32000,
-    entryTimeFormatted: "17:03:02 UTC",
+    entryTimestampMs: _sessionInitTimeMs - 32000,
+    entryTimeFormatted: getUtcTimeFormatted(_sessionInitTimeMs - 32000),
     takeProfitPct: 0.30,
     stopLossPct: 0.15,
     takeProfitPrice: 720.66,
@@ -222,7 +227,7 @@ const DEFAULT_PROPOSALS = [
 
 const savedPracticeBal = (typeof localStorage !== "undefined" && localStorage.getItem("area501_practice_balance_v1"))
   ? parseFloat(localStorage.getItem("area501_practice_balance_v1"))
-  : 1002.36;
+  : 1000.00;
 
 const savedSessionStart = (typeof localStorage !== "undefined" && parseInt(localStorage.getItem("area501_session_start_ms"), 10))
   ? parseInt(localStorage.getItem("area501_session_start_ms"), 10)
@@ -236,7 +241,7 @@ if (typeof localStorage !== "undefined" && !localStorage.getItem("area501_sessio
 
 const savedFees = (typeof localStorage !== "undefined" && localStorage.getItem("area501_total_fees_usdc"))
   ? parseFloat(localStorage.getItem("area501_total_fees_usdc"))
-  : 0.40;
+  : 0.00;
 
 // Estado reactivo global del Dojo
 const TradingState = {
@@ -247,19 +252,19 @@ const TradingState = {
   premieres: [],
   krakenTicksCount: 0,
   lastKrakenFetchTime: null,
-  practiceBalanceUsdc: isNaN(savedPracticeBal) ? 1002.36 : savedPracticeBal,
+  practiceBalanceUsdc: isNaN(savedPracticeBal) ? 1000.00 : savedPracticeBal,
   audit: {
     activeTarget: "MIDNIGHT", // "MIDNIGHT" o "GUARD_6H"
     sessionStartTimeMs: savedSessionStart,
     guardDurationMs: 6 * 3600 * 1000, // 6 Horas = 21,600,000 ms
-    totalFeesUsdc: isNaN(savedFees) ? 0.40 : savedFees,
+    totalFeesUsdc: isNaN(savedFees) ? 0.00 : savedFees,
     midnightTriggered: false,
     guard6hTriggered: false,
     lastReportSentMs: 0
   },
   closedTrades: [
     {
-      exitTimeFormatted: "17:01:20 UTC",
+      exitTimeFormatted: getUtcTimeFormatted(_sessionInitTimeMs - 190000),
       durationStr: "3m 10s",
       pair: "PAXG/USDC",
       direction: "BULL",
@@ -273,7 +278,7 @@ const TradingState = {
       status: "WIN"
     },
     {
-      exitTimeFormatted: "16:55:40 UTC",
+      exitTimeFormatted: getUtcTimeFormatted(_sessionInitTimeMs - 350000),
       durationStr: "1m 45s",
       pair: "SOL/USDC",
       direction: "BULL",
@@ -287,7 +292,7 @@ const TradingState = {
       status: "WIN"
     },
     {
-      exitTimeFormatted: "16:48:15 UTC",
+      exitTimeFormatted: getUtcTimeFormatted(_sessionInitTimeMs - 510000),
       durationStr: "2m 10s",
       pair: "BNB/USDC",
       direction: "BULL",
@@ -301,7 +306,7 @@ const TradingState = {
       status: "WIN"
     },
     {
-      exitTimeFormatted: "16:40:02 UTC",
+      exitTimeFormatted: getUtcTimeFormatted(_sessionInitTimeMs - 720000),
       durationStr: "45s",
       pair: "ETH/USDC",
       direction: "BEAR",
@@ -501,7 +506,7 @@ const BOX8_TOKENS_CONFIG = [
 // =============================================================================
 function hydrateFromStorageInstant() {
   try {
-    const raw = window.__PRELOADED_BULL_BEAR__ || (typeof localStorage !== "undefined" && (localStorage.getItem("area501_bull_bear_tv_v1") || localStorage.getItem("area501_bull_bear_v1")) ? JSON.parse(localStorage.getItem("area501_bull_bear_tv_v1") || localStorage.getItem("area501_bull_bear_v1")) : null);
+    const raw = window.__PRELOADED_BULL_BEAR__ || (typeof localStorage !== "undefined" && (localStorage.getItem("area501_live_sim_state_v2") || localStorage.getItem("area501_bull_bear_tv_v1") || localStorage.getItem("area501_bull_bear_v1")) ? JSON.parse(localStorage.getItem("area501_live_sim_state_v2") || localStorage.getItem("area501_bull_bear_tv_v1") || localStorage.getItem("area501_bull_bear_v1")) : null);
     if (raw && typeof raw === "object") {
       if (raw.activeMainView && ["TV", "BOTS", "NEWS"].includes(raw.activeMainView)) {
         TvChartState.activeMainView = raw.activeMainView;
@@ -563,6 +568,7 @@ function persistBullBearSnapshot() {
         practiceBalanceUsdc: TradingState.practiceBalanceUsdc,
         audit: TradingState.audit
       };
+      localStorage.setItem("area501_live_sim_state_v2", JSON.stringify(snap));
       localStorage.setItem("area501_bull_bear_tv_v1", JSON.stringify(snap));
       localStorage.setItem("area501_bull_bear_v1", JSON.stringify(snap));
       if (TradingState.audit?.sessionStartTimeMs) {
@@ -575,51 +581,108 @@ function persistBullBearSnapshot() {
   } catch (_) {}
 }
 
+// Gestor de Timers Únicos para eliminar titileo por intervalos superpuestos
+window.__area501Timers = window.__area501Timers || {};
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("[ÁREA 501] Iniciando Mesa Ejecutiva de Operaciones Bull & Bear (Pura Liquidez USDC)...");
 
-  // Hidratar inmediatamente desde localStorage si hay snapshot disponible
+  // 1. Limpiar cualquier timer previo para garantizar un único bucle maestro
+  if (window.__area501Timers) {
+    Object.values(window.__area501Timers).forEach(id => clearInterval(id));
+  }
+  window.__area501Timers = {};
+
+  // 2. Hidratar inmediatamente desde localStorage si hay snapshot disponible
   hydrateFromStorageInstant();
 
-  // Inicializar cronómetros duales de auditoría técnica (12:00 medianoche y 6H)
+  // 3. Inicializar cronómetros duales de auditoría técnica (12:00 medianoche y 6H)
   initAuditSystem();
 
-  // Inicializar cronómetro de corte de 60 minutos en vivo
-  startHourlyCutoffTimer();
-
-  // Inicializar contenido de la watchlist lateral (Estrenos #801 por defecto)
+  // 4. Inicializar contenido de la watchlist lateral (Estrenos #801 por defecto)
   renderWatchlistContent();
 
-  // Iniciar reloj maestro UTC con alineación exacta en milisegundo 0
-  startMasterUtcClock();
+  // 5. Iniciar bucle maestro único de 1s (Reloj UTC, Conteo 60m, Auditoría, Duración)
+  startMasterLoops();
 
-  // Actualizar sesión horaria activa (Londres / NY / Asia)
+  // 6. Actualizar sesión horaria activa (Londres / NY / Asia)
   updateMarketSessionPill();
 
-  // Enlazar botón de candado inmediatamente
+  // 7. Enlazar botón de candado inmediatamente
   setupArea501LockoutBtn();
 
-  // Cargar telemetría inicial fresca
+  // 8. Cargar telemetría inicial fresca
   loadInitialTelemetry();
 
-  // Bucle de consulta a Kraken Public API cada 2 segundos
+  // 9. Bucle de consulta a Kraken Public API cada 2 segundos
   startKrakenLiveFeed();
 
-  // Bucle de consulta a DEXScreener para Box 8 cada 20 segundos
+  // 10. Bucle de consulta a DEXScreener para Box 8 cada 20 segundos
   startDexAndGoPlusLiveFeed();
 
-  // Sincronización periódica de telemetría completa cada 30 segundos
-  setInterval(() => {
+  // 11. Sincronización periódica de telemetría completa cada 30 segundos
+  window.__area501Timers.sync30s = setInterval(() => {
     refreshTradingData(false);
   }, 30000);
 });
 
 // =============================================================================
-// CRONÓMETRO REGRESIVO DE 60 MINUTOS & CORTE HORARIO DE EFECTIVIDAD
+// BUCLE MAESTRO DE 1 SEGUNDO (UNIFICADO · CERO TEMBLOR · 0 RECURSIVIDAD)
 // =============================================================================
+function startMasterLoops() {
+  function master1sTick() {
+    // A. Reloj Maestro UTC en Vivo
+    const timeEl = document.getElementById("masterUtcClockTime");
+    const now = new Date();
+    if (timeEl) {
+      timeEl.textContent = now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+    }
+
+    // B. Conteo regresivo de corte de 60 minutos
+    updateHourlyCountdown();
+
+    // C. Conteo regresivo de auditoría (12:00 medianoche y 6H)
+    updateAuditCountdowns();
+
+    // D. Actualizar contador "Hace Xm Xs" en vivo en la tabla de operaciones SIN recrear el DOM
+    updateLiveTradeDurations();
+  }
+
+  // Ejecución inmediata
+  master1sTick();
+
+  // Alinear con el segundo exacto
+  const delay = 1000 - (Date.now() % 1000);
+  setTimeout(() => {
+    master1sTick();
+    if (window.__area501Timers?.master1s) clearInterval(window.__area501Timers.master1s);
+    window.__area501Timers.master1s = setInterval(master1sTick, 1000);
+  }, delay);
+}
+
+function updateLiveTradeDurations() {
+  const tbody = document.getElementById("proposalsTbody");
+  if (!tbody) return;
+  const nowMs = Date.now();
+  (TradingState.proposals || []).forEach(p => {
+    if (p.status === "OPEN") {
+      const row = tbody.querySelector(`tr[data-pair="${p.pair}"]`);
+      if (row) {
+        const timeElapsedEl = row.querySelector('[data-field="time-elapsed"]');
+        if (timeElapsedEl) {
+          const elapsedSec = Math.max(1, Math.floor((nowMs - (p.entryTimestampMs || (nowMs - 60000))) / 1000));
+          const elapsedMins = Math.floor(elapsedSec / 60);
+          const remSec = elapsedSec % 60;
+          const elapsedStr = elapsedMins > 0 ? `${elapsedMins}m ${remSec}s` : `${remSec}s`;
+          timeElapsedEl.textContent = `⏳ Hace ${elapsedStr} (Sin Holdear)`;
+        }
+      }
+    }
+  });
+}
+
 function startHourlyCutoffTimer() {
   updateHourlyCountdown();
-  setInterval(updateHourlyCountdown, 1000);
 }
 
 function updateHourlyCountdown() {
@@ -732,20 +795,12 @@ function appendHourlyCutoffLog(record) {
   }
 }
 
-// Reloj Maestro UTC en Vivo con Alineación en ms 0 sin saltos al refrescar
+// Reloj Maestro UTC en Vivo (Gestionado por startMasterLoops)
 function startMasterUtcClock() {
   const timeEl = document.getElementById("masterUtcClockTime");
-  function tick() {
-    const now = new Date();
-    const utcStr = now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
-    if (timeEl) timeEl.textContent = utcStr;
+  if (timeEl) {
+    timeEl.textContent = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
   }
-  tick();
-  const delay = 1000 - (Date.now() % 1000);
-  setTimeout(() => {
-    tick();
-    setInterval(tick, 1000);
-  }, delay);
 }
 
 // Detección de Sesión Horaria Activa
@@ -859,15 +914,17 @@ async function refreshTradingData(manual = false) {
 let isKrakenFetchInProgress = false;
 
 function startKrakenLiveFeed() {
+  if (window.__area501Timers?.kraken2s) clearInterval(window.__area501Timers.kraken2s);
   fetchKrakenPricesDirect();
-  setInterval(() => {
+  window.__area501Timers.kraken2s = setInterval(() => {
     fetchKrakenPricesDirect();
   }, 2000);
 }
 
 function startDexAndGoPlusLiveFeed() {
+  if (window.__area501Timers?.dex20s) clearInterval(window.__area501Timers.dex20s);
   fetchDexOpportunitiesDirect();
-  setInterval(() => {
+  window.__area501Timers.dex20s = setInterval(() => {
     fetchDexOpportunitiesDirect();
   }, 20000);
 }
@@ -1356,10 +1413,10 @@ function updateLivePnlCards(floatingPnlTotal) {
   const closedPnlEl = document.getElementById("topClosedPnlMetric");
   const floatingPnlEl = document.getElementById("topFloatingPnlMetric");
 
-  const practiceBase = TradingState.practiceBalanceUsdc || 1000.46;
-  const currentFloating = (typeof floatingPnlTotal === "number" && !isNaN(floatingPnlTotal)) ? floatingPnlTotal : 0.46;
-  const totalAccountValue = practiceBase + currentFloating;
-  const netGainsToday = Math.max(0, totalAccountValue - 1000.00);
+  const balance = typeof TradingState.practiceBalanceUsdc === "number" ? TradingState.practiceBalanceUsdc : 1000.00;
+  const netGainsToday = balance - 1000.00;
+  const signStr = netGainsToday >= 0 ? "+" : "-";
+  const formattedGain = `${signStr}$${Math.abs(netGainsToday).toFixed(2)} USDC`;
 
   const totalOps = (TradingState.hourly?.opsThisHour || 0) + (TradingState.ledger?.closedWins || 0) + (TradingState.ledger?.closedLosses || 0) || 14;
   const wins = (TradingState.hourly?.winsThisHour || 0) + (TradingState.ledger?.closedWins || 0) || 14;
@@ -1367,7 +1424,7 @@ function updateLivePnlCards(floatingPnlTotal) {
   const efec = totalOps > 0 ? ((wins / totalOps) * 100).toFixed(1) : "100.0";
 
   if (practiceTitleEl) {
-    practiceTitleEl.textContent = `BILLETERA PRÁCTICA: $${practiceBase.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
+    practiceTitleEl.textContent = `BILLETERA PRÁCTICA: $${balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
   }
 
   if (badgeEl) {
@@ -1375,8 +1432,8 @@ function updateLivePnlCards(floatingPnlTotal) {
   }
 
   if (closedPnlEl) {
-    closedPnlEl.textContent = `LIQUIDEZ GANADA HOY: +$${netGainsToday.toFixed(2)} USDC`;
-    closedPnlEl.className = "metric-big-bold green-text";
+    closedPnlEl.textContent = `LIQUIDEZ GANADA HOY: ${formattedGain}`;
+    closedPnlEl.className = "metric-big-bold " + (netGainsToday >= 0 ? "green-text" : "red-text");
   }
 
   if (floatingPnlEl) {
@@ -1398,18 +1455,18 @@ function renderAllComponents() {
 }
 
 function renderTopNavCards() {
-  // Tarjeta 1: Identidad & Estado en Vivo
+  // Tarjeta 1: Identidad & Estado en Vivo (2 líneas limpias y legibles)
   const kStatus = document.getElementById("topKrakenStatus");
   const zenSub = document.getElementById("topZenStatusSub");
   if (kStatus) {
-    kStatus.textContent = "🟢 OPERANDO EN VIVO CADA 2s (KRAKEN REAL-TIME)";
+    kStatus.textContent = "🟢 OPERANDO EN VIVO · MENTE SERENA #00: 100%";
   }
   if (zenSub) {
     zenSub.textContent = "🧘‍♀️ Mente Serena #00: 100%";
   }
 
   // Tarjeta 2: Marcador de Liquidez & Efectividad en Vivo
-  updateLivePnlCards(0.46);
+  updateLivePnlCards(0);
 
   // Tarjeta 4: Capital Real Blindado (#501) - 100% Sin Desbordamiento
   const usdcEl = document.getElementById("topProtectedSniperUsdc");
@@ -1816,7 +1873,7 @@ function drawTradingViewCanvas() {
   ctx.stroke();
 
   // Texto limpio sobre la línea a la derecha con hora exacta de entrada
-  const entryTimeStr = trade.entryTimeFormatted || trade.entryTime || "17:02:14 UTC";
+  const entryTimeStr = trade.entryTimeFormatted || trade.entryTime || getUtcTimeFormatted();
   ctx.fillStyle = "#00F0FF";
   ctx.font = "bold 9px 'JetBrains Mono', monospace";
   ctx.textAlign = "right";
@@ -2228,6 +2285,9 @@ function renderPremieresRadar() {
 // =============================================================================
 // 7. MESA DE OPERACIONES EXPLICADAS EN VIVO (ESTRUCTURA DE 5 COLUMNAS CLARAS)
 // =============================================================================
+// =============================================================================
+// 7. MESA DE OPERACIONES EXPLICADAS EN VIVO (ESTRUCTURA DE 5 COLUMNAS CLARAS)
+// =============================================================================
 function renderProposalsTable() {
   const tbody = document.getElementById("proposalsTbody");
   if (!tbody) return;
@@ -2252,6 +2312,93 @@ function renderProposalsTable() {
 
   const nowMs = Date.now();
 
+  // Comprobar si podemos actualizar IN-PLACE sin tocar tbody.innerHTML (0 titileo)
+  const existingRows = Array.from(tbody.querySelectorAll("tr[data-pair]"));
+  const canUpdateInPlace = existingRows.length === list.length &&
+    existingRows.every((row, idx) => {
+      const p = list[idx];
+      return row.getAttribute("data-pair") === p.pair && row.getAttribute("data-status") === p.status;
+    });
+
+  if (canUpdateInPlace) {
+    list.forEach((p, idx) => {
+      const row = existingRows[idx];
+      const isStandby = p.status === "STANDBY";
+      const isClosedWin = p.status === "CLOSED_WIN";
+      const isClosedSl = p.status === "CLOSED_SL";
+      const isClosed = isClosedWin || isClosedSl;
+      const isBear = p.direction === "BEAR";
+      const isBe = p.breakevenActive === true;
+
+      // 1. Duración
+      const timeElapsedEl = row.querySelector('[data-field="time-elapsed"]');
+      if (timeElapsedEl && !isStandby && !isClosed) {
+        const elapsedSec = Math.max(1, Math.floor((nowMs - (p.entryTimestampMs || (nowMs - 60000))) / 1000));
+        const elapsedMins = Math.floor(elapsedSec / 60);
+        const remSec = elapsedSec % 60;
+        const elapsedStr = elapsedMins > 0 ? `${elapsedMins}m ${remSec}s` : `${remSec}s`;
+        timeElapsedEl.textContent = `⏳ Hace ${elapsedStr} (Sin Holdear)`;
+      }
+
+      // 2. Precio Kraken del par
+      const krakenPriceEl = row.querySelector('[data-field="pair-kraken-price"]');
+      if (krakenPriceEl) {
+        krakenPriceEl.textContent = "$" + formatPrice(p.price) + " Kraken";
+      }
+
+      // 5. Precio actual (Entró se mantiene 100% INMUTABLE)
+      const currentPriceEl = row.querySelector('[data-field="current-price"]');
+      if (currentPriceEl) {
+        let priceVal = isClosed ? (p.exitPrice || p.price) : p.price;
+        let prefix = isClosed ? "Salió: " : "Ahora: ";
+        currentPriceEl.innerHTML = `<span style="color: var(--text-dim);">${prefix}</span> $${formatPrice(priceVal)}`;
+        if (isStandby) {
+          currentPriceEl.style.color = "var(--text-muted)";
+        } else if (isClosed) {
+          currentPriceEl.style.color = isClosedWin ? "var(--green)" : p.status === "CLOSED_BE" ? "var(--cyan)" : "var(--red)";
+        } else {
+          currentPriceEl.style.color = p.priceDirection === "up" ? "var(--green)" : p.priceDirection === "down" ? "var(--red)" : "var(--text-main)";
+        }
+      }
+
+      // 6. Stop Loss / Breakeven / Take Profit
+      const slBeEl = row.querySelector('[data-field="sl-be-price"]');
+      if (slBeEl) {
+        const slPriceStr = "$" + formatPrice(p.stopLossPrice);
+        slBeEl.textContent = `${isBe ? '🛡️ BE: ' : '🛑 SL: '}${slPriceStr}`;
+        slBeEl.style.color = isBe ? "var(--cyan)" : "var(--red)";
+      }
+      const tpEl = row.querySelector('[data-field="tp-price"]');
+      if (tpEl) {
+        const tpPriceStr = "$" + formatPrice(p.takeProfitPrice);
+        const tpPctStr = "+" + (p.takeProfitPct || 0.30).toFixed(2) + "%";
+        tpEl.textContent = `🎯 TP: ${tpPriceStr} (${tpPctStr})`;
+      }
+
+      // 7. PnL en vivo
+      const pnlBadgeEl = row.querySelector('[data-field="pnl-badge"]');
+      const pnlSubEl = row.querySelector('[data-field="pnl-sub"]');
+      if (pnlBadgeEl && pnlSubEl && !isStandby && !isClosed) {
+        const diff = isBear ? (p.entryPrice - p.price) : (p.price - p.entryPrice);
+        const diffPct = (diff / p.entryPrice) * 100;
+        const pnlUsdc = p.floatingPnlUsdc !== undefined ? p.floatingPnlUsdc : (diffPct / 100) * 100;
+        const isPos = pnlUsdc >= 0;
+        const isNearMeta = diffPct >= (p.takeProfitPct || 0.30) * 0.8;
+
+        pnlBadgeEl.className = "pnl-badge-floating " + (isPos ? "win" : "loss");
+        pnlBadgeEl.textContent = `${isPos ? '+' : '-'}$${Math.abs(pnlUsdc).toFixed(2)} USD`;
+        pnlSubEl.style.color = isPos ? 'var(--green)' : 'var(--red)';
+        pnlSubEl.textContent = `(${isPos ? '+' : ''}${diffPct.toFixed(2)}%) ${isNearMeta ? 'EN META' : 'GANANDO'}`;
+      }
+
+      const isActiveChart = p.pair === TvChartState.activeSymbol;
+      if (isActiveChart) row.classList.add("active-chart-row");
+      else row.classList.remove("active-chart-row");
+    });
+    return;
+  }
+
+  // Renderizado completo de estructura si hubo cambio de filtro o apertura/cierre de posición
   tbody.innerHTML = list.map((p, idx) => {
     const isStandby = p.status === "STANDBY";
     const isBull = p.direction === "BULL";
@@ -2260,21 +2407,21 @@ function renderProposalsTable() {
     const isClosedSl = p.status === "CLOSED_SL";
     const isClosed = isClosedWin || isClosedSl;
 
-    // 1. 🕒 HORA ENTRADA / TIEMPO (Rotación rápida a USDC)
+    // 1. 🕒 HORA ENTRADA / TIEMPO
     let timeColHtml = "";
-    const entryTime = p.entryTimeFormatted || "17:02:14 UTC";
+    const entryTime = p.entryTimeFormatted || getUtcTimeFormatted();
     if (isStandby) {
       timeColHtml = `
-        <strong style="color: var(--text-muted); font-size: 11px;">En Espera</strong>
-        <div style="font-size: 10px; color: var(--text-dim); margin-top: 2px;">
+        <strong data-field="entry-time" style="color: var(--text-muted); font-size: 11px;">En Espera</strong>
+        <div data-field="time-elapsed" style="font-size: 10px; color: var(--text-dim); margin-top: 2px;">
           🧘‍♀️ Filtro #00 Activo
         </div>
       `;
     } else if (isClosed) {
-      const exitTime = p.exitTimeFormatted || "17:03:30 UTC";
+      const exitTime = p.exitTimeFormatted || getUtcTimeFormatted();
       timeColHtml = `
-        <strong style="color: #fff; font-size: 12px;">${entryTime}</strong>
-        <div style="font-size: 10px; color: ${isClosedWin ? 'var(--green)' : 'var(--red)'}; margin-top: 2px;">
+        <strong data-field="entry-time" style="color: #fff; font-size: 12px;">${entryTime}</strong>
+        <div data-field="time-elapsed" style="font-size: 10px; color: ${isClosedWin ? 'var(--green)' : 'var(--red)'}; margin-top: 2px;">
           🕒 SALIÓ: ${exitTime}
         </div>
       `;
@@ -2284,8 +2431,8 @@ function renderProposalsTable() {
       const remSec = elapsedSec % 60;
       const elapsedStr = elapsedMins > 0 ? `${elapsedMins}m ${remSec}s` : `${remSec}s`;
       timeColHtml = `
-        <strong style="color: #fff; font-size: 12px;">${entryTime}</strong>
-        <div style="font-size: 10px; color: var(--cyan); margin-top: 2px;">
+        <strong data-field="entry-time" style="color: #fff; font-size: 12px;">${entryTime}</strong>
+        <div data-field="time-elapsed" style="font-size: 10px; color: var(--cyan); margin-top: 2px;">
           ⏳ Hace ${elapsedStr} (Sin Holdear)
         </div>
       `;
@@ -2343,25 +2490,25 @@ function renderProposalsTable() {
     let pnlHtml = "";
     if (isStandby) {
       pnlHtml = `
-        <span class="pnl-badge-floating" style="background: rgba(255,255,255,0.03); color: var(--text-muted); border: 1px dashed rgba(255,255,255,0.15); font-size: 11px; font-weight: 700; padding: 3px 6px;">🔒 $0.00 (Standby)</span>
-        <div style="font-size: 9.5px; color: var(--text-dim); margin-top: 2px;">$0.00 Riesgo</div>
+        <span data-field="pnl-badge" class="pnl-badge-floating" style="background: rgba(255,255,255,0.03); color: var(--text-muted); border: 1px dashed rgba(255,255,255,0.15); font-size: 11px; font-weight: 700; padding: 3px 6px;">🔒 $0.00 (Standby)</span>
+        <div data-field="pnl-sub" style="font-size: 9.5px; color: var(--text-dim); margin-top: 2px;">$0.00 Riesgo</div>
       `;
     } else if (isClosedWin) {
       const winVal = p.finalPnlUsdc || 0.24;
       pnlHtml = `
-        <span class="pnl-badge-floating win" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">+$${winVal.toFixed(2)} USD</span>
-        <div style="font-size: 10px; color: var(--green); margin-top: 2px; font-weight: 700;">(+${(p.takeProfitPct || 0.30).toFixed(2)}%) EN META</div>
+        <span data-field="pnl-badge" class="pnl-badge-floating win" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">+$${winVal.toFixed(2)} USD</span>
+        <div data-field="pnl-sub" style="font-size: 10px; color: var(--green); margin-top: 2px; font-weight: 700;">(+${(p.takeProfitPct || 0.30).toFixed(2)}%) EN META</div>
       `;
     } else if (p.status === "CLOSED_BE") {
       pnlHtml = `
-        <span class="pnl-badge-floating" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4); font-size: 13px; font-weight: 800; padding: 4px 8px;">+$0.00 USD</span>
-        <div style="font-size: 10px; color: var(--cyan); margin-top: 2px; font-weight: 700;">🛡️ $0.00 BREAKEVEN</div>
+        <span data-field="pnl-badge" class="pnl-badge-floating" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4); font-size: 13px; font-weight: 800; padding: 4px 8px;">+$0.00 USD</span>
+        <div data-field="pnl-sub" style="font-size: 10px; color: var(--cyan); margin-top: 2px; font-weight: 700;">🛡️ $0.00 BREAKEVEN</div>
       `;
     } else if (isClosedSl) {
       const slVal = Math.abs(p.finalPnlUsdc || 0.25);
       pnlHtml = `
-        <span class="pnl-badge-floating loss" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">-$${slVal.toFixed(2)} USD</span>
-        <div style="font-size: 10px; color: var(--red); margin-top: 2px; font-weight: 700;">🛑 FRENO EJECUTADO</div>
+        <span data-field="pnl-badge" class="pnl-badge-floating loss" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">-$${slVal.toFixed(2)} USD</span>
+        <div data-field="pnl-sub" style="font-size: 10px; color: var(--red); margin-top: 2px; font-weight: 700;">🛑 FRENO EJECUTADO</div>
       `;
     } else {
       const diff = isBear ? (p.entryPrice - p.price) : (p.price - p.entryPrice);
@@ -2371,10 +2518,10 @@ function renderProposalsTable() {
       const pnlCls = isPos ? "win" : "loss";
       const isNearMeta = diffPct >= (p.takeProfitPct || 0.30) * 0.8;
       pnlHtml = `
-        <span class="pnl-badge-floating ${pnlCls}" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">
+        <span data-field="pnl-badge" class="pnl-badge-floating ${pnlCls}" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">
           ${isPos ? '+' : '-'}$${Math.abs(pnlUsdc).toFixed(2)} USD
         </span>
-        <div style="font-size: 10px; color: ${isPos ? 'var(--green)' : 'var(--red)'}; margin-top: 2px; font-weight: 700;">
+        <div data-field="pnl-sub" style="font-size: 10px; color: ${isPos ? 'var(--green)' : 'var(--red)'}; margin-top: 2px; font-weight: 700;">
           (${isPos ? '+' : ''}${diffPct.toFixed(2)}%) ${isNearMeta ? 'EN META' : 'GANANDO'}
         </div>
       `;
@@ -2383,7 +2530,7 @@ function renderProposalsTable() {
     const isActiveChart = p.pair === TvChartState.activeSymbol;
 
     return `
-      <tr onclick="onTableRowClick('${p.pair}', ${idx})" style="cursor: pointer;" class="${isActiveChart ? 'active-chart-row' : ''}">
+      <tr data-pair="${p.pair}" data-status="${p.status}" onclick="onTableRowClick('${p.pair}', ${idx})" style="cursor: pointer;" class="${isActiveChart ? 'active-chart-row' : ''}">
         <!-- 1. 🕒 HORA ENTRADA / TIEMPO -->
         <td>
           ${timeColHtml}
@@ -2392,7 +2539,7 @@ function renderProposalsTable() {
         <!-- 2. 🪙 PAR DONDE ENTRÓ -->
         <td>
           <strong style="color: #fff; font-size: 13px;">${coinSymbol}</strong>
-          <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">${krakenPriceStr} Kraken</div>
+          <div data-field="pair-kraken-price" style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">${krakenPriceStr} Kraken</div>
         </td>
 
         <!-- 3. 🐂🐻 QUÉ HACE BULL & BEAR -->
@@ -2409,13 +2556,13 @@ function renderProposalsTable() {
         <!-- 5. 💵 ENTRÓ A ➔ PRECIO AHORA -->
         <td>
           <div style="font-size: 11px; color: var(--text-muted);"><span style="color: var(--text-dim);">Entró:</span> ${entryPriceStr}</div>
-          <div style="font-size: 13px; font-weight: 800; color: ${currentPriceColor}; margin-top: 1px;"><span style="color: var(--text-dim);">${isClosed ? 'Salió:' : 'Ahora:'}</span> ${currentPriceStr}</div>
+          <div data-field="current-price" style="font-size: 13px; font-weight: 800; color: ${currentPriceColor}; margin-top: 1px;"><span style="color: var(--text-dim);">${isClosed ? 'Salió:' : 'Ahora:'}</span> ${currentPriceStr}</div>
         </td>
 
         <!-- 6. 🛑 FRENO #00 / 🎯 META USDC -->
         <td>
-          <strong style="font-size: 11px; color: ${isBe ? 'var(--cyan)' : 'var(--red)'};">${isBe ? '🛡️ BE: ' : '🛑 SL: '}${slPriceStr}</strong>
-          <div style="font-size: 11px; color: var(--green); font-weight: 700; margin-top: 2px;">🎯 TP: ${tpPriceStr} (${tpPctStr})</div>
+          <strong data-field="sl-be-price" style="font-size: 11px; color: ${isBe ? 'var(--cyan)' : 'var(--red)'};">${isBe ? '🛡️ BE: ' : '🛑 SL: '}${slPriceStr}</strong>
+          <div data-field="tp-price" style="font-size: 11px; color: var(--green); font-weight: 700; margin-top: 2px;">🎯 TP: ${tpPriceStr} (${tpPctStr})</div>
         </td>
 
         <!-- 7. 💰 LIQUIDEZ EN VIVO ($ USDC) -->
@@ -2427,6 +2574,7 @@ function renderProposalsTable() {
   }).join("");
 }
 
+let _lastClosedTradesHash = "";
 function renderClosedTradesStrip() {
   const tbody = document.getElementById("closedTradesTbody");
   const trades = TradingState.closedTrades || [];
@@ -2453,6 +2601,12 @@ function renderClosedTradesStrip() {
 
   if (!tbody) return;
 
+  const currentHash = trades.length + "_" + (trades[0]?.exitTimeFormatted || "") + "_" + (trades[0]?.gainUsdc || "");
+  if (_lastClosedTradesHash === currentHash && tbody.children.length > 0) {
+    return; // Evita reconstruir innerHTML si las operaciones cerradas no han cambiado
+  }
+  _lastClosedTradesHash = currentHash;
+
   if (trades.length === 0) {
     tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #64748b; padding: 14px; font-family: var(--font-mono);">💻 Esperando primeros cierres de Bull &amp; Bear... Sin operaciones cerradas aún.</td></tr>`;
     return;
@@ -2464,7 +2618,7 @@ function renderClosedTradesStrip() {
     const isSl = t.status === "SL";
 
     // 1. Hora de Cierre & Duración
-    const exitTime = t.exitTimeFormatted || "17:00:00 UTC";
+    const exitTime = t.exitTimeFormatted || getUtcTimeFormatted();
     const durRaw = t.durationStr || "1m 40s";
     const dur = durRaw.startsWith("Duró") ? `(${durRaw})` : `(Duró ${durRaw})`;
 
@@ -2951,16 +3105,15 @@ function initAuditSystem() {
       activeTarget: "MIDNIGHT",
       sessionStartTimeMs: Date.now() - 3600000,
       guardDurationMs: 6 * 3600 * 1000,
-      totalFeesUsdc: 0.40,
+      totalFeesUsdc: 0.00,
       midnightTriggered: false,
       guard6hTriggered: false,
       lastReportSentMs: 0
     };
   }
 
-  // Actualizar countdowns inmediatamente y cada 1 segundo
+  // Actualizar countdowns inmediatamente (el bucle maestro de 1s los mantiene en marcha)
   updateAuditCountdowns();
-  setInterval(updateAuditCountdowns, 1000);
 
   // Vincular eventos globales a window para invocar desde HTML
   window.selectAuditTarget = selectAuditTarget;
@@ -3172,12 +3325,12 @@ function generateAuditReportText(cutReason = "AUDITORÍA TÉCNICA // AJUSTE DE T
   const elapS = Math.floor((elapsedMs % 60000) / 1000);
   const elapsedFormatted = `${String(elapH).padStart(2, "0")}h ${String(elapM).padStart(2, "0")}m ${String(elapS).padStart(2, "0")}s`;
 
-  const practiceBase = TradingState.practiceBalanceUsdc || 1002.36;
+  const practiceBase = TradingState.practiceBalanceUsdc || 1000.00;
   const initialBal = 1000.00;
   const netDiff = practiceBase - initialBal;
   const netSign = netDiff >= 0 ? "+" : "-";
   const netPct = ((netDiff / initialBal) * 100).toFixed(2);
-  const totalFees = TradingState.audit?.totalFeesUsdc || 0.40;
+  const totalFees = TradingState.audit?.totalFeesUsdc || 0.00;
 
   const closed = TradingState.closedTrades || [];
   const totalOps = closed.length;

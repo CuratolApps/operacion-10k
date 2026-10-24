@@ -69,7 +69,7 @@ body.area501-trading-body {
   max-height: 100vh;
   overflow: hidden !important;
   display: grid;
-  grid-template-rows: 56px 34px minmax(0, 1fr) 40px;
+  grid-template-rows: 60px 34px minmax(0, 1fr) 40px;
   background-image:
     radial-gradient(circle at 10% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
     radial-gradient(circle at 88% 82%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
@@ -98,7 +98,26 @@ body.area501-trading-body {
 .green-text { color: var(--green); }
 .purple { color: var(--purple); }
 .red-text { color: var(--red); }
-.font-mono { font-family: var(--font-mono); }
+.font-mono,
+table,
+.quant-table,
+.ag-terminal-table,
+.metric-big-bold,
+.metric-sub-detail,
+.id-cloud-pill,
+.badge-tag-tiny,
+.live-clock-pill,
+.audit-targets-group,
+.audit-target-btn,
+.target-countdown,
+.ag-term-stats,
+.ag-stat-item,
+.pnl-badge-floating,
+.ag-pnl-pill {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
 
 /* =============================================================================
    EMBLEMA SVG INSTITUCIONAL: "BULL-HORNED BEAR" (OSO CON CUERNOS DE TORO)
@@ -153,13 +172,13 @@ body.area501-trading-body {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: stretch;
   gap: clamp(6px, 0.8vw, 10px);
-  padding: 6px 14px;
+  padding: 5px 14px;
   background: rgba(7, 9, 14, 0.95);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
   flex-shrink: 0;
-  height: 56px;
-  max-height: 56px;
+  height: 60px;
+  max-height: 60px;
   z-index: 100;
   box-sizing: border-box;
   overflow: hidden;
@@ -183,15 +202,26 @@ body.area501-trading-body {
 }
 
 #cardIdentityTop {
-  padding: 4px 10px;
+  padding: 6px 12px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+#cardIdentityTop #topKrakenStatus {
+  font-size: 11px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
 }
 
 .id-card-top-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
 }
 
 .brand-tag {
@@ -766,6 +796,10 @@ body.area501-trading-body {
   gap: 4px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
+  min-width: 148px;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 .audit-target-btn:hover {
@@ -785,6 +819,10 @@ body.area501-trading-body {
   font-weight: 800;
   color: #00FF88;
   text-shadow: 0 0 6px rgba(0, 255, 136, 0.35);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+  width: 78px;
+  text-align: left;
 }
 
 /* Botón Destacado: Copiar Reporte para Ajustar Tuercas */
@@ -833,6 +871,7 @@ body.area501-trading-body {
   inset: 0;
   background: rgba(3, 5, 8, 0.88);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -841,27 +880,33 @@ body.area501-trading-body {
   box-sizing: border-box;
 }
 
-.audit-report-modal-card {
-  width: 100%;
-  max-width: 820px;
-  max-height: 88vh;
-  background: #080a10;
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  border-radius: 10px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8), 0 0 24px rgba(245, 158, 11, 0.2);
+.audit-report-modal-card,
+.audit-modal-card {
+  width: min(760px, 92vw);
+  max-height: 82vh;
+  min-height: 420px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  background: #07090e;
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  z-index: 9999;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 25px rgba(245, 158, 11, 0.2);
+  box-sizing: border-box;
   overflow: hidden;
 }
 
 .audit-modal-header {
-  padding: 12px 18px;
-  background: rgba(255, 255, 255, 0.02);
+  padding: 0 0 14px 0;
+  background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .modal-header-left {
@@ -886,14 +931,56 @@ body.area501-trading-body {
   margin-top: 2px;
 }
 
+.modal-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
 .audit-modal-body {
-  padding: 16px 18px;
+  padding: 14px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex: 1 1 0;
+  flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
+}
+
+.audit-report-textarea {
+  width: 100%;
+  height: 260px;
+  max-height: 260px;
+  overflow-y: auto;
+  background: #030407;
+  color: #10b981;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  resize: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 158, 11, 0.3) transparent;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
 }
 
 .audit-modal-actions-bar {
@@ -901,19 +988,26 @@ body.area501-trading-body {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
 }
 
 .btn-modal-action {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
-  padding: 6px 14px;
-  border-radius: 6px;
+  height: 42px;
+  min-height: 42px;
+  flex-shrink: 0;
+  padding: 0 16px;
+  border-radius: 8px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-copy-primary {
@@ -926,6 +1020,7 @@ body.area501-trading-body {
 .btn-copy-primary:hover {
   background: #059669;
   box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+  transform: translateY(-1px);
 }
 
 .btn-tg-send {
@@ -939,6 +1034,20 @@ body.area501-trading-body {
   background: rgba(0, 240, 255, 0.28);
   border-color: var(--cyan);
   box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-close-modal {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+}
+
+.btn-close-modal:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .audit-toast-msg {
@@ -946,23 +1055,6 @@ body.area501-trading-body {
   color: #00FF88;
   font-weight: 700;
   animation: fadeIn 0.3s ease;
-}
-
-.audit-report-textarea {
-  width: 100%;
-  flex: 1 1 0;
-  min-height: 380px;
-  background: #040508;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: #e2e8f0;
-  padding: 12px;
-  font-size: 10px;
-  line-height: 1.5;
-  resize: none;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(245, 158, 11, 0.3) transparent;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .ag-term-stats {
