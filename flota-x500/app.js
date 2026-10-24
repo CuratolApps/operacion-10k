@@ -215,8 +215,8 @@ async function initFlotaApp() {
   // Realizar primer ping RPC multi-red en paralelo
   refreshRpcPings();
 
-  // Bucle de sincronización de telemetría cada 10 segundos
-  setInterval(loadAllTelemetryData, 10000);
+  // Bucle de sincronización de telemetría y detector en vivo cada 8 segundos
+  setInterval(loadAllTelemetryData, 8000);
 
   // Bucle de ping RPC a frentes cada 12 segundos
   setInterval(refreshRpcPings, 12000);
@@ -271,14 +271,15 @@ async function loadAllTelemetryData() {
   const ts = Date.now();
 
   try {
-    const [telRes, lastRunRes, pubWalletsRes, tgRes, radarRes, calRes, boxPlanRes] = await Promise.all([
+    const [telRes, lastRunRes, pubWalletsRes, tgRes, radarRes, calRes, boxPlanRes, liveTxsRes] = await Promise.all([
       fetch(`../telemetry/fleet-telemetry.json?t=${ts}`).catch(() => null),
       fetch(`../last-run-report.json?t=${ts}`).catch(() => null),
       fetch(`../wallets-public-list.json?t=${ts}`).catch(() => null),
       fetch(`../telemetry/telegram-alerts.json?t=${ts}`).catch(() => null),
       fetch(`../telemetry/seed-airdrop-radar.json?t=${ts}`).catch(() => null),
       fetch(`../telemetry/annual-airdrop-calendar.json?t=${ts}`).catch(() => null),
-      fetch(`../telemetry/box-dispatch-plan.json?t=${ts}`).catch(() => null)
+      fetch(`../telemetry/box-dispatch-plan.json?t=${ts}`).catch(() => null),
+      fetch(`/api/sniping/live-txs?t=${ts}`).catch(() => null)
     ]);
 
     if (telRes && telRes.ok) {
@@ -302,6 +303,12 @@ async function loadAllTelemetryData() {
     }
     if (boxPlanRes && boxPlanRes.ok) {
       state.boxDispatchPlan = await boxPlanRes.json();
+    }
+    if (liveTxsRes && liveTxsRes.ok) {
+      const liveData = await liveTxsRes.json();
+      if (liveData && Array.isArray(liveData.rows)) {
+        state.liveTxs = liveData.rows;
+      }
     }
 
     renderTopNavMetrics();
@@ -699,6 +706,25 @@ function renderMiningActivityTable() {
   const rows = [];
   const lastRun = state.lastRun || {};
   const telem = state.telemetry || {};
+
+  // 0. Transacciones reales en vivo on-chain (Depósitos, Swaps, Disparos en Bóveda y Capitanes)
+  if (Array.isArray(state.liveTxs)) {
+    state.liveTxs.forEach(tx => {
+      if (tx.txHash && !rows.some(r => r.txHash === tx.txHash)) {
+        rows.push({
+          timeUtc: tx.timeUtc || "En Vivo",
+          boxId: (tx.boxId !== undefined && tx.boxId > 0) ? tx.boxId : (tx.mothership?.includes("#501") ? 0 : 1),
+          satId: tx.mothership || "#501 (Matriz)",
+          satAddress: tx.walletAddress || "0xD4D12077a61118372f7a367319fb11922Beb3743",
+          network: tx.chain === "BSC" ? "BSC Mainnet" : "Polygon PoS",
+          action: `${tx.nebulas}: ${tx.cycleInOut}`,
+          txHash: tx.txHash,
+          status: "CONFIRMADA ON-CHAIN",
+          explorerUrl: tx.explorerUrl || `https://polygonscan.com/tx/${tx.txHash}`
+        });
+      }
+    });
+  }
 
   // 1. Extraer transacciones directas del last-run-report.json
   if (Array.isArray(lastRun.evmResults)) {

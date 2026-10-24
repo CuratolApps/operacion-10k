@@ -79,6 +79,7 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
     runCommand("node scripts/onchain-snapshot.js", "Snapshot On-Chain Consolidado");
     runCommand("node wallstreet-quant-mentor-engine.js", "Motor Cuantitativo Wall Street & Mentora #00");
     runCommand("node scripts/ai-telemetry-feed.js", "AI Telemetry Feed Sync (Modo Pasivo)");
+    runCommand("node scripts/auto-refill-and-swap.js", "Auto-Capitalizador 24/7 (Pisos Sagrados & Excedente POL ➔ USDC)");
     runCommand("node harvest-rewards.js --scan", "Escaneo Pasivo de Recompensas");
     console.log(`⏳ Esperando a que transcurran > 25-30 min desde la última corrida on-chain para tomar turno automático.`);
     return;
@@ -86,7 +87,10 @@ async function executeFullCycle(cycleNumber, forceOnChain = false) {
 
   console.log(`⚡ [TURNO ON-CHAIN HABILITADO] Han transcurrido ${collisionLock.elapsedMin} min desde la última corrida. Procediendo con la ronda completa.`);
 
-  // 00. Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas - On-Chain Sentinels)
+  // 00. Auto-Capitalizador 24/7 (Pisos 150/300 POL y Swap Automático de Excedente a USDC)
+  runCommand("node scripts/auto-refill-and-swap.js", "Auto-Capitalizador 24/7 (Pisos Sagrados & Excedente POL ➔ USDC)");
+
+  // 00.1. Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas - On-Chain Sentinels)
   runCommand("node dedicated-observers.js", "Cuerpo de Observadores Dedicados (Multi-DEX $0 Gas)");
 
   // 01. Escudo Militar de Seguridad & Conmutador RPC < 250ms

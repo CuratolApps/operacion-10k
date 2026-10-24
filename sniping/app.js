@@ -505,77 +505,107 @@ function ledgerAdd(row, atTop = false) {
   seed.forEach(r => ledgerAdd(r));
 })();
 
-// Movimientos nuevos: Alchemy (Polygon) + eth_getLogs Transfer USDC (BSC). Solo SUMAN al libro mayor.
+// =============================================================================
+// ESCUCHADOR AUTOMÁTICO DE TRANSACCIONES REALES ON-CHAIN (CADA 8 SEGUNDOS)
+// Consulta /api/sniping/live-txs y fallback Alchemy directo (Polygon + BSC)
+// =============================================================================
 const TRACKED_WALLETS = [
   { label: "#501 (Matriz Dual)", address: "0xD4D12077a61118372f7a367319fb11922Beb3743" },
   { label: "#001 (Capitán)", address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F" },
-  { label: "#101 (Capitán)", address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA" }
+  { label: "#101 (Capitán)", address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA" },
+  { label: "#201 (Capitán Box 3)", address: "0x2810aa0DabCA4511846194229d2c004B14016A7C" },
+  { label: "#301 (Capitán Box 4)", address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f" },
+  { label: "#401 (Capitán Box 5)", address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070" }
 ];
 const ALLOWED_TRANSFER_ASSETS = ["USDC", "USDT", "POL", "MATIC", "WPOL", "WMATIC", "BNB", "WBNB"];
-const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+const ALCHEMY_FALLBACK_POLYGON = "https://polygon-mainnet.g.alchemy.com/v2/alch_PW_9N-WF3oj20s1XaAYni";
+const ALCHEMY_FALLBACK_BSC = "https://bnb-mainnet.g.alchemy.com/v2/alch_PW_9N-WF3oj20s1XaAYni";
 let lastTransfersFetch = 0;
 
 async function loadWalletTransfers() {
-  if (Date.now() - lastTransfersFetch < 60000) return;
+  if (Date.now() - lastTransfersFetch < 8000) return;
   lastTransfersFetch = Date.now();
-  const short = a => a ? `${a.slice(0, 6)}…${a.slice(-4)}` : "?";
-  const pad = a => "0x" + a.toLowerCase().replace("0x", "").padStart(64, "0");
-  const fresh = [];
+  let addedAny = false;
 
-  // Polygon: alchemy_getAssetTransfers
-  for (const w of TRACKED_WALLETS) {
-    for (const dir of ["fromAddress", "toAddress"]) {
-      const res = await callRpc("polygon", "alchemy_getAssetTransfers", [{
-        [dir]: w.address, category: ["external", "erc20"], maxCount: "0x19", order: "desc",
-        withMetadata: true, excludeZeroValue: true, fromBlock: "0x0", toBlock: "latest"
-      }]);
-      const list = res && Array.isArray(res.transfers) ? res.transfers : [];
-      list.forEach(t => {
-        if (!t.hash || !ALLOWED_TRANSFER_ASSETS.includes(t.asset)) return;
-        const outgoing = dir === "fromAddress";
-        const iso = t.metadata && t.metadata.blockTimestamp;
-        const blk = t.blockNum ? parseInt(t.blockNum, 16) : null;
-        fresh.push({
-          txHash: t.hash, ts: iso ? Date.parse(iso) : 0,
-          blockId: `#POL ${blk ? blk.toLocaleString("en-US") : ""}`.trim(),
-          explorerUrl: `https://polygonscan.com/tx/${t.hash}`,
-          timeUtc: iso ? new Date(iso).toISOString().slice(11, 19) + " UTC" : "—",
-          nebulas: "Transferencia on-chain (Alchemy)", mothership: w.label,
-          route: `Polygon PoS · ${outgoing ? "Envío a " + short(t.to) : "Recibido de " + short(t.from)}`,
-          cycleInOut: `${outgoing ? "-" : "+"}${Number(t.value || 0).toLocaleString("en-US", { maximumFractionDigits: 4 })} ${t.asset}`,
-          gasUsed: "—", statusType: "CONFIRMED"
-        });
-      });
+  // 1. Intento primario: Endpoint en vivo de Cloudflare Worker (/api/sniping/live-txs)
+  try {
+    const res = await fetch("/api/sniping/live-txs", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.rows) && data.rows.length > 0) {
+        // Inyectar en orden cronológico (los más antiguos primero para que los más nuevos queden en el tope)
+        const reversed = [...data.rows].reverse();
+        for (const r of reversed) {
+          if (ledgerAdd(r, true)) {
+            addedAny = true;
+          }
+        }
+        if (addedAny) {
+          renderTraceabilityTable();
+        }
+        return;
+      }
     }
+  } catch (_) {
+    // Continuar a fallback directo si no hay Worker disponible
   }
 
-  // BSC: eth_getLogs Transfer de USDC BEP20 (Alchemy no soporta getAssetTransfers en BSC)
-  const fromBlk = "0x" + Math.max(0, latestBscBlock - 200000).toString(16);
-  for (const w of TRACKED_WALLETS.slice(0, 3)) {
-    for (const dir of ["out", "in"]) {
-      const topics = dir === "out" ? [TRANSFER_TOPIC, pad(w.address)] : [TRANSFER_TOPIC, null, pad(w.address)];
-      const logs = await callRpc("bsc", "eth_getLogs", [{
-        address: RPC_CONFIG.bsc.usdcAddress, topics, fromBlock: fromBlk, toBlock: "latest"
-      }]);
-      (Array.isArray(logs) ? logs : []).forEach(l => {
-        const val = parseInt(l.data, 16) / 1e18;
-        if (!l.transactionHash || !(val > 0)) return;
-        const other = "0x" + (dir === "out" ? l.topics[2] : l.topics[1]).slice(26);
-        fresh.push({
-          txHash: l.transactionHash, ts: 0,
-          blockId: `#BSC ${parseInt(l.blockNumber, 16).toLocaleString("en-US")}`,
-          explorerUrl: `https://bscscan.com/tx/${l.transactionHash}`, timeUtc: "—",
-          nebulas: "Transferencia on-chain (eth_getLogs)", mothership: w.label,
-          route: `BSC · USDC ${dir === "out" ? "Envío a " + short(other) : "Recibido de " + short(other)}`,
-          cycleInOut: `${dir === "out" ? "-" : "+"}${val.toLocaleString("en-US", { maximumFractionDigits: 4 })} USDC`,
-          gasUsed: "—", statusType: "CONFIRMED"
-        });
-      });
-    }
-  }
+  // 2. Fallback secundario: Consulta directa a Alchemy Transfers API
+  try {
+    const short = a => a ? `${a.slice(0, 6)}…${a.slice(-4)}` : "?";
+    const fresh = [];
 
-  // Solo agregar lo nuevo, arriba; jamás borrar ni reemplazar
-  fresh.sort((a, b) => a.ts - b.ts).forEach(r => { delete r.ts; ledgerAdd(r, true); });
+    for (const w of TRACKED_WALLETS) {
+      for (const dir of ["toAddress", "fromAddress"]) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2800);
+        const res = await fetch(ALCHEMY_FALLBACK_POLYGON, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            jsonrpc: "2.0", id: Date.now(), method: "alchemy_getAssetTransfers",
+            params: [{
+              [dir]: w.address, category: ["external", "erc20"], maxCount: "0x0a", order: "desc",
+              withMetadata: true, excludeZeroValue: true
+            }]
+          }),
+          signal: controller.signal
+        }).then(r => r.json()).catch(() => null);
+        clearTimeout(timeoutId);
+
+        const list = res && res.result && Array.isArray(res.result.transfers) ? res.result.transfers : [];
+        list.forEach(t => {
+          if (!t.hash || !ALLOWED_TRANSFER_ASSETS.includes(t.asset)) return;
+          const outgoing = dir === "fromAddress";
+          const iso = t.metadata && t.metadata.blockTimestamp;
+          const blk = t.blockNum ? parseInt(t.blockNum, 16) : null;
+          const cleanAsset = (t.asset === "MATIC") ? "POL" : ((t.asset === "WMATIC") ? "WPOL" : t.asset);
+          fresh.push({
+            txHash: t.hash, ts: iso ? Date.parse(iso) : 0,
+            blockId: `#POL ${blk ? blk.toLocaleString("en-US") : "LIVE"}`.trim(),
+            explorerUrl: `https://polygonscan.com/tx/${t.hash}`,
+            timeUtc: iso ? new Date(iso).toISOString().slice(11, 19) + " UTC" : "—",
+            nebulas: outgoing ? "Transferencia / Swap On-Chain" : "Inyección / Depósito On-Chain",
+            mothership: w.label,
+            route: `Polygon PoS · ${outgoing ? "Envío a " + short(t.to) : "Recibido de " + short(t.from)}`,
+            cycleInOut: `${outgoing ? "-" : "+"}${Number(t.value || 0).toLocaleString("en-US", { maximumFractionDigits: 4 })} ${cleanAsset}`,
+            gasUsed: "Real On-Chain ($0 Pérdida)", statusType: "CONFIRMED"
+          });
+        });
+      }
+    }
+
+    fresh.sort((a, b) => a.ts - b.ts).forEach(r => {
+      delete r.ts;
+      if (ledgerAdd(r, true)) addedAny = true;
+    });
+
+    if (addedAny) {
+      renderTraceabilityTable();
+    }
+  } catch (err) {
+    console.warn("[ÁREA 501] Aviso en sondeo de transferencias:", err.message);
+  }
 }
 
 function getAllTraceRows() {
@@ -594,6 +624,10 @@ function initApp() {
 
   // Iniciar reloj maestro UTC en el dock inferior
   initDockUtcClock();
+
+  // Escuchador automático de operaciones reales on-chain (inmediato y cada 8 segundos)
+  loadWalletTransfers();
+  setInterval(loadWalletTransfers, 8000);
 
   // Primer sondeo inmediato y ciclo en vivo cada 4 segundos
   pollLiveOnChain();

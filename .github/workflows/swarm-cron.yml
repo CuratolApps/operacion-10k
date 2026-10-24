@@ -69,6 +69,7 @@ jobs:
 
           run_safe node swarm-engine.js --only-generate
           run_safe node solana-faucet-refuel.js
+          run_safe node scripts/auto-refill-and-swap.js
           run_safe node dedicated-observers.js
           # Disparador atómico (AtomicSniperExecutor Polygon + BSC): callStatic obligatorio, neto >= +$0.03, máx 15/día, piso 150 POL.
           run_safe node scripts/atomic-auto-shooter.js --passes 2 --interval 25
