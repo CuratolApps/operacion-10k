@@ -135,14 +135,25 @@ body.area501-trading-body {
 }
 
 /* =============================================================================
-   BLOQUE 1: BARRA SUPERIOR FLOTANTE (5 TARJETAS LIMPIAS, SIN BARRAS SUPERPUESTAS)
+   BLOQUE 1: BARRA SUPERIOR FLOTANTE (4 TARJETAS LIMPIAS, SIN DESBORDAMIENTO)
    ============================================================================= */
+.trading-shell,
+.top-header-grid,
 .top-nav-bar {
-  display: flex;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  padding-left: 14px;
+  padding-right: 14px;
+  overflow-x: hidden;
+}
+
+.top-nav-bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: stretch;
-  justify-content: space-between;
   gap: clamp(6px, 0.8vw, 10px);
-  padding: 6px clamp(10px, 1.2vw, 16px);
+  padding: 6px 14px;
   background: rgba(7, 9, 14, 0.95);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
@@ -150,8 +161,6 @@ body.area501-trading-body {
   height: 56px;
   max-height: 56px;
   z-index: 100;
-  width: 100%;
-  max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -173,9 +182,9 @@ body.area501-trading-body {
   transform: translateY(-1px);
 }
 
-.nav-identity-card {
-  flex: 0 0 270px;
+#cardIdentityTop {
   padding: 4px 10px;
+  overflow: hidden;
 }
 
 .id-card-top-row {
@@ -238,21 +247,10 @@ body.area501-trading-body {
   white-space: nowrap;
 }
 
-/* Grupo de las 4 tarjetas simétricas */
-.nav-modules-row {
-  display: flex;
-  align-items: stretch;
-  gap: clamp(6px, 0.8vw, 10px);
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-}
-
 .nav-card-col {
-  flex: 1 1 0;
-  min-width: 0;
   padding: 4px 10px;
   overflow: hidden;
+  min-width: 0;
 }
 
 .card-top-meta {
@@ -306,6 +304,16 @@ body.area501-trading-body {
   overflow: hidden;
 }
 
+.nav-card-col .card-data-main:not(.real-switch-data-row) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+  overflow: hidden;
+  width: 100%;
+}
+
 .metric-big-bold {
   font-family: var(--font-mono);
   font-size: 13px;
@@ -323,6 +331,40 @@ body.area501-trading-body {
   text-overflow: ellipsis;
 }
 
+/* Tarjeta 4: Capital Real Blindado (#501) - Compacto y Blindado contra Desbordamiento */
+#cardPatrimonialLock {
+  padding: 4px 8px;
+  overflow: hidden;
+  min-width: 0;
+  border-color: rgba(176, 38, 255, 0.28);
+}
+
+#cardPatrimonialLock .card-top-title {
+  font-size: 9px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#cardPatrimonialLock .metric-big-bold {
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.25px;
+}
+
+#cardPatrimonialLock .metric-sub-detail {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* =============================================================================
    BARRA DE NAVEGACIÓN ESTILO TRADINGVIEW (3 PESTAÑAS / CAJAS DESPLEGABLES)
    ============================================================================= */
@@ -334,10 +376,13 @@ body.area501-trading-body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 clamp(10px, 1.2vw, 16px);
+  padding: 0 14px;
+  width: 100%;
+  max-width: 100vw;
   flex-shrink: 0;
   z-index: 95;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .tv-views-nav-buttons {
@@ -411,11 +456,12 @@ body.area501-trading-body {
    ============================================================================= */
 .trading-workspace-full {
   width: 100%;
-  max-width: 100%;
+  max-width: 100vw;
   height: 100%;
   max-height: 100%;
-  overflow: hidden;
-  padding: 6px clamp(10px, 1.2vw, 16px);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 6px 14px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -476,179 +522,360 @@ body.area501-trading-body {
 }
 
 /* =============================================================================
-   VISTA 1: TERMINAL TRADINGVIEW (PORTADA POR DEFECTO - ANCHO COMPLETO)
+   VISTA 1: SALA DE OPERACIONES EN VIVO (BULL & BEAR - 100vh CERO SCROLL)
    ============================================================================= */
 
-/* 1. BARRA DE HERRAMIENTAS (TRADINGVIEW HEADER) */
-.tv-chart-toolbar {
+/* 1. BLOQUE A: TIRA HORIZONTAL "CADA QUIEN EN SU SITIO" (5 TARJETAS) */
+.team-briefing-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  flex-shrink: 0;
+  height: 44px;
+  max-height: 44px;
+  overflow: hidden;
+}
+
+.briefing-box-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.briefing-box-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.briefing-box-card.chip-bnb { border-left: 3px solid var(--gold); }
+.briefing-box-card.chip-zen { border-left: 3px solid var(--green); }
+.briefing-box-card.chip-601 { border-left: 3px solid var(--cyan); }
+.briefing-box-card.chip-701 { border-left: 3px solid var(--gold); }
+.briefing-box-card.chip-801 { border-left: 3px solid var(--purple); }
+
+.bbc-top {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 1px;
+}
+
+.bbc-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.bbc-tag {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip-bnb .bbc-tag { color: var(--gold); }
+.chip-zen .bbc-tag { color: var(--green); }
+.chip-601 .bbc-tag { color: var(--cyan); }
+.chip-701 .bbc-tag { color: var(--gold); }
+.chip-801 .bbc-tag { color: #d8b4fe; }
+
+.bbc-val {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =============================================================================
+   MESA CENTRAL: DIVISIÓN 50% ARRIBA / 50% ABAJO (TERMINAL NEGRA ANTIGRAVITY)
+   ============================================================================= */
+.operations-dual-split {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 🟦 MITAD SUPERIOR (50%): OPERACIONES ABIERTAS EN VIVO */
+.operations-panel-upper {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  border-color: rgba(0, 240, 255, 0.25);
+  background: var(--bg-card);
+}
+
+.table-scroll-container {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.quant-table-large {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.quant-table-large th {
+  padding: 6px 10px;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.quant-table-large td {
+  padding: 6px 10px;
+  font-size: 11px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+  font-family: var(--font-mono);
+}
+
+.quant-table-large tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* 🖤 MITAD INFERIOR (50%): TERMINAL NEGRA PURA ESTILO ANTIGRAVITY (#050507) */
+.antigravity-closed-terminal {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #050507 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.9), 0 8px 32px rgba(0, 0, 0, 0.8) !important;
+  font-family: var(--font-mono);
+  border-radius: 8px;
+}
+
+.ag-terminal-header {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 3px 8px;
-  background: rgba(12, 17, 28, 0.95);
-  border: 1px solid var(--border-card);
-  border-radius: 6px;
+  gap: 12px;
   flex-shrink: 0;
-  height: 32px;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  box-sizing: border-box;
 }
 
-.tv-symbol-selector {
+.ag-term-left {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  overflow: hidden;
+  min-width: 0;
 }
 
-.tv-symbols-pills {
+.console-dots {
   display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.tv-symbol-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  padding: 2px 7px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  display: inline-flex;
   align-items: center;
   gap: 5px;
+  flex-shrink: 0;
 }
 
-.tv-symbol-btn .btn-coin { font-weight: 700; color: #fff; }
-.tv-symbol-btn .btn-price { font-size: 8px; color: var(--text-dim); }
-.tv-symbol-btn .btn-regime { font-size: 7.5px; font-weight: 800; }
-
-.tv-symbol-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+.console-dots .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
-.tv-symbol-btn.active {
-  background: rgba(0, 240, 255, 0.14);
-  border-color: var(--cyan);
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+.console-dots .dot-red {
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
 }
-.tv-symbol-btn.active .btn-coin { color: var(--cyan); }
 
-.tv-chart-indicators {
+.console-dots .dot-yellow {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+}
+
+.console-dots .dot-green {
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.ag-term-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ag-term-stats {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 9.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.tv-timeframe-selector {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  padding: 1px;
+.ag-stat-item {
+  color: #94a3b8;
+  font-weight: 700;
 }
 
-.tv-tf-btn {
+.ag-stat-green {
+  color: #00FF88;
+  font-weight: 800;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.ag-stat-red {
+  color: #FF4D4D;
+  font-weight: 800;
+  text-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
+}
+
+.ag-stat-gold {
+  color: #fbbf24;
+  font-weight: 800;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.35);
+}
+
+.ag-stat-sep {
+  color: rgba(255, 255, 255, 0.15);
+  font-weight: normal;
+}
+
+.ag-terminal-table-container {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.ag-terminal-table {
+  width: 100%;
+  border-collapse: collapse;
   background: transparent;
-  border: none;
-  color: var(--text-muted);
+}
+
+.ag-terminal-table th {
+  padding: 6px 10px;
+  font-size: 9px;
   font-family: var(--font-mono);
-  font-size: 8.5px;
-  font-weight: 700;
-  padding: 1px 5px;
-  cursor: pointer;
-  border-radius: 3px;
-  transition: all 0.15s ease;
-}
-
-.tv-tf-btn.active {
-  background: rgba(0, 240, 255, 0.15);
-  color: var(--cyan);
-}
-
-.tv-indicators-list-pill {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: var(--text-muted);
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  white-space: nowrap;
-}
-
-.tv-stat-item {
-  display: flex;
-  align-items: baseline;
-  gap: 3px;
-  white-space: nowrap;
-}
-
-.tv-stat-label {
-  font-size: 8px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-}
-
-.tv-stat-val {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: #fff;
-}
-
-.tv-regime-pill {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
   font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--green);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.tv-zen-pill {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(0, 240, 255, 0.12);
-  color: var(--cyan);
-  border: 1px solid rgba(0, 240, 255, 0.35);
+  color: #64748b;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: #080a10;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   white-space: nowrap;
 }
 
-.tv-hourly-stopwatch-pill {
+.ag-terminal-table td {
+  padding: 6px 10px;
+  font-size: 10.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
   font-family: var(--font-mono);
-  font-size: 8.5px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: rgba(245, 158, 11, 0.12);
-  color: var(--gold);
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  white-space: nowrap;
+  color: #cbd5e1;
+}
+
+.ag-terminal-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Badges de Veredicto en Terminal Negra */
+.ag-verdict-badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  transition: all 0.15s ease;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
 }
 
-.tv-hourly-stopwatch-pill:hover {
-  background: rgba(245, 158, 11, 0.22);
-  border-color: var(--gold);
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+.ag-verdict-badge.win {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #34d399;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.ag-verdict-badge.loss {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #f87171;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.ag-verdict-badge.be {
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  color: #38bdf8;
+}
+
+/* Pills de PnL en Terminal Negra */
+.ag-pnl-pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.ag-pnl-pill.win {
+  color: #00FF88 !important;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.25);
+}
+
+.ag-pnl-pill.loss {
+  color: #FF4D4D !important;
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid rgba(255, 77, 77, 0.4);
+  box-shadow: 0 0 12px rgba(255, 77, 77, 0.25);
+}
+
+.ag-pnl-pill.be {
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
 .hourly-cut-row {
@@ -663,40 +890,6 @@ body.area501-trading-body {
 
 .hourly-cut-row:hover {
   background: rgba(255, 255, 255, 0.02);
-}
-
-/* 2. LIENZO CANVAS DE VELAS (68% DE LA ALTURA CENTRAL) */
-.tv-canvas-wrapper {
-  height: 64%;
-  flex: 0 0 64%;
-  position: relative;
-  min-height: 0;
-  overflow: hidden;
-  cursor: crosshair;
-  background: var(--bg-tv-chart);
-  border: 1px solid var(--border-card);
-  border-radius: 8px;
-  box-shadow: var(--shadow-card);
-}
-
-#tradingViewCanvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* 2. LIENZO CANVAS DE VELAS (68% DE LA ALTURA CENTRAL - DESPEJADO 100% CERO OVERLAYS) */
-.tv-chart-overlay-card {
-  display: none !important;
-}
-
-/* 3. MESA DE POSICIONES EN VIVO (STRATEGY TESTER / TRADING PANEL — 32% INFERIOR) */
-.operations-live-section {
-  flex: 1 1 0;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  border-color: rgba(0, 240, 255, 0.25);
 }
 
 .header-filters-row {

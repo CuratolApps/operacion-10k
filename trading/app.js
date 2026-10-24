@@ -91,22 +91,18 @@ const DEFAULT_PROPOSALS = [
   {
     pair: "PAXG/USDC",
     direction: "BULL",
-    status: "CLOSED_WIN",
+    status: "OPEN",
     shortCondition: "Oro rompe $4,000/oz",
-    conditionSub: "Meta lograda",
+    conditionSub: "Demanda refugio macro",
     price: 3998.45,
     entryPrice: 3992.00,
-    exitPrice: 3998.45,
-    entryTimestampMs: Date.now() - 320000,
-    entryTimeFormatted: "16:58:10 UTC",
-    exitTimeFormatted: "17:01:20 UTC",
-    takeProfitPct: 0.16,
+    entryTimestampMs: Date.now() - 75000,
+    entryTimeFormatted: "17:01:20 UTC",
+    takeProfitPct: 0.20,
     stopLossPct: 0.12,
-    takeProfitPrice: 3998.39,
+    takeProfitPrice: 4000.00,
     stopLossPrice: 3987.21,
-    floatingPnlUsdc: 0,
-    finalPnlUsdc: 0.16,
-    reopenCountdown: 2,
+    floatingPnlUsdc: 0.16,
     exchange: "Oro Wall Street",
     botId: "#701"
   },
@@ -216,6 +212,60 @@ const TradingState = {
   krakenTicksCount: 0,
   lastKrakenFetchTime: null,
   practiceBalanceUsdc: isNaN(savedPracticeBal) ? 1000.46 : savedPracticeBal,
+  closedTrades: [
+    {
+      exitTimeFormatted: "17:01:20 UTC",
+      durationStr: "3m 10s",
+      pair: "PAXG/USDC",
+      direction: "BULL",
+      teamTag: "🏛️ #701 + 🧘‍♀️ #00 Zen",
+      actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
+      entryPrice: 3992.00,
+      exitPrice: 3998.45,
+      gainUsdc: 0.16,
+      gainPct: 0.16,
+      status: "WIN"
+    },
+    {
+      exitTimeFormatted: "16:55:40 UTC",
+      durationStr: "1m 45s",
+      pair: "SOL/USDC",
+      direction: "BULL",
+      teamTag: "⚡ #601 + 🧘‍♀️ #00 Zen",
+      actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
+      entryPrice: 181.10,
+      exitPrice: 181.52,
+      gainUsdc: 0.23,
+      gainPct: 0.23,
+      status: "WIN"
+    },
+    {
+      exitTimeFormatted: "16:48:15 UTC",
+      durationStr: "2m 10s",
+      pair: "BNB/USDC",
+      direction: "BULL",
+      teamTag: "⚡ #601 + 🧘‍♀️ #00 Zen",
+      actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
+      entryPrice: 717.80,
+      exitPrice: 719.45,
+      gainUsdc: 0.23,
+      gainPct: 0.23,
+      status: "WIN"
+    },
+    {
+      exitTimeFormatted: "16:40:02 UTC",
+      durationStr: "45s",
+      pair: "ETH/USDC",
+      direction: "BEAR",
+      teamTag: "⚡ #601 + 🧘‍♀️ #00 Zen",
+      actionDesc: "🛡️ CANDADO BREAKEVEN #00",
+      entryPrice: 2412.50,
+      exitPrice: 2412.50,
+      gainUsdc: 0.00,
+      gainPct: 0.00,
+      status: "BE"
+    }
+  ],
   hourly: {
     currentHourSlot: new Date().getUTCHours(),
     opsThisHour: 8,
@@ -424,6 +474,9 @@ function hydrateFromStorageInstant() {
       if (raw.proposals && raw.proposals.length > 0) {
         TradingState.proposals = raw.proposals;
       }
+      if (raw.closedTrades && Array.isArray(raw.closedTrades)) {
+        TradingState.closedTrades = raw.closedTrades;
+      }
       if (raw.ledger) {
         TradingState.ledger = raw.ledger;
       }
@@ -453,6 +506,7 @@ function persistBullBearSnapshot() {
         telemetry: TradingState.telemetry,
         ledger: TradingState.ledger,
         proposals: TradingState.proposals,
+        closedTrades: TradingState.closedTrades,
         hourly: TradingState.hourly,
         practiceBalanceUsdc: TradingState.practiceBalanceUsdc
       };
@@ -463,16 +517,13 @@ function persistBullBearSnapshot() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("[ÁREA 501] Iniciando Dojo Cuantitativo Bull & Bear // TradingView Pro...");
+  console.log("[ÁREA 501] Iniciando Mesa Ejecutiva de Operaciones Bull & Bear (Pura Liquidez USDC)...");
 
   // Hidratar inmediatamente desde localStorage si hay snapshot disponible
   hydrateFromStorageInstant();
 
   // Inicializar cronómetro de corte de 60 minutos en vivo
   startHourlyCutoffTimer();
-
-  // Inicializar lienzo interactivo de TradingView Pro
-  initTradingViewCanvas();
 
   // Inicializar contenido de la watchlist lateral (Estrenos #801 por defecto)
   renderWatchlistContent();
@@ -494,11 +545,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Bucle de consulta a DEXScreener para Box 8 cada 20 segundos
   startDexAndGoPlusLiveFeed();
-
-  // Redibujado al redimensionar la ventana para Retina sharpness
-  window.addEventListener("resize", () => {
-    drawTradingViewCanvas();
-  });
 
   // Sincronización periódica de telemetría completa cada 30 segundos
   setInterval(() => {
@@ -911,29 +957,30 @@ window.closeHourlyCutsModal = function() {
 };
 
 function updateTeamBriefingStrip() {
+  const stripBnb = document.getElementById("stripBnbVal");
   const stripZen = document.getElementById("stripZenVal");
-  const stripMacro = document.getElementById("stripMacroVal");
   const strip601 = document.getElementById("strip601Val");
   const strip701 = document.getElementById("strip701Val");
   const strip801 = document.getElementById("strip801Val");
 
-  if (stripZen) {
-    stripZen.textContent = "Mente Serena (Candado Breakeven Activo) · 0% FOMO";
+  if (stripBnb) {
+    stripBnb.textContent = "Cazando liquidez rápida a USDC (No Hold)";
   }
-  if (stripMacro) {
-    const macroHeadline = TradingState.telemetry?.specialists?.macroSpecialist?.bias || "Sesgo [ALCISTA / Oro Refugio]";
-    stripMacro.textContent = macroHeadline;
+  if (stripZen) {
+    stripZen.textContent = "Mente Serena 100% · Candado Breakeven Activo";
   }
   if (strip601) {
-    strip601.textContent = "Vigilando SOL, BNB, ETH, POL, EUR";
+    strip601.textContent = "Vigilando SOL, BNB, ETH, POL, EUR en Kraken";
   }
   if (strip701) {
     const paxg = (TradingState.proposals || []).find(p => p.pair === "PAXG/USDC");
-    const paxgPrice = paxg ? "$" + formatPrice(paxg.price) : "$3,998.45";
-    strip701.textContent = `PAXG ${paxgPrice} / oz`;
+    const btc = (TradingState.proposals || []).find(p => p.pair === "BTC/USDC");
+    const paxgPrice = paxg ? "$" + formatPrice(paxg.price) : "$3,998";
+    const btcPrice = btc ? "$" + formatPrice(btc.price) : "$68,420";
+    strip701.textContent = `Vigilando PAXG (${paxgPrice}) y BTC (${btcPrice})`;
   }
   if (strip801) {
-    strip801.textContent = "6 Tokens Seguros (0% Honeypot)";
+    strip801.textContent = "6 Tokens GoPlus Seguros · Noticias en Vivo";
   }
 }
 
@@ -1015,6 +1062,12 @@ function updateLiveProposalsFromKraken(krakenResult) {
       p.floatingPnlPct = priceDiffPct;
       totalFloatingPnl += floatingPnl;
 
+      const durationSec = Math.max(1, Math.floor((Date.now() - (p.entryTimestampMs || Date.now())) / 1000));
+      const durM = Math.floor(durationSec / 60);
+      const durS = durationSec % 60;
+      const durationStr = durM > 0 ? `${durM}m ${durS}s` : `${durS}s`;
+      const teamTag = p.botId === "#701" ? "🏛️ #701 + 🧘‍♀️ #00 Zen" : (p.botId === "#801" ? "🚀 #801 + 🧘‍♀️ #00 Zen" : "⚡ #601 + 🧘‍♀️ #00 Zen");
+
       // 1. ¿TOCÓ TAKE PROFIT (META) -> COBRO INMEDIATO A USDC (CERO HOLDEO)?
       if (priceDiffPct >= p.takeProfitPct) {
         const gainUsdc = parseFloat((lotUsdc * (p.takeProfitPct / 100)).toFixed(2));
@@ -1026,6 +1079,23 @@ function updateLiveProposalsFromKraken(krakenResult) {
         p.finalPnlUsdc = gainUsdc;
         p.floatingPnlUsdc = 0;
         p.reopenCountdown = 3; // En 3 ticks (6s) abre una nueva rotación líquida
+
+        // Agregar al historial de operaciones cerradas reciente
+        if (!TradingState.closedTrades) TradingState.closedTrades = [];
+        TradingState.closedTrades.unshift({
+          exitTimeFormatted: p.exitTimeFormatted,
+          durationStr: durationStr,
+          pair: p.pair,
+          direction: p.direction,
+          teamTag: teamTag,
+          actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
+          entryPrice: p.entryPrice,
+          exitPrice: newPrice,
+          gainUsdc: gainUsdc,
+          gainPct: p.takeProfitPct,
+          status: "WIN"
+        });
+        if (TradingState.closedTrades.length > 25) TradingState.closedTrades.pop();
 
         // Actualizar estadísticas de corte horario
         if (TradingState.hourly) {
@@ -1051,6 +1121,23 @@ function updateLiveProposalsFromKraken(krakenResult) {
         p.floatingPnlUsdc = 0;
         p.reopenCountdown = 3;
 
+        // Agregar al historial de operaciones cerradas reciente
+        if (!TradingState.closedTrades) TradingState.closedTrades = [];
+        TradingState.closedTrades.unshift({
+          exitTimeFormatted: p.exitTimeFormatted,
+          durationStr: durationStr,
+          pair: p.pair,
+          direction: p.direction,
+          teamTag: teamTag,
+          actionDesc: "🛡️ CANDADO BREAKEVEN #00",
+          entryPrice: p.entryPrice,
+          exitPrice: entryPrice,
+          gainUsdc: 0.00,
+          gainPct: 0.00,
+          status: "BE"
+        });
+        if (TradingState.closedTrades.length > 25) TradingState.closedTrades.pop();
+
         if (TradingState.hourly) {
           TradingState.hourly.opsThisHour = (TradingState.hourly.opsThisHour || 0) + 1;
           TradingState.hourly.winsThisHour = (TradingState.hourly.winsThisHour || 0) + 1;
@@ -1069,6 +1156,23 @@ function updateLiveProposalsFromKraken(krakenResult) {
         p.finalPnlUsdc = -lossUsdc;
         p.floatingPnlUsdc = 0;
         p.reopenCountdown = 3;
+
+        // Agregar al historial de operaciones cerradas reciente
+        if (!TradingState.closedTrades) TradingState.closedTrades = [];
+        TradingState.closedTrades.unshift({
+          exitTimeFormatted: p.exitTimeFormatted,
+          durationStr: durationStr,
+          pair: p.pair,
+          direction: p.direction,
+          teamTag: teamTag,
+          actionDesc: "🛑 FRENO EJECUTADO",
+          entryPrice: p.entryPrice,
+          exitPrice: newPrice,
+          gainUsdc: -lossUsdc,
+          gainPct: -p.stopLossPct,
+          status: "SL"
+        });
+        if (TradingState.closedTrades.length > 25) TradingState.closedTrades.pop();
 
         // Actualizar estadísticas de corte horario
         if (TradingState.hourly) {
@@ -1124,17 +1228,17 @@ function updateLiveProposalsFromKraken(krakenResult) {
     localStorage.setItem("AREA501_TRADING_PAPER_LEDGER", JSON.stringify(TradingState.ledger));
   } catch (_) {}
 
-  // Actualizar Tarjeta 3 de PnL en Vivo
+  // Actualizar Tarjeta 2 de PnL en Vivo
   updateLivePnlCards(totalFloatingPnl);
 
-  // Actualizar tira compacta del equipo
+  // Actualizar tira compacta del equipo (Bloque A)
   updateTeamBriefingStrip();
 
-  // Re-renderizar tabla de operaciones explicadas (7 columnas)
+  // Re-renderizar tabla de operaciones explicadas (Bloque B)
   renderProposalsTable();
 
-  // Sincronizar gráfico interactivo estilo TradingView con el tick de Kraken
-  updateTradingViewChart();
+  // Re-renderizar historial reciente de cerradas (Bloque C)
+  renderClosedTradesStrip();
 
   // Guardar snapshot actualizado para 0ms F5
   persistBullBearSnapshot();
@@ -1183,32 +1287,33 @@ function renderAllComponents() {
   renderLeftThroneAndSpecialists();
   renderWatchlistContent();
   renderPremieresTable();
-  updateTradingViewChart();
+  renderClosedTradesStrip();
   renderProposalsTable();
 }
 
 function renderTopNavCards() {
-  const t = TradingState.telemetry;
-  if (!t) return;
-
-  // Tarjeta 2: Equipo en su Sitio
-  const teamMain = document.getElementById("topTeamMainText");
-  const teamSub = document.getElementById("topTeamSubText");
-  if (teamMain) {
-    teamMain.textContent = "🐂🐻 BULL & BEAR: OPERANDO · 🧘‍♀️ #00: 100% SERENA";
+  // Tarjeta 1: Identidad & Estado en Vivo
+  const kStatus = document.getElementById("topKrakenStatus");
+  const zenSub = document.getElementById("topZenStatusSub");
+  if (kStatus) {
+    kStatus.textContent = "🟢 OPERANDO EN VIVO CADA 2s (KRAKEN REAL-TIME)";
   }
-  if (teamSub) {
-    teamSub.textContent = "📡 #601 · #701 · #801 · OÍDO: CONECTADOS";
+  if (zenSub) {
+    zenSub.textContent = "🧘‍♀️ Mente Serena #00: 100%";
   }
 
-  // Tarjeta 3: Billetera de Práctica y Efectividad
+  // Tarjeta 2: Marcador de Liquidez & Efectividad en Vivo
   updateLivePnlCards(0.46);
 
-  // Tarjeta 5: Candado Patrimonial
+  // Tarjeta 4: Capital Real Blindado (#501) - 100% Sin Desbordamiento
   const usdcEl = document.getElementById("topProtectedSniperUsdc");
   const polEl = document.getElementById("topFleetPolGas");
-  if (usdcEl) usdcEl.textContent = "$266.51 USDC SEGUROS EN BÓVEDA #501";
-  if (polEl) polEl.textContent = "($243.99 POL + $21.52 BSC + $1.00 BINANCE) · 🔒 300.06 POL GAS INTOCABLE";
+  if (usdcEl) {
+    usdcEl.innerHTML = `$266.51 USDC SEGUROS <span style="font-size: 8.5px; color: var(--text-dim); font-weight: normal;">($243.99 POL · $21.52 BSC · $1 BIN)</span>`;
+  }
+  if (polEl) {
+    polEl.textContent = "🔒 300.06 POL GAS INTOCABLE · $0 RIESGO";
+  }
 }
 
 function renderLeftThroneAndSpecialists() {
@@ -2054,8 +2159,8 @@ function renderProposalsTable() {
     if (isClosed) {
       const exitTime = p.exitTimeFormatted || "17:03:30 UTC";
       timeColHtml = `
-        <strong style="color: #fff; font-size: 11px;">${entryTime}</strong>
-        <div style="font-size: 8.5px; color: ${isClosedWin ? 'var(--green)' : 'var(--red)'}; margin-top: 1px;">
+        <strong style="color: #fff; font-size: 12px;">${entryTime}</strong>
+        <div style="font-size: 10px; color: ${isClosedWin ? 'var(--green)' : 'var(--red)'}; margin-top: 2px;">
           🕒 SALIÓ: ${exitTime}
         </div>
       `;
@@ -2065,30 +2170,32 @@ function renderProposalsTable() {
       const remSec = elapsedSec % 60;
       const elapsedStr = elapsedMins > 0 ? `${elapsedMins}m ${remSec}s` : `${remSec}s`;
       timeColHtml = `
-        <strong style="color: #fff; font-size: 11px;">${entryTime}</strong>
-        <div style="font-size: 8.5px; color: var(--cyan); margin-top: 1px;">
+        <strong style="color: #fff; font-size: 12px;">${entryTime}</strong>
+        <div style="font-size: 10px; color: var(--cyan); margin-top: 2px;">
           ⏳ Hace ${elapsedStr} (Sin Holdear)
         </div>
       `;
     }
 
-    // 2. 🐂🐻 ACCIÓN DE BULL & BEAR
+    // 2. 🪙 ACTIVO (Símbolo + Precio Kraken)
+    const coinSymbol = p.pair;
+    const krakenPriceStr = "$" + formatPrice(p.price);
+
+    // 3. 🐂🐻 QUÉ HACE BULL & BEAR
     let actionBadgeHtml = "";
     if (isClosedWin) {
       actionBadgeHtml = `<span class="direction-badge closed-win"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">check_circle</span> 💵 COBRÓ Y SALIÓ A USDC</span>`;
     } else if (p.status === "CLOSED_BE") {
-      actionBadgeHtml = `<span class="direction-badge" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4);"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">shield</span> 🛡️ CERRÓ BREAKEVEN</span>`;
+      actionBadgeHtml = `<span class="direction-badge" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4);"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">shield</span> 🛡️ CANDADO BREAKEVEN #00</span>`;
     } else if (isClosedSl) {
       actionBadgeHtml = `<span class="direction-badge closed-sl"><span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">cancel</span> 🛑 FRENO EJECUTADO</span>`;
+    } else if (p.status === "WATCHING") {
+      actionBadgeHtml = `<span class="direction-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4);"><span class="material-symbols-rounded icon-xs" style="vertical-align:-2px;">visibility</span> 👀 VIGILANDO ENTRADA EXACTA</span>`;
     } else if (isBull) {
-      actionBadgeHtml = `<span class="direction-badge bull"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 COMPRÓ (SUBE)</span>`;
+      actionBadgeHtml = `<span class="direction-badge bull"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 COMPRÓ (BUSCANDO SUBIDA)</span>`;
     } else {
-      actionBadgeHtml = `<span class="direction-badge bear"><span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> 🔴 ENTRÓ A LA BAJA</span>`;
+      actionBadgeHtml = `<span class="direction-badge bear"><span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> 🔴 ENTRÓ A LA BAJA (SHORT)</span>`;
     }
-
-    // 3. 🪙 ACTIVO (Símbolo + Precio Kraken)
-    const coinSymbol = p.pair;
-    const krakenPriceStr = "$" + formatPrice(p.price);
 
     // 4. 📡 QUIÉN DIO EL PASE + CONDICIÓN
     const isMacroOrGold = p.botId === "#701" || p.pair.includes("PAXG") || p.pair.includes("BTC") || p.pair.includes("LINK") || p.pair.includes("ONDO");
@@ -2118,19 +2225,19 @@ function renderProposalsTable() {
     if (isClosedWin) {
       const winVal = p.finalPnlUsdc || 0.36;
       pnlHtml = `
-        <span class="pnl-badge-floating win" style="font-size: 9.5px; font-weight: 800;">+$${winVal.toFixed(2)} USD</span>
-        <div style="font-size: 8px; color: var(--green); margin-top: 1px;">✅ COBRADO EN CUENTA</div>
+        <span class="pnl-badge-floating win" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">+$${winVal.toFixed(2)} USD</span>
+        <div style="font-size: 10px; color: var(--green); margin-top: 2px; font-weight: 700;">(+${(p.takeProfitPct || 0.20).toFixed(2)}%) EN META</div>
       `;
     } else if (p.status === "CLOSED_BE") {
       pnlHtml = `
-        <span class="pnl-badge-floating" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4); font-size: 9.5px; font-weight: 800;">+$0.00 USD</span>
-        <div style="font-size: 8px; color: var(--cyan); margin-top: 1px;">🛡️ $0.00 BREAKEVEN</div>
+        <span class="pnl-badge-floating" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4); font-size: 13px; font-weight: 800; padding: 4px 8px;">+$0.00 USD</span>
+        <div style="font-size: 10px; color: var(--cyan); margin-top: 2px; font-weight: 700;">🛡️ $0.00 BREAKEVEN</div>
       `;
     } else if (isClosedSl) {
       const slVal = Math.abs(p.finalPnlUsdc || 0.22);
       pnlHtml = `
-        <span class="pnl-badge-floating loss" style="font-size: 9.5px; font-weight: 800;">-$${slVal.toFixed(2)} USD</span>
-        <div style="font-size: 8px; color: var(--red); margin-top: 1px;">🛑 FRENO EJECUTADO</div>
+        <span class="pnl-badge-floating loss" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">-$${slVal.toFixed(2)} USD</span>
+        <div style="font-size: 10px; color: var(--red); margin-top: 2px; font-weight: 700;">🛑 FRENO EJECUTADO</div>
       `;
     } else {
       const diff = isBear ? (p.entryPrice - p.price) : (p.price - p.entryPrice);
@@ -2140,10 +2247,10 @@ function renderProposalsTable() {
       const pnlCls = isPos ? "win" : "loss";
       const isNearMeta = diffPct >= (p.takeProfitPct || 0.20) * 0.8;
       pnlHtml = `
-        <span class="pnl-badge-floating ${pnlCls}" style="font-size: 9.5px; font-weight: 800;">
+        <span class="pnl-badge-floating ${pnlCls}" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">
           ${isPos ? '+' : '-'}$${Math.abs(pnlUsdc).toFixed(2)} USD
         </span>
-        <div style="font-size: 8px; color: ${isPos ? 'var(--green)' : 'var(--red)'}; margin-top: 1px;">
+        <div style="font-size: 10px; color: ${isPos ? 'var(--green)' : 'var(--red)'}; margin-top: 2px; font-weight: 700;">
           (${isPos ? '+' : ''}${diffPct.toFixed(2)}%) ${isNearMeta ? 'EN META' : 'GANANDO'}
         </div>
       `;
@@ -2152,44 +2259,157 @@ function renderProposalsTable() {
     const isActiveChart = p.pair === TvChartState.activeSymbol;
 
     return `
-      <tr onclick="onTableRowClick('${p.pair}', ${idx})" style="cursor: pointer;" class="${isActiveChart ? 'active-chart-row' : ''}" title="Clic para cargar este par en el gráfico TradingView Pro superior">
+      <tr onclick="onTableRowClick('${p.pair}', ${idx})" style="cursor: pointer;" class="${isActiveChart ? 'active-chart-row' : ''}">
         <!-- 1. 🕒 HORA ENTRADA / TIEMPO -->
         <td>
           ${timeColHtml}
         </td>
 
-        <!-- 2. 🐂🐻 ACCIÓN DE BULL & BEAR -->
+        <!-- 2. 🪙 PAR DONDE ENTRÓ -->
+        <td>
+          <strong style="color: #fff; font-size: 13px;">${coinSymbol}</strong>
+          <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">${krakenPriceStr} Kraken</div>
+        </td>
+
+        <!-- 3. 🐂🐻 QUÉ HACE BULL & BEAR -->
         <td>
           ${actionBadgeHtml}
         </td>
 
-        <!-- 3. 🪙 ACTIVO -->
+        <!-- 4. 📡 QUIÉN AVISÓ Y POR QUÉ -->
         <td>
-          <strong style="color: #fff; font-size: 11px;">${coinSymbol}</strong>
-          <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 1px;">${krakenPriceStr} Kraken</div>
+          <div style="font-size: 11px; color: var(--text-main); font-weight: 700;">${passTag}</div>
+          <div style="font-size: 10px; color: var(--text-dim); margin-top: 2px;">${condTitle}</div>
         </td>
 
-        <!-- 4. 📡 QUIÉN DIO EL PASE + CONDICIÓN -->
+        <!-- 5. 💵 ENTRÓ A ➔ PRECIO AHORA -->
         <td>
-          <div style="font-size: 9.5px; color: var(--text-main); font-weight: 600;">${passTag}</div>
-          <div style="font-size: 8px; color: var(--text-dim); margin-top: 1px;">${condTitle}</div>
-        </td>
-
-        <!-- 5. 💵 ENTRADA ➔ ACTUAL -->
-        <td>
-          <div style="font-size: 9.5px; color: var(--text-muted);"><span style="color: var(--text-dim);">Entró:</span> ${entryPriceStr}</div>
-          <div style="font-size: 10.5px; font-weight: 700; color: ${currentPriceColor};"><span style="color: var(--text-dim);">${isClosed ? 'Salió:' : 'Ahora:'}</span> ${currentPriceStr}</div>
+          <div style="font-size: 11px; color: var(--text-muted);"><span style="color: var(--text-dim);">Entró:</span> ${entryPriceStr}</div>
+          <div style="font-size: 13px; font-weight: 800; color: ${currentPriceColor}; margin-top: 1px;"><span style="color: var(--text-dim);">${isClosed ? 'Salió:' : 'Ahora:'}</span> ${currentPriceStr}</div>
         </td>
 
         <!-- 6. 🛑 FRENO #00 / 🎯 META USDC -->
         <td>
-          <strong style="font-size: 10px; color: ${isBe ? 'var(--cyan)' : 'var(--red)'};">${slPriceStr}</strong>
-          <div style="font-size: 8px; color: var(--green); margin-top: 1px;">🎯 ${tpPriceStr} (${tpPctStr})</div>
+          <strong style="font-size: 11px; color: ${isBe ? 'var(--cyan)' : 'var(--red)'};">${isBe ? '🛡️ BE: ' : '🛑 SL: '}${slPriceStr}</strong>
+          <div style="font-size: 11px; color: var(--green); font-weight: 700; margin-top: 2px;">🎯 TP: ${tpPriceStr} (${tpPctStr})</div>
         </td>
 
         <!-- 7. 💰 LIQUIDEZ EN VIVO ($ USDC) -->
         <td>
           ${pnlHtml}
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function renderClosedTradesStrip() {
+  const tbody = document.getElementById("closedTradesTbody");
+  const trades = TradingState.closedTrades || [];
+
+  // Actualizar contadores de la cabecera de la Terminal Negra Antigravity
+  const totalClosedEl = document.getElementById("termTotalClosed");
+  const winsCountEl = document.getElementById("termWinsCount");
+  const lossesCountEl = document.getElementById("termLossesCount");
+  const netBalanceEl = document.getElementById("termNetBalance");
+
+  const wins = trades.filter(t => t.status === "WIN").length;
+  const losses = trades.filter(t => t.status === "SL").length;
+  const totalGain = trades.reduce((acc, t) => acc + (typeof t.gainUsdc === "number" ? t.gainUsdc : 0), 0);
+  const totalClosed = trades.length;
+
+  if (totalClosedEl) totalClosedEl.textContent = `TOTAL CERRADAS: ${totalClosed}`;
+  if (winsCountEl) winsCountEl.textContent = `🟢 GANADAS: ${wins}`;
+  if (lossesCountEl) lossesCountEl.textContent = `🔴 FRENOS: ${losses}`;
+  if (netBalanceEl) {
+    const sign = totalGain >= 0 ? "+" : "";
+    netBalanceEl.textContent = `BALANCE NETO CERRADO: ${sign}$${totalGain.toFixed(2)} USDC`;
+    netBalanceEl.className = "ag-stat-item " + (totalGain >= 0 ? "ag-stat-green" : "ag-stat-red");
+  }
+
+  if (!tbody) return;
+
+  if (trades.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #64748b; padding: 14px; font-family: var(--font-mono);">💻 Esperando primeros cierres de Bull &amp; Bear... Sin operaciones cerradas aún.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = trades.slice(0, 15).map(t => {
+    const isWin = t.status === "WIN";
+    const isBe = t.status === "BE";
+    const isSl = t.status === "SL";
+
+    // 1. Hora de Cierre & Duración
+    const exitTime = t.exitTimeFormatted || "17:00:00 UTC";
+    const durRaw = t.durationStr || "1m 40s";
+    const dur = durRaw.startsWith("Duró") ? `(${durRaw})` : `(Duró ${durRaw})`;
+
+    // 2. Par Operado (en blanco puro brillante)
+    const rawPair = (t.pair || "SOL/USDC").replace(/\s*\(.*?\)/, "").trim();
+
+    // 3. Operación que Hizo
+    const isBear = t.direction === "BEAR";
+    const opHtml = isBear
+      ? `<span style="color: #FF4D4D; font-weight: 700; font-size: 11px;">VENTA CORTA (BEAR SHORT)</span>`
+      : `<span style="color: #10B981; font-weight: 700; font-size: 11px;">COMPRA (BULL LONG)</span>`;
+
+    // 4. Equipo que intervino
+    let teamStr = t.teamTag || t.team;
+    if (!teamStr) {
+      if (rawPair.includes("PAXG") || rawPair.includes("BTC")) {
+        teamStr = "🏛️ #701 + 🧘‍♀️ #00 Zen";
+      } else if (rawPair.includes("VIRTUAL") || rawPair.includes("BRETT") || rawPair.includes("DEGEN")) {
+        teamStr = "🚀 #801 + 🧘‍♀️ #00 Zen";
+      } else {
+        teamStr = "⚡ #601 + 🧘‍♀️ #00 Zen";
+      }
+    }
+
+    // 5. Recorrido Real
+    const entryFormatted = formatPrice(t.entryPrice || 0);
+    const exitFormatted = formatPrice(t.exitPrice || 0);
+
+    // 6. Veredicto de Cierre (Súper Visible)
+    let verdictHtml = "";
+    if (isWin) {
+      verdictHtml = `<span class="ag-verdict-badge win"><span class="material-symbols-rounded icon-xs" style="vertical-align:-2px;">check_circle</span> ✅ META ALCANZADA (GANANCIA)</span>`;
+    } else if (isBe) {
+      verdictHtml = `<span class="ag-verdict-badge be"><span class="material-symbols-rounded icon-xs" style="vertical-align:-2px;">shield</span> 🛡️ CANDADO BREAKEVEN #00</span>`;
+    } else {
+      verdictHtml = `<span class="ag-verdict-badge loss"><span class="material-symbols-rounded icon-xs" style="vertical-align:-2px;">cancel</span> 🛡️ FRENO #00 EJECUTADO (PÉRDIDA CONTROLADA)</span>`;
+    }
+
+    // 7. Resultado Neto en Caja ($ USDC)
+    const gainVal = typeof t.gainUsdc === "number" ? t.gainUsdc : 0;
+    const gainPct = typeof t.gainPct === "number" ? t.gainPct : 0;
+    const sign = gainVal >= 0 ? "+" : "";
+    const pctSign = gainPct >= 0 ? "+" : "";
+    const pillClass = isWin ? "win" : isSl ? "loss" : "be";
+    const pnlTxt = `${sign}$${gainVal.toFixed(2)} USDC (${pctSign}${gainPct.toFixed(2)}%)`;
+
+    return `
+      <tr>
+        <td>
+          <strong style="color: #fff; font-size: 11px;">${exitTime}</strong>
+          <span style="font-size: 9.5px; color: #64748b; margin-left: 3px;">${dur}</span>
+        </td>
+        <td>
+          <strong style="color: #FFFFFF; font-size: 12px; letter-spacing: 0.5px;">${rawPair}</strong>
+        </td>
+        <td>
+          ${opHtml}
+        </td>
+        <td>
+          <span style="color: #94a3b8; font-size: 11px;">${teamStr}</span>
+        </td>
+        <td>
+          <span style="color: #94a3b8; font-size: 10.5px;">Entró: $${entryFormatted}</span> <span style="color: #64748b;">➔</span> <strong style="color: #fff; font-size: 11px;">Cerró en: $${exitFormatted}</strong>
+        </td>
+        <td>
+          ${verdictHtml}
+        </td>
+        <td>
+          <span class="ag-pnl-pill ${pillClass} font-mono">${pnlTxt}</span>
         </td>
       </tr>
     `;

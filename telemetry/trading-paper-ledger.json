@@ -2,10 +2,10 @@
   "schemaVersion": "3.0.0",
   "title": "Libro Contable Bull & Bear — Área 501",
   "tradeLotUsdc": 25,
-  "closedPnLUsdc": -0.27,
+  "closedPnLUsdc": -0.33000000000000007,
   "closedWins": 6,
-  "closedLosses": 4,
-  "lastUpdated": "2026-10-24T20:40:59.939Z",
+  "closedLosses": 6,
+  "lastUpdated": "2026-10-24T21:02:50.452Z",
   "activeTrades": {
     "POL/USDC": {
       "pair": "POL/USDC",
@@ -38,7 +38,7 @@
       "lotUsdc": 25,
       "takeProfitPct": 2.5,
       "stopLossPct": 0.8,
-      "breakevenLocked": false
+      "breakevenLocked": true
     },
     "SOL/USDC": {
       "pair": "SOL/USDC",
@@ -88,8 +88,8 @@
       "pair": "LINK/USDC",
       "botId": "#701",
       "direction": "BULL",
-      "entryPrice": 11.55913,
-      "entryTimestamp": "2026-10-24T20:35:01.946Z",
+      "entryPrice": 11.53588,
+      "entryTimestamp": "2026-10-24T21:02:50.452Z",
       "lotUsdc": 25,
       "takeProfitPct": 2.5,
       "stopLossPct": 0.8,
@@ -99,8 +99,8 @@
       "pair": "ONDO/USDC",
       "botId": "#701",
       "direction": "BEAR",
-      "entryPrice": 0.40636,
-      "entryTimestamp": "2026-10-24T20:35:01.946Z",
+      "entryPrice": 0.40532,
+      "entryTimestamp": "2026-10-24T21:02:50.452Z",
       "lotUsdc": 25,
       "takeProfitPct": 2.5,
       "stopLossPct": 0.8,
@@ -108,6 +108,26 @@
     }
   },
   "closedTradesHistory": [
+    {
+      "pair": "ONDO/USDC",
+      "direction": "BULL",
+      "type": "LOSS",
+      "pnlUsdc": -0.03,
+      "entryPrice": 0.40636,
+      "exitPrice": 0.40532,
+      "pct": -0.12,
+      "timestamp": "2026-10-24T21:02:50.452Z"
+    },
+    {
+      "pair": "LINK/USDC",
+      "direction": "BULL",
+      "type": "LOSS",
+      "pnlUsdc": -0.03,
+      "entryPrice": 11.55913,
+      "exitPrice": 11.53588,
+      "pct": -0.12,
+      "timestamp": "2026-10-24T21:02:50.452Z"
+    },
     {
       "pair": "ETH/USDC",
       "direction": "BEAR",
