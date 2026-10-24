@@ -664,6 +664,7 @@ function initApp() {
 
   renderBatteryCapsules(currentShotsDone, DAILY_TARGET);
   updateCannonsLiveUi();
+  renderAtomicRadarUi();
   renderEscortNebulasUi();
   updateTelemetryUi();
   renderTraceabilityTable();
@@ -1263,13 +1264,16 @@ async function syncLocalTelemetry() {
         telem.snipingEcosystem?.dailyAtomicOperations?.completedToday ||
         0);
       currentShotsDone = shots;
-      atomicRadar = telem.atomicProfitRadar || null;
+      // Prohibido sobreescribir con datos viejos de fleet-telemetry.json (-$0.040) si ya viene del cotizador RPC o de la caché reciente
+      if (!liveRadar.polygon && !liveRadar.bsc) {
+        atomicRadar = telem.atomicProfitRadar || null;
+        renderAtomicRadarUi();
+      }
       atomicExecutorAddress = telem.atomicExecutorAddressPolygon || null;
       atomicExecutorTx = telem.atomicExecutorDeployTxPolygon || null;
       atomicExecutorAddressBsc = telem.atomicExecutorAddressBsc || null;
       atomicExecutorTxBsc = telem.atomicExecutorDeployTxBsc || null;
       atomicShooter = telem.atomicAutoShooter || null;
-      renderAtomicRadarUi();
 
       const elBatteryFraction = document.getElementById("batteryQuotaFraction");
       if (elBatteryFraction) elBatteryFraction.textContent = `${shots} / ${DAILY_TARGET} DISPAROS HOY`;
@@ -1683,6 +1687,20 @@ const RADAR_CFG = {
 let liveRadar = { polygon: null, bsc: null };
 let liveRadarBusy = false;
 
+// HIDRATACIÓN MILISEGUNDO 0 (ANTI-SALTO F5 CON ÚLTIMA LECTURA REAL COTIZADA)
+try {
+  if (typeof localStorage !== "undefined") {
+    const cachedRadar = localStorage.getItem("area501_last_live_radar_v1");
+    if (cachedRadar) {
+      const parsed = JSON.parse(cachedRadar);
+      if (parsed) {
+        if (parsed.polygon) liveRadar.polygon = parsed.polygon;
+        if (parsed.bsc) liveRadar.bsc = parsed.bsc;
+      }
+    }
+  }
+} catch (_) {}
+
 function radarQuoteCall(v, tIn, tOut, amt) {
   const hex = amt.toString(16);
   if (v.t === "v3") {
@@ -1752,29 +1770,29 @@ async function computeLiveRadar(chain) {
       ti: b.ti,
       buy: cfg.venues[b.vi].n,
       sell: cfg.venues[k.vi].n,
+      netUsd: net,
       netUsdc: net,
       netPct: (net / cannonAmt) * 100,
       stable: !!cfg.tokens[b.ti].stable
     });
   });
   if (!rows.length) return null;
-  rows.sort((a, b) => b.netUsdc - a.netUsdc);
 
-  // Saca las rutas entre stablecoins (USDC <-> USDC.e / USDT / FDUSD) del visor principal salvo que crucen >= +$0.05
-  const volatileRows = rows.filter(r => !r.stable || r.netUsdc >= 0.05);
-  const activeRows = volatileRows.length > 0 ? volatileRows : rows;
+  // 1. Ordenamiento estricto por mejor netUsd real en vivo (de mayor a menor):
+  rows.sort((a, b) => b.netUsd - a.netUsd);
 
-  // Prioridad cross-pool (Piscina A -> Piscina B distintas); si no existe ninguna, cae a cualquier fila
-  const crossRows = activeRows.filter(r => r.buy !== r.sell);
-  const best = crossRows[0] || activeRows[0];
+  // 2. Muestra siempre en el Puesto #1 del Radar Atómico la ruta cross-pool más cercana a +$0.05 USDC
+  const crossRows = rows.filter(r => r.buy !== r.sell).sort((a, b) => b.netUsd - a.netUsd);
+  const best = crossRows[0] || rows[0];
   const nativeBestRow = rows.find(r => r.ti === 0);
 
-  // Top 3 de Rutas Volátiles con Mayor Apertura en Este Bloque
-  const poolTop = crossRows.length >= 3 ? crossRows : activeRows;
+  // Top 3 de Rutas con Mayor Retorno Neto en Este Bloque
+  const poolTop = crossRows.length >= 3 ? crossRows : rows;
   const top3 = poolTop.slice(0, 3).map(r => ({
     token: r.token,
     buy: r.buy,
     sell: r.sell,
+    netUsd: r.netUsd,
     netUsdc: r.netUsdc,
     netPct: r.netPct
   }));
@@ -1786,10 +1804,11 @@ async function computeLiveRadar(chain) {
     token: best.token,
     buy: best.buy,
     sell: best.sell,
+    netUsd: best.netUsd,
     netUsdc: best.netUsdc,
     netPct: best.netPct,
-    shouldFire: best.netUsdc >= minThreshold,
-    legacyNetUsdc: nativeBestRow ? nativeBestRow.netUsdc : null,
+    shouldFire: best.netUsd >= minThreshold,
+    legacyNetUsdc: nativeBestRow ? nativeBestRow.netUsd : null,
     top3,
     atMs: Date.now()
   };
@@ -1802,6 +1821,16 @@ async function liveAtomicRadarTick() {
     const [p, b] = await Promise.all([computeLiveRadar("polygon"), computeLiveRadar("bsc")]);
     if (p) liveRadar.polygon = p;
     if (b) liveRadar.bsc = b;
+    // Guardar en localStorage la última lectura real cotizada cada 4s (anti-salto F5)
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("area501_last_live_radar_v1", JSON.stringify({
+          polygon: liveRadar.polygon,
+          bsc: liveRadar.bsc,
+          savedAt: Date.now()
+        }));
+      }
+    } catch (_) {}
     renderAtomicRadarUi();
     refreshOpenTriggerModal();
   } catch (e) { } finally {
@@ -1812,11 +1841,11 @@ async function liveAtomicRadarTick() {
 // Resumen mostrado en tarjetas y modal: EN VIVO sin salto al refrescar
 function atomicRadarSummary(chain) {
   const live = liveRadar[chain];
-  const isLive = !!live && (Date.now() - live.atMs) < 30000;
-  const r = isLive ? live : (atomicRadar && atomicRadar[chain]);
+  const r = live || (atomicRadar && atomicRadar[chain]);
   if (!r) return null;
-  const sign = r.netUsdc >= 0 ? "+" : "-";
-  const money = `${sign}$${Math.abs(r.netUsdc).toFixed(4)} USD (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(3)}%)`;
+  const netVal = (r.netUsd !== undefined) ? r.netUsd : (r.netUsdc !== undefined ? r.netUsdc : 0);
+  const sign = netVal >= 0 ? "+" : "-";
+  const money = `${sign}$${Math.abs(netVal).toFixed(4)} USD (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(3)}%)`;
   const minThreshold = chain === "polygon" ? RADAR_MIN_NET_POLYGON : RADAR_MIN_NET_BSC;
   const min = (atomicRadar && atomicRadar.minNetProfitUsdc) || minThreshold;
   const now = new Date();
@@ -1828,12 +1857,14 @@ function atomicRadarSummary(chain) {
     token: r.token,
     buy: r.buy,
     sell: r.sell,
+    netUsd: netVal,
+    netUsdc: netVal,
     money,
     state: r.shouldFire ? "UMBRAL SUPERADO" : `esperando cruce a +$${min.toFixed(2)} USDC`,
     legacy: r.legacyNetUsdc,
     at,
     ok: r.shouldFire,
-    live: isLive,
+    live: true,
     top3: r.top3 || []
   };
 }
@@ -1875,9 +1906,10 @@ function renderAtomicRadarUi() {
 
     if (top3El && s.top3 && s.top3.length) {
       top3El.innerHTML = s.top3.map((r, idx) => {
-        const sign = r.netUsdc >= 0 ? "+" : "-";
-        const retTxt = `${sign}$${Math.abs(r.netUsdc).toFixed(3)} (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(2)}%)`;
-        const retClass = r.netUsdc >= 0 ? "green-text" : "gold-text";
+        const netVal = (r.netUsd !== undefined) ? r.netUsd : (r.netUsdc !== undefined ? r.netUsdc : 0);
+        const sign = netVal >= 0 ? "+" : "-";
+        const retTxt = `${sign}$${Math.abs(netVal).toFixed(3)} (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(2)}%)`;
+        const retClass = netVal >= 0 ? "green-text" : "gold-text";
         return `<span class="top3-tag rank-${idx + 1}" title="Compra: ${r.buy} ➔ Venta: ${r.sell}">
           <span class="t3-rank">${idx + 1}º</span>
           <span>USDC➔${r.token}➔USDC</span>

@@ -181,7 +181,7 @@ async function evaluateToken(provider, c, token, usdcAmount, gasUsdc, venues) {
       if (!s) return;
       const finalUsdc = Number(ethers.formatUnits(s, c.usdcDec));
       const net = finalUsdc - usdcAmount - gasUsdc;
-      rows.push({ token: token.symbol, tokenAddress: token.address, buy: vb.name, sell: venues[j].name, buyOutRaw: buys[i].toString(), sellOutRaw: s.toString(), finalUsdc, grossUsdc: finalUsdc - usdcAmount, gasUsdc, netUsdc: net, netPct: (net / usdcAmount) * 100 });
+      rows.push({ token: token.symbol, tokenAddress: token.address, buy: vb.name, sell: venues[j].name, buyOutRaw: buys[i].toString(), sellOutRaw: s.toString(), finalUsdc, grossUsdc: finalUsdc - usdcAmount, gasUsdc, netUsd: net, netUsdc: net, netPct: (net / usdcAmount) * 100 });
     });
   }));
   return rows;
@@ -211,23 +211,37 @@ async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride, opts = 
   // Base comparativa: solo el par nativo con las piscinas del radar anterior (sin Algebra)
   const legacyVenues = c.venues.filter(v => v.type !== "algebra" && v.fee !== 100 && v.fee !== 2500 && !/Biswap|BiSwap/.test(v.name));
   const legacyRows = await evaluateToken(provider, c, c.tokens[0], usdcAmount, gasUsdc, legacyVenues);
-  legacyRows.sort((a, b) => b.netUsdc - a.netUsdc);
+  legacyRows.sort((a, b) => (b.netUsd ?? b.netUsdc) - (a.netUsd ?? a.netUsdc));
 
   const perTokenRows = await Promise.all(c.tokens.map(t => evaluateToken(provider, c, t, usdcAmount, gasUsdc, c.venues)));
-  const rows = perTokenRows.flat().sort((a, b) => b.netUsdc - a.netUsdc);
-  // Regla sagrada: sacar las rutas entre stablecoins del visor principal.
-  // Solo se permiten si cruzan a ganancia neta >= +$0.05 USDC
-  const isStable = (sym) => sym === "USDT" || sym === "USDC.e" || sym === "FDUSD";
-  const volatileRows = rows.filter(r => !isStable(r.token) || r.netUsdc >= 0.05);
-  const candidateRows = volatileRows.length ? volatileRows : rows;
+  // Ordenamiento estricto por mejor netUsd real en vivo (de mayor a menor)
+  const rows = perTokenRows.flat().map(r => ({ ...r, netUsd: r.netUsdc })).sort((a, b) => b.netUsd - a.netUsd);
 
-  // Prioridad cross-pool (Piscina A ➔ Piscina B distintas); solo si no hay ninguna se cae a misma piscina.
-  const crossRows = candidateRows.filter(r => r.buy !== r.sell);
-  const top3 = (crossRows.length >= 3 ? crossRows : candidateRows).slice(0, 3);
-  const best = top3[0] || crossRows[0] || candidateRows[0] || null;
+  // Cross-pool prioritario: Piscina A -> Piscina B distintas ordenadas de mayor a menor netUsd
+  // Puesto #1 del Radar Atómico: la ruta que esté más cerca de +$0.05 USDC en este segundo exacto
+  const crossRows = rows.filter(r => r.buy !== r.sell).sort((a, b) => b.netUsd - a.netUsd);
+  const top3 = (crossRows.length >= 3 ? crossRows : rows).slice(0, 3);
+  const best = top3[0] || crossRows[0] || rows[0] || null;
   let odos = null;
   if (!opts.skipOdos) try { odos = await odosRoundTrip(c, chainKey === "polygon" ? 137 : 56, usdcAmount, gasUsdc); } catch (_) {}
-  return { chain: chainKey, usdcAmount, gasUsdc, gasLimit: Number(gasLimit), nativePriceUsdc, best, top3, bestIsCrossPool: !!crossRows[0], legacyBest: legacyRows[0] || null, rows, odos, perToken: c.tokens.map((t, i) => ({ symbol: t.symbol, best: perTokenRows[i].filter(r => r.buy !== r.sell).concat(perTokenRows[i]).sort((a, b) => (a.buy === a.sell) - (b.buy === b.sell) || b.netUsdc - a.netUsdc)[0] || null })), shouldFire: !!best && best.netUsdc >= MIN_NET_PROFIT_USDC };
+  return {
+    chain: chainKey,
+    usdcAmount,
+    gasUsdc,
+    gasLimit: Number(gasLimit),
+    nativePriceUsdc,
+    best,
+    top3,
+    bestIsCrossPool: !!crossRows[0],
+    legacyBest: legacyRows[0] || null,
+    rows,
+    odos,
+    perToken: c.tokens.map((t, i) => ({
+      symbol: t.symbol,
+      best: perTokenRows[i].filter(r => r.buy !== r.sell).concat(perTokenRows[i]).sort((a, b) => (a.buy === a.sell) - (b.buy === b.sell) || (b.netUsd ?? b.netUsdc) - (a.netUsd ?? a.netUsdc))[0] || null
+    })),
+    shouldFire: !!best && (best.netUsd ?? best.netUsdc) >= MIN_NET_PROFIT_USDC
+  };
 }
 
 /**
@@ -284,9 +298,17 @@ function persistRadarSummary(out) {
     const tel = JSON.parse(fs.readFileSync(file, "utf8"));
     const pick = r => r && r.best ? {
       usdcAmount: r.usdcAmount, gasUsdc: Number(r.gasUsdc.toFixed(4)), token: r.best.token, buy: r.best.buy, sell: r.best.sell,
-      netUsdc: Number(r.best.netUsdc.toFixed(4)), netPct: Number(r.best.netPct.toFixed(4)), shouldFire: r.shouldFire,
-      legacyNetUsdc: r.legacyBest ? Number(r.legacyBest.netUsdc.toFixed(4)) : null,
+      netUsd: Number((r.best.netUsd ?? r.best.netUsdc).toFixed(4)),
+      netUsdc: Number((r.best.netUsd ?? r.best.netUsdc).toFixed(4)),
+      netPct: Number(r.best.netPct.toFixed(4)), shouldFire: r.shouldFire,
+      legacyNetUsdc: r.legacyBest ? Number((r.legacyBest.netUsd ?? r.legacyBest.netUsdc).toFixed(4)) : null,
       crossPool: !!r.bestIsCrossPool, gasLimit: r.gasLimit,
+      top3: (r.top3 || []).map(t => ({
+        token: t.token, buy: t.buy, sell: t.sell,
+        netUsd: Number((t.netUsd ?? t.netUsdc).toFixed(4)),
+        netUsdc: Number((t.netUsd ?? t.netUsdc).toFixed(4)),
+        netPct: Number(t.netPct.toFixed(4))
+      })),
       odosBest: r.odos && r.odos[0] ? { token: r.odos[0].token, netUsdc: Number(r.odos[0].netUsdc.toFixed(4)) } : null
     } : null;
     tel.atomicProfitRadar = { updatedAt: new Date().toISOString(), minNetProfitUsdc: MIN_NET_PROFIT_USDC, polygon: pick(out.polygon), bsc: pick(out.bsc) };

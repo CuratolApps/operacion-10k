@@ -55008,20 +55008,47 @@
     "status": "ARMED_AND_READY"
   },
   "atomicProfitRadar": {
-    "updatedAt": "2026-10-24T09:41:19.354Z",
+    "updatedAt": "2026-10-24T13:43:14.157Z",
     "minNetProfitUsdc": 0.03,
     "polygon": {
       "usdcAmount": 243.99,
-      "gasUsdc": 0,
-      "token": "WBTC",
-      "buy": "QuickSwap Algebra V3",
-      "sell": "Uniswap V3 0.05%",
-      "netUsdc": -0.5552,
-      "netPct": -0.2276,
+      "gasUsdc": 0.0083,
+      "token": "USDC.e",
+      "buy": "Uniswap V3 0.05%",
+      "sell": "SushiSwap V3 0.05%",
+      "netUsd": -0.3496,
+      "netUsdc": -0.3496,
+      "netPct": -0.1433,
       "shouldFire": false,
-      "legacyNetUsdc": -0.5282,
+      "legacyNetUsdc": -0.5279,
       "crossPool": true,
       "gasLimit": 240000,
+      "top3": [
+        {
+          "token": "USDC.e",
+          "buy": "Uniswap V3 0.05%",
+          "sell": "SushiSwap V3 0.05%",
+          "netUsd": -0.3496,
+          "netUsdc": -0.3496,
+          "netPct": -0.1433
+        },
+        {
+          "token": "WETH",
+          "buy": "Uniswap V3 0.05%",
+          "sell": "QuickSwap Algebra V3",
+          "netUsd": -0.4346,
+          "netUsdc": -0.4346,
+          "netPct": -0.1781
+        },
+        {
+          "token": "WETH",
+          "buy": "QuickSwap Algebra V3",
+          "sell": "Uniswap V3 0.05%",
+          "netUsd": -0.5218,
+          "netUsdc": -0.5218,
+          "netPct": -0.2138
+        }
+      ],
       "odosBest": null
     },
     "bsc": null
