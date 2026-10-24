@@ -292,20 +292,20 @@
     <div class="col-fleet-center">
 
       <!-- ===================================================================== -->
-      <!-- ZONA 3 (PANEL SUPERIOR): CALENDARIO REAL DE AIRDROPS "HYDROS"          -->
+      <!-- ZONA 3 (PANEL SUPERIOR): CALENDARIO REAL DE AIRDROPS Y SEMILLAS           -->
       <!-- ===================================================================== -->
       <section class="quant-card panel-airdrop-fronts" id="blockAirdropFronts">
         <div class="quant-card-header">
           <div class="card-title-group">
             <span class="material-symbols-rounded gold">event_available</span>
-            <h2 class="card-title">FRENTES REALES DE AIRDROPS "HYDROS" &amp; CONEXIONES EN VIVO</h2>
+            <h2 class="card-title">📅 CALENDARIO DE AIRDROPS Y SEMILLAS (POR FECHA DE ENTREGA)</h2>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <button class="filter-pill-btn active" id="btnRefreshRpcs" onclick="refreshRpcPings()" title="Forzar medición en vivo de latencias RPC">
+            <button class="filter-pill-btn active" id="btnRefreshRpcs" onclick="refreshRpcPings()" title="Forzar medición en vivo de latencias RPC y auditoría">
               <span class="material-symbols-rounded icon-xs cyan">sync</span>
               <span>MEDIR RPCs EN VIVO</span>
             </button>
-            <span class="badge-tag-tiny badge-gold">5 FRENTES VERIFICADOS</span>
+            <span class="badge-tag-tiny badge-gold" id="badgeTotalFrontsVerified">5 OBJETIVOS AUDITADOS · GOPLUS ACTIVO</span>
           </div>
         </div>
 
@@ -313,12 +313,12 @@
           <table class="quant-table" id="airdropFrontsTable">
             <thead>
               <tr>
-                <th style="width: 24%;">FRENTE / ECOSISTEMA</th>
-                <th style="width: 10%;">CHAIN ID</th>
-                <th style="width: 22%;">RPC OFICIAL / CONEXIÓN</th>
-                <th style="width: 14%;">LATENCIA VIVO</th>
-                <th style="width: 16%;">CONTRATO / VECTORES</th>
-                <th style="width: 14%;">EXPLORADOR</th>
+                <th style="width: 22%;">OBJETIVO / ECOSISTEMA</th>
+                <th style="width: 20%;">PRIORIDAD &amp; FECHA CORTE</th>
+                <th style="width: 20%;">ESCUDO GOPLUS &amp; CONTRATO</th>
+                <th style="width: 16%;">ACCIÓN &amp; CARTERAS</th>
+                <th style="width: 12%;">RPC / LATENCIA</th>
+                <th style="width: 10%;">EXPLORADOR</th>
               </tr>
             </thead>
             <tbody id="airdropFrontsTbody">
@@ -327,21 +327,25 @@
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-citrea"></span>
-                    <span>Citrea Bitcoin ZK-Rollup</span>
+                    <strong style="color: #fff;">Citrea Bitcoin ZK</strong>
                   </div>
-                  <div style="font-size: 9px; color: var(--text-muted);">Testnet Incentivada · Bitcoin L2 ZK</div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Chain ID 5115 · Semilla Bitcoin L2</div>
                 </td>
-                <td><span class="badge-tag-tiny badge-gold">5115</span></td>
                 <td>
-                  <span class="font-mono text-dim" style="font-size: 10px;">rpc.testnet.citrea.xyz</span>
+                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">Corte 28 Oct – 15 Nov 2026</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WcBTC: 0x8a920F65319c321714F4B8487771B437c35F1225">0x8a92...1225</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-gold">BTC L2 Seed</span>
+                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">100 / 500 (Box 1)</div>
                 </td>
                 <td>
                   <span class="font-mono green-text" id="pingCitrea">-- ms</span>
-                  <span style="font-size: 9px; color: var(--text-muted); display: block;" id="blockCitrea">Bloque #---</span>
-                </td>
-                <td>
-                  <span class="font-mono" style="font-size: 10px;" title="WcBTC Official Contract">0x8a92...1225</span>
-                  <span style="font-size: 9px; color: var(--gold); display: block;">100/100 Box 1 Activo</span>
+                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockCitrea">Bloque #---</span>
                 </td>
                 <td>
                   <a href="https://explorer.testnet.citrea.xyz" target="_blank" rel="noopener noreferrer" class="explorer-link">
@@ -356,21 +360,25 @@
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-goat"></span>
-                    <span>GOAT Network Bitcoin zk-EVM</span>
+                    <strong style="color: #fff;">GOAT Network zk-EVM</strong>
                   </div>
-                  <div style="font-size: 9px; color: var(--text-muted);">Bitcoin L2 zk-EVM Testnet 3</div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Chain ID 48816 · Semilla BTC L2</div>
                 </td>
-                <td><span class="badge-tag-tiny badge-gold">48816</span></td>
                 <td>
-                  <span class="font-mono text-dim" style="font-size: 10px;">rpc.testnet3.goat.network</span>
+                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">Corte 31 Oct – 20 Nov 2026</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WBTC: 0x265538D4F3Fd6189912C09c62c2f6d4d1264cEc3">0x2655...cEc3</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-gold">BTC zk-EVM Farm</span>
+                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">100 / 500 (Box 1)</div>
                 </td>
                 <td>
                   <span class="font-mono green-text" id="pingGoat">-- ms</span>
-                  <span style="font-size: 9px; color: var(--text-muted); display: block;" id="blockGoat">Bloque #---</span>
-                </td>
-                <td>
-                  <span class="font-mono" style="font-size: 10px;" title="WBTC GOAT Contract">0x2655...cEc3</span>
-                  <span style="font-size: 9px; color: var(--gold); display: block;">100/100 Box 1 Activo</span>
+                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockGoat">Bloque #---</span>
                 </td>
                 <td>
                   <a href="https://explorer.testnet3.goat.network" target="_blank" rel="noopener noreferrer" class="explorer-link">
@@ -380,88 +388,100 @@
                 </td>
               </tr>
 
-              <!-- 3. Base Ecosystem -->
+              <!-- 3. Misiones Gasless EIP-712 & Daily Check-Ins -->
+              <tr id="frontRow-mainnet">
+                <td>
+                  <div class="front-badge-wrap">
+                    <span class="chain-dot-mini chain-dot-polygon"></span>
+                    <strong style="color: #fff;">Gasless EIP-712 &amp; Check-In</strong>
+                  </div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Polygon 137 / BSC 56 · $0 Gas</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">Corte 25–30 Oct 2026</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WPOL / Checkin: 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270">0x0d50...1270</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-green">Gasless EIP-712</span>
+                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">500 / 500 Flota</div>
+                </td>
+                <td>
+                  <span class="font-mono green-text" id="pingMainnets">-- ms</span>
+                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockMainnets">Bloque #---</span>
+                </td>
+                <td>
+                  <a href="https://polygonscan.com" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                    <span>EXPLORER</span>
+                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                  </a>
+                </td>
+              </tr>
+
+              <!-- 4. Base Ecosystem -->
               <tr id="frontRow-base">
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-base"></span>
-                    <span>Base Ecosystem</span>
+                    <strong style="color: #fff;">Base Ecosystem</strong>
                   </div>
-                  <div style="font-size: 9px; color: var(--text-muted);">Coinbase L2 Superchain · Sepolia &amp; Mainnet</div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Coinbase L2 · Chain ID 8453</div>
                 </td>
-                <td><span class="badge-tag-tiny badge-cyan">8453 / 84532</span></td>
                 <td>
-                  <span class="font-mono text-dim" style="font-size: 10px;">sepolia.base.org</span>
+                  <span class="badge-tag-tiny badge-seed">🌱 PRIORIDAD 2</span>
+                  <div style="font-size: 8.5px; color: #10b981; margin-top: 2px;">Siembra Continua Q4–Q1</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WETH: 0x4200000000000000000000000000000000000006">0x4200...0006</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-cyan">DeFi Wrap</span>
+                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">500 / 500 Flota</div>
                 </td>
                 <td>
                   <span class="font-mono green-text" id="pingBase">-- ms</span>
-                  <span style="font-size: 9px; color: var(--text-muted); display: block;" id="blockBase">Bloque #---</span>
+                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockBase">Bloque #---</span>
                 </td>
                 <td>
-                  <span class="font-mono" style="font-size: 10px;" title="Base WETH Contract">0x4200...0006</span>
-                  <span style="font-size: 9px; color: var(--cyan); display: block;">500/500 Flota Conectada</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.basescan.org" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                  <a href="https://basescan.org" target="_blank" rel="noopener noreferrer" class="explorer-link">
                     <span>BASESCAN</span>
                     <span class="material-symbols-rounded icon-xs">open_in_new</span>
                   </a>
                 </td>
               </tr>
 
-              <!-- 4. Arbitrum & Optimism Superchain -->
+              <!-- 5. Arbitrum & Optimism Superchain -->
               <tr id="frontRow-arbitrum">
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-arbitrum"></span>
-                    <span>Arbitrum &amp; Optimism Superchain</span>
+                    <strong style="color: #fff;">Arbitrum &amp; OP Superchain</strong>
                   </div>
-                  <div style="font-size: 9px; color: var(--text-muted);">Arbitrum One / Nitro &amp; OP Stack</div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Nitro L2 · Chain ID 42161</div>
                 </td>
-                <td><span class="badge-tag-tiny badge-purple">421614 / 11155420</span></td>
                 <td>
-                  <span class="font-mono text-dim" style="font-size: 10px;">sepolia-rollup.arbitrum.io</span>
+                  <span class="badge-tag-tiny badge-seed">🌱 PRIORIDAD 2</span>
+                  <div style="font-size: 8.5px; color: #10b981; margin-top: 2px;">Siembra Continua Nitro</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WETH: 0x980B62Da83eFf3D4576C647993b0c1D7faf17c73">0x980B...7c73</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-purple">DeFi Wrap</span>
+                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">500 / 500 Flota</div>
                 </td>
                 <td>
                   <span class="font-mono green-text" id="pingArbitrum">-- ms</span>
-                  <span style="font-size: 9px; color: var(--text-muted); display: block;" id="blockArbitrum">Bloque #---</span>
+                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockArbitrum">Bloque #---</span>
                 </td>
                 <td>
-                  <span class="font-mono" style="font-size: 10px;" title="Arbitrum WETH Contract">0x980B...7c73</span>
-                  <span style="font-size: 9px; color: var(--purple); display: block;">500/500 Flota Conectada</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.arbiscan.io" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                  <a href="https://arbiscan.io" target="_blank" rel="noopener noreferrer" class="explorer-link">
                     <span>ARBISCAN</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-
-              <!-- 5. Misiones Gasless EIP-712 & Mainnet Check-Ins -->
-              <tr id="frontRow-mainnet">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-polygon"></span>
-                    <span>Gasless EIP-712 &amp; Mainnet Check-Ins</span>
-                  </div>
-                  <div style="font-size: 9px; color: var(--text-muted);">Polygon PoS &amp; BSC Mainnet</div>
-                </td>
-                <td><span class="badge-tag-tiny badge-green">137 &amp; 56</span></td>
-                <td>
-                  <span class="font-mono text-dim" style="font-size: 10px;">polygon.drpc.org / bsc-dataseed</span>
-                </td>
-                <td>
-                  <span class="font-mono green-text" id="pingMainnets">-- ms</span>
-                  <span style="font-size: 9px; color: var(--text-muted); display: block;" id="blockMainnets">Bloque #---</span>
-                </td>
-                <td>
-                  <span class="font-mono" style="font-size: 10px;" title="WPOL & WBNB Contracts">EIP-712 Gasless</span>
-                  <span style="font-size: 9px; color: var(--green); display: block;">5 Cabeceras + 15 Sub-Caps</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com" target="_blank" rel="noopener noreferrer" class="explorer-link">
-                    <span>POLYGONSCAN</span>
                     <span class="material-symbols-rounded icon-xs">open_in_new</span>
                   </a>
                 </td>

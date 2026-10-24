@@ -271,6 +271,9 @@ body.area501-flota-body {
 .badge-gold { background: rgba(245, 158, 11, 0.12); color: var(--gold); border: 1px solid var(--border-gold); }
 .badge-green { background: rgba(0, 255, 136, 0.12); color: var(--green); border: 1px solid var(--border-green); }
 .badge-purple { background: rgba(176, 38, 255, 0.12); color: var(--purple); border: 1px solid var(--border-purple); }
+.badge-fire { background: rgba(255, 77, 77, 0.14); color: #ff6b6b; border: 1px solid rgba(255, 77, 77, 0.35); font-weight: 800; letter-spacing: 0.2px; }
+.badge-seed { background: rgba(16, 185, 129, 0.14); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35); font-weight: 800; letter-spacing: 0.2px; }
+.badge-goplus { background: rgba(0, 255, 136, 0.08); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); font-weight: 700; white-space: nowrap; }
 
 .card-data-main {
   display: flex;

@@ -1,14 +1,16 @@
 {
-  "schemaVersion": "2.2.0",
-  "project": "Operación 10K — Omnichain Swarm Opportunities & Missions",
-  "lastUpdated": "2026-10-20T21:15:00Z",
-  "description": "Catálogo dinámico maestro de misiones on-chain y off-chain a costo $0.00 para los 500 satélites en 5 Boxes.",
+  "schemaVersion": "3.0.0",
+  "project": "Operación 10K — Calendario de Airdrops y Semillas por Fecha de Entrega",
+  "lastUpdated": "2026-10-24T00:00:00Z",
+  "deliverySeason": "Octubre–Noviembre 2026",
+  "securityAudit": "100% Verificado GoPlus Security API (0% Honeypot)",
+  "description": "Catálogo dinámico maestro de misiones y semillas a costo $0.00 ordenadas por proximidad de corte/entrega para los 500 satélites.",
   "executionRules": {
     "antiSybilJitterMs": [1200, 2800],
     "maxGasGwei": 50,
     "isolationEnforced": true,
     "vipVaultUntouchable": true,
-    "zeroGasRequiredForVectors": ["gasless_airdrop_quests"],
+    "zeroGasRequiredForVectors": ["gasless_airdrop_quests", "bitcoin_l2_farm"],
     "costCategory": "$0.00 Costo de Capital"
   },
   "vectors": {
@@ -73,7 +75,11 @@
     },
     "testnet_free_mints_and_defi": {
       "id": "VECTOR_2_TESTNET_DEFI_MINTS",
-      "name": "Vector 2: DeFi Wrapping, Free Mints & Solana Activity",
+      "name": "Vector 2: Base Ecosystem, Arbitrum & OP Superchain (DeFi Wrapping & Free Mints)",
+      "priority": "PRIORIDAD_2",
+      "priorityBadge": "🌱 PRIORIDAD 2 · SIEMBRA CONTINUA",
+      "deliveryWindow": "Siembra Continua Q4 2026 – Q1 2027",
+      "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "description": "Interacciones rotativas con contratos verificados DeFi (WETH deposit/wrap), acuñación gratuita de actividad y transferencias memo en Solana Devnet.",
       "gasLimitRange": [36000, 65000],
       "actions": [
@@ -114,6 +120,10 @@
     "gasless_airdrop_quests": {
       "id": "VECTOR_3_GASLESS_QUESTS",
       "name": "Vector 3: Campañas Airdrop Gasless (EIP-712 & Personal Sign $0.00)",
+      "priority": "PRIORIDAD_1",
+      "priorityBadge": "🔥 PRIORIDAD 1 · CORTE 25–30 OCT 2026",
+      "deliveryWindow": "25 Oct – 20 Nov 2026 (KieDex, Pheasant, DogeOS, Fables)",
+      "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "description": "Campañas de firma criptográfica off-chain a costo $0.00 de gas para calificación masiva de la flota en campañas multi-chain.",
       "costGas": 0,
       "campaigns": [
@@ -310,13 +320,19 @@
           "name": "Citrea ZK-Rollup Bitcoin Verification Quest",
           "chain": "citreaTestnet",
           "chainId": 5115,
+          "priority": "PRIORIDAD_1",
+          "priorityBadge": "🔥 PRIORIDAD 1 · CORTE 28 OCT–15 NOV 2026",
+          "snapshotDate": "2026-11-15T23:59:59Z",
+          "formattedDeadline": "28 Oct – 15 Nov 2026 (Fase Incentivada Final)",
+          "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
+          "actionType": "BTC L2 Seed & Attestation",
           "standard": "EIP-712",
           "pointsPerExecution": 25,
           "domain": {
             "name": "Citrea-ZK-Rollup-Farm",
             "version": "1",
             "chainId": 5115,
-            "verifyingContract": "0x8A920f65319C321714F4B8487771b437C35F1225"
+            "verifyingContract": "0x8a920F65319c321714F4B8487771B437c35F1225"
           },
           "primaryType": "BitcoinL2Attestation",
           "types": {
@@ -333,13 +349,19 @@
           "name": "Goat Network BTC L2 Daily Farm Streak",
           "chain": "goatTestnet",
           "chainId": 48816,
+          "priority": "PRIORIDAD_1",
+          "priorityBadge": "🔥 PRIORIDAD 1 · CORTE 31 OCT–20 NOV 2026",
+          "snapshotDate": "2026-11-20T23:59:59Z",
+          "formattedDeadline": "31 Oct – 20 Nov 2026 (Testnet 3 Final)",
+          "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
+          "actionType": "BTC zk-EVM Farm Streak",
           "standard": "EIP-712",
           "pointsPerExecution": 25,
           "domain": {
             "name": "Goat-Bitcoin-L2-Streak",
             "version": "1",
             "chainId": 48816,
-            "verifyingContract": "0x265538d4F3Fd6189912c09c62C2F6D4d1264cEC3"
+            "verifyingContract": "0x265538D4F3Fd6189912C09c62c2f6d4d1264cEc3"
           },
           "primaryType": "GoatStreakProof",
           "types": {

@@ -25,6 +25,7 @@ const {
 const { getWalletSigner, getSolanaKeypair } = require("./swarm-engine");
 const { notifyRoundSummary } = require("./telegram-notifier");
 const { getSatelliteDNA } = require("./autonomous-brain-lomo5");
+const { runSeedAirdropEngine } = require("./seed-airdrop-engine");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const REPORT_FILE = path.join(__dirname, "last-run-report.json");
@@ -808,6 +809,13 @@ async function runTaskRunner() {
   }
   console.log("=========================================================================================\n");
 
+  let seedRadar = null;
+  try {
+    seedRadar = await runSeedAirdropEngine();
+  } catch (seedErr) {
+    console.log(`⚠️ Error ejecutando seed-airdrop-engine: ${seedErr.message}`);
+  }
+
   const report = {
     timestamp: new Date().toISOString(),
     executionMode: isDryRun ? "DRY-RUN" : "PRODUCTION",
@@ -818,7 +826,8 @@ async function runTaskRunner() {
     sampleHashes,
     networksBreakdown,
     evmResults,
-    solanaResult
+    solanaResult,
+    seedAirdropRadar: seedRadar
   };
 
   fs.writeFileSync(REPORT_FILE, JSON.stringify(report, null, 2), "utf8");

@@ -8,21 +8,27 @@
 // =============================================================================
 // 1. CONFIGURACIÓN DE FRENTES VERIFICADOS & ENDPOINTS RPC EN VIVO
 // =============================================================================
+// 1. CONFIGURACIÓN DEL CALENDARIO DE AIRDROPS Y SEMILLAS (POR FECHA DE ENTREGA)
+// =============================================================================
 const AIRDROP_FRONTS = {
   citrea: {
     id: "citrea",
     name: "Citrea Bitcoin ZK-Rollup",
     chainId: 5115,
     symbol: "cBTC",
+    priority: "PRIORIDAD_1",
+    priorityBadge: "🔥 PRIORIDAD 1",
+    windowCut: "Corte 28 Oct – 15 Nov 2026",
+    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    antiSybilAction: "BTC L2 Seed",
     rpcs: [
       "https://rpc.testnet.citrea.xyz",
       "https://citrea-testnet.rpc.thirdweb.com"
     ],
     contract: "0x8a920F65319c321714F4B8487771B437c35F1225",
     contractLabel: "WcBTC Official",
-    windowCut: "Q1-Q2 2027 · Testnet Incentivada",
     explorerBase: "https://explorer.testnet.citrea.xyz/tx/",
-    activeWalletsDesc: "100/100 Box 1 Activo",
+    activeWalletsDesc: "100 / 500 (Box 1)",
     pingMs: null,
     latestBlock: null
   },
@@ -31,66 +37,85 @@ const AIRDROP_FRONTS = {
     name: "GOAT Network Bitcoin zk-EVM",
     chainId: 48816,
     symbol: "BTC",
+    priority: "PRIORIDAD_1",
+    priorityBadge: "🔥 PRIORIDAD 1",
+    windowCut: "Corte 31 Oct – 20 Nov 2026",
+    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    antiSybilAction: "BTC zk-EVM Farm",
     rpcs: [
       "https://rpc.testnet3.goat.network",
       "https://goat-testnet.rpc.thirdweb.com"
     ],
     contract: "0x265538D4F3Fd6189912C09c62c2f6d4d1264cEc3",
-    contractLabel: "WBTC Contract",
-    windowCut: "Q2 2027 · Testnet 3",
+    contractLabel: "WBTC Official",
     explorerBase: "https://explorer.testnet3.goat.network/tx/",
-    activeWalletsDesc: "100/100 Box 1 Activo",
+    activeWalletsDesc: "100 / 500 (Box 1)",
+    pingMs: null,
+    latestBlock: null
+  },
+  mainnets: {
+    id: "mainnets",
+    name: "Gasless EIP-712 & Daily Check-Ins",
+    chainId: 137,
+    secondaryChainId: 56,
+    symbol: "POL / BNB",
+    priority: "PRIORIDAD_1",
+    priorityBadge: "🔥 PRIORIDAD 1",
+    windowCut: "Corte 25–30 Oct 2026",
+    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    antiSybilAction: "Gasless EIP-712",
+    rpcs: [
+      "https://polygon-bor-rpc.publicnode.com",
+      "https://bsc-rpc.publicnode.com"
+    ],
+    contract: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+    contractLabel: "WPOL / WBNB Checkin",
+    explorerBase: "https://polygonscan.com/tx/",
+    activeWalletsDesc: "500 / 500 Flota",
     pingMs: null,
     latestBlock: null
   },
   base: {
     id: "base",
-    name: "Base Ecosystem",
-    chainId: 84532,
+    name: "Base Ecosystem (Coinbase L2)",
+    chainId: 8453,
+    testnetChainId: 84532,
     symbol: "ETH",
+    priority: "PRIORIDAD_2",
+    priorityBadge: "🌱 PRIORIDAD 2",
+    windowCut: "Siembra Continua Q4–Q1",
+    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    antiSybilAction: "DeFi Wrap",
     rpcs: [
-      "https://sepolia.base.org",
-      "https://base-sepolia-rpc.publicnode.com"
+      "https://mainnet.base.org",
+      "https://sepolia.base.org"
     ],
     contract: "0x4200000000000000000000000000000000000006",
     contractLabel: "WETH Base",
-    windowCut: "En curso 2026-2027 · Superchain",
-    explorerBase: "https://sepolia.basescan.org/tx/",
-    activeWalletsDesc: "500/500 Flota Conectada",
+    explorerBase: "https://basescan.org/tx/",
+    activeWalletsDesc: "500 / 500 Flota",
     pingMs: null,
     latestBlock: null
   },
   arbitrum: {
     id: "arbitrum",
     name: "Arbitrum & Optimism Superchain",
-    chainId: 421614,
+    chainId: 42161,
+    testnetChainId: 421614,
     symbol: "ETH",
+    priority: "PRIORIDAD_2",
+    priorityBadge: "🌱 PRIORIDAD 2",
+    windowCut: "Siembra Continua Nitro",
+    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    antiSybilAction: "DeFi Wrap",
     rpcs: [
-      "https://sepolia-rollup.arbitrum.io/rpc",
-      "https://arbitrum-sepolia-rpc.publicnode.com"
+      "https://arb1.arbitrum.io/rpc",
+      "https://sepolia-rollup.arbitrum.io/rpc"
     ],
     contract: "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73",
-    contractLabel: "WETH Arbitrum",
-    windowCut: "Superchain Grants · L2 Nitro",
-    explorerBase: "https://sepolia.arbiscan.io/tx/",
-    activeWalletsDesc: "500/500 Flota Conectada",
-    pingMs: null,
-    latestBlock: null
-  },
-  mainnets: {
-    id: "mainnets",
-    name: "Gasless EIP-712 & Mainnet Check-Ins",
-    chainId: 137,
-    symbol: "POL",
-    rpcs: [
-      "https://polygon-bor-rpc.publicnode.com",
-      "https://bsc-rpc.publicnode.com"
-    ],
-    contract: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-    contractLabel: "WPOL / WBNB",
-    windowCut: "Check-in Diario Continuo",
-    explorerBase: "https://polygonscan.com/tx/",
-    activeWalletsDesc: "5 Cabeceras + 15 Sub-Caps",
+    contractLabel: "WETH Arbitrum / OP",
+    explorerBase: "https://arbiscan.io/tx/",
+    activeWalletsDesc: "500 / 500 Flota",
     pingMs: null,
     latestBlock: null
   }
@@ -243,11 +268,12 @@ async function loadAllTelemetryData() {
   const ts = Date.now();
 
   try {
-    const [telRes, lastRunRes, pubWalletsRes, tgRes] = await Promise.all([
+    const [telRes, lastRunRes, pubWalletsRes, tgRes, radarRes] = await Promise.all([
       fetch(`../telemetry/fleet-telemetry.json?t=${ts}`).catch(() => null),
       fetch(`../last-run-report.json?t=${ts}`).catch(() => null),
       fetch(`../wallets-public-list.json?t=${ts}`).catch(() => null),
-      fetch(`../telemetry/telegram-alerts.json?t=${ts}`).catch(() => null)
+      fetch(`../telemetry/telegram-alerts.json?t=${ts}`).catch(() => null),
+      fetch(`../telemetry/seed-airdrop-radar.json?t=${ts}`).catch(() => null)
     ]);
 
     if (telRes && telRes.ok) {
@@ -262,6 +288,10 @@ async function loadAllTelemetryData() {
     if (tgRes && tgRes.ok) {
       state.telegramAlerts = await tgRes.json();
     }
+    if (radarRes && radarRes.ok) {
+      state.seedRadar = await radarRes.json();
+      syncRadarWithFronts();
+    }
 
     renderTopNavMetrics();
     renderBoxesColumn();
@@ -272,6 +302,26 @@ async function loadAllTelemetryData() {
   } catch (err) {
     console.warn("⚠️ [FLOTA X500] Error al sincronizar telemetría:", err.message);
   }
+}
+
+function syncRadarWithFronts() {
+  if (!state.seedRadar || !Array.isArray(state.seedRadar.targets)) return;
+  state.seedRadar.targets.forEach(t => {
+    const key = t.id === "gasless-mainnet" ? "mainnets" : (t.id === "arbitrum-superchain" ? "arbitrum" : t.id);
+    if (AIRDROP_FRONTS[key]) {
+      if (AIRDROP_FRONTS[key].pingMs === null && t.rpcPingMs) {
+        AIRDROP_FRONTS[key].pingMs = t.rpcPingMs;
+      }
+      if (AIRDROP_FRONTS[key].latestBlock === null && t.currentBlock) {
+        AIRDROP_FRONTS[key].latestBlock = t.currentBlock;
+      }
+    }
+  });
+  updateFrontUi("citrea", "pingCitrea", "blockCitrea");
+  updateFrontUi("goat", "pingGoat", "blockGoat");
+  updateFrontUi("mainnets", "pingMainnets", "blockMainnets");
+  updateFrontUi("base", "pingBase", "blockBase");
+  updateFrontUi("arbitrum", "pingArbitrum", "blockArbitrum");
 }
 
 // =============================================================================

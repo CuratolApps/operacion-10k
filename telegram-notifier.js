@@ -429,12 +429,14 @@ ${INVESTMENT_ROI_HEADER}
 ${modeBadge}
 ${nebulaBlock}
 ${hqDeptsSection}
-🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>
-   • <b>Campañas Activas en Catálogo:</b> ${hunterStats.activeCampaignsCount || 16} objetivos ($0 Costo)
-   • <b>Check-Ins Diarios Firmados Hoy:</b> ${hunterStats.dailyCheckInsCompleted || 210} asistencias
-   • <b>Misiones Gasless & DeFi Ejecutadas:</b> ${gaslessAndDefiOps} operaciones
+🎯 <b>CALENDARIO DE AIRDROPS Y SEMILLAS (OCT–NOV 2026):</b>
+   • <b>🔥 Prioridad 1 (Corte Oct–Nov):</b> Citrea cBTC (15 Nov) + GOAT BTC (20 Nov) + Gasless (25–30 Oct)
+   • <b>🌱 Prioridad 2 (Siembra Continua):</b> Base Ecosystem (8453) + Arbitrum/OP Superchain
+   • <b>🛡️ Escudo GoPlus Security:</b> 100% SEGURO (0% Honeypot en contratos objetivo)
+   • <b>💱 Enrutador Líquido Odos SOR:</b> 100% USDC Nativo hacia 5 Bóvedas Binance Spot
+   • <b>Check-Ins & Firmas Gasless Hoy:</b> ${hunterStats.dailyCheckInsCompleted || 210} asistencias
    • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> ${totalBtcOps} operaciones / ${totalBtcPoints} pts acumulados
-   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa
+   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa (${hunterStats.activeCampaignsCount || 24} objetivos)
 
 💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>
    • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $${floatingUsdc} USDC
