@@ -86,9 +86,10 @@ async function scanChain(key, state, opts) {
   // 1) Escaneo $0 gas
   const r = await guard.evaluateRoundTrip(key, shotAmount, prov, { skipOdos: true });
   const cross = r.rows.filter(x => x.buy !== x.sell && legOf(key, x.buy) && legOf(key, x.sell)).sort((a, b) => b.netUsdc - a.netUsdc);
-  const cand = cross.filter(x => x.netUsdc >= MIN_NET_PROFIT_USDC)[0] || null;
+  const minNet = key === "polygon" ? 0.05 : 0.03;
+  const cand = cross.filter(x => x.netUsdc >= minNet)[0] || null;
   const bestCross = cross[0] || null;
-  st.scan = { usdcIn: shotAmount, gasUsdc: Number(r.gasUsdc.toFixed(4)), gasLimit: r.gasLimit, bestCross: bestCross ? { token: bestCross.token, buy: bestCross.buy, sell: bestCross.sell, netUsdc: Number(bestCross.netUsdc.toFixed(4)), netPct: Number(bestCross.netPct.toFixed(4)) } : null, firing: !!cand };
+  st.scan = { usdcIn: shotAmount, gasUsdc: Number(r.gasUsdc.toFixed(4)), gasLimit: r.gasLimit, minNet, bestCross: bestCross ? { token: bestCross.token, buy: bestCross.buy, sell: bestCross.sell, netUsdc: Number(bestCross.netUsdc.toFixed(4)), netPct: Number(bestCross.netPct.toFixed(4)) } : null, firing: !!cand };
 
   // Guardas previas a firmar
   const ds = state.shootersDay;
@@ -247,7 +248,18 @@ async function runAutoShooter(opts = {}) {
 module.exports = { runAutoShooter, MIN_NET_PROFIT_USDC, TARGET_DAILY_ATOMIC_SHOTS };
 
 if (require.main === module) {
+  const exitTimeout = setTimeout(() => {
+    console.log("⏱️ Timeout de 10s alcanzado, cerrando proceso.");
+    process.exit(0);
+  }, 10000);
   const arg = n => { const i = process.argv.indexOf(n); return i > -1 ? process.argv[i + 1] : null; };
   runAutoShooter({ passes: Number(arg("--passes") || 1), intervalSec: Number(arg("--interval") || 30), dry: process.argv.includes("--dry-run") || process.env.AUTO_SHOOTER_DRY === "1" })
-    .then(() => process.exit(0)).catch(e => { console.error("ERROR:", e.message); process.exit(1); });
+    .then(() => {
+      clearTimeout(exitTimeout);
+      process.exit(0);
+    }).catch(e => {
+      clearTimeout(exitTimeout);
+      console.error("ERROR:", e.message);
+      process.exit(1);
+    });
 }

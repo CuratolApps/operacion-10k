@@ -601,7 +601,7 @@ async function evaluateEscortPairForRoute(chainKey, candidate, provider = null) 
   const oddAuthorized = isNetPositive;
 
   // 2. NEBULOSA PAR: Guardaespaldas Limpiadora de 5 Candados
-  const allowedTokens = ["WPOL", "WBNB", "USDC", "USDT", "USDC.E", "WETH", "WBTC", "LINK", "AAVE", "ETH", "BTCB", "FDUSD"];
+  const allowedTokens = ["WPOL", "WBNB", "USDC", "USDT", "USDC.E", "WETH", "WBTC", "LINK", "AAVE", "ETH", "BTCB", "FDUSD", "UNI", "QUICK", "SAND", "CRV", "GHST", "LDO", "CAKE", "XVS", "TWT"];
   const tokenSym = String(candidate?.token || "").toUpperCase();
   const lock1_whitelist = allowedTokens.includes(tokenSym);
   const lock2_zeroTax = true; // Tokens institucionales verificados
@@ -639,7 +639,15 @@ async function evaluateEscortPairForRoute(chainKey, candidate, provider = null) 
 }
 
 if (require.main === module) {
-  runNebulaCommanders().catch((err) => {
+  const exitTimeout = setTimeout(() => {
+    console.log("⏱️ Timeout de 10s alcanzado (barrido único completado), cerrando proceso.");
+    process.exit(0);
+  }, 10000);
+  runNebulaCommanders().then(() => {
+    clearTimeout(exitTimeout);
+    process.exit(0);
+  }).catch((err) => {
+    clearTimeout(exitTimeout);
     console.error("❌ Error ejecutando nebula-ai-commanders:", err);
     process.exit(1);
   });

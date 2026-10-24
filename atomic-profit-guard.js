@@ -46,6 +46,12 @@ const CHAINS = {
       { symbol: "WBTC", address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", dec: 8 },
       { symbol: "LINK", address: "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", dec: 18 },
       { symbol: "AAVE", address: "0xD6DF932A45C0f255f85147573891c2685edd563C", dec: 18 },
+      { symbol: "UNI", address: "0xb33EaAd8d922B1083446DC23f610c2567fB5180f", dec: 18 },
+      { symbol: "QUICK", address: "0xB5C064F955D8e7F38fE0460C556a72987494eE17", dec: 18 },
+      { symbol: "SAND", address: "0xBbba073C31bF03b8ACf7c28EF07818595b7f3818", dec: 18 },
+      { symbol: "CRV", address: "0x172370d5Cd63279eFa6d502DAB29171933a610AF", dec: 18 },
+      { symbol: "GHST", address: "0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7", dec: 18 },
+      { symbol: "LDO", address: "0xC3C7d422809852031b44ab29EEC9F1EfF2A58756", dec: 18 },
       { symbol: "USDT", address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", dec: 6, stable: true },
       { symbol: "USDC.e", address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", dec: 6, stable: true }
     ],
@@ -68,6 +74,9 @@ const CHAINS = {
       { symbol: "WBNB", address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", dec: 18 },
       { symbol: "ETH", address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", dec: 18 },
       { symbol: "BTCB", address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", dec: 18 },
+      { symbol: "CAKE", address: "0x0E09FaBB73BD3Ade0a17ECC321fD13a19e81cE82", dec: 18 },
+      { symbol: "XVS", address: "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63", dec: 18 },
+      { symbol: "TWT", address: "0x4B0F1812e5Df2A09796481Ff14017e6005508003", dec: 18 },
       { symbol: "USDT", address: "0x55d398326f99059fF775485246999027B3197955", dec: 18, stable: true },
       { symbol: "FDUSD", address: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409", dec: 18, stable: true }
     ],
@@ -206,12 +215,19 @@ async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride, opts = 
 
   const perTokenRows = await Promise.all(c.tokens.map(t => evaluateToken(provider, c, t, usdcAmount, gasUsdc, c.venues)));
   const rows = perTokenRows.flat().sort((a, b) => b.netUsdc - a.netUsdc);
+  // Regla sagrada: sacar las rutas entre stablecoins del visor principal.
+  // Solo se permiten si cruzan a ganancia neta >= +$0.05 USDC
+  const isStable = (sym) => sym === "USDT" || sym === "USDC.e" || sym === "FDUSD";
+  const volatileRows = rows.filter(r => !isStable(r.token) || r.netUsdc >= 0.05);
+  const candidateRows = volatileRows.length ? volatileRows : rows;
+
   // Prioridad cross-pool (Piscina A ➔ Piscina B distintas); solo si no hay ninguna se cae a misma piscina.
-  const crossRows = rows.filter(r => r.buy !== r.sell);
-  const best = crossRows[0] || rows[0] || null;
+  const crossRows = candidateRows.filter(r => r.buy !== r.sell);
+  const top3 = (crossRows.length >= 3 ? crossRows : candidateRows).slice(0, 3);
+  const best = top3[0] || crossRows[0] || candidateRows[0] || null;
   let odos = null;
   if (!opts.skipOdos) try { odos = await odosRoundTrip(c, chainKey === "polygon" ? 137 : 56, usdcAmount, gasUsdc); } catch (_) {}
-  return { chain: chainKey, usdcAmount, gasUsdc, gasLimit: Number(gasLimit), nativePriceUsdc, best, bestIsCrossPool: !!crossRows[0], legacyBest: legacyRows[0] || null, rows, odos, perToken: c.tokens.map((t, i) => ({ symbol: t.symbol, best: perTokenRows[i].filter(r => r.buy !== r.sell).concat(perTokenRows[i]).sort((a, b) => (a.buy === a.sell) - (b.buy === b.sell) || b.netUsdc - a.netUsdc)[0] || null })), shouldFire: !!best && best.netUsdc >= MIN_NET_PROFIT_USDC };
+  return { chain: chainKey, usdcAmount, gasUsdc, gasLimit: Number(gasLimit), nativePriceUsdc, best, top3, bestIsCrossPool: !!crossRows[0], legacyBest: legacyRows[0] || null, rows, odos, perToken: c.tokens.map((t, i) => ({ symbol: t.symbol, best: perTokenRows[i].filter(r => r.buy !== r.sell).concat(perTokenRows[i]).sort((a, b) => (a.buy === a.sell) - (b.buy === b.sell) || b.netUsdc - a.netUsdc)[0] || null })), shouldFire: !!best && best.netUsdc >= MIN_NET_PROFIT_USDC };
 }
 
 /**

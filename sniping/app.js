@@ -636,7 +636,28 @@ function getAllTraceRows() {
   return MASTER_ONCHAIN_LEDGER;
 }
 
+function syncAllUtcClocks() {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const utcHours = pad(now.getUTCHours());
+  const utcMinutes = pad(now.getUTCMinutes());
+  const utcSeconds = pad(now.getUTCSeconds());
+  const utcStr = `${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
+  const utcLiveStr = `${utcStr} EN VIVO`;
+
+  const c1 = document.getElementById("c1RadarTimeUtc") || document.getElementById("cannon1RadarTime");
+  const c2 = document.getElementById("c2RadarTimeUtc") || document.getElementById("cannon2RadarTime");
+  const sentinel = document.getElementById("sentinelRowTimeUtc");
+  const dock = document.getElementById("masterUtcClockTime") || document.getElementById("dockUtcTimeText");
+
+  if (c1) c1.textContent = utcLiveStr;
+  if (c2) c2.textContent = utcLiveStr;
+  if (sentinel) sentinel.textContent = utcStr;
+  if (dock) dock.textContent = utcStr;
+}
+
 function initApp() {
+  syncAllUtcClocks();
   setupCopyButtons();
   setupModalDossier();
   setupReserveFleetModal();
@@ -647,7 +668,7 @@ function initApp() {
   updateTelemetryUi();
   renderTraceabilityTable();
 
-  // Iniciar reloj maestro UTC en el dock inferior
+  // Iniciar reloj maestro UTC en el dock inferior y sincronización total
   initDockUtcClock();
 
   // Escuchador automático de operaciones reales on-chain (inmediato y cada 8 segundos)
@@ -660,8 +681,12 @@ function initApp() {
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initApp);
+  document.addEventListener("DOMContentLoaded", () => {
+    syncAllUtcClocks();
+    initApp();
+  });
 } else {
+  syncAllUtcClocks();
   initApp();
 }
 
@@ -670,20 +695,12 @@ if (document.readyState === "loading") {
 // =============================================================================
 function initDockUtcClock() {
   const clockEl = document.getElementById("masterUtcClockPod") || document.getElementById("dockUtcClock");
-  const timeEl = document.getElementById("masterUtcClockTime") || document.getElementById("dockUtcTimeText");
-  if (!clockEl && !timeEl) return;
 
   function updateClock() {
+    syncAllUtcClocks();
     const now = new Date();
     const pad = (n) => String(n).padStart(2, "0");
-    const utcHours = pad(now.getUTCHours());
-    const utcMinutes = pad(now.getUTCMinutes());
-    const utcSeconds = pad(now.getUTCSeconds());
-    const utcStr = `${utcHours}:${utcMinutes}:${utcSeconds} UTC`;
-
-    if (timeEl) {
-      timeEl.textContent = utcStr;
-    }
+    const utcStr = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())} UTC`;
 
     try {
       const localStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
@@ -1307,7 +1324,7 @@ function renderTraceabilityTable() {
         <span class="pulse-dot-tiny cyan"></span>#POL ${latestPolygonBlock.toLocaleString("en-US")}
       </span>
     </td>
-    <td class="font-mono text-dim">${getUtcTimeString(0)}</td>
+    <td class="font-mono text-dim" id="sentinelRowTimeUtc">${getUtcTimeString(0)}</td>
     <td>
       <span class="c-status-live" style="cursor: pointer;" onclick="forceLiveScan('all')" title="Clic para forzar sondeo RPC en vivo">
         <span class="pulse-dot-tiny green"></span>
@@ -1612,7 +1629,8 @@ const RADAR_PCS_QUOTER = "0xB048Bbc1Ee6b733FFfCFb9e9CeF7375518e25997";
 const RADAR_PCS_V2 = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
 const RADAR_GAS_LIMIT = { polygon: 240000, bsc: 400000 }; // gas estimado del ciclo (2 swaps) por red
 const RADAR_SUSHI_V3_QUOTER = "0xb1e835dc2785b52265711e17fccb0fd018226a6e"; // SushiSwap V3 QuoterV2 (Polygon, con código verificado)
-const RADAR_MIN_NET = 0.03;
+const RADAR_MIN_NET_POLYGON = 0.05;
+const RADAR_MIN_NET_BSC = 0.03;
 
 const RADAR_CFG = {
   polygon: {
@@ -1623,8 +1641,14 @@ const RADAR_CFG = {
       { s: "WBTC", a: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6" },
       { s: "LINK", a: "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39" },
       { s: "AAVE", a: "0xD6DF932A45C0f255f85147573891c2685edd563C" },
-      { s: "USDT", a: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F" },
-      { s: "USDC.e", a: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174" }
+      { s: "UNI", a: "0xb33EaAd8d922B1083446DC23f610c2567fB5180f" },
+      { s: "QUICK", a: "0xB5C064F955D8e7F38fE0460C556a72987494eE17" },
+      { s: "SAND", a: "0xBbba073C31bF03b8ACf7c28EF07818595b7f3818" },
+      { s: "CRV", a: "0x172370d5Cd63279eFa6d502DAB29171933a610AF" },
+      { s: "GHST", a: "0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7" },
+      { s: "LDO", a: "0xC3C7d422809852031b44ab29EEC9F1EfF2A58756" },
+      { s: "USDT", a: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", stable: true },
+      { s: "USDC.e", a: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", stable: true }
     ],
     venues: [
       { n: "Uniswap V3 0.01%", t: "v3", q: RADAR_UNI_QUOTER, f: 100 },
@@ -1641,11 +1665,16 @@ const RADAR_CFG = {
       { s: "WBNB", a: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c" },
       { s: "ETH", a: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8" },
       { s: "BTCB", a: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c" },
-      { s: "USDT", a: "0x55d398326f99059fF775485246999027B3197955" }
+      { s: "CAKE", a: "0x0E09FaBB73BD3Ade0a17ECC321fD13a19e81cE82" },
+      { s: "XVS", a: "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63" },
+      { s: "TWT", a: "0x4B0F1812e5Df2A09796481Ff14017e6005508003" },
+      { s: "USDT", a: "0x55d398326f99059fF775485246999027B3197955", stable: true },
+      { s: "FDUSD", a: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409", stable: true }
     ],
     venues: [
       { n: "PancakeSwap V3 0.01%", t: "v3", q: RADAR_PCS_QUOTER, f: 100 },
       { n: "PancakeSwap V3 0.05%", t: "v3", q: RADAR_PCS_QUOTER, f: 500 },
+      { n: "PancakeSwap V3 0.25%", t: "v3", q: RADAR_PCS_QUOTER, f: 2500 },
       { n: "PancakeSwap V2", t: "v2", q: RADAR_PCS_V2 }
     ]
   }
@@ -1718,17 +1747,51 @@ async function computeLiveRadar(chain) {
     const b = buys[k.bi];
     const finalUsdc = Number(out) / (10 ** cfg.usdcDec);
     const net = finalUsdc - cannonAmt - gasUsdc;
-    rows.push({ token: cfg.tokens[b.ti].s, ti: b.ti, buy: cfg.venues[b.vi].n, sell: cfg.venues[k.vi].n, netUsdc: net, netPct: (net / cannonAmt) * 100 });
+    rows.push({
+      token: cfg.tokens[b.ti].s,
+      ti: b.ti,
+      buy: cfg.venues[b.vi].n,
+      sell: cfg.venues[k.vi].n,
+      netUsdc: net,
+      netPct: (net / cannonAmt) * 100,
+      stable: !!cfg.tokens[b.ti].stable
+    });
   });
   if (!rows.length) return null;
   rows.sort((a, b) => b.netUsdc - a.netUsdc);
+
+  // Saca las rutas entre stablecoins (USDC <-> USDC.e / USDT / FDUSD) del visor principal salvo que crucen >= +$0.05
+  const volatileRows = rows.filter(r => !r.stable || r.netUsdc >= 0.05);
+  const activeRows = volatileRows.length > 0 ? volatileRows : rows;
+
   // Prioridad cross-pool (Piscina A -> Piscina B distintas); si no existe ninguna, cae a cualquier fila
-  const best = rows.find(r => r.buy !== r.sell) || rows[0];
+  const crossRows = activeRows.filter(r => r.buy !== r.sell);
+  const best = crossRows[0] || activeRows[0];
   const nativeBestRow = rows.find(r => r.ti === 0);
+
+  // Top 3 de Rutas Volátiles con Mayor Apertura en Este Bloque
+  const poolTop = crossRows.length >= 3 ? crossRows : activeRows;
+  const top3 = poolTop.slice(0, 3).map(r => ({
+    token: r.token,
+    buy: r.buy,
+    sell: r.sell,
+    netUsdc: r.netUsdc,
+    netPct: r.netPct
+  }));
+
+  const minThreshold = chain === "polygon" ? RADAR_MIN_NET_POLYGON : RADAR_MIN_NET_BSC;
   return {
-    usdcAmount: cannonAmt, gasUsdc, token: best.token, buy: best.buy, sell: best.sell,
-    netUsdc: best.netUsdc, netPct: best.netPct, shouldFire: best.netUsdc >= RADAR_MIN_NET,
-    legacyNetUsdc: nativeBestRow ? nativeBestRow.netUsdc : null, atMs: Date.now()
+    usdcAmount: cannonAmt,
+    gasUsdc,
+    token: best.token,
+    buy: best.buy,
+    sell: best.sell,
+    netUsdc: best.netUsdc,
+    netPct: best.netPct,
+    shouldFire: best.netUsdc >= minThreshold,
+    legacyNetUsdc: nativeBestRow ? nativeBestRow.netUsdc : null,
+    top3,
+    atMs: Date.now()
   };
 }
 
@@ -1746,7 +1809,7 @@ async function liveAtomicRadarTick() {
   }
 }
 
-// Resumen mostrado en tarjetas y modal: EN VIVO si la lectura es reciente (<30 s), si no la instantánea de telemetría
+// Resumen mostrado en tarjetas y modal: EN VIVO sin salto al refrescar
 function atomicRadarSummary(chain) {
   const live = liveRadar[chain];
   const isLive = !!live && (Date.now() - live.atMs) < 30000;
@@ -1754,21 +1817,24 @@ function atomicRadarSummary(chain) {
   if (!r) return null;
   const sign = r.netUsdc >= 0 ? "+" : "-";
   const money = `${sign}$${Math.abs(r.netUsdc).toFixed(4)} USD (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(3)}%)`;
-  const min = (atomicRadar && atomicRadar.minNetProfitUsdc) || RADAR_MIN_NET;
+  const minThreshold = chain === "polygon" ? RADAR_MIN_NET_POLYGON : RADAR_MIN_NET_BSC;
+  const min = (atomicRadar && atomicRadar.minNetProfitUsdc) || minThreshold;
   const now = new Date();
   const pad = (n) => String(n).padStart(2, "0");
   const liveUtc = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())} UTC EN VIVO`;
-  const at = isLive
-    ? liveUtc
-    : (atomicRadar && atomicRadar.updatedAt ? new Date(atomicRadar.updatedAt).toISOString().slice(11, 19) + " UTC" : "—");
+  const at = liveUtc; // Sincronizado al segundo UTC del cliente sin saltar a fechas viejas
   return {
     route: `USDC ➔ ${r.token} ➔ USDC (${r.buy} ➔ ${r.sell})`,
+    token: r.token,
+    buy: r.buy,
+    sell: r.sell,
     money,
     state: r.shouldFire ? "UMBRAL SUPERADO" : `esperando cruce a +$${min.toFixed(2)} USDC`,
     legacy: r.legacyNetUsdc,
     at,
     ok: r.shouldFire,
-    live: isLive
+    live: isLive,
+    top3: r.top3 || []
   };
 }
 
@@ -1778,8 +1844,9 @@ function renderAtomicRadarUi() {
     const box = document.getElementById(`cannon${n}RadarBox`);
     const line = document.getElementById(`cannon${n}RadarLine`);
     const badge = document.getElementById(`cannon${n}RadarBadge`);
-    const timeEl = document.getElementById(`cannon${n}RadarTime`);
+    const timeEl = document.getElementById(`c${n}RadarTimeUtc`) || document.getElementById(`cannon${n}RadarTime`);
     const titleEl = document.getElementById(`cannon${n}RadarTitle`);
+    const top3El = document.getElementById(`cannon${n}RadarTop3`);
 
     const cannonUsdc = n === 1 ? (liveState.cannon1Usdc || 243.99) : (liveState.cannon2Usdc || 21.52);
     if (titleEl) {
@@ -1788,9 +1855,15 @@ function renderAtomicRadarUi() {
 
     if (!s) return;
 
+    const minThresh = n === 1 ? RADAR_MIN_NET_POLYGON : RADAR_MIN_NET_BSC;
     if (badge) {
-      badge.className = s.ok ? "cr-badge-status green" : "cr-badge-status gold";
-      badge.textContent = s.ok ? "🟢 OPORTUNIDAD DETECTADA" : "ESPERANDO CRUCE (+0.03 USDC)";
+      if (s.ok) {
+        badge.className = "cr-badge-status green";
+        badge.textContent = "🟢 DISPARO ATÓMICO AUTORIZADO (DOBLE LLAVE NEBULA OK)";
+      } else {
+        badge.className = "cr-badge-status gold";
+        badge.textContent = `ESPERANDO CRUCE (+${minThresh.toFixed(2)} USDC)`;
+      }
     }
 
     if (line) {
@@ -1798,6 +1871,19 @@ function renderAtomicRadarUi() {
         <span class="cr-route">MEJOR RUTA AHORA: ${s.route}</span>
         <span class="cr-pnl ${s.ok ? "green-text" : "gold-text"}">${s.money}</span>
       `;
+    }
+
+    if (top3El && s.top3 && s.top3.length) {
+      top3El.innerHTML = s.top3.map((r, idx) => {
+        const sign = r.netUsdc >= 0 ? "+" : "-";
+        const retTxt = `${sign}$${Math.abs(r.netUsdc).toFixed(3)} (${r.netPct >= 0 ? "+" : ""}${r.netPct.toFixed(2)}%)`;
+        const retClass = r.netUsdc >= 0 ? "green-text" : "gold-text";
+        return `<span class="top3-tag rank-${idx + 1}" title="Compra: ${r.buy} ➔ Venta: ${r.sell}">
+          <span class="t3-rank">${idx + 1}º</span>
+          <span>USDC➔${r.token}➔USDC</span>
+          <span class="t3-ret ${retClass}">${retTxt}</span>
+        </span>`;
+      }).join("");
     }
 
     if (timeEl) {

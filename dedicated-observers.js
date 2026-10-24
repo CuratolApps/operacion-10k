@@ -1338,18 +1338,43 @@ async function runDedicatedObservers() {
     console.warn(`⚠️ Directivas de Nebulosas IA no disponibles: ${nebulaErr.message}`);
   }
 
-  // Paso 3: Disparador automático atómico (solo firma si callStatic pasa, ganancia >= +$0.03 y Doble Llave autoriza)
+  // Paso 3: Disparador automático atómico (solo firma si callStatic pasa, ganancia >= +$0.05/+0.03 y Doble Llave autoriza)
   try {
     liveReport.atomicAutoShooter = await require("./scripts/atomic-auto-shooter").runAutoShooter({ passes: 1 });
   } catch (shootErr) {
     console.warn(`⚠️ Disparador atómico no disponible: ${shootErr.message}`);
   }
 
+  // Guardar estado consolidado en LIVE_OBSERVER_FILE, fleet-telemetry.json y sniping/telemetry.json
+  fs.writeFileSync(LIVE_OBSERVER_FILE, JSON.stringify(liveReport, null, 2));
+  try {
+    const FLEET_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+    const SNIPING_TEL_FILE = path.join(__dirname, "sniping", "telemetry.json");
+    if (fs.existsSync(FLEET_FILE)) {
+      const fl = JSON.parse(fs.readFileSync(FLEET_FILE, "utf8"));
+      fl.liveMarketObserver = liveReport;
+      if (liveReport.atomicProfitRadar) fl.atomicProfitRadar = liveReport.atomicProfitRadar;
+      if (liveReport.atomicAutoShooter) fl.atomicAutoShooter = liveReport.atomicAutoShooter;
+      if (liveReport.nebulaDirectives) fl.nebulaDirectives = liveReport.nebulaDirectives;
+      fl.updatedAt = new Date().toISOString();
+      fs.writeFileSync(FLEET_FILE, JSON.stringify(fl, null, 2));
+      fs.writeFileSync(SNIPING_TEL_FILE, JSON.stringify(fl, null, 2));
+    }
+  } catch (_) {}
+
   return liveReport;
 }
 
 if (require.main === module) {
-  runDedicatedObservers().catch(err => {
+  const exitTimeout = setTimeout(() => {
+    console.log("⏱️ Timeout de 10s alcanzado (barrido único completado), cerrando proceso.");
+    process.exit(0);
+  }, 10000);
+  runDedicatedObservers().then(() => {
+    clearTimeout(exitTimeout);
+    process.exit(0);
+  }).catch(err => {
+    clearTimeout(exitTimeout);
     console.error("❌ Error en Dedicated Observers:", err);
     process.exit(1);
   });
