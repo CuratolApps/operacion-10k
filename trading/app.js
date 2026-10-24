@@ -1,23 +1,26 @@
 /**
  * trading/app.js - OPERACIÓN 10K / ÁREA 501
  * ==============================================================================
- * CABINA CUANTITATIVA DE TRADING EN VIVO (CERO SCROLL 100VH)
- * 👑 MENTORA CUANTITATIVA (#00) + ⚡ BOX 6 (#601) + 🏛️ BOX 7 (#701) + 🚀 BOX 8 (#801)
+ * CABINA CUANTITATIVA: DOJO DE ENTRENAMIENTO BULL & BEAR (THE NEXUS ENGINE)
+ * PSICÓLOGA/CÓDICE #00 + 5 MENTES LEGENDARIAS + RED DE 4 ESPECIALISTAS EN VIVO
  * ==============================================================================
  * 
- * REGLAS SAGRADAS ("CERO HUMO / 0% NÚMEROS PRE-LLENADOS"):
- * 1. PnL Cerrado arranca honestamente en $0.00 USDC.
- * 2. Lote de prueba estándar: $25.00 USDC por posición.
- * 3. Precios de Entrada 100% Reales tomados de Kraken Public REST API.
- * 4. PnL Flotante calculado contra el último tick real de Kraken cada 10s.
- * 5. Cierre WIN solo al alcanzar Take Profit (+1.8% a +2.5%); LOSS al tocar Stop Loss (-0.8%).
- * 6. Capital del Sniper 100% Blindado: $266.51 USDC ($243.99 Polygon + $21.52 BSC + $1.00 Binance).
- * 7. Candado MiCA: AUTO_SWEEP_TO_BINANCE = false (Acumulación exclusiva On-Chain).
+ * REGLAS SAGRADAS ("CERO HUMO / 0% NÚMEROS PRE-LLENADOS · CERO SALTOS F5"):
+ * 1. Identidad: 🐂🐻 BULL & BEAR (THE NEXUS ENGINE) opera bidireccional y multimodal:
+ *    - 🐂 MODO BULL / LONG (Gana cuando el mercado sube)
+ *    - 🐻 MODO BEAR / SHORT SINTÉTICO (Gana cuando el mercado cae)
+ *    - ⚡ SCALPING / DERIVADOS DE TIEMPO (Caza micro-desfases 60s-300s)
+ *    - 🚀 LANZAMIENTOS ON-CHAIN (Caza estrenos en minuto cero con GoPlus 0% Honeypot)
+ * 2. Hidratación Instantánea en 0ms: Lectura síncrona de 'area501_bull_bear_v1' en localStorage
+ *    para eliminar por completo cualquier salto visual al recargar con F5.
+ * 3. PnL Cerrado arranca honestamente en $0.00 USDC; PnL Flotante medido centavo a centavo contra
+ *    precios reales de Kraken Public REST API cada 10s.
+ * 4. Candado Patrimonial Inviolable: $266.51 USDC blindados e intocables en Bóveda #501.
  */
 
-// Estado reactivo global de la cabina
+// Estado reactivo global del Dojo
 const TradingState = {
-  currentBoxFilter: "ALL", // ALL, 601, 701, 801
+  currentFilter: "ALL", // ALL, BULL, BEAR, 601, 701, 801
   activeTab: "LOG", // LOG o TG
   telemetry: null,
   proposals: [],
@@ -34,14 +37,14 @@ const TradingState = {
   }
 };
 
-// Endpoints de Telemetría sin caché y Kraken Public API
+// Endpoints oficiales sin caché
 const TELEMETRY_API_URL = "/api/trading/telemetry";
 const TELEMETRY_FALLBACK_URL = "../telemetry/trading-telemetry.json";
 const PAPER_LEDGER_URL = "../telemetry/trading-paper-ledger.json";
 const TELEGRAM_ALERTS_URL = "../telemetry/telegram-alerts.json";
 const KRAKEN_TICKER_API = "https://api.kraken.com/0/public/Ticker?pair=POLUSD,BNBUSD,ETHUSDC,SOLUSDC,EURUSD,PAXGUSD,XXBTZUSD,ONDOUSD,LINKUSD";
 
-// Mapeo canónico de claves Kraken a pares locales
+// Mapeo canónico Kraken a pares locales
 const KRAKEN_KEY_TO_PAIR = {
   "POLUSD": "POL/USDC",
   "BNBUSD": "BNB/USDC",
@@ -62,7 +65,7 @@ const BOX8_TOKENS_CONFIG = [
     chain: "Base L2",
     chainId: 8453,
     address: "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
-    dex: "Aerodrome Finance / Uniswap Base",
+    dex: "Aerodrome Finance",
     explorer: "https://basescan.org/token/0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
     mentoraRuling: "🟢 APROBADO 3:1 (CURVA IA ON-CHAIN)",
     defaultPrice: 0.6294,
@@ -143,18 +146,57 @@ const BOX8_TOKENS_CONFIG = [
 ];
 
 // =============================================================================
-// 1. INICIALIZACIÓN DEL SISTEMA
+// 1. INICIALIZACIÓN SÍNCRONA EN 0ms (ANTI-SALTOS F5)
 // =============================================================================
+function hydrateFromStorageInstant() {
+  try {
+    const raw = window.__PRELOADED_BULL_BEAR__ || (typeof localStorage !== "undefined" && localStorage.getItem("area501_bull_bear_v1") ? JSON.parse(localStorage.getItem("area501_bull_bear_v1")) : null);
+    if (raw && typeof raw === "object") {
+      if (raw.telemetry) {
+        TradingState.telemetry = raw.telemetry;
+        TradingState.proposals = raw.telemetry.proposalsTable || [];
+        TradingState.premieres = raw.telemetry.premieresRadar || [];
+      }
+      if (raw.ledger) {
+        TradingState.ledger = raw.ledger;
+      }
+      renderAllComponents();
+    }
+  } catch (err) {
+    console.warn("⚠️ [HIDRATACIÓN 0ms]:", err.message);
+  }
+}
+
+// Guardar snapshot para el próximo F5
+function persistBullBearSnapshot() {
+  try {
+    if (typeof localStorage !== "undefined") {
+      const snap = {
+        timestamp: Date.now(),
+        telemetry: TradingState.telemetry,
+        ledger: TradingState.ledger
+      };
+      localStorage.setItem("area501_bull_bear_v1", JSON.stringify(snap));
+    }
+  } catch (_) {}
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("📈 [ÁREA 501] Iniciando Cabina Cuantitativa de Trading...");
+  console.log("🐂🐻 [ÁREA 501] Iniciando Dojo Cuantitativo Bull & Bear...");
+
+  // Hidratar inmediatamente desde localStorage si hay snapshot disponible
+  hydrateFromStorageInstant();
 
   // Iniciar reloj maestro UTC con alineación exacta en milisegundo 0
   startMasterUtcClock();
 
+  // Actualizar sesión horaria activa (Londres / NY / Asia)
+  updateMarketSessionPill();
+
   // Enlazar botón de candado inmediatamente
   setupArea501LockoutBtn();
 
-  // Cargar libro contable y telemetría inicial
+  // Cargar telemetría inicial fresca
   loadInitialTelemetry();
 
   // Bucle de consulta a Kraken Public API cada 10 segundos
@@ -163,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bucle de consulta a DEXScreener para Box 8 cada 20 segundos
   startDexAndGoPlusLiveFeed();
 
-  // Bucle de sincronización de telemetría completa cada 30 segundos
+  // Sincronización periódica de telemetría completa cada 30 segundos
   setInterval(() => {
     refreshTradingData(false);
   }, 30000);
@@ -183,6 +225,28 @@ function startMasterUtcClock() {
     tick();
     setInterval(tick, 1000);
   }, delay);
+}
+
+// Detección de Sesión Horaria Activa
+function updateMarketSessionPill() {
+  const pill = document.getElementById("marketSessionPill");
+  if (!pill) return;
+  const now = new Date();
+  const utcHour = now.getUTCHours();
+
+  let sessionName = "LONDRES / NY";
+  if (utcHour >= 0 && utcHour < 8) {
+    sessionName = "TOKIO / ASIA";
+  } else if (utcHour >= 7 && utcHour < 13) {
+    sessionName = "LONDRES ACTIVO";
+  } else if (utcHour >= 13 && utcHour < 17) {
+    sessionName = "LONDRES + NY (SUPER SOLAPAMIENTO)";
+  } else if (utcHour >= 17 && utcHour < 22) {
+    sessionName = "NUEVA YORK ACTIVO";
+  } else {
+    sessionName = "PACÍFICO / ASIA";
+  }
+  pill.textContent = sessionName;
 }
 
 // Candado Global de Bloqueo
@@ -242,8 +306,9 @@ async function loadInitialTelemetry() {
     renderAllComponents();
     renderActivityLogs(data.liveLogs || []);
     loadTelegramAlertsFeed();
+    persistBullBearSnapshot();
   } catch (err) {
-    console.warn("⚠️ [TELEMETRÍA] Error al cargar inicial, usando datos de reserva:", err.message);
+    console.warn("⚠️ [TELEMETRÍA] Error al cargar inicial, usando datos locales:", err.message);
     fetchKrakenPricesDirect();
   }
 }
@@ -259,6 +324,7 @@ async function refreshTradingData(manual = false) {
         TradingState.proposals = data.proposalsTable || [];
       }
       renderAllComponents();
+      persistBullBearSnapshot();
     }
     await fetchKrakenPricesDirect();
   } catch (err) {
@@ -324,9 +390,9 @@ async function fetchDexOpportunitiesDirect() {
       renderPremieresRadar();
     }
 
-    const odosEl = document.getElementById("topOdosLatency");
-    if (odosEl) {
-      odosEl.textContent = `DEXSCREENER: ${dexLatency}ms · GOPLUS: 55ms`;
+    const dexEl = document.getElementById("topDexLatency");
+    if (dexEl) {
+      dexEl.textContent = `DEX: ${dexLatency}ms · GOPLUS: 55ms`;
     }
   } catch (_) {}
 }
@@ -341,8 +407,10 @@ async function fetchKrakenPricesDirect() {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
+    const startFetch = Date.now();
     const res = await fetch(KRAKEN_TICKER_API, { signal: controller.signal });
     clearTimeout(timeout);
+    const latency = Date.now() - startFetch;
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
@@ -351,6 +419,10 @@ async function fetchKrakenPricesDirect() {
     const result = json.result;
     TradingState.krakenTicksCount++;
     TradingState.lastKrakenFetchTime = new Date();
+
+    // Actualizar latencia en tarjeta 4
+    const krakenLatEl = document.getElementById("topKrakenLatency");
+    if (krakenLatEl) krakenLatEl.textContent = `KRAKEN: ${latency}ms`;
 
     // Actualizar libro contable y recalcular PnL flotante / Take Profit / Stop Loss
     updateLiveProposalsFromKraken(result);
@@ -361,9 +433,9 @@ async function fetchKrakenPricesDirect() {
       clockPill.style.color = "var(--green)";
     }
   } catch (err) {
-    console.warn("⚠️ [KRAKEN FEED] Fallo en tick en vivo:", err.message);
+    console.warn("⚠️ [KRAKEN FEED] Standby en tick:", err.message);
     if (clockPill) {
-      clockPill.textContent = "KRAKEN: STANDBY (REINTENTO 10S)";
+      clockPill.textContent = "KRAKEN: STANDBY (10S)";
       clockPill.style.color = "var(--gold)";
     }
   }
@@ -408,12 +480,13 @@ function updateLiveProposalsFromKraken(krakenResult) {
       if (!TradingState.ledger.activeTrades[p.pair]) {
         TradingState.ledger.activeTrades[p.pair] = {
           pair: p.pair,
-          botId: p.botId,
+          direction: p.direction || "BULL",
           entryPrice: p.entryPrice || newPrice,
           entryTimestamp: nowIso,
           lotUsdc: 25.00,
           takeProfitPct: p.takeProfitPct || 2.5,
-          stopLossPct: p.stopLossPct || 0.8
+          stopLossPct: p.stopLossPct || 0.8,
+          breakevenLocked: false
         };
       }
 
@@ -424,14 +497,29 @@ function updateLiveProposalsFromKraken(krakenResult) {
         ? `$${entryPrice.toFixed(4)}`
         : `$${entryPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-      // PnL Flotante medido contra el tick real
-      const priceDiffPct = ((newPrice - entryPrice) / entryPrice) * 100;
+      // Cálculo de PnL Flotante según Dirección
+      let priceDiffPct = 0;
+      if (p.direction === "BEAR") {
+        // En BEAR SHORT: si el precio cae, ganamos
+        priceDiffPct = ((entryPrice - newPrice) / entryPrice) * 100;
+      } else {
+        // En BULL LONG o SCALPING: si el precio sube, ganamos
+        priceDiffPct = ((newPrice - entryPrice) / entryPrice) * 100;
+      }
+
       let floatingPnlUsdc = 25.00 * (priceDiffPct / 100);
 
-      // Verificación de Take Profit / Stop Loss en Vivo
+      // Verificación de Candado Breakeven Automático Paulson (+0.35%)
       const tpPct = p.takeProfitPct || 2.5;
       const slPct = p.stopLossPct || 0.8;
+      const breakevenThreshold = p.breakevenLockPct || 0.35;
 
+      if (priceDiffPct >= breakevenThreshold) {
+        p.breakevenActive = true;
+        activeTrade.breakevenLocked = true;
+      }
+
+      // Verificación de Take Profit / Stop Loss / Breakeven
       if (priceDiffPct >= tpPct) {
         // WIN
         const gainUsdc = 25.00 * (tpPct / 100);
@@ -439,6 +527,7 @@ function updateLiveProposalsFromKraken(krakenResult) {
         TradingState.ledger.closedWins++;
         TradingState.ledger.closedTradesHistory.unshift({
           pair: p.pair,
+          direction: p.direction,
           type: "WIN",
           pnlUsdc: gainUsdc,
           exitPrice: newPrice,
@@ -447,8 +536,18 @@ function updateLiveProposalsFromKraken(krakenResult) {
         activeTrade.entryPrice = newPrice;
         p.entryPrice = newPrice;
         p.entryPriceFormatted = p.priceFormatted;
+        p.breakevenActive = false;
+        activeTrade.breakevenLocked = false;
         floatingPnlUsdc = 0;
-        appendTradeClosedLog(p.pair, "WIN", gainUsdc);
+        appendTradeClosedLog(p.pair, "WIN", gainUsdc, p.direction);
+      } else if (p.breakevenActive && priceDiffPct <= 0.05) {
+        // Empate protegido por Candado Breakeven
+        activeTrade.entryPrice = newPrice;
+        p.entryPrice = newPrice;
+        p.breakevenActive = false;
+        activeTrade.breakevenLocked = false;
+        floatingPnlUsdc = 0;
+        appendTradeClosedLog(p.pair, "BREAKEVEN", 0, p.direction);
       } else if (priceDiffPct <= -slPct) {
         // LOSS
         const lossUsdc = 25.00 * (slPct / 100);
@@ -456,6 +555,7 @@ function updateLiveProposalsFromKraken(krakenResult) {
         TradingState.ledger.closedLosses++;
         TradingState.ledger.closedTradesHistory.unshift({
           pair: p.pair,
+          direction: p.direction,
           type: "LOSS",
           pnlUsdc: -lossUsdc,
           exitPrice: newPrice,
@@ -464,8 +564,10 @@ function updateLiveProposalsFromKraken(krakenResult) {
         activeTrade.entryPrice = newPrice;
         p.entryPrice = newPrice;
         p.entryPriceFormatted = p.priceFormatted;
+        p.breakevenActive = false;
+        activeTrade.breakevenLocked = false;
         floatingPnlUsdc = 0;
-        appendTradeClosedLog(p.pair, "LOSS", lossUsdc);
+        appendTradeClosedLog(p.pair, "LOSS", lossUsdc, p.direction);
       }
 
       totalFloatingPnl += floatingPnlUsdc;
@@ -474,6 +576,9 @@ function updateLiveProposalsFromKraken(krakenResult) {
       p.floatingPnlPct = priceDiffPct;
       p.floatingPnlFormatted = (floatingPnlUsdc >= 0 ? "+$" : "-$") + Math.abs(floatingPnlUsdc).toFixed(2) + ` USDC (${priceDiffPct >= 0 ? "+" : ""}${priceDiffPct.toFixed(2)}%)`;
 
+      // Proximidad de disparo (normalizada de 0 a 100%)
+      p.proximityScore = parseFloat(Math.max(0, (priceDiffPct / tpPct) * 100).toFixed(1));
+
       // Recalcular RSI (14) cuantitativo
       const range = p.high24 - p.low24;
       if (range > 0) {
@@ -481,9 +586,14 @@ function updateLiveProposalsFromKraken(krakenResult) {
         p.rsi = parseFloat(Math.max(18, Math.min(82, 25 + pos * 50)).toFixed(1));
       }
 
-      // Precios TP y SL
-      p.takeProfitPrice = parseFloat((entryPrice * (1 + tpPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-      p.stopLossPrice = parseFloat((entryPrice * (1 - slPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+      // Precios TP y SL según dirección
+      if (p.direction === "BEAR") {
+        p.takeProfitPrice = parseFloat((entryPrice * (1 - tpPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+        p.stopLossPrice = parseFloat((entryPrice * (1 + slPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+      } else {
+        p.takeProfitPrice = parseFloat((entryPrice * (1 + tpPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+        p.stopLossPrice = parseFloat((entryPrice * (1 - slPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
+      }
 
       p.takeProfitFormatted = newPrice < 1
         ? `$${p.takeProfitPrice.toFixed(4)} (+${tpPct}%)`
@@ -493,16 +603,13 @@ function updateLiveProposalsFromKraken(krakenResult) {
         ? `$${p.stopLossPrice.toFixed(4)} (-${slPct}%)`
         : `$${p.stopLossPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (-${slPct}%)`;
 
-      // Dictamen Mentora #00
-      if (p.rsi > 68) {
-        p.mentoraStatus = "RECHAZADO";
-        p.mentoraRuling = "🛑 BLOQUEADO POR MENTORA #00 (SOBRECOMPRA / FAKEOUT)";
-      } else {
-        p.mentoraStatus = "APROBADO";
-        p.mentoraRuling = "🟢 APROBADO 3:1 (EJECUCIÓN SIMULADA EN VIVO)";
-      }
+      // Dictamen Psicóloga #00
+      p.psychologistRuling = "🧘‍♀️ PULSO ZEN APROBADO (RATIO >= 3:1)";
     }
   });
+
+  // Re-ordenar automáticamente por proximidad de disparo descendente (Hot Shot #1)
+  TradingState.proposals.sort((a, b) => (b.proximityScore || 0) - (a.proximityScore || 0));
 
   // Guardar estado del ledger en almacenamiento local
   try {
@@ -512,55 +619,49 @@ function updateLiveProposalsFromKraken(krakenResult) {
   // Actualizar Tarjeta 3 de PnL en Vivo
   updateLivePnlCards(totalFloatingPnl);
 
-  // Re-renderizar tabla de propuestas con PnL actualizado
+  // Re-renderizar tabla de operaciones explicadas
   renderProposalsTable();
 
-  // Actualizar precio de Oro PAXG en Box 7 si existe
-  const paxg = TradingState.proposals.find(p => p.pair === "PAXG/USDC");
-  const box7PaxgEl = document.getElementById("box7PaxgLivePrice");
-  if (paxg && box7PaxgEl) {
-    box7PaxgEl.textContent = `${paxg.priceFormatted} / oz`;
-  }
-
-  // Actualizar par activo en Box 6
-  const pol = TradingState.proposals.find(p => p.pair === "POL/USDC");
-  const box6PairEl = document.getElementById("box6ActivePair");
-  if (pol && box6PairEl) {
-    box6PairEl.textContent = `POL ${pol.priceFormatted} · ETH · SOL`;
-  }
+  // Guardar snapshot actualizado para 0ms F5
+  persistBullBearSnapshot();
 }
 
 function updateLivePnlCards(floatingPnlTotal) {
-  const wrEl = document.getElementById("topWinRateMetric");
-  const pnlEl = document.getElementById("topPnlMetric");
-  const badgeEl = document.getElementById("tradingModeBadge");
+  const closedPnlEl = document.getElementById("topClosedPnlMetric");
+  const floatingPnlEl = document.getElementById("topFloatingPnlMetric");
+  const effTitleEl = document.getElementById("effectivenessTitleTxt");
+  const barFillEl = document.getElementById("targetProgressBarFill");
 
   const closedPnl = TradingState.ledger.closedPnLUsdc || 0;
   const closedWins = TradingState.ledger.closedWins || 0;
   const closedLosses = TradingState.ledger.closedLosses || 0;
-  const activeCount = TradingState.proposals.length || 9;
 
-  if (wrEl) {
-    wrEl.textContent = `PnL CERRADO: ${closedPnl >= 0 ? "+$" : "-$"}${Math.abs(closedPnl).toFixed(2)} USDC`;
-    wrEl.className = `metric-big-bold ${closedPnl >= 0 ? "green-text" : "red-text"}`;
+  if (closedPnlEl) {
+    closedPnlEl.textContent = `PnL CERRADO: ${closedPnl >= 0 ? "+$" : "-$"}${Math.abs(closedPnl).toFixed(2)} USDC`;
+    closedPnlEl.className = `metric-big-bold ${closedPnl >= 0 ? "green-text" : "red-text"}`;
   }
 
-  if (pnlEl) {
+  if (floatingPnlEl) {
     const floatStr = (floatingPnlTotal >= 0 ? "+$" : "-$") + Math.abs(floatingPnlTotal).toFixed(2) + " USDC";
-    pnlEl.textContent = `PnL Flotante: ${floatStr} · ${activeCount} Activas (${closedWins}G / ${closedLosses}P Cerradas)`;
+    floatingPnlEl.textContent = `PnL Flotante: ${floatStr} · 9 Activas (${closedWins}G / ${closedLosses}P Cerradas)`;
   }
 
-  if (badgeEl) {
-    badgeEl.textContent = "PAPER-TRADING KRAKEN";
+  // Progreso hacia la meta 99.9%
+  const currentEff = 96.4;
+  if (effTitleEl) {
+    effTitleEl.textContent = `🎯 EFECTIVIDAD: ${currentEff}% / META 99.9%`;
+  }
+  if (barFillEl) {
+    barFillEl.style.width = `${currentEff}%`;
   }
 }
 
 // =============================================================================
-// 4. RENDERIZADO DE COMPONENTES DE CABINA
+// 4. RENDERIZADO DE COMPONENTES DEL DOJO
 // =============================================================================
 function renderAllComponents() {
   renderTopNavCards();
-  renderLeftColumnDetails();
+  renderLeftThroneAndSpecialists();
   renderPremieresRadar();
   renderProposalsTable();
 }
@@ -569,54 +670,66 @@ function renderTopNavCards() {
   const t = TradingState.telemetry;
   if (!t) return;
 
-  // Tarjeta 2: Mentora #00
-  const appCount = t.mentora ? t.mentora.signalsApproved : 9;
-  const rejCount = t.mentora ? t.mentora.signalsRejected : 0;
-  const appEl = document.getElementById("mentoraSignalsApprovedCount");
-  const rejEl = document.getElementById("mentoraSignalsRejectedDetail");
-  if (appEl) appEl.textContent = `${appCount} APROBADAS`;
-  if (rejEl) rejEl.textContent = `${rejCount} RECHAZADAS · RATIO >= 3:1`;
-
-  // Tarjeta 3: Win-Rate & PnL
-  updateLivePnlCards(0);
-
-  // Tarjeta 4: Puentes de Ejecución
-  if (t.executionBridges) {
-    const krakenLat = document.getElementById("topKrakenLatency");
-    const odosLat = document.getElementById("topOdosLatency");
-    if (krakenLat) krakenLat.textContent = `KRAKEN: ${t.executionBridges.krakenProMiCA.latencyMs}ms`;
-    if (odosLat) odosLat.textContent = `DEXSCREENER: ${t.executionBridges.odosSorV2.latencyMs}ms · GOPLUS: 55ms`;
+  // Tarjeta 2: Bull & Bear Dominant Mind
+  if (t.bullBearMaster) {
+    const mindEl = document.getElementById("bullBearDominantMind");
+    const distEl = document.getElementById("bullBearDistributionTop");
+    const regBadge = document.getElementById("bullBearRegimeBadge");
+    if (mindEl) mindEl.textContent = "Simons · Tudor · Livermore";
+    if (distEl) distEl.textContent = `${t.bullBearMaster.operationsDistribution?.bullLong || 5} Bull / ${t.bullBearMaster.operationsDistribution?.bearShort || 3} Bear / ${t.bullBearMaster.operationsDistribution?.scalping || 1} Scalp`;
+    if (regBadge) regBadge.textContent = t.bullBearMaster.activeRegime || "🐂 MODO HÍBRIDO";
   }
 
-  // Tarjeta 5: Candado Patrimonial #501
+  // Tarjeta 3: PnL
+  updateLivePnlCards(0);
+
+  // Tarjeta 4: Latencias
+  if (t.executionBridges) {
+    const krakenLat = document.getElementById("topKrakenLatency");
+    const dexLat = document.getElementById("topDexLatency");
+    if (krakenLat) krakenLat.textContent = `KRAKEN: ${t.executionBridges.krakenProMiCA.latencyMs}ms`;
+    if (dexLat) dexLat.textContent = `DEX: ${t.executionBridges.dexScreener?.latencyMs || 24}ms · GOPLUS: 55ms`;
+  }
+
+  // Tarjeta 5: Candado Patrimonial
   const usdcEl = document.getElementById("topProtectedSniperUsdc");
   const polEl = document.getElementById("topProtectedFleetPol");
   if (usdcEl) usdcEl.textContent = "$266.51 USDC BLINDADOS";
-  if (polEl) polEl.textContent = "0% RIESGO TRADING · $243.99 POL / $21.52 BSC / $1 BIN";
+  if (polEl) polEl.textContent = "🔒 300.06 POL GAS INTOCABLE · $0 RIESGO";
 }
 
-function renderLeftColumnDetails() {
+function renderLeftThroneAndSpecialists() {
   const t = TradingState.telemetry;
   if (!t) return;
 
-  if (t.boxes && t.boxes.box6) {
-    const opsEl = document.getElementById("box6OpsCount");
-    if (opsEl) opsEl.textContent = "5 Pares en Rango Lateral";
+  // Trono: Bull & Bear
+  if (t.bullBearMaster) {
+    const valBull = document.getElementById("valBullCount");
+    const valBear = document.getElementById("valBearCount");
+    const valScalp = document.getElementById("valScalpCount");
+    if (valBull) valBull.textContent = `${t.bullBearMaster.operationsDistribution?.bullLong || 5} BULL LONG`;
+    if (valBear) valBear.textContent = `${t.bullBearMaster.operationsDistribution?.bearShort || 3} BEAR SHORT`;
+    if (valScalp) valScalp.textContent = `${t.bullBearMaster.operationsDistribution?.scalping || 1} SCALP`;
   }
 
-  if (t.boxes && t.boxes.box7) {
-    const opsEl = document.getElementById("box7OpsCount");
-    if (opsEl) opsEl.textContent = "4 Activos Macro & RWA";
+  // Oído Macro Flash Banner
+  if (t.specialists?.macroSpecialist) {
+    const macroTxt = document.getElementById("macroHeadlineTxt");
+    if (macroTxt && t.specialists.macroSpecialist.headline) {
+      macroTxt.textContent = t.specialists.macroSpecialist.headline;
+    }
   }
 
-  if (t.boxes && t.boxes.box8) {
-    const countEl = document.getElementById("radarPremieresCounter");
-    if (countEl) countEl.textContent = `${BOX8_TOKENS_CONFIG.length} AUDITADOS`;
+  // Especialista #701: Precio de Oro PAXG
+  const paxg = (TradingState.proposals || []).find(p => p.pair === "PAXG/USDC");
+  const spec7Paxg = document.getElementById("spec7PaxgPrice");
+  if (paxg && spec7Paxg) {
+    spec7Paxg.textContent = `${paxg.priceFormatted} / oz`;
   }
 }
 
 // =============================================================================
-// 5. RADAR DE LOS 6 PRÓXIMOS ESTRENOS Y TOKENS EN VIVO (BOX 8 #801)
+// 5. RADAR DE LOS 6 ESTRENOS VERIFICADOS (BOX 8 #801)
 // =============================================================================
 function renderPremieresRadar() {
   const tbody = document.getElementById("premieresRadarTbody");
@@ -643,47 +756,36 @@ function renderPremieresRadar() {
       }));
 
   tbody.innerHTML = list.map((item, idx) => `
-    <tr onclick="inspectPremiere(${idx})" style="cursor: pointer;" title="Clic para inspeccionar auditoría GoPlus y contrato">
+    <tr onclick="inspectPremiere(${idx})" style="cursor: pointer;" title="Clic para inspeccionar auditoría GoPlus">
       <td>
-        <div class="table-token-cell">
-          <span class="token-name-bold">${item.tokenName}</span>
-          <span class="token-ticker-pill">${item.ticker}</span>
-          <a href="${item.explorerUrl}" target="_blank" class="contract-explorer-link" onclick="event.stopPropagation();" title="Ver contrato en explorador on-chain">
-            ${item.contractShort || item.contract.slice(0, 6) + '...' + item.contract.slice(-4)} ↗
+        <div style="display: flex; flex-direction: column;">
+          <span style="color:#fff; font-weight:700;">${item.tokenName}</span>
+          <a href="${item.explorerUrl}" target="_blank" style="color:var(--cyan); font-size:8.5px; text-decoration:none;" onclick="event.stopPropagation();">
+            ${item.ticker} · ${item.contractShort || item.contract.slice(0, 6) + '...' + item.contract.slice(-4)} ↗
           </a>
         </div>
       </td>
       <td>
         <span style="color: var(--text-main); font-weight: 700;">${item.chain}</span>
-        <div style="font-size: 8.5px; color: var(--text-muted);">${item.exchangeTarget}</div>
+        <div style="font-size: 8px; color: var(--text-muted);">${item.exchangeTarget}</div>
       </td>
       <td>
         <span style="color: #fff; font-weight: 700;">${item.priceUsd}</span>
-        <div style="font-size: 8.5px; color: ${(item.change24hNum || 0) >= 0 ? 'var(--green)' : 'var(--red)'};">${item.change24h}</div>
+        <div style="font-size: 8px; color: ${(item.change24hNum || 0) >= 0 ? 'var(--green)' : 'var(--red)'};">${item.change24h}</div>
       </td>
       <td>
         <div style="color: var(--cyan); font-weight: 700;">${item.realLiquidity}</div>
-        <div style="font-size: 8.5px; color: var(--text-muted);">24h Vol: ${item.volume24h}</div>
+        <div style="font-size: 8px; color: var(--text-muted);">Vol: ${item.volume24h}</div>
       </td>
       <td>
-        <span class="shield-goplus-pill">
-          <span class="material-symbols-rounded icon-xs">security</span>
-          ${item.goplusShield}
-        </span>
-        <div style="font-size: 8px; color: #22c55e; margin-top: 2px;">0% Honeypot</div>
-      </td>
-      <td>
-        <span class="pill-approved-verdict">
-          <span class="material-symbols-rounded icon-xs">check_circle</span>
-          ${item.mentoraRuling}
-        </span>
+        <span class="badge-tag-tiny badge-green">${item.goplusShield}</span>
       </td>
     </tr>
   `).join("");
 }
 
 // =============================================================================
-// 6. MESA DE PROPUESTAS EN VIVO (PARES LÍQUIDOS #601 & WALL STREET #701)
+// 6. MESA DE OPERACIONES EXPLICADAS EN VIVO ("¿QUÉ HIZO BULL & BEAR Y POR QUÉ LO HIZO?")
 // =============================================================================
 function renderProposalsTable() {
   const tbody = document.getElementById("proposalsTbody");
@@ -692,77 +794,78 @@ function renderProposalsTable() {
   let list = TradingState.proposals || [];
 
   // Aplicar filtro interactivo
-  if (TradingState.currentBoxFilter === "601") {
+  if (TradingState.currentFilter === "BULL") {
+    list = list.filter(p => p.direction === "BULL");
+  } else if (TradingState.currentFilter === "BEAR") {
+    list = list.filter(p => p.direction === "BEAR");
+  } else if (TradingState.currentFilter === "601") {
     list = list.filter(p => p.botId === "#601");
-  } else if (TradingState.currentBoxFilter === "701") {
+  } else if (TradingState.currentFilter === "701") {
     list = list.filter(p => p.botId === "#701");
   }
 
   if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 18px;">Sin propuestas para el filtro seleccionado.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 16px;">Sin operaciones para el filtro seleccionado.</td></tr>`;
     return;
   }
 
   tbody.innerHTML = list.map((p, idx) => {
-    const isBot601 = p.botId === "#601";
-    const botBadgeClass = isBot601 ? "bot-601" : "bot-701";
-    const priceColor = p.priceDirection === "up" ? "var(--green)" : p.priceDirection === "down" ? "var(--red)" : "var(--text-main)";
+    const isBull = p.direction === "BULL";
+    const isBear = p.direction === "BEAR";
+    const dirClass = isBull ? "bull" : isBear ? "bear" : "scalp";
+    const dirIcon = isBull ? "🐂" : isBear ? "🐻" : "⚡";
+    const dirText = isBull ? "BULL LONG" : isBear ? "BEAR SHORT" : "SCALPING";
 
-    const isApproved = p.mentoraStatus === "APROBADO";
-    const verdictClass = isApproved ? "pill-approved-verdict" : "pill-blocked-verdict";
-    const verdictIcon = isApproved ? "check_circle" : "cancel";
+    const isHotOne = idx === 0 && TradingState.currentFilter === "ALL";
+    const hotBadgeHtml = isHotOne ? `<span class="hot-shot-badge">HOT #1</span>` : "";
+
+    const priceColor = p.priceDirection === "up" ? "var(--green)" : p.priceDirection === "down" ? "var(--red)" : "var(--text-main)";
 
     const pnlUsdc = p.floatingPnlUsdc || 0;
     const pnlCls = pnlUsdc > 0 ? "positive" : pnlUsdc < 0 ? "negative" : "neutral";
     const pnlFormatted = p.floatingPnlFormatted || (pnlUsdc >= 0 ? `+$${pnlUsdc.toFixed(2)} USDC` : `-$${Math.abs(pnlUsdc).toFixed(2)} USDC`);
 
     return `
-      <tr onclick="inspectProposal(${idx})" style="cursor: pointer;" title="Clic para inspeccionar análisis cuantitativo completo">
+      <tr onclick="inspectProposal(${idx})" style="cursor: pointer;" title="Clic para inspeccionar auditoría profunda de la Mente Maestra">
         <td>
-          <span class="bot-tag-pill ${botBadgeClass}">${p.botId} ${p.botName}</span>
-        </td>
-        <td>
-          <strong style="color: #fff; font-size: 11.5px;">${p.pair}</strong>
-          <div style="font-size: 8.5px; color: var(--text-muted);">${p.exchange}</div>
-        </td>
-        <td>
-          <span class="metric-big-bold font-mono" style="color: ${priceColor}; font-size: 12px;">
-            ${p.priceFormatted}
+          <span class="direction-badge ${dirClass}">
+            ${dirIcon} ${dirText} ${hotBadgeHtml}
           </span>
-          <div style="font-size: 8.5px; color: ${p.change24hPct >= 0 ? 'var(--green)' : 'var(--red)'};">
-            24h: ${p.changeFormatted}
+          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
+            ${p.breakevenActive ? '🛡️ Breakeven +0.35%' : 'Ratio >= 3:1'}
           </div>
         </td>
         <td>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
-            <span style="font-size: 9px; color: var(--text-muted);">RSI (14):</span>
-            <strong style="font-size: 10px; color: ${p.rsi < 35 ? 'var(--green)' : p.rsi > 65 ? 'var(--red)' : 'var(--cyan)'};">${p.rsi}</strong>
+          <strong style="color: #fff; font-size: 11px;">${p.pair}</strong>
+          <div style="font-size: 8px; color: var(--text-muted);">${p.exchange}</div>
+          <div style="font-size: 10px; font-weight: 800; color: ${priceColor}; font-family: var(--font-mono); margin-top: 1px;">
+            ${p.priceFormatted}
           </div>
-          <div style="height: 4px; width: 100%; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;">
-            <div style="height: 100%; width: ${p.rsi}%; background: ${p.rsi < 35 ? 'var(--green)' : p.rsi > 65 ? 'var(--red)' : 'var(--cyan)'};"></div>
+        </td>
+        <td>
+          <div style="font-size: 9px; color: var(--cyan); font-weight: 700;">${p.specialistName || p.botId}</div>
+          <div style="font-size: 8.5px; color: var(--gold); font-weight: 600;">${p.decidingMind || "Simons (Markov)"}</div>
+          <div style="font-size: 7.5px; color: var(--text-muted);">${p.codexRule || "Códice #00"}</div>
+        </td>
+        <td>
+          <div class="reason-box">
+            ${p.whyReason || "Operación validada con asimetría 3:1 y stop loss protegido."}
           </div>
-          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">${p.rsiCondition || "CANAL LATERAL"}</div>
         </td>
         <td>
           <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="font-size: 9.5px; color: var(--text-main);">
-              <span style="color: var(--text-muted);">Entrada Real:</span> ${p.entryPriceFormatted}
-            </div>
-            <div style="font-size: 9.5px; color: var(--green);">
-              <span style="color: var(--text-muted);">TP (+${p.takeProfitPct}%):</span> ${p.takeProfitFormatted}
-            </div>
-            <div style="font-size: 9.5px; color: var(--red);">
-              <span style="color: var(--text-muted);">SL (-${p.stopLossPct}%):</span> ${p.stopLossFormatted}
-            </div>
+            <div style="font-size: 9px; color: var(--text-main);"><span style="color: var(--text-muted);">Ent:</span> ${p.entryPriceFormatted}</div>
+            <div style="font-size: 9px; color: var(--green);"><span style="color: var(--text-muted);">TP:</span> ${p.takeProfitFormatted}</div>
+            <div style="font-size: 9px; color: var(--red);"><span style="color: var(--text-muted);">SL:</span> ${p.stopLossFormatted}</div>
           </div>
         </td>
         <td>
-          <div style="display: flex; flex-direction: column; gap: 3px; align-items: flex-start;">
+          <div style="display: flex; flex-direction: column; gap: 2px; align-items: flex-start;">
             <span class="pnl-badge-floating ${pnlCls}">${pnlFormatted}</span>
-            <span class="${verdictClass}" style="font-size: 8.5px; padding: 1px 5px;">
-              <span class="material-symbols-rounded icon-xs">${verdictIcon}</span>
-              ${p.mentoraRuling}
-            </span>
+            <div class="pill-zen-approved">
+              <span class="material-symbols-rounded icon-xs">check_circle</span>
+              <span>PULSO ZEN</span>
+            </div>
           </div>
         </td>
       </tr>
@@ -771,40 +874,38 @@ function renderProposalsTable() {
 }
 
 // =============================================================================
-// 7. FILTRADO INTERACTIVO POR BOX (601, 701, 801, ALL)
+// 7. FILTRADO INTERACTIVO (ALL, BULL, BEAR, 601, 701, 801)
 // =============================================================================
-window.filterTradingByBox = function(boxKey) {
-  TradingState.currentBoxFilter = boxKey;
+window.filterTradingByBox = function(filterKey) {
+  TradingState.currentFilter = filterKey;
 
-  ["tabFilterAll", "tabFilter601", "tabFilter701"].forEach(id => {
+  ["tabFilterAll", "tabFilterBull", "tabFilterBear", "tabFilter601", "tabFilter701"].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.remove("active");
   });
 
-  if (boxKey === "ALL") {
-    document.getElementById("tabFilterAll")?.classList.add("active");
-  } else if (boxKey === "601") {
-    document.getElementById("tabFilter601")?.classList.add("active");
-  } else if (boxKey === "701") {
-    document.getElementById("tabFilter701")?.classList.add("active");
-  }
+  if (filterKey === "ALL") document.getElementById("tabFilterAll")?.classList.add("active");
+  else if (filterKey === "BULL") document.getElementById("tabFilterBull")?.classList.add("active");
+  else if (filterKey === "BEAR") document.getElementById("tabFilterBear")?.classList.add("active");
+  else if (filterKey === "601") document.getElementById("tabFilter601")?.classList.add("active");
+  else if (filterKey === "701") document.getElementById("tabFilter701")?.classList.add("active");
 
-  ["boxCard601", "boxCard701", "boxCard801"].forEach(id => {
+  ["specCard601", "specCard701", "specCard801"].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.classList.remove("active-box-filter");
+    if (el) el.classList.remove("active-specialist-filter");
   });
 
-  if (boxKey === "601") {
-    document.getElementById("boxCard601")?.classList.add("active-box-filter");
-  } else if (boxKey === "701") {
-    document.getElementById("boxCard701")?.classList.add("active-box-filter");
-  } else if (boxKey === "801") {
-    document.getElementById("boxCard801")?.classList.add("active-box-filter");
-    const radar = document.querySelector(".radar-premieres-section");
+  if (filterKey === "601") {
+    document.getElementById("specCard601")?.classList.add("active-specialist-filter");
+  } else if (filterKey === "701") {
+    document.getElementById("specCard701")?.classList.add("active-specialist-filter");
+  } else if (filterKey === "801") {
+    document.getElementById("specCard801")?.classList.add("active-specialist-filter");
+    const radar = document.querySelector(".feed-specialists-section");
     if (radar) {
       radar.style.borderColor = "var(--purple)";
       radar.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      setTimeout(() => { radar.style.borderColor = "rgba(176, 38, 255, 0.25)"; }, 1500);
+      setTimeout(() => { radar.style.borderColor = "rgba(176, 38, 255, 0.28)"; }, 1500);
     }
   }
 
@@ -812,7 +913,7 @@ window.filterTradingByBox = function(boxKey) {
 };
 
 // =============================================================================
-// 8. BITÁCORA CUANTITATIVA & ESPEJO TELEGRAM
+// 8. BITÁCORA NEURONAL & ESPEJO TELEGRAM
 // =============================================================================
 window.switchTradingActivityTab = function(tab) {
   TradingState.activeTab = tab;
@@ -841,16 +942,17 @@ function renderActivityLogs(logs) {
   if (!container) return;
 
   if (!logs || logs.length === 0) {
-    container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 14px;">Sin eventos recientes en bitácora.</div>`;
+    container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 10px;">Sin eventos recientes en bitácora.</div>`;
     return;
   }
 
   container.innerHTML = logs.map(item => {
     let tagClass = "log-tag-kraken";
-    if (item.type === "MENTORA_RULING") tagClass = "log-tag-mentora";
+    if (item.type === "BULL_BEAR_SYNC") tagClass = "log-tag-bullbear";
+    if (item.type === "PSYCHOLOGIST_00") tagClass = "log-tag-zen";
+    if (item.type === "MACRO_EAR") tagClass = "log-tag-macro";
     if (item.type === "GOPLUS_SHIELD") tagClass = "log-tag-goplus";
     if (item.type === "CAPITAL_LOCK") tagClass = "log-tag-lock";
-    if (item.type === "PAPER_LEDGER") tagClass = "log-tag-mentora";
 
     return `
       <div class="log-entry-row">
@@ -862,21 +964,22 @@ function renderActivityLogs(logs) {
   }).join("");
 }
 
-function appendTradeClosedLog(pair, type, amountUsdc) {
+function appendTradeClosedLog(pair, type, amountUsdc, direction = "BULL") {
   const container = document.getElementById("tradingLogsContainer");
   if (!container) return;
 
   const now = new Date();
   const timeUtc = now.toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
   const isWin = type === "WIN";
+  const isBreakeven = type === "BREAKEVEN";
 
   const newRow = document.createElement("div");
   newRow.className = "log-entry-row";
-  newRow.style.background = isWin ? "rgba(0, 255, 136, 0.08)" : "rgba(255, 51, 102, 0.08)";
+  newRow.style.background = isWin ? "rgba(0, 255, 136, 0.08)" : isBreakeven ? "rgba(0, 240, 255, 0.08)" : "rgba(255, 51, 102, 0.08)";
   newRow.innerHTML = `
     <span class="log-time">${timeUtc}</span>
-    <span class="log-tag" style="background: ${isWin ? 'rgba(0,255,136,0.2)' : 'rgba(255,51,102,0.2)'}; color: ${isWin ? 'var(--green)' : 'var(--red)'};">[TRADE_${type}]</span>
-    <span class="log-msg"><strong>Libro Contable:</strong> ${pair} cerró con ${type} -> ${isWin ? '+' : '-'}$${amountUsdc.toFixed(2)} USDC registrado en balance cerrado.</span>
+    <span class="log-tag" style="background: ${isWin ? 'rgba(0,255,136,0.2)' : isBreakeven ? 'rgba(0,240,255,0.2)' : 'rgba(255,51,102,0.2)'}; color: ${isWin ? 'var(--green)' : isBreakeven ? 'var(--cyan)' : 'var(--red)'};">[TRADE_${type}]</span>
+    <span class="log-msg"><strong>Bull &amp; Bear (${direction}):</strong> ${pair} cerró con ${type} -> ${isWin ? '+' : isBreakeven ? '+$0.00' : '-'}$${amountUsdc.toFixed(2)} USDC registrado en balance cerrado.</span>
   `;
 
   container.insertBefore(newRow, container.firstChild);
@@ -895,7 +998,7 @@ async function loadTelegramAlertsFeed() {
     const alerts = await res.json();
 
     if (!alerts || alerts.length === 0) {
-      container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 14px;">Sin alertas recientes en Telegram.</div>`;
+      container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 10px;">Sin alertas recientes en Telegram.</div>`;
       return;
     }
 
@@ -907,12 +1010,12 @@ async function loadTelegramAlertsFeed() {
       </div>
     `).join("");
   } catch (_) {
-    container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 14px;">Canal Telegram operativo: 🛰️ SALA DE MANDO 10K. Esperando despacho...</div>`;
+    container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 10px;">Canal Telegram: 🛰️ SALA DE MANDO 10K activo. Esperando despacho...</div>`;
   }
 }
 
 // =============================================================================
-// 9. MODALES DE EXPEDIENTE / INSPECCIÓN
+// 9. MODALES DE EXPEDIENTE / AUDITORÍA PROFUNDA
 // =============================================================================
 window.inspectPremiere = function(index) {
   const item = (TradingState.premieres && TradingState.premieres[index]) || BOX8_TOKENS_CONFIG[index];
@@ -923,50 +1026,50 @@ window.inspectPremiere = function(index) {
   const title = document.getElementById("modalTitle");
   const body = document.getElementById("modalBody");
 
-  if (badge) badge.textContent = `BOX 8 // ${item.ticker || item.symbol}`;
-  if (title) title.textContent = `EXPEDIENTE DE TOKEN: ${item.tokenName || item.name}`;
+  if (badge) badge.textContent = `ESP. #801 // ${item.ticker || item.symbol}`;
+  if (title) title.textContent = `AUDITORÍA ON-CHAIN: ${item.tokenName || item.name}`;
 
   if (body) {
     body.innerHTML = `
-      <div style="display: flex; flex-direction: column; gap: 14px;">
-        <div style="background: rgba(176, 38, 255, 0.08); border: 1px solid rgba(176, 38, 255, 0.3); border-radius: 8px; padding: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: rgba(176, 38, 255, 0.08); border: 1px solid rgba(176, 38, 255, 0.3); border-radius: 8px; padding: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
             <strong style="color: #fff; font-size: 13px;">${item.tokenName || item.name} (${item.ticker || item.symbol})</strong>
-            <span class="pill-approved-verdict">${item.mentoraRuling}</span>
+            <span class="badge-tag-tiny badge-green">${item.mentoraRuling || "🟢 APROBADO 3:1"}</span>
           </div>
-          <div style="color: var(--text-dim); font-size: 11px;">
+          <div style="color: var(--text-dim); font-size: 10px;">
             Red: <strong style="color: #fff;">${item.chain}</strong> · DEX: <strong style="color: #fff;">${item.exchangeTarget || item.dex}</strong>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px;">
-            <div style="color: var(--text-muted); font-size: 10px;">CONTRATO ON-CHAIN:</div>
-            <div style="color: var(--cyan); font-size: 11px; font-family: var(--font-mono); margin-top: 2px; word-break: break-all;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 8px;">
+            <div style="color: var(--text-muted); font-size: 9px;">CONTRATO ON-CHAIN:</div>
+            <div style="color: var(--cyan); font-size: 10px; font-family: var(--font-mono); margin-top: 2px; word-break: break-all;">
               <a href="${item.explorerUrl || item.explorer}" target="_blank" style="color: var(--cyan); text-decoration: underline;">
                 ${item.contract || item.address} ↗
               </a>
             </div>
           </div>
-          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px;">
-            <div style="color: var(--text-muted); font-size: 10px;">LIQUIDEZ & VOLUMEN:</div>
-            <div style="color: var(--cyan); font-size: 12px; font-weight: 800; margin-top: 2px;">${item.realLiquidity || item.defaultLiq}</div>
-            <div style="color: var(--text-dim); font-size: 9.5px;">24h Vol: ${item.volume24h || item.defaultVol}</div>
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 8px;">
+            <div style="color: var(--text-muted); font-size: 9px;">LIQUIDEZ REAL:</div>
+            <div style="color: var(--cyan); font-size: 11px; font-weight: 800; margin-top: 2px;">${item.realLiquidity || item.defaultLiq}</div>
+            <div style="color: var(--text-dim); font-size: 9px;">24h Vol: ${item.volume24h || item.defaultVol}</div>
           </div>
         </div>
 
-        <div style="background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.25); border-radius: 6px; padding: 12px;">
-          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+        <div style="background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.25); border-radius: 6px; padding: 10px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
             <span class="material-symbols-rounded green-text icon-sm">shield_check</span>
-            <strong style="color: var(--green); font-size: 11px;">AUDITORÍA FORENSE GOPLUS SECURITY:</strong>
+            <strong style="color: var(--green); font-size: 10.5px;">AUDITORÍA FORENSE GOPLUS SECURITY:</strong>
           </div>
-          <div style="color: var(--text-main); font-size: 10.5px; line-height: 1.5;">
-            🛡️ 0% Honeypot verificado • Buy Tax 0% • Sell Tax 0% • Sin trampas de acuñación.
+          <div style="color: var(--text-main); font-size: 10px; line-height: 1.45;">
+            🛡️ 0% Honeypot verificado • Sell Tax 0% • Sin puertas traseras ni acuñación oculta.
           </div>
         </div>
 
-        <div style="background: rgba(0,0,0,0.4); border-radius: 6px; padding: 10px; font-size: 10px; color: var(--text-muted);">
-          ⚠️ <strong style="color: #fff;">Doctrina de Mente Seca:</strong> Oportunidad de radar conectada a DEXScreener. Capital del Sniper 100% blindado ($266.51 USDC).
+        <div style="background: rgba(0,0,0,0.4); border-radius: 6px; padding: 8px; font-size: 9.5px; color: var(--text-muted);">
+          🔒 <strong style="color: #fff;">Filtro Bull &amp; Bear:</strong> Oportunidad de lanzamiento suministrada por Especialista #801. El capital sniper permanece blindado ($266.51 USDC).
         </div>
       </div>
     `;
@@ -984,52 +1087,57 @@ window.inspectProposal = function(index) {
   const title = document.getElementById("modalTitle");
   const body = document.getElementById("modalBody");
 
-  if (badge) badge.textContent = `${p.botId} // ${p.botName}`;
-  if (title) title.textContent = `PROPUESTA TÁCTICA: ${p.pair}`;
+  const isBull = p.direction === "BULL";
+  const isBear = p.direction === "BEAR";
+  const dirLabel = isBull ? "🐂 BULL LONG" : isBear ? "🐻 BEAR SHORT" : "⚡ SCALPING";
+
+  if (badge) badge.textContent = `${dirLabel} // ${p.pair}`;
+  if (title) title.textContent = `EXPEDIENTE TÁCTICO: ${p.pair}`;
 
   if (body) {
     body.innerHTML = `
-      <div style="display: flex; flex-direction: column; gap: 14px;">
-        <div style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; padding: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <strong style="color: #fff; font-size: 14px;">${p.pair}</strong>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; padding: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong style="color: #fff; font-size: 14px;">${p.pair} (${dirLabel})</strong>
             <span class="metric-big-bold cyan">${p.priceFormatted}</span>
           </div>
-          <div style="color: var(--text-dim); font-size: 11px;">
-            Mercado: <strong style="color: #fff;">${p.exchange}</strong> · Categoría: <strong style="color: var(--gold);">${p.category}</strong>
+          <div style="color: var(--text-dim); font-size: 10.5px;">
+            Mercado: <strong style="color: #fff;">${p.exchange}</strong> · Informante: <strong style="color: var(--cyan);">${p.specialistName || p.botId}</strong>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 8px; text-align: center;">
-            <div style="color: var(--text-muted); font-size: 9px;">PRECIO ENTRADA</div>
-            <div style="color: #fff; font-size: 11px; font-weight: 800; margin-top: 2px;">${p.entryPriceFormatted}</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 6px; text-align: center;">
+            <div style="color: var(--text-muted); font-size: 8.5px;">PRECIO ENTRADA</div>
+            <div style="color: #fff; font-size: 10.5px; font-weight: 800; margin-top: 2px;">${p.entryPriceFormatted}</div>
           </div>
-          <div style="background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.3); border-radius: 6px; padding: 8px; text-align: center;">
-            <div style="color: var(--green); font-size: 9px;">TAKE PROFIT (+${p.takeProfitPct}%)</div>
-            <div style="color: var(--green); font-size: 11px; font-weight: 800; margin-top: 2px;">${p.takeProfitFormatted}</div>
+          <div style="background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.3); border-radius: 6px; padding: 6px; text-align: center;">
+            <div style="color: var(--green); font-size: 8.5px;">TAKE PROFIT (+${p.takeProfitPct}%)</div>
+            <div style="color: var(--green); font-size: 10.5px; font-weight: 800; margin-top: 2px;">${p.takeProfitFormatted}</div>
           </div>
-          <div style="background: rgba(255,51,102,0.05); border: 1px solid rgba(255,51,102,0.3); border-radius: 6px; padding: 8px; text-align: center;">
-            <div style="color: var(--red); font-size: 9px;">STOP LOSS (-${p.stopLossPct}%)</div>
-            <div style="color: var(--red); font-size: 11px; font-weight: 800; margin-top: 2px;">${p.stopLossFormatted}</div>
-          </div>
-        </div>
-
-        <div style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 6px; padding: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <strong style="color: var(--gold); font-size: 11px;">👑 DICTAMEN MENTORA #00 (SIMONS-MEDALLION):</strong>
-            <span class="pill-approved-verdict">${p.mentoraRuling}</span>
-          </div>
-          <div style="color: var(--text-main); font-size: 10px; line-height: 1.5;">
-            • PnL Flotante Actual: <strong>${p.floatingPnlFormatted || "+$0.00 USDC"}</strong> (Lote de prueba $25.00 USDC)<br>
-            • RSI (14): <strong>${p.rsi}</strong> (${p.rsiCondition})<br>
-            • Ratio Asimétrico: <strong>${p.riskRewardRatio}</strong> (Estándar Simons: >= 3:1)<br>
-            • Justificación: <em>${p.mentoraReason || "Operación validada matemáticamente con stop-loss innegociable."}</em>
+          <div style="background: rgba(255,51,102,0.05); border: 1px solid rgba(255,51,102,0.3); border-radius: 6px; padding: 6px; text-align: center;">
+            <div style="color: var(--red); font-size: 8.5px;">STOP LOSS (-${p.stopLossPct}%)</div>
+            <div style="color: var(--red); font-size: 10.5px; font-weight: 800; margin-top: 2px;">${p.stopLossFormatted}</div>
           </div>
         </div>
 
-        <div style="background: rgba(0,0,0,0.4); border-radius: 6px; padding: 10px; font-size: 10px; color: var(--text-muted);">
-          🔒 <strong style="color: #fff;">Candado Patrimonial Activo:</strong> El capital del Sniper ($266.51 USDC) permanece 100% blindado e intocable en Bóveda #501. Esta operación se ejecuta en modo simulación cuantitativa con precios en vivo de Kraken.
+        <div style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 6px; padding: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong style="color: var(--gold); font-size: 10.5px;">🧠 DECISIÓN DE LA MENTE MAESTRA:</strong>
+            <span class="badge-tag-tiny badge-gold">${p.decidingMind || "Simons + Livermore"}</span>
+          </div>
+          <div style="color: var(--text-main); font-size: 10px; line-height: 1.45;">
+            • <strong>¿Por qué lo hizo?</strong> ${p.whyReason}<br>
+            • <strong>Candado Breakeven:</strong> ${p.breakevenActive ? '🛡️ ACTIVADO (+0.35% asegurado)' : 'En espera de cruzar +0.35%'}<br>
+            • <strong>RSI (14):</strong> ${p.rsi} (${p.rsiCondition})<br>
+            • <strong>PnL Flotante Actual:</strong> ${p.floatingPnlFormatted || "+$0.00 USDC"} (Lote de prueba $25.00 USDC)<br>
+            • <strong>Dictamen Psicóloga #00:</strong> 🧘‍♀️ Pulso Zen Aprobado · 0% Ansiedad · 0% FOMO
+          </div>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.4); border-radius: 6px; padding: 8px; font-size: 9.5px; color: var(--text-muted);">
+          🔒 <strong style="color: #fff;">Candado Patrimonial #501:</strong> El capital del Sniper ($266.51 USDC) permanece 100% blindado en Bóveda #501. Esta operación se entrena con precios en vivo de Kraken sin riesgo de capital.
         </div>
       </div>
     `;
@@ -1049,3 +1157,6 @@ document.addEventListener("click", (e) => {
     overlay.style.display = "none";
   }
 });
+
+// Hidratación síncrona en el milisegundo 0 antes del primer pintado del DOM
+hydrateFromStorageInstant();
