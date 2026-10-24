@@ -282,6 +282,52 @@ export default {
       return new Response(res.body, { status: res.status, headers });
     }
 
+    // Endpoint de despacho de Reporte de Auditoría a Telegram (Sala de Mando 10K)
+    if (url.pathname === "/api/trading/telegram-report") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+          }
+        });
+      }
+      try {
+        const body = await request.json().catch(() => ({}));
+        const rawText = body.reportText || "Reporte de Auditoría ÁREA 501 sin texto.";
+        const botToken = env.TELEGRAM_BOT_TOKEN || "8788112547:AAGMtUPLHRQhgdUljwdOxa0BA9pnTFfakrQ";
+        const chatId = env.TELEGRAM_CHAT_ID || "-1004342131598";
+
+        // Enviar a Telegram Bot API
+        const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: `<pre>${rawText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>`,
+            parse_mode: "HTML"
+          })
+        });
+
+        const tgData = await tgRes.json().catch(() => ({}));
+        const headers = new Headers();
+        headers.set("Content-Type", "application/json; charset=utf-8");
+        headers.set("Access-Control-Allow-Origin", "*");
+        return new Response(JSON.stringify({
+          success: tgRes.ok,
+          telegramStatus: tgRes.status,
+          telegramResult: tgData
+        }), { status: tgRes.ok ? 200 : 500, headers });
+      } catch (err) {
+        return new Response(JSON.stringify({ success: false, error: err.message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+    }
+
     // Endpoint directo sin caché de telemetría de flota
     if (url.pathname === "/api/flota-x500/telemetry" || url.pathname === "/flota-x500/telemetry.json") {
       const telemReq = new Request(new URL("/telemetry/fleet-telemetry.json", request.url), request);

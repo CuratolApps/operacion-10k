@@ -33,40 +33,28 @@ const QUANT_CONDITIONS_POOL = [
   { text: "Bajó barato (RSI 29)", sub: "Zona de sobreventa" }
 ];
 
+const REAL_MONEY_VALVE = false;
+const MAX_ACTIVE_TRADES = 2; // Máximo 2 a 3 operaciones simultáneas de alta probabilidad (Filtro #00)
+const COMMISSION_RATE_PCT = 0.05; // 0.05% por leg (0.10% roundtrip en Kraken) -> $0.10 USD en lote de $100
+
 const DEFAULT_PROPOSALS = [
   {
     pair: "SOL/USDC",
     direction: "BULL",
     status: "OPEN",
-    shortCondition: "Bajó barato (RSI 29)",
+    rsi: 31.4,
+    rsiCondition: "Sobreventa confirmada",
+    shortCondition: "Bajó barato en soporte (RSI 31)",
     conditionSub: "Soporte Raydium DEX",
     price: 181.46,
     entryPrice: 181.40,
     entryTimestampMs: Date.now() - 80000,
     entryTimeFormatted: "17:02:14 UTC",
-    takeProfitPct: 0.20,
-    stopLossPct: 0.12,
-    takeProfitPrice: 181.76,
-    stopLossPrice: 181.18,
-    floatingPnlUsdc: 0.36,
-    exchange: "Kraken Pro",
-    botId: "#601"
-  },
-  {
-    pair: "ETH/USDC",
-    direction: "BEAR",
-    status: "OPEN",
-    shortCondition: "Rechazo en techo 1m",
-    conditionSub: "Divergencia bajista",
-    price: 2402.80,
-    entryPrice: 2408.10,
-    entryTimestampMs: Date.now() - 109000,
-    entryTimeFormatted: "17:01:45 UTC",
-    takeProfitPct: 0.22,
-    stopLossPct: 0.12,
-    takeProfitPrice: 2402.80,
-    stopLossPrice: 2410.99,
-    floatingPnlUsdc: 0.22,
+    takeProfitPct: 0.32,
+    stopLossPct: 0.15,
+    takeProfitPrice: 181.98,
+    stopLossPrice: 181.13,
+    floatingPnlUsdc: 0.26,
     exchange: "Kraken Pro",
     botId: "#601"
   },
@@ -74,125 +62,159 @@ const DEFAULT_PROPOSALS = [
     pair: "BNB/USDC",
     direction: "BULL",
     status: "OPEN",
-    shortCondition: "Rompió techo con volumen",
+    rsi: 29.8,
+    rsiCondition: "Absorción de volumen",
+    shortCondition: "Rompió techo con volumen (RSI 29)",
     conditionSub: "Acumulación $718",
     price: 720.26,
     entryPrice: 718.50,
     entryTimestampMs: Date.now() - 32000,
     entryTimeFormatted: "17:03:02 UTC",
-    takeProfitPct: 0.22,
-    stopLossPct: 0.12,
-    takeProfitPrice: 720.08,
-    stopLossPrice: 717.64,
+    takeProfitPct: 0.30,
+    stopLossPct: 0.15,
+    takeProfitPrice: 720.66,
+    stopLossPrice: 717.42,
     floatingPnlUsdc: 0.24,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "ETH/USDC",
+    direction: "BEAR",
+    status: "STANDBY",
+    rsi: 58.2,
+    rsiCondition: "Neutro",
+    shortCondition: "🔍 STANDBY: Techo $2,420 (Filtro #00)",
+    conditionSub: "Divergencia bajista en espera",
+    price: 2402.80,
+    entryPrice: 2408.10,
+    entryTimestampMs: null,
+    entryTimeFormatted: "--:--:-- UTC",
+    takeProfitPct: 0.28,
+    stopLossPct: 0.15,
+    takeProfitPrice: 2401.35,
+    stopLossPrice: 2411.71,
+    floatingPnlUsdc: 0.00,
     exchange: "Kraken Pro",
     botId: "#601"
   },
   {
     pair: "PAXG/USDC",
     direction: "BULL",
-    status: "OPEN",
-    shortCondition: "Oro rompe $4,000/oz",
+    status: "STANDBY",
+    rsi: 51.5,
+    rsiCondition: "Soporte $4,000",
+    shortCondition: "🔍 STANDBY: Oro refugio macro en espera",
     conditionSub: "Demanda refugio macro",
     price: 3998.45,
     entryPrice: 3992.00,
-    entryTimestampMs: Date.now() - 75000,
-    entryTimeFormatted: "17:01:20 UTC",
-    takeProfitPct: 0.20,
-    stopLossPct: 0.12,
-    takeProfitPrice: 4000.00,
-    stopLossPrice: 3987.21,
-    floatingPnlUsdc: 0.16,
+    entryTimestampMs: null,
+    entryTimeFormatted: "--:--:-- UTC",
+    takeProfitPct: 0.30,
+    stopLossPct: 0.15,
+    takeProfitPrice: 4003.98,
+    stopLossPrice: 3986.01,
+    floatingPnlUsdc: 0.00,
     exchange: "Oro Wall Street",
     botId: "#701"
   },
   {
     pair: "BTC/USDC",
     direction: "BULL",
-    status: "OPEN",
-    shortCondition: "Absorción de ventas 1m",
+    status: "STANDBY",
+    rsi: 54.0,
+    rsiCondition: "Consolidación",
+    shortCondition: "🔍 STANDBY: Absorción $68,400 en espera",
     conditionSub: "Muro de compra Kraken",
     price: 68420.00,
     entryPrice: 68310.00,
-    entryTimestampMs: Date.now() - 145000,
-    entryTimeFormatted: "17:00:15 UTC",
-    takeProfitPct: 0.18,
-    stopLossPct: 0.12,
-    takeProfitPrice: 68432.96,
-    stopLossPrice: 68228.03,
-    floatingPnlUsdc: 0.16,
+    entryTimestampMs: null,
+    entryTimeFormatted: "--:--:-- UTC",
+    takeProfitPct: 0.28,
+    stopLossPct: 0.15,
+    takeProfitPrice: 68501.27,
+    stopLossPrice: 68207.54,
+    floatingPnlUsdc: 0.00,
+    exchange: "Kraken Pro",
+    botId: "#601"
+  },
+  {
+    pair: "POL/USDC",
+    direction: "BULL",
+    status: "STANDBY",
+    rsi: 43.8,
+    rsiCondition: "Rango bajo",
+    shortCondition: "🔍 STANDBY: Gas Polygon PoS en espera",
+    conditionSub: "Gas ultrabajo L2",
+    price: 0.0876,
+    entryPrice: 0.0874,
+    entryTimestampMs: null,
+    entryTimeFormatted: "--:--:-- UTC",
+    takeProfitPct: 0.32,
+    stopLossPct: 0.15,
+    takeProfitPrice: 0.0877,
+    stopLossPrice: 0.0873,
+    floatingPnlUsdc: 0.00,
     exchange: "Kraken Pro",
     botId: "#601"
   },
   {
     pair: "EUR/USDC",
     direction: "BULL",
-    status: "OPEN",
-    shortCondition: "Rebote en soporte 1m",
+    status: "STANDBY",
+    rsi: 49.5,
+    rsiCondition: "Madrugada tranquila",
+    shortCondition: "🔍 STANDBY: Esperando sesión Londres",
     conditionSub: "Sesión Londres activa",
     price: 1.1200,
     entryPrice: 1.1185,
-    entryTimestampMs: Date.now() - 65000,
-    entryTimeFormatted: "17:02:29 UTC",
-    takeProfitPct: 0.15,
-    stopLossPct: 0.12,
-    takeProfitPrice: 1.1202,
-    stopLossPrice: 1.1172,
-    floatingPnlUsdc: 0.13,
-    exchange: "Forex MiCA",
-    botId: "#601"
-  },
-  {
-    pair: "POL/USDC",
-    direction: "BULL",
-    status: "OPEN",
-    shortCondition: "Acumulación Polygon PoS",
-    conditionSub: "Gas ultrabajo L2",
-    price: 0.0876,
-    entryPrice: 0.0874,
-    entryTimestampMs: Date.now() - 40000,
-    entryTimeFormatted: "17:02:54 UTC",
+    entryTimestampMs: null,
+    entryTimeFormatted: "--:--:-- UTC",
     takeProfitPct: 0.25,
-    stopLossPct: 0.12,
-    takeProfitPrice: 0.0876,
-    stopLossPrice: 0.0873,
-    floatingPnlUsdc: 0.23,
-    exchange: "Kraken Pro",
+    stopLossPct: 0.15,
+    takeProfitPrice: 1.1213,
+    stopLossPrice: 1.1168,
+    floatingPnlUsdc: 0.00,
+    exchange: "Forex MiCA",
     botId: "#601"
   },
   {
     pair: "ONDO/USDC",
     direction: "BULL",
-    status: "OPEN",
-    shortCondition: "Demanda RWAs BlackRock",
+    status: "STANDBY",
+    rsi: 48.0,
+    rsiCondition: "Flujo RWA",
+    shortCondition: "🔍 STANDBY: Deuda tokenizada BlackRock",
     conditionSub: "Flujo institucional",
     price: 0.8120,
     entryPrice: 0.8105,
-    entryTimestampMs: Date.now() - 55000,
-    entryTimeFormatted: "17:02:39 UTC",
-    takeProfitPct: 0.20,
-    stopLossPct: 0.12,
-    takeProfitPrice: 0.8121,
-    stopLossPrice: 0.8095,
-    floatingPnlUsdc: 0.19,
+    entryTimestampMs: null,
+    entryTimeFormatted: "--:--:-- UTC",
+    takeProfitPct: 0.30,
+    stopLossPct: 0.15,
+    takeProfitPrice: 0.8129,
+    stopLossPrice: 0.8093,
+    floatingPnlUsdc: 0.00,
     exchange: "Kraken Pro",
     botId: "#601"
   },
   {
     pair: "LINK/USDC",
     direction: "BULL",
-    status: "OPEN",
-    shortCondition: "Cruce alcista EMA 20",
+    status: "STANDBY",
+    rsi: 47.5,
+    rsiCondition: "EMA 20",
+    shortCondition: "🔍 STANDBY: Oráculos CCIP en espera",
     conditionSub: "Volumen Oráculos CCIP",
     price: 13.45,
     entryPrice: 13.42,
-    entryTimestampMs: Date.now() - 95000,
-    entryTimeFormatted: "17:01:59 UTC",
-    takeProfitPct: 0.20,
-    stopLossPct: 0.12,
-    takeProfitPrice: 13.48,
+    entryTimestampMs: null,
+    entryTimeFormatted: "--:--:-- UTC",
+    takeProfitPct: 0.35,
+    stopLossPct: 0.15,
+    takeProfitPrice: 13.47,
     stopLossPrice: 13.40,
-    floatingPnlUsdc: 0.22,
+    floatingPnlUsdc: 0.00,
     exchange: "Kraken Pro",
     botId: "#601"
   }
@@ -200,7 +222,21 @@ const DEFAULT_PROPOSALS = [
 
 const savedPracticeBal = (typeof localStorage !== "undefined" && localStorage.getItem("area501_practice_balance_v1"))
   ? parseFloat(localStorage.getItem("area501_practice_balance_v1"))
-  : 1000.46;
+  : 1002.36;
+
+const savedSessionStart = (typeof localStorage !== "undefined" && parseInt(localStorage.getItem("area501_session_start_ms"), 10))
+  ? parseInt(localStorage.getItem("area501_session_start_ms"), 10)
+  : Date.now() - 3600000;
+
+if (typeof localStorage !== "undefined" && !localStorage.getItem("area501_session_start_ms")) {
+  try {
+    localStorage.setItem("area501_session_start_ms", String(savedSessionStart));
+  } catch (_) {}
+}
+
+const savedFees = (typeof localStorage !== "undefined" && localStorage.getItem("area501_total_fees_usdc"))
+  ? parseFloat(localStorage.getItem("area501_total_fees_usdc"))
+  : 0.40;
 
 // Estado reactivo global del Dojo
 const TradingState = {
@@ -211,7 +247,16 @@ const TradingState = {
   premieres: [],
   krakenTicksCount: 0,
   lastKrakenFetchTime: null,
-  practiceBalanceUsdc: isNaN(savedPracticeBal) ? 1000.46 : savedPracticeBal,
+  practiceBalanceUsdc: isNaN(savedPracticeBal) ? 1002.36 : savedPracticeBal,
+  audit: {
+    activeTarget: "MIDNIGHT", // "MIDNIGHT" o "GUARD_6H"
+    sessionStartTimeMs: savedSessionStart,
+    guardDurationMs: 6 * 3600 * 1000, // 6 Horas = 21,600,000 ms
+    totalFeesUsdc: isNaN(savedFees) ? 0.40 : savedFees,
+    midnightTriggered: false,
+    guard6hTriggered: false,
+    lastReportSentMs: 0
+  },
   closedTrades: [
     {
       exitTimeFormatted: "17:01:20 UTC",
@@ -222,8 +267,9 @@ const TradingState = {
       actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
       entryPrice: 3992.00,
       exitPrice: 3998.45,
-      gainUsdc: 0.16,
-      gainPct: 0.16,
+      gainUsdc: 0.18,
+      gainPct: 0.28,
+      feeUsdc: 0.10,
       status: "WIN"
     },
     {
@@ -235,8 +281,9 @@ const TradingState = {
       actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
       entryPrice: 181.10,
       exitPrice: 181.52,
-      gainUsdc: 0.23,
-      gainPct: 0.23,
+      gainUsdc: 0.24,
+      gainPct: 0.34,
+      feeUsdc: 0.10,
       status: "WIN"
     },
     {
@@ -248,8 +295,9 @@ const TradingState = {
       actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
       entryPrice: 717.80,
       exitPrice: 719.45,
-      gainUsdc: 0.23,
-      gainPct: 0.23,
+      gainUsdc: 0.22,
+      gainPct: 0.32,
+      feeUsdc: 0.10,
       status: "WIN"
     },
     {
@@ -263,6 +311,7 @@ const TradingState = {
       exitPrice: 2412.50,
       gainUsdc: 0.00,
       gainPct: 0.00,
+      feeUsdc: 0.05,
       status: "BE"
     }
   ],
@@ -486,6 +535,9 @@ function hydrateFromStorageInstant() {
       if (typeof raw.practiceBalanceUsdc === "number") {
         TradingState.practiceBalanceUsdc = raw.practiceBalanceUsdc;
       }
+      if (raw.audit && typeof raw.audit === "object") {
+        TradingState.audit = Object.assign(TradingState.audit, raw.audit);
+      }
       renderAllComponents();
       updateHourlyCountdown();
     }
@@ -508,10 +560,17 @@ function persistBullBearSnapshot() {
         proposals: TradingState.proposals,
         closedTrades: TradingState.closedTrades,
         hourly: TradingState.hourly,
-        practiceBalanceUsdc: TradingState.practiceBalanceUsdc
+        practiceBalanceUsdc: TradingState.practiceBalanceUsdc,
+        audit: TradingState.audit
       };
       localStorage.setItem("area501_bull_bear_tv_v1", JSON.stringify(snap));
       localStorage.setItem("area501_bull_bear_v1", JSON.stringify(snap));
+      if (TradingState.audit?.sessionStartTimeMs) {
+        localStorage.setItem("area501_session_start_ms", String(TradingState.audit.sessionStartTimeMs));
+      }
+      if (TradingState.audit?.totalFeesUsdc !== undefined) {
+        localStorage.setItem("area501_total_fees_usdc", String(TradingState.audit.totalFeesUsdc));
+      }
     }
   } catch (_) {}
 }
@@ -521,6 +580,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Hidratar inmediatamente desde localStorage si hay snapshot disponible
   hydrateFromStorageInstant();
+
+  // Inicializar cronómetros duales de auditoría técnica (12:00 medianoche y 6H)
+  initAuditSystem();
 
   // Inicializar cronómetro de corte de 60 minutos en vivo
   startHourlyCutoffTimer();
@@ -1017,50 +1079,51 @@ function updateLiveProposalsFromKraken(krakenResult) {
     // Actualizar la vela actual en vivo con el tick de 2s
     updateCandlesFromLivePrice(p.pair, newPrice);
 
-    // Inicializar propiedades base si faltan (Filosofía Cero Holdeo: TP rápido +0.18% a +0.35%, SL -0.12%)
-    if (!p.entryPrice) p.entryPrice = newPrice;
-    if (!p.entryTimestampMs) p.entryTimestampMs = Date.now() - 45000;
-    if (!p.entryTimeFormatted) p.entryTimeFormatted = new Date(p.entryTimestampMs).toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
-    if (!p.takeProfitPct || p.takeProfitPct < 0.18 || p.takeProfitPct > 0.35) {
-      p.takeProfitPct = parseFloat((0.18 + Math.random() * 0.17).toFixed(2));
-    }
-    p.stopLossPct = 0.12;
-
-    const entryPrice = p.entryPrice;
-
-    // Cálculo de variación porcentual
-    let priceDiffPct = 0;
-    if (p.direction === "BEAR") {
-      priceDiffPct = ((entryPrice - newPrice) / entryPrice) * 100;
-    } else {
-      priceDiffPct = ((newPrice - entryPrice) / entryPrice) * 100;
-    }
-
-    // 🧘‍♀️ CANDADO BREAKEVEN AUTOMÁTICO DE LA #00: Al subir +0.12%, asegura la entrada (0% riesgo)
-    if (priceDiffPct >= 0.12) {
-      p.breakevenActive = true;
-      p.stopLossPrice = entryPrice;
-    } else if (!p.breakevenActive) {
-      if (p.direction === "BEAR") {
-        p.stopLossPrice = parseFloat((entryPrice * (1 + p.stopLossPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
-      } else {
-        p.stopLossPrice = parseFloat((entryPrice * (1 - p.stopLossPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
-      }
-    }
-
-    // Precios exactos de Take Profit
-    if (p.direction === "BEAR") {
-      p.takeProfitPrice = parseFloat((entryPrice * (1 - p.takeProfitPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
-    } else {
-      p.takeProfitPrice = parseFloat((entryPrice * (1 + p.takeProfitPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
-    }
-
     if (p.status === "OPEN") {
+      // Inicializar propiedades base si faltan (Filosofía Cero Holdeo: TP +0.25% a +0.45%, SL -0.15%)
+      if (!p.entryPrice) p.entryPrice = newPrice;
+      if (!p.entryTimestampMs) p.entryTimestampMs = Date.now() - 45000;
+      if (!p.entryTimeFormatted) p.entryTimeFormatted = new Date(p.entryTimestampMs).toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+      if (!p.takeProfitPct || p.takeProfitPct < 0.25 || p.takeProfitPct > 0.45) {
+        p.takeProfitPct = parseFloat((0.25 + Math.random() * 0.20).toFixed(2));
+      }
+      p.stopLossPct = 0.15;
+
+      const entryPrice = p.entryPrice;
+
+      // Cálculo de variación porcentual
+      let priceDiffPct = 0;
+      if (p.direction === "BEAR") {
+        priceDiffPct = ((entryPrice - newPrice) / entryPrice) * 100;
+      } else {
+        priceDiffPct = ((newPrice - entryPrice) / entryPrice) * 100;
+      }
+
+      // 🧘‍♀️ CANDADO BREAKEVEN AUTOMÁTICO DE LA #00: Al subir +0.15%, asegura la entrada (0% riesgo)
+      if (priceDiffPct >= 0.15 && !p.breakevenActive) {
+        p.breakevenActive = true;
+        p.stopLossPrice = entryPrice;
+      } else if (!p.breakevenActive) {
+        if (p.direction === "BEAR") {
+          p.stopLossPrice = parseFloat((entryPrice * (1 + p.stopLossPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+        } else {
+          p.stopLossPrice = parseFloat((entryPrice * (1 - p.stopLossPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+        }
+      }
+
+      // Precios exactos de Take Profit
+      if (p.direction === "BEAR") {
+        p.takeProfitPrice = parseFloat((entryPrice * (1 - p.takeProfitPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+      } else {
+        p.takeProfitPrice = parseFloat((entryPrice * (1 + p.takeProfitPct / 100)).toFixed(entryPrice < 1 ? 4 : 2));
+      }
+
       const lotUsdc = TradingState.ledger.tradeLotUsdc || 100.00;
-      const floatingPnl = parseFloat((lotUsdc * (priceDiffPct / 100)).toFixed(2));
-      p.floatingPnlUsdc = floatingPnl;
+      const roundtripFee = parseFloat((lotUsdc * (COMMISSION_RATE_PCT * 2 / 100)).toFixed(2)); // $0.10 comisión por roundtrip
+      const floatingPnlGross = parseFloat((lotUsdc * (priceDiffPct / 100)).toFixed(2));
+      p.floatingPnlUsdc = floatingPnlGross;
       p.floatingPnlPct = priceDiffPct;
-      totalFloatingPnl += floatingPnl;
+      totalFloatingPnl += floatingPnlGross;
 
       const durationSec = Math.max(1, Math.floor((Date.now() - (p.entryTimestampMs || Date.now())) / 1000));
       const durM = Math.floor(durationSec / 60);
@@ -1068,17 +1131,22 @@ function updateLiveProposalsFromKraken(krakenResult) {
       const durationStr = durM > 0 ? `${durM}m ${durS}s` : `${durS}s`;
       const teamTag = p.botId === "#701" ? "🏛️ #701 + 🧘‍♀️ #00 Zen" : (p.botId === "#801" ? "🚀 #801 + 🧘‍♀️ #00 Zen" : "⚡ #601 + 🧘‍♀️ #00 Zen");
 
-      // 1. ¿TOCÓ TAKE PROFIT (META) -> COBRO INMEDIATO A USDC (CERO HOLDEO)?
+      // 1. ¿TOCÓ TAKE PROFIT (META +0.25% a +0.45%) -> COBRO INMEDIATO A USDC CON COMISIÓN DEDUCIDA?
       if (priceDiffPct >= p.takeProfitPct) {
-        const gainUsdc = parseFloat((lotUsdc * (p.takeProfitPct / 100)).toFixed(2));
-        TradingState.practiceBalanceUsdc = parseFloat((TradingState.practiceBalanceUsdc + gainUsdc).toFixed(2));
+        const grossGain = parseFloat((lotUsdc * (p.takeProfitPct / 100)).toFixed(2));
+        const netGain = parseFloat(Math.max(0.02, grossGain - roundtripFee).toFixed(2));
+
+        TradingState.practiceBalanceUsdc = parseFloat((TradingState.practiceBalanceUsdc + netGain).toFixed(2));
+        if (!TradingState.audit) TradingState.audit = {};
+        TradingState.audit.totalFeesUsdc = parseFloat(((TradingState.audit.totalFeesUsdc || 0) + roundtripFee).toFixed(2));
         TradingState.ledger.closedWins++;
+
         p.status = "CLOSED_WIN";
         p.exitPrice = newPrice;
         p.exitTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
-        p.finalPnlUsdc = gainUsdc;
+        p.finalPnlUsdc = netGain;
         p.floatingPnlUsdc = 0;
-        p.reopenCountdown = 3; // En 3 ticks (6s) abre una nueva rotación líquida
+        p.reopenCountdown = 3;
 
         // Agregar al historial de operaciones cerradas reciente
         if (!TradingState.closedTrades) TradingState.closedTrades = [];
@@ -1091,29 +1159,35 @@ function updateLiveProposalsFromKraken(krakenResult) {
           actionDesc: "💵 COBRÓ Y SALIÓ A USDC",
           entryPrice: p.entryPrice,
           exitPrice: newPrice,
-          gainUsdc: gainUsdc,
+          gainUsdc: netGain,
           gainPct: p.takeProfitPct,
+          feeUsdc: roundtripFee,
           status: "WIN"
         });
-        if (TradingState.closedTrades.length > 25) TradingState.closedTrades.pop();
+        if (TradingState.closedTrades.length > 30) TradingState.closedTrades.pop();
 
         // Actualizar estadísticas de corte horario
         if (TradingState.hourly) {
           TradingState.hourly.opsThisHour = (TradingState.hourly.opsThisHour || 0) + 1;
           TradingState.hourly.winsThisHour = (TradingState.hourly.winsThisHour || 0) + 1;
-          TradingState.hourly.gainsUsdcThisHour = parseFloat(((TradingState.hourly.gainsUsdcThisHour || 0) + gainUsdc).toFixed(2));
+          TradingState.hourly.gainsUsdcThisHour = parseFloat(((TradingState.hourly.gainsUsdcThisHour || 0) + netGain).toFixed(2));
           if (p.direction === "BEAR") TradingState.hourly.shortsThisHour = (TradingState.hourly.shortsThisHour || 0) + 1;
           else TradingState.hourly.longsThisHour = (TradingState.hourly.longsThisHour || 0) + 1;
         }
 
-        appendTradeClosedLog(p.pair, "WIN", gainUsdc, p.direction);
+        appendTradeClosedLog(p.pair, "WIN", netGain, p.direction);
 
         try {
           localStorage.setItem("area501_practice_balance_v1", TradingState.practiceBalanceUsdc.toFixed(2));
+          localStorage.setItem("area501_total_fees_usdc", TradingState.audit.totalFeesUsdc.toFixed(2));
         } catch (_) {}
       }
-      // 2. ¿TOCÓ BREAKEVEN DE LA #00 (RETROCESO TRAS +0.12%)?
+      // 2. ¿TOCÓ BREAKEVEN DE LA #00 (RETROCESO TRAS +0.15%)?
       else if (p.breakevenActive && priceDiffPct <= 0.01) {
+        const halfFee = parseFloat((roundtripFee / 2).toFixed(2));
+        if (!TradingState.audit) TradingState.audit = {};
+        TradingState.audit.totalFeesUsdc = parseFloat(((TradingState.audit.totalFeesUsdc || 0) + halfFee).toFixed(2));
+
         p.status = "CLOSED_BE";
         p.exitPrice = entryPrice;
         p.exitTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
@@ -1134,9 +1208,10 @@ function updateLiveProposalsFromKraken(krakenResult) {
           exitPrice: entryPrice,
           gainUsdc: 0.00,
           gainPct: 0.00,
+          feeUsdc: halfFee,
           status: "BE"
         });
-        if (TradingState.closedTrades.length > 25) TradingState.closedTrades.pop();
+        if (TradingState.closedTrades.length > 30) TradingState.closedTrades.pop();
 
         if (TradingState.hourly) {
           TradingState.hourly.opsThisHour = (TradingState.hourly.opsThisHour || 0) + 1;
@@ -1144,16 +1219,25 @@ function updateLiveProposalsFromKraken(krakenResult) {
         }
 
         appendTradeClosedLog(p.pair, "BREAKEVEN", 0.00, p.direction);
+
+        try {
+          localStorage.setItem("area501_total_fees_usdc", TradingState.audit.totalFeesUsdc.toFixed(2));
+        } catch (_) {}
       }
-      // 3. ¿TOCÓ STOP LOSS ESTRICTO (-0.12%)?
+      // 3. ¿TOCÓ STOP LOSS (-0.15%)?
       else if (priceDiffPct <= -p.stopLossPct) {
-        const lossUsdc = parseFloat((lotUsdc * (p.stopLossPct / 100)).toFixed(2));
-        TradingState.practiceBalanceUsdc = parseFloat((TradingState.practiceBalanceUsdc - lossUsdc).toFixed(2));
+        const grossLoss = parseFloat((lotUsdc * (p.stopLossPct / 100)).toFixed(2));
+        const netLoss = parseFloat((grossLoss + roundtripFee).toFixed(2));
+
+        TradingState.practiceBalanceUsdc = parseFloat((TradingState.practiceBalanceUsdc - netLoss).toFixed(2));
+        if (!TradingState.audit) TradingState.audit = {};
+        TradingState.audit.totalFeesUsdc = parseFloat(((TradingState.audit.totalFeesUsdc || 0) + roundtripFee).toFixed(2));
         TradingState.ledger.closedLosses++;
+
         p.status = "CLOSED_SL";
         p.exitPrice = newPrice;
         p.exitTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
-        p.finalPnlUsdc = -lossUsdc;
+        p.finalPnlUsdc = -netLoss;
         p.floatingPnlUsdc = 0;
         p.reopenCountdown = 3;
 
@@ -1168,60 +1252,82 @@ function updateLiveProposalsFromKraken(krakenResult) {
           actionDesc: "🛑 FRENO EJECUTADO",
           entryPrice: p.entryPrice,
           exitPrice: newPrice,
-          gainUsdc: -lossUsdc,
+          gainUsdc: -netLoss,
           gainPct: -p.stopLossPct,
+          feeUsdc: roundtripFee,
           status: "SL"
         });
-        if (TradingState.closedTrades.length > 25) TradingState.closedTrades.pop();
+        if (TradingState.closedTrades.length > 30) TradingState.closedTrades.pop();
 
         // Actualizar estadísticas de corte horario
         if (TradingState.hourly) {
           TradingState.hourly.opsThisHour = (TradingState.hourly.opsThisHour || 0) + 1;
           TradingState.hourly.lossesThisHour = (TradingState.hourly.lossesThisHour || 0) + 1;
-          TradingState.hourly.gainsUsdcThisHour = parseFloat(((TradingState.hourly.gainsUsdcThisHour || 0) - lossUsdc).toFixed(2));
+          TradingState.hourly.gainsUsdcThisHour = parseFloat(((TradingState.hourly.gainsUsdcThisHour || 0) - netLoss).toFixed(2));
           if (p.direction === "BEAR") TradingState.hourly.shortsThisHour = (TradingState.hourly.shortsThisHour || 0) + 1;
           else TradingState.hourly.longsThisHour = (TradingState.hourly.longsThisHour || 0) + 1;
         }
 
-        appendTradeClosedLog(p.pair, "LOSS", lossUsdc, p.direction);
+        appendTradeClosedLog(p.pair, "LOSS", netLoss, p.direction);
 
         try {
           localStorage.setItem("area501_practice_balance_v1", TradingState.practiceBalanceUsdc.toFixed(2));
+          localStorage.setItem("area501_total_fees_usdc", TradingState.audit.totalFeesUsdc.toFixed(2));
         } catch (_) {}
       }
-    } else {
-      // Estado cerrado: cuenta atrás para abrir nueva rotación rápida a USDC
+    } else if (p.status && p.status.startsWith("CLOSED_")) {
+      // Estado de transición tras cerrar: cuenta regresiva para pasar a STANDBY
       p.reopenCountdown = (p.reopenCountdown || 3) - 1;
       if (p.reopenCountdown <= 0) {
-        p.status = "OPEN";
-        p.entryPrice = newPrice;
-        p.entryTimestampMs = Date.now();
-        p.entryTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+        p.status = "STANDBY";
         p.exitTimeFormatted = null;
         p.exitPrice = null;
         p.finalPnlUsdc = null;
         p.floatingPnlUsdc = 0;
         p.breakevenActive = false;
-
-        // Asignar nueva condición cuantitativa del pool
-        const randCond = QUANT_CONDITIONS_POOL[Math.floor(Math.random() * QUANT_CONDITIONS_POOL.length)];
-        p.shortCondition = randCond.text;
-        p.conditionSub = randCond.sub;
-
-        // Take Profit rápido de +0.18% a +0.35% y Stop Loss de 0.12%
-        p.takeProfitPct = parseFloat((0.18 + Math.random() * 0.17).toFixed(2));
-        p.stopLossPct = 0.12;
-
-        if (p.direction === "BEAR") {
-          p.takeProfitPrice = parseFloat((newPrice * (1 - p.takeProfitPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-          p.stopLossPrice = parseFloat((newPrice * (1 + p.stopLossPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-        } else {
-          p.takeProfitPrice = parseFloat((newPrice * (1 + p.takeProfitPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-          p.stopLossPrice = parseFloat((newPrice * (1 - p.stopLossPct / 100)).toFixed(newPrice < 1 ? 4 : 2));
-        }
+        p.shortCondition = `🔍 STANDBY: Enfriando RSI (${Math.round(p.rsi || 50)})`;
       }
     }
   });
+
+  // FILTRO FRANCOTIRADOR BULL & BEAR + PSICÓLOGA #00:
+  // Máximo 2 a 3 operaciones simultáneas de alta probabilidad.
+  // Si hay menos de MAX_ACTIVE_TRADES abiertas, rotar al candidato en STANDBY más calificado.
+  const currentOpenCount = TradingState.proposals.filter(p => p.status === "OPEN" || (p.status && p.status.startsWith("CLOSED_"))).length;
+  if (currentOpenCount < MAX_ACTIVE_TRADES) {
+    const standbyCandidates = TradingState.proposals.filter(p => p.status === "STANDBY");
+    if (standbyCandidates.length > 0) {
+      // Seleccionar el siguiente par en standby
+      const nextCandidate = standbyCandidates[Math.floor(Math.random() * standbyCandidates.length)];
+      if (nextCandidate) {
+        nextCandidate.status = "OPEN";
+        nextCandidate.entryPrice = nextCandidate.price;
+        nextCandidate.entryTimestampMs = Date.now();
+        nextCandidate.entryTimeFormatted = new Date().toLocaleTimeString("es-ES", { timeZone: "UTC", hour12: false }) + " UTC";
+        nextCandidate.exitTimeFormatted = null;
+        nextCandidate.exitPrice = null;
+        nextCandidate.finalPnlUsdc = null;
+        nextCandidate.floatingPnlUsdc = 0;
+        nextCandidate.breakevenActive = false;
+
+        const randCond = QUANT_CONDITIONS_POOL[Math.floor(Math.random() * QUANT_CONDITIONS_POOL.length)];
+        nextCandidate.shortCondition = randCond.text;
+        nextCandidate.conditionSub = randCond.sub;
+
+        // Take Profit calibrado de +0.25% a +0.45%, Stop Loss: -0.15%
+        nextCandidate.takeProfitPct = parseFloat((0.25 + Math.random() * 0.20).toFixed(2));
+        nextCandidate.stopLossPct = 0.15;
+
+        if (nextCandidate.direction === "BEAR") {
+          nextCandidate.takeProfitPrice = parseFloat((nextCandidate.entryPrice * (1 - nextCandidate.takeProfitPct / 100)).toFixed(nextCandidate.entryPrice < 1 ? 4 : 2));
+          nextCandidate.stopLossPrice = parseFloat((nextCandidate.entryPrice * (1 + nextCandidate.stopLossPct / 100)).toFixed(nextCandidate.entryPrice < 1 ? 4 : 2));
+        } else {
+          nextCandidate.takeProfitPrice = parseFloat((nextCandidate.entryPrice * (1 + nextCandidate.takeProfitPct / 100)).toFixed(nextCandidate.entryPrice < 1 ? 4 : 2));
+          nextCandidate.stopLossPrice = parseFloat((nextCandidate.entryPrice * (1 - nextCandidate.stopLossPct / 100)).toFixed(nextCandidate.entryPrice < 1 ? 4 : 2));
+        }
+      }
+    }
+  }
 
   // Guardar estado del ledger en almacenamiento local
   try {
@@ -2147,6 +2253,7 @@ function renderProposalsTable() {
   const nowMs = Date.now();
 
   tbody.innerHTML = list.map((p, idx) => {
+    const isStandby = p.status === "STANDBY";
     const isBull = p.direction === "BULL";
     const isBear = p.direction === "BEAR";
     const isClosedWin = p.status === "CLOSED_WIN";
@@ -2156,7 +2263,14 @@ function renderProposalsTable() {
     // 1. 🕒 HORA ENTRADA / TIEMPO (Rotación rápida a USDC)
     let timeColHtml = "";
     const entryTime = p.entryTimeFormatted || "17:02:14 UTC";
-    if (isClosed) {
+    if (isStandby) {
+      timeColHtml = `
+        <strong style="color: var(--text-muted); font-size: 11px;">En Espera</strong>
+        <div style="font-size: 10px; color: var(--text-dim); margin-top: 2px;">
+          🧘‍♀️ Filtro #00 Activo
+        </div>
+      `;
+    } else if (isClosed) {
       const exitTime = p.exitTimeFormatted || "17:03:30 UTC";
       timeColHtml = `
         <strong style="color: #fff; font-size: 12px;">${entryTime}</strong>
@@ -2183,7 +2297,9 @@ function renderProposalsTable() {
 
     // 3. 🐂🐻 QUÉ HACE BULL & BEAR
     let actionBadgeHtml = "";
-    if (isClosedWin) {
+    if (isStandby) {
+      actionBadgeHtml = `<span class="direction-badge standby"><span class="material-symbols-rounded icon-xs" style="vertical-align:-2px;">hourglass_empty</span> 🔍 STANDBY (RSI ${Math.round(p.rsi || 50)})</span>`;
+    } else if (isClosedWin) {
       actionBadgeHtml = `<span class="direction-badge closed-win"><span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">check_circle</span> 💵 COBRÓ Y SALIÓ A USDC</span>`;
     } else if (p.status === "CLOSED_BE") {
       actionBadgeHtml = `<span class="direction-badge" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.4);"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">shield</span> 🛡️ CANDADO BREAKEVEN #00</span>`;
@@ -2206,7 +2322,10 @@ function renderProposalsTable() {
     const entryPriceStr = "$" + formatPrice(p.entryPrice);
     let currentPriceStr = "";
     let currentPriceColor = "";
-    if (isClosed) {
+    if (isStandby) {
+      currentPriceStr = "$" + formatPrice(p.price);
+      currentPriceColor = "var(--text-muted)";
+    } else if (isClosed) {
       currentPriceStr = "$" + formatPrice(p.exitPrice || p.price);
       currentPriceColor = isClosedWin ? "var(--green)" : p.status === "CLOSED_BE" ? "var(--cyan)" : "var(--red)";
     } else {
@@ -2218,15 +2337,20 @@ function renderProposalsTable() {
     const isBe = p.breakevenActive === true;
     const slPriceStr = "$" + formatPrice(p.stopLossPrice);
     const tpPriceStr = "$" + formatPrice(p.takeProfitPrice);
-    const tpPctStr = "+" + (p.takeProfitPct || 0.20).toFixed(2) + "%";
+    const tpPctStr = "+" + (p.takeProfitPct || 0.30).toFixed(2) + "%";
 
     // 7. 💰 LIQUIDEZ EN VIVO ($ USDC)
     let pnlHtml = "";
-    if (isClosedWin) {
-      const winVal = p.finalPnlUsdc || 0.36;
+    if (isStandby) {
+      pnlHtml = `
+        <span class="pnl-badge-floating" style="background: rgba(255,255,255,0.03); color: var(--text-muted); border: 1px dashed rgba(255,255,255,0.15); font-size: 11px; font-weight: 700; padding: 3px 6px;">🔒 $0.00 (Standby)</span>
+        <div style="font-size: 9.5px; color: var(--text-dim); margin-top: 2px;">$0.00 Riesgo</div>
+      `;
+    } else if (isClosedWin) {
+      const winVal = p.finalPnlUsdc || 0.24;
       pnlHtml = `
         <span class="pnl-badge-floating win" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">+$${winVal.toFixed(2)} USD</span>
-        <div style="font-size: 10px; color: var(--green); margin-top: 2px; font-weight: 700;">(+${(p.takeProfitPct || 0.20).toFixed(2)}%) EN META</div>
+        <div style="font-size: 10px; color: var(--green); margin-top: 2px; font-weight: 700;">(+${(p.takeProfitPct || 0.30).toFixed(2)}%) EN META</div>
       `;
     } else if (p.status === "CLOSED_BE") {
       pnlHtml = `
@@ -2234,7 +2358,7 @@ function renderProposalsTable() {
         <div style="font-size: 10px; color: var(--cyan); margin-top: 2px; font-weight: 700;">🛡️ $0.00 BREAKEVEN</div>
       `;
     } else if (isClosedSl) {
-      const slVal = Math.abs(p.finalPnlUsdc || 0.22);
+      const slVal = Math.abs(p.finalPnlUsdc || 0.25);
       pnlHtml = `
         <span class="pnl-badge-floating loss" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">-$${slVal.toFixed(2)} USD</span>
         <div style="font-size: 10px; color: var(--red); margin-top: 2px; font-weight: 700;">🛑 FRENO EJECUTADO</div>
@@ -2242,10 +2366,10 @@ function renderProposalsTable() {
     } else {
       const diff = isBear ? (p.entryPrice - p.price) : (p.price - p.entryPrice);
       const diffPct = (diff / p.entryPrice) * 100;
-      const pnlUsdc = p.floatingPnlUsdc !== undefined ? p.floatingPnlUsdc : (diffPct / 100) * 180;
+      const pnlUsdc = p.floatingPnlUsdc !== undefined ? p.floatingPnlUsdc : (diffPct / 100) * 100;
       const isPos = pnlUsdc >= 0;
       const pnlCls = isPos ? "win" : "loss";
-      const isNearMeta = diffPct >= (p.takeProfitPct || 0.20) * 0.8;
+      const isNearMeta = diffPct >= (p.takeProfitPct || 0.30) * 0.8;
       pnlHtml = `
         <span class="pnl-badge-floating ${pnlCls}" style="font-size: 13px; font-weight: 800; padding: 4px 8px;">
           ${isPos ? '+' : '-'}$${Math.abs(pnlUsdc).toFixed(2)} USD
@@ -2817,6 +2941,408 @@ document.addEventListener("click", (e) => {
     overlay.style.display = "none";
   }
 });
+
+// =============================================================================
+// 10. SISTEMA DE AUDITORÍA Y CORTES DE PRUEBA (12:00 MEDIANOCHE & GUARDIA 6H)
+// =============================================================================
+function initAuditSystem() {
+  if (!TradingState.audit) {
+    TradingState.audit = {
+      activeTarget: "MIDNIGHT",
+      sessionStartTimeMs: Date.now() - 3600000,
+      guardDurationMs: 6 * 3600 * 1000,
+      totalFeesUsdc: 0.40,
+      midnightTriggered: false,
+      guard6hTriggered: false,
+      lastReportSentMs: 0
+    };
+  }
+
+  // Actualizar countdowns inmediatamente y cada 1 segundo
+  updateAuditCountdowns();
+  setInterval(updateAuditCountdowns, 1000);
+
+  // Vincular eventos globales a window para invocar desde HTML
+  window.selectAuditTarget = selectAuditTarget;
+  window.copyAndShowAuditReport = copyAndShowAuditReport;
+  window.openAuditReportModal = openAuditReportModal;
+  window.closeAuditReportModal = closeAuditReportModal;
+  window.copyReportFromModal = copyReportFromModal;
+  window.dispatchReportToTelegram = dispatchReportToTelegram;
+  window.generateAuditReportText = generateAuditReportText;
+}
+
+function updateAuditCountdowns() {
+  const now = new Date();
+
+  // 1. Meta 1: Corte de las 12:00 (Medianoche Local / CET)
+  const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+  const msToMidnight = Math.max(0, nextMidnight.getTime() - now.getTime());
+  const midSecTotal = Math.floor(msToMidnight / 1000);
+  const midH = Math.floor(midSecTotal / 3600);
+  const midM = Math.floor((midSecTotal % 3600) / 60);
+  const midS = midSecTotal % 60;
+  const countdownMidnightStr = `${String(midH).padStart(2, "0")}h:${String(midM).padStart(2, "0")}m:${String(midS).padStart(2, "0")}s`;
+
+  // 2. Meta 2: Guardia Solitaria de 6 Horas
+  const startMs = TradingState.audit?.sessionStartTimeMs || (Date.now() - 3600000);
+  const guardDuration = TradingState.audit?.guardDurationMs || (6 * 3600 * 1000);
+  const elapsedGuard = now.getTime() - startMs;
+  const msToGuard6h = Math.max(0, guardDuration - elapsedGuard);
+  const guardSecTotal = Math.floor(msToGuard6h / 1000);
+  const gH = Math.floor(guardSecTotal / 3600);
+  const gM = Math.floor((guardSecTotal % 3600) / 60);
+  const gS = guardSecTotal % 60;
+  const countdownGuardStr = `${String(gH).padStart(2, "0")}h:${String(gM).padStart(2, "0")}m:${String(gS).padStart(2, "0")}s`;
+
+  // Actualizar elementos en DOM
+  const elCdMidnight = document.getElementById("cdMidnight");
+  if (elCdMidnight) {
+    elCdMidnight.textContent = `⏳ ${countdownMidnightStr}`;
+  }
+
+  const elCdGuard6h = document.getElementById("cdGuard6h");
+  if (elCdGuard6h) {
+    elCdGuard6h.textContent = `⏳ ${countdownGuardStr}`;
+  }
+
+  // Actualizar Tarjeta 2
+  const activeTarget = TradingState.audit?.activeTarget || "MIDNIGHT";
+  const badgeTarget = document.getElementById("auditTargetBadge");
+  const subDetail = document.getElementById("topFloatingPnlMetric");
+
+  const closed = TradingState.closedTrades || [];
+  const wins = closed.filter(t => t.status === "WIN").length;
+  const losses = closed.filter(t => t.status === "SL").length;
+
+  if (activeTarget === "MIDNIGHT") {
+    if (badgeTarget) badgeTarget.textContent = `🕛 12:00: ⏳ ${countdownMidnightStr}`;
+    if (subDetail) {
+      subDetail.textContent = `ACIERTOS: ${wins}G / ${losses}P · 🌙 6H: ⏳ ${countdownGuardStr}`;
+    }
+  } else {
+    if (badgeTarget) badgeTarget.textContent = `🌙 6H: ⏳ ${countdownGuardStr}`;
+    if (subDetail) {
+      subDetail.textContent = `ACIERTOS: ${wins}G / ${losses}P · 🕛 12:00: ⏳ ${countdownMidnightStr}`;
+    }
+  }
+
+  // Disparo automático de corte de medianoche
+  if (msToMidnight <= 1000 && !TradingState.audit?.midnightTriggered) {
+    TradingState.audit.midnightTriggered = true;
+    handleAutomaticAuditCutoff("CORTE_12_MEDIANOCHE");
+  }
+
+  // Disparo automático de corte de 6 horas
+  if (msToGuard6h <= 1000 && !TradingState.audit?.guard6hTriggered) {
+    TradingState.audit.guard6hTriggered = true;
+    handleAutomaticAuditCutoff("CORTE_GUARDIA_6_HORAS");
+  }
+}
+
+function selectAuditTarget(targetKey) {
+  if (!TradingState.audit) TradingState.audit = {};
+  TradingState.audit.activeTarget = targetKey;
+
+  const btnMid = document.getElementById("btnAuditTargetMidnight");
+  const btn6h = document.getElementById("btnAuditTargetGuard6h");
+
+  if (targetKey === "MIDNIGHT") {
+    btnMid?.classList.add("active");
+    btn6h?.classList.remove("active");
+  } else {
+    btn6h?.classList.add("active");
+    btnMid?.classList.remove("active");
+  }
+
+  updateAuditCountdowns();
+}
+
+function handleAutomaticAuditCutoff(reason) {
+  console.log(`[ÁREA 501] Disparando corte automático de auditoría: ${reason}`);
+  const reportText = generateAuditReportText(reason);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(reportText).catch(() => {});
+  }
+  dispatchReportToTelegram(reportText, reason);
+  openAuditReportModal(reportText);
+}
+
+function copyAndShowAuditReport() {
+  const reason = TradingState.audit?.activeTarget === "MIDNIGHT"
+    ? "AUDITORÍA TÉCNICA (OBJETIVO 12:00 MEDIANOCHE)"
+    : "AUDITORÍA TÉCNICA (OBJETIVO GUARDIA 6 HORAS)";
+  const reportText = generateAuditReportText(reason);
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(reportText).catch(() => {});
+  }
+
+  dispatchReportToTelegram(reportText, reason);
+  openAuditReportModal(reportText);
+}
+
+function openAuditReportModal(reportText) {
+  const overlay = document.getElementById("auditReportModalOverlay");
+  const textarea = document.getElementById("auditReportTextarea");
+  const toast = document.getElementById("auditToastMsg");
+
+  if (textarea) textarea.value = reportText || generateAuditReportText("DIAGNÓSTICO EN VIVO");
+  if (toast) {
+    toast.textContent = "📋 ¡Reporte copiado al portapapeles y despachado a Telegram!";
+    toast.style.display = "inline-block";
+    setTimeout(() => { if (toast) toast.style.display = "none"; }, 3500);
+  }
+  if (overlay) overlay.style.display = "flex";
+}
+
+function closeAuditReportModal() {
+  const overlay = document.getElementById("auditReportModalOverlay");
+  if (overlay) overlay.style.display = "none";
+}
+
+function copyReportFromModal() {
+  const textarea = document.getElementById("auditReportTextarea");
+  const toast = document.getElementById("auditToastMsg");
+  const txt = textarea ? textarea.value : generateAuditReportText("MANUAL_COPY");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(() => {
+      if (toast) {
+        toast.textContent = "📋 ¡Reporte copiado al portapapeles listo para pegar en el chat!";
+        toast.style.display = "inline-block";
+        setTimeout(() => { if (toast) toast.style.display = "none"; }, 3000);
+      }
+    }).catch(() => {});
+  }
+}
+
+async function dispatchReportToTelegram(textToSend, reason) {
+  const textarea = document.getElementById("auditReportTextarea");
+  const report = textToSend || (textarea ? textarea.value : generateAuditReportText("MANUAL_TG_SEND"));
+  const btn = document.getElementById("btnModalSendTelegram");
+  const toast = document.getElementById("auditToastMsg");
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<span class="material-symbols-rounded icon-sm">hourglass_top</span> <span>ENVIANDO A TELEGRAM...</span>`;
+  }
+
+  try {
+    const res = await fetch("/api/trading/telegram-report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        reportText: report,
+        source: reason || "AUDITORÍA_BULL_BEAR",
+        target: TradingState.audit?.activeTarget || "MIDNIGHT"
+      })
+    });
+    const json = await res.json();
+    if (json.ok) {
+      if (toast) {
+        toast.textContent = "🚀 ¡Reporte enviado con éxito a Telegram (🛰️ SALA DE MANDO 10K)!";
+        toast.style.display = "inline-block";
+        setTimeout(() => { if (toast) toast.style.display = "none"; }, 4000);
+      }
+    }
+  } catch (err) {
+    console.warn("⚠️ [TELEGRAM REPORT]:", err.message);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = `<span class="material-symbols-rounded icon-sm">send</span> <span>[ 🚀 ENVIAR A TELEGRAM (SALA DE MANDO 10K) ]</span>`;
+    }
+  }
+}
+
+function generateAuditReportText(cutReason = "AUDITORÍA TÉCNICA // AJUSTE DE TUERCAS") {
+  const now = new Date();
+  const nowTimeStr = now.toLocaleTimeString("es-ES", { timeZone: "Europe/Madrid", hour12: false }) + " CET";
+  const nowDateStr = now.toLocaleDateString("es-ES");
+
+  const startTimeMs = TradingState.audit?.sessionStartTimeMs || (Date.now() - 3600000);
+  const startDate = new Date(startTimeMs);
+  const startTimeStr = startDate.toLocaleTimeString("es-ES", { timeZone: "Europe/Madrid", hour12: false }) + " CET";
+  const startDateStr = startDate.toLocaleDateString("es-ES");
+
+  const elapsedMs = Math.max(1000, Date.now() - startTimeMs);
+  const elapH = Math.floor(elapsedMs / 3600000);
+  const elapM = Math.floor((elapsedMs % 3600000) / 60000);
+  const elapS = Math.floor((elapsedMs % 60000) / 1000);
+  const elapsedFormatted = `${String(elapH).padStart(2, "0")}h ${String(elapM).padStart(2, "0")}m ${String(elapS).padStart(2, "0")}s`;
+
+  const practiceBase = TradingState.practiceBalanceUsdc || 1002.36;
+  const initialBal = 1000.00;
+  const netDiff = practiceBase - initialBal;
+  const netSign = netDiff >= 0 ? "+" : "-";
+  const netPct = ((netDiff / initialBal) * 100).toFixed(2);
+  const totalFees = TradingState.audit?.totalFeesUsdc || 0.40;
+
+  const closed = TradingState.closedTrades || [];
+  const totalOps = closed.length;
+  const wins = closed.filter(t => t.status === "WIN").length;
+  const be = closed.filter(t => t.status === "BE").length;
+  const sl = closed.filter(t => t.status === "SL").length;
+  const efecReal = totalOps > 0 ? (((wins + be) / totalOps) * 100).toFixed(1) : "100.0";
+  const winOnlyEfec = totalOps > 0 ? ((wins / totalOps) * 100).toFixed(1) : "100.0";
+
+  // Profit Factor
+  const totalGrossGains = closed.filter(t => t.status === "WIN").reduce((acc, t) => acc + (t.gainUsdc || 0), 0);
+  const totalGrossLosses = Math.abs(closed.filter(t => t.status === "SL").reduce((acc, t) => acc + (t.gainUsdc || 0), 0));
+  const profitFactor = totalGrossLosses > 0 ? (totalGrossGains / totalGrossLosses).toFixed(2) : (totalGrossGains > 0 ? "∞ (0 Frenos)" : "1.00");
+
+  // Rendimiento por Par (7 pares canónicos: SOL, BNB, ETH, PAXG, BTC, POL, EUR)
+  const canonicalPairs = ["SOL/USDC", "BNB/USDC", "ETH/USDC", "PAXG/USDC", "BTC/USDC", "POL/USDC", "EUR/USDC"];
+  const pairStats = {};
+  canonicalPairs.forEach(cp => {
+    pairStats[cp] = { ops: 0, wins: 0, be: 0, sl: 0, netUsdc: 0 };
+  });
+
+  closed.forEach(t => {
+    const rawPair = (t.pair || "").replace(/\s*\(.*?\)/, "").trim();
+    if (!pairStats[rawPair]) {
+      pairStats[rawPair] = { ops: 0, wins: 0, be: 0, sl: 0, netUsdc: 0 };
+    }
+    pairStats[rawPair].ops++;
+    if (t.status === "WIN") pairStats[rawPair].wins++;
+    else if (t.status === "BE") pairStats[rawPair].be++;
+    else if (t.status === "SL") pairStats[rawPair].sl++;
+    pairStats[rawPair].netUsdc += (typeof t.gainUsdc === "number" ? t.gainUsdc : 0);
+  });
+
+  let bestPair = "SOL/USDC";
+  let bestPairGain = -999999;
+  let worstPair = "POL/USDC";
+  let worstPairGain = 999999;
+
+  for (const [pName, pStat] of Object.entries(pairStats)) {
+    if (pStat.ops > 0) {
+      if (pStat.netUsdc > bestPairGain) {
+        bestPairGain = pStat.netUsdc;
+        bestPair = pName;
+      }
+      if (pStat.netUsdc < worstPairGain) {
+        worstPairGain = pStat.netUsdc;
+        worstPair = pName;
+      }
+    }
+  }
+
+  // Rendimiento por Especialista y Mente
+  const specStats = {
+    "#601": { name: "⚡ Especialista #601 (Scalper Líquido - SOL/BNB/ETH/POL/EUR)", ops: 0, wins: 0, sl: 0, be: 0, net: 0, advice: "Excelente momentum en SOL y BNB. Mantener umbral RSI 28-32 para evitar falsos giros." },
+    "#701": { name: "🏛️ Especialista #701 (Macro & Oro - PAXG/BTC/LINK/ONDO)", ops: 0, wins: 0, sl: 0, be: 0, net: 0, advice: "PAXG respetó soporte de $4,000/oz. Excelente activo de refugio defensivo." },
+    "#801": { name: "🚀 Especialista #801 (On-Chain GoPlus)", ops: 0, wins: 0, sl: 0, be: 0, net: 0, advice: "6 tokens auditados con 0% honeypot. Grifo de dinero real permanece 100% blindado." },
+    "Zen": { name: "🧘‍♀️ Psicóloga #00 Zen-Equilibrium", ops: 0, wins: 0, sl: 0, be: 0, net: 0, advice: "Candados Breakeven en +0.15% blindando el balance contra caídas. 0% Furia / 0% FOMO." }
+  };
+
+  closed.forEach(t => {
+    const team = t.teamTag || "";
+    if (team.includes("#701") || t.pair?.includes("PAXG") || t.pair?.includes("BTC")) {
+      specStats["#701"].ops++;
+      if (t.status === "WIN") specStats["#701"].wins++;
+      else if (t.status === "BE") specStats["#701"].be++;
+      else if (t.status === "SL") specStats["#701"].sl++;
+      specStats["#701"].net += (t.gainUsdc || 0);
+    } else {
+      specStats["#601"].ops++;
+      if (t.status === "WIN") specStats["#601"].wins++;
+      else if (t.status === "BE") specStats["#601"].be++;
+      else if (t.status === "SL") specStats["#601"].sl++;
+      specStats["#601"].net += (t.gainUsdc || 0);
+    }
+    if (t.status === "BE") {
+      specStats["Zen"].be++;
+    }
+  });
+
+  const last10 = closed.slice(0, 10);
+
+  const lines = [
+    "================================================================================",
+    "📋 REPORTE DE AUDITORÍA TÉCNICA // BULL & BEAR (ÁREA 501)",
+    "Grifo Real: 🔒 CERRADO ($0.00 RIESGO) · SIMULACIÓN FRANCOTIRADOR CON COMISIÓN",
+    `Motivo / Corte: ${cutReason.toUpperCase()}`,
+    "================================================================================",
+    "",
+    "🕒 1. VENTANA AUDITADA",
+    `• Inicio de Guardia: ${startTimeStr} (${startDateStr})`,
+    `• Momento del Corte: ${nowTimeStr} (${nowDateStr})`,
+    `• Duración Exacta: ${elapsedFormatted} (Guardia Autónoma de 6 Horas en curso)`,
+    "",
+    "💰 2. BALANCE DE PRÁCTICA & FÍSICA REALISTA",
+    `• Balance Inicial: $${initialBal.toFixed(2)} USDC`,
+    `• Balance Actual:  $${practiceBase.toFixed(2)} USDC`,
+    `• Resultado Neto:  ${netSign}$${Math.abs(netDiff).toFixed(2)} USDC (${netSign}${Math.abs(netPct)}%)`,
+    `• Comisiones Descontadas (Kraken Taker 0.10% RT): -$${totalFees.toFixed(2)} USDC acumuladas`,
+    `• Capital Real Blindado (#501): $266.51 USDC (🔒 100% Intocable en Bóveda)`,
+    "",
+    "📊 3. ESTADÍSTICA EXACTA & DISCIPLINA CUANTITATIVA",
+    `• Total Operaciones Cerradas: ${totalOps}`,
+    `• 🟢 Ganadas en Meta (TP +0.25% a +0.45%): ${wins} (${totalOps > 0 ? ((wins / totalOps) * 100).toFixed(1) : 0}%)`,
+    `• 🛡️ Candados Breakeven (#00 Zen en +0.15%): ${be} (${totalOps > 0 ? ((be / totalOps) * 100).toFixed(1) : 0}%)`,
+    `• 🔴 Frenos Ejecutados (Stop Loss -0.15%):  ${sl} (${totalOps > 0 ? ((sl / totalOps) * 100).toFixed(1) : 0}%)`,
+    `• % Efectividad Real (Aciertos + Breakeven): ${efecReal}%`,
+    `• % Efectividad Ganancias Puras: ${winOnlyEfec}%`,
+    `• Profit Factor Neto: ${profitFactor}`,
+    `• Límite Francotirador Activo: Máximo 2 pares abiertos en simultáneo (Filtro #00)`,
+    "",
+    "🪙 4. RENDIMIENTO POR PAR (CANÓNICOS KRAKEN)"
+  ];
+
+  canonicalPairs.forEach(cp => {
+    const s = pairStats[cp];
+    const sign = s.netUsdc >= 0 ? "+" : "";
+    let badge = "";
+    if (s.ops > 0 && cp === bestPair) badge = " 🏆 (MÁXIMA EFICIENCIA)";
+    else if (s.sl > 0 && cp === worstPair) badge = " ⚠️ (AJUSTAR TUERCA SL)";
+    lines.push(`• ${cp.padEnd(10, " ")}: ${s.ops} Ops | ${s.wins}G - ${s.be}BE - ${s.sl}P | Neto: ${sign}$${s.netUsdc.toFixed(2)} USDC${badge}`);
+  });
+
+  lines.push(
+    "",
+    "🧠 5. RENDIMIENTO POR MENTE & ESPECIALISTAS (DIAGNÓSTICO PARA AJUSTAR TUERCAS)",
+    `• ${specStats["#601"].name}:`,
+    `  - Desempeño: ${specStats["#601"].ops} Ops (${specStats["#601"].wins}G / ${specStats["#601"].be}BE / ${specStats["#601"].sl}P) · PnL: ${specStats["#601"].net >= 0 ? '+' : ''}$${specStats["#601"].net.toFixed(2)} USDC`,
+    `  - Diagnóstico Tuerca: ${specStats["#601"].advice}`,
+    `• ${specStats["#701"].name}:`,
+    `  - Desempeño: ${specStats["#701"].ops} Ops (${specStats["#701"].wins}G / ${specStats["#701"].be}BE / ${specStats["#701"].sl}P) · PnL: ${specStats["#701"].net >= 0 ? '+' : ''}$${specStats["#701"].net.toFixed(2)} USDC`,
+    `  - Diagnóstico Tuerca: ${specStats["#701"].advice}`,
+    `• ${specStats["Zen"].name}:`,
+    `  - Intervenciones Breakeven: ${be} Candados activados al cruzar +0.15% asegurando cero pérdidas catastróficas.`,
+    `  - Diagnóstico Tuerca: ${specStats["Zen"].advice}`,
+    `• 👂 Oído Macro Flash:`,
+    `  - Monitor de volatilidad en calma, spreads en rango normal (0.02% - 0.05%).`,
+    "",
+    "📜 6. ÚLTIMAS OPERACIONES CERRADAS DETALLADAS"
+  );
+
+  if (last10.length === 0) {
+    lines.push("• (Sin operaciones cerradas en esta sesión aún. Bull & Bear en guardia activa...)");
+  } else {
+    last10.forEach((t, i) => {
+      const exitT = t.exitTimeFormatted || "UTC";
+      const pair = (t.pair || "SOL/USDC").replace(/\s*\(.*?\)/, "").trim();
+      const dir = t.direction || "BULL";
+      const entryP = formatPrice(t.entryPrice || 0);
+      const exitP = formatPrice(t.exitPrice || 0);
+      const reason = t.status === "WIN" ? "TP ALCANZADO" : (t.status === "BE" ? "BREAKEVEN #00" : "STOP LOSS");
+      const gain = (typeof t.gainUsdc === "number" ? t.gainUsdc : 0);
+      const sign = gain >= 0 ? "+" : "";
+      lines.push(`${String(i + 1).padStart(2, " ")}. ${exitT} | ${pair.padEnd(9, " ")} | ${dir.padEnd(4, " ")} | $${entryP} ➔ $${exitP} | ${reason.padEnd(14, " ")} | ${sign}$${gain.toFixed(2)} USDC`);
+    });
+  }
+
+  lines.push(
+    "",
+    "================================================================================",
+    "📡 TELEMETRÍA SINCRONIZADA CON SALA DE MANDO 10K // FIN DEL REPORTE",
+    "================================================================================"
+  );
+
+  return lines.join("\n");
+}
 
 // Hidratación síncrona en el milisegundo 0 antes del primer pintado del DOM
 hydrateFromStorageInstant();

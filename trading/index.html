@@ -97,26 +97,26 @@
     </div>
 
     <!-- TARJETA 2 (MARCADOR DE LIQUIDEZ & EFECTIVIDAD EN VIVO) -->
-    <div class="floating-card nav-card-col" id="cardEffectivenessTop" onclick="openHourlyCutsModal()" style="cursor: pointer;" title="Clic para ver historial de cortes de caja">
+    <div class="floating-card nav-card-col" id="cardEffectivenessTop" onclick="copyAndShowAuditReport()" style="cursor: pointer;" title="Clic para generar reporte de auditoría técnica y calibración">
       <div class="card-top-meta">
         <span class="card-top-title">
           <span class="material-symbols-rounded icon-xs green-text">account_balance_wallet</span>
           <span id="effectivenessTitleTxt">BILLETERA PRÁCTICA: $1,000.46 USDC</span>
         </span>
-        <span class="badge-tag-tiny badge-green" id="trainingModeBadge">EFECTIVIDAD: 100%</span>
+        <span class="badge-tag-tiny badge-gold font-mono" id="auditTargetBadge">🕛 12:00: ⏳ 00h:28m</span>
       </div>
       <div class="card-data-main">
         <span class="metric-big-bold green-text" id="topClosedPnlMetric">LIQUIDEZ GANADA HOY: +$2.36 USDC</span>
-        <span class="metric-sub-detail" id="topFloatingPnlMetric">ACIERTOS: 14G / 0P (100% Efectividad)</span>
+        <span class="metric-sub-detail font-mono" id="topFloatingPnlMetric">ACIERTOS: 14G / 0P · 🌙 6H: ⏳ 05h:58m</span>
       </div>
     </div>
 
-    <!-- TARJETA 3 (INTERRUPTOR MAESTRO DE ENVÍO DE DINERO REAL - LISTO EN OFF) -->
+    <!-- TARJETA 3 (INTERRUPTOR MAESTRO DE ENVÍO DE DINERO REAL - GRIFO CERRADO) -->
     <div class="floating-card nav-card-col real-money-switch-card" id="cardRealMoneySwitch">
       <div class="card-top-meta">
         <span class="card-top-title">
-          <span class="material-symbols-rounded icon-xs gold">toggle_off</span>
-          <span>FUEGO REAL (#501)</span>
+          <span class="material-symbols-rounded icon-xs gold">lock</span>
+          <span>GRIFO REAL (#501)</span>
         </span>
         <span class="badge-tag-tiny badge-green" id="realMoneyStatusBadge">
           🧪 MODO PRÁCTICA EN VIVO ($0.00 RIESGO)
@@ -124,11 +124,11 @@
       </div>
       <div class="card-data-main real-switch-data-row">
         <!-- Botón de Interruptor Bloqueado -->
-        <button class="real-switch-btn" id="btnToggleRealMoney" onclick="openRealMoneyModal()" title="Clic para ver protocolo y requisitos para enviar dinero real">
+        <button class="real-switch-btn" id="btnToggleRealMoney" onclick="openRealMoneyModal()" title="Grifo de dinero real 100% cerrado. Modo práctica activo.">
           <span class="switch-slider-track">
             <span class="switch-knob">🔒</span>
           </span>
-          <span class="switch-label-txt font-mono">[ 🔒 ENVIAR DINERO REAL (#501): APAGADO ]</span>
+          <span class="switch-label-txt font-mono">[ 🔒 GRIFO CERRADO: MODO PRÁCTICA ACTIVO ($0.00 RIESGO EN #501) ]</span>
         </button>
         <!-- Selector de Bala Rápido -->
         <div class="bullet-size-selector" title="Tamaño de bala preparado para fuego real">
@@ -439,17 +439,39 @@
                 <span class="dot dot-green"></span>
               </div>
               <span class="ag-term-title font-mono">
-                💻 2. TERMINAL DE OPERACIONES CERRADAS // LIQUIDEZ COBRADA (GANANCIA O PÉRDIDA)
+                💻 2. TERMINAL DE OPERACIONES CERRADAS
               </span>
+              <!-- Panel Selector de Ventana de Auditoría Dual -->
+              <div class="audit-targets-group font-mono">
+                <button class="audit-target-btn active" id="btnAuditTargetMidnight" onclick="selectAuditTarget('MIDNIGHT')" title="Meta 1: Cuenta regresiva al corte de las 12:00 medianoche">
+                  <span class="target-icon">🕛</span>
+                  <span class="target-label">CORTE 12:00:</span>
+                  <span class="target-countdown" id="cdMidnight">⏳ 00h:28m:15s</span>
+                </button>
+                <button class="audit-target-btn" id="btnAuditTargetGuard6h" onclick="selectAuditTarget('GUARD_6H')" title="Meta 2: Temporizador continuo de 6 horas de guardia nocturna">
+                  <span class="target-icon">🌙</span>
+                  <span class="target-label">GUARDIA 6H:</span>
+                  <span class="target-countdown" id="cdGuard6h">⏳ 05h:58m:40s</span>
+                </button>
+              </div>
             </div>
-            <div class="ag-term-stats font-mono">
-              <span class="ag-stat-item" id="termTotalClosed">TOTAL CERRADAS: 14</span>
-              <span class="ag-stat-sep">|</span>
-              <span class="ag-stat-item ag-stat-green" id="termWinsCount">🟢 GANADAS: 14</span>
-              <span class="ag-stat-sep">|</span>
-              <span class="ag-stat-item ag-stat-red" id="termLossesCount">🔴 FRENOS: 0</span>
-              <span class="ag-stat-sep">|</span>
-              <span class="ag-stat-item ag-stat-gold" id="termNetBalance">BALANCE NETO CERRADO: +$2.36 USDC</span>
+
+            <div class="ag-term-right">
+              <!-- Botón Directo: Copiar Reporte para Ajustar Tuercas -->
+              <button class="btn-copy-audit-report font-mono" id="btnCopyAuditReport" onclick="copyAndShowAuditReport()" title="Copiar reporte al portapapeles y enviar a Telegram (Sala de Mando 10K)">
+                <span class="material-symbols-rounded icon-xs" style="vertical-align:-2px;">content_paste</span>
+                <span>[ 📋 COPIAR REPORTE PARA AJUSTAR TUERCAS ]</span>
+              </button>
+
+              <div class="ag-term-stats font-mono">
+                <span class="ag-stat-item" id="termTotalClosed">TOTAL CERRADAS: 14</span>
+                <span class="ag-stat-sep">|</span>
+                <span class="ag-stat-item ag-stat-green" id="termWinsCount">🟢 GANADAS: 14</span>
+                <span class="ag-stat-sep">|</span>
+                <span class="ag-stat-item ag-stat-red" id="termLossesCount">🔴 FRENOS: 0</span>
+                <span class="ag-stat-sep">|</span>
+                <span class="ag-stat-item ag-stat-gold" id="termNetBalance">BALANCE NETO CERRADO: +$2.36 USDC</span>
+              </div>
             </div>
           </div>
 
@@ -1024,6 +1046,38 @@
           Cada 60 minutos exactos, Bull &amp; Bear y la Psicóloga #00 liquidan y registran el balance acumulado en USDC para certificar cero acumulación de tokens y rotación líquida perpetua.
         </p>
         <div id="hourlyCutsListContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE REPORTE DE AUDITORÍA TÉCNICA // PARA AJUSTAR TUERCAS -->
+  <div class="audit-report-modal-overlay" id="auditReportModalOverlay" style="display: none;" onclick="if(event.target===this) closeAuditReportModal()">
+    <div class="audit-report-modal-card">
+      <div class="audit-modal-header">
+        <div class="modal-header-left">
+          <span class="material-symbols-rounded gold" style="font-size: 26px;">analytics</span>
+          <div>
+            <h3 class="audit-modal-title">📋 AUDITORÍA TÉCNICA // CALIBRACIÓN BULL &amp; BEAR</h3>
+            <span class="audit-modal-subtitle">DIAGNÓSTICO EN VIVO PARA AJUSTAR TUERCAS · MODO PRÁCTICA REALISTA CON COMISIÓN</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeAuditReportModal()" title="Cerrar Reporte">✕</button>
+      </div>
+
+      <div class="audit-modal-body">
+        <div class="audit-modal-actions-bar">
+          <button class="btn-modal-action btn-copy-primary" onclick="copyReportFromModal()">
+            <span class="material-symbols-rounded icon-sm">content_copy</span>
+            <span>[ 📋 COPIAR AL PORTAPAPELES (LISTO PARA CHAT) ]</span>
+          </button>
+          <button class="btn-modal-action btn-tg-send" id="btnModalSendTelegram" onclick="dispatchReportToTelegram()">
+            <span class="material-symbols-rounded icon-sm">send</span>
+            <span>[ 🚀 ENVIAR A TELEGRAM (SALA DE MANDO 10K) ]</span>
+          </button>
+          <span class="audit-toast-msg font-mono" id="auditToastMsg" style="display: none;">✅ ¡Reporte copiado y enviado con éxito!</span>
+        </div>
+
+        <textarea class="audit-report-textarea font-mono" id="auditReportTextarea" readonly spellcheck="false" placeholder="Generando auditoría técnica..."></textarea>
       </div>
     </div>
   </div>

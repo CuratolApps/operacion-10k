@@ -45,7 +45,7 @@ const SEALED_CODICES = [
   { id: 3, name: "Códice 3: Wall Street, Oro Físico (PAXG) e Índices", scope: "Flujo institucional, arbitraje con bonos del tesoro (ONDO) y refugio macro." },
   { id: 4, name: "Códice 4: Derivados & Precisión Temporal", scope: "Horizontes tácticos de 60s a 300s inmunes a ruido algorítmico y barridos de stops." },
   { id: 5, name: "Códice 5: Lanzamientos Minuto Cero & Liquidez On-Chain", scope: "Filtro PINNs en Aerodrome/Uniswap y auditoría GoPlus 0% Honeypot inmediata." },
-  { id: 6, name: "Códice 6: Cero Holdeo, Liquidez Rápida a USDC & Candado Breakeven", scope: "Take Profit rápido de +0.18% a +0.35%, retorno inmediato a 100% liquidez USDC y Candado Breakeven en +0.12% para cero pérdidas." }
+  { id: 6, name: "Códice 6: Cero Holdeo, Liquidez Rápida a USDC & Candado Breakeven", scope: "Take Profit rápido de +0.25% a +0.45%, retorno inmediato a 100% liquidez USDC y Candado Breakeven en +0.15% para cero pérdidas." }
 ];
 
 // 5 Mentes Legendarias
@@ -76,10 +76,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Simons (Markov) + Livermore",
     codexRule: "Códice 1 & 6 (Cero Holdeo · Rebote)",
-    whyReason: "RSI 37.2 en soporte QuickSwap V3 + Kraken adelantó subida +0.3% vs DEX ➔ Entrada Bull Long rápida hacia TP +0.28% a USDC.",
-    takeProfitPct: 0.28,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "RSI 37.2 en soporte QuickSwap V3 + Kraken adelantó subida +0.3% vs DEX ➔ Entrada Bull Long rápida hacia TP +0.32% a USDC.",
+    takeProfitPct: 0.32,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.04
   },
   {
@@ -95,10 +95,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Tudor Jones + Livermore",
     codexRule: "Códice 2 & 6 (Cero Holdeo · Clímax)",
-    whyReason: "RSI 30.2 en sobreventa extrema + absorción institucional en $730 USDC ➔ Entrada Bull Long buscando rebote veloz +0.22% a USDC.",
-    takeProfitPct: 0.22,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "RSI 30.2 en sobreventa extrema + absorción institucional en $730 USDC ➔ Entrada Bull Long buscando rebote veloz +0.30% a USDC.",
+    takeProfitPct: 0.30,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.03
   },
   {
@@ -114,10 +114,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Simons (Markov) + Tudor Jones",
     codexRule: "Códice 2 & 6 (Rechazo Resistencia)",
-    whyReason: "Rechazo contundente en resistencia $2,410 + Divergencia bajista de volumen en libro Kraken ➔ Entrada Bear Short veloz +0.25% a USDC.",
-    takeProfitPct: 0.25,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "Rechazo contundente en resistencia $2,410 + Divergencia bajista de volumen en libro Kraken ➔ Entrada Bear Short veloz +0.28% a USDC.",
+    takeProfitPct: 0.28,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.02
   },
   {
@@ -133,10 +133,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Livermore (Tape Action)",
     codexRule: "Códice 1 & 6 (Ruptura con Volumen)",
-    whyReason: "Ruptura alcista con absorción en Raydium DEX + cinta activa en Kraken ➔ Entrada Bull Long para captura rápida de +0.24% a USDC.",
-    takeProfitPct: 0.24,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "Ruptura alcista con absorción en Raydium DEX + cinta activa en Kraken ➔ Entrada Bull Long para captura rápida de +0.34% a USDC.",
+    takeProfitPct: 0.34,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.05
   },
   {
@@ -152,10 +152,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Paulson (Micro-Spread)",
     codexRule: "Códice 1 & 4 (Lead-Lag 60s)",
-    whyReason: "Desfase CEX vs DEX lead/lag de 4 pips en Euro Digital ➔ Scalping delta-neutral con TP ultra-rápido +0.18% y retorno a USDC.",
-    takeProfitPct: 0.18,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "Desfase CEX vs DEX lead/lag de 4 pips en Euro Digital ➔ Scalping delta-neutral con TP ultra-rápido +0.25% y retorno a USDC.",
+    takeProfitPct: 0.25,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.01
   },
 
@@ -173,10 +173,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "🏛️ ESP. #701 (Wall Street & Oro)",
     decidingMind: "Soros (Reflexividad Macro)",
     codexRule: "Códice 3 & 6 (Refugio Oro Físico)",
-    whyReason: "Oro físico superando los $4,000/oz por refugio macro ➔ Entrada Bull Long rápida hacia TP +0.20% y regreso inmediato a liquidez USDC.",
-    takeProfitPct: 0.20,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "Oro físico superando los $4,000/oz por refugio macro ➔ Entrada Bull Long rápida hacia TP +0.30% y regreso inmediato a liquidez USDC.",
+    takeProfitPct: 0.30,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.03
   },
   {
@@ -192,10 +192,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "🏛️ ESP. #701 (Wall Street & Macro)",
     decidingMind: "Tudor Jones (Trend Switch)",
     codexRule: "Códice 2 & 6 (Absorción de Muro)",
-    whyReason: "Absorción de ventas en libro institucional Kraken + muro de compra ➔ Entrada Bull Long rápida hacia TP +0.22% a USDC.",
-    takeProfitPct: 0.22,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "Absorción de ventas en libro institucional Kraken + muro de compra ➔ Entrada Bull Long rápida hacia TP +0.28% a USDC.",
+    takeProfitPct: 0.28,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.02
   },
   {
@@ -211,10 +211,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "🏛️ ESP. #701 (Wall Street & RWA)",
     decidingMind: "Paulson (Asimetría y Candado)",
     codexRule: "Códice 3 & 6 (Demanda Oráculos CCIP)",
-    whyReason: "Flujo hacia oráculos RWA en Wall Street + EMA 20 alcista ➔ Entrada Bull Long rápida hacia TP +0.26% a USDC.",
-    takeProfitPct: 0.26,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "Flujo hacia oráculos RWA en Wall Street + EMA 20 alcista ➔ Entrada Bull Long rápida hacia TP +0.35% a USDC.",
+    takeProfitPct: 0.35,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.04
   },
   {
@@ -230,10 +230,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "🏛️ ESP. #701 (Wall Street & Bonos)",
     decidingMind: "Simons (Reversión a Media)",
     codexRule: "Códice 2 & 6 (Demanda RWAs BlackRock)",
-    whyReason: "Flujo continuo a deuda tokenizada BlackRock ➔ Entrada Bull Long rápida hacia TP +0.24% y retorno a USDC.",
-    takeProfitPct: 0.24,
-    stopLossPct: 0.12,
-    breakevenLockPct: 0.12,
+    whyReason: "Flujo continuo a deuda tokenizada BlackRock ➔ Entrada Bull Long rápida hacia TP +0.30% y retorno a USDC.",
+    takeProfitPct: 0.30,
+    stopLossPct: 0.15,
+    breakevenLockPct: 0.15,
     spreadPct: 0.08
   }
 ];
