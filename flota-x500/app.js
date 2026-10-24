@@ -961,11 +961,11 @@ async function renderNftFlipTable() {
     const isAuthorized = opp.statusBadge === "AUTHORIZED" || (opp.netSpreadNumber !== undefined && opp.netSpreadNumber >= 0.05);
     const statusClass = isAuthorized ? "badge-flip-authorized" : "badge-flip-scanning";
     const statusLabel = isAuthorized 
-      ? "🟢 DISPARO FLIP AUTORIZADO (LOTE 20 BOTS TURNO ACTIVO)" 
-      : "🛡️ ESCANEANDO LIBRO SEAPORT / ESPERANDO BID > ASK + GAS ($0 GAS)";
+      ? "🟢 DISPARO FLIP AUTORIZADO" 
+      : "🛡️ VIGILANDO SEAPORT ($0 GAS)";
     const subStatusText = isAuthorized 
-      ? "Odos SOR v2 ➔ USDC en Bóveda #501" 
-      : "0% Capital Expuesto · $0 Gas";
+      ? "Odos SOR v2 ➔ USDC #501" 
+      : "0% Capital · $0 Gas";
 
     const spreadNetBot = opp.spreadNetBot || "-$0.04 USDC";
     const spreadNetBatch20 = opp.spreadNetBatch20 || "-$0.80 USDC (20 Bots)";
@@ -978,54 +978,51 @@ async function renderNftFlipTable() {
     const bidLabel = opp.topBidLabel || (opp.bidActiveLabel ? opp.bidActiveLabel : `BID: $${(opp.topBidUsdc || opp.collectionBidUsd || 0).toFixed(2)} USDC`);
     const marketplaceLabel = opp.marketplace || opp.collectionBidSource || "Seaport / Element";
 
-    const escort1 = opp.escortCalculist || "NEBULA-NFT-01 (Calculista)";
-    const escort2 = opp.escortSecurity || (opp.goPlusShield || "NEBULA-NFT-02 (GoPlus: 0% Trampa)");
-
     return `
       <tr id="nftRow-${opp.id}">
         <td>
-          <div class="front-badge-wrap">
+          <div class="front-badge-wrap" style="gap: 4px;">
             <span class="chain-dot-mini ${opp.chainDotClass || 'chain-dot-polygon'}"></span>
-            <strong style="color: #fff;">${opp.name}</strong>
+            <strong style="color: #fff; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${opp.name}">${opp.name}</strong>
           </div>
-          <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
+          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
             <span class="badge-tag-tiny badge-box-tag">${opp.standard}</span> · ${opp.contractLabel || marketplaceLabel}
           </div>
         </td>
         <td>
-          <span style="font-weight: 700; color: #fff; font-size: 10px;">${opp.network}</span>
-          <a href="${explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; margin-top: 3px;" title="Ver contrato auditado en explorador">
+          <span style="font-weight: 700; color: #fff; font-size: 9.5px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${opp.network}</span>
+          <a href="${explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; margin-top: 2px;" title="Ver contrato auditado en explorador">
             <span>${shortContract}</span>
-            <span class="material-symbols-rounded icon-xs">open_in_new</span>
+            <span class="material-symbols-rounded icon-xs" style="font-size: 10px;">open_in_new</span>
           </a>
         </td>
         <td>
-          <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap;">
             <span class="badge-tag-tiny badge-gold" title="Costo Ask o Minteo">${askLabel}</span>
-            <span style="font-size: 9px; color: var(--text-dim);">vs</span>
+            <span style="font-size: 8.5px; color: var(--text-dim);">vs</span>
             <span class="badge-tag-tiny badge-cyan" title="Mejor Oferta en Firme Seaport / Market">${bidLabel}</span>
           </div>
-          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
+          <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
             ${marketplaceLabel} · Gas: ~$${opp.gasEstimateUsd || 0.008}
           </div>
         </td>
         <td>
-          <span class="font-mono" style="font-weight: 800; font-size: 11px; ${spreadColorStyle}">${spreadNetBot}</span>
-          <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">
-            Lote 20 Bots: <strong style="color: #fff;">${spreadNetBatch20}</strong>
+          <span class="font-mono" style="font-weight: 800; font-size: 10.5px; ${spreadColorStyle}">${spreadNetBot}</span>
+          <div style="font-size: 8px; color: var(--gold); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            Lote 20: <strong style="color: #fff;">${spreadNetBatch20}</strong>
           </div>
         </td>
         <td>
-          <div style="font-size: 9px; color: #c084fc; font-weight: 600;">
-            🤖 ${escort1}
+          <div style="font-size: 8.5px; color: #c084fc; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Escolta Calculista de Spread">
+            🌌 NEBULA-NFT-01 (Spread OK)
           </div>
-          <div style="font-size: 8.5px; color: #34d399; margin-top: 2px;">
-            🛡️ ${escort2}
+          <div style="font-size: 8px; color: #34d399; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Escolta Anti-Trampa GoPlus Security">
+            🛡️ NEBULA-NFT-02 (GoPlus 100%)
           </div>
         </td>
         <td>
           <span class="badge-tag-tiny ${statusClass}">${statusLabel}</span>
-          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
+          <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px; text-align: center; white-space: nowrap;">
             ${subStatusText}
           </div>
         </td>

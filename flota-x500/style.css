@@ -1368,4 +1368,74 @@ body.area501-flota-body {
   color: #c084fc;
 }
 
+/* =============================================================================
+   BLINDAJE Y AJUSTE MILIMÉTRICO: TABLA CAZADOR FREE-MINT & INSTANT NFT FLIP
+   Cero Scroll Horizontal / 100% Dentro del Panel Central / Cero Cortes en 1080p
+   ============================================================================= */
+#panoramicContentNftFlip {
+  overflow-x: hidden !important;
+  width: 100% !important;
+}
+
+#nftFlipTable {
+  table-layout: fixed !important;
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+#nftFlipTable thead th {
+  padding: 5px 6px !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+#nftFlipTable tbody td {
+  padding: 5px 6px !important;
+  font-size: 0.72rem !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal !important;
+  vertical-align: middle;
+  line-height: 1.25;
+  box-sizing: border-box;
+}
+
+#nftFlipTable .front-badge-wrap {
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+#nftFlipTable .badge-tag-tiny {
+  padding: 1px 4px !important;
+  font-size: 7.5px !important;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+
+#nftFlipTable .badge-flip-scanning,
+#nftFlipTable .badge-flip-authorized {
+  padding: 2.5px 4px !important;
+  font-size: 7.5px !important;
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+  text-align: center;
+  white-space: normal !important;
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+#nftFlipTable .explorer-link {
+  padding: 1px 4px !important;
+  font-size: 8px !important;
+  gap: 2px;
+}
+
+
 
