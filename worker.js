@@ -313,5 +313,16 @@ export default {
     }
 
     return response;
+  },
+
+  async scheduled(event, env, ctx) {
+    // Disparador Cron de Cloudflare (* * * * * cada 1 minuto)
+    ctx.waitUntil((async () => {
+      try {
+        await getLiveTransactions();
+      } catch (err) {
+        console.error("[CRON WORKER] Error en ciclo programado:", err);
+      }
+    })());
   }
 };

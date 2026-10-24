@@ -18,6 +18,7 @@ const fs = require("fs");
 const path = require("path");
 const { NETS, ERC20_ABI, ethers, MOTHERSHIP, provider, readTel, writeTel, signer501, sendRawAndWait, telegram } = require("./atomic-common");
 const guard = require("../atomic-profit-guard");
+const { evaluateEscortPairForRoute } = require("../nebula-ai-commanders");
 
 const MIN_NET_PROFIT_USDC = guard.MIN_NET_PROFIT_USDC;       // 0.03
 const TARGET_DAILY_ATOMIC_SHOTS = 15;
@@ -101,6 +102,16 @@ async function scanChain(key, state, opts) {
     }
     return { st };
   }
+
+  // 2) DOBLE LLAVE DE LAS NEBULOSAS ESCOLTAS (Abridora >=95% + Guardaespaldas 5 Candados)
+  const escort = await evaluateEscortPairForRoute(key, cand, prov);
+  st.escortPair = escort;
+  if (!escort.authorized || escort.score < 95) {
+    st.state = "NEBULA_DOBLE_LLAVE_BLOQUEADA";
+    st.escortReason = `${escort.oddNebula.id}: ${escort.oddNebula.status} | ${escort.evenNebula.id}: ${escort.evenNebula.status}`;
+    return { st };
+  }
+
   if (!st.armed) { st.state = "NO_ARMADO_ALLOWANCE"; return { st }; }
   if (ds.shotsToday >= TARGET_DAILY_ATOMIC_SHOTS) { st.state = "TOPE_DIARIO_15"; return { st }; }
   if (ds.failuresToday >= MAX_FAILURES_PER_DAY) { st.state = "FRENADO_POR_FALLOS"; return { st }; }
@@ -151,7 +162,7 @@ async function scanChain(key, state, opts) {
   }
   if (gross === null) gross = cand.grossUsdc;
   st.state = "DISPARO_EJECUTADO";
-  return { st, shot: { chain: key, txHash: rc.hash, blockNumber: rc.blockNumber, usdcIn: shotAmount, grossProfitUsdc: gross, gasPaidNative, gasPaidUsdc, netUsdc: gross - gasPaidUsdc, cand, executor: exec } };
+  return { st, shot: { chain: key, txHash: rc.hash, blockNumber: rc.blockNumber, usdcIn: shotAmount, grossProfitUsdc: gross, gasPaidNative, gasPaidUsdc, netUsdc: gross - gasPaidUsdc, cand, executor: exec, escortLabel: escort.label } };
 }
 
 function persist(chainResults, state, shots, failures) {
@@ -171,7 +182,7 @@ function persist(chainResults, state, shots, failures) {
     const row = {
       chain: s.chain === "polygon" ? "Polygon PoS" : "BSC", chainBadge: `#${s.chain === "polygon" ? "POL" : "BSC"} ${s.blockNumber}`, blockNumber: s.blockNumber,
       txHash: s.txHash, explorerUrl: `${net.explorer}/tx/${s.txHash}`, timestampUtc: when.toISOString().slice(11, 19) + " UTC",
-      nebulas: "Nebulosa IA (>=95%)", mothership: "#501 (Matriz Dual)",
+      nebulas: s.escortLabel || "Binomio de Nebulosas Escoltas (Doble Llave >=95%)", mothership: "#501 (Matriz Dual)",
       route: `Disparo atómico #${s.n} · ${net.name} / ${s.cand.buy} ➔ ${s.cand.sell} (USDC ➔ ${s.cand.token} ➔ USDC)`,
       cycleInOut: `$${s.usdcIn.toFixed(2)} ➔ +$${s.netUsdc.toFixed(4)} USDC neto`,
       gasUsed: `${s.gasPaidNative.toFixed(6)} ${net.nativeSym}`, netProfit: Number(s.netUsdc.toFixed(4)), executor: s.executor

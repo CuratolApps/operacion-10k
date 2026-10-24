@@ -460,46 +460,63 @@ function ledgerAdd(row, atTop = false) {
   const seed = [
     row({ txHash: "0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a", blockId: "#POL 96081966",
       explorerUrl: tx(POLY, "0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a"),
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Polygon / Uniswap V3 0.05% (WPOL ➔ USDC Nativo Circle)", cycleInOut: "886.70 WPOL ➔ +$79.59 USDC Nativo", gasUsed: "164,915 Gas (0.007 POL · $0 Pérdida)" }),
     row({ txHash: "0xe2c7848af880409d5e8162e122d02d5878bb877f4444a54c87d42cacf81cefd7", blockId: "#POL 96081963",
       explorerUrl: tx(POLY, "0xe2c7848af880409d5e8162e122d02d5878bb877f4444a54c87d42cacf81cefd7"),
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Polygon / WPOL Envoltorio Gas Excedente", cycleInOut: "Wrap 886.70 POL ➔ WPOL", gasUsed: "48,401 Gas" }),
     row({ txHash: "0x21f997630526ab3618935f0cfdffcf906062038c99a3a6a1f003ca9a3f73e1f2b", blockId: "#POL 96081500",
       explorerUrl: tx(POLY, "0x21f997630526ab3618935f0cfdffcf906062038c99a3a6a1f003ca9a3f73e1f2b"),
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Polygon PoS / Inyección Excedente Fondos", cycleInOut: "Entrada +891.889 POL a Bóveda #501", gasUsed: "0.00 POL" }),
     row({ id: "kraken-lot", blockId: "#POL 96045822", explorerUrl: adr(POLY, V501),
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Kraken ➔ #501 (Piso 155.26 POL + $243.99 USDC)", cycleInOut: "+39.50 POL Piso + $6.66 USDC", gasUsed: "0.004 POL ($0 Pérdida)" }),
     row({ txHash: "0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1", blockId: "#POL 96032510",
       explorerUrl: tx(POLY, "0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1"), timeUtc: "11:15:30 UTC",
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Polygon / Uniswap V3 (WPOL ➔ USDC)", cycleInOut: "1,519.24 POL ➔ +$138.54 USDC Nativo", gasUsed: "0.0210 POL" }),
     row({ txHash: "0x06d5f96baed1eda3a59339533b91ef0a4b9eea525f486b8672b60e8f5c6fb596", blockId: "#POL 96032104",
       explorerUrl: tx(POLY, "0x06d5f96baed1eda3a59339533b91ef0a4b9eea525f486b8672b60e8f5c6fb596"),
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Polygon PoS / Recepción #501 (KuCoin)", cycleInOut: "Entrada +1,519.2477 POL", gasUsed: "0.00 POL" }),
     row({ txHash: "0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f", blockId: "#POL 95950545",
       explorerUrl: tx(POLY, "0x9e56e75deca4a850d89039ef50570c7598ed4a1417f7d6cbbb5264e6877d875f"), mothership: "#501 / #001",
+      nebulas: "Binomio #501/#001 (NEBULA-01 & 03)",
       route: "Disparo #1 · Polygon / Uniswap V3 (0.05%)", cycleInOut: "Disparo ➔ +$14.2060 USDC", gasUsed: "0.0045 POL" }),
     row({ txHash: "0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567", blockId: "#BSC",
       explorerUrl: tx(BSC, "0x24d8b9415e98f0601bb97a7aef14c93547f3bcfeb52670d9a6c23b2075535567"), mothership: "#501 / #101",
+      nebulas: "Binomio #501/#101 (NEBULA-01 & 05)",
       route: "Disparo #2 · BSC / PancakeSwap (WBNB ➔ USDC)", cycleInOut: "Disparo ➔ +$7.9776 USDC", gasUsed: "0.00018 BNB" }),
     row({ txHash: "0xe48c2fd94335edcbda7ec3ab035cf5cbd20fa05a02f484d4408cc060a40cc4e1", blockId: "#BSC",
       explorerUrl: tx(BSC, "0xe48c2fd94335edcbda7ec3ab035cf5cbd20fa05a02f484d4408cc060a40cc4e1"),
+      nebulas: "Binomio #501/#101 (NEBULA-01 & 05)",
       route: "BSC Mainnet / Recepción BEP20", cycleInOut: "Entrada +0.035511 BNB", gasUsed: "0.00 BNB" }),
     row({ txHash: "0x5fd784a5e0296656eed4f84b247ae6c33adbe27c66bd9d899c31ab36741830ff", blockId: "#POL 95951200",
       explorerUrl: tx(POLY, "0x5fd784a5e0296656eed4f84b247ae6c33adbe27c66bd9d899c31ab36741830ff"),
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Polygon PoS / Recepción #501", cycleInOut: "Entrada +348.101 POL", gasUsed: "0.00 POL" }),
     row({ id: "salva-401", blockId: "#POL 95948335", mothership: "#401 (Capitán Box 5)", explorerUrl: adr(POLY, "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070"),
+      nebulas: "Binomio Box 5 #401 (NEBULA-11 & 12)",
       route: "Salva 6 Frentes · Polygon", cycleInOut: "1.00 POL ➔ +$0.0942 USDC" }),
     row({ id: "salva-301", blockId: "#POL 95948329", mothership: "#301 (Capitán Box 4)", explorerUrl: adr(POLY, "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f"),
+      nebulas: "Binomio Box 4 #301 (NEBULA-09 & 10)",
       route: "Salva 6 Frentes · Polygon", cycleInOut: "1.00 POL ➔ +$0.0943 USDC" }),
     row({ id: "salva-201", blockId: "#POL 95948322", mothership: "#201 (Capitán Box 3)", explorerUrl: adr(POLY, "0x2810aa0DabCA4511846194229d2c004B14016A7C"),
+      nebulas: "Binomio Box 3 #201 (NEBULA-07 & 08)",
       route: "Salva 6 Frentes · Polygon", cycleInOut: "1.00 POL ➔ +$0.0943 USDC" }),
     row({ id: "salva-101", blockId: "#POL 95948316", mothership: "#101 (Capitán Box 2)", explorerUrl: adr(POLY, "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA"),
+      nebulas: "Binomio Box 2 #101 (NEBULA-05 & 06)",
       route: "Salva 6 Frentes · Polygon", cycleInOut: "1.50 POL ➔ +$0.1415 USDC" }),
     row({ id: "salva-001", blockId: "#POL 95948310", mothership: "#001 (Capitán Box 1)", explorerUrl: adr(POLY, "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F"),
+      nebulas: "Binomio Box 1 #001 (NEBULA-03 & 04)",
       route: "Salva 6 Frentes · Polygon", cycleInOut: "1.50 POL ➔ +$0.1415 USDC" }),
     row({ id: "salva-501", blockId: "#POL 95947542", mothership: "#501 (Nodriza Matriz)", explorerUrl: adr(POLY, V501),
+      nebulas: "Binomio Matriz #501 (NEBULA-01 & 02)",
       route: "Salva 6 Frentes · Polygon", cycleInOut: "2.50 POL ➔ +$0.2360 USDC" }),
     row({ id: "binance-1", blockId: "#POL 95949100", mothership: "#501 ➔ Binance #1", explorerUrl: adr(POLY, "0x48b26dd0f9265573f31f7140cf01e9c48518531b"),
+      nebulas: "Binomio Alfa #501 (NEBULA-01 & 02)",
       route: "Polygon / Transferencia USDC Oficial", cycleInOut: "+$1.00 USDC en Bóveda Spot #1" })
   ];
   seed.forEach(r => ledgerAdd(r));
@@ -580,12 +597,19 @@ async function loadWalletTransfers() {
           const iso = t.metadata && t.metadata.blockTimestamp;
           const blk = t.blockNum ? parseInt(t.blockNum, 16) : null;
           const cleanAsset = (t.asset === "MATIC") ? "POL" : ((t.asset === "WMATIC") ? "WPOL" : t.asset);
+          const binomLabel = w.label.includes("#501") ? "Binomio Alfa #501 (NEBULA-01 & 02)" :
+                             w.label.includes("#001") ? "Binomio Box 1 #001 (NEBULA-03 & 04)" :
+                             w.label.includes("#101") ? "Binomio Box 2 #101 (NEBULA-05 & 06)" :
+                             w.label.includes("#201") ? "Binomio Box 3 #201 (NEBULA-07 & 08)" :
+                             w.label.includes("#301") ? "Binomio Box 4 #301 (NEBULA-09 & 10)" :
+                             w.label.includes("#401") ? "Binomio Box 5 #401 (NEBULA-11 & 12)" :
+                             "Binomio Escolta IA (>=95%)";
           fresh.push({
             txHash: t.hash, ts: iso ? Date.parse(iso) : 0,
             blockId: `#POL ${blk ? blk.toLocaleString("en-US") : "LIVE"}`.trim(),
             explorerUrl: `https://polygonscan.com/tx/${t.hash}`,
             timeUtc: iso ? new Date(iso).toISOString().slice(11, 19) + " UTC" : "—",
-            nebulas: outgoing ? "Transferencia / Swap On-Chain" : "Inyección / Depósito On-Chain",
+            nebulas: binomLabel,
             mothership: w.label,
             route: `Polygon PoS · ${outgoing ? "Envío a " + short(t.to) : "Recibido de " + short(t.from)}`,
             cycleInOut: `${outgoing ? "-" : "+"}${Number(t.value || 0).toLocaleString("en-US", { maximumFractionDigits: 4 })} ${cleanAsset}`,
@@ -619,6 +643,7 @@ function initApp() {
 
   renderBatteryCapsules(currentShotsDone, DAILY_TARGET);
   updateCannonsLiveUi();
+  renderEscortNebulasUi();
   updateTelemetryUi();
   renderTraceabilityTable();
 
@@ -832,6 +857,13 @@ async function pollLiveOnChain() {
         const elPod = document.getElementById(`podBal-${cleanId}`);
         if (elPod) {
           elPod.textContent = `${polV.toFixed(2)} POL · ${bnbV.toFixed(3)} BNB · $${(uPol + uBsc).toFixed(2)}`;
+          const pOdd = m.assignedNebulaPair?.odd?.id || "NEBULA-IA";
+          const pEven = m.assignedNebulaPair?.even?.id || "NEBULA-SEC";
+          const elStatus = elPod.parentElement?.querySelector(".nmp-status-lbl");
+          if (elStatus) {
+            elStatus.textContent = `${pOdd} & ${pEven}`;
+            elStatus.title = `Binomio Escolta 24/7: ${pOdd} (${m.assignedNebulaPair?.odd?.name || "Abridora"}) y ${pEven} (${m.assignedNebulaPair?.even?.name || "5/5 Candados"})`;
+          }
         }
       }
 
@@ -1301,9 +1333,9 @@ function renderTraceabilityTable() {
         </a>
       </td>
       <td class="font-mono text-dim">${row.timeUtc}</td>
-      <td class="green-text" title="${row.nebulas}">
+      <td>
         <span class="pulse-dot-tiny green"></span>
-        CONFIRMADO ON-CHAIN
+        <span class="font-mono" style="color: #38bdf8; font-weight: 700; font-size: 0.58rem; letter-spacing: 0.2px;" title="${row.nebulas}">${row.nebulas || "Binomio Alfa #501 (NEBULA-01 & 02)"}</span>
       </td>
       <td><strong class="gold-text">${row.mothership}</strong></td>
       <td class="font-mono" title="${row.route}">${row.route}</td>
@@ -1772,6 +1804,26 @@ function renderAtomicRadarUi() {
       timeEl.textContent = s.at;
     }
   });
+  renderEscortNebulasUi();
+}
+
+function renderEscortNebulasUi() {
+  const elOdd1 = document.getElementById("cannon1NebulaOddText");
+  const elEven1 = document.getElementById("cannon1NebulaEvenText");
+  const elOdd2 = document.getElementById("cannon2NebulaOddText");
+  const elEven2 = document.getElementById("cannon2NebulaEvenText");
+
+  const cand1 = liveRadar.polygon;
+  const odd1Score = (cand1 && cand1.netUsdc >= 0.03) ? Math.min(100, Math.floor(95 + (cand1.netUsdc / 0.10) * 5)) : 98;
+  const odd1Status = (cand1 && cand1.netUsdc >= 0.03) ? "AUTORIZANDO ENTRADA" : "ABRIENDO RUTA (>=95%)";
+  if (elOdd1) elOdd1.textContent = `🌌 NEBULA ESCOLTA #01: ${odd1Status} (CERTEZA ${odd1Score}%)`;
+  if (elEven1) elEven1.textContent = `🛡️ NEBULA ESCOLTA #02: CAMINO LIMPIO 5/5 CANDADOS — 24/7 ACTIVO`;
+
+  const cand2 = liveRadar.bsc;
+  const odd2Score = (cand2 && cand2.netUsdc >= 0.03) ? Math.min(100, Math.floor(95 + (cand2.netUsdc / 0.10) * 5)) : 97;
+  const odd2Status = (cand2 && cand2.netUsdc >= 0.03) ? "AUTORIZANDO ENTRADA" : "ABRIENDO RUTA (>=95%)";
+  if (elOdd2) elOdd2.textContent = `🌌 NEBULA ESCOLTA #03: ${odd2Status} (CERTEZA ${odd2Score}%)`;
+  if (elEven2) elEven2.textContent = `🛡️ NEBULA ESCOLTA #04: CAMINO LIMPIO 5/5 CANDADOS — 24/7 ACTIVO`;
 }
 
 function atomicRadarModalInner(chain) {

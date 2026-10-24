@@ -1331,7 +1331,14 @@ async function runDedicatedObservers() {
     console.warn(`⚠️ Radar atómico multi-piscina no disponible: ${radarErr.message}`);
   }
 
-  // Disparador automático: solo firma si callStatic pasa y el neto cruza +$0.03 (si no, $0 gas). Kill-switch: AUTO_SHOOTER_DISABLE=1
+  // Paso 2: 32 Nebulosas IA (16 Binomios Escoltas: Abridora >=95% + Guardaespaldas 5 Candados)
+  try {
+    liveReport.nebulaDirectives = await require("./nebula-ai-commanders").runNebulaCommanders();
+  } catch (nebulaErr) {
+    console.warn(`⚠️ Directivas de Nebulosas IA no disponibles: ${nebulaErr.message}`);
+  }
+
+  // Paso 3: Disparador automático atómico (solo firma si callStatic pasa, ganancia >= +$0.03 y Doble Llave autoriza)
   try {
     liveReport.atomicAutoShooter = await require("./scripts/atomic-auto-shooter").runAutoShooter({ passes: 1 });
   } catch (shootErr) {
