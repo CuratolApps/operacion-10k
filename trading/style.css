@@ -639,6 +639,49 @@ body.area501-trading-body {
 .bot-701 { background: rgba(245, 158, 11, 0.12); color: var(--gold); border: 1px solid var(--border-gold); }
 .bot-801 { background: rgba(176, 38, 255, 0.12); color: var(--purple); border: 1px solid var(--border-purple); }
 
+/* Badges de PnL Flotante en Vivo */
+.pnl-badge-floating {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  display: inline-block;
+  white-space: nowrap;
+}
+.pnl-badge-floating.positive {
+  background: rgba(0, 255, 136, 0.12);
+  color: var(--green);
+  border: 1px solid rgba(0, 255, 136, 0.35);
+}
+.pnl-badge-floating.negative {
+  background: rgba(255, 51, 102, 0.12);
+  color: var(--red);
+  border: 1px solid rgba(255, 51, 102, 0.35);
+}
+.pnl-badge-floating.neutral {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+  border: 1px solid var(--border-subtle);
+}
+
+.contract-explorer-link {
+  color: var(--cyan);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+.contract-explorer-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+  color: #fff;
+}
+
 /* Filtros y Herramientas del Encabezado */
 .header-tools-group {
   display: flex;

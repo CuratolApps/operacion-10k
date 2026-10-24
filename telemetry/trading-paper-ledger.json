@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "2.0.0",
+  "title": "Libro Contable Honesto Paper-Trading — Área 501",
+  "tradeLotUsdc": 25,
+  "closedPnLUsdc": 0,
+  "closedWins": 0,
+  "closedLosses": 0,
+  "lastUpdated": "2026-10-24T10:51:26.898Z",
+  "activeTrades": {
+    "POL/USDC": {
+      "pair": "POL/USDC",
+      "botId": "#601",
+      "entryPrice": 0.08907,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    },
+    "BNB/USDC": {
+      "pair": "BNB/USDC",
+      "botId": "#601",
+      "entryPrice": 732.08,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    },
+    "ETH/USDC": {
+      "pair": "ETH/USDC",
+      "botId": "#601",
+      "entryPrice": 2368.7,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    },
+    "SOL/USDC": {
+      "pair": "SOL/USDC",
+      "botId": "#601",
+      "entryPrice": 101.64,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    },
+    "EUR/USDC": {
+      "pair": "EUR/USDC",
+      "botId": "#601",
+      "entryPrice": 1.11934,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 1.8,
+      "stopLossPct": 0.6
+    },
+    "PAXG/USDC": {
+      "pair": "PAXG/USDC",
+      "botId": "#701",
+      "entryPrice": 3997.83,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    },
+    "BTC/USDC": {
+      "pair": "BTC/USDC",
+      "botId": "#701",
+      "entryPrice": 80560,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    },
+    "LINK/USDC": {
+      "pair": "LINK/USDC",
+      "botId": "#701",
+      "entryPrice": 11.58931,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    },
+    "ONDO/USDC": {
+      "pair": "ONDO/USDC",
+      "botId": "#701",
+      "entryPrice": 0.40772,
+      "entryTimestamp": "2026-10-24T10:50:40.376Z",
+      "lotUsdc": 25,
+      "takeProfitPct": 2.5,
+      "stopLossPct": 0.8
+    }
+  },
+  "closedTradesHistory": []
+}
