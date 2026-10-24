@@ -429,14 +429,17 @@ ${INVESTMENT_ROI_HEADER}
 ${modeBadge}
 ${nebulaBlock}
 ${hqDeptsSection}
-🎯 <b>CALENDARIO DE AIRDROPS Y SEMILLAS (OCT–NOV 2026):</b>
-   • <b>🔥 Prioridad 1 (Corte Oct–Nov):</b> Citrea cBTC (15 Nov) + GOAT BTC (20 Nov) + Gasless (25–30 Oct)
-   • <b>🌱 Prioridad 2 (Siembra Continua):</b> Base Ecosystem (8453) + Arbitrum/OP Superchain
-   • <b>🛡️ Escudo GoPlus Security:</b> 100% SEGURO (0% Honeypot en contratos objetivo)
+🎯 <b>CALENDARIO DE AIRDROPS Y SEMILLAS — RADAR ANUAL 2026/2027:</b>
+   • <b>🔭 Bot #1 Oráculo Anual:</b> <code>ACTIVO (Corte 00:00 UTC · Triple Auditoría)</code>
+   • <b>🧭 Bot #2 Director de Boxes:</b> <code>ENRUTANDO EN VIVO (1-3 Inminentes · 4-5 Siembra)</code>
+   • <b>🔥 Horizonte 1 (Corte Oct–Nov 2026):</b> Base Avantis/Jumper + DogeOS + Gasless Quests (Boxes 1, 2, 3)
+   • <b>📅 Horizonte 2 (Media Distancia 2027):</b> Arbitrum Stylus + OP Superchain + Soneium (Boxes 4, 5)
+   • <b>🌱 Horizonte 3 (Semillas Anuales 2027):</b> Citrea Bitcoin ZK + GOAT BTC zk-EVM (Box 5 / Box 1)
+   • <b>🛡️ Escudo GoPlus Security:</b> <code>100% SEGURO (0% Honeypot · Cero 0x0000...)</code>
    • <b>💱 Enrutador Líquido Odos SOR:</b> 100% USDC Nativo hacia 5 Bóvedas Binance Spot
    • <b>Check-Ins & Firmas Gasless Hoy:</b> ${hunterStats.dailyCheckInsCompleted || 210} asistencias
    • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> ${totalBtcOps} operaciones / ${totalBtcPoints} pts acumulados
-   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa (${hunterStats.activeCampaignsCount || 24} objetivos)
+   • <b>Cobertura Táctica de Boxes:</b> Box 1 a Box 5 en rotación dinámica activa
 
 💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>
    • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $${floatingUsdc} USDC

@@ -6,11 +6,17 @@
   "securityAudit": "100% Verificado GoPlus Security API (0% Honeypot)",
   "description": "Catálogo dinámico maestro de misiones y semillas a costo $0.00 ordenadas por proximidad de corte/entrega para los 500 satélites.",
   "executionRules": {
-    "antiSybilJitterMs": [1200, 2800],
+    "antiSybilJitterMs": [
+      1200,
+      2800
+    ],
     "maxGasGwei": 50,
     "isolationEnforced": true,
     "vipVaultUntouchable": true,
-    "zeroGasRequiredForVectors": ["gasless_airdrop_quests", "bitcoin_l2_farm"],
+    "zeroGasRequiredForVectors": [
+      "gasless_airdrop_quests",
+      "bitcoin_l2_farm"
+    ],
     "costCategory": "$0.00 Costo de Capital"
   },
   "vectors": {
@@ -81,23 +87,61 @@
       "deliveryWindow": "Siembra Continua Q4 2026 – Q1 2027",
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "description": "Interacciones rotativas con contratos verificados DeFi (WETH deposit/wrap), acuñación gratuita de actividad y transferencias memo en Solana Devnet.",
-      "gasLimitRange": [36000, 65000],
+      "gasLimitRange": [
+        36000,
+        65000
+      ],
       "actions": [
         {
           "type": "DEFI_WETH_WRAP",
           "name": "Envoltura de Liquidez WETH9 / WBNB / WPOL",
           "functionSignature": "deposit()",
           "selector": "0xd0e30db0",
-          "amountRangeEth": [0.00001, 0.00003],
+          "amountRangeEth": [
+            0.00001,
+            0.00003
+          ],
           "contracts": {
-            "11155111": { "symbol": "WETH9", "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14", "network": "Ethereum Sepolia" },
-            "84532": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Base Sepolia" },
-            "421614": { "symbol": "WETH", "address": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73", "network": "Arbitrum Sepolia" },
-            "11155420": { "symbol": "WETH", "address": "0x4200000000000000000000000000000000000006", "network": "Optimism Sepolia" },
-            "97": { "symbol": "WBNB", "address": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd", "network": "BSC Testnet" },
-            "80002": { "symbol": "WPOL", "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9", "network": "Polygon Amoy" },
-            "56": { "symbol": "WBNB", "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "network": "BSC Mainnet" },
-            "137": { "symbol": "WPOL", "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", "network": "Polygon Mainnet" }
+            "56": {
+              "symbol": "WBNB",
+              "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+              "network": "BSC Mainnet"
+            },
+            "97": {
+              "symbol": "WBNB",
+              "address": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+              "network": "BSC Testnet"
+            },
+            "137": {
+              "symbol": "WPOL",
+              "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+              "network": "Polygon Mainnet"
+            },
+            "80002": {
+              "symbol": "WPOL",
+              "address": "0x360ad4f9a9A8EFe9A8DCB5f461c4Cc1047E1Dcf9",
+              "network": "Polygon Amoy"
+            },
+            "84532": {
+              "symbol": "WETH",
+              "address": "0x4200000000000000000000000000000000000006",
+              "network": "Base Sepolia"
+            },
+            "421614": {
+              "symbol": "WETH",
+              "address": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73",
+              "network": "Arbitrum Sepolia"
+            },
+            "11155111": {
+              "symbol": "WETH9",
+              "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
+              "network": "Ethereum Sepolia"
+            },
+            "11155420": {
+              "symbol": "WETH",
+              "address": "0x4200000000000000000000000000000000000006",
+              "network": "Optimism Sepolia"
+            }
           }
         },
         {
@@ -105,7 +149,10 @@
           "name": "Protocol Activity & Free Mint Simulation",
           "functionSignature": "mint()",
           "selector": "0x1249c58b",
-          "amountRangeEth": [0.00001, 0.00002],
+          "amountRangeEth": [
+            0.00001,
+            0.00002
+          ],
           "targetAddress": "SELF_CONTRACT"
         },
         {
@@ -144,11 +191,26 @@
           "primaryType": "DailyRewardAttestation",
           "types": {
             "DailyRewardAttestation": [
-              { "name": "soldier", "type": "address" },
-              { "name": "boxId", "type": "uint256" },
-              { "name": "projectId", "type": "string" },
-              { "name": "multiplierPoints", "type": "uint256" },
-              { "name": "epochTimestamp", "type": "uint256" }
+              {
+                "name": "soldier",
+                "type": "address"
+              },
+              {
+                "name": "boxId",
+                "type": "uint256"
+              },
+              {
+                "name": "projectId",
+                "type": "string"
+              },
+              {
+                "name": "multiplierPoints",
+                "type": "uint256"
+              },
+              {
+                "name": "epochTimestamp",
+                "type": "uint256"
+              }
             ]
           }
         },
@@ -169,9 +231,18 @@
           "primaryType": "BridgeQuestAttestation",
           "types": {
             "BridgeQuestAttestation": [
-              { "name": "soldier", "type": "address" },
-              { "name": "boxId", "type": "uint256" },
-              { "name": "nonce", "type": "uint256" }
+              {
+                "name": "soldier",
+                "type": "address"
+              },
+              {
+                "name": "boxId",
+                "type": "uint256"
+              },
+              {
+                "name": "nonce",
+                "type": "uint256"
+              }
             ]
           }
         },
@@ -192,9 +263,18 @@
           "primaryType": "DogeOSAttestation",
           "types": {
             "DogeOSAttestation": [
-              { "name": "soldier", "type": "address" },
-              { "name": "boxId", "type": "uint256" },
-              { "name": "timestamp", "type": "uint256" }
+              {
+                "name": "soldier",
+                "type": "address"
+              },
+              {
+                "name": "boxId",
+                "type": "uint256"
+              },
+              {
+                "name": "timestamp",
+                "type": "uint256"
+              }
             ]
           }
         },
@@ -215,9 +295,18 @@
           "primaryType": "FablesQuestAttestation",
           "types": {
             "FablesQuestAttestation": [
-              { "name": "soldier", "type": "address" },
-              { "name": "boxId", "type": "uint256" },
-              { "name": "epochTimestamp", "type": "uint256" }
+              {
+                "name": "soldier",
+                "type": "address"
+              },
+              {
+                "name": "boxId",
+                "type": "uint256"
+              },
+              {
+                "name": "epochTimestamp",
+                "type": "uint256"
+              }
             ]
           }
         },
@@ -234,10 +323,22 @@
           "primaryType": "OmnichainProof",
           "types": {
             "OmnichainProof": [
-              { "name": "satellite", "type": "address" },
-              { "name": "boxId", "type": "uint256" },
-              { "name": "nonce", "type": "uint256" },
-              { "name": "campaign", "type": "string" }
+              {
+                "name": "satellite",
+                "type": "address"
+              },
+              {
+                "name": "boxId",
+                "type": "uint256"
+              },
+              {
+                "name": "nonce",
+                "type": "uint256"
+              },
+              {
+                "name": "campaign",
+                "type": "string"
+              }
             ]
           }
         },
@@ -254,9 +355,18 @@
           "primaryType": "VoyageAttendance",
           "types": {
             "VoyageAttendance": [
-              { "name": "explorer", "type": "address" },
-              { "name": "boxCluster", "type": "uint256" },
-              { "name": "timestamp", "type": "uint256" }
+              {
+                "name": "explorer",
+                "type": "address"
+              },
+              {
+                "name": "boxCluster",
+                "type": "uint256"
+              },
+              {
+                "name": "timestamp",
+                "type": "uint256"
+              }
             ]
           }
         },
@@ -279,9 +389,18 @@
           "primaryType": "SessionClaim",
           "types": {
             "SessionClaim": [
-              { "name": "hunter", "type": "address" },
-              { "name": "boxTier", "type": "uint256" },
-              { "name": "streakDay", "type": "uint256" }
+              {
+                "name": "hunter",
+                "type": "address"
+              },
+              {
+                "name": "boxTier",
+                "type": "uint256"
+              },
+              {
+                "name": "streakDay",
+                "type": "uint256"
+              }
             ]
           }
         },
@@ -337,10 +456,22 @@
           "primaryType": "BitcoinL2Attestation",
           "types": {
             "BitcoinL2Attestation": [
-              { "name": "satellite", "type": "address" },
-              { "name": "boxId", "type": "uint256" },
-              { "name": "cbtcRewardAllocation", "type": "uint256" },
-              { "name": "timestamp", "type": "uint256" }
+              {
+                "name": "satellite",
+                "type": "address"
+              },
+              {
+                "name": "boxId",
+                "type": "uint256"
+              },
+              {
+                "name": "cbtcRewardAllocation",
+                "type": "uint256"
+              },
+              {
+                "name": "timestamp",
+                "type": "uint256"
+              }
             ]
           }
         },
@@ -366,10 +497,22 @@
           "primaryType": "GoatStreakProof",
           "types": {
             "GoatStreakProof": [
-              { "name": "operator", "type": "address" },
-              { "name": "boxCluster", "type": "uint256" },
-              { "name": "btcEpoch", "type": "uint256" },
-              { "name": "cycleNonce", "type": "uint256" }
+              {
+                "name": "operator",
+                "type": "address"
+              },
+              {
+                "name": "boxCluster",
+                "type": "uint256"
+              },
+              {
+                "name": "btcEpoch",
+                "type": "uint256"
+              },
+              {
+                "name": "cycleNonce",
+                "type": "uint256"
+              }
             ]
           }
         }
@@ -493,7 +636,23 @@
     "vectorsCount": 5,
     "boxCoverage": "Box 1 a Box 5 (500 Satélites)",
     "cost": "$0.00 USDC / 0 Capital Risk",
-    "bitcoinL2Supported": ["Citrea ZK-Rollup (5115)", "Goat Network L2 (48816)"],
-    "mainnetChainsSupported": ["Polygon PoS (137)", "BNB Smart Chain (56)"]
+    "bitcoinL2Supported": [
+      "Citrea ZK-Rollup (5115)",
+      "Goat Network L2 (48816)"
+    ],
+    "mainnetChainsSupported": [
+      "Polygon PoS (137)",
+      "BNB Smart Chain (56)"
+    ]
+  },
+  "annualAirdropCalendar": {
+    "lastAudit": "2026-10-24T00:42:52.010Z",
+    "totalHorizons": 3,
+    "totalActiveTargets": 8,
+    "horizonsSummary": {
+      "inminent": 3,
+      "midDistance": 3,
+      "earlySeeds": 2
+    }
   }
 }

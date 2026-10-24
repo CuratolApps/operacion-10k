@@ -80,6 +80,8 @@ jobs:
           run_safe node live-launch-calendar-hunter.js
           run_safe node cybershinobi-swarm-strike.js
           run_safe node bounty-booty-commander.js
+          run_safe node annual-calendar-oracle.js
+          run_safe node dynamic-box-dispatcher.js
           if [ -n "$DRY" ]; then
             run_safe node task-runner.js --force-dry-run
           else
@@ -107,7 +109,7 @@ jobs:
           git config user.name "Operacion10K-Bot"
           git config user.email "bot@curatools.io"
           # mainnet-cooldown.json = estado del Modo Ahorro (1 turno/día UTC); el runner es efímero, debe viajar en git.
-          git add telemetry/fleet-telemetry.json telemetry/telegram-alerts.json telemetry/mainnet-cooldowns.json radar-report.json last-run-report.json balances-report.json || true
+          git add telemetry/fleet-telemetry.json telemetry/annual-airdrop-calendar.json telemetry/box-dispatch-plan.json telemetry/seed-airdrop-radar.json telemetry/telegram-alerts.json telemetry/mainnet-cooldowns.json radar-report.json last-run-report.json balances-report.json || true
           if ! git diff --staged --quiet; then
             git commit -m "chore(telemetry): live sync [skip ci]" || true
             for attempt in 1 2 3; do
@@ -125,6 +127,8 @@ jobs:
           name: fleet-telemetry-snapshot
           path: |
             telemetry/fleet-telemetry.json
+            telemetry/annual-airdrop-calendar.json
+            telemetry/box-dispatch-plan.json
             last-run-report.json
             radar-report.json
           retention-days: 7

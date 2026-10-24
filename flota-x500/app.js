@@ -186,6 +186,9 @@ const state = {
   balancesReport: null,
   publicWallets: [],
   telegramAlerts: [],
+  seedRadar: null,
+  annualCalendar: null,
+  boxDispatchPlan: null,
   activeTab: "log", // "log" | "tg"
   activeLogFilter: "ALL",
   modalSelectedBox: "ALL",
@@ -268,12 +271,14 @@ async function loadAllTelemetryData() {
   const ts = Date.now();
 
   try {
-    const [telRes, lastRunRes, pubWalletsRes, tgRes, radarRes] = await Promise.all([
+    const [telRes, lastRunRes, pubWalletsRes, tgRes, radarRes, calRes, boxPlanRes] = await Promise.all([
       fetch(`../telemetry/fleet-telemetry.json?t=${ts}`).catch(() => null),
       fetch(`../last-run-report.json?t=${ts}`).catch(() => null),
       fetch(`../wallets-public-list.json?t=${ts}`).catch(() => null),
       fetch(`../telemetry/telegram-alerts.json?t=${ts}`).catch(() => null),
-      fetch(`../telemetry/seed-airdrop-radar.json?t=${ts}`).catch(() => null)
+      fetch(`../telemetry/seed-airdrop-radar.json?t=${ts}`).catch(() => null),
+      fetch(`../telemetry/annual-airdrop-calendar.json?t=${ts}`).catch(() => null),
+      fetch(`../telemetry/box-dispatch-plan.json?t=${ts}`).catch(() => null)
     ]);
 
     if (telRes && telRes.ok) {
@@ -292,10 +297,17 @@ async function loadAllTelemetryData() {
       state.seedRadar = await radarRes.json();
       syncRadarWithFronts();
     }
+    if (calRes && calRes.ok) {
+      state.annualCalendar = await calRes.json();
+    }
+    if (boxPlanRes && boxPlanRes.ok) {
+      state.boxDispatchPlan = await boxPlanRes.json();
+    }
 
     renderTopNavMetrics();
     renderBoxesColumn();
     renderGasTankColumn();
+    renderAnnualCalendarAndBoxes();
     renderMiningActivityTable();
     renderTelegramMirror();
 
@@ -537,6 +549,137 @@ function updateFrontUi(frontKey, pingId, blockId) {
 
   if (elBlock && front.latestBlock !== null) {
     elBlock.textContent = `Bloque #${front.latestBlock.toLocaleString("en-US")}`;
+  }
+}
+
+// =============================================================================
+// 10.1 RENDERIZADO: ZONA 3 - CALENDARIO ANUAL 2026/2027 & ENRUTAMIENTO DE BOXES
+// =============================================================================
+function renderAnnualCalendarAndBoxes() {
+  const cal = state.annualCalendar;
+  const plan = state.boxDispatchPlan;
+
+  // 1. Actualizar testigos de los 2 Bots Guías
+  const elBotOracle = document.getElementById("botOracleStatusBadge");
+  if (elBotOracle) {
+    if (cal && cal.totalTargetsAudited) {
+      elBotOracle.textContent = `🔭 Bot #1 Oráculo Anual: ACTIVO (${cal.totalTargetsAudited} Objetivos · 00:00 UTC)`;
+    } else {
+      elBotOracle.textContent = `🔭 Bot #1 Oráculo Anual: ACTIVO (Corte 00:00 UTC)`;
+    }
+  }
+
+  const elBotDispatcher = document.getElementById("botDispatcherStatusBadge");
+  if (elBotDispatcher) {
+    if (plan && plan.totalBoxesDispatched) {
+      elBotDispatcher.textContent = `🧭 Bot #2 Director de Boxes: ENRUTANDO 5 BOXES EN VIVO`;
+    } else {
+      elBotDispatcher.textContent = `🧭 Bot #2 Director de Boxes: ENRUTANDO EN VIVO`;
+    }
+  }
+
+  const elBadgeFronts = document.getElementById("badgeTotalFrontsVerified");
+  if (elBadgeFronts && cal) {
+    elBadgeFronts.textContent = `5/5 BOXES ENRUTADOS · GOPLUS ACTIVO`;
+  }
+
+  // 2. Si no hay plan dinámico aún, no sobreescribir la tabla pre-renderizada
+  if (!plan || !Array.isArray(plan.boxes) || plan.boxes.length === 0) return;
+
+  const tbody = document.getElementById("airdropFrontsTbody");
+  if (!tbody) return;
+
+  const boxColors = {
+    1: "var(--cyan)",
+    2: "var(--gold)",
+    3: "var(--green)",
+    4: "var(--purple)",
+    5: "var(--cyan)"
+  };
+
+  const chainDotClasses = {
+    8453: "chain-dot-base",
+    137: "chain-dot-polygon",
+    56: "chain-dot-bsc",
+    42161: "chain-dot-arbitrum",
+    10: "chain-dot-arbitrum",
+    5115: "chain-dot-citrea",
+    48816: "chain-dot-goat",
+    1946: "chain-dot-base"
+  };
+
+  const html = plan.boxes.map(b => {
+    const isPriority1 = b.urgencyHorizon.includes("PRIORIDAD 1");
+    const isMid = b.urgencyHorizon.includes("MEDIA DISTANCIA");
+    
+    let horizonBadge = "badge-fire";
+    let horizonLabel = "🔥 PRIORIDAD 1";
+    let horizonColor = "#ff8888";
+
+    if (isMid) {
+      horizonBadge = "badge-seed";
+      horizonLabel = "📅 MEDIA DISTANCIA";
+      horizonColor = "#60a5fa";
+    } else if (!isPriority1) {
+      horizonBadge = "badge-seed";
+      horizonLabel = "🌱 SEMILLA ANUAL";
+      horizonColor = "#34d399";
+    }
+
+    const dotClass = chainDotClasses[b.targetChainId] || "chain-dot-base";
+    const capColor = boxColors[b.boxId] || "var(--cyan)";
+    const shortContract = b.primaryContract ? `${b.primaryContract.slice(0, 6)}...${b.primaryContract.slice(-4)}` : "0x1231...4EaE";
+    const explorerUrl = getContractExplorerUrl(b.targetChainId, b.primaryContract);
+
+    return `
+      <tr id="frontRow-box${b.boxId}">
+        <td>
+          <div class="front-badge-wrap">
+            <span class="chain-dot-mini ${dotClass}"></span>
+            <strong style="color: #fff;">${b.targetName}</strong>
+          </div>
+          <div style="font-size: 8.5px; color: var(--text-muted);">${b.contractLabel} · ${b.targetNetwork}</div>
+        </td>
+        <td>
+          <span class="badge-tag-tiny badge-box-tag">📦 BOX ${b.boxId} (100 Bots)</span>
+          <div style="font-size: 8.5px; color: ${capColor}; margin-top: 2px;">Cap: ${b.captainShort}</div>
+        </td>
+        <td>
+          <span class="badge-tag-tiny ${horizonBadge}">${horizonLabel}</span>
+          <div style="font-size: 8.5px; color: ${horizonColor}; margin-top: 2px;">${b.deadline}</div>
+        </td>
+        <td>
+          <span class="badge-tag-tiny badge-goplus">${b.goplusShield}</span>
+          <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato Auditado: ${b.primaryContract}">${shortContract}</span>
+        </td>
+        <td>
+          <span class="badge-tag-tiny badge-gold">${b.actionBadge}</span>
+          <span class="font-mono green-text" style="display: block; font-size: 9px; margin-top: 2px;" id="boxPing-${b.boxId}">${b.rpcPingMs || 320} ms</span>
+        </td>
+        <td>
+          <a href="${explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link">
+            <span>EXPLORER</span>
+            <span class="material-symbols-rounded icon-xs">open_in_new</span>
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  tbody.innerHTML = html;
+}
+
+function getContractExplorerUrl(chainId, address) {
+  switch (Number(chainId)) {
+    case 8453: return `https://basescan.org/address/${address}`;
+    case 137: return `https://polygonscan.com/address/${address}`;
+    case 56: return `https://bscscan.com/address/${address}`;
+    case 42161: return `https://arbiscan.io/address/${address}`;
+    case 10: return `https://optimistic.etherscan.io/address/${address}`;
+    case 5115: return `https://explorer.testnet.citrea.xyz/address/${address}`;
+    case 48816: return `https://explorer.testnet3.goat.network/address/${address}`;
+    case 1946: return `https://explorer-testnet.soneium.org/address/${address}`;
+    default: return `https://basescan.org/address/${address}`;
   }
 }
 

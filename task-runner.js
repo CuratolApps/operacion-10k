@@ -26,6 +26,8 @@ const { getWalletSigner, getSolanaKeypair } = require("./swarm-engine");
 const { notifyRoundSummary } = require("./telegram-notifier");
 const { getSatelliteDNA } = require("./autonomous-brain-lomo5");
 const { runSeedAirdropEngine } = require("./seed-airdrop-engine");
+const { runAnnualCalendarOracle } = require("./annual-calendar-oracle");
+const { runBoxDispatcher } = require("./dynamic-box-dispatcher");
 
 const WALLETS_FILE = path.join(__dirname, "wallets-public-list.json");
 const REPORT_FILE = path.join(__dirname, "last-run-report.json");
@@ -810,10 +812,19 @@ async function runTaskRunner() {
   console.log("=========================================================================================\n");
 
   let seedRadar = null;
+  let annualCalendar = null;
+  let boxDispatchPlan = null;
   try {
     seedRadar = await runSeedAirdropEngine();
   } catch (seedErr) {
     console.log(`⚠️ Error ejecutando seed-airdrop-engine: ${seedErr.message}`);
+  }
+
+  try {
+    annualCalendar = await runAnnualCalendarOracle();
+    boxDispatchPlan = await runBoxDispatcher();
+  } catch (oracleErr) {
+    console.log(`⚠️ Error ejecutando Bot 1 & Bot 2: ${oracleErr.message}`);
   }
 
   const report = {
@@ -827,7 +838,9 @@ async function runTaskRunner() {
     networksBreakdown,
     evmResults,
     solanaResult,
-    seedAirdropRadar: seedRadar
+    seedAirdropRadar: seedRadar,
+    annualAirdropCalendar: annualCalendar,
+    boxDispatchPlan: boxDispatchPlan
   };
 
   fs.writeFileSync(REPORT_FILE, JSON.stringify(report, null, 2), "utf8");
@@ -921,6 +934,9 @@ async function runTaskRunner() {
       tel.hunterStats.defiAndMintsExecuted = (tel.hunterStats.defiAndMintsExecuted || 0) + roundDefiAndMints;
       tel.hunterStats.gaslessQuestsSigned = (tel.hunterStats.gaslessQuestsSigned || 0) + roundGasless;
       tel.hunterStats.lastUpdated = new Date().toISOString();
+
+      if (annualCalendar) tel.annualAirdropCalendar = annualCalendar;
+      if (boxDispatchPlan) tel.boxDispatchPlan = boxDispatchPlan;
 
       fs.writeFileSync(FLEET_FILE, JSON.stringify(tel, null, 2), "utf8");
     } catch (e) {

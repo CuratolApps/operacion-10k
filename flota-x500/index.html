@@ -292,20 +292,26 @@
     <div class="col-fleet-center">
 
       <!-- ===================================================================== -->
-      <!-- ZONA 3 (PANEL SUPERIOR): CALENDARIO REAL DE AIRDROPS Y SEMILLAS           -->
+      <!-- ZONA 3 (PANEL SUPERIOR): CALENDARIO ANUAL DE AIRDROPS Y SEMILLAS 2026/27 -->
       <!-- ===================================================================== -->
       <section class="quant-card panel-airdrop-fronts" id="blockAirdropFronts">
         <div class="quant-card-header">
           <div class="card-title-group">
             <span class="material-symbols-rounded gold">event_available</span>
-            <h2 class="card-title">📅 CALENDARIO DE AIRDROPS Y SEMILLAS (POR FECHA DE ENTREGA)</h2>
+            <h2 class="card-title">📅 CALENDARIO DE AIRDROPS Y SEMILLAS — RADAR ANUAL 2026/2027</h2>
           </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+            <span class="badge-tag-tiny badge-bot-oracle" id="botOracleStatusBadge" title="Oráculo Anual con Triple Auditoría (DefiLlama, DexScreener, GoPlus)">
+              🔭 Bot #1 Oráculo Anual: ACTIVO (Corte 00:00 UTC)
+            </span>
+            <span class="badge-tag-tiny badge-bot-dispatcher" id="botDispatcherStatusBadge" title="Director Táctico de Enrutamiento Dinámico de los 5 Boxes">
+              🧭 Bot #2 Director de Boxes: ENRUTANDO EN VIVO
+            </span>
             <button class="filter-pill-btn active" id="btnRefreshRpcs" onclick="refreshRpcPings()" title="Forzar medición en vivo de latencias RPC y auditoría">
               <span class="material-symbols-rounded icon-xs cyan">sync</span>
-              <span>MEDIR RPCs EN VIVO</span>
+              <span>MEDIR RPCs</span>
             </button>
-            <span class="badge-tag-tiny badge-gold" id="badgeTotalFrontsVerified">5 OBJETIVOS AUDITADOS · GOPLUS ACTIVO</span>
+            <span class="badge-tag-tiny badge-gold" id="badgeTotalFrontsVerified">5/5 BOXES ENRUTADOS</span>
           </div>
         </div>
 
@@ -313,175 +319,175 @@
           <table class="quant-table" id="airdropFrontsTable">
             <thead>
               <tr>
-                <th style="width: 22%;">OBJETIVO / ECOSISTEMA</th>
-                <th style="width: 20%;">PRIORIDAD &amp; FECHA CORTE</th>
-                <th style="width: 20%;">ESCUDO GOPLUS &amp; CONTRATO</th>
-                <th style="width: 16%;">ACCIÓN &amp; CARTERAS</th>
-                <th style="width: 12%;">RPC / LATENCIA</th>
+                <th style="width: 22%;">HORIZONTE &amp; OBJETIVO</th>
+                <th style="width: 16%;">BOX ASIGNADO (EN VIVO)</th>
+                <th style="width: 16%;">VENTANA ENTREGA / CORTE</th>
+                <th style="width: 20%;">CONTRATO &amp; GOPLUS</th>
+                <th style="width: 16%;">ACCIÓN &amp; RPC PING</th>
                 <th style="width: 10%;">EXPLORADOR</th>
               </tr>
             </thead>
             <tbody id="airdropFrontsTbody">
-              <!-- 1. Citrea Bitcoin ZK-Rollup -->
-              <tr id="frontRow-citrea">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-citrea"></span>
-                    <strong style="color: #fff;">Citrea Bitcoin ZK</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted);">Chain ID 5115 · Semilla Bitcoin L2</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
-                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">Corte 28 Oct – 15 Nov 2026</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
-                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WcBTC: 0x8a920F65319c321714F4B8487771B437c35F1225">0x8a92...1225</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-gold">BTC L2 Seed</span>
-                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">100 / 500 (Box 1)</div>
-                </td>
-                <td>
-                  <span class="font-mono green-text" id="pingCitrea">-- ms</span>
-                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockCitrea">Bloque #---</span>
-                </td>
-                <td>
-                  <a href="https://explorer.testnet.citrea.xyz" target="_blank" rel="noopener noreferrer" class="explorer-link">
-                    <span>EXPLORER</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-
-              <!-- 2. GOAT Network Bitcoin zk-EVM -->
-              <tr id="frontRow-goat">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-goat"></span>
-                    <strong style="color: #fff;">GOAT Network zk-EVM</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted);">Chain ID 48816 · Semilla BTC L2</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
-                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">Corte 31 Oct – 20 Nov 2026</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
-                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WBTC: 0x265538D4F3Fd6189912C09c62c2f6d4d1264cEc3">0x2655...cEc3</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-gold">BTC zk-EVM Farm</span>
-                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">100 / 500 (Box 1)</div>
-                </td>
-                <td>
-                  <span class="font-mono green-text" id="pingGoat">-- ms</span>
-                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockGoat">Bloque #---</span>
-                </td>
-                <td>
-                  <a href="https://explorer.testnet3.goat.network" target="_blank" rel="noopener noreferrer" class="explorer-link">
-                    <span>EXPLORER</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-
-              <!-- 3. Misiones Gasless EIP-712 & Daily Check-Ins -->
-              <tr id="frontRow-mainnet">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-polygon"></span>
-                    <strong style="color: #fff;">Gasless EIP-712 &amp; Check-In</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted);">Polygon 137 / BSC 56 · $0 Gas</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
-                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">Corte 25–30 Oct 2026</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
-                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WPOL / Checkin: 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270">0x0d50...1270</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">Gasless EIP-712</span>
-                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">500 / 500 Flota</div>
-                </td>
-                <td>
-                  <span class="font-mono green-text" id="pingMainnets">-- ms</span>
-                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockMainnets">Bloque #---</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com" target="_blank" rel="noopener noreferrer" class="explorer-link">
-                    <span>EXPLORER</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-
-              <!-- 4. Base Ecosystem -->
-              <tr id="frontRow-base">
+              <!-- Box 1: Base Avantis & Jumper -->
+              <tr id="frontRow-box1">
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-base"></span>
-                    <strong style="color: #fff;">Base Ecosystem</strong>
+                    <strong style="color: #fff;">Base Ecosystem &amp; Avantis S3</strong>
                   </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted);">Coinbase L2 · Chain ID 8453</div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Jumper / Li.Fi · Chain ID 8453</div>
                 </td>
                 <td>
-                  <span class="badge-tag-tiny badge-seed">🌱 PRIORIDAD 2</span>
-                  <div style="font-size: 8.5px; color: #10b981; margin-top: 2px;">Siembra Continua Q4–Q1</div>
+                  <span class="badge-tag-tiny badge-box-tag">📦 BOX 1 (100 Bots)</span>
+                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">#001 al #100 + #501</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">30 Oct – 15 Nov 2026</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
-                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WETH: 0x4200000000000000000000000000000000000006">0x4200...0006</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato Jumper Li.Fi: 0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE">0x1231...4EaE</span>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-cyan">DeFi Wrap</span>
-                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">500 / 500 Flota</div>
+                  <span class="font-mono green-text" style="display: block; font-size: 9px; margin-top: 2px;" id="pingBase">327 ms</span>
                 </td>
                 <td>
-                  <span class="font-mono green-text" id="pingBase">-- ms</span>
-                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockBase">Bloque #---</span>
-                </td>
-                <td>
-                  <a href="https://basescan.org" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                  <a href="https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE" target="_blank" rel="noopener noreferrer" class="explorer-link">
                     <span>BASESCAN</span>
                     <span class="material-symbols-rounded icon-xs">open_in_new</span>
                   </a>
                 </td>
               </tr>
 
-              <!-- 5. Arbitrum & Optimism Superchain -->
-              <tr id="frontRow-arbitrum">
+              <!-- Box 2: DogeOS Chapter 2 & Startale -->
+              <tr id="frontRow-box2">
                 <td>
                   <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-arbitrum"></span>
-                    <strong style="color: #fff;">Arbitrum &amp; OP Superchain</strong>
+                    <span class="chain-dot-mini chain-dot-polygon"></span>
+                    <strong style="color: #fff;">DogeOS Ch2 &amp; Startale</strong>
                   </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted);">Nitro L2 · Chain ID 42161</div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Polygon CDK / Interop · 137/56</div>
                 </td>
                 <td>
-                  <span class="badge-tag-tiny badge-seed">🌱 PRIORIDAD 2</span>
-                  <div style="font-size: 8.5px; color: #10b981; margin-top: 2px;">Siembra Continua Nitro</div>
+                  <span class="badge-tag-tiny badge-box-tag">📦 BOX 2 (100 Bots)</span>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">#101 al #200 (Capitán)</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">30 Oct – 20 Nov 2026</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
-                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WETH: 0x980B62Da83eFf3D4576C647993b0c1D7faf17c73">0x980B...7c73</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato Li.Fi / DogeOS: 0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE">0x1231...4EaE</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-green">Gasless EIP-712</span>
+                  <span class="font-mono green-text" style="display: block; font-size: 9px; margin-top: 2px;" id="pingMainnets">310 ms</span>
+                </td>
+                <td>
+                  <a href="https://polygonscan.com/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                    <span>POLYGON</span>
+                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                  </a>
+                </td>
+              </tr>
+
+              <!-- Box 3: Gasless Quests & Streaks -->
+              <tr id="frontRow-box3">
+                <td>
+                  <div class="front-badge-wrap">
+                    <span class="chain-dot-mini chain-dot-bsc"></span>
+                    <strong style="color: #fff;">Gasless Quests &amp; Multipliers</strong>
+                  </div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Polygon 137 / BSC 56 · $0 Gas</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-box-tag">📦 BOX 3 (100 Bots)</span>
+                  <div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">#201 al #300 (Capitán)</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">25 Oct – 20 Nov 2026</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WPOL / Checkin: 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270">0x0d50...1270</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-green">Daily Streak</span>
+                  <span class="font-mono green-text" style="display: block; font-size: 9px; margin-top: 2px;" id="pingCheckins">122 ms</span>
+                </td>
+                <td>
+                  <a href="https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                    <span>EXPLORER</span>
+                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                  </a>
+                </td>
+              </tr>
+
+              <!-- Box 4: Arbitrum Stylus & OP Superchain -->
+              <tr id="frontRow-box4">
+                <td>
+                  <div class="front-badge-wrap">
+                    <span class="chain-dot-mini chain-dot-arbitrum"></span>
+                    <strong style="color: #fff;">Arbitrum Stylus &amp; OP Superchain</strong>
+                  </div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Nitro L2 · Chain ID 42161 / 10</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-box-tag">📦 BOX 4 (100 Bots)</span>
+                  <div style="font-size: 8.5px; color: var(--purple); margin-top: 2px;">#301 al #400 (Capitán)</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-seed">📅 MEDIA DISTANCIA</span>
+                  <div style="font-size: 8.5px; color: #60a5fa; margin-top: 2px;">Dic 2026 – Feb 2027</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato WETH Arbitrum: 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1">0x82aF...Bab1</span>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-purple">DeFi Wrap</span>
-                  <div style="font-size: 8.5px; color: var(--text-dim); margin-top: 2px;">500 / 500 Flota</div>
+                  <span class="font-mono green-text" style="display: block; font-size: 9px; margin-top: 2px;" id="pingArbitrum">381 ms</span>
                 </td>
                 <td>
-                  <span class="font-mono green-text" id="pingArbitrum">-- ms</span>
-                  <span style="font-size: 8.5px; color: var(--text-muted); display: block;" id="blockArbitrum">Bloque #---</span>
-                </td>
-                <td>
-                  <a href="https://arbiscan.io" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                  <a href="https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1" target="_blank" rel="noopener noreferrer" class="explorer-link">
                     <span>ARBISCAN</span>
+                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                  </a>
+                </td>
+              </tr>
+
+              <!-- Box 5: Soneium & Citrea / GOAT Bitcoin L2 -->
+              <tr id="frontRow-box5">
+                <td>
+                  <div class="front-badge-wrap">
+                    <span class="chain-dot-mini chain-dot-citrea"></span>
+                    <strong style="color: #fff;">Citrea ZK &amp; GOAT BTC (Soneium L2)</strong>
+                  </div>
+                  <div style="font-size: 8.5px; color: var(--text-muted);">Bitcoin L2 &amp; Sony L2 · 5115/48816/1946</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-box-tag">📦 BOX 5 (100 Bots)</span>
+                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">#401 al #500 (Capitán)</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-seed">🌱 SEMILLA ANUAL</span>
+                  <div style="font-size: 8.5px; color: #34d399; margin-top: 2px;">Q1 – Q2 2027</div>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
+                  <span class="font-mono" style="font-size: 9px; display: block; color: var(--text-dim);" title="Contrato Multicall3 Citrea/GOAT: 0xcA11bde05977b3631167028862bE2a173976CA11">0xcA11...CA11</span>
+                </td>
+                <td>
+                  <span class="badge-tag-tiny badge-gold">BTC L2 Seed</span>
+                  <span class="font-mono green-text" style="display: block; font-size: 9px; margin-top: 2px;" id="pingCitrea">358 ms</span>
+                </td>
+                <td>
+                  <a href="https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11" target="_blank" rel="noopener noreferrer" class="explorer-link">
+                    <span>CITREA</span>
                     <span class="material-symbols-rounded icon-xs">open_in_new</span>
                   </a>
                 </td>

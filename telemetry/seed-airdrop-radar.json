@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "title": "Cazador de Semillas y Airdrops por Fecha de Entrega — Área 501",
-  "lastUpdated": "2026-10-24T00:18:47.285Z",
+  "lastUpdated": "2026-10-24T00:42:44.574Z",
   "deliveryCalendarSeason": "Octubre–Noviembre 2026",
   "priorityDistribution": {
     "priority1Count": 3,
@@ -35,12 +35,12 @@
     "status": "ONLINE",
     "totalChainsTracked": 439,
     "ecosystemsTvl": {
-      "base": "$9.30B",
+      "base": "$9.27B",
       "arbitrum": "$2.06B",
-      "bsc": "$7.90B",
-      "polygon": "$745.3M"
+      "bsc": "$7.89B",
+      "polygon": "$745.1M"
     },
-    "timestamp": "2026-10-24T00:18:42.106Z"
+    "timestamp": "2026-10-24T00:42:39.713Z"
   },
   "targets": [
     {
@@ -64,8 +64,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 431,
-      "currentBlock": 32999747,
+      "rpcPingMs": 405,
+      "currentBlock": 33000466,
       "isSafeToExecute": true
     },
     {
@@ -89,8 +89,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 1072,
-      "currentBlock": 17715862,
+      "rpcPingMs": 832,
+      "currentBlock": 17716287,
       "isSafeToExecute": true
     },
     {
@@ -114,8 +114,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 317,
-      "currentBlock": 96063837,
+      "rpcPingMs": 324,
+      "currentBlock": 96064794,
       "isSafeToExecute": true
     },
     {
@@ -139,8 +139,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 418,
-      "currentBlock": 53005890,
+      "rpcPingMs": 514,
+      "currentBlock": 53006608,
       "isSafeToExecute": true
     },
     {
@@ -165,8 +165,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 528,
-      "currentBlock": 517686963,
+      "rpcPingMs": 680,
+      "currentBlock": 517691883,
       "isSafeToExecute": true
     }
   ]
