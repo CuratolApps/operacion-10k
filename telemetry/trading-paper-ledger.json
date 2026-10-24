@@ -5,7 +5,7 @@
   "closedPnLUsdc": 0,
   "closedWins": 0,
   "closedLosses": 0,
-  "lastUpdated": "2026-10-24T15:54:26.022Z",
+  "lastUpdated": "2026-10-24T16:19:56.133Z",
   "activeTrades": {
     "POL/USDC": {
       "pair": "POL/USDC",
@@ -49,7 +49,7 @@
       "lotUsdc": 25,
       "takeProfitPct": 2.5,
       "stopLossPct": 0.8,
-      "breakevenLocked": false
+      "breakevenLocked": true
     },
     "EUR/USDC": {
       "pair": "EUR/USDC",

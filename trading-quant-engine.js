@@ -1,14 +1,14 @@
 /**
  * trading-quant-engine.js - OPERACIÓN 10K / ÁREA 501
  * ==============================================================================
- * MOTOR BACKEND DE ENTRENAMIENTO CUANTITATIVO: 🐂🐻 BULL & BEAR (THE NEXUS ENGINE)
+ * MOTOR BACKEND DE ENTRENAMIENTO CUANTITATIVO: BULL & BEAR (THE NEXUS ENGINE)
  * PSICÓLOGA/CÓDICE #00 + RED DE 4 ESPECIALISTAS INFORMANTES EN TIEMPO REAL
  * ==============================================================================
  * 
  * REGLAS SAGRADAS ("CERO HUMO / 0% NÚMEROS PRE-LLENADOS"):
- * 1. Identidad: 🐂🐻 BULL & BEAR (THE NEXUS ENGINE) opera bidireccional y multimodal:
- *    - 🐂 MODO BULL / LONG (Gana cuando el mercado sube)
- *    - 🐻 MODO BEAR / SHORT SINTÉTICO (Gana cuando el mercado cae)
+ * 1. Identidad: BULL & BEAR (THE NEXUS ENGINE) opera bidireccional y multimodal:
+ *    - ▲ MODO BULL / LONG (Gana cuando el mercado sube)
+ *    - ▼ MODO BEAR / SHORT SINTÉTICO (Gana cuando el mercado cae)
  *    - ⚡ SCALPING / DERIVADOS DE TIEMPO (Caza micro-desfases 60s-300s)
  *    - 🚀 LANZAMIENTOS ON-CHAIN (Caza estrenos en minuto cero con GoPlus 0% Honeypot)
  * 2. 5 Mentes Legendarias: Simons (Markov), Tudor Jones (Trend Switch),
@@ -72,7 +72,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken MiCA / QuickSwap V3",
     defaultPrice: 0.0891,
     direction: "BULL",
-    directionLabel: "🐂 BULL LONG",
+    directionLabel: "▲ BULL LONG",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Simons (Markov) + Livermore",
     codexRule: "Códice 1 & 2 (Rebote de soporte)",
@@ -91,7 +91,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken / PancakeSwap V3",
     defaultPrice: 737.06,
     direction: "BULL",
-    directionLabel: "🐂 BULL LONG",
+    directionLabel: "▲ BULL LONG",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Tudor Jones + Livermore",
     codexRule: "Códice 2 (Clímax Vendedor)",
@@ -110,7 +110,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken Pro MiCA",
     defaultPrice: 2377.43,
     direction: "BEAR",
-    directionLabel: "🐻 BEAR SHORT",
+    directionLabel: "▼ BEAR SHORT",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Simons (Markov) + Tudor Jones",
     codexRule: "Códice 2 (Rechazo Resistencia)",
@@ -129,7 +129,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken / Raydium DEX",
     defaultPrice: 102.00,
     direction: "BULL",
-    directionLabel: "🐂 BULL LONG",
+    directionLabel: "▲ BULL LONG",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Livermore (Tape Action)",
     codexRule: "Códice 1 & 2 (Ruptura con Volumen)",
@@ -169,7 +169,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken / Uniswap V3 (Oro Físico Wall Street)",
     defaultPrice: 4001.66,
     direction: "BULL",
-    directionLabel: "🐂 BULL LONG",
+    directionLabel: "▲ BULL LONG",
     specialistName: "🏛️ ESP. #701 (Wall Street & Oro)",
     decidingMind: "Soros (Reflexividad Macro)",
     codexRule: "Códice 3 (Refugio Institucional)",
@@ -188,7 +188,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken Institutional",
     defaultPrice: 80708.70,
     direction: "BEAR",
-    directionLabel: "🐻 BEAR SHORT",
+    directionLabel: "▼ BEAR SHORT",
     specialistName: "🏛️ ESP. #701 (Wall Street & Macro)",
     decidingMind: "Tudor Jones (Trend Switch)",
     codexRule: "Códice 2 & 3 (Toma de Beneficios)",
@@ -207,7 +207,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken / Uniswap V3 (Oráculos RWA)",
     defaultPrice: 11.74,
     direction: "BULL",
-    directionLabel: "🐂 BULL LONG",
+    directionLabel: "▲ BULL LONG",
     specialistName: "🏛️ ESP. #701 (Wall Street & RWA)",
     decidingMind: "Paulson (Asimetría 3.8:1)",
     codexRule: "Códice 3 & 6 (Demanda Oráculos)",
@@ -226,7 +226,7 @@ const CANONICAL_PAIRS_CONFIG = [
     exchange: "Kraken / Aerodrome (Bonos Tesoro EE.UU.)",
     defaultPrice: 0.4109,
     direction: "BEAR",
-    directionLabel: "🐻 BEAR SHORT",
+    directionLabel: "▼ BEAR SHORT",
     specialistName: "🏛️ ESP. #701 (Wall Street & Bonos)",
     decidingMind: "Simons (Reversión a Media)",
     codexRule: "Códice 2 & 3 (Reversión a la Media)",
@@ -450,7 +450,7 @@ function evaluatePsychologistRuling(rsi, riskRewardRatio, direction) {
 // =============================================================================
 async function runTradingQuantEngine() {
   console.log("=========================================================================================");
-  console.log("   🐂🐻 ÁREA 501 // DOJO CUANTITATIVO DE ENTRENAMIENTO BULL & BEAR");
+  console.log("   ÁREA 501 // DOJO CUANTITATIVO DE ENTRENAMIENTO BULL & BEAR");
   console.log("   THE NEXUS ENGINE · PSICÓLOGA/CÓDICE #00 + RED DE 4 ESPECIALISTAS INFORMANTES");
   console.log("   🛡️ PRECIOS 100% REALES EN VIVO (KRAKEN REST API & DEXSCREENER · PnL CERRADO = $0.00)");
   console.log("=========================================================================================\n");
@@ -812,8 +812,8 @@ async function runTradingQuantEngine() {
 
   // 9. Módulos de Entrenamiento y Progreso (Rumbo al 99.9%)
   const trainingModules = [
-    { id: "bull", name: "🐂 Modalidad Bull (Long / Rupturas)", mastery: 96.4, count: countBull, status: "DOMINIO AVANZADO" },
-    { id: "bear", name: "🐻 Modalidad Bear (Short / Caza Caídas)", mastery: 94.8, count: countBear, status: "DOMINIO AVANZADO" },
+    { id: "bull", name: "▲ Modalidad Bull (Long / Rupturas)", mastery: 96.4, count: countBull, status: "DOMINIO AVANZADO" },
+    { id: "bear", name: "▼ Modalidad Bear (Short / Caza Caídas)", mastery: 94.8, count: countBear, status: "DOMINIO AVANZADO" },
     { id: "scalping", name: "⚡ Modalidad Scalping & Derivados (Lead/Lag)", mastery: 98.2, count: countScalp, status: "PRECISIÓN ALTA" },
     { id: "wallstreet", name: "🏛️ Modalidad Wall Street & Oro PAXG", mastery: 95.6, count: 4, status: "INSTITUCIONAL" },
     { id: "premieres", name: "🚀 Cazador de Lanzamientos On-Chain", mastery: 97.2, count: 6, status: "ESCUDO GOPLUS 0%" }
@@ -825,7 +825,7 @@ async function runTradingQuantEngine() {
       timestamp: nowIso,
       timeUtc: nowUtc,
       type: "BULL_BEAR_SYNC",
-      source: "🐂🐻 Bull & Bear (The Nexus Engine)",
+      source: "BULL & BEAR // THE NEXUS ENGINE",
       message: `Régimen Activo: 5 Bull Long / 3 Bear Short / 1 Scalping. Mente Dominante: Simons (Markov) + Tudor Jones. Tiro más caliente: ${proposalsTable[0]?.pair || 'POL/USDC'} (${proposalsTable[0]?.directionLabel || 'BULL'}) al ${proposalsTable[0]?.proximityScore || 0}% de TP.`
     },
     {
@@ -872,10 +872,10 @@ async function runTradingQuantEngine() {
     lastUpdatedIso: nowIso,
     lastUpdatedUtc: nowUtc,
     bullBearMaster: {
-      name: "🐂🐻 BULL & BEAR",
+      name: "BULL & BEAR",
       subtitle: "THE NEXUS ENGINE",
       role: "Mente Maestra Cuantitativa Multimodal & Bidireccional",
-      activeRegime: "🐂 MODO HÍBRIDO ADAPTATIVO",
+      activeRegime: "MODO HÍBRIDO ADAPTATIVO",
       dominantMind: "Simons (Markov) · Tudor Jones · Livermore · Soros · Paulson",
       senses: [
         "👁️ Ojos CEX-DEX (Kraken & DEXScreener)",
