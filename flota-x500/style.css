@@ -1210,3 +1210,141 @@ body.area501-flota-body {
   transform: translateY(-1px);
 }
 
+/* =============================================================================
+   CONMUTADOR CENTRAL PANORÁMICO: AIRDROPS & SEMILLAS ↔ CAZADOR FREE-MINT & INSTANT NFT FLIP
+   ============================================================================= */
+.panoramic-tabs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.32);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.panoramic-tabs-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.panoramic-tab-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.panoramic-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.panoramic-tab-btn.active {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--cyan);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+
+.panoramic-tab-btn.active#tabBtnAirdrops {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+}
+
+.panoramic-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Corredor Sigiloso NFT Banner */
+.nft-stealth-corridor-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.06) 0%, rgba(130, 71, 229, 0.06) 50%, rgba(0, 0, 0, 0.3) 100%);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.stealth-corridor-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.stealth-corridor-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.corridor-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: pulse-ring 1.8s infinite;
+  display: inline-block;
+}
+
+.corridor-title {
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.corridor-item {
+  color: var(--text-dim);
+}
+
+.corridor-sep {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.badge-flip-executing {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+  color: #34d399;
+  font-weight: 800;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+.badge-flip-watching {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.badge-escort-ai {
+  background: rgba(130, 71, 229, 0.12);
+  border: 1px solid rgba(130, 71, 229, 0.35);
+  color: #c084fc;
+}
+
+

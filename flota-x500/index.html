@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ÁREA 501 // FLOTA X500 (SATÉLITES #001 AL #500 · 100% DATOS REALES ON-CHAIN)</title>
+  <title>ÁREA 501 // FLOTA X500 · AIRDROPS & NFT FLIP (SATÉLITES #001 AL #500 · 100% DATOS REALES ON-CHAIN)</title>
 
   <!-- Tipografías Oficiales: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +38,7 @@
         <div class="shield-lock-icon-badge" title="Flota X500: 500 Satélites en 5 Boxes">
           <span class="material-symbols-rounded">military_tech</span>
         </div>
-        <span class="brand-tag">ÁREA 501 // FLOTA X500</span>
+        <span class="brand-tag">ÁREA 501 // FLOTA X500 · AIRDROPS &amp; NFT FLIP</span>
       </div>
       <div class="id-card-sub-row">
         <span class="pulse-dot-green" id="liveCloudDot"></span>
@@ -84,8 +84,8 @@
           <span class="badge-tag-tiny badge-cyan" id="workNonceBadge">NONCE AUDITADO</span>
         </div>
         <div class="card-data-main">
-          <span class="metric-big-bold cyan" id="topTotalTxCount">11,152 TXS</span>
-          <span class="metric-sub-detail" id="topLastShiftTxCount">ÚLTIMO TURNO: 58 TXS ✅</span>
+          <span class="metric-big-bold cyan" id="topTotalTxCount">11,389 TXS</span>
+          <span class="metric-sub-detail" id="topLastShiftTxCount">ÚLTIMO TURNO: 59 TXS ✅</span>
         </div>
       </div>
 
@@ -256,11 +256,11 @@
                 <span class="cyan">SEPARADO DE #501</span>
               </div>
               <div class="gas-values-row">
-                <span class="gas-main-val cyan" id="gasFleetMainnetPol">144.80 POL</span>
-                <span class="gas-sub-val" id="gasFleetMainnetBnb">&amp; 0.0382 BNB</span>
+                <span class="gas-main-val cyan" id="gasFleetMainnetPol">300.06 POL</span>
+                <span class="gas-sub-val" id="gasFleetMainnetBnb">&amp; 0.0620 BNB</span>
               </div>
               <div style="font-size: 9px; color: var(--text-muted); margin-top: 2px;">
-                Matriz #501 intacta: 150.48 POL (Piso 150) | Total Flota: <strong class="gold-text" id="gasFleetPolTotal">295.28 POL</strong>
+                Matriz #501 intacta: 155.26 POL (Piso 150) | Total Flota: <strong class="gold-text" id="gasFleetPolTotal">455.32 POL</strong>
               </div>
             </div>
 
@@ -292,20 +292,32 @@
     <div class="col-fleet-center">
 
       <!-- ===================================================================== -->
-      <!-- ZONA 3 (PANEL SUPERIOR): CALENDARIO ANUAL DE AIRDROPS Y SEMILLAS 2026/27 -->
+      <!-- ===================================================================== -->
+      <!-- ZONA 3 (PANEL SUPERIOR): CONMUTADOR CENTRAL AIRDROPS ↔ NFT FLIP (100VH) -->
       <!-- ===================================================================== -->
       <section class="quant-card panel-airdrop-fronts" id="blockAirdropFronts">
-        <div class="quant-card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded gold">event_available</span>
-            <h2 class="card-title">📅 CALENDARIO DE AIRDROPS Y SEMILLAS — RADAR ANUAL 2026/2027</h2>
+        <!-- CABECERA CON CONMUTADOR DE PESTAÑAS EN 1 CLIC -->
+        <div class="quant-card-header panoramic-tabs-header">
+          <div class="panoramic-tabs-wrap">
+            <button class="panoramic-tab-btn active" id="tabBtnAirdrops" onclick="switchPanoramicTab('airdrops')" title="Ver Frentes y Calendario Anual de Airdrops (Fila India X500)">
+              <span class="material-symbols-rounded icon-xs gold">event_available</span>
+              <span>📅 CALENDARIO AIRDROPS &amp; SEMILLAS (FILA INDIA X500)</span>
+              <span class="badge-tag-tiny badge-gold" id="badgeAirdropsCount">5 FRENTES</span>
+            </button>
+            <button class="panoramic-tab-btn" id="tabBtnNftFlip" onclick="switchPanoramicTab('nftflip')" title="Ver Cazador de Free-Mints &amp; Instant NFT Flip (Escolta 2 Nebulosas)">
+              <span class="material-symbols-rounded icon-xs cyan">diamond</span>
+              <span>💎 CAZADOR FREE-MINT &amp; INSTANT NFT FLIP (ESCOLTA 2 NEBULOSAS)</span>
+              <span class="badge-tag-tiny badge-cyan" id="badgeNftCount">6 AUDITADAS</span>
+            </button>
           </div>
-          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+
+          <!-- Controles dinámicos para Pestaña 1 (Airdrops) -->
+          <div class="panoramic-controls-row" id="airdropsControlsRow">
             <span class="badge-tag-tiny badge-bot-oracle" id="botOracleStatusBadge" title="Oráculo Anual con Triple Auditoría (DefiLlama, DexScreener, GoPlus)">
-              🔭 Bot #1 Oráculo Anual: ACTIVO
+              🔭 Bot #1 Oráculo: ACTIVO
             </span>
             <span class="badge-tag-tiny badge-bot-dispatcher" id="botDispatcherStatusBadge" title="Director Táctico de Enrutamiento Dinámico de los 5 Boxes">
-              🧭 Bot #2 Director de Boxes: ENRUTANDO
+              🧭 Bot #2 Director: ENRUTANDO
             </span>
             <button class="filter-pill-btn active" id="btnRefreshRpcs" onclick="refreshRpcPings()" title="Forzar medición en vivo de latencias RPC y auditoría">
               <span class="material-symbols-rounded icon-xs cyan">sync</span>
@@ -313,9 +325,25 @@
             </button>
             <span class="badge-tag-tiny badge-gold" id="badgeTotalFrontsVerified">5/5 BOXES ENRUTADOS</span>
           </div>
+
+          <!-- Controles dinámicos para Pestaña 2 (NFT Flip) -->
+          <div class="panoramic-controls-row" id="nftControlsRow" style="display: none;">
+            <span class="badge-tag-tiny badge-goplus" title="Auditoría GoPlus Security en Contratos de Minteo">
+              🛡️ GOPLUS: 0% TRAMPA
+            </span>
+            <span class="badge-tag-tiny badge-lock-mode" title="Conversión instantánea a USDC Nativo vía Odos SOR v2 directo a Bóveda #501 (Sin micro-depósitos a Binance)">
+              🔒 MiCA LOCK: BÓVEDA #501
+            </span>
+            <button class="filter-pill-btn active" id="btnRefreshNfts" onclick="refreshNftOpportunities()" title="Escanear y auditar liquidez instantánea y collection bids">
+              <span class="material-symbols-rounded icon-xs cyan">radar</span>
+              <span>AUDITAR BIDS</span>
+            </button>
+            <span class="badge-tag-tiny badge-green" id="badgeTotalNftsReady">6/6 BID LISTO</span>
+          </div>
         </div>
 
-        <div class="fronts-table-wrap">
+        <!-- CONTENIDO PESTAÑA CENTRAL 1 (Activa por defecto): CALENDARIO AIRDROPS & SEMILLAS -->
+        <div class="fronts-table-wrap" id="panoramicContentAirdrops">
           <table class="quant-table" id="airdropFrontsTable">
             <thead>
               <tr>
@@ -343,7 +371,7 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
-                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">30 Oct – 15 Nov 2026</div>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">30 Oct ➔ 15 Nov 2026</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
@@ -376,7 +404,7 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
-                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">30 Oct – 20 Nov 2026</div>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">30 Oct ➔ 20 Nov 2026</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
@@ -409,7 +437,7 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD 1</span>
-                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">25 Oct – 20 Nov 2026</div>
+                  <div style="font-size: 8.5px; color: #ff8888; margin-top: 2px;">25 Oct ➔ 20 Nov 2026</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
@@ -442,7 +470,7 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-seed">📅 MEDIA DISTANCIA</span>
-                  <div style="font-size: 8.5px; color: #60a5fa; margin-top: 2px;">Dic 2026 – Feb 2027</div>
+                  <div style="font-size: 8.5px; color: #60a5fa; margin-top: 2px;">Dic 2026 ➔ Feb 2027</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
@@ -475,7 +503,7 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-seed">🌱 SEMILLA ANUAL</span>
-                  <div style="font-size: 8.5px; color: #34d399; margin-top: 2px;">Q1 – Q2 2027</div>
+                  <div style="font-size: 8.5px; color: #34d399; margin-top: 2px;">Q1 ➔ Q2 2027</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-goplus">🛡️ GoPlus: 100% SEGURO</span>
@@ -492,6 +520,44 @@
                   </a>
                 </td>
               </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- CONTENIDO PESTAÑA CENTRAL 2 (Nueva): CAZADOR FREE-MINT & INSTANT NFT FLIP -->
+        <div class="fronts-table-wrap" id="panoramicContentNftFlip" style="display: none;">
+          <!-- Resumen Compacto del Corredor Sigiloso NFT -->
+          <div class="nft-stealth-corridor-bar">
+            <div class="stealth-corridor-left">
+              <span class="corridor-pulse-dot"></span>
+              <span class="corridor-title">CORREDOR SIGILOSO NFT:</span>
+              <span class="corridor-item"><strong>Costo Mint:</strong> <span class="green-text">$0.00 FREE MINT</span></span>
+              <span class="corridor-sep">|</span>
+              <span class="corridor-item"><strong>Regla de Disparo:</strong> <span class="gold">Solo acuña si existe Bid en firme &gt; Gas</span></span>
+              <span class="corridor-sep">|</span>
+              <span class="corridor-item"><strong>Destino:</strong> <span class="cyan">100% Conversión Instantánea a USDC en Bóveda #501</span></span>
+            </div>
+            <div class="stealth-corridor-right">
+              <span class="badge-tag-tiny badge-lock-mode" title="AUTO_SWEEP_TO_BINANCE = false (Acumulación On-Chain Bóveda #501 y Capitanes)">
+                🔒 CERO MICRO-DEPÓSITOS A BINANCE
+              </span>
+            </div>
+          </div>
+
+          <!-- Tabla Táctica Compacta de 6 Oportunidades Auditadas en Vivo -->
+          <table class="quant-table" id="nftFlipTable">
+            <thead>
+              <tr>
+                <th style="width: 22%;">COLECCIÓN / RECURSO WEB3</th>
+                <th style="width: 17%;">RED &amp; CONTRATO AUDITADO</th>
+                <th style="width: 18%;">COSTO MINT VS. BID ACTIVO (USDC)</th>
+                <th style="width: 15%;">SPREAD NETO / X500 BOTS</th>
+                <th style="width: 16%;">ESCOLTA IA (2 NEBULOSAS)</th>
+                <th style="width: 12%;">ESTADO OPERATIVO</th>
+              </tr>
+            </thead>
+            <tbody id="nftFlipTbody">
+              <!-- Renderizado dinámico en vivo desde app.js -->
             </tbody>
           </table>
         </div>
@@ -585,10 +651,10 @@
         <span class="dock-label">SNIPING ATÓMICO</span>
       </a>
 
-      <!-- 2. Flota X500 (Activo) -->
-      <a href="./" class="dock-module-btn active" id="dockBtnFlota" title="Cabina Cuantitativa de la Flota X500 (500 Satélites)">
+      <!-- 2. Flota X500 · Airdrops & NFT Flip (Activo) -->
+      <a href="./" class="dock-module-btn active" id="dockBtnFlota" title="Cabina Cuantitativa de la Flota X500 (500 Satélites · Airdrops &amp; NFT Flip)">
         <span class="dock-module-icon">🪖</span>
-        <span class="dock-label">FLOTA X500</span>
+        <span class="dock-label">FLOTA X500 · AIRDROPS &amp; NFT FLIP</span>
       </a>
 
       <!-- 3. Trading Cuantitativo -->
