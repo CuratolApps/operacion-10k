@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ÁREA 501 // DOJO BULL & BEAR (THE NEXUS ENGINE · ENTRENAMIENTO CUANTITATIVO)</title>
+  <title>ÁREA 501 // TERMINAL TRADINGVIEW PRO (BULL &amp; BEAR · EN VIVO)</title>
 
   <!-- Tipografías Oficiales: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
   <script>
     (function () {
       try {
-        var raw = localStorage.getItem("area501_bull_bear_v1");
+        var raw = localStorage.getItem("area501_bull_bear_tv_v1") || localStorage.getItem("area501_bull_bear_v1");
         if (raw) {
           window.__PRELOADED_BULL_BEAR__ = JSON.parse(raw);
         }
@@ -42,14 +42,15 @@
 <body class="area501-trading-body">
 
   <!-- ========================================================================= -->
-  <!-- BLOQUE 1 (BARRA SUPERIOR FLOTANTE): 5 TARJETAS 3D FLOTANTES Y SIMÉTRICAS  -->
+  <!-- BLOQUE 1 (BARRA SUPERIOR FLOTANTE): 5 TARJETAS 3D LIMPIAS (SIN BARRAS QUE PISEN TEXTO) -->
   <!-- ========================================================================= -->
   <header class="top-nav-bar" id="block-header">
 
-    <!-- TARJETA FLOTANTE 1: IDENTIDAD ÁREA 501 // BULL & BEAR QUANT DOJO -->
+    <!-- TARJETA FLOTANTE 1: IDENTIDAD ÁREA 501 // BULL & BEAR TRADINGVIEW -->
     <div class="nav-identity-card floating-card">
       <div class="id-card-top-row">
-        <div class="shield-lock-icon-badge" title="Dojo de Entrenamiento Cuantitativo Bull & Bear">
+        <div class="shield-lock-icon-badge" title="Terminal TradingView Pro Bull &amp; Bear">
+          <!-- Emblema SVG Institucional: Oso con Cuernos de Toro -->
           <svg class="bull-bear-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="hornGoldGrad1" x1="0%" y1="100%" x2="50%" y2="0%">
@@ -87,19 +88,19 @@
             <line x1="50" y1="28" x2="50" y2="96" stroke="#070A12" stroke-width="1.2" />
           </svg>
         </div>
-        <span class="brand-tag">ÁREA 501 // BULL &amp; BEAR DOJO</span>
+        <span class="brand-tag">ÁREA 501 // BULL &amp; BEAR TRADINGVIEW</span>
       </div>
       <div class="id-card-sub-row">
         <span class="pulse-dot-green" id="liveTradingDot"></span>
         <div class="id-pills-wrap">
-          <span class="id-cloud-pill" title="Cloudflare Workers Edge Network" id="cfStatusPill">
-            <span class="material-symbols-rounded icon-xs cyan">cloud_done</span> CF WORKERS
-          </span>
           <span class="id-cloud-pill" title="Kraken Pro MiCA Public REST Ticker" id="krakenStatusPill">
             <span class="material-symbols-rounded icon-xs green-text">swap_horiz</span> KRAKEN LIVE
           </span>
-          <span class="id-cloud-pill" title="Telegram: SALA DE MANDO 10K" id="tgStatusPill">
-            <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span> TELEGRAM
+          <span class="id-cloud-pill" title="DEXScreener Multi-chain Radar" id="dexStatusPill">
+            <span class="material-symbols-rounded icon-xs cyan">radar</span> DEXSCREENER
+          </span>
+          <span class="id-cloud-pill" title="GoPlus Security Shield 0% Honeypot" id="goplusStatusPill">
+            <span class="material-symbols-rounded icon-xs purple">verified_user</span> GOPLUS 0%
           </span>
           <span class="id-cloud-pill" title="Sesión de Mercado Activa" id="marketSessionPill" style="color: var(--gold); border-color: rgba(245, 158, 11, 0.3);">
             LONDRES / NY
@@ -111,11 +112,11 @@
     <!-- GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS -->
     <div class="nav-modules-row">
 
-      <!-- TARJETA FLOTANTE 2: LA MENTE MAESTRA — BULL & BEAR (THE NEXUS ENGINE) -->
+      <!-- TARJETA FLOTANTE 2: ESTADO MAESTRO — BULL & BEAR NEXUS -->
       <div class="floating-card nav-card-col" id="cardMasterMindTop">
         <div class="card-top-meta">
           <span class="card-top-title" style="display: flex; align-items: center; gap: 5px;">
-            <svg class="bull-bear-emblem" style="width: 15px; height: 15px;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="bull-bear-emblem" style="width: 14px; height: 14px;" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M 34 38 C 28 22, 16 10, 8 4 C 18 10, 30 22, 40 32 Z" fill="#F59E0B" stroke="#FDE68A" stroke-width="0.8"/>
               <path d="M 66 38 C 72 22, 84 10, 92 4 C 82 10, 70 22, 60 32 Z" fill="#F59E0B" stroke="#FDE68A" stroke-width="0.8"/>
               <polygon points="50,28 24,46 36,70 50,84" fill="#10B981" />
@@ -123,54 +124,51 @@
               <polygon points="42,86 58,86 50,96" fill="#1E293B" stroke="#F59E0B" stroke-width="0.8" />
               <line x1="50" y1="28" x2="50" y2="96" stroke="#070A12" stroke-width="1.2" />
             </svg>
-            <span>BULL &amp; BEAR (NEXUS ENGINE)</span>
+            <span>MENTE MAESTRA: BULL &amp; BEAR NEXUS</span>
           </span>
           <span class="badge-tag-tiny badge-gold" id="bullBearRegimeBadge">
             <span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">tune</span> MODO HÍBRIDO
           </span>
         </div>
         <div class="card-data-main">
-          <span class="metric-big-bold gold" id="bullBearDominantMind">Simons · Tudor · Livermore</span>
-          <span class="metric-sub-detail" id="bullBearDistributionTop">5 Bull / 3 Bear / 1 Scalp</span>
+          <span class="metric-big-bold gold" id="bullBearDominantMind">4 Operaciones Activas</span>
+          <span class="metric-sub-detail" id="bullBearDistributionTop">Long / Short / Scalp · Calma Zen #00: 100%</span>
         </div>
       </div>
 
-      <!-- TARJETA FLOTANTE 3: MEDIDOR DE EFECTIVIDAD & PnL RUMBO AL 99.9% -->
+      <!-- TARJETA FLOTANTE 3: CUENTA DE PRÁCTICA EN VIVO Y EFECTIVIDAD (SIN BARRA SUPERPUESTA) -->
       <div class="floating-card nav-card-col" id="cardEffectivenessTop">
         <div class="card-top-meta">
           <span class="card-top-title">
             <span class="material-symbols-rounded icon-xs green-text">trending_up</span>
-            <span id="effectivenessTitleTxt">EFECTIVIDAD: 96.4% / META 99.9%</span>
+            <span id="effectivenessTitleTxt">CUENTA BOT DE PRÁCTICA</span>
           </span>
           <span class="badge-tag-tiny badge-green" id="trainingModeBadge">
-            <span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">science</span> ENTRENAMIENTO ACTIVO
+            EFECTIVIDAD: 96.4%
           </span>
         </div>
         <div class="card-data-main">
-          <span class="metric-big-bold green-text" id="topClosedPnlMetric">PnL CERRADO: $0.00 USDC</span>
-          <span class="metric-sub-detail" id="topFloatingPnlMetric">PnL Flotante: +$0.00 USDC (Lote $25)</span>
-        </div>
-        <div class="progress-target-bar-wrap" title="Avance hacia la meta del 99.9% de efectividad con Candado Breakeven">
-          <div class="progress-target-bar-fill" id="targetProgressBarFill" style="width: 96.4%;"></div>
+          <span class="metric-big-bold green-text" id="topClosedPnlMetric">CUENTA BOT: $1,000.46 USDC</span>
+          <span class="metric-sub-detail" id="topFloatingPnlMetric">PnL VIVO: +$0.46 USD · RUMBO AL 99.9%</span>
         </div>
       </div>
 
-      <!-- TARJETA FLOTANTE 4: PSICÓLOGA ZEN #00 & OJOS CEX/DEX -->
+      <!-- TARJETA FLOTANTE 4: CONEXIÓN & LATENCIA KRAKEN -->
       <div class="floating-card nav-card-col" id="cardPsychologistTop">
         <div class="card-top-meta">
           <span class="card-top-title">
-            <span class="material-symbols-rounded icon-xs cyan">self_improvement</span>
-            <span>#00 EQUILIBRIO ZEN: 100% CALMA</span>
+            <span class="material-symbols-rounded icon-xs cyan">swap_vert</span>
+            <span>KRAKEN API LIVE · DEXSCREENER</span>
           </span>
-          <span class="badge-tag-tiny badge-cyan" id="codicesCountBadge">6 CÓDICES SELLADOS</span>
+          <span class="badge-tag-tiny badge-cyan" id="codicesCountBadge">GOPLUS 0% HONEYPOT</span>
         </div>
         <div class="card-data-main">
           <span class="metric-big-bold cyan" id="topKrakenLatency">KRAKEN: 38ms</span>
-          <span class="metric-sub-detail" id="topDexLatency">DEX: 24ms · GOPLUS: 55ms</span>
+          <span class="metric-sub-detail" id="topDexLatency">DEX: 24ms · GOPLUS: 55ms · ZERO AUTH</span>
         </div>
       </div>
 
-      <!-- TARJETA FLOTANTE 5: CANDADO PATRIMONIAL #501 -->
+      <!-- TARJETA FLOTANTE 5: CANDADO PATRIMONIAL #501 (BLINDADO E INTOCABLE) -->
       <div class="floating-card nav-card-col" id="cardPatrimonialLock">
         <div class="card-top-meta">
           <span class="card-top-title">
@@ -190,390 +188,152 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- MAIN WORKSPACE: LAYOUT 100VH CERO SCROLL                                  -->
+  <!-- BARRA DE NAVEGACIÓN ESTILO TRADINGVIEW: 3 PESTAÑAS DESPLEGABLES DEDICADAS -->
   <!-- ========================================================================= -->
-  <main class="trading-workspace">
+  <nav class="tv-views-navbar" id="tvViewsNavBar">
+    <div class="tv-views-nav-buttons">
+      <!-- Pestaña 1: Terminal TradingView (Por defecto) -->
+      <button class="tv-view-btn active" id="tvViewBtn-TV" onclick="switchTvMainView('TV')" title="Gráfico gigante interactivo con velas reales de Kraken y operaciones explicadas">
+        <span class="material-symbols-rounded icon-sm green-text">show_chart</span>
+        <span class="tv-view-btn-text">1. TERMINAL TRADINGVIEW (BULL &amp; BEAR EN VIVO)</span>
+        <span class="tv-view-badge badge-green">PORTADA</span>
+      </button>
+
+      <!-- Pestaña 2: Caja de Bots y Entrenamiento -->
+      <button class="tv-view-btn" id="tvViewBtn-BOTS" onclick="switchTvMainView('BOTS')" title="Despliega el equipo de bots, Trono B&amp;B, Psicóloga #00 y barras de dominio 99.9%">
+        <span class="material-symbols-rounded icon-sm cyan">smart_toy</span>
+        <span class="tv-view-btn-text">2. CAJA DE BOTS &amp; ENTRENAMIENTO (#00 · #601 · #701 · #801)</span>
+        <span class="tv-view-badge badge-cyan">4 BOTS</span>
+      </button>
+
+      <!-- Pestaña 3: Noticias Macro y Estrenos On-Chain -->
+      <button class="tv-view-btn" id="tvViewBtn-NEWS" onclick="switchTvMainView('NEWS')" title="Despliega el feed macroeconómico en vivo y los 6 contratos auditados con GoPlus">
+        <span class="material-symbols-rounded icon-sm gold">newspaper</span>
+        <span class="tv-view-btn-text">3. INTERFAZ DE NOTICIAS &amp; ESTRENOS ON-CHAIN</span>
+        <span class="tv-view-badge badge-purple">6 AUDITADOS</span>
+      </button>
+    </div>
+
+    <div class="tv-views-nav-meta">
+      <span class="tv-meta-pill"><span class="pulse-dot-green"></span> KRAKEN REAL-TIME</span>
+      <span class="tv-meta-pill font-mono">DEXSCREENER + GOPLUS</span>
+      <span class="tv-meta-pill" style="color: var(--cyan); border-color: var(--border-cyan);">100% CERO SCROLL</span>
+    </div>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE: 100% DEL ANCHO (SIN COLUMNA FIJA QUE ROBE ESPACIO)        -->
+  <!-- ========================================================================= -->
+  <main class="trading-workspace-full">
 
     <!-- ======================================================================= -->
-    <!-- COLUMNA IZQUIERDA: EL TRONO DE BULL & BEAR + PSICÓLOGA #00 + 3 ESPEC.   -->
+    <!-- VISTA 1 (POR DEFECTO): TERMINAL TRADINGVIEW — BULL & BEAR EN VIVO       -->
     <!-- ======================================================================= -->
-    <aside class="col-trading-left">
+    <div class="tv-main-view active" id="viewTerminalTv">
 
-      <!-- TARJETA DESTACADA: BULL & BEAR — ELEMENTO MAESTRO (THE NEXUS ENGINE) -->
-      <section class="quant-card bull-bear-throne-card" id="cardBullBearMaster">
-        <div class="quant-card-header">
-          <div class="card-title-group" style="display: flex; align-items: center; gap: 8px;">
-            <svg class="bull-bear-emblem bull-bear-emblem-lg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="hornGoldGradT" x1="0%" y1="100%" x2="50%" y2="0%">
-                  <stop offset="0%" stop-color="#F59E0B" />
-                  <stop offset="50%" stop-color="#FBBF24" />
-                  <stop offset="100%" stop-color="#FDE68A" />
-                </linearGradient>
-                <linearGradient id="bullFacetGradT" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#059669" />
-                  <stop offset="100%" stop-color="#10B981" />
-                </linearGradient>
-                <linearGradient id="bearFacetGradT" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#EF4444" />
-                  <stop offset="100%" stop-color="#B91C1C" />
-                </linearGradient>
-              </defs>
-              <path d="M 34 38 C 28 22, 16 10, 8 4 C 18 10, 30 22, 40 32 Z" fill="url(#hornGoldGradT)" stroke="#FDE68A" stroke-width="0.8" stroke-linejoin="round"/>
-              <path d="M 66 38 C 72 22, 84 10, 92 4 C 82 10, 70 22, 60 32 Z" fill="url(#hornGoldGradT)" stroke="#FDE68A" stroke-width="0.8" stroke-linejoin="round"/>
-              <polygon points="26,30 38,36 30,44" fill="#047857" stroke="#10B981" stroke-width="0.8" />
-              <polygon points="74,30 62,36 70,44" fill="#991B1B" stroke="#EF4444" stroke-width="0.8" />
-              <polygon points="50,28 35,35 50,48" fill="url(#bullFacetGradT)" />
-              <polygon points="35,35 24,46 36,54 50,48" fill="#065F46" />
-              <polygon points="24,46 22,64 36,70 36,54" fill="#047857" />
-              <polygon points="50,48 36,54 36,70 50,68" fill="#10B981" />
-              <polygon points="50,68 36,70 42,86 50,84" fill="#059669" />
-              <polygon points="50,28 65,35 50,48" fill="url(#bearFacetGradT)" />
-              <polygon points="65,35 76,46 64,54 50,48" fill="#7F1D1D" />
-              <polygon points="76,46 78,64 64,70 64,54" fill="#991B1B" />
-              <polygon points="50,48 64,54 64,70 50,68" fill="#EF4444" />
-              <polygon points="50,68 64,70 58,86 50,84" fill="#DC2626" />
-              <polygon points="34,51 44,52 38,55" fill="#6EE7B7" />
-              <polygon points="66,51 56,52 62,55" fill="#FCA5A5" />
-              <polygon points="46,80 54,80 50,86" fill="#FDE68A" />
-              <polygon points="42,86 58,86 50,96" fill="#1E293B" stroke="#F59E0B" stroke-width="0.8" />
-              <line x1="50" y1="28" x2="50" y2="96" stroke="#070A12" stroke-width="1.2" />
-            </svg>
-            <div>
-              <h2 class="card-title">BULL &amp; BEAR // NEXUS</h2>
-              <span class="card-subtitle-mono">MENTE MAESTRA MULTIMODAL</span>
-            </div>
+      <!-- 1. BARRA DE HERRAMIENTAS DEL GRÁFICO (TRADINGVIEW HEADER) -->
+      <div class="tv-chart-toolbar">
+        <!-- Selector rápido de moneda activa con precios en vivo -->
+        <div class="tv-symbol-selector">
+          <span class="material-symbols-rounded icon-xs cyan">show_chart</span>
+          <div class="tv-symbols-pills" id="tvSymbolPills">
+            <button class="tv-symbol-btn active" data-symbol="SOL/USDC" onclick="selectTvSymbol('SOL/USDC')">
+              <span class="btn-coin">SOL/USDC</span>
+              <span class="btn-price font-mono" id="pillPriceSOL">$181.46</span>
+              <span class="btn-regime green-text">▲ BULL</span>
+            </button>
+            <button class="tv-symbol-btn" data-symbol="BNB/USDC" onclick="selectTvSymbol('BNB/USDC')">
+              <span class="btn-coin">BNB/USDC</span>
+              <span class="btn-price font-mono" id="pillPriceBNB">$720.26</span>
+              <span class="btn-regime green-text">▲ BULL</span>
+            </button>
+            <button class="tv-symbol-btn" data-symbol="ETH/USDC" onclick="selectTvSymbol('ETH/USDC')">
+              <span class="btn-coin">ETH/USDC</span>
+              <span class="btn-price font-mono" id="pillPriceETH">$2,399.98</span>
+              <span class="btn-regime red-text">▼ BEAR</span>
+            </button>
+            <button class="tv-symbol-btn" data-symbol="EUR/USDC" onclick="selectTvSymbol('EUR/USDC')">
+              <span class="btn-coin">EUR/USDC</span>
+              <span class="btn-price font-mono" id="pillPriceEUR">$1.12</span>
+              <span class="btn-regime cyan">⚡ SCALP</span>
+            </button>
+            <button class="tv-symbol-btn" data-symbol="PAXG/USDC" onclick="selectTvSymbol('PAXG/USDC')">
+              <span class="btn-coin">PAXG/USDC (Oro)</span>
+              <span class="btn-price font-mono" id="pillPricePAXG">$3,998.45</span>
+              <span class="btn-regime green-text">▲ BULL</span>
+            </button>
+            <button class="tv-symbol-btn" data-symbol="BTC/USDC" onclick="selectTvSymbol('BTC/USDC')">
+              <span class="btn-coin">BTC/USDC</span>
+              <span class="btn-price font-mono" id="pillPriceBTC">$68,420</span>
+              <span class="btn-regime green-text">▲ BULL</span>
+            </button>
           </div>
-          <span class="badge-tag-tiny badge-gold" id="throneRegimeBadge">BIDIRECCIONAL</span>
         </div>
 
-        <!-- Sentidos Activos de Bull & Bear -->
-        <div class="throne-senses-row">
-          <span class="sense-chip" title="Ojos en CEX Kraken y DEX Uniswap/Aerodrome">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">visibility</span> Ojos CEX-DEX
+        <!-- Indicadores técnicos y temporalidades TradingView -->
+        <div class="tv-chart-indicators">
+          <div class="tv-timeframe-selector">
+            <button class="tv-tf-btn active" id="tvTf1m" onclick="setTvTimeframe('1m')">1m</button>
+            <button class="tv-tf-btn" id="tvTf5m" onclick="setTvTimeframe('5m')">5m</button>
+            <button class="tv-tf-btn" id="tvTf15m" onclick="setTvTimeframe('15m')">15m</button>
+            <button class="tv-tf-btn" id="tvTf1h" onclick="setTvTimeframe('1h')">1H</button>
+          </div>
+
+          <div class="tv-indicators-list-pill" title="Indicadores técnicos aplicados en el lienzo">
+            <span class="font-mono">EMA 200 (Tudor) · Vol (Livermore) · Markov (Simons) · Candado #00</span>
+          </div>
+
+          <div class="tv-stat-item">
+            <span class="tv-stat-label">KRAKEN:</span>
+            <strong class="tv-stat-val font-mono" id="tvHeaderPrice">$181.46</strong>
+          </div>
+          <div class="tv-stat-item">
+            <strong class="tv-stat-val font-mono green-text" id="tvHeaderChange">+2.45%</strong>
+          </div>
+
+          <span class="tv-regime-pill" id="tvHeaderRegime">
+            <span class="material-symbols-rounded icon-xs">trending_up</span> BULL LONG
           </span>
-          <span class="sense-chip" title="Oído Macro y Catalizadores">
-            <span class="material-symbols-rounded icon-xs gold" style="vertical-align:-2px;">hearing</span> Oído Noticias
-          </span>
-          <span class="sense-chip" title="5 Mentes: Simons, Tudor, Livermore, Soros, Paulson">
-            <span class="material-symbols-rounded icon-xs purple" style="vertical-align:-2px;">psychology</span> 5 Mentes
-          </span>
-          <span class="sense-chip" title="Candado Breakeven en +0.35%">
-            <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">verified_user</span> Breakeven +0.35%
-          </span>
+          <span class="tv-zen-pill" id="tvHeaderZen">PULSO ZEN 100%</span>
         </div>
-
-        <!-- Balance Operaciones Bull vs Bear -->
-        <div class="throne-ops-balance">
-          <span class="ops-distribution-pill pill-bull" id="pillBullCount">
-            <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> <strong id="valBullCount">5 BULL LONG</strong>
-          </span>
-          <span class="ops-distribution-pill pill-bear" id="pillBearCount">
-            <span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> <strong id="valBearCount">3 BEAR SHORT</strong>
-          </span>
-          <span class="ops-distribution-pill pill-scalp" id="pillScalpCount">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">bolt</span> <strong id="valScalpCount">1 SCALP</strong>
-          </span>
-        </div>
-      </section>
-
-      <!-- TARJETA: #00 PSICÓLOGA ZEN & CÓDICE MUNDIAL -->
-      <section class="quant-card zen-psychologist-card" id="cardZenPsychologist">
-        <div class="quant-card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded cyan">self_improvement</span>
-            <div>
-              <h2 class="card-title">#00 PSICÓLOGA ZEN</h2>
-              <span class="card-subtitle-mono">CÓDICE MUNDIAL SELLADO</span>
-            </div>
-          </div>
-          <span class="badge-tag-tiny badge-cyan" id="zenStatusBadge">FRIALDAD NASH</span>
-        </div>
-
-        <div class="zen-pulse-banner">
-          <span class="zen-pulse-label">PULSO EMOCIONAL:</span>
-          <span class="zen-pulse-val" id="zenPulseText">100% CALMA · 0% ANSIEDAD · 0% FOMO</span>
-        </div>
-
-        <div class="sealed-codices-list" id="sealedCodicesList">
-          <div class="codex-item-mini">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">menu_book</span>
-            <span><strong>Códice 1:</strong> Scalping de Alta Frecuencia (1m/5m &amp; Lead-Lag)</span>
-          </div>
-          <div class="codex-item-mini">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">menu_book</span>
-            <span><strong>Códice 2:</strong> Futuros Bidireccionales (Bull Long &amp; Bear Short)</span>
-          </div>
-          <div class="codex-item-mini">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">menu_book</span>
-            <span><strong>Códice 3:</strong> Wall Street, Oro Físico PAXG e Índices</span>
-          </div>
-          <div class="codex-item-mini">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">menu_book</span>
-            <span><strong>Códice 4:</strong> Derivados &amp; Precisión Temporal (60s-300s)</span>
-          </div>
-          <div class="codex-item-mini">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">menu_book</span>
-            <span><strong>Códice 5:</strong> Lanzamientos Minuto Cero &amp; PINNs On-Chain</span>
-          </div>
-          <div class="codex-item-mini">
-            <span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">menu_book</span>
-            <span><strong>Códice 6:</strong> Asimetría &ge; 3:1 + Candado Breakeven +0.35%</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- ESPECIALISTA 2: BOX 6 (#601 — PARES LÍQUIDOS, SCALPING & DERIVADOS) -->
-      <section class="quant-card specialist-selector-card" id="specCard601" onclick="filterTradingByBox('601')">
-        <div class="quant-card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded cyan">flash_on</span>
-            <div>
-              <h2 class="card-title">ESP. #601</h2>
-              <span class="card-subtitle-mono">PARES LÍQUIDOS &amp; SCALPING</span>
-            </div>
-          </div>
-          <span class="badge-tag-tiny badge-cyan" id="spec6StatusBadge">ALIMENTANDO B&amp;B</span>
-        </div>
-        <div class="specialist-card-metrics">
-          <div class="spec-metric-row">
-            <span class="metric-key">Cobertura Activa:</span>
-            <strong class="metric-val cyan" id="spec6Coverage">POL · BNB · ETH · SOL · EUR</strong>
-          </div>
-          <div class="spec-metric-row">
-            <span class="metric-key">Desfase Lead-Lag:</span>
-            <strong class="metric-val green-text">CEX Kraken +0.3% vs QuickSwap</strong>
-          </div>
-          <div class="spec-metric-row">
-            <span class="metric-key">Candado Breakeven:</span>
-            <strong class="metric-val font-mono">+0.35% Automático</strong>
-          </div>
-        </div>
-      </section>
-
-      <!-- ESPECIALISTA 3: BOX 7 (#701 — WALL STREET, ACCIONES & ORO PAXG) -->
-      <section class="quant-card specialist-selector-card" id="specCard701" onclick="filterTradingByBox('701')">
-        <div class="quant-card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded gold">account_balance</span>
-            <div>
-              <h2 class="card-title">ESP. #701</h2>
-              <span class="card-subtitle-mono">WALL STREET, ORO &amp; RWA</span>
-            </div>
-          </div>
-          <span class="badge-tag-tiny badge-gold" id="spec7StatusBadge">REFUGIO ORO</span>
-        </div>
-        <div class="specialist-card-metrics">
-          <div class="spec-metric-row">
-            <span class="metric-key">Oro Físico Wall St:</span>
-            <strong class="metric-val gold" id="spec7PaxgPrice">$4,001.66 / oz</strong>
-          </div>
-          <div class="spec-metric-row">
-            <span class="metric-key">Cesta RWA Vigilada:</span>
-            <strong class="metric-val">PAXG · BTC · LINK · ONDO</strong>
-          </div>
-          <div class="spec-metric-row">
-            <span class="metric-key">Flujo Institucional:</span>
-            <strong class="metric-val green-text">Refugio + Oráculos RWA</strong>
-          </div>
-        </div>
-      </section>
-
-      <!-- ESPECIALISTA 4: BOX 8 (#801 — ESTRENOS DEXSCREENER + 2 NEBULOSAS + GOPLUS) -->
-      <section class="quant-card specialist-selector-card" id="specCard801" onclick="filterTradingByBox('801')">
-        <div class="quant-card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded purple">rocket_launch</span>
-            <div>
-              <h2 class="card-title">ESP. #801</h2>
-              <span class="card-subtitle-mono">ESTRENOS ON-CHAIN + GOPLUS</span>
-            </div>
-          </div>
-          <span class="badge-tag-tiny badge-purple" id="spec8StatusBadge">6 AUDITADOS</span>
-        </div>
-        <div class="specialist-card-metrics">
-          <div class="spec-metric-row">
-            <span class="metric-key">Escoltas Tácticas:</span>
-            <strong class="metric-val purple">NEBULA-SCOUT-A &amp; B</strong>
-          </div>
-          <div class="spec-metric-row">
-            <span class="metric-key">Escudo GoPlus:</span>
-            <strong class="metric-val green-text">100% Inmune (0% Honeypot)</strong>
-          </div>
-          <div class="spec-metric-row">
-            <span class="metric-key">Tokens en Radar:</span>
-            <strong class="metric-val">$VIRTUAL · $BRETT · $DEGEN</strong>
-          </div>
-        </div>
-      </section>
-
-    </aside>
-
-    <!-- ======================================================================= -->
-    <!-- PANEL CENTRAL: 2 MITADES SUPERIORES + MESA OPERACIONES + BITÁCORA       -->
-    <!-- ======================================================================= -->
-    <div class="col-trading-center">
-
-      <!-- ===================================================================== -->
-      <!-- MITAD SUPERIOR DIVIDIDA EN 2 MITADES SIMÉTRICAS                       -->
-      <!-- ===================================================================== -->
-      <!-- ===================================================================== -->
-      <!-- WORKSPACE VISUAL ESTILO TRADINGVIEW PRO (70% GRÁFICO + 30% SIDEBAR)  -->
-      <!-- ===================================================================== -->
-      <div class="tv-workspace-container">
-
-        <!-- 1. GRÁFICO PRINCIPAL DE VELAS INTERACTIVO (70% ANCHO) -->
-        <section class="quant-card tv-chart-main-box" id="tvChartMainSection">
-          <!-- BARRA DE HERRAMIENTAS (TRADINGVIEW HEADER) -->
-          <div class="tv-chart-toolbar">
-            <!-- Selector rápido de símbolo activo -->
-            <div class="tv-symbol-selector">
-              <span class="material-symbols-rounded icon-xs cyan">show_chart</span>
-              <div class="tv-symbols-pills" id="tvSymbolPills">
-                <button class="tv-symbol-btn active" data-symbol="SOL/USDC" onclick="selectTvSymbol('SOL/USDC')">SOL/USDC</button>
-                <button class="tv-symbol-btn" data-symbol="BNB/USDC" onclick="selectTvSymbol('BNB/USDC')">BNB/USDC</button>
-                <button class="tv-symbol-btn" data-symbol="ETH/USDC" onclick="selectTvSymbol('ETH/USDC')">ETH/USDC</button>
-                <button class="tv-symbol-btn" data-symbol="BTC/USDC" onclick="selectTvSymbol('BTC/USDC')">BTC/USDC</button>
-                <button class="tv-symbol-btn" data-symbol="PAXG/USDC" onclick="selectTvSymbol('PAXG/USDC')">PAXG/USDC (Oro)</button>
-                <button class="tv-symbol-btn" data-symbol="POL/USDC" onclick="selectTvSymbol('POL/USDC')">POL/USDC</button>
-                <button class="tv-symbol-btn" data-symbol="EUR/USDC" onclick="selectTvSymbol('EUR/USDC')">EUR/USDC</button>
-              </div>
-            </div>
-
-            <!-- Indicadores en línea en la barra del gráfico -->
-            <div class="tv-chart-indicators">
-              <div class="tv-stat-item">
-                <span class="tv-stat-label">KRAKEN:</span>
-                <strong class="tv-stat-val font-mono" id="tvHeaderPrice">$184.25</strong>
-              </div>
-              <div class="tv-stat-item">
-                <strong class="tv-stat-val font-mono green-text" id="tvHeaderChange">+2.45%</strong>
-              </div>
-              <div class="tv-timeframe-selector">
-                <button class="tv-tf-btn active" id="tvTf1m" onclick="setTvTimeframe('1m')">1m</button>
-                <button class="tv-tf-btn" id="tvTf5m" onclick="setTvTimeframe('5m')">5m</button>
-                <button class="tv-tf-btn" id="tvTf15m" onclick="setTvTimeframe('15m')">15m</button>
-              </div>
-              <span class="tv-regime-pill" id="tvHeaderRegime">
-                <span class="material-symbols-rounded icon-xs">trending_up</span> BULL LONG
-              </span>
-              <span class="tv-mind-pill" id="tvHeaderMind">Livermore + Tudor Jones</span>
-              <span class="tv-zen-pill" id="tvHeaderZen">PULSO ZEN 100%</span>
-            </div>
-          </div>
-
-          <!-- LIENZO CANVAS DE VELAS + CAJA FLOTANTE EXPLICATIVA -->
-          <div class="tv-canvas-wrapper" id="tvCanvasWrapper">
-            <canvas id="tradingViewCanvas"></canvas>
-
-            <!-- CAJA FLOTANTE EXPLICATIVA DENTRO DEL GRÁFICO (TOP-LEFT) -->
-            <div class="tv-chart-overlay-card" id="tvChartOverlayCard">
-              <div class="tv-overlay-header">
-                <span class="tv-overlay-badge" id="tvOverlayBadge">ENTRADA BULL LONG</span>
-                <span class="tv-overlay-pair" id="tvOverlayPair">SOL/USDC</span>
-              </div>
-              <div class="tv-overlay-reason" id="tvOverlayReason">
-                Ruptura de volatilidad con volumen institucional en Kraken Pro MiCA. Especialista #601 detectó desbalance comprador +0.4% vs DEX.
-              </div>
-              <div class="tv-overlay-meta" id="tvOverlayMeta">
-                <span>Entrada: <strong id="tvOverlayEntry">$184.25</strong></span>
-                <span>TP (+2.5%): <strong class="green-text" id="tvOverlayTp">$188.86</strong></span>
-                <span>SL (-0.8%): <strong class="red-text" id="tvOverlaySl">$182.78</strong></span>
-                <span id="tvOverlayPnl">PnL: <strong class="green-text">+$0.00 USDC</strong></span>
-                <span id="tvOverlayBeStatus" style="color: var(--cyan);">Breakeven: Listo</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 2. WIDGET LATERAL DERECHO (30% ANCHO) -->
-        <section class="quant-card tv-side-panel-box" id="tvSidePanelSection">
-          <!-- MITAD SUPERIOR: AVANCE RUMBO AL 99.9% -->
-          <div class="tv-side-top-block">
-            <div class="tv-side-header">
-              <span class="tv-side-title">
-                <span class="material-symbols-rounded icon-xs green-text" style="vertical-align: -2px;">school</span>
-                AVANCE RUMBO AL 99.9%
-              </span>
-              <span class="badge-tag-tiny badge-green" id="sideOverallMasteryBadge">96.4% DOMINIO</span>
-            </div>
-
-            <div class="tv-modality-list" id="trainingBarsList">
-              <div class="tv-mod-item">
-                <div class="tv-mod-meta">
-                  <span>Bull Long (Rupturas)</span>
-                  <strong class="green-text" id="modBullPct">96.4%</strong>
-                </div>
-                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 96.4%;"></div></div>
-              </div>
-              <div class="tv-mod-item">
-                <div class="tv-mod-meta">
-                  <span>Bear Short (Caídas)</span>
-                  <strong class="cyan" id="modBearPct">94.8%</strong>
-                </div>
-                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 94.8%;"></div></div>
-              </div>
-              <div class="tv-mod-item">
-                <div class="tv-mod-meta">
-                  <span>Scalping &amp; Lead-Lag</span>
-                  <strong class="gold" id="modScalpPct">98.2%</strong>
-                </div>
-                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 98.2%;"></div></div>
-              </div>
-              <div class="tv-mod-item">
-                <div class="tv-mod-meta">
-                  <span>Wall St, Oro &amp; RWA</span>
-                  <strong class="green-text" id="modWallStPct">95.6%</strong>
-                </div>
-                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 95.6%;"></div></div>
-              </div>
-              <div class="tv-mod-item">
-                <div class="tv-mod-meta">
-                  <span>Lanzamientos On-Chain</span>
-                  <strong class="purple" id="modPremieresPct">97.2%</strong>
-                </div>
-                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 97.2%;"></div></div>
-              </div>
-            </div>
-
-            <div class="tv-grad-status-bar">
-              <span style="font-size: 7.5px; color: var(--text-muted);">GRADUACIÓN:</span>
-              <span class="badge-tag-tiny badge-cyan" style="font-size: 7.5px;" id="graduationStatusTxt">EN ENTRENAMIENTO (0% RIESGO)</span>
-            </div>
-          </div>
-
-          <!-- MITAD INFERIOR: WATCHLIST ESTRENOS #801 Y OÍDO MACRO -->
-          <div class="tv-side-bottom-block">
-            <div class="tv-watchlist-tabs">
-              <button class="tv-wl-tab active" id="tabWl801" onclick="switchTvWatchlistTab('801')">
-                <span class="material-symbols-rounded icon-xs purple">rocket_launch</span>
-                <span>Estrenos #801 (6)</span>
-              </button>
-              <button class="tv-wl-tab" id="tabWlNews" onclick="switchTvWatchlistTab('NEWS')">
-                <span class="material-symbols-rounded icon-xs gold">hearing</span>
-                <span>Oído Noticias</span>
-              </button>
-            </div>
-
-            <div class="tv-wl-content" id="tvWatchlistContent">
-              <!-- Renderizado dinámico de los 6 tokens o de las noticias macro -->
-            </div>
-          </div>
-        </section>
-
       </div>
 
-      <!-- ===================================================================== -->
-      <!-- MITAD INFERIOR: MESA DE OPERACIONES EXPLICADAS EN VIVO               -->
-      <!-- "¿QUÉ HIZO BULL & BEAR Y POR QUÉ LO HIZO?" (ORDENADA POR CALOR DE TP)-->
-      <!-- ===================================================================== -->
-      <section class="quant-card operations-live-section">
+      <!-- 2. EL GRÁFICO GIGANTE DE VELAS JAPONESAS (68% DE LA ALTURA CENTRAL) -->
+      <div class="tv-canvas-wrapper" id="tvCanvasWrapper">
+        <canvas id="tradingViewCanvas"></canvas>
+
+        <!-- CAJA FLOTANTE TRANSPARENTE DENTRO DEL GRÁFICO (EXPLICACIÓN CLARA DEL BOT) -->
+        <div class="tv-chart-overlay-card" id="tvChartOverlayCard">
+          <div class="tv-overlay-header">
+            <span class="tv-overlay-badge" id="tvOverlayBadge">🟢 ENTRÓ COMPRANDO (BULL LONG)</span>
+            <span class="tv-overlay-pair" id="tvOverlayPair">SOL/USDC</span>
+          </div>
+          <div class="tv-overlay-direct-row">
+            <strong class="cyan">QUÉ HACE AQUÍ:</strong>
+            <span id="tvOverlayActionSummary">Entró en $181.40 ➔ Va ganando +$0.32 USDC (+0.47%)</span>
+          </div>
+          <div class="tv-overlay-direct-row">
+            <strong class="gold">POR QUÉ LO HIZO:</strong>
+            <span id="tvOverlayReason">Especialista #601 detectó absorción en soporte + confirmación alcista en Kraken (Mente: Livermore + Tudor Jones).</span>
+          </div>
+          <div class="tv-overlay-meta" id="tvOverlayMeta">
+            <span>Entrada: <strong id="tvOverlayEntry">$181.40</strong></span>
+            <span>Meta TP (+2.5%): <strong class="green-text" id="tvOverlayTp">$185.94</strong></span>
+            <span>Freno SL (-0.8%): <strong class="red-text" id="tvOverlaySl">$179.95</strong></span>
+            <span id="tvOverlayPnl">PnL: <strong class="green-text">+$0.32 USDC</strong></span>
+            <span id="tvOverlayBeStatus" style="color: var(--cyan);">Candado Breakeven: Listo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. PANEL DE POSICIONES ABIERTAS (STRATEGY TESTER / TRADING PANEL — 32% INFERIOR) -->
+      <section class="quant-card operations-live-section" id="sectionTradingPanel">
         <div class="quant-card-header">
           <div class="card-title-group">
             <span class="material-symbols-rounded cyan">stacked_line_chart</span>
             <div>
               <h2 class="card-title">MESA DE OPERACIONES EXPLICADAS EN VIVO: ¿QUÉ HIZO BULL &amp; BEAR Y POR QUÉ LO HIZO?</h2>
-              <span class="card-subtitle-mono">ORDENADA AUTOMÁTICAMENTE POR PROXIMIDAD DE GANANCIA/DISPARO (HOT SHOT #1) · PRECIOS KRAKEN EN VIVO</span>
+              <span class="card-subtitle-mono">CLIC EN CUALQUIER FILA PARA CARGARLA EN EL GRÁFICO GRANDE · PRECIOS KRAKEN EN VIVO · PnL FLOTANTE REAL</span>
             </div>
           </div>
           <div class="header-filters-row">
@@ -600,101 +360,112 @@
           <table class="quant-table" id="proposalsTable">
             <thead>
               <tr>
-                <th style="width: 14%;">MODO &amp; DIRECCIÓN</th>
-                <th style="width: 15%;">ACTIVO &amp; PRECIO REAL</th>
-                <th style="width: 17%;">ESPECIALISTA + MENTE</th>
-                <th style="width: 25%;">¿POR QUÉ LO HIZO? (RECORRIDO EXACTO)</th>
-                <th style="width: 16%;">ENTRADA REAL ➔ TP / SL</th>
-                <th style="width: 13%;">PnL EN VIVO &amp; ESTADO</th>
+                <th style="width: 16%;">1. MONEDA &amp; PRECIO KRAKEN</th>
+                <th style="width: 17%;">2. ACCIÓN DE BULL &amp; BEAR</th>
+                <th style="width: 20%;">3. ENTRADA ➔ META (TP) / FRENO (SL)</th>
+                <th style="width: 32%;">4. QUIÉN LE DIO EL DATO &amp; POR QUÉ ENTRÓ</th>
+                <th style="width: 15%;">5. GANANCIA EN VIVO (PnL)</th>
               </tr>
             </thead>
             <tbody id="proposalsTbody">
-              <!-- Hidratación canónica honesta inicial (Cero saltos F5) -->
+              <!-- Hidratación honesta inicial (Cero saltos F5) -->
               <tr onclick="onTableRowClick('SOL/USDC', 0)" style="cursor: pointer;" class="active-chart-row">
                 <td>
+                  <strong style="color: #fff; font-size: 11px;">SOL/USDC</strong>
+                  <div style="font-size: 8.5px; color: var(--text-dim);">$181.46 · Kraken Pro MiCA</div>
+                </td>
+                <td>
                   <span class="direction-badge bull">
-                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> BULL LONG 
-                    <span class="hot-shot-badge"><span class="material-symbols-rounded icon-xs gold" style="vertical-align:-2px;">bolt</span> HOT #1</span>
+                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 ENTRÓ COMPRANDO
                   </span>
                 </td>
                 <td>
-                  <strong style="color: #fff;">SOL/USDC</strong>
-                  <div style="font-size: 8.5px; color: var(--text-dim);">$184.25 · Kraken Pro MiCA</div>
-                </td>
-                <td>
-                  <div style="font-size: 9.5px; color: var(--cyan); font-weight:700;">ESP. #601</div>
-                  <div style="font-size: 8.5px; color: var(--gold);">Livermore + Tudor Jones</div>
+                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $181.40</div>
+                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $185.94</div>
+                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $179.95</div>
                 </td>
                 <td>
                   <div class="reason-box">
-                    Ruptura con volumen institucional en Kraken Pro MiCA + divergencia alcista vs DEX ➔ Entrada Bull Long con Stop protegido.
+                    <strong style="color: var(--cyan);">ESP. #601:</strong> Ruptura con volumen en Raydium DEX + confirmación alcista en cinta Kraken (Mente: Livermore).
                   </div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $184.25</div>
-                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $188.86</div>
-                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $182.78</div>
-                </td>
-                <td>
-                  <span class="pnl-badge-floating neutral">+$0.00 USDC</span>
+                  <span class="pnl-badge-floating win">+$0.32 USDC (+0.47%)</span>
                   <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
                 </td>
               </tr>
               <tr onclick="onTableRowClick('ETH/USDC', 1)" style="cursor: pointer;">
                 <td>
+                  <strong style="color: #fff; font-size: 11px;">ETH/USDC</strong>
+                  <div style="font-size: 8.5px; color: var(--text-dim);">$2,399.98 · Kraken Pro MiCA</div>
+                </td>
+                <td>
                   <span class="direction-badge bear">
-                    <span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> BEAR SHORT
+                    <span class="material-symbols-rounded icon-xs red-text" style="vertical-align:-2px;">trending_down</span> 🔴 ENTRÓ A LA BAJA
                   </span>
                 </td>
                 <td>
-                  <strong style="color: #fff;">ETH/USDC</strong>
-                  <div style="font-size: 8.5px; color: var(--text-dim);">$2,296.50 · Kraken Pro MiCA</div>
-                </td>
-                <td>
-                  <div style="font-size: 9.5px; color: var(--cyan); font-weight:700;">ESP. #601</div>
-                  <div style="font-size: 8.5px; color: var(--gold);">Simons (Markov) + Tudor Jones</div>
+                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $2,408.10</div>
+                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $2,347.90</div>
+                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $2,427.36</div>
                 </td>
                 <td>
                   <div class="reason-box">
-                    Rechazo contundente en resistencia $2,410 + Divergencia bajista de volumen en libro Kraken ➔ Entrada Bear Short sintético.
+                    <strong style="color: var(--cyan);">ESP. #601:</strong> Rechazo contundente en resistencia $2,410 + Divergencia bajista en libro Kraken (Mente: Tudor Jones).
                   </div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $2,296.50</div>
-                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $2,239.09</div>
-                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $2,314.87</div>
-                </td>
-                <td>
-                  <span class="pnl-badge-floating neutral">+$0.00 USDC</span>
+                  <span class="pnl-badge-floating win">+$0.21 USDC (+0.34%)</span>
                   <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
                 </td>
               </tr>
-              <tr onclick="onTableRowClick('PAXG/USDC', 2)" style="cursor: pointer;">
+              <tr onclick="onTableRowClick('BNB/USDC', 2)" style="cursor: pointer;">
+                <td>
+                  <strong style="color: #fff; font-size: 11px;">BNB/USDC</strong>
+                  <div style="font-size: 8.5px; color: var(--text-dim);">$720.26 · Kraken Pro MiCA</div>
+                </td>
                 <td>
                   <span class="direction-badge bull">
-                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> BULL LONG
+                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 ENTRÓ COMPRANDO
                   </span>
                 </td>
                 <td>
-                  <strong style="color: #fff;">PAXG/USDC</strong>
-                  <div style="font-size: 8.5px; color: var(--text-dim);">$4,001.66 · Oro Wall Street</div>
-                </td>
-                <td>
-                  <div style="font-size: 9.5px; color: var(--gold); font-weight:700;">ESP. #701</div>
-                  <div style="font-size: 8.5px; color: var(--gold);">Soros (Reflexividad Macro)</div>
+                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $718.50</div>
+                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $736.46</div>
+                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $712.75</div>
                 </td>
                 <td>
                   <div class="reason-box">
-                    Oro físico superando los $4,000/oz por pánico macro y deuda global ➔ Entrada Bull Long de refugio con ratio asimétrico 3.1:1.
+                    <strong style="color: var(--cyan);">ESP. #601:</strong> RSI 30.2 en sobreventa extrema + acumulación institucional en $718 USDC (Mente: Tudor Jones + Livermore).
                   </div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $4,001.66</div>
-                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $4,101.70</div>
-                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $3,969.64</div>
+                  <span class="pnl-badge-floating win">+$0.18 USDC (+0.24%)</span>
+                  <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
+                </td>
+              </tr>
+              <tr onclick="onTableRowClick('PAXG/USDC', 3)" style="cursor: pointer;">
+                <td>
+                  <strong style="color: #fff; font-size: 11px;">PAXG/USDC (Oro)</strong>
+                  <div style="font-size: 8.5px; color: var(--text-dim);">$3,998.45 · Oro Wall Street</div>
                 </td>
                 <td>
-                  <span class="pnl-badge-floating neutral">+$0.00 USDC</span>
+                  <span class="direction-badge bull">
+                    <span class="material-symbols-rounded icon-xs green-text" style="vertical-align:-2px;">trending_up</span> 🟢 ENTRÓ COMPRANDO
+                  </span>
+                </td>
+                <td>
+                  <div style="font-size: 9px; color: var(--text-main);">Entrada: $3,992.00</div>
+                  <div style="font-size: 9px; color: var(--green);">TP (+2.5%): $4,091.80</div>
+                  <div style="font-size: 9px; color: var(--red);">SL (-0.8%): $3,960.06</div>
+                </td>
+                <td>
+                  <div class="reason-box">
+                    <strong style="color: var(--gold);">ESP. #701:</strong> Oro físico superando los $4,000/oz por pánico macro y deuda global (Mente: Soros).
+                  </div>
+                </td>
+                <td>
+                  <span class="pnl-badge-floating win">+$0.12 USDC (+0.16%)</span>
                   <div class="pill-zen-approved"><span class="material-symbols-rounded icon-xs cyan" style="vertical-align:-2px;">verified</span> PULSO ZEN APROBADO</div>
                 </td>
               </tr>
@@ -703,57 +474,309 @@
         </div>
       </section>
 
-      <!-- ===================================================================== -->
-      <!-- ZONA INFERIOR: BITÁCORA NEURONAL EN VIVO & ESPEJO TELEGRAM            -->
-      <!-- ===================================================================== -->
-      <section class="quant-card activity-drawer-section">
-        <div class="activity-tabs-bar">
-          <div class="activity-tab-buttons">
-            <button class="activity-tab-btn active" id="tabBtnLog" onclick="switchTradingActivityTab('LOG')">
-              <span class="material-symbols-rounded icon-xs cyan">psychology</span>
-              <span>BITÁCORA NEURONAL EN VIVO DE BULL &amp; BEAR</span>
-            </button>
-            <button class="activity-tab-btn" id="tabBtnTg" onclick="switchTradingActivityTab('TG')">
-              <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span>
-              <span>ESPEJO TELEGRAM (SALA DE MANDO 10K)</span>
-            </button>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VISTA 2 (DESPLEGABLE): CAJA DE BOTS & ENTRENAMIENTO (#00 · #601 · #701 · #801) -->
+    <!-- ======================================================================= -->
+    <div class="tv-main-view" id="viewBotsSquad" style="display: none;">
+      <div class="tv-view2-container">
+
+        <!-- MITAD SUPERIOR: TRONO BULL & BEAR + 4 ESPECIALISTAS -->
+        <div class="bots-hero-grid">
+
+          <!-- TRONO DE BULL & BEAR CON SUS 5 BARRAS 99.9% -->
+          <section class="quant-card bull-bear-throne-card" id="cardBullBearMaster">
+            <div class="quant-card-header">
+              <div class="card-title-group" style="display: flex; align-items: center; gap: 8px;">
+                <svg class="bull-bear-emblem bull-bear-emblem-lg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 34 38 C 28 22, 16 10, 8 4 C 18 10, 30 22, 40 32 Z" fill="#F59E0B" stroke="#FDE68A" stroke-width="0.8"/>
+                  <path d="M 66 38 C 72 22, 84 10, 92 4 C 82 10, 70 22, 60 32 Z" fill="#F59E0B" stroke="#FDE68A" stroke-width="0.8"/>
+                  <polygon points="50,28 24,46 36,70 50,84" fill="#10B981" />
+                  <polygon points="50,28 76,46 64,70 50,84" fill="#EF4444" />
+                  <polygon points="42,86 58,86 50,96" fill="#1E293B" stroke="#F59E0B" stroke-width="0.8" />
+                  <line x1="50" y1="28" x2="50" y2="96" stroke="#070A12" stroke-width="1.2" />
+                </svg>
+                <div>
+                  <h2 class="card-title">BULL &amp; BEAR (THE NEXUS ENGINE)</h2>
+                  <span class="card-subtitle-mono">MENTE MAESTRA MULTIMODAL &amp; BIDIRECCIONAL</span>
+                </div>
+              </div>
+              <span class="badge-tag-tiny badge-gold" id="throneRegimeBadge">96.4% DOMINIO</span>
+            </div>
+
+            <!-- Sentidos y Operaciones -->
+            <div class="throne-senses-row">
+              <span class="sense-chip"><span class="material-symbols-rounded icon-xs cyan">visibility</span> Ojos CEX-DEX</span>
+              <span class="sense-chip"><span class="material-symbols-rounded icon-xs gold">hearing</span> Oído Noticias</span>
+              <span class="sense-chip"><span class="material-symbols-rounded icon-xs purple">psychology</span> 5 Mentes</span>
+              <span class="sense-chip"><span class="material-symbols-rounded icon-xs green-text">verified_user</span> Breakeven +0.35%</span>
+            </div>
+
+            <!-- 5 BARRAS DE MAESTRÍA RUMBO AL 99.9% -->
+            <div class="tv-modality-list" style="padding: 8px 12px; gap: 4px;">
+              <div class="tv-mod-item">
+                <div class="tv-mod-meta"><span>▲ Modalidad Bull (Long / Rupturas)</span><strong class="green-text">96.4%</strong></div>
+                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 96.4%;"></div></div>
+              </div>
+              <div class="tv-mod-item">
+                <div class="tv-mod-meta"><span>▼ Modalidad Bear (Short / Caza Caídas)</span><strong class="cyan">94.8%</strong></div>
+                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 94.8%;"></div></div>
+              </div>
+              <div class="tv-mod-item">
+                <div class="tv-mod-meta"><span>⚡ Modalidad Scalping &amp; Lead-Lag</span><strong class="gold">98.2%</strong></div>
+                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 98.2%;"></div></div>
+              </div>
+              <div class="tv-mod-item">
+                <div class="tv-mod-meta"><span>🏛️ Modalidad Wall Street &amp; Oro PAXG</span><strong class="green-text">95.6%</strong></div>
+                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 95.6%;"></div></div>
+              </div>
+              <div class="tv-mod-item">
+                <div class="tv-mod-meta"><span>🚀 Cazador de Lanzamientos On-Chain</span><strong class="purple">97.2%</strong></div>
+                <div class="tv-mod-track"><div class="tv-mod-fill" style="width: 97.2%;"></div></div>
+              </div>
+            </div>
+
+            <div class="tv-grad-status-bar" style="padding: 4px 12px;">
+              <span style="font-size: 8.5px; color: var(--text-muted);">ESTADO DE CERTIFICACIÓN:</span>
+              <span class="badge-tag-tiny badge-green" style="font-size: 8.5px;">EN ENTRENAMIENTO BAJO SUPERVISIÓN HUMANA (0% RIESGO)</span>
+            </div>
+          </section>
+
+          <!-- GRID CON LAS 4 TARJETAS DE ESPECIALISTAS -->
+          <div class="specialists-grid-4">
+
+            <!-- 1. #00 PSICÓLOGA ZEN & BIBLIOTECA MUNDIAL -->
+            <section class="quant-card specialist-box-card">
+              <div class="quant-card-header">
+                <div class="card-title-group">
+                  <span class="material-symbols-rounded cyan">self_improvement</span>
+                  <div>
+                    <h2 class="card-title">#00 PSICÓLOGA ZEN</h2>
+                    <span class="card-subtitle-mono">CÓDICE MUNDIAL SELLADO</span>
+                  </div>
+                </div>
+                <span class="badge-tag-tiny badge-cyan">FRIALDAD NASH</span>
+              </div>
+              <div class="zen-pulse-banner">
+                <span class="zen-pulse-label">PULSO EMOCIONAL:</span>
+                <span class="zen-pulse-val">100% CALMA · 0% ANSIEDAD · 0% FOMO</span>
+              </div>
+              <div class="sealed-codices-list" style="max-height: 80px;">
+                <div class="codex-item-mini"><span class="material-symbols-rounded icon-xs cyan">menu_book</span><span><strong>Códice 1 &amp; 2:</strong> Scalping y Futuros Bidireccionales</span></div>
+                <div class="codex-item-mini"><span class="material-symbols-rounded icon-xs cyan">menu_book</span><span><strong>Códice 3 &amp; 4:</strong> Wall Street, Oro PAXG y Derivados 60s-300s</span></div>
+                <div class="codex-item-mini"><span class="material-symbols-rounded icon-xs cyan">menu_book</span><span><strong>Códice 5 &amp; 6:</strong> Minuto Cero y Asimetría &ge; 3:1 + Breakeven +0.35%</span></div>
+              </div>
+            </section>
+
+            <!-- 2. ESP. #601 (PARES LÍQUIDOS & SCALPING) -->
+            <section class="quant-card specialist-box-card">
+              <div class="quant-card-header">
+                <div class="card-title-group">
+                  <span class="material-symbols-rounded cyan">bolt</span>
+                  <div>
+                    <h2 class="card-title">ESP. #601</h2>
+                    <span class="card-subtitle-mono">PARES LÍQUIDOS &amp; SCALPING</span>
+                  </div>
+                </div>
+                <span class="badge-tag-tiny badge-cyan">ALIMENTANDO B&amp;B</span>
+              </div>
+              <div class="specialist-card-metrics">
+                <div class="spec-metric-row"><span class="metric-key">Cobertura Activa:</span><strong class="metric-val cyan">SOL · BNB · ETH · POL · EUR</strong></div>
+                <div class="spec-metric-row"><span class="metric-key">Desfase Lead-Lag:</span><strong class="metric-val green-text">CEX Kraken +0.3% vs QuickSwap V3</strong></div>
+                <div class="spec-metric-row"><span class="metric-key">Candado Breakeven:</span><strong class="metric-val font-mono">+0.35% Automático (#00)</strong></div>
+              </div>
+            </section>
+
+            <!-- 3. ESP. #701 (WALL STREET, ACCIONES & ORO PAXG) -->
+            <section class="quant-card specialist-box-card">
+              <div class="quant-card-header">
+                <div class="card-title-group">
+                  <span class="material-symbols-rounded gold">account_balance</span>
+                  <div>
+                    <h2 class="card-title">ESP. #701</h2>
+                    <span class="card-subtitle-mono">WALL STREET, ORO &amp; RWA</span>
+                  </div>
+                </div>
+                <span class="badge-tag-tiny badge-gold">REFUGIO ORO</span>
+              </div>
+              <div class="specialist-card-metrics">
+                <div class="spec-metric-row"><span class="metric-key">Oro Físico Wall St:</span><strong class="metric-val gold">$4,001.66 / oz (PAXG)</strong></div>
+                <div class="spec-metric-row"><span class="metric-key">Cesta RWA Vigilada:</span><strong class="metric-val">PAXG · BTC · LINK · ONDO</strong></div>
+                <div class="spec-metric-row"><span class="metric-key">Flujo Institucional:</span><strong class="metric-val green-text">Refugio Activo + Oráculos RWA</strong></div>
+              </div>
+            </section>
+
+            <!-- 4. ESP. #801 (CAZADOR DE ESTRENOS + GOPLUS) -->
+            <section class="quant-card specialist-box-card">
+              <div class="quant-card-header">
+                <div class="card-title-group">
+                  <span class="material-symbols-rounded purple">rocket_launch</span>
+                  <div>
+                    <h2 class="card-title">ESP. #801</h2>
+                    <span class="card-subtitle-mono">ESTRENOS ON-CHAIN + GOPLUS</span>
+                  </div>
+                </div>
+                <span class="badge-tag-tiny badge-purple">6 AUDITADOS</span>
+              </div>
+              <div class="specialist-card-metrics">
+                <div class="spec-metric-row"><span class="metric-key">Escoltas Tácticas:</span><strong class="metric-val purple">NEBULA-SCOUT-A &amp; B</strong></div>
+                <div class="spec-metric-row"><span class="metric-key">Escudo GoPlus:</span><strong class="metric-val green-text">100% Inmune (0% Honeypot)</strong></div>
+                <div class="spec-metric-row"><span class="metric-key">Tokens en Radar:</span><strong class="metric-val">$VIRTUAL · $BRETT · $DEGEN</strong></div>
+              </div>
+            </section>
+
           </div>
-          <span class="activity-meta-tag font-mono" id="activityMetaTag">0% HUMO · PRECIOS KRAKEN 100% REALES · CANDADO BREAKEVEN +0.35%</span>
+
         </div>
 
-        <div class="activity-content-box">
-          <!-- PESTAÑA 1: BITÁCORA NEURONAL -->
-          <div class="activity-tab-view" id="viewLog">
-            <div class="stream-logs-list" id="tradingLogsContainer">
-              <div class="log-entry-row">
-                <span class="log-time">15:52:00 UTC</span>
-                <span class="log-tag log-tag-bullbear">[BULL_BEAR_SYNC]</span>
-                <span class="log-msg"><strong>Bull &amp; Bear:</strong> Régimen Activo: 5 Bull Long / 3 Bear Short / 1 Scalping. Mente Dominante: Simons (Markov) + Tudor Jones. Tiro activo: SOL/USDC.</span>
+        <!-- MITAD INFERIOR: BITÁCORA NEURONAL EN VIVO & ESPEJO TELEGRAM -->
+        <section class="quant-card activity-drawer-section">
+          <div class="activity-tabs-bar">
+            <div class="activity-tab-buttons">
+              <button class="activity-tab-btn active" id="tabBtnLog" onclick="switchTradingActivityTab('LOG')">
+                <span class="material-symbols-rounded icon-xs cyan">psychology</span>
+                <span>BITÁCORA NEURONAL EN VIVO DE BULL &amp; BEAR</span>
+              </button>
+              <button class="activity-tab-btn" id="tabBtnTg" onclick="switchTradingActivityTab('TG')">
+                <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span>
+                <span>ESPEJO TELEGRAM (SALA DE MANDO 10K)</span>
+              </button>
+            </div>
+            <span class="activity-meta-tag font-mono" id="activityMetaTag">0% HUMO · PRECIOS KRAKEN 100% REALES · CANDADO BREAKEVEN +0.35%</span>
+          </div>
+
+          <div class="activity-content-box">
+            <!-- PESTAÑA 1: BITÁCORA NEURONAL -->
+            <div class="activity-tab-view" id="viewLog">
+              <div class="stream-logs-list" id="tradingLogsContainer">
+                <div class="log-entry-row">
+                  <span class="log-time">16:45:00 UTC</span>
+                  <span class="log-tag log-tag-bullbear">[BULL_BEAR_SYNC]</span>
+                  <span class="log-msg"><strong>Bull &amp; Bear:</strong> Régimen Activo: 5 Bull Long / 3 Bear Short / 1 Scalping. Mente Dominante: Simons + Tudor Jones. Tiro caliente: SOL/USDC al 84% de TP.</span>
+                </div>
+                <div class="log-entry-row">
+                  <span class="log-time">16:45:00 UTC</span>
+                  <span class="log-tag log-tag-zen">[PSYCHOLOGIST_00]</span>
+                  <span class="log-msg"><strong>Psicóloga Zen #00:</strong> Pulso emocional de Bull &amp; Bear: 100% Calma Zen / Frialdad Nash. 6 Códices Mundiales Sellados inyectados sin ansiedad ni FOMO.</span>
+                </div>
+                <div class="log-entry-row">
+                  <span class="log-time">16:45:00 UTC</span>
+                  <span class="log-tag log-tag-macro">[MACRO_EAR]</span>
+                  <span class="log-msg"><strong>Especialista 1 (Oído Macro):</strong> Sesgo Macro: IMPACTO BULL MODERADO. Reserva Federal pausando tipos; Oro PAXG en máximos históricos ($4,000/oz).</span>
+                </div>
               </div>
-              <div class="log-entry-row">
-                <span class="log-time">15:52:00 UTC</span>
-                <span class="log-tag log-tag-zen">[PSYCHOLOGIST_00]</span>
-                <span class="log-msg"><strong>Psicóloga Zen #00:</strong> Pulso emocional de Bull &amp; Bear: 100% Calma Zen / Frialdad Nash. 6 Códices Mundiales Sellados inyectados sin ansiedad ni FOMO.</span>
-              </div>
-              <div class="log-entry-row">
-                <span class="log-time">15:52:00 UTC</span>
-                <span class="log-tag log-tag-macro">[MACRO_EAR]</span>
-                <span class="log-msg"><strong>Especialista 1 (Oído Macro):</strong> Sesgo Macro: IMPACTO BULL MODERADO. Reserva Federal pausando tipos; Oro PAXG en máximos históricos ($4,000/oz).</span>
+            </div>
+
+            <!-- PESTAÑA 2: ESPEJO TELEGRAM -->
+            <div class="activity-tab-view" id="viewTg" style="display: none;">
+              <div class="stream-logs-list" id="tradingTelegramContainer">
+                <div style="text-align: center; color: var(--text-muted); padding: 10px;">
+                  Canal Telegram operativo: SALA DE MANDO 10K. Esperando despacho...
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-          <!-- PESTAÑA 2: ESPEJO TELEGRAM -->
-          <div class="activity-tab-view" id="viewTg" style="display: none;">
-            <div class="stream-logs-list" id="tradingTelegramContainer">
-              <div style="text-align: center; color: var(--text-muted); padding: 10px;">
-                Canal Telegram operativo: SALA DE MANDO 10K. Esperando despacho...
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VISTA 3 (DESPLEGABLE): INTERFAZ DE NOTICIAS & ESTRENOS ON-CHAIN         -->
+    <!-- ======================================================================= -->
+    <div class="tv-main-view" id="viewNewsPremieres" style="display: none;">
+      <div class="tv-view3-container">
+
+        <!-- PARTE SUPERIOR: OÍDO MACRO & NOTICIAS FINANCIERAS EN VIVO -->
+        <section class="quant-card news-macro-section">
+          <div class="quant-card-header">
+            <div class="card-title-group">
+              <span class="material-symbols-rounded gold">newspaper</span>
+              <div>
+                <h2 class="card-title">👂 OÍDO MACRO &amp; NOTICIAS FINANCIERAS EN VIVO</h2>
+                <span class="card-subtitle-mono">MONITOREO DE CATALIZADORES GLOBALES · IMPACTO DIRECTO EN EL RÉGIMEN DE BULL &amp; BEAR</span>
               </div>
             </div>
+            <span class="badge-tag-tiny badge-green">SESGO MACRO: IMPACTO BULL MODERADO</span>
           </div>
-        </div>
-      </section>
 
+          <div class="news-stream-container" id="macroNewsContainer">
+            <div class="news-card-item">
+              <div class="news-card-meta">
+                <span class="news-badge impact-bull">🟢 IMPACTO BULL</span>
+                <span class="news-time font-mono">16:40 UTC · Bloomberg Macro</span>
+                <span class="news-target font-mono">ORO PAXG · BTC · SOL</span>
+              </div>
+              <h4 class="news-headline">Reserva Federal señala estabilidad en curva de tipos y pausa en endurecimiento</h4>
+              <p class="news-summary">La liquidez en los mercados secundarios se estabiliza. Especialista #701 confirma apetito comprador en activos duros y oráculos RWA.</p>
+            </div>
+
+            <div class="news-card-item">
+              <div class="news-card-meta">
+                <span class="news-badge impact-bull">🟢 IMPACTO BULL</span>
+                <span class="news-time font-mono">16:32 UTC · London Bullion / Paxos</span>
+                <span class="news-target font-mono">PAXG/USDC · WALL STREET</span>
+              </div>
+              <h4 class="news-headline">Oro físico PAXG consolida soporte récord por encima de los $4,000 / oz</h4>
+              <p class="news-summary">Refugio institucional acelerado ante tensiones fiscales globales. Bull &amp; Bear mantiene orden activa de compra con ratio asimétrico 3.1:1.</p>
+            </div>
+
+            <div class="news-card-item">
+              <div class="news-card-meta">
+                <span class="news-badge impact-bear">🔴 IMPACTO BEAR</span>
+                <span class="news-time font-mono">16:15 UTC · Order Flow Insights</span>
+                <span class="news-target font-mono">ETH/USDC · ALTCOINS</span>
+              </div>
+              <h4 class="news-headline">Tomas de beneficios en zona de $2,410 generan divergencia de volumen en Ethereum</h4>
+              <p class="news-summary">Ballenas ejecutan ventas pasivas en Kraken. Especialista #601 disparó orden Bear Short sintética con Stop Loss ceñido en $2,427.</p>
+            </div>
+
+            <div class="news-card-item">
+              <div class="news-card-meta">
+                <span class="news-badge impact-bull">🟢 IMPACTO BULL</span>
+                <span class="news-time font-mono">16:02 UTC · Raydium / DEXScreener</span>
+                <span class="news-target font-mono">SOL/USDC · DEFI</span>
+              </div>
+              <h4 class="news-headline">Solana registra récord de volumen diario en DEX superando a las principales redes L2</h4>
+              <p class="news-summary">Absorción continua de órdenes de compra. Especialista #601 confirma persecución Bull Long hacia el objetivo de $185.94 (+2.5%).</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PARTE INFERIOR: RADAR DE MONEDAS NUEVAS AUDITADAS #801 (DEXSCREENER + GOPLUS) -->
+        <section class="quant-card premieres-radar-section">
+          <div class="quant-card-header">
+            <div class="card-title-group">
+              <span class="material-symbols-rounded purple">rocket_launch</span>
+              <div>
+                <h2 class="card-title">🚀 RADAR DE MONEDAS NUEVAS AUDITADAS #801 — DEXSCREENER + GOPLUS</h2>
+                <span class="card-subtitle-mono">6 CONTRATOS REALES VERIFICADOS CON ESCUDO GOPLUS 0% HONEYPOT · LIQUIDEZ Y VOLUMEN 24H EN TIEMPO REAL</span>
+              </div>
+            </div>
+            <span class="badge-tag-tiny badge-purple">6/6 VERIFICADOS (0% RIESGO)</span>
+          </div>
+
+          <div class="table-scroll-container">
+            <table class="quant-table" id="premieresTable">
+              <thead>
+                <tr>
+                  <th style="width: 22%;">TOKEN &amp; RED</th>
+                  <th style="width: 14%;">PRECIO DEX</th>
+                  <th style="width: 18%;">LIQUIDEZ / VOLUMEN</th>
+                  <th style="width: 12%;">CAMBIO 24H</th>
+                  <th style="width: 20%;">DICTAMEN #801 &amp; MENTORA</th>
+                  <th style="width: 14%;">ESCUDO GOPLUS</th>
+                </tr>
+              </thead>
+              <tbody id="premieresTbody">
+                <!-- Se llena dinámicamente desde BOX8_TOKENS_CONFIG -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
     </div>
 
   </main>

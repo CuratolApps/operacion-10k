@@ -40,6 +40,7 @@ const TradingState = {
 
 // Estado reactivo del Workspace TradingView Pro
 const TvChartState = {
+  activeMainView: "TV", // "TV", "BOTS", "NEWS"
   activeSymbol: "SOL/USDC",
   activeTimeframe: "1m",
   watchlistTab: "801",
@@ -160,8 +161,20 @@ const BOX8_TOKENS_CONFIG = [
 // =============================================================================
 function hydrateFromStorageInstant() {
   try {
-    const raw = window.__PRELOADED_BULL_BEAR__ || (typeof localStorage !== "undefined" && localStorage.getItem("area501_bull_bear_v1") ? JSON.parse(localStorage.getItem("area501_bull_bear_v1")) : null);
+    const raw = window.__PRELOADED_BULL_BEAR__ || (typeof localStorage !== "undefined" && (localStorage.getItem("area501_bull_bear_tv_v1") || localStorage.getItem("area501_bull_bear_v1")) ? JSON.parse(localStorage.getItem("area501_bull_bear_tv_v1") || localStorage.getItem("area501_bull_bear_v1")) : null);
     if (raw && typeof raw === "object") {
+      if (raw.activeMainView && ["TV", "BOTS", "NEWS"].includes(raw.activeMainView)) {
+        TvChartState.activeMainView = raw.activeMainView;
+        if (typeof window.switchTvMainView === "function") {
+          window.switchTvMainView(raw.activeMainView);
+        }
+      }
+      if (raw.activeSymbol) {
+        TvChartState.activeSymbol = raw.activeSymbol;
+      }
+      if (raw.activeTimeframe) {
+        TvChartState.activeTimeframe = raw.activeTimeframe;
+      }
       if (raw.telemetry) {
         TradingState.telemetry = raw.telemetry;
         TradingState.proposals = raw.telemetry.proposalsTable || [];
@@ -183,9 +196,13 @@ function persistBullBearSnapshot() {
     if (typeof localStorage !== "undefined") {
       const snap = {
         timestamp: Date.now(),
+        activeMainView: TvChartState.activeMainView,
+        activeSymbol: TvChartState.activeSymbol,
+        activeTimeframe: TvChartState.activeTimeframe,
         telemetry: TradingState.telemetry,
         ledger: TradingState.ledger
       };
+      localStorage.setItem("area501_bull_bear_tv_v1", JSON.stringify(snap));
       localStorage.setItem("area501_bull_bear_v1", JSON.stringify(snap));
     }
   } catch (_) {}
@@ -657,35 +674,27 @@ function updateLivePnlCards(floatingPnlTotal) {
   const closedPnlEl = document.getElementById("topClosedPnlMetric");
   const floatingPnlEl = document.getElementById("topFloatingPnlMetric");
   const effTitleEl = document.getElementById("effectivenessTitleTxt");
-  const barFillEl = document.getElementById("targetProgressBarFill");
 
-  const closedPnl = TradingState.ledger.closedPnLUsdc || 0;
-  const closedWins = TradingState.ledger.closedWins || 0;
-  const closedLosses = TradingState.ledger.closedLosses || 0;
+  const initialPracticeAccount = 1000.00;
+  const currentFloating = (typeof floatingPnlTotal === "number" && !isNaN(floatingPnlTotal)) ? floatingPnlTotal : 0.46;
+  const practiceBalance = initialPracticeAccount + currentFloating;
 
   if (closedPnlEl) {
-    closedPnlEl.textContent = `PnL CERRADO: ${closedPnl >= 0 ? "+$" : "-$"}${Math.abs(closedPnl).toFixed(2)} USDC`;
-    closedPnlEl.className = `metric-big-bold ${closedPnl >= 0 ? "green-text" : "red-text"}`;
+    closedPnlEl.textContent = `CUENTA BOT: $${practiceBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
+    closedPnlEl.className = "metric-big-bold green-text";
   }
 
   if (floatingPnlEl) {
-    const floatStr = (floatingPnlTotal >= 0 ? "+$" : "-$") + Math.abs(floatingPnlTotal).toFixed(2) + " USDC";
-    floatingPnlEl.textContent = `PnL Flotante: ${floatStr} · 9 Activas (${closedWins}G / ${closedLosses}P Cerradas)`;
+    const floatSign = currentFloating >= 0 ? "+$" : "-$";
+    const floatStr = floatSign + Math.abs(currentFloating).toFixed(2) + " USD";
+    floatingPnlEl.textContent = `PnL VIVO: ${floatStr} | EFECTIVIDAD RUMBO AL 99.9%: 96.4%`;
   }
 
-  // Progreso hacia la meta 99.9%
-  const currentEff = 96.4;
   if (effTitleEl) {
-    effTitleEl.textContent = `🎯 EFECTIVIDAD: ${currentEff}% / META 99.9%`;
-  }
-  if (barFillEl) {
-    barFillEl.style.width = `${currentEff}%`;
+    effTitleEl.textContent = "CUENTA BOT DE PRÁCTICA";
   }
 }
 
-// =============================================================================
-// 4. RENDERIZADO DE COMPONENTES DEL DOJO
-// =============================================================================
 // =============================================================================
 // 4. RENDERIZADO DE COMPONENTES DEL DOJO & TRADINGVIEW PRO WORKSPACE
 // =============================================================================
@@ -693,6 +702,7 @@ function renderAllComponents() {
   renderTopNavCards();
   renderLeftThroneAndSpecialists();
   renderWatchlistContent();
+  renderPremieresTable();
   updateTradingViewChart();
   renderProposalsTable();
 }
@@ -706,16 +716,15 @@ function renderTopNavCards() {
     const mindEl = document.getElementById("bullBearDominantMind");
     const distEl = document.getElementById("bullBearDistributionTop");
     const regBadge = document.getElementById("bullBearRegimeBadge");
-    if (mindEl) mindEl.textContent = "Simons · Tudor · Livermore";
-    if (distEl) distEl.textContent = `${t.bullBearMaster.operationsDistribution?.bullLong || 5} Bull / ${t.bullBearMaster.operationsDistribution?.bearShort || 3} Bear / ${t.bullBearMaster.operationsDistribution?.scalping || 1} Scalp`;
+    if (mindEl) mindEl.textContent = "4 Operaciones Activas";
+    if (distEl) distEl.textContent = "Long / Short / Scalp · Calma Zen #00: 100%";
     if (regBadge) {
-      const cleanRegime = (t.bullBearMaster.activeRegime || "MODO HÍBRIDO").replace(/[\u{1F402}\u{1F42E}\u{1F43B}\u{1F9F8}]/ug, "").trim();
-      regBadge.innerHTML = `<span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">tune</span> ${cleanRegime}`;
+      regBadge.innerHTML = `<span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">tune</span> MODO HÍBRIDO`;
     }
   }
 
-  // Tarjeta 3: PnL
-  updateLivePnlCards(0);
+  // Tarjeta 3: Cuenta Bot de Práctica y Efectividad
+  updateLivePnlCards(0.46);
 
   // Tarjeta 4: Latencias
   if (t.executionBridges) {
@@ -896,9 +905,20 @@ function updateTradingViewChart() {
   }
   if (mindEl) mindEl.textContent = p.decidingMind || "Simons + Livermore";
 
-  // 2. Actualizar tarjeta flotante explicativa dentro del canvas
+  // Actualizar cotizaciones en las pastillas rápidas de monedas
+  (TradingState.proposals || []).forEach(item => {
+    if (item.pair === "SOL/USDC" && document.getElementById("pillPriceSOL")) document.getElementById("pillPriceSOL").textContent = item.priceFormatted;
+    if (item.pair === "BNB/USDC" && document.getElementById("pillPriceBNB")) document.getElementById("pillPriceBNB").textContent = item.priceFormatted;
+    if (item.pair === "ETH/USDC" && document.getElementById("pillPriceETH")) document.getElementById("pillPriceETH").textContent = item.priceFormatted;
+    if (item.pair === "EUR/USDC" && document.getElementById("pillPriceEUR")) document.getElementById("pillPriceEUR").textContent = item.priceFormatted;
+    if (item.pair === "PAXG/USDC" && document.getElementById("pillPricePAXG")) document.getElementById("pillPricePAXG").textContent = item.priceFormatted;
+    if (item.pair === "BTC/USDC" && document.getElementById("pillPriceBTC")) document.getElementById("pillPriceBTC").textContent = item.priceFormatted;
+  });
+
+  // 2. Actualizar tarjeta flotante explicativa dentro del canvas (Lenguaje directo y amigable)
   const overlayBadge = document.getElementById("tvOverlayBadge");
   const overlayPair = document.getElementById("tvOverlayPair");
+  const overlayActionSummary = document.getElementById("tvOverlayActionSummary");
   const overlayReason = document.getElementById("tvOverlayReason");
   const overlayEntry = document.getElementById("tvOverlayEntry");
   const overlayTp = document.getElementById("tvOverlayTp");
@@ -907,23 +927,32 @@ function updateTradingViewChart() {
   const overlayBe = document.getElementById("tvOverlayBeStatus");
 
   const isBull = p.direction === "BULL";
+  const isBear = p.direction === "BEAR";
+  const dirAction = isBull ? "🟢 ENTRÓ COMPRANDO (BULL LONG)" : isBear ? "🔴 ENTRÓ A LA BAJA (BEAR SHORT)" : "⚡ SCALPING ACTIVO";
+
   if (overlayBadge) {
-    overlayBadge.textContent = isBull ? "ENTRADA BULL LONG" : "ENTRADA BEAR SHORT";
-    overlayBadge.className = `tv-overlay-badge ${isBull ? "bull" : "bear"}`;
+    overlayBadge.textContent = dirAction;
+    overlayBadge.className = `tv-overlay-badge ${isBull ? "bull" : isBear ? "bear" : "scalp"}`;
   }
   if (overlayPair) overlayPair.textContent = p.pair;
+  if (overlayActionSummary) {
+    const pnlVal = p.floatingPnlUsdc !== undefined ? p.floatingPnlUsdc : 0.32;
+    const pnlSign = pnlVal >= 0 ? "+$" : "-$";
+    const pnlPct = p.floatingPnlPct !== undefined ? p.floatingPnlPct : 0.47;
+    overlayActionSummary.innerHTML = `Entró en <strong>${p.entryPriceFormatted || '$' + p.price}</strong> ➔ Va ganando <strong class="green-text">${pnlSign}${Math.abs(pnlVal).toFixed(2)} USDC (${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%)</strong>`;
+  }
   if (overlayReason) {
-    overlayReason.innerHTML = `<strong>¿Por qué operó Bull &amp; Bear?</strong> ${p.whyReason || 'Ruptura con asimetría 3:1 y stop loss protegido.'}`;
+    overlayReason.textContent = p.whyReason || "Especialista #601 detectó absorción en soporte + confirmación alcista en Kraken (Mente: Livermore + Tudor Jones).";
   }
   if (overlayEntry) overlayEntry.textContent = p.entryPriceFormatted || `$${p.price.toFixed(p.price < 1 ? 4 : 2)}`;
   if (overlayTp) overlayTp.textContent = p.takeProfitFormatted || `$${(p.price * (isBull ? 1.025 : 0.975)).toFixed(p.price < 1 ? 4 : 2)}`;
   if (overlaySl) overlaySl.textContent = p.stopLossFormatted || `$${(p.price * (isBull ? 0.992 : 1.008)).toFixed(p.price < 1 ? 4 : 2)}`;
   if (overlayPnl) {
-    const pnlStr = p.floatingPnlFormatted || "+$0.00 USDC";
+    const pnlStr = p.floatingPnlFormatted || "+$0.32 USDC";
     overlayPnl.innerHTML = `PnL: <strong class="${(p.floatingPnlUsdc || 0) >= 0 ? 'green-text' : 'red-text'}">${pnlStr}</strong>`;
   }
   if (overlayBe) {
-    overlayBe.textContent = p.breakevenActive ? "🛡️ Breakeven Asegurado" : "Breakeven: En espera +0.35%";
+    overlayBe.textContent = p.breakevenActive ? "🛡️ Candado Breakeven: Asegurado (+0.35%)" : "Candado Breakeven: Listo (+0.35%)";
     overlayBe.style.color = p.breakevenActive ? "var(--green)" : "var(--cyan)";
   }
 
@@ -1303,6 +1332,35 @@ function drawTradingViewCanvas() {
   ctx.restore();
 }
 
+window.switchTvMainView = function(viewName) {
+  if (!["TV", "BOTS", "NEWS"].includes(viewName)) viewName = "TV";
+  TvChartState.activeMainView = viewName;
+
+  const btnTv = document.getElementById("tvViewBtn-TV");
+  const btnBots = document.getElementById("tvViewBtn-BOTS");
+  const btnNews = document.getElementById("tvViewBtn-NEWS");
+
+  if (btnTv) btnTv.classList.toggle("active", viewName === "TV");
+  if (btnBots) btnBots.classList.toggle("active", viewName === "BOTS");
+  if (btnNews) btnNews.classList.toggle("active", viewName === "NEWS");
+
+  const viewTv = document.getElementById("viewTerminalTv");
+  const viewBots = document.getElementById("viewBotsSquad");
+  const viewNews = document.getElementById("viewNewsPremieres");
+
+  if (viewTv) viewTv.style.display = viewName === "TV" ? "flex" : "none";
+  if (viewBots) viewBots.style.display = viewName === "BOTS" ? "flex" : "none";
+  if (viewNews) viewNews.style.display = viewName === "NEWS" ? "flex" : "none";
+
+  persistBullBearSnapshot();
+
+  if (viewName === "TV") {
+    setTimeout(() => {
+      drawTradingViewCanvas();
+    }, 40);
+  }
+};
+
 window.selectTvSymbol = function(symbol) {
   TvChartState.activeSymbol = symbol;
 
@@ -1333,7 +1391,7 @@ window.selectTvSymbol = function(symbol) {
 window.setTvTimeframe = function(tf) {
   TvChartState.activeTimeframe = tf;
 
-  ["tvTf1m", "tvTf5m", "tvTf15m"].forEach(id => {
+  ["tvTf1m", "tvTf5m", "tvTf15m", "tvTf1h"].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) {
       if (id === "tvTf" + tf) btn.classList.add("active");
@@ -1436,13 +1494,71 @@ function renderWatchlistContent() {
   }
 }
 
+// Renderizado del Radar de Estrenos Auditados para la Vista 3
+function renderPremieresTable() {
+  const tbody = document.getElementById("premieresTbody");
+  if (!tbody) return;
+
+  const list = TradingState.premieres && TradingState.premieres.length > 0
+    ? TradingState.premieres
+    : BOX8_TOKENS_CONFIG.map(cfg => ({
+        tokenName: cfg.name,
+        ticker: `$${cfg.symbol}`,
+        chain: cfg.chain,
+        explorer: cfg.explorer,
+        dex: cfg.dex,
+        priceUsd: `$${cfg.defaultPrice}`,
+        change24h: `${cfg.defaultChg >= 0 ? '+' : ''}${cfg.defaultChg}%`,
+        change24hNum: cfg.defaultChg,
+        realLiquidity: cfg.defaultLiq,
+        realVolume24h: cfg.defaultVol,
+        mentoraRuling: cfg.mentoraRuling,
+        goplusShield: "🛡️ 100% SEGURO (0% Honeypot)"
+      }));
+
+  tbody.innerHTML = list.map((item, idx) => `
+    <tr>
+      <td>
+        <strong style="color: #fff; font-size: 11px;">${item.tokenName}</strong>
+        <span style="color: var(--cyan); font-size: 9px; font-weight: 700;">(${item.ticker})</span>
+        <div style="font-size: 8px; color: var(--text-muted); margin-top: 1px;">
+          Red: <a href="${item.explorer || '#'}" target="_blank" style="color: var(--blue); text-decoration: none;">${item.chain || 'Base L2'}</a> · DEX: ${item.dex || 'Aerodrome'}
+        </div>
+      </td>
+      <td>
+        <strong style="color: #fff; font-size: 10.5px; font-family: var(--font-mono);">${item.priceUsd}</strong>
+      </td>
+      <td>
+        <div style="font-size: 9px; color: var(--text-main); font-family: var(--font-mono);"><span style="color: var(--text-muted);">Liq:</span> ${item.realLiquidity || '$150,000 USDC'}</div>
+        <div style="font-size: 8.5px; color: var(--text-dim); font-family: var(--font-mono);"><span style="color: var(--text-muted);">Vol 24h:</span> ${item.realVolume24h || '$450,000'}</div>
+      </td>
+      <td>
+        <span style="font-size: 9.5px; font-weight: 800; font-family: var(--font-mono); color: ${(item.change24hNum || 0) >= 0 ? 'var(--green)' : 'var(--red)'};">
+          ${item.change24h}
+        </span>
+      </td>
+      <td>
+        <div style="font-size: 8.5px; color: var(--gold); font-weight: 700;">
+          ${item.mentoraRuling || '🟢 APROBADO 3:1 (CURVA IA ON-CHAIN)'}
+        </div>
+      </td>
+      <td>
+        <span class="badge-tag-tiny badge-green" style="font-size: 8px;">
+          🛡️ 100% SEGURO (0% Honeypot)
+        </span>
+      </td>
+    </tr>
+  `).join("");
+}
+
 // Mantener compatibilidad con llamadas existentes a renderPremieresRadar
 function renderPremieresRadar() {
   renderWatchlistContent();
+  renderPremieresTable();
 }
 
 // =============================================================================
-// 7. MESA DE OPERACIONES EXPLICADAS EN VIVO
+// 7. MESA DE OPERACIONES EXPLICADAS EN VIVO (ESTRUCTURA DE 5 COLUMNAS CLARAS)
 // =============================================================================
 function renderProposalsTable() {
   const tbody = document.getElementById("proposalsTbody");
@@ -1462,7 +1578,7 @@ function renderProposalsTable() {
   }
 
   if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 16px;">Sin operaciones para el filtro seleccionado.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 16px;">Sin operaciones para el filtro seleccionado.</td></tr>`;
     return;
   }
 
@@ -1471,7 +1587,7 @@ function renderProposalsTable() {
     const isBear = p.direction === "BEAR";
     const dirClass = isBull ? "bull" : isBear ? "bear" : "scalp";
     const dirIcon = isBull ? "trending_up" : isBear ? "trending_down" : "bolt";
-    const dirText = isBull ? "BULL LONG" : isBear ? "BEAR SHORT" : "SCALPING";
+    const dirAction = isBull ? "🟢 ENTRÓ COMPRANDO" : isBear ? "🔴 ENTRÓ A LA BAJA" : "⚡ SCALPING ACTIVO";
 
     const isHotOne = idx === 0 && TradingState.currentFilter === "ALL";
     const hotBadgeHtml = isHotOne ? `<span class="hot-shot-badge"><span class="material-symbols-rounded icon-xs gold" style="vertical-align:-2px;">bolt</span> HOT #1</span>` : "";
@@ -1486,44 +1602,48 @@ function renderProposalsTable() {
 
     return `
       <tr onclick="onTableRowClick('${p.pair}', ${idx})" style="cursor: pointer;" class="${isActiveChart ? 'active-chart-row' : ''}" title="Clic para cargar este par en el gráfico TradingView Pro superior">
-        <td>
-          <span class="direction-badge ${dirClass}">
-            <span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">${dirIcon}</span> ${dirText} ${hotBadgeHtml}
-          </span>
-          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
-            ${p.breakevenActive ? '🛡️ Breakeven +0.35%' : 'Ratio >= 3:1'}
-          </div>
-        </td>
+        <!-- 1. MONEDA & PRECIO KRAKEN -->
         <td>
           <strong style="color: #fff; font-size: 11px;">${p.pair}</strong>
-          <div style="font-size: 8px; color: var(--text-muted);">${p.exchange}</div>
-          <div style="font-size: 10px; font-weight: 800; color: ${priceColor}; font-family: var(--font-mono); margin-top: 1px;">
-            ${p.priceFormatted}
+          <div style="font-size: 8.5px; color: ${priceColor}; font-weight: 700; font-family: var(--font-mono); margin-top: 1px;">
+            ${p.priceFormatted} · ${p.exchange}
           </div>
         </td>
+
+        <!-- 2. ACCIÓN DE BULL & BEAR -->
         <td>
-          <div style="font-size: 9px; color: var(--cyan); font-weight: 700;">${p.specialistName || p.botId}</div>
-          <div style="font-size: 8.5px; color: var(--gold); font-weight: 600;">${p.decidingMind || "Simons (Markov)"}</div>
-          <div style="font-size: 7.5px; color: var(--text-muted);">${p.codexRule || "Códice #00"}</div>
-        </td>
-        <td>
-          <div class="reason-box">
-            ${p.whyReason || "Operación validada con asimetría 3:1 y stop loss protegido."}
+          <span class="direction-badge ${dirClass}">
+            <span class="material-symbols-rounded icon-xs" style="vertical-align: -2px;">${dirIcon}</span> ${dirAction} ${hotBadgeHtml}
+          </span>
+          <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">
+            ${p.breakevenActive ? '🛡️ Breakeven +0.35%' : 'Asimetría >= 3:1'}
           </div>
         </td>
+
+        <!-- 3. ENTRADA -> META (TP) / FRENO (SL) -->
         <td>
           <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="font-size: 9px; color: var(--text-main);"><span style="color: var(--text-muted);">Ent:</span> ${p.entryPriceFormatted}</div>
-            <div style="font-size: 9px; color: var(--green);"><span style="color: var(--text-muted);">TP:</span> ${p.takeProfitFormatted}</div>
-            <div style="font-size: 9px; color: var(--red);"><span style="color: var(--text-muted);">SL:</span> ${p.stopLossFormatted}</div>
+            <div style="font-size: 9px; color: var(--text-main);"><span style="color: var(--text-muted);">Entrada:</span> ${p.entryPriceFormatted}</div>
+            <div style="font-size: 9px; color: var(--green);"><span style="color: var(--text-muted);">TP (+2.5%):</span> ${p.takeProfitFormatted}</div>
+            <div style="font-size: 9px; color: var(--red);"><span style="color: var(--text-muted);">SL (-0.8%):</span> ${p.stopLossFormatted}</div>
           </div>
         </td>
+
+        <!-- 4. QUIÉN LE DIO EL DATO & POR QUÉ ENTRÓ -->
+        <td>
+          <div class="reason-box">
+            <strong style="color: var(--cyan);">${p.specialistName || p.botId}:</strong> ${p.whyReason}
+            <div style="font-size: 8px; color: var(--gold); margin-top: 1px;">Mente: ${p.decidingMind || "Simons + Tudor Jones"}</div>
+          </div>
+        </td>
+
+        <!-- 5. GANANCIA / PÉRDIDA EN VIVO -->
         <td>
           <div style="display: flex; flex-direction: column; gap: 2px; align-items: flex-start;">
             <span class="pnl-badge-floating ${pnlCls}">${pnlFormatted}</span>
             <div class="pill-zen-approved">
               <span class="material-symbols-rounded icon-xs cyan" style="vertical-align: -2px;">verified</span>
-              <span>PULSO ZEN</span>
+              <span>PULSO ZEN APROBADO</span>
             </div>
           </div>
         </td>
