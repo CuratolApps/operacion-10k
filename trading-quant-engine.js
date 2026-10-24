@@ -45,7 +45,7 @@ const SEALED_CODICES = [
   { id: 3, name: "Códice 3: Wall Street, Oro Físico (PAXG) e Índices", scope: "Flujo institucional, arbitraje con bonos del tesoro (ONDO) y refugio macro." },
   { id: 4, name: "Códice 4: Derivados & Precisión Temporal", scope: "Horizontes tácticos de 60s a 300s inmunes a ruido algorítmico y barridos de stops." },
   { id: 5, name: "Códice 5: Lanzamientos Minuto Cero & Liquidez On-Chain", scope: "Filtro PINNs en Aerodrome/Uniswap y auditoría GoPlus 0% Honeypot inmediata." },
-  { id: 6, name: "Códice 6: Asimetría Matemática & Candado Breakeven", scope: "Ratio mínimo 3:1 a 5:1 con candado automático de Breakeven en +0.35% rumbo al 99.9%." }
+  { id: 6, name: "Códice 6: Cero Holdeo, Liquidez Rápida a USDC & Candado Breakeven", scope: "Take Profit rápido de +0.18% a +0.35%, retorno inmediato a 100% liquidez USDC y Candado Breakeven en +0.12% para cero pérdidas." }
 ];
 
 // 5 Mentes Legendarias
@@ -54,13 +54,13 @@ const LEGENDARY_MINDS = [
   { id: "tudor", name: "Paul Tudor Jones (Trend Switch)", role: "Conmutador direccional adaptativo: Long en tendencia alcista vs Short en desplome." },
   { id: "livermore", name: "Jesse Livermore (Acción & Cinta)", role: "Confirmación estricta de entrada y piramidación solo validada por volumen." },
   { id: "soros", name: "George Soros (Reflexividad Macro)", role: "Detección de desconexiones extremas provocadas por catalizadores, pánico o euforia." },
-  { id: "paulson", name: "John Paulson (Asimetría & Candado)", role: "Exige asimetría >= 3:1 y ejecuta Candado Breakeven en +0.35% para asegurar el 99.9%." }
+  { id: "paulson", name: "John Paulson (Asimetría & Candado)", role: "Exige ratio favorable, activa Candado Breakeven en +0.12% y retorno inmediato a USDC." }
 ];
 
 // Pares Reales en Kraken Public REST API
 const KRAKEN_TICKER_URL = "https://api.kraken.com/0/public/Ticker?pair=POLUSD,BNBUSD,ETHUSDC,SOLUSDC,EURUSD,PAXGUSD,XXBTZUSD,ONDOUSD,LINKUSD";
 
-// 9 Pares Canónicos Tácticos alimentados por los Especialistas #601 y #701
+// 9 Pares Canónicos Tácticos alimentados por los Especialistas #601 y #701 (Cero Holdeo · Rápida Rotación a USDC)
 const CANONICAL_PAIRS_CONFIG = [
   // --- BOX 6 (#601 TITAN-SCALPER): PARES LÍQUIDOS & SCALPING ---
   {
@@ -75,11 +75,11 @@ const CANONICAL_PAIRS_CONFIG = [
     directionLabel: "▲ BULL LONG",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Simons (Markov) + Livermore",
-    codexRule: "Códice 1 & 2 (Rebote de soporte)",
-    whyReason: "RSI 37.2 en soporte QuickSwap V3 + Kraken adelantó subida +0.3% vs DEX ➔ Entrada Bull Long con Stop protegido.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    codexRule: "Códice 1 & 6 (Cero Holdeo · Rebote)",
+    whyReason: "RSI 37.2 en soporte QuickSwap V3 + Kraken adelantó subida +0.3% vs DEX ➔ Entrada Bull Long rápida hacia TP +0.28% a USDC.",
+    takeProfitPct: 0.28,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.04
   },
   {
@@ -94,11 +94,11 @@ const CANONICAL_PAIRS_CONFIG = [
     directionLabel: "▲ BULL LONG",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Tudor Jones + Livermore",
-    codexRule: "Códice 2 (Clímax Vendedor)",
-    whyReason: "RSI 30.2 en sobreventa extrema + acumulación institucional en $730 USDC ➔ Entrada Bull Long buscando rebote asimétrico 3.1:1.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    codexRule: "Códice 2 & 6 (Cero Holdeo · Clímax)",
+    whyReason: "RSI 30.2 en sobreventa extrema + absorción institucional en $730 USDC ➔ Entrada Bull Long buscando rebote veloz +0.22% a USDC.",
+    takeProfitPct: 0.22,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.03
   },
   {
@@ -113,11 +113,11 @@ const CANONICAL_PAIRS_CONFIG = [
     directionLabel: "▼ BEAR SHORT",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Simons (Markov) + Tudor Jones",
-    codexRule: "Códice 2 (Rechazo Resistencia)",
-    whyReason: "Rechazo contundente en resistencia $2,410 + Divergencia bajista de volumen en libro Kraken ➔ Entrada Bear Short sintético.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    codexRule: "Códice 2 & 6 (Rechazo Resistencia)",
+    whyReason: "Rechazo contundente en resistencia $2,410 + Divergencia bajista de volumen en libro Kraken ➔ Entrada Bear Short veloz +0.25% a USDC.",
+    takeProfitPct: 0.25,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.02
   },
   {
@@ -127,16 +127,16 @@ const CANONICAL_PAIRS_CONFIG = [
     krakenKey: "SOLUSDC",
     category: "PARES_LIQUIDOS",
     exchange: "Kraken / Raydium DEX",
-    defaultPrice: 102.00,
+    defaultPrice: 181.46,
     direction: "BULL",
     directionLabel: "▲ BULL LONG",
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Livermore (Tape Action)",
-    codexRule: "Códice 1 & 2 (Ruptura con Volumen)",
-    whyReason: "Ruptura alcista con absorción institucional en Raydium DEX + confirmación en cinta de Kraken ➔ Entrada Bull Long en persecución.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    codexRule: "Códice 1 & 6 (Ruptura con Volumen)",
+    whyReason: "Ruptura alcista con absorción en Raydium DEX + cinta activa en Kraken ➔ Entrada Bull Long para captura rápida de +0.24% a USDC.",
+    takeProfitPct: 0.24,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.05
   },
   {
@@ -152,10 +152,10 @@ const CANONICAL_PAIRS_CONFIG = [
     specialistName: "⚡ ESP. #601 (Pares Líquidos)",
     decidingMind: "Paulson (Micro-Spread)",
     codexRule: "Códice 1 & 4 (Lead-Lag 60s)",
-    whyReason: "Desfase CEX vs DEX lead/lag de 4 pips en Euro Digital ➔ Scalping de alta frecuencia delta-neutral con TP corto +1.8%.",
-    takeProfitPct: 1.8,
-    stopLossPct: 0.6,
-    breakevenLockPct: 0.25,
+    whyReason: "Desfase CEX vs DEX lead/lag de 4 pips en Euro Digital ➔ Scalping delta-neutral con TP ultra-rápido +0.18% y retorno a USDC.",
+    takeProfitPct: 0.18,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.01
   },
 
@@ -172,11 +172,11 @@ const CANONICAL_PAIRS_CONFIG = [
     directionLabel: "▲ BULL LONG",
     specialistName: "🏛️ ESP. #701 (Wall Street & Oro)",
     decidingMind: "Soros (Reflexividad Macro)",
-    codexRule: "Códice 3 (Refugio Institucional)",
-    whyReason: "Oro físico superando los $4,000/oz por pánico macro y deuda global ➔ Entrada Bull Long de refugio con ratio asimétrico 3.1:1.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    codexRule: "Códice 3 & 6 (Refugio Oro Físico)",
+    whyReason: "Oro físico superando los $4,000/oz por refugio macro ➔ Entrada Bull Long rápida hacia TP +0.20% y regreso inmediato a liquidez USDC.",
+    takeProfitPct: 0.20,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.03
   },
   {
@@ -186,16 +186,16 @@ const CANONICAL_PAIRS_CONFIG = [
     krakenKey: "XXBTZUSD",
     category: "WALL_STREET_RWA",
     exchange: "Kraken Institutional",
-    defaultPrice: 80708.70,
-    direction: "BEAR",
-    directionLabel: "▼ BEAR SHORT",
+    defaultPrice: 68420.00,
+    direction: "BULL",
+    directionLabel: "▲ BULL LONG",
     specialistName: "🏛️ ESP. #701 (Wall Street & Macro)",
     decidingMind: "Tudor Jones (Trend Switch)",
-    codexRule: "Códice 2 & 3 (Toma de Beneficios)",
-    whyReason: "Agotamiento comprador en $81,000 + toma de beneficios de ballenas institucionales ➔ Entrada Bear Short sintético cubriendo cartera.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    codexRule: "Códice 2 & 6 (Absorción de Muro)",
+    whyReason: "Absorción de ventas en libro institucional Kraken + muro de compra ➔ Entrada Bull Long rápida hacia TP +0.22% a USDC.",
+    takeProfitPct: 0.22,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.02
   },
   {
@@ -205,16 +205,16 @@ const CANONICAL_PAIRS_CONFIG = [
     krakenKey: "LINKUSD",
     category: "WALL_STREET_RWA",
     exchange: "Kraken / Uniswap V3 (Oráculos RWA)",
-    defaultPrice: 11.74,
+    defaultPrice: 13.45,
     direction: "BULL",
     directionLabel: "▲ BULL LONG",
     specialistName: "🏛️ ESP. #701 (Wall Street & RWA)",
-    decidingMind: "Paulson (Asimetría 3.8:1)",
-    codexRule: "Códice 3 & 6 (Demanda Oráculos)",
-    whyReason: "Flujo masivo hacia oráculos RWA en Wall Street + asimetría 3.8:1 favorable frente al riesgo ➔ Entrada Bull Long protegida.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    decidingMind: "Paulson (Asimetría y Candado)",
+    codexRule: "Códice 3 & 6 (Demanda Oráculos CCIP)",
+    whyReason: "Flujo hacia oráculos RWA en Wall Street + EMA 20 alcista ➔ Entrada Bull Long rápida hacia TP +0.26% a USDC.",
+    takeProfitPct: 0.26,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.04
   },
   {
@@ -224,16 +224,16 @@ const CANONICAL_PAIRS_CONFIG = [
     krakenKey: "ONDOUSD",
     category: "WALL_STREET_RWA",
     exchange: "Kraken / Aerodrome (Bonos Tesoro EE.UU.)",
-    defaultPrice: 0.4109,
-    direction: "BEAR",
-    directionLabel: "▼ BEAR SHORT",
+    defaultPrice: 0.8120,
+    direction: "BULL",
+    directionLabel: "▲ BULL LONG",
     specialistName: "🏛️ ESP. #701 (Wall Street & Bonos)",
     decidingMind: "Simons (Reversión a Media)",
-    codexRule: "Códice 2 & 3 (Reversión a la Media)",
-    whyReason: "Desaceleración de volumen en bonos tokenizados y sobrecompra relativa ➔ Entrada Bear Short cazando retroceso ordenado.",
-    takeProfitPct: 2.5,
-    stopLossPct: 0.8,
-    breakevenLockPct: 0.35,
+    codexRule: "Códice 2 & 6 (Demanda RWAs BlackRock)",
+    whyReason: "Flujo continuo a deuda tokenizada BlackRock ➔ Entrada Bull Long rápida hacia TP +0.24% y retorno a USDC.",
+    takeProfitPct: 0.24,
+    stopLossPct: 0.12,
+    breakevenLockPct: 0.12,
     spreadPct: 0.08
   }
 ];
@@ -428,20 +428,20 @@ function evaluatePsychologistRuling(rsi, riskRewardRatio, direction) {
       reason: `RSI muy deprimido (${rsi}) para Short. Riesgo de rebote violento.`
     };
   }
-  if (riskRewardRatio < 3.0) {
+  if (riskRewardRatio < 1.45) {
     return {
       status: "RECHAZADO",
-      badge: "🛑 BLOQUEADO POR #00 (RATIO < 3:1)",
+      badge: "🛑 BLOQUEADO POR #00 (RATIO < 1.5:1)",
       approved: false,
-      reason: `Ratio R/B (${riskRewardRatio.toFixed(2)}:1) inferior al estándar asimétrico (>= 3:1).`
+      reason: `Ratio R/B (${riskRewardRatio.toFixed(2)}:1) inferior al estándar mínimo de scalping (>= 1.5:1).`
     };
   }
 
   return {
     status: "APROBADO",
-    badge: "🧘‍♀️ PULSO ZEN APROBADO (RATIO >= 3:1)",
+    badge: "🧘‍♀️ PULSO ZEN APROBADO (RATIO FAVORABLE)",
     approved: true,
-    reason: `Frialdad algorítmica verificada: RSI ${rsi}, Asimetría ${riskRewardRatio.toFixed(1)}:1 y Candado Breakeven a +0.35%.`
+    reason: `Frialdad algorítmica verificada: RSI ${rsi}, Asimetría ${riskRewardRatio.toFixed(1)}:1, Candado Breakeven a +0.12%, SL a -0.12% y retorno a 100% liquidez USDC.`
   };
 }
 
@@ -541,7 +541,7 @@ async function runTradingQuantEngine() {
 
     let floatingPnlUsdc = 25.00 * (priceDiffPct / 100);
 
-    // Candado Breakeven Automático Paulson a +0.35%
+    // Candado Breakeven Automático Paulson a +0.12%
     const breakevenActive = priceDiffPct >= cfg.breakevenLockPct;
     if (breakevenActive) {
       trade.breakevenLocked = true;
@@ -569,12 +569,12 @@ async function runTradingQuantEngine() {
       trade.breakevenLocked = false;
       floatingPnlUsdc = 0;
       console.log(`   🎯 [TAKE PROFIT TRIGGER] ${cfg.pair} (${cfg.direction}) cruzó +${cfg.takeProfitPct}% -> +$${gainUsdc.toFixed(2)} USDC registrado.`);
-    } else if (breakevenActive && priceDiffPct <= 0.05) {
+    } else if (breakevenActive && priceDiffPct <= 0.01) {
       // Salida en Breakeven protegido
       trade.entryPrice = price;
       trade.breakevenLocked = false;
       floatingPnlUsdc = 0;
-      console.log(`   🛡️ [BREAKEVEN TRIGGER] ${cfg.pair} protegido a +0.35% salió en empate sin pérdida.`);
+      console.log(`   🛡️ [BREAKEVEN TRIGGER] ${cfg.pair} protegido a +0.12% salió en empate sin pérdida.`);
     } else if (priceDiffPct <= -cfg.stopLossPct) {
       // LOSS
       const lossUsdc = 25.00 * (cfg.stopLossPct / 100);
@@ -652,7 +652,7 @@ async function runTradingQuantEngine() {
       stopLossFormatted: price < 1 ? `$${stopLossPrice.toFixed(4)} (-${cfg.stopLossPct}%)` : `$${stopLossPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (-${cfg.stopLossPct}%)`,
       breakevenLockPct: cfg.breakevenLockPct,
       breakevenActive: breakevenActive,
-      breakevenLabel: breakevenActive ? "🛡️ BREAKEVEN ACTIVADO (+0.35%)" : "⏳ EN ESPERA (+0.35%)",
+      breakevenLabel: breakevenActive ? "🛡️ BREAKEVEN ACTIVADO (+0.12%)" : "⏳ EN ESPERA (+0.12%)",
       riskRewardRatio: `${riskRewardRatio.toFixed(1)}:1`,
       floatingPnlUsdc: parseFloat(floatingPnlUsdc.toFixed(4)),
       floatingPnlFormatted: (floatingPnlUsdc >= 0 ? "+$" : "-$") + Math.abs(floatingPnlUsdc).toFixed(2) + ` USDC (${priceDiffPct >= 0 ? "+" : ""}${priceDiffPct.toFixed(2)}%)`,
@@ -881,7 +881,8 @@ async function runTradingQuantEngine() {
         "👁️ Ojos CEX-DEX (Kraken & DEXScreener)",
         "👂 Oído Macro & Noticias en Vivo",
         "🧠 5 Mentes Legendarias",
-        "🛡️ Candado Breakeven Automático (+0.35%)"
+        "🛡️ Candado Breakeven Automático (+0.12%)",
+        "💵 Cero Holdeo (Retorno Inmediato a 100% USDC)"
       ],
       operationsDistribution: {
         bullLong: countBull,
@@ -900,9 +901,10 @@ async function runTradingQuantEngine() {
       supervisionStatus: "SUPERVISIÓN ACTIVA DE BULL & BEAR",
       signalsApproved: signalsApprovedCount,
       signalsRejected: signalsRejectedCount,
-      minAsymmetryRatio: ">= 3:1",
-      strictStopLossPct: "-0.8%",
-      breakevenLockPct: "+0.35%",
+      minAsymmetryRatio: ">= 1.5:1 (Scalping Rápido)",
+      strictStopLossPct: "-0.12%",
+      breakevenLockPct: "+0.12%",
+      zeroHoldPolicy: "Rotación Rápida USDC ➔ Operación Corta ➔ Más USDC (100% Liquidez)",
       sealedCodices: SEALED_CODICES
     },
     legendaryMinds: LEGENDARY_MINDS,

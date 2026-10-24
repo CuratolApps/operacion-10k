@@ -1447,3 +1447,489 @@ body.area501-trading-body {
   font-size: 10.5px;
   line-height: 1.55;
 }
+
+/* =============================================================================
+   TARJETA 4: INTERRUPTOR MAESTRO DE FUEGO REAL (LISTO PERO EN OFF)
+   ============================================================================= */
+.real-money-switch-card {
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+.real-switch-data-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.real-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  padding: 2px 7px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #fca5a5;
+  height: 22px;
+}
+
+.real-switch-btn:hover {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: var(--red);
+  transform: translateY(-1px);
+}
+
+.switch-slider-track {
+  width: 22px;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 6px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.switch-knob {
+  font-size: 8px;
+  position: absolute;
+  left: 2px;
+  line-height: 1;
+}
+
+.switch-label-txt {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.bullet-size-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1px;
+  border-radius: 4px;
+  border: 1px solid var(--border-subtle);
+}
+
+.bullet-btn {
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bullet-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.bullet-btn.active {
+  background: rgba(0, 240, 255, 0.2);
+  color: var(--cyan);
+  border: 1px solid var(--border-cyan);
+}
+
+/* =============================================================================
+   TIRA COMPACTA "CADA QUIEN EN SU SITIO" (1 SOLA LÍNEA LIMPIA ARRIBA DEL GRÁFICO)
+   ============================================================================= */
+.team-briefing-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  height: 24px;
+  max-height: 24px;
+  padding: 0 4px;
+  background: rgba(12, 17, 28, 0.85);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.team-briefing-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.briefing-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.briefing-chip .briefing-icon {
+  font-size: 10px;
+}
+
+.briefing-chip .briefing-tag {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.briefing-chip .briefing-val {
+  color: var(--text-dim);
+}
+
+.briefing-chip.chip-zen { border-color: rgba(16, 185, 129, 0.35); }
+.briefing-chip.chip-zen .briefing-tag { color: var(--green); }
+.briefing-chip.chip-macro { border-color: rgba(245, 158, 11, 0.35); }
+.briefing-chip.chip-macro .briefing-tag { color: var(--gold); }
+.briefing-chip.chip-601 { border-color: rgba(0, 240, 255, 0.35); }
+.briefing-chip.chip-601 .briefing-tag { color: var(--cyan); }
+.briefing-chip.chip-701 { border-color: rgba(245, 158, 11, 0.35); }
+.briefing-chip.chip-701 .briefing-tag { color: var(--gold); }
+.briefing-chip.chip-801 { border-color: rgba(176, 38, 255, 0.35); }
+.briefing-chip.chip-801 .briefing-tag { color: var(--purple); }
+
+/* Etiqueta Modo Caza de Liquidez */
+.tv-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* =============================================================================
+   MODAL DE SEGURIDAD: ENVÍO DE DINERO REAL (#501)
+   ============================================================================= */
+.real-money-modal {
+  max-width: 620px;
+}
+
+.modal-status-banner.locked {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+
+.banner-status-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.banner-status-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #fca5a5;
+  letter-spacing: 0.3px;
+}
+
+.banner-status-sub {
+  font-size: 9.5px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.modal-protocol-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.protocol-box-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.4px;
+  margin-bottom: 8px;
+}
+
+.protocol-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.protocol-step-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.protocol-step-item .step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid var(--border-cyan);
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9.5px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.protocol-step-item strong {
+  color: #fff;
+  font-size: 10px;
+}
+
+.protocol-step-item p {
+  color: var(--text-dim);
+  font-size: 9px;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.modal-bullet-selector-section {
+  margin-bottom: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+}
+
+.modal-bullet-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.modal-bullet-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.modal-bullet-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 8px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modal-bullet-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-bullet-btn.active {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.modal-bullet-btn .bullet-amount {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.modal-bullet-btn.active .bullet-amount {
+  color: var(--cyan);
+}
+
+.modal-bullet-btn .bullet-desc {
+  font-size: 8px;
+  color: var(--text-muted);
+}
+
+.btn-safety-confirm {
+  width: 100%;
+  height: 36px;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--border-green);
+  color: #6ee7b7;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-safety-confirm:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: var(--green);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Overlay & Card para el modal de seguridad de Dinero Real */
+.real-money-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 13, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.real-money-modal-card {
+  background: #0b0f19;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(239, 68, 68, 0.15);
+  overflow: hidden;
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rm-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-card);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.rm-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rm-title-group h3 {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+
+.rm-title-group p {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  margin: 2px 0 0 0;
+}
+
+.rm-locked-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 14px 18px;
+  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 9.5px;
+  line-height: 1.45;
+}
+
+.rm-locked-banner strong {
+  display: block;
+  font-size: 10.5px;
+  color: #ef4444;
+  margin-bottom: 2px;
+}
+
+.rm-modal-body {
+  padding: 0 18px 14px 18px;
+}
+
+.rm-protocol-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.rm-protocol-box h4 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 0 0 8px 0;
+}
+
+.rm-protocol-box ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 9.5px;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.rm-bullet-config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+}
+
+.rm-bullet-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.rm-modal-actions {
+  padding: 0 18px 18px 18px;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
