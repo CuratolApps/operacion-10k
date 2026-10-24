@@ -35,6 +35,26 @@ const ANNUAL_HORIZONS_CONFIG = {
     assignedBoxes: ["Box 1", "Box 2", "Box 3"],
     targets: [
       {
+        id: "gasless-quests-multi",
+        name: "Misiones Gasless EIP-712 & Daily Streaks",
+        category: "Gasless Signatures ($0.00 Gas)",
+        chainId: 137,
+        secondaryChainId: 56,
+        network: "Polygon / BNB Chain",
+        symbol: "POL / BNB",
+        contract: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // WPOL Native Wrap / Checkin
+        secondaryContract: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", // WBNB
+        contractLabel: "WPOL / WBNB Check-in Multiplier",
+        rpc: "https://polygon-bor-rpc.publicnode.com",
+        fallbackRpc: "https://bsc-rpc.publicnode.com",
+        explorer: "https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        deadline: "25 Oct – 20 Nov 2026",
+        actionType: "Firma EIP-712 y Racha Diaria $0 Gas",
+        actionBadge: "Daily Check-In",
+        qualifiedWallets: "500 / 500 (Flota Completa)",
+        estimatedReward: "KieDex, Pheasant & Fables Multipliers"
+      },
+      {
         id: "base-avantis-jumper",
         name: "Base Ecosystem & Avantis S3 / Jumper",
         category: "DeFi Volume & Free Mints",
@@ -72,26 +92,6 @@ const ANNUAL_HORIZONS_CONFIG = {
         actionBadge: "Gasless EIP-712",
         qualifiedWallets: "200 / 500 (Boxes 2, 3)",
         estimatedReward: "$DOGEOS Allocation + Startale Pass"
-      },
-      {
-        id: "gasless-quests-multi",
-        name: "Misiones Gasless EIP-712 & Daily Streaks",
-        category: "Gasless Signatures ($0.00 Gas)",
-        chainId: 137,
-        secondaryChainId: 56,
-        network: "Polygon / BNB Chain",
-        symbol: "POL / BNB",
-        contract: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // WPOL Native Wrap / Checkin
-        secondaryContract: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", // WBNB
-        contractLabel: "WPOL / WBNB Check-in Multiplier",
-        rpc: "https://polygon-bor-rpc.publicnode.com",
-        fallbackRpc: "https://bsc-rpc.publicnode.com",
-        explorer: "https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-        deadline: "25 Oct – 20 Nov 2026",
-        actionType: "Firma EIP-712 y Racha Diaria $0 Gas",
-        actionBadge: "Daily Check-In",
-        qualifiedWallets: "500 / 500 (Flota Completa)",
-        estimatedReward: "KieDex, Pheasant & Fables Multipliers"
       }
     ]
   },

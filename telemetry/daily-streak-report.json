@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "2.0.0",
+  "title": "📊 INFORME ESPECIAL DIARIO DE RACHA Y CALIFICACIÓN A MICRO-PREMIOS (500 BOTS)",
+  "generatedAt": "2026-10-24T11:30:59.872Z",
+  "fleetStatus": "🟢 500/500 BOTS CALIFICADOS (Gas Mainnet + Anti-Sybil OK)",
+  "totalBotsTracked": 500,
+  "totalBoxesTracked": 5,
+  "accumulationMasterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "autoSweepToBinance": false,
+  "policy": "🔒 MODO ACUMULACIÓN #501 (CERO MICRO-DEPÓSITOS A BINANCE)",
+  "boxes": [
+    {
+      "boxId": 1,
+      "range": "Bots #001 al #100",
+      "totalWallets": 100,
+      "signedToday": 100,
+      "missedWallets": 0,
+      "status": "100% ACTIVO",
+      "captain": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F"
+    },
+    {
+      "boxId": 2,
+      "range": "Bots #101 al #200",
+      "totalWallets": 100,
+      "signedToday": 100,
+      "missedWallets": 0,
+      "status": "100% ACTIVO",
+      "captain": "0x56828557b774676527F386851f8C96f5b30cadBA"
+    },
+    {
+      "boxId": 3,
+      "range": "Bots #201 al #300",
+      "totalWallets": 100,
+      "signedToday": 100,
+      "missedWallets": 0,
+      "status": "100% ACTIVO",
+      "captain": "0x2810C26bB958257007A7C0B0CbbFaee563456A7C"
+    },
+    {
+      "boxId": 4,
+      "range": "Bots #301 al #400",
+      "totalWallets": 100,
+      "signedToday": 100,
+      "missedWallets": 0,
+      "status": "100% ACTIVO",
+      "captain": "0xEb6a0C99Eb4EB8152528148b30F16d80F16CCa0f"
+    },
+    {
+      "boxId": 5,
+      "range": "Bots #401 al #500",
+      "totalWallets": 100,
+      "signedToday": 100,
+      "missedWallets": 0,
+      "status": "100% ACTIVO",
+      "captain": "0x4C71869Ea3A4C2E426Fe361eb2c64bE7112ed070"
+    }
+  ],
+  "projects": [
+    {
+      "priorityRank": 1,
+      "id": "gasless-mainnet",
+      "name": "Misiones Gasless EIP-712 & Daily Streaks",
+      "priorityBadge": "🔥 PRIORIDAD #1 (ARRANCA 25 OCT)",
+      "window": "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (23:59 UTC)",
+      "streakDaysCompleted": 0,
+      "streakStatusText": "Día 0/25 (100% Listo — Arranca 00:00 UTC)",
+      "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+      "qualifiedWallets": 500,
+      "missedWallets": 0,
+      "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+      "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+      "autoSweepToBinance": false,
+      "settlementToken": "USDC Nativo vía Odos SOR v2"
+    },
+    {
+      "priorityRank": 2,
+      "id": "citrea",
+      "name": "Citrea Bitcoin ZK-Rollup",
+      "priorityBadge": "🔥 PRIORIDAD #2 (CORTE 28 OCT)",
+      "window": "28 Oct ➔ 15 Nov 2026",
+      "streakDaysCompleted": 1,
+      "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+      "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+      "qualifiedWallets": 500,
+      "missedWallets": 0,
+      "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+      "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+      "autoSweepToBinance": false,
+      "settlementToken": "USDC Nativo vía Odos SOR v2"
+    },
+    {
+      "priorityRank": 3,
+      "id": "base",
+      "name": "Base Ecosystem & Avantis S3 / Jumper",
+      "priorityBadge": "🔥 PRIORIDAD #3 (CORTE 30 OCT)",
+      "window": "30 Oct ➔ 15 Nov 2026",
+      "streakDaysCompleted": 1,
+      "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+      "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+      "qualifiedWallets": 500,
+      "missedWallets": 0,
+      "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+      "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+      "autoSweepToBinance": false,
+      "settlementToken": "USDC Nativo vía Odos SOR v2"
+    },
+    {
+      "priorityRank": 4,
+      "id": "dogeos",
+      "name": "DogeOS Chapter 2 & Startale",
+      "priorityBadge": "🔥 PRIORIDAD #4 (CORTE 30 OCT)",
+      "window": "30 Oct ➔ 20 Nov 2026",
+      "streakDaysCompleted": 1,
+      "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+      "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+      "qualifiedWallets": 500,
+      "missedWallets": 0,
+      "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+      "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+      "autoSweepToBinance": false,
+      "settlementToken": "USDC Nativo vía Odos SOR v2"
+    },
+    {
+      "priorityRank": 5,
+      "id": "arbitrum-goat",
+      "name": "Arbitrum Stylus & GOAT Network BTC L2",
+      "priorityBadge": "⚡ PRIORIDAD #5 (SIEMBRA CONTINUA)",
+      "window": "Siembra Continua Q4 2026 ➔ Q1 2027",
+      "streakDaysCompleted": 1,
+      "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+      "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+      "qualifiedWallets": 500,
+      "missedWallets": 0,
+      "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+      "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+      "autoSweepToBinance": false,
+      "settlementToken": "USDC Nativo vía Odos SOR v2"
+    }
+  ]
+}

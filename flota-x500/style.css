@@ -143,9 +143,9 @@ body.area501-flota-body {
 
 /* Tarjeta 1: Identidad Área 501 & Conectividad Cloud */
 .nav-identity-card {
-  width: clamp(230px, 18vw, 275px);
-  min-width: 220px;
-  max-width: 280px;
+  width: clamp(190px, 15vw, 230px);
+  min-width: 185px;
+  max-width: 240px;
   flex-shrink: 0;
   border-left: 3px solid var(--cyan);
   padding: 4px 10px;
@@ -284,7 +284,7 @@ body.area501-flota-body {
   background: rgba(245, 158, 11, 0.16);
   color: #fbbf24;
   border: 1px solid rgba(245, 158, 11, 0.45);
-  font-size: 8.5px;
+  font-size: 8px;
   font-family: var(--font-mono);
   font-weight: 800;
   padding: 1px 6px;
@@ -296,6 +296,7 @@ body.area501-flota-body {
   max-width: 100%;
   display: inline-block;
   box-shadow: 0 0 6px rgba(245, 158, 11, 0.15);
+  flex-shrink: 0;
 }
 
 .card-data-main {
@@ -324,12 +325,12 @@ body.area501-flota-body {
 
 /* Tarjeta 5: Bóvedas Binance - Micro Selector */
 .binance-vaults-strip {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
   min-width: 0;
+  box-sizing: border-box;
 }
 
 .vault-mini-pill {
@@ -338,15 +339,29 @@ body.area501-flota-body {
   border-radius: 4px;
   padding: 2px 4px;
   font-family: var(--font-mono);
-  font-size: 8.5px;
+  font-size: 0.66rem;
   color: var(--text-dim);
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 2px;
   transition: all 0.15s ease;
   white-space: nowrap;
-  flex-shrink: 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.vault-mini-pill span {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.vault-mini-pill strong {
+  font-size: 0.66rem;
+  letter-spacing: -0.2px;
+  color: var(--text-main);
 }
 
 .vault-mini-pill:hover {
