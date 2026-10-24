@@ -143,9 +143,9 @@ body.area501-flota-body {
 
 /* Tarjeta 1: Identidad Área 501 & Conectividad Cloud */
 .nav-identity-card {
-  width: clamp(190px, 15vw, 230px);
-  min-width: 185px;
-  max-width: 240px;
+  width: clamp(225px, 17vw, 255px);
+  min-width: 215px;
+  max-width: 265px;
   flex-shrink: 0;
   border-left: 3px solid var(--cyan);
   padding: 4px 10px;
@@ -182,28 +182,44 @@ body.area501-flota-body {
 .id-card-sub-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 2px;
-  font-size: 9px;
+  margin-top: 3px;
   font-family: var(--font-mono);
-  color: var(--text-dim);
 }
 
 .id-pills-wrap {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  width: 100%;
+  flex-wrap: nowrap;
 }
 
 .id-cloud-pill {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  padding: 1px 4px;
+  gap: 6px;
+  padding: 3px 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-subtle);
-  font-size: 8.5px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.id-cloud-pill.pill-cf {
+  background: rgba(0, 255, 136, 0.08);
+  border-color: rgba(0, 255, 136, 0.3);
+  color: #34d399;
+}
+
+.id-cloud-pill.pill-tg {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
 }
 
 .pulse-dot-green {
@@ -618,7 +634,7 @@ body.area501-flota-body {
 .fronts-table-wrap {
   flex: 1;
   overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
@@ -638,6 +654,33 @@ body.area501-flota-body {
   font-size: 11px;
   font-family: var(--font-mono);
   text-align: left;
+}
+
+/* Tabla de Frentes: Cero corte a la derecha, 5 columnas exactas fijas */
+#airdropFrontsTable {
+  table-layout: fixed;
+  width: 100%;
+  overflow: hidden;
+}
+
+#airdropFrontsTable thead th {
+  padding: 6px 6px;
+  font-size: 9.5px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#airdropFrontsTable tbody td {
+  padding: 4px 6px;
+  overflow: hidden;
+  vertical-align: middle;
+  white-space: normal;
+}
+
+#airdropFrontsTable td:nth-child(5) {
+  text-align: center;
 }
 
 .quant-table thead th {

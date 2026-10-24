@@ -21,10 +21,14 @@
     "reboundPosition": {
       "totalInvestmentEur": 123,
       "totalInvestmentUsd": 133.5,
-      "currentPositionEur": 187.62,
-      "currentPositionUsd": 203.01,
-      "gapEur": 0,
-      "gapUsd": 0,
+      "baselineFixedUsdc": 266.51,
+      "initialGapUsd": 19.69,
+      "initialGapEur": 18.15,
+      "targetBreakevenUsdc": 286.20,
+      "currentPositionEur": 104.85,
+      "currentPositionUsd": 113.81,
+      "gapEur": -18.15,
+      "gapUsd": -19.69,
       "fixedLiquidityUsdc": 266.51
     },
     "monitoredConcentratedPoolsCount": 12,

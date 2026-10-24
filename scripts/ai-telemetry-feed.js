@@ -602,10 +602,14 @@ async function generateUnifiedTelemetry() {
       reboundPosition: {
         totalInvestmentEur: 123.00,
         totalInvestmentUsd: 133.50,
-        currentPositionEur: 187.62,
-        currentPositionUsd: 203.01,
-        gapEur: 0.00,
-        gapUsd: 0.00,
+        baselineFixedUsdc: 266.51,
+        initialGapUsd: 19.69,
+        initialGapEur: 18.15,
+        targetBreakevenUsdc: 286.20,
+        currentPositionEur: 104.85,
+        currentPositionUsd: 113.81,
+        gapEur: -18.15,
+        gapUsd: -19.69,
         fixedLiquidityUsdc: totalHistoricalUsdc
       },
       monitoredConcentratedPoolsCount: 12,

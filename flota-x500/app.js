@@ -15,16 +15,16 @@ const AIRDROP_FRONTS = {
     id: "gasless",
     rank: 1,
     name: "⚡ Misiones Gasless EIP-712 & Daily Streaks",
-    networkShort: "Polygon PoS / BSC",
+    networkShort: "Polygon PoS & BSC",
     chainId: 137,
     secondaryChainId: 56,
     symbol: "POL / BNB",
     priority: "PRIORIDAD_1",
-    priorityBadge: "🔥 PRIORIDAD #1 (ARRANCA 25 OCT)",
-    windowCut: "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (23:59 UTC)",
+    priorityBadge: "🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)",
+    windowCut: "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)",
     totalDays: 25,
     streakGoal: 25,
-    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    goPlusShield: "🛡️ 100% SEGURO",
     antiSybilAction: "Gasless EIP-712",
     actionBadge: "Gasless EIP-712",
     contract: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
@@ -38,46 +38,20 @@ const AIRDROP_FRONTS = {
     pingMs: null,
     latestBlock: null
   },
-  citrea: {
-    id: "citrea",
-    rank: 2,
-    name: "🟠 Citrea Bitcoin ZK-Rollup",
-    networkShort: "Citrea Testnet (5115)",
-    chainId: 5115,
-    symbol: "cBTC",
-    priority: "PRIORIDAD_2",
-    priorityBadge: "🔥 PRIORIDAD #2 (CORTE 28 OCT)",
-    windowCut: "28 Oct ➔ 15 Nov 2026",
-    totalDays: 19,
-    streakGoal: 19,
-    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
-    antiSybilAction: "BTC L2 Seed & Attestation",
-    actionBadge: "BTC L2 Seed",
-    contract: "0x8a920F65319c321714F4B8487771B437c35F1225",
-    contractLabel: "WcBTC Official Contract",
-    explorerBase: "https://explorer.testnet.citrea.xyz/address/0x8a920F65319c321714F4B8487771B437c35F1225",
-    activeWalletsDesc: "500 / 500 Bots (Rotación Activa)",
-    rpcs: [
-      "https://rpc.testnet.citrea.xyz",
-      "https://citrea-testnet.rpc.thirdweb.com"
-    ],
-    pingMs: null,
-    latestBlock: null
-  },
   base: {
     id: "base",
-    rank: 3,
+    rank: 2,
     name: "🔵 Base Ecosystem & Avantis S3 / Jumper",
-    networkShort: "Base Mainnet (8453)",
+    networkShort: "Base L2 Official",
     chainId: 8453,
     testnetChainId: 84532,
     symbol: "ETH",
-    priority: "PRIORIDAD_3",
-    priorityBadge: "🔥 PRIORIDAD #3 (CORTE 30 OCT)",
-    windowCut: "30 Oct ➔ 15 Nov 2026",
+    priority: "PRIORIDAD_2",
+    priorityBadge: "🔥 PRIORIDAD #2 (CIERRE 30 OCT)",
+    windowCut: "Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026",
     totalDays: 17,
     streakGoal: 17,
-    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    goPlusShield: "🛡️ 100% SEGURO",
     antiSybilAction: "DeFi Route & Wrapping Streak",
     actionBadge: "DeFi Wrap",
     contract: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
@@ -93,53 +67,80 @@ const AIRDROP_FRONTS = {
   },
   dogeos: {
     id: "dogeos",
-    rank: 4,
-    name: "🟣 DogeOS Chapter 2 & Startale",
-    networkShort: "Polygon PoS / BSC",
-    chainId: 137,
-    secondaryChainId: 56,
-    symbol: "POL / BNB",
-    priority: "PRIORIDAD_4",
-    priorityBadge: "🔥 PRIORIDAD #4 (CORTE 30 OCT)",
-    windowCut: "30 Oct ➔ 20 Nov 2026",
+    rank: 3,
+    name: "🟣 DogeOS Chapter 2 & Startale / Soneium",
+    networkShort: "Base / Soneium L2",
+    chainId: 8453,
+    secondaryChainId: 1946,
+    symbol: "ETH / DOGE",
+    priority: "PRIORIDAD_3",
+    priorityBadge: "🔥 PRIORIDAD #3 (CIERRE 30 OCT)",
+    windowCut: "Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026",
     totalDays: 22,
     streakGoal: 22,
-    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
+    goPlusShield: "🛡️ 100% SEGURO",
     antiSybilAction: "EIP-712 Gasless Quest Attestation",
     actionBadge: "EIP-712 Attest",
-    contract: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
-    contractLabel: "DogeOS / Interop Protocol",
-    explorerBase: "https://polygonscan.com/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+    contract: "0x4200000000000000000000000000000000000006",
+    contractLabel: "DogeOS / Soneium Interop Protocol",
+    explorerBase: "https://basescan.org/address/0x4200000000000000000000000000000000000006",
     activeWalletsDesc: "500 / 500 Bots (Boxes 1 al 5)",
     rpcs: [
-      "https://polygon-bor-rpc.publicnode.com",
-      "https://bsc-rpc.publicnode.com"
+      "https://mainnet.base.org",
+      "https://rpc.soneium.org"
     ],
     pingMs: null,
     latestBlock: null
   },
-  arbitrum_goat: {
-    id: "arbitrum_goat",
-    rank: 5,
-    name: "🔵 Arbitrum Stylus & GOAT Network BTC L2",
-    networkShort: "Arbitrum One / GOAT zk-EVM",
+  arbitrum_op: {
+    id: "arbitrum_op",
+    rank: 4,
+    name: "🔵 Arbitrum Stylus & Optimism Superchain",
+    networkShort: "Arbitrum One / Sepolia",
     chainId: 42161,
-    secondaryChainId: 48816,
-    symbol: "ETH / BTC",
-    priority: "PRIORIDAD_5",
-    priorityBadge: "⚡ PRIORIDAD #5 (SIEMBRA CONTINUA)",
-    windowCut: "Siembra Continua Q4 2026 ➔ Q1 2027",
+    secondaryChainId: 10,
+    symbol: "ETH",
+    priority: "PRIORIDAD_4",
+    priorityBadge: "⚡ PRIORIDAD #4 (HORIZONTE 2)",
+    windowCut: "Siembra Continua 24/7 (Corte Q4 2026)",
     totalDays: 90,
     streakGoal: 90,
-    goPlusShield: "🛡️ GoPlus: 100% SEGURO",
-    antiSybilAction: "Stylus WASM & BTC zk-EVM Farm",
-    actionBadge: "WASM / BTC L2",
+    goPlusShield: "🛡️ 100% SEGURO",
+    antiSybilAction: "Stylus WASM & Superchain Farm",
+    actionBadge: "WASM / Superchain",
     contract: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
-    contractLabel: "WETH Arbitrum / GOAT BTC",
+    contractLabel: "WETH Arbitrum Stylus / Superchain",
     explorerBase: "https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
     activeWalletsDesc: "500 / 500 Bots (Boxes 1 al 5)",
     rpcs: [
       "https://arb1.arbitrum.io/rpc",
+      "https://mainnet.optimism.io"
+    ],
+    pingMs: null,
+    latestBlock: null
+  },
+  citrea_goat: {
+    id: "citrea_goat",
+    rank: 5,
+    name: "🟠 Citrea Bitcoin ZK-Rollup & GOAT Network",
+    networkShort: "Citrea & GOAT BTC L2",
+    chainId: 5115,
+    secondaryChainId: 48816,
+    symbol: "cBTC / BTC",
+    priority: "PRIORIDAD_5",
+    priorityBadge: "🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)",
+    windowCut: "Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)",
+    totalDays: 120,
+    streakGoal: 120,
+    goPlusShield: "🛡️ 100% SEGURO",
+    antiSybilAction: "BTC L2 Seed & Attestation",
+    actionBadge: "BTC L2 Seed",
+    contract: "0xcA11bde05977b3631167028862bE2a173976CA11",
+    contractLabel: "Citrea & GOAT BTC L2 Multicall",
+    explorerBase: "https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11",
+    activeWalletsDesc: "500 / 500 Bots (Rotación Activa)",
+    rpcs: [
+      "https://rpc.testnet.citrea.xyz",
       "https://rpc.testnet3.goat.network"
     ],
     pingMs: null,
@@ -537,9 +538,13 @@ async function loadAllTelemetryData() {
 function syncRadarWithFronts() {
   if (!state.seedRadar || !Array.isArray(state.seedRadar.targets)) return;
   state.seedRadar.targets.forEach(t => {
-    const key = (t.id === "gasless-mainnet" || t.id === "gasless") ? "gasless" 
-      : (t.id === "arbitrum-superchain" || t.id === "arbitrum-goat" || t.id === "arbitrum") ? "arbitrum_goat" 
-      : t.id;
+    let key = t.id;
+    if (t.id === "gasless-mainnet" || t.id === "gasless") key = "gasless";
+    else if (t.id === "base") key = "base";
+    else if (t.id === "dogeos") key = "dogeos";
+    else if (t.id === "arbitrum-superchain" || t.id === "arbitrum" || t.id === "arbitrum_op" || t.id === "arbitrum-goat") key = "arbitrum_op";
+    else if (t.id === "citrea" || t.id === "citrea_goat" || t.id === "citrea-goat" || t.id === "goat") key = "citrea_goat";
+
     if (AIRDROP_FRONTS[key]) {
       if (AIRDROP_FRONTS[key].pingMs === null && t.rpcPingMs) {
         AIRDROP_FRONTS[key].pingMs = t.rpcPingMs;
@@ -550,10 +555,10 @@ function syncRadarWithFronts() {
     }
   });
   updateFrontUi("gasless", "pingMainnets", "blockMainnets");
-  updateFrontUi("citrea", "pingCitrea", "blockCitrea");
   updateFrontUi("base", "pingBase", "blockBase");
   updateFrontUi("dogeos", "pingDogeos", "blockDogeos");
-  updateFrontUi("arbitrum_goat", "pingArbitrum", "blockArbitrum");
+  updateFrontUi("arbitrum_op", "pingArbitrum", "blockArbitrum");
+  updateFrontUi("citrea_goat", "pingCitrea", "blockCitrea");
 }
 
 // =============================================================================
@@ -760,10 +765,10 @@ async function refreshRpcPings() {
 
   // Actualizar UI de los frentes
   updateFrontUi("gasless", "pingMainnets", "blockMainnets");
-  updateFrontUi("citrea", "pingCitrea", "blockCitrea");
   updateFrontUi("base", "pingBase", "blockBase");
   updateFrontUi("dogeos", "pingDogeos", "blockDogeos");
-  updateFrontUi("arbitrum_goat", "pingArbitrum", "blockArbitrum");
+  updateFrontUi("arbitrum_op", "pingArbitrum", "blockArbitrum");
+  updateFrontUi("citrea_goat", "pingCitrea", "blockCitrea");
 
   if (btn) {
     setTimeout(() => btn.classList.remove("pulsing"), 800);
@@ -876,16 +881,24 @@ function renderAnnualCalendarAndBoxes() {
     let priorityBadgeClass = "badge-fire";
 
     if (front.id === "gasless") {
+      priorityBadgeClass = "badge-fire";
       countdownDisplay = `<div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;" id="gaslessCountdownText">${streak.countdownText}</div>`;
       streakDisplay = `<div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;" id="gaslessStreakDayText">${streak.streakText}</div>`;
-    } else if (front.id === "citrea") {
-      countdownDisplay = `<div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte en 4 días (28 Oct)</div>`;
-      streakDisplay = `<div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>`;
     } else if (front.id === "base") {
-      countdownDisplay = `<div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte en 6 días (30 Oct)</div>`;
+      priorityBadgeClass = "badge-fire";
+      countdownDisplay = `<div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Fase 1: 30 Oct / 15 Nov 2026</div>`;
       streakDisplay = `<div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>`;
     } else if (front.id === "dogeos") {
-      countdownDisplay = `<div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte en 6 días (30 Oct)</div>`;
+      priorityBadgeClass = "badge-fire";
+      countdownDisplay = `<div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Cap. 2: 30 Oct / 20 Nov 2026</div>`;
+      streakDisplay = `<div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>`;
+    } else if (front.id === "arbitrum_op") {
+      priorityBadgeClass = "badge-seed";
+      countdownDisplay = `<div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">🌱 Siembra Continua Activa</div>`;
+      streakDisplay = `<div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>`;
+    } else if (front.id === "citrea_goat") {
+      priorityBadgeClass = "badge-seed";
+      countdownDisplay = `<div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">🌱 Acumulación Pre-TGE (Sin fecha falsa de Oct)</div>`;
       streakDisplay = `<div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>`;
     } else {
       priorityBadgeClass = "badge-seed";
@@ -893,14 +906,14 @@ function renderAnnualCalendarAndBoxes() {
       streakDisplay = `<div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>`;
     }
 
-    const pingText = front.pingMs !== null ? `${front.pingMs} ms` : "120 ms";
+    const pingText = front.pingMs !== null ? `${front.pingMs} ms` : "124 ms";
 
     return `
       <tr id="frontRow-${front.id}">
         <td>
           <div class="front-badge-wrap">
             <span class="chain-dot-mini ${dotClass}"></span>
-            <strong style="color: #fff;">${front.name}</strong>
+            <strong style="color: #fff; font-size: 10px;">${front.name}</strong>
           </div>
           <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
             <span class="badge-tag-tiny ${priorityBadgeClass}">${front.priorityBadge}</span>
@@ -909,27 +922,26 @@ function renderAnnualCalendarAndBoxes() {
           <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">${front.networkShort} · ${shortContract}</div>
         </td>
         <td>
-          <div style="font-size: 9px; font-weight: 700; color: ${front.id === 'arbitrum_goat' ? '#60a5fa' : '#ff8888'};">${front.windowCut}</div>
+          <div style="font-size: 9px; font-weight: 700; color: ${front.rank >= 4 ? '#60a5fa' : '#ff8888'};">${front.windowCut}</div>
           ${countdownDisplay}
         </td>
         <td>
-          <span class="badge-tag-tiny badge-green">🔥 Racha: 500/500 Bots Activos (0 Fallos)</span>
+          <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
           ${streakDisplay}
         </td>
         <td>
-          <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE PREMIO (500/500)</span>
-          <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Destino: Nodriza #501 (USDC)</div>
-          <div style="font-size: 7.5px; color: var(--text-muted);">🔒 AUTO_SWEEP = false (Acumulación Central)</div>
+          <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
+          <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Nodriza #501 (USDC)</div>
+          <div style="font-size: 7.5px; color: var(--text-muted);">🔒 AUTO_SWEEP = false (Acumulación)</div>
         </td>
         <td>
-          <span class="badge-tag-tiny badge-cyan">${front.actionBadge}</span>
-          <span class="font-mono green-text" style="display: block; font-size: 9px; margin-top: 2px;" id="ping-${front.id}">${pingText}</span>
-        </td>
-        <td>
-          <a href="${explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link">
-            <span>EXPLORER</span>
-            <span class="material-symbols-rounded icon-xs">open_in_new</span>
-          </a>
+          <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
+            <span class="font-mono green-text" style="font-size: 9.5px; font-weight: 700;" id="ping-${front.id}">⚡ ${pingText}</span>
+            <a href="${explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; font-size: 8.5px;" title="Ver contrato auditado en explorador">
+              <span>EXPLORER</span>
+              <span class="material-symbols-rounded icon-xs" style="font-size: 10px;">open_in_new</span>
+            </a>
+          </div>
         </td>
       </tr>
     `;

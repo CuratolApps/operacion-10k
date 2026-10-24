@@ -60,11 +60,15 @@ async function main() {
     tel.atomicSniperExecution.caliberPolygonUsdc = 243.99;
     tel.atomicSniperExecution.caliberConsolidatedUsdc = 266.51;
     if (tel.atomicSniperExecution.reboundPosition) {
+      tel.atomicSniperExecution.reboundPosition.baselineFixedUsdc = 266.51;
+      tel.atomicSniperExecution.reboundPosition.initialGapUsd = 19.69;
+      tel.atomicSniperExecution.reboundPosition.initialGapEur = 18.15;
+      tel.atomicSniperExecution.reboundPosition.targetBreakevenUsdc = 286.20;
       tel.atomicSniperExecution.reboundPosition.fixedLiquidityUsdc = 266.51;
-      tel.atomicSniperExecution.reboundPosition.currentPositionUsd = 203.01;
-      tel.atomicSniperExecution.reboundPosition.currentPositionEur = 187.62;
-      tel.atomicSniperExecution.reboundPosition.gapUsd = 0.00;
-      tel.atomicSniperExecution.reboundPosition.gapEur = 0.00;
+      tel.atomicSniperExecution.reboundPosition.currentPositionUsd = 113.81;
+      tel.atomicSniperExecution.reboundPosition.currentPositionEur = 104.85;
+      tel.atomicSniperExecution.reboundPosition.gapUsd = -19.69;
+      tel.atomicSniperExecution.reboundPosition.gapEur = -18.15;
     }
   }
 

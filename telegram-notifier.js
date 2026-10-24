@@ -166,25 +166,21 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
 }
 
 function getInvestmentRoiHeader() {
-  let onChainUsdc = "185.92";
-  let binanceUsdc = "1.00";
-  let totalUsdc = "266.51";
+  const BASELINE_FIXED_USDC = 266.51; // $243.99 Polygon #501 + $21.52 BSC #501/#101 + $1.00 Binance Spot #1
+  const INITIAL_GAP_USD = 19.69;      // 18.15 EUR — Brecha real por comisiones iniciales
+  const TARGET_BREAKEVEN_USDC = 286.20; // $266.51 + $19.69
+
+  let totalUsdc = BASELINE_FIXED_USDC;
   let gasBlindadoPol = "300.06";
 
   try {
     const telPath = path.join(__dirname, "telemetry", "fleet-telemetry.json");
     if (fs.existsSync(telPath)) {
       const tel = JSON.parse(fs.readFileSync(telPath, "utf8"));
-      if (tel.totalOnChainFleetUsdc != null) {
-        onChainUsdc = Number(tel.totalOnChainFleetUsdc).toFixed(2);
-      }
-      if (tel.totalHarvestedToBinanceUsdc != null) {
-        binanceUsdc = Number(tel.totalHarvestedToBinanceUsdc).toFixed(2);
-      }
       if (tel.totalHistoricalUsdc != null) {
-        totalUsdc = Number(tel.totalHistoricalUsdc).toFixed(2);
-      } else {
-        totalUsdc = (Number(onChainUsdc) + Number(binanceUsdc)).toFixed(2);
+        totalUsdc = Number(tel.totalHistoricalUsdc);
+      } else if (tel.totalOnChainFleetUsdc != null) {
+        totalUsdc = Number(tel.totalOnChainFleetUsdc) + Number(tel.totalHarvestedToBinanceUsdc || 0);
       }
       if (tel.globalGasTank?.pol) {
         gasBlindadoPol = Number(tel.globalGasTank.pol).toFixed(2);
@@ -192,13 +188,19 @@ function getInvestmentRoiHeader() {
     }
   } catch (_) {}
 
+  const currentTotalUsdc = Number(totalUsdc) || BASELINE_FIXED_USDC;
+  const netProfitSinceBaselineUsd = Math.max(0, currentTotalUsdc - BASELINE_FIXED_USDC);
+  const remainingGapUsd = Math.max(0, INITIAL_GAP_USD - netProfitSinceBaselineUsd);
+  const remainingGapEur = remainingGapUsd * 0.9218;
+
   return `💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>
 • <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>
-• <b>Posición Patrimonial Hoy:</b> <code>~187,62 € ($203.01 USD) (Superávit Consolidado)</code>
-• <b>Brecha Reducida a:</b> <b>+0,00 € (+$0.00 USD — 100% BREAK-EVEN SUPERADO ✅)</b>
-• <b>Liquidez Fija Consolidada:</b> <code>$${totalUsdc} USDC (Total Tanques + Binance)</code>
+• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$${BASELINE_FIXED_USDC.toFixed(2)} USDC (Piso Base Operativo)</code>
+• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$${netProfitSinceBaselineUsd.toFixed(2)} USDC</code>
+• <b>🎯 Brecha Real por Recuperar:</b> <b>-${remainingGapEur.toFixed(2)} € (-$${remainingGapUsd.toFixed(2)} USD p/ Empate Real en $${TARGET_BREAKEVEN_USDC.toFixed(2)} USDC)</b>
+• <b>Liquidez Fija Consolidada:</b> <code>$${currentTotalUsdc.toFixed(2)} USDC (Total Tanques + Binance)</code>
 • <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>
-• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $${totalUsdc} USDC)</code>
+• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $${currentTotalUsdc.toFixed(2)} USDC)</code>
 • <b>⛽ Gas Blindado:</b> <code>${gasBlindadoPol} POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 }

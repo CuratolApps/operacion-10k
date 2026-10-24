@@ -93,6 +93,11 @@ const SCAN_NETWORKS = [
   }
 ];
 
+// Constantes de Contabilidad Cero Humo y Brecha Real
+const BASELINE_FIXED_USDC = 266.51; // $243.99 Polygon #501 + $21.52 BSC #501/#101 + $1.00 Binance Spot #1
+const INITIAL_GAP_USD = 19.69;      // 18.15 EUR — Brecha real por recuperar
+const TARGET_BREAKEVEN_USDC = 286.20; // $266.51 + $19.69
+
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "-1004342131598";
 
 function getVanguardToken() {
@@ -728,6 +733,13 @@ async function main() {
   const totalBtcOps = (bitcoinL2Stats.citreaOps || 0) + (bitcoinL2Stats.goatOps || 0);
   const totalBtcPoints = bitcoinL2Stats.totalBtcL2Points || 0;
 
+  const currentTotalUsdc = (Number(consolidatedUsdc) + Number(floatingUsdc)) > BASELINE_FIXED_USDC
+    ? (Number(consolidatedUsdc) + Number(floatingUsdc))
+    : BASELINE_FIXED_USDC;
+  const netProfitSinceBaselineUsd = Math.max(0, currentTotalUsdc - BASELINE_FIXED_USDC);
+  const remainingGapUsd = Math.max(0, INITIAL_GAP_USD - netProfitSinceBaselineUsd);
+  const remainingGapEur = remainingGapUsd * 0.9218;
+
   const lomo4Roi = lomo4Metrics.roiTracker || {};
   const lomo4Lap = lomo4Metrics.lapSpeedometer || {};
   const recoveredUsdc = Number(lomo4Roi.totalRecoveredUsdc || 0).toFixed(2);
@@ -784,9 +796,11 @@ async function main() {
    • <b>Consolidado en Binance Spot (Meta 12K):</b> $${consolidatedUsdc} USDC
    • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)
 
-📈 <b>MEDIDOR DE ROI & VELOCÍMETRO DE VUELTAS (LOMO 4):</b>
+📈 <b>MEDIDOR DE ROI & CONTABILIDAD CERO HUMO (LOMO 4):</b>
+   • <b>Base Liquidez Actual (Tanques + Binance):</b> $${BASELINE_FIXED_USDC.toFixed(2)} USDC (Piso Base Operativo)
+   • <b>Ganancia Neta Capturada sobre Base ($266.51):</b> +$${netProfitSinceBaselineUsd.toFixed(2)} USDC
+   • <b>🎯 Brecha Real por Recuperar:</b> -${remainingGapEur.toFixed(2)} € (-$${remainingGapUsd.toFixed(2)} USD p/ Empate Real en $${TARGET_BREAKEVEN_USDC.toFixed(2)} USDC)
    • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)
-   • <b>Recuperado (ROI):</b> $${recoveredUsdc} / $50.00 USDC (${roiPct}% | Break-Even: -$${breakEven})
    • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB
    • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)
    • <b>Vueltas Completadas:</b> ${completedLaps} / 500 (500 bots corriendo Vuelta #1 sin freno)
@@ -847,4 +861,11 @@ if (require.main === module) {
   });
 }
 
-module.exports = { main, scanNetworks, getBoxesHealth };
+module.exports = {
+  main,
+  scanNetworks,
+  getBoxesHealth,
+  BASELINE_FIXED_USDC,
+  INITIAL_GAP_USD,
+  TARGET_BREAKEVEN_USDC
+};

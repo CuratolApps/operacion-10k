@@ -205,6 +205,11 @@ const BINANCE_USDC_DEPOSIT_ADDRESSES = {
 };
 const BINANCE_VAULTS = BINANCE_USDC_DEPOSIT_ADDRESSES;
 
+// Constantes de Contabilidad Cero Humo y Brecha Real
+const BASELINE_FIXED_USDC = 266.51; // $243.99 Polygon #501 + $21.52 BSC #501/#101 + $1.00 Binance Spot #1
+const INITIAL_GAP_USD = 19.69;      // 18.15 EUR — Brecha real por recuperar
+const TARGET_BREAKEVEN_USDC = 286.20; // $266.51 + $19.69
+
 // Calendario de Airdrops y Semillas por Fecha de Entrega / Corte
 const AIRDROP_TARGETS = [
   {
@@ -212,12 +217,12 @@ const AIRDROP_TARGETS = [
     name: "Misiones Gasless EIP-712 & Daily Streaks",
     priorityRank: 1,
     priority: "PRIORIDAD_1",
-    priorityBadge: "🔥 PRIORIDAD #1 (ARRANCA 25 OCT)",
-    network: "Polygon PoS / BSC",
+    priorityBadge: "🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)",
+    network: "Polygon PoS & BSC",
     chainId: 137,
     secondaryChainId: 56,
     symbol: "POL / BNB",
-    deliveryWindow: "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (23:59 UTC)",
+    deliveryWindow: "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)",
     windowStart: "2026-10-25T00:00:00Z",
     windowEnd: "2026-11-20T23:59:59Z",
     streakDaysTotal: 25,
@@ -234,43 +239,17 @@ const AIRDROP_TARGETS = [
     expectedReward: "Gasless Bounties & Daily Multipliers ➔ USDC #501"
   },
   {
-    id: "citrea",
-    name: "Citrea Bitcoin ZK-Rollup",
-    priorityRank: 2,
-    priority: "PRIORIDAD_2",
-    priorityBadge: "🔥 PRIORIDAD #2 (CORTE 28 OCT)",
-    network: "Citrea Testnet (Bitcoin ZK-Rollup)",
-    chainId: 5115,
-    symbol: "cBTC",
-    deliveryWindow: "28 Oct ➔ 15 Nov 2026",
-    windowStart: "2026-10-28T00:00:00Z",
-    windowEnd: "2026-11-15T23:59:59Z",
-    streakDaysTotal: 18,
-    streakCountLabel: "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
-    eligibilityBadge: "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
-    action: "BTC L2 Seed & Attestation",
-    actionBadge: "BTC L2 Seed",
-    contract: "0x8a920F65319c321714F4B8487771B437c35F1225",
-    contractLabel: "WcBTC Official Contract",
-    rpc: "https://rpc.testnet.citrea.xyz",
-    explorer: "https://explorer.testnet.citrea.xyz/address/0x8a920F65319c321714F4B8487771B437c35F1225",
-    blockscoutApi: "https://explorer.testnet.citrea.xyz/api",
-    qualifiedWallets: "500/500 (Flota Completa)",
-    qualifiedRatio: "500 / 500",
-    expectedReward: "High-Margin Seed Airdrop ➔ USDC #501"
-  },
-  {
     id: "base",
     name: "Base Ecosystem & Avantis S3 / Jumper",
-    priorityRank: 3,
-    priority: "PRIORIDAD_3",
-    priorityBadge: "🔥 PRIORIDAD #3 (CORTE 30 OCT)",
-    network: "Base Mainnet",
+    priorityRank: 2,
+    priority: "PRIORIDAD_2",
+    priorityBadge: "🔥 PRIORIDAD #2 (CIERRE 30 OCT)",
+    network: "Base L2 Official",
     chainId: 8453,
     testnetChainId: 84532,
     symbol: "ETH",
-    deliveryWindow: "30 Oct ➔ 15 Nov 2026",
-    windowStart: "2026-10-30T00:00:00Z",
+    deliveryWindow: "Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026",
+    windowStart: "2026-10-24T00:00:00Z",
     windowEnd: "2026-11-15T23:59:59Z",
     streakDaysTotal: 16,
     streakCountLabel: "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
@@ -287,55 +266,81 @@ const AIRDROP_TARGETS = [
   },
   {
     id: "dogeos",
-    name: "DogeOS Chapter 2 & Startale",
-    priorityRank: 4,
-    priority: "PRIORIDAD_4",
-    priorityBadge: "🔥 PRIORIDAD #4 (CORTE 30 OCT)",
-    network: "Polygon PoS / BSC",
-    chainId: 137,
-    secondaryChainId: 56,
-    symbol: "POL / BNB",
-    deliveryWindow: "30 Oct ➔ 20 Nov 2026",
-    windowStart: "2026-10-30T00:00:00Z",
+    name: "DogeOS Chapter 2 & Startale / Soneium",
+    priorityRank: 3,
+    priority: "PRIORIDAD_3",
+    priorityBadge: "🔥 PRIORIDAD #3 (CIERRE 30 OCT)",
+    network: "Base / Soneium L2",
+    chainId: 8453,
+    secondaryChainId: 1868,
+    symbol: "ETH / ASTR",
+    deliveryWindow: "Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026",
+    windowStart: "2026-10-24T00:00:00Z",
     windowEnd: "2026-11-20T23:59:59Z",
     streakDaysTotal: 21,
     streakCountLabel: "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
     eligibilityBadge: "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
     action: "EIP-712 Gasless Quest Attestation",
     actionBadge: "Gasless EIP-712",
-    contract: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
-    contractLabel: "DogeOS Quest Protocol",
-    rpc: "https://polygon-bor-rpc.publicnode.com",
-    explorer: "https://polygonscan.com/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+    contract: "0x4200000000000000000000000000000000000006",
+    contractLabel: "DogeOS / Soneium Quest Protocol",
+    rpc: "https://mainnet.base.org",
+    explorer: "https://basescan.org/address/0x4200000000000000000000000000000000000006",
     qualifiedWallets: "500/500 (Flota Completa)",
     qualifiedRatio: "500 / 500",
     expectedReward: "$DOGEOS Allocation + Startale Pass ➔ USDC #501"
   },
   {
-    id: "arbitrum-goat",
-    name: "Arbitrum Stylus & GOAT Network BTC L2",
-    priorityRank: 5,
-    priority: "PRIORIDAD_5",
-    priorityBadge: "⚡ PRIORIDAD #5 (SIEMBRA CONTINUA)",
-    network: "Arbitrum One / GOAT Network",
+    id: "arbitrum-superchain",
+    name: "Arbitrum Stylus & Optimism Superchain",
+    priorityRank: 4,
+    priority: "PRIORIDAD_4",
+    priorityBadge: "⚡ PRIORIDAD #4 (HORIZONTE 2)",
+    network: "Arbitrum One / Sepolia",
     chainId: 42161,
-    secondaryChainId: 48816,
-    symbol: "ETH / BTC",
-    deliveryWindow: "Siembra Continua Q4 2026 ➔ Q1 2027",
+    secondaryChainId: 10,
+    symbol: "ETH",
+    deliveryWindow: "Siembra Continua 24/7 (Corte Q4 2026)",
     windowStart: "2026-10-24T00:00:00Z",
-    windowEnd: "2027-03-31T23:59:59Z",
-    streakDaysTotal: 158,
+    windowEnd: "2026-12-31T23:59:59Z",
+    streakDaysTotal: 68,
     streakCountLabel: "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
     eligibilityBadge: "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
-    action: "Stylus WASM & BTC zk-EVM Farm",
-    actionBadge: "BTC L2 Seed",
+    action: "Stylus WASM & Superchain Activity",
+    actionBadge: "Stylus WASM",
     contract: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
-    contractLabel: "WETH Arbitrum / WBTC GOAT",
+    contractLabel: "WETH Arbitrum Official",
     rpc: "https://arb1.arbitrum.io/rpc",
     explorer: "https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
     qualifiedWallets: "500/500 (Flota Completa)",
     qualifiedRatio: "500 / 500",
     expectedReward: "L2 Nitro Activity Multiplier ➔ USDC #501"
+  },
+  {
+    id: "citrea-goat",
+    name: "Citrea Bitcoin ZK-Rollup & GOAT Network",
+    priorityRank: 5,
+    priority: "PRIORIDAD_5",
+    priorityBadge: "🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)",
+    network: "Citrea & GOAT BTC L2",
+    chainId: 137,
+    secondaryChainId: 5115,
+    symbol: "cBTC / BTC",
+    deliveryWindow: "Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)",
+    windowStart: "2026-10-24T00:00:00Z",
+    windowEnd: "2027-03-31T23:59:59Z",
+    streakDaysTotal: 158,
+    streakCountLabel: "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
+    eligibilityBadge: "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
+    action: "BTC zk-EVM Farm & Point Accumulation",
+    actionBadge: "BTC L2 Seed",
+    contract: "0xcA11bde05977b3631167028862bE2a173976CA11",
+    contractLabel: "Multicall3 Canonical BTC L2",
+    rpc: "https://polygon-bor-rpc.publicnode.com",
+    explorer: "https://explorer.testnet.citrea.xyz",
+    qualifiedWallets: "500/500 (Flota Completa)",
+    qualifiedRatio: "500 / 500",
+    expectedReward: "Pre-TGE Seed Drop ➔ USDC #501"
   }
 ];
 
@@ -780,31 +785,36 @@ async function sendDailyStreakTelegramReport(streakReport) {
 🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔥 <b>#1 ${(p1.name || "Gasless EIP-712").toUpperCase()}:</b>
-• <b>Ventana:</b> <code>${p1.window || "25 Oct ➔ 20 Nov 2026"}</code>
-• <b>Racha:</b> <code>${p1.streakStatusText || "Día 0/25"}</code>
-• <b>Firmas Hoy:</b> <code>500/500 Bots Firmados ($0 Gas)</code>
+🔥 <b>#1 ${(p1.name || "Misiones Gasless EIP-712 & Daily Streaks").toUpperCase()}:</b>
+• <b>Prioridad:</b> <code>${p1.priorityBadge || "🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)"}</code>
+• <b>Ventana Real:</b> <code>${p1.window || "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)"}</code>
+• <b>Racha:</b> <code>${p1.streakStatusText || "🔥 Racha: 500/500 Bots Activos (0 Fallos)"}</code>
+• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>
 • <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>
 
-🔥 <b>#2 ${(p2.name || "Citrea BTC ZK").toUpperCase()}:</b>
-• <b>Ventana:</b> <code>${p2.window || "28 Oct ➔ 15 Nov 2026"}</code>
-• <b>Participación:</b> <code>500/500 Bots Listos (100% Racha OK)</code>
-• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Atestaciones BTC L2)</b>
-
-🔥 <b>#3 ${(p3.name || "Base Ecosystem").toUpperCase()}:</b>
-• <b>Ventana:</b> <code>${p3.window || "30 Oct ➔ 15 Nov 2026"}</code>
+🔥 <b>#2 ${(p2.name || "Base Ecosystem & Avantis S3 / Jumper").toUpperCase()}:</b>
+• <b>Prioridad:</b> <code>${p2.priorityBadge || "🔥 PRIORIDAD #2 (CIERRE 30 OCT)"}</code>
+• <b>Ventana Real:</b> <code>${p2.window || "Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026"}</code>
 • <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>
 • <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>
 
-🔥 <b>#4 ${(p4.name || "DogeOS & Startale").toUpperCase()}:</b>
-• <b>Ventana:</b> <code>${p4.window || "30 Oct ➔ 20 Nov 2026"}</code>
+🔥 <b>#3 ${(p3.name || "DogeOS Chapter 2 & Startale / Soneium").toUpperCase()}:</b>
+• <b>Prioridad:</b> <code>${p3.priorityBadge || "🔥 PRIORIDAD #3 (CIERRE 30 OCT)"}</code>
+• <b>Ventana Real:</b> <code>${p3.window || "Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026"}</code>
 • <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>
 • <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>
 
-⚡ <b>#5 ${(p5.name || "Arbitrum & GOAT").toUpperCase()}:</b>
-• <b>Ventana:</b> <code>${p5.window || "Siembra Continua Q4 2026 ➔ Q1 2027"}</code>
+⚡ <b>#4 ${(p4.name || "Arbitrum Stylus & Optimism Superchain").toUpperCase()}:</b>
+• <b>Prioridad:</b> <code>${p4.priorityBadge || "⚡ PRIORIDAD #4 (HORIZONTE 2)"}</code>
+• <b>Ventana Real:</b> <code>${p4.window || "Siembra Continua 24/7 (Corte Q4 2026)"}</code>
 • <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>
 • <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>
+
+🌱 <b>#5 ${(p5.name || "Citrea Bitcoin ZK-Rollup & GOAT Network").toUpperCase()}:</b>
+• <b>Prioridad:</b> <code>${p5.priorityBadge || "🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)"}</code>
+• <b>Ventana Real:</b> <code>${p5.window || "Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)"}</code>
+• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>
+• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.`;
 
@@ -856,5 +866,8 @@ module.exports = {
   AUTO_SWEEP_TO_BINANCE,
   ON_CHAIN_ACCUMULATION_VAULTS,
   BINANCE_USDC_DEPOSIT_ADDRESSES,
-  BINANCE_VAULTS
+  BINANCE_VAULTS,
+  BASELINE_FIXED_USDC,
+  INITIAL_GAP_USD,
+  TARGET_BREAKEVEN_USDC
 };
