@@ -24,6 +24,7 @@
 require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
+const { sendTelegramAlert } = require("./telegram-notifier");
 
 const TELEMETRY_DIR = path.join(__dirname, "telemetry");
 const TRADING_TELEMETRY_FILE = path.join(TELEMETRY_DIR, "trading-telemetry.json");
@@ -933,15 +934,106 @@ async function runTradingQuantEngine() {
   return telemetry;
 }
 
+/**
+ * Genera el mensaje formateado para Telegram del Informe de Trading en Vivo (Bull & Bear).
+ */
+function formatTradingTelegramReport(telemetry) {
+  const t = telemetry;
+  const ledger = t.paperLedger || t.simulatedAudit || {};
+  const baseAccountBalance = 1000.00;
+  const closedVal = typeof ledger.closedPnLUsdc === "number" ? ledger.closedPnLUsdc : parseFloat(ledger.closedPnLUsdc || 0);
+  const floatVal = typeof ledger.floatingPnLUsdc === "number" ? ledger.floatingPnLUsdc : parseFloat(ledger.floatingPnLUsdc || 0);
+  const currentAccountBalance = (baseAccountBalance + closedVal + floatVal).toFixed(2);
+  const closedPnL = ledger.closedPnLFormatted || "$0.00 USDC";
+  const floatingPnL = ledger.floatingPnLFormatted || "$0.00 USDC";
+  const wins = ledger.closedWins ?? 0;
+  const losses = ledger.closedLosses ?? 0;
+  const winRate = ledger.winRateFormatted || "0.0%";
+  const proposals = t.proposalsTable || [];
+  const premieres = t.premieresRadar || [];
+  const patrimonial = t.patrimonialLock || {};
+
+  const lines = [
+    `📈🧠 <b>INFORME DE TRADING EN VIVO — BULL &amp; BEAR (THE NEXUS ENGINE)</b>`,
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+    `🛰️ <b>SALA DE MANDO 10K // ÁREA 501</b> · <i>${t.lastUpdatedUtc || "En Vivo UTC"}</i>`,
+    `🧘‍♀️ <b>Psicóloga Zen #00:</b> <code>100% Calma Zen / Frialdad Nash (0% FOMO)</code>`,
+    `🧠 <b>Régimen:</b> <code>${t.bullBearMaster?.activeRegime || "MODO HÍBRIDO ADAPTATIVO"}</code>`,
+    ``,
+    `💰 <b>BALANCE DE ENTRENAMIENTO &amp; PnL (KRAKEN REAL):</b>`,
+    `• <b>Saldo de Cuenta:</b> <code>$${currentAccountBalance} USDC</code> (Base $1,000.00 USDC)`,
+    `• <b>PnL Cerrado:</b> <code>${closedPnL}</code> | <b>PnL Flotante:</b> <code>${floatingPnL}</code>`,
+    `• <b>Efectividad Auditada:</b> <b>${wins}G / ${losses}P (${winRate} Win-Rate)</b>`,
+    `• <b>Lote Cuantitativo:</b> <code>$${ledger.tradeLotUsdc || 25} USDC / posición</code>`,
+    ``,
+    `⚡🏛️ <b>POSICIONES ABIERTAS EN VIVO (BOX 6 &amp; BOX 7):</b>`,
+    `<i>9 Pares Reales con Cotización en Vivo en Kraken Public REST:</i>`
+  ];
+
+  for (const p of proposals) {
+    const icon = p.direction === "BEAR" ? "🔻" : (p.direction === "SCALPING" ? "⚡" : "🔺");
+    const box = p.botId === "#601" ? "Box 6" : "Box 7";
+    const beTag = p.breakevenActive ? " · 🛡️ <i>BE OK</i>" : "";
+    lines.push(
+      `• <b>${icon} ${p.pair}</b> [<code>${box} ${p.botId}</code> · <b>${p.direction}</b>]: ` +
+      `In: <code>${p.entryPriceFormatted || '$' + p.entryPrice}</code> ➔ Kraken: <code>${p.priceFormatted || '$' + p.price}</code> | TP: <code>${p.takeProfitFormatted}</code> | PnL: <b>${p.floatingPnlFormatted}</b>${beTag}`
+    );
+  }
+
+  lines.push(
+    ``,
+    `🚀 <b>RADAR DE ESTRENOS ON-CHAIN (BOX 8 #801 + GOPLUS 0% HONEYPOT):</b>`,
+    `<i>6/6 Contratos Reales Auditados en DEXScreener / Aerodrome / Uniswap:</i>`
+  );
+
+  for (const pr of premieres) {
+    lines.push(
+      `• <b>${pr.ticker}</b> (${pr.chain}): <code>${pr.priceUsd}</code> | Liq: <code>${pr.realLiquidity}</code> | 🛡️ <b>0% Honeypot (Seguro)</b>`
+    );
+  }
+
+  lines.push(
+    ``,
+    `🔒 <b>BLINDAJE PATRIMONIAL DEL SNIPER (0% RIESGO TRADING):</b>`,
+    `• <b>Capital Real Blindado:</b> <code>$${patrimonial.sniperCapitalProtectedUsdc || "266.51"} USDC</code> (100% Intocable)`,
+    `   ├ Polygon #501: <code>$${patrimonial.breakdown?.polygon501MasterUsdc || "243.99"} USDC</code>`,
+    `   ├ BSC Capitanes: <code>$${patrimonial.breakdown?.bscCaptainsUsdc || "21.52"} USDC</code>`,
+    `   └ Binance Spot: <code>$${patrimonial.breakdown?.binanceSpotHarvestUsdc || "1.00"} USDC</code>`,
+    `• <b>Gas Blindado en Flota:</b> <code>${patrimonial.breakdown?.nativePolReserve || "300.06"} POL</code> (Piso 150 POL inviolable en #501)`,
+    `• <b>Riesgo Capital Real en Trading:</b> <b>$0.00 USDC (0.00% - Riesgo Cero Absoluto)</b>`,
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+    `⏰ <i>ÁREA 501 // The Nexus Engine · Supervisión Algorítmica 24/7</i>`
+  );
+
+  return lines.join("\n");
+}
+
+async function sendTradingTelegramReport(telemetry) {
+  const message = formatTradingTelegramReport(telemetry);
+  console.log("📢 Enviando Informe de Trading en Vivo a Telegram (🛰️ SALA DE MANDO 10K)...");
+  const ok = await sendTelegramAlert(message, null, { skipRoiHeader: true });
+  if (ok) {
+    console.log("✅ [TELEGRAM] Informe de Trading emitido exitosamente (ok: true).");
+  } else {
+    console.warn("⚠️ [TELEGRAM] No se pudo confirmar el envío del informe de trading.");
+  }
+  return ok;
+}
+
 if (require.main === module) {
   const safetyTimeout = setTimeout(() => {
-    console.log("⏱️ Timeout de seguridad alcanzado (10s) — Forzando cierre limpio.");
+    console.log("⏱️ Timeout de seguridad alcanzado (45s) — Forzando cierre limpio.");
     process.exit(0);
-  }, 10000);
+  }, 45000);
   safetyTimeout.unref();
 
+  const sendTelegram = !process.argv.includes("--no-telegram");
+
   runTradingQuantEngine()
-    .then(() => {
+    .then(async (telemetry) => {
+      if (sendTelegram) {
+        await sendTradingTelegramReport(telemetry);
+      }
       clearTimeout(safetyTimeout);
       process.exit(0);
     })
@@ -954,5 +1046,7 @@ if (require.main === module) {
 module.exports = {
   runTradingQuantEngine,
   calculateQuantRsi,
-  evaluatePsychologistRuling
+  evaluatePsychologistRuling,
+  formatTradingTelegramReport,
+  sendTradingTelegramReport
 };

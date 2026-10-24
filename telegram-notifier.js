@@ -213,9 +213,9 @@ const INVESTMENT_ROI_HEADER = getInvestmentRoiHeader();
  * @param {string|null} customChatId Chat ID opcional
  * @returns {Promise<boolean>} true si se envió con éxito
  */
-async function sendTelegramAlert(messageText, customChatId = null) {
+async function sendTelegramAlert(messageText, customChatId = null, options = {}) {
   let formattedMessage = messageText;
-  if (!formattedMessage.includes("ESTADO DE MI INVERSIÓN") && !formattedMessage.includes("Capital Invertido")) {
+  if (!options.skipRoiHeader && !formattedMessage.includes("ESTADO DE MI INVERSIÓN") && !formattedMessage.includes("Capital Invertido")) {
     if (formattedMessage.length > 80 || formattedMessage.includes("ÁREA 501") || formattedMessage.includes("OPERACIÓN") || formattedMessage.includes("DIAGNÓSTICO") || formattedMessage.includes("REPORTE")) {
       formattedMessage = `${getInvestmentRoiHeader()}\n\n${formattedMessage}`;
     }
@@ -236,7 +236,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
     return false;
   }
 
-  const MAX_CHUNK = 3800;
+  const MAX_CHUNK = 3950;
   if (formattedMessage.length <= MAX_CHUNK) {
     return sendSingleTelegramChunk(formattedMessage, chatId, token);
   }
@@ -578,5 +578,6 @@ module.exports = {
   sendTelegramAlert,
   notifyRoundSummary,
   sanitizeTelegramHtml,
-  formatUsdc
+  formatUsdc,
+  getCleanToken
 };
