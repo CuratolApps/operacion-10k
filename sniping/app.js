@@ -403,20 +403,20 @@ let livePrices = {
 };
 
 let liveState = {
-  usdc501Pol: 159.40,
-  usdc001Pol: 6.10,
-  cannon1Usdc: 165.50,
-  cannon2Usdc: 20.42,
+  usdc501Pol: 238.99,
+  usdc001Pol: 5.00,
+  cannon1Usdc: 243.99,
+  cannon2Usdc: 21.52,
   binanceUsdc: 1.00,
-  grandTotalUsdc: 186.92,
-  motherPol: 150.48,
+  grandTotalUsdc: 266.51,
+  motherPol: 155.26,
   motherBnb: 0.0227,
-  fleetTotalPol: 295.48,
-  fleetTotalBnb: 0.0482,
+  fleetTotalPol: 300.06,
+  fleetTotalBnb: 0.0609,
   sessionScans: 0
 };
 
-let latestPolygonBlock = 96032510;
+let latestPolygonBlock = 96081966;
 let latestBscBlock = 129310210;
 let atomicExecutorAddress = null; // AtomicSniperExecutor desplegado en Polygon (telemetry)
 let atomicExecutorTx = null;
@@ -458,8 +458,17 @@ function ledgerAdd(row, atTop = false) {
 
   const V501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
   const seed = [
+    row({ txHash: "0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a", blockId: "#POL 96081966",
+      explorerUrl: tx(POLY, "0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a"),
+      route: "Polygon / Uniswap V3 0.05% (WPOL ➔ USDC Nativo Circle)", cycleInOut: "886.70 WPOL ➔ +$79.59 USDC Nativo", gasUsed: "164,915 Gas (0.007 POL · $0 Pérdida)" }),
+    row({ txHash: "0xe2c7848af880409d5e8162e122d02d5878bb877f4444a54c87d42cacf81cefd7", blockId: "#POL 96081963",
+      explorerUrl: tx(POLY, "0xe2c7848af880409d5e8162e122d02d5878bb877f4444a54c87d42cacf81cefd7"),
+      route: "Polygon / WPOL Envoltorio Gas Excedente", cycleInOut: "Wrap 886.70 POL ➔ WPOL", gasUsed: "48,401 Gas" }),
+    row({ txHash: "0x21f997630526ab3618935f0cfdffcf906062038c99a3a6a1f003ca9a3f73e1f2b", blockId: "#POL 96081500",
+      explorerUrl: tx(POLY, "0x21f997630526ab3618935f0cfdffcf906062038c99a3a6a1f003ca9a3f73e1f2b"),
+      route: "Polygon PoS / Inyección Excedente Fondos", cycleInOut: "Entrada +891.889 POL a Bóveda #501", gasUsed: "0.00 POL" }),
     row({ id: "kraken-lot", blockId: "#POL 96045822", explorerUrl: adr(POLY, V501),
-      route: "Kraken ➔ #501 (Piso 150.48 POL + $165.50 USDC)", cycleInOut: "+39.50 POL Piso + $6.66 USDC", gasUsed: "0.004 POL ($0 Pérdida)" }),
+      route: "Kraken ➔ #501 (Piso 155.26 POL + $243.99 USDC)", cycleInOut: "+39.50 POL Piso + $6.66 USDC", gasUsed: "0.004 POL ($0 Pérdida)" }),
     row({ txHash: "0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1", blockId: "#POL 96032510",
       explorerUrl: tx(POLY, "0x7233c962aab672a84a76fb5c0f8e0964c54b4f16fec59fd390f2788492cf8bf1"), timeUtc: "11:15:30 UTC",
       route: "Polygon / Uniswap V3 (WPOL ➔ USDC)", cycleInOut: "1,519.24 POL ➔ +$138.54 USDC Nativo", gasUsed: "0.0210 POL" }),

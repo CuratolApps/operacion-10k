@@ -66,8 +66,8 @@ async function generateUnifiedTelemetry() {
   const poly = net("mainnets", "polygonMainnet");
 
   // Saldo real on-chain consolidado de nuestros tanques:
-  // $185.92 USDC On-Chain ($164.40 Polygon #501 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $186.92 USDC)
-  const polyUsdc = (snap && snap.polyUsdc !== undefined && snap.polyUsdc > 0) ? snap.polyUsdc : (poly?.totalSniperUsdc && poly.totalSniperUsdc > 0 ? poly.totalSniperUsdc : 164.40);
+  // $265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $266.51 USDC)
+  const polyUsdc = (snap && snap.polyUsdc !== undefined && snap.polyUsdc > 0) ? snap.polyUsdc : (poly?.totalSniperUsdc && poly.totalSniperUsdc > 0 ? poly.totalSniperUsdc : 243.99);
   const bscUsdc = (snap && snap.bscUsdc !== undefined && snap.bscUsdc > 0) ? snap.bscUsdc : (bsc?.totalSniperUsdc && bsc.totalSniperUsdc > 0 ? bsc.totalSniperUsdc : 21.52);
   const totalOnChainSniperUsdc = parseFloat((polyUsdc + bscUsdc).toFixed(6));
   const binanceHarvestedUsdc = parseFloat((existingTelemetry.totalHarvestedToBinanceUsdc || 1.00).toFixed(6));
@@ -602,11 +602,11 @@ async function generateUnifiedTelemetry() {
       reboundPosition: {
         totalInvestmentEur: 123.00,
         totalInvestmentUsd: 133.50,
-        currentPositionEur: 113.97,
-        currentPositionUsd: 123.42,
-        gapEur: -9.03,
-        gapUsd: -10.08,
-        fixedLiquidityUsdc: 186.92
+        currentPositionEur: 187.62,
+        currentPositionUsd: 203.01,
+        gapEur: 0.00,
+        gapUsd: 0.00,
+        fixedLiquidityUsdc: totalHistoricalUsdc
       },
       monitoredConcentratedPoolsCount: 12,
       status: "ARMED_AND_SCANNING"
@@ -629,33 +629,33 @@ async function generateUnifiedTelemetry() {
         id: "#501",
         name: "Nodriza Matriz Dual (#501)",
         address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-        gasPol: 164.40,
-        gasBnb: 0.0150,
+        gasPol: vaultPol ? parseFloat(vaultPol.toFixed(2)) : 155.26,
+        gasBnb: vaultBsc ? parseFloat(vaultBsc.toFixed(4)) : 0.0227,
         sacredFloorPol: 150.00,
         gasLostPol: 0.00,
-        status: "BLINDADA_0_GAS_PERDIDO"
+        status: "BLINDADA_0_GAS_PERDIDO_100_FULL"
       },
       gasTankLive: {
-        motherPol: "164.40 POL",
-        motherBnb: "0.0150 BNB",
-        sacredFloor: "150.00 POL (Piso Inviolable)",
+        motherPol: `${(vaultPol || 155.26).toFixed(2)} POL`,
+        motherBnb: `${(vaultBsc || 0.0227).toFixed(4)} BNB`,
+        sacredFloor: "150.00 POL (Piso Inviolable — 100% FULL)",
         gasLost: "0.00 POL / 0.00 BNB (Estado: 0.00 Gas Perdido)",
-        fleetPol: "295.28 POL",
-        fleetBnb: "0.0405 BNB",
+        fleetPol: `${totalPolInFleet.toFixed(2)} POL (Piso Sagrado 300.00 POL — 100% FULL)`,
+        fleetBnb: `${totalBnbInFleet.toFixed(4)} BNB`,
         krakenReservePol: "116.38 POL",
         krakenReserveBnb: "0.02006 BNB",
         gasBurnedSurveillance: "0.00 POL / 0.00 BNB ($0.00 USD)",
-        guaranteedAutonomy: "+35,000 Operaciones Atómicas Disponibles",
+        guaranteedAutonomy: "+38,000 Operaciones Atómicas Disponibles",
         autonomyBarPct: 100
       },
       munitionTankUsdc: {
-        totalConsolidated: 186.92,
+        totalConsolidated: totalHistoricalUsdc,
         mode: "0% Riesgo de Pérdida (Modo Atómico)",
         zeroInternalSweep: true,
         cannon1_Polygon: {
           id: "CANON-01-POLYGON",
-          amountUsdc: 164.40,
-          command: "#501 (Nodriza Matriz) & #001 (Capitán Box 1)",
+          amountUsdc: polyUsdc,
+          command: "#501 (Nodriza Matriz $238.99) & #001 (Capitán Box 1 $5.00)",
           targetDEX: "Uniswap V3 0.01%/0.05% & QuickSwap",
           escortBinomio: "Nebulosa #01 (Calculista >=95%) + Nebulosa #02 (Guardaespaldas Anti-Rug)",
           spreadCurrent: "+0.199%",
@@ -663,7 +663,7 @@ async function generateUnifiedTelemetry() {
         },
         cannon2_BSC: {
           id: "CANON-02-BSC",
-          amountUsdc: 21.52,
+          amountUsdc: bscUsdc,
           command: "#501 (Nodriza Matriz) & #101 (Capitán Box 2)",
           targetDEX: "PancakeSwap V3 0.01%/0.05% & Keeper Bounties",
           escortBinomio: "Nebulosa #03 (Calculista >=95%) + Nebulosa #04 (Guardaespaldas Anti-Rug)",

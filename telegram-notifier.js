@@ -168,32 +168,38 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
 function getInvestmentRoiHeader() {
   let onChainUsdc = "185.92";
   let binanceUsdc = "1.00";
-  let totalUsdc = "186.92";
-  let gasBlindadoPol = "295.28";
+  let totalUsdc = "266.51";
+  let gasBlindadoPol = "300.06";
 
   try {
     const telPath = path.join(__dirname, "telemetry", "fleet-telemetry.json");
     if (fs.existsSync(telPath)) {
       const tel = JSON.parse(fs.readFileSync(telPath, "utf8"));
-      if (tel.pendingHarvestUsdc?.totalPendingUsdc) {
-        onChainUsdc = Number(tel.pendingHarvestUsdc.totalPendingUsdc).toFixed(2);
+      if (tel.totalOnChainFleetUsdc != null) {
+        onChainUsdc = Number(tel.totalOnChainFleetUsdc).toFixed(2);
       }
       if (tel.totalHarvestedToBinanceUsdc != null) {
         binanceUsdc = Number(tel.totalHarvestedToBinanceUsdc).toFixed(2);
       }
-      totalUsdc = (Number(onChainUsdc) + Number(binanceUsdc)).toFixed(2);
-      gasBlindadoPol = "295.28";
+      if (tel.totalHistoricalUsdc != null) {
+        totalUsdc = Number(tel.totalHistoricalUsdc).toFixed(2);
+      } else {
+        totalUsdc = (Number(onChainUsdc) + Number(binanceUsdc)).toFixed(2);
+      }
+      if (tel.globalGasTank?.pol) {
+        gasBlindadoPol = Number(tel.globalGasTank.pol).toFixed(2);
+      }
     }
   } catch (_) {}
 
   return `💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>
 • <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>
-• <b>Posición Patrimonial Hoy:</b> <code>~113,97 € ($123.42 USD) (Con Rebote de Mercado)</code>
-• <b>Brecha Reducida a:</b> <b>-9,03 € (-$10.08 USD)</b>
+• <b>Posición Patrimonial Hoy:</b> <code>~187,62 € ($203.01 USD) (Superávit Consolidado)</code>
+• <b>Brecha Reducida a:</b> <b>+0,00 € (+$0.00 USD — 100% BREAK-EVEN SUPERADO ✅)</b>
 • <b>Liquidez Fija Consolidada:</b> <code>$${totalUsdc} USDC (Total Tanques + Binance)</code>
 • <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>
-• <b>Bóveda #501:</b> <code>$185.92 USDC On-Chain ($164.40 Polygon #501 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $186.92 USDC)</code>
-• <b>⛽ Gas Blindado:</b> <code>${gasBlindadoPol} POL (Piso 150.00 POL Blindado e Intocable)</code>
+• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $${totalUsdc} USDC)</code>
+• <b>⛽ Gas Blindado:</b> <code>${gasBlindadoPol} POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 }
 

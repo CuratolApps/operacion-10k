@@ -6,7 +6,7 @@
  * ==============================================================================
  * 
  * REGLAS SAGRADAS:
- * 1. Capital del Sniper 100% Intocable: $186.92 USDC y 295.28 POL blindados.
+ * 1. Capital del Sniper 100% Intocable: $266.51 USDC y 300.06 POL blindados (Pisos 100% FULL).
  * 2. MODO ENTRENAMIENTO EN VIVO: Simulación con precios 100% reales de Kraken y DEX ($0 costo).
  * 3. Candado Patrimonial: AUTO_SWEEP_TO_BINANCE = false (Acumulación en Bóveda #501).
  */
@@ -522,11 +522,11 @@ async function runTradingQuantEngine() {
 
   // Candado Patrimonial Inviolable
   const patrimonialLock = {
-    sniperCapitalProtectedUsdc: 186.92,
+    sniperCapitalProtectedUsdc: 266.51,
     breakdown: {
-      masterVault501OnChainUsdc: 185.92,
+      masterVault501OnChainUsdc: 265.51,
       binanceSpotHarvestUsdc: 1.00,
-      nativePolReserve: 295.28
+      nativePolReserve: 300.06
     },
     tradingCapitalRiskUsdc: 0.00,
     tradingCapitalRiskPct: "0.00%",
@@ -566,7 +566,7 @@ async function runTradingQuantEngine() {
       timeUtc: nowUtc,
       type: "CAPITAL_LOCK",
       source: "Bóveda #501 (Candado Patrimonial)",
-      message: "Verificación de saldo: $186.92 USDC blindados en Sniping. AUTO_SWEEP_TO_BINANCE = false (Acumulación exclusiva On-Chain)."
+      message: "Verificación de saldo: $266.51 USDC blindados en Sniping. AUTO_SWEEP_TO_BINANCE = false (Acumulación exclusiva On-Chain)."
     }
   ];
 

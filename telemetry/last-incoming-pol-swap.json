@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "wrapTxHash": "0xe2c7848af880409d5e8162e122d02d5878bb877f4444a54c87d42cacf81cefd7",
+  "swapTxHash": "0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a",
+  "polConverted": 886.7,
+  "usdcReceived": 79.591644,
+  "finalUsdcNum": 238.993616,
+  "finalPolNum": 155.26396040749358,
+  "totalFleetPol": 300.0639604074936,
+  "floor501": 155.25,
+  "floorFleet": 300,
+  "timestamp": "2026-10-24T07:52:00.919Z"
+}

@@ -7,7 +7,7 @@
  * 
  * Precios 100% Reales en Vivo vía Kraken Public API (cada 10s)
  * Modo Entrenamiento en Vivo: Simulación con Precios Reales ($0 Riesgo de Capital)
- * Candado Patrimonial: $186.92 USDC Blindados en Sniping (AUTO_SWEEP = FALSE)
+ * Candado Patrimonial: $266.51 USDC Blindados en Sniping (AUTO_SWEEP = FALSE)
  */
 
 // Estado reactivo global de la cabina
@@ -741,7 +741,7 @@ window.inspectProposal = function(index) {
         </div>
 
         <div style="background: rgba(0,0,0,0.4); border-radius: 6px; padding: 10px; font-size: 10px; color: var(--text-muted);">
-          🔒 <strong style="color: #fff;">Candado Patrimonial Activo:</strong> El capital del Sniper ($186.92 USDC) permanece 100% blindado e intocable en Bóveda #501. Esta operación se ejecuta en modo simulación cuantitativa con precios en vivo de Kraken.
+          🔒 <strong style="color: #fff;">Candado Patrimonial Activo:</strong> El capital del Sniper ($266.51 USDC) permanece 100% blindado e intocable en Bóveda #501. Esta operación se ejecuta en modo simulación cuantitativa con precios en vivo de Kraken.
         </div>
       </div>
     `;
