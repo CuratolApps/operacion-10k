@@ -18,7 +18,7 @@ const AIRDROP_FRONTS = {
     symbol: "cBTC",
     priority: "PRIORIDAD_1",
     priorityBadge: "🔥 PRIORIDAD 1",
-    windowCut: "Corte 28 Oct – 15 Nov 2026",
+    windowCut: "Corte 28 Oct -> 15 Nov 2026",
     goPlusShield: "🛡️ GoPlus: 100% SEGURO",
     antiSybilAction: "BTC L2 Seed",
     rpcs: [
@@ -39,7 +39,7 @@ const AIRDROP_FRONTS = {
     symbol: "BTC",
     priority: "PRIORIDAD_1",
     priorityBadge: "🔥 PRIORIDAD 1",
-    windowCut: "Corte 31 Oct – 20 Nov 2026",
+    windowCut: "Corte 31 Oct -> 20 Nov 2026",
     goPlusShield: "🛡️ GoPlus: 100% SEGURO",
     antiSybilAction: "BTC zk-EVM Farm",
     rpcs: [
@@ -61,7 +61,7 @@ const AIRDROP_FRONTS = {
     symbol: "POL / BNB",
     priority: "PRIORIDAD_1",
     priorityBadge: "🔥 PRIORIDAD 1",
-    windowCut: "Corte 25–30 Oct 2026",
+    windowCut: "Corte 25 -> 30 Oct 2026",
     goPlusShield: "🛡️ GoPlus: 100% SEGURO",
     antiSybilAction: "Gasless EIP-712",
     rpcs: [
@@ -83,7 +83,7 @@ const AIRDROP_FRONTS = {
     symbol: "ETH",
     priority: "PRIORIDAD_2",
     priorityBadge: "🌱 PRIORIDAD 2",
-    windowCut: "Siembra Continua Q4–Q1",
+    windowCut: "Siembra Continua Q4 -> Q1",
     goPlusShield: "🛡️ GoPlus: 100% SEGURO",
     antiSybilAction: "DeFi Wrap",
     rpcs: [
@@ -128,7 +128,7 @@ const BINANCE_VAULTS = [
   {
     boxId: 1,
     name: "BÓVEDA SPOT #1",
-    range: "BOX 1: #001–#100 + #501",
+    range: "BOX 1: #001-#100 + #501",
     address: "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
     captain: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
     captainShort: "0xb750...D40F",
@@ -138,7 +138,7 @@ const BINANCE_VAULTS = [
   {
     boxId: 2,
     name: "BÓVEDA SPOT #2",
-    range: "BOX 2: #101–#200",
+    range: "BOX 2: #101-#200",
     address: "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
     captain: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
     captainShort: "0x5682...adBA",
@@ -148,7 +148,7 @@ const BINANCE_VAULTS = [
   {
     boxId: 3,
     name: "BÓVEDA SPOT #3",
-    range: "BOX 3: #201–#300",
+    range: "BOX 3: #201-#300",
     address: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e",
     captain: "0x2810aa0DabCA4511846194229d2c004B14016A7C",
     captainShort: "0x2810...6A7C",
@@ -158,7 +158,7 @@ const BINANCE_VAULTS = [
   {
     boxId: 4,
     name: "BÓVEDA SPOT #4",
-    range: "BOX 4: #301–#400",
+    range: "BOX 4: #301-#400",
     address: "0x2734e0a264573056417d12478616107ff5d2ce54",
     captain: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
     captainShort: "0xEb6a...Ca0f",
@@ -168,7 +168,7 @@ const BINANCE_VAULTS = [
   {
     boxId: 5,
     name: "BÓVEDA SPOT #5",
-    range: "BOX 5: #401–#500",
+    range: "BOX 5: #401-#500",
     address: "0xf746f7da001c48367d76641a2e870db8e509dce7",
     captain: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
     captainShort: "0x4C71...d070",
@@ -390,7 +390,7 @@ function renderTopNavMetrics() {
   if (elTopLastShift) elTopLastShift.textContent = `ÚLTIMO TURNO: ${lastTurnTxs} TXS ✅`;
 
   // Tarjeta 4: Estado del Carrusel 24/7
-  const squadRange = lastRun.squadRange || "Box 2: #181–#200";
+  const squadRange = lastRun.squadRange || "Box 2: #181-#200";
   const elTopSquad = document.getElementById("topActiveSquadRange");
   if (elTopSquad) elTopSquad.textContent = squadRange;
 

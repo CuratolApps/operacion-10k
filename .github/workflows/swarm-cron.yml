@@ -30,14 +30,14 @@ jobs:
     permissions:
       contents: write
     env:
-      TRUST_WALLET_SEED: ${{ secrets.TRUST_WALLET_SEED }}
-      SWARM_MNEMONIC: ${{ secrets.SWARM_MNEMONIC }}
-      SWARM_SIZE: ${{ secrets.SWARM_SIZE || '500' }}
-      POLYGON_RPC_URL: ${{ secrets.POLYGON_RPC_URL }}
-      BNB_RPC_URL: ${{ secrets.BNB_RPC_URL }}
-      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '-1004342131598' }}
-      VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN }}
+      TRUST_WALLET_SEED: ${{ secrets['TRUST_WALLET_SEED'] }}
+      SWARM_MNEMONIC: ${{ secrets['SWARM_MNEMONIC'] }}
+      SWARM_SIZE: ${{ secrets['SWARM_SIZE'] || '500' }}
+      POLYGON_RPC_URL: ${{ secrets['POLYGON_RPC_URL'] }}
+      BNB_RPC_URL: ${{ secrets['BNB_RPC_URL'] }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets['TELEGRAM_BOT_TOKEN'] }}
+      TELEGRAM_CHAT_ID: ${{ secrets['TELEGRAM_CHAT_ID'] || '-1004342131598' }}
+      VANGUARD_BOT_TOKEN: ${{ secrets['VANGUARD_BOT_TOKEN'] }}
       # 🛑 X/Twitter BLINDADO: sin credenciales X_* en este job mientras @yozapata está en revisión.
 
     steps:
@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets['GITHUB_TOKEN'] }}
 
       - name: "⚙️ Configurar Node.js 24 LTS"
         uses: actions/setup-node@v4
