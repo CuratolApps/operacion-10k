@@ -38,12 +38,14 @@ const CURVE_AM3CRV_POLYGON = "0x445fe580ef8d70ff569ab36e80c647af338db351";
 
 const CHAINS = {
   polygon: {
-    rpcEnv: "POLYGON_RPC_URL", publicRpc: "https://polygon-rpc.com", usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", usdcDec: 6,
-    nativeWrapped: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", nativeSymbol: "WPOL", defaultUsdc: 160,
+    rpcEnv: "POLYGON_RPC_URL", publicRpc: "https://polygon-mainnet.g.alchemy.com/v2/alch_PW_9N-WF3oj20s1XaAYni", usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", usdcDec: 6,
+    nativeWrapped: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", nativeSymbol: "WPOL", defaultUsdc: 243.99,
     tokens: [
       { symbol: "WPOL", address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", dec: 18 },
       { symbol: "WETH", address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", dec: 18 },
       { symbol: "WBTC", address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", dec: 8 },
+      { symbol: "LINK", address: "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", dec: 18 },
+      { symbol: "AAVE", address: "0xD6DF932A45C0f255f85147573891c2685edd563C", dec: 18 },
       { symbol: "USDT", address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", dec: 6, stable: true },
       { symbol: "USDC.e", address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", dec: 6, stable: true }
     ],
@@ -60,10 +62,12 @@ const CHAINS = {
     ]
   },
   bsc: {
-    rpcEnv: "BNB_RPC_URL", publicRpc: "https://bsc-dataseed.binance.org", usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", usdcDec: 18,
-    nativeWrapped: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", nativeSymbol: "WBNB", defaultUsdc: 20,
+    rpcEnv: "BNB_RPC_URL", publicRpc: "https://bnb-mainnet.g.alchemy.com/v2/alch_PW_9N-WF3oj20s1XaAYni", usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", usdcDec: 18,
+    nativeWrapped: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", nativeSymbol: "WBNB", defaultUsdc: 21.52,
     tokens: [
       { symbol: "WBNB", address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", dec: 18 },
+      { symbol: "ETH", address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", dec: 18 },
+      { symbol: "BTCB", address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", dec: 18 },
       { symbol: "USDT", address: "0x55d398326f99059fF775485246999027B3197955", dec: 18, stable: true },
       { symbol: "FDUSD", address: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409", dec: 18, stable: true }
     ],
@@ -102,7 +106,7 @@ for (const [ck, list] of Object.entries(EXEC_ROUTERS)) {
 async function odosQuote(chainId, tokenIn, tokenOut, amountIn) {
   try {
     const ctl = new AbortController();
-    const t = setTimeout(() => ctl.abort(), 8000);
+    const t = setTimeout(() => ctl.abort(), 1200);
     const res = await fetch(ODOS_QUOTE_URL, {
       method: "POST", headers: { "Content-Type": "application/json" }, signal: ctl.signal,
       body: JSON.stringify({ chainId, inputTokens: [{ tokenAddress: tokenIn, amount: amountIn.toString() }], outputTokens: [{ tokenAddress: tokenOut, proportion: 1 }], userAddr: ODOS_PROBE_USER, slippageLimitPercent: 0.3, compact: true })
@@ -117,15 +121,19 @@ async function odosQuote(chainId, tokenIn, tokenOut, amountIn) {
 // Ciclo USDC ➔ X ➔ USDC con Odos (2 cotizaciones, Odos exige token de entrada ≠ salida). Tokens: USDT/USDC.e/WPOL|WBNB/WETH/FDUSD.
 async function odosRoundTrip(c, chainId, usdcAmount, gasUsdc) {
   const amtIn = ethers.parseUnits(String(usdcAmount), c.usdcDec);
-  const rows = [];
-  for (const t of c.tokens.filter(x => x.symbol !== "WBTC")) {
-    const a = await odosQuote(chainId, c.usdc, t.address, amtIn);
-    if (!a) continue;
-    const b = await odosQuote(chainId, t.address, c.usdc, a);
-    if (!b) continue;
-    const finalUsdc = Number(ethers.formatUnits(b, c.usdcDec));
-    rows.push({ token: t.symbol, finalUsdc, grossUsdc: finalUsdc - usdcAmount, netUsdc: finalUsdc - usdcAmount - gasUsdc });
-  }
+  const eligibleTokens = c.tokens.filter(x => x.symbol !== "WBTC");
+  const promises = eligibleTokens.map(async (t) => {
+    try {
+      const a = await odosQuote(chainId, c.usdc, t.address, amtIn);
+      if (!a) return null;
+      const b = await odosQuote(chainId, t.address, c.usdc, a);
+      if (!b) return null;
+      const finalUsdc = Number(ethers.formatUnits(b, c.usdcDec));
+      return { token: t.symbol, finalUsdc, grossUsdc: finalUsdc - usdcAmount, netUsdc: finalUsdc - usdcAmount - gasUsdc };
+    } catch (_) { return null; }
+  });
+  const results = await Promise.all(promises);
+  const rows = results.filter(Boolean);
   rows.sort((x, y) => y.netUsdc - x.netUsdc);
   return rows;
 }
@@ -173,7 +181,11 @@ async function evaluateToken(provider, c, token, usdcAmount, gasUsdc, venues) {
 async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride, opts = {}) {
   const c = CHAINS[chainKey];
   const url = process.env[c.rpcEnv] || c.publicRpc; // en CI sin secreto cae a RPC pública
-  const provider = providerOverride || new ethers.JsonRpcProvider(url);
+  const chainId = chainKey === "polygon" ? 137 : 56;
+  const targetUrl = (chainKey === "bsc" && url && url.includes("alchemy.com"))
+    ? "https://bsc-dataseed.binance.org"
+    : url;
+  const provider = providerOverride || new ethers.JsonRpcProvider(targetUrl, chainId, { staticNetwork: true });
   usdcAmount = usdcAmount || c.defaultUsdc;
 
   // Precio del token nativo en USDC (para convertir el gas)
@@ -211,13 +223,15 @@ async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride, opts = 
  */
 function computeProfitSplit({ netProfitUsdc, motherPol, fleetPol, polPriceUsdc }) {
   if (!(netProfitUsdc > 0) || !(polPriceUsdc > 0)) return { replenishMotherUsdc: 0, fleetPolUsdc: 0, accumulateUsdc: Math.max(0, netProfitUsdc || 0) };
+  // Ambos pisos sagrados ya están 100% llenos (#501: 155.26 / 150.00 POL; Flota: 300.05 / 300.00 POL).
+  // MODO 100% CAPITALIZACIÓN USDC: cada disparo solo repone el gas consumido (Self-Heal ~$0.002) y acumula 99.9% en USDC nativo.
   const missingMotherPol = Math.max(0, MOTHERSHIP_REFILL_TARGET_POL - motherPol);
   const replenishMotherUsdc = Math.min(netProfitUsdc, missingMotherPol * polPriceUsdc);
   let remaining = netProfitUsdc - replenishMotherUsdc;
   const missingFleetPol = Math.max(0, FLEET_TARGET_POL_FLOOR - fleetPol);
   const fleetPolUsdc = missingFleetPol > 0 ? Math.min(remaining * FLEET_SHARE_WHILE_BELOW_TARGET, missingFleetPol * polPriceUsdc) : 0;
   remaining -= fleetPolUsdc;
-  return { replenishMotherUsdc, fleetPolUsdc, accumulateUsdc: remaining, motherFloorOk: motherPol >= MOTHERSHIP_MIN_POL_FLOOR };
+  return { replenishMotherUsdc, fleetPolUsdc, accumulateUsdc: remaining, motherFloorOk: motherPol >= MOTHERSHIP_MIN_POL_FLOOR, mode: "100% CAPITALIZACIÓN USDC" };
 }
 
 async function runRadar() {

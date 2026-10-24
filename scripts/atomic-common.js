@@ -14,19 +14,19 @@ const TEL_FILE = path.join(__dirname, "..", "telemetry", "fleet-telemetry.json")
 const NETS = {
   polygon: {
     key: "polygon", name: "Polygon", chainId: 137, nativeSym: "POL", explorer: "https://polygonscan.com",
-    rpc: () => process.env.POLYGON_RPC_URL || "https://polygon-rpc.com",
+    rpc: () => process.env.POLYGON_RPC_URL || "https://polygon-mainnet.g.alchemy.com/v2/alch_PW_9N-WF3oj20s1XaAYni",
     usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", usdcDec: 6,
     executorKey: "atomicExecutorAddressPolygon",
     floorNative: 150.0,           // piso inviolable de #501 (POL)
-    allowanceCapUsdc: 2500        // 15 disparos x ~$159.40 (se consume en cada transferFrom)
+    allowanceCapUsdc: 4000        // 15 disparos x ~$243.99 (se consume en cada transferFrom)
   },
   bsc: {
     key: "bsc", name: "BSC", chainId: 56, nativeSym: "BNB", explorer: "https://bscscan.com",
-    rpc: () => process.env.BNB_RPC_URL || "https://bsc-dataseed.binance.org",
+    rpc: () => (process.env.BNB_RPC_URL && !process.env.BNB_RPC_URL.includes("alchemy.com")) ? process.env.BNB_RPC_URL : "https://bsc-dataseed.binance.org",
     usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", usdcDec: 18,
     executorKey: "atomicExecutorAddressBsc",
     floorNative: 0.002,           // colchón mínimo de BNB para gas
-    allowanceCapUsdc: 150
+    allowanceCapUsdc: 350         // 15 disparos x ~$21.52 (se consume en cada transferFrom)
   }
 };
 

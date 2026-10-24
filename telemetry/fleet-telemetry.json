@@ -54906,5 +54906,99 @@
     "allowanceUsdc": 2500,
     "caliberUsdc": 243.99,
     "status": "ARMED_AND_READY"
+  },
+  "atomicProfitRadar": {
+    "updatedAt": "2026-10-24T08:31:31.926Z",
+    "minNetProfitUsdc": 0.03,
+    "polygon": {
+      "usdcAmount": 243.99,
+      "gasUsdc": 0.0088,
+      "token": "USDT",
+      "buy": "QuickSwap Algebra V3",
+      "sell": "Uniswap V3 0.05%",
+      "netUsdc": -0.1025,
+      "netPct": -0.042,
+      "shouldFire": false,
+      "legacyNetUsdc": -0.5312,
+      "crossPool": true,
+      "gasLimit": 240000,
+      "odosBest": null
+    },
+    "bsc": {
+      "usdcAmount": 21.52,
+      "gasUsdc": 0.0147,
+      "token": "USDT",
+      "buy": "PancakeSwap V2",
+      "sell": "BiSwap V2",
+      "netUsdc": -0.0507,
+      "netPct": -0.2355,
+      "shouldFire": false,
+      "legacyNetUsdc": -0.0378,
+      "crossPool": true,
+      "gasLimit": 400000,
+      "odosBest": null
+    }
+  },
+  "atomicAutoShooter": {
+    "updatedAt": "2026-10-24T08:32:37.051Z",
+    "minNetProfitUsdc": 0.03,
+    "targetDaily": 15,
+    "slippageBps": 5,
+    "dayUtc": "2026-10-24",
+    "shotsToday": 0,
+    "failuresToday": 0,
+    "chains": {
+      "polygon": {
+        "chain": "polygon",
+        "executor": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
+        "armed": true,
+        "state": "ESPERA_SIN_RUTA_NETA",
+        "checkedAt": "2026-10-24T08:32:18.133Z",
+        "ownerOk": true,
+        "balanceUsdc": 238.99,
+        "allowanceUsdc": 2500,
+        "nativeBalance": 155.26396040749358,
+        "scan": {
+          "usdcIn": 238.99,
+          "gasUsdc": 0.0086,
+          "gasLimit": 240000,
+          "bestCross": {
+            "token": "USDT",
+            "buy": "Uniswap V3 0.01%",
+            "sell": "QuickSwap Algebra V3",
+            "netUsdc": -0.0471,
+            "netPct": -0.0197
+          },
+          "firing": false
+        },
+        "plumbing": "GUARDA OK: NO_PROFIT_REVERT"
+      },
+      "bsc": {
+        "chain": "bsc",
+        "executor": "0xD935F7B80237aA14B6D8F9D45070800e9E23Db20",
+        "armed": true,
+        "state": "ESPERA_SIN_RUTA_NETA",
+        "checkedAt": "2026-10-24T08:32:35.674Z",
+        "ownerOk": true,
+        "balanceUsdc": 7.97,
+        "allowanceUsdc": 150,
+        "nativeBalance": 0.0224806062,
+        "scan": {
+          "usdcIn": 7.97,
+          "gasUsdc": 0.0147,
+          "gasLimit": 400000,
+          "bestCross": {
+            "token": "USDT",
+            "buy": "PancakeSwap V2",
+            "sell": "BiSwap V2",
+            "netUsdc": -0.026,
+            "netPct": -0.3257
+          },
+          "firing": false
+        },
+        "plumbing": "GUARDA OK: NO_PROFIT_REVERT"
+      }
+    },
+    "shots": []
   }
 }
