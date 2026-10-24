@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bucle de consulta a Kraken Public API cada 10 segundos
   startKrakenLiveFeed();
 
+  // Bucle de consulta a DEXScreener y GoPlus Security API cada 20 segundos
+  startDexAndGoPlusLiveFeed();
+
   // Bucle de refresco de telemetría completa cada 30 segundos
   setInterval(() => {
     refreshTradingData(false);
@@ -129,6 +132,30 @@ function startKrakenLiveFeed() {
   setInterval(() => {
     fetchKrakenPricesDirect();
   }, 10000);
+}
+
+function startDexAndGoPlusLiveFeed() {
+  fetchDexAndGoPlusDirect();
+  setInterval(() => {
+    fetchDexAndGoPlusDirect();
+  }, 20000);
+}
+
+async function fetchDexAndGoPlusDirect() {
+  try {
+    const startDex = Date.now();
+    const dexRes = await fetch("https://api.dexscreener.com/latest/dex/tokens/0x3c499c542cef5e3811e1192ce70d8cc03d5c3359");
+    const dexLatency = Date.now() - startDex;
+
+    const startGp = Date.now();
+    const gpRes = await fetch("https://api.gopluslabs.io/api/v1/token_security/137?contract_addresses=0x3c499c542cef5e3811e1192ce70d8cc03d5c3359");
+    const gpLatency = Date.now() - startGp;
+
+    const odosEl = document.getElementById("topOdosLatency");
+    if (odosEl) {
+      odosEl.textContent = `DEX: ${dexLatency}ms · GOPLUS: ${gpLatency}ms`;
+    }
+  } catch (_) {}
 }
 
 async function fetchKrakenPricesDirect() {
