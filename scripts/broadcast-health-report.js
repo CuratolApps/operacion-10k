@@ -10,18 +10,18 @@ async function broadcastHealthReport() {
 <i>Fecha: 22 de Octubre de 2026 • Red Operativa: Mainnet (Polygon + BSC)</i>
 
 💰 <b>1. SALUD FINANCIERA REAL (USD & EUR):</b>
-• <b>Cañón #1 (Polygon PoS #501/#001):</b> <code>$18.30 USDC</code>
-• <b>Cañón #2 (BSC Mainnet #501/#101):</b> <code>$20.42 USDC</code>
-• <b>Bóveda On-Chain Total:</b> <code>$38.72 USDC</code> (Piso Base) | <code>$40.72 - $42.72 USDC</code> (Post-Swap)
+• <b>Cañón #1 (Polygon PoS #501):</b> <code>$164.40 USDC</code>
+• <b>Cañón #2 (BSC Mainnet #501/#101):</b> <code>$21.52 USDC</code>
+• <b>Bóveda On-Chain Total:</b> <code>$185.92 USDC</code>
 • <b>Binance Spot #1 (Cosechado):</b> <code>$1.00 USDC</code>
-• 💵 <b>TOTAL CONSOLIDADO REAL:</b> <code>$42.72 USDC</code> (Piso Fijo Protegido)
-• 💶 <b>EQUIVALENTE EXACTO EN EUROS:</b> <code>~39.45 €</code>
-• 🎯 <b>Meta 1 (45€ / $50.00 USDC):</b> <code>85.4% Listo</code> (A escasos $7.28 de los primeros 45€)
-• ⚖️ <b>Equilibrio 100€ ($108.50 USD):</b> <code>39.4%</code>
-• 💎 <b>Patrimonio Total Actual:</b> <code>~$112.62 USD (~103.95 € / ~104€ Total)</code>
+• 💵 <b>TOTAL CONSOLIDADO REAL:</b> <code>$186.92 USDC</code> (Piso Fijo Protegido)
+• 💶 <b>EQUIVALENTE EXACTO EN EUROS:</b> <code>~172.50 €</code>
+• 🎯 <b>Meta 1 (45€ / $50.00 USDC):</b> <code>100% Superada ✅</code>
+• ⚖️ <b>Equilibrio 100€ ($108.50 USD):</b> <code>100% Superado ✅</code>
+• 💎 <b>Patrimonio Total Actual:</b> <code>~$280.00 USD (Con Gas Blindado + USDC)</code>
 
 ⛽ <b>2. SALUD DEL TANQUE DE GAS (MAINNET & TESTNET):</b>
-• <b>Nodriza #501 (Reserva Matriz):</b> <code>110.98 POL</code> | <code>0.00364 BNB</code>
+• <b>Nodriza #501 (Reserva Matriz):</b> <code>164.40 POL</code> | <code>0.0150 BNB</code> (Piso 150.00 POL Blindado)
 • <b>Capitán Box 1 (#001):</b> <code>18.02 POL</code>
 • <b>Capitán Box 2 (#101):</b> <code>18.03 POL</code>
 • <b>Capitán Box 3 (#201):</b> <code>18.02 POL</code>

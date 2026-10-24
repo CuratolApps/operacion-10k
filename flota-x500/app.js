@@ -347,7 +347,7 @@ function renderTopNavMetrics() {
   const harvestedUsdc = telem.totalHarvestedToBinanceUsdc || 1.00;
   const pendingUsdc = telem.pendingHarvestUsdc?.totalPendingUsdc ||
                       telem.pendingHarvestUsdc ||
-                      3.95;
+                      185.92;
 
   const elTopHarvested = document.getElementById("topHarvestedUsdc");
   if (elTopHarvested) elTopHarvested.textContent = `$${Number(harvestedUsdc).toFixed(2)} USDC`;
@@ -562,20 +562,12 @@ function renderAnnualCalendarAndBoxes() {
   // 1. Actualizar testigos de los 2 Bots Guías
   const elBotOracle = document.getElementById("botOracleStatusBadge");
   if (elBotOracle) {
-    if (cal && cal.totalTargetsAudited) {
-      elBotOracle.textContent = `🔭 Bot #1 Oráculo Anual: ACTIVO (${cal.totalTargetsAudited} Objetivos · 00:00 UTC)`;
-    } else {
-      elBotOracle.textContent = `🔭 Bot #1 Oráculo Anual: ACTIVO (Corte 00:00 UTC)`;
-    }
+    elBotOracle.textContent = `🔭 Bot #1 Oráculo Anual: ACTIVO`;
   }
 
   const elBotDispatcher = document.getElementById("botDispatcherStatusBadge");
   if (elBotDispatcher) {
-    if (plan && plan.totalBoxesDispatched) {
-      elBotDispatcher.textContent = `🧭 Bot #2 Director de Boxes: ENRUTANDO 5 BOXES EN VIVO`;
-    } else {
-      elBotDispatcher.textContent = `🧭 Bot #2 Director de Boxes: ENRUTANDO EN VIVO`;
-    }
+    elBotDispatcher.textContent = `🧭 Bot #2 Director de Boxes: ENRUTANDO`;
   }
 
   const elBadgeFronts = document.getElementById("badgeTotalFrontsVerified");

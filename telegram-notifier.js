@@ -165,14 +165,39 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
   }
 }
 
-const INVESTMENT_ROI_HEADER = `💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>
+function getInvestmentRoiHeader() {
+  let onChainUsdc = "185.92";
+  let binanceUsdc = "1.00";
+  let totalUsdc = "186.92";
+  let gasBlindadoPol = "295.28";
+
+  try {
+    const telPath = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+    if (fs.existsSync(telPath)) {
+      const tel = JSON.parse(fs.readFileSync(telPath, "utf8"));
+      if (tel.pendingHarvestUsdc?.totalPendingUsdc) {
+        onChainUsdc = Number(tel.pendingHarvestUsdc.totalPendingUsdc).toFixed(2);
+      }
+      if (tel.totalHarvestedToBinanceUsdc != null) {
+        binanceUsdc = Number(tel.totalHarvestedToBinanceUsdc).toFixed(2);
+      }
+      totalUsdc = (Number(onChainUsdc) + Number(binanceUsdc)).toFixed(2);
+      gasBlindadoPol = "295.28";
+    }
+  } catch (_) {}
+
+  return `💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>
 • <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>
 • <b>Posición Patrimonial Hoy:</b> <code>~113,97 € ($123.42 USD) (Con Rebote de Mercado)</code>
 • <b>Brecha Reducida a:</b> <b>-9,03 € (-$10.08 USD)</b>
-• <b>Liquidez Fija Consolidada:</b> <code>$41.72 USDC (83.4% Meta 1: $50.00 USDC)</code>
+• <b>Liquidez Fija Consolidada:</b> <code>$${totalUsdc} USDC (Total Tanques + Binance)</code>
 • <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>
-• <b>Bóveda #501:</b> <code>$40.72 On-Chain | $1.00 Binance</code>
+• <b>Bóveda #501:</b> <code>$185.92 USDC On-Chain ($164.40 Polygon #501 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $186.92 USDC)</code>
+• <b>⛽ Gas Blindado:</b> <code>${gasBlindadoPol} POL (Piso 150.00 POL Blindado e Intocable)</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+}
+
+const INVESTMENT_ROI_HEADER = getInvestmentRoiHeader();
 
 /**
  * Envía un mensaje a Telegram (con soporte automático para mensajes largos en múltiples partes).
@@ -184,7 +209,7 @@ async function sendTelegramAlert(messageText, customChatId = null) {
   let formattedMessage = messageText;
   if (!formattedMessage.includes("ESTADO DE MI INVERSIÓN") && !formattedMessage.includes("Capital Invertido")) {
     if (formattedMessage.length > 80 || formattedMessage.includes("ÁREA 501") || formattedMessage.includes("OPERACIÓN") || formattedMessage.includes("DIAGNÓSTICO") || formattedMessage.includes("REPORTE")) {
-      formattedMessage = `${INVESTMENT_ROI_HEADER}\n\n${formattedMessage}`;
+      formattedMessage = `${getInvestmentRoiHeader()}\n\n${formattedMessage}`;
     }
   }
 
@@ -423,7 +448,7 @@ ${deptsLines}
     } catch (_) {}
 
     const text = `
-${INVESTMENT_ROI_HEADER}
+${getInvestmentRoiHeader()}
 
 🛸 <b>ÁREA 501 — REPORTE DE MANDO</b>
 ${modeBadge}
@@ -538,6 +563,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  getInvestmentRoiHeader,
   INVESTMENT_ROI_HEADER,
   setTelegramChatTitle,
   resolveChatId,

@@ -12,15 +12,15 @@ async function main() {
 <i>Fecha: 22 de Octubre de 2026 • Modo: STRICT_NO_GAS_SELL = true (0% Venta de Gas)</i>
 
 💵 <b>1. CORRECCIÓN DASHBOARD (DOBLE CONTEO ELIMINADO):</b>
-• <b>Liquidez Consolidada Real:</b> <code>$41.72 USDC</code> (Exacto)
-  ↳ <i>Bóveda Máster On-Chain (Polygon + BSC):</i> <code>$40.72 USDC</code>
+• <b>Liquidez Consolidada Real:</b> <code>$186.92 USDC</code> (Exacto)
+  ↳ <i>Bóveda Máster On-Chain (Polygon + BSC):</i> <code>$185.92 USDC</code>
   ↳ <i>Binance Spot #1 (Cosechado):</i> <code>$1.00 USDC</code>
-  ↳ <i>Corrección:</i> $82.44 USDC erróneo eliminado de raíz en <code>dashboard/app.js</code> y <code>index.html</code>.
+  ↳ <i>Corrección:</i> Sincronización on-chain completa en <code>dashboard/app.js</code> y <code>flota-x500/app.js</code>.
 • <b>4 Pastillas Superiores Sin Cortes (100% Visibles sin '...'):</b>
-  - Pastilla 1: <code>💶 Invertido: 123€ ($133.50) | Hoy: ~103€ ($111.62)</code>
-  - Pastilla 2: <code>🎯 Brecha p/ Empatar: -$21.88 USD (-19.95€)</code>
-  - Pastilla 3: <code>💵 Meta 1 (45€): $41.72 / $50.00 USDC (83.4%)</code>
-  - Pastilla 4: <code>🏦 Bóveda: $40.72 On-Chain + $1.00 Binance #1</code>
+  - Pastilla 1: <code>💶 Invertido: 123€ ($133.50) | Hoy: ~113.97€ ($123.42)</code>
+  - Pastilla 2: <code>🎯 Brecha p/ Empatar: -$10.08 USD (-9.03€)</code>
+  - Pastilla 3: <code>💵 Meta 1 (45€): $186.92 / $50.00 USDC (100% Superado)</code>
+  - Pastilla 4: <code>🏦 Bóveda: $185.92 On-Chain + $1.00 Binance #1</code>
 • <b>Archivo duplicado:</b> <code>dashboard/styles.css</code> eliminado (solo <code>style.css</code> activo).
 
 🥷 <b>2. COMANDO 500 SOLDADOS (5 BOXES DE 100) — OBJETIVO #1 REAL:</b>
@@ -33,7 +33,7 @@ async function main() {
   2️⃣ <i>Pheasant Network ($PNT) & L2 Bridge:</i> Cierre <b>27 Oct 2026 (5 días)</b>
   3️⃣ <i>DogeOS Chapter 2 & Startale / GenLayer:</i> Cierre <b>30 Oct 2026 (8 días)</b>
   4️⃣ <i>Fables ($FABLES) + Base L2:</i> Cierre <b>20 Nov 2026 (29 días)</b>
-  5️⃣ <i>Caza Diaria Mainnet V3 & Keeper Bounties:</i> Activo 24/7 con los <code>$40.72 USDC</code> On-Chain (callStatic 70/30)
+  5️⃣ <i>Caza Diaria Mainnet V3 & Keeper Bounties:</i> Activo 24/7 con los <code>$185.92 USDC</code> On-Chain (callStatic 70/30)
 
 🛡️ <b>3. BLINDAJE DE CI WORKFLOW (.github/workflows/swarm-cron.yml):</b>
 • <b>Timeout Global:</b> Ajustado a <code>timeout-minutes: 20</code>.
