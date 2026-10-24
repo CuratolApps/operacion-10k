@@ -7,6 +7,21 @@ export default {
       return Response.redirect(`${url.origin}/flota-x500/`, 301);
     }
 
+    // Redirección canónica a /trading/
+    if (url.pathname === "/trading") {
+      return Response.redirect(`${url.origin}/trading/`, 301);
+    }
+
+    // Endpoint directo sin caché de telemetría de trading
+    if (url.pathname === "/api/trading/telemetry" || url.pathname === "/trading/telemetry.json") {
+      const telemReq = new Request(new URL("/telemetry/trading-telemetry.json", request.url), request);
+      const res = await env.ASSETS.fetch(telemReq);
+      const headers = new Headers(res.headers);
+      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(res.body, { status: res.status, headers });
+    }
+
     // Endpoint directo sin caché de telemetría de flota
     if (url.pathname === "/api/flota-x500/telemetry" || url.pathname === "/flota-x500/telemetry.json") {
       const telemReq = new Request(new URL("/telemetry/fleet-telemetry.json", request.url), request);

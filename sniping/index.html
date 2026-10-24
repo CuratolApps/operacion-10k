@@ -713,7 +713,7 @@
       <span class="dock-status-txt">SISTEMA ACTIVO</span>
     </div>
 
-    <!-- Centro: Únicamente los 2 Módulos Reales Vigentes -->
+    <!-- Centro: Los 3 Módulos Reales Vigentes -->
     <div class="dock-center-modules">
       <!-- 1. Sniping Atómico (Activo) -->
       <a href="./" class="dock-module-btn active" id="dockBtnSniping" title="Cabina de Sniping Atómico">
@@ -726,12 +726,18 @@
         <span class="dock-module-icon">🪖</span>
         <span class="dock-label">FLOTA X500</span>
       </a>
+
+      <!-- 3. Trading Cuantitativo -->
+      <a href="../trading/" class="dock-module-btn" id="dockBtnTrading" title="Cabina Cuantitativa: Mentora #00 + Boxes 6, 7 y 8">
+        <span class="dock-module-icon">📈</span>
+        <span class="dock-label">TRADING CUANTITATIVO</span>
+      </a>
     </div>
 
     <!-- Derecha: Utilidades Globales (Reloj Maestro UTC + Candado) -->
     <div class="dock-right-controls">
       <!-- Reloj Maestro UTC en Vivo -->
-      <div class="dock-utc-clock" id="masterUtcClockPod" title="Hora Oficial UTC del Motor">
+      <div class="dock-utc-clock" id="dockUtcClock" title="Hora Oficial UTC del Motor">
         <span class="clock-icon">🕒</span>
         <span class="clock-time font-mono" id="masterUtcClockTime">--:--:-- UTC</span>
       </div>

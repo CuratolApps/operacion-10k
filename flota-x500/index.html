@@ -66,11 +66,11 @@
             <span class="material-symbols-rounded icon-xs green-text">savings</span>
             <span>COSECHA BINANCE SPOT</span>
           </span>
-          <span class="badge-tag-tiny badge-green" id="harvestUsdcBadge">USDC NATIVO (MiCA)</span>
+          <span class="badge-tag-tiny badge-lock-mode" id="harvestUsdcBadge" title="🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Todo lo cosechado se acumula en Bóveda Máster #501 (0xD4D1...3743) y Capitanes">🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)</span>
         </div>
         <div class="card-data-main">
           <span class="metric-big-bold green-text" id="topHarvestedUsdc">$1.00 USDC</span>
-          <span class="metric-sub-detail" id="topPendingFleetUsdc">PENDIENTE: $185.92 USDC</span>
+          <span class="metric-sub-detail" id="topPendingFleetUsdc">BÓVEDA #501: $185.92 ON-CHAIN</span>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
             <span class="material-symbols-rounded icon-xs purple">account_balance</span>
             <span>5 BÓVEDAS BINANCE SPOT</span>
           </span>
-          <span class="badge-tag-tiny badge-purple">🟢 5/5 ON-CHAIN</span>
+          <span class="badge-tag-tiny badge-lock-mode" id="vaultsLockBadge" title="🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Retiros hacia las 5 Bóvedas solo bajo orden explícita del Comandante">🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)</span>
         </div>
         <div class="binance-vaults-strip" id="binanceVaultsMiniList">
           <div class="vault-mini-pill" onclick="inspectBinanceVault(1)" title="Box 1: 0x48b26dd0f9265573f31f7140cf01e9c48518531b (Clic para inspeccionar)">
@@ -577,7 +577,7 @@
       <span class="dock-status-txt">SISTEMA ACTIVO</span>
     </div>
 
-    <!-- Centro: Únicamente los 2 Módulos Reales Vigentes -->
+    <!-- Centro: Los 3 Módulos Reales Vigentes -->
     <div class="dock-center-modules">
       <!-- 1. Sniping Atómico -->
       <a href="../sniping/" class="dock-module-btn" id="dockBtnSniping" title="Módulo de Sniping Atómico y Arbitraje Directo">
@@ -590,12 +590,18 @@
         <span class="dock-module-icon">🪖</span>
         <span class="dock-label">FLOTA X500</span>
       </a>
+
+      <!-- 3. Trading Cuantitativo -->
+      <a href="../trading/" class="dock-module-btn" id="dockBtnTrading" title="Cabina Cuantitativa: Mentora #00 + Boxes 6, 7 y 8">
+        <span class="dock-module-icon">📈</span>
+        <span class="dock-label">TRADING CUANTITATIVO</span>
+      </a>
     </div>
 
     <!-- Derecha: Utilidades Globales (Reloj Maestro UTC + Candado) -->
     <div class="dock-right-controls">
       <!-- Reloj Maestro UTC en Vivo -->
-      <div class="dock-utc-clock" id="masterUtcClockPod" title="Hora Oficial UTC del Motor">
+      <div class="dock-utc-clock" id="dockUtcClock" title="Hora Oficial UTC del Motor">
         <span class="clock-icon">🕒</span>
         <span class="clock-time font-mono" id="masterUtcClockTime">--:--:-- UTC</span>
       </div>

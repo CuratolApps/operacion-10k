@@ -30,15 +30,30 @@ const BINANCE_VAULTS_MAP = {
   4: "0x2734e0a264573056417d12478616107ff5d2ce54", // Box 4 (#301-#400)
   5: "0xf746f7da001c48367d76641a2e870db8e509dce7"  // Box 5 (#401-#500)
 };
+const BINANCE_USDC_DEPOSIT_ADDRESSES = BINANCE_VAULTS_MAP;
 
 // -------------------------------------------------------------------------------------
-// 🔒 POLÍTICA DE SEGURIDAD: BLOQUEO TOTAL DE MICRO-DEPÓSITOS A BINANCE (OPERACIÓN 12K)
+// 🔒 POLÍTICA DE SEGURIDAD: BLOQUEO TOTAL DE MICRO-DEPÓSITOS A BINANCE (CERO MICRO-DEPÓSITOS)
 // -------------------------------------------------------------------------------------
-// Queda estrictamente PROHIBIDO enviar micro-depósitos automáticos ($1, $2, $5 USDC).
-// Todo el USDC Nativo permanece 100% on-chain en la Bóveda Máster #501 y en las
-// Cabeceras de Box como Fondo de Interés Compuesto para escalar a los Super Snipers.
-// Los retiros hacia Binance Spot solo se ejecutarán de forma MANUAL bajo orden explícita.
+// Queda estrictamente PROHIBIDO enviar micro-depósitos automáticos ($1.00 USDC / 1 €) a Binance Spot,
+// protegiendo la cuenta bajo normativa MiCA.
+// Cuando los 500 satélites capturen un token o recompensa y lo conviertan a USDC Nativo vía Odos SOR v2,
+// el 100% del USDC debe acumularse en nuestras propias carteras On-Chain:
+// • Bóveda Máster #501: 0xD4D12077a61118372f7a367319fb11922Beb3743
+// • 5 Capitanes de Box: #001, #101, #201, #301, #401
+// Los retiros hacia Binance Spot solo podrán ejecutarse de forma MANUAL cuando el Comandante
+// lo ordene explícitamente (--manual-binance-withdraw).
 const AUTO_SWEEP_TO_BINANCE = false;
+
+// Carteras On-Chain Oficiales de Acumulación Directa
+const ON_CHAIN_MASTER_VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
+const ON_CHAIN_BOX_CAPTAINS = {
+  1: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", // Capitán #001 (Box 1)
+  2: "0x56828557b774676527F386851f8C96f5b30cadBA", // Capitán #101 (Box 2)
+  3: "0x2810C26bB958257007A7C0B0CbbFaee563456A7C", // Capitán #201 (Box 3)
+  4: "0xEb6a0C99Eb4EB8152528148b30F16d80F16CCa0f", // Capitán #301 (Box 4)
+  5: "0x4C71869Ea3A4C2E426Fe361eb2c64bE7112ed070"  // Capitán #401 (Box 5)
+};
 
 // -------------------------------------------------------------------------------------
 // CONTRATOS OFICIALES DE USDC NATIVO POR RED
@@ -318,10 +333,10 @@ async function scanOmnichainUsdcRewards(walletsToScan = null) {
 async function checkAndHarvestVault501(options = { isDryRun: false, forceWithdraw: false, manualOverride: false }) {
   if (!AUTO_SWEEP_TO_BINANCE && !options.manualOverride) {
     console.log(`\n🔒 [BÓVEDA MÁSTER ON-CHAIN #501] AUTO_SWEEP_TO_BINANCE = false.`);
-    console.log(`   ↳ PROHIBIDO MICRO-DEPÓSITOS AUTOMÁTICOS A BINANCE ($1, $2, $5 USDC).`);
-    console.log(`   ↳ Todos los fondos generados permanecen 100% ON-CHAIN en la Bóveda Matriz #501 como Fondo de Interés Compuesto.`);
-    console.log(`   ↳ Retiros a Binance Spot reservados exclusivamente para ejecución manual bajo orden explícita.`);
-    return { totalUsdc: 0, actions: [], mode: "ON_CHAIN_COMPOUNDING_LOCKED" };
+    console.log(`   ↳ PROHIBIDO MICRO-DEPÓSITOS AUTOMÁTICOS A BINANCE ($1.00 USDC / 1 €) — NORMATIVA MiCA.`);
+    console.log(`   ↳ El 100% de los fondos permanece en Bóveda Máster On-Chain #501 (0xD4D1...3743) y Capitanes de Box.`);
+    console.log(`   ↳ Retiros hacia las 5 Bóvedas de Binance Spot reservados exclusivamente para ejecución manual bajo orden explícita (--manual-binance-withdraw).`);
+    return { totalUsdc: 0, actions: [], mode: "ON_CHAIN_ACCUMULATION_LOCKED" };
   }
 
   const BINANCE_VAULT_1 = BINANCE_VAULTS_MAP[1];
@@ -383,9 +398,10 @@ async function checkAndHarvestVault501(options = { isDryRun: false, forceWithdra
 async function executeEligibleSweeps(eligibleList, options = { isDryRun: false, manualOverride: false }) {
   if (!AUTO_SWEEP_TO_BINANCE && !options.manualOverride) {
     console.log(`\n🔒 [POLÍTICA DE SEGURIDAD ON-CHAIN] AUTO_SWEEP_TO_BINANCE = false.`);
-    console.log(`   ↳ Micro-depósitos automáticos a Binance Spot totalmente desactivados.`);
-    console.log(`   ↳ Los saldos generados permanecen 100% on-chain en las carteras para el Fondo de Interés Compuesto rumbo a Super Snipers.`);
-    return { count: 0, harvestedUsdc: 0, actions: [], mode: "ON_CHAIN_COMPOUNDING_LOCKED" };
+    console.log(`   ↳ Micro-depósitos automáticos a Binance Spot totalmente desactivados (CERO MICRO-DEPÓSITOS — NORMATIVA MiCA).`);
+    console.log(`   ↳ El 100% del USDC cosechado se acumula en las carteras On-Chain (Bóveda Máster #501 y Capitanes de Box #001-#401).`);
+    console.log(`   ↳ Envío a Binance Spot solo ejecutable manualmente con orden explícita: --manual-binance-withdraw`);
+    return { count: 0, harvestedUsdc: 0, actions: [], mode: "ON_CHAIN_ACCUMULATION_LOCKED" };
   }
 
   if (!eligibleList || eligibleList.length === 0) {
@@ -589,24 +605,26 @@ async function sendHarvestTelegramReport(scanData, harvestedAmount = 0, sendAlwa
 async function runHarvestToBinance() {
   const isDryRun = process.argv.includes("--dry-run");
   const isScanOnly = process.argv.includes("--scan");
-  const isWithdraw501 = process.argv.includes("--withdraw-501");
+  const isManualBinanceWithdraw = process.argv.includes("--manual-binance-withdraw");
+  const isWithdraw501 = process.argv.includes("--withdraw-501") || (isManualBinanceWithdraw && process.argv.includes("--only-501"));
 
   if (isWithdraw501) {
     console.log("=========================================================================================");
-    console.log("     🏦 OPERACIÓN 10K — RETIRO DIRECTO DE BÓVEDA #501 A BINANCE SPOT #1 (100% USDC)      ");
+    console.log("     🏦 OPERACIÓN 10K — RETIRO MANUAL DE BÓVEDA #501 A BINANCE SPOT #1 (100% USDC)       ");
     console.log("=========================================================================================\n");
-    return await checkAndHarvestVault501({ isDryRun, forceWithdraw: true });
+    return await checkAndHarvestVault501({ isDryRun, forceWithdraw: true, manualOverride: true });
   }
 
   console.log("=========================================================================================");
-  console.log("     💰 OPERACIÓN 10K — EMBUDO COSECHADOR A 5 BÓVEDAS DE BINANCE SPOT (100% USDC)        ");
+  console.log("     💰 OPERACIÓN 10K — EMBUDO COSECHADOR (MODO ACUMULACIÓN ON-CHAIN)                    ");
   console.log("=========================================================================================");
-  console.log(`🛡️  Modo de Ejecución    : ${isDryRun ? "DRY-RUN (Simulación)" : isScanOnly ? "ESCÁNER Y BARRIDO AUTOMÁTICO" : "PRODUCCIÓN (On-Chain)"}`);
+  console.log(`🛡️  Modo de Ejecución    : ${isDryRun ? "DRY-RUN (Simulación)" : isScanOnly ? "ESCÁNER PASIVO ON-CHAIN" : isManualBinanceWithdraw ? "RETIRO MANUAL AUTORIZADO A BINANCE" : "ACUMULACIÓN ON-CHAIN (CERO MICRO-DEPÓSITOS)"}`);
   console.log(`🚫 Política de Token    : 100% USDC Nativo Exclusivo (PROHIBIDO USDT y otros tokens)`);
-  console.log(`🔒 Anti-Clustering      : Mapeo Estanco 5 Boxes ➔ 5 Bóvedas Binance + Jitter 1.5%–4.0%`);
+  console.log(`🔒 Destino Principal    : Bóveda Máster On-Chain #501 (${ON_CHAIN_MASTER_VAULT_501}) + 5 Capitanes`);
+  console.log(`🏦 Bóvedas Binance Spot : ${isManualBinanceWithdraw ? "⚠️ Retiro Manual HABILITADO (--manual-binance-withdraw)" : "🔒 BLOQUEADAS (AUTO_SWEEP_TO_BINANCE = false — CERO MICRO-DEPÓSITOS)"}`);
   console.log(`👑 Bóveda VIP #00       : Solo Lectura Blindada (0 Liquidaciones)\n`);
 
-  console.log("📋 MAPEO DE BÓVEDAS RECEPTORAS DE BINANCE:");
+  console.log("📋 MAPEO DE BÓVEDAS RECEPTORAS DE BINANCE (SOLO RETIRO MANUAL CONSOLIDADO):");
   console.log(`   • Box 1 (#001–#100 + Bóveda #501) ➔ ${BINANCE_VAULTS_MAP[1]}`);
   console.log(`   • Box 2 (#101–#200)               ➔ ${BINANCE_VAULTS_MAP[2]}`);
   console.log(`   • Box 3 (#201–#300)               ➔ ${BINANCE_VAULTS_MAP[3]}`);
@@ -623,13 +641,13 @@ async function runHarvestToBinance() {
   console.log(`   ↳ Centavos Acumulándose (< $1.00) : $${scanData.totalPendingDustUsdc.toFixed(4)} USDC`);
   console.log(`   ↳ Listos para Barrido (>= $1.00)  : $${scanData.totalEligibleUsdc.toFixed(4)} USDC (${scanData.eligibleSweeps.length} satélites)`);
 
-  // Revisar Bóveda Matriz #501
-  const vault501Result = await checkAndHarvestVault501({ isDryRun, forceWithdraw: false });
+  // Revisar Bóveda Matriz #501 (Solo ejecuta si isManualBinanceWithdraw es true)
+  const vault501Result = await checkAndHarvestVault501({ isDryRun, forceWithdraw: false, manualOverride: isManualBinanceWithdraw });
 
-  // Ejecutar barridos si hay carteras con >= $1.00 USDC
+  // Ejecutar barridos si hay carteras con >= $1.00 USDC (Solo ejecuta si isManualBinanceWithdraw es true)
   let sweepResult = { count: 0, harvestedUsdc: 0, actions: [] };
   if (scanData.eligibleSweeps.length > 0) {
-    sweepResult = await executeEligibleSweeps(scanData.eligibleSweeps, { isDryRun });
+    sweepResult = await executeEligibleSweeps(scanData.eligibleSweeps, { isDryRun, manualOverride: isManualBinanceWithdraw });
   }
 
   const totalHarvestedThisRun = vault501Result.totalUsdc + sweepResult.harvestedUsdc;
@@ -663,6 +681,10 @@ module.exports = {
   calculateJitterHarvestAmount,
   syncTelemetry,
   sendHarvestTelegramReport,
+  AUTO_SWEEP_TO_BINANCE,
   BINANCE_VAULTS_MAP,
+  BINANCE_USDC_DEPOSIT_ADDRESSES,
+  ON_CHAIN_MASTER_VAULT_501,
+  ON_CHAIN_BOX_CAPTAINS,
   NATIVE_USDC_CONTRACTS
 };

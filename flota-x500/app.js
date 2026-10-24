@@ -353,7 +353,21 @@ function renderTopNavMetrics() {
   if (elTopHarvested) elTopHarvested.textContent = `$${Number(harvestedUsdc).toFixed(2)} USDC`;
 
   const elTopPending = document.getElementById("topPendingFleetUsdc");
-  if (elTopPending) elTopPending.textContent = `PENDIENTE: $${Number(pendingUsdc).toFixed(2)} USDC`;
+  if (elTopPending) elTopPending.textContent = `BÓVEDA #501: $${Number(pendingUsdc).toFixed(2)} ON-CHAIN`;
+
+  const elHarvestBadge = document.getElementById("harvestUsdcBadge");
+  if (elHarvestBadge) {
+    elHarvestBadge.textContent = "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)";
+    elHarvestBadge.className = "badge-tag-tiny badge-lock-mode";
+    elHarvestBadge.title = "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Todo lo cosechado se acumula en Bóveda Máster #501 (0xD4D1...3743) y Capitanes";
+  }
+
+  const elVaultsBadge = document.getElementById("vaultsLockBadge");
+  if (elVaultsBadge) {
+    elVaultsBadge.textContent = "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)";
+    elVaultsBadge.className = "badge-tag-tiny badge-lock-mode";
+    elVaultsBadge.title = "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Retiros hacia las 5 Bóvedas solo bajo orden explícita del Comandante";
+  }
 
   // Tarjeta 3: Trabajo "Picado" On-Chain
   const totalTxs = telem.workStats?.totalTxConfirmedAllTime || 11152;
@@ -1017,7 +1031,7 @@ function inspectBinanceVault(boxId) {
   if (!vault) return;
 
   copyToClipboard(vault.address);
-  alert(`🏦 [BÓVEDA BINANCE SPOT #${boxId}]\nDirección: ${vault.address}\nAsignada a: ${vault.range}\nCapitán: ${vault.captain}\nEstado: ${vault.status}\n\n(Dirección copiada automáticamente al portapapeles)`);
+  alert(`🏦 [BÓVEDA BINANCE SPOT #${boxId} - RETIRO MANUAL CONSOLIDADO]\n\n🔒 MODO ACUMULACIÓN ON-CHAIN ACTIVO\n(RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)\n\n• Dirección CEX: ${vault.address}\n• Asignada a: ${vault.range}\n• Capitán On-Chain: ${vault.captain}\n• Política de Seguridad: Ningún bot envía micro-depósitos automáticos ($1.00 USDC / 1 €) a Binance Spot bajo normativa MiCA.\n• Acumulación: Todo lo cosechado se acumula primero en la Bóveda Máster On-Chain #501 (0xD4D1...3743) y Capitanes.\n• Retiros CEX: Exclusivamente ejecutados de forma MANUAL cuando el Comandante lo ordene.\n\n(Dirección copiada automáticamente al portapapeles)`);
 }
 
 // =============================================================================

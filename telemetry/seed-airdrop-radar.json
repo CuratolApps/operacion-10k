@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "title": "Cazador de Semillas y Airdrops por Fecha de Entrega — Área 501",
-  "lastUpdated": "2026-10-24T00:42:44.574Z",
+  "lastUpdated": "2026-10-24T07:15:03.216Z",
   "deliveryCalendarSeason": "Octubre–Noviembre 2026",
   "priorityDistribution": {
     "priority1Count": 3,
@@ -16,7 +16,17 @@
   "liquiditySettlement": {
     "router": "Odos Smart Order Router v2",
     "currency": "100% USDC NATIVO",
-    "destinationVaults": {
+    "autoSweepToBinance": false,
+    "mode": "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)",
+    "onChainMasterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    "onChainCaptains": {
+      "1": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+      "2": "0x56828557b774676527F386851f8C96f5b30cadBA",
+      "3": "0x2810C26bB958257007A7C0B0CbbFaee563456A7C",
+      "4": "0xEb6a0C99Eb4EB8152528148b30F16d80F16CCa0f",
+      "5": "0x4C71869Ea3A4C2E426Fe361eb2c64bE7112ed070"
+    },
+    "destinationVaultsManualOnly": {
       "1": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
       "2": "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
       "3": "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e",
@@ -35,12 +45,12 @@
     "status": "ONLINE",
     "totalChainsTracked": 439,
     "ecosystemsTvl": {
-      "base": "$9.27B",
-      "arbitrum": "$2.06B",
-      "bsc": "$7.89B",
-      "polygon": "$745.1M"
+      "base": "$9.28B",
+      "arbitrum": "$2.07B",
+      "bsc": "$7.90B",
+      "polygon": "$729.8M"
     },
-    "timestamp": "2026-10-24T00:42:39.713Z"
+    "timestamp": "2026-10-24T07:14:58.816Z"
   },
   "targets": [
     {
@@ -64,8 +74,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 405,
-      "currentBlock": 33000466,
+      "rpcPingMs": 593,
+      "currentBlock": 33012236,
       "isSafeToExecute": true
     },
     {
@@ -89,8 +99,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 832,
-      "currentBlock": 17716287,
+      "rpcPingMs": 885,
+      "currentBlock": 17723264,
       "isSafeToExecute": true
     },
     {
@@ -114,8 +124,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 324,
-      "currentBlock": 96064794,
+      "rpcPingMs": 120,
+      "currentBlock": 0,
       "isSafeToExecute": true
     },
     {
@@ -139,8 +149,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 514,
-      "currentBlock": 53006608,
+      "rpcPingMs": 217,
+      "currentBlock": 53018378,
       "isSafeToExecute": true
     },
     {
@@ -165,8 +175,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 680,
-      "currentBlock": 517691883,
+      "rpcPingMs": 286,
+      "currentBlock": 517770511,
       "isSafeToExecute": true
     }
   ]

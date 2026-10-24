@@ -25,14 +25,40 @@ const RADAR_FILE = path.join(TELEMETRY_DIR, "seed-airdrop-radar.json");
 const FLEET_FILE = path.join(TELEMETRY_DIR, "fleet-telemetry.json");
 const MISSIONS_FILE = path.join(__dirname, "missions-targets.json");
 
-// Bóvedas Binance Spot Oficiales (USDC Nativo)
-const BINANCE_VAULTS = {
+// -------------------------------------------------------------------------------------
+// 🔒 POLÍTICA DE SEGURIDAD: BLOQUEO TOTAL DE MICRO-DEPÓSITOS A BINANCE (CERO MICRO-DEPÓSITOS)
+// -------------------------------------------------------------------------------------
+// Queda estrictamente PROHIBIDO enviar micro-depósitos automáticos ($1.00 USDC / 1 €) a Binance Spot,
+// protegiendo la cuenta bajo normativa MiCA.
+// Cuando los 500 satélites capturen un token o recompensa y lo conviertan a USDC Nativo vía Odos SOR v2,
+// el 100% del USDC debe acumularse en nuestras propias carteras On-Chain:
+// • Bóveda Máster #501: 0xD4D12077a61118372f7a367319fb11922Beb3743
+// • 5 Capitanes de Box: #001, #101, #201, #301, #401
+// Los retiros hacia las 5 Bóvedas de Binance Spot solo podrán ejecutarse de forma MANUAL
+// cuando el Comandante lo ordene explícitamente (--manual-binance-withdraw).
+const AUTO_SWEEP_TO_BINANCE = false;
+
+// Carteras On-Chain de Acumulación Directa (100% On-Chain)
+const ON_CHAIN_ACCUMULATION_VAULTS = {
+  master501: "0xD4D12077a61118372f7a367319fb11922Beb3743", // Bóveda Máster #501
+  captains: {
+    1: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", // Capitán #001 (Box 1)
+    2: "0x56828557b774676527F386851f8C96f5b30cadBA", // Capitán #101 (Box 2)
+    3: "0x2810C26bB958257007A7C0B0CbbFaee563456A7C", // Capitán #201 (Box 3)
+    4: "0xEb6a0C99Eb4EB8152528148b30F16d80F16CCa0f", // Capitán #301 (Box 4)
+    5: "0x4C71869Ea3A4C2E426Fe361eb2c64bE7112ed070"  // Capitán #401 (Box 5)
+  }
+};
+
+// Bóvedas Binance Spot Oficiales (USDC Nativo) — Solo para retiro manual consolidado
+const BINANCE_USDC_DEPOSIT_ADDRESSES = {
   1: "0x48b26dd0f9265573f31f7140cf01e9c48518531b", // Box 1 + #501
   2: "0x33cffda0218122ed4d981dcb1797f4b458191bc4", // Box 2
   3: "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e", // Box 3
   4: "0x2734e0a264573056417d12478616107ff5d2ce54", // Box 4
   5: "0xf746f7da001c48367d76641a2e870db8e509dce7"  // Box 5
 };
+const BINANCE_VAULTS = BINANCE_USDC_DEPOSIT_ADDRESSES;
 
 // Calendario de Airdrops y Semillas por Fecha de Entrega / Corte
 const AIRDROP_TARGETS = [
@@ -259,7 +285,7 @@ async function quoteOdosRewardsSwap({
   inputToken = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // WPOL
   amountInWei = "1000000000000000000", // 1 token
   outputToken = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", // Native USDC Polygon
-  userAddress = BINANCE_VAULTS[1]
+  userAddress = ON_CHAIN_ACCUMULATION_VAULTS.master501
 }) {
   const url = "https://api.odos.xyz/sor/quote/v2";
   const payload = {
@@ -379,14 +405,16 @@ async function runSeedAirdropEngine() {
     console.log("");
   }
 
-  // 3. Cotización Odos SOR hacia las 5 Bóvedas Binance Spot
-  console.log("💱 [ODOS SOR v2] Cotizando barrido hacia las 5 Bóvedas de Binance Spot...");
+  // 3. Cotización Odos SOR hacia Acumulación On-Chain Bóveda Máster #501
+  console.log("💱 [ODOS SOR v2] Cotizando liquidación hacia Bóveda Máster On-Chain #501...");
+  console.log(`   🔒 AUTO_SWEEP_TO_BINANCE: ${AUTO_SWEEP_TO_BINANCE} (CERO MICRO-DEPÓSITOS A BINANCE — NORMATIVA MiCA)`);
+  console.log(`   🏦 Destino On-Chain: Bóveda Máster #501 (${ON_CHAIN_ACCUMULATION_VAULTS.master501})`);
   const odosQuote = await quoteOdosRewardsSwap({
     chainId: 137,
     inputToken: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", // WPOL
     amountInWei: "1000000000000000000",
     outputToken: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", // Native USDC Polygon
-    userAddress: BINANCE_VAULTS[1]
+    userAddress: ON_CHAIN_ACCUMULATION_VAULTS.master501
   });
   console.log(`   ✅ Cotización Odos: ${odosQuote.router} | Salida: ~${odosQuote.netOutUsdc} USDC | Impacto: ${odosQuote.priceImpact}\n`);
 
@@ -409,7 +437,11 @@ async function runSeedAirdropEngine() {
     liquiditySettlement: {
       router: "Odos Smart Order Router v2",
       currency: "100% USDC NATIVO",
-      destinationVaults: BINANCE_VAULTS,
+      autoSweepToBinance: AUTO_SWEEP_TO_BINANCE,
+      mode: "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)",
+      onChainMasterVault: ON_CHAIN_ACCUMULATION_VAULTS.master501,
+      onChainCaptains: ON_CHAIN_ACCUMULATION_VAULTS.captains,
+      destinationVaultsManualOnly: BINANCE_USDC_DEPOSIT_ADDRESSES,
       lastQuote: odosQuote
     },
     defiLlamaDiscovery: defiLlamaStats,
@@ -452,5 +484,8 @@ module.exports = {
   verifyGoPlusSecurity,
   queryDefiLlamaDiscovery,
   quoteOdosRewardsSwap,
+  AUTO_SWEEP_TO_BINANCE,
+  ON_CHAIN_ACCUMULATION_VAULTS,
+  BINANCE_USDC_DEPOSIT_ADDRESSES,
   BINANCE_VAULTS
 };

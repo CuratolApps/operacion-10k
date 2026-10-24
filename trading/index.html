@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ÁREA 501 // CABINA CUANTITATIVA DE TRADING (MENTORA #00 + BOX 6, 7 Y 8)</title>
+
+  <!-- Tipografías Oficiales: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Iconografía Estricta: Google Material Symbols Rounded (Cero Emojis en Controles) -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Estilos Cuantitativos Espaciales Cero Scroll -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Control Criptográfico de Acceso Militar -->
+  <link rel="stylesheet" href="../assets/auth-gate.css">
+  <script src="../assets/auth-gate.js"></script>
+</head>
+
+<body class="area501-trading-body">
+
+  <!-- ========================================================================= -->
+  <!-- BLOQUE 1 (BARRA SUPERIOR FLOTANTE): 5 TARJETAS 3D FLOTANTES Y SIMÉTRICAS  -->
+  <!-- ========================================================================= -->
+  <header class="top-nav-bar" id="block-header">
+
+    <!-- TARJETA FLOTANTE 1: IDENTIDAD & CLOUD -->
+    <div class="nav-identity-card floating-card">
+      <div class="id-card-top-row">
+        <div class="shield-lock-icon-badge" title="Cabina Cuantitativa: Mentora #00 + Boxes 6, 7 y 8">
+          <span class="material-symbols-rounded">trending_up</span>
+        </div>
+        <span class="brand-tag">ÁREA 501 // TRADING CUANTITATIVO</span>
+      </div>
+      <div class="id-card-sub-row">
+        <span class="pulse-dot-green" id="liveTradingDot"></span>
+        <div class="id-pills-wrap">
+          <span class="id-cloud-pill" title="Cloudflare Workers Edge Network" id="cfStatusPill">
+            <span class="material-symbols-rounded icon-xs cyan">cloud_done</span> CF WORKERS
+          </span>
+          <span class="id-cloud-pill" title="Kraken Pro MiCA Public Ticker (10s)" id="krakenStatusPill">
+            <span class="material-symbols-rounded icon-xs green-text">swap_horiz</span> KRAKEN MiCA
+          </span>
+          <span class="id-cloud-pill" title="Telegram: 🛰️ SALA DE MANDO 10K" id="tgStatusPill">
+            <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span> TELEGRAM
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS -->
+    <div class="nav-modules-row">
+
+      <!-- TARJETA FLOTANTE 2: SUPERVISORA CENTRAL #00 -->
+      <div class="floating-card nav-card-col" id="cardMentoraTop">
+        <div class="card-top-meta">
+          <span class="card-top-title">
+            <span class="material-symbols-rounded icon-xs gold">verified_user</span>
+            <span>👑 MENTORA CUANTITATIVA (#00)</span>
+          </span>
+          <span class="badge-tag-tiny badge-gold" id="mentoraFilterBadge">FILTRO 3:1 ACTIVO</span>
+        </div>
+        <div class="card-data-main">
+          <span class="metric-big-bold gold" id="mentoraSignalsApprovedCount">9 APROBADAS</span>
+          <span class="metric-sub-detail" id="mentoraSignalsRejectedDetail">0 RECHAZADAS · RATIO &ge; 3:1</span>
+        </div>
+      </div>
+
+      <!-- TARJETA FLOTANTE 3: RENDIMIENTO AUDITADO EN ENTRENAMIENTO EN VIVO -->
+      <div class="floating-card nav-card-col" id="cardWinRateTop">
+        <div class="card-top-meta">
+          <span class="card-top-title">
+            <span class="material-symbols-rounded icon-xs green-text">analytics</span>
+            <span>WIN-RATE & PnL SIMULADO</span>
+          </span>
+          <span class="badge-tag-tiny badge-green" id="tradingModeBadge">ENTRENAMIENTO EN VIVO</span>
+        </div>
+        <div class="card-data-main">
+          <span class="metric-big-bold green-text" id="topWinRateMetric">89.5% WIN-RATE</span>
+          <span class="metric-sub-detail" id="topPnlMetric">PnL: +$56.40 USDC · 34W / 4L</span>
+        </div>
+      </div>
+
+      <!-- TARJETA FLOTANTE 4: PUENTES DE EJECUCIÓN MiCA & DEX -->
+      <div class="floating-card nav-card-col" id="cardExecutionBridges">
+        <div class="card-top-meta">
+          <span class="card-top-title">
+            <span class="material-symbols-rounded icon-xs cyan">hub</span>
+            <span>PUENTES MiCA & DEX</span>
+          </span>
+          <span class="badge-tag-tiny badge-cyan" id="bridgesStatusBadge">LATENCIA &lt; 40ms</span>
+        </div>
+        <div class="card-data-main">
+          <span class="metric-big-bold cyan" id="topKrakenLatency">KRAKEN: 38ms</span>
+          <span class="metric-sub-detail" id="topOdosLatency">ODOS SOR: 16ms · GOPLUS: 64ms</span>
+        </div>
+      </div>
+
+      <!-- TARJETA FLOTANTE 5: CANDADO PATRIMONIAL #501 -->
+      <div class="floating-card nav-card-col" id="cardPatrimonialLock">
+        <div class="card-top-meta">
+          <span class="card-top-title">
+            <span class="material-symbols-rounded icon-xs purple">lock</span>
+            <span>CANDADO PATRIMONIAL #501</span>
+          </span>
+          <span class="badge-tag-tiny badge-lock-mode" id="autoSweepBadge" title="🔒 MODO ACUMULACIÓN ON-CHAIN (AUTO_SWEEP = FALSE) — El capital del Sniper está 100% blindado e intocable">🔒 AUTO_SWEEP = FALSE</span>
+        </div>
+        <div class="card-data-main">
+          <span class="metric-big-bold purple" id="topProtectedSniperUsdc">$186.92 USDC BLINDADOS</span>
+          <span class="metric-sub-detail" id="topProtectedFleetPol">0% RIESGO TRADING · 295.28 POL</span>
+        </div>
+      </div>
+
+    </div>
+
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE: LAYOUT 100VH CERO SCROLL                                  -->
+  <!-- ========================================================================= -->
+  <main class="trading-workspace">
+
+    <!-- ======================================================================= -->
+    <!-- COLUMNA IZQUIERDA: MENTORA #00 + LOS 3 BOXES TRADERS (#601, #701, #801) -->
+    <!-- ======================================================================= -->
+    <aside class="col-trading-left">
+
+      <!-- TARJETA DESTACADA: 👑 MENTORA CUANTITATIVA (#00 - SIMONS MEDALLION) -->
+      <section class="quant-card mentor-super-card" id="cardMentorDirective">
+        <div class="quant-card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded gold">military_tech</span>
+            <div>
+              <h2 class="card-title">👑 MENTORA CUANTITATIVA</h2>
+              <span class="card-subtitle-mono">SIMONS-MEDALLION #00</span>
+            </div>
+          </div>
+          <span class="badge-tag-tiny badge-gold" id="mentorDoctrineBadge">MENTE SECA 100%</span>
+        </div>
+
+        <div class="mentor-axioms-box">
+          <div class="axiom-rule-item">
+            <span class="axiom-bullet cyan">⚖️</span>
+            <div>
+              <strong>Ratio Asimétrico Mínimo 3:1:</strong>
+              <span>Ganancia esperada &ge; 3x riesgo (TP +2.5% vs SL -0.8%).</span>
+            </div>
+          </div>
+          <div class="axiom-rule-item">
+            <span class="axiom-bullet green-text">🛡️</span>
+            <div>
+              <strong>Escudo Forense GoPlus:</strong>
+              <span>0% Honeypot, Sell Tax &le; 1% y liquidez verificada.</span>
+            </div>
+          </div>
+          <div class="axiom-rule-item">
+            <span class="axiom-bullet red-text">✂️</span>
+            <div>
+              <strong>Stop-Loss Estricto -0.8%:</strong>
+              <span>Corte en seco sin esperar rebote milagroso. Cero atrapados.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mentor-verdict-banner">
+          <div class="verdict-label">ESTADO DE SUPERVISIÓN:</div>
+          <div class="verdict-text" id="mentorLiveVerdictTxt">SUPERVISIÓN ACTIVA DE LOS 3 BOXES (CERO SENTIMIENTOS)</div>
+        </div>
+      </section>
+
+      <!-- TARJETA BOX 6 (#601 — PARES LÍQUIDOS KRAKEN MiCA & DEX) -->
+      <section class="quant-card box-selector-card" id="boxCard601" onclick="filterTradingByBox('601')">
+        <div class="quant-card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded cyan">flash_on</span>
+            <div>
+              <h2 class="card-title">BOX 6 (#601)</h2>
+              <span class="card-subtitle-mono">TITAN-SCALPER · PARES LÍQUIDOS</span>
+            </div>
+          </div>
+          <span class="badge-tag-tiny badge-cyan" id="box6StatusBadge">CENTINELA</span>
+        </div>
+        <div class="box-card-metrics">
+          <div class="box-metric-row">
+            <span class="metric-key">Par Monitoreado:</span>
+            <strong class="metric-val cyan" id="box6ActivePair">POL/USDC · ETH · SOL</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Estrategia Cuantitativa:</span>
+            <strong class="metric-val">Reversión a Media & Spread</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">TP / SL Estricto:</span>
+            <strong class="metric-val green-text">+2.5% TP / -0.8% SL</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Operaciones Turno:</span>
+            <strong class="metric-val font-mono" id="box6OpsCount">19 Evaluadas (94% Win)</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- TARJETA BOX 7 (#701 — WALL STREET, ORO PAXG & RWA INSTITUTIONAL) -->
+      <section class="quant-card box-selector-card" id="boxCard701" onclick="filterTradingByBox('701')">
+        <div class="quant-card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded gold">account_balance</span>
+            <div>
+              <h2 class="card-title">BOX 7 (#701)</h2>
+              <span class="card-subtitle-mono">ORACLE-GLOBAL · ORO & RWA</span>
+            </div>
+          </div>
+          <span class="badge-tag-tiny badge-gold" id="box7StatusBadge">REFUGIO ORO</span>
+        </div>
+        <div class="box-card-metrics">
+          <div class="box-metric-row">
+            <span class="metric-key">Oro Físico Tokenizado:</span>
+            <strong class="metric-val gold" id="box7PaxgLivePrice">$4,001.66 / oz</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Cesta RWA Vigilada:</span>
+            <strong class="metric-val">PAXG · BTC · ONDO · LINK</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Tendencia Macro:</span>
+            <strong class="metric-val green-text" id="box7MacroTrend">Acumulación Institucional</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Operaciones Turno:</span>
+            <strong class="metric-val font-mono" id="box7OpsCount">9 Propuestas Auditadas</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- TARJETA BOX 8 (#801 — BOSS TRADER ESTRENOS + 2 NEBULOSAS ESCOLTAS) -->
+      <section class="quant-card box-selector-card" id="boxCard801" onclick="filterTradingByBox('801')">
+        <div class="quant-card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded purple">rocket_launch</span>
+            <div>
+              <h2 class="card-title">BOX 8 (#801)</h2>
+              <span class="card-subtitle-mono">NEXUS-BOSS · ESTRENOS & LISTINGS</span>
+            </div>
+          </div>
+          <span class="badge-tag-tiny badge-purple" id="box8StatusBadge">6 EN RADAR</span>
+        </div>
+        <div class="box-card-metrics">
+          <div class="box-metric-row">
+            <span class="metric-key">Escoltas Tácticas:</span>
+            <strong class="metric-val purple">NEBULA-SCOUT-A & B</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Escudo Forense GoPlus:</span>
+            <strong class="metric-val green-text">100% Inmune (0% Honeypot)</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Radar Activo:</span>
+            <strong class="metric-val">Pharos, Pheasant, DogeOS</strong>
+          </div>
+          <div class="box-metric-row">
+            <span class="metric-key">Filtro de Ruptura:</span>
+            <strong class="metric-val font-mono">DEXScreener & Kraken</strong>
+          </div>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- ======================================================================= -->
+    <!-- PANEL CENTRAL PANORÁMICO (2 RADARES EN TIEMPO REAL + BITÁCORA INFERIOR) -->
+    <!-- ======================================================================= -->
+    <div class="col-trading-center">
+
+      <!-- ===================================================================== -->
+      <!-- MITAD SUPERIOR: RADAR DE LOS 6 PRÓXIMOS ESTRENOS Y LISTADOS           -->
+      <!-- ===================================================================== -->
+      <section class="quant-card radar-premieres-section">
+        <div class="quant-card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded purple">radar</span>
+            <div>
+              <h2 class="card-title">🚀 RADAR DE LOS 6 PRÓXIMOS ESTRENOS Y LISTADOS EN EXCHANGES</h2>
+              <span class="card-subtitle-mono">BOX 8 (#801) + ESCOLTAS NEBULA-SCOUT-A Y B · AUDITORÍA GOPLUS 0% HONEYPOT</span>
+            </div>
+          </div>
+          <div class="header-tools-group">
+            <span class="badge-tag-tiny badge-purple" id="radarPremieresCounter">6 AUDITADOS</span>
+            <button class="btn-refresh-pill" onclick="refreshTradingData(true)" title="Refrescar Radar Cuantitativo">
+              <span class="material-symbols-rounded icon-xs">refresh</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-scroll-container">
+          <table class="quant-table" id="premieresRadarTable">
+            <thead>
+              <tr>
+                <th style="width: 22%;">TOKEN / PROYECTO</th>
+                <th style="width: 18%;">RED / EXCHANGE</th>
+                <th style="width: 16%;">VENTANA / LISTADO</th>
+                <th style="width: 16%;">LIQUIDEZ & VOLUMEN</th>
+                <th style="width: 14%;">ESCUDO GOPLUS</th>
+                <th style="width: 14%;">DICTAMEN MENTORA #00</th>
+              </tr>
+            </thead>
+            <tbody id="premieresRadarTbody">
+              <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 18px;">
+                  Sincronizando Radar de Estrenos y Auditoría GoPlus...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- MITAD INFERIOR: MESA DE PROPUESTAS EN VIVO PARES LÍQUIDOS & WALL ST   -->
+      <!-- ===================================================================== -->
+      <section class="quant-card proposals-live-section">
+        <div class="quant-card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded cyan">stacked_line_chart</span>
+            <div>
+              <h2 class="card-title">🏛️ MESA DE PROPUESTAS EN VIVO: PARES LÍQUIDOS (#601) & WALL STREET / ORO PAXG (#701)</h2>
+              <span class="card-subtitle-mono">PRECIOS 100% REALES EN VIVO (KRAKEN PUBLIC API CADA 10S) · FILTRO RIESGO/BENEFICIO &ge; 3:1</span>
+            </div>
+          </div>
+          <div class="header-filters-row">
+            <div class="pill-tabs-group">
+              <button class="pill-tab-btn active" id="tabFilterAll" onclick="filterTradingByBox('ALL')">TODOS (9)</button>
+              <button class="pill-tab-btn" id="tabFilter601" onclick="filterTradingByBox('601')">BOX 6 (#601)</button>
+              <button class="pill-tab-btn" id="tabFilter701" onclick="filterTradingByBox('701')">BOX 7 (#701)</button>
+            </div>
+            <span class="live-clock-pill" id="krakenTickClock">KRAKEN: CONECTADO</span>
+          </div>
+        </div>
+
+        <div class="table-scroll-container">
+          <table class="quant-table" id="proposalsTable">
+            <thead>
+              <tr>
+                <th style="width: 11%;">BOT / BOX</th>
+                <th style="width: 15%;">ACTIVO / MERCADO</th>
+                <th style="width: 14%;">PRECIO EN VIVO</th>
+                <th style="width: 16%;">SEÑAL & RSI (14)</th>
+                <th style="width: 26%;">ENTRADA / TP (+2.5%) / SL (-0.8%)</th>
+                <th style="width: 18%;">VEREDICTO MENTORA #00</th>
+              </tr>
+            </thead>
+            <tbody id="proposalsTbody">
+              <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 18px;">
+                  Conectando a Kraken Public REST API para cotizaciones en vivo...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- ZONA INFERIOR: BITÁCORA CUANTITATIVA EN VIVO & ESPEJO TELEGRAM       -->
+      <!-- ===================================================================== -->
+      <section class="quant-card activity-drawer-section">
+        <div class="activity-tabs-bar">
+          <div class="activity-tab-buttons">
+            <button class="activity-tab-btn active" id="tabBtnLog" onclick="switchTradingActivityTab('LOG')">
+              <span class="material-symbols-rounded icon-xs cyan">receipt_long</span>
+              <span>BITÁCORA CUANTITATIVA EN VIVO</span>
+            </button>
+            <button class="activity-tab-btn" id="tabBtnTg" onclick="switchTradingActivityTab('TG')">
+              <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span>
+              <span>ESPEJO TELEGRAM (🛰️ SALA DE MANDO 10K)</span>
+            </button>
+          </div>
+          <span class="activity-meta-tag font-mono" id="activityMetaTag">FILTRO 0% HUMO · PRECIOS KRAKEN 100% REALES</span>
+        </div>
+
+        <div class="activity-content-box">
+          <!-- PESTAÑA 1: BITÁCORA CUANTITATIVA -->
+          <div class="activity-tab-view" id="viewLog">
+            <div class="stream-logs-list" id="tradingLogsContainer">
+              <div style="text-align: center; color: var(--text-muted); padding: 14px;">
+                Cargando bitácora de auditoría en vivo...
+              </div>
+            </div>
+          </div>
+
+          <!-- PESTAÑA 2: ESPEJO TELEGRAM -->
+          <div class="activity-tab-view" id="viewTg" style="display: none;">
+            <div class="stream-logs-list" id="tradingTelegramContainer">
+              <div style="text-align: center; color: var(--text-muted); padding: 14px;">
+                Cargando despachos de la Sala de Mando 10K...
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- BLOQUE INFERIOR: BOTONERA UNIFICADA DE MÓDULOS (40PX - CERO SCROLL)       -->
+  <!-- ========================================================================= -->
+  <footer class="bottom-module-dock">
+    <!-- Izquierda: Estado Rápido del Sistema -->
+    <div class="dock-left-status">
+      <span class="pulse-dot-green" title="Sistema Activo"></span>
+      <span class="dock-status-txt">SISTEMA ACTIVO</span>
+    </div>
+
+    <!-- Centro: Los 3 Módulos Reales Vigentes -->
+    <div class="dock-center-modules">
+      <!-- 1. Sniping Atómico -->
+      <a href="../sniping/" class="dock-module-btn" id="dockBtnSniping" title="Módulo de Sniping Atómico y Arbitraje Directo">
+        <span class="dock-module-icon">🎯</span>
+        <span class="dock-label">SNIPING ATÓMICO</span>
+      </a>
+
+      <!-- 2. Flota X500 -->
+      <a href="../flota-x500/" class="dock-module-btn" id="dockBtnFlota" title="Cabina Cuantitativa de la Flota X500 (500 Satélites)">
+        <span class="dock-module-icon">🪖</span>
+        <span class="dock-label">FLOTA X500</span>
+      </a>
+
+      <!-- 3. Trading Cuantitativo (Activo) -->
+      <a href="./" class="dock-module-btn active" id="dockBtnTrading" title="Cabina Cuantitativa: Mentora #00 + Boxes 6, 7 y 8">
+        <span class="dock-module-icon">📈</span>
+        <span class="dock-label">TRADING CUANTITATIVO</span>
+      </a>
+    </div>
+
+    <!-- Derecha: Utilidades Globales (Reloj Maestro UTC + Candado) -->
+    <div class="dock-right-controls">
+      <!-- Reloj Maestro UTC en Vivo -->
+      <div class="dock-utc-clock" id="dockUtcClock" title="Hora Oficial UTC del Motor">
+        <span class="clock-icon">🕒</span>
+        <span class="clock-time font-mono" id="masterUtcClockTime">--:--:-- UTC</span>
+      </div>
+
+      <!-- Botón de Candado Global (Bloqueo de Sesión) -->
+      <button class="area501-lockout-btn dock-lock-btn" id="area501-lockout-btn" title="ÁREA 501 // Bloquear y Proteger Acceso" aria-label="Bloquear Acceso">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Modal / Expediente Emergente de Detalle de Token / Señal -->
+  <div class="dossier-overlay" id="tradingModalOverlay" style="display: none;">
+    <div class="dossier-modal">
+      <div class="dossier-header">
+        <div class="dossier-title-col">
+          <span class="dossier-id-badge" id="modalBadge">AUDITORÍA CUANTITATIVA</span>
+          <h3 class="dossier-title" id="modalTitle">EXPEDIENTE DE ACTIVO / SEÑAL</h3>
+        </div>
+        <button class="dossier-close-btn" onclick="closeTradingModal()" title="Cerrar Expediente">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div class="dossier-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- SCRIPT PRINCIPAL DE LA CABINA DE TRADING -->
+  <script src="app.js"></script>
+</body>
+
+</html>
