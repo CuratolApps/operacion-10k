@@ -69,9 +69,9 @@ jobs:
         shell: bash
         run: |
           echo "========================================================================="
-          echo "🛡️ EJECUTANDO GUARDIA AUTÓNOMA SQUAD SECRET (ENFRIAMIENTO 3 MIN)"
+          echo "🛡️ EJECUTANDO GUARDIA AUTÓNOMA SQUAD SECRET (ROTACIÓN 9 PARES RUMBO A $330 USDC)"
           echo "========================================================================="
-          node squad-secret-engine.js --notify || true
+          node scripts/squad-secret-autonomous-loop.js --once || true
 
       - name: "💾 Sincronizar telemetría hacia Git"
         if: always()
