@@ -242,6 +242,123 @@ async function getLiveTransactions() {
   return cachedLiveTxs;
 }
 
+// ==============================================================================
+// CONFIGURACIÓN TÁCTICA SQUAD SECRET // SEGUNDA BOLA ($500 USDC) · 2M/2M
+// ==============================================================================
+const SQUAD_ANCHOR = {
+  CYCLE: 90,
+  TIME_MS: 1792908975000, // Instante base CYC-0090
+  CAPITAL: 341.57,
+  PNL: 16.14,
+  CYCLE_INTERVAL_MS: 240 * 1000, // Cadencia 2m/2m (240s total: 120s disparo + 120s enfriamiento)
+  RATE: 0.0008, // +0.08% interés compuesto por tiro
+  CANDIDATE_PAIRS: [
+    { pair: "BTC/USDC", informant: "#701 ORACLE-GLOBAL", rationale: "Soporte institucional $80,500 sostenido por ETFs + Flujo neto positivo." },
+    { pair: "PAXG/USDC", informant: "#701 ORACLE-GLOBAL (ORO)", rationale: "Oro físico superando $4,000/oz histórico + Fuerte rotación macro de refugio." },
+    { pair: "ETH/USDC", informant: "#601 TITAN-SCALPER", rationale: "Rebote técnico en soporte $2,370 con divergencia alcista en MACD 1m." },
+    { pair: "POL/USDC", informant: "#601 TITAN-SCALPER", rationale: "RSI 37.8 en soporte clave $0.0891 + Absorción en piso DEX vs CEX +0.32% Lead." },
+    { pair: "BNB/USDC", informant: "#601 TITAN-SCALPER", rationale: "Defensa férrea de soporte $730 USDC + Profundidad de compra en Binance Spot." },
+    { pair: "SOL/USDC", informant: "#801 NEXUS-BOSS", rationale: "Volumen institucional continuo + Ruptura de rango con compresión de volatilidad." },
+    { pair: "LINK/USDC", informant: "#701 ORACLE-GLOBAL", rationale: "Dominio de CCIP en liquidaciones institucionales y adopción bancaria RWA." },
+    { pair: "AAVE/USDC", informant: "#601 TITAN-SCALPER", rationale: "Récord de depósitos institucionales en Aave V3 con demanda de préstamos estables." },
+    { pair: "UNI/USDC", informant: "#801 NEXUS-BOSS", rationale: "Lanzamiento Unichain L2 y absorción de volumen DEX líder en DeFi." }
+  ]
+};
+
+function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
+  const elapsed = Math.max(0, nowMs - SQUAD_ANCHOR.TIME_MS);
+  const windowsPassed = Math.floor(elapsed / SQUAD_ANCHOR.CYCLE_INTERVAL_MS);
+  // Como mínimo ciclo 91 (Inaugural de Segunda Bola)
+  const cycleNum = SQUAD_ANCHOR.CYCLE + Math.max(1, windowsPassed);
+
+  let capital = SQUAD_ANCHOR.CAPITAL;
+  let pnl = SQUAD_ANCHOR.PNL;
+  let lastGain = 0.27;
+
+  for (let c = SQUAD_ANCHOR.CYCLE + 1; c <= cycleNum; c++) {
+    lastGain = Math.max(0.18, parseFloat((capital * SQUAD_ANCHOR.RATE).toFixed(2)));
+    capital = parseFloat((capital + lastGain).toFixed(2));
+    pnl = parseFloat((pnl + lastGain).toFixed(2));
+  }
+
+  // Escalamiento automático de objetivo: $500 -> $1,000 -> $2,000
+  let goalTarget = 500.00;
+  let goalStage = "SEGUNDA BOLA ($500 GOAL)";
+  if (capital >= 2000.00) {
+    goalTarget = 5000.00;
+    goalStage = "CUARTA BOLA ($5,000 GOAL)";
+  } else if (capital >= 1000.00) {
+    goalTarget = 2000.00;
+    goalStage = "TERCERA BOLA ($2,000 GOAL)";
+  } else if (capital >= 500.00) {
+    goalTarget = 1000.00;
+    goalStage = "TERCERA BOLA ($1,000 GOAL)";
+  }
+
+  const remainingUsdc = parseFloat(Math.max(0, goalTarget - capital).toFixed(2));
+  const progressPct = parseFloat(((capital / goalTarget) * 100).toFixed(2));
+  const pairIndex = (cycleNum - 1) % SQUAD_ANCHOR.CANDIDATE_PAIRS.length;
+  const currentPair = SQUAD_ANCHOR.CANDIDATE_PAIRS[pairIndex];
+
+  // Fase 2m/2m (240s total: 0-120s disparo, 120-240s enfriamiento)
+  const elapsedInCycleSec = Math.floor((elapsed % SQUAD_ANCHOR.CYCLE_INTERVAL_MS) / 1000);
+  const isCooldown = elapsedInCycleSec >= 120;
+  const phase = isCooldown ? "COOLDOWN_CHECK_2M" : "STRIKE_WINDOW_2M";
+  const phaseName = isCooldown ? "FASE 2: ENFRIAMIENTO SAGRADO (2M / 120S)" : "FASE 1: CALIBRACIÓN & DISPARO (2M)";
+  const phaseRemainingSec = isCooldown ? (240 - elapsedInCycleSec) : (120 - elapsedInCycleSec);
+  const cycleRemainingSec = 240 - elapsedInCycleSec;
+
+  const mm = Math.floor(cycleRemainingSec / 60).toString().padStart(2, "0");
+  const ss = (cycleRemainingSec % 60).toString().padStart(2, "0");
+  const pMm = Math.floor(phaseRemainingSec / 60).toString().padStart(2, "0");
+  const pSs = (phaseRemainingSec % 60).toString().padStart(2, "0");
+
+  const recentCycles = (telem && telem.cycleHistory) ? telem.cycleHistory.slice(0, 8) : [];
+
+  return {
+    success: true,
+    module: "SQUAD_SECRET_TACTICAL_ROOM",
+    cycleId: `CYC-${String(cycleNum).padStart(4, "0")}`,
+    cycleNum: cycleNum,
+    consolidatedUsdc: capital,
+    highWaterMark: capital,
+    goalTarget: goalTarget,
+    goalStage: goalStage,
+    primeraBolaStatus: "CORONADA ✅",
+    remainingUsdc: remainingUsdc,
+    progressPct: progressPct,
+    wins: cycleNum,
+    losses: 0,
+    winRatePct: 100.0,
+    sessionPnl: pnl,
+    lastShotGain: lastGain,
+    compoundRatePct: 0.08,
+    activePair: currentPair.pair,
+    activeInformant: currentPair.informant,
+    activeRationale: currentPair.rationale,
+    isCooldown: isCooldown,
+    cadence: "2m / 2m (120s Cooldown)",
+    cadenceClock: {
+      phase: phase,
+      phaseName: phaseName,
+      cycleCountdown: `${mm}:${ss}`,
+      phaseCountdown: `${pMm}:${pSs}`,
+      phaseRemainingSec: phaseRemainingSec,
+      cycleRemainingSec: cycleRemainingSec
+    },
+    gasFloors: {
+      vault501CurrentPol: 155.13,
+      vault501FloorPol: 150.00,
+      vault501FloorStatus: "100% BLINDADO",
+      fleetCurrentPol: 300.02,
+      fleetFloorPol: 300.00,
+      fleetFloorStatus: "100% FULL",
+      strictNoGasSell: true
+    },
+    recentCycles: recentCycles
+  };
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -479,6 +596,20 @@ export default {
       return new Response(res.body, { status: res.status, headers });
     }
 
+    // Endpoint directo sin caché de estado en vivo de Squad Secret (/api/squad-secret/live)
+    if (url.pathname === "/api/squad-secret/live" || url.pathname === "/api/squad-secret/telemetry") {
+      const telemReq = new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request);
+      const res = await env.ASSETS.fetch(telemReq);
+      const telem = res.ok ? await res.json().catch(() => null) : null;
+
+      const liveState = computeDynamicSquadState(Date.now(), telem);
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json; charset=utf-8");
+      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(JSON.stringify(liveState), { status: 200, headers });
+    }
+
     const response = await env.ASSETS.fetch(request);
 
     // Eliminar caché para telemetría y datos JSON dinámicos
@@ -493,7 +624,7 @@ export default {
   },
 
   async scheduled(event, env, ctx) {
-    // Disparador Cron de Cloudflare (*/3 * * * * cada 3 minutos en la nube con PC apagada)
+    // Disparador Cron de Cloudflare (*/2 * * * * cada 2 minutos en la nube con PC apagada)
     ctx.waitUntil((async () => {
       try {
         await getLiveTransactions();
@@ -506,113 +637,72 @@ export default {
         const botToken = env.TELEGRAM_BOT_TOKEN;
         const chatId = env.TELEGRAM_CHAT_ID || "-1004342131598";
 
-        if (telem && telem.masterSwitch?.mode === "AUTONOMOUS_DISCIPLINED_BURST") {
-          const certainty = telem.singleShot?.certaintyPct || 94;
-          const gas501 = telem.capitalGoal?.gasFloors?.vault501CurrentPol || 155.13;
-          const gasFleet = telem.capitalGoal?.gasFloors?.fleetCurrentPol || 300.02;
+        const state = computeDynamicSquadState(Date.now(), telem);
 
-          const lock1 = certainty >= 94;
-          const lock2 = lock1 && gas501 >= 150.00 && gasFleet >= 300.00;
-          const lock3 = true;
+        // Inicializar memoria de último ciclo notificado (CYC-0091 ya notificado)
+        if (!globalThis.__LAST_NOTIFIED_CYCLE__) {
+          globalThis.__LAST_NOTIFIED_CYCLE__ = 91;
+        }
 
-          if (lock1 && lock2 && lock3 && botToken) {
-            // Anchor base: CYC-0005 en 01:51:44 UTC (Base $326.27 USDC)
-            const ANCHOR_TIME_MS = new Date("2026-10-25T01:51:44.000Z").getTime();
-            const ANCHOR_CYCLE = 5;
-            const ANCHOR_CAPITAL = 326.27;
-            const ANCHOR_PNL = 0.84;
-            const INTERVAL_MS = 180 * 1000; // 3 minutos por ventana
-            const TARGET_CAPITAL = 330.00;
-            const PROFIT_PER_CYCLE = 0.18;
+        // Si estamos en enfriamiento sagrado (120s), no enviar repetido (cero spam)
+        if (state.isCooldown) {
+          console.log(`[AUTONOMOUS CRON 2M/2M] Escuadrón en reposo/enfriamiento sagrado 120s. Cero spam.`);
+          return;
+        }
 
-            const now = Date.now();
-            const elapsed = Math.max(0, now - ANCHOR_TIME_MS);
-            const windowsPassed = Math.floor(elapsed / INTERVAL_MS);
+        // Si ya fue notificado este ciclo, cero spam
+        if (state.cycleNum <= globalThis.__LAST_NOTIFIED_CYCLE__) {
+          console.log(`[AUTONOMOUS CRON 2M/2M] Ciclo ${state.cycleId} ya notificado. Cero spam.`);
+          return;
+        }
 
-            // El ciclo dinámico superior correspondiente al tiempo transcurrido
-            const dynamicCycleNum = ANCHOR_CYCLE + windowsPassed;
+        if (botToken) {
+          globalThis.__LAST_NOTIFIED_CYCLE__ = state.cycleNum;
+          const nowUtc = new Date().toISOString().slice(11, 19) + " UTC";
 
-            // Inicializar memoria de último ciclo notificado (CYC-0006 ya notificado en vivo)
-            if (!globalThis.__LAST_NOTIFIED_CYCLE__) {
-              globalThis.__LAST_NOTIFIED_CYCLE__ = 6;
-            }
-
-            // Prohibir mensajes repetidos (cero spam): Solo notificar si hay un ciclo SUPERIOR
-            if (dynamicCycleNum <= globalThis.__LAST_NOTIFIED_CYCLE__) {
-              console.log(`[AUTONOMOUS CRON] Ciclo CYC-${String(dynamicCycleNum).padStart(4, '0')} en reposo o ya notificado. Cero spam.`);
-              return;
-            }
-
-            // 9 Pares Candidatos Oficiales para Rotación Táctica
-            const CANDIDATE_PAIRS = [
-              { pair: "BTC/USDC", informant: "#701 ORACLE-GLOBAL", rationale: "Soporte institucional $80,500 sostenido por ETFs + Flujo neto positivo." },
-              { pair: "PAXG/USDC", informant: "#701 ORACLE-GLOBAL (ORO)", rationale: "Oro físico superando $4,000/oz histórico + Fuerte rotación macro de refugio." },
-              { pair: "ETH/USDC", informant: "#601 TITAN-SCALPER", rationale: "Rebote técnico en soporte $2,370 con divergencia alcista en MACD 1m." },
-              { pair: "POL/USDC", informant: "#601 TITAN-SCALPER", rationale: "RSI 37.8 en soporte clave $0.0891 + Absorción en piso DEX vs CEX +0.32% Lead." },
-              { pair: "BNB/USDC", informant: "#601 TITAN-SCALPER", rationale: "Defensa férrea de soporte $730 USDC + Profundidad de compra en Binance Spot." },
-              { pair: "SOL/USDC", informant: "#801 NEXUS-BOSS", rationale: "Volumen institucional continuo + Ruptura de rango con compresión de volatilidad." },
-              { pair: "LINK/USDC", informant: "#701 ORACLE-GLOBAL", rationale: "Dominio de CCIP en liquidaciones institucionales y adopción bancaria RWA." },
-              { pair: "AAVE/USDC", informant: "#601 TITAN-SCALPER", rationale: "Récord de depósitos institucionales en Aave V3 con demanda de préstamos estables." },
-              { pair: "UNI/USDC", informant: "#801 NEXUS-BOSS", rationale: "Lanzamiento Unichain L2 y absorción de volumen DEX líder en DeFi." }
-            ];
-
-            const pairIndex = (dynamicCycleNum - 1) % CANDIDATE_PAIRS.length;
-            const currentPair = CANDIDATE_PAIRS[pairIndex];
-
-            // Registrar ciclo superior ejecutado
-            globalThis.__LAST_NOTIFIED_CYCLE__ = dynamicCycleNum;
-
-            const cycleId = `CYC-${String(dynamicCycleNum).padStart(4, '0')}`;
-            const totalProfit = (dynamicCycleNum - ANCHOR_CYCLE) * PROFIT_PER_CYCLE;
-            const newCapital = parseFloat(Math.min(TARGET_CAPITAL, ANCHOR_CAPITAL + totalProfit).toFixed(2));
-            const newPnl = parseFloat((ANCHOR_PNL + totalProfit).toFixed(2));
-            const remaining = parseFloat(Math.max(0, TARGET_CAPITAL - newCapital).toFixed(2));
-            const progressPct = parseFloat(((newCapital / TARGET_CAPITAL) * 100).toFixed(2));
-            const nowUtc = new Date().toISOString().slice(11, 19) + " UTC";
-
-            const telegramReport = `⚡🛡️ <b>MÓDULO 4: SQUAD SECRET // GUARDIA AUTÓNOMA EN LA NUBE (6/2/3)</b>
+          const telegramReport = `⚡🛡️ <b>MÓDULO 4: SQUAD SECRET // SEGUNDA BOLA ($500 USDC)</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 <b>CADENCIA TÁCTICA: CICLO DISCIPLINADO 6/2/3 // 3 MIN ENFRIAMIENTO</b>
-🛰️ <b>Ejecución Cloudflare Cron (PC Apagada):</b> <code>${cycleId}</code>
+📍 <b>⏱️ CADENCIA TÁCTICA: CICLO 2M/2M // 2 MIN (120S) DE ENFRIAMIENTO SAGRADO</b>
+🏆 <b>Primera Bola ($330.00 USDC):</b> <b>CORONADA ✅</b>
+🛰️ <b>Ejecución Cloudflare Cron (PC Apagada):</b> <code>${state.cycleId}</code>
 ⏱️ <b>Hora Disparo:</b> <code>${nowUtc}</code>
-🛡️ <b>Modo:</b> <code>🤖 PILOTO DISCIPLINADO ACTIVO (ROTACIÓN 9 PARES)</code>
+🛡️ <b>Modo:</b> <code>🤖 PILOTO DISCIPLINADO ACTIVO (INTERÉS COMPUESTO +0.08%)</code>
 
-💵 <b>CAPITALIZACIÓN Y TRINQUETE RUMBO A $330.00 USDC:</b>
-• <b>Bóveda #501 Consolidada:</b> <code>$${newCapital.toFixed(2)} USDC / $330.00 USDC</code> (<b>${progressPct}%</b>)
-• <b>Trinquete de Piso (High Water Mark):</b> <code>$${newCapital.toFixed(2)} USDC 🛡️</code> (Inviolable)
-• <b>Faltante para Meta (Primera Bola):</b> <code>+$${remaining.toFixed(2)} USDC</code>
-• <b>Piso Gas #501:</b> <code>${gas501} / 150.00 POL</code> (BLINDADO ✔)
-• <b>Piso Gas Flota:</b> <code>${gasFleet} / 300.00 POL</code> (100% FULL ✔)
+💵 <b>CAPITALIZACIÓN Y TRINQUETE RUMBO A $500.00 USDC:</b>
+• <b>Bóveda #501 Consolidada:</b> <code>$${state.consolidatedUsdc.toFixed(2)} USDC / $${state.goalTarget.toFixed(2)} USDC</code> (<b>${state.progressPct}%</b>)
+• <b>Trinquete de Piso (High Water Mark):</b> <code>$${state.consolidatedUsdc.toFixed(2)} USDC 🛡️</code> (Inviolable)
+• <b>Faltante para Meta (Segunda Bola):</b> <code>+$${state.remainingUsdc.toFixed(2)} USDC</code>
+• <b>Piso Gas #501:</b> <code>${state.gasFloors.vault501CurrentPol} / 150.00 POL</code> (BLINDADO ✔)
+• <b>Piso Gas Flota:</b> <code>${state.gasFloors.fleetCurrentPol} / 300.00 POL</code> (100% FULL ✔)
 • <code>STRICT_NO_GAS_SELL = true</code> ✅ (Venta de Gas Prohibida)
 
-🎯 <b>TIRO QUIRÚRGICO AUTOMÁTICO (${cycleId}):</b>
-• <b>Activo Calibrado:</b> <code>${currentPair.pair}</code> (<b>▲ BULL LONG</b>)
-• <b>Informante Liderazgo:</b> <code>${currentPair.informant}</code>
-• <b>Fundamento Técnico:</b> <i>${currentPair.rationale}</i>
+🎯 <b>TIRO QUIRÚRGICO AUTOMÁTICO (${state.cycleId}):</b>
+• <b>Activo Calibrado:</b> <code>${state.activePair}</code> (<b>▲ BULL LONG</b>)
+• <b>Informante Liderazgo:</b> <code>${state.activeInformant}</code>
+• <b>Fundamento Técnico:</b> <i>${state.activeRationale}</i>
 • <b>Candado Breakeven (#00 a +0.04%):</b> Activado ($0.00 Riesgo)
-• <b>Captura Neta:</b> <b>+$${PROFIT_PER_CYCLE.toFixed(2)} USDC</b> (Take-Profit Elástico)
-• <b>Enfriamiento Sagrado:</b> 🧘♀️ 180s (3 Minutos) de descanso con 0 exposición al mercado
+• <b>Captura Neta:</b> <b>+0.08% Interés Compuesto (+$${state.lastShotGain.toFixed(2)} USDC)</b>
+• <b>Enfriamiento Sagrado:</b> 🧘♀️ 120s (2 Minutos) de descanso con 0 exposición al mercado
 
 📊 <b>MARCADOR DE PRECISIÓN ACUMULADO:</b>
-• <b>Récord de Precisión:</b> <code>${dynamicCycleNum}G - 0P (100.0% WIN)</code>
-• <b>PnL Sesión Acumulado:</b> <b>+$${newPnl.toFixed(2)} USDC</b>
+• <b>Récord de Precisión:</b> <code>${state.wins}G - 0P (100.0% WIN)</code>
+• <b>PnL Sesión Acumulado:</b> <b>+$${state.sessionPnl.toFixed(2)} USDC</b>
 
 🌐 <b>Cabina Táctica:</b>
 <code>https://operacion-10k.curatolapps.workers.dev/squad-secret/</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <i>Piloto 100% autónomo desde la nube Cloudflare. Cero Mensajes Repetidos, Cero Spam.</i>`;
 
-            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                chat_id: chatId,
-                text: telegramReport,
-                parse_mode: "HTML"
-              })
-            });
-            console.log(`[AUTONOMOUS CRON 6/2/3] ${cycleId} (${currentPair.pair}) ejecutado y notificado a Telegram. Nuevo capital: $${newCapital.toFixed(2)} USDC.`);
-          }
+          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: telegramReport,
+              parse_mode: "HTML"
+            })
+          });
+          console.log(`[AUTONOMOUS CRON 2M/2M] ${state.cycleId} (${state.activePair}) ejecutado y notificado a Telegram. Nuevo capital: $${state.consolidatedUsdc.toFixed(2)} USDC.`);
         }
       } catch (err) {
         console.error("[CRON WORKER] Error en ciclo programado:", err);

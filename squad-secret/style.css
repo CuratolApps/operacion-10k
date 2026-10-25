@@ -1028,3 +1028,123 @@ html, body {
   transform: translateY(0);
   opacity: 1;
 }
+
+/* =============================================================================
+   RESPONSIVE DESIGN // VISTA MÓVIL Y TABLET (MAX-WIDTH: 900PX)
+   ============================================================================= */
+@media (max-width: 900px) {
+  html, body {
+    width: 100%;
+    height: auto !important;
+    min-height: 100vh;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  /* Barra superior en 2 columnas */
+  .top-nav-bar {
+    height: auto !important;
+    max-height: none !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 8px 10px;
+    position: static;
+  }
+
+  .nav-card {
+    min-height: 90px;
+  }
+
+  .nav-card:nth-child(5) {
+    grid-column: span 2;
+  }
+
+  /* Grid principal en flujo vertical de 1 sola columna */
+  .squad-workspace-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 8px 10px;
+    gap: 12px;
+  }
+
+  .squad-panel {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .squad-left-panel,
+  .squad-center-panel,
+  .squad-bottom-panel {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+
+  .funnel-links-list {
+    max-height: 280px;
+  }
+
+  /* Visor de 4 Cajas en columna única */
+  .tactical-four-boxes-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    gap: 8px;
+  }
+
+  .big-price-flow,
+  .big-targets-flow {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .strike-master-btn {
+    padding: 12px 14px;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .cycles-table-wrap {
+    max-height: 320px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cycles-table {
+    min-width: 600px;
+  }
+
+  /* Dock inferior adaptable */
+  .bottom-module-dock {
+    position: sticky;
+    bottom: 0;
+    height: auto;
+    padding: 8px 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .dock-center-modules {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .top-nav-bar {
+    grid-template-columns: 1fr !important;
+  }
+
+  .nav-card:nth-child(5) {
+    grid-column: span 1 !important;
+  }
+
+  .metric-primary {
+    font-size: 13.5px;
+  }
+}
