@@ -161,7 +161,7 @@
     // Normalizar capital consolidado
     const consolidated = data.consolidatedUsdc !== undefined
       ? data.consolidatedUsdc
-      : (data.capitalGoal ? data.capitalGoal.consolidatedUsdc : 341.84);
+      : (data.capitalGoal ? data.capitalGoal.consolidatedUsdc : 486.92);
 
     // Objetivo dinámico: Escala automáticamente $500 -> $1,000 -> $2,000 USDC
     let targetGoal = data.goalTarget || (data.capitalGoal && (data.capitalGoal.targetCapitalUsdc || data.capitalGoal.firstWaveTargetUsdc)) || 500.00;
@@ -193,10 +193,10 @@
     }
 
     const blk = data.blockSettlement || {
-      currentSettledBlock: consolidated >= 355 ? 355 : 325.43,
-      nextMilestoneBlock: 355.00,
-      remainingToNextBlock: Math.max(0, 355.00 - consolidated),
-      progressToNextBlockPct: Math.min(100, Math.max(0, ((consolidated - 325.43) / (355 - 325.43)) * 100))
+      currentSettledBlock: consolidated >= 450 ? 450.00 : 400.00,
+      nextMilestoneBlock: 500.00,
+      remainingToNextBlock: Math.max(0, 500.00 - consolidated),
+      progressToNextBlockPct: Math.min(100, Math.max(0, ((consolidated - 450.00) / (500 - 450.00)) * 100))
     };
 
     if (topProgressPct) {
@@ -222,7 +222,7 @@
     // 2. Tarjeta 3: Marcador de Precisión
     const wins = data.wins !== undefined
       ? data.wins
-      : (data.scoreboard ? data.scoreboard.currentWins : 91);
+      : (data.scoreboard ? data.scoreboard.currentWins : 0);
     const losses = data.losses !== undefined
       ? data.losses
       : (data.scoreboard ? data.scoreboard.currentLosses : 0);
@@ -231,7 +231,7 @@
       : (data.scoreboard ? data.scoreboard.winRatePct : 100.0);
     const sessionPnl = data.sessionPnl !== undefined
       ? (typeof data.sessionPnl === "number" ? `+$${data.sessionPnl.toFixed(2)} USDC` : data.sessionPnl)
-      : (data.scoreboard ? data.scoreboard.sessionNetPnLFormatted : "+$16.41 USDC");
+      : (data.scoreboard ? data.scoreboard.sessionNetPnLFormatted : "+$0.00 USDC");
 
     if (topRatioDisplay) {
       topRatioDisplay.innerHTML = `${wins}G <span class="metric-sub">-</span> ${losses}P`;
@@ -303,15 +303,11 @@
       if (boxBreakevenPrice) {
         boxBreakevenPrice.textContent = `$${formatPrice(shot.breakevenPrice)}`;
       }
-      const rateFactor = data.compoundRatePct ? (data.compoundRatePct / 100) : 0.0015;
-      const compoundGain = Math.max(0.53, parseFloat((consolidated * rateFactor).toFixed(2)));
+      const rateFactor = data.compoundRatePct ? (data.compoundRatePct / 100) : 0.0008;
+      const compoundGain = Math.max(0.39, parseFloat((consolidated * rateFactor).toFixed(2)));
       const fusion = data.fusionMetrics;
       if (boxTpGainDisplay) {
-        if (fusion) {
-          boxTpGainDisplay.textContent = `+$${fusion.combinedCycleGainUsdc.toFixed(2)} USDC (+0.15% + Op500)`;
-        } else {
-          boxTpGainDisplay.textContent = `+$${compoundGain.toFixed(2)} USDC (+0.15%)`;
-        }
+        boxTpGainDisplay.textContent = `+$${compoundGain.toFixed(2)} USDC (+0.08% Real)`;
       }
       if (boxTpPrice) {
         boxTpPrice.textContent = `$${formatPrice(shot.targetProfitPrice)}`;

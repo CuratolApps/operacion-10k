@@ -1022,17 +1022,17 @@ async function syncSquadSecretLive() {
     const data = await res.json();
     if (!data || !data.success) return;
 
-    const consolidated = Number(data.consolidatedUsdc || 347.36);
-    const pnl = Number(data.sessionPnl || 21.93);
+    const consolidated = Number(data.consolidatedUsdc || 486.92);
+    const pnl = Number(data.sessionPnl || 0.00);
     const goal = Number(data.goalTarget || 500.0);
-    const progress = Number(data.progressPct || 69.5);
-    const wins = data.wins || data.cycleNum || 111;
+    const progress = Number(data.progressPct || 97.4);
+    const wins = data.wins !== undefined ? data.wins : 0;
 
     const blk = data.blockSettlement || {
-      currentSettledBlock: consolidated >= 355 ? 355 : 325.43,
-      nextMilestoneBlock: 355.00,
-      remainingToNextBlock: Math.max(0, 355.00 - consolidated),
-      progressToNextBlockPct: Math.min(100, Math.max(0, ((consolidated - 325.43) / (355 - 325.43)) * 100))
+      currentSettledBlock: consolidated >= 450 ? 450.00 : 400.00,
+      nextMilestoneBlock: 500.00,
+      remainingToNextBlock: Math.max(0, 500.00 - consolidated),
+      progressToNextBlockPct: Math.min(100, Math.max(0, ((consolidated - 450.00) / (500 - 450.00)) * 100))
     };
 
     liveState.squadLive = data;
@@ -1042,12 +1042,12 @@ async function syncSquadSecretLive() {
     const elTopUsdc = document.getElementById("topUsdcStableVal");
     if (elTopUsdc) {
       elTopUsdc.textContent = `$${consolidated.toFixed(2)} USDC`;
-      elTopUsdc.title = `Total Acumulado en Bóveda #501: $${consolidated.toFixed(2)} USDC (Meta Bola 3: $${goal.toFixed(2)} USDC | Base Líquida On-Chain: $486.92 + Profit Acumulado: +$${pnl.toFixed(2)} USDC)`;
+      elTopUsdc.title = `Total Acumulado en Bóveda #501: $${consolidated.toFixed(2)} USDC (Meta Bola 2: $${goal.toFixed(2)} USDC | Base Real On-Chain: $486.92 + Profit Real: +$${pnl.toFixed(2)} USDC)`;
     }
 
     const elTopUsdcSub = elTopUsdc?.parentElement?.querySelector(".queen-status-text");
     if (elTopUsdcSub) {
-      elTopUsdcSub.textContent = `BLQ: $${blk.nextMilestoneBlock.toFixed(2)} (${blk.progressToNextBlockPct}%) · BOLA 3: $${goal.toFixed(2)} (${progress.toFixed(1)}%)`;
+      elTopUsdcSub.textContent = `BLQ: $${blk.nextMilestoneBlock.toFixed(2)} (${blk.progressToNextBlockPct}%) · BOLA 2: $${goal.toFixed(2)} (${progress.toFixed(1)}%)`;
     }
 
     // 2. Tarjeta Bóveda Matriz #501
@@ -1067,10 +1067,10 @@ async function syncSquadSecretLive() {
       elVaultBlock.title = `Próximo Bloque Inmediato: $${blk.nextMilestoneBlock.toFixed(2)} USDC (Faltan +$${blk.remainingToNextBlock.toFixed(2)} USDC)`;
     }
     const elVaultProfit = document.getElementById("vault501ProfitPill");
-    const rateLabel = data.compoundRatePct ? `+${data.compoundRatePct}%` : "+0.15%";
+    const rateLabel = data.compoundRatePct ? `+${data.compoundRatePct}%` : "+0.08%";
     if (elVaultProfit) {
       elVaultProfit.textContent = `+$${pnl.toFixed(2)}`;
-      elVaultProfit.title = `Profit Compuesto Squad Secret (${rateLabel} · ${wins}G - 0P)`;
+      elVaultProfit.title = `Profit Real On-Chain Squad Secret (${rateLabel} · ${wins}G - 0P)`;
     }
 
     // 3. Tarjeta Posición USDC (Columna Izquierda / Munición)

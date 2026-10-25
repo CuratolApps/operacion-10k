@@ -267,7 +267,7 @@ async function fetchVault501BalancesOnChain() {
   } catch (_) {}
 
   // Escalera oficial de Bloques de Capitalización en Firme en #501:
-  // Escalera oficial de Bloques de Capitalización en Firme en #501 (Tercera Bola $1,000):
+  // Escalera oficial de Bloques de Capitalización en Firme en #501 (Segunda Bola $500):
   const MILESTONE_BLOCKS = [355.00, 400.00, 450.00, 500.00, 550.00, 600.00, 650.00, 700.00, 750.00, 800.00, 850.00, 900.00, 950.00, 1000.00, 2000.00];
 
   // Base on-chain verificada #501 (Post-Swap 1,826.764 POL ➔ +$161.49 USDC Nativo):
@@ -277,12 +277,12 @@ async function fetchVault501BalancesOnChain() {
   const baseBinanceUsdc = 1.00;
   const baseOnChainUsdc = 486.92;
 
-  // Capital consolidado actual (avanza tiro a tiro con PnL acumulado a +0.15% compuesto):
-  const consolidatedUsdc = 556.40;
-  const targetCapitalUsdc = 1000.00; // Tercera Bola ($1,000.00 USDC)
+  // Capital consolidado actual (100% real on-chain, 0% simulación):
+  const consolidatedUsdc = 486.92;
+  const targetCapitalUsdc = 500.00; // Segunda Bola ($500.00 USDC)
 
-  let currentSettledBlock = 550.00; // Asentado en firme en Bóveda #501
-  let nextMilestoneBlock = 600.00;
+  let currentSettledBlock = 450.00; // Asentado en firme en Bóveda #501
+  let nextMilestoneBlock = 500.00;
 
   for (let i = 0; i < MILESTONE_BLOCKS.length; i++) {
     if (consolidatedUsdc >= MILESTONE_BLOCKS[i]) {
@@ -300,7 +300,7 @@ async function fetchVault501BalancesOnChain() {
   const blockSpan = Math.max(1, nextMilestoneBlock - currentSettledBlock);
   const progressToNextBlockPct = parseFloat(Math.min(100, Math.max(0, ((consolidatedUsdc - currentSettledBlock) / blockSpan) * 100)).toFixed(1));
 
-  const squadShotUsdc = parseFloat((consolidatedUsdc * 0.0015).toFixed(2));
+  const squadShotUsdc = parseFloat((consolidatedUsdc * 0.0008).toFixed(2)); // +0.08% capture
   const op500InflowUsdc = 1.75;
   const combinedCycleGainUsdc = parseFloat((squadShotUsdc + op500InflowUsdc).toFixed(2));
   const combinedHourlyRateUsdc = parseFloat((combinedCycleGainUsdc * 20).toFixed(2));

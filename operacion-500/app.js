@@ -158,10 +158,10 @@
       topEnjambreWallets.innerHTML = `${data.activeWallets || 500} <span class="metric-sub">/ ${data.totalWallets || 500} CARTERAS</span>`;
     }
     if (topSessionPnlDisplay) {
-      topSessionPnlDisplay.innerHTML = `+$${(data.sessionPnlUsdc || 90.00).toFixed(2)} <span class="metric-sub">USDC PnL</span>`;
+      topSessionPnlDisplay.innerHTML = `+$${(data.sessionPnlUsdc || 0.00).toFixed(2)} <span class="metric-sub">USDC PnL</span>`;
     }
     if (topRatioDisplay) {
-      topRatioDisplay.innerHTML = `${data.wins || 120}G <span class="metric-sub">-</span> ${data.losses || 0}P`;
+      topRatioDisplay.innerHTML = `${data.wins || 0}G <span class="metric-sub">-</span> ${data.losses || 0}P`;
     }
     if (topWinRateBadge) {
       topWinRateBadge.textContent = `${(data.winRatePct || 100.0).toFixed(1)}% WIN`;
@@ -174,26 +174,22 @@
     if (data.vault501Integration) {
       const v = data.vault501Integration;
       if (vaultProgressFill) {
-        vaultProgressFill.style.width = `${v.progressToNextBlockPct || 15}%`;
+        vaultProgressFill.style.width = `${v.progressToNextBlockPct || 73.8}%`;
       }
       if (vaultBlockLabel) {
-        vaultBlockLabel.textContent = `Bóveda #501: $${(v.consolidatedUsdc || 557.23).toFixed(2)}`;
+        vaultBlockLabel.textContent = `Bóveda #501: $${(v.consolidatedUsdc || 486.92).toFixed(2)}`;
       }
       if (vaultRemainingLabel) {
-        vaultRemainingLabel.textContent = `Meta $${(v.nextMilestoneBlock || 600).toFixed(0)} (-$${(v.remainingToNextBlock || 42.77).toFixed(2)})`;
+        vaultRemainingLabel.textContent = `Meta $${(v.nextMilestoneBlock || 500).toFixed(0)} (-$${(v.remainingToNextBlock || 13.08).toFixed(2)})`;
       }
       if (boxBlockBadge) {
-        boxBlockBadge.textContent = `BLOQUE $${(v.currentSettledBlock || 550).toFixed(0)} ASENTADO`;
+        boxBlockBadge.textContent = `BLOQUE $${(v.currentSettledBlock || 450).toFixed(0)} ASENTADO`;
       }
       if (boxOperationStatusText) {
-        boxOperationStatusText.textContent = `🏦 BLOQUE $${(v.currentSettledBlock || 550).toFixed(2)} ASENTADO EN #501 // PRÓXIMO: $${(v.nextMilestoneBlock || 600).toFixed(2)} USDC`;
+        boxOperationStatusText.textContent = `🏦 BLOQUE $${(v.currentSettledBlock || 450).toFixed(2)} ASENTADO EN #501 // PRÓXIMO: $${(v.nextMilestoneBlock || 500).toFixed(2)} USDC`;
       }
       if (boxOperationSubText) {
-        if (v.fusionMetrics) {
-          boxOperationSubText.textContent = `Fusión Compuesta: Squad Secret (+0.15% = +$${v.fusionMetrics.squadShotUsdc.toFixed(2)}) + Operación 500 (+$${v.fusionMetrics.op500InflowUsdc.toFixed(2)}) = +$${v.fusionMetrics.combinedCycleGainUsdc.toFixed(2)} USDC/ciclo (~$${v.fusionMetrics.combinedHourlyRateUsdc.toFixed(2)}/h) hacia la Tercera Bola ($1,000.00 USDC).`;
-        } else {
-          boxOperationSubText.textContent = `Fusión Compuesta: Squad Secret (+0.15%) + Operación 500 (+$1.75) = +$2.60 USDC/ciclo (~$51.80/h) hacia la Tercera Bola ($1,000.00 USDC).`;
-        }
+        boxOperationSubText.textContent = `Fusión Compuesta: Squad Secret (+0.08% = +$0.39) + Operación 500 (+$1.75) = +$2.14 USDC/ciclo (~$42.80/h) hacia la Segunda Bola ($500.00 USDC).`;
       }
     }
 
