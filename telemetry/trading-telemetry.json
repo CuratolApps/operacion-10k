@@ -236,13 +236,13 @@
     }
   },
   "patrimonialLock": {
-    "sniperCapitalProtectedUsdc": 325.55,
+    "sniperCapitalProtectedUsdc": 325.73,
     "breakdown": {
       "masterVault501OnChainUsdc": 324.43,
       "binanceSpotHarvestUsdc": 1,
       "microReservesUsdc": 1.21,
       "nativePolReserve": 300.02,
-      "polygon501MasterUsdc": 303.03,
+      "polygon501MasterUsdc": 303.21,
       "bscCaptainsUsdc": 21.52
     },
     "tradingCapitalRiskUsdc": 0,

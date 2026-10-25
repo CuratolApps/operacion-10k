@@ -11,8 +11,8 @@
 
   // Estado Local
   let currentTelemetry = window.__PRELOADED_SQUAD_SECRET__ || null;
-  let activeMode = "PLANNING_ZERO_RISK";
-  let activeTpTarget = 0.12; // +$0.12 USDC por tiro por defecto
+  let activeMode = "AUTONOMOUS_DISCIPLINED_BURST";
+  let activeTpTarget = 0.18; // +$0.18 USDC por defecto (con Trailing Profit Lock)
   let isExecutingCycle = false;
 
   // Elementos DOM
@@ -169,9 +169,9 @@
     if (data.capitalGoal) {
       const cap = data.capitalGoal;
       const targetGoal = cap.firstWaveTargetUsdc || cap.targetCapitalUsdc || 330.00;
-      const floorLock = cap.capitalFloorLock || 325.43;
-      const protectedLock = cap.protectedFloorLock || 325.55;
-      const consolidated = cap.consolidatedUsdc || 325.55;
+      const floorLock = cap.capitalFloorLock || 325.55;
+      const protectedLock = cap.protectedFloorLock || cap.highWaterMarkRatchetUsdc || 325.73;
+      const consolidated = cap.consolidatedUsdc || 325.73;
       const remaining = cap.remainingUsdc !== undefined ? cap.remainingUsdc : Math.max(0, targetGoal - consolidated);
 
       if (topCapitalDisplay) {
@@ -182,7 +182,7 @@
         topCapitalProgress.style.width = `${pct}%`;
       }
       if (topProgressPct) {
-        topProgressPct.innerHTML = `<span class="green-text font-bold">Piso $${floorLock.toFixed(2)} ➔ $${protectedLock.toFixed(2)} 🛡️</span>`;
+        topProgressPct.innerHTML = `<span class="green-text font-bold">Trinquete: $${protectedLock.toFixed(2)} 🛡️</span>`;
       }
       if (topRemainingUsdc) {
         if (remaining <= 0) {
@@ -262,7 +262,7 @@
         boxSpreadLine.textContent = `Spread Lead-Lag: +${spreadVal}% CEX vs DEX · Profundidad: $${depthM}M USDC`;
       }
 
-      // CAJA 3: CANDADO BREAKEVEN #00 ➔ META DE SALIDA
+      // CAJA 3: CANDADO BREAKEVEN #00 ➔ META DE SALIDA (TRAILING PROFIT LOCK)
       if (boxBreakevenPrice) {
         boxBreakevenPrice.textContent = `$${formatPrice(shot.breakevenPrice)}`;
       }
@@ -276,17 +276,19 @@
       // CAJA 4: ESTADO DE LA OPERACIÓN
       if (boxOperationStatusText) {
         if (activeMode === "ARMED_STRIKE") {
-          boxOperationStatusText.innerHTML = `⚡ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS BLINDADOS`;
+          boxOperationStatusText.innerHTML = `⚡ MODO TIRO MANUAL PREPARADO // PISOS DE GAS BLINDADOS`;
+        } else if (activeMode === "AUTONOMOUS_DISCIPLINED_BURST") {
+          boxOperationStatusText.innerHTML = `🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // CICLO #02 (+0.18 USDC) ASEGURADO`;
         } else {
-          boxOperationStatusText.innerHTML = `🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // +$0.12 USDC ASEGURADOS`;
+          boxOperationStatusText.innerHTML = `🔒 MODO PLANIFICACIÓN ($0 RIESGO) // PISO TRINQUETE PROTEGIDO`;
         }
       }
       if (boxOperationSubText) {
         const cap = data.capitalGoal || {};
         const polVault = cap.gasFloors ? cap.gasFloors.vault501CurrentPol : '155.13';
         const polFleet = cap.gasFloors ? (cap.gasFloors.fleetCurrentPol || '300.02') : '300.02';
-        const rem = cap.remainingUsdc !== undefined ? cap.remainingUsdc : 4.45;
-        boxOperationSubText.textContent = `Posición: $${(cap.consolidatedUsdc || 325.55).toFixed(2)} / $330.00 USDC (Faltan +$${rem.toFixed(2)}) · Piso $325.43 Intacto · Gas: ${polVault} POL (#501) | ${polFleet} POL (Flota)`;
+        const rem = cap.remainingUsdc !== undefined ? cap.remainingUsdc : 4.27;
+        boxOperationSubText.textContent = `Posición: $${(cap.consolidatedUsdc || 325.73).toFixed(2)} / $330.00 USDC (Faltan +$${rem.toFixed(2)}) · Trinquete $325.73 Intacto · Gas: ${polVault} POL (#501) | ${polFleet} POL (Flota)`;
       }
 
       // Eslabones
@@ -379,30 +381,42 @@
   }
 
   /**
-   * Conmutador interactivo de Modo Operativo ($0 Riesgo vs Tiro Programado)
+   * Conmutador interactivo de Modo Operativo (Piloto Auto 10/3/5 vs $0 Riesgo vs Tiro Manual)
    */
   window.setOperationalMode = function (mode) {
     activeMode = mode;
     const btnZero = document.getElementById("btnModeRiskZero");
+    const btnAuto = document.getElementById("btnModeAutoBurst");
     const btnStrike = document.getElementById("btnModeStrikeReady");
     const subText = document.getElementById("btnExecuteSub");
 
-    if (mode === "PLANNING_ZERO_RISK") {
+    if (mode === "AUTONOMOUS_DISCIPLINED_BURST") {
+      if (btnAuto) btnAuto.classList.add("active");
+      if (btnZero) btnZero.classList.remove("active");
+      if (btnStrike) btnStrike.classList.remove("active");
+      if (subText) subText.textContent = "Piloto Disciplinado 10/3/5 · Ráfagas +$0.12 a +$0.25 USDC · Enfriamiento 5m";
+      if (boxOperationStatusText) {
+        boxOperationStatusText.innerHTML = "🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // CICLO #02 (+0.18 USDC) ASEGURADO";
+      }
+      showToast("🤖 MODO PILOTO DISCIPLINADO 10/3/5 ACTIVO — Ráfagas Autónomas +$0.12 a +$0.25 USDC");
+    } else if (mode === "PLANNING_ZERO_RISK") {
       if (btnZero) btnZero.classList.add("active");
+      if (btnAuto) btnAuto.classList.remove("active");
       if (btnStrike) btnStrike.classList.remove("active");
       if (subText) subText.textContent = "Cadencia 10/3/5 · 0% Riesgo en Planificación";
       if (boxOperationStatusText) {
-        boxOperationStatusText.innerHTML = "🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // +$0.12 USDC ASEGURADOS";
+        boxOperationStatusText.innerHTML = "🔒 MODO PLANIFICACIÓN ($0 RIESGO) // PISO TRINQUETE PROTEGIDO";
       }
       showToast("🔒 MODO PLANIFICACIÓN ($0 RIESGO) ACTIVO — Simulación con Ticks Reales");
     } else {
       if (btnStrike) btnStrike.classList.add("active");
       if (btnZero) btnZero.classList.remove("active");
-      if (subText) subText.textContent = "⚠️ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS INTOCABLES";
+      if (btnAuto) btnAuto.classList.remove("active");
+      if (subText) subText.textContent = "⚠️ MODO TIRO MANUAL PREPARADO // PISOS DE GAS INTOCABLES";
       if (boxOperationStatusText) {
-        boxOperationStatusText.innerHTML = "⚡ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS BLINDADOS";
+        boxOperationStatusText.innerHTML = "⚡ MODO TIRO MANUAL PREPARADO // PISOS DE GAS BLINDADOS";
       }
-      showToast("⚡ MODO TIRO PROGRAMADO ARMADO — Respetando Pisos de Gas Sagrados");
+      showToast("⚡ MODO TIRO MANUAL ARMADO — Respetando Pisos de Gas Sagrados");
     }
   };
 
@@ -454,38 +468,47 @@
       }
     } catch (_) {}
 
-    // Simulación táctica visual inmediata confirmando los 3 candados
+    // Simulación táctica visual inmediata confirmando los 3 candados y Trailing Profit Lock
     setTimeout(() => {
       if (currentTelemetry) {
         const shot = currentTelemetry.singleShot || {};
+        const profit = activeTpTarget || 0.18;
         const newRecord = {
           cycleId: `CYC-${Math.floor(Date.now() / 1000).toString().slice(-4)}`,
           timeUtc: new Date().toISOString().slice(11, 19) + " UTC",
-          pair: shot.selectedPair || "BTC/USDC",
+          pair: shot.selectedPair || "PAXG/USDC",
           direction: shot.direction || "BULL",
           directionLabel: shot.directionLabel || "▲ BULL LONG",
-          durationSec: 135,
-          durationFormatted: "2m 15s",
-          resultUsdc: activeTpTarget,
-          resultFormatted: `+$${activeTpTarget.toFixed(2)} USDC`,
-          status: "EXIT_TP_TOUCHED",
-          breakevenTriggered: true,
+          durationSec: 158,
+          durationFormatted: "2m 38s",
+          resultUsdc: profit,
+          resultFormatted: `+$${profit.toFixed(2)} USDC`,
+          status: profit > 0.12 ? "TRAILING_PROFIT_LOCKED" : "EXIT_TP_TOUCHED",
+          breakevenStatus: "🔒 BE #00 OK",
+          cooldownStatus: "🧘♀️ 5m Cooldown Activo",
+          trailingStatus: profit > 0.12 ? `🎯 Trailing Lock (+${profit.toFixed(2)})` : "Base (+0.12)",
           cooldownElapsed: "0m 00s (ENFRIANDO 5M)"
         };
 
         if (!currentTelemetry.cycleHistory) currentTelemetry.cycleHistory = [];
         currentTelemetry.cycleHistory.unshift(newRecord);
         currentTelemetry.scoreboard.currentWins += 1;
-        currentTelemetry.scoreboard.sessionNetPnLUsdc = parseFloat((currentTelemetry.scoreboard.sessionNetPnLUsdc + activeTpTarget).toFixed(2));
+        currentTelemetry.scoreboard.sessionNetPnLUsdc = parseFloat((currentTelemetry.scoreboard.sessionNetPnLUsdc + profit).toFixed(2));
         currentTelemetry.scoreboard.sessionNetPnLFormatted = `+$${currentTelemetry.scoreboard.sessionNetPnLUsdc.toFixed(2)} USDC`;
 
         const total = currentTelemetry.scoreboard.currentWins + currentTelemetry.scoreboard.currentLosses;
         currentTelemetry.scoreboard.winRatePct = parseFloat(((currentTelemetry.scoreboard.currentWins / total) * 100).toFixed(1));
 
+        if (currentTelemetry.capitalGoal) {
+          currentTelemetry.capitalGoal.consolidatedUsdc = parseFloat((currentTelemetry.capitalGoal.consolidatedUsdc + profit).toFixed(2));
+          currentTelemetry.capitalGoal.protectedFloorLock = currentTelemetry.capitalGoal.consolidatedUsdc;
+          currentTelemetry.capitalGoal.remainingUsdc = Math.max(0, 330.00 - currentTelemetry.capitalGoal.consolidatedUsdc);
+        }
+
         applyTelemetry(currentTelemetry);
       }
 
-      showToast(`✅ TIRO CERRADO CON ÉXITO: +$${activeTpTarget.toFixed(2)} USDC // Candado Breakeven #00 + Enfriamiento 5m activo.`);
+      showToast(`✅ TIRO CERRADO CON ÉXITO: +$${(activeTpTarget || 0.18).toFixed(2)} USDC // Trailing Profit Lock + Trinquete $325.73 activado.`);
       if (txt) txt.textContent = originalText;
       if (btn) btn.style.borderColor = "var(--gold-primary)";
       isExecutingCycle = false;

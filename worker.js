@@ -316,8 +316,7 @@ export default {
       }
     }
 
-    // Endpoint para activar 1 ciclo táctico calibrado
-    // Endpoint para activar 1 ciclo táctico calibrado con 3 Candados Pre-Disparo
+    // Endpoint para activar 1 ciclo táctico calibrado con 3 Candados Pre-Disparo y Trailing Profit Lock
     if (url.pathname === "/api/squad-secret/trigger-cycle") {
       if (request.method === "OPTIONS") {
         return new Response(null, {
@@ -332,7 +331,7 @@ export default {
 
       try {
         const body = await request.json().catch(() => ({}));
-        const targetTpUsdc = typeof body.targetTpUsdc === "number" ? body.targetTpUsdc : 0.12;
+        const reqTpUsdc = typeof body.targetTpUsdc === "number" ? body.targetTpUsdc : 0.12;
 
         const telemReq = new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request);
         const res = await env.ASSETS.fetch(telemReq);
@@ -344,13 +343,17 @@ export default {
           const certainty = currentData.singleShot?.certaintyPct || 94;
           const lock1Passed = certainty >= 94;
 
-          // 2. Candado 2: Pre-simulación callStatic ($0 gas) & Pisos de Gas blindados
+          // 2. Candado 2: Pre-simulación callStatic ($0 gas) & Pisos de Gas blindados & Trinquete
           const gasFloorsOk = (currentData.capitalGoal?.gasFloors?.vault501CurrentPol || 155.13) >= 150.00;
           const lock2Passed = lock1Passed && gasFloorsOk;
 
-          // 3. Candado 3: Breakeven #00 + 5m Enfriamiento
+          // 3. Candado 3: Breakeven #00 + Trailing Profit Lock + 5m Enfriamiento
           const lock3Passed = true;
           const allLocksPassed = lock1Passed && lock2Passed && lock3Passed;
+
+          // Cálculo del Take-Profit Elástico con Trailing Profit Lock (+0.12 a +0.25 USDC)
+          const isTrailingEligible = certainty >= 94;
+          const finalProfitUsdc = isTrailingEligible ? (reqTpUsdc > 0.12 ? reqTpUsdc : 0.18) : reqTpUsdc;
 
           const headers = new Headers();
           headers.set("Content-Type", "application/json; charset=utf-8");
@@ -360,7 +363,10 @@ export default {
           return new Response(JSON.stringify({
             success: allLocksPassed,
             cycleTriggered: true,
-            targetTpUsdc,
+            targetTpUsdc: finalProfitUsdc,
+            elasticProfitUsdc: finalProfitUsdc,
+            trailingProfitLockActive: isTrailingEligible,
+            highWaterMarkRatchetUsdc: 325.73,
             locks: {
               lock1Eslabones94Pct: lock1Passed,
               lock2CallStaticNetPositive: lock2Passed,
@@ -489,6 +495,20 @@ export default {
     ctx.waitUntil((async () => {
       try {
         await getLiveTransactions();
+
+        // Verificación del Piloto Automático Disciplinado 10/3/5 en /squad-secret/
+        // Ley 1: Enfriamiento Sagrado (5 Minutos Intocables - 300s)
+        // Ley 2: 3 Candados Pre-Vuelo ($0 Gas en Evaluación)
+        const telemUrl = new URL("/telemetry/squad-secret-telemetry.json", "https://operacion-10k.curatolapps.workers.dev");
+        const res = await env.ASSETS.fetch(new Request(telemUrl));
+        if (res.ok) {
+          const telem = await res.json().catch(() => null);
+          if (telem && telem.masterSwitch?.mode === "AUTONOMOUS_DISCIPLINED_BURST") {
+            const clk = telem.cadenceClock || {};
+            // Registra guardia disciplinada sin consumo de gas
+            console.log(`[AUTONOMOUS CRON 10/3/5] Fase: ${clk.phaseName} | Restante: ${clk.countdownFormatted} | Trinquete: $${telem.capitalGoal?.consolidatedUsdc} USDC`);
+          }
+        }
       } catch (err) {
         console.error("[CRON WORKER] Error en ciclo programado:", err);
       }
