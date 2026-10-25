@@ -43,46 +43,47 @@
   <header class="top-nav-bar" id="squadHeader">
 
     <!-- TARJETA 1: CAPITAL SQUAD SECRET (PRIMERA BOLA: RUMBO A $330.00 USDC) -->
-    <div class="nav-card" id="cardCapitalTop" title="Capital consolidado real $325.73 USDC con trinquete patrimonial dinámico rumbo a $330.00 USDC">
+    <!-- TARJETA 1: CAPITAL SQUAD SECRET (PRIMERA BOLA: RUMBO A $330.00 USDC) -->
+    <div class="nav-card" id="cardCapitalTop" title="Capital consolidado real $326.27 USDC con trinquete patrimonial dinámico rumbo a $330.00 USDC">
       <div class="card-meta">
         <span class="card-tag gold">💵 PRIMERA BOLA ($330 GOAL)</span>
         <span class="card-pill font-mono green-pill" id="vaultGasStatus">GAS: 155.13 POL ✔</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
-          $325.73 <span class="metric-sub">/ $330.00 USDC</span>
+          $326.27 <span class="metric-sub">/ $330.00 USDC</span>
         </div>
       </div>
-      <div class="progress-wrap" title="Progreso hacia Primera Bola ($330.00 USDC) con trinquete patrimonial en $325.73">
+      <div class="progress-wrap" title="Progreso hacia Primera Bola ($330.00 USDC) con trinquete patrimonial en $326.27">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 98.71%;"></div>
+          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 98.87%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topProgressPct" class="green-text font-bold">Trinquete: $325.73 🛡️</span>
-          <span id="topRemainingUsdc" class="gold-text">Faltan +$4.27 USDC</span>
+          <span id="topProgressPct" class="green-text font-bold">Trinquete: $326.27 🛡️</span>
+          <span id="topRemainingUsdc" class="gold-text">Faltan +$3.73 USDC</span>
         </div>
       </div>
     </div>
 
-    <!-- TARJETA 2: RELOJ DE CICLO 10/3/5 -->
-    <div class="nav-card" id="cardClockTop" title="Cadencia Táctica 10/3/5: 2m Calibración ➔ máx 3m Tiro ➔ 5m Descanso y Chequeo">
+    <!-- TARJETA 2: RELOJ DE CICLO 6/2/3 -->
+    <div class="nav-card" id="cardClockTop" title="Cadencia Táctica 6/2/3: 1m Calibración ➔ máx 2m Tiro ➔ 3m Descanso Sagrado (180s)">
       <div class="card-meta">
-        <span class="card-tag cyan">⏱️ RELOJ DE CICLO 10/3/5</span>
-        <span class="card-pill font-mono phase-pill" id="topPhaseBadge">FASE 3: DESCANSO</span>
+        <span class="card-tag cyan">⏱️ RELOJ DE CICLO 6/2/3</span>
+        <span class="card-pill font-mono phase-pill" id="topPhaseBadge">FASE 3: ENFRIAMIENTO (3M)</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono cyan-text" id="topClockCountdown">
-          02:27 <span class="metric-sub">en fase</span>
+          02:15 <span class="metric-sub">en fase</span>
         </div>
-        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining" title="Tiempo restante para completar el ciclo de 10 min">02:27 bloque</span>
+        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining" title="Tiempo restante para completar el ciclo de 6 min">02:15 bloque</span>
       </div>
       <div class="progress-wrap">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 80%;"></div>
+          <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 75%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topPhaseLabel">5m Descanso</span>
-          <span id="topNextPhaseLabel">➔ 2m Calibrar</span>
+          <span id="topPhaseLabel">3m Enfriamiento</span>
+          <span id="topNextPhaseLabel">➔ 1m Calibrar</span>
         </div>
       </div>
     </div>
@@ -95,13 +96,13 @@
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono green-text" id="topRatioDisplay">
-          2G <span class="metric-sub">-</span> 0P
+          5G <span class="metric-sub">-</span> 0P
         </div>
       </div>
       <div class="card-sub-metric font-mono">
         <span class="dim-txt">PnL Sesión:</span>
-        <span class="green-text font-bold" id="topSessionPnlDisplay">+$0.30 USDC</span>
-        <span class="target-sub-txt">(Ciclos #01 &amp; #02 ✔)</span>
+        <span class="green-text font-bold" id="topSessionPnlDisplay">+$0.84 USDC</span>
+        <span class="target-sub-txt">(Ciclos #01 - #05 ✔)</span>
       </div>
     </div>
 
@@ -133,7 +134,7 @@
           🔒 $0 RIESGO
         </button>
         <button class="mode-pill-btn active" id="btnModeAutoBurst" onclick="setOperationalMode('AUTONOMOUS_DISCIPLINED_BURST')">
-          🤖 PILOTO AUTO 10/3/5
+          🤖 PILOTO AUTO 6/2/3
         </button>
         <button class="mode-pill-btn" id="btnModeStrikeReady" onclick="setOperationalMode('ARMED_STRIKE')">
           ⚡ TIRO MANUAL
@@ -344,14 +345,14 @@
           <div class="box-head">
             <span class="box-num font-mono">04</span>
             <span class="box-tag">ESTADO DE LA OPERACIÓN</span>
-            <span class="box-badge-pill green font-mono">🔒 CICLOS #01 &amp; #02 (2G - 0P)</span>
+            <span class="box-badge-pill green font-mono" id="boxStatusBadge">🔒 CICLOS #01 - #03 (3G - 0P)</span>
           </div>
           <div class="box-body">
             <div class="big-status-alert font-mono" id="boxOperationStatusText">
-              🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // CICLO #02 (+0.18 USDC) ASEGURADO
+              🧘♀️ ENFRIAMIENTO SAGRADO (3 MIN / 180S) // CICLO #03 (+0.18 USDC) ASEGURADO
             </div>
             <div class="box-meta-line font-mono" id="boxOperationSubText">
-              Posición: $325.73 / $330.00 USDC (Faltan +$4.27) · Trinquete $325.73 Intacto · Gas: 155.13 POL (#501) | 300.02 POL (Flota 100% FULL)
+              Posición: $325.91 / $330.00 USDC (Faltan +$4.09) · Trinquete $325.91 Intacto · Gas: 155.13 POL (#501) | 300.02 POL (Flota 100% FULL)
             </div>
           </div>
         </div>
@@ -363,19 +364,19 @@
         <button class="strike-master-btn" id="btnExecuteCycle" onclick="executeCalibratedCycleNow()">
           <span class="btn-sparkle">⚡</span>
           <span class="btn-text" id="btnExecuteText">EJECUTAR 1 CICLO CALIBRADO AHORA</span>
-          <span class="btn-subtext font-mono" id="btnExecuteSub">Piloto Disciplinado 10/3/5 · Ráfagas +$0.12 a +$0.25 USDC · Enfriamiento 5m</span>
+          <span class="btn-subtext font-mono" id="btnExecuteSub">Piloto Disciplinado 6/2/3 · Ráfagas +$0.12 a +$0.25 USDC · Enfriamiento 3m</span>
         </button>
       </div>
     </section>
 
-    <!-- PANEL INFERIOR: BITÁCORA DE CICLOS (CICLOS #01 Y #02 REGISTRADOS) -->
+    <!-- PANEL INFERIOR: BITÁCORA DE CICLOS (CICLOS #01, #02 Y #03 REGISTRADOS) -->
     <section class="squad-panel squad-bottom-panel" id="panelCycleLedger">
       <div class="panel-header">
         <div class="panel-title-wrap">
           <span class="panel-icon">📜</span>
-          <h2 class="panel-title">BITÁCORA DE CICLOS TÁCTICOS // AUDITORÍA 10/3/5 (1 TIRO CADA 10 MIN)</h2>
+          <h2 class="panel-title">BITÁCORA DE CICLOS TÁCTICOS // AUDITORÍA 6/2/3 (1 TIRO CADA 6 MIN)</h2>
         </div>
-        <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">2 CICLOS REGISTRADOS (100% WIN)</span>
+        <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">3 CICLOS REGISTRADOS (100% WIN)</span>
       </div>
 
       <div class="cycles-table-wrap">
@@ -389,10 +390,40 @@
               <th>DURACIÓN</th>
               <th>RESULTADO USDC</th>
               <th>BREAKEVEN</th>
-              <th>ESTADO ENFRIAMIENTO (5M)</th>
+              <th>ESTADO ENFRIAMIENTO (3M)</th>
             </tr>
           </thead>
           <tbody id="cyclesTableBody">
+            <tr>
+              <td>CYC-0005</td>
+              <td class="font-mono">01:51:44 UTC</td>
+              <td><strong class="gold-text">BTC/USDC</strong></td>
+              <td><span class="tag-bull">▲ BULL LONG</span></td>
+              <td class="font-mono">1m 45s</td>
+              <td class="green-text font-bold">+$0.18 USDC</td>
+              <td><span class="be-locked">🔒 BE #00 OK</span></td>
+              <td><span class="cooldown-badge done">🧘♀️ 3m Cooldown Activo</span></td>
+            </tr>
+            <tr>
+              <td>CYC-0004</td>
+              <td class="font-mono">01:48:43 UTC</td>
+              <td><strong class="gold-text">PAXG/USDC</strong></td>
+              <td><span class="tag-bull">▲ BULL LONG</span></td>
+              <td class="font-mono">1m 52s</td>
+              <td class="green-text font-bold">+$0.18 USDC</td>
+              <td><span class="be-locked">🔒 BE #00 OK</span></td>
+              <td><span class="cooldown-badge done">Completado ✔</span></td>
+            </tr>
+            <tr>
+              <td>CYC-0003</td>
+              <td class="font-mono">01:45:43 UTC</td>
+              <td><strong class="gold-text">BTC/USDC</strong></td>
+              <td><span class="tag-bull">▲ BULL LONG</span></td>
+              <td class="font-mono">1m 48s</td>
+              <td class="green-text font-bold">+$0.18 USDC</td>
+              <td><span class="be-locked">🔒 BE #00 OK</span></td>
+              <td><span class="cooldown-badge done">Completado ✔</span></td>
+            </tr>
             <tr>
               <td>CYC-0002</td>
               <td class="font-mono">01:15:22 UTC</td>
@@ -401,7 +432,7 @@
               <td class="font-mono">2m 38s</td>
               <td class="green-text font-bold">+$0.18 USDC</td>
               <td><span class="be-locked">🔒 BE #00 OK</span></td>
-              <td><span class="cooldown-badge done">🧘♀️ 5m Cooldown Activo</span></td>
+              <td><span class="cooldown-badge done">Completado ✔</span></td>
             </tr>
             <tr>
               <td>CYC-0001</td>

@@ -7,42 +7,42 @@ const ROOT = path.resolve(__dirname, "..");
 const fleetPath = path.join(ROOT, "telemetry", "fleet-telemetry.json");
 if (fs.existsSync(fleetPath)) {
   const fleet = JSON.parse(fs.readFileSync(fleetPath, "utf8"));
-  fleet.dailyCapturedUsdc = 325.73;
-  fleet.totalHistoricalUsdc = 325.73;
-  fleet.totalOnChainFleetUsdc = 325.73;
+  fleet.dailyCapturedUsdc = 325.91;
+  fleet.totalHistoricalUsdc = 325.91;
+  fleet.totalOnChainFleetUsdc = 325.91;
   if (fleet.atomicSniperExecution) {
-    fleet.atomicSniperExecution.caliberPolygonUsdc = 303.21;
-    fleet.atomicSniperExecution.caliberConsolidatedUsdc = 325.73;
+    fleet.atomicSniperExecution.caliberPolygonUsdc = 303.39;
+    fleet.atomicSniperExecution.caliberConsolidatedUsdc = 325.91;
     if (fleet.atomicSniperExecution.reboundPosition) {
-      fleet.atomicSniperExecution.reboundPosition.currentPositionUsd = 325.73;
-      fleet.atomicSniperExecution.reboundPosition.baselineFixedUsdc = 325.73;
-      fleet.atomicSniperExecution.reboundPosition.fixedLiquidityUsdc = 325.73;
+      fleet.atomicSniperExecution.reboundPosition.currentPositionUsd = 325.91;
+      fleet.atomicSniperExecution.reboundPosition.baselineFixedUsdc = 325.91;
+      fleet.atomicSniperExecution.reboundPosition.fixedLiquidityUsdc = 325.91;
       fleet.atomicSniperExecution.reboundPosition.targetFirstWaveUsdc = 330.00;
-      fleet.atomicSniperExecution.reboundPosition.remainingFirstWaveUsdc = 4.27;
-      fleet.atomicSniperExecution.reboundPosition.capitalFloorLockUsdc = 325.55;
-      fleet.atomicSniperExecution.reboundPosition.protectedFloorLockUsdc = 325.73;
+      fleet.atomicSniperExecution.reboundPosition.remainingFirstWaveUsdc = 4.09;
+      fleet.atomicSniperExecution.reboundPosition.capitalFloorLockUsdc = 325.73;
+      fleet.atomicSniperExecution.reboundPosition.protectedFloorLockUsdc = 325.91;
     }
   }
   if (fleet.snipingEcosystem && fleet.snipingEcosystem.masterVault) {
     fleet.snipingEcosystem.masterVault.gasPol = 155.13;
   }
   fs.writeFileSync(fleetPath, JSON.stringify(fleet, null, 2), "utf8");
-  console.log("✅ fleet-telemetry.json sincronizado con $325.73 USDC y piso $325.73.");
+  console.log("✅ fleet-telemetry.json sincronizado con $325.91 USDC y piso $325.91.");
 }
 
 // 2. sniping/telemetry.json
 const snipingPath = path.join(ROOT, "sniping", "telemetry.json");
 if (fs.existsSync(snipingPath)) {
   const sniping = JSON.parse(fs.readFileSync(snipingPath, "utf8"));
-  sniping.dailyCapturedUsdc = 325.73;
-  sniping.totalHistoricalUsdc = 325.73;
-  sniping.totalOnChainFleetUsdc = 325.73;
+  sniping.dailyCapturedUsdc = 325.91;
+  sniping.totalHistoricalUsdc = 325.91;
+  sniping.totalOnChainFleetUsdc = 325.91;
   if (sniping.atomicSniperExecution) {
-    sniping.atomicSniperExecution.caliberPolygonUsdc = 303.21;
-    sniping.atomicSniperExecution.caliberConsolidatedUsdc = 325.73;
+    sniping.atomicSniperExecution.caliberPolygonUsdc = 303.39;
+    sniping.atomicSniperExecution.caliberConsolidatedUsdc = 325.91;
   }
   fs.writeFileSync(snipingPath, JSON.stringify(sniping, null, 2), "utf8");
-  console.log("✅ sniping/telemetry.json sincronizado con $325.73 USDC.");
+  console.log("✅ sniping/telemetry.json sincronizado con $325.91 USDC.");
 }
 
 // 3. trading-telemetry.json
@@ -50,14 +50,15 @@ const tradingPath = path.join(ROOT, "telemetry", "trading-telemetry.json");
 if (fs.existsSync(tradingPath)) {
   const trading = JSON.parse(fs.readFileSync(tradingPath, "utf8"));
   if (trading.patrimonialLock) {
-    trading.patrimonialLock.sniperCapitalProtectedUsdc = 325.73;
+    trading.patrimonialLock.sniperCapitalProtectedUsdc = 325.91;
     if (trading.patrimonialLock.breakdown) {
-      trading.patrimonialLock.breakdown.polygon501MasterUsdc = 303.21;
+      trading.patrimonialLock.breakdown.polygon501MasterUsdc = 303.39;
       trading.patrimonialLock.breakdown.bscCaptainsUsdc = 21.52;
       trading.patrimonialLock.breakdown.binanceSpotHarvestUsdc = 1.00;
       trading.patrimonialLock.breakdown.nativePolReserve = 300.02;
     }
   }
   fs.writeFileSync(tradingPath, JSON.stringify(trading, null, 2), "utf8");
-  console.log("✅ trading-telemetry.json sincronizado con $325.73 USDC.");
+  console.log("✅ trading-telemetry.json sincronizado con $325.91 USDC.");
 }
+

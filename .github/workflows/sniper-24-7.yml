@@ -63,8 +63,15 @@ jobs:
           DUR="${{ github.event.inputs.duration_sec || '260' }}"
           echo "========================================================================="
           echo "🌌 INICIANDO BUCLE CONTINUO DE SNIPING ($DUR seg): ÁREA 501"
-          echo "========================================================================="
           node scripts/sniper-continuous-daemon.js --duration "$DUR" --interval 3
+
+      - name: "🛰️ Guardia Autónoma Squad Secret (Respaldo en Nube 6/2/3)"
+        shell: bash
+        run: |
+          echo "========================================================================="
+          echo "🛡️ EJECUTANDO GUARDIA AUTÓNOMA SQUAD SECRET (ENFRIAMIENTO 3 MIN)"
+          echo "========================================================================="
+          node squad-secret-engine.js --notify || true
 
       - name: "💾 Sincronizar telemetría hacia Git"
         if: always()

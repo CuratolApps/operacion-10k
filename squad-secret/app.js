@@ -68,9 +68,9 @@
    * Cálculo local del Reloj 10/3/5 (Sincronizado al segundo)
    */
   function computeLocalClock() {
-    const CYCLE_LENGTH_SEC = 600; // 10 min
-    const CALIBRATION_SEC = 120;  // 2 min
-    const STRIKE_SEC = 300;       // 5 min (3 min de tiro: 120s a 300s)
+    const CYCLE_LENGTH_SEC = 360; // 6 min
+    const CALIBRATION_SEC = 60;   // 1 min
+    const STRIKE_SEC = 180;       // 3 min (2 min de tiro: 60s a 180s)
 
     const now = Date.now();
     const nowSec = Math.floor(now / 1000);
@@ -78,29 +78,29 @@
     const remainingInCycle = CYCLE_LENGTH_SEC - elapsedInCycle;
 
     let phase = "CALIBRATING";
-    let phaseName = "FASE 1: CALIBRANDO";
-    let phaseSecondsTotal = 120;
+    let phaseName = "FASE 1: CALIBRANDO (1M)";
+    let phaseSecondsTotal = 60;
     let phaseElapsed = elapsedInCycle;
-    let phaseRemaining = 120 - elapsedInCycle;
+    let phaseRemaining = 60 - elapsedInCycle;
     let phaseProgress = (phaseElapsed / phaseSecondsTotal) * 100;
-    let nextPhaseText = "➔ 3m Tiro";
+    let nextPhaseText = "➔ 2m Disparo";
 
     if (elapsedInCycle >= CALIBRATION_SEC && elapsedInCycle < STRIKE_SEC) {
-      phase = "STRIKE_WINDOW_3M";
-      phaseName = "FASE 2: DISPARO (3M)";
-      phaseSecondsTotal = 180;
+      phase = "STRIKE_WINDOW_2M";
+      phaseName = "FASE 2: DISPARO (2M)";
+      phaseSecondsTotal = 120;
       phaseElapsed = elapsedInCycle - CALIBRATION_SEC;
       phaseRemaining = STRIKE_SEC - elapsedInCycle;
       phaseProgress = (phaseElapsed / phaseSecondsTotal) * 100;
-      nextPhaseText = "➔ 5m Descanso";
+      nextPhaseText = "➔ 3m Enfriamiento";
     } else if (elapsedInCycle >= STRIKE_SEC) {
-      phase = "COOLDOWN_CHECK_5M";
-      phaseName = "FASE 3: DESCANSO (5M)";
-      phaseSecondsTotal = 300;
+      phase = "COOLDOWN_CHECK_3M";
+      phaseName = "FASE 3: ENFRIAMIENTO (3M)";
+      phaseSecondsTotal = 180;
       phaseElapsed = elapsedInCycle - STRIKE_SEC;
       phaseRemaining = CYCLE_LENGTH_SEC - elapsedInCycle;
       phaseProgress = (phaseElapsed / phaseSecondsTotal) * 100;
-      nextPhaseText = "➔ 2m Calibrar";
+      nextPhaseText = "➔ 1m Calibrar";
     }
 
     const mm = Math.floor(remainingInCycle / 60).toString().padStart(2, "0");
@@ -136,9 +136,9 @@
     }
     if (topPhaseBadge) {
       topPhaseBadge.textContent = clk.phaseName;
-      if (clk.phase === "STRIKE_WINDOW_3M") {
+      if (clk.phase === "STRIKE_WINDOW_2M") {
         topPhaseBadge.className = "card-pill font-mono green-pill";
-      } else if (clk.phase === "COOLDOWN_CHECK_5M") {
+      } else if (clk.phase === "COOLDOWN_CHECK_3M") {
         topPhaseBadge.className = "card-pill font-mono";
         topPhaseBadge.style.color = "var(--cyan-primary)";
         topPhaseBadge.style.borderColor = "rgba(6, 182, 212, 0.4)";
@@ -273,12 +273,23 @@
         boxTpPrice.textContent = `$${formatPrice(shot.targetProfitPrice)}`;
       }
 
-      // CAJA 4: ESTADO DE LA OPERACIÓN
+      // CAJA 4: ESTADO DE LA OPERACIÓN (DINÁMICO CON ÚLTIMO CICLO Y PNL SESIÓN)
+      const latestCycle = (data.cycleHistory && data.cycleHistory[0]) ? data.cycleHistory[0] : null;
+      const lastCycleId = latestCycle ? latestCycle.cycleId : "CYC-0003";
+      const lastCycleProfit = latestCycle ? (latestCycle.resultFormatted || "+$0.18 USDC") : "+$0.18 USDC";
+      const totalWins = data.scoreboard ? data.scoreboard.currentWins : 3;
+      const sessionPnl = data.scoreboard ? data.scoreboard.sessionNetPnLFormatted : "+$0.48 USDC";
+
+      const boxStatusBadge = document.getElementById("boxStatusBadge");
+      if (boxStatusBadge) {
+        boxStatusBadge.textContent = `🔒 CICLOS #01 - #${String(totalWins).padStart(2, '0')} (${totalWins}G - 0P)`;
+      }
+
       if (boxOperationStatusText) {
         if (activeMode === "ARMED_STRIKE") {
           boxOperationStatusText.innerHTML = `⚡ MODO TIRO MANUAL PREPARADO // PISOS DE GAS BLINDADOS`;
         } else if (activeMode === "AUTONOMOUS_DISCIPLINED_BURST") {
-          boxOperationStatusText.innerHTML = `🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // CICLO #02 (+0.18 USDC) ASEGURADO`;
+          boxOperationStatusText.innerHTML = `🧘♀️ ENFRIAMIENTO SAGRADO (3 MIN / 180S) // ${lastCycleId} (${lastCycleProfit}) ASEGURADO`;
         } else {
           boxOperationStatusText.innerHTML = `🔒 MODO PLANIFICACIÓN ($0 RIESGO) // PISO TRINQUETE PROTEGIDO`;
         }
@@ -287,8 +298,10 @@
         const cap = data.capitalGoal || {};
         const polVault = cap.gasFloors ? cap.gasFloors.vault501CurrentPol : '155.13';
         const polFleet = cap.gasFloors ? (cap.gasFloors.fleetCurrentPol || '300.02') : '300.02';
-        const rem = cap.remainingUsdc !== undefined ? cap.remainingUsdc : 4.27;
-        boxOperationSubText.textContent = `Posición: $${(cap.consolidatedUsdc || 325.73).toFixed(2)} / $330.00 USDC (Faltan +$${rem.toFixed(2)}) · Trinquete $325.73 Intacto · Gas: ${polVault} POL (#501) | ${polFleet} POL (Flota)`;
+        const currentUsdc = cap.consolidatedUsdc || 325.91;
+        const ratchetUsdc = cap.highWaterMarkRatchetUsdc || currentUsdc;
+        const rem = cap.remainingUsdc !== undefined ? cap.remainingUsdc : Math.max(0, 330.00 - currentUsdc);
+        boxOperationSubText.textContent = `Posición: $${currentUsdc.toFixed(2)} / $330.00 USDC (Faltan +$${rem.toFixed(2)}) · Trinquete $${ratchetUsdc.toFixed(2)} Intacto · PnL: ${sessionPnl} · Gas: ${polVault} POL (#501) | ${polFleet} POL (Flota)`;
       }
 
       // Eslabones
@@ -394,16 +407,13 @@
       if (btnAuto) btnAuto.classList.add("active");
       if (btnZero) btnZero.classList.remove("active");
       if (btnStrike) btnStrike.classList.remove("active");
-      if (subText) subText.textContent = "Piloto Disciplinado 10/3/5 · Ráfagas +$0.12 a +$0.25 USDC · Enfriamiento 5m";
-      if (boxOperationStatusText) {
-        boxOperationStatusText.innerHTML = "🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // CICLO #02 (+0.18 USDC) ASEGURADO";
-      }
-      showToast("🤖 MODO PILOTO DISCIPLINADO 10/3/5 ACTIVO — Ráfagas Autónomas +$0.12 a +$0.25 USDC");
+      if (subText) subText.textContent = "Piloto Disciplinado 6/2/3 · Ráfagas +$0.12 a +$0.25 USDC · Enfriamiento 3m";
+      showToast("🤖 MODO PILOTO DISCIPLINADO 6/2/3 ACTIVO — Ráfagas Autónomas +$0.12 a +$0.25 USDC (180s Cooldown)");
     } else if (mode === "PLANNING_ZERO_RISK") {
       if (btnZero) btnZero.classList.add("active");
       if (btnAuto) btnAuto.classList.remove("active");
       if (btnStrike) btnStrike.classList.remove("active");
-      if (subText) subText.textContent = "Cadencia 10/3/5 · 0% Riesgo en Planificación";
+      if (subText) subText.textContent = "Cadencia 6/2/3 · 0% Riesgo en Planificación";
       if (boxOperationStatusText) {
         boxOperationStatusText.innerHTML = "🔒 MODO PLANIFICACIÓN ($0 RIESGO) // PISO TRINQUETE PROTEGIDO";
       }
@@ -479,15 +489,15 @@
           pair: shot.selectedPair || "PAXG/USDC",
           direction: shot.direction || "BULL",
           directionLabel: shot.directionLabel || "▲ BULL LONG",
-          durationSec: 158,
-          durationFormatted: "2m 38s",
+          durationSec: 108,
+          durationFormatted: "1m 48s",
           resultUsdc: profit,
           resultFormatted: `+$${profit.toFixed(2)} USDC`,
           status: profit > 0.12 ? "TRAILING_PROFIT_LOCKED" : "EXIT_TP_TOUCHED",
           breakevenStatus: "🔒 BE #00 OK",
-          cooldownStatus: "🧘♀️ 5m Cooldown Activo",
+          cooldownStatus: "🧘♀️ 3m Cooldown Activo",
           trailingStatus: profit > 0.12 ? `🎯 Trailing Lock (+${profit.toFixed(2)})` : "Base (+0.12)",
-          cooldownElapsed: "0m 00s (ENFRIANDO 5M)"
+          cooldownElapsed: "0m 00s (ENFRIANDO 3M)"
         };
 
         if (!currentTelemetry.cycleHistory) currentTelemetry.cycleHistory = [];
@@ -502,13 +512,14 @@
         if (currentTelemetry.capitalGoal) {
           currentTelemetry.capitalGoal.consolidatedUsdc = parseFloat((currentTelemetry.capitalGoal.consolidatedUsdc + profit).toFixed(2));
           currentTelemetry.capitalGoal.protectedFloorLock = currentTelemetry.capitalGoal.consolidatedUsdc;
+          currentTelemetry.capitalGoal.highWaterMarkRatchetUsdc = currentTelemetry.capitalGoal.consolidatedUsdc;
           currentTelemetry.capitalGoal.remainingUsdc = Math.max(0, 330.00 - currentTelemetry.capitalGoal.consolidatedUsdc);
         }
 
         applyTelemetry(currentTelemetry);
       }
 
-      showToast(`✅ TIRO CERRADO CON ÉXITO: +$${(activeTpTarget || 0.18).toFixed(2)} USDC // Trailing Profit Lock + Trinquete $325.73 activado.`);
+      showToast(`✅ TIRO CERRADO CON ÉXITO: +$${(activeTpTarget || 0.18).toFixed(2)} USDC // Trailing Profit Lock + Trinquete activado.`);
       if (txt) txt.textContent = originalText;
       if (btn) btn.style.borderColor = "var(--gold-primary)";
       isExecutingCycle = false;

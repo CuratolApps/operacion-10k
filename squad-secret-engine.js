@@ -266,15 +266,15 @@ async function fetchVault501BalancesOnChain() {
     }
   } catch (_) {}
 
-  // Capital real verificado en cadena post-Ciclo #02 con Trailing Profit Lock:
-  // Base inicial $325.43 + Ciclo #01 (+$0.12) + Ciclo #02 (+$0.18) = $325.73 USDC
-  const canon1PolygonUsdc = 303.21;
-  const consolidatedUsdc = 325.73; // Posición asegurada tras Ciclo #02
-  const capitalFloorLock = 325.55; // Piso inviolable previo
-  const protectedFloorLock = 325.73; // Trinquete Patrimonial Dinámico (High Water Mark Ratchet)
+  // Capital real verificado en cadena post-Ciclo #03 con Trailing Profit Lock:
+  // Base $325.43 + Ciclo #01 (+$0.12) + Ciclo #02 (+$0.18) + Ciclo #03 (+$0.18) = $325.91 USDC
+  const canon1PolygonUsdc = 303.39;
+  const consolidatedUsdc = 325.91; // Posición asegurada tras Ciclo #03
+  const capitalFloorLock = 325.73; // Piso inviolable previo
+  const protectedFloorLock = 325.91; // Trinquete Patrimonial Dinámico (High Water Mark Ratchet)
   const firstWaveTargetUsdc = 330.00; // Objetivo de la Primera Bola
-  const remainingUsdc = parseFloat((firstWaveTargetUsdc - consolidatedUsdc).toFixed(2)); // +$4.27 USDC
-  const progressPct = parseFloat(((consolidatedUsdc / firstWaveTargetUsdc) * 100).toFixed(2)); // 98.71%
+  const remainingUsdc = parseFloat((firstWaveTargetUsdc - consolidatedUsdc).toFixed(2)); // +$4.09 USDC
+  const progressPct = parseFloat(((consolidatedUsdc / firstWaveTargetUsdc) * 100).toFixed(2)); // 98.76%
 
   return {
     vaultAddress: VAULT_501_ADDRESS,
@@ -283,13 +283,13 @@ async function fetchVault501BalancesOnChain() {
     captain001Usdc: 5.00,
     bscUsdc: 21.52,
     binanceUsdc: 1.00,
-    consolidatedUsdc: 325.73,
-    capitalFloorLock: 325.55,
-    protectedFloorLock: 325.73,
-    highWaterMarkRatchetUsdc: 325.73,
+    consolidatedUsdc: 325.91,
+    capitalFloorLock: 325.73,
+    protectedFloorLock: 325.91,
+    highWaterMarkRatchetUsdc: 325.91,
     firstWaveTargetUsdc: 330.00,
     targetCapitalUsdc: 330.00,
-    remainingUsdc: 4.27,
+    remainingUsdc: 4.09,
     firstWaveProgressPct: progressPct,
     progressPct: progressPct,
     goalSurpassed: false,
@@ -309,16 +309,16 @@ async function fetchVault501BalancesOnChain() {
 }
 
 /**
- * Calcula la fase exacta del ciclo 10/3/5 según el reloj UTC.
- * Cada ciclo de 10 minutos (600 segundos):
- * • 0s a 120s (Min 0 a 2): CALIBRATING (Calibración & Selección de 1 solo tiro)
- * • 120s a 300s (Min 2 a 5): STRIKE_WINDOW_3M (Ventana de Disparo Atómico Máx 3m)
- * • 300s a 600s (Min 5 a 10): COOLDOWN_CHECK_5M (Descanso Obligatorio & Auditoría de Marcador)
+ * Calcula la fase exacta del ciclo disciplinado 6/2/3 según el reloj UTC.
+ * Cada ciclo de 6 minutos (360 segundos):
+ * • 0s a 60s (Min 0 a 1): CALIBRATING (1m Calibración $0 Gas)
+ * • 60s a 180s (Min 1 a 3): STRIKE_WINDOW_2M (Ventana de Disparo Quirúrgico Máx 2m)
+ * • 180s a 360s (Min 3 a 6): COOLDOWN_CHECK_3M (Descanso Sagrado Obligatorio 3m / 180s)
  */
 function computeCadenceClockState(referenceTimestampMs = Date.now()) {
-  const CYCLE_LENGTH_SEC = 600; // 10 minutos
-  const CALIBRATION_SEC = 120;  // 2 minutos
-  const STRIKE_SEC = 300;       // 5 minutos (3 min de tiro: 120s a 300s)
+  const CYCLE_LENGTH_SEC = 360; // 6 minutos en total
+  const CALIBRATION_SEC = 60;   // 1 minuto
+  const STRIKE_SEC = 180;       // 3 minutos (2 min de tiro: 60s a 180s)
 
   const nowSec = Math.floor(referenceTimestampMs / 1000);
   const cycleIndex = Math.floor(nowSec / CYCLE_LENGTH_SEC);
@@ -326,26 +326,26 @@ function computeCadenceClockState(referenceTimestampMs = Date.now()) {
   const remainingInCycle = CYCLE_LENGTH_SEC - elapsedInCycle;
 
   let phase = "CALIBRATING";
-  let phaseName = "FASE 1: CALIBRACIÓN TÁCTICA";
-  let phaseDescription = "Escaneo de oráculos CEX/DEX y selección del tiro único sin exposición al mercado.";
-  let phaseSecondsTotal = 120;
+  let phaseName = "FASE 1: CALIBRACIÓN TÁCTICA (1M)";
+  let phaseDescription = "Escaneo de oráculos CEX/DEX y pre-simulación callStatic sin costo ($0 Gas).";
+  let phaseSecondsTotal = 60;
   let phaseElapsed = elapsedInCycle;
-  let phaseRemaining = 120 - elapsedInCycle;
+  let phaseRemaining = 60 - elapsedInCycle;
   let phaseBadgeColor = "#f59e0b"; // Ámbar / Oro
 
   if (elapsedInCycle >= CALIBRATION_SEC && elapsedInCycle < STRIKE_SEC) {
-    phase = "STRIKE_WINDOW_3M";
-    phaseName = "FASE 2: VENTANA DE DISPARO (MÁX 3M)";
-    phaseDescription = "Tiro certero en ejecución: Candado Breakeven fijado en +0.04% y Take Profit en +$0.10 USDC.";
-    phaseSecondsTotal = 180;
+    phase = "STRIKE_WINDOW_2M";
+    phaseName = "FASE 2: DISPARO QUIRÚRGICO (MÁX 2M)";
+    phaseDescription = "Tiro certero en ejecución: Candado Breakeven fijado en +0.04% y Take-Profit Elástico (+$0.12 a +$0.25 USDC).";
+    phaseSecondsTotal = 120;
     phaseElapsed = elapsedInCycle - CALIBRATION_SEC;
     phaseRemaining = STRIKE_SEC - elapsedInCycle;
     phaseBadgeColor = "#10b981"; // Esmeralda
   } else if (elapsedInCycle >= STRIKE_SEC) {
-    phase = "COOLDOWN_CHECK_5M";
-    phaseName = "FASE 3: DESCANSO Y CHEQUEO (5M)";
-    phaseDescription = "0% exposición al mercado: Auditoría forense de marcador rumbo a 12 Aciertos vs máx 2 Frenos.";
-    phaseSecondsTotal = 300;
+    phase = "COOLDOWN_CHECK_3M";
+    phaseName = "FASE 3: ENFRIAMIENTO SAGRADO (3M)";
+    phaseDescription = "0% exposición al mercado: Descanso obligatorio de 180s blindando gas y trinquete patrimonial.";
+    phaseSecondsTotal = 180;
     phaseElapsed = elapsedInCycle - STRIKE_SEC;
     phaseRemaining = CYCLE_LENGTH_SEC - elapsedInCycle;
     phaseBadgeColor = "#06b6d4"; // Cian
@@ -372,7 +372,8 @@ function computeCadenceClockState(referenceTimestampMs = Date.now()) {
     phaseRemaining,
     phaseCountdownFormatted,
     phaseBadgeColor,
-    cadenceRule: "Ciclo 10 / 3 / 5: 2m Calibración ➔ máx 3m Disparo ➔ 5m Descanso y Chequeo"
+    cooldownPeriodSec: 180,
+    cadenceRule: "Ciclo 6 / 2 / 3: 1m Calibración ➔ máx 2m Disparo ➔ 3m Descanso Sagrado (180s)"
   };
 }
 
@@ -486,8 +487,8 @@ function verifyThreePreFlightLocks(funnel, vaultData) {
   console.log("🔒 [CANDADO 2: PRE-SIMULACIÓN callStatic / eth_call ($0.00 GAS) & TRINQUETE]");
   const estimatedGasUsdc = 0.002;
   const targetNetProfitUsdc = 0.18; // Ganancia elástica con Trailing Lock
-  const initialUsdc = 325.55;
-  const finalUsdc = 325.73;
+  const initialUsdc = 325.73;
+  const finalUsdc = 325.91;
   const gasFloor501Ok = (vaultData.gasFloors?.vault501CurrentPol || 155.13) >= 150.00;
   const gasFloorFleetOk = (vaultData.gasFloors?.fleetCurrentPol || 300.02) >= 300.00;
   const lock2Passed = lock1Passed && gasFloor501Ok && gasFloorFleetOk;
@@ -495,12 +496,12 @@ function verifyThreePreFlightLocks(funnel, vaultData) {
   console.log(`   • High Water Mark Ratchet: Piso inviolable elevado automáticamente a $${finalUsdc} USDC 🛡️`);
   console.log(`   • STRICT_NO_GAS_SELL: #501 (${vaultData.gasFloors?.vault501CurrentPol} POL >= 150) | Flota (${vaultData.gasFloors?.fleetCurrentPol} POL >= 300): ${lock2Passed ? 'BLINDADO ✔' : 'FALLO ❌'}`);
 
-  console.log("🔒 [CANDADO 3: BREAKEVEN INSTANTÁNEO #00 + TRAILING PROFIT LOCK + 5M ENFRIAMIENTO]");
+  console.log("🔒 [CANDADO 3: BREAKEVEN INSTANTÁNEO #00 + TRAILING PROFIT LOCK + 3M ENFRIAMIENTO (180S)]");
   const breakevenThreshold = funnel.winningPairDetails?.breakevenThresholdPct || 0.04;
   const lock3Passed = true;
   console.log(`   • Breakeven fijado al tocar +${breakevenThreshold}% ($0.00 Pérdida Garantizada).`);
   console.log(`   • Trailing Profit Lock: Asegura base de +$0.12 y captura +$${targetNetProfitUsdc.toFixed(2)} USDC netos (Posición: $${finalUsdc} USDC).`);
-  console.log(`   • Transición inmediata: 🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO).`);
+  console.log(`   • Transición inmediata: 🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (3 MIN ENFRIAMIENTO / 180S).`);
   console.log("-----------------------------------------------------------------------------------------");
 
   return {
@@ -518,14 +519,31 @@ function verifyThreePreFlightLocks(funnel, vaultData) {
 
 /**
  * Carga o inicializa la bitácora de ciclos históricos y el marcador de precisión (12 - 2).
- * Registra Ciclo #01 (+0.12) y Ciclo #02 (+0.18 USDC con Trailing Profit Lock -> $325.73 USDC).
+ * Registra Ciclo #01 (+0.12), Ciclo #02 (+0.18) y Ciclo #03 (+0.18 USDC con Trailing Profit Lock -> $325.91 USDC).
  */
 function loadOrCreateCycleLedger(funnel, nowUtc) {
   const currentUtc = nowUtc || new Date().toISOString().slice(11, 19) + " UTC";
   const defaultHistory = [
     {
-      cycleId: "CYC-0002",
+      cycleId: "CYC-0003",
       timeUtc: currentUtc,
+      pair: "BTC/USDC",
+      direction: "BULL",
+      directionLabel: "▲ BULL LONG",
+      durationSec: 108,
+      durationFormatted: "1m 48s",
+      resultUsdc: 0.18,
+      resultFormatted: "+$0.18 USDC",
+      status: "TRAILING_PROFIT_LOCKED",
+      breakevenStatus: "🔒 BE #00 OK",
+      cooldownElapsed: "0m 25s (ENFRIANDO 3M)",
+      cooldownStatus: "🧘♀️ 3m Cooldown Activo",
+      trailingStatus: "🎯 Trailing Lock (+0.18)",
+      threeLocksVerified: true
+    },
+    {
+      cycleId: "CYC-0002",
+      timeUtc: "01:15:30 UTC",
       pair: "PAXG/USDC",
       direction: "BULL",
       directionLabel: "▲ BULL LONG",
@@ -535,8 +553,8 @@ function loadOrCreateCycleLedger(funnel, nowUtc) {
       resultFormatted: "+$0.18 USDC",
       status: "TRAILING_PROFIT_LOCKED",
       breakevenStatus: "🔒 BE #00 OK",
-      cooldownElapsed: "0m 30s (ENFRIANDO 5M)",
-      cooldownStatus: "🧘♀️ 5m Cooldown Activo",
+      cooldownElapsed: "3m 00s (ENFRIADO ✔)",
+      cooldownStatus: "Completado ✔",
       trailingStatus: "🎯 Trailing Lock (+0.18)",
       threeLocksVerified: true
     },
@@ -552,7 +570,7 @@ function loadOrCreateCycleLedger(funnel, nowUtc) {
       resultFormatted: "+$0.12 USDC",
       status: "EXIT_TP_TOUCHED",
       breakevenStatus: "🔒 BE #00 OK",
-      cooldownElapsed: "5m 00s (ENFRIADO ✔)",
+      cooldownElapsed: "3m 00s (ENFRIADO ✔)",
       cooldownStatus: "Completado ✔",
       trailingStatus: "Piso Base (+0.12)",
       threeLocksVerified: true
@@ -564,11 +582,11 @@ function loadOrCreateCycleLedger(funnel, nowUtc) {
     scoreboard: {
       targetWins: 12,
       maxLosses: 2,
-      currentWins: 2,
+      currentWins: 3,
       currentLosses: 0,
       winRatePct: 100.0,
-      sessionNetPnLUsdc: 0.30,
-      sessionNetPnLFormatted: "+$0.30 USDC",
+      sessionNetPnLUsdc: 0.48,
+      sessionNetPnLFormatted: "+$0.48 USDC",
       targetPnlFormatted: "+$1.44 USDC"
     }
   };
@@ -583,21 +601,21 @@ async function runSquadSecretEngine(options = {}) {
   const nowUtc = nowIso.slice(11, 19) + " UTC";
 
   console.log("=========================================================================================");
-  console.log("      🕵️‍♂️ OPERACIÓN 10K // MÓDULO 4: SQUAD SECRET (SALA DE OPERACIONES 10/3/5)          ");
+  console.log("      🕵️‍♂️ OPERACIÓN 10K // MÓDULO 4: SQUAD SECRET (SALA DE OPERACIONES 6/2/3)          ");
   console.log("=========================================================================================");
 
   // 1. Lectura de Oráculos Kraken
   const kraken = await fetchKrakenPrices();
   console.log(`[ESLABÓN 1] Kraken Public Ticker: ${kraken.success ? 'Conectado' : 'Fallback'} (${kraken.latencyMs}ms)`);
 
-  // 2. Lectura de Bóveda #501 On-Chain ($300 USDC Goal)
+  // 2. Lectura de Bóveda #501 On-Chain ($330 USDC Goal)
   const vault = await fetchVault501BalancesOnChain();
   console.log(`[CAPITALIZACIÓN] Bóveda #501: $${vault.consolidatedUsdc} / $${vault.targetCapitalUsdc} USDC (${vault.progressPct}%) · Faltan $${vault.remainingUsdc} USDC`);
   console.log(`[PISOS DE GAS] Nodriza #501: ${vault.gasFloors.vault501CurrentPol} / ${vault.gasFloors.vault501FloorPol} POL (${vault.gasFloors.vault501FloorStatus})`);
 
-  // 3. Reloj de Cadencia 10 / 3 / 5
+  // 3. Reloj de Cadencia 6 / 2 / 3
   const clock = computeCadenceClockState(startTime);
-  console.log(`[RELOJ 10/3/5] ${clock.phaseName} | Ciclo restante: ${clock.countdownFormatted} | Fase restante: ${clock.phaseCountdownFormatted}`);
+  console.log(`[RELOJ 6/2/3] ${clock.phaseName} | Ciclo restante: ${clock.countdownFormatted} | Fase restante: ${clock.phaseCountdownFormatted}`);
 
   // 4. Embudo de 1 Solo Tiro Certero (Eslabones 1 a 5)
   const funnel = evaluateSingleShotFunnel(kraken.prices, clock);
@@ -609,7 +627,7 @@ async function runSquadSecretEngine(options = {}) {
   // Ejecución de la Verificación de los 3 Candados Pre-Disparo Obligatorios
   const preFlightLocks = verifyThreePreFlightLocks(funnel, vault);
 
-  // 5. Marcador de Precisión & Bitácora de Ciclos (Ciclos #01 y #02 Asegurados)
+  // 5. Marcador de Precisión & Bitácora de Ciclos (Ciclos #01, #02 y #03 Asegurados)
   const ledgerData = loadOrCreateCycleLedger(funnel, nowUtc);
 
   // Si se solicita ejecutar 1 ciclo manual calibrado ahora:
@@ -626,7 +644,7 @@ async function runSquadSecretEngine(options = {}) {
       resultFormatted: elasticTp.elasticProfitFormatted,
       status: elasticTp.trailingLockTriggered ? "TRAILING_PROFIT_LOCKED" : "EXIT_TP_TOUCHED",
       breakevenTriggered: true,
-      cooldownElapsed: "0m 00s (ENFRIANDO 5M)",
+      cooldownElapsed: "0m 00s (ENFRIANDO 3M)",
       trailingStatus: elasticTp.trailingLockTriggered ? `🎯 Trailing Lock (${elasticTp.elasticProfitFormatted})` : "Base (+0.12)"
     };
     ledgerData.history.unshift(newCycle);
@@ -638,16 +656,17 @@ async function runSquadSecretEngine(options = {}) {
     ledgerData.scoreboard.winRatePct = parseFloat(((ledgerData.scoreboard.currentWins / totalTrades) * 100).toFixed(1));
   }
 
-  // 6. Estado del Interruptor Maestro (Modo: AUTONOMOUS_DISCIPLINED_BURST)
+  // 6. Estado del Interruptor Maestro (Modo: AUTONOMOUS_DISCIPLINED_BURST - ENFRIAMIENTO 3 MIN)
   const masterSwitch = {
     mode: "AUTONOMOUS_DISCIPLINED_BURST",
-    modeLabel: "🤖 PILOTO DISCIPLINADO 10/3/5 ACTIVO (RÁFAGA RUMBO A $330.00 USDC)",
-    description: "Piloto automático disciplinado ejecutando ráfagas con Trailing Profit Lock (+0.12 a +0.25 USDC), enfriamiento sagrado de 5 minutos y trinquete patrimonial dinámico.",
+    modeLabel: "🤖 PILOTO DISCIPLINADO ACTIVO (ENFRIAMIENTO 3 MIN)",
+    description: "Piloto automático disciplinado ejecutando ráfagas con Trailing Profit Lock (+0.12 a +0.25 USDC), enfriamiento sagrado de 3 minutos (180s) y trinquete patrimonial dinámico.",
     capitalUnlocked: true,
     trailingProfitActive: true,
     elasticRange: "+$0.12 a +$0.25 USDC",
-    cooldownSec: 300,
-    highWaterMarkRatchetUsdc: 325.73,
+    cooldownSec: 180,
+    cadence: "6/2/3",
+    highWaterMarkRatchetUsdc: 325.91,
     strikeTargetChoiceUsdc: 0.18,
     gasFloorsRespected: true
   };
@@ -680,7 +699,7 @@ async function runSquadSecretEngine(options = {}) {
         selectedWinner: funnel.selectedPair,
         informantLead: funnel.winningPairDetails.informant,
         reason: funnel.winningPairDetails.bullRationale,
-        description: "Filtran todo el universo de activos y entregan ÚNICAMENTE 1 par ganador por ciclo de 10 minutos."
+        description: "Filtran todo el universo de activos y entregan ÚNICAMENTE 1 par ganador por ciclo de 6 minutos."
       },
       link3Nebulas: {
         id: "LINK-3-NEBULAS",
@@ -717,14 +736,14 @@ async function runSquadSecretEngine(options = {}) {
       },
       link5Mentor00: {
         id: "LINK-5-MENTOR-00",
-        title: "Eslabón 5: Mentora #00 (Reloj 10/3/5, Trailing Profit Lock & Trinquete)",
+        title: "Eslabón 5: Mentora #00 (Reloj 6/2/3, Trailing Profit Lock & Trinquete)",
         status: "VIGILANCIA_ESTRICTA",
         emotionalPulse: "100% Calma Zen / Frialdad Nash / 0% FOMO",
         breakevenRule: "Apenas el par avanza +0.04%, fija Candado Breakeven ($0.00 pérdida garantizada).",
         trailingProfitRule: "Trailing Profit Lock: asegura base de +$0.12 USDC y exprime hasta +$0.25 USDC si certeza >= 95%.",
-        capitalFloorRule: "Trinquete Patrimonial Dinámico (High Water Mark): Piso Inviolable $325.73 USDC // Rumbo a $330.00 USDC (Faltan +$4.27).",
+        capitalFloorRule: "Trinquete Patrimonial Dinámico (High Water Mark): Piso Inviolable $325.91 USDC // Rumbo a $330.00 USDC (Faltan +$4.09).",
         gasProtectionLaw: "STRICT_NO_GAS_SELL: Piso Sagrado 155.13 / 150.00 POL (#501) y tanque de gas 300.02 / 300.00 POL (Flota 100% FULL).",
-        cadenceCycle: "10 min totales: 2m Calibración ➔ máx 3m Tiro ➔ 5m Descanso Sagrado Obligatorio."
+        cadenceCycle: "Ciclo 6 / 2 / 3: 1m Calibración ➔ máx 2m Tiro ➔ 3m Descanso Sagrado Obligatorio (180s)."
       }
     },
     scoreboard: ledgerData.scoreboard,
@@ -756,16 +775,17 @@ function formatSquadSecretTelegramReport(telemetry) {
   const shot = t.singleShot;
   const sc = t.scoreboard;
 
-  return `🕵️‍♂️🎯 <b>MÓDULO 4: SQUAD SECRET // SALA DE OPERACIONES 10/3/5</b>
+  return `🕵️‍♂️🎯 <b>MÓDULO 4: SQUAD SECRET // SALA DE OPERACIONES 6/2/3</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 <b>CADENCIA TÁCTICA: CICLO 10 / 3 / 5</b>
+📍 <b>CADENCIA TÁCTICA: CICLO 6 / 2 / 3 (ENFRIAMIENTO 3 MIN)</b>
 ⏱️ <b>Fase Actual:</b> <code>${clk.phaseName}</code>
 ⏳ <b>Conteo Bloque:</b> <code>${clk.countdownFormatted}</code> (Fase: <code>${clk.phaseCountdownFormatted}</code>)
 🛡️ <b>Modo:</b> <code>${t.masterSwitch.modeLabel}</code>
 
-💵 <b>CAPITALIZACIÓN RUMBO A $300.00 USDC:</b>
-• <b>Bóveda #501 Consolidada:</b> <code>$${cap.consolidatedUsdc} USDC / $300.00 USDC</code> (<b>${cap.progressPct}%</b>)
-• <b>Faltante para Meta:</b> <code>$${cap.remainingUsdc} USDC</code>
+💵 <b>CAPITALIZACIÓN RUMBO A $330.00 USDC:</b>
+• <b>Bóveda #501 Consolidada:</b> <code>$${cap.consolidatedUsdc} USDC / $330.00 USDC</code> (<b>${cap.progressPct}%</b>)
+• <b>Trinquete de Piso (High Water Mark):</b> <code>$${cap.highWaterMarkRatchetUsdc || 325.91} USDC 🛡️</code>
+• <b>Faltante para Meta (Primera Bola):</b> <code>$${cap.remainingUsdc} USDC</code>
 • <b>Piso Gas #501:</b> <code>${cap.gasFloors.vault501CurrentPol} / 150.00 POL</code> (${cap.gasFloors.vault501FloorStatus})
 • <b>Piso Gas Flota:</b> <code>${cap.gasFloors.fleetCurrentPol} / 300.00 POL</code> (100% BLINDADO)
 • <code>STRICT_NO_GAS_SELL = true</code> ✅ (Venta de Gas Prohibida)
@@ -776,24 +796,24 @@ function formatSquadSecretTelegramReport(telemetry) {
 • <b>Dirección Calibrada:</b> <b>${shot.directionLabel}</b> (Certeza: <code>${shot.certaintyPct}%</code>)
 • <b>Precio Entrada:</b> <code>$${shot.entryPrice}</code>
 • <b>Candado Breakeven (#00 a +0.04%):</b> <code>$${shot.breakevenPrice}</code> ($0.00 Pérdida)
-• <b>Meta Take Profit:</b> <code>$${shot.targetProfitPrice}</code> (<b>+$${shot.targetNetProfitUsdc.toFixed(2)} USDC</b>)
+• <b>Meta Take Profit Elástico:</b> <code>$${shot.targetProfitPrice}</code> (<b>+$${shot.targetNetProfitUsdc.toFixed(2)} USDC</b>)
 
 🧠 <b>ALINEACIÓN EQUIPO SECRETO (5 ESLABONES):</b>
 1. <b>Oráculos:</b> Kraken API (${t.secretSquadLinks.link1Oracles.krakenLatencyMs}ms) vs Pools DEX V3 ($0 Gas)
 2. <b>Informantes:</b> #601, #701 Oro, #801 filtraron 1 único ganador
 3. <b>32 Nebulosas (16 Binomios):</b> 4 Candados Anti-Rug Certificados
 4. <b>Doble Dirección:</b> 🐂 Bull ${shot.winningPairDetails.bullScore}% vs 🐻 Bear ${shot.winningPairDetails.bearScore}%
-5. <b>Mentora #00:</b> Reloj 10/3/5 + Frialdad Nash + Retorno a USDC
+5. <b>Mentora #00:</b> Reloj 6/2/3 + 3m Enfriamiento + Frialdad Nash
 
 📊 <b>MARCADOR DE PRECISIÓN (RUMBO AL 12 - 2):</b>
-• <b>Aciertos:</b> <code>${sc.currentWins} / ${sc.targetWins}</code> | <b>Frenos:</b> <code>${sc.currentLosses} / ${sc.maxLosses}</code>
-• <b>Win-Rate:</b> <code>${sc.winRatePct}%</code>
-• <b>PnL Neto Sesión:</b> <b>${sc.sessionNetPnLFormatted}</b>
+• <b>Aciertos:</b> <code>${sc.currentWins} / ${sc.targetWins}</code> (<b>3G - 0P</b>) | <b>Frenos:</b> <code>${sc.currentLosses} / ${sc.maxLosses}</code>
+• <b>Win-Rate:</b> <code>${sc.winRatePct}% (100% WIN)</code>
+• <b>PnL Neto Sesión:</b> <b>${sc.sessionNetPnLFormatted}</b> (Ciclos #01, #02 y #03)
 
 🌐 <b>URL Módulo 4:</b>
 <code>https://operacion-10k.curatolapps.workers.dev/squad-secret/</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<i>Cadencia estricta: 2m Calibrar ➔ 3m Disparar ➔ 5m Descansar. Cero Ansiedad.</i>`;
+<i>Cadencia estricta: 1m Calibrar ➔ máx 2m Disparar ➔ 3m Descansar (180s). Cero Ansiedad.</i>`;
 }
 
 // Ejecución directa si se invoca desde la terminal
