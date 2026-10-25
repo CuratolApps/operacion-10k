@@ -277,7 +277,7 @@ async function fetchVault501BalancesOnChain() {
   const baseOnChainUsdc = 325.43;
 
   // Capital consolidado actual (avanza tiro a tiro con PnL acumulado a +0.15% compuesto):
-  const consolidatedUsdc = 354.08;
+  const consolidatedUsdc = 392.66;
   const targetCapitalUsdc = 500.00; // Segunda Bola ($500.00 USDC)
 
   let currentSettledBlock = baseOnChainUsdc;
