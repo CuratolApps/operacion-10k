@@ -305,8 +305,13 @@
       }
       const rateFactor = data.compoundRatePct ? (data.compoundRatePct / 100) : 0.0015;
       const compoundGain = Math.max(0.53, parseFloat((consolidated * rateFactor).toFixed(2)));
+      const fusion = data.fusionMetrics;
       if (boxTpGainDisplay) {
-        boxTpGainDisplay.textContent = `+$${compoundGain.toFixed(2)} USDC (+0.15%)`;
+        if (fusion) {
+          boxTpGainDisplay.textContent = `+$${fusion.combinedCycleGainUsdc.toFixed(2)} USDC (+0.15% + Op500)`;
+        } else {
+          boxTpGainDisplay.textContent = `+$${compoundGain.toFixed(2)} USDC (+0.15%)`;
+        }
       }
       if (boxTpPrice) {
         boxTpPrice.textContent = `$${formatPrice(shot.targetProfitPrice)}`;
@@ -334,7 +339,10 @@
       if (boxOperationSubText) {
         const polVault = gasFloors ? gasFloors.vault501CurrentPol : '155.13';
         const polFleet = gasFloors ? (gasFloors.fleetCurrentPol || '300.02') : '300.02';
-        boxOperationSubText.textContent = `Posición: $${consolidated.toFixed(2)} / $${targetGoal.toFixed(2)} USDC (Faltan +$${remaining.toFixed(2)}) · Trinquete $${protectedLock.toFixed(2)} Intacto · PnL: ${sessionPnl} · Gas: ${polVault} POL (#501) | ${polFleet} POL (Flota)`;
+        const fusionInfo = fusion
+          ? ` · Fusión: +$${fusion.combinedCycleGainUsdc.toFixed(2)}/3m (+$${fusion.squadShotUsdc.toFixed(2)} + $${fusion.op500InflowUsdc.toFixed(2)} Op500 // ~$${fusion.combinedHourlyRateUsdc.toFixed(2)}/h)`
+          : '';
+        boxOperationSubText.textContent = `Posición: $${consolidated.toFixed(2)} / $${targetGoal.toFixed(2)} USDC (Faltan +$${remaining.toFixed(2)}) · Trinquete $${protectedLock.toFixed(2)} Intacto · PnL: ${sessionPnl}${fusionInfo} · Gas: ${polVault} POL (#501) | ${polFleet} POL (Flota)`;
       }
 
       // Eslabones

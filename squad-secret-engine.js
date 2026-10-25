@@ -300,6 +300,11 @@ async function fetchVault501BalancesOnChain() {
   const blockSpan = Math.max(1, nextMilestoneBlock - currentSettledBlock);
   const progressToNextBlockPct = parseFloat(Math.min(100, Math.max(0, ((consolidatedUsdc - currentSettledBlock) / blockSpan) * 100)).toFixed(1));
 
+  const squadShotUsdc = parseFloat((consolidatedUsdc * 0.0015).toFixed(2));
+  const op500InflowUsdc = 1.75;
+  const combinedCycleGainUsdc = parseFloat((squadShotUsdc + op500InflowUsdc).toFixed(2));
+  const combinedHourlyRateUsdc = parseFloat((combinedCycleGainUsdc * 20).toFixed(2));
+
   return {
     vaultAddress: VAULT_501_ADDRESS,
     polygonUsdc: basePolygonUsdc,
@@ -325,6 +330,14 @@ async function fetchVault501BalancesOnChain() {
     progressPct,
     goalSurpassed: consolidatedUsdc >= targetCapitalUsdc,
     milestoneBlocks: MILESTONE_BLOCKS,
+    fusionMetrics: {
+      squadShotUsdc,
+      op500InflowUsdc,
+      combinedCycleGainUsdc,
+      combinedHourlyRateUsdc,
+      cyclesPerHour: 20,
+      description: `Fusión Compuesta Bóveda #501: Disparo Squad Secret (+0.15% = +$${squadShotUsdc.toFixed(2)}) + Inyección Operación 500 (+$${op500InflowUsdc.toFixed(2)}) = +$${combinedCycleGainUsdc.toFixed(2)} USDC/ciclo 3m (~$${combinedHourlyRateUsdc.toFixed(2)} USDC/hora).`
+    },
     blockSettlement: {
       currentSettledBlock,
       nextMilestoneBlock,

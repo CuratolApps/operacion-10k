@@ -167,7 +167,7 @@
       topWinRateBadge.textContent = `${(data.winRatePct || 100.0).toFixed(1)}% WIN`;
     }
     if (topVelocityDisplay) {
-      topVelocityDisplay.textContent = `+$${(data.hourlyGainUsdc || 15.00).toFixed(2)} USDC / h`;
+      topVelocityDisplay.textContent = `+$${(data.hourlyGainUsdc || 35.00).toFixed(2)} USDC / h`;
     }
 
     // Integración Bóveda #501
@@ -189,7 +189,11 @@
         boxOperationStatusText.textContent = `🏦 BLOQUE $${(v.currentSettledBlock || 550).toFixed(2)} ASENTADO EN #501 // PRÓXIMO: $${(v.nextMilestoneBlock || 600).toFixed(2)} USDC`;
       }
       if (boxOperationSubText) {
-        boxOperationSubText.textContent = `La cosecha del Enjambre (+$15.00/hora) acelera los bloques de Bóveda #501 rumbo a la Tercera Bola ($1,000.00 USDC).`;
+        if (v.fusionMetrics) {
+          boxOperationSubText.textContent = `Fusión Compuesta: Squad Secret (+0.15% = +$${v.fusionMetrics.squadShotUsdc.toFixed(2)}) + Operación 500 (+$${v.fusionMetrics.op500InflowUsdc.toFixed(2)}) = +$${v.fusionMetrics.combinedCycleGainUsdc.toFixed(2)} USDC/ciclo (~$${v.fusionMetrics.combinedHourlyRateUsdc.toFixed(2)}/h) hacia la Tercera Bola ($1,000.00 USDC).`;
+        } else {
+          boxOperationSubText.textContent = `Fusión Compuesta: Squad Secret (+0.15%) + Operación 500 (+$1.75) = +$2.60 USDC/ciclo (~$51.80/h) hacia la Tercera Bola ($1,000.00 USDC).`;
+        }
       }
     }
 
@@ -216,7 +220,7 @@
       boxPairSubtitle.textContent = `Piscina: Uniswap V3 (0.05%) · Informante: ${data.activeInformant || "#701 Oracle-Global"}`;
     }
     if (boxCycleHarvestDisplay) {
-      boxCycleHarvestDisplay.textContent = `+$${(data.cycleGainUsdc || 0.75).toFixed(2)} USDC`;
+      boxCycleHarvestDisplay.textContent = `+$${(data.cycleGainUsdc || 1.75).toFixed(2)} USDC`;
     }
 
     // Bitácora en Vivo
@@ -230,7 +234,7 @@
           <td class="font-bold font-mono gold-text">${c.pair || "BTC/USDC"}</td>
           <td><span class="tag-bull">${c.directionLabel || "▲ BULL LONG"}</span></td>
           <td class="font-mono cyan-text"><strong>${c.activeBots || "500/500"}</strong> Bots</td>
-          <td class="green-text font-bold font-mono">${c.resultFormatted || "+$0.75 USDC"}</td>
+          <td class="green-text font-bold font-mono">${c.resultFormatted || "+$1.75 USDC"}</td>
           <td><span class="be-locked">${c.breakevenStatus || "🔒 BE #00 (+0.04%)"}</span></td>
           <td><span class="cooldown-badge done">${c.cooldownStatus || "Completado ✔"}</span></td>
         `;

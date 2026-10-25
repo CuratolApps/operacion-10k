@@ -252,6 +252,7 @@ const SQUAD_ANCHOR = {
   PNL: 67.82,
   CYCLE_INTERVAL_MS: 180 * 1000, // Cadencia 1m tiro / 2m descanso (Ciclo total 3 min = 180s // 20 tiros/hora)
   RATE: 0.0015, // +0.15% interés compuesto por tiro sobre capital consolidado (~+$0.83 a +$0.85/tiro)
+  OP500_INFLOW_PER_CYCLE: 1.75, // +$1.75 USDC inyección capitalizada de Operación 500 ($35.00/h = 500 bots x $0.0035)
   CANDIDATE_PAIRS: [
     { pair: "BTC/USDC", informant: "#701 ORACLE-GLOBAL", rationale: "Soporte institucional $80,500 sostenido por ETFs + Flujo neto positivo." },
     { pair: "PAXG/USDC", informant: "#701 ORACLE-GLOBAL (ORO)", rationale: "Oro físico superando $4,000/oz histórico + Fuerte rotación macro de refugio." },
@@ -273,12 +274,16 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
 
   let capital = SQUAD_ANCHOR.CAPITAL;
   let pnl = SQUAD_ANCHOR.PNL;
-  let lastGain = 0.83;
+  let lastSquadShot = parseFloat((capital * SQUAD_ANCHOR.RATE).toFixed(2));
+  const op500Inflow = SQUAD_ANCHOR.OP500_INFLOW_PER_CYCLE; // 1.75
+  let lastCombinedGain = parseFloat((lastSquadShot + op500Inflow).toFixed(2));
 
   for (let c = SQUAD_ANCHOR.CYCLE + 1; c <= cycleNum; c++) {
-    lastGain = parseFloat((capital * SQUAD_ANCHOR.RATE).toFixed(2));
-    capital = parseFloat((capital + lastGain).toFixed(2));
-    pnl = parseFloat((pnl + lastGain).toFixed(2));
+    lastSquadShot = parseFloat((capital * SQUAD_ANCHOR.RATE).toFixed(2));
+    lastCombinedGain = parseFloat((lastSquadShot + op500Inflow).toFixed(2));
+    // FUSIÓN COMPUESTA EN BÓVEDA #501: Capital consolidado recibe Disparo (+0.15%) + Inyección Op500 (+$1.75 USDC)
+    capital = parseFloat((capital + lastSquadShot + op500Inflow).toFixed(2));
+    pnl = parseFloat((pnl + lastCombinedGain).toFixed(2));
   }
 
   // Escalera oficial de Bloques de Capitalización en Firme en #501 (Tercera Bola $1,000)
@@ -366,8 +371,17 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
     losses: 0,
     winRatePct: 100.0,
     sessionPnl: pnl,
-    lastShotGain: lastGain,
+    lastShotGain: lastCombinedGain,
+    lastSquadShotGain: lastSquadShot,
+    lastOp500Inflow: op500Inflow,
     compoundRatePct: 0.15,
+    fusionMetrics: {
+      squadShotUsdc: lastSquadShot,
+      op500InflowUsdc: op500Inflow,
+      combinedCycleGainUsdc: lastCombinedGain,
+      combinedHourlyRateUsdc: parseFloat((lastCombinedGain * 20).toFixed(2)),
+      statusLabel: `FUSIÓN COMPUESTA #501: +$${lastCombinedGain.toFixed(2)} USDC / 3M (+$${lastSquadShot.toFixed(2)} #501 + $${op500Inflow.toFixed(2)} Op500 // ~$${(lastCombinedGain * 20).toFixed(2)}/H)`
+    },
     activePair: currentPair.pair,
     activeInformant: currentPair.informant,
     activeRationale: currentPair.rationale,
@@ -382,7 +396,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
       cycleRemainingSec: cycleRemainingSec
     },
     gasFloors: {
-      vault501CurrentPol: 155.13,
+      vault501CurrentPol: 155.05,
       vault501FloorPol: 150.00,
       vault501FloorStatus: "100% BLINDADO",
       fleetCurrentPol: 300.02,
@@ -401,12 +415,13 @@ const OPERACION_500_ANCHOR = {
   CYCLE: 120,
   TIME_MS: 1792929675000,
   CYCLE_INTERVAL_MS: 180 * 1000, // 3 min (1m tiro unísono + 2m descanso)
-  BASE_PNL: 90.00, // 120 ciclos * $0.75 USDC = $90.00 USDC
-  PER_WALLET_USDC: 0.0015, // +$0.0015 USDC por cartera por ciclo
+  BASE_PNL: 210.00, // 120 ciclos * $1.75 USDC = $210.00 USDC
+  PER_WALLET_USDC: 0.0035, // +$0.0035 USDC (0.35 centavos) por cartera por ciclo
+  BOX_GAIN_USDC: 0.35, // 100 bots * $0.0035 = +$0.35 USDC por Box
   TOTAL_WALLETS: 500, // 500 carteras (#001 a #500 en Boxes 1 al 5)
-  CYCLE_CAPTURE_USDC: 0.75, // 500 * $0.0015 = +$0.75 USDC netos por ciclo
-  MINUTE_CAPTURE_USDC: 0.25, // +$0.25 USDC por minuto
-  HOURLY_CAPTURE_USDC: 15.00, // +$15.00 USDC por hora
+  CYCLE_CAPTURE_USDC: 1.75, // 500 * $0.0035 = +$1.75 USDC netos por ciclo
+  MINUTE_CAPTURE_USDC: 0.583, // +$0.583 USDC por minuto
+  HOURLY_CAPTURE_USDC: 35.00, // +$35.00 USDC por hora ($35.00/h)
   CANDIDATE_PAIRS: SQUAD_ANCHOR.CANDIDATE_PAIRS
 };
 
@@ -434,15 +449,15 @@ function computeDynamicOperacion500State(nowMs = Date.now(), telem = null) {
   const pairIndex = (cycleNum - 1) % OPERACION_500_ANCHOR.CANDIDATE_PAIRS.length;
   const currentPair = OPERACION_500_ANCHOR.CANDIDATE_PAIRS[pairIndex];
 
-  // Sincronización con el capital consolidado y bloques de Bóveda #501
+  // Sincronización con el capital consolidado y bloques de Bóveda #501 (Fusión Compuesta)
   const squadState = computeDynamicSquadState(nowMs, null);
 
   const boxes = [
-    { boxId: "BOX_1", name: "Box 1 (Escuadrón Alfa)", walletsRange: "#001 - #100", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.15, status: "100/100 SINCRONIZADO" },
-    { boxId: "BOX_2", name: "Box 2 (Escuadrón Bravo)", walletsRange: "#101 - #200", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.15, status: "100/100 SINCRONIZADO" },
-    { boxId: "BOX_3", name: "Box 3 (Escuadrón Charlie)", walletsRange: "#201 - #300", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.15, status: "100/100 SINCRONIZADO" },
-    { boxId: "BOX_4", name: "Box 4 (Escuadrón Delta)", walletsRange: "#301 - #400", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.15, status: "100/100 SINCRONIZADO" },
-    { boxId: "BOX_5", name: "Box 5 (Escuadrón Echo)", walletsRange: "#401 - #500", activeCount: 100, totalCount: 100, gasPol: 60.02, gainPerCycleUsdc: 0.15, status: "100/100 SINCRONIZADO" }
+    { boxId: "BOX_1", name: "Box 1 (Escuadrón Alfa)", walletsRange: "#001 - #100", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.35, status: "100/100 SINCRONIZADO" },
+    { boxId: "BOX_2", name: "Box 2 (Escuadrón Bravo)", walletsRange: "#101 - #200", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.35, status: "100/100 SINCRONIZADO" },
+    { boxId: "BOX_3", name: "Box 3 (Escuadrón Charlie)", walletsRange: "#201 - #300", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.35, status: "100/100 SINCRONIZADO" },
+    { boxId: "BOX_4", name: "Box 4 (Escuadrón Delta)", walletsRange: "#301 - #400", activeCount: 100, totalCount: 100, gasPol: 60.00, gainPerCycleUsdc: 0.35, status: "100/100 SINCRONIZADO" },
+    { boxId: "BOX_5", name: "Box 5 (Escuadrón Echo)", walletsRange: "#401 - #500", activeCount: 100, totalCount: 100, gasPol: 60.02, gainPerCycleUsdc: 0.35, status: "100/100 SINCRONIZADO" }
   ];
 
   const recentCycles = [];
@@ -459,8 +474,8 @@ function computeDynamicOperacion500State(nowMs = Date.now(), telem = null) {
       direction: "BULL",
       directionLabel: "▲ BULL LONG",
       durationFormatted: "58s",
-      resultUsdc: 0.75,
-      resultFormatted: "+$0.75 USDC",
+      resultUsdc: 1.75,
+      resultFormatted: "+$1.75 USDC",
       status: "500_WALLETS_CAPTURED",
       breakevenStatus: "🔒 BE #00 (+0.04%)",
       cooldownStatus: i === 0 ? (isCooldown ? "🧘 Enfriamiento 2m Activo" : "⚡ Disparo Unísono") : "Completado ✔",
@@ -477,6 +492,7 @@ function computeDynamicOperacion500State(nowMs = Date.now(), telem = null) {
     totalWallets: OPERACION_500_ANCHOR.TOTAL_WALLETS,
     activeWallets: 500,
     perWalletGainUsdc: OPERACION_500_ANCHOR.PER_WALLET_USDC,
+    boxGainUsdc: OPERACION_500_ANCHOR.BOX_GAIN_USDC,
     cycleGainUsdc: cycleGainUsdc,
     minuteGainUsdc: OPERACION_500_ANCHOR.MINUTE_CAPTURE_USDC,
     hourlyGainUsdc: OPERACION_500_ANCHOR.HOURLY_CAPTURE_USDC,
@@ -519,7 +535,8 @@ function computeDynamicOperacion500State(nowMs = Date.now(), telem = null) {
       progressToNextBlockPct: squadState.blockSettlement.progressToNextBlockPct,
       goalTarget: squadState.goalTarget,
       goalStage: squadState.goalStage,
-      statusLabel: squadState.blockSettlement.statusLabel
+      statusLabel: squadState.blockSettlement.statusLabel,
+      fusionMetrics: squadState.fusionMetrics
     },
     boxes: boxes,
     recentCycles: recentCycles
@@ -904,15 +921,18 @@ export default {
 • <b>Informante Liderazgo:</b> <code>${state.activeInformant}</code>
 • <b>Fundamento Técnico:</b> <i>${state.activeRationale}</i>
 • <b>Candado Breakeven (#00 a +0.04%):</b> Activado ($0.00 Riesgo)
-• <b>Captura Neta:</b> <b>+0.15% Compuesto sobre Capitalizado (+$${state.lastShotGain.toFixed(2)} USDC)</b>
+• <b>Disparo Squad Secret (+0.15%):</b> <b>+$${state.fusionMetrics.squadShotUsdc.toFixed(2)} USDC</b>
+• <b>Inyección Operación 500 (500 Bots):</b> <b>+$${state.fusionMetrics.op500InflowUsdc.toFixed(2)} USDC</b> ($35.00/h)
+• <b>Empuje Total hacia #501:</b> <b>+$${state.fusionMetrics.combinedCycleGainUsdc.toFixed(2)} USDC / 3 min</b> (~$${state.fusionMetrics.combinedHourlyRateUsdc.toFixed(2)}/h)
 • <b>Enfriamiento Sagrado:</b> 🧘♀️ 120s (2 Minutos) de descanso con 0 exposición al mercado
 
 📊 <b>MARCADOR DE PRECISIÓN ACUMULADO:</b>
 • <b>Récord de Precisión:</b> <code>${state.wins}G - 0P (100.0% WIN)</code>
 • <b>PnL Sesión Acumulado:</b> <b>+$${state.sessionPnl.toFixed(2)} USDC</b>
 
-🌐 <b>Cabina Táctica:</b>
-<code>https://operacion-10k.curatolapps.workers.dev/squad-secret/</code>
+🌐 <b>Cabinas Tácticas:</b>
+• Squad Secret: <code>https://operacion-10k.curatolapps.workers.dev/squad-secret/</code>
+• Operación 500: <code>https://operacion-10k.curatolapps.workers.dev/operacion-500/</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <i>Piloto 100% autónomo desde la nube Cloudflare. Cero Mensajes Repetidos, Cero Spam.</i>`;
 

@@ -1075,8 +1075,10 @@ async function syncSquadSecretLive() {
 
     // 3. Tarjeta Posición USDC (Columna Izquierda / Munición)
     const elFundsPower = document.getElementById("fundsInPowerText");
+    const fusion = data.fusionMetrics;
+    const fusionRate = fusion ? ` [+$${fusion.combinedCycleGainUsdc.toFixed(2)}/3m (~$${fusion.combinedHourlyRateUsdc.toFixed(2)}/h)]` : '';
     if (elFundsPower) {
-      elFundsPower.textContent = `FONDOS BÓVEDA #501: $${consolidated.toFixed(2)} USDC (Base $486.92 + Profit +$${pnl.toFixed(2)} USDC)`;
+      elFundsPower.textContent = `FONDOS BÓVEDA #501: $${consolidated.toFixed(2)} USDC (Base $486.92 + Profit +$${pnl.toFixed(2)} USDC)${fusionRate}`;
     }
 
     const elMunTotal = document.getElementById("munitionTotalUsdc");
@@ -1124,7 +1126,11 @@ async function syncSquadSecretLive() {
     }
     const elMunSquadPnlDesc = document.getElementById("munitionSquadPnlDesc");
     if (elMunSquadPnlDesc) {
-      elMunSquadPnlDesc.textContent = `Interés Compuesto al ${rateLabel} · ${wins}G - 0P (100% Win)`;
+      if (fusion) {
+        elMunSquadPnlDesc.textContent = `Fusión Compuesta (+0.15% + Op500 = +$${fusion.combinedCycleGainUsdc.toFixed(2)}/3m // ~$${fusion.combinedHourlyRateUsdc.toFixed(2)}/h)`;
+      } else {
+        elMunSquadPnlDesc.textContent = `Interés Compuesto al ${rateLabel} · ${wins}G - 0P (100% Win)`;
+      }
     }
 
   } catch (err) {
