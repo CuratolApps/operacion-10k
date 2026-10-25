@@ -183,7 +183,7 @@
       ? data.remainingUsdc
       : Math.max(0, parseFloat((targetGoal - consolidated).toFixed(2)));
 
-    // 1. Tarjeta 1: Capital & Pisos de Gas (Segunda Bola $500 USDC)
+    // 1. Tarjeta 1: Capital & Pisos de Gas (Segunda Bola $500 USDC) + Asentamiento por Bloques
     if (topCapitalDisplay) {
       topCapitalDisplay.innerHTML = `$${consolidated.toFixed(2)} <span class="metric-sub">/ $${targetGoal.toFixed(2)} USDC</span>`;
     }
@@ -191,20 +191,28 @@
       const pct = Math.min(100, Math.max(0, (consolidated / targetGoal) * 100));
       topCapitalProgress.style.width = `${pct}%`;
     }
+
+    const blk = data.blockSettlement || {
+      currentSettledBlock: consolidated >= 355 ? 355 : 325.43,
+      nextMilestoneBlock: 355.00,
+      remainingToNextBlock: Math.max(0, 355.00 - consolidated),
+      progressToNextBlockPct: Math.min(100, Math.max(0, ((consolidated - 325.43) / (355 - 325.43)) * 100))
+    };
+
     if (topProgressPct) {
-      topProgressPct.innerHTML = `<span class="green-text font-bold">Trinquete: $${protectedLock.toFixed(2)} 🛡️</span>`;
+      topProgressPct.innerHTML = `<span class="green-text font-bold">Base Firme #501: $${blk.currentSettledBlock.toFixed(2)} 🛡️</span>`;
     }
     if (topRemainingUsdc) {
-      if (remaining <= 0) {
-        topRemainingUsdc.innerHTML = `<span class="gold-text font-bold">🎯 Meta $${targetGoal.toFixed(2)} Alcanzada!</span>`;
+      if (consolidated >= 355.00) {
+        topRemainingUsdc.innerHTML = `<span class="gold-text font-bold">Bloque $${blk.currentSettledBlock.toFixed(2)} Asentado ✔ ➔ Próx: $${blk.nextMilestoneBlock.toFixed(2)} (+${blk.remainingToNextBlock.toFixed(2)})</span>`;
       } else {
-        topRemainingUsdc.innerHTML = `<span class="gold-text">Faltan +$${remaining.toFixed(2)} USDC</span>`;
+        topRemainingUsdc.innerHTML = `<span class="gold-text">Bloque $${blk.nextMilestoneBlock.toFixed(2)}: Faltan +$${blk.remainingToNextBlock.toFixed(2)} USDC (${blk.progressToNextBlockPct}%)</span>`;
       }
     }
     const cardTag1 = document.querySelector("#cardCapitalTop .card-tag");
     if (cardTag1) {
       const stage = data.goalStage || "SEGUNDA BOLA ($500 GOAL)";
-      cardTag1.innerHTML = `💵 ${stage} <span style="color:#10b981;font-size:8.5px;margin-left:4px;">(Bola 1 $330: ✅)</span>`;
+      cardTag1.innerHTML = `💵 ${stage} <span style="color:#10b981;font-size:8.5px;margin-left:4px;">(Bloque $${blk.nextMilestoneBlock.toFixed(0)} Activo)</span>`;
     }
     const gasFloors = data.gasFloors || (data.capitalGoal && data.capitalGoal.gasFloors);
     if (vaultGasStatus && gasFloors) {

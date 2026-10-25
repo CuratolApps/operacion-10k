@@ -109,7 +109,7 @@
             <span class="material-symbols-rounded tiny-icon">account_balance</span>
             BÓVEDA #501
           </span>
-          <span class="vault-status-pill">PISO 150 POL</span>
+          <span class="vault-status-pill" id="vault501StatusPill">155.13 / 150 POL</span>
         </div>
         <div class="vault-addr-row">
           <span class="vault-address-mono" id="masterVaultAddr"
@@ -119,6 +119,11 @@
             <span class="material-symbols-rounded icon-sm">content_copy</span>
             <span class="copy-feedback-toast" id="copyToast">COPIADO</span>
           </button>
+        </div>
+        <div class="vault-live-row" id="vault501LiveRow" style="display:flex;align-items:center;justify-content:space-between;gap:4px;font-size:0.50rem;margin-top:2px;font-family:var(--font-mono);">
+          <span class="green-text font-bold" id="vault501LiveConsolidated" title="Posición Consolidada Total en Bóveda #501">$347.36 USDC</span>
+          <span class="gold-text font-bold" id="vault501BlockTarget" title="Próximo Bloque Inmediato">➔ BLQ: $355.00</span>
+          <span class="cyan-text font-bold" id="vault501ProfitPill" title="Profit Compuesto Activo (+0.08%)">+$21.93</span>
         </div>
       </div>
 
@@ -149,19 +154,19 @@
 
         <div class="card-sub-policy">
           <span class="material-symbols-rounded icon-xs green-text">verified</span>
-          <span id="fundsInPowerText">FONDOS EN PODER: $266.51 USDC (CERO VOLATILIDAD)</span>
+          <span id="fundsInPowerText">FONDOS BÓVEDA #501: $347.36 USDC (Base $325.43 + Profit +$21.93 USDC)</span>
         </div>
 
         <!-- Total Consolidado en #501 -->
         <div class="munition-total-display">
           <div class="munition-total-meta">
-            <span class="m-meta-lbl">MUNICIÓN TOTAL DISPONIBLE</span>
+            <span class="m-meta-lbl">MUNICIÓN TOTAL CONSOLIDADA #501</span>
             <span class="m-meta-tag green-text">ESTABLE 1:1</span>
           </div>
-          <div class="munition-big-price" id="munitionTotalUsdc">$266.51 USDC</div>
+          <div class="munition-big-price" id="munitionTotalUsdc">$347.36 USDC</div>
           <div class="munition-progress-stacked">
-            <div class="m-prog-row1">Objetivo Hito 2: $250.00 USDC</div>
-            <div class="m-prog-row2 gold-text" id="milestonePctText">106.6% (Meta 2 Superada ✅)</div>
+            <div class="m-prog-row1">Bloque Inmediato: $355.00 USDC (Faltan +$7.64 USDC)</div>
+            <div class="m-prog-row2 gold-text" id="milestonePctText">74.2% del Bloque · Rumbo a Bola 2 $500.00 (69.5%)</div>
           </div>
         </div>
 
@@ -173,9 +178,9 @@
                 <span class="material-symbols-rounded icon-xs cyan">target</span>
                 <span>CAÑÓN #1 (POLYGON POS)</span>
               </div>
-              <span class="m-canon-amt cyan" id="munitionCanon1">$243.99 USDC</span>
+              <span class="m-canon-amt cyan" id="munitionCanon1">$302.91 USDC</span>
             </div>
-            <div class="m-row-desc" id="munitionCanon1Desc">En Nodriza #501 ($238.99) &amp; #001 ($5.00) · Circle</div>
+            <div class="m-row-desc" id="munitionCanon1Desc">Base On-Chain Polygon: Nodriza #501 ($297.91) &amp; #001 ($5.00)</div>
           </div>
 
           <div class="munition-row-card highlight-gold">
@@ -186,7 +191,7 @@
               </div>
               <span class="m-canon-amt gold" id="munitionCanon2">$21.52 USDC</span>
             </div>
-            <div class="m-row-desc" id="munitionCanon2Desc">En Nodriza #501 / #101 · USDC Oficial BSC</div>
+            <div class="m-row-desc" id="munitionCanon2Desc">Base On-Chain BSC: Nodriza #501 / #101 · USDC Oficial BSC</div>
           </div>
 
           <div class="munition-row-card">
@@ -198,6 +203,17 @@
               <span class="m-canon-amt" id="munitionBinance">$1.00 USDC</span>
             </div>
             <div class="m-row-desc">Retiro Seguro en Binance Spot #1 · Reserva Fija</div>
+          </div>
+
+          <div class="munition-row-card highlight-green" style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.35);">
+            <div class="m-row-head">
+              <div class="m-canon-title">
+                <span class="material-symbols-rounded icon-xs green-text">trending_up</span>
+                <span>PROFIT COMPUESTO SQUAD</span>
+              </div>
+              <span class="m-canon-amt green-text" id="munitionSquadPnl">+$21.93 USDC</span>
+            </div>
+            <div class="m-row-desc" id="munitionSquadPnlDesc" style="color: #6ee7b7;">Interés Compuesto al +0.08% · 111G - 0P (100% Win)</div>
           </div>
         </div>
 

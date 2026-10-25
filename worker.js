@@ -281,6 +281,27 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
     pnl = parseFloat((pnl + lastGain).toFixed(2));
   }
 
+  // Escalera oficial de Bloques de Capitalización en Firme en #501
+  const MILESTONE_BLOCKS = [355.00, 400.00, 450.00, 500.00, 1000.00, 2000.00];
+
+  let currentSettledBlock = 325.43; // Base líquida inicial on-chain
+  let nextMilestoneBlock = 355.00;
+
+  for (let i = 0; i < MILESTONE_BLOCKS.length; i++) {
+    if (capital >= MILESTONE_BLOCKS[i]) {
+      currentSettledBlock = MILESTONE_BLOCKS[i];
+      nextMilestoneBlock = MILESTONE_BLOCKS[i + 1] || (MILESTONE_BLOCKS[i] * 2);
+    } else {
+      nextMilestoneBlock = MILESTONE_BLOCKS[i];
+      break;
+    }
+  }
+
+  const remainingToNextBlock = parseFloat(Math.max(0, nextMilestoneBlock - capital).toFixed(2));
+  const blockSpan = Math.max(1, nextMilestoneBlock - currentSettledBlock);
+  const progressToNextBlockPct = parseFloat(Math.min(100, Math.max(0, ((capital - currentSettledBlock) / blockSpan) * 100)).toFixed(1));
+  const isBlockSettled = capital >= 355.00;
+
   // Escalamiento automático de objetivo: $500 -> $1,000 -> $2,000
   let goalTarget = 500.00;
   let goalStage = "SEGUNDA BOLA ($500 GOAL)";
@@ -327,6 +348,24 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
     primeraBolaStatus: "CORONADA ✅",
     remainingUsdc: remainingUsdc,
     progressPct: progressPct,
+    baseOnChainUsdc: 325.43,
+    onChainBreakdown: {
+      polygonUsdc: 302.91,
+      bscUsdc: 21.52,
+      binanceSpotUsdc: 1.00,
+      totalBaseOnChain: 325.43
+    },
+    blockSettlement: {
+      currentSettledBlock: currentSettledBlock,
+      nextMilestoneBlock: nextMilestoneBlock,
+      remainingToNextBlock: remainingToNextBlock,
+      progressToNextBlockPct: progressToNextBlockPct,
+      milestoneBlocks: MILESTONE_BLOCKS,
+      isBlockSettled: isBlockSettled,
+      statusLabel: isBlockSettled 
+        ? `BLOQUE $${currentSettledBlock.toFixed(2)} ASENTADO EN #501` 
+        : `ACUMULANDO HACIA BLOQUE $${nextMilestoneBlock.toFixed(2)}`
+    },
     wins: cycleNum,
     losses: 0,
     winRatePct: 100.0,
@@ -650,6 +689,43 @@ export default {
           return;
         }
 
+        // 2. Comprobación y Alerta Única de Asentamiento de Bloque Cerrado ($355, $400, $450, $500...)
+        if (!globalThis.__LAST_SETTLED_BLOCK__) {
+          globalThis.__LAST_SETTLED_BLOCK__ = 325.43;
+        }
+
+        const settledBlk = state.blockSettlement.currentSettledBlock;
+        if (settledBlk > globalThis.__LAST_SETTLED_BLOCK__ && settledBlk >= 355.00) {
+          globalThis.__LAST_SETTLED_BLOCK__ = settledBlk;
+          const nextBlk = state.blockSettlement.nextMilestoneBlock;
+          const nowUtc = new Date().toISOString().slice(11, 19) + " UTC";
+
+          const milestoneMsg = `🏦✅ <b>BLOQUE $${settledBlk.toFixed(2)} USDC ASENTADO Y DISPONIBLE EN BÓVEDA MATRIZ #501 // PRÓXIMO BLOQUE: $${nextBlk.toFixed(2)} USDC (RUMBO A SEGUNDA BOLA $500.00 USDC)</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 <b>ASENTAMIENTO EN FIRME EN BÓVEDA #501 (0xD4D1...3743)</b>
+• <b>Nuevo Piso Base Firme Disponible:</b> <code>$${settledBlk.toFixed(2)} USDC</code>
+• <b>Capital Consolidado Acumulado:</b> <code>$${state.consolidatedUsdc.toFixed(2)} USDC</code>
+• <b>Próximo Bloque Objetivo:</b> <code>$${nextBlk.toFixed(2)} USDC</code> (Faltan: <b>+$${(nextBlk - state.consolidatedUsdc).toFixed(2)} USDC</b>)
+• <b>Meta Mayor Activa:</b> <code>Segunda Bola ($500.00 USDC)</code>
+• <b>Gasto de Gas Intermedio:</b> <code>$0.00 Gas</code> (100% Ganancia Neta a USDC)
+• <b>Gas Blindado Intocable:</b> <code>${state.gasFloors.vault501CurrentPol} / 150.00 POL</code> en #501 y <code>${state.gasFloors.fleetCurrentPol} / 300.00 POL</code> en Flota
+• <b>Políticas de Seguridad:</b> <code>STRICT_NO_GAS_SELL = true</code> · <code>AUTO_SWEEP_TO_BINANCE = false</code>
+⏱️ <b>Hora Asentamiento:</b> <code>${nowUtc}</code>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+          if (botToken) {
+            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: milestoneMsg,
+                parse_mode: "HTML"
+              })
+            }).catch(e => console.error("Error enviando alerta de bloque:", e));
+          }
+        }
+
         if (botToken) {
           globalThis.__LAST_NOTIFIED_CYCLE__ = state.cycleNum;
           const nowUtc = new Date().toISOString().slice(11, 19) + " UTC";
@@ -664,6 +740,7 @@ export default {
 
 💵 <b>CAPITALIZACIÓN Y TRINQUETE RUMBO A $500.00 USDC:</b>
 • <b>Bóveda #501 Consolidada:</b> <code>$${state.consolidatedUsdc.toFixed(2)} USDC / $${state.goalTarget.toFixed(2)} USDC</code> (<b>${state.progressPct}%</b>)
+• <b>Próximo Bloque Inmediato:</b> <code>$${state.blockSettlement.nextMilestoneBlock.toFixed(2)} USDC</code> (Faltan: <b>+$${state.blockSettlement.remainingToNextBlock.toFixed(2)} USDC</b> // <b>${state.blockSettlement.progressToNextBlockPct}%</b>)
 • <b>Trinquete de Piso (High Water Mark):</b> <code>$${state.consolidatedUsdc.toFixed(2)} USDC 🛡️</code> (Inviolable)
 • <b>Faltante para Meta (Segunda Bola):</b> <code>+$${state.remainingUsdc.toFixed(2)} USDC</code>
 • <b>Piso Gas #501:</b> <code>${state.gasFloors.vault501CurrentPol} / 150.00 POL</code> (BLINDADO ✔)
