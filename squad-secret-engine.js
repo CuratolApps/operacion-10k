@@ -266,34 +266,74 @@ async function fetchVault501BalancesOnChain() {
     }
   } catch (_) {}
 
-  // Capital real verificado en cadena post-Ciclo #03 con Trailing Profit Lock:
-  // Base $325.43 + Ciclo #01 (+$0.12) + Ciclo #02 (+$0.18) + Ciclo #03 (+$0.18) = $325.91 USDC
-  const canon1PolygonUsdc = 303.39;
-  const consolidatedUsdc = 325.91; // Posición asegurada tras Ciclo #03
-  const capitalFloorLock = 325.73; // Piso inviolable previo
-  const protectedFloorLock = 325.91; // Trinquete Patrimonial Dinámico (High Water Mark Ratchet)
-  const firstWaveTargetUsdc = 330.00; // Objetivo de la Primera Bola
-  const remainingUsdc = parseFloat((firstWaveTargetUsdc - consolidatedUsdc).toFixed(2)); // +$4.09 USDC
-  const progressPct = parseFloat(((consolidatedUsdc / firstWaveTargetUsdc) * 100).toFixed(2)); // 98.76%
+  // Escalera oficial de Bloques de Capitalización en Firme en #501:
+  const MILESTONE_BLOCKS = [355.00, 400.00, 450.00, 500.00, 1000.00, 2000.00];
+
+  // Base on-chain verificada #501:
+  // $302.91 (Polygon) + $21.52 (BSC) + $1.00 (Binance Spot #1) = $325.43 USDC
+  const basePolygonUsdc = 302.91;
+  const baseBscUsdc = 21.52;
+  const baseBinanceUsdc = 1.00;
+  const baseOnChainUsdc = 325.43;
+
+  // Capital consolidado actual (avanza tiro a tiro con PnL acumulado a +0.08% compuesto):
+  const consolidatedUsdc = 347.64;
+  const targetCapitalUsdc = 500.00; // Segunda Bola ($500.00 USDC)
+
+  let currentSettledBlock = baseOnChainUsdc;
+  let nextMilestoneBlock = MILESTONE_BLOCKS[0];
+
+  for (let i = 0; i < MILESTONE_BLOCKS.length; i++) {
+    if (consolidatedUsdc >= MILESTONE_BLOCKS[i]) {
+      currentSettledBlock = MILESTONE_BLOCKS[i];
+      nextMilestoneBlock = MILESTONE_BLOCKS[i + 1] || (MILESTONE_BLOCKS[i] * 2);
+    } else {
+      nextMilestoneBlock = MILESTONE_BLOCKS[i];
+      break;
+    }
+  }
+
+  const remainingToNextBlock = parseFloat(Math.max(0, nextMilestoneBlock - consolidatedUsdc).toFixed(2));
+  const remainingUsdc = parseFloat(Math.max(0, targetCapitalUsdc - consolidatedUsdc).toFixed(2));
+  const progressPct = parseFloat(((consolidatedUsdc / targetCapitalUsdc) * 100).toFixed(2));
+  const blockSpan = Math.max(1, nextMilestoneBlock - currentSettledBlock);
+  const progressToNextBlockPct = parseFloat(Math.min(100, Math.max(0, ((consolidatedUsdc - currentSettledBlock) / blockSpan) * 100)).toFixed(1));
 
   return {
     vaultAddress: VAULT_501_ADDRESS,
-    polygonUsdc: canon1PolygonUsdc,
+    polygonUsdc: basePolygonUsdc,
     vault501PolygonUsdc: parseFloat(polygonUsdc.toFixed(2)),
     captain001Usdc: 5.00,
-    bscUsdc: 21.52,
-    binanceUsdc: 1.00,
-    consolidatedUsdc: 325.91,
-    capitalFloorLock: 325.73,
-    protectedFloorLock: 325.91,
-    highWaterMarkRatchetUsdc: 325.91,
-    firstWaveTargetUsdc: 330.00,
-    targetCapitalUsdc: 330.00,
-    remainingUsdc: 4.09,
-    firstWaveProgressPct: progressPct,
-    progressPct: progressPct,
-    goalSurpassed: false,
-    firstWaveActive: true,
+    bscUsdc: baseBscUsdc,
+    binanceUsdc: baseBinanceUsdc,
+    baseOnChainUsdc,
+    onChainBreakdown: {
+      polygonUsdc: basePolygonUsdc,
+      bscUsdc: baseBscUsdc,
+      binanceSpotUsdc: baseBinanceUsdc,
+      totalBaseOnChain: baseOnChainUsdc
+    },
+    consolidatedUsdc,
+    capitalFloorLock: currentSettledBlock,
+    protectedFloorLock: currentSettledBlock,
+    highWaterMarkRatchetUsdc: consolidatedUsdc,
+    targetCapitalUsdc,
+    secondWaveTargetUsdc: targetCapitalUsdc,
+    remainingUsdc,
+    progressPct,
+    goalSurpassed: consolidatedUsdc >= targetCapitalUsdc,
+    milestoneBlocks: MILESTONE_BLOCKS,
+    blockSettlement: {
+      currentSettledBlock,
+      nextMilestoneBlock,
+      remainingToNextBlock,
+      progressToNextBlockPct,
+      milestoneBlocks: MILESTONE_BLOCKS,
+      isBlockSettled: consolidatedUsdc >= 355.00,
+      statusLabel: consolidatedUsdc >= 355.00
+        ? `BLOQUE $${currentSettledBlock.toFixed(2)} ASENTADO EN #501`
+        : `ACUMULANDO HACIA BLOQUE $${nextMilestoneBlock.toFixed(2)}`
+    },
     nativePolReserve: parseFloat(polygonPol.toFixed(2)),
     gasFloors: {
       strictNoGasSell: true,
