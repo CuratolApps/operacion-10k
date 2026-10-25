@@ -1,479 +1,832 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark" translate="no" class="notranslate">
+<html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ÁREA 501 // PORTAL DE MANDO OMNICHAIN</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ÁREA 501 // MANDO CENTRAL DE TESORERÍA & PATRIMONIO REAL</title>
+
+  <!-- Tipografías Oficiales -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Control Criptográfico de Acceso Militar -->
+  <link rel="stylesheet" href="assets/auth-gate.css">
+  <script src="assets/auth-gate.js"></script>
+
   <style>
     :root {
-      --bg-dark: #07090e;
-      --bg-card: rgba(14, 20, 32, 0.75);
-      --border-cyan: rgba(0, 240, 255, 0.25);
-      --border-purple: rgba(176, 38, 255, 0.25);
-      --cyan: #00f0ff;
-      --green: #00ff88;
-      --purple: #b026ff;
-      --yellow: #f59e0b;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
+      --bg-obsidian: #03060b;
+      --bg-card: rgba(11, 16, 26, 0.94);
+      --bg-card-hover: rgba(18, 25, 40, 0.98);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(6, 182, 212, 0.35);
+
+      --gold: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.25);
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.22);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.22);
+      --purple: #8b5cf6;
+      --red: #ef4444;
+
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+      --text-muted: #64748b;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body {
-      background-color: var(--bg-dark);
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      background-color: var(--bg-obsidian);
       background-image: 
-        radial-gradient(circle at 15% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(176, 38, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.04) 0%, transparent 60%);
+        radial-gradient(circle at 10% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 45%),
+        radial-gradient(circle at 90% 85%, rgba(245, 158, 11, 0.05) 0%, transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
       color: var(--text-main);
-      min-height: 100vh;
+      font-family: var(--font-sans);
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
+      user-select: none;
     }
-    header {
-      padding: 24px 60px 24px 36px;
+
+    /* BARRA SUPERIOR */
+    .mando-top-bar {
+      height: 90px;
+      padding: 8px 14px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      flex-shrink: 0;
+      background: rgba(6, 9, 15, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 50;
+    }
+
+    .top-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .top-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .card-meta-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(16px);
-      background: rgba(7, 9, 14, 0.6);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .brand-badge {
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(176, 38, 255, 0.2));
-      border: 1px solid var(--border-cyan);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 800;
-      font-size: 14px;
-      letter-spacing: 1.5px;
-      color: var(--cyan);
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-    }
-    .brand-sub {
-      font-size: 13px;
-      color: var(--text-muted);
+      font-size: 9.5px;
+      font-weight: 700;
       letter-spacing: 0.5px;
     }
-    .infra-status-pills {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+
+    .card-tag.gold { color: var(--gold); }
+    .card-tag.cyan { color: var(--cyan); }
+    .card-tag.green { color: var(--green); }
+    .card-tag.purple { color: var(--purple); }
+
+    .card-pill-tag {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--green);
     }
-    .pill {
+
+    .card-val-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin: 2px 0;
+    }
+
+    .card-big-num {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .card-big-num.gold { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
+    .card-big-num.cyan { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); }
+    .card-big-num.green { color: var(--green); text-shadow: 0 0 10px var(--green-glow); }
+
+    .card-sub-txt {
+      font-size: 9px;
+      color: var(--text-dim);
+    }
+
+    .card-foot-txt {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* GRID PRINCIPAL 100VH */
+    .mando-workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 1fr;
+      gap: 8px;
+      padding: 8px 12px;
+      overflow: hidden;
+    }
+
+    .mando-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: rgba(14, 20, 32, 0.8);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .panel-hdr h3 {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-muted);
     }
-    .pill .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-    }
-    main {
+
+    .panel-content {
       flex: 1;
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 50px 24px;
+      padding: 10px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      gap: 8px;
     }
-    .hero-title {
-      font-size: 42px;
-      font-weight: 900;
-      text-align: center;
-      letter-spacing: -0.5px;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, #fff 30%, var(--cyan) 80%, var(--purple) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+
+    /* TARJETA DE BÓVEDA */
+    .vault-box {
+      background: rgba(18, 26, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      padding: 8px 10px;
     }
-    .hero-desc {
-      font-size: 16px;
-      color: var(--text-muted);
-      text-align: center;
-      max-width: 680px;
-      line-height: 1.6;
-      margin-bottom: 48px;
+
+    .vault-box.primary {
+      border-color: rgba(245, 158, 11, 0.3);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(18, 26, 42, 0.9));
     }
-    .portal-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-      width: 100%;
-      max-width: 1280px;
-    }
-    .portal-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 36px 32px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      text-decoration: none;
-      color: inherit;
-      backdrop-filter: blur(20px);
-    }
-    .portal-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .card-sniping::before {
-      background: linear-gradient(90deg, var(--cyan), #3b82f6);
-    }
-    .card-flota::before {
-      background: linear-gradient(90deg, var(--gold), #f97316);
-    }
-    .card-trading::before {
-      background: linear-gradient(90deg, #10b981, #059669);
-    }
-    .card-squad::before {
-      background: linear-gradient(90deg, #f59e0b, #e11d48);
-    }
-    .card-dashboard::before {
-      background: linear-gradient(90deg, var(--purple), #ec4899);
-    }
-    .portal-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
-    }
-    .card-sniping:hover {
-      border-color: var(--border-cyan);
-      box-shadow: 0 20px 40px rgba(0, 240, 255, 0.15);
-    }
-    .card-flota:hover {
-      border-color: rgba(245, 158, 11, 0.4);
-      box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
-    }
-    .card-trading:hover {
-      border-color: rgba(16, 185, 129, 0.4);
-      box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
-    }
-    .card-squad:hover {
-      border-color: rgba(245, 158, 11, 0.4);
-      box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
-    }
-    .card-dashboard:hover {
-      border-color: var(--border-purple);
-      box-shadow: 0 20px 40px rgba(176, 38, 255, 0.15);
-    }
-    .portal-card:hover::before {
-      opacity: 1;
-    }
-    .card-header-row {
+
+    .v-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 4px;
     }
-    .card-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
+
+    .v-name {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .v-addr {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      color: var(--cyan);
+    }
+
+    .v-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 8px;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      margin: 4px 0;
+    }
+
+    .v-stat-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+      padding-bottom: 2px;
+    }
+
+    .v-stat-item span:first-child {
+      color: var(--text-dim);
+    }
+
+    .v-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .v-link-btn {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--cyan);
+      text-decoration: none;
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .v-link-btn:hover {
+      background: rgba(6, 182, 212, 0.15);
+      color: #fff;
+    }
+
+    /* TABLA DE CAPITANES */
+    .caps-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 9px;
+    }
+
+    .caps-table th {
+      text-align: left;
+      padding: 4px 6px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 8.5px;
+    }
+
+    .caps-table td {
+      padding: 5px 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* HOJA DE RUTA PROGRESS */
+    .roadmap-step {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: rgba(18, 26, 42, 0.6);
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .roadmap-step.active {
+      border-color: var(--gold);
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .rm-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+
+    .rm-bar-bg {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .rm-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--green));
+    }
+
+    /* DOCK INFERIOR OFICIAL ÁREA 501 (3 ESPACIOS) */
+    .bottom-module-dock {
+      height: 48px;
+      padding: 0 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6, 9, 15, 0.95);
+      border-top: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+      z-index: 50;
+    }
+
+    .dock-left-status {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-    .card-sniping .card-icon {
-      background: rgba(0, 240, 255, 0.1);
-      color: var(--cyan);
-      border: 1px solid var(--border-cyan);
-    }
-    .card-flota .card-icon {
-      background: rgba(245, 158, 11, 0.1);
-      color: var(--gold);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-    .card-dashboard .card-icon {
-      background: rgba(176, 38, 255, 0.1);
-      color: var(--purple);
-      border: 1px solid var(--border-purple);
-    }
-    .card-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      gap: 6px;
+      font-size: 9.5px;
       font-weight: 700;
-      padding: 4px 10px;
+      letter-spacing: 0.5px;
+      color: var(--text-main);
+    }
+
+    .pulse-dot-green {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulseGreen 2s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .dock-center-modules {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dock-module-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
       border-radius: 6px;
-      letter-spacing: 1px;
+      background: rgba(18, 24, 38, 0.7);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 700;
+      transition: all 0.2s ease;
     }
-    .card-sniping .card-tag {
-      background: rgba(0, 240, 255, 0.12);
-      color: var(--cyan);
+
+    .dock-module-btn:hover {
+      background: rgba(28, 38, 60, 0.9);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
     }
-    .card-flota .card-tag {
-      background: rgba(245, 158, 11, 0.12);
-      color: var(--gold);
+
+    .dock-module-btn.active {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(245, 158, 11, 0.15));
+      border-color: var(--cyan);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
     }
-    .card-dashboard .card-tag {
-      background: rgba(176, 38, 255, 0.12);
-      color: var(--purple);
-    }
-    .card-title {
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 10px;
+
+    .dock-right-controls {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .card-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.55;
-      margin-bottom: 24px;
-      flex: 1;
-    }
-    .card-features {
-      list-style: none;
-      margin-bottom: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .card-features li {
-      font-size: 13px;
-      color: #cbd5e1;
+
+    .dock-utc-clock {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .card-features li span {
-      font-size: 16px;
-      color: var(--green);
-    }
-    .card-action-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 14px 20px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      transition: all 0.2s ease;
-    }
-    .card-sniping .card-action-btn {
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(59, 130, 246, 0.2));
-      border: 1px solid var(--border-cyan);
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 10px;
       color: var(--cyan);
+      background: rgba(6, 182, 212, 0.1);
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(6, 182, 212, 0.25);
     }
-    .card-sniping:hover .card-action-btn {
-      background: var(--cyan);
-      color: #000;
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-    }
-    .card-flota .card-action-btn {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(249, 115, 22, 0.2));
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      color: var(--gold);
-    }
-    .card-flota:hover .card-action-btn {
-      background: var(--gold);
-      color: #000;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
-    }
-    .card-dashboard .card-action-btn {
-      background: linear-gradient(135deg, rgba(176, 38, 255, 0.2), rgba(236, 72, 153, 0.2));
-      border: 1px solid var(--border-purple);
-      color: var(--purple);
-    }
-    .card-dashboard:hover .card-action-btn {
-      background: var(--purple);
-      color: #fff;
-      box-shadow: 0 0 20px rgba(176, 38, 255, 0.4);
-    }
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 20px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
+
+    .dock-lock-btn {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--red);
+      padding: 5px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
     }
   </style>
-  <link rel="stylesheet" href="assets/auth-gate.css" />
-  <script src="assets/auth-gate.js"></script>
 </head>
-<body class="notranslate">
 
-  <header>
-    <div class="brand-wrap">
-      <span class="brand-badge">ÁREA 501</span>
-      <span class="brand-sub">OMNICHAIN QUANTITATIVE PLATFORM</span>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- BARRA SUPERIOR: RESUMEN EJECUTIVO DE TESORERÍA                            -->
+  <!-- ========================================================================= -->
+  <header class="mando-top-bar">
+    <!-- TARJETA 1: CAPITAL FÍSICO CONSOLIDADO -->
+    <div class="top-card">
+      <div class="card-meta-row">
+        <span class="card-tag gold">💵 CAPITAL CONSOLIDADO</span>
+        <span class="card-pill-tag">100% REAL</span>
+      </div>
+      <div class="card-val-row">
+        <span class="card-big-num gold" id="valTotalUsdc">$470.13</span>
+        <span class="card-sub-txt">USDC</span>
+      </div>
+      <div class="card-foot-txt">
+        Base Físico On-Chain Auditada
+      </div>
     </div>
-    <div class="infra-status-pills">
-      <div class="pill"><span class="dot"></span> Alchemy Dedicated Node (193ms)</div>
-      <div class="pill"><span class="dot"></span> Google Cloud Core (Iowa 24/7)</div>
-      <div class="pill"><span class="dot"></span> 502 Wallets Active</div>
+
+    <!-- TARJETA 2: BÓVEDA MATRIZ #501 -->
+    <div class="top-card">
+      <div class="card-meta-row">
+        <span class="card-tag cyan">🏛️ BÓVEDA #501 (POLYGON)</span>
+        <span class="card-pill-tag">PRINCIPAL</span>
+      </div>
+      <div class="card-val-row">
+        <span class="card-big-num cyan" id="valVault501Usdc">$459.40</span>
+        <span class="card-sub-txt">USDC Nativo</span>
+      </div>
+      <div class="card-foot-txt">
+        +$7.98 USDC en BSC Mainnet
+      </div>
+    </div>
+
+    <!-- TARJETA 3: GAS TOTAL BLINDADO -->
+    <div class="top-card">
+      <div class="card-meta-row">
+        <span class="card-tag green">⛽ TANQUES GAS BLINDADOS</span>
+        <span class="card-pill-tag">PISO 150 POL ✔</span>
+      </div>
+      <div class="card-val-row">
+        <span class="card-big-num green" id="valTotalPol">305.52</span>
+        <span class="card-sub-txt">POL Totales</span>
+      </div>
+      <div class="card-foot-txt">
+        155.05 #501 · 150.47 Flota X500
+      </div>
+    </div>
+
+    <!-- TARJETA 4: ESCUDO AAVE V3 -->
+    <div class="top-card">
+      <div class="card-meta-row">
+        <span class="card-tag purple">🛡️ ESCUDO AAVE V3</span>
+        <span class="card-pill-tag">aPolUSDC</span>
+      </div>
+      <div class="card-val-row">
+        <span class="card-big-num" style="color:var(--purple);" id="valAaveApy">4.85%</span>
+        <span class="card-sub-txt">APY Pasivo</span>
+      </div>
+      <div class="card-foot-txt">
+        Cubre Comisiones de Gas y Swap
+      </div>
+    </div>
+
+    <!-- TARJETA 5: BÓVEDA VIP #00 -->
+    <div class="top-card">
+      <div class="card-meta-row">
+        <span class="card-tag cyan">🔒 BÓVEDA VIP #00</span>
+        <span class="card-pill-tag" style="color:#38bdf8;border-color:rgba(56,189,248,0.3);background:rgba(56,189,248,0.1);">READ-ONLY</span>
+      </div>
+      <div class="card-val-row">
+        <span class="card-big-num" style="color:#38bdf8;">0.9565</span>
+        <span class="card-sub-txt">POL</span>
+      </div>
+      <div class="card-foot-txt">
+        0 Allowance · Aislamiento Total
+      </div>
     </div>
   </header>
 
-  <main>
-    <h1 class="hero-title">SALA DE MANDO GENERAL</h1>
-    <p class="hero-desc">
-      Infraestructura autónoma de arbitraje, monitoreo en tiempo real y censo de la flota omnichain. Selecciona la consola operativa a la que deseas acceder:
-    </p>
+  <!-- ========================================================================= -->
+  <!-- GRID DE TRABAJO DEL MANDO CENTRAL (3 PANELES)                             -->
+  <!-- ========================================================================= -->
+  <main class="mando-workspace">
 
-    <div class="portal-grid">
-      <!-- MÓDULO 1: CABINA DE SNIPING -->
-      <a href="./sniping/" class="portal-card card-sniping">
-        <div class="card-header-row">
-          <div class="card-icon">
-            <span class="material-symbols-rounded">radar</span>
-          </div>
-          <span class="card-tag">TIEMPO REAL</span>
-        </div>
-        <h2 class="card-title">Cabina de Sniping Atómico</h2>
-        <p class="card-desc">
-          Monitoreo on-chain de alta frecuencia a través de nodos dedicados Alchemy. Detección de spreads en Uniswap V3 y activación de gatillos sin riesgo volátil.
-        </p>
-        <ul class="card-features">
-          <li><span class="material-symbols-rounded">check_circle</span> 16 Nodrizas Snipers duales</li>
-          <li><span class="material-symbols-rounded">check_circle</span> 32 Nebulosas IA Centinelas</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Gatillos Polygon & BSC en vivo</li>
-        </ul>
-        <div class="card-action-btn">
-          <span>Abrir Cabina de Sniping</span>
-          <span class="material-symbols-rounded">arrow_forward</span>
-        </div>
-      </a>
+    <!-- COLUMNA 1: BÓVEDAS PRINCIPALES (#501, #00, BINANCE SPOT) -->
+    <section class="mando-panel">
+      <div class="panel-hdr">
+        <h3>🏛️ BÓVEDAS &amp; RESERVAS INSTITUCIONALES</h3>
+        <span class="card-pill-tag">ON-CHAIN RPC</span>
+      </div>
+      <div class="panel-content">
 
-      <!-- MÓDULO 2: FLOTA X500 (NUEVO MÓDULO INDEPENDIENTE) -->
-      <a href="./flota-x500/" class="portal-card card-flota">
-        <div class="card-header-row">
-          <div class="card-icon">
-            <span class="material-symbols-rounded">military_tech</span>
+        <!-- BÓVEDA MATRIZ #501 -->
+        <div class="vault-box primary">
+          <div class="v-head">
+            <span class="v-name">BÓVEDA MATRIZ #501 (NODRIZA DUAL)</span>
+            <span class="card-pill-tag">ACTIVA</span>
           </div>
-          <span class="card-tag">FLOTA X500</span>
+          <div class="v-addr">0xD4D12077a61118372f7a367319fb11922Beb3743</div>
+          <div class="v-stat-grid">
+            <div class="v-stat-item"><span>USDC Polygon:</span><strong class="gold-text">$459.40 USDC</strong></div>
+            <div class="v-stat-item"><span>POL Nativo:</span><strong class="green-text">155.05 POL</strong></div>
+            <div class="v-stat-item"><span>USDC BSC:</span><strong>$7.98 USDC</strong></div>
+            <div class="v-stat-item"><span>BNB BSC:</span><strong>0.0225 BNB</strong></div>
+            <div class="v-stat-item"><span>AtomicSniper:</span><span class="cyan-text">Allowance $2,500 ✔</span></div>
+            <div class="v-stat-item"><span>Piso Sagrado:</span><span class="green-text">150.00 POL Blindado</span></div>
+          </div>
+          <div class="v-actions">
+            <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="v-link-btn">
+              POLYGONSCAN ↗
+            </a>
+            <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="v-link-btn">
+              BSCSCAN ↗
+            </a>
+          </div>
         </div>
-        <h2 class="card-title">Cabina Flota X500 (500 Satélites)</h2>
-        <p class="card-desc">
-          Supervisión táctica 100% on-chain sin mocks de los Satélites #001 al #500 en sus 5 Boxes, 5 Bóvedas Binance Spot y frentes activos de airdrops.
-        </p>
-        <ul class="card-features">
-          <li><span class="material-symbols-rounded">check_circle</span> 5 Boxes reales (Capitanes B1–B5)</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Carrusel 24/7 (20 sats/turno)</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Bitácora on-chain + Espejo Telegram</li>
-        </ul>
-        <div class="card-action-btn">
-          <span>Abrir Cabina Flota X500</span>
-          <span class="material-symbols-rounded">arrow_forward</span>
-        </div>
-      </a>
 
-      <!-- MÓDULO 3: TRADING CUANTITATIVO (BULL & BEAR) -->
-      <a href="./trading/" class="portal-card card-trading">
-        <div class="card-header-row">
-          <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
-            <span class="material-symbols-rounded">trending_up</span>
+        <!-- BÓVEDA VIP #00 -->
+        <div class="vault-box">
+          <div class="v-head">
+            <span class="v-name">BÓVEDA VIP #00 (BLINDADA)</span>
+            <span class="card-pill-tag" style="color:#38bdf8;">100% AISLADA</span>
           </div>
-          <span class="card-tag" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">BULL &amp; BEAR</span>
+          <div class="v-addr">0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</div>
+          <div class="v-stat-grid">
+            <div class="v-stat-item"><span>POL Nativo:</span><span>0.9565 POL</span></div>
+            <div class="v-stat-item"><span>USDC Nativo:</span><span>$0.00 USDC</span></div>
+            <div class="v-stat-item"><span>BNB Nativo:</span><span>0.0000 BNB</span></div>
+            <div class="v-stat-item"><span>Permisos Gasto:</span><strong class="green-text">0 (Solo Lectura)</strong></div>
+          </div>
+          <div class="v-actions">
+            <a href="https://polygonscan.com/address/0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990" target="_blank" rel="noopener noreferrer" class="v-link-btn">
+              POLYGONSCAN ↗
+            </a>
+          </div>
         </div>
-        <h2 class="card-title">Trading Cuantitativo (Dojo)</h2>
-        <p class="card-desc">
-          Mente maestra bidireccional Bull &amp; Bear con 5 Mentes Legendarias, 6 Códices Mundiales de la Mentora #00 Zen-Equilibrium y Candado Breakeven.
-        </p>
-        <ul class="card-features">
-          <li><span class="material-symbols-rounded">check_circle</span> 5 Mentes Legendarias (Simons, Tudor, Livermore)</li>
-          <li><span class="material-symbols-rounded">check_circle</span> 6 Códices Mundiales Sellados de Psicóloga #00</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Radar de Estrenos DEXScreener + GoPlus 0%</li>
-        </ul>
-        <div class="card-action-btn">
-          <span>Abrir Trading Cuantitativo</span>
-          <span class="material-symbols-rounded">arrow_forward</span>
-        </div>
-      </a>
 
-      <!-- MÓDULO 4: SQUAD SECRET (CADENCIA 10/3/5 & $300 USDC) -->
-      <a href="./squad-secret/" class="portal-card card-squad">
-        <div class="card-header-row">
-          <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">
-            <span class="material-symbols-rounded">verified_user</span>
+        <!-- 5 BÓVEDAS BINANCE SPOT -->
+        <div class="vault-box">
+          <div class="v-head">
+            <span class="v-name">5 BÓVEDAS BINANCE SPOT (#1 A #5)</span>
+            <span class="card-pill-tag">RETENCIÓN 100%</span>
           </div>
-          <span class="card-tag" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">SQUAD SECRET</span>
+          <div class="v-stat-grid">
+            <div class="v-stat-item"><span>Saldo Spot #1:</span><strong class="gold-text">$1.00 USDC</strong></div>
+            <div class="v-stat-item"><span>Auto-Sweep:</span><span class="green-text">FALSE (Sin drenaje)</span></div>
+          </div>
+          <div class="card-foot-txt" style="margin-top:4px;">
+            Destino exclusivo de liquidación de cosechas sin micro-depósitos.
+          </div>
         </div>
-        <h2 class="card-title">Squad Secret (Sala 10/3/5)</h2>
-        <p class="card-desc">
-          Sala de operaciones de cadencia táctica (2m Calibración ➔ máx 3m Tiro ➔ 5m Descanso) para concentrar a todo el equipo de élite en 1 solo tiro certero y capitalizar a $300 USDC.
-        </p>
-        <ul class="card-features">
-          <li><span class="material-symbols-rounded">check_circle</span> Embudo de 5 Eslabones (1 Solo Tiro Ganador)</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Cadencia 10/3/5 + Marcador rumbo a 12 - 2</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Capitalización Bóveda #501 ($267.72 / $300.00 USDC)</li>
-        </ul>
-        <div class="card-action-btn">
-          <span>Abrir Squad Secret</span>
-          <span class="material-symbols-rounded">arrow_forward</span>
-        </div>
-      </a>
 
-      <!-- MÓDULO 5: TERMINAL CUANTITATIVA Y CENSO -->
-      <a href="./dashboard/" class="portal-card card-dashboard">
-        <div class="card-header-row">
-          <div class="card-icon">
-            <span class="material-symbols-rounded">query_stats</span>
+      </div>
+    </section>
+
+    <!-- COLUMNA 2: LOS 5 CAPITANES DE BOX (FLOTA X500) -->
+    <section class="mando-panel">
+      <div class="panel-hdr">
+        <h3>🪖 LOS 5 CAPITANES DE BOX (FLOTA X500)</h3>
+        <span class="card-pill-tag font-mono">5 BOXES · 500 BOTS</span>
+      </div>
+      <div class="panel-content">
+        <table class="caps-table">
+          <thead>
+            <tr>
+              <th>BOX / CAPITÁN</th>
+              <th>POL</th>
+              <th>USDC</th>
+              <th>BNB</th>
+              <th>MISIÓN ASIGNADA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong style="color:#fff;">#001 (Box 1)</strong><br>
+                <span class="v-addr">0xb750...D40F</span>
+              </td>
+              <td class="green-text font-bold">18.07</td>
+              <td class="gold-text font-bold">$0.70</td>
+              <td>0.0051</td>
+              <td>Misiones Gasless EIP-712 &amp; Streaks</td>
+            </tr>
+            <tr>
+              <td>
+                <strong style="color:#fff;">#101 (Box 2)</strong><br>
+                <span class="v-addr">0x5682...adBA</span>
+              </td>
+              <td class="green-text font-bold">18.03</td>
+              <td class="gold-text font-bold">$1.05</td>
+              <td>0.0079</td>
+              <td>DogeOS Cap. 2 &amp; Startale</td>
+            </tr>
+            <tr>
+              <td>
+                <strong style="color:#fff;">#201 (Box 3)</strong><br>
+                <span class="v-addr">0x2810...6A7C</span>
+              </td>
+              <td class="green-text font-bold">18.01</td>
+              <td class="gold-text font-bold">$0.00</td>
+              <td>0.0079</td>
+              <td>Base Ecosystem &amp; Avantis S3</td>
+            </tr>
+            <tr>
+              <td>
+                <strong style="color:#fff;">#301 (Box 4)</strong><br>
+                <span class="v-addr">0xEb6a...Ca0f</span>
+              </td>
+              <td class="green-text font-bold">12.01</td>
+              <td class="gold-text font-bold">$0.00</td>
+              <td>0.0051</td>
+              <td>Arbitrum Stylus &amp; OP Superchain</td>
+            </tr>
+            <tr>
+              <td>
+                <strong style="color:#fff;">#401 (Box 5)</strong><br>
+                <span class="v-addr">0x4C71...d070</span>
+              </td>
+              <td class="green-text font-bold">12.01</td>
+              <td class="gold-text font-bold">$0.00</td>
+              <td>0.0051</td>
+              <td>Citrea Bitcoin ZK &amp; GOAT zk-EVM</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- RESUMEN FLOTA SATÉLITES -->
+        <div class="vault-box" style="margin-top:6px;">
+          <div class="v-head">
+            <span class="v-name">500 SATÉLITES (#001 A #500)</span>
+            <span class="card-pill-tag">0% SYBIL RISK</span>
           </div>
-          <span class="card-tag">FLOTA &amp; FINANZAS</span>
+          <div class="v-stat-grid">
+            <div class="v-stat-item"><span>Gas en Capitanes:</span><strong class="green-text">78.13 POL</strong></div>
+            <div class="v-stat-item"><span>Gas en Satélites:</span><strong class="green-text">72.34 POL</strong></div>
+            <div class="v-stat-item"><span>Total Flota POL:</span><strong class="green-text">150.47 POL</strong></div>
+            <div class="v-stat-item"><span>Total Red Polygon:</span><strong class="cyan-text">305.52 POL</strong></div>
+          </div>
         </div>
-        <h2 class="card-title">Terminal Cuantitativa</h2>
-        <p class="card-desc">
-          Supervisión integral de las 502 cuentas (1 VIP + 500 Satélites + Bóveda #501), embudo cosechador USDC y telemetría de los 6 departamentos de extracción.
-        </p>
-        <ul class="card-features">
-          <li><span class="material-symbols-rounded">check_circle</span> Censo 500 Satélites (5 Boxes)</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Embudo USDC a Binance Spot</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Medidor de ROI &amp; Minería Bitcoin L2</li>
-        </ul>
-        <div class="card-action-btn">
-          <span>Abrir Terminal Cuantitativa</span>
-          <span class="material-symbols-rounded">arrow_forward</span>
+
+      </div>
+    </section>
+
+    <!-- COLUMNA 3: HOJA DE RUTA PATRIMONIAL & ESCUDO AAVE -->
+    <section class="mando-panel">
+      <div class="panel-hdr">
+        <h3>🎯 HOJA DE RUTA &amp; ESCUDO DE COMISIONES</h3>
+        <span class="card-pill-tag">INTERÉS COMPUESTO</span>
+      </div>
+      <div class="panel-content">
+
+        <!-- ESCUDO AAVE V3 -->
+        <div class="vault-box" style="border-color:rgba(139,92,246,0.3);background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(18,26,42,0.9));">
+          <div class="v-head">
+            <span class="v-name" style="color:#c084fc;">ESCUDO AAVE V3 (aPolUSDC)</span>
+            <span class="card-pill-tag" style="color:#c084fc;border-color:rgba(192,132,252,0.3);">PASIVO</span>
+          </div>
+          <div class="card-foot-txt" style="margin:4px 0; color:var(--text-dim);">
+            Contrato Pool: <span class="cyan-text">0x794a...14aD</span><br>
+            El capital en reposo genera ~4.85% APY para amortizar el 100% de comisiones y gas de la red.
+          </div>
         </div>
-      </a>
-    </div>
+
+        <!-- HITO 1: SEGUNDA BOLA ($500 USDC) -->
+        <div class="roadmap-step active">
+          <div class="rm-head">
+            <span class="gold-text">HITO 1: SEGUNDA BOLA ($500 USDC)</span>
+            <span class="green-text font-mono">94.0%</span>
+          </div>
+          <div class="rm-bar-bg">
+            <div class="rm-bar-fill" style="width: 94.0%;"></div>
+          </div>
+          <div class="card-foot-txt">
+            Actual: $470.13 USDC · Restan solo +$29.87 USDC
+          </div>
+        </div>
+
+        <!-- HITO 2: TERCERA BOLA ($1,000 USDC) -->
+        <div class="roadmap-step">
+          <div class="rm-head">
+            <span>HITO 2: TERCERA BOLA ($1,000 USDC)</span>
+            <span class="font-mono text-muted">47.0%</span>
+          </div>
+          <div class="rm-bar-bg">
+            <div class="rm-bar-fill" style="width: 47.0%; background: var(--cyan);"></div>
+          </div>
+          <div class="card-foot-txt">
+            Multiplicación 2X con Fuego Real On-Chain
+          </div>
+        </div>
+
+        <!-- HITO 3: MATRIZ FINAL CURA TOOLS ($12,000 USDC) -->
+        <div class="roadmap-step">
+          <div class="rm-head">
+            <span>HITO FINAL: CURA TOOLS ($12,000 USDC)</span>
+            <span class="font-mono text-muted">3.9%</span>
+          </div>
+          <div class="rm-bar-bg">
+            <div class="rm-bar-fill" style="width: 3.9%; background: var(--purple);"></div>
+          </div>
+          <div class="card-foot-txt">
+            Empresa Web3 &amp; Tesorería Consolidada
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
-  <footer>
-    &copy; 2026 ÁREA 501 • OPERACIÓN 10K • TODOS LOS SISTEMAS PROTEGIDOS ON-CHAIN
+  <!-- ========================================================================= -->
+  <!-- DOCK INFERIOR OFICIAL ÁREA 501 (3 ESPACIOS CLAROS)                        -->
+  <!-- ========================================================================= -->
+  <footer class="bottom-module-dock">
+    <div class="dock-left-status">
+      <span class="pulse-dot-green"></span>
+      <span>ÁREA 501 // TESORERÍA REAL ON-CHAIN</span>
+    </div>
+
+    <!-- CENTRO: LOS 3 ÚNICOS ESPACIOS OFICIALES -->
+    <div class="dock-center-modules">
+      <!-- 1. Mando Central (Activo) -->
+      <a href="./" class="dock-module-btn active" id="dockBtnMandoCentral" title="Mando Central: Tesorería y Patrimonio Real">
+        <span>🏛️</span>
+        <span>MANDO CENTRAL</span>
+      </a>
+
+      <!-- 2. Squad Secret -->
+      <a href="squad-secret/" class="dock-module-btn" id="dockBtnSquadSecret" title="Squad Secret: Trading Real, Bull &amp; Bear y Sniping Atómico">
+        <span>🕵️‍♂️</span>
+        <span>SQUAD SECRET</span>
+      </a>
+
+      <!-- 3. Flota X500 -->
+      <a href="flota-x500/" class="dock-module-btn" id="dockBtnFlota" title="Flota X500: Las 500 Carteras, Airdrops y Free-Mint">
+        <span>🪖</span>
+        <span>FLOTA X500</span>
+      </a>
+    </div>
+
+    <div class="dock-right-controls">
+      <div class="dock-utc-clock" id="dockUtcClock">
+        <span>🕒</span>
+        <span id="masterUtcClockTime">--:--:-- UTC</span>
+      </div>
+
+      <button class="area501-lockout-btn dock-lock-btn" id="area501-lockout-btn" title="Bloquear Sesión">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </button>
+    </div>
   </footer>
 
+  <!-- SCRIPT DE ACTUALIZACIÓN EN VIVO -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const hh = String(now.getUTCHours()).padStart(2, '0');
+      const mm = String(now.getUTCMinutes()).padStart(2, '0');
+      const ss = String(now.getUTCSeconds()).padStart(2, '0');
+      const el = document.getElementById('masterUtcClockTime');
+      if (el) el.textContent = `${hh}:${mm}:${ss} UTC`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    async function fetchMandoBalances() {
+      try {
+        const res = await fetch('/api/mando-central/balances');
+        if (res.ok) {
+          const d = await res.json();
+          if (d.totalConsolidatedUsdc) {
+            document.getElementById('valTotalUsdc').textContent = `$${d.totalConsolidatedUsdc.toFixed(2)}`;
+          }
+          if (d.vault501 && d.vault501.polygonUsdc) {
+            document.getElementById('valVault501Usdc').textContent = `$${d.vault501.polygonUsdc.toFixed(2)}`;
+          }
+          if (d.fleet500 && d.fleet500.totalNetworkPol) {
+            document.getElementById('valTotalPol').textContent = `${d.fleet500.totalNetworkPol.toFixed(2)}`;
+          }
+        }
+      } catch (_) {}
+    }
+    fetchMandoBalances();
+    setInterval(fetchMandoBalances, 5000);
+  </script>
 </body>
+
 </html>

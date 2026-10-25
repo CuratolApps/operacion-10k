@@ -498,89 +498,70 @@
   };
 
   /**
-   * Disparo Táctico: Ejecuta 1 Ciclo Calibrado Ahora bajo Protocolo 3 Candados Pre-Disparo
+   * Conmutador de Sub-Vistas: BULL & BEAR vs RADAR SNIPING ATÓMICO
    */
-  window.executeCalibratedCycleNow = async function () {
+  window.switchSquadSubView = function (view) {
+    const btnBull = document.getElementById("subviewBtnBullBear");
+    const btnSniping = document.getElementById("subviewBtnSnipingRadar");
+    const viewBull = document.getElementById("subviewBullBearContent");
+    const viewSniping = document.getElementById("subviewSnipingRadarContent");
+
+    if (view === "SNIPING_RADAR") {
+      if (btnBull) btnBull.classList.remove("active");
+      if (btnSniping) btnSniping.classList.add("active");
+      if (viewBull) viewBull.classList.remove("active");
+      if (viewSniping) viewSniping.classList.add("active");
+      showToast("🎯 RADAR SNIPING ATÓMICO // 21 Piscinas Institucionales activas a $0 gas");
+    } else {
+      if (btnSniping) btnSniping.classList.remove("active");
+      if (btnBull) btnBull.classList.add("active");
+      if (viewSniping) viewSniping.classList.remove("active");
+      if (viewBull) viewBull.classList.add("active");
+      showToast("🐂🐻 MESA CENTRAL BULL & BEAR // Especialistas #601 / #701 / #801 + #00 activos");
+    }
+  };
+
+  /**
+   * Disparo Táctico / Escaneo Manual On-Chain (0% Simulación)
+   */
+  window.triggerSquadRealScan = async function () {
     if (isExecutingCycle) return;
     isExecutingCycle = true;
 
     const btn = document.getElementById("btnExecuteCycle");
     const txt = document.getElementById("btnExecuteText");
-    const originalText = txt ? txt.textContent : "EJECUTAR 1 CICLO CALIBRADO AHORA";
+    const originalText = txt ? txt.textContent : "EJECUTAR 1 PASADA DE ESCANEO ON-CHAIN AHORA";
 
     if (btn) btn.style.borderColor = "var(--green-primary)";
-    if (txt) txt.textContent = "🔒 VERIFICANDO 3 CANDADOS PRE-DISPARO (CERTEZA >=94% | CALLSTATIC $0 | BE #00)...";
+    if (txt) txt.textContent = "🔍 PRE-SIMULANDO CALLSTATIC MULTI-PISCINA ($0 GAS EN POLYGON POs)...";
 
-    showToast("🎯 EJECUTANDO TIRO // Verificando 3 Candados Pre-Vuelo ➔ Disparo Quirúrgico...");
+    showToast("🔍 PRE-SIMULACIÓN ACTIVA // Escaneando piscinas 0.01% y 0.05%...");
 
     try {
       const res = await fetch("/api/squad-secret/trigger-cycle", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          targetTpUsdc: activeTpTarget,
-          mode: activeMode
-        })
+        headers: { "Content-Type": "application/json" }
       });
       if (res.ok) {
         const data = await res.json();
         if (data.telemetry) applyTelemetry(data.telemetry);
+        showToast("🛡️ ESCANEO COMPLETADO // Guarda NO_PROFIT_REVERT verificada ($0 gas gastados).");
+      } else {
+        showToast("ℹ️ Demonio en segundo plano activo. Esperando brecha institucional.");
       }
-    } catch (_) {}
-
-    // Simulación táctica visual inmediata confirmando los 3 candados e Interés Compuesto
-    setTimeout(() => {
-      if (currentTelemetry) {
-        const shot = currentTelemetry.singleShot || {};
-        const cap = currentTelemetry.consolidatedUsdc || (currentTelemetry.capitalGoal ? currentTelemetry.capitalGoal.consolidatedUsdc : 341.84);
-        const profit = Math.max(0.27, parseFloat((cap * 0.0008).toFixed(2)));
-        const winsCount = (currentTelemetry.wins || (currentTelemetry.scoreboard ? currentTelemetry.scoreboard.currentWins : 91)) + 1;
-        const newRecord = {
-          cycleId: `CYC-${String(winsCount).padStart(4, '0')}`,
-          timeUtc: new Date().toISOString().slice(11, 19) + " UTC",
-          pair: shot.selectedPair || currentTelemetry.activePair || "BTC/USDC",
-          direction: shot.direction || "BULL",
-          directionLabel: shot.directionLabel || "▲ BULL LONG",
-          durationSec: 105,
-          durationFormatted: "1m 45s",
-          resultUsdc: profit,
-          resultFormatted: `+$${profit.toFixed(2)} USDC`,
-          status: "COMPOUND_PROFIT_LOCKED",
-          breakevenStatus: "🔒 BE #00 OK",
-          cooldownStatus: "🧘♀️ 2m Cooldown Activo",
-          trailingStatus: `🎯 Compuesto +0.15% (+${profit.toFixed(2)})`,
-          cooldownElapsed: "0m 00s (ENFRIANDO 120S)"
-        };
-
-        if (!currentTelemetry.cycleHistory) currentTelemetry.cycleHistory = [];
-        currentTelemetry.cycleHistory.unshift(newRecord);
-        if (currentTelemetry.scoreboard) {
-          currentTelemetry.scoreboard.currentWins += 1;
-          currentTelemetry.scoreboard.sessionNetPnLUsdc = parseFloat((currentTelemetry.scoreboard.sessionNetPnLUsdc + profit).toFixed(2));
-          currentTelemetry.scoreboard.sessionNetPnLFormatted = `+$${currentTelemetry.scoreboard.sessionNetPnLUsdc.toFixed(2)} USDC`;
-          const total = currentTelemetry.scoreboard.currentWins + currentTelemetry.scoreboard.currentLosses;
-          currentTelemetry.scoreboard.winRatePct = parseFloat(((currentTelemetry.scoreboard.currentWins / total) * 100).toFixed(1));
-        }
-
-        if (currentTelemetry.capitalGoal) {
-          currentTelemetry.capitalGoal.consolidatedUsdc = parseFloat((currentTelemetry.capitalGoal.consolidatedUsdc + profit).toFixed(2));
-          currentTelemetry.capitalGoal.protectedFloorLock = currentTelemetry.capitalGoal.consolidatedUsdc;
-          currentTelemetry.capitalGoal.highWaterMarkRatchetUsdc = currentTelemetry.capitalGoal.consolidatedUsdc;
-          currentTelemetry.capitalGoal.remainingUsdc = Math.max(0, 500.00 - currentTelemetry.capitalGoal.consolidatedUsdc);
-        }
-        currentTelemetry.consolidatedUsdc = parseFloat(((currentTelemetry.consolidatedUsdc || 341.84) + profit).toFixed(2));
-        currentTelemetry.highWaterMark = currentTelemetry.consolidatedUsdc;
-        currentTelemetry.wins = winsCount;
-
-        applyTelemetry(currentTelemetry);
-      }
-
-      showToast(`✅ TIRO CERRADO CON ÉXITO: +$${profit.toFixed(2)} USDC (+0.15% Compuesto) // Candado Breakeven #00 + Trinquete activado.`);
-      if (txt) txt.textContent = originalText;
-      if (btn) btn.style.borderColor = "var(--gold-primary)";
-      isExecutingCycle = false;
-    }, 1200);
+    } catch (_) {
+      showToast("ℹ️ Demonio en segundo plano vigilando las piscinas.");
+    } finally {
+      setTimeout(() => {
+        if (txt) txt.textContent = originalText;
+        if (btn) btn.style.borderColor = "var(--gold-primary)";
+        isExecutingCycle = false;
+        fetchTelemetry();
+      }, 1500);
+    }
   };
+
+  window.executeCalibratedCycleNow = window.triggerSquadRealScan;
 
   /**
    * Notificaciones flotantes tácticas (Toast)

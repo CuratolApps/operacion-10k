@@ -13,7 +13,7 @@ on:
         type: boolean
 
 concurrency:
-  group: operacion-10k-main-swarm
+  group: area-501-main-swarm
   cancel-in-progress: false
 
 permissions:
