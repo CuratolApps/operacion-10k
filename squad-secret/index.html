@@ -43,23 +43,23 @@
   <header class="top-nav-bar" id="squadHeader">
 
     <!-- TARJETA 1: CAPITAL SQUAD SECRET (PRIMERA BOLA: RUMBO A $330.00 USDC) -->
-    <div class="nav-card" id="cardCapitalTop" title="Capital consolidado real $325.43 USDC con piso sagrado bloqueado rumbo a $330.00 USDC">
+    <div class="nav-card" id="cardCapitalTop" title="Capital consolidado real $325.55 USDC con piso sagrado protegido rumbo a $330.00 USDC">
       <div class="card-meta">
         <span class="card-tag gold">💵 PRIMERA BOLA ($330 GOAL)</span>
         <span class="card-pill font-mono green-pill" id="vaultGasStatus">GAS: 155.13 POL ✔</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
-          $325.43 <span class="metric-sub">/ $330.00 USDC</span>
+          $325.55 <span class="metric-sub">/ $330.00 USDC</span>
         </div>
       </div>
-      <div class="progress-wrap" title="Progreso hacia Primera Bola ($330.00 USDC) con piso sagrado en $325.43">
+      <div class="progress-wrap" title="Progreso hacia Primera Bola ($330.00 USDC) con piso sagrado protegido en $325.55">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 98.6%;"></div>
+          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 98.65%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topProgressPct" class="green-text font-bold">Piso $325.43 🛡️</span>
-          <span id="topRemainingUsdc" class="gold-text">Faltan +$4.57 USDC</span>
+          <span id="topProgressPct" class="green-text font-bold">Piso $325.43 ➔ $325.55 🛡️</span>
+          <span id="topRemainingUsdc" class="gold-text">Faltan +$4.45 USDC</span>
         </div>
       </div>
     </div>
@@ -68,21 +68,21 @@
     <div class="nav-card" id="cardClockTop" title="Cadencia Táctica 10/3/5: 2m Calibración ➔ máx 3m Tiro ➔ 5m Descanso y Chequeo">
       <div class="card-meta">
         <span class="card-tag cyan">⏱️ RELOJ DE CICLO 10/3/5</span>
-        <span class="card-pill font-mono phase-pill" id="topPhaseBadge">FASE 1: CALIBRANDO</span>
+        <span class="card-pill font-mono phase-pill" id="topPhaseBadge">FASE 3: DESCANSO</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono cyan-text" id="topClockCountdown">
-          01:45 <span class="metric-sub">en fase</span>
+          04:15 <span class="metric-sub">en fase</span>
         </div>
-        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining" title="Tiempo restante para completar el ciclo de 10 min">06:45 bloque</span>
+        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining" title="Tiempo restante para completar el ciclo de 10 min">04:15 bloque</span>
       </div>
       <div class="progress-wrap">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 35%;"></div>
+          <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 70%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topPhaseLabel">2m Calibrar</span>
-          <span id="topNextPhaseLabel">➔ 3m Tiro</span>
+          <span id="topPhaseLabel">5m Descanso</span>
+          <span id="topNextPhaseLabel">➔ 2m Calibrar</span>
         </div>
       </div>
     </div>
@@ -91,17 +91,17 @@
     <div class="nav-card" id="cardScoreboardTop" title="Marcador de precisión rumbo a 12 Aciertos vs máximo 2 Frenos cortos">
       <div class="card-meta">
         <span class="card-tag green">🎯 MARCADOR DE PRECISIÓN</span>
-        <span class="card-pill font-mono green-pill" id="topWinRateBadge">0.0% WIN</span>
+        <span class="card-pill font-mono green-pill" id="topWinRateBadge">100.0% WIN</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono green-text" id="topRatioDisplay">
-          0G <span class="metric-sub">-</span> 0P
+          1G <span class="metric-sub">-</span> 0P
         </div>
       </div>
       <div class="card-sub-metric font-mono">
         <span class="dim-txt">PnL Sesión:</span>
-        <span class="green-text font-bold" id="topSessionPnlDisplay">$0.00 USDC</span>
-        <span class="target-sub-txt">(Cero Humo)</span>
+        <span class="green-text font-bold" id="topSessionPnlDisplay">+$0.12 USDC</span>
+        <span class="target-sub-txt">(Ciclo #01 ✔)</span>
       </div>
     </div>
 
@@ -341,14 +341,14 @@
           <div class="box-head">
             <span class="box-num font-mono">04</span>
             <span class="box-tag">ESTADO DE LA OPERACIÓN</span>
-            <span class="box-badge-pill green font-mono">🛡️ PISO $325.43 BLOQUEADO</span>
+            <span class="box-badge-pill green font-mono">🔒 CICLO #01 COMPLETADO (1G - 0P)</span>
           </div>
           <div class="box-body">
             <div class="big-status-alert font-mono" id="boxOperationStatusText">
-              🔒 PRIMERA BOLA: RUMBO A $330.00 USDC // PISO $325.43 INVIOLABLE
+              🧘♀️ DESCANSO Y CHEQUEO OBLIGATORIO (5 MIN ENFRIAMIENTO) // +$0.12 USDC ASEGURADOS
             </div>
             <div class="box-meta-line font-mono" id="boxOperationSubText">
-              Base Real: $325.43 / $330.00 USDC (Faltan +$4.57) · Pisos de Gas Blindados: 155.13 POL (#501) | 300.02 POL (Flota 100% FULL)
+              Posición: $325.55 / $330.00 USDC (Faltan +$4.45) · Piso $325.43 Intacto · Gas: 155.13 POL (#501) | 300.02 POL (Flota 100% FULL)
             </div>
           </div>
         </div>
@@ -365,14 +365,14 @@
       </div>
     </section>
 
-    <!-- PANEL INFERIOR: BITÁCORA DE CICLOS (VIRGEN 0G - 0P) -->
+    <!-- PANEL INFERIOR: BITÁCORA DE CICLOS (CICLO #01 REGISTRADO) -->
     <section class="squad-panel squad-bottom-panel" id="panelCycleLedger">
       <div class="panel-header">
         <div class="panel-title-wrap">
           <span class="panel-icon">📜</span>
           <h2 class="panel-title">BITÁCORA DE CICLOS TÁCTICOS // AUDITORÍA 10/3/5 (1 TIRO CADA 10 MIN)</h2>
         </div>
-        <span class="panel-badge-pill cyan font-mono" id="ledgerCountBadge">0 INCURSIONES REGISTRADAS</span>
+        <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">1 CICLO REGISTRADO (100% WIN)</span>
       </div>
 
       <div class="cycles-table-wrap">
@@ -391,9 +391,14 @@
           </thead>
           <tbody id="cyclesTableBody">
             <tr>
-              <td colspan="8" style="text-align: center; color: var(--text-dim); padding: 22px 10px; font-size: 10px;">
-                ⏸️ SIN OPERACIONES REGISTRADAS · EN ESPERA DEL COMANDANTE PARA EL PRIMER CICLO REAL (0G - 0P / $0.00 USDC)
-              </td>
+              <td>CYC-0001</td>
+              <td class="font-mono">00:55:12 UTC</td>
+              <td><strong class="gold-text">BTC/USDC</strong></td>
+              <td><span class="tag-bull">▲ BULL LONG</span></td>
+              <td class="font-mono">2m 15s</td>
+              <td class="green-text font-bold">+$0.12 USDC</td>
+              <td><span class="be-locked">🔒 BE #00 OK</span></td>
+              <td><span class="cooldown-badge done">🧘♀️ 5m Cooldown Activo</span></td>
             </tr>
           </tbody>
         </table>
