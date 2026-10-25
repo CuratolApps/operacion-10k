@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.2.0",
-  "timestamp": "2026-10-25T21:38:51.385Z",
-  "timestampFormatted": "25/10/2026, 21:38:51 UTC",
+  "timestamp": "2026-10-25T22:10:50.492Z",
+  "timestampFormatted": "25/10/2026, 22:10:50 UTC",
   "officers": {
     "nebula33": {
       "id": "NEBULA-FORENSIC-SHIELD #33",
@@ -66,10 +66,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
+        "safetyScore": 94,
         "honeypotRisk": "0%",
         "vcBacking": "Capital Propio Blindado ($40.72 USDC On-Chain)",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
         "verifiedOnChain": true
       },
       "fleetAction": {
@@ -214,10 +214,10 @@
       },
       "forensicAudit": {
         "verdictBadge": "🟢 VIABLE & AUDITADO",
-        "safetyScore": 96,
+        "safetyScore": 94,
         "honeypotRisk": "0%",
         "vcBacking": "Coinbase Ventures / Pantera Capital",
-        "verdictDetails": "🟢 100% SEGURO (0% HONEYPOT, TAX <= 1%)",
+        "verdictDetails": "🟢 SEGURO & AUDITADO",
         "verifiedOnChain": true
       },
       "fleetAction": {

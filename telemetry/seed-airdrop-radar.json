@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "title": "Cazador de Semillas y Airdrops por Fecha de Entrega — Área 501",
-  "lastUpdated": "2026-10-24T11:52:17.260Z",
+  "lastUpdated": "2026-10-25T22:12:12.269Z",
   "deliveryCalendarSeason": "Octubre–Noviembre 2026",
   "priorityDistribution": {
     "priority1Count": 1,
@@ -46,11 +46,11 @@
     "totalChainsTracked": 439,
     "ecosystemsTvl": {
       "base": "$9.25B",
-      "arbitrum": "$2.07B",
-      "bsc": "$7.86B",
-      "polygon": "$735.9M"
+      "arbitrum": "$2.12B",
+      "bsc": "$7.93B",
+      "polygon": "$752.0M"
     },
-    "timestamp": "2026-10-24T11:52:14.521Z"
+    "timestamp": "2026-10-25T22:12:07.707Z"
   },
   "targets": [
     {
@@ -81,8 +81,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 120,
-      "currentBlock": 0,
+      "rpcPingMs": 604,
+      "currentBlock": 96173972,
       "isSafeToExecute": true
     },
     {
@@ -113,8 +113,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 251,
-      "currentBlock": 53026695,
+      "rpcPingMs": 442,
+      "currentBlock": 53088491,
       "isSafeToExecute": true
     },
     {
@@ -145,8 +145,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 144,
-      "currentBlock": 53026695,
+      "rpcPingMs": 196,
+      "currentBlock": 53088491,
       "isSafeToExecute": true
     },
     {
@@ -177,8 +177,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 326,
-      "currentBlock": 517829631,
+      "rpcPingMs": 375,
+      "currentBlock": 518260194,
       "isSafeToExecute": true
     },
     {
@@ -209,8 +209,8 @@
       "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
       "honeypotPct": 0,
       "taxes": "0.0% / 0.0%",
-      "rpcPingMs": 120,
-      "currentBlock": 0,
+      "rpcPingMs": 206,
+      "currentBlock": 96173974,
       "isSafeToExecute": true
     }
   ]

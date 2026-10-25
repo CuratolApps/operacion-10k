@@ -487,10 +487,18 @@ async function executeBurstReconAndStrike(options = {}) {
 }
 
 if (require.main === module) {
-  executeBurstReconAndStrike({ sweeps: 5, delayMs: 4000, notifyTelegram: true }).catch(err => {
-    console.error("❌ Error en executeBurstReconAndStrike:", err);
-    process.exit(1);
-  });
+  const sweepsArg = process.argv.indexOf("--sweeps");
+  const sweeps = sweepsArg >= 0 && process.argv[sweepsArg + 1] ? Number(process.argv[sweepsArg + 1]) : 1;
+  const notifyTelegram = !process.argv.includes("--no-telegram");
+  executeBurstReconAndStrike({ sweeps, delayMs: 2000, notifyTelegram })
+    .then(() => {
+      console.log("✅ [EXPERT-CAPTAINS]: Barrido completado con éxito.");
+      process.exit(0);
+    })
+    .catch(err => {
+      console.error("❌ Error en executeBurstReconAndStrike:", err);
+      process.exit(1);
+    });
 }
 
 module.exports = {

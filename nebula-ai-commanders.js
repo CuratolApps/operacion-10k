@@ -457,13 +457,16 @@ async function runNebulaCommanders(options = {}) {
   const polProvider = createResilientProvider(networks.polygonMainnet);
 
   // Leer o ejecutar Observadores Dedicados en vivo
-  let liveObserver = null;
-  try {
-    liveObserver = await runDedicatedObservers();
-  } catch (_) {
-    if (fs.existsSync(LIVE_OBSERVER_FILE)) {
+  let liveObserver = options.liveObserver || null;
+  if (!liveObserver && fs.existsSync(LIVE_OBSERVER_FILE)) {
+    try {
       liveObserver = JSON.parse(fs.readFileSync(LIVE_OBSERVER_FILE, "utf8"));
-    }
+    } catch (_) {}
+  }
+  if (!liveObserver) {
+    try {
+      liveObserver = await runDedicatedObservers();
+    } catch (_) {}
   }
 
   // Generar los 16 binomios (32 Nebulosas) en paralelo

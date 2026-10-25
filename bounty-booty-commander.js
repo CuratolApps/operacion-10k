@@ -221,7 +221,7 @@ function generateShinobiBootyPackages() {
         rewardCurrency: "USDC Nativo",
         proofOfWorkModules: [
           "nebula-ai-commanders.js",
-          "cybershinobi-swarm-strike.js",
+          "atomic-profit-guard.js",
           "expert-captains-command.js"
         ],
         submissionDossier: {

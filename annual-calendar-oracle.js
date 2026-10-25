@@ -568,19 +568,12 @@ ${seedList}
     }, null, 2), "utf8");
     console.log("✓ Parte Diario 00:00 UTC enviado a Telegram con éxito.");
 
-    // 📡 Despacho de Revista de Tropas X500 y Trading Bull & Bear para el corte 00:00 UTC
+    // 📡 Despacho de Revista de Tropas X500 para el corte 00:00 UTC
     try {
       const { dispatchFleetReadinessReport } = require("./scripts/dispatch-fleet-readiness");
       await dispatchFleetReadinessReport();
     } catch (fErr) {
       console.warn("⚠️ Advertencia al emitir alistamiento de flota en oráculo:", fErr.message);
-    }
-    try {
-      const { runTradingQuantEngine, sendTradingTelegramReport } = require("./trading-quant-engine");
-      const tel = await runTradingQuantEngine();
-      await sendTradingTelegramReport(tel);
-    } catch (tErr) {
-      console.warn("⚠️ Advertencia al emitir trading report en oráculo:", tErr.message);
     }
 
     return true;

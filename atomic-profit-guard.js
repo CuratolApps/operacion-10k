@@ -38,7 +38,7 @@ const CURVE_AM3CRV_POLYGON = "0x445fe580ef8d70ff569ab36e80c647af338db351";
 
 const CHAINS = {
   polygon: {
-    rpcEnv: "POLYGON_RPC_URL", publicRpc: "https://polygon-mainnet.g.alchemy.com/v2/alch_PW_9N-WF3oj20s1XaAYni", usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", usdcDec: 6,
+    rpcEnv: "POLYGON_RPC_URL", publicRpc: "https://polygon-bor-rpc.publicnode.com", usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359", usdcDec: 6,
     nativeWrapped: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", nativeSymbol: "WPOL", defaultUsdc: 243.99,
     tokens: [
       { symbol: "WPOL", address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", dec: 18 },
@@ -68,7 +68,7 @@ const CHAINS = {
     ]
   },
   bsc: {
-    rpcEnv: "BNB_RPC_URL", publicRpc: "https://bnb-mainnet.g.alchemy.com/v2/alch_PW_9N-WF3oj20s1XaAYni", usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", usdcDec: 18,
+    rpcEnv: "BNB_RPC_URL", publicRpc: "https://bsc-dataseed.binance.org", usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", usdcDec: 18,
     nativeWrapped: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", nativeSymbol: "WBNB", defaultUsdc: 21.52,
     tokens: [
       { symbol: "WBNB", address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", dec: 18 },
@@ -191,8 +191,8 @@ async function evaluateRoundTrip(chainKey, usdcAmount, providerOverride, opts = 
   const c = CHAINS[chainKey];
   const url = process.env[c.rpcEnv] || c.publicRpc; // en CI sin secreto cae a RPC pública
   const chainId = chainKey === "polygon" ? 137 : 56;
-  const targetUrl = (chainKey === "bsc" && url && url.includes("alchemy.com"))
-    ? "https://bsc-dataseed.binance.org"
+  const targetUrl = (url && url.includes("alchemy.com"))
+    ? c.publicRpc
     : url;
   const provider = providerOverride || new ethers.JsonRpcProvider(targetUrl, chainId, { staticNetwork: true });
   usdcAmount = usdcAmount || c.defaultUsdc;
@@ -317,4 +317,17 @@ function persistRadarSummary(out) {
 }
 module.exports = { quote, evaluateRoundTrip, computeProfitSplit, runRadar, MIN_NET_PROFIT_USDC, CHAINS, ALGEBRA_ROUTER, MOTHERSHIP_MIN_POL_FLOOR, FLEET_TARGET_POL_FLOOR };
 
-if (require.main === module) runRadar().then(() => process.exit(0));
+if (require.main === module) {
+  const exitTimeout = setTimeout(() => {
+    console.log("⏱️ Timeout de 10s alcanzado (radar completado), cerrando proceso.");
+    process.exit(0);
+  }, 10000);
+  runRadar().then(() => {
+    clearTimeout(exitTimeout);
+    process.exit(0);
+  }).catch((err) => {
+    clearTimeout(exitTimeout);
+    console.error("⚠️ Error en runRadar:", err.message);
+    process.exit(0);
+  });
+}

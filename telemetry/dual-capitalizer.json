@@ -1,6 +1,6 @@
 {
   "schemaVersion": "3.0.0",
-  "generatedAt": "2026-10-25T21:38:45.720Z",
+  "generatedAt": "2026-10-25T22:10:28.163Z",
   "status": "ACTIVE_COMPOUNDING",
   "strategy": "FASE_1_RECUPERACION_120_EUR_CLOSED_LOOP_70_30",
   "badges": [
@@ -14,9 +14,9 @@
   "phase1Recovery120Eur": {
     "targetEur": 120,
     "targetUsdc": 130,
-    "currentAccruedUsdc": 343.11,
-    "currentAccruedEur": 316.72,
-    "progressPct": 263.93,
+    "currentAccruedUsdc": 488.7,
+    "currentAccruedEur": 451.11,
+    "progressPct": 375.92,
     "remainingUsdc": 0,
     "remainingEur": 0,
     "status": "COMPLETED_100%",
@@ -53,17 +53,17 @@
   "ratchet85": {
     "model": "USDC_RATCHET_85",
     "ratio": 0.85,
-    "totalOnChainUsdc": 342.11,
-    "lockedFloorUsdc": 290.7935,
-    "floatingUsdc": 51.3165,
-    "totalGlobalUsdcWithBinanceSpot": 343.11,
+    "totalOnChainUsdc": 487.7,
+    "lockedFloorUsdc": 414.545,
+    "floatingUsdc": 73.155,
+    "totalGlobalUsdcWithBinanceSpot": 488.7,
     "status": "LOCKED_ATH_ELEVATED"
   },
   "gasCompounder": {
     "model": "CLOSED_CYCLE_RECOVERY_70_30",
     "isAcceleratorMode": true,
     "targetThresholdPol": 400,
-    "currentFleetPol": 300.06,
+    "currentFleetPol": 299.89,
     "usdcCompoundingRatio": 0.7,
     "gasRestockRatio": 0.3,
     "gasDistribution": {
@@ -78,20 +78,20 @@
       "bnbUsdc": 731.55
     },
     "currentPrices": {
-      "polUsdc": 0.08966,
-      "bnbUsdc": 738.93
+      "polUsdc": 0.089721,
+      "bnbUsdc": 740.4
     },
     "priceVariationPct": {
-      "pol": -1.39,
-      "bnb": 1.01
+      "pol": -1.33,
+      "bnb": 1.21
     },
     "unitAdvantagePct": {
-      "pol": 1.41,
-      "bnb": -1
+      "pol": 1.34,
+      "bnb": -1.2
     },
     "isEligible": false,
     "recommendation": "STANDBY_MONITORING",
-    "maxFloatingBudgetUsdc": 10.2633,
+    "maxFloatingBudgetUsdc": 14.631,
     "certaintyScore": 98,
     "reasoning": "Precios de POL y BNB estables cerca de su referencia de rotación. Sin dip >= 2%. Tanque en reposo óptimo a $0 gas."
   },

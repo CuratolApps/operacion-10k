@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-25T21:38:57.843Z",
+  "generatedAt": "2026-10-25T22:11:29.356Z",
   "captainsCommand": {
     "captain1": {
       "id": "#001",
@@ -35,9 +35,9 @@
         "name": "Galaxia 3 (Piscinas de Quests) & Galaxia 4 (Airdrops L2 Gasless)",
         "operationsCount": 5771,
         "activeCampaigns": 24,
-        "poolTicketsTotal": 4700,
-        "dailyCheckIns": 1150,
-        "gaslessQuests": 1220,
+        "poolTicketsTotal": 4800,
+        "dailyCheckIns": 1170,
+        "gaslessQuests": 1240,
         "status": "Época Activa • Reclamo Masivo Programado en Snapshot",
         "projectedYieldUsdc": "$25.00 a $45.00 USDC directos a Bóvedas Binance",
         "capitalCost": "$0.00 (100% Gasless L2)"
@@ -77,7 +77,7 @@
   ],
   "shinobiBootyPackages": {
     "schemaVersion": "1.0.0",
-    "generatedAt": "2026-10-25T21:38:57.842Z",
+    "generatedAt": "2026-10-25T22:11:29.354Z",
     "missionDirective": "ACELERADOR DE COBRO VÍA B — PIPELINE $2,225 USDC (SUPERACIÓN DE 120 € / $130 USDC)",
     "leadCommander": "Capitán Experto #2 (#101) & Capitán Experto #1 (#001)",
     "treasuryTarget": {
@@ -99,7 +99,7 @@
         "rewardCurrency": "USDC Nativo",
         "proofOfWorkModules": [
           "nebula-ai-commanders.js",
-          "cybershinobi-swarm-strike.js",
+          "atomic-profit-guard.js",
           "expert-captains-command.js"
         ],
         "submissionDossier": {

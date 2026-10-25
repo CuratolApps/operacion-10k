@@ -81,6 +81,7 @@ jobs:
           run_safe node nebula-ai-commanders.js
           run_safe node expert-captains-command.js
           run_safe node dual-capitalizer-engine.js
+          run_safe node scripts/squad-secret-autonomous-loop.js --once
 
           # 3. 🪖 Flota X500 (500 Carteras, Airdrops & Semillas)
           run_safe node seed-airdrop-engine.js
@@ -140,7 +141,7 @@ jobs:
             telemetry/annual-airdrop-calendar.json
             telemetry/box-dispatch-plan.json
             telemetry/trading-telemetry.json
-            telemetry/trading-paper-ledger.json
+            telemetry/squad-secret-real-ledger.json
             last-run-report.json
             radar-report.json
           retention-days: 7

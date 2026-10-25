@@ -2,7 +2,7 @@
   "botName": "Bot #1: Oráculo Auditado del Calendario Anual",
   "version": "3.2.0",
   "status": "ACTIVO (Corte 00:00 UTC)",
-  "lastAuditTimestamp": "2026-10-25T21:39:23.015Z",
+  "lastAuditTimestamp": "2026-10-25T22:12:23.670Z",
   "utcDate": "2026-10-25",
   "totalTargetsAudited": 8,
   "totalSafeContracts": 8,
@@ -12,8 +12,8 @@
     "totalChainsTracked": 439,
     "tvl": {
       "base": "$9.25B",
-      "arbitrum": "$2.11B",
-      "polygon": "$0.76B",
+      "arbitrum": "$2.12B",
+      "polygon": "$0.75B",
       "bsc": "$7.93B",
       "optimism": "$1.12B"
     }
@@ -57,16 +57,16 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 786,
-          "currentBlock": 96172645,
+          "rpcPingMs": 411,
+          "currentBlock": 96173977,
           "dexInfo": {
             "status": "ACTIVE_LIQUIDITY",
             "dex": "uniswap",
-            "priceUsd": "$0.0898",
-            "volume24h": "$1,514,523",
+            "priceUsd": "$0.0899",
+            "volume24h": "$1,589,753",
             "pairAddress": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7"
           },
-          "auditTimestamp": "2026-10-25T21:39:01.501Z"
+          "auditTimestamp": "2026-10-25T22:12:17.191Z"
         },
         {
           "id": "base-avantis-jumper",
@@ -93,15 +93,15 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 591,
-          "currentBlock": 53087497,
+          "rpcPingMs": 465,
+          "currentBlock": 53088495,
           "dexInfo": {
             "status": "ACTIVE_VERIFIED",
             "dex": "Multi-DEX",
             "priceUsd": "$1.0000",
             "volume24h": "Active"
           },
-          "auditTimestamp": "2026-10-25T21:39:03.806Z"
+          "auditTimestamp": "2026-10-25T22:12:18.308Z"
         },
         {
           "id": "dogeos-startale",
@@ -129,15 +129,15 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 2393,
-          "currentBlock": 96172649,
+          "rpcPingMs": 181,
+          "currentBlock": 96173978,
           "dexInfo": {
             "status": "ACTIVE_VERIFIED",
             "dex": "Multi-DEX",
             "priceUsd": "$1.0000",
             "volume24h": "Active"
           },
-          "auditTimestamp": "2026-10-25T21:39:07.227Z"
+          "auditTimestamp": "2026-10-25T22:12:18.918Z"
         }
       ]
     },
@@ -178,16 +178,16 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 1781,
-          "currentBlock": 518253408,
+          "rpcPingMs": 434,
+          "currentBlock": 518260221,
           "dexInfo": {
             "status": "ACTIVE_LIQUIDITY",
             "dex": "uniswap",
-            "priceUsd": "$2340.5200",
-            "volume24h": "$1,600,876",
+            "priceUsd": "$2345.2300",
+            "volume24h": "$1,726,750",
             "pairAddress": "0x641C00A822e8b671738d32a431a4Fb6074E5c79d"
           },
-          "auditTimestamp": "2026-10-25T21:39:13.213Z"
+          "auditTimestamp": "2026-10-25T22:12:19.820Z"
         },
         {
           "id": "optimism-superchain-interop",
@@ -214,10 +214,10 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 1380,
-          "currentBlock": 158682788,
+          "rpcPingMs": 469,
+          "currentBlock": 158683781,
           "dexInfo": null,
-          "auditTimestamp": "2026-10-25T21:39:15.149Z"
+          "auditTimestamp": "2026-10-25T22:12:20.648Z"
         },
         {
           "id": "soneium-sony-chain",
@@ -243,10 +243,10 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 1108,
-          "currentBlock": 34885009,
+          "rpcPingMs": 739,
+          "currentBlock": 34886001,
           "dexInfo": null,
-          "auditTimestamp": "2026-10-25T21:39:16.867Z"
+          "auditTimestamp": "2026-10-25T22:12:21.712Z"
         }
       ]
     },
@@ -286,10 +286,10 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 1257,
-          "currentBlock": 33081367,
+          "rpcPingMs": 414,
+          "currentBlock": 33082360,
           "dexInfo": null,
-          "auditTimestamp": "2026-10-25T21:39:18.754Z"
+          "auditTimestamp": "2026-10-25T22:12:22.436Z"
         },
         {
           "id": "goat-bitcoin-zkevm",
@@ -316,10 +316,10 @@
           "isOnChainCodeValid": true,
           "goplusShield": "🛡️ GoPlus: 100% SEGURO",
           "isHoneypot": false,
-          "rpcPingMs": 2922,
-          "currentBlock": 17764225,
+          "rpcPingMs": 896,
+          "currentBlock": 17764812,
           "dexInfo": null,
-          "auditTimestamp": "2026-10-25T21:39:23.015Z"
+          "auditTimestamp": "2026-10-25T22:12:23.669Z"
         }
       ]
     }

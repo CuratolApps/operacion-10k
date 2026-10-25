@@ -1,31 +1,31 @@
 {
   "schemaVersion": "2.1.0",
-  "timestamp": "2026-10-23T10:28:01.134Z",
+  "timestamp": "2026-10-25T22:08:54.762Z",
   "directorDeTiro": {
     "zeroCollisionMutex": "ACTIVO_Y_VERIFICADO",
     "activeSlotLeader": "#501 (Nodriza Matriz)",
     "noncePolicy": "MONOTONIC_STRICT_NO_COLLISION"
   },
   "cannonsArmed": {
-    "polygonHeavyCannon": 19.202166,
+    "polygonHeavyCannon": 464.396216,
     "bscHeavyCannon": 21.517604,
-    "totalFirepowerUsdc": 40.71977
+    "totalFirepowerUsdc": 485.91382
   },
   "threeVectorsStatus": [
     {
       "vectorId": "VECTOR-1-CONCENTRATED-V3",
       "name": "Arbitraje Concentrado V3 (0.01% / 0.05% Tiers)",
-      "spreadPolygon": 0.3098,
-      "spreadBsc": 0.3459,
+      "spreadPolygon": 0.4253,
+      "spreadBsc": 0.2902,
       "isProfitable": false,
       "status": "🛡️ VIGILANCIA CENTINELA (Spread V3 < 1.35x Gas, $0 gas consumido)"
     },
     {
       "vectorId": "VECTOR-2-KEEPER-BOUNTIES",
       "name": "Keeper Harvest Bounties (30+ Bóvedas Beefy & Gamma)",
-      "topRewardUsd": 0.033228,
+      "topRewardUsd": 0.218166,
       "thresholdMultiplier": "1.35x Costo de Gas",
-      "isProfitable": false,
+      "isProfitable": true,
       "status": "🛡️ VIGILANCIA CENTINELA (Reward < 1.35x Gas, $0 gas consumido)"
     },
     {
@@ -37,7 +37,7 @@
         "WETH/USDC",
         "WBTC/USDC"
       ],
-      "maxDislocationPct": 0.3459,
+      "maxDislocationPct": 0.4253,
       "locksVerified": "5 Candados de las 32 Nebulosas Activos",
       "isProfitable": false,
       "status": "🛡️ VIGILANCIA CENTINELA (Sin panic-sell institucional, $0 gas consumido)"

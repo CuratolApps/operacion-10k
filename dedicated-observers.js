@@ -1333,7 +1333,7 @@ async function runDedicatedObservers() {
 
   // Paso 2: 32 Nebulosas IA (16 Binomios Escoltas: Abridora >=95% + Guardaespaldas 5 Candados)
   try {
-    liveReport.nebulaDirectives = await require("./nebula-ai-commanders").runNebulaCommanders();
+    liveReport.nebulaDirectives = await require("./nebula-ai-commanders").runNebulaCommanders({ liveObserver: liveReport });
   } catch (nebulaErr) {
     console.warn(`⚠️ Directivas de Nebulosas IA no disponibles: ${nebulaErr.message}`);
   }
@@ -1349,7 +1349,6 @@ async function runDedicatedObservers() {
   fs.writeFileSync(LIVE_OBSERVER_FILE, JSON.stringify(liveReport, null, 2));
   try {
     const FLEET_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
-    const SNIPING_TEL_FILE = path.join(__dirname, "sniping", "telemetry.json");
     if (fs.existsSync(FLEET_FILE)) {
       const fl = JSON.parse(fs.readFileSync(FLEET_FILE, "utf8"));
       fl.liveMarketObserver = liveReport;
@@ -1358,7 +1357,6 @@ async function runDedicatedObservers() {
       if (liveReport.nebulaDirectives) fl.nebulaDirectives = liveReport.nebulaDirectives;
       fl.updatedAt = new Date().toISOString();
       fs.writeFileSync(FLEET_FILE, JSON.stringify(fl, null, 2));
-      fs.writeFileSync(SNIPING_TEL_FILE, JSON.stringify(fl, null, 2));
     }
   } catch (_) {}
 

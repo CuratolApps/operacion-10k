@@ -1,10 +1,10 @@
 {
-  "highWaterMarkUsdc": 342.11,
-  "lockedFloorUsdc": 290.7935,
-  "floatingUsdc": 51.3165,
+  "highWaterMarkUsdc": 487.7,
+  "lockedFloorUsdc": 414.545,
+  "floatingUsdc": 73.155,
   "ratchetRatio": 0.85,
-  "lastUpdate": "2026-10-25T21:38:00.154Z",
-  "currentOnChainUsdc": 342.11,
+  "lastUpdate": "2026-10-25T22:07:24.918Z",
+  "currentOnChainUsdc": 487.7,
   "floorProtected": true,
   "ratchetModel": "USDC_RATCHET_85"
 }
