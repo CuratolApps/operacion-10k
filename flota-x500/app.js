@@ -508,7 +508,7 @@ async function loadAllTelemetryData() {
   const ts = Date.now();
 
   try {
-    const [telRes, lastRunRes, pubWalletsRes, tgRes, radarRes, calRes, boxPlanRes, liveTxsRes, nftRes] = await Promise.all([
+    const [telRes, lastRunRes, pubWalletsRes, tgRes, radarRes, calRes, boxPlanRes, liveTxsRes, nftRes, squadRes] = await Promise.all([
       fetch(`../telemetry/fleet-telemetry.json?t=${ts}`).catch(() => null),
       fetch(`../last-run-report.json?t=${ts}`).catch(() => null),
       fetch(`../wallets-public-list.json?t=${ts}`).catch(() => null),
@@ -517,9 +517,13 @@ async function loadAllTelemetryData() {
       fetch(`../telemetry/annual-airdrop-calendar.json?t=${ts}`).catch(() => null),
       fetch(`../telemetry/box-dispatch-plan.json?t=${ts}`).catch(() => null),
       fetch(`/api/sniping/live-txs?t=${ts}`).catch(() => null),
-      fetch(`../telemetry/nft-squadron-radar.json?t=${ts}`).catch(() => null)
+      fetch(`../telemetry/nft-squadron-radar.json?t=${ts}`).catch(() => null),
+      fetch(`/api/squad-secret/live?t=${ts}`).catch(() => null)
     ]);
 
+    if (squadRes && squadRes.ok) {
+      state.squadLive = await squadRes.json();
+    }
     if (telRes && telRes.ok) {
       state.telemetry = await telRes.json();
     }
@@ -616,31 +620,29 @@ function renderTopNavMetrics() {
   const lastRun = state.lastRun || {};
 
   // Tarjeta 2: Cosecha Binance Spot (Modo Acumulación On-Chain Bóveda #501)
+  const consolidated501 = state.squadLive?.consolidatedUsdc || telem.totalOnChainFleetUsdc || 342.92;
   const harvestedUsdc = telem.totalHarvestedToBinanceUsdc !== undefined
     ? telem.totalHarvestedToBinanceUsdc
     : 1.00;
-  const pendingUsdc = telem.totalOnChainFleetUsdc !== undefined
-    ? telem.totalOnChainFleetUsdc
-    : (telem.dailyCapturedUsdc || 265.51);
 
   const elTopHarvested = document.getElementById("topHarvestedUsdc");
   if (elTopHarvested) elTopHarvested.textContent = `$${Number(harvestedUsdc).toFixed(2)} USDC`;
 
   const elTopPending = document.getElementById("topPendingFleetUsdc");
-  if (elTopPending) elTopPending.textContent = `BÓVEDA #501: $${Number(pendingUsdc).toFixed(2)} ON-CHAIN`;
+  if (elTopPending) elTopPending.textContent = `BÓVEDA #501: $${Number(consolidated501).toFixed(2)} ON-CHAIN`;
 
   const elHarvestBadge = document.getElementById("harvestUsdcBadge");
   if (elHarvestBadge) {
-    elHarvestBadge.textContent = "🔒 ACUMULACIÓN #501";
+    elHarvestBadge.textContent = `🔒 ACUMULACIÓN #501: $${Number(consolidated501).toFixed(2)}`;
     elHarvestBadge.className = "badge-tag-tiny badge-lock-mode";
-    elHarvestBadge.title = "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Todo lo cosechado se acumula en Bóveda Máster #501 (0xD4D1...3743) y Capitanes";
+    elHarvestBadge.title = `🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL) — Total Acumulado en Bóveda #501: $${Number(consolidated501).toFixed(2)} USDC rumbo a Bola 2 ($500 USDC)`;
   }
 
   const elVaultsBadge = document.getElementById("vaultsLockBadge");
   if (elVaultsBadge) {
-    elVaultsBadge.textContent = "🔒 ACUMULACIÓN #501";
+    elVaultsBadge.textContent = `🔒 ACUMULACIÓN #501: $${Number(consolidated501).toFixed(2)}`;
     elVaultsBadge.className = "badge-tag-tiny badge-lock-mode";
-    elVaultsBadge.title = "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Retiros hacia las 5 Bóvedas solo bajo orden explícita del Comandante";
+    elVaultsBadge.title = `🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL) — Retiros hacia las 5 Bóvedas solo bajo orden explícita del Comandante`;
   }
 
   // Tarjeta 3: Trabajo "Picado" On-Chain (100% Nonces y Txs Confirmadas)
