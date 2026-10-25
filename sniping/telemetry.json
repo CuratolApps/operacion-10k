@@ -5,9 +5,9 @@
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
-  "dailyCapturedUsdc": 326.64,
-  "totalHistoricalUsdc": 326.64,
-  "totalOnChainFleetUsdc": 324.43,
+  "dailyCapturedUsdc": 325.43,
+  "totalHistoricalUsdc": 325.43,
+  "totalOnChainFleetUsdc": 325.43,
   "atomicSniperExecution": {
     "mode": "ATOMIC_ONLY_RISK_ZERO",
     "atomicOnlyMode": true,
@@ -36,7 +36,7 @@
     "status": "ARMED_AND_SCANNING",
     "executorAddress": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
     "caliberPolygonUsdc": 302.91,
-    "caliberConsolidatedUsdc": 326.64
+    "caliberConsolidatedUsdc": 325.43
   },
   "snipingEcosystem": {
     "ecosystemName": "ÁREA 501 // CABINA DE SNIPING ATÓMICO",

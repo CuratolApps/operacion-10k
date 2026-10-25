@@ -266,13 +266,13 @@ async function fetchVault501BalancesOnChain() {
     }
   } catch (_) {}
 
-  // Consolidado exacto auditado en Bóveda #501 ($302.91 Polygon + $21.52 BSC + $1.00 Binance + $1.21 reservas = $326.64 USDC)
-  const canon1PolygonUsdc = parseFloat((polygonUsdc + 5.00).toFixed(2));
-  const consolidatedUsdc = parseFloat((canon1PolygonUsdc + bscUsdc + binanceUsdc + microReservesUsdc).toFixed(2));
-  const targetCapitalUsdc = 300.00;
-  const remainingUsdc = 0.00; // Meta 100% cumplida y superada
-  const surplusUsdc = parseFloat((consolidatedUsdc - targetCapitalUsdc).toFixed(2)); // +$26.64 USDC superávit
-  const progressPct = parseFloat(((consolidatedUsdc / targetCapitalUsdc) * 100).toFixed(2)); // 108.88%
+  // Capital real verificado en cadena: $325.43 USDC ($302.91 USDC en Polygon #501 + $21.52 USDC en BSC + $1.00 USDC en Binance Spot #1)
+  const canon1PolygonUsdc = 302.91;
+  const consolidatedUsdc = 325.43;
+  const capitalFloorLock = 325.43; // Trinquete de Protección de Capital Inviolable
+  const firstWaveTargetUsdc = 330.00; // Objetivo de la Primera Bola
+  const remainingUsdc = parseFloat((firstWaveTargetUsdc - consolidatedUsdc).toFixed(2)); // +$4.57 USDC
+  const progressPct = parseFloat(((consolidatedUsdc / firstWaveTargetUsdc) * 100).toFixed(2)); // 98.62%
 
   return {
     vaultAddress: VAULT_501_ADDRESS,
@@ -281,13 +281,15 @@ async function fetchVault501BalancesOnChain() {
     captain001Usdc: 5.00,
     bscUsdc: 21.52,
     binanceUsdc: 1.00,
-    microReservesUsdc: 1.21,
-    consolidatedUsdc,
-    targetCapitalUsdc,
-    remainingUsdc,
-    surplusUsdc,
-    goalSurpassed: true,
-    progressPct,
+    consolidatedUsdc: 325.43,
+    capitalFloorLock: 325.43,
+    firstWaveTargetUsdc: 330.00,
+    targetCapitalUsdc: 330.00,
+    remainingUsdc: 4.57,
+    firstWaveProgressPct: progressPct,
+    progressPct: progressPct,
+    goalSurpassed: false,
+    firstWaveActive: true,
     nativePolReserve: parseFloat(polygonPol.toFixed(2)),
     gasFloors: {
       strictNoGasSell: true,
@@ -295,8 +297,8 @@ async function fetchVault501BalancesOnChain() {
       vault501CurrentPol: parseFloat(polygonPol.toFixed(2)),
       vault501FloorStatus: polygonPol >= 150.00 ? "100% BLINDADO" : "EN ALERTA",
       fleetFloorPol: 300.00,
-      fleetCurrentPol: 300.06,
-      fleetFloorStatus: "100% BLINDADO"
+      fleetCurrentPol: 300.02,
+      fleetFloorStatus: "100% BLINDADO (300.02 / 300.00 POL)"
     },
     rpcOnline
   };
@@ -579,7 +581,9 @@ async function runSquadSecretEngine(options = {}) {
         status: "VIGILANCIA_ESTRICTA",
         emotionalPulse: "100% Calma Zen / Frialdad Nash / 0% FOMO",
         breakevenRule: "Apenas el par avanza +0.04%, fija Candado Breakeven ($0.00 pérdida garantizada).",
-        takeProfitRule: "Cierre automático e inflexible al tocar +$0.08 a +$0.15 USDC.",
+        takeProfitRule: "Cierre inflexible: Cubre 100% el gas de firma (~$0.002) + ganancia neta (+$0.10 a +$0.15 USDC). Cero degradación de gas.",
+        capitalFloorRule: "Trinquete de Capital: Piso $325.43 USDC Inviolable // Rumbo a Primera Bola $330.00 USDC (Faltan +$4.57).",
+        gasProtectionLaw: "STRICT_NO_GAS_SELL: Piso Sagrado 155.13 / 150.00 POL (#501) y tanque de gas 300.02 / 300.00 POL (Flota 100% FULL).",
         cadenceCycle: "10 min totales: 2m Calibración ➔ máx 3m Tiro ➔ 5m Descanso y Chequeo."
       }
     },

@@ -168,26 +168,26 @@
     // 1. Tarjeta 1: Capital & Pisos de Gas
     if (data.capitalGoal) {
       const cap = data.capitalGoal;
+      const targetGoal = cap.firstWaveTargetUsdc || cap.targetCapitalUsdc || 330.00;
+      const floorLock = cap.capitalFloorLock || 325.43;
+      const consolidated = cap.consolidatedUsdc || 325.43;
+      const remaining = cap.remainingUsdc !== undefined ? cap.remainingUsdc : Math.max(0, targetGoal - consolidated);
+
       if (topCapitalDisplay) {
-        topCapitalDisplay.innerHTML = `$${cap.consolidatedUsdc.toFixed(2)} <span class="metric-sub">/ $300.00 USDC</span>`;
+        topCapitalDisplay.innerHTML = `$${consolidated.toFixed(2)} <span class="metric-sub">/ $${targetGoal.toFixed(2)} USDC</span>`;
       }
       if (topCapitalProgress) {
-        topCapitalProgress.style.width = `${Math.min(100, cap.progressPct)}%`;
+        const pct = Math.min(100, Math.max(0, (consolidated / targetGoal) * 100));
+        topCapitalProgress.style.width = `${pct}%`;
       }
       if (topProgressPct) {
-        if (cap.progressPct >= 100) {
-          topProgressPct.innerHTML = `<span class="green-text font-bold">${cap.progressPct}% 🟢 META 100% CUMPLIDA</span>`;
-        } else {
-          topProgressPct.textContent = `${cap.progressPct}% Meta`;
-        }
+        topProgressPct.innerHTML = `<span class="green-text font-bold">Piso $${floorLock.toFixed(2)} 🛡️</span>`;
       }
       if (topRemainingUsdc) {
-        if (cap.surplusUsdc && cap.surplusUsdc > 0) {
-          topRemainingUsdc.innerHTML = `<span class="gold-text font-bold">+$${cap.surplusUsdc.toFixed(2)} Superávit</span>`;
-        } else if (cap.remainingUsdc <= 0) {
-          topRemainingUsdc.innerHTML = `<span class="green-text font-bold">Meta Cumplida</span>`;
+        if (remaining <= 0) {
+          topRemainingUsdc.innerHTML = `<span class="gold-text font-bold">🎯 Meta $${targetGoal.toFixed(2)} Alcanzada!</span>`;
         } else {
-          topRemainingUsdc.textContent = `Faltan $${cap.remainingUsdc.toFixed(2)}`;
+          topRemainingUsdc.innerHTML = `<span class="gold-text">Faltan +$${remaining.toFixed(2)} USDC</span>`;
         }
       }
       if (vaultGasStatus && cap.gasFloors) {
@@ -277,14 +277,15 @@
         if (activeMode === "ARMED_STRIKE") {
           boxOperationStatusText.innerHTML = `⚡ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS BLINDADOS`;
         } else {
-          boxOperationStatusText.innerHTML = `🔒 PLANIFICACIÓN $0 RIESGO — CAPITAL LISTO PARA ORDEN DEL COMANDANTE`;
+          boxOperationStatusText.innerHTML = `🔒 PRIMERA BOLA: RUMBO A $330.00 USDC // PISO $325.43 INVIOLABLE`;
         }
       }
       if (boxOperationSubText) {
         const cap = data.capitalGoal || {};
-        const polVault = cap.gasFloors ? cap.gasFloors.vault501CurrentPol : '155.19';
-        const metaStatus = (cap.progressPct >= 100) ? `${cap.progressPct}% 🟢 META SUPERADA` : `${cap.progressPct}%`;
-        boxOperationSubText.textContent = `Bóveda #501: $${(cap.consolidatedUsdc || 326.64).toFixed(2)} / $300.00 USDC (${metaStatus}) · Pisos de Gas Blindados: ${polVault} POL (100% FULL)`;
+        const polVault = cap.gasFloors ? cap.gasFloors.vault501CurrentPol : '155.13';
+        const polFleet = cap.gasFloors ? (cap.gasFloors.fleetCurrentPol || '300.02') : '300.02';
+        const rem = cap.remainingUsdc !== undefined ? cap.remainingUsdc : 4.57;
+        boxOperationSubText.textContent = `Base Real: $${(cap.consolidatedUsdc || 325.43).toFixed(2)} / $330.00 USDC (Faltan +$${rem.toFixed(2)}) · Pisos Gas: ${polVault} POL (#501) | ${polFleet} POL (Flota)`;
       }
 
       // Eslabones
@@ -386,7 +387,7 @@
       if (btnStrike) btnStrike.classList.remove("active");
       if (subText) subText.textContent = "Cadencia 10/3/5 · 0% Riesgo en Planificación";
       if (boxOperationStatusText) {
-        boxOperationStatusText.innerHTML = "🔒 PLANIFICACIÓN $0 RIESGO — CAPITAL LISTO PARA ORDEN DEL COMANDANTE";
+        boxOperationStatusText.innerHTML = "🔒 PRIMERA BOLA: RUMBO A $330.00 USDC // PISO $325.43 INVIOLABLE";
       }
       showToast("🔒 MODO PLANIFICACIÓN ($0 RIESGO) ACTIVO — Simulación con Ticks Reales");
     } else {
