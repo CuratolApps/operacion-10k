@@ -1,6 +1,6 @@
 {
   "schemaVersion": "3.0.0",
-  "generatedAt": "2026-10-22T21:51:24.600Z",
+  "generatedAt": "2026-10-25T21:38:45.720Z",
   "status": "ACTIVE_COMPOUNDING",
   "strategy": "FASE_1_RECUPERACION_120_EUR_CLOSED_LOOP_70_30",
   "badges": [
@@ -14,12 +14,12 @@
   "phase1Recovery120Eur": {
     "targetEur": 120,
     "targetUsdc": 130,
-    "currentAccruedUsdc": 42.579394,
-    "currentAccruedEur": 39.3,
-    "progressPct": 32.75,
-    "remainingUsdc": 87.42,
-    "remainingEur": 80.7,
-    "status": "IN_PROGRESS",
+    "currentAccruedUsdc": 343.11,
+    "currentAccruedEur": 316.72,
+    "progressPct": 263.93,
+    "remainingUsdc": 0,
+    "remainingEur": 0,
+    "status": "COMPLETED_100%",
     "milestones": [
       {
         "step": 1,
@@ -27,8 +27,8 @@
         "targetUsdc": 50,
         "targetEur": 45,
         "status": "EN_PROGRESO",
-        "reached": false,
-        "progressPct": 85.2
+        "reached": true,
+        "progressPct": 100
       },
       {
         "step": 2,
@@ -36,8 +36,8 @@
         "targetUsdc": 110,
         "targetEur": 90,
         "status": "EN_COLA",
-        "reached": false,
-        "progressPct": 38.7
+        "reached": true,
+        "progressPct": 100
       },
       {
         "step": 3,
@@ -45,25 +45,25 @@
         "targetUsdc": 130,
         "targetEur": 120,
         "status": "EN_COLA",
-        "reached": false,
-        "progressPct": 32.8
+        "reached": true,
+        "progressPct": 100
       }
     ]
   },
   "ratchet85": {
     "model": "USDC_RATCHET_85",
     "ratio": 0.85,
-    "totalOnChainUsdc": 41.579394,
-    "lockedFloorUsdc": 35.342485,
-    "floatingUsdc": 6.236909,
-    "totalGlobalUsdcWithBinanceSpot": 42.579394,
+    "totalOnChainUsdc": 342.11,
+    "lockedFloorUsdc": 290.7935,
+    "floatingUsdc": 51.3165,
+    "totalGlobalUsdcWithBinanceSpot": 343.11,
     "status": "LOCKED_ATH_ELEVATED"
   },
   "gasCompounder": {
     "model": "CLOSED_CYCLE_RECOVERY_70_30",
     "isAcceleratorMode": true,
     "targetThresholdPol": 400,
-    "currentFleetPol": 255.77,
+    "currentFleetPol": 300.06,
     "usdcCompoundingRatio": 0.7,
     "gasRestockRatio": 0.3,
     "gasDistribution": {
@@ -78,20 +78,20 @@
       "bnbUsdc": 731.55
     },
     "currentPrices": {
-      "polUsdc": 0.090324,
-      "bnbUsdc": 730.82
+      "polUsdc": 0.08966,
+      "bnbUsdc": 738.93
     },
     "priceVariationPct": {
-      "pol": -0.66,
-      "bnb": -0.1
+      "pol": -1.39,
+      "bnb": 1.01
     },
     "unitAdvantagePct": {
-      "pol": 0.67,
-      "bnb": 0.1
+      "pol": 1.41,
+      "bnb": -1
     },
     "isEligible": false,
     "recommendation": "STANDBY_MONITORING",
-    "maxFloatingBudgetUsdc": 1.247382,
+    "maxFloatingBudgetUsdc": 10.2633,
     "certaintyScore": 98,
     "reasoning": "Precios de POL y BNB estables cerca de su referencia de rotación. Sin dip >= 2%. Tanque en reposo óptimo a $0 gas."
   },

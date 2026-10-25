@@ -6,7 +6,6 @@ require("dotenv").config({ path: path.resolve(__dirname, "..", ".env") });
 const ROOT = path.resolve(__dirname, "..");
 const TELEMETRY_FILE = path.join(ROOT, "telemetry", "squad-secret-telemetry.json");
 const FLEET_FILE = path.join(ROOT, "telemetry", "fleet-telemetry.json");
-const SNIPING_FILE = path.join(ROOT, "sniping", "telemetry.json");
 const TRADING_FILE = path.join(ROOT, "telemetry", "trading-telemetry.json");
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -87,21 +86,6 @@ function syncAllTelemetries(consolidatedUsdc, ratchetFloorUsdc) {
         }
       }
       fs.writeFileSync(FLEET_FILE, JSON.stringify(fleet, null, 2), "utf8");
-    } catch (_) {}
-  }
-
-  // 2. sniping/telemetry.json
-  if (fs.existsSync(SNIPING_FILE)) {
-    try {
-      const sniping = JSON.parse(fs.readFileSync(SNIPING_FILE, "utf8"));
-      sniping.dailyCapturedUsdc = consolidatedUsdc;
-      sniping.totalHistoricalUsdc = consolidatedUsdc;
-      sniping.totalOnChainFleetUsdc = consolidatedUsdc;
-      if (sniping.atomicSniperExecution) {
-        sniping.atomicSniperExecution.caliberPolygonUsdc = polygonMasterUsdc;
-        sniping.atomicSniperExecution.caliberConsolidatedUsdc = consolidatedUsdc;
-      }
-      fs.writeFileSync(SNIPING_FILE, JSON.stringify(sniping, null, 2), "utf8");
     } catch (_) {}
   }
 
@@ -279,7 +263,7 @@ async function executeCycle(stepNumber, cycleConfig) {
 El escuadrón entra inmediatamente en reposo absoluto de 120 segundos con cero exposición al mercado y $0.00 gas para que el sistema respire.
 
 📊 <b>CABINA TÁCTICA EN VIVO (/squad-secret/):</b>
-🔗 <a href="https://operacion-10k.curatolapps.workers.dev/squad-secret/">https://operacion-10k.curatolapps.workers.dev/squad-secret/</a>
+🔗 <a href="https://area-501.curatolapps.workers.dev/squad-secret/">https://area-501.curatolapps.workers.dev/squad-secret/</a>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <i>Piloto Disciplinado 1M/2M · Interés Compuesto +0.08% · Rumbo a $500.00 USDC.</i>`;
 

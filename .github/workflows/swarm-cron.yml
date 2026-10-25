@@ -67,46 +67,48 @@ jobs:
           DRY=""
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then DRY="--dry-run"; fi
 
+          # 1. 🏛️ Mando Central & Auditoría On-Chain
+          run_safe node scripts/audit-onchain-balances.js
           run_safe node swarm-engine.js --only-generate
-          run_safe node solana-faucet-refuel.js
           run_safe node scripts/auto-refill-and-swap.js
           run_safe node dedicated-observers.js
-          # Disparador atómico (AtomicSniperExecutor Polygon + BSC): callStatic obligatorio, neto >= +$0.03, máx 15/día, piso 150 POL.
+
+          # 2. 🎯 Sniping Atómico Multi-Piscina (AtomicSniperExecutor 0x03Ac...6b67)
+          run_safe node atomic-profit-guard.js
           run_safe node scripts/atomic-auto-shooter.js --passes 2 --interval 25
           run_safe node security-fortress-shield.js
           run_safe node omni-sniper-5models.js
           run_safe node nebula-ai-commanders.js
           run_safe node expert-captains-command.js
           run_safe node dual-capitalizer-engine.js
+
+          # 3. 🪖 Flota X500 (500 Carteras, Airdrops & Semillas)
+          run_safe node seed-airdrop-engine.js
           run_safe node live-launch-calendar-hunter.js
-          run_safe node cybershinobi-swarm-strike.js
-          run_safe node bounty-booty-commander.js
           run_safe node annual-calendar-oracle.js
           run_safe node dynamic-box-dispatcher.js
+          run_safe node bounty-booty-commander.js
+
           if [ -n "$DRY" ]; then
             run_safe node task-runner.js --force-dry-run
           else
             run_safe node task-runner.js
           fi
+
           run_safe node bot-miner-swarm.js $DRY
-          run_safe node gamefi-bot-swarm.js
           run_safe node bounty-and-quota-engine.js $DRY
           run_safe node saturation-liquidity-engine.js $DRY
           run_safe node autonomous-brain-lomo5.js
-          run_safe node gamefi-and-competitions.js $DRY
           run_safe node sniper-501-mainnet.js --scan
           run_safe node harvest-rewards.js --scan
           run_safe node master-refuel.js --intra-box
           run_safe node vanguard-hunter.js
-          # node x-autonomous-agent.js # PAUSADO TEMPORALMENTE: revisión preventiva de cuenta en @yozapata
           run_safe node scripts/onchain-snapshot.js
           run_safe node scripts/ai-telemetry-feed.js
 
-          # 📡 Despacho Oficial a Telegram (Trading Bull & Bear + Flota X500)
-          # Ejecución estricta SIN '|| true' que oculte errores de envío
-          echo "::group::▶ Despacho Oficial a Telegram (Trading Bull & Bear + Flota X500)"
-          node trading-quant-engine.js --telegram
-          node scripts/dispatch-fleet-readiness.js
+          # 4. 📡 Despacho Oficial a Telegram (Sala de Mando 10K / ÁREA 501)
+          echo "::group::▶ Despacho Oficial a Telegram"
+          run_safe node scripts/dispatch-fleet-readiness.js
           echo "::endgroup::"
 
           echo "✅ [SWARM-CRON]: Ronda omnichain ejecutada con timeouts seguros de 180s por paso."
@@ -116,8 +118,7 @@ jobs:
         run: |
           git config user.name "Operacion10K-Bot"
           git config user.email "bot@curatools.io"
-          # mainnet-cooldown.json = estado del Modo Ahorro (1 turno/día UTC); el runner es efímero, debe viajar en git.
-          git add telemetry/squad-secret-telemetry.json telemetry/fleet-telemetry.json telemetry/annual-airdrop-calendar.json telemetry/box-dispatch-plan.json telemetry/seed-airdrop-radar.json telemetry/telegram-alerts.json telemetry/mainnet-cooldowns.json telemetry/trading-telemetry.json telemetry/trading-paper-ledger.json radar-report.json last-run-report.json balances-report.json || true
+          git add telemetry/ last-run-report.json balances-report.json radar-report.json || true
           if ! git diff --staged --quiet; then
             git commit -m "chore(telemetry): live sync [skip ci]" || true
             for attempt in 1 2 3; do

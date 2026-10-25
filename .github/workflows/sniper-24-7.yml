@@ -69,7 +69,7 @@ jobs:
         shell: bash
         run: |
           echo "========================================================================="
-          echo "🛡️ EJECUTANDO GUARDIA AUTÓNOMA SQUAD SECRET (ROTACIÓN 9 PARES RUMBO A $330 USDC)"
+          echo "🛡️ EJECUTANDO GUARDIA AUTÓNOMA SQUAD SECRET (ROTACIÓN 9 PARES RUMBO A $500 USDC)"
           echo "========================================================================="
           node scripts/squad-secret-autonomous-loop.js --once || true
 
@@ -79,7 +79,12 @@ jobs:
         run: |
           git config user.name "Área 501 Sentinel"
           git config user.email "sentinel@area501.local"
-          git pull --rebase origin main || true
-          git add telemetry/*.json last-run-report.json || true
-          git commit -m "chore(telemetry): sincronización continua 24/7 [skip ci]" || echo "Sin cambios en telemetría"
-          git push origin main || echo "Push no requerido o ya sincronizado"
+          git add telemetry/ last-run-report.json || true
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(telemetry): sincronización continua 24/7 [skip ci]" || true
+            for attempt in 1 2 3; do
+              git pull --rebase -X ours origin main || true
+              git push origin main && break
+              echo "Reintento $attempt de sincronización..."; sleep 5
+            done
+          fi

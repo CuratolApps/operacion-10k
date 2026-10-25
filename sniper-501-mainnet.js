@@ -76,7 +76,7 @@ const ATOMIC_ONLY_MODE = true;           // Prohibido quedarse comprado en volá
 const ZERO_INTERNAL_SWEEP = true;        // PROHIBIDO mover USDC entre carteras propias (cero gas malgastado)
 const DAILY_ATOMIC_TARGET = 15;          // Meta de 15 disparos atómicos al día
 const MIN_ATOMIC_SPREAD_NET = 0.0010;    // +0.10% neto (mínimo +$0.05 a +$0.35 USDC limpios tras gas)
-const STRICT_NO_GAS_SELL = true;         // Prohibido vender POL/BNB del tanque de gas sagrado
+// STRICT_NO_GAS_SELL = true importado desde security-fortress-shield
 const ALLOW_POL_TO_USDC_SWAP = false;    // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar POL por USDC
 const ALLOW_BNB_TO_USDC_SWAP = false;    // PROHIBICIÓN ABSOLUTA: 100% prohibido volver a cambiar BNB por USDC
 

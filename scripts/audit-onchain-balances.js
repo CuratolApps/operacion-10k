@@ -28,12 +28,11 @@ const ERC20_ABI = [
   'function allowance(address owner, address spender) view returns (uint256)'
 ];
 
-async function main() {
-  const polyRpc = process.env.POLYGON_RPC_URL || 'https://polygon-bor-rpc.publicnode.com';
-  const bscRpc = process.env.BNB_RPC_URL || 'https://bsc-rpc.publicnode.com';
+const { createResilientProvider, networks } = require('../networks');
 
-  const polyProvider = new ethers.JsonRpcProvider(polyRpc);
-  const bscProvider = new ethers.JsonRpcProvider(bscRpc);
+async function main() {
+  const polyProvider = createResilientProvider(networks.polygonMainnet);
+  const bscProvider = createResilientProvider(networks.bscMainnet);
 
   console.log('================================================================');
   console.log('🛸 AUDITORIA ON-CHAIN RPC EN VIVO: AREA 501');
