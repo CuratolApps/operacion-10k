@@ -1067,9 +1067,10 @@ async function syncSquadSecretLive() {
       elVaultBlock.title = `Próximo Bloque Inmediato: $${blk.nextMilestoneBlock.toFixed(2)} USDC (Faltan +$${blk.remainingToNextBlock.toFixed(2)} USDC)`;
     }
     const elVaultProfit = document.getElementById("vault501ProfitPill");
+    const rateLabel = data.compoundRatePct ? `+${data.compoundRatePct}%` : "+0.15%";
     if (elVaultProfit) {
       elVaultProfit.textContent = `+$${pnl.toFixed(2)}`;
-      elVaultProfit.title = `Profit Compuesto Squad Secret (+0.08% · ${wins}G - 0P)`;
+      elVaultProfit.title = `Profit Compuesto Squad Secret (${rateLabel} · ${wins}G - 0P)`;
     }
 
     // 3. Tarjeta Posición USDC (Columna Izquierda / Munición)
@@ -1123,7 +1124,7 @@ async function syncSquadSecretLive() {
     }
     const elMunSquadPnlDesc = document.getElementById("munitionSquadPnlDesc");
     if (elMunSquadPnlDesc) {
-      elMunSquadPnlDesc.textContent = `Interés Compuesto al +0.08% · ${wins}G - 0P (100% Win)`;
+      elMunSquadPnlDesc.textContent = `Interés Compuesto al ${rateLabel} · ${wins}G - 0P (100% Win)`;
     }
 
   } catch (err) {

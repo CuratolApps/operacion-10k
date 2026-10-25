@@ -299,13 +299,14 @@
         boxSpreadLine.textContent = `Spread Lead-Lag: +${spreadVal}% CEX vs DEX · Profundidad: $${depthM}M USDC`;
       }
 
-      // CAJA 3: CANDADO BREAKEVEN #00 ➔ META DE SALIDA (INTERÉS COMPUESTO 0.08%)
+      // CAJA 3: CANDADO BREAKEVEN #00 ➔ META DE SALIDA (INTERÉS COMPUESTO 0.15%)
       if (boxBreakevenPrice) {
         boxBreakevenPrice.textContent = `$${formatPrice(shot.breakevenPrice)}`;
       }
-      const compoundGain = Math.max(0.27, parseFloat((consolidated * 0.0008).toFixed(2)));
+      const rateFactor = data.compoundRatePct ? (data.compoundRatePct / 100) : 0.0015;
+      const compoundGain = Math.max(0.53, parseFloat((consolidated * rateFactor).toFixed(2)));
       if (boxTpGainDisplay) {
-        boxTpGainDisplay.textContent = `+$${compoundGain.toFixed(2)} USDC (+0.08%)`;
+        boxTpGainDisplay.textContent = `+$${compoundGain.toFixed(2)} USDC (+0.15%)`;
       }
       if (boxTpPrice) {
         boxTpPrice.textContent = `$${formatPrice(shot.targetProfitPrice)}`;
@@ -452,7 +453,7 @@
       if (btnAuto) btnAuto.classList.add("active");
       if (btnZero) btnZero.classList.remove("active");
       if (btnStrike) btnStrike.classList.remove("active");
-      if (subText) subText.textContent = "Piloto Disciplinado 1M/2M (Ciclo 3 min) · Compuesto +0.08% · 120s Descanso Sagrado";
+      if (subText) subText.textContent = "Piloto Disciplinado 1M/2M (Ciclo 3 min) · Compuesto +0.15% · 120s Descanso Sagrado";
       showToast("🤖 MODO PILOTO DISCIPLINADO 1M/2M ACTIVO — 1m Tiro / 2m Descanso (120s Cooldown)");
     } else if (mode === "PLANNING_ZERO_RISK") {
       if (btnZero) btnZero.classList.add("active");
@@ -543,7 +544,7 @@
           status: "COMPOUND_PROFIT_LOCKED",
           breakevenStatus: "🔒 BE #00 OK",
           cooldownStatus: "🧘♀️ 2m Cooldown Activo",
-          trailingStatus: `🎯 Compuesto +0.08% (+${profit.toFixed(2)})`,
+          trailingStatus: `🎯 Compuesto +0.15% (+${profit.toFixed(2)})`,
           cooldownElapsed: "0m 00s (ENFRIANDO 120S)"
         };
 
@@ -570,7 +571,7 @@
         applyTelemetry(currentTelemetry);
       }
 
-      showToast(`✅ TIRO CERRADO CON ÉXITO: +$0.27 USDC (+0.08% Compuesto) // Candado Breakeven #00 + Trinquete activado.`);
+      showToast(`✅ TIRO CERRADO CON ÉXITO: +$${profit.toFixed(2)} USDC (+0.15% Compuesto) // Candado Breakeven #00 + Trinquete activado.`);
       if (txt) txt.textContent = originalText;
       if (btn) btn.style.borderColor = "var(--gold-primary)";
       isExecutingCycle = false;

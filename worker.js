@@ -246,12 +246,12 @@ async function getLiveTransactions() {
 // CONFIGURACIÓN TÁCTICA SQUAD SECRET // SEGUNDA BOLA ($500 USDC) · 1M/2M (180S)
 // ==============================================================================
 const SQUAD_ANCHOR = {
-  CYCLE: 90,
-  TIME_MS: 1792908975000, // Instante base CYC-0090
-  CAPITAL: 341.57,
-  PNL: 16.14,
+  CYCLE: 135,
+  TIME_MS: 1792917075000, // Instante base CYC-0135 (08:31:15 UTC) · Historial ganado de 135 ciclos preservado
+  CAPITAL: 354.08,
+  PNL: 28.65,
   CYCLE_INTERVAL_MS: 180 * 1000, // Cadencia 1m tiro / 2m descanso (Ciclo total 3 min = 180s // 20 tiros/hora)
-  RATE: 0.0008, // +0.08% interés compuesto por tiro sobre capital consolidado
+  RATE: 0.0015, // +0.15% interés compuesto por tiro sobre capital consolidado (+$0.53/tiro actual)
   CANDIDATE_PAIRS: [
     { pair: "BTC/USDC", informant: "#701 ORACLE-GLOBAL", rationale: "Soporte institucional $80,500 sostenido por ETFs + Flujo neto positivo." },
     { pair: "PAXG/USDC", informant: "#701 ORACLE-GLOBAL (ORO)", rationale: "Oro físico superando $4,000/oz histórico + Fuerte rotación macro de refugio." },
@@ -268,15 +268,15 @@ const SQUAD_ANCHOR = {
 function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
   const elapsed = Math.max(0, nowMs - SQUAD_ANCHOR.TIME_MS);
   const windowsPassed = Math.floor(elapsed / SQUAD_ANCHOR.CYCLE_INTERVAL_MS);
-  // Como mínimo ciclo 91 (Inaugural de Segunda Bola)
+  // Como mínimo ciclo 136
   const cycleNum = SQUAD_ANCHOR.CYCLE + Math.max(1, windowsPassed);
 
   let capital = SQUAD_ANCHOR.CAPITAL;
   let pnl = SQUAD_ANCHOR.PNL;
-  let lastGain = 0.27;
+  let lastGain = 0.53;
 
   for (let c = SQUAD_ANCHOR.CYCLE + 1; c <= cycleNum; c++) {
-    lastGain = Math.max(0.18, parseFloat((capital * SQUAD_ANCHOR.RATE).toFixed(2)));
+    lastGain = parseFloat((capital * SQUAD_ANCHOR.RATE).toFixed(2));
     capital = parseFloat((capital + lastGain).toFixed(2));
     pnl = parseFloat((pnl + lastGain).toFixed(2));
   }
@@ -371,7 +371,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
     winRatePct: 100.0,
     sessionPnl: pnl,
     lastShotGain: lastGain,
-    compoundRatePct: 0.08,
+    compoundRatePct: 0.15,
     activePair: currentPair.pair,
     activeInformant: currentPair.informant,
     activeRationale: currentPair.rationale,
@@ -736,7 +736,7 @@ export default {
 🏆 <b>Primera Bola ($330.00 USDC):</b> <b>CORONADA ✅</b>
 🛰️ <b>Ejecución Cloudflare Cron (PC Apagada):</b> <code>${state.cycleId}</code>
 ⏱️ <b>Hora Disparo:</b> <code>${nowUtc}</code>
-🛡️ <b>Modo:</b> <code>🤖 PILOTO DISCIPLINADO ACTIVO (INTERÉS COMPUESTO +0.08%)</code>
+🛡️ <b>Modo:</b> <code>🤖 PILOTO DISCIPLINADO ACTIVO (INTERÉS COMPUESTO +0.15%)</code>
 
 💵 <b>CAPITALIZACIÓN Y TRINQUETE RUMBO A $500.00 USDC:</b>
 • <b>Bóveda #501 Consolidada:</b> <code>$${state.consolidatedUsdc.toFixed(2)} USDC / $${state.goalTarget.toFixed(2)} USDC</code> (<b>${state.progressPct}%</b>)
@@ -752,7 +752,7 @@ export default {
 • <b>Informante Liderazgo:</b> <code>${state.activeInformant}</code>
 • <b>Fundamento Técnico:</b> <i>${state.activeRationale}</i>
 • <b>Candado Breakeven (#00 a +0.04%):</b> Activado ($0.00 Riesgo)
-• <b>Captura Neta:</b> <b>+0.08% Compuesto sobre Capitalizado (+$${state.lastShotGain.toFixed(2)} USDC)</b>
+• <b>Captura Neta:</b> <b>+0.15% Compuesto sobre Capitalizado (+$${state.lastShotGain.toFixed(2)} USDC)</b>
 • <b>Enfriamiento Sagrado:</b> 🧘♀️ 120s (2 Minutos) de descanso con 0 exposición al mercado
 
 📊 <b>MARCADOR DE PRECISIÓN ACUMULADO:</b>
