@@ -256,6 +256,86 @@ export default {
       return Response.redirect(`${url.origin}/trading/`, 301);
     }
 
+    // Redirección canónica a /squad-secret/
+    if (url.pathname === "/squad-secret") {
+      return Response.redirect(`${url.origin}/squad-secret/`, 301);
+    }
+
+    // Endpoint directo sin caché de telemetría de Squad Secret (/squad-secret/)
+    if (url.pathname === "/api/squad-secret/telemetry" || url.pathname === "/squad-secret/telemetry.json") {
+      const telemReq = new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request);
+      const res = await env.ASSETS.fetch(telemReq);
+      const headers = new Headers(res.headers);
+      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(res.body, { status: res.status, headers });
+    }
+
+    // Endpoint de despacho de Reporte de Squad Secret a Telegram (Sala de Mando 10K)
+    if (url.pathname === "/api/squad-secret/telegram-report") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+          }
+        });
+      }
+      try {
+        const body = await request.json().catch(() => ({}));
+        const rawText = body.reportText || "Reporte de Squad Secret ÁREA 501.";
+        const botToken = env.TELEGRAM_BOT_TOKEN || "8788112547:AAGMtUPLHRQhgdUljwdOxa0BA9pnTFfakrQ";
+        const chatId = env.TELEGRAM_CHAT_ID || "-1004342131598";
+
+        const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: rawText,
+            parse_mode: "HTML"
+          })
+        });
+
+        const tgData = await tgRes.json().catch(() => ({}));
+        const headers = new Headers();
+        headers.set("Content-Type", "application/json; charset=utf-8");
+        headers.set("Access-Control-Allow-Origin", "*");
+        return new Response(JSON.stringify({
+          success: tgRes.ok,
+          telegramStatus: tgRes.status,
+          telegramResult: tgData
+        }), { status: tgRes.ok ? 200 : 500, headers });
+      } catch (err) {
+        return new Response(JSON.stringify({ success: false, error: err.message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+    }
+
+    // Endpoint para activar 1 ciclo táctico calibrado
+    if (url.pathname === "/api/squad-secret/trigger-cycle") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+          }
+        });
+      }
+      const telemReq = new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request);
+      const res = await env.ASSETS.fetch(telemReq);
+      const headers = new Headers(res.headers);
+      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(res.body, { status: res.status, headers });
+    }
+
     // Endpoint en vivo: Operaciones Reales On-Chain (/api/sniping/live-txs)
     if (
       url.pathname === "/api/sniping/live-txs" ||

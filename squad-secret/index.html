@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ÁREA 501 // SQUAD SECRET (CADENCIA TÁCTICA 10/3/5 · CAPITALIZACIÓN $300 USDC)</title>
+
+  <!-- Tipografías Oficiales: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Iconografía: Material Symbols Rounded -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Estilos del Módulo 4: Squad Secret (100vh Cero Scroll) -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Control Criptográfico de Acceso Militar -->
+  <link rel="stylesheet" href="../assets/auth-gate.css">
+  <script src="../assets/auth-gate.js"></script>
+
+  <!-- Hidratación Rápida 0ms -->
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("area501_squad_secret_state_v1");
+        if (raw) window.__PRELOADED_SQUAD_SECRET__ = JSON.parse(raw);
+      } catch (_) {}
+    })();
+  </script>
+</head>
+
+<body class="squad-secret-body">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA SUPERIOR (5 TARJETAS SIMÉTRICAS): CAPITAL, RELOJ, MARCADOR, DIRECCIÓN, MODO -->
+  <!-- ========================================================================= -->
+  <header class="top-nav-bar" id="squadHeader">
+
+    <!-- TARJETA 1: CAPITAL SQUAD SECRET ($300 USDC GOAL) -->
+    <div class="nav-card" id="cardCapitalTop" title="Capital consolidado en Bóveda #501 rumbo al escalón de $300.00 USDC">
+      <div class="card-meta">
+        <span class="card-tag gold">💵 CAPITAL SQUAD SECRET</span>
+        <span class="card-pill font-mono" id="vaultGasStatus">GAS: 155.26 POL ✔</span>
+      </div>
+      <div class="card-metric-row">
+        <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
+          $267.72 <span class="metric-sub">/ $300.00 USDC</span>
+        </div>
+      </div>
+      <div class="progress-wrap" title="Progreso hacia $300.00 USDC">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 89.24%;"></div>
+        </div>
+        <div class="progress-labels font-mono">
+          <span id="topProgressPct">89.24% Meta</span>
+          <span id="topRemainingUsdc">Faltan $32.28</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TARJETA 2: RELOJ DE CICLO 10/3/5 -->
+    <div class="nav-card" id="cardClockTop" title="Cadencia Táctica 10/3/5: 2m Calibración ➔ máx 3m Tiro ➔ 5m Descanso y Chequeo">
+      <div class="card-meta">
+        <span class="card-tag cyan">⏱️ RELOJ DE CICLO 10/3/5</span>
+        <span class="card-pill font-mono phase-pill" id="topPhaseBadge">FASE 1: CALIBRANDO</span>
+      </div>
+      <div class="card-metric-row">
+        <div class="metric-primary font-mono cyan-text" id="topClockCountdown">
+          01:45 <span class="metric-sub">en fase</span>
+        </div>
+        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining" title="Tiempo restante para completar el ciclo de 10 min">06:45 bloque</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 35%;"></div>
+        </div>
+        <div class="progress-labels font-mono">
+          <span id="topPhaseLabel">2m Calibrar</span>
+          <span id="topNextPhaseLabel">➔ 3m Tiro</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TARJETA 3: MARCADOR DE PRECISIÓN (12 - 2) -->
+    <div class="nav-card" id="cardScoreboardTop" title="Marcador de precisión rumbo a 12 Aciertos vs máximo 2 Frenos cortos">
+      <div class="card-meta">
+        <span class="card-tag green">🎯 MARCADOR DE PRECISIÓN</span>
+        <span class="card-pill font-mono green-pill" id="topWinRateBadge">91.7% WIN</span>
+      </div>
+      <div class="card-metric-row">
+        <div class="metric-primary font-mono green-text" id="topRatioDisplay">
+          11 <span class="metric-sub">Aciertos</span> · 1 <span class="metric-sub">Freno</span>
+        </div>
+      </div>
+      <div class="card-sub-metric font-mono">
+        <span class="dim-txt">PnL Sesión:</span>
+        <span class="green-text font-bold" id="topSessionPnlDisplay">+$1.18 USDC</span>
+        <span class="target-sub-txt">(Meta: +$1.50)</span>
+      </div>
+    </div>
+
+    <!-- TARJETA 4: DIRECCIÓN CALIBRADA (BULL vs BEAR) -->
+    <div class="nav-card" id="cardDirectionTop" title="Par ganador único seleccionado por el embudo y dirección táctica">
+      <div class="card-meta">
+        <span class="card-tag purple">🐂🐻 DIRECCIÓN CALIBRADA</span>
+        <span class="card-pill font-mono" id="topCertaintyBadge">94.8% CERTEZA</span>
+      </div>
+      <div class="card-metric-row">
+        <div class="metric-primary font-mono text-glow" id="topWinnerPairDisplay">
+          BTC/USDC <span class="direction-badge bull" id="topDirectionBadge">▲ BULL</span>
+        </div>
+      </div>
+      <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear">
+        <div class="dual-bar-fill bull" id="topBullMeter" style="width: 85%;"></div>
+        <div class="dual-bar-fill bear" id="topBearMeter" style="width: 15%;"></div>
+      </div>
+    </div>
+
+    <!-- TARJETA 5: MODO OPERATIVO & CANDADO GAS -->
+    <div class="nav-card" id="cardModeTop" title="Selector interactivo de modo y objetivo por disparo">
+      <div class="card-meta">
+        <span class="card-tag gold">🔒 MODO OPERATIVO</span>
+        <span class="card-pill font-mono red-pill" id="topGasShieldBadge">GAS PROTEGIDO</span>
+      </div>
+      <div class="mode-toggles-row">
+        <button class="mode-pill-btn active" id="btnModeRiskZero" onclick="setOperationalMode('PLANNING_ZERO_RISK')">
+          🔒 $0 RIESGO
+        </button>
+        <button class="mode-pill-btn" id="btnModeStrikeReady" onclick="setOperationalMode('ARMED_STRIKE')">
+          ⚡ TIRO PROG.
+        </button>
+      </div>
+      <div class="tp-choice-row font-mono">
+        <span class="tp-label">TP/Tiro:</span>
+        <button class="tp-choice-btn" onclick="setTpTarget(0.08)">+$0.08</button>
+        <button class="tp-choice-btn active" onclick="setTpTarget(0.10)">+$0.10</button>
+        <button class="tp-choice-btn" onclick="setTpTarget(0.15)">+$0.15</button>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- ZONA PRINCIPAL DE OPERACIONES (CENTRO 100VH CERO SCROLL)                   -->
+  <!-- ========================================================================= -->
+  <main class="squad-workspace-grid" id="squadWorkspace">
+
+    <!-- PANEL IZQUIERDO: CHECKLIST EN VIVO DEL EQUIPO SECRETO (5 ESLABONES EN EMBUDO) -->
+    <section class="squad-panel squad-left-panel" id="panelSecretSquad">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-icon">🕵️‍♂️</span>
+          <h2 class="panel-title">EQUIPO SECRETO // 5 ESLABONES</h2>
+        </div>
+        <span class="panel-badge-pill green font-mono" id="squadFunnelStatus">EMBUDO ACTIVO</span>
+      </div>
+
+      <div class="funnel-links-list" id="funnelLinksContainer">
+
+        <!-- ESLABÓN 1: ORÁCULOS & LATENCIA -->
+        <div class="funnel-link-card active" id="linkCardOracles">
+          <div class="link-head">
+            <div class="link-step font-mono">01</div>
+            <div class="link-title-group">
+              <span class="link-name">Latencia &amp; Oráculos CEX-DEX</span>
+              <span class="link-sub" id="linkOraclesStatus">Kraken Public Ticker · 320ms · $0 Gas</span>
+            </div>
+            <span class="link-status-dot green"></span>
+          </div>
+          <div class="link-detail-body font-mono">
+            Alchemy Multicall3 en Polygon + BSC. Cruce en milisegundos contra Uniswap V3 y QuickSwap. Lead-Lag CEX vs DEX verificado.
+          </div>
+        </div>
+
+        <!-- ESLABÓN 2: INFORMANTES #601, #701, #801 -->
+        <div class="funnel-link-card active" id="linkCardInformants">
+          <div class="link-head">
+            <div class="link-step font-mono">02</div>
+            <div class="link-title-group">
+              <span class="link-name">Informantes Especialistas</span>
+              <span class="link-sub" id="linkInformantsStatus">#601 Titan · #701 Oro · #801 Estrenos</span>
+            </div>
+            <span class="link-status-dot green"></span>
+          </div>
+          <div class="link-detail-body font-mono">
+            Filtrado selectivo: De 9 pares candidatos se extrae <strong class="gold-text" id="linkWinningPairName">1 SOLO PAR GANADOR</strong> por ciclo (mayor liquidez &gt; $2M y desequilibrio).
+          </div>
+        </div>
+
+        <!-- ESLABÓN 3: 32 NEBULOSAS IA (16 BINOMIOS) -->
+        <div class="funnel-link-card active" id="linkCardNebulas">
+          <div class="link-head">
+            <div class="link-step font-mono">03</div>
+            <div class="link-title-group">
+              <span class="link-name">32 Nebulosas IA (16 Binomios)</span>
+              <span class="link-sub">Escudo Forense de 4 Candados Anti-Rug</span>
+            </div>
+            <span class="link-status-dot green"></span>
+          </div>
+          <div class="link-detail-body font-mono">
+            <div class="locks-grid">
+              <span class="lock-item">🔒 Liquidez Bloqueada</span>
+              <span class="lock-item">🛡️ GoPlus 0% Honeypot</span>
+              <span class="lock-item">📜 Mint Revocada</span>
+              <span class="lock-item">⚡ Ganancia Neta Asegurada</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESLABÓN 4: DOBLE DIRECCIÓN BULL & BEAR -->
+        <div class="funnel-link-card active" id="linkCardDualTraders">
+          <div class="link-head">
+            <div class="link-step font-mono">04</div>
+            <div class="link-title-group">
+              <span class="link-name">Doble Dirección (Bull &amp; Bear)</span>
+              <span class="link-sub" id="linkDualStatus">Calibración Direccional Activa</span>
+            </div>
+            <span class="link-status-dot green"></span>
+          </div>
+          <div class="link-detail-body font-mono">
+            <div class="dual-traders-box">
+              <div class="trader-pill bull-pill" id="traderBullPill">🐂 Bull: 85%</div>
+              <div class="trader-pill bear-pill" id="traderBearPill">🐻 Bear: 15%</div>
+            </div>
+            <p class="trader-posture-txt" id="traderPostureReason">
+              Ruptura con absorción institucional dominante en soporte mayor.
+            </p>
+          </div>
+        </div>
+
+        <!-- ESLABÓN 5: MENTORA #00 (RELOJ 10/3/5 & CANDADO BREAKEVEN) -->
+        <div class="funnel-link-card active" id="linkCardMentor00">
+          <div class="link-head">
+            <div class="link-step font-mono">05</div>
+            <div class="link-title-group">
+              <span class="link-name">Mentora #00 Zen-Equilibrium</span>
+              <span class="link-sub">Reloj 10/3/5 · Candado Breakeven</span>
+            </div>
+            <span class="link-status-dot green"></span>
+          </div>
+          <div class="link-detail-body font-mono">
+            Frialdad Nash. Al tocar <strong class="gold-text">+0.04%</strong> se clava el Breakeven ($0.00 pérdida garantizada) y se sale en Take Profit. Retorno 100% a USDC.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PANEL CENTRAL: MESA DE PLANIFICACIÓN DEL TIRO ÚNICO (GRÁFICO TÁCTICO & BOTÓN DISPARO) -->
+    <section class="squad-panel squad-center-panel" id="panelTacticalStrike">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-icon">🎯</span>
+          <h2 class="panel-title">MESA DE PLANIFICACIÓN // 1 SOLO TIRO CERTERO</h2>
+        </div>
+        <div class="strike-asset-badges font-mono">
+          <span class="asset-badge-main" id="strikePairTitle">BTC/USDC</span>
+          <span class="asset-badge-dex" id="strikeDexPool">Uniswap V3 (0.05%)</span>
+        </div>
+      </div>
+
+      <!-- ÁREA DEL GRÁFICO TÁCTICO VECTORIAL INTERACTIVO -->
+      <div class="tactical-chart-container" id="tacticalChartWrap">
+        <!-- Overlay de Ticks y Líneas Tácticas -->
+        <div class="chart-tactical-overlay">
+          <div class="overlay-line line-tp" id="overlayLineTp">
+            <span class="line-badge font-mono">🎯 TAKE PROFIT (+0.35% · <span id="overlayTpVal">+$0.10</span>)</span>
+            <span class="line-price font-mono" id="overlayTpPrice">$81,082.80</span>
+          </div>
+          <div class="overlay-line line-be" id="overlayLineBe">
+            <span class="line-badge font-mono">🛡️ BREAKEVEN #00 (+0.04% · $0.00 PÉRDIDA)</span>
+            <span class="line-price font-mono" id="overlayBePrice">$80,832.32</span>
+          </div>
+          <div class="overlay-line line-entry" id="overlayLineEntry">
+            <span class="line-badge font-mono">⚡ ENTRADA CALIBRADA (TICK EN VIVO)</span>
+            <span class="line-price font-mono" id="overlayEntryPrice">$80,800.00</span>
+          </div>
+        </div>
+
+        <!-- Canvas de Gráfico Táctico -->
+        <canvas id="strikeTacticalCanvas" width="800" height="230"></canvas>
+      </div>
+
+      <!-- MÉTRICAS TÁCTICAS DEL TIRO -->
+      <div class="strike-metrics-row">
+        <div class="strike-metric-item">
+          <span class="m-label font-mono">Spread Lead-Lag</span>
+          <span class="m-val font-mono cyan-text" id="shotMetricSpread">+0.32% CEX/DEX</span>
+        </div>
+        <div class="strike-metric-item">
+          <span class="m-label font-mono">Profundidad Pool</span>
+          <span class="m-val font-mono" id="shotMetricDepth">$24.5M USDC</span>
+        </div>
+        <div class="strike-metric-item">
+          <span class="m-label font-mono">Slippage Blindado</span>
+          <span class="m-val font-mono green-text" id="shotMetricSlippage">&le; 0.15% Atómico</span>
+        </div>
+        <div class="strike-metric-item">
+          <span class="m-label font-mono">Ganancia Proyectada</span>
+          <span class="m-val font-mono gold-text" id="shotMetricNetGain">+$0.10 USDC Neto</span>
+        </div>
+      </div>
+
+      <!-- BOTÓN PRINCIPAL DE DISPARO CALIBRADO -->
+      <div class="strike-action-row">
+        <button class="strike-master-btn" id="btnExecuteCycle" onclick="executeCalibratedCycleNow()">
+          <span class="btn-sparkle">⚡</span>
+          <span class="btn-text" id="btnExecuteText">EJECUTAR 1 CICLO CALIBRADO AHORA</span>
+          <span class="btn-subtext font-mono" id="btnExecuteSub">Cadencia 10/3/5 · 0% Riesgo en Planificación</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PANEL INFERIOR: BITÁCORA DE CICLOS HISTÓRICOS Y ENFRIAMIENTO 5M -->
+    <section class="squad-panel squad-bottom-panel" id="panelCycleLedger">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-icon">📜</span>
+          <h2 class="panel-title">BITÁCORA DE CICLOS TÁCTICOS // AUDITORÍA 10/3/5 (1 TIRO CADA 10 MIN)</h2>
+        </div>
+        <span class="panel-badge-pill cyan font-mono" id="ledgerCountBadge">4 INCURSIONES REGISTRADAS</span>
+      </div>
+
+      <div class="cycles-table-wrap">
+        <table class="cycles-table font-mono" id="cyclesTable">
+          <thead>
+            <tr>
+              <th>ID CICLO</th>
+              <th>HORA UTC</th>
+              <th>PAR CALIBRADO</th>
+              <th>DIRECCIÓN</th>
+              <th>DURACIÓN</th>
+              <th>RESULTADO USDC</th>
+              <th>BREAKEVEN</th>
+              <th>ESTADO ENFRIAMIENTO (5M)</th>
+            </tr>
+          </thead>
+          <tbody id="cyclesTableBody">
+            <!-- Rellenado dinámicamente por app.js -->
+            <tr>
+              <td>CYC-9611</td>
+              <td>01:04:12 UTC</td>
+              <td>PAXG/USDC</td>
+              <td><span class="tag-bull">▲ BULL LONG</span></td>
+              <td>2m 22s</td>
+              <td class="green-text font-bold">+$0.15 USDC</td>
+              <td><span class="be-locked">🛡️ CLAVADO</span></td>
+              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
+            </tr>
+            <tr>
+              <td>CYC-9610</td>
+              <td>00:54:12 UTC</td>
+              <td>POL/USDC</td>
+              <td><span class="tag-bull">▲ BULL LONG</span></td>
+              <td>1m 48s</td>
+              <td class="green-text font-bold">+$0.10 USDC</td>
+              <td><span class="be-locked">🛡️ CLAVADO</span></td>
+              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
+            </tr>
+            <tr>
+              <td>CYC-9609</td>
+              <td>00:44:12 UTC</td>
+              <td>ETH/USDC</td>
+              <td><span class="tag-bear">▼ BEAR SHORT</span></td>
+              <td>2m 45s</td>
+              <td class="green-text font-bold">+$0.09 USDC</td>
+              <td><span class="be-locked">🛡️ CLAVADO</span></td>
+              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
+            </tr>
+            <tr>
+              <td>CYC-9608</td>
+              <td>00:34:12 UTC</td>
+              <td>BNB/USDC</td>
+              <td><span class="tag-bull">▲ BULL LONG</span></td>
+              <td>1m 25s</td>
+              <td class="green-text font-bold">+$0.12 USDC</td>
+              <td><span class="be-locked">🛡️ CLAVADO</span></td>
+              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- BLOQUE INFERIOR: BOTONERA UNIFICADA DE MÓDULOS (4 MÓDULOS - CERO SCROLL)   -->
+  <!-- ========================================================================= -->
+  <footer class="bottom-module-dock">
+    <!-- Izquierda: Estado Rápido del Sistema -->
+    <div class="dock-left-status">
+      <span class="pulse-dot-green" title="Sistema Activo"></span>
+      <span class="dock-status-txt">SISTEMA ACTIVO</span>
+    </div>
+
+    <!-- Centro: Los 4 Módulos Reales Vigentes -->
+    <div class="dock-center-modules">
+      <!-- 1. Sniping Atómico -->
+      <a href="../sniping/" class="dock-module-btn" id="dockBtnSniping" title="Módulo de Sniping Atómico y Arbitraje Directo">
+        <span class="dock-module-icon">🎯</span>
+        <span class="dock-label">SNIPING ATÓMICO</span>
+      </a>
+
+      <!-- 2. Flota X500 · Airdrops & NFT Flip -->
+      <a href="../flota-x500/" class="dock-module-btn" id="dockBtnFlota" title="Cabina Cuantitativa de la Flota X500 (500 Satélites · Airdrops &amp; NFT Flip)">
+        <span class="dock-module-icon">🪖</span>
+        <span class="dock-label">FLOTA X500 · AIRDROPS &amp; NFT FLIP</span>
+      </a>
+
+      <!-- 3. Trading Cuantitativo -->
+      <a href="../trading/" class="dock-module-btn" id="dockBtnTrading" title="Dojo Cuantitativo: Bull &amp; Bear + Psicóloga #00">
+        <span class="dock-module-icon">📈</span>
+        <span class="dock-label">TRADING CUANTITATIVO</span>
+      </a>
+
+      <!-- 4. Squad Secret (Activo) -->
+      <a href="./" class="dock-module-btn active" id="dockBtnSquadSecret" title="Sala de Operaciones: Cadencia Táctica 10/3/5 &amp; Capitalización $300 USDC">
+        <span class="dock-module-icon">🕵️‍♂️</span>
+        <span class="dock-label">SQUAD SECRET</span>
+      </a>
+    </div>
+
+    <!-- Derecha: Utilidades Globales (Reloj Maestro UTC + Candado) -->
+    <div class="dock-right-controls">
+      <!-- Reloj Maestro UTC en Vivo -->
+      <div class="dock-utc-clock" id="dockUtcClock" title="Hora Oficial UTC del Motor">
+        <span class="clock-icon">🕒</span>
+        <span class="clock-time font-mono" id="masterUtcClockTime">--:--:-- UTC</span>
+      </div>
+
+      <!-- Botón de Candado Global (Bloqueo de Sesión) -->
+      <button class="area501-lockout-btn dock-lock-btn" id="area501-lockout-btn" title="ÁREA 501 // Bloquear y Proteger Acceso" aria-label="Bloquear Acceso">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Script Lógico Principal del Módulo Squad Secret -->
+  <script src="app.js"></script>
+</body>
+
+</html>

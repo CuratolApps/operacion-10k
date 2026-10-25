@@ -123,10 +123,10 @@
     }
     .portal-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
       width: 100%;
-      max-width: 950px;
+      max-width: 1280px;
     }
     .portal-card {
       background: var(--bg-card);
@@ -158,6 +158,12 @@
     .card-flota::before {
       background: linear-gradient(90deg, var(--gold), #f97316);
     }
+    .card-trading::before {
+      background: linear-gradient(90deg, #10b981, #059669);
+    }
+    .card-squad::before {
+      background: linear-gradient(90deg, #f59e0b, #e11d48);
+    }
     .card-dashboard::before {
       background: linear-gradient(90deg, var(--purple), #ec4899);
     }
@@ -170,6 +176,14 @@
       box-shadow: 0 20px 40px rgba(0, 240, 255, 0.15);
     }
     .card-flota:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
+    }
+    .card-trading:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+    }
+    .card-squad:hover {
       border-color: rgba(245, 158, 11, 0.4);
       box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
     }
@@ -386,13 +400,59 @@
         </div>
       </a>
 
-      <!-- MÓDULO 3: TERMINAL CUANTITATIVA Y CENSO -->
+      <!-- MÓDULO 3: TRADING CUANTITATIVO (BULL & BEAR) -->
+      <a href="./trading/" class="portal-card card-trading">
+        <div class="card-header-row">
+          <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+            <span class="material-symbols-rounded">trending_up</span>
+          </div>
+          <span class="card-tag" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">BULL &amp; BEAR</span>
+        </div>
+        <h2 class="card-title">Trading Cuantitativo (Dojo)</h2>
+        <p class="card-desc">
+          Mente maestra bidireccional Bull &amp; Bear con 5 Mentes Legendarias, 6 Códices Mundiales de la Mentora #00 Zen-Equilibrium y Candado Breakeven.
+        </p>
+        <ul class="card-features">
+          <li><span class="material-symbols-rounded">check_circle</span> 5 Mentes Legendarias (Simons, Tudor, Livermore)</li>
+          <li><span class="material-symbols-rounded">check_circle</span> 6 Códices Mundiales Sellados de Psicóloga #00</li>
+          <li><span class="material-symbols-rounded">check_circle</span> Radar de Estrenos DEXScreener + GoPlus 0%</li>
+        </ul>
+        <div class="card-action-btn">
+          <span>Abrir Trading Cuantitativo</span>
+          <span class="material-symbols-rounded">arrow_forward</span>
+        </div>
+      </a>
+
+      <!-- MÓDULO 4: SQUAD SECRET (CADENCIA 10/3/5 & $300 USDC) -->
+      <a href="./squad-secret/" class="portal-card card-squad">
+        <div class="card-header-row">
+          <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">
+            <span class="material-symbols-rounded">verified_user</span>
+          </div>
+          <span class="card-tag" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">SQUAD SECRET</span>
+        </div>
+        <h2 class="card-title">Squad Secret (Sala 10/3/5)</h2>
+        <p class="card-desc">
+          Sala de operaciones de cadencia táctica (2m Calibración ➔ máx 3m Tiro ➔ 5m Descanso) para concentrar a todo el equipo de élite en 1 solo tiro certero y capitalizar a $300 USDC.
+        </p>
+        <ul class="card-features">
+          <li><span class="material-symbols-rounded">check_circle</span> Embudo de 5 Eslabones (1 Solo Tiro Ganador)</li>
+          <li><span class="material-symbols-rounded">check_circle</span> Cadencia 10/3/5 + Marcador rumbo a 12 - 2</li>
+          <li><span class="material-symbols-rounded">check_circle</span> Capitalización Bóveda #501 ($267.72 / $300.00 USDC)</li>
+        </ul>
+        <div class="card-action-btn">
+          <span>Abrir Squad Secret</span>
+          <span class="material-symbols-rounded">arrow_forward</span>
+        </div>
+      </a>
+
+      <!-- MÓDULO 5: TERMINAL CUANTITATIVA Y CENSO -->
       <a href="./dashboard/" class="portal-card card-dashboard">
         <div class="card-header-row">
           <div class="card-icon">
             <span class="material-symbols-rounded">query_stats</span>
           </div>
-          <span class="card-tag">FLOTA & FINANZAS</span>
+          <span class="card-tag">FLOTA &amp; FINANZAS</span>
         </div>
         <h2 class="card-title">Terminal Cuantitativa</h2>
         <p class="card-desc">
@@ -401,7 +461,7 @@
         <ul class="card-features">
           <li><span class="material-symbols-rounded">check_circle</span> Censo 500 Satélites (5 Boxes)</li>
           <li><span class="material-symbols-rounded">check_circle</span> Embudo USDC a Binance Spot</li>
-          <li><span class="material-symbols-rounded">check_circle</span> Medidor de ROI & Minería Bitcoin L2</li>
+          <li><span class="material-symbols-rounded">check_circle</span> Medidor de ROI &amp; Minería Bitcoin L2</li>
         </ul>
         <div class="card-action-btn">
           <span>Abrir Terminal Cuantitativa</span>
