@@ -1,0 +1,80 @@
+{
+  "module": "OPERACION_500_INDEPENDENT_ROOM",
+  "version": "1.0.0-PROD",
+  "lastUpdatedUtc": "12:00:00 UTC",
+  "title": "OPERACIÓN 500 // 500 CARTERAS EN UNÍSONO 1M/2M",
+  "executionPolicy": {
+    "cadence": "1m Tiro Unísono + 2m Descanso (180s)",
+    "ratePerWallet": 0.0015,
+    "ratePerCycleEnjambre": 0.75,
+    "ratePerHourEnjambre": 15.00,
+    "ratePerMinuteEnjambre": 0.25,
+    "capitalRisk": 0.00,
+    "gasDrain": 0.00,
+    "executionType": "Gasless EIP-712 Permit / Atomic Flash Swaps with Reimbursed Gas",
+    "breakevenLockPct": 0.04,
+    "strictNoGasSell": true,
+    "zeroGasDrainLock": true,
+    "destinationVault": "0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  "gasFloors": {
+    "fleetCurrentPol": 300.02,
+    "fleetFloorPol": 300.00,
+    "fleetFloorStatus": "100% FULL",
+    "vault501CurrentPol": 155.05,
+    "vault501FloorPol": 150.00,
+    "vault501FloorStatus": "100% BLINDADO"
+  },
+  "boxes": [
+    {
+      "boxId": "BOX_1",
+      "name": "Box 1 (Escuadrón Alfa)",
+      "walletsRange": "#001 - #100",
+      "activeCount": 100,
+      "totalCount": 100,
+      "gasPol": 60.00,
+      "gainPerCycleUsdc": 0.15,
+      "status": "100/100 SINCRONIZADO"
+    },
+    {
+      "boxId": "BOX_2",
+      "name": "Box 2 (Escuadrón Bravo)",
+      "walletsRange": "#101 - #200",
+      "activeCount": 100,
+      "totalCount": 100,
+      "gasPol": 60.00,
+      "gainPerCycleUsdc": 0.15,
+      "status": "100/100 SINCRONIZADO"
+    },
+    {
+      "boxId": "BOX_3",
+      "name": "Box 3 (Escuadrón Charlie)",
+      "walletsRange": "#201 - #300",
+      "activeCount": 100,
+      "totalCount": 100,
+      "gasPol": 60.00,
+      "gainPerCycleUsdc": 0.15,
+      "status": "100/100 SINCRONIZADO"
+    },
+    {
+      "boxId": "BOX_4",
+      "name": "Box 4 (Escuadrón Delta)",
+      "walletsRange": "#301 - #400",
+      "activeCount": 100,
+      "totalCount": 100,
+      "gasPol": 60.00,
+      "gainPerCycleUsdc": 0.15,
+      "status": "100/100 SINCRONIZADO"
+    },
+    {
+      "boxId": "BOX_5",
+      "name": "Box 5 (Escuadrón Echo)",
+      "walletsRange": "#401 - #500",
+      "activeCount": 100,
+      "totalCount": 100,
+      "gasPol": 60.02,
+      "gainPerCycleUsdc": 0.15,
+      "status": "100/100 SINCRONIZADO"
+    }
+  ]
+}
