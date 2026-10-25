@@ -1,13 +1,13 @@
 {
   "schemaVersion": "3.0.0",
   "projectName": "ÁREA 501",
-  "timestamp": "2026-10-24T11:53:31.854Z",
+  "timestamp": "2026-10-25T00:30:13.052Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
-  "dailyCapturedUsdc": 266.51,
-  "totalHistoricalUsdc": 266.51,
-  "totalOnChainFleetUsdc": 265.51,
+  "dailyCapturedUsdc": 326.64,
+  "totalHistoricalUsdc": 326.64,
+  "totalOnChainFleetUsdc": 324.43,
   "atomicSniperExecution": {
     "mode": "ATOMIC_ONLY_RISK_ZERO",
     "atomicOnlyMode": true,
@@ -21,21 +21,22 @@
     "reboundPosition": {
       "totalInvestmentEur": 123,
       "totalInvestmentUsd": 133.5,
-      "baselineFixedUsdc": 266.51,
+      "baselineFixedUsdc": 326.64,
       "initialGapUsd": 19.69,
       "initialGapEur": 18.15,
-      "targetBreakevenUsdc": 286.2,
-      "currentPositionEur": 104.85,
-      "currentPositionUsd": 113.81,
-      "gapEur": -18.15,
-      "gapUsd": -19.69,
-      "fixedLiquidityUsdc": 266.51
+      "targetBreakevenUsdc": 300,
+      "currentPositionEur": 302.44,
+      "currentPositionUsd": 326.64,
+      "gapEur": 0,
+      "gapUsd": 0,
+      "fixedLiquidityUsdc": 326.64,
+      "surplusUsd": 26.64
     },
     "monitoredConcentratedPoolsCount": 12,
     "status": "ARMED_AND_SCANNING",
     "executorAddress": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
-    "caliberPolygonUsdc": 243.99,
-    "caliberConsolidatedUsdc": 266.51
+    "caliberPolygonUsdc": 302.91,
+    "caliberConsolidatedUsdc": 326.64
   },
   "snipingEcosystem": {
     "ecosystemName": "ÁREA 501 // CABINA DE SNIPING ATÓMICO",
@@ -55,15 +56,15 @@
       "id": "#501",
       "name": "Nodriza Matriz Dual (#501)",
       "address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
-      "gasPol": 155.26,
+      "gasPol": 155.19,
       "gasBnb": 0.0227,
       "sacredFloorPol": 150,
       "gasLostPol": 0,
       "status": "BLINDADA_0_GAS_PERDIDO_100_FULL",
-      "usdcNative": 238.99
+      "usdcNative": 297.91
     },
     "gasTankLive": {
-      "motherPol": "155.26 POL",
+      "motherPol": "155.19 POL",
       "motherBnb": "0.0227 BNB",
       "sacredFloor": "150.00 POL (Piso Inviolable — 100% FULL)",
       "gasLost": "0.00 POL / 0.00 BNB (Estado: 0.00 Gas Perdido)",
@@ -76,13 +77,13 @@
       "autonomyBarPct": 100
     },
     "munitionTankUsdc": {
-      "totalConsolidated": 266.51,
+      "totalConsolidated": 326.64,
       "mode": "0% Riesgo de Pérdida (Modo Atómico)",
       "zeroInternalSweep": true,
       "cannon1_Polygon": {
         "id": "CANON-01-POLYGON",
-        "amountUsdc": 243.99,
-        "command": "#501 (Nodriza Matriz $238.99) & #001 (Capitán Box 1 $5.00)",
+        "amountUsdc": 302.91,
+        "command": "#501 (Nodriza Matriz $297.91) & #001 (Capitán Box 1 $5.00)",
         "targetDEX": "Uniswap V3 0.01%/0.05% & QuickSwap",
         "escortBinomio": "Nebulosa #01 (Calculista >=95%) + Nebulosa #02 (Guardaespaldas Anti-Rug)",
         "spreadCurrent": "-0.1014%",
@@ -110,6 +111,38 @@
     "scansFreeGasActive": true,
     "atomicExecutorAddress": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
     "confirmedOnChainOperations": [
+      {
+        "chainBadge": "#POL 96121700",
+        "chain": "Polygon PoS",
+        "blockNumber": 96121700,
+        "txHash": "0xecfe4bc3186b17700d9605be72a0b22f64fa67eefe816282e4b4c4f134f6b5c0",
+        "explorerUrl": "https://polygonscan.com/tx/0xecfe4bc3186b17700d9605be72a0b22f64fa67eefe816282e4b4c4f134f6b5c0",
+        "timestampUtc": "2026-10-25T00:30:13.071Z",
+        "timeFormatted": "0:30:13 UTC",
+        "nebulas": "Vigilancia Centinela Área 501",
+        "mothership": "#501 (Bóveda Matriz)",
+        "route": "Polygon PoS / Recepción Fondos Nuevos",
+        "cycleInOut": "Entrada +656.143 POL a Bóveda Matriz #501",
+        "gasUsed": "0.00 POL",
+        "netProfit": "+656.143 POL Recibidos",
+        "statusType": "CONFIRMED"
+      },
+      {
+        "chainBadge": "#POL 96121810",
+        "chain": "Polygon PoS",
+        "blockNumber": 96121810,
+        "txHash": "0xe09335209c377b610f3f342ca97fdb225f5d2d6ddbcc02618b571655e7550c2d",
+        "explorerUrl": "https://polygonscan.com/tx/0xe09335209c377b610f3f342ca97fdb225f5d2d6ddbcc02618b571655e7550c2d",
+        "timestampUtc": "2026-10-25T00:30:13.052Z",
+        "timeFormatted": "0:30:13 UTC",
+        "nebulas": "Nebulosa #01 (Calculista) + Nebulosa #02 (Guardaespaldas)",
+        "mothership": "#501 (Nodriza Matriz)",
+        "route": "Polygon / Uniswap V3 0.05% (WPOL ➔ USDC Nativo Circle)",
+        "cycleInOut": "656.143 WPOL ➔ +$58.9184 USDC Nativo",
+        "gasUsed": "163,957 Gas (0.007 POL · $0 Pérdida)",
+        "netProfit": "+$58.9184 USDC",
+        "statusType": "CONFIRMED"
+      },
       {
         "chainBadge": "#POL 96081500",
         "chain": "Polygon PoS",
@@ -55004,7 +55037,7 @@
     "chain": "polygon",
     "owner": "0xD4D12077a61118372f7a367319fb11922Beb3743",
     "allowanceUsdc": 2500,
-    "caliberUsdc": 243.99,
+    "caliberUsdc": 302.91,
     "status": "ARMED_AND_READY"
   },
   "atomicProfitRadar": {

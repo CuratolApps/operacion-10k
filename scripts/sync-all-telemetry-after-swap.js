@@ -22,12 +22,12 @@ const TRADING_TEL_FILE = path.join(ROOT, "telemetry", "trading-telemetry.json");
 
 const EXECUTOR_POLYGON = "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67";
 const EXECUTOR_BSC = "0xD935F7B80237aA14B6D8F9D45070800e9E23Db20";
-const WRAP_TX = "0xe2c7848af880409d5e8162e122d02d5878bb877f4444a54c87d42cacf81cefd7";
-const SWAP_TX = "0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a";
-const RECEPTION_TX = "0x21f997630526ab3618935f0cfdffcf906062038c99a3a6a1f003ca9a3f73e1f2b";
+const WRAP_TX = "0x904f80494ea6b398bddb785b9a4dc3b16bfc1bc66308c8b8235f1633b4273497";
+const SWAP_TX = "0xe09335209c377b610f3f342ca97fdb225f5d2d6ddbcc02618b571655e7550c2d";
+const RECEPTION_TX = "0xecfe4bc3186b17700d9605be72a0b22f64fa67eefe816282e4b4c4f134f6b5c0";
 
 async function main() {
-  console.log("🔄 Actualizando telemetría post-swap...");
+  console.log("🔄 Actualizando telemetría post-swap de 656.143 POL a USDC...");
 
   // 1. Leer fleet-telemetry.json
   const tel = JSON.parse(fs.readFileSync(FLEET_TEL_FILE, "utf8"));
@@ -43,32 +43,31 @@ async function main() {
     chain: "polygon",
     owner: "0xD4D12077a61118372f7a367319fb11922Beb3743",
     allowanceUsdc: 2500,
-    caliberUsdc: 243.99,
+    caliberUsdc: 302.91,
     status: "ARMED_AND_READY"
   };
 
   // Totales
-  tel.totalOnChainFleetUsdc = 265.51;
-  tel.totalHistoricalUsdc = 266.51;
-  tel.dailyCapturedUsdc = 266.51;
+  tel.totalOnChainFleetUsdc = 324.43;
+  tel.totalHistoricalUsdc = 326.64;
+  tel.dailyCapturedUsdc = 326.64;
 
   // atomicSniperExecution
   if (tel.atomicSniperExecution) {
     tel.atomicSniperExecution.strictNoGasSell = true;
     tel.atomicSniperExecution.vaultAddress = "0xD4D12077a61118372f7a367319fb11922Beb3743";
     tel.atomicSniperExecution.executorAddress = EXECUTOR_POLYGON;
-    tel.atomicSniperExecution.caliberPolygonUsdc = 243.99;
-    tel.atomicSniperExecution.caliberConsolidatedUsdc = 266.51;
+    tel.atomicSniperExecution.caliberPolygonUsdc = 302.91;
+    tel.atomicSniperExecution.caliberConsolidatedUsdc = 326.64;
     if (tel.atomicSniperExecution.reboundPosition) {
-      tel.atomicSniperExecution.reboundPosition.baselineFixedUsdc = 266.51;
-      tel.atomicSniperExecution.reboundPosition.initialGapUsd = 19.69;
-      tel.atomicSniperExecution.reboundPosition.initialGapEur = 18.15;
-      tel.atomicSniperExecution.reboundPosition.targetBreakevenUsdc = 286.20;
-      tel.atomicSniperExecution.reboundPosition.fixedLiquidityUsdc = 266.51;
-      tel.atomicSniperExecution.reboundPosition.currentPositionUsd = 113.81;
-      tel.atomicSniperExecution.reboundPosition.currentPositionEur = 104.85;
-      tel.atomicSniperExecution.reboundPosition.gapUsd = -19.69;
-      tel.atomicSniperExecution.reboundPosition.gapEur = -18.15;
+      tel.atomicSniperExecution.reboundPosition.baselineFixedUsdc = 326.64;
+      tel.atomicSniperExecution.reboundPosition.targetBreakevenUsdc = 300.00;
+      tel.atomicSniperExecution.reboundPosition.fixedLiquidityUsdc = 326.64;
+      tel.atomicSniperExecution.reboundPosition.currentPositionUsd = 326.64;
+      tel.atomicSniperExecution.reboundPosition.currentPositionEur = 302.44;
+      tel.atomicSniperExecution.reboundPosition.gapUsd = 0.00;
+      tel.atomicSniperExecution.reboundPosition.gapEur = 0.00;
+      tel.atomicSniperExecution.reboundPosition.surplusUsd = 26.64;
     }
   }
 
@@ -77,14 +76,14 @@ async function main() {
     tel.snipingEcosystem.strictNoGasSell = true;
     tel.snipingEcosystem.atomicExecutorAddress = EXECUTOR_POLYGON;
     if (tel.snipingEcosystem.masterVault) {
-      tel.snipingEcosystem.masterVault.gasPol = 155.26;
+      tel.snipingEcosystem.masterVault.gasPol = 155.19;
       tel.snipingEcosystem.masterVault.gasBnb = 0.0227;
       tel.snipingEcosystem.masterVault.sacredFloorPol = 150.00;
-      tel.snipingEcosystem.masterVault.usdcNative = 238.99;
+      tel.snipingEcosystem.masterVault.usdcNative = 297.91;
       tel.snipingEcosystem.masterVault.status = "BLINDADA_0_GAS_PERDIDO_100_FULL";
     }
     if (tel.snipingEcosystem.gasTankLive) {
-      tel.snipingEcosystem.gasTankLive.motherPol = "155.26 POL";
+      tel.snipingEcosystem.gasTankLive.motherPol = "155.19 POL";
       tel.snipingEcosystem.gasTankLive.motherBnb = "0.0227 BNB";
       tel.snipingEcosystem.gasTankLive.sacredFloor = "150.00 POL (Piso Inviolable — 100% FULL)";
       tel.snipingEcosystem.gasTankLive.fleetPol = "300.06 POL (Piso Sagrado 300.00 POL — 100% FULL)";
@@ -93,10 +92,10 @@ async function main() {
       tel.snipingEcosystem.gasTankLive.autonomyBarPct = 100;
     }
     if (tel.snipingEcosystem.munitionTankUsdc) {
-      tel.snipingEcosystem.munitionTankUsdc.totalConsolidated = 266.51;
+      tel.snipingEcosystem.munitionTankUsdc.totalConsolidated = 326.64;
       if (tel.snipingEcosystem.munitionTankUsdc.cannon1_Polygon) {
-        tel.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.amountUsdc = 243.99;
-        tel.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.command = "#501 (Nodriza Matriz $238.99) & #001 (Capitán Box 1 $5.00)";
+        tel.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.amountUsdc = 302.91;
+        tel.snipingEcosystem.munitionTankUsdc.cannon1_Polygon.command = "#501 (Nodriza Matriz $297.91) & #001 (Capitán Box 1 $5.00)";
       }
       if (tel.snipingEcosystem.munitionTankUsdc.cannon2_BSC) {
         tel.snipingEcosystem.munitionTankUsdc.cannon2_BSC.amountUsdc = 21.52;
@@ -114,9 +113,9 @@ async function main() {
     const hasSwap = tel.snipingEcosystem.confirmedOnChainOperations.some(op => op.txHash === SWAP_TX);
     if (!hasSwap) {
       tel.snipingEcosystem.confirmedOnChainOperations.unshift({
-        chainBadge: "#POL 96081966",
+        chainBadge: "#POL 96121810",
         chain: "Polygon PoS",
-        blockNumber: 96081966,
+        blockNumber: 96121810,
         txHash: SWAP_TX,
         explorerUrl: `https://polygonscan.com/tx/${SWAP_TX}`,
         timestampUtc: new Date().toISOString(),
@@ -124,9 +123,9 @@ async function main() {
         nebulas: "Nebulosa #01 (Calculista) + Nebulosa #02 (Guardaespaldas)",
         mothership: "#501 (Nodriza Matriz)",
         route: "Polygon / Uniswap V3 0.05% (WPOL ➔ USDC Nativo Circle)",
-        cycleInOut: "886.70 WPOL ➔ +$79.5916 USDC Nativo",
-        gasUsed: "164,915 Gas (0.007 POL · $0 Pérdida)",
-        netProfit: "+$79.5916 USDC",
+        cycleInOut: "656.143 WPOL ➔ +$58.9184 USDC Nativo",
+        gasUsed: "163,957 Gas (0.007 POL · $0 Pérdida)",
+        netProfit: "+$58.9184 USDC",
         statusType: "CONFIRMED"
       });
     }
@@ -135,9 +134,9 @@ async function main() {
     const hasRec = tel.snipingEcosystem.confirmedOnChainOperations.some(op => op.txHash === RECEPTION_TX);
     if (!hasRec) {
       tel.snipingEcosystem.confirmedOnChainOperations.unshift({
-        chainBadge: "#POL 96081500",
+        chainBadge: "#POL 96121700",
         chain: "Polygon PoS",
-        blockNumber: 96081500,
+        blockNumber: 96121700,
         txHash: RECEPTION_TX,
         explorerUrl: `https://polygonscan.com/tx/${RECEPTION_TX}`,
         timestampUtc: new Date().toISOString(),
@@ -145,9 +144,9 @@ async function main() {
         nebulas: "Vigilancia Centinela Área 501",
         mothership: "#501 (Bóveda Matriz)",
         route: "Polygon PoS / Recepción Fondos Nuevos",
-        cycleInOut: "Entrada +891.889 POL a Bóveda Matriz #501",
+        cycleInOut: "Entrada +656.143 POL a Bóveda Matriz #501",
         gasUsed: "0.00 POL",
-        netProfit: "+891.889 POL Recibidos",
+        netProfit: "+656.143 POL Recibidos",
         statusType: "CONFIRMED"
       });
     }
@@ -176,10 +175,11 @@ async function main() {
   if (fs.existsSync(TRADING_TEL_FILE)) {
     const tradeTel = JSON.parse(fs.readFileSync(TRADING_TEL_FILE, "utf8"));
     if (tradeTel.patrimonialLock) {
-      tradeTel.patrimonialLock.sniperCapitalProtectedUsdc = 266.51;
+      tradeTel.patrimonialLock.sniperCapitalProtectedUsdc = 326.64;
       tradeTel.patrimonialLock.breakdown = {
-        masterVault501OnChainUsdc: 265.51,
+        masterVault501OnChainUsdc: 324.43,
         binanceSpotHarvestUsdc: 1.00,
+        microReservesUsdc: 1.21,
         nativePolReserve: 300.06
       };
     }
@@ -188,10 +188,10 @@ async function main() {
   }
 
   console.log("\n💎 RESUMEN TELEMETRÍA:");
-  console.log(`   • Posición Consolidada: $266.51 USDC ($243.99 Polygon + $21.52 BSC + $1.00 Binance)`);
-  console.log(`   • Tanque Nodriza #501: 155.26 / 150.00 POL (100% FULL)`);
+  console.log(`   • Posición Consolidada: $326.64 USDC ($302.91 Polygon + $21.52 BSC + $1.00 Binance + $1.21 micro-reserves)`);
+  console.log(`   • Tanque Nodriza #501: 155.19 / 150.00 POL (100% FULL)`);
   console.log(`   • Tanque Flota Total: 300.06 / 300.00 POL (100% FULL)`);
-  console.log(`   • Calibre Ejecutor Atómico: $243.99 USDC (${EXECUTOR_POLYGON})`);
+  console.log(`   • Calibre Ejecutor Atómico: $302.91 USDC (${EXECUTOR_POLYGON})`);
 }
 
 main().catch(err => {

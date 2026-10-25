@@ -172,13 +172,23 @@
         topCapitalDisplay.innerHTML = `$${cap.consolidatedUsdc.toFixed(2)} <span class="metric-sub">/ $300.00 USDC</span>`;
       }
       if (topCapitalProgress) {
-        topCapitalProgress.style.width = `${cap.progressPct}%`;
+        topCapitalProgress.style.width = `${Math.min(100, cap.progressPct)}%`;
       }
       if (topProgressPct) {
-        topProgressPct.textContent = `${cap.progressPct}% Meta`;
+        if (cap.progressPct >= 100) {
+          topProgressPct.innerHTML = `<span class="green-text font-bold">${cap.progressPct}% 🟢 META 100% CUMPLIDA</span>`;
+        } else {
+          topProgressPct.textContent = `${cap.progressPct}% Meta`;
+        }
       }
       if (topRemainingUsdc) {
-        topRemainingUsdc.textContent = `Faltan $${cap.remainingUsdc.toFixed(2)}`;
+        if (cap.surplusUsdc && cap.surplusUsdc > 0) {
+          topRemainingUsdc.innerHTML = `<span class="gold-text font-bold">+$${cap.surplusUsdc.toFixed(2)} Superávit</span>`;
+        } else if (cap.remainingUsdc <= 0) {
+          topRemainingUsdc.innerHTML = `<span class="green-text font-bold">Meta Cumplida</span>`;
+        } else {
+          topRemainingUsdc.textContent = `Faltan $${cap.remainingUsdc.toFixed(2)}`;
+        }
       }
       if (vaultGasStatus && cap.gasFloors) {
         vaultGasStatus.textContent = `GAS: ${cap.gasFloors.vault501CurrentPol} POL ✔`;
@@ -267,13 +277,14 @@
         if (activeMode === "ARMED_STRIKE") {
           boxOperationStatusText.innerHTML = `⚡ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS BLINDADOS`;
         } else {
-          boxOperationStatusText.innerHTML = `⏸️ EN ESPERA DEL COMANDANTE (CAPITALIZACIÓN RUMBO A $300 USDC)`;
+          boxOperationStatusText.innerHTML = `🔒 PLANIFICACIÓN $0 RIESGO — CAPITAL LISTO PARA ORDEN DEL COMANDANTE`;
         }
       }
       if (boxOperationSubText) {
         const cap = data.capitalGoal || {};
-        const polVault = cap.gasFloors ? cap.gasFloors.vault501CurrentPol : '155.26';
-        boxOperationSubText.textContent = `Bóveda #501: $${(cap.consolidatedUsdc || 267.72).toFixed(2)} / $300.00 USDC (${cap.progressPct || 89.24}%) · Pisos de Gas Blindados: ${polVault} POL`;
+        const polVault = cap.gasFloors ? cap.gasFloors.vault501CurrentPol : '155.19';
+        const metaStatus = (cap.progressPct >= 100) ? `${cap.progressPct}% 🟢 META SUPERADA` : `${cap.progressPct}%`;
+        boxOperationSubText.textContent = `Bóveda #501: $${(cap.consolidatedUsdc || 326.64).toFixed(2)} / $300.00 USDC (${metaStatus}) · Pisos de Gas Blindados: ${polVault} POL (100% FULL)`;
       }
 
       // Eslabones
@@ -375,7 +386,7 @@
       if (btnStrike) btnStrike.classList.remove("active");
       if (subText) subText.textContent = "Cadencia 10/3/5 · 0% Riesgo en Planificación";
       if (boxOperationStatusText) {
-        boxOperationStatusText.innerHTML = "⏸️ EN ESPERA DEL COMANDANTE (CAPITALIZACIÓN RUMBO A $300 USDC)";
+        boxOperationStatusText.innerHTML = "🔒 PLANIFICACIÓN $0 RIESGO — CAPITAL LISTO PARA ORDEN DEL COMANDANTE";
       }
       showToast("🔒 MODO PLANIFICACIÓN ($0 RIESGO) ACTIVO — Simulación con Ticks Reales");
     } else {
