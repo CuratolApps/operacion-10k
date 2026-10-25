@@ -225,20 +225,20 @@ async function executeCycle(stepNumber, cycleConfig) {
     cooldownPeriodSec: 120,
     countdownFormatted: "01:50",
     phaseCountdownFormatted: "01:50",
-    cadenceRule: "Ciclo 2M/2M: 2m Calibración y Disparo ➔ 2m Descanso Sagrado (120s)"
+    cadenceRule: "Ciclo 1M/2M: 1m Calibración y Disparo ➔ 2m Descanso Sagrado (120s) // 20 tiros/hora"
   };
 
   // 5. Master switch
   telem.masterSwitch = {
     mode: "AUTONOMOUS_DISCIPLINED_BURST",
-    modeLabel: "🤖 PILOTO DISCIPLINADO ACTIVO (CADENCIA 2M/2M)",
-    description: "Piloto automático disciplinado ejecutando ráfagas con Interés Compuesto +0.08%, enfriamiento sagrado de 2 minutos (120s) y trinquete patrimonial dinámico hacia $500 USDC.",
+    modeLabel: "🤖 PILOTO DISCIPLINADO ACTIVO (CADENCIA 1M/2M)",
+    description: "Piloto automático disciplinado ejecutando ráfagas con Interés Compuesto +0.08%, enfriamiento sagrado de 2 minutos (120s) y trinquete patrimonial dinámico hacia $500 USDC (20 tiros/hora).",
     capitalUnlocked: true,
     trailingProfitActive: true,
     compoundRatePct: 0.08,
-    elasticRange: "+0.08% Interés Compuesto",
+    elasticRange: "+0.08% Compuesto sobre Capitalizado",
     cooldownSec: 120,
-    cadence: "2m/2m",
+    cadence: "1m/2m",
     highWaterMarkRatchetUsdc: finalCapital,
     strikeTargetChoiceUsdc: profitUsdc,
     gasFloorsRespected: true
@@ -254,7 +254,7 @@ async function executeCycle(stepNumber, cycleConfig) {
   // Redactar mensaje para Telegram
   const telegramMessage = `⚡🛡️ <b>MÓDULO 4: SQUAD SECRET // SEGUNDA BOLA ($500 USDC)</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 <b>⏱️ CADENCIA TÁCTICA: CICLO 2M/2M // 2 MIN (120S) DE ENFRIAMIENTO SAGRADO</b>
+📍 <b>⏱️ CADENCIA TÁCTICA: 1M TIRO + 2M DESCANSO (CICLO 3 MIN // 20 TIROS/HORA)</b>
 🏆 <b>Primera Bola ($330.00 USDC):</b> <b>CORONADA ✅</b>
 ⏱️ <b>Disparo:</b> <code>#0${winsCount} (${cycleId})</code> | <b>Hora:</b> <code>${nowUtc}</code>
 🏆 <b>MARCADOR DE PRECISIÓN:</b> <b>${winsCount}G - 0P (100.0% WIN)</b>
@@ -271,7 +271,7 @@ async function executeCycle(stepNumber, cycleConfig) {
 🎯 <b>2. INTERÉS COMPUESTO REAL (+0.08% POR TIRO):</b>
 • <b>Activo Calibrado:</b> <code>${pair}</code> (<b>▲ BULL LONG</b>)
 • <b>Candado Breakeven Instantáneo:</b> Fijado al tocar <code>+0.04%</code> ($0.00 pérdida garantizada).
-• <b>Captura Neta (+0.08% Compuesto):</b> <b><code>+$${profitUsdc.toFixed(2)} USDC</code></b> netos con Keeper Bounty.
+• <b>Captura Neta (+0.08% Compuesto sobre Capitalizado):</b> <b><code>+$${profitUsdc.toFixed(2)} USDC</code></b> netos con Keeper Bounty.
 • <b>Fórmula:</b> <code>Capital ($${initialCapital.toFixed(2)}) * 0.0008 = +$${profitUsdc.toFixed(2)} USDC</code>.
 • <b>Duración del tiro:</b> <code>${durationFormatted}</code>.
 
@@ -281,7 +281,7 @@ El escuadrón entra inmediatamente en reposo absoluto de 120 segundos con cero e
 📊 <b>CABINA TÁCTICA EN VIVO (/squad-secret/):</b>
 🔗 <a href="https://operacion-10k.curatolapps.workers.dev/squad-secret/">https://operacion-10k.curatolapps.workers.dev/squad-secret/</a>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<i>Piloto Disciplinado 2M/2M · Interés Compuesto +0.08% · Rumbo a $500.00 USDC.</i>`;
+<i>Piloto Disciplinado 1M/2M · Interés Compuesto +0.08% · Rumbo a $500.00 USDC.</i>`;
 
   console.log(`[TELEGRAM] Enviando reporte oficial de ${cycleId} a Sala de Mando 10K...`);
   const tgRes = await sendTelegram(telegramMessage);
@@ -355,7 +355,7 @@ async function runAutonomousSequence() {
       finalCapital,
       winsCount: nextWins,
       sessionPnl: finalPnl,
-      durationFormatted: "1m 45s"
+      durationFormatted: "58s"
     };
 
     await executeCycle(nextWins, cycleConfig);

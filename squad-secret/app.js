@@ -65,25 +65,25 @@
   const masterUtcClockTime = document.getElementById("masterUtcClockTime");
 
   /**
-   * Cálculo local del Reloj 2M/2M (Sincronizado al segundo: 120s Tiro + 120s Enfriamiento Sagrado)
+   * Cálculo local del Reloj 1M/2M (Sincronizado al segundo: 60s Tiro + 120s Descanso Sagrado = 180s Ciclo Total)
    */
   function computeLocalClock() {
-    const CYCLE_LENGTH_SEC = 240; // 4 min (240s total)
-    const STRIKE_SEC = 120;       // 2 min (120s ventana calibración y disparo)
-    // 120s a 240s: 2 min (120s enfriamiento sagrado)
+    const CYCLE_LENGTH_SEC = 180; // 3 min (180s total // 20 tiros/hora)
+    const STRIKE_SEC = 60;        // 1 min (60s ventana calibración y disparo)
+    // 60s a 180s: 2 min (120s descanso sagrado)
 
     const now = Date.now();
     const nowSec = Math.floor(now / 1000);
     const elapsedInCycle = nowSec % CYCLE_LENGTH_SEC;
     const remainingInCycle = CYCLE_LENGTH_SEC - elapsedInCycle;
 
-    let phase = "STRIKE_WINDOW_2M";
-    let phaseName = "FASE 1: CALIBRACIÓN & DISPARO (2M)";
-    let phaseSecondsTotal = 120;
+    let phase = "STRIKE_WINDOW_1M";
+    let phaseName = "FASE 1: CALIBRACIÓN & DISPARO (1M)";
+    let phaseSecondsTotal = 60;
     let phaseElapsed = elapsedInCycle;
-    let phaseRemaining = 120 - elapsedInCycle;
+    let phaseRemaining = 60 - elapsedInCycle;
     let phaseProgress = (phaseElapsed / phaseSecondsTotal) * 100;
-    let nextPhaseText = "➔ 2m Enfriamiento";
+    let nextPhaseText = "➔ 2m Descanso";
 
     if (elapsedInCycle >= STRIKE_SEC) {
       phase = "COOLDOWN_CHECK_2M";
@@ -92,7 +92,7 @@
       phaseElapsed = elapsedInCycle - STRIKE_SEC;
       phaseRemaining = CYCLE_LENGTH_SEC - elapsedInCycle;
       phaseProgress = (phaseElapsed / phaseSecondsTotal) * 100;
-      nextPhaseText = "➔ 2m Disparo";
+      nextPhaseText = "➔ 1m Tiro";
     }
 
     const mm = Math.floor(remainingInCycle / 60).toString().padStart(2, "0");
@@ -128,7 +128,7 @@
     }
     if (topPhaseBadge) {
       topPhaseBadge.textContent = clk.phaseName;
-      if (clk.phase === "STRIKE_WINDOW_2M") {
+      if (clk.phase === "STRIKE_WINDOW_1M") {
         topPhaseBadge.className = "card-pill font-mono green-pill";
       } else {
         topPhaseBadge.className = "card-pill font-mono";
@@ -147,7 +147,7 @@
       topNextPhaseLabel.textContent = clk.nextPhaseText;
     }
     if (topPhaseLabel) {
-      topPhaseLabel.textContent = clk.phase === "STRIKE_WINDOW_2M" ? "2m Calibración/Tiro" : "120s Enfriamiento Sagrado";
+      topPhaseLabel.textContent = clk.phase === "STRIKE_WINDOW_1M" ? "1m Calibración/Tiro" : "120s Descanso Sagrado";
     }
   }
 
@@ -317,7 +317,7 @@
         if (activeMode === "ARMED_STRIKE") {
           boxOperationStatusText.innerHTML = `⚡ MODO TIRO MANUAL PREPARADO // PISOS DE GAS BLINDADOS`;
         } else if (activeMode === "AUTONOMOUS_DISCIPLINED_BURST") {
-          boxOperationStatusText.innerHTML = `🧘♀️ CADENCIA 2M/2M // 120S ENFRIAMIENTO // ${lastCycleId} (${lastCycleProfit}) ASEGURADO`;
+          boxOperationStatusText.innerHTML = `🧘♀️ CADENCIA 1M/2M // 120S DESCANSO // ${lastCycleId} (${lastCycleProfit}) ASEGURADO`;
         } else {
           boxOperationStatusText.innerHTML = `🔒 MODO PLANIFICACIÓN ($0 RIESGO) // PISO TRINQUETE PROTEGIDO`;
         }
@@ -444,13 +444,13 @@
       if (btnAuto) btnAuto.classList.add("active");
       if (btnZero) btnZero.classList.remove("active");
       if (btnStrike) btnStrike.classList.remove("active");
-      if (subText) subText.textContent = "Piloto Disciplinado 2M/2M · Compuesto +0.08% · 120s Enfriamiento Sagrado";
-      showToast("🤖 MODO PILOTO DISCIPLINADO 2M/2M ACTIVO — Interés Compuesto +0.08% (120s Cooldown)");
+      if (subText) subText.textContent = "Piloto Disciplinado 1M/2M (Ciclo 3 min) · Compuesto +0.08% · 120s Descanso Sagrado";
+      showToast("🤖 MODO PILOTO DISCIPLINADO 1M/2M ACTIVO — 1m Tiro / 2m Descanso (120s Cooldown)");
     } else if (mode === "PLANNING_ZERO_RISK") {
       if (btnZero) btnZero.classList.add("active");
       if (btnAuto) btnAuto.classList.remove("active");
       if (btnStrike) btnStrike.classList.remove("active");
-      if (subText) subText.textContent = "Cadencia 2M/2M · 0% Riesgo en Planificación";
+      if (subText) subText.textContent = "Cadencia 1M/2M · 0% Riesgo en Planificación";
       if (boxOperationStatusText) {
         boxOperationStatusText.innerHTML = "🔒 MODO PLANIFICACIÓN ($0 RIESGO) // PISO TRINQUETE PROTEGIDO";
       }

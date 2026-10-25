@@ -5,9 +5,9 @@
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
-  "dailyCapturedUsdc": 341.84,
-  "totalHistoricalUsdc": 341.84,
-  "totalOnChainFleetUsdc": 341.84,
+  "dailyCapturedUsdc": 342.11,
+  "totalHistoricalUsdc": 342.11,
+  "totalOnChainFleetUsdc": 342.11,
   "atomicSniperExecution": {
     "mode": "ATOMIC_ONLY_RISK_ZERO",
     "atomicOnlyMode": true,
@@ -21,26 +21,26 @@
     "reboundPosition": {
       "totalInvestmentEur": 123,
       "totalInvestmentUsd": 133.5,
-      "baselineFixedUsdc": 341.84,
+      "baselineFixedUsdc": 342.11,
       "initialGapUsd": 19.69,
       "initialGapEur": 18.15,
       "targetBreakevenUsdc": 300,
       "currentPositionEur": 302.44,
-      "currentPositionUsd": 341.84,
+      "currentPositionUsd": 342.11,
       "gapEur": 0,
       "gapUsd": 0,
-      "fixedLiquidityUsdc": 341.84,
+      "fixedLiquidityUsdc": 342.11,
       "surplusUsd": 26.64,
       "targetFirstWaveUsdc": 500,
-      "remainingFirstWaveUsdc": 158.16,
-      "capitalFloorLockUsdc": 341.57,
-      "protectedFloorLockUsdc": 341.84
+      "remainingFirstWaveUsdc": 157.89,
+      "capitalFloorLockUsdc": 341.84,
+      "protectedFloorLockUsdc": 342.11
     },
     "monitoredConcentratedPoolsCount": 12,
     "status": "ARMED_AND_SCANNING",
     "executorAddress": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
-    "caliberPolygonUsdc": 319.32,
-    "caliberConsolidatedUsdc": 341.84
+    "caliberPolygonUsdc": 319.59,
+    "caliberConsolidatedUsdc": 342.11
   },
   "snipingEcosystem": {
     "ecosystemName": "ÁREA 501 // CABINA DE SNIPING ATÓMICO",

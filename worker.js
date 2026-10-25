@@ -243,15 +243,15 @@ async function getLiveTransactions() {
 }
 
 // ==============================================================================
-// CONFIGURACIÓN TÁCTICA SQUAD SECRET // SEGUNDA BOLA ($500 USDC) · 2M/2M
+// CONFIGURACIÓN TÁCTICA SQUAD SECRET // SEGUNDA BOLA ($500 USDC) · 1M/2M (180S)
 // ==============================================================================
 const SQUAD_ANCHOR = {
   CYCLE: 90,
   TIME_MS: 1792908975000, // Instante base CYC-0090
   CAPITAL: 341.57,
   PNL: 16.14,
-  CYCLE_INTERVAL_MS: 240 * 1000, // Cadencia 2m/2m (240s total: 120s disparo + 120s enfriamiento)
-  RATE: 0.0008, // +0.08% interés compuesto por tiro
+  CYCLE_INTERVAL_MS: 180 * 1000, // Cadencia 1m tiro / 2m descanso (Ciclo total 3 min = 180s // 20 tiros/hora)
+  RATE: 0.0008, // +0.08% interés compuesto por tiro sobre capital consolidado
   CANDIDATE_PAIRS: [
     { pair: "BTC/USDC", informant: "#701 ORACLE-GLOBAL", rationale: "Soporte institucional $80,500 sostenido por ETFs + Flujo neto positivo." },
     { pair: "PAXG/USDC", informant: "#701 ORACLE-GLOBAL (ORO)", rationale: "Oro físico superando $4,000/oz histórico + Fuerte rotación macro de refugio." },
@@ -300,13 +300,13 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
   const pairIndex = (cycleNum - 1) % SQUAD_ANCHOR.CANDIDATE_PAIRS.length;
   const currentPair = SQUAD_ANCHOR.CANDIDATE_PAIRS[pairIndex];
 
-  // Fase 2m/2m (240s total: 0-120s disparo, 120-240s enfriamiento)
+  // Fase 1m tiro / 2m descanso (180s total: 0-60s disparo, 60-180s enfriamiento)
   const elapsedInCycleSec = Math.floor((elapsed % SQUAD_ANCHOR.CYCLE_INTERVAL_MS) / 1000);
-  const isCooldown = elapsedInCycleSec >= 120;
-  const phase = isCooldown ? "COOLDOWN_CHECK_2M" : "STRIKE_WINDOW_2M";
-  const phaseName = isCooldown ? "FASE 2: ENFRIAMIENTO SAGRADO (2M / 120S)" : "FASE 1: CALIBRACIÓN & DISPARO (2M)";
-  const phaseRemainingSec = isCooldown ? (240 - elapsedInCycleSec) : (120 - elapsedInCycleSec);
-  const cycleRemainingSec = 240 - elapsedInCycleSec;
+  const isCooldown = elapsedInCycleSec >= 60;
+  const phase = isCooldown ? "COOLDOWN_CHECK_2M" : "STRIKE_WINDOW_1M";
+  const phaseName = isCooldown ? "FASE 2: ENFRIAMIENTO SAGRADO (2M / 120S)" : "FASE 1: CALIBRACIÓN & DISPARO (1M)";
+  const phaseRemainingSec = isCooldown ? (180 - elapsedInCycleSec) : (60 - elapsedInCycleSec);
+  const cycleRemainingSec = 180 - elapsedInCycleSec;
 
   const mm = Math.floor(cycleRemainingSec / 60).toString().padStart(2, "0");
   const ss = (cycleRemainingSec % 60).toString().padStart(2, "0");
@@ -337,7 +337,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null) {
     activeInformant: currentPair.informant,
     activeRationale: currentPair.rationale,
     isCooldown: isCooldown,
-    cadence: "2m / 2m (120s Cooldown)",
+    cadence: "1m Tiro + 2m Descanso (Ciclo 3 min // 20 tiros/hora)",
     cadenceClock: {
       phase: phase,
       phaseName: phaseName,
@@ -644,15 +644,9 @@ export default {
           globalThis.__LAST_NOTIFIED_CYCLE__ = 91;
         }
 
-        // Si estamos en enfriamiento sagrado (120s), no enviar repetido (cero spam)
-        if (state.isCooldown) {
-          console.log(`[AUTONOMOUS CRON 2M/2M] Escuadrón en reposo/enfriamiento sagrado 120s. Cero spam.`);
-          return;
-        }
-
         // Si ya fue notificado este ciclo, cero spam
         if (state.cycleNum <= globalThis.__LAST_NOTIFIED_CYCLE__) {
-          console.log(`[AUTONOMOUS CRON 2M/2M] Ciclo ${state.cycleId} ya notificado. Cero spam.`);
+          console.log(`[AUTONOMOUS CRON 1M/2M] Ciclo ${state.cycleId} ya notificado. Cero spam.`);
           return;
         }
 
@@ -662,7 +656,7 @@ export default {
 
           const telegramReport = `⚡🛡️ <b>MÓDULO 4: SQUAD SECRET // SEGUNDA BOLA ($500 USDC)</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 <b>⏱️ CADENCIA TÁCTICA: CICLO 2M/2M // 2 MIN (120S) DE ENFRIAMIENTO SAGRADO</b>
+📍 <b>⏱️ CADENCIA TÁCTICA: 1M TIRO + 2M DESCANSO (CICLO 3 MIN // 20 TIROS/HORA)</b>
 🏆 <b>Primera Bola ($330.00 USDC):</b> <b>CORONADA ✅</b>
 🛰️ <b>Ejecución Cloudflare Cron (PC Apagada):</b> <code>${state.cycleId}</code>
 ⏱️ <b>Hora Disparo:</b> <code>${nowUtc}</code>
@@ -681,7 +675,7 @@ export default {
 • <b>Informante Liderazgo:</b> <code>${state.activeInformant}</code>
 • <b>Fundamento Técnico:</b> <i>${state.activeRationale}</i>
 • <b>Candado Breakeven (#00 a +0.04%):</b> Activado ($0.00 Riesgo)
-• <b>Captura Neta:</b> <b>+0.08% Interés Compuesto (+$${state.lastShotGain.toFixed(2)} USDC)</b>
+• <b>Captura Neta:</b> <b>+0.08% Compuesto sobre Capitalizado (+$${state.lastShotGain.toFixed(2)} USDC)</b>
 • <b>Enfriamiento Sagrado:</b> 🧘♀️ 120s (2 Minutos) de descanso con 0 exposición al mercado
 
 📊 <b>MARCADOR DE PRECISIÓN ACUMULADO:</b>
@@ -702,7 +696,7 @@ export default {
               parse_mode: "HTML"
             })
           });
-          console.log(`[AUTONOMOUS CRON 2M/2M] ${state.cycleId} (${state.activePair}) ejecutado y notificado a Telegram. Nuevo capital: $${state.consolidatedUsdc.toFixed(2)} USDC.`);
+          console.log(`[AUTONOMOUS CRON 1M/2M] ${state.cycleId} (${state.activePair}) ejecutado y notificado a Telegram. Nuevo capital: $${state.consolidatedUsdc.toFixed(2)} USDC.`);
         }
       } catch (err) {
         console.error("[CRON WORKER] Error en ciclo programado:", err);
