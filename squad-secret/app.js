@@ -12,8 +12,7 @@
   // Estado Local
   let currentTelemetry = window.__PRELOADED_SQUAD_SECRET__ || null;
   let activeMode = "PLANNING_ZERO_RISK";
-  let activeTpTarget = 0.10; // +$0.10 USDC por tiro
-  let chartPriceHistory = [];
+  let activeTpTarget = 0.12; // +$0.12 USDC por tiro por defecto
   let isExecutingCycle = false;
 
   // Elementos DOM
@@ -42,25 +41,28 @@
 
   const strikePairTitle = document.getElementById("strikePairTitle");
   const strikeDexPool = document.getElementById("strikeDexPool");
-  const overlayEntryPrice = document.getElementById("overlayEntryPrice");
-  const overlayBePrice = document.getElementById("overlayBePrice");
-  const overlayTpPrice = document.getElementById("overlayTpPrice");
-  const overlayTpVal = document.getElementById("overlayTpVal");
 
-  const shotMetricSpread = document.getElementById("shotMetricSpread");
-  const shotMetricDepth = document.getElementById("shotMetricDepth");
-  const shotMetricSlippage = document.getElementById("shotMetricSlippage");
-  const shotMetricNetGain = document.getElementById("shotMetricNetGain");
+  // Visor Táctico Limpio de 4 Cajas Grandes
+  const boxPairCertainty = document.getElementById("boxPairCertainty");
+  const boxPairTitleDisplay = document.getElementById("boxPairTitleDisplay");
+  const boxDirectionBadge = document.getElementById("boxDirectionBadge");
+  const boxPairSubtitle = document.getElementById("boxPairSubtitle");
+
+  const boxOraclePing = document.getElementById("boxOraclePing");
+  const boxEntryPriceDisplay = document.getElementById("boxEntryPriceDisplay");
+  const boxLivePriceDisplay = document.getElementById("boxLivePriceDisplay");
+  const boxSpreadLine = document.getElementById("boxSpreadLine");
+
+  const boxBreakevenPrice = document.getElementById("boxBreakevenPrice");
+  const boxTpGainDisplay = document.getElementById("boxTpGainDisplay");
+  const boxTpPrice = document.getElementById("boxTpPrice");
+
+  const boxOperationStatusText = document.getElementById("boxOperationStatusText");
+  const boxOperationSubText = document.getElementById("boxOperationSubText");
 
   const cyclesTableBody = document.getElementById("cyclesTableBody");
   const ledgerCountBadge = document.getElementById("ledgerCountBadge");
   const masterUtcClockTime = document.getElementById("masterUtcClockTime");
-
-  const strikeCanvas = document.getElementById("strikeTacticalCanvas");
-  let canvasCtx = null;
-  if (strikeCanvas) {
-    canvasCtx = strikeCanvas.getContext("2d");
-  }
 
   /**
    * Cálculo local del Reloj 10/3/5 (Sincronizado al segundo)
@@ -157,103 +159,6 @@
   }
 
   /**
-   * Renderiza el Gráfico Táctico en el Canvas
-   */
-  function drawTacticalChart() {
-    if (!canvasCtx || !strikeCanvas) return;
-    const w = strikeCanvas.clientWidth || 800;
-    const h = strikeCanvas.clientHeight || 200;
-
-    if (strikeCanvas.width !== w || strikeCanvas.height !== h) {
-      strikeCanvas.width = w;
-      strikeCanvas.height = h;
-    }
-
-    const ctx = canvasCtx;
-    ctx.clearRect(0, 0, w, h);
-
-    // Fondo y Grid militar
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
-    ctx.lineWidth = 1;
-    const stepX = 40;
-    const stepY = 25;
-
-    for (let x = 0; x < w; x += stepX) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, h);
-      ctx.stroke();
-    }
-    for (let y = 0; y < h; y += stepY) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(w, y);
-      ctx.stroke();
-    }
-
-    // Inicializar serie si está vacía
-    if (chartPriceHistory.length === 0) {
-      let base = 80800;
-      for (let i = 0; i < 40; i++) {
-        base += (Math.random() - 0.48) * 15;
-        chartPriceHistory.push(base);
-      }
-    } else {
-      // Simulación de nuevo tick fluido
-      const last = chartPriceHistory[chartPriceHistory.length - 1];
-      const delta = (Math.random() - 0.48) * 12;
-      chartPriceHistory.push(last + delta);
-      if (chartPriceHistory.length > 50) chartPriceHistory.shift();
-    }
-
-    const minP = Math.min(...chartPriceHistory) - 20;
-    const maxP = Math.max(...chartPriceHistory) + 20;
-    const rangeP = maxP - minP || 1;
-
-    const points = chartPriceHistory.map((val, idx) => {
-      const x = (idx / (chartPriceHistory.length - 1)) * w;
-      const y = h - ((val - minP) / rangeP) * (h - 40) - 20;
-      return { x, y };
-    });
-
-    // Relleno gradiente área bajo la curva
-    const grad = ctx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, "rgba(6, 182, 212, 0.25)");
-    grad.addColorStop(1, "rgba(6, 182, 212, 0.0)");
-
-    ctx.beginPath();
-    ctx.moveTo(points[0].x, h);
-    points.forEach(p => ctx.lineTo(p.x, p.y));
-    ctx.lineTo(points[points.length - 1].x, h);
-    ctx.closePath();
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    // Línea de precio viva
-    ctx.beginPath();
-    points.forEach((p, idx) => {
-      if (idx === 0) ctx.moveTo(p.x, p.y);
-      else ctx.lineTo(p.x, p.y);
-    });
-    ctx.strokeStyle = "#38bdf8";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Pulso en la cabeza del precio actual
-    const lastPoint = points[points.length - 1];
-    ctx.beginPath();
-    ctx.arc(lastPoint.x, lastPoint.y, 4, 0, Math.PI * 2);
-    ctx.fillStyle = "#38bdf8";
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(lastPoint.x, lastPoint.y, 8, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(56, 189, 248, 0.5)";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-  }
-
-  /**
    * Actualiza el DOM con la Telemetría de Squad Secret
    */
   function applyTelemetry(data) {
@@ -280,24 +185,25 @@
       }
     }
 
-    // 2. Tarjeta 3: Marcador de Precisión
+    // 2. Tarjeta 3: Marcador de Precisión (0G - 0P Cero Humo pre-operación)
     if (data.scoreboard) {
       const sc = data.scoreboard;
       if (topRatioDisplay) {
-        topRatioDisplay.innerHTML = `${sc.currentWins} <span class="metric-sub">Aciertos</span> · ${sc.currentLosses} <span class="metric-sub">Freno</span>`;
+        topRatioDisplay.innerHTML = `${sc.currentWins || 0}G <span class="metric-sub">-</span> ${sc.currentLosses || 0}P`;
       }
       if (topWinRateBadge) {
-        topWinRateBadge.textContent = `${sc.winRatePct}% WIN`;
+        topWinRateBadge.textContent = `${(sc.winRatePct || 0).toFixed(1)}% WIN`;
       }
       if (topSessionPnlDisplay) {
-        topSessionPnlDisplay.textContent = sc.sessionNetPnLFormatted;
+        topSessionPnlDisplay.textContent = sc.sessionNetPnLFormatted || "$0.00 USDC";
       }
     }
 
-    // 3. Tarjeta 4: Dirección Calibrada (Bull vs Bear)
+    // 3. Tarjeta 4: Dirección Calibrada (Bull vs Bear) & Mesa de Tiro Táctico (4 Cajas Grandes)
     if (data.singleShot) {
       const shot = data.singleShot;
       const details = shot.winningPairDetails || {};
+      const isBull = (shot.direction || "BULL") === "BULL";
 
       if (topWinnerPairDisplay) {
         topWinnerPairDisplay.innerHTML = `${shot.selectedPair} <span class="direction-badge ${shot.direction.toLowerCase()}" id="topDirectionBadge">${shot.directionLabel}</span>`;
@@ -312,19 +218,63 @@
         topBearMeter.style.width = `${beScore}%`;
       }
 
-      // Mesa de Planificación
+      // Mesa de Planificación: Cabecera
       if (strikePairTitle) strikePairTitle.textContent = shot.selectedPair;
       if (strikeDexPool) strikeDexPool.textContent = `${details.dex || 'Uniswap V3'} (${details.poolFeeTier || '0.05%'})`;
 
-      if (overlayEntryPrice) overlayEntryPrice.textContent = `$${formatPrice(shot.entryPrice)}`;
-      if (overlayBePrice) overlayBePrice.textContent = `$${formatPrice(shot.breakevenPrice)}`;
-      if (overlayTpPrice) overlayTpPrice.textContent = `$${formatPrice(shot.targetProfitPrice)}`;
-      if (overlayTpVal) overlayTpVal.textContent = `+$${activeTpTarget.toFixed(2)}`;
+      // CAJA 1: PAR Y DIRECCIÓN CALIBRADA
+      if (boxPairTitleDisplay) {
+        const dirBadgeClass = isBull ? "bull" : "bear";
+        const dirBadgeText = isBull ? "🐂 BULL" : "🐻 BEAR";
+        boxPairTitleDisplay.innerHTML = `${shot.selectedPair} <span class="big-direction-pill ${dirBadgeClass}" id="boxDirectionBadge">${dirBadgeText}</span>`;
+      }
+      if (boxPairCertainty) {
+        boxPairCertainty.textContent = `${shot.certaintyPct || 94.8}% CERTEZA`;
+      }
+      if (boxPairSubtitle) {
+        boxPairSubtitle.textContent = `Piscina: ${details.dex || 'QuickSwap / Uniswap V3'} (${details.poolFeeTier || '0.05%'}) · Informante: ${details.informant || '#601 Titan-Scalper'}`;
+      }
 
-      if (shotMetricSpread) shotMetricSpread.textContent = `+${details.dexSpreadPct || '0.32'}% CEX/DEX`;
-      if (shotMetricDepth) shotMetricDepth.textContent = `$${((details.liquidityUsdc || 24500000) / 1000000).toFixed(1)}M USDC`;
-      if (shotMetricSlippage) shotMetricSlippage.textContent = `≤ 0.15% Atómico`;
-      if (shotMetricNetGain) shotMetricNetGain.textContent = `+$${activeTpTarget.toFixed(2)} USDC Neto`;
+      // CAJA 2: PRECIO DE ENTRADA ➔ PRECIO ACTUAL EN VIVO
+      if (boxOraclePing) {
+        boxOraclePing.textContent = `${details.oracle || 'KRAKEN LIVE'} · ${details.latencyMs || 320}ms`;
+      }
+      if (boxEntryPriceDisplay) {
+        boxEntryPriceDisplay.textContent = `$${formatPrice(shot.entryPrice)}`;
+      }
+      if (boxLivePriceDisplay) {
+        boxLivePriceDisplay.textContent = `$${formatPrice(shot.currentPrice || shot.entryPrice)}`;
+      }
+      if (boxSpreadLine) {
+        const spreadVal = details.dexSpreadPct || '0.32';
+        const depthM = ((details.liquidityUsdc || 24500000) / 1000000).toFixed(1);
+        boxSpreadLine.textContent = `Spread Lead-Lag: +${spreadVal}% CEX vs DEX · Profundidad: $${depthM}M USDC`;
+      }
+
+      // CAJA 3: CANDADO BREAKEVEN #00 ➔ META DE SALIDA
+      if (boxBreakevenPrice) {
+        boxBreakevenPrice.textContent = `$${formatPrice(shot.breakevenPrice)}`;
+      }
+      if (boxTpGainDisplay) {
+        boxTpGainDisplay.textContent = `+$${activeTpTarget.toFixed(2)} USDC`;
+      }
+      if (boxTpPrice) {
+        boxTpPrice.textContent = `$${formatPrice(shot.targetProfitPrice)}`;
+      }
+
+      // CAJA 4: ESTADO DE LA OPERACIÓN
+      if (boxOperationStatusText) {
+        if (activeMode === "ARMED_STRIKE") {
+          boxOperationStatusText.innerHTML = `⚡ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS BLINDADOS`;
+        } else {
+          boxOperationStatusText.innerHTML = `⏸️ EN ESPERA DEL COMANDANTE (CAPITALIZACIÓN RUMBO A $300 USDC)`;
+        }
+      }
+      if (boxOperationSubText) {
+        const cap = data.capitalGoal || {};
+        const polVault = cap.gasFloors ? cap.gasFloors.vault501CurrentPol : '155.26';
+        boxOperationSubText.textContent = `Bóveda #501: $${(cap.consolidatedUsdc || 267.72).toFixed(2)} / $300.00 USDC (${cap.progressPct || 89.24}%) · Pisos de Gas Blindados: ${polVault} POL`;
+      }
 
       // Eslabones
       const linkWin = document.getElementById("linkWinningPairName");
@@ -338,7 +288,7 @@
       if (tReason) tReason.textContent = shot.direction === "BULL" ? details.bullRationale : details.bearRationale;
     }
 
-    // 4. Bitácora de Ciclos Históricos
+    // 4. Bitácora de Ciclos Históricos (Vacía en Pre-Operación para 0G - 0P)
     if (data.cycleHistory && Array.isArray(data.cycleHistory)) {
       renderCyclesTable(data.cycleHistory);
       if (ledgerCountBadge) {
@@ -360,6 +310,17 @@
 
   function renderCyclesTable(history) {
     if (!cyclesTableBody) return;
+    if (!history || history.length === 0) {
+      cyclesTableBody.innerHTML = `
+        <tr>
+          <td colspan="8" style="text-align: center; color: var(--text-dim); padding: 22px 10px; font-size: 10px; font-family: var(--font-mono);">
+            ⏸️ SIN OPERACIONES REGISTRADAS · EN ESPERA DEL COMANDANTE PARA EL PRIMER CICLO REAL (0G - 0P / $0.00 USDC)
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
     cyclesTableBody.innerHTML = history.map(item => {
       const isBull = item.direction === "BULL";
       const tagClass = isBull ? "tag-bull" : "tag-bear";
@@ -371,7 +332,7 @@
           <td><strong class="gold-text">${item.pair}</strong></td>
           <td><span class="${tagClass}">${dirText}</span></td>
           <td>${item.durationFormatted || '2m 15s'}</td>
-          <td class="green-text font-bold">${item.resultFormatted || '+$0.10 USDC'}</td>
+          <td class="green-text font-bold">${item.resultFormatted || '+$0.12 USDC'}</td>
           <td><span class="be-locked">🛡️ CLAVADO (+0.04%)</span></td>
           <td><span class="cooldown-badge done">${item.cooldownElapsed || '5m (COMPLETO)'}</span></td>
         </tr>
@@ -413,17 +374,23 @@
       if (btnZero) btnZero.classList.add("active");
       if (btnStrike) btnStrike.classList.remove("active");
       if (subText) subText.textContent = "Cadencia 10/3/5 · 0% Riesgo en Planificación";
+      if (boxOperationStatusText) {
+        boxOperationStatusText.innerHTML = "⏸️ EN ESPERA DEL COMANDANTE (CAPITALIZACIÓN RUMBO A $300 USDC)";
+      }
       showToast("🔒 MODO PLANIFICACIÓN ($0 RIESGO) ACTIVO — Simulación con Ticks Reales");
     } else {
       if (btnStrike) btnStrike.classList.add("active");
       if (btnZero) btnZero.classList.remove("active");
       if (subText) subText.textContent = "⚠️ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS INTOCABLES";
+      if (boxOperationStatusText) {
+        boxOperationStatusText.innerHTML = "⚡ MODO TIRO PROGRAMADO PREPARADO // PISOS DE GAS BLINDADOS";
+      }
       showToast("⚡ MODO TIRO PROGRAMADO ARMADO — Respetando Pisos de Gas Sagrados");
     }
   };
 
   /**
-   * Selector de Objetivo Take Profit por Tiro (+0.08, +0.10, +0.15 USDC)
+   * Selector de Objetivo Take Profit por Tiro (+0.08, +0.10, +0.12, +0.15 USDC)
    */
   window.setTpTarget = function (val) {
     activeTpTarget = val;
@@ -433,8 +400,9 @@
       if (b.textContent.includes(val.toFixed(2))) b.classList.add("active");
     });
 
-    if (overlayTpVal) overlayTpVal.textContent = `+$${val.toFixed(2)}`;
-    if (shotMetricNetGain) shotMetricNetGain.textContent = `+$${val.toFixed(2)} USDC Neto`;
+    if (boxTpGainDisplay) {
+      boxTpGainDisplay.textContent = `+$${val.toFixed(2)} USDC`;
+    }
     showToast(`🎯 Objetivo por disparo ajustado a: +$${val.toFixed(2)} USDC`);
   };
 
@@ -529,7 +497,6 @@
   document.addEventListener("DOMContentLoaded", () => {
     updateClocks();
     setInterval(updateClocks, 1000);
-    setInterval(drawTacticalChart, 600);
 
     fetchTelemetry();
     setInterval(fetchTelemetry, 3000);

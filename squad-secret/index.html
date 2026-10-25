@@ -91,17 +91,17 @@
     <div class="nav-card" id="cardScoreboardTop" title="Marcador de precisión rumbo a 12 Aciertos vs máximo 2 Frenos cortos">
       <div class="card-meta">
         <span class="card-tag green">🎯 MARCADOR DE PRECISIÓN</span>
-        <span class="card-pill font-mono green-pill" id="topWinRateBadge">91.7% WIN</span>
+        <span class="card-pill font-mono green-pill" id="topWinRateBadge">0.0% WIN</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono green-text" id="topRatioDisplay">
-          11 <span class="metric-sub">Aciertos</span> · 1 <span class="metric-sub">Freno</span>
+          0G <span class="metric-sub">-</span> 0P
         </div>
       </div>
       <div class="card-sub-metric font-mono">
         <span class="dim-txt">PnL Sesión:</span>
-        <span class="green-text font-bold" id="topSessionPnlDisplay">+$1.18 USDC</span>
-        <span class="target-sub-txt">(Meta: +$1.50)</span>
+        <span class="green-text font-bold" id="topSessionPnlDisplay">$0.00 USDC</span>
+        <span class="target-sub-txt">(Cero Humo)</span>
       </div>
     </div>
 
@@ -113,7 +113,7 @@
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono text-glow" id="topWinnerPairDisplay">
-          BTC/USDC <span class="direction-badge bull" id="topDirectionBadge">▲ BULL</span>
+          POL/USDC <span class="direction-badge bull" id="topDirectionBadge">▲ BULL</span>
         </div>
       </div>
       <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear">
@@ -139,7 +139,8 @@
       <div class="tp-choice-row font-mono">
         <span class="tp-label">TP/Tiro:</span>
         <button class="tp-choice-btn" onclick="setTpTarget(0.08)">+$0.08</button>
-        <button class="tp-choice-btn active" onclick="setTpTarget(0.10)">+$0.10</button>
+        <button class="tp-choice-btn" onclick="setTpTarget(0.10)">+$0.10</button>
+        <button class="tp-choice-btn active" onclick="setTpTarget(0.12)">+$0.12</button>
         <button class="tp-choice-btn" onclick="setTpTarget(0.15)">+$0.15</button>
       </div>
     </div>
@@ -252,59 +253,106 @@
       </div>
     </section>
 
-    <!-- PANEL CENTRAL: MESA DE PLANIFICACIÓN DEL TIRO ÚNICO (GRÁFICO TÁCTICO & BOTÓN DISPARO) -->
+    <!-- PANEL CENTRAL: VISOR TÁCTICO LIMPIO DE 4 CAJAS GRANDES (SIN GRÁFICO DE LÍNEAS) -->
     <section class="squad-panel squad-center-panel" id="panelTacticalStrike">
       <div class="panel-header">
         <div class="panel-title-wrap">
           <span class="panel-icon">🎯</span>
-          <h2 class="panel-title">MESA DE PLANIFICACIÓN // 1 SOLO TIRO CERTERO</h2>
+          <h2 class="panel-title">MESA DE TIRO TÁCTICO // 1 SOLO TIRO CERTERO</h2>
         </div>
         <div class="strike-asset-badges font-mono">
-          <span class="asset-badge-main" id="strikePairTitle">BTC/USDC</span>
-          <span class="asset-badge-dex" id="strikeDexPool">Uniswap V3 (0.05%)</span>
+          <span class="asset-badge-main" id="strikePairTitle">POL/USDC</span>
+          <span class="asset-badge-dex" id="strikeDexPool">QuickSwap Algebra (0.05%)</span>
         </div>
       </div>
 
-      <!-- ÁREA DEL GRÁFICO TÁCTICO VECTORIAL INTERACTIVO -->
-      <div class="tactical-chart-container" id="tacticalChartWrap">
-        <!-- Overlay de Ticks y Líneas Tácticas -->
-        <div class="chart-tactical-overlay">
-          <div class="overlay-line line-tp" id="overlayLineTp">
-            <span class="line-badge font-mono">🎯 TAKE PROFIT (+0.35% · <span id="overlayTpVal">+$0.10</span>)</span>
-            <span class="line-price font-mono" id="overlayTpPrice">$81,082.80</span>
+      <!-- VISOR TÁCTICO LIMPIO DE 4 CAJAS GRANDES -->
+      <div class="tactical-four-boxes-grid" id="tacticalFourBoxes">
+
+        <!-- CAJA 1: PAR Y DIRECCIÓN CALIBRADA -->
+        <div class="tactical-box box-pair">
+          <div class="box-head">
+            <span class="box-num font-mono">01</span>
+            <span class="box-tag">PAR Y DIRECCIÓN CALIBRADA</span>
+            <span class="box-badge-pill green font-mono" id="boxPairCertainty">94.8% CERTEZA</span>
           </div>
-          <div class="overlay-line line-be" id="overlayLineBe">
-            <span class="line-badge font-mono">🛡️ BREAKEVEN #00 (+0.04% · $0.00 PÉRDIDA)</span>
-            <span class="line-price font-mono" id="overlayBePrice">$80,832.32</span>
-          </div>
-          <div class="overlay-line line-entry" id="overlayLineEntry">
-            <span class="line-badge font-mono">⚡ ENTRADA CALIBRADA (TICK EN VIVO)</span>
-            <span class="line-price font-mono" id="overlayEntryPrice">$80,800.00</span>
+          <div class="box-body">
+            <div class="big-pair-label font-mono" id="boxPairTitleDisplay">
+              POL / USDC <span class="big-direction-pill bull" id="boxDirectionBadge">🐂 BULL</span>
+            </div>
+            <div class="box-meta-line font-mono" id="boxPairSubtitle">
+              Piscina: QuickSwap Algebra / Uniswap V3 · Informante: #601 Titan-Scalper
+            </div>
           </div>
         </div>
 
-        <!-- Canvas de Gráfico Táctico -->
-        <canvas id="strikeTacticalCanvas" width="800" height="230"></canvas>
-      </div>
+        <!-- CAJA 2: PRECIO DE ENTRADA ➔ PRECIO ACTUAL EN VIVO -->
+        <div class="tactical-box box-prices">
+          <div class="box-head">
+            <span class="box-num font-mono">02</span>
+            <span class="box-tag">PRECIO DE ENTRADA ➔ PRECIO ACTUAL EN VIVO</span>
+            <span class="box-badge-pill cyan font-mono" id="boxOraclePing">KRAKEN LIVE · 320ms</span>
+          </div>
+          <div class="box-body">
+            <div class="big-price-flow font-mono">
+              <div class="price-flow-segment">
+                <span class="segment-label">ENTRADA:</span>
+                <span class="segment-val" id="boxEntryPriceDisplay">$0.08920</span>
+              </div>
+              <span class="flow-arrow cyan-text">➔</span>
+              <div class="price-flow-segment">
+                <span class="segment-label">ACTUAL:</span>
+                <span class="segment-val green-text text-glow" id="boxLivePriceDisplay">$0.08924</span>
+              </div>
+            </div>
+            <div class="box-meta-line font-mono" id="boxSpreadLine">
+              Spread Lead-Lag: +0.32% CEX vs DEX · Profundidad: $24.5M USDC
+            </div>
+          </div>
+        </div>
 
-      <!-- MÉTRICAS TÁCTICAS DEL TIRO -->
-      <div class="strike-metrics-row">
-        <div class="strike-metric-item">
-          <span class="m-label font-mono">Spread Lead-Lag</span>
-          <span class="m-val font-mono cyan-text" id="shotMetricSpread">+0.32% CEX/DEX</span>
+        <!-- CAJA 3: CANDADO BREAKEVEN #00 ➔ META DE SALIDA -->
+        <div class="tactical-box box-targets">
+          <div class="box-head">
+            <span class="box-num font-mono">03</span>
+            <span class="box-tag">CANDADO BREAKEVEN #00 ➔ META DE SALIDA</span>
+            <span class="box-badge-pill gold font-mono">RETORNO 100% USDC</span>
+          </div>
+          <div class="box-body">
+            <div class="big-targets-flow font-mono">
+              <div class="target-chip be" id="boxBreakevenChip">
+                <span class="chip-icon">🛡️</span>
+                <span class="chip-txt">BREAKEVEN: <strong>+0.04%</strong> (<span id="boxBreakevenPrice">$0.08924</span>)</span>
+              </div>
+              <span class="flow-arrow gold-text">➔</span>
+              <div class="target-chip tp" id="boxTpChip">
+                <span class="chip-icon">🎯</span>
+                <span class="chip-txt">META SALIDA: <strong class="green-text" id="boxTpGainDisplay">+$0.12 USDC</strong> (<span id="boxTpPrice">$0.08953</span>)</span>
+              </div>
+            </div>
+            <div class="box-meta-line font-mono">
+              $0.00 Pérdida Garantizada al tocar +0.04% · Cierre automático e inflexible de la Mentora #00
+            </div>
+          </div>
         </div>
-        <div class="strike-metric-item">
-          <span class="m-label font-mono">Profundidad Pool</span>
-          <span class="m-val font-mono" id="shotMetricDepth">$24.5M USDC</span>
+
+        <!-- CAJA 4: ESTADO DE LA OPERACIÓN -->
+        <div class="tactical-box box-status">
+          <div class="box-head">
+            <span class="box-num font-mono">04</span>
+            <span class="box-tag">ESTADO DE LA OPERACIÓN</span>
+            <span class="box-badge-pill amber font-mono">MODO ESPERA</span>
+          </div>
+          <div class="box-body">
+            <div class="big-status-alert font-mono" id="boxOperationStatusText">
+              ⏸️ EN ESPERA DEL COMANDANTE (CAPITALIZACIÓN RUMBO A $300 USDC)
+            </div>
+            <div class="box-meta-line font-mono" id="boxOperationSubText">
+              Bóveda #501: $267.72 / $300.00 USDC (89.24%) · Pisos de Gas Blindados: 155.26 POL
+            </div>
+          </div>
         </div>
-        <div class="strike-metric-item">
-          <span class="m-label font-mono">Slippage Blindado</span>
-          <span class="m-val font-mono green-text" id="shotMetricSlippage">&le; 0.15% Atómico</span>
-        </div>
-        <div class="strike-metric-item">
-          <span class="m-label font-mono">Ganancia Proyectada</span>
-          <span class="m-val font-mono gold-text" id="shotMetricNetGain">+$0.10 USDC Neto</span>
-        </div>
+
       </div>
 
       <!-- BOTÓN PRINCIPAL DE DISPARO CALIBRADO -->
@@ -317,14 +365,14 @@
       </div>
     </section>
 
-    <!-- PANEL INFERIOR: BITÁCORA DE CICLOS HISTÓRICOS Y ENFRIAMIENTO 5M -->
+    <!-- PANEL INFERIOR: BITÁCORA DE CICLOS (VIRGEN 0G - 0P) -->
     <section class="squad-panel squad-bottom-panel" id="panelCycleLedger">
       <div class="panel-header">
         <div class="panel-title-wrap">
           <span class="panel-icon">📜</span>
           <h2 class="panel-title">BITÁCORA DE CICLOS TÁCTICOS // AUDITORÍA 10/3/5 (1 TIRO CADA 10 MIN)</h2>
         </div>
-        <span class="panel-badge-pill cyan font-mono" id="ledgerCountBadge">4 INCURSIONES REGISTRADAS</span>
+        <span class="panel-badge-pill cyan font-mono" id="ledgerCountBadge">0 INCURSIONES REGISTRADAS</span>
       </div>
 
       <div class="cycles-table-wrap">
@@ -342,46 +390,10 @@
             </tr>
           </thead>
           <tbody id="cyclesTableBody">
-            <!-- Rellenado dinámicamente por app.js -->
             <tr>
-              <td>CYC-9611</td>
-              <td>01:04:12 UTC</td>
-              <td>PAXG/USDC</td>
-              <td><span class="tag-bull">▲ BULL LONG</span></td>
-              <td>2m 22s</td>
-              <td class="green-text font-bold">+$0.15 USDC</td>
-              <td><span class="be-locked">🛡️ CLAVADO</span></td>
-              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
-            </tr>
-            <tr>
-              <td>CYC-9610</td>
-              <td>00:54:12 UTC</td>
-              <td>POL/USDC</td>
-              <td><span class="tag-bull">▲ BULL LONG</span></td>
-              <td>1m 48s</td>
-              <td class="green-text font-bold">+$0.10 USDC</td>
-              <td><span class="be-locked">🛡️ CLAVADO</span></td>
-              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
-            </tr>
-            <tr>
-              <td>CYC-9609</td>
-              <td>00:44:12 UTC</td>
-              <td>ETH/USDC</td>
-              <td><span class="tag-bear">▼ BEAR SHORT</span></td>
-              <td>2m 45s</td>
-              <td class="green-text font-bold">+$0.09 USDC</td>
-              <td><span class="be-locked">🛡️ CLAVADO</span></td>
-              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
-            </tr>
-            <tr>
-              <td>CYC-9608</td>
-              <td>00:34:12 UTC</td>
-              <td>BNB/USDC</td>
-              <td><span class="tag-bull">▲ BULL LONG</span></td>
-              <td>1m 25s</td>
-              <td class="green-text font-bold">+$0.12 USDC</td>
-              <td><span class="be-locked">🛡️ CLAVADO</span></td>
-              <td><span class="cooldown-badge done">5m 00s (COMPLETO)</span></td>
+              <td colspan="8" style="text-align: center; color: var(--text-dim); padding: 22px 10px; font-size: 10px;">
+                ⏸️ SIN OPERACIONES REGISTRADAS · EN ESPERA DEL COMANDANTE PARA EL PRIMER CICLO REAL (0G - 0P / $0.00 USDC)
+              </td>
             </tr>
           </tbody>
         </table>

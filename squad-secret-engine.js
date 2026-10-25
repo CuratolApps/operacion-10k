@@ -419,103 +419,20 @@ function evaluateSingleShotFunnel(krakenPrices, clockState) {
 
 /**
  * Carga o inicializa la bitácora de ciclos históricos y el marcador de precisión (12 - 2).
+ * Cero Humo: Arranca 100% virgen en 0G - 0P y $0.00 USDC en espera del Comandante.
  */
 function loadOrCreateCycleLedger() {
-  let existing = null;
-  try {
-    if (fs.existsSync(SQUAD_SECRET_FILE)) {
-      existing = JSON.parse(fs.readFileSync(SQUAD_SECRET_FILE, "utf8"));
-    }
-  } catch (_) {}
-
-  if (existing && existing.cycleHistory && Array.isArray(existing.cycleHistory)) {
-    return {
-      history: existing.cycleHistory,
-      scoreboard: existing.scoreboard || {
-        targetWins: 12,
-        maxLosses: 2,
-        currentWins: 11,
-        currentLosses: 1,
-        winRatePct: 91.7,
-        sessionNetPnLUsdc: 1.18,
-        sessionNetPnLFormatted: "+$1.18 USDC",
-        targetPnlFormatted: "+$1.50 USDC"
-      }
-    };
-  }
-
-  // Historial canónico inicial demostrable
-  const now = Date.now();
-  const sampleHistory = [
-    {
-      cycleId: "CYC-9611",
-      timeUtc: new Date(now - 40 * 60000).toISOString().slice(11, 19) + " UTC",
-      pair: "PAXG/USDC",
-      direction: "BULL",
-      directionLabel: "▲ BULL LONG",
-      durationSec: 142,
-      durationFormatted: "2m 22s",
-      resultUsdc: 0.15,
-      resultFormatted: "+$0.15 USDC",
-      status: "EXIT_TP_TOUCHED",
-      breakevenTriggered: true,
-      cooldownElapsed: "5m 00s (COMPLETO)"
-    },
-    {
-      cycleId: "CYC-9610",
-      timeUtc: new Date(now - 30 * 60000).toISOString().slice(11, 19) + " UTC",
-      pair: "POL/USDC",
-      direction: "BULL",
-      directionLabel: "▲ BULL LONG",
-      durationSec: 108,
-      durationFormatted: "1m 48s",
-      resultUsdc: 0.10,
-      resultFormatted: "+$0.10 USDC",
-      status: "EXIT_TP_TOUCHED",
-      breakevenTriggered: true,
-      cooldownElapsed: "5m 00s (COMPLETO)"
-    },
-    {
-      cycleId: "CYC-9609",
-      timeUtc: new Date(now - 20 * 60000).toISOString().slice(11, 19) + " UTC",
-      pair: "ETH/USDC",
-      direction: "BEAR",
-      directionLabel: "▼ BEAR SHORT",
-      durationSec: 165,
-      durationFormatted: "2m 45s",
-      resultUsdc: 0.09,
-      resultFormatted: "+$0.09 USDC",
-      status: "EXIT_TP_TOUCHED",
-      breakevenTriggered: true,
-      cooldownElapsed: "5m 00s (COMPLETO)"
-    },
-    {
-      cycleId: "CYC-9608",
-      timeUtc: new Date(now - 10 * 60000).toISOString().slice(11, 19) + " UTC",
-      pair: "BNB/USDC",
-      direction: "BULL",
-      directionLabel: "▲ BULL LONG",
-      durationSec: 85,
-      durationFormatted: "1m 25s",
-      resultUsdc: 0.12,
-      resultFormatted: "+$0.12 USDC",
-      status: "EXIT_TP_TOUCHED",
-      breakevenTriggered: true,
-      cooldownElapsed: "5m 00s (COMPLETO)"
-    }
-  ];
-
   return {
-    history: sampleHistory,
+    history: [],
     scoreboard: {
       targetWins: 12,
       maxLosses: 2,
-      currentWins: 11,
-      currentLosses: 1,
-      winRatePct: 91.7,
-      sessionNetPnLUsdc: 1.18,
-      sessionNetPnLFormatted: "+$1.18 USDC",
-      targetPnlFormatted: "+$1.50 USDC"
+      currentWins: 0,
+      currentLosses: 0,
+      winRatePct: 0.0,
+      sessionNetPnLUsdc: 0.00,
+      sessionNetPnLFormatted: "$0.00 USDC",
+      targetPnlFormatted: "+$1.44 USDC"
     }
   };
 }

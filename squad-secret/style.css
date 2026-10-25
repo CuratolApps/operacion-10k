@@ -529,96 +529,235 @@ html, body {
   color: var(--text-dim);
 }
 
-.tactical-chart-container {
+/* =============================================================================
+   VISOR TÁCTICO LIMPIO DE 4 CAJAS GRANDES (CERO HUMO / ESPERA $300 USDC)
+   ============================================================================= */
+.tactical-four-boxes-grid {
   flex: 1;
-  min-height: 160px;
-  position: relative;
-  background: #03060a;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #020508;
   border-bottom: 1px solid var(--border-subtle);
   overflow: hidden;
 }
 
-#strikeTacticalCanvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.chart-tactical-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
+.tactical-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  padding: 12px 16px;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.2s ease;
 }
 
-.overlay-line {
+.tactical-box:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.tactical-box.box-pair {
+  border-left: 3px solid var(--green-primary);
+}
+.tactical-box.box-prices {
+  border-left: 3px solid var(--cyan-primary);
+}
+.tactical-box.box-targets {
+  border-left: 3px solid var(--gold-primary);
+}
+.tactical-box.box-status {
+  border-left: 3px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.025);
+}
+
+.box-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 2px 8px;
-  border-radius: 4px;
-  border-left: 3px solid transparent;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-}
-.overlay-line.line-tp {
-  border-left-color: var(--green-primary);
-  border-bottom: 1px dashed rgba(16, 185, 129, 0.3);
-}
-.overlay-line.line-be {
-  border-left-color: var(--gold-primary);
-  border-bottom: 1px dashed rgba(245, 158, 11, 0.3);
-}
-.overlay-line.line-entry {
-  border-left-color: var(--cyan-primary);
-  border-bottom: 1px solid rgba(6, 182, 212, 0.4);
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
-.line-badge {
+.box-num {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.box-tag {
   font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.box-badge-pill {
+  font-size: 8.5px;
+  padding: 1px 6px;
+  border-radius: 4px;
   font-weight: 700;
 }
-.overlay-line.line-tp .line-badge { color: #34d399; }
-.overlay-line.line-be .line-badge { color: #fbbf24; }
-.overlay-line.line-entry .line-badge { color: #38bdf8; }
+.box-badge-pill.green {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+.box-badge-pill.cyan {
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  color: #38bdf8;
+}
+.box-badge-pill.gold {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+.box-badge-pill.amber {
+  background: rgba(217, 119, 6, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #fef08a;
+}
 
-.line-price {
-  font-size: 10px;
+.box-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+}
+
+/* CAJA 1: PAR Y DIRECCIÓN */
+.big-pair-label {
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.5px;
+}
+
+.big-direction-pill {
+  font-size: 11px;
   font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.big-direction-pill.bull {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid var(--green-primary);
+  color: #34d399;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+.big-direction-pill.bear {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid var(--red-primary);
+  color: #f87171;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+/* CAJA 2: PRECIOS EN VIVO */
+.big-price-flow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.price-flow-segment {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.price-flow-segment .segment-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.price-flow-segment .segment-val {
+  font-size: 17px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.price-flow-segment .segment-val.text-glow {
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.flow-arrow {
+  font-size: 14px;
+  font-weight: 900;
+  opacity: 0.8;
+}
+
+/* CAJA 3: CANDADO BREAKEVEN ➔ META SALIDA */
+.big-targets-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.target-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+  flex: 1;
+}
+
+.target-chip.be {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fde68a;
+}
+
+.target-chip.tp {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
   color: #ffffff;
 }
 
-.strike-metrics-row {
-  height: 38px;
-  padding: 0 12px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.015);
-  border-bottom: 1px solid var(--border-subtle);
-  flex-shrink: 0;
+.chip-icon {
+  font-size: 12px;
 }
 
-.strike-metric-item {
-  display: flex;
-  flex-direction: column;
-}
-.strike-metric-item .m-label {
-  font-size: 8px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-.strike-metric-item .m-val {
+.chip-txt {
   font-size: 10px;
-  font-weight: 700;
-  color: #e2e8f0;
+}
+
+/* CAJA 4: ESTADO OPERACIÓN */
+.big-status-alert {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fef08a;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 5px;
+  padding: 6px 10px;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.box-meta-line {
+  font-size: 8.5px;
+  color: var(--text-dim);
+  line-height: 1.3;
 }
 
 .strike-action-row {
