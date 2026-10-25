@@ -1042,19 +1042,19 @@ async function syncSquadSecretLive() {
     const elTopUsdc = document.getElementById("topUsdcStableVal");
     if (elTopUsdc) {
       elTopUsdc.textContent = `$${consolidated.toFixed(2)} USDC`;
-      elTopUsdc.title = `Total Acumulado en Bóveda #501: $${consolidated.toFixed(2)} USDC (Meta Bola 2: $${goal.toFixed(2)} USDC | Base Líquida On-Chain: $325.43 + Profit Acumulado: +$${pnl.toFixed(2)} USDC)`;
+      elTopUsdc.title = `Total Acumulado en Bóveda #501: $${consolidated.toFixed(2)} USDC (Meta Bola 3: $${goal.toFixed(2)} USDC | Base Líquida On-Chain: $486.92 + Profit Acumulado: +$${pnl.toFixed(2)} USDC)`;
     }
 
     const elTopUsdcSub = elTopUsdc?.parentElement?.querySelector(".queen-status-text");
     if (elTopUsdcSub) {
-      elTopUsdcSub.textContent = `BLQ: $${blk.nextMilestoneBlock.toFixed(2)} (${blk.progressToNextBlockPct}%) · BOLA 2: $${goal.toFixed(2)} (${progress.toFixed(1)}%)`;
+      elTopUsdcSub.textContent = `BLQ: $${blk.nextMilestoneBlock.toFixed(2)} (${blk.progressToNextBlockPct}%) · BOLA 3: $${goal.toFixed(2)} (${progress.toFixed(1)}%)`;
     }
 
     // 2. Tarjeta Bóveda Matriz #501
     const elVaultPill = document.getElementById("vault501StatusPill");
     if (elVaultPill) {
-      elVaultPill.textContent = `155.13 / 150 POL`;
-      elVaultPill.title = `Gas Blindado Intocable: 155.13 / 150.00 POL en #501 y 300.02 / 300.00 POL en Flota (STRICT_NO_GAS_SELL = true)`;
+      elVaultPill.textContent = `155.05 / 150 POL`;
+      elVaultPill.title = `Gas Blindado Intocable: 155.05 / 150.00 POL en #501 y 300.02 / 300.00 POL en Flota (STRICT_NO_GAS_SELL = true)`;
     }
 
     const elVaultConsolidated = document.getElementById("vault501LiveConsolidated");
@@ -1076,7 +1076,7 @@ async function syncSquadSecretLive() {
     // 3. Tarjeta Posición USDC (Columna Izquierda / Munición)
     const elFundsPower = document.getElementById("fundsInPowerText");
     if (elFundsPower) {
-      elFundsPower.textContent = `FONDOS BÓVEDA #501: $${consolidated.toFixed(2)} USDC (Base $325.43 + Profit +$${pnl.toFixed(2)} USDC)`;
+      elFundsPower.textContent = `FONDOS BÓVEDA #501: $${consolidated.toFixed(2)} USDC (Base $486.92 + Profit +$${pnl.toFixed(2)} USDC)`;
     }
 
     const elMunTotal = document.getElementById("munitionTotalUsdc");
@@ -1091,17 +1091,17 @@ async function syncSquadSecretLive() {
 
     const elMilestonePct = document.getElementById("milestonePctText");
     if (elMilestonePct) {
-      elMilestonePct.textContent = `${blk.progressToNextBlockPct}% del Bloque · Rumbo a Bola 2 $${goal.toFixed(2)} (${progress.toFixed(1)}%)`;
+      elMilestonePct.textContent = `${blk.progressToNextBlockPct}% del Bloque · Rumbo a Bola 3 $${goal.toFixed(2)} (${progress.toFixed(1)}%)`;
     }
 
-    // Desglose de munición: Base On-Chain Oficial Verificada ($325.43 USDC)
+    // Desglose de munición: Base On-Chain Oficial Verificada ($486.92 USDC)
     const elMunCanon1 = document.getElementById("munitionCanon1");
     if (elMunCanon1) {
-      elMunCanon1.textContent = `$302.91 USDC`;
+      elMunCanon1.textContent = `$464.40 USDC`;
     }
     const elMunCanon1Desc = document.getElementById("munitionCanon1Desc");
     if (elMunCanon1Desc) {
-      elMunCanon1Desc.textContent = `Base On-Chain Polygon: Nodriza #501 ($297.91) & #001 ($5.00)`;
+      elMunCanon1Desc.textContent = `Base On-Chain Polygon: Nodriza #501 ($459.40) & #001 ($5.00)`;
     }
 
     const elMunCanon2 = document.getElementById("munitionCanon2");

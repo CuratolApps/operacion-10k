@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "depositTxHash": "0x4dcc07f0cf531571e48eb2c8ff9ff54da69ef47760bacf7c5d193f509b1dd721",
+  "wrapTxHash": "0x39b4b29cd829c25e2555486c73e2e6668834a8f2187d8ceaeb57ce32fac5e881",
+  "swapTxHash": "0xf65066517ceec7d32bde69153703eb5bac53327851ee2abbbb8fab5216162e8d",
+  "polConverted": 1826.764,
+  "usdcReceived": 161.488091,
+  "finalUsdcNum": 459.400093,
+  "finalPolNum": 155.0479,
+  "floor501": 155.13,
+  "timestamp": "2026-10-25T12:07:58.120Z"
+}

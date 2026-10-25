@@ -267,26 +267,27 @@ async function fetchVault501BalancesOnChain() {
   } catch (_) {}
 
   // Escalera oficial de Bloques de Capitalización en Firme en #501:
-  const MILESTONE_BLOCKS = [355.00, 400.00, 450.00, 500.00, 1000.00, 2000.00];
+  // Escalera oficial de Bloques de Capitalización en Firme en #501 (Tercera Bola $1,000):
+  const MILESTONE_BLOCKS = [355.00, 400.00, 450.00, 500.00, 550.00, 600.00, 650.00, 700.00, 750.00, 800.00, 850.00, 900.00, 950.00, 1000.00, 2000.00];
 
-  // Base on-chain verificada #501:
-  // $302.91 (Polygon) + $21.52 (BSC) + $1.00 (Binance Spot #1) = $325.43 USDC
-  const basePolygonUsdc = 302.91;
+  // Base on-chain verificada #501 (Post-Swap 1,826.764 POL ➔ +$161.49 USDC Nativo):
+  // $464.40 (Polygon: $459.40 #501 + $5.00 #001) + $21.52 (BSC) + $1.00 (Binance Spot) = $486.92 USDC
+  const basePolygonUsdc = 464.40;
   const baseBscUsdc = 21.52;
   const baseBinanceUsdc = 1.00;
-  const baseOnChainUsdc = 325.43;
+  const baseOnChainUsdc = 486.92;
 
   // Capital consolidado actual (avanza tiro a tiro con PnL acumulado a +0.15% compuesto):
-  const consolidatedUsdc = 392.66;
-  const targetCapitalUsdc = 500.00; // Segunda Bola ($500.00 USDC)
+  const consolidatedUsdc = 556.40;
+  const targetCapitalUsdc = 1000.00; // Tercera Bola ($1,000.00 USDC)
 
-  let currentSettledBlock = baseOnChainUsdc;
-  let nextMilestoneBlock = MILESTONE_BLOCKS[0];
+  let currentSettledBlock = 550.00; // Asentado en firme en Bóveda #501
+  let nextMilestoneBlock = 600.00;
 
   for (let i = 0; i < MILESTONE_BLOCKS.length; i++) {
     if (consolidatedUsdc >= MILESTONE_BLOCKS[i]) {
       currentSettledBlock = MILESTONE_BLOCKS[i];
-      nextMilestoneBlock = MILESTONE_BLOCKS[i + 1] || (MILESTONE_BLOCKS[i] * 2);
+      nextMilestoneBlock = MILESTONE_BLOCKS[i + 1] || (MILESTONE_BLOCKS[i] + 50);
     } else {
       nextMilestoneBlock = MILESTONE_BLOCKS[i];
       break;
@@ -318,7 +319,8 @@ async function fetchVault501BalancesOnChain() {
     protectedFloorLock: currentSettledBlock,
     highWaterMarkRatchetUsdc: consolidatedUsdc,
     targetCapitalUsdc,
-    secondWaveTargetUsdc: targetCapitalUsdc,
+    secondWaveStatus: "CORONADA ✅",
+    thirdWaveTargetUsdc: targetCapitalUsdc,
     remainingUsdc,
     progressPct,
     goalSurpassed: consolidatedUsdc >= targetCapitalUsdc,
@@ -329,10 +331,8 @@ async function fetchVault501BalancesOnChain() {
       remainingToNextBlock,
       progressToNextBlockPct,
       milestoneBlocks: MILESTONE_BLOCKS,
-      isBlockSettled: consolidatedUsdc >= 355.00,
-      statusLabel: consolidatedUsdc >= 355.00
-        ? `BLOQUE $${currentSettledBlock.toFixed(2)} ASENTADO EN #501`
-        : `ACUMULANDO HACIA BLOQUE $${nextMilestoneBlock.toFixed(2)}`
+      isBlockSettled: true,
+      statusLabel: `BLOQUE $${currentSettledBlock.toFixed(2)} ASENTADO EN #501 // PRÓXIMO: $${nextMilestoneBlock.toFixed(2)}`
     },
     nativePolReserve: parseFloat(polygonPol.toFixed(2)),
     gasFloors: {
