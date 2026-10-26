@@ -83,11 +83,11 @@
     /* 1. BARRA SUPERIOR WINDOWS DEV: TASKBAR & RESUMEN DE EJECUCIÓN (5 TARJETAS)*/
     /* ========================================================================= */
     .win-header-ribbon {
-      min-height: 84px;
-      height: 84px;
-      padding: 6px 14px;
+      min-height: 86px;
+      height: 86px;
+      padding: 6px 12px;
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: 1.05fr 0.95fr 1.15fr 0.9fr 0.85fr 1.1fr;
       gap: 8px;
       flex-shrink: 0;
       background: var(--win-surface);
@@ -99,8 +99,8 @@
     }
 
     .pulse-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: #16a34a;
       box-shadow: 0 0 6px #16a34a;
@@ -116,14 +116,15 @@
       background: var(--win-card);
       border: 1px solid var(--win-border);
       border-radius: 6px;
-      padding: 7px 10px;
+      padding: 6px 8px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
-      min-height: 70px;
+      min-height: 72px;
       box-sizing: border-box;
       transition: all 0.15s ease;
+      overflow: visible;
     }
 
     .win-metric-card:hover {
@@ -136,16 +137,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 700;
       color: var(--text-medium);
       text-transform: uppercase;
       letter-spacing: 0.2px;
+      gap: 4px;
     }
 
     .win-metric-val {
       font-family: var(--font-code);
-      font-size: 15.5px;
+      font-size: 15px;
       line-height: 1.15;
       font-weight: 800;
       letter-spacing: -0.4px;
@@ -162,8 +164,9 @@
     .val-pnl { color: #16a34a; }
 
     .win-metric-sub {
-      font-size: 9px;
-      line-height: 1.2;
+      font-size: 8.8px;
+      line-height: 1.35;
+      padding-bottom: 2px;
       color: var(--text-muted);
       font-family: var(--font-code);
       white-space: nowrap;
@@ -178,8 +181,8 @@
       flex: 1;
       display: grid;
       grid-template-columns: 1.15fr 1.35fr 1.5fr;
-      gap: 10px;
-      padding: 10px 14px;
+      gap: 8px;
+      padding: 8px 12px;
       overflow: hidden;
       min-height: 0;
     }
@@ -196,7 +199,7 @@
     }
 
     .win-titlebar {
-      height: 32px;
+      height: 28px;
       background: var(--win-titlebar);
       border-bottom: 1px solid var(--win-border);
       display: flex;
@@ -218,7 +221,7 @@
 
     .win-title-path {
       font-family: var(--font-code);
-      font-size: 9.5px;
+      font-size: 9px;
       color: var(--text-muted);
       font-weight: 500;
     }
@@ -253,12 +256,13 @@
 
     .win-body {
       flex: 1;
-      padding: 10px;
-      overflow-y: auto;
+      padding: 7px 9px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
       background: #fafcff;
+      min-height: 0;
     }
 
     /* ========================================================================= */
@@ -268,7 +272,7 @@
       background: var(--win-surface);
       border: 1px solid var(--win-border);
       border-radius: 6px;
-      padding: 10px 12px;
+      padding: 7px 10px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
 
@@ -610,10 +614,10 @@
       background: #ffffff;
       border: 1px solid var(--win-border);
       border-radius: 6px;
-      padding: 8px 10px;
+      padding: 5px 8px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
 
     .step-card.active-step {
@@ -892,16 +896,16 @@
   <header class="win-header-ribbon">
     <!-- TARJETA 1: ÁREA 501 // MANDO CENTRAL (SIMÉTRICA) -->
     <div class="win-metric-card" style="border-left: 3px solid var(--win-primary);" title="Mando Central Área 501 - Estación de Operaciones On-Chain">
-      <div class="win-metric-head">
-        <span>🛡️ ESTACIÓN DE MANDO</span>
-        <span class="block-badge badge-green" style="display:inline-flex;align-items:center;gap:4px;">
-          <span class="pulse-dot"></span> EN VIVO
+      <div class="win-metric-head" style="gap: 4px;">
+        <span style="white-space: nowrap; font-size: 8.8px; font-weight: 700; letter-spacing: 0.1px;">🛡️ ESTACIÓN DE MANDO</span>
+        <span class="block-badge badge-green" style="display:inline-flex;align-items:center;gap:3px;white-space:nowrap;padding:1px 5px;font-size:8px;">
+          <span class="pulse-dot" style="width:6px;height:6px;"></span> EN VIVO
         </span>
       </div>
       <div class="win-metric-val val-blue" style="font-size: 14.5px; font-weight: 800; letter-spacing: -0.2px; white-space: nowrap;">
         <span>ÁREA 501</span>
       </div>
-      <div class="win-metric-sub" style="font-weight: 600; color: var(--text-dark);">
+      <div class="win-metric-sub" style="font-weight: 600; color: var(--text-dark); line-height: 1.35; padding-bottom: 2px; overflow: visible; white-space: nowrap;">
         Mando Central · Polygon PoS
       </div>
     </div>
@@ -948,17 +952,19 @@
       <div class="win-metric-sub">160.79 #501 · 78.13 Caps</div>
     </div>
 
-    <!-- TARJETA 5: PNL NETO OPERATIVO -->
-    <div class="win-metric-card" title="Rendimiento neto real del capital y PnL operativo estricto de bots">
+    <!-- TARJETA 5: PNL NETO OPERATIVO (COMPACTA + MODAL FLOTANTE AUDITADO) -->
+    <div class="win-metric-card" id="cardPnlNetoTop" title="Clic para ver el desglose contable y auditoría forense de capital y PnL" style="cursor: pointer; border-left: 3px solid #16a34a;">
       <div class="win-metric-head">
-        <span>📊 PnL Neto Operativo</span>
-        <span class="block-badge badge-green" id="badgePnlNeto">0.00% ROI OPERATIVO (BASE: $598.76)</span>
+        <span style="white-space: nowrap; font-size: 8.8px; font-weight: 700;">📊 PNL OPERATIVO</span>
+        <span class="block-badge badge-blue" style="font-size: 7.5px; padding: 1px 4px; white-space: nowrap;">🔍 DETALLE</span>
       </div>
-      <div class="win-metric-val val-pnl">
+      <div class="win-metric-val val-pnl" style="margin: 1px 0;">
         <span id="valRealPnl">+$0.00</span>
-        <span style="font-size:10px;color:var(--text-muted);">USDC</span>
+        <span style="font-size:9.5px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="win-metric-sub" id="valGasSub">Inyección Base: $598.76 USDC · PnL Bots: +$0.00 USDC · Gas Red: Blindado</div>
+      <div class="win-metric-sub" id="valGasSub" style="color: var(--win-primary); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        Ver Desglose ➔
+      </div>
     </div>
 
     <!-- TARJETA 6: PISO FIRME & META -->
@@ -988,31 +994,27 @@
           <span>Bóvedas &amp; Tesorería On-Chain</span>
           <span class="win-title-path">C:\Area501\Vaults.dat</span>
         </div>
-        <div class="win-controls">
-          <span class="win-btn">_</span>
-          <span class="win-btn">□</span>
-          <span class="win-btn close">✕</span>
-        </div>
+        <span class="block-badge badge-blue" style="font-size: 8.5px; padding: 2px 6px;">ON-CHAIN</span>
       </div>
       <div class="win-body">
 
         <!-- BÓVEDA MATRIZ #501 (NODRIZA DUAL / MULTI-CHAIN) -->
-        <div class="data-block primary-vault" style="flex: 1.35; display: flex; flex-direction: column; justify-content: space-between;">
+        <div class="data-block primary-vault" style="padding: 7px 10px;">
           <div>
-            <div class="block-header-row">
-              <span class="block-title">BÓVEDA MATRIZ #501 (NODRIZA DUAL)</span>
-              <span class="block-badge badge-gold">PISO INFRANQUEABLE</span>
+            <div class="block-header-row" style="margin-bottom: 3px;">
+              <span class="block-title" style="white-space: nowrap; font-size: 9.8px; letter-spacing: -0.2px;">BÓVEDA MATRIZ #501 · NODRIZA DUAL</span>
+              <span class="block-badge badge-gold" style="white-space: nowrap; font-size: 8px; padding: 1px 5px;">PISO INFRANQUEABLE</span>
             </div>
-            <span class="code-address">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
-            <div class="data-grid-2col">
-              <div class="data-item"><span class="data-label">USDC Polygon (Cámara 1):</span><strong class="val-gold">$490.76</strong></div>
-              <div class="data-item"><span class="data-label">Gas Pol:</span><strong class="val-green">160.79 POL (Piso 155.05 Blindado)</strong></div>
-              <div class="data-item"><span class="data-label">USDC Hyperliquid L1 (Cámara 2):</span><strong class="val-gold">$100.02</strong></div>
-              <div class="data-item"><span class="data-label">Gas Arb:</span><strong class="val-green">0.00084 ETH ($0.00 Gas L1)</strong></div>
-              <div class="data-item"><span class="data-label">USDC BSC:</span><strong>$7.98</strong></div>
-              <div class="data-item"><span class="data-label">Gas BSC:</span><strong>0.0188 BNB</strong></div>
+            <span class="code-address" style="margin-bottom: 4px; font-size: 9px; padding: 1px 5px;">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
+            <div class="data-grid-2col" style="gap: 3px 8px; font-size: 9px;">
+              <div class="data-item" style="white-space: nowrap;"><span class="data-label">USDC Polygon:</span><strong class="val-gold">$490.76</strong></div>
+              <div class="data-item" style="white-space: nowrap;"><span class="data-label">Gas POL #501:</span><strong class="val-green">160.79 POL</strong></div>
+              <div class="data-item" style="white-space: nowrap;"><span class="data-label">USDC Hyperliquid:</span><strong class="val-gold">$100.02</strong></div>
+              <div class="data-item" style="white-space: nowrap;"><span class="data-label">Gas Arb / L1:</span><strong class="val-green">0.00084 ETH</strong></div>
+              <div class="data-item" style="white-space: nowrap;"><span class="data-label">USDC BSC:</span><strong>$7.98</strong></div>
+              <div class="data-item" style="white-space: nowrap;"><span class="data-label">Gas BSC:</span><strong>0.0188 BNB</strong></div>
             </div>
-            <div class="vault-security-strip">
+            <div class="vault-security-strip" style="margin-top: 5px; padding-top: 4px; font-size: 8px;">
               <div class="security-chip chip-blue" title="Permiso on-chain verificado en contrato AtomicSniperExecutor (0x03Ac...6b67)">
                 <span class="chip-label">Sniper:</span>
                 <span class="chip-val">Allowance $2.5k ✔</span>
@@ -1023,32 +1025,32 @@
               </div>
             </div>
           </div>
-          <div class="win-actions-row" style="flex-wrap: wrap;">
-            <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
+          <div class="win-actions-row" style="flex-wrap: wrap; margin-top: 5px; gap: 4px;">
+            <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn" style="padding: 2px 6px; font-size: 8.5px;">
               <span>↗</span> POLYGONSCAN
             </a>
-            <a href="https://arbiscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
+            <a href="https://arbiscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn" style="padding: 2px 6px; font-size: 8.5px;">
               <span>↗</span> ARBISCAN
             </a>
-            <a href="https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="hyperliquid-direct-pill" title="Ver saldos y Perps en vivo en Hyperliquid L1">
+            <a href="https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="hyperliquid-direct-pill" style="padding: 2px 6px; font-size: 8.5px;" title="Ver saldos y Perps en vivo en Hyperliquid L1">
               <span class="material-symbols-rounded">open_in_new</span>
               <span>HYPERLIQUID L1</span>
             </a>
-            <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
+            <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn" style="padding: 2px 6px; font-size: 8.5px;">
               <span>↗</span> BSCSCAN
             </a>
           </div>
         </div>
 
         <!-- BÓVEDA VIP #00 (MENTORA) -->
-        <div class="data-block" style="flex: 0.85; display: flex; flex-direction: column; justify-content: space-between;">
+        <div class="data-block" style="padding: 5px 10px;">
           <div>
-            <div class="block-header-row">
-              <span class="block-title">BÓVEDA VIP #00 (MENTORA AISLADA)</span>
-              <span class="block-badge badge-blue">SOLO LECTURA</span>
+            <div class="block-header-row" style="margin-bottom: 2px;">
+              <span class="block-title" style="white-space: nowrap; font-size: 9.8px;">BÓVEDA VIP #00 (MENTORA AISLADA)</span>
+              <span class="block-badge badge-blue" style="font-size: 7.5px; padding: 1px 5px;">SOLO LECTURA</span>
             </div>
-            <span class="code-address">0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</span>
-            <div class="data-grid-2col">
+            <span class="code-address" style="margin-bottom: 3px; font-size: 8.5px; padding: 1px 5px;">0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</span>
+            <div class="data-grid-2col" style="gap: 2px 8px; font-size: 9px;">
               <div class="data-item"><span class="data-label">POL Gas:</span><span>0.9565 POL</span></div>
               <div class="data-item"><span class="data-label">USDC Saldo:</span><span>$0.00 USDC</span></div>
               <div class="data-item"><span class="data-label">Gasto Permitido:</span><strong class="val-green">0 (Intocable)</strong></div>
@@ -1058,17 +1060,17 @@
         </div>
 
         <!-- 5 BÓVEDAS BINANCE SPOT & REGLA 70/30 -->
-        <div class="data-block" style="flex: 1.05; display: flex; flex-direction: column; justify-content: space-between;">
+        <div class="data-block" style="padding: 5px 10px;">
           <div>
-            <div class="block-header-row">
-              <span class="block-title">5 BÓVEDAS BINANCE SPOT (#1 A #5)</span>
-              <span class="block-badge badge-green">ACUMULACIÓN</span>
+            <div class="block-header-row" style="margin-bottom: 2px;">
+              <span class="block-title" style="white-space: nowrap; font-size: 9.8px;">5 BÓVEDAS BINANCE SPOT (#1 A #5)</span>
+              <span class="block-badge badge-green" style="font-size: 7.5px; padding: 1px 5px;">ACUMULACIÓN</span>
             </div>
-            <div class="data-grid-2col">
+            <div class="data-grid-2col" style="gap: 2px 8px; font-size: 9px;">
               <div class="data-item"><span class="data-label">Saldo Spot #1:</span><strong class="val-gold">$1.00 USDC</strong></div>
               <div class="data-item"><span class="data-label">Auto-Sweep:</span><span class="val-green">FALSE (Cero Drenaje)</span></div>
             </div>
-            <div style="background:#f1f5f9;border:1px solid #e2e8f0;border-left:3px solid var(--win-primary);border-radius:4px;padding:6px 8px;margin-top:6px;font-size:9.5px;font-family:var(--font-code);color:var(--text-dark);line-height:1.4;">
+            <div style="background:#f1f5f9;border:1px solid #e2e8f0;border-left:3px solid var(--win-primary);border-radius:4px;padding:3px 7px;margin-top:4px;font-size:8.5px;font-family:var(--font-code);color:var(--text-dark);line-height:1.35;">
               <strong>Regla Micro-ganancias:</strong> 70% a Capital USDC en #501 · 30% a Gas POL/BNB.<br>
               <strong>Ganancia Grande:</strong> 100% se consolida en USDC en #501 de inmediato.
             </div>
@@ -1086,11 +1088,7 @@
           <span>Flota X500 // Capitanes &amp; Flujo Mensual</span>
           <span class="win-title-path">C:\Area501\Captains_Roadmap.sys</span>
         </div>
-        <div class="win-controls">
-          <span class="win-btn">_</span>
-          <span class="win-btn">□</span>
-          <span class="win-btn close">✕</span>
-        </div>
+        <span class="block-badge badge-gold" style="font-size: 8.5px; padding: 2px 6px;">500 CARTERAS</span>
       </div>
       <div class="win-body">
 
@@ -1108,35 +1106,35 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>#001 (Box 1)</strong><br><span style="color:#64748b;font-size:8px;">0xb750...D40F</span></td>
+                <td><strong>#001 (Box 1)</strong> <span style="color:#64748b;font-size:7.5px;">0xb750...D40F</span></td>
                 <td class="val-green font-bold">18.07</td>
                 <td class="val-gold font-bold">$0.70</td>
                 <td>0.0051</td>
                 <td>Misiones Gasless EIP-712</td>
               </tr>
               <tr>
-                <td><strong>#101 (Box 2)</strong><br><span style="color:#64748b;font-size:8px;">0x5682...adBA</span></td>
+                <td><strong>#101 (Box 2)</strong> <span style="color:#64748b;font-size:7.5px;">0x5682...adBA</span></td>
                 <td class="val-green font-bold">18.03</td>
                 <td class="val-gold font-bold">$1.05</td>
                 <td>0.0079</td>
                 <td>DogeOS Cap. 2 &amp; Startale</td>
               </tr>
               <tr>
-                <td><strong>#201 (Box 3)</strong><br><span style="color:#64748b;font-size:8px;">0x2810...6A7C</span></td>
+                <td><strong>#201 (Box 3)</strong> <span style="color:#64748b;font-size:7.5px;">0x2810...6A7C</span></td>
                 <td class="val-green font-bold">18.01</td>
                 <td class="val-gold font-bold">$0.00</td>
                 <td>0.0079</td>
                 <td>Base Ecosystem &amp; Avantis S3</td>
               </tr>
               <tr>
-                <td><strong>#301 (Box 4)</strong><br><span style="color:#64748b;font-size:8px;">0xEb6a...Ca0f</span></td>
+                <td><strong>#301 (Box 4)</strong> <span style="color:#64748b;font-size:7.5px;">0xEb6a...Ca0f</span></td>
                 <td class="val-green font-bold">12.01</td>
                 <td class="val-gold font-bold">$0.00</td>
                 <td>0.0051</td>
                 <td>Arbitrum Stylus &amp; OP Chain</td>
               </tr>
               <tr>
-                <td><strong>#401 (Box 5)</strong><br><span style="color:#64748b;font-size:8px;">0x4C71...d070</span></td>
+                <td><strong>#401 (Box 5)</strong> <span style="color:#64748b;font-size:7.5px;">0x4C71...d070</span></td>
                 <td class="val-green font-bold">12.01</td>
                 <td class="val-gold font-bold">$0.00</td>
                 <td>0.0051</td>
@@ -1147,67 +1145,67 @@
         </div>
 
         <!-- MODELO DE NEGOCIO: INTERÉS COMPUESTO, PISOS & FLUJO PASIVO -->
-        <div class="data-block" style="flex: 1.55; display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid var(--win-purple);">
+        <div class="data-block" style="border-left: 4px solid var(--win-purple); padding: 5px 8px;">
           <div>
-            <div class="block-header-row">
-              <span class="block-title">MODELO DE NEGOCIO &amp; FLUJO MENSUAL PASIVO</span>
-              <span class="block-badge badge-gold">LIBERTAD FINANCIERA</span>
+            <div class="block-header-row" style="margin-bottom: 2px;">
+              <span class="block-title" style="white-space: nowrap; font-size: 9.8px;">MODELO DE NEGOCIO &amp; FLUJO MENSUAL PASIVO</span>
+              <span class="block-badge badge-gold" style="font-size: 7.5px; padding: 1px 5px;">LIBERTAD FINANCIERA</span>
             </div>
-            <div style="font-size:9.5px;color:var(--text-medium);margin-bottom:7px;line-height:1.35;">
-              Construcción de capital sólido con pisos inviolables para generar <strong>$500 a $1,500/mes de flujo pasivo constante</strong> sin depender de un empleo ni retroceder de piso jamás.
+            <div style="font-size: 8.8px; color: var(--text-medium); margin-bottom: 4px; line-height: 1.3;">
+              Pisos inviolables para generar <strong>$500 a $1,500/mes de flujo pasivo constante</strong> sin retroceder jamás.
             </div>
 
             <!-- REGLA DE MICRO Y MACRO GANANCIAS -->
-            <div style="background:#f1f5f9;border-radius:5px;padding:6px 8px;margin-bottom:7px;font-family:var(--font-code);font-size:9px;line-height:1.4;border:1px solid #e2e8f0;">
-              <div><strong class="val-gold">⚡ MICRO-GANANCIAS (70/30):</strong> 70% a Capital USDC (#501) · 30% a Reserva Gas.</div>
-              <div><strong class="val-green">🎯 GANANCIA GRANDE:</strong> 100% Capitalizada de inmediato en USDC en #501 para nuevo piso.</div>
+            <div style="background:#f1f5f9;border-radius:4px;padding:3px 7px;margin-bottom:4px;font-family:var(--font-code);font-size:8.2px;line-height:1.35;border:1px solid #e2e8f0;">
+              <div><strong class="val-gold">⚡ MICRO-GANANCIAS (70/30):</strong> 70% Capital (#501) · 30% Reserva Gas.</div>
+              <div><strong class="val-green">🎯 GANANCIA GRANDE:</strong> 100% Capitalizada en USDC en #501 para nuevo piso.</div>
             </div>
 
             <!-- SELLO COMPACTO HISTORIAL OLAS CORONADAS -->
-            <div id="crownedWavesSeal" style="padding: 4px 8px; margin-bottom: 6px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 4px; font-size: 9.5px; font-weight: 700; color: #047857; display: flex; align-items: center; gap: 6px;">
+            <div id="crownedWavesSeal" style="padding: 2px 6px; margin-bottom: 4px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 4px; font-size: 8.5px; font-weight: 700; color: #047857; display: flex; align-items: center; gap: 4px;">
               <span>✅ 1ª Ola ($350) y 2ª Ola ($500) Coronadas al 100%</span>
             </div>
 
             <div id="dynamicRoadmapSteps">
               <!-- FILA ACTIVA #1: TERCERA OLA EN CURSO ($1,000.00 USDC) -->
-              <div class="step-card active-step" id="roadmapStepActive">
-                <div class="step-top">
+              <div class="step-card active-step" id="roadmapStepActive" style="padding: 4px 7px; gap: 2px;">
+                <div class="step-top" style="font-size: 8.8px;">
                   <span class="val-gold">TERCERA OLA EN CURSO ($1,000.00 USDC)</span>
                   <span class="val-green" style="font-family:var(--font-code);" id="step1Pct">59.88%</span>
                 </div>
-                <div class="step-bar-bg">
+                <div class="step-bar-bg" style="height: 5px;">
                   <div class="step-bar-fill" id="step1Bar" style="width: 59.88%; background: var(--win-primary);"></div>
                 </div>
-                <div class="step-footer" id="step1Footer">
-                  Motor Dual Activo: $490.76 USDC en Polygon (0% Riesgo) + $100.02 USDC en Hyperliquid L1 · Faltan $401.24 USDC
+                <div class="step-footer" id="step1Footer" style="font-size: 8px;">
+                  Motor Dual: $490.76 Pol (0% Riesgo) + $100.02 HL L1 · Faltan $401.24 USDC
                 </div>
               </div>
 
               <!-- FILA #2: PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC) -->
-              <div class="step-card" style="margin-top:5px;" id="roadmapStepNext">
-                <div class="step-top">
+              <div class="step-card" style="margin-top:3px; padding: 4px 7px; gap: 2px;" id="roadmapStepNext">
+                <div class="step-top" style="font-size: 8.8px;">
                   <span>PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC)</span>
                   <span style="font-family:var(--font-code);color:var(--text-muted);" id="step2Pct">40.10%</span>
                 </div>
-                <div class="step-bar-bg">
+                <div class="step-bar-bg" style="height: 5px;">
                   <div class="step-bar-fill" id="step2Bar" style="width: 40.10%; background: var(--win-primary);"></div>
                 </div>
-                <div class="step-footer" id="step2Footer">
+                <div class="step-footer" id="step2Footer" style="font-size: 8px;">
                   Escalado previo al Piso de Renta Mensual
                 </div>
               </div>
 
               <!-- FILA #3: PISO DE FLUJO MENSUAL (CLICABLE CON ARQUITECTURA) -->
-              <div class="step-card" id="btnOpenFlowArchitecture" style="margin-top:5px; cursor:pointer; border: 1.5px dashed #8b5cf6; background: #faf5ff; transition: all 0.2s ease;" title="Haz clic aquí para ver la arquitectura detallada de cómo se construye este flujo mensual">
-                <div class="step-top">
-                  <span style="color:#6b21a8; font-weight:800;" id="step3Title">PISO DE FLUJO MENSUAL SOSTENIBLE ($2,000.00 USDC ➔ $500 - $1,500/MES)</span>
-                  <span class="block-badge" style="background:#f3e8ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.3); font-size:8px;">🔍 CLIC: VER PLAN</span>
+              <div class="step-card" id="btnOpenFlowArchitecture" style="margin-top:3px; padding: 4px 7px; gap: 2px; cursor:pointer; border: 1.5px dashed #8b5cf6; background: #faf5ff; transition: all 0.2s ease;" title="Haz clic aquí para ver la arquitectura detallada de cómo se construye este flujo mensual">
+                <div class="step-top" style="font-size: 8.8px;">
+                  <span style="color:#6b21a8; font-weight:800;" id="step3Title">PISO DE FLUJO MENSUAL SOSTENIBLE ($2,000.00 USDC)</span>
+                  <span class="block-badge" style="background:#f3e8ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.3); font-size:7.5px; padding: 1px 4px;">🔍 PLAN</span>
                 </div>
-                <div class="step-bar-bg" style="background:#e9d5ff;">
+                <div class="step-bar-bg" style="height: 5px; background:#e9d5ff;">
                   <div class="step-bar-fill" id="step3Bar" style="width: 30.08%; background: linear-gradient(90deg, #8b5cf6, #3b82f6);"></div>
                 </div>
-                <div class="step-footer" style="display:flex; justify-content:space-between; align-items:center;" id="step3Footer">
-                  <span>Cosecha continua en USDC hacia Bóveda #501 y retiro manual a Binance</span>
+                <div class="step-footer" style="display:flex; justify-content:space-between; align-items:center; font-size: 8px;" id="step3Footer">
+                  <span>Cosecha continua USDC #501 ➔ Binance</span>
                   <span style="color:#7c3aed; font-weight:700;">30.08% 👆 Ver Plan ➔</span>
                 </div>
               </div>
@@ -1401,7 +1399,128 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 5. LÓGICA JAVASCRIPT: RELOJ, FEED ON-CHAIN Y ACTUALIZADOR DE BALANCE      -->
+  <!-- 5. MODAL FLOTANTE: AUDITORÍA FORENSE CONTABLE Y PNL OPERATIVO (#501)       -->
+  <!-- ========================================================================= -->
+  <div class="win-modal-overlay" id="pnlModalOverlay">
+    <div class="win-modal-window" style="max-width: 660px;">
+      <div class="win-modal-titlebar">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span>📊</span>
+          <span>AUDITORÍA FORENSE // DESGLOSE CONTABLE &amp; PNL OPERATIVO (#501)</span>
+        </div>
+        <button class="win-modal-close" id="btnClosePnlModal" title="Cerrar ventana">✕</button>
+      </div>
+      <div class="win-modal-body">
+        
+        <!-- BANNER DE SINCERIZACIÓN CONTABLE -->
+        <div style="background:#f1f5f9;border-left:4px solid var(--win-primary);padding:10px 12px;border-radius:4px;">
+          <div style="font-weight:800;color:var(--text-dark);font-size:11.5px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;">
+            <span>🛡️ SINCERIZACIÓN RADICAL: CAPITAL INYECTADO VS. GANANCIA</span>
+            <span class="block-badge badge-green">100% VERDAD ON-CHAIN</span>
+          </div>
+          <div style="color:var(--text-medium);font-size:9.5px;line-height:1.45;">
+            En <strong>ÁREA 501</strong> las inyecciones de fondos del Comandante jamás se contabilizan como ganancia. El <strong>PnL Operativo</strong> solo aumenta cuando los bots cierran operaciones reales de mercado con beneficio neto auditable on-chain.
+          </div>
+        </div>
+
+        <!-- MATRIZ DE CAPITAL Y RENDIMIENTO (3 TARJETAS) -->
+        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;">
+          <div style="background:#ffffff;border:1px solid var(--win-border);border-top:3px solid var(--win-gold);padding:8px 10px;border-radius:6px;">
+            <div style="font-size:8.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;">Inyección Base (Principal)</div>
+            <div style="font-family:var(--font-code);font-size:16px;font-weight:800;color:var(--win-gold);margin:2px 0;" id="modalBaseCapital">$598.76</div>
+            <div style="font-size:8px;color:var(--text-medium);">Aporte Comandante · Intocable</div>
+          </div>
+          <div style="background:#ffffff;border:1px solid var(--win-border);border-top:3px solid #16a34a;padding:8px 10px;border-radius:6px;">
+            <div style="font-size:8.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;">PnL Neto Operativo</div>
+            <div style="font-family:var(--font-code);font-size:16px;font-weight:800;color:#16a34a;margin:2px 0;" id="modalNetPnl">+$0.00</div>
+            <div style="font-size:8px;color:var(--text-medium);">0.00% ROI · 0 Operaciones</div>
+          </div>
+          <div style="background:#ffffff;border:1px solid var(--win-border);border-top:3px solid var(--win-primary);padding:8px 10px;border-radius:6px;">
+            <div style="font-size:8.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;">Consolidado Físico</div>
+            <div style="font-family:var(--font-code);font-size:16px;font-weight:800;color:var(--win-primary);margin:2px 0;" id="modalConsolidated">$598.76</div>
+            <div style="font-size:8px;color:var(--text-medium);">En Bóvedas #501, Caps y Spot</div>
+          </div>
+        </div>
+
+        <!-- DESGLOSE POR CÁMARAS Y ACTIVOS -->
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="font-weight:800;font-size:10.5px;color:var(--text-dark);text-transform:uppercase;letter-spacing:0.2px;">
+            🏛️ DISTRIBUCIÓN EXACTA DE LA TESORERÍA (#501 &amp; FLOTA)
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <!-- CÁMARA 1 POLYGON -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;font-family:var(--font-code);font-size:9px;">
+              <div style="font-weight:800;color:var(--win-primary);margin-bottom:3px;font-family:var(--font-ui);display:flex;justify-content:space-between;">
+                <span>1. Cámara 1 (Polygon #501)</span>
+                <span class="val-gold font-bold">$490.76</span>
+              </div>
+              <div style="color:var(--text-medium);line-height:1.4;">
+                • Saldo USDC: <strong>$490.76 USDC</strong><br>
+                • Gas POL: <strong>160.79 POL</strong> (Piso 155.05 Blindado)<br>
+                • Función: Sniping atómico de bajo riesgo &amp; Aave V3.
+              </div>
+            </div>
+
+            <!-- CÁMARA 2 HYPERLIQUID -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;font-family:var(--font-code);font-size:9px;">
+              <div style="font-weight:800;color:var(--win-gold);margin-bottom:3px;font-family:var(--font-ui);display:flex;justify-content:space-between;">
+                <span>2. Cámara 2 (Hyperliquid L1)</span>
+                <span class="val-gold font-bold">$100.02</span>
+              </div>
+              <div style="color:var(--text-medium);line-height:1.4;">
+                • Saldo USDC L1: <strong>$100.02 USDC</strong><br>
+                • Gas Arbitrum: <strong>0.00084 ETH</strong> ($0 en L1)<br>
+                • Función: Creador de mercado (Maker) y funding delta-neutral.
+              </div>
+            </div>
+
+            <!-- RESERVAS AUXILIARES -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;font-family:var(--font-code);font-size:9px;">
+              <div style="font-weight:800;color:#64748b;margin-bottom:3px;font-family:var(--font-ui);display:flex;justify-content:space-between;">
+                <span>3. Reserva de Apoyo (BSC #501)</span>
+                <span class="font-bold">$7.98</span>
+              </div>
+              <div style="color:var(--text-medium);line-height:1.4;">
+                • Saldo USDC: <strong>$7.98 USDC</strong><br>
+                • Gas BSC: <strong>0.0188 BNB</strong><br>
+                • Bóvedas Binance Spot: <strong>$1.00 USDC</strong>
+              </div>
+            </div>
+
+            <!-- FLOTA X500 -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;font-family:var(--font-code);font-size:9px;">
+              <div style="font-weight:800;color:var(--win-purple);margin-bottom:3px;font-family:var(--font-ui);display:flex;justify-content:space-between;">
+                <span>4. Flota X500 (5 Capitanes)</span>
+                <span class="val-purple font-bold">$1.75</span>
+              </div>
+              <div style="color:var(--text-medium);line-height:1.4;">
+                • Saldo USDC: <strong>$1.75 USDC</strong> en Box 1 y Box 2<br>
+                • Combustible: <strong>78.13 POL</strong> + <strong>0.031 BNB</strong><br>
+                • Función: Misiones gasless, airdrops y free-mint.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REGLAS CONTABLES SAGRADAS -->
+        <div style="background:#ecfdf5;border:1px solid #10b981;padding:8px 12px;border-radius:4px;font-size:9px;color:#065f46;line-height:1.4;">
+          <strong>🛡️ REGLA OPERATIVA DE PISOS Y TRINQUETE:</strong><br>
+          Cada dólar ganado por los bots pasará por la regla 70/30: 70% consolida un nuevo piso de capital en USDC en #501 y 30% recarga el blindaje de gas. El capital base jamás se arriesga sin Stop a Break-Even.
+        </div>
+
+        <div style="text-align:right;">
+          <button class="win-btn" id="btnModalPnlAceptar" style="display:inline-block;padding:6px 16px;background:var(--win-primary);color:#fff;border-radius:4px;cursor:pointer;font-weight:700;font-size:10.5px;width:auto;height:auto;">
+            ENTENDIDO · CERRAR AUDITORÍA
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 6. LÓGICA JAVASCRIPT: RELOJ, FEED ON-CHAIN Y ACTUALIZADOR DE BALANCE      -->
   <!-- ========================================================================= -->
   <script>
     // Reloj UTC de alta precisión
@@ -1567,16 +1686,18 @@
             const prefix = pnlVal >= 0 ? '+' : '';
             pnlEl.textContent = `${prefix}$${pnlVal.toFixed(2)}`;
           }
-          const pnlPct = d.realNetPnlPct !== undefined ? d.realNetPnlPct : 0.00;
-          const pnlBadge = document.getElementById('badgePnlNeto');
           const baseCap = d.principalBaseUsdc || 598.76;
-          if (pnlBadge) {
-            pnlBadge.textContent = `${pnlPct.toFixed(2)}% ROI OPERATIVO (BASE: $${baseCap.toFixed(2)})`;
+          
+          // Actualización de datos en el modal forense contable
+          const mBase = document.getElementById('modalBaseCapital');
+          if (mBase) mBase.textContent = `$${baseCap.toFixed(2)}`;
+          const mNet = document.getElementById('modalNetPnl');
+          if (mNet) {
+            const prefix = pnlVal >= 0 ? '+' : '';
+            mNet.textContent = `${prefix}$${pnlVal.toFixed(2)}`;
           }
-          const gasSub = document.getElementById('valGasSub');
-          if (gasSub) {
-            gasSub.textContent = `Inyección Base: $${baseCap.toFixed(2)} USDC · PnL Bots: +$${pnlVal.toFixed(2)} USDC · Gas Red: Blindado`;
-          }
+          const mCons = document.getElementById('modalConsolidated');
+          if (mCons) mCons.textContent = `$${totalUsdc.toFixed(2)}`;
 
           // Automatización reactiva de hitos y roadmap
           computeActiveMilestone(totalUsdc);
@@ -1608,6 +1729,30 @@
     if (flowModalOverlay) {
       flowModalOverlay.addEventListener('click', (e) => {
         if (e.target === flowModalOverlay) closeModal();
+      });
+    }
+
+    // Modal Flotante: Auditoría Forense y PnL Operativo (#501)
+    const pnlModalOverlay = document.getElementById('pnlModalOverlay');
+    const cardPnlNetoTop = document.getElementById('cardPnlNetoTop');
+    const btnClosePnlModal = document.getElementById('btnClosePnlModal');
+    const btnModalPnlAceptar = document.getElementById('btnModalPnlAceptar');
+
+    if (cardPnlNetoTop && pnlModalOverlay) {
+      cardPnlNetoTop.addEventListener('click', () => {
+        pnlModalOverlay.classList.add('active');
+      });
+    }
+
+    function closePnlModal() {
+      if (pnlModalOverlay) pnlModalOverlay.classList.remove('active');
+    }
+
+    if (btnClosePnlModal) btnClosePnlModal.addEventListener('click', closePnlModal);
+    if (btnModalPnlAceptar) btnModalPnlAceptar.addEventListener('click', closePnlModal);
+    if (pnlModalOverlay) {
+      pnlModalOverlay.addEventListener('click', (e) => {
+        if (e.target === pnlModalOverlay) closePnlModal();
       });
     }
 
