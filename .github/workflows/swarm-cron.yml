@@ -81,7 +81,6 @@ jobs:
           run_safe node nebula-ai-commanders.js
           run_safe node expert-captains-command.js
           run_safe node dual-capitalizer-engine.js
-          run_safe node scripts/squad-secret-autonomous-loop.js --once
 
           # 3. 🪖 Flota X500 (500 Carteras, Airdrops & Semillas)
           run_safe node seed-airdrop-engine.js
@@ -106,11 +105,6 @@ jobs:
           run_safe node vanguard-hunter.js
           run_safe node scripts/onchain-snapshot.js
           run_safe node scripts/ai-telemetry-feed.js
-
-          # 4. 📡 Despacho Oficial a Telegram (Sala de Mando 10K / ÁREA 501)
-          echo "::group::▶ Despacho Oficial a Telegram"
-          run_safe node scripts/dispatch-fleet-readiness.js
-          echo "::endgroup::"
 
           echo "✅ [SWARM-CRON]: Ronda omnichain ejecutada con timeouts seguros de 180s por paso."
 

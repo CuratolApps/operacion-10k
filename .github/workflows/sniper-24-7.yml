@@ -65,14 +65,6 @@ jobs:
           echo "🌌 INICIANDO BUCLE CONTINUO DE SNIPING ($DUR seg): ÁREA 501"
           node scripts/sniper-continuous-daemon.js --duration "$DUR" --interval 3
 
-      - name: "🛰️ Guardia Autónoma Squad Secret (Respaldo en Nube 6/2/3)"
-        shell: bash
-        run: |
-          echo "========================================================================="
-          echo "🛡️ EJECUTANDO GUARDIA AUTÓNOMA SQUAD SECRET (ROTACIÓN 9 PARES RUMBO A $500 USDC)"
-          echo "========================================================================="
-          node scripts/squad-secret-autonomous-loop.js --once || true
-
       - name: "💾 Sincronizar telemetría hacia Git"
         if: always()
         shell: bash

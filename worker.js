@@ -1448,13 +1448,13 @@ export default {
           return;
         }
 
-        // 2. Comprobación y Alerta Única de Asentamiento de Bloque Cerrado ($355, $400, $450, $500...)
+        // 2. Comprobación y Alerta Única de Asentamiento de Bloque Cerrado ($475, $500...)
         if (!globalThis.__LAST_SETTLED_BLOCK__) {
-          globalThis.__LAST_SETTLED_BLOCK__ = 325.43;
+          globalThis.__LAST_SETTLED_BLOCK__ = 450.00;
         }
 
         const settledBlk = state.blockSettlement.currentSettledBlock;
-        if (settledBlk > globalThis.__LAST_SETTLED_BLOCK__ && settledBlk >= 355.00) {
+        if (settledBlk > globalThis.__LAST_SETTLED_BLOCK__ && settledBlk >= 475.00) {
           globalThis.__LAST_SETTLED_BLOCK__ = settledBlk;
           const nextBlk = state.blockSettlement.nextMilestoneBlock;
           const nowUtc = new Date().toISOString().slice(11, 19) + " UTC";
@@ -1486,8 +1486,15 @@ export default {
         const realLedger = (telem && telem.realLedger) ? telem.realLedger : null;
         const latestTx = (realLedger && realLedger.realTransactions && realLedger.realTransactions[0]) ? realLedger.realTransactions[0] : null;
 
-        if (latestTx && latestTx.txHash && latestTx.txHash !== globalThis.__LAST_NOTIFIED_TX__ && botToken) {
+        if (!globalThis.__LAST_NOTIFIED_TX__ && latestTx && latestTx.txHash) {
+          // Inicializar memoria para evitar reenvío de transacciones históricas en cold start
           globalThis.__LAST_NOTIFIED_TX__ = latestTx.txHash;
+        } else if (latestTx && latestTx.txHash && latestTx.txHash !== globalThis.__LAST_NOTIFIED_TX__ && botToken) {
+          globalThis.__LAST_NOTIFIED_TX__ = latestTx.txHash;
+
+          const basePolygon501 = 470.13;
+          const currentRealPnl = Number(realLedger.realPnlUsdc || 0);
+          const currentVaultBalance = basePolygon501 + currentRealPnl;
 
           const telegramReport = `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1495,7 +1502,7 @@ export default {
 🎯 <b>ACCIÓN:</b> <code>${latestTx.pair || "WBTC/USDC"}</code> (${latestTx.direction === "BEAR" ? "🐻 BEAR" : "🐂 BULL"})
 🔒 <b>CANDADO #00:</b> +0.04% BE ➔ <b>+0.08% Cobrado</b>
 💵 <b>GANANCIA NETA:</b> <b>+$${Number(latestTx.netProfitUsdc || 0.38).toFixed(4)} USDC</b>
-🛡️ <b>NUEVO SALDO #501:</b> <code>$${(459.40 + Number(realLedger.realPnlUsdc || 0)).toFixed(2)} USDC</code> (Consolidado: <code>$${state.consolidatedUsdc.toFixed(2)} USDC</code>)
+🛡️ <b>NUEVO SALDO #501:</b> <code>$${currentVaultBalance.toFixed(2)} USDC</code> (Consolidado: <code>$${state.consolidatedUsdc.toFixed(2)} USDC</code>)
 ⛽ <b>GAS INTOCABLE:</b> <code>155.05 POL</code> (100% Blindado · Piso 150 POL)
 ⛓️ <b>PolygonScan:</b> ${latestTx.polygonscanUrl || `https://polygonscan.com/tx/${latestTx.txHash}`}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

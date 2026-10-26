@@ -485,14 +485,10 @@ async function main() {
     console.log(`📱 Sala de Mando identificada: [CHAT_ID: ${chatId.slice(0, 4)}***]`);
   }
 
-  // 1. Mensaje de Encendido Inmediato
+  // 1. Mensaje de Encendido Inmediato (Solo registro local para evitar doble spam)
   const ignitionMsg = "🎯 <b>10K VANGUARD HUNTER EN LÍNEA</b> — Escuadrón de Caza y Reacción Rápida conectado al Centro de Mando.";
-  console.log(`\n📤 Enviando confirmación de encendido...`);
   recordLocalAlert(ignitionMsg);
-  if (chatId) {
-    const sent = await sendTelegramMessage(token, chatId, ignitionMsg);
-    if (sent) console.log("   ✅ Mensaje de encendido recibido en Telegram.");
-  }
+  console.log("ℹ️ [VANGUARD] Encendido inicial registrado localmente (sin spam a Telegram).");
 
   // 2. Escaneo de Redes Activas
   console.log(`📡 Escaneando estado de redes (Sepolia, Base, Arbitrum, Optimism, BSC, Polygon)...`);
@@ -738,14 +734,6 @@ async function main() {
     : BASELINE_FIXED_USDC;
   const netProfitSinceBaselineUsd = Math.max(0, currentTotalUsdc - BASELINE_FIXED_USDC);
   const remainingGapUsd = Math.max(0, INITIAL_GAP_USD - netProfitSinceBaselineUsd);
-  const remainingGapEur = remainingGapUsd * 0.9218;
-
-  const lomo4Roi = lomo4Metrics.roiTracker || {};
-  const lomo4Lap = lomo4Metrics.lapSpeedometer || {};
-  const recoveredUsdc = Number(lomo4Roi.totalRecoveredUsdc || 0).toFixed(2);
-  const roiPct = lomo4Roi.roiPercentage || "0.00";
-  const breakEven = lomo4Roi.breakEvenRemainingUsd || "50.00";
-  const completedLaps = lomo4Lap.totalCompletedBotLaps || 0;
 
   const lomo5Verified = lomo5Autonomy.autoDiscovery?.verifiedContractsOnline || 22;
   const lomo5Honeypots = lomo5Autonomy.autoDiscovery?.honeypotsBlocked || 0;
@@ -786,10 +774,9 @@ async function main() {
 ⏱️ <b>HORA UTC:</b> <code>${timeUtc}</code>
 🎯 <b>ACTIVIDAD RONDA:</b> ${workStats.lastRoundTxCount || 60} txs on-chain confirmadas ✅ (${activeBox.range})
 
-💵 <b>PISOS &amp; PATRIMONIO REAL (USDC):</b>
-• <b>Piso Firme Infranqueable:</b> <code>$450.00 USDC</code> (Intocable 🛡️ · 0% Riesgo)
-• <b>Capital Consolidado Total:</b> <code>$470.13 USDC</code>
-• <b>Meta en Marcha (Segunda Bola):</b> <code>$500.00 USDC</code> (Faltan: <b>+$29.87 USDC</b>)
+💵 <b>TESORERÍA DUAL &amp; PATRIMONIO REAL (USDC):</b>
+• <b>Cámara 1 (Polygon #501):</b> <code>$470.13 / $500.00 USDC</code> (Faltan: <b>+$29.87 USDC</b>)
+• <b>Cámara 2 (Hyperliquid L1):</b> <code>$0.00 USDC</code> (Meta Retiro: <b>+$20.00 USDC</b>)
 • <b>Trabajo Picado Total Flota:</b> <code>${(workStats.totalTxConfirmedAllTime || 11389).toLocaleString('en-US')} txs</code>
 
 ⛽ <b>BLINDADO DE GAS:</b>
