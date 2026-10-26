@@ -777,17 +777,21 @@
       topCapitalProgress.style.width = `100%`;
     }
     if (topProgressPct) {
-      topProgressPct.innerHTML = `Pol: $${polyBal.toFixed(2)} · HL L1: $${l1Bal.toFixed(2)} (Meta +$20)`;
+      topProgressPct.innerHTML = `Polygon: $${polyBal.toFixed(2)} · HL: $${l1Bal.toFixed(2)}`;
     }
     if (topRemainingUsdc) {
-      topRemainingUsdc.innerHTML = ``;
-      topRemainingUsdc.style.display = 'none';
+      topRemainingUsdc.innerHTML = `Meta: +$20`;
+      topRemainingUsdc.style.display = 'inline';
     }
     if (vaultGasStatus) {
-      vaultGasStatus.textContent = `POLYGON: $${polyBal.toFixed(2)} · HL: $${l1Bal.toFixed(2)}`;
+      vaultGasStatus.textContent = `BÓVEDA #501`;
     }
     if (topGasShieldBadge) {
-      topGasShieldBadge.textContent = `GAS INTOCABLE: 160.79 POL`;
+      topGasShieldBadge.textContent = `HL: $0.00 GAS`;
+    }
+    const topGasPolDisplay = document.getElementById("topGasPolDisplay");
+    if (topGasPolDisplay) {
+      topGasPolDisplay.innerHTML = `160.79 <span class="metric-sub">POL Intocable</span>`;
     }
 
     // 2. Tarjeta 2: Motor Hyperliquid L1 (<150ms) & Regla Máx 1 Operación
@@ -810,17 +814,17 @@
         topPhaseBadge.className = "card-pill font-mono green-pill";
       } else {
         topPhaseBadge.textContent = "🔍 ESCANEANDO L2";
-        topPhaseBadge.className = "card-pill font-mono";
+        topPhaseBadge.className = "card-pill font-mono green-pill";
       }
     }
     if (topCycleTotalRemaining) {
-      topCycleTotalRemaining.textContent = "MÁX 1 OPERACIÓN A LA VEZ";
+      topCycleTotalRemaining.textContent = "1 SOLA POSICIÓN";
     }
     if (topClockProgress) {
       topClockProgress.style.width = isPositionOpen ? "100%" : "60%";
     }
     if (topPhaseLabel) {
-      topPhaseLabel.textContent = "Cadencia <150ms";
+      topPhaseLabel.textContent = `Cadencia: ~${latency}ms`;
     }
     if (topNextPhaseLabel) {
       topNextPhaseLabel.textContent = "Regla: 1 Sola Posición";
@@ -937,7 +941,8 @@
     const directionLabel = pairConfig.directionLabel;
     const bullScore = pairConfig.bullScore;
     const bearScore = pairConfig.bearScore;
-    const certainty = 95.4;
+    const dominantScore = Math.max(bullScore, bearScore);
+    const certainty = dominantScore.toFixed(1);
 
     if (topWinnerPairDisplay) {
       topWinnerPairDisplay.innerHTML = `${selectedSquadPair} <span class="direction-badge ${direction.toLowerCase()}" id="topDirectionBadge">${directionLabel}</span>`;

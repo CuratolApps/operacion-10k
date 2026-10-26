@@ -94,8 +94,8 @@ html, body {
    ============================================================================= */
 .top-nav-bar,
 #squadHeader {
-  min-height: 84px;
-  height: 84px;
+  min-height: 88px;
+  height: 88px;
   padding: 6px 12px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -113,12 +113,12 @@ html, body {
   background: var(--win-card) !important;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 5px 8px;
+  padding: 6px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: 70px;
+  min-height: 74px;
   overflow: hidden;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
   transition: all 0.15s ease;
@@ -136,14 +136,20 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 4px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card-tag {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .card-tag.gold { color: var(--win-gold); }
 .card-tag.cyan { color: var(--win-primary); }
@@ -151,14 +157,16 @@ html, body {
 .card-tag.purple { color: var(--win-purple); }
 
 .card-pill {
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 1.5px 5px;
+  border-radius: 3px;
   background: #f1f5f9;
   border: 1px solid var(--win-border);
   color: var(--text-medium);
   font-family: var(--font-code);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .card-pill.phase-pill {
   background: var(--win-gold-soft);
@@ -177,8 +185,8 @@ html, body {
 }
 #topWinRateBadge {
   white-space: nowrap !important;
-  padding: 3px 10px !important;
-  font-size: 0.68rem !important;
+  padding: 1.5px 6px !important;
+  font-size: 8px !important;
   display: inline-flex !important;
   align-items: center !important;
 }
@@ -187,23 +195,26 @@ html, body {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 6px;
+  gap: 4px;
   margin: 1px 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .metric-primary {
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: -0.3px;
   white-space: nowrap;
   color: var(--text-dark);
+  line-height: 1.15;
 }
 .metric-primary.gold-text { color: var(--win-gold); }
 .metric-primary.cyan-text { color: var(--win-primary); }
 .metric-primary.green-text { color: var(--win-success); }
 
 .metric-sub {
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 600;
   color: var(--text-muted);
   display: inline;
@@ -212,23 +223,25 @@ html, body {
 }
 
 .cycle-total-pill {
-  font-size: 9px;
-  padding: 1px 5px;
-  border-radius: 4px;
+  font-size: 8px;
+  padding: 1px 4px;
+  border-radius: 3px;
   background: var(--win-primary-soft);
   border: 1px solid var(--win-primary-border);
   color: var(--win-primary);
   font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .progress-wrap {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 2.5px;
 }
 
 .progress-bar-bg {
-  height: 5px;
+  height: 4.5px;
   background: #e2e8f0;
   border-radius: 999px;
   overflow: hidden;
@@ -253,9 +266,9 @@ html, body {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  font-size: 0.64rem !important;
-  line-height: 1.1 !important;
-  gap: 6px !important;
+  font-size: 8px !important;
+  line-height: 1.25 !important;
+  gap: 4px !important;
   color: var(--text-muted);
   font-weight: 600;
 }
@@ -267,10 +280,14 @@ html, body {
 }
 
 .card-sub-metric {
-  font-size: 9.5px;
+  font-size: 8.5px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 4px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .card-sub-metric .dim-txt { color: var(--text-muted); }
 .card-sub-metric .target-sub-txt { color: var(--text-muted); font-size: 8.5px; }

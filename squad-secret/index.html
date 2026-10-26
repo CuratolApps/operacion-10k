@@ -46,7 +46,7 @@
     <div class="nav-card" id="cardCapitalTop" title="Motor Dual: Cámara 1 ($490.76 USDC Polygon 0% Riesgo) + Cámara 2 ($100.02 USDC Hyperliquid L1 + Meta Retiro +$20 USDC)">
       <div class="card-meta">
         <span class="card-tag gold">💰 CAPITAL OPERATIVO #501</span>
-        <span class="card-pill font-mono green-pill" id="vaultGasStatus">POLYGON: $490.76 · HL: $100.02</span>
+        <span class="card-pill font-mono green-pill" id="vaultGasStatus">BÓVEDA #501</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
@@ -57,9 +57,9 @@
         <div class="progress-bar-bg">
           <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 100%;"></div>
         </div>
-        <div class="progress-labels font-mono" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-          <span id="topProgressPct" class="green-text font-bold" style="white-space: nowrap;">Pol: $490.76 · HL L1: $100.02 (Meta +$20)</span>
-          <span id="topRemainingUsdc" style="display:none;"></span>
+        <div class="progress-labels font-mono">
+          <span id="topProgressPct" class="green-text font-bold">Polygon: $490.76 · HL: $100.02</span>
+          <span id="topRemainingUsdc" class="dim-txt">Meta: +$20</span>
         </div>
       </div>
     </div>
@@ -74,15 +74,14 @@
         <div class="metric-primary font-mono cyan-text" id="topClockCountdown">
           ~142ms <span class="metric-sub">Hyperliquid L1</span>
         </div>
-        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining">MÁX 1 OPERACIÓN A LA VEZ</span>
       </div>
       <div class="progress-wrap">
         <div class="progress-bar-bg">
           <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 60%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topPhaseLabel">Cadencia ~150ms</span>
-          <span id="topNextPhaseLabel">Regla: 1 Sola Posición</span>
+          <span id="topPhaseLabel">Cadencia: ~140ms</span>
+          <span id="topNextPhaseLabel" class="gold-text font-bold">Regla: 1 Sola Posición</span>
         </div>
       </div>
     </div>
@@ -91,7 +90,7 @@
     <div class="nav-card" id="cardScoreboardTop" title="Marcador de transacciones reales leídas de squad-secret-real-ledger.json">
       <div class="card-meta">
         <span class="card-tag green">🎯 MARCADOR REAL HYPERLIQUID</span>
-        <span class="card-pill font-mono green-pill" id="topWinRateBadge" style="white-space: nowrap !important; padding: 2px 7px !important; font-size: 0.68rem !important;">0 OPS CERRADAS</span>
+        <span class="card-pill font-mono green-pill" id="topWinRateBadge">0 OPS CERRADAS</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono green-text" id="topRatioDisplay">
@@ -101,15 +100,14 @@
       <div class="card-sub-metric font-mono">
         <span class="dim-txt">PnL Real Acumulado:</span>
         <span class="green-text font-bold" id="topSessionPnlDisplay">+$0.00 USDC</span>
-        <span class="target-sub-txt">(Cero Humo)</span>
       </div>
     </div>
 
     <!-- TARJETA 4: PAR Y DIRECCIÓN MAKER (1 SOLO PAR GANADOR) -->
     <div class="nav-card" id="cardDirectionTop" title="Único par seleccionado por el Squad con desequilibrio favorable en el libro L2">
       <div class="card-meta">
-        <span class="card-tag purple">🐂🐻 PAR Y DIRECCIÓN MAKER</span>
-        <span class="card-pill font-mono" id="topCertaintyBadge">95.4% CERTEZA</span>
+        <span class="card-tag purple">🐂🐻 PAR &amp; DIRECCIÓN MAKER</span>
+        <span class="card-pill font-mono" id="topCertaintyBadge">85.0% CERTEZA</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono text-glow" id="topWinnerPairDisplay">
@@ -117,24 +115,25 @@
         </div>
       </div>
       <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear informada por el Orderbook L2">
-        <div class="dual-bar-fill bull" id="topBullMeter" style="width: 84%;"></div>
-        <div class="dual-bar-fill bear" id="topBearMeter" style="width: 16%;"></div>
+        <div class="dual-bar-fill bull" id="topBullMeter" style="width: 85%;"></div>
+        <div class="dual-bar-fill bear" id="topBearMeter" style="width: 15%;"></div>
       </div>
     </div>
 
-    <!-- TARJETA 5: MANDO & COSTO $0 GAS (INFORMACIÓN LIMPIA) -->
-    <div class="nav-card" id="cardModeTop" title="Hyperliquid L1 Maker: Fee 0.015% y $0.00 Gas de Red">
+    <!-- TARJETA 5: GAS INTOCABLE & MANDO ($0 GAS HYPERLIQUID) -->
+    <div class="nav-card" id="cardModeTop" title="160.79 POL de Gas Intocable en Bóveda #501 + Hyperliquid L1 Maker con Fee 0.015% y $0.00 Gas de Red">
       <div class="card-meta">
-        <span class="card-tag gold">🎛️ MANDO &amp; COSTO $0 GAS</span>
-        <span class="card-pill font-mono green-pill" id="topGasShieldBadge">GAS HYPERLIQUID: $0.00</span>
+        <span class="card-tag gold">⛽ GAS INTOCABLE #501</span>
+        <span class="card-pill font-mono green-pill" id="topGasShieldBadge">HL: $0.00 GAS</span>
       </div>
       <div class="card-metric-row">
-        <div class="metric-primary font-mono cyan-text" id="topFeeMakerDisplay" style="font-size:12px;">
-          FEE MAKER: 0.015% <span class="metric-sub" style="color:var(--text-dim);">(ALO Post-Only)</span>
+        <div class="metric-primary font-mono gold-text" id="topGasPolDisplay">
+          160.79 <span class="metric-sub">POL Intocable</span>
         </div>
       </div>
-      <div class="card-progress-sub font-mono" id="topModeStatusSub" style="font-size:8.5px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-        Estado actual: Lectura en Vivo ($0 Riesgo) · Agent Key Lista
+      <div class="card-sub-metric font-mono" id="topModeStatusSub">
+        <span class="cyan-text font-bold" id="topFeeMakerDisplay">Fee Maker: 0.015%</span>
+        <span class="dim-txt">· Modo Lectura L2</span>
       </div>
     </div>
 
