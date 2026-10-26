@@ -452,8 +452,8 @@ if (document.readyState === "loading") {
 // 4.1 RELOJ MAESTRO UTC EN VIVO (SINCRONIZADO EN MILISEGUNDO 0 SIN SALTOS)
 // =============================================================================
 function syncAllUtcClocks() {
-  const clockEl = document.getElementById("masterUtcClockPod") || document.getElementById("dockUtcClock");
-  const timeEl = document.getElementById("masterUtcClockTime") || document.getElementById("dockUtcTimeText");
+  const clockEl = document.getElementById("masterUtcClockPod") || document.getElementById("dockUtcClock") || document.querySelector(".win-clock-tray");
+  const timeEl = document.getElementById("winClockUtc") || document.getElementById("masterUtcClockTime") || document.getElementById("dockUtcTimeText");
   const now = new Date();
   const pad = (n) => String(n).padStart(2, "0");
   const utcHours = pad(now.getUTCHours());
@@ -668,6 +668,13 @@ function renderTopNavMetrics() {
   if (lastRun.timestamp) {
     state.lastRunReportTimestamp = new Date(lastRun.timestamp);
   }
+
+  // Tarjeta 5: Gas Matriz & Reserva Capitanes
+  const elGasVault = document.getElementById("topGasVaultDisplay");
+  if (elGasVault) elGasVault.textContent = "160.79 POL";
+
+  const elGasCaptains = document.getElementById("topGasCaptainsDisplay");
+  if (elGasCaptains) elGasCaptains.textContent = "CAPITANES: 78.13 POL";
 }
 
 // =============================================================================
@@ -1343,6 +1350,20 @@ function renderMiningActivityTable() {
     </tr>
   `).join("");
 }
+
+function clearActivityConsole() {
+  const tbody = document.getElementById("miningActivityTbody");
+  if (tbody) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5" style="text-align: center; color: #38bdf8; padding: 18px; font-family: var(--font-mono); background: #090d16;">
+          &gt;_ Consola limpiada por el Comandante. Monitoreando rotación activa en vivo...
+        </td>
+      </tr>
+    `;
+  }
+}
+window.clearActivityConsole = clearActivityConsole;
 
 // =============================================================================
 // 12. RENDERIZADO: ZONA 4 - ESPEJO DE TELEGRAM (SALA DE MANDO 10K)

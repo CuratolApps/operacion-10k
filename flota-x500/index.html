@@ -109,35 +109,22 @@
       </div>
     </div>
 
-    <!-- TARJETA FLOTANTE 5: LAS 5 BÓVEDAS BINANCE SPOT & GAS #501 -->
-    <div class="floating-card" id="cardBinanceVaults" title="Bóvedas Binance Spot y Gas Intocable">
+    <!-- TARJETA FLOTANTE 5: GAS MATRIZ & RESERVA CAPITANES -->
+    <div class="floating-card" id="cardGasVaults" title="Gas Intocable Bóveda #501 (160.79 POL) + 5 Capitanes (78.13 POL)">
       <div class="card-top-meta">
         <span class="card-top-title">
-          <span class="material-symbols-rounded icon-xs purple">account_balance</span>
-          <span>GAS #501 &amp; BÓVEDAS SPOT</span>
+          <span class="material-symbols-rounded icon-xs gold">local_gas_station</span>
+          <span>GAS MATRIZ &amp; RESERVA</span>
         </span>
-        <span class="badge-tag-tiny badge-lock-mode" id="vaultsLockBadge" title="🔒 Bóveda #501: 160.79 POL Intocable">160.79 POL PISO</span>
+        <span class="badge-tag-tiny badge-green" id="vaultsLockBadge" title="Piso 150 POL Blindado">160.79 POL PISO</span>
       </div>
-      <div class="binance-vaults-strip" id="binanceVaultsMiniList">
-        <div class="vault-mini-pill" onclick="inspectBinanceVault(1)" title="Box 1: 0x48b26dd0f9265573f31f7140cf01e9c48518531b (Clic para inspeccionar)">
-          <span>B1:</span><strong>..531b</strong>
-        </div>
-        <div class="vault-mini-pill" onclick="inspectBinanceVault(2)" title="Box 2: 0x33cffda0218122ed4d981dcb1797f4b458191bc4 (Clic para inspeccionar)">
-          <span>B2:</span><strong>..1bc4</strong>
-        </div>
-        <div class="vault-mini-pill" onclick="inspectBinanceVault(3)" title="Box 3: 0x409c4695afd6c919ca660cd86c5c24eb54bfca4e (Clic para inspeccionar)">
-          <span>B3:</span><strong>..ca4e</strong>
-        </div>
-        <div class="vault-mini-pill" onclick="inspectBinanceVault(4)" title="Box 4: 0x2734e0a264573056417d12478616107ff5d2ce54 (Clic para inspeccionar)">
-          <span>B4:</span><strong>..ce54</strong>
-        </div>
-        <div class="vault-mini-pill" onclick="inspectBinanceVault(5)" title="Box 5: 0xf746f7da001c48367d76641a2e870db8e509dce7 (Clic para inspeccionar)">
-          <span>B5:</span><strong>..dce7</strong>
-        </div>
+      <div class="card-data-main">
+        <span class="metric-big-bold gold" id="topGasVaultDisplay">160.79 POL</span>
+        <span class="metric-sub-detail" id="topGasCaptainsDisplay">CAPITANES: 78.13 POL</span>
       </div>
       <div class="metric-single-row">
-        <span>Capitanes: <strong class="purple">78.13 POL</strong></span>
-        <span class="gold-text">#501: 160.79 POL</span>
+        <span>Total Red Flota: <strong class="gold-text">238.92 POL</strong></span>
+        <span class="cyan">5 Boxes Abastecidos</span>
       </div>
     </div>
 
@@ -289,6 +276,40 @@
         </div>
       </section>
 
+      <!-- TARJETA 3: LAS 5 BÓVEDAS BINANCE SPOT (RETIRO MANUAL) -->
+      <section class="quant-card" style="flex-shrink: 0;">
+        <div class="quant-card-header">
+          <div class="card-title-group">
+            <span class="material-symbols-rounded purple">account_balance</span>
+            <h2 class="card-title">5 BÓVEDAS BINANCE SPOT</h2>
+          </div>
+          <span class="badge-tag-tiny badge-lock-mode" title="🔒 Retiros 100% manuales a Binance Spot">🔒 RETIRO MANUAL</span>
+        </div>
+        <div style="padding: 6px 8px;">
+          <div class="binance-vaults-strip" id="binanceVaultsMiniList">
+            <div class="vault-mini-pill" onclick="inspectBinanceVault(1)" title="Box 1: 0x48b26dd0f9265573f31f7140cf01e9c48518531b (Clic para inspeccionar)">
+              <span>B1:</span><strong>..531b</strong>
+            </div>
+            <div class="vault-mini-pill" onclick="inspectBinanceVault(2)" title="Box 2: 0x33cffda0218122ed4d981dcb1797f4b458191bc4 (Clic para inspeccionar)">
+              <span>B2:</span><strong>..1bc4</strong>
+            </div>
+            <div class="vault-mini-pill" onclick="inspectBinanceVault(3)" title="Box 3: 0x409c4695afd6c919ca660cd86c5c24eb54bfca4e (Clic para inspeccionar)">
+              <span>B3:</span><strong>..ca4e</strong>
+            </div>
+            <div class="vault-mini-pill" onclick="inspectBinanceVault(4)" title="Box 4: 0x2734e0a264573056417d12478616107ff5d2ce54 (Clic para inspeccionar)">
+              <span>B4:</span><strong>..ce54</strong>
+            </div>
+            <div class="vault-mini-pill" onclick="inspectBinanceVault(5)" title="Box 5: 0xf746f7da001c48367d76641a2e870db8e509dce7 (Clic para inspeccionar)">
+              <span>B5:</span><strong>..dce7</strong>
+            </div>
+          </div>
+          <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between;">
+            <span>Acumulación: <strong class="green-text">$1.00 USDC</strong></span>
+            <span>Cero Micro-Depósitos</span>
+          </div>
+        </div>
+      </section>
+
 
     </aside>
 
@@ -350,6 +371,20 @@
 
         <!-- CONTENIDO PESTAÑA CENTRAL 1 (Activa por defecto): CALENDARIO AIRDROPS & SEMILLAS -->
         <div class="fronts-table-wrap" id="panoramicContentAirdrops" style="overflow-x: hidden;">
+          <!-- Barra de Situación Táctica de las 500 Carteras -->
+          <div class="fleet-tactical-strip">
+            <div class="tactical-strip-left">
+              <span class="tactical-chip"><strong class="cyan">MISIÓN 500 BOTS:</strong> Racha Gasless EIP-712 (Día 1/25 · 500/500 Firmados)</span>
+              <span class="tactical-sep">|</span>
+              <span class="tactical-chip"><strong class="gold">TOKENS RECLAMABLES:</strong> 0 Tokens Hoy (Siembra Pre-TGE Activa)</span>
+              <span class="tactical-sep">|</span>
+              <span class="tactical-chip"><strong class="purple">PRÓXIMO CORTE:</strong> 30 Oct 2026 (Base Avantis S3 &amp; DogeOS)</span>
+            </div>
+            <div class="tactical-strip-right">
+              <span class="tactical-chip"><strong class="green-text">DESTINO AIRDROPS:</strong> 100% USDC Nativo ➔ Bóveda #501</span>
+            </div>
+          </div>
+
           <table class="quant-table" id="airdropFrontsTable" style="table-layout: fixed; width: 100%; overflow: hidden;">
             <thead>
               <tr>
@@ -361,31 +396,31 @@
               </tr>
             </thead>
             <tbody id="airdropFrontsTbody">
-              <!-- Prioridad #1: Misiones Gasless EIP-712 & Daily Streaks (ARRANCA MAÑANA 25 OCT) -->
+              <!-- Prioridad #1: Misiones Gasless EIP-712 & Daily Streaks (ACTIVO · DÍA 1/25) -->
               <tr id="frontRow-gasless">
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-polygon"></span>
-                    <strong style="color: #fff; font-size: 10px;">⚡ Misiones Gasless EIP-712 &amp; Daily Streaks</strong>
+                    <strong style="color: var(--text-main); font-size: 10px;">⚡ Misiones Gasless EIP-712 &amp; Daily Streaks</strong>
                   </div>
                   <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #1 (ACTIVO HOY 25 OCT · DÍA 1/25)</span>
+                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #1 (ACTIVO · DÍA 1/25)</span>
                     <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
                   </div>
                   <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Polygon PoS &amp; BSC · 0x0d50...1270</div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #ff8888;">25 Oct ➔ 20 Nov 2026</div>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;" id="gaslessCountdownText">⚡ Activo Hoy 25 Oct · Ventana 25 Días</div>
+                  <div style="font-size: 9px; font-weight: 700; color: #dc2626;">Ventana Activa ➔ Racha 25 Días</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;" id="gaslessCountdownText">⚡ Ejecución Diaria EIP-712 · Cero Gas Perdido</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
-                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;" id="gaslessStreakDayText">Día 1/25 (Racha Iniciada · 500 Bots Firmados)</div>
+                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;" id="gaslessStreakDayText">Día 1/25 (500 Bots Firmados · Racha Activa)</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Nodriza #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">🔒 AUTO_SWEEP = false (Acumulación)</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
+                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
                 </td>
                 <td>
                   <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
@@ -403,17 +438,17 @@
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-base"></span>
-                    <strong style="color: #fff;">🔵 Base Ecosystem &amp; Avantis S3 / Jumper</strong>
+                    <strong style="color: var(--text-main); font-size: 10px;">🔵 Base Ecosystem &amp; Avantis S3 / Jumper</strong>
                   </div>
                   <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #2 (CIERRE 30 OCT)</span>
+                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #2 (CORTE 30 OCT)</span>
                     <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
                   </div>
                   <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Base L2 Official · 0x1231...4EaE</div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #ff8888;">Activa Hoy ➔ Corte: 30 Oct / 15 Nov</div>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Fase 1: 30 Oct / 15 Nov 2026</div>
+                  <div style="font-size: 9px; font-weight: 700; color: #dc2626;">Activa Hoy ➔ Corte: 30 Oct / 15 Nov</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Fase 1: 30 Oct 2026</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
@@ -421,8 +456,8 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Nodriza #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">🔒 AUTO_SWEEP = false (Acumulación)</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
+                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
                 </td>
                 <td>
                   <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
@@ -440,17 +475,17 @@
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-polygon"></span>
-                    <strong style="color: #fff;">🟣 DogeOS Chapter 2 &amp; Startale / Soneium</strong>
+                    <strong style="color: var(--text-main); font-size: 10px;">🟣 DogeOS Chapter 2 &amp; Startale / Soneium</strong>
                   </div>
                   <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #3 (CIERRE 30 OCT)</span>
+                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #3 (CORTE 30 OCT)</span>
                     <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
                   </div>
                   <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Base / Soneium L2 · 0x4200...0006</div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #ff8888;">Activa Hoy ➔ Corte: 30 Oct / 20 Nov</div>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Cap. 2: 30 Oct / 20 Nov 2026</div>
+                  <div style="font-size: 9px; font-weight: 700; color: #dc2626;">Activa Hoy ➔ Corte: 30 Oct / 20 Nov</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Cap. 2: 30 Oct 2026</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
@@ -458,8 +493,8 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Nodriza #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">🔒 AUTO_SWEEP = false (Acumulación)</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
+                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
                 </td>
                 <td>
                   <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
@@ -477,7 +512,7 @@
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-arbitrum"></span>
-                    <strong style="color: #fff;">🔵 Arbitrum Stylus &amp; Optimism Superchain</strong>
+                    <strong style="color: var(--text-main); font-size: 10px;">🔵 Arbitrum Stylus &amp; Optimism Superchain</strong>
                   </div>
                   <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
                     <span class="badge-tag-tiny badge-seed">⚡ PRIORIDAD #4 (HORIZONTE 2)</span>
@@ -486,7 +521,7 @@
                   <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Arbitrum One / Sepolia · 0x82aF...Bab1</div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #60a5fa;">Siembra Continua 24/7 (Corte Q4 2026)</div>
+                  <div style="font-size: 9px; font-weight: 700; color: #0284c7;">Siembra Continua 24/7 (Corte Q4 2026)</div>
                   <div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">🌱 Siembra Continua Activa</div>
                 </td>
                 <td>
@@ -495,8 +530,8 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Nodriza #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">🔒 AUTO_SWEEP = false (Acumulación)</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
+                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
                 </td>
                 <td>
                   <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
@@ -514,7 +549,7 @@
                 <td>
                   <div class="front-badge-wrap">
                     <span class="chain-dot-mini chain-dot-citrea"></span>
-                    <strong style="color: #fff;">🟠 Citrea Bitcoin ZK-Rollup &amp; GOAT Network</strong>
+                    <strong style="color: var(--text-main); font-size: 10px;">🟠 Citrea Bitcoin ZK-Rollup &amp; GOAT Network</strong>
                   </div>
                   <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
                     <span class="badge-tag-tiny badge-seed">🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</span>
@@ -523,8 +558,8 @@
                   <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Citrea &amp; GOAT BTC L2 · 0xcA11...CA11</div>
                 </td>
                 <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #60a5fa;">Acumulación Puntos Pre-TGE (Snapshot Q1 2027)</div>
-                  <div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">🌱 Acumulación Pre-TGE (Sin fecha falsa de Oct)</div>
+                  <div style="font-size: 9px; font-weight: 700; color: #0284c7;">Acumulación Puntos Pre-TGE (Snapshot Q1 2027)</div>
+                  <div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">🌱 Acumulación Pre-TGE Activa</div>
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
@@ -532,8 +567,8 @@
                 </td>
                 <td>
                   <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Nodriza #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">🔒 AUTO_SWEEP = false (Acumulación)</div>
+                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
+                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
                 </td>
                 <td>
                   <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
@@ -593,12 +628,12 @@
       <!-- ===================================================================== -->
       <section class="quant-card panel-bottom-activity" id="blockBottomActivity">
 
-        <!-- Selector de Pestaña: Bitácora de Picado / Espejo Telegram -->
+        <!-- Selector de Pestaña: Terminal de Picado / Espejo Telegram -->
         <div class="activity-tabs-header">
           <div class="tab-buttons-wrap">
             <button class="tab-btn active" id="tabBtnLog" onclick="switchActivityTab('log')">
-              <span class="material-symbols-rounded icon-xs cyan">receipt_long</span>
-              <span>BITÁCORA DE PICADO EN VIVO</span>
+              <span class="material-symbols-rounded icon-xs cyan">terminal</span>
+              <span>&gt;_ TERMINAL DE PICADO EN VIVO</span>
               <span class="badge-tag-tiny badge-cyan" id="logCountPill">142 OPS</span>
             </button>
             <button class="tab-btn" id="tabBtnTg" onclick="switchActivityTab('tg')">
@@ -608,7 +643,7 @@
             </button>
           </div>
 
-          <!-- Filtros Rápidos de Box -->
+          <!-- Filtros Rápidos de Box & Controles Terminal -->
           <div class="filter-pills-row" id="logFilterControls">
             <span style="font-size: 9px; color: var(--text-muted); font-family: var(--font-mono);">FILTRAR:</span>
             <button class="filter-pill-btn active" onclick="filterActivityLog('ALL')">TODOS</button>
@@ -617,7 +652,11 @@
             <button class="filter-pill-btn" onclick="filterActivityLog('BOX3')">BOX 3</button>
             <button class="filter-pill-btn" onclick="filterActivityLog('BOX4')">BOX 4</button>
             <button class="filter-pill-btn" onclick="filterActivityLog('BOX5')">BOX 5</button>
-            <button class="filter-pill-btn" onclick="filterActivityLog('HASH_ONLY')">SOLO TX HASH</button>
+            <button class="filter-pill-btn" onclick="filterActivityLog('HASH_ONLY')">SOLO TX</button>
+            <button class="filter-pill-btn" onclick="clearActivityConsole()" title="Limpiar y refrescar consola de picado" style="color: var(--cyan); border-color: rgba(2, 132, 199, 0.3);">
+              <span class="material-symbols-rounded icon-xs" style="font-size: 11px;">mop</span>
+              <span>LIMPIAR</span>
+            </button>
           </div>
         </div>
 
@@ -902,6 +941,11 @@
               </tr>
             </tbody>
           </table>
+          <div class="terminal-prompt-bar">
+            <span class="prompt-arrow">&gt;_</span>
+            <span class="prompt-text">ROTACIÓN ACTIVA 24/7 // 500 BOTS AUDITADOS · ENRUTANDO FIRMAS EIP-712 · CERO GAS PERDIDO · DESTINO: #501</span>
+            <span class="prompt-cursor">█</span>
+          </div>
         </div>
 
         <!-- CONTENIDO PESTAÑA 2: ESPEJO TELEGRAM SALA DE MANDO 10K -->
@@ -920,50 +964,40 @@
   </main>
 
   <!-- ========================================================================= -->
-  <!-- BLOQUE INFERIOR: BOTONERA UNIFICADA DE MÓDULOS (40PX - CERO SCROLL)       -->
+  <!-- BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SELECTOR DE MÓDULOS)        -->
   <!-- ========================================================================= -->
-  <footer class="bottom-module-dock">
-    <!-- Izquierda: Estado Rápido del Sistema -->
-    <div class="dock-left-status">
-      <span class="pulse-dot-green" title="Sistema Activo"></span>
-      <span class="dock-status-txt">SISTEMA ACTIVO</span>
+  <footer class="win-taskbar">
+    <div class="win-taskbar-left">
+      <nav class="win-app-tabs">
+        <!-- 1. Mando Central -->
+        <a href="../" class="win-tab-btn" title="Mando Central: Tesorería y Patrimonio Real">
+          <span>🏛️</span>
+          <span>MANDO CENTRAL</span>
+        </a>
+
+        <!-- 2. Squad Secret -->
+        <a href="../squad-secret/" class="win-tab-btn" title="Squad Secret: Trading Real, Bull &amp; Bear y Sniping Atómico">
+          <span>🕵️‍♂️</span>
+          <span>SQUAD SECRET</span>
+        </a>
+
+        <!-- 3. Flota X500 (Activo) -->
+        <a href="./" class="win-tab-btn active" title="Flota X500: Las 500 Carteras, Airdrops y Free-Mint">
+          <span>🪖</span>
+          <span>FLOTA X500</span>
+        </a>
+      </nav>
     </div>
 
-    <!-- Centro: Los 3 Espacios Oficiales ÁREA 501 -->
-    <div class="dock-center-modules">
-      <!-- 1. Mando Central -->
-      <a href="../" class="dock-module-btn" id="dockBtnMando" title="🏛️ Mando Central de Saldos Reales On-Chain y Patrimonio Oficial">
-        <span class="dock-module-icon">🏛️</span>
-        <span class="dock-label">MANDO CENTRAL</span>
-      </a>
-
-      <!-- 2. Squad Secret (Bull & Bear + Sniping Atómico) -->
-      <a href="../squad-secret/" class="dock-module-btn" id="dockBtnSquadSecret" title="🕵️‍♂️ Squad Secret: Bull & Bear + Sniping Atómico Multi-Piscina">
-        <span class="dock-module-icon">🕵️‍♂️</span>
-        <span class="dock-label">SQUAD SECRET</span>
-      </a>
-
-      <!-- 3. Flota X500 (Activo) -->
-      <a href="./" class="dock-module-btn active" id="dockBtnFlota" title="🪖 Flota X500: Las 500 Carteras, 5 Boxes, Calendario de Airdrops y Free-Mint Flip">
-        <span class="dock-module-icon">🪖</span>
-        <span class="dock-label">FLOTA X500</span>
-      </a>
-    </div>
-
-    <!-- Derecha: Utilidades Globales (Reloj Maestro UTC + Candado) -->
-    <div class="dock-right-controls">
-      <!-- Reloj Maestro UTC en Vivo -->
-      <div class="dock-utc-clock" id="dockUtcClock" title="Hora Oficial UTC del Motor">
-        <span class="clock-icon">🕒</span>
-        <span class="clock-time font-mono" id="masterUtcClockTime">--:--:-- UTC</span>
+    <div class="win-taskbar-right">
+      <div class="win-clock-tray">
+        <span>🕒</span>
+        <span id="winClockUtc">--:--:-- UTC</span>
       </div>
 
-      <!-- Botón de Candado Global (Bloqueo de Sesión) -->
-      <button class="area501-lockout-btn dock-lock-btn" id="area501-lockout-btn" title="ÁREA 501 // Bloquear y Proteger Acceso" aria-label="Bloquear Acceso">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
+      <button class="win-lock-btn" id="area501-lockout-btn" title="Cerrar Sesión y Bloquear Estación">
+        <span>🔒</span>
+        <span>BLOQUEAR</span>
       </button>
     </div>
   </footer>
