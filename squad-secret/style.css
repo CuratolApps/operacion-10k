@@ -312,7 +312,7 @@ html, body {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 270px 1fr 390px; /* 3 COLUMNAS SIMÉTRICAS */
+  grid-template-columns: 250px 1fr 480px; /* TERMINAL ANCHA 480PX + MESA CENTRAL + 5 TARJETAS */
   grid-template-rows: 1fr;
   gap: 8px;
   padding: 8px 12px;
@@ -393,20 +393,22 @@ html, body {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 6px;
-  padding: 8px;
+  padding: 6px;
   overflow: hidden; /* CERO SCROLL */
   background: #f1f5f9;
 }
 
 .funnel-link-card {
+  flex: 1;
+  min-height: 0;
   background: #ffffff;
   border: 1px solid var(--win-border);
   border-radius: 5px;
-  padding: 7px 9px;
+  padding: 6px 9px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 2px;
   transition: all 0.15s ease;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -577,6 +579,42 @@ html, body {
 
 .subview-container.active {
   display: flex;
+}
+
+/* SELECTOR DE PARES PRINCIPALES */
+.pairs-selector-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #e2e8f0;
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid var(--win-border);
+}
+
+.pair-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-medium);
+  font-family: var(--font-code);
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pair-tab-btn:hover {
+  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.pair-tab-btn.active {
+  background: #ffffff;
+  color: var(--win-primary);
+  font-weight: 800;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .strike-asset-badges {

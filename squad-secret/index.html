@@ -244,17 +244,22 @@
         </button>
 
         <button class="center-action-btn" id="btnExecuteCycle" onclick="triggerSquadRealScan()">
-          <span class="btn-sparkle">⚡</span>
-          <span class="btn-txt" id="btnExecuteText">ESCANEAR ON-CHAIN AHORA</span>
+          <span class="btn-sparkle">🔍</span>
+          <span class="btn-txt" id="btnExecuteText">AUDITORÍA RPC EN VIVO ($0 GAS)</span>
         </button>
       </div>
 
       <!-- SUB-VISTA A: MESA CENTRAL DE 4 CAJAS TÁCTICAS -->
       <div class="subview-container active" id="subviewBullBearContent">
-        <div class="panel-header" style="height:32px;">
+        <div class="panel-header" style="height:36px; padding: 0 10px;">
           <div class="panel-title-wrap">
             <span class="panel-icon">🎯</span>
-            <h2 class="panel-title" style="font-size:9.5px;">DISPARO TÁCTICO // SEGUNDA BOLA ($500 USDC GOAL)</h2>
+            <span class="panel-title" style="font-size:9px;">PAR MONITOREADO:</span>
+            <div class="pairs-selector-group font-mono">
+              <button class="pair-tab-btn active" id="btnPairSol" onclick="selectSquadPair('SOL/USDC')">SOL/USDC</button>
+              <button class="pair-tab-btn" id="btnPairBtc" onclick="selectSquadPair('BTC/USDC')">BTC/USDC</button>
+              <button class="pair-tab-btn" id="btnPairEth" onclick="selectSquadPair('ETH/USDC')">ETH/USDC</button>
+            </div>
           </div>
           <div class="strike-asset-badges font-mono">
             <span class="asset-badge-main" id="strikePairTitle">SOL/USDC</span>
@@ -357,7 +362,7 @@
         <div class="panel-header" style="height:32px;">
           <div class="panel-title-wrap">
             <span class="panel-icon">🎯</span>
-            <h2 class="panel-title" style="font-size:9.5px;">CONTRATO ATOMIC SNIPER EXECUTOR</h2>
+            <h2 class="panel-title" style="font-size:9.5px;">CONTRATO ATOMIC SNIPER EXECUTOR (21 PISCINAS)</h2>
           </div>
           <div class="strike-asset-badges font-mono">
             <span class="asset-badge-main" style="background:var(--win-primary-soft);border-color:var(--win-primary-border);color:var(--win-primary);">0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67</span>
@@ -370,7 +375,7 @@
           <div class="tactical-box box-cannon-poly">
             <div class="box-head">
               <span class="box-num font-mono">C-01</span>
-              <span class="box-tag">CAÑÓN #1 POLYGON PoS</span>
+              <span class="box-tag">CAÑÓN #1 POLYGON PoS (15 PISCINAS)</span>
               <span class="box-badge-pill green font-mono">ACTIVO</span>
             </div>
             <div class="cannon-data font-mono">
@@ -393,7 +398,7 @@
           <div class="tactical-box box-cannon-bsc">
             <div class="box-head">
               <span class="box-num font-mono">C-02</span>
-              <span class="box-tag">CAÑÓN #2 BSC MAINNET</span>
+              <span class="box-tag">CAÑÓN #2 BSC MAINNET (6 PISCINAS)</span>
               <span class="box-badge-pill green font-mono">ACTIVO</span>
             </div>
             <div class="cannon-data font-mono">
@@ -413,68 +418,44 @@
           </div>
         </div>
 
-        <!-- TABLA LUMINOSA DE LAS PISCINAS EN VIVO -->
+        <!-- TABLA LUMINOSA DE LAS 21 PISCINAS EN VIVO -->
         <div class="pools-table-wrap font-mono">
           <table class="pools-live-table">
             <thead>
               <tr>
+                <th>#</th>
                 <th>RED</th>
                 <th>DEX / PISCINA</th>
-                <th>FEE</th>
+                <th>FEE / TIPO</th>
                 <th>PAR INSTITUCIONAL</th>
                 <th>ESTADO</th>
                 <th>CALLSTATIC</th>
               </tr>
             </thead>
             <tbody id="poolsTableBody">
-              <tr>
-                <td><span class="chain-pill poly">POLYGON</span></td>
-                <td><strong>Uniswap V3</strong></td>
-                <td>0.01%</td>
-                <td>USDC / USDT</td>
-                <td><span class="status-active">🟢 Activa</span></td>
-                <td><span class="scan-clean">$0 Gas</span></td>
-              </tr>
-              <tr>
-                <td><span class="chain-pill poly">POLYGON</span></td>
-                <td><strong>Uniswap V3</strong></td>
-                <td>0.05%</td>
-                <td>WBTC / USDC</td>
-                <td><span class="status-active">🟢 Activa</span></td>
-                <td><span class="scan-clean">$0 Gas</span></td>
-              </tr>
-              <tr>
-                <td><span class="chain-pill poly">POLYGON</span></td>
-                <td><strong>Uniswap V3</strong></td>
-                <td>0.05%</td>
-                <td>WETH / USDC</td>
-                <td><span class="status-active">🟢 Activa</span></td>
-                <td><span class="scan-clean">$0 Gas</span></td>
-              </tr>
-              <tr>
-                <td><span class="chain-pill poly">POLYGON</span></td>
-                <td><strong>QuickSwap Algebra</strong></td>
-                <td>Dinámico</td>
-                <td>WPOL / USDC</td>
-                <td><span class="status-active">🟢 Activa</span></td>
-                <td><span class="scan-clean">$0 Gas</span></td>
-              </tr>
-              <tr>
-                <td><span class="chain-pill bsc">BSC</span></td>
-                <td><strong>PancakeSwap V3</strong></td>
-                <td>0.01%</td>
-                <td>USDC / USDT</td>
-                <td><span class="status-active">🟢 Activa</span></td>
-                <td><span class="scan-clean">$0 Gas</span></td>
-              </tr>
-              <tr>
-                <td><span class="chain-pill bsc">BSC</span></td>
-                <td><strong>PancakeSwap V3</strong></td>
-                <td>0.05%</td>
-                <td>WBNB / USDC</td>
-                <td><span class="status-active">🟢 Activa</span></td>
-                <td><span class="scan-clean">$0 Gas</span></td>
-              </tr>
+              <!-- 15 PISCINAS POLYGON POS -->
+              <tr><td>01</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.01% (Fee 100)</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>02</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.05% (Fee 500)</td><td>WBTC / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>03</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.05% (Fee 500)</td><td>WETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>04</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.05% (Fee 500)</td><td>WPOL / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>05</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.30% (Fee 3000)</td><td>LINK / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>06</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.30% (Fee 3000)</td><td>AAVE / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>07</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.01%</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>08</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>WPOL / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>09</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>WETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>10</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>WBTC / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>11</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>PAXG / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>12</td><td><span class="chain-pill poly">POLYGON</span></td><td>SushiSwap V3</td><td>0.05% (Fee 500)</td><td>WETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>13</td><td><span class="chain-pill poly">POLYGON</span></td><td>SushiSwap V3</td><td>0.05% (Fee 500)</td><td>WBTC / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>14</td><td><span class="chain-pill poly">POLYGON</span></td><td>SushiSwap V3</td><td>0.30% (Fee 3000)</td><td>LINK / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>15</td><td><span class="chain-pill poly">POLYGON</span></td><td>DODO V2</td><td>PMM 0.01%</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <!-- 6 PISCINAS BSC MAINNET -->
+              <tr><td>16</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.01% (Fee 100)</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>17</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.05% (Fee 500)</td><td>WBNB / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>18</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.05% (Fee 500)</td><td>BTCB / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>19</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.05% (Fee 500)</td><td>ETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>20</td><td><span class="chain-pill bsc">BSC</span></td><td>BiSwap V2</td><td>AMM 0.10%</td><td>USDT / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
+              <tr><td>21</td><td><span class="chain-pill bsc">BSC</span></td><td>BiSwap V2</td><td>AMM 0.20%</td><td>WBNB / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
             </tbody>
           </table>
         </div>
