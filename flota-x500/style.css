@@ -110,7 +110,9 @@ body.area501-flota-body {
   height: 86px;
   padding: 6px 12px;
   display: grid;
-  grid-template-columns: 1.05fr 1.05fr 1.05fr 1.05fr 1.05fr 0.95fr;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  width: 100%;
+  max-width: 100vw;
   gap: 8px;
   flex-shrink: 0;
   background: var(--win-surface);
@@ -140,15 +142,16 @@ body.area501-flota-body {
   background: var(--win-card);
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 5px 8px;
+  padding: 6px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   min-height: 72px;
+  min-width: 0;
+  overflow: hidden;
   box-sizing: border-box;
   transition: all 0.15s ease;
-  overflow: visible;
   position: relative;
 }
 
@@ -345,19 +348,49 @@ body.area501-flota-body {
 /* =============================================================================
    COLUMNA 1: TABLA DE LOS 5 BOXES & 3 DETECTORES DE MONITOREO
    ============================================================================= */
+/* =============================================================================
+   COLUMNA 1: TABLA DE LOS 5 BOXES & 3 DETECTORES DE MONITOREO (100% ALTURA)
+   ============================================================================= */
+.col-boxes .win-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  height: 100%;
+}
+
 .boxes-table-wrap {
   border: 1px solid var(--win-border);
   border-radius: 6px;
   background: #ffffff;
   overflow: hidden;
-  flex-shrink: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .boxes-table {
   width: 100%;
+  height: 100%;
   border-collapse: collapse;
   font-family: var(--font-code);
   font-size: 8.5px;
+  display: table;
+}
+
+.boxes-table thead {
+  display: table-header-group;
+}
+
+.boxes-table tbody {
+  display: table-row-group;
+  height: 100%;
+}
+
+.boxes-table tbody tr {
+  height: calc((100% - 24px) / 5);
 }
 
 .boxes-table th {
@@ -372,7 +405,7 @@ body.area501-flota-body {
 }
 
 .boxes-table td {
-  padding: 4px 6px;
+  padding: 5px 6px;
   border-bottom: 1px solid #f1f5f9;
   color: var(--text-dark);
   line-height: 1.25;
@@ -407,7 +440,7 @@ body.area501-flota-body {
   background: #ffffff;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 6px 8px;
+  padding: 7px 8px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -450,7 +483,7 @@ body.area501-flota-body {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 5px;
-  padding: 5px 7px;
+  padding: 6px 8px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -496,9 +529,9 @@ body.area501-flota-body {
   border: 1.5px solid var(--win-primary);
   color: var(--win-primary);
   font-family: var(--font-code);
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 800;
-  padding: 6px 10px;
+  padding: 7px 10px;
   border-radius: 5px;
   cursor: pointer;
   display: flex;
@@ -515,6 +548,35 @@ body.area501-flota-body {
   color: #ffffff;
   box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
   transform: translateY(-0.5px);
+}
+
+/* BARRA RESUMEN DE EJECUCIÓN EN MANADA (500/500) */
+.fleet-herd-summary-footer {
+  background: #f8fafc;
+  border: 1px solid var(--win-border);
+  border-radius: 5px;
+  padding: 5px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.5px;
+  color: var(--text-dark);
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.herd-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.herd-summary-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8px;
+  color: var(--text-muted);
 }
 
 /* CHIPS DE ENTORNO: MAINNET VS TESTNET EN CALENDARIO */
@@ -622,20 +684,50 @@ body.area501-flota-body {
   flex-shrink: 0;
 }
 
+.col-calendar .win-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  height: 100%;
+}
+
 .airdrop-table-wrap {
   border: 1px solid var(--win-border);
   border-radius: 6px;
   background: #ffffff;
-  overflow-y: auto;
+  overflow: hidden;
   flex: 1;
+  display: flex;
+  flex-direction: column;
   min-height: 0;
 }
 
 .airdrop-table {
   width: 100%;
+  height: 100%;
   border-collapse: collapse;
   font-family: var(--font-code);
   font-size: 8.5px;
+  display: table;
+}
+
+.airdrop-table thead {
+  display: table-header-group;
+}
+
+.airdrop-table tbody {
+  display: table-row-group;
+  height: 100%;
+}
+
+#airdropFrontsTbody tr {
+  height: calc((100% - 24px) / 5);
+}
+
+#nftFlipTbody tr {
+  height: calc((100% - 24px) / 6);
 }
 
 .airdrop-table th {
@@ -647,17 +739,14 @@ body.area501-flota-body {
   font-size: 8px;
   font-weight: 700;
   text-transform: uppercase;
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 .airdrop-table td {
-  padding: 4px 6px;
+  padding: 5px 6px;
   border-bottom: 1px solid #f1f5f9;
   color: var(--text-dark);
-  vertical-align: top;
-  line-height: 1.3;
+  vertical-align: middle;
+  line-height: 1.25;
 }
 
 .airdrop-table tr:hover td {
@@ -797,28 +886,34 @@ body.area501-flota-body {
   padding-top: 3px;
 }
 
-/* CUERPO DEL LOG STREAM EN VIVO */
+/* CUERPO DEL LOG STREAM EN VIVO (CERO SCROLLBAR · 10-12 FILAS LIMPIAS) */
 .term-stream-body {
   flex: 1;
   background: var(--term-bg);
-  padding: 8px 10px;
+  padding: 6px 10px;
   font-family: var(--font-code);
-  font-size: 9.5px;
-  line-height: 1.45;
+  font-size: 9px;
+  line-height: 1.35;
   color: var(--term-white);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
   min-height: 0;
+}
+
+.term-stream-body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
 }
 
 .term-log-row {
   display: grid;
-  grid-template-columns: 52px 82px 1fr 108px;
+  grid-template-columns: 50px 84px 1fr 108px;
   gap: 8px;
-  padding: 3px 0;
+  padding: 2.5px 0;
   border-bottom: 1px solid rgba(30, 41, 59, 0.45);
   align-items: center;
 }

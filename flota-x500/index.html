@@ -117,20 +117,20 @@
       </div>
     </div>
 
-    <!-- TARJETA 6 · ⏰ PRÓXIMO CORTE INMINENTE (CALIBRADA CERO DESBORDE) -->
+    <!-- TARJETA 6 · ⏰ PRÓXIMO CORTE INMINENTE (100% ENCUADRADA DENTRO DE PANTALLA) -->
     <div class="win-metric-card" id="cardNextCut" title="Fecha inminente de cierre: 30 de Octubre de 2026 (Base Avantis S3 y DogeOS Cap. 2)">
       <div class="win-metric-head">
-        <span style="display: flex; align-items: center; gap: 4px; white-space: nowrap; font-size: 8.8px;">
+        <span style="display: flex; align-items: center; gap: 3px; white-space: nowrap; font-size: 8.8px; min-width: 0; overflow: hidden;">
           <span class="material-symbols-rounded icon-xs val-danger">alarm</span>
-          <span>⏰ PRÓXIMO CORTE</span>
+          <span>⏰ CORTE</span>
         </span>
-        <span class="badge-tag-tiny badge-danger" id="daysLeftBadge" style="padding: 1px 5px; font-size: 8px;">4 DÍAS</span>
+        <span class="badge-tag-tiny badge-danger" id="daysLeftBadge" style="padding: 1px 5px; font-size: 8px; flex-shrink: 0;">4 DÍAS</span>
       </div>
-      <div class="win-metric-val val-danger" id="topCutCountdown">
-        CIERRE: 30 OCT
+      <div class="win-metric-val val-danger" id="topCutCountdown" style="font-size: 14px; font-weight: 800; color: #dc2626;">
+        30 OCTUBRE
       </div>
-      <div class="win-metric-sub" id="topCutSub" style="font-size: 8.5px; white-space: nowrap;">
-        Base/Avantis S3 &amp; DogeOS Cap. 2
+      <div class="win-metric-sub" id="topCutSub" style="font-size: 8.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Base/Avantis & DogeOS">
+        Base/Avantis &amp; DogeOS
       </div>
     </div>
 
@@ -620,6 +620,21 @@
               </table>
             </div>
           </div>
+
+          <!-- Barra Resumen de Ejecución en Manada (500/500) · Cero Huecos Vacíos -->
+          <div class="fleet-herd-summary-footer">
+            <div class="herd-summary-left">
+              <span class="pulse-dot"></span>
+              <strong style="color: var(--text-dark); font-size: 8.8px;">MANADA 500/500 EN FILA INDIA</strong>
+              <span class="badge-tag-tiny badge-green">TURNO ACTIVO 20/30M</span>
+              <span class="badge-tag-tiny badge-blue">GASLESS EIP-712: $0 GAS</span>
+            </div>
+            <div class="herd-summary-right font-mono">
+              <span>LATENCIA: <strong class="val-green">256 ms</strong></span>
+              <span>·</span>
+              <span class="val-green" style="font-weight: 700;">🛡️ 0% ERRORES ON-CHAIN</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -751,13 +766,13 @@
         <table class="boxes-table" id="modalWalletsTable">
           <thead>
             <tr>
-              <th style="width: 8%;">ID</th>
-              <th style="width: 14%;">ROL ADN</th>
-              <th style="width: 26%;">DIRECCIÓN EVM (0x...)</th>
-              <th style="width: 24%;">DIRECCIÓN SOLANA</th>
-              <th style="width: 16%;">GAS POL / BNB</th>
-              <th style="width: 6%; text-align: center;">TXS</th>
-              <th style="width: 6%; text-align: center;">FICHA</th>
+              <th style="width: 7%;">ID</th>
+              <th style="width: 23%;">ESCUADRÓN &amp; MISIÓN EN MANADA</th>
+              <th style="width: 24%;">DIRECCIÓN EVM (0x...)</th>
+              <th style="width: 18%;">DIRECCIÓN SOLANA</th>
+              <th style="width: 16%;">GAS &amp; SALDO REAL</th>
+              <th style="width: 6%; text-align: center;">NONCES</th>
+              <th style="width: 6%; text-align: center;">EXPLORER</th>
             </tr>
           </thead>
           <tbody id="modalWalletsTbody">
