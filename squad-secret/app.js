@@ -1023,13 +1023,13 @@
 
     if (boxOperationStatusText) {
       if (activeExecutionMode === "EMERGENCY_STOPPED") {
-        boxOperationStatusText.innerHTML = `🛑 <strong>PARADA DE EMERGENCIA ACTIVA:</strong> motor congelado, órdenes abiertas canceladas, 100% fondos seguros en USDC. Alerta despachada a Telegram.`;
+        boxOperationStatusText.innerHTML = `🛑 <strong>PARADA DE EMERGENCIA:</strong> Motor congelado, órdenes canceladas, 100% fondos seguros en USDC.`;
       } else if (activeExecutionMode === "PAUSED") {
-        boxOperationStatusText.innerHTML = `⏸ <strong>Motor en Pausa Preventiva:</strong> revisión de bots previa a arranque. Cero órdenes en mercado. Saldo auditado: $490.76 Polygon + $100.02 Hyperliquid L1.`;
+        boxOperationStatusText.innerHTML = `⏸ <strong>Pausa Preventiva:</strong> Auditoría de bots. Saldo: $490.76 Polygon + $100.02 Hyperliquid L1.`;
       } else if (l1Bal <= 0) {
-        boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo en Polygon #501: $490.76 USDC (0% Riesgo) | Saldo en Hyperliquid L1: $0.00 USDC.`;
+        boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo Polygon #501: $490.76 USDC · Saldo L1: $0.00 USDC.`;
       } else {
-        boxOperationStatusText.innerHTML = `🟢 <strong>Operando ${selectedSquadPair} en Hyperliquid L1:</strong> orden Post-Only ALO armada ($${l1Bal.toFixed(2)} USDC L1 · Bóveda #501 $490.76 USDC en Polygon). Candado BE clava a +0.04% y TP liquida a +0.08% en USDC directo a #501.`;
+        boxOperationStatusText.innerHTML = `🟢 <strong>Operando ${selectedSquadPair} (ALO):</strong> L1: $${l1Bal.toFixed(2)} USDC · Candado BE +0.04% ➔ TP +0.08% ($0 Pérdida)`;
       }
     }
     if (boxOperationSubText) {

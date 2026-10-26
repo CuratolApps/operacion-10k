@@ -93,47 +93,43 @@ html, body {
    1. BARRA SUPERIOR (5 TARJETAS SIMÉTRICAS FLOTANTES SOBRE FONDO GRIS): HEIGHT 86PX
    ============================================================================= */
 .top-nav-bar,
-#squadHeader,
-.top-bar,
-.top-header,
-.metrics-row,
-.squad-top-strip {
-  min-height: 76px;
-  height: 76px;
-  padding: 6px 12px 6px 12px !important;
+#squadHeader {
+  min-height: 84px;
+  height: 84px;
+  padding: 6px 12px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
   flex-shrink: 0;
-  background: transparent !important;
-  border: none !important;
-  border-bottom: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
+  background: var(--win-surface) !important;
+  border-bottom: 2px solid var(--win-border) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04) !important;
   z-index: 50;
   align-items: stretch;
+  box-sizing: border-box;
 }
 
 .nav-card {
-  background: #ffffff !important;
+  background: var(--win-card) !important;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 5px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: 0;
+  min-height: 70px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
 .nav-card:hover {
   background: #ffffff !important;
   border-color: var(--win-border-strong);
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
 .card-meta {
@@ -764,26 +760,27 @@ html, body {
 .center-floor-one-toolbar {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  padding: 5px 8px;
+  gap: 4px;
+  padding: 4px 6px;
   background: var(--win-surface);
   border-bottom: 1px solid var(--win-border);
   flex-shrink: 0;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .center-floor-btn {
-  height: 26px;
-  padding: 0 6px;
+  height: 24px;
+  padding: 0 4px;
   border-radius: 4px;
   font-family: var(--font-code);
-  font-size: 8px;
+  font-size: 7.5px;
   font-weight: 800;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -819,8 +816,8 @@ html, body {
 
 .status-dot,
 .motor-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: #22c55e;
   box-shadow: 0 0 6px #22c55e;
@@ -897,29 +894,31 @@ html, body {
 .hl-multipair-grid {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  gap: 5px;
-  padding: 5px 8px;
+  gap: 4px;
+  padding: 4px 6px;
   background: #ffffff;
   border-bottom: 1px solid var(--win-border);
   flex-shrink: 0;
   overflow: hidden; /* CERO SCROLL */
+  box-sizing: border-box;
 }
 
 .multipair-card {
   background: #f8fafc;
   border: 1px solid var(--win-border);
   border-radius: 4px;
-  padding: 3px 5px;
+  padding: 2px 4px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   gap: 1px;
   cursor: pointer;
   transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
   min-width: 0;
   position: relative;
-  height: 44px;
+  height: 38px;
   user-select: none;
+  box-sizing: border-box;
 }
 
 .multipair-card:hover {
@@ -960,32 +959,32 @@ html, body {
 }
 
 .mp-sym {
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 800;
   color: var(--text-dark);
 }
 
 .mp-spec {
-  font-size: 7px;
+  font-size: 6.5px;
   font-weight: 700;
   color: var(--text-muted);
   background: #e2e8f0;
-  padding: 1px 3px;
+  padding: 0 2px;
   border-radius: 2px;
 }
 
 .mp-price {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
   color: var(--text-dark);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .mp-pressure {
-  font-size: 7.5px;
+  font-size: 7px;
   font-weight: 800;
   white-space: nowrap;
   overflow: hidden;
@@ -1261,8 +1260,8 @@ html, body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 6px;
-  padding: 6px 8px;
+  gap: 5px;
+  padding: 5px 6px;
   background: #f1f5f9;
   overflow: hidden;
 }
@@ -1271,7 +1270,7 @@ html, body {
   background: #ffffff;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 5px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1370,21 +1369,21 @@ html, body {
 }
 
 .big-pair-label {
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 900;
   color: var(--text-dark);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   letter-spacing: 0.2px;
   white-space: nowrap;
   overflow: hidden;
 }
 
 .big-direction-pill {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
-  padding: 1px 5px;
+  padding: 1px 4px;
   border-radius: 4px;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1403,7 +1402,7 @@ html, body {
 .big-price-flow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -1411,19 +1410,19 @@ html, body {
 .price-flow-segment {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 3px;
   white-space: nowrap;
 }
 
 .price-flow-segment .segment-label {
-  font-size: 8.5px;
+  font-size: 8px;
   color: var(--text-muted);
   font-weight: 700;
   white-space: nowrap;
 }
 
 .price-flow-segment .segment-val {
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 800;
   color: var(--text-dark);
   white-space: nowrap;
@@ -1434,7 +1433,7 @@ html, body {
 }
 
 .flow-arrow {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 900;
   color: var(--win-primary);
   white-space: nowrap;
@@ -1443,7 +1442,7 @@ html, body {
 .big-targets-flow {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -1451,10 +1450,10 @@ html, body {
 .target-chip {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 2.5px 5px;
+  gap: 3px;
+  padding: 2px 4px;
   border-radius: 4px;
-  font-size: 9px;
+  font-size: 8.5px;
   flex: 1;
   min-width: 0;
   white-space: nowrap;
@@ -1474,24 +1473,24 @@ html, body {
 }
 
 .chip-icon {
-  font-size: 10px;
+  font-size: 9.5px;
 }
 
 .chip-txt {
-  font-size: 8.5px;
+  font-size: 8px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .big-status-alert {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 700;
   color: var(--win-primary);
   background: var(--win-primary-soft);
   border: 1px solid var(--win-primary-border);
   border-radius: 4px;
-  padding: 4px 6px;
+  padding: 3px 6px;
   line-height: 1.25;
   white-space: normal;
   overflow: hidden;
@@ -1501,7 +1500,7 @@ html, body {
 }
 
 .box-meta-line {
-  font-size: 8px;
+  font-size: 7.5px;
   color: var(--text-medium);
   line-height: 1.2;
   font-weight: 600;
