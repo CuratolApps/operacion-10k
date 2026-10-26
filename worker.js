@@ -1166,7 +1166,7 @@ async function getLiveLiquidityEngineData() {
     status: "100% REAL ON-CHAIN (RPC BOR POLYGON & BSC)",
     semaphore: {
       status: "GREEN",
-      statusLabel: "🟢 VERDE (LIBRE · $490.76 ACTIVO EN AAVE V3)",
+      statusLabel: `🟢 VERDE (LIBRE · $${totalPolygonUsdc.toFixed(2)} ACTIVO EN AAVE V3)`,
       activeSquad: null,
       activeSquadName: null,
       concurrencyRule: "MUTEX EXCLUSIVO (CERO COLISIONES)",
@@ -1174,7 +1174,10 @@ async function getLiveLiquidityEngineData() {
       aaveCustodyActive: true,
       latencyAvgMs: 82,
       shotsExecutedToday: confirmedAtomicHits,
-      dailyTargetLimit: 15,
+      squadDailyLimit: 15,
+      totalDailyLimit: 75,
+      dailyTargetLimit: 75,
+      quotaModel: "15 POR ESCUADRÓN (75 TOTAL FLOTA)",
       atomicGuard: "NO_PROFIT_REVERT = VERIFICADO ✔"
     },
     squadrons: [

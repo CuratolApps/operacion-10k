@@ -2021,13 +2021,13 @@
             <div style="display:flex;align-items:center;gap:6px;">
               <span id="semaphoreLed" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
               <span style="font-family:var(--font-code);font-size:7.8px;font-weight:800;color:#f8fafc;" id="semaphoreStatusLabel">
-                SEMÁFORO DE FUEGO: 🟢 VERDE (LIBRE · $490.76 EN AAVE V3)
+                SEMÁFORO DE FUEGO: 🟢 VERDE (LIBRE · $491.26 EN AAVE V3)
               </span>
             </div>
             <div style="font-family:var(--font-code);font-size:7.2px;color:#94a3b8;display:flex;gap:7px;">
               <span>CANDADO: <strong style="color:#38bdf8;">MUTEX EXCLUSIVO</strong></span>
               <span>LATENCIA: <strong style="color:#22c55e;" id="semaphoreLatency">~82ms</strong></span>
-              <span>LÍMITE HOY: <strong style="color:#fbbf24;" id="semaphoreShots">0/15 DISPAROS</strong></span>
+              <span>LÍMITE HOY: <strong style="color:#fbbf24;" id="semaphoreShots">15/ESC (0/75 FLOTA)</strong></span>
               <span style="color:#4ade80;">NO_PROFIT_REVERT ✔</span>
             </div>
           </div>
@@ -2561,7 +2561,7 @@
               semLatency.textContent = `~${d.semaphore.latencyAvgMs || 82}ms`;
             }
             if (semShots) {
-              semShots.textContent = `${d.semaphore.shotsExecutedToday || 0}/${d.semaphore.dailyTargetLimit || 15} DISPAROS`;
+              semShots.textContent = `${d.semaphore.shotsExecutedToday || 0}/75 HOY (15/ESC)`;
             }
           }
 

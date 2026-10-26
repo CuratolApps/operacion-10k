@@ -117,14 +117,22 @@ const SQUADRONS = {
 // ==============================================================================
 let memorySemaphore = {
   status: "GREEN", // GREEN (Libre), YELLOW (Evaluando), RED (Disparando)
-  statusLabel: "🟢 VERDE (LIBRE · $490.76 ACTIVO EN AAVE V3)",
+  statusLabel: "🟢 VERDE (LIBRE · $491.26 ACTIVO EN AAVE V3)",
   activeSquad: null,
   activeSquadName: null,
   lockedAt: 0,
   lockExpiresAt: 0,
   timeoutMs: 15000, // 15 segundos máximo por disparo
+  squadDailyLimit: 15, // 15 disparos por cada escuadrón (15 x 5 = 75 total flota)
+  totalDailyLimit: 75,
+  shotsPerSquadron: {
+    ALFA: 0,
+    BRAVO: 0,
+    CHARLIE: 0,
+    DELTA: 0,
+    ECO: 0
+  },
   shotsExecutedToday: 0,
-  dailyTargetLimit: 15,
   aaveYieldActive: true,
   lastShotTimestamp: null,
   lastShotNetProfitUsdc: 0.00
@@ -137,7 +145,7 @@ function readSemaphoreState() {
       // Verificar si el lock expiró
       if (data.status === "RED" && Date.now() > data.lockExpiresAt) {
         data.status = "GREEN";
-        data.statusLabel = "🟢 VERDE (LIBRE · $490.76 ACTIVO EN AAVE V3)";
+        data.statusLabel = "🟢 VERDE (LIBRE · $491.26 ACTIVO EN AAVE V3)";
         data.activeSquad = null;
         data.activeSquadName = null;
       }
@@ -171,11 +179,21 @@ function acquireSemaphore(squadId, expectedProfitUsdc) {
     };
   }
 
-  // Si ya se alcanzó el tope diario prudencial de 15 disparos
-  if (memorySemaphore.shotsExecutedToday >= memorySemaphore.dailyTargetLimit) {
+  // Comprobar cupo individual del escuadrón (15 disparos por escuadrón)
+  const squadShots = (memorySemaphore.shotsPerSquadron && memorySemaphore.shotsPerSquadron[squadId]) || 0;
+  if (squadShots >= (memorySemaphore.squadDailyLimit || 15)) {
     return {
       acquired: false,
-      reason: `Tope diario de ${memorySemaphore.dailyTargetLimit} disparos alcanzado hoy`,
+      reason: `Escuadrón ${squadId} completó su tope diario de ${memorySemaphore.squadDailyLimit} disparos`,
+      currentActive: null
+    };
+  }
+
+  // Comprobar tope global de flota (75 disparos diarios = 15 x 5)
+  if (memorySemaphore.shotsExecutedToday >= (memorySemaphore.totalDailyLimit || 75)) {
+    return {
+      acquired: false,
+      reason: `Flota alcanzó el tope diario global de ${memorySemaphore.totalDailyLimit} disparos (15 x 5)`,
       currentActive: null
     };
   }
@@ -194,7 +212,7 @@ function acquireSemaphore(squadId, expectedProfitUsdc) {
   memorySemaphore.lockExpiresAt = now + memorySemaphore.timeoutMs;
 
   writeSemaphoreState(memorySemaphore);
-  console.log(`\n🚦 [SEMÁFORO DE FUEGO] Permiso concedido a ${squad.name} (Beneficio estimado: +$${Number(expectedProfitUsdc || 0).toFixed(4)} USDC)`);
+  console.log(`\n🚦 [SEMÁFORO DE FUEGO] Permiso concedido a ${squad.name} (${squadShots + 1}/15 de este escuadrón | Estimado: +$${Number(expectedProfitUsdc || 0).toFixed(4)} USDC)`);
   return { acquired: true, squad };
 }
 
@@ -211,13 +229,17 @@ async function releaseSemaphore(squadId, executionResult = {}) {
   const txHash = executionResult.txHash || "";
 
   if (success) {
+    if (!memorySemaphore.shotsPerSquadron) {
+      memorySemaphore.shotsPerSquadron = { ALFA: 0, BRAVO: 0, CHARLIE: 0, DELTA: 0, ECO: 0 };
+    }
+    memorySemaphore.shotsPerSquadron[squadId] = (memorySemaphore.shotsPerSquadron[squadId] || 0) + 1;
     memorySemaphore.shotsExecutedToday++;
     memorySemaphore.lastShotTimestamp = new Date().toISOString();
     memorySemaphore.lastShotNetProfitUsdc = netProfit;
   }
 
   memorySemaphore.status = "GREEN";
-  memorySemaphore.statusLabel = "🟢 VERDE (LIBRE · $490.76 ACTIVO EN AAVE V3)";
+  memorySemaphore.statusLabel = "🟢 VERDE (LIBRE · $491.26 ACTIVO EN AAVE V3)";
   memorySemaphore.activeSquad = null;
   memorySemaphore.activeSquadName = null;
   memorySemaphore.lockedAt = 0;
@@ -229,14 +251,16 @@ async function releaseSemaphore(squadId, executionResult = {}) {
   // Alerta Telegram formateada
   if (success && txHash) {
     const net = NETS.polygon;
+    const squadCount = memorySemaphore.shotsPerSquadron[squadId] || 1;
     const msg = `🟢 <b>ÁREA 501 // VICTORIA ON-CHAIN CONFIRMADA</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🎯 <b>ESCUADRÓN:</b> <code>${squad.name}</code> (${squad.box || "Box Táctico"})
 🎯 <b>FLANCO:</b> <code>${squad.flank || "Piscinas Institucionales"}</code>
 🎯 <b>PAR:</b> <code>${executionResult.pair || squad.primaryPair}</code>
+🎯 <b>CUPO ESCUADRÓN:</b> <code>${squadCount} de 15 Disparos</code> (Total Flota: <code>${memorySemaphore.shotsExecutedToday}/75</code>)
 🔒 <b>CANDADO:</b> <code>NO_PROFIT_REVERT = VERIFICADO ✔</code>
 💵 <b>GANANCIA NETA:</b> <b>+$${netProfit.toFixed(4)} USDC</b>
-🏦 <b>CAPITAL:</b> <code>$490.76 USDC asegurado en Aave V3</code> (~3.48% APY)
+🏦 <b>CAPITAL:</b> <code>$491.26+ USDC asegurado en Aave V3</code> (~3.48% APY)
 ⛽ <b>GAS BLINDADO:</b> <code>160.79 POL</code> en #501
 ⛓️ <b>PolygonScan:</b> <a href="https://polygonscan.com/tx/${txHash}">Ver Transacción en Bloque</a>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
