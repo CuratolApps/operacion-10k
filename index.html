@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ÁREA 501 // MANDO CENTRAL DE TESORERÍA & PATRIMONIO REAL</title>
+  <title>Área 501 // Mando Central - Windows Dev Station</title>
 
-  <!-- Tipografías Oficiales -->
+  <!-- Tipografías de Programación & Sistema Windows -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Segoe+UI:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -21,27 +21,43 @@
 
   <style>
     :root {
-      --bg-obsidian: #03060b;
-      --bg-card: rgba(11, 16, 26, 0.94);
-      --bg-card-hover: rgba(18, 25, 40, 0.98);
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(6, 182, 212, 0.35);
+      /* PALETA WINDOWS DEV WORKBENCH (HÍBRIDO GRIS CONFORTABLE & ULTRA LEGIBLE) */
+      --win-bg: #e2e8f0;
+      --win-surface: #ffffff;
+      --win-card: #f8fafc;
+      --win-card-hover: #f1f5f9;
+      --win-border: #cbd5e1;
+      --win-border-strong: #94a3b8;
+      --win-titlebar: #cbd5e1;
+      --win-titlebar-active: #bfdbfe;
+      
+      /* ACENTOS Y SEMÁFOROS */
+      --win-primary: #0284c7;
+      --win-primary-soft: #e0f2fe;
+      --win-success: #15803d;
+      --win-success-soft: #dcfce7;
+      --win-gold: #b45309;
+      --win-gold-soft: #fef3c7;
+      --win-purple: #6d28d9;
+      --win-purple-soft: #f3e8ff;
+      --win-danger: #dc2626;
 
-      --gold: #f59e0b;
-      --gold-glow: rgba(245, 158, 11, 0.25);
-      --green: #10b981;
-      --green-glow: rgba(16, 185, 129, 0.22);
-      --cyan: #06b6d4;
-      --cyan-glow: rgba(6, 182, 212, 0.22);
-      --purple: #8b5cf6;
-      --red: #ef4444;
-
-      --text-main: #f8fafc;
-      --text-dim: #94a3b8;
+      /* TIPOGRAFÍA DE PROGRAMACIÓN */
+      --text-dark: #0f172a;
+      --text-medium: #334155;
       --text-muted: #64748b;
+      --font-code: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+      --font-ui: 'Segoe UI', 'Plus Jakarta Sans', system-ui, sans-serif;
 
-      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      /* TERMINAL WINDOWS (FONDO NEGRO AZABACHE EXCLUSIVO) */
+      --term-bg: #090d16;
+      --term-card: #0f172a;
+      --term-border: #1e293b;
+      --term-green: #22c55e;
+      --term-cyan: #38bdf8;
+      --term-gold: #fbbf24;
+      --term-white: #f8fafc;
+      --term-dim: #64748b;
     }
 
     *, *::before, *::after {
@@ -55,383 +71,763 @@
       height: 100vh;
       max-height: 100vh;
       overflow: hidden;
-      background-color: var(--bg-obsidian);
-      background-image: 
-        radial-gradient(circle at 10% 15%, rgba(6, 182, 212, 0.05) 0%, transparent 45%),
-        radial-gradient(circle at 90% 85%, rgba(245, 158, 11, 0.05) 0%, transparent 45%),
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-      color: var(--text-main);
-      font-family: var(--font-sans);
+      background-color: var(--win-bg);
+      color: var(--text-dark);
+      font-family: var(--font-ui);
       display: flex;
       flex-direction: column;
       user-select: none;
     }
 
-    /* BARRA SUPERIOR */
-    .mando-top-bar {
-      height: 90px;
-      padding: 8px 14px;
+    /* ========================================================================= */
+    /* 1. BARRA SUPERIOR WINDOWS DEV: TASKBAR & RESUMEN DE EJECUCIÓN (5 TARJETAS)*/
+    /* ========================================================================= */
+    .win-header-ribbon {
+      min-height: 84px;
+      height: 84px;
+      padding: 6px 14px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 8px;
       flex-shrink: 0;
-      background: rgba(6, 9, 15, 0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-subtle);
+      background: var(--win-surface);
+      border-bottom: 2px solid var(--win-border);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
       z-index: 50;
+      align-items: center;
+      box-sizing: border-box;
     }
 
-    .top-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 8px 12px;
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 6px #16a34a;
+      animation: winPulse 1.8s infinite;
+    }
+
+    @keyframes winPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .win-metric-card {
+      background: var(--win-card);
+      border: 1px solid var(--win-border);
+      border-radius: 6px;
+      padding: 7px 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: all 0.2s ease;
+      height: 100%;
+      min-height: 70px;
+      box-sizing: border-box;
+      transition: all 0.15s ease;
     }
 
-    .top-card:hover {
-      border-color: rgba(255, 255, 255, 0.16);
+    .win-metric-card:hover {
+      background: var(--win-card-hover);
+      border-color: var(--win-border-strong);
       transform: translateY(-1px);
     }
 
-    .card-meta-row {
+    .win-metric-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 9.5px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      color: var(--text-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
     }
 
-    .card-tag.gold { color: var(--gold); }
-    .card-tag.cyan { color: var(--cyan); }
-    .card-tag.green { color: var(--green); }
-    .card-tag.purple { color: var(--purple); }
-
-    .card-pill-tag {
-      font-family: var(--font-mono);
-      font-size: 8px;
-      padding: 1px 5px;
-      border-radius: 3px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--green);
-    }
-
-    .card-val-row {
+    .win-metric-val {
+      font-family: var(--font-code);
+      font-size: 15.5px;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.4px;
       display: flex;
       align-items: baseline;
-      gap: 6px;
-      margin: 2px 0;
+      gap: 4px;
+      margin: 1px 0;
     }
 
-    .card-big-num {
-      font-family: var(--font-mono);
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
+    .val-gold { color: var(--win-gold); }
+    .val-blue { color: var(--win-primary); }
+    .val-green { color: var(--win-success); }
+    .val-purple { color: var(--win-purple); }
+    .val-pnl { color: #16a34a; }
 
-    .card-big-num.gold { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
-    .card-big-num.cyan { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); }
-    .card-big-num.green { color: var(--green); text-shadow: 0 0 10px var(--green-glow); }
-
-    .card-sub-txt {
+    .win-metric-sub {
       font-size: 9px;
-      color: var(--text-dim);
-    }
-
-    .card-foot-txt {
-      font-family: var(--font-mono);
-      font-size: 8.5px;
+      line-height: 1.2;
       color: var(--text-muted);
+      font-family: var(--font-code);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    /* GRID PRINCIPAL 100VH */
-    .mando-workspace {
+    /* ========================================================================= */
+    /* 2. ÁREA DE TRABAJO TIPO WINDOWS DEV (3 COLUMNAS: BÓVEDAS, FLOTA, TERMINAL)*/
+    /* ========================================================================= */
+    .win-workspace {
       flex: 1;
       display: grid;
-      grid-template-columns: 1.1fr 1.3fr 1fr;
-      gap: 8px;
-      padding: 8px 12px;
+      grid-template-columns: 1.15fr 1.35fr 1.5fr;
+      gap: 10px;
+      padding: 10px 14px;
       overflow: hidden;
+      min-height: 0;
     }
 
-    .mando-panel {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
+    /* ESTILO DE VENTANA WINDOWS MODERNA */
+    .win-window {
+      background: var(--win-surface);
+      border: 1px solid var(--win-border);
       border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
-    .panel-hdr {
+    .win-titlebar {
+      height: 32px;
+      background: var(--win-titlebar);
+      border-bottom: 1px solid var(--win-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 12px;
-      background: rgba(14, 20, 32, 0.8);
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 10px;
+      user-select: none;
     }
 
-    .panel-hdr h3 {
+    .win-title {
       font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      color: var(--text-dark);
       display: flex;
       align-items: center;
       gap: 6px;
+      font-family: var(--font-ui);
     }
 
-    .panel-content {
+    .win-title-path {
+      font-family: var(--font-code);
+      font-size: 9.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .win-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .win-btn {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-medium);
+      cursor: default;
+    }
+
+    .win-btn:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .win-btn.close:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .win-body {
       flex: 1;
       padding: 10px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
+      background: #fafcff;
     }
 
-    /* TARJETA DE BÓVEDA */
-    .vault-box {
-      background: rgba(18, 26, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+    /* ========================================================================= */
+    /* PANELES INTERNOS: BÓVEDA #501 & RESERVAS                                  */
+    /* ========================================================================= */
+    .data-block {
+      background: var(--win-surface);
+      border: 1px solid var(--win-border);
       border-radius: 6px;
-      padding: 8px 10px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
     }
 
-    .vault-box.primary {
-      border-color: rgba(245, 158, 11, 0.3);
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(18, 26, 42, 0.9));
+    .data-block.primary-vault {
+      border-left: 4px solid var(--win-gold);
+      background: #fffdfa;
     }
 
-    .v-head {
+    .block-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
-    .v-name {
-      font-size: 10.5px;
+    .block-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.2px;
+    }
+
+    .block-badge {
+      font-family: var(--font-code);
+      font-size: 9px;
       font-weight: 700;
-      color: #fff;
-    }
-
-    .v-addr {
-      font-family: var(--font-mono);
-      font-size: 8.5px;
-      color: var(--cyan);
-    }
-
-    .v-stat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4px 8px;
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      margin: 4px 0;
-    }
-
-    .v-stat-item {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
-      padding-bottom: 2px;
-    }
-
-    .v-stat-item span:first-child {
-      color: var(--text-dim);
-    }
-
-    .v-actions {
-      display: flex;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .v-link-btn {
-      font-family: var(--font-mono);
-      font-size: 8px;
       padding: 2px 6px;
       border-radius: 4px;
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--cyan);
-      text-decoration: none;
-      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+
+    .badge-green {
+      background: var(--win-success-soft);
+      color: var(--win-success);
+      border: 1px solid rgba(21, 128, 61, 0.25);
+    }
+
+    .badge-blue {
+      background: var(--win-primary-soft);
+      color: var(--win-primary);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+    }
+
+    .badge-gold {
+      background: var(--win-gold-soft);
+      color: var(--win-gold);
+      border: 1px solid rgba(180, 83, 9, 0.25);
+    }
+
+    .code-address {
+      font-family: var(--font-code);
+      font-size: 9.5px;
+      color: var(--win-primary);
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 3px;
+      width: fit-content;
+      margin-bottom: 8px;
+      display: inline-block;
+      border: 1px solid #e2e8f0;
+    }
+
+    .data-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 12px;
+      font-family: var(--font-code);
+      font-size: 10px;
+    }
+
+    .data-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #e2e8f0;
+      padding-bottom: 3px;
+    }
+
+    .vault-security-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin: 8px 12px 0 2px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--win-border);
+      font-family: var(--font-code);
+      font-size: 8.5px;
+    }
+
+    .security-chip {
       display: inline-flex;
       align-items: center;
       gap: 3px;
-    }
-
-    .v-link-btn:hover {
-      background: rgba(6, 182, 212, 0.15);
-      color: #fff;
-    }
-
-    /* TABLA DE CAPITANES */
-    .caps-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: 9px;
-    }
-
-    .caps-table th {
-      text-align: left;
-      padding: 4px 6px;
-      color: var(--text-dim);
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
       font-size: 8.5px;
     }
 
-    .caps-table td {
-      padding: 5px 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    .chip-blue {
+      background: var(--win-primary-soft);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      color: var(--win-primary);
     }
 
-    /* HOJA DE RUTA PROGRESS */
-    .roadmap-step {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      background: rgba(18, 26, 42, 0.6);
-      padding: 8px 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border-subtle);
+    .chip-green {
+      background: var(--win-success-soft);
+      border: 1px solid rgba(21, 128, 61, 0.25);
+      color: var(--win-success);
     }
 
-    .roadmap-step.active {
-      border-color: var(--gold);
-      background: rgba(245, 158, 11, 0.08);
-    }
-
-    .rm-head {
-      display: flex;
-      justify-content: space-between;
-      font-size: 9.5px;
+    .chip-label {
+      color: var(--text-dark);
       font-weight: 700;
     }
 
-    .rm-bar-bg {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 3px;
+    .chip-val {
+      font-weight: 800;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .data-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .data-val {
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .win-actions-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .win-link-btn {
+      font-family: var(--font-code);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: #f8fafc;
+      color: var(--win-primary);
+      text-decoration: none;
+      border: 1px solid var(--win-border);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .win-link-btn:hover {
+      background: var(--win-primary-soft);
+      border-color: var(--win-primary);
+    }
+
+    /* ========================================================================= */
+    /* TABLA ESTILO WINDOWS EXPLORER / TASK MANAGER (CAPITANES)                  */
+    /* ========================================================================= */
+    .win-table-wrap {
+      border: 1px solid var(--win-border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .win-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-code);
+      font-size: 8.5px;
+    }
+
+    .win-table th {
+      background: #f1f5f9;
+      color: var(--text-medium);
+      text-align: left;
+      padding: 4px 6px;
+      border-bottom: 1px solid var(--win-border);
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .win-table td {
+      padding: 3px 6px;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text-dark);
+      line-height: 1.25;
+    }
+
+    .win-table tr:hover td {
+      background: #f8fafc;
+    }
+
+    /* ========================================================================= */
+    /* MODAL FLOTANTE WINDOWS DEV: ARQUITECTURA DE FLUJO MENSUAL ($500-$1500)    */
+    /* ========================================================================= */
+    .win-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .win-modal-overlay.active {
+      display: flex;
+    }
+
+    .win-modal-window {
+      background: #ffffff;
+      border: 1px solid var(--win-border-strong);
+      border-radius: 8px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 660px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalSlide 0.2s ease-out;
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .win-modal-titlebar {
+      height: 36px;
+      background: #0f172a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 12px;
+      color: #f8fafc;
+      font-size: 11.5px;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    .win-modal-close {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .win-modal-close:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .win-modal-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #fafcff;
+    }
+
+    /* ========================================================================= */
+    /* PISOS DE INTERÉS COMPUESTO & PROGRESO                                     */
+    /* ========================================================================= */
+    .step-card {
+      background: #ffffff;
+      border: 1px solid var(--win-border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .step-card.active-step {
+      border: 1.5px solid var(--win-gold);
+      background: #fffdf7;
+    }
+
+    .step-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .step-bar-bg {
+      height: 7px;
+      background: #e2e8f0;
+      border-radius: 4px;
       overflow: hidden;
     }
 
-    .rm-bar-fill {
+    .step-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--gold), var(--green));
+      background: linear-gradient(90deg, #f59e0b, #10b981);
+      border-radius: 4px;
     }
 
-    /* DOCK INFERIOR OFICIAL ÁREA 501 (3 ESPACIOS) */
-    .bottom-module-dock {
-      height: 48px;
+    .step-footer {
+      font-family: var(--font-code);
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    /* ========================================================================= */
+    /* 3. TERMINAL WINDOWS (MONITOR AUTOMÁTICO ON-CHAIN SIN BOTONES DE CIERRE)  */
+    /* ========================================================================= */
+    .terminal-window {
+      background: var(--term-bg);
+      border: 1px solid #1e293b;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .term-monitor-bar {
+      height: 32px;
+      background: #090d16;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .term-monitor-title {
+      font-family: var(--font-code);
+      font-size: 10px;
+      font-weight: 700;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    .term-monitor-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .term-stream-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-code);
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--term-green);
+      background: rgba(22, 163, 74, 0.12);
+      border: 1px solid rgba(22, 163, 74, 0.3);
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+
+    .term-btn-clean {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      border-radius: 3px;
+      font-family: var(--font-code);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .term-btn-clean:hover {
+      background: #334155;
+      color: #f8fafc;
+    }
+
+    .terminal-body {
+      background: var(--term-bg);
+      padding: 10px 12px;
+      font-family: var(--font-code);
+      font-size: 10px;
+      line-height: 1.5;
+      color: var(--term-white);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .term-prompt {
+      color: var(--term-cyan);
+      font-weight: 700;
+    }
+
+    .term-log-line {
+      display: flex;
+      gap: 8px;
+      word-break: break-all;
+    }
+
+    .term-time {
+      color: var(--term-dim);
+      flex-shrink: 0;
+    }
+
+    .term-tag-ok {
+      color: var(--term-green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .term-tag-info {
+      color: var(--term-cyan);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .term-tag-floor {
+      color: var(--term-gold);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .term-content {
+      color: #e2e8f0;
+    }
+
+    .term-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background: var(--term-green);
+      vertical-align: middle;
+      animation: termBlink 1s infinite;
+      margin-left: 4px;
+    }
+
+    @keyframes termBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    /* ========================================================================= */
+    /* 4. BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SWITCH DE MÓDULOS)       */
+    /* ========================================================================= */
+    .win-taskbar {
+      height: 44px;
+      background: #ffffff;
+      border-top: 1px solid var(--win-border);
       padding: 0 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(6, 9, 15, 0.95);
-      border-top: 1px solid var(--border-subtle);
       flex-shrink: 0;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.03);
       z-index: 50;
     }
 
-    .dock-left-status {
+    .win-taskbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .win-app-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .win-tab-btn {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--text-main);
-    }
-
-    .pulse-dot-green {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-      animation: pulseGreen 2s infinite;
-    }
-
-    @keyframes pulseGreen {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
-    }
-
-    .dock-center-modules {
-      display: flex;
-      gap: 10px;
-    }
-
-    .dock-module-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 6px;
-      background: rgba(18, 24, 38, 0.7);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 10px;
-      font-weight: 700;
-      transition: all 0.2s ease;
-    }
-
-    .dock-module-btn:hover {
-      background: rgba(28, 38, 60, 0.9);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .dock-module-btn.active {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(245, 158, 11, 0.15));
-      border-color: var(--cyan);
-      color: #fff;
-      box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
-    }
-
-    .dock-right-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .dock-utc-clock {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--cyan);
-      background: rgba(6, 182, 212, 0.1);
-      padding: 4px 8px;
+      padding: 5px 12px;
       border-radius: 4px;
-      border: 1px solid rgba(6, 182, 212, 0.25);
+      background: #f8fafc;
+      border: 1px solid var(--win-border);
+      color: var(--text-medium);
+      text-decoration: none;
+      font-size: 10.5px;
+      font-weight: 700;
+      font-family: var(--font-ui);
+      transition: all 0.15s ease;
     }
 
-    .dock-lock-btn {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: var(--red);
-      padding: 5px 8px;
+    .win-tab-btn:hover {
+      background: #f1f5f9;
+      color: var(--text-dark);
+      border-color: var(--win-border-strong);
+    }
+
+    .win-tab-btn.active {
+      background: #e0f2fe;
+      border-color: var(--win-primary);
+      color: var(--win-primary);
+      box-shadow: inset 0 -2px 0 var(--win-primary);
+    }
+
+    .win-taskbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .win-clock-tray {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-code);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      background: #f8fafc;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--win-border);
+    }
+
+    .win-lock-btn {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: var(--win-danger);
+      padding: 4px 8px;
       border-radius: 4px;
       cursor: pointer;
       display: flex;
       align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: var(--font-ui);
+    }
+
+    .win-lock-btn:hover {
+      background: #fecaca;
     }
   </style>
 </head>
@@ -439,374 +835,517 @@
 <body>
 
   <!-- ========================================================================= -->
-  <!-- BARRA SUPERIOR: RESUMEN EJECUTIVO DE TESORERÍA                            -->
+  <!-- 1. RIBBON SUPERIOR: MÉTRICAS CLAVE WINDOWS DEV (5 TARJETAS SIN CORTE)     -->
   <!-- ========================================================================= -->
-  <header class="mando-top-bar">
-    <!-- TARJETA 1: CAPITAL FÍSICO CONSOLIDADO -->
-    <div class="top-card">
-      <div class="card-meta-row">
-        <span class="card-tag gold">💵 CAPITAL CONSOLIDADO</span>
-        <span class="card-pill-tag">100% REAL</span>
+  <header class="win-header-ribbon">
+    <!-- TARJETA 1: ÁREA 501 // MANDO CENTRAL (SIMÉTRICA) -->
+    <div class="win-metric-card" style="border-left: 3px solid var(--win-primary);" title="Mando Central Área 501 - Estación de Operaciones On-Chain">
+      <div class="win-metric-head">
+        <span>🛡️ ESTACIÓN DE MANDO</span>
+        <span class="block-badge badge-green" style="display:inline-flex;align-items:center;gap:4px;">
+          <span class="pulse-dot"></span> EN VIVO
+        </span>
       </div>
-      <div class="card-val-row">
-        <span class="card-big-num gold" id="valTotalUsdc">$470.13</span>
-        <span class="card-sub-txt">USDC</span>
+      <div class="win-metric-val val-blue" style="font-size: 14.5px; font-weight: 800; letter-spacing: -0.2px; white-space: nowrap;">
+        <span>ÁREA 501</span>
       </div>
-      <div class="card-foot-txt">
-        Base Físico On-Chain Auditada
-      </div>
-    </div>
-
-    <!-- TARJETA 2: BÓVEDA MATRIZ #501 -->
-    <div class="top-card">
-      <div class="card-meta-row">
-        <span class="card-tag cyan">🏛️ BÓVEDA #501 (POLYGON)</span>
-        <span class="card-pill-tag">PRINCIPAL</span>
-      </div>
-      <div class="card-val-row">
-        <span class="card-big-num cyan" id="valVault501Usdc">$459.40</span>
-        <span class="card-sub-txt">USDC Nativo</span>
-      </div>
-      <div class="card-foot-txt">
-        +$7.98 USDC en BSC Mainnet
+      <div class="win-metric-sub" style="font-weight: 600; color: var(--text-dark);">
+        Mando Central · Polygon PoS
       </div>
     </div>
 
-    <!-- TARJETA 3: GAS TOTAL BLINDADO -->
-    <div class="top-card">
-      <div class="card-meta-row">
-        <span class="card-tag green">⛽ TANQUES GAS BLINDADOS</span>
-        <span class="card-pill-tag">PISO 150 POL ✔</span>
+    <!-- TARJETA 2: CAPITAL FÍSICO CONSOLIDADO -->
+    <div class="win-metric-card" title="Total auditado on-chain en Bóvedas #501, Capitanes y Binance">
+      <div class="win-metric-head">
+        <span>💵 Capital Consolidado</span>
+        <span class="block-badge badge-gold">100% REAL</span>
       </div>
-      <div class="card-val-row">
-        <span class="card-big-num green" id="valTotalPol">305.52</span>
-        <span class="card-sub-txt">POL Totales</span>
+      <div class="win-metric-val val-gold">
+        <span id="valTotalUsdc">$470.13</span>
+        <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="card-foot-txt">
-        155.05 #501 · 150.47 Flota X500
-      </div>
+      <div class="win-metric-sub">Piso Base: $450.00 USDC</div>
     </div>
 
-    <!-- TARJETA 4: ESCUDO AAVE V3 -->
-    <div class="top-card">
-      <div class="card-meta-row">
-        <span class="card-tag purple">🛡️ ESCUDO AAVE V3</span>
-        <span class="card-pill-tag">aPolUSDC</span>
+    <!-- TARJETA 3: BÓVEDA MATRIZ #501 -->
+    <div class="win-metric-card" title="Fondos líquidos on-chain en Bóveda Matriz #501 (Polygon &amp; BSC)">
+      <div class="win-metric-head">
+        <span>🏛️ Bóveda Matriz #501</span>
+        <span class="block-badge badge-blue">DUAL CHAIN</span>
       </div>
-      <div class="card-val-row">
-        <span class="card-big-num" style="color:var(--purple);" id="valAaveApy">4.85%</span>
-        <span class="card-sub-txt">APY Pasivo</span>
+      <div class="win-metric-val val-blue">
+        <span id="valVault501Usdc">$459.40</span>
+        <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="card-foot-txt">
-        Cubre Comisiones de Gas y Swap
-      </div>
+      <div class="win-metric-sub">+$7.98 USDC en BSC</div>
     </div>
 
-    <!-- TARJETA 5: BÓVEDA VIP #00 -->
-    <div class="top-card">
-      <div class="card-meta-row">
-        <span class="card-tag cyan">🔒 BÓVEDA VIP #00</span>
-        <span class="card-pill-tag" style="color:#38bdf8;border-color:rgba(56,189,248,0.3);background:rgba(56,189,248,0.1);">READ-ONLY</span>
+    <!-- TARJETA 4: GAS TOTAL & AUTONOMÍA -->
+    <div class="win-metric-card" title="Reserva intocable de Gas para 100% de operaciones blindadas">
+      <div class="win-metric-head">
+        <span>⛽ Gas &amp; Autonomía</span>
+        <span class="block-badge badge-green">~48 DÍAS AUT.</span>
       </div>
-      <div class="card-val-row">
-        <span class="card-big-num" style="color:#38bdf8;">0.9565</span>
-        <span class="card-sub-txt">POL</span>
+      <div class="win-metric-val val-green">
+        <span id="valTotalPol">233.18</span>
+        <span style="font-size:10px;color:var(--text-muted);">POL</span>
       </div>
-      <div class="card-foot-txt">
-        0 Allowance · Aislamiento Total
+      <div class="win-metric-sub">155.05 #501 · 78.13 Caps</div>
+    </div>
+
+    <!-- TARJETA 5: PNL REAL & FLUCTUACIÓN -->
+    <div class="win-metric-card" title="Rendimiento neto real del capital y valoración de mercado del gas en tiempo real">
+      <div class="win-metric-head">
+        <span>📊 PnL Neto &amp; Gas</span>
+        <span class="block-badge badge-green" id="badgePnlNeto">+4.47% NETO</span>
       </div>
+      <div class="win-metric-val val-pnl">
+        <span id="valRealPnl">+$20.13</span>
+        <span style="font-size:10px;color:var(--text-muted);">USDC</span>
+      </div>
+      <div class="win-metric-sub" id="valGasSub">Gas Valor: ~$60.27 USD</div>
+    </div>
+
+    <!-- TARJETA 6: PISO FIRME & META -->
+    <div class="win-metric-card" title="Piso inviolable asegurado hacia la meta de consolidación">
+      <div class="win-metric-head">
+        <span>🛡️ Piso Firme &amp; Meta</span>
+        <span class="block-badge badge-gold">94.0% AVANCE</span>
+      </div>
+      <div class="win-metric-val val-purple">
+        <span>$450 ➔ $500</span>
+        <span style="font-size:10px;color:var(--text-muted);">USDC</span>
+      </div>
+      <div class="win-metric-sub">Restan solo +$29.87 a Meta</div>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- GRID DE TRABAJO DEL MANDO CENTRAL (3 PANELES)                             -->
+  <!-- 2. ESPACIO DE TRABAJO WINDOWS (3 COLUMNAS: BÓVEDAS, FLOTA, TERMINAL)       -->
   <!-- ========================================================================= -->
-  <main class="mando-workspace">
+  <main class="win-workspace">
 
-    <!-- COLUMNA 1: BÓVEDAS PRINCIPALES (#501, #00, BINANCE SPOT) -->
-    <section class="mando-panel">
-      <div class="panel-hdr">
-        <h3>🏛️ BÓVEDAS &amp; RESERVAS INSTITUCIONALES</h3>
-        <span class="card-pill-tag">ON-CHAIN RPC</span>
+    <!-- COLUMNA 1: VENTANA DE BÓVEDAS INSTITUCIONALES -->
+    <section class="win-window">
+      <div class="win-titlebar">
+        <div class="win-title">
+          <span>🏛️</span>
+          <span>Bóvedas &amp; Tesorería On-Chain</span>
+          <span class="win-title-path">C:\Area501\Vaults.dat</span>
+        </div>
+        <div class="win-controls">
+          <span class="win-btn">_</span>
+          <span class="win-btn">□</span>
+          <span class="win-btn close">✕</span>
+        </div>
       </div>
-      <div class="panel-content">
+      <div class="win-body">
 
-        <!-- BÓVEDA MATRIZ #501 -->
-        <div class="vault-box primary">
-          <div class="v-head">
-            <span class="v-name">BÓVEDA MATRIZ #501 (NODRIZA DUAL)</span>
-            <span class="card-pill-tag">ACTIVA</span>
+        <!-- BÓVEDA MATRIZ #501 (NODRIZA DUAL) -->
+        <div class="data-block primary-vault" style="flex: 1.35; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="block-header-row">
+              <span class="block-title">BÓVEDA MATRIZ #501 (NODRIZA DUAL)</span>
+              <span class="block-badge badge-gold">PISO INFRANQUEABLE</span>
+            </div>
+            <span class="code-address">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
+            <div class="data-grid-2col">
+              <div class="data-item"><span class="data-label">USDC Polygon:</span><strong class="val-gold">$459.40</strong></div>
+              <div class="data-item"><span class="data-label">POL Nativo:</span><strong class="val-green">155.05 POL</strong></div>
+              <div class="data-item"><span class="data-label">USDC BSC:</span><strong>$7.98</strong></div>
+              <div class="data-item"><span class="data-label">BNB BSC:</span><strong>0.0188 BNB</strong></div>
+            </div>
+            <div class="vault-security-strip">
+              <div class="security-chip chip-blue" title="Permiso on-chain verificado en contrato AtomicSniperExecutor (0x03Ac...6b67)">
+                <span class="chip-label">Sniper:</span>
+                <span class="chip-val">Allowance $2.5k ✔</span>
+              </div>
+              <div class="security-chip chip-green" title="Piso sagrado intocable de reserva de combustible en #501">
+                <span class="chip-label">Piso Gas:</span>
+                <span class="chip-val">150 POL Blindado</span>
+              </div>
+            </div>
           </div>
-          <div class="v-addr">0xD4D12077a61118372f7a367319fb11922Beb3743</div>
-          <div class="v-stat-grid">
-            <div class="v-stat-item"><span>USDC Polygon:</span><strong class="gold-text">$459.40 USDC</strong></div>
-            <div class="v-stat-item"><span>POL Nativo:</span><strong class="green-text">155.05 POL</strong></div>
-            <div class="v-stat-item"><span>USDC BSC:</span><strong>$7.98 USDC</strong></div>
-            <div class="v-stat-item"><span>BNB BSC:</span><strong>0.0225 BNB</strong></div>
-            <div class="v-stat-item"><span>AtomicSniper:</span><span class="cyan-text">Allowance $2,500 ✔</span></div>
-            <div class="v-stat-item"><span>Piso Sagrado:</span><span class="green-text">150.00 POL Blindado</span></div>
-          </div>
-          <div class="v-actions">
-            <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="v-link-btn">
-              POLYGONSCAN ↗
+          <div class="win-actions-row">
+            <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
+              <span>↗</span> POLYGONSCAN
             </a>
-            <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="v-link-btn">
-              BSCSCAN ↗
-            </a>
-          </div>
-        </div>
-
-        <!-- BÓVEDA VIP #00 -->
-        <div class="vault-box">
-          <div class="v-head">
-            <span class="v-name">BÓVEDA VIP #00 (BLINDADA)</span>
-            <span class="card-pill-tag" style="color:#38bdf8;">100% AISLADA</span>
-          </div>
-          <div class="v-addr">0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</div>
-          <div class="v-stat-grid">
-            <div class="v-stat-item"><span>POL Nativo:</span><span>0.9565 POL</span></div>
-            <div class="v-stat-item"><span>USDC Nativo:</span><span>$0.00 USDC</span></div>
-            <div class="v-stat-item"><span>BNB Nativo:</span><span>0.0000 BNB</span></div>
-            <div class="v-stat-item"><span>Permisos Gasto:</span><strong class="green-text">0 (Solo Lectura)</strong></div>
-          </div>
-          <div class="v-actions">
-            <a href="https://polygonscan.com/address/0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990" target="_blank" rel="noopener noreferrer" class="v-link-btn">
-              POLYGONSCAN ↗
+            <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
+              <span>↗</span> BSCSCAN
             </a>
           </div>
         </div>
 
-        <!-- 5 BÓVEDAS BINANCE SPOT -->
-        <div class="vault-box">
-          <div class="v-head">
-            <span class="v-name">5 BÓVEDAS BINANCE SPOT (#1 A #5)</span>
-            <span class="card-pill-tag">RETENCIÓN 100%</span>
+        <!-- BÓVEDA VIP #00 (MENTORA) -->
+        <div class="data-block" style="flex: 0.85; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="block-header-row">
+              <span class="block-title">BÓVEDA VIP #00 (MENTORA AISLADA)</span>
+              <span class="block-badge badge-blue">SOLO LECTURA</span>
+            </div>
+            <span class="code-address">0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</span>
+            <div class="data-grid-2col">
+              <div class="data-item"><span class="data-label">POL Gas:</span><span>0.9565 POL</span></div>
+              <div class="data-item"><span class="data-label">USDC Saldo:</span><span>$0.00 USDC</span></div>
+              <div class="data-item"><span class="data-label">Gasto Permitido:</span><strong class="val-green">0 (Intocable)</strong></div>
+              <div class="data-item"><span class="data-label">Función:</span><span>Reloj Nash &amp; Guía</span></div>
+            </div>
           </div>
-          <div class="v-stat-grid">
-            <div class="v-stat-item"><span>Saldo Spot #1:</span><strong class="gold-text">$1.00 USDC</strong></div>
-            <div class="v-stat-item"><span>Auto-Sweep:</span><span class="green-text">FALSE (Sin drenaje)</span></div>
-          </div>
-          <div class="card-foot-txt" style="margin-top:4px;">
-            Destino exclusivo de liquidación de cosechas sin micro-depósitos.
+        </div>
+
+        <!-- 5 BÓVEDAS BINANCE SPOT & REGLA 70/30 -->
+        <div class="data-block" style="flex: 1.05; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="block-header-row">
+              <span class="block-title">5 BÓVEDAS BINANCE SPOT (#1 A #5)</span>
+              <span class="block-badge badge-green">ACUMULACIÓN</span>
+            </div>
+            <div class="data-grid-2col">
+              <div class="data-item"><span class="data-label">Saldo Spot #1:</span><strong class="val-gold">$1.00 USDC</strong></div>
+              <div class="data-item"><span class="data-label">Auto-Sweep:</span><span class="val-green">FALSE (Cero Drenaje)</span></div>
+            </div>
+            <div style="background:#f1f5f9;border:1px solid #e2e8f0;border-left:3px solid var(--win-primary);border-radius:4px;padding:6px 8px;margin-top:6px;font-size:9.5px;font-family:var(--font-code);color:var(--text-dark);line-height:1.4;">
+              <strong>Regla Micro-ganancias:</strong> 70% a Capital USDC en #501 · 30% a Gas POL/BNB.<br>
+              <strong>Ganancia Grande:</strong> 100% se consolida en USDC en #501 de inmediato.
+            </div>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- COLUMNA 2: LOS 5 CAPITANES DE BOX (FLOTA X500) -->
-    <section class="mando-panel">
-      <div class="panel-hdr">
-        <h3>🪖 LOS 5 CAPITANES DE BOX (FLOTA X500)</h3>
-        <span class="card-pill-tag font-mono">5 BOXES · 500 BOTS</span>
+    <!-- COLUMNA 2: VENTANA DE CAPITANES Y MODELO DE NEGOCIO SOSTENIBLE -->
+    <section class="win-window">
+      <div class="win-titlebar">
+        <div class="win-title">
+          <span>🪖</span>
+          <span>Flota X500 // Capitanes &amp; Flujo Mensual</span>
+          <span class="win-title-path">C:\Area501\Captains_Roadmap.sys</span>
+        </div>
+        <div class="win-controls">
+          <span class="win-btn">_</span>
+          <span class="win-btn">□</span>
+          <span class="win-btn close">✕</span>
+        </div>
       </div>
-      <div class="panel-content">
-        <table class="caps-table">
-          <thead>
-            <tr>
-              <th>BOX / CAPITÁN</th>
-              <th>POL</th>
-              <th>USDC</th>
-              <th>BNB</th>
-              <th>MISIÓN ASIGNADA</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <strong style="color:#fff;">#001 (Box 1)</strong><br>
-                <span class="v-addr">0xb750...D40F</span>
-              </td>
-              <td class="green-text font-bold">18.07</td>
-              <td class="gold-text font-bold">$0.70</td>
-              <td>0.0051</td>
-              <td>Misiones Gasless EIP-712 &amp; Streaks</td>
-            </tr>
-            <tr>
-              <td>
-                <strong style="color:#fff;">#101 (Box 2)</strong><br>
-                <span class="v-addr">0x5682...adBA</span>
-              </td>
-              <td class="green-text font-bold">18.03</td>
-              <td class="gold-text font-bold">$1.05</td>
-              <td>0.0079</td>
-              <td>DogeOS Cap. 2 &amp; Startale</td>
-            </tr>
-            <tr>
-              <td>
-                <strong style="color:#fff;">#201 (Box 3)</strong><br>
-                <span class="v-addr">0x2810...6A7C</span>
-              </td>
-              <td class="green-text font-bold">18.01</td>
-              <td class="gold-text font-bold">$0.00</td>
-              <td>0.0079</td>
-              <td>Base Ecosystem &amp; Avantis S3</td>
-            </tr>
-            <tr>
-              <td>
-                <strong style="color:#fff;">#301 (Box 4)</strong><br>
-                <span class="v-addr">0xEb6a...Ca0f</span>
-              </td>
-              <td class="green-text font-bold">12.01</td>
-              <td class="gold-text font-bold">$0.00</td>
-              <td>0.0051</td>
-              <td>Arbitrum Stylus &amp; OP Superchain</td>
-            </tr>
-            <tr>
-              <td>
-                <strong style="color:#fff;">#401 (Box 5)</strong><br>
-                <span class="v-addr">0x4C71...d070</span>
-              </td>
-              <td class="green-text font-bold">12.01</td>
-              <td class="gold-text font-bold">$0.00</td>
-              <td>0.0051</td>
-              <td>Citrea Bitcoin ZK &amp; GOAT zk-EVM</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="win-body">
 
-        <!-- RESUMEN FLOTA SATÉLITES -->
-        <div class="vault-box" style="margin-top:6px;">
-          <div class="v-head">
-            <span class="v-name">500 SATÉLITES (#001 A #500)</span>
-            <span class="card-pill-tag">0% SYBIL RISK</span>
-          </div>
-          <div class="v-stat-grid">
-            <div class="v-stat-item"><span>Gas en Capitanes:</span><strong class="green-text">78.13 POL</strong></div>
-            <div class="v-stat-item"><span>Gas en Satélites:</span><strong class="green-text">72.34 POL</strong></div>
-            <div class="v-stat-item"><span>Total Flota POL:</span><strong class="green-text">150.47 POL</strong></div>
-            <div class="v-stat-item"><span>Total Red Polygon:</span><strong class="cyan-text">305.52 POL</strong></div>
+        <!-- TABLA DE LOS 5 CAPITANES DE BOX (SIN CORTES) -->
+        <div class="win-table-wrap">
+          <table class="win-table">
+            <thead>
+              <tr>
+                <th>Box / Capitán</th>
+                <th>POL</th>
+                <th>USDC</th>
+                <th>BNB</th>
+                <th>Misión Asignada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>#001 (Box 1)</strong><br><span style="color:#64748b;font-size:8px;">0xb750...D40F</span></td>
+                <td class="val-green font-bold">18.07</td>
+                <td class="val-gold font-bold">$0.70</td>
+                <td>0.0051</td>
+                <td>Misiones Gasless EIP-712</td>
+              </tr>
+              <tr>
+                <td><strong>#101 (Box 2)</strong><br><span style="color:#64748b;font-size:8px;">0x5682...adBA</span></td>
+                <td class="val-green font-bold">18.03</td>
+                <td class="val-gold font-bold">$1.05</td>
+                <td>0.0079</td>
+                <td>DogeOS Cap. 2 &amp; Startale</td>
+              </tr>
+              <tr>
+                <td><strong>#201 (Box 3)</strong><br><span style="color:#64748b;font-size:8px;">0x2810...6A7C</span></td>
+                <td class="val-green font-bold">18.01</td>
+                <td class="val-gold font-bold">$0.00</td>
+                <td>0.0079</td>
+                <td>Base Ecosystem &amp; Avantis S3</td>
+              </tr>
+              <tr>
+                <td><strong>#301 (Box 4)</strong><br><span style="color:#64748b;font-size:8px;">0xEb6a...Ca0f</span></td>
+                <td class="val-green font-bold">12.01</td>
+                <td class="val-gold font-bold">$0.00</td>
+                <td>0.0051</td>
+                <td>Arbitrum Stylus &amp; OP Chain</td>
+              </tr>
+              <tr>
+                <td><strong>#401 (Box 5)</strong><br><span style="color:#64748b;font-size:8px;">0x4C71...d070</span></td>
+                <td class="val-green font-bold">12.01</td>
+                <td class="val-gold font-bold">$0.00</td>
+                <td>0.0051</td>
+                <td>Citrea Bitcoin ZK &amp; GOAT</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MODELO DE NEGOCIO: INTERÉS COMPUESTO, PISOS & FLUJO PASIVO -->
+        <div class="data-block" style="flex: 1.55; display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid var(--win-purple);">
+          <div>
+            <div class="block-header-row">
+              <span class="block-title">MODELO DE NEGOCIO &amp; FLUJO MENSUAL PASIVO</span>
+              <span class="block-badge badge-gold">LIBERTAD FINANCIERA</span>
+            </div>
+            <div style="font-size:9.5px;color:var(--text-medium);margin-bottom:7px;line-height:1.35;">
+              Construcción de capital sólido con pisos inviolables para generar <strong>$500 a $1,500/mes de flujo pasivo constante</strong> sin depender de un empleo ni retroceder de piso jamás.
+            </div>
+
+            <!-- REGLA DE MICRO Y MACRO GANANCIAS -->
+            <div style="background:#f1f5f9;border-radius:5px;padding:6px 8px;margin-bottom:7px;font-family:var(--font-code);font-size:9px;line-height:1.4;border:1px solid #e2e8f0;">
+              <div><strong class="val-gold">⚡ MICRO-GANANCIAS (70/30):</strong> 70% a Capital USDC (#501) · 30% a Reserva Gas.</div>
+              <div><strong class="val-green">🎯 GANANCIA GRANDE:</strong> 100% Capitalizada de inmediato en USDC en #501 para nuevo piso.</div>
+            </div>
+
+            <!-- HITO ACTUAL: SEGUNDA BOLA ($500 USDC) -->
+            <div class="step-card active-step">
+              <div class="step-top">
+                <span class="val-gold">HITO ACTUAL: SEGUNDA BOLA ($500.00 USDC)</span>
+                <span class="val-green" style="font-family:var(--font-code);">94.0%</span>
+              </div>
+              <div class="step-bar-bg">
+                <div class="step-bar-fill" style="width: 94.0%;"></div>
+              </div>
+              <div class="step-footer">
+                Base Consolidada: $470.13 USDC · Restan solo +$29.87 USDC
+              </div>
+            </div>
+
+            <!-- HITO 2: TERCERA BOLA ($1,000 USDC) -->
+            <div class="step-card" style="margin-top:5px;">
+              <div class="step-top">
+                <span>PRÓXIMO PISO: TERCERA BOLA ($1,000.00 USDC)</span>
+                <span style="font-family:var(--font-code);color:var(--text-muted);">47.0%</span>
+              </div>
+              <div class="step-bar-bg">
+                <div class="step-bar-fill" style="width: 47.0%; background: var(--win-primary);"></div>
+              </div>
+              <div class="step-footer">
+                Multiplicación 2X con Cero Retiro · Expansión a Hyperliquid
+              </div>
+            </div>
+
+            <!-- HITO 3: PISO DE FLUJO MENSUAL (CLICABLE CON ARQUITECTURA) -->
+            <div class="step-card" id="btnOpenFlowArchitecture" style="margin-top:5px; cursor:pointer; border: 1.5px dashed #8b5cf6; background: #faf5ff; transition: all 0.2s ease;" title="Haz clic aquí para ver la arquitectura detallada de cómo se construye este flujo mensual">
+              <div class="step-top">
+                <span style="color:#6b21a8; font-weight:800;">PISO DE FLUJO MENSUAL ($500–$1,500/MES)</span>
+                <span class="block-badge" style="background:#f3e8ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.3); font-size:8px;">🔍 CLIC: VER PLAN</span>
+              </div>
+              <div class="step-bar-bg" style="background:#e9d5ff;">
+                <div class="step-bar-fill" style="width: 18.8%; background: linear-gradient(90deg, #8b5cf6, #3b82f6);"></div>
+              </div>
+              <div class="step-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Avance Base: <strong>18.8%</strong> ($470.13 / $2,500 USDC)</span>
+                <span style="color:#7c3aed; font-weight:700;">👆 Ver Plan ➔</span>
+              </div>
+            </div>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- COLUMNA 3: HOJA DE RUTA PATRIMONIAL & ESCUDO AAVE -->
-    <section class="mando-panel">
-      <div class="panel-hdr">
-        <h3>🎯 HOJA DE RUTA &amp; ESCUDO DE COMISIONES</h3>
-        <span class="card-pill-tag">INTERÉS COMPUESTO</span>
+    <!-- COLUMNA 3: MONITOR AUTOMÁTICO EN TIEMPO REAL (SIN BOTONES DE CIERRE) -->
+    <section class="win-window terminal-window">
+      <!-- BARRA DE ESTADO CONTINUA TIPO STREAM AUTOMÁTICO -->
+      <div class="term-monitor-bar">
+        <div class="term-monitor-title">
+          <span>📟</span>
+          <span>MONITOR AUTOMÁTICO DE OPERACIONES // INFORME EN VIVO</span>
+        </div>
+        <div class="term-monitor-actions">
+          <span class="term-stream-badge"><span class="pulse-dot"></span> EN VIVO</span>
+          <button class="term-btn-clean" id="btnClearTerm" title="Limpiar monitor">⌫ LIMPIAR</button>
+        </div>
       </div>
-      <div class="panel-content">
-
-        <!-- ESCUDO AAVE V3 -->
-        <div class="vault-box" style="border-color:rgba(139,92,246,0.3);background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(18,26,42,0.9));">
-          <div class="v-head">
-            <span class="v-name" style="color:#c084fc;">ESCUDO AAVE V3 (aPolUSDC)</span>
-            <span class="card-pill-tag" style="color:#c084fc;border-color:rgba(192,132,252,0.3);">PASIVO</span>
-          </div>
-          <div class="card-foot-txt" style="margin:4px 0; color:var(--text-dim);">
-            Contrato Pool: <span class="cyan-text">0x794a...14aD</span><br>
-            El capital en reposo genera ~4.85% APY para amortizar el 100% de comisiones y gas de la red.
-          </div>
+      <div class="terminal-body" id="termBody">
+        <div class="term-log-line" id="termLastLine">
+          <span class="term-prompt">PS C:\Area-501&gt;</span>
+          <span class="term-content" id="termLiveStreaming">Monitoreando bloques on-chain en tiempo real...</span>
+          <span class="term-cursor"></span>
         </div>
-
-        <!-- HITO 1: SEGUNDA BOLA ($500 USDC) -->
-        <div class="roadmap-step active">
-          <div class="rm-head">
-            <span class="gold-text">HITO 1: SEGUNDA BOLA ($500 USDC)</span>
-            <span class="green-text font-mono">94.0%</span>
-          </div>
-          <div class="rm-bar-bg">
-            <div class="rm-bar-fill" style="width: 94.0%;"></div>
-          </div>
-          <div class="card-foot-txt">
-            Actual: $470.13 USDC · Restan solo +$29.87 USDC
-          </div>
-        </div>
-
-        <!-- HITO 2: TERCERA BOLA ($1,000 USDC) -->
-        <div class="roadmap-step">
-          <div class="rm-head">
-            <span>HITO 2: TERCERA BOLA ($1,000 USDC)</span>
-            <span class="font-mono text-muted">47.0%</span>
-          </div>
-          <div class="rm-bar-bg">
-            <div class="rm-bar-fill" style="width: 47.0%; background: var(--cyan);"></div>
-          </div>
-          <div class="card-foot-txt">
-            Multiplicación 2X con Fuego Real On-Chain
-          </div>
-        </div>
-
-        <!-- HITO 3: MATRIZ FINAL CURA TOOLS ($12,000 USDC) -->
-        <div class="roadmap-step">
-          <div class="rm-head">
-            <span>HITO FINAL: CURA TOOLS ($12,000 USDC)</span>
-            <span class="font-mono text-muted">3.9%</span>
-          </div>
-          <div class="rm-bar-bg">
-            <div class="rm-bar-fill" style="width: 3.9%; background: var(--purple);"></div>
-          </div>
-          <div class="card-foot-txt">
-            Empresa Web3 &amp; Tesorería Consolidada
-          </div>
-        </div>
-
       </div>
     </section>
 
   </main>
 
   <!-- ========================================================================= -->
-  <!-- DOCK INFERIOR OFICIAL ÁREA 501 (3 ESPACIOS CLAROS)                        -->
+  <!-- 3. BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SELECTOR DE MÓDULOS)     -->
   <!-- ========================================================================= -->
-  <footer class="bottom-module-dock">
-    <div class="dock-left-status">
-      <span class="pulse-dot-green"></span>
-      <span>ÁREA 501 // TESORERÍA REAL ON-CHAIN</span>
+  <footer class="win-taskbar">
+    <div class="win-taskbar-left">
+      <nav class="win-app-tabs">
+        <!-- 1. Mando Central (Activo) -->
+        <a href="./" class="win-tab-btn active" title="Mando Central: Tesorería y Patrimonio Real">
+          <span>🏛️</span>
+          <span>MANDO CENTRAL</span>
+        </a>
+
+        <!-- 2. Squad Secret -->
+        <a href="squad-secret/" class="win-tab-btn" title="Squad Secret: Trading Real, Bull &amp; Bear y Sniping Atómico">
+          <span>🕵️‍♂️</span>
+          <span>SQUAD SECRET</span>
+        </a>
+
+        <!-- 3. Flota X500 -->
+        <a href="flota-x500/" class="win-tab-btn" title="Flota X500: Las 500 Carteras, Airdrops y Free-Mint">
+          <span>🪖</span>
+          <span>FLOTA X500</span>
+        </a>
+      </nav>
     </div>
 
-    <!-- CENTRO: LOS 3 ÚNICOS ESPACIOS OFICIALES -->
-    <div class="dock-center-modules">
-      <!-- 1. Mando Central (Activo) -->
-      <a href="./" class="dock-module-btn active" id="dockBtnMandoCentral" title="Mando Central: Tesorería y Patrimonio Real">
-        <span>🏛️</span>
-        <span>MANDO CENTRAL</span>
-      </a>
-
-      <!-- 2. Squad Secret -->
-      <a href="squad-secret/" class="dock-module-btn" id="dockBtnSquadSecret" title="Squad Secret: Trading Real, Bull &amp; Bear y Sniping Atómico">
-        <span>🕵️‍♂️</span>
-        <span>SQUAD SECRET</span>
-      </a>
-
-      <!-- 3. Flota X500 -->
-      <a href="flota-x500/" class="dock-module-btn" id="dockBtnFlota" title="Flota X500: Las 500 Carteras, Airdrops y Free-Mint">
-        <span>🪖</span>
-        <span>FLOTA X500</span>
-      </a>
-    </div>
-
-    <div class="dock-right-controls">
-      <div class="dock-utc-clock" id="dockUtcClock">
+    <div class="win-taskbar-right">
+      <div class="win-clock-tray">
         <span>🕒</span>
-        <span id="masterUtcClockTime">--:--:-- UTC</span>
+        <span id="winClockUtc">--:--:-- UTC</span>
       </div>
 
-      <button class="area501-lockout-btn dock-lock-btn" id="area501-lockout-btn" title="Bloquear Sesión">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
+      <button class="win-lock-btn" id="area501-lockout-btn" title="Cerrar Sesión y Bloquear Estación">
+        <span>🔒</span>
+        <span>BLOQUEAR</span>
       </button>
     </div>
   </footer>
 
-  <!-- SCRIPT DE ACTUALIZACIÓN EN VIVO -->
+  <!-- ========================================================================= -->
+  <!-- 4. MODAL FLOTANTE: CÓMO SE CONSTRUYE EL FLUJO MENSUAL ($500 - $1,500 USDC)-->
+  <!-- ========================================================================= -->
+  <div class="win-modal-overlay" id="flowModalOverlay">
+    <div class="win-modal-window">
+      <div class="win-modal-titlebar">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span>🏛️</span>
+          <span>ARQUITECTURA DE CONSTRUCCIÓN // FLUJO MENSUAL ($500–$1,500/MES)</span>
+        </div>
+        <button class="win-modal-close" id="btnCloseFlowModal" title="Cerrar ventana">✕</button>
+      </div>
+      <div class="win-modal-body">
+        
+        <!-- RESUMEN EJECUTIVO -->
+        <div style="background:#f1f5f9;border-left:4px solid var(--win-purple);padding:10px 12px;border-radius:4px;">
+          <div style="font-weight:800;color:var(--text-dark);font-size:11.5px;margin-bottom:4px;">
+            🎯 OBJETIVO: VIVIR TRANQUILOS CON INGRESOS PASIVOS RECURRENTES
+          </div>
+          <div style="color:var(--text-medium);font-size:10px;line-height:1.45;">
+            No buscamos una "meta fija" abstracta que se gaste. Construimos un <strong>piso de capital blindado</strong> que genere mensualmente entre <strong>$500 y $1,500 USDC netos</strong>. El capital base jamás se toca ni retrocede: se vive exclusivamente de los excedentes producidos.
+          </div>
+        </div>
+
+        <!-- REGLA SAGRADA DEL TRINQUETE -->
+        <div style="background:#fffbeb;border:1px solid #fef3c7;border-left:4px solid var(--win-gold);padding:8px 12px;border-radius:4px;">
+          <div style="font-weight:800;color:#92400e;font-size:10.5px;display:flex;align-items:center;gap:6px;">
+            <span>🛡️</span> REGLA DE ORO DEL TRINQUETE (PISOS INVIOLABLES)
+          </div>
+          <div style="color:#78350f;font-size:9.5px;line-height:1.4;margin-top:2px;">
+            • Cada piso alcanzado ($450, $500, $1,000, $2,500) se sella en piedra.<br>
+            • <strong>Prohibido retroceder:</strong> Solo se opera con el excedente libre. Si el mercado corrige, el piso base permanece 100% intacto en USDC nativo.
+          </div>
+        </div>
+
+        <!-- LOS 4 PILARES DEL MOTOR -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-weight:800;font-size:11px;color:var(--text-dark);text-transform:uppercase;letter-spacing:0.3px;">
+            ⚙️ LOS 4 MOTORES QUE GENERAN EL FLUJO
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <!-- PILAR 1 -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;">
+              <div style="font-weight:800;color:var(--win-primary);font-size:10px;margin-bottom:3px;">
+                1. Yield Pasivo Aave V3 (Subsidio Gas)
+              </div>
+              <div style="font-size:9px;color:var(--text-medium);line-height:1.35;">
+                La tesorería en reposo genera ~5% APY en Polygon. Este interés pasivo paga el 100% de comisiones y gas, logrando que operar sea <strong>costo cero real</strong>.
+              </div>
+            </div>
+
+            <!-- PILAR 2 -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;">
+              <div style="font-weight:800;color:var(--win-success);font-size:10px;margin-bottom:3px;">
+                2. Squad Secret &amp; Candado #00 (Sniping)
+              </div>
+              <div style="font-size:9px;color:var(--text-medium);line-height:1.35;">
+                Disparos atómicos rápidos sobre pares institucionales (WBTC/USDC, WETH/USDC). Captura +0.08% o activa Stop a Break-Even (+0.04%). Cero riesgo para el piso.
+              </div>
+            </div>
+
+            <!-- PILAR 3 -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;">
+              <div style="font-weight:800;color:var(--win-gold);font-size:10px;margin-bottom:3px;">
+                3. Flota X500 (Airdrops &amp; Free-Mints)
+              </div>
+              <div style="font-size:9px;color:var(--text-medium);line-height:1.35;">
+                500 satélites en 5 boxes ejecutando misiones gasless EIP-712. <strong>Regla 70/30:</strong> 70% a Capital USDC en #501 y 30% a Gas. Airdrops grandes van 100% a capital.
+              </div>
+            </div>
+
+            <!-- PILAR 4 -->
+            <div style="background:#ffffff;border:1px solid var(--win-border);padding:8px 10px;border-radius:6px;">
+              <div style="font-weight:800;color:var(--win-purple);font-size:10px;margin-bottom:3px;">
+                4. Escalamiento Hyperliquid ($1k+)
+              </div>
+              <div style="font-size:9px;color:var(--text-medium);line-height:1.35;">
+                Al cruzar $1,000 USDC, se conecta Hyperliquid para capturar funding rates positivos y spreads institucionales con ejecución L1 de ultra-baja latencia.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESCALERA DE FASES -->
+        <div style="background:#ffffff;border:1px solid var(--win-border);padding:10px 12px;border-radius:6px;">
+          <div style="font-weight:800;font-size:10.5px;color:var(--text-dark);margin-bottom:6px;">
+            📊 HOJA DE RUTA HACIA EL FLUJO MENSUAL
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;font-family:var(--font-code);font-size:9.5px;">
+            <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #e2e8f0;">
+              <span><strong>Fase 1 ($450 ➔ $500 USDC):</strong> Consolidación base actual</span>
+              <span class="val-gold">94.0% (Retiro: $0 · 100% Capital)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #e2e8f0;">
+              <span><strong>Fase 2 ($500 ➔ $1,000 USDC):</strong> Escala e Hyperliquid</span>
+              <span class="val-blue">Próxima (Retiro: $0 · Interés Compuesto)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #e2e8f0;">
+              <span><strong>Fase 3 ($1,000 ➔ $2,500 USDC):</strong> Base del motor pleno</span>
+              <span class="val-purple">En Arquitectura (Retiro inicial 10%)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;color:var(--win-success);font-weight:700;">
+              <span><strong>Fase 4 ($2,500+ USDC):</strong> FLUJO MENSUAL VITALICIO</span>
+              <span>$500 a $1,500 USDC/mes netos</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:right;">
+          <button class="win-btn" id="btnModalAceptar" style="display:inline-block;padding:6px 16px;background:var(--win-primary);color:#fff;border-radius:4px;cursor:pointer;font-weight:700;font-size:10.5px;width:auto;height:auto;">
+            ENTENDIDO · CONTINUAR OPERANDO
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 5. LÓGICA JAVASCRIPT: RELOJ, FEED ON-CHAIN Y ACTUALIZADOR DE BALANCE      -->
+  <!-- ========================================================================= -->
   <script>
+    // Reloj UTC de alta precisión
     function updateClock() {
       const now = new Date();
       const hh = String(now.getUTCHours()).padStart(2, '0');
       const mm = String(now.getUTCMinutes()).padStart(2, '0');
       const ss = String(now.getUTCSeconds()).padStart(2, '0');
-      const el = document.getElementById('masterUtcClockTime');
+      const el = document.getElementById('winClockUtc');
       if (el) el.textContent = `${hh}:${mm}:${ss} UTC`;
     }
     setInterval(updateClock, 1000);
     updateClock();
 
+    // Consulta de saldos auditados on-chain y precios en vivo
     async function fetchMandoBalances() {
       try {
         const res = await fetch('/api/mando-central/balances');
@@ -815,17 +1354,143 @@
           if (d.totalConsolidatedUsdc) {
             document.getElementById('valTotalUsdc').textContent = `$${d.totalConsolidatedUsdc.toFixed(2)}`;
           }
-          if (d.vault501 && d.vault501.polygonUsdc) {
-            document.getElementById('valVault501Usdc').textContent = `$${d.vault501.polygonUsdc.toFixed(2)}`;
+          if (d.breakdown && d.breakdown.vault501Polygon) {
+            document.getElementById('valVault501Usdc').textContent = `$${d.breakdown.vault501Polygon.balanceUsdc.toFixed(2)}`;
           }
-          if (d.fleet500 && d.fleet500.totalNetworkPol) {
-            document.getElementById('valTotalPol').textContent = `${d.fleet500.totalNetworkPol.toFixed(2)}`;
+          if (d.realNetPnlUsdc !== undefined) {
+            const pnlEl = document.getElementById('valRealPnl');
+            if (pnlEl) {
+              const prefix = d.realNetPnlUsdc >= 0 ? '+' : '';
+              pnlEl.textContent = `${prefix}$${d.realNetPnlUsdc.toFixed(2)}`;
+            }
+          }
+          if (d.gasMarketValuationUsd !== undefined && d.livePrices) {
+            const gasSub = document.getElementById('valGasSub');
+            if (gasSub) {
+              gasSub.textContent = `Gas Valor: ~$${d.gasMarketValuationUsd.toFixed(2)} USD (POL: $${d.livePrices.polUsd.toFixed(3)} · BNB: $${d.livePrices.bnbUsd.toFixed(0)})`;
+            }
+          }
+          if (d.realNetPnlPct !== undefined) {
+            const badge = document.getElementById('badgePnlNeto');
+            if (badge) {
+              const prefix = d.realNetPnlPct >= 0 ? '+' : '';
+              badge.textContent = `${prefix}${d.realNetPnlPct.toFixed(2)}% NETO`;
+            }
           }
         }
       } catch (_) {}
     }
     fetchMandoBalances();
     setInterval(fetchMandoBalances, 5000);
+
+    // Modal Flotante: Arquitectura de Flujo Mensual
+    const flowModalOverlay = document.getElementById('flowModalOverlay');
+    const btnOpenFlowArchitecture = document.getElementById('btnOpenFlowArchitecture');
+    const btnCloseFlowModal = document.getElementById('btnCloseFlowModal');
+    const btnModalAceptar = document.getElementById('btnModalAceptar');
+
+    if (btnOpenFlowArchitecture && flowModalOverlay) {
+      btnOpenFlowArchitecture.addEventListener('click', () => {
+        flowModalOverlay.classList.add('active');
+      });
+    }
+
+    function closeModal() {
+      if (flowModalOverlay) flowModalOverlay.classList.remove('active');
+    }
+
+    if (btnCloseFlowModal) btnCloseFlowModal.addEventListener('click', closeModal);
+    if (btnModalAceptar) btnModalAceptar.addEventListener('click', closeModal);
+    if (flowModalOverlay) {
+      flowModalOverlay.addEventListener('click', (e) => {
+        if (e.target === flowModalOverlay) closeModal();
+      });
+    }
+
+    // Terminal de Operaciones: Conexión Real On-Chain (0% Simulación)
+    const termBody = document.getElementById('termBody');
+    const termLastLine = document.getElementById('termLastLine');
+    const btnClearTerm = document.getElementById('btnClearTerm');
+
+    // Comprobar si el operador limpió la consola previamente
+    let clearedAtMs = parseInt(localStorage.getItem('area501_term_cleared_at') || '0', 10);
+
+    if (btnClearTerm) {
+      btnClearTerm.addEventListener('click', () => {
+        const lines = termBody.querySelectorAll('.term-log-line:not(#termLastLine)');
+        lines.forEach(l => l.remove());
+        clearedAtMs = Date.now();
+        localStorage.setItem('area501_term_cleared_at', clearedAtMs.toString());
+      });
+    }
+
+    let lastKnownTxHash = null;
+    let initialTxsRendered = false;
+
+    function renderTxLine(tx) {
+      const hash = tx.txHash || tx.hash;
+      if (!hash) return;
+      const timeStr = tx.timeUtc ? `[${tx.timeUtc}]` : `[${new Date().toISOString().slice(11, 19)} UTC]`;
+      const chain = tx.chain || 'POLYGON';
+      const label = tx.mothership || tx.walletLabel || 'Bóveda #501';
+      const explorerUrl = tx.explorerUrl || (chain === 'BSC' ? `https://bscscan.com/tx/${hash}` : `https://polygonscan.com/tx/${hash}`);
+      const shortHash = `${hash.slice(0, 10)}...${hash.slice(-8)}`;
+      const desc = tx.cycleInOut || tx.nebulas || tx.route || 'Movimiento On-Chain';
+      
+      const newLine = document.createElement('div');
+      newLine.className = 'term-log-line';
+      newLine.innerHTML = `
+        <span class="term-time">${timeStr}</span>
+        <span class="term-tag-ok">[TX-ONCHAIN]</span>
+        <span class="term-content">${chain} · ${label} · <a href="${explorerUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--term-cyan);text-decoration:underline;">${shortHash}</a> · ${desc}</span>
+      `;
+      termBody.insertBefore(newLine, termLastLine);
+      termBody.scrollTop = termBody.scrollHeight;
+    }
+
+    async function checkRealOnChainActivity() {
+      try {
+        const res = await fetch('/api/sniping/live-txs');
+        if (res.ok) {
+          const raw = await res.json();
+          const txs = Array.isArray(raw) ? raw : (raw.rows || []);
+          if (Array.isArray(txs) && txs.length > 0) {
+            if (!initialTxsRendered) {
+              initialTxsRendered = true;
+              lastKnownTxHash = txs[0].txHash || txs[0].hash;
+              
+              // Si el usuario limpió la terminal, SOLO mostrar transacciones nuevas posteriores a la limpieza
+              if (clearedAtMs > 0) {
+                const freshTxs = txs.filter(t => t.timestamp && new Date(t.timestamp).getTime() > clearedAtMs);
+                for (const t of freshTxs.reverse()) {
+                  renderTxLine(t);
+                }
+              } else {
+                // Si nunca se ha limpiado, mostrar solo las 2 transacciones más recientes on-chain
+                const recent = txs.slice(0, 2).reverse();
+                for (const t of recent) {
+                  renderTxLine(t);
+                }
+              }
+            } else {
+              const latest = txs[0];
+              const hash = latest.txHash || latest.hash;
+              if (hash && hash !== lastKnownTxHash) {
+                lastKnownTxHash = hash;
+                // Si fue limpiado, solo mostrar si la tx ocurrió después del momento de limpieza
+                if (!clearedAtMs || !latest.timestamp || new Date(latest.timestamp).getTime() > clearedAtMs) {
+                  renderTxLine(latest);
+                }
+              }
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
+    // Comprobar transacciones reales on-chain cada 8 segundos
+    checkRealOnChainActivity();
+    setInterval(checkRealOnChainActivity, 8000);
   </script>
 </body>
 

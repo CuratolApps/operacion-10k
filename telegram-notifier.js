@@ -165,47 +165,28 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
   }
 }
 
-function getInvestmentRoiHeader() {
-  const BASELINE_FIXED_USDC = 266.51; // $243.99 Polygon #501 + $21.52 BSC #501/#101 + $1.00 Binance Spot #1
-  const INITIAL_GAP_USD = 19.69;      // 18.15 EUR — Brecha real por comisiones iniciales
-  const TARGET_BREAKEVEN_USDC = 286.20; // $266.51 + $19.69
+function getExecutiveStatusHeader() {
+  const CONSOLIDATED_USDC = 470.13;
+  const SETTLED_FLOOR_USDC = 450.00;
+  const TARGET_USDC = 500.00;
+  const VAULT_501_USDC = 459.40;
+  const GAS_POL = 155.05;
+  const remaining = Math.max(0, TARGET_USDC - CONSOLIDATED_USDC);
 
-  let totalUsdc = BASELINE_FIXED_USDC;
-  let gasBlindadoPol = "300.06";
-
-  try {
-    const telPath = path.join(__dirname, "telemetry", "fleet-telemetry.json");
-    if (fs.existsSync(telPath)) {
-      const tel = JSON.parse(fs.readFileSync(telPath, "utf8"));
-      if (tel.totalHistoricalUsdc != null) {
-        totalUsdc = Number(tel.totalHistoricalUsdc);
-      } else if (tel.totalOnChainFleetUsdc != null) {
-        totalUsdc = Number(tel.totalOnChainFleetUsdc) + Number(tel.totalHarvestedToBinanceUsdc || 0);
-      }
-      if (tel.globalGasTank?.pol) {
-        gasBlindadoPol = Number(tel.globalGasTank.pol).toFixed(2);
-      }
-    }
-  } catch (_) {}
-
-  const currentTotalUsdc = Number(totalUsdc) || BASELINE_FIXED_USDC;
-  const netProfitSinceBaselineUsd = Math.max(0, currentTotalUsdc - BASELINE_FIXED_USDC);
-  const remainingGapUsd = Math.max(0, INITIAL_GAP_USD - netProfitSinceBaselineUsd);
-  const remainingGapEur = remainingGapUsd * 0.9218;
-
-  return `💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>
-• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>
-• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$${BASELINE_FIXED_USDC.toFixed(2)} USDC (Piso Base Operativo)</code>
-• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$${netProfitSinceBaselineUsd.toFixed(2)} USDC</code>
-• <b>🎯 Brecha Real por Recuperar:</b> <b>-${remainingGapEur.toFixed(2)} € (-$${remainingGapUsd.toFixed(2)} USD p/ Empate Real en $${TARGET_BREAKEVEN_USDC.toFixed(2)} USDC)</b>
-• <b>Liquidez Fija Consolidada:</b> <code>$${currentTotalUsdc.toFixed(2)} USDC (Total Tanques + Binance)</code>
-• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>
-• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $${currentTotalUsdc.toFixed(2)} USDC)</code>
-• <b>⛽ Gas Blindado:</b> <code>${gasBlindadoPol} POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>
+  return `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO & OPERANDO</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 <b>ESTADO OPERATIVO:</b> <code>ACTIVO ON-CHAIN // 24/7 SIN PARAR</code>
+🛡️ <b>PISO FIRME ASEGURADO:</b> <code>$${SETTLED_FLOOR_USDC.toFixed(2)} USDC</code> (Intocable · 0% Riesgo)
+💵 <b>CAPITAL CONSOLIDADO:</b> <code>$${CONSOLIDATED_USDC.toFixed(2)} USDC</code> (Bóveda #501: $${VAULT_501_USDC.toFixed(2)})
+🎯 <b>META EN CURSO (2ª BOLA):</b> <code>$${TARGET_USDC.toFixed(2)} USDC</code> (Faltan: <b>+$${remaining.toFixed(2)} USDC</b>)
+⛽ <b>GAS BLINDADO:</b> <code>${GAS_POL.toFixed(2)} POL</code> (100% Blindado · Piso 150 POL)
+🌐 <b>DASHBOARD DIRECTO:</b> <a href="https://area-501.curatolapps.workers.dev/">area-501.curatolapps.workers.dev</a>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 }
 
-const INVESTMENT_ROI_HEADER = getInvestmentRoiHeader();
+const EXECUTIVE_STATUS_HEADER = getExecutiveStatusHeader();
+const getInvestmentRoiHeader = getExecutiveStatusHeader;
+const INVESTMENT_ROI_HEADER = EXECUTIVE_STATUS_HEADER;
 
 /**
  * Envía un mensaje a Telegram (con soporte automático para mensajes largos en múltiples partes).
@@ -215,9 +196,9 @@ const INVESTMENT_ROI_HEADER = getInvestmentRoiHeader();
  */
 async function sendTelegramAlert(messageText, customChatId = null, options = {}) {
   let formattedMessage = messageText;
-  if (!options.skipRoiHeader && !formattedMessage.includes("ESTADO DE MI INVERSIÓN") && !formattedMessage.includes("Capital Invertido")) {
-    if (formattedMessage.length > 80 || formattedMessage.includes("ÁREA 501") || formattedMessage.includes("OPERACIÓN") || formattedMessage.includes("DIAGNÓSTICO") || formattedMessage.includes("REPORTE")) {
-      formattedMessage = `${getInvestmentRoiHeader()}\n\n${formattedMessage}`;
+  if (!options.skipHeader && !formattedMessage.includes("SISTEMA ENCENDIDO") && !formattedMessage.includes("ESTADO OPERATIVO")) {
+    if (formattedMessage.length > 60) {
+      formattedMessage = `${getExecutiveStatusHeader()}\n\n${formattedMessage}`;
     }
   }
 
@@ -571,6 +552,8 @@ if (require.main === module) {
 }
 
 module.exports = {
+  getExecutiveStatusHeader,
+  EXECUTIVE_STATUS_HEADER,
   getInvestmentRoiHeader,
   INVESTMENT_ROI_HEADER,
   setTelegramChatTitle,

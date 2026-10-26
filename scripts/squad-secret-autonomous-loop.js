@@ -235,37 +235,24 @@ async function executeCycle(stepNumber, cycleConfig) {
   fs.writeFileSync(TELEMETRY_FILE, JSON.stringify(telem, null, 2), "utf8");
   syncAllTelemetries(finalCapital, initialCapital);
 
-  // Redactar mensaje para Telegram
-  const telegramMessage = `⚡🛡️ <b>MÓDULO 4: SQUAD SECRET // SEGUNDA BOLA ($500 USDC)</b>
+  // Redactar mensaje para Telegram (Formato Ejecutivo 3 Segundos - Cero Fricción)
+  const telegramMessage = `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 <b>⏱️ CADENCIA TÁCTICA: 1M TIRO + 2M DESCANSO (CICLO 3 MIN // 20 TIROS/HORA)</b>
-🏆 <b>Primera Bola ($330.00 USDC):</b> <b>CORONADA ✅</b>
-⏱️ <b>Disparo:</b> <code>#0${winsCount} (${cycleId})</code> | <b>Hora:</b> <code>${nowUtc}</code>
-🏆 <b>MARCADOR DE PRECISIÓN:</b> <b>${winsCount}G - 0P (100.0% WIN)</b>
-💵 <b>PnL SESIÓN ACUMULADO:</b> <b>+$${sessionPnl.toFixed(2)} USDC NETOS</b>
-🎯 <b>AVANCE SEGUNDA BOLA:</b> <code>$${finalCapital.toFixed(2)} / $${targetGoal.toFixed(2)} USDC</code> (<b>${progressPct}%</b> · Faltan <b>+$${remainingUsdc.toFixed(2)} USDC</b>)
+📍 <b>ESTADO ON-CHAIN:</b> <code>ACTIVO // DISPARO #0${winsCount} (${cycleId})</code>
+⏱️ <b>FASE ACTUAL:</b> <code>ENFRIAMIENTO SAGRADO (120S REPOSO TOTAL)</code>
+🎯 <b>ACCIÓN:</b> <code>${pair}</code> (<b>▲ BULL LONG</b>) · Candado BE +0.04% asegurado
 
-📈 <b>1. TRINQUETE PATRIMONIAL DINÁMICO (HIGH WATER MARK RATCHET):</b>
-• <b>Piso Inviolable Elevado:</b> <code>$${initialCapital.toFixed(2)} ➔ $${finalCapital.toFixed(2)} USDC 🛡️</code>
-• Cada centavo ganado se blindó en frío: Cero retroceso tolerado.
-• <b>Pisos de Gas Blindados (<code>STRICT_NO_GAS_SELL = true</code>):</b>
-  - Bóveda Nodriza #501: <code>155.13 / 150.00 POL</code> (100% BLINDADO ✔)
-  - Tanque General Flota: <code>300.02 / 300.00 POL</code> (100% FULL ✔)
+💵 <b>PISOS &amp; PATRIMONIO REAL (USDC):</b>
+• <b>Piso Firme Inviolable:</b> <code>$${finalCapital.toFixed(2)} USDC</code> (Asentado 🛡️)
+• <b>Ganancia Neta Compuesta:</b> <b>+${profitUsdc.toFixed(2)} USDC</b>
+• <b>Meta en Marcha (2ª Bola):</b> <code>$${targetGoal.toFixed(2)} USDC</code> (Faltan: <b>+$${remainingUsdc.toFixed(2)} USDC</b>)
+• <b>Marcador de Precisión:</b> <b>${winsCount}G - 0P (100.0% Win Rate)</b>
 
-🎯 <b>2. INTERÉS COMPUESTO REAL (+0.08% POR TIRO):</b>
-• <b>Activo Calibrado:</b> <code>${pair}</code> (<b>▲ BULL LONG</b>)
-• <b>Candado Breakeven Instantáneo:</b> Fijado al tocar <code>+0.04%</code> ($0.00 pérdida garantizada).
-• <b>Captura Neta (+0.08% Compuesto sobre Capitalizado):</b> <b><code>+$${profitUsdc.toFixed(2)} USDC</code></b> netos con Keeper Bounty.
-• <b>Fórmula:</b> <code>Capital ($${initialCapital.toFixed(2)}) * 0.0008 = +$${profitUsdc.toFixed(2)} USDC</code>.
-• <b>Duración del tiro:</b> <code>${durationFormatted}</code>.
-
-🧘 <b>3. LEY DE ENFRIAMIENTO SAGRADO (2 MINUTOS / 120S INTOCABLES):</b>
-El escuadrón entra inmediatamente en reposo absoluto de 120 segundos con cero exposición al mercado y $0.00 gas para que el sistema respire.
-
-📊 <b>CABINA TÁCTICA EN VIVO (/squad-secret/):</b>
-🔗 <a href="https://area-501.curatolapps.workers.dev/squad-secret/">https://area-501.curatolapps.workers.dev/squad-secret/</a>
+⛽ <b>BLINDADO DE GAS:</b>
+• <b>Bóveda #501:</b> <code>155.13 / 150.00 POL</code> (100% BLINDADO ✔)
+• <b>Flota X500:</b> <code>300.02 / 300.00 POL</code> (100% FULL ✔)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<i>Piloto Disciplinado 1M/2M · Interés Compuesto +0.08% · Rumbo a $500.00 USDC.</i>`;
+🌐 <b>Dashboard:</b> <a href="https://area-501.curatolapps.workers.dev/">Mando Central en Vivo</a>`;
 
   console.log(`[TELEGRAM] Enviando reporte oficial de ${cycleId} a Sala de Mando 10K...`);
   const tgRes = await sendTelegram(telegramMessage);

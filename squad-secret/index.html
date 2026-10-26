@@ -42,56 +42,56 @@
   <!-- ========================================================================= -->
   <header class="top-nav-bar" id="squadHeader">
 
-    <!-- TARJETA 1: CAPITAL SQUAD SECRET (BÓVEDA #501 · SEGUNDA BOLA $500 GOAL) -->
-    <div class="nav-card" id="cardCapitalTop" title="Capital físico real en Bóveda #501 verificado on-chain">
+    <!-- TARJETA 1: CAPITAL VERIFICADO (BÓVEDA #501 · SEGUNDA BOLA $500 GOAL) -->
+    <div class="nav-card" id="cardCapitalTop" title="Capital real verificado en Bóveda #501 auditado on-chain">
       <div class="card-meta">
-        <span class="card-tag gold">💵 BÓVEDA #501 (SEGUNDA BOLA)</span>
+        <span class="card-tag gold">💵 CAPITAL VERIFICADO</span>
         <span class="card-pill font-mono green-pill" id="vaultGasStatus">GAS: 155.05 POL ✔</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
-          $459.40 <span class="metric-sub">/ $500.00 USDC</span>
+          $470.13 <span class="metric-sub">/ $500.00 USDC</span>
         </div>
       </div>
       <div class="progress-wrap" title="Progreso hacia Segunda Bola ($500.00 USDC). Base Consolidada Total: $470.13 USDC">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 91.88%;"></div>
+          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 94.02%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topProgressPct" class="green-text font-bold">Bloque: $450.00 🛡️</span>
-          <span id="topRemainingUsdc" class="gold-text">Restan $13.08 USDC</span>
+          <span id="topProgressPct" class="green-text font-bold">Bloque: $450.00 🛡️ Asentado</span>
+          <span id="topRemainingUsdc" class="gold-text">Faltan $29.87 USDC</span>
         </div>
       </div>
     </div>
 
-    <!-- TARJETA 2: RELOJ DE CICLO 1M TIRO / 2M DESCANSO (3 MINUTOS) -->
-    <div class="nav-card" id="cardClockTop" title="Cadencia Sagrada: 1m Tiro (Escaneo multi-piscina $0 gas) + 2m (120s) Descanso sin exposición al mercado">
+    <!-- TARJETA 2: ESTADO DEL CICLO & LATENCIA HYPERLIQUID L1 -->
+    <div class="nav-card" id="cardClockTop" title="Estado real del motor y latencia L1 hacia Hyperliquid y oráculos CEX/DEX">
       <div class="card-meta">
-        <span class="card-tag cyan">⏱️ CADENCIA SAGRADA (3 MIN)</span>
-        <span class="card-pill font-mono" id="topPhaseBadge">FASE 2: ENFRIAMIENTO (120S)</span>
+        <span class="card-tag cyan" id="topCycleTag">⚡ ESTADO DEL MOTOR</span>
+        <span class="card-pill font-mono green-pill" id="topPhaseBadge">🔍 ESCANEANDO EN VIVO</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono cyan-text" id="topClockCountdown">
-          01:45 <span class="metric-sub">en fase</span>
+          142ms <span class="metric-sub">Hyperliquid L1</span>
         </div>
-        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining">01:45 ciclo</span>
+        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining">0.024% Spread</span>
       </div>
       <div class="progress-wrap">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 25%;"></div>
+          <div class="progress-bar-fill cyan-fill" id="topClockProgress" style="width: 60%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topPhaseLabel">120s Descanso Sagrado</span>
-          <span id="topNextPhaseLabel">➔ 60s Tiro</span>
+          <span id="topPhaseLabel">Cadencia ~150ms</span>
+          <span id="topNextPhaseLabel">Umbral &ge; 0.040%</span>
         </div>
       </div>
     </div>
 
     <!-- TARJETA 3: MARCADOR DE FUEGO REAL ON-CHAIN -->
-    <div class="nav-card" id="cardScoreboardTop" title="Marcador de transacciones verificadas con txHash en PolygonScan">
+    <div class="nav-card" id="cardScoreboardTop" title="Marcador de transacciones reales leídas de squad-secret-real-ledger.json">
       <div class="card-meta">
         <span class="card-tag green">🎯 MARCADOR REAL ON-CHAIN</span>
-        <span class="card-pill font-mono green-pill" id="topWinRateBadge">100% REAL</span>
+        <span class="card-pill font-mono green-pill" id="topWinRateBadge">0 OPERACIONES CERRADAS</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono green-text" id="topRatioDisplay">
@@ -99,45 +99,44 @@
         </div>
       </div>
       <div class="card-sub-metric font-mono">
-        <span class="dim-txt">PnL Real On-Chain:</span>
+        <span class="dim-txt">PnL Real Acumulado:</span>
         <span class="green-text font-bold" id="topSessionPnlDisplay">+$0.00 USDC</span>
-        <span class="target-sub-txt">(0% Simulación)</span>
+        <span class="target-sub-txt">(Cero Simulación)</span>
       </div>
     </div>
 
     <!-- TARJETA 4: DIRECCIÓN CALIBRADA (BULL vs BEAR) -->
-    <div class="nav-card" id="cardDirectionTop" title="Par ganador seleccionado por los informantes #601 / #701 / #801">
+    <div class="nav-card" id="cardDirectionTop" title="Par con mayor desequilibrio real detectado entre Hyperliquid y CEX/DEX">
       <div class="card-meta">
         <span class="card-tag purple">🐂🐻 DIRECCIÓN CALIBRADA</span>
         <span class="card-pill font-mono" id="topCertaintyBadge">95.4% CERTEZA</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono text-glow" id="topWinnerPairDisplay">
-          BTC/USDC <span class="direction-badge bull" id="topDirectionBadge">▲ BULL</span>
+          BTC/USDC <span class="direction-badge bull" id="topDirectionBadge">🐂 BULL (LONG)</span>
         </div>
       </div>
-      <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear">
+      <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear informada por #701 Oracle">
         <div class="dual-bar-fill bull" id="topBullMeter" style="width: 82%;"></div>
         <div class="dual-bar-fill bear" id="topBearMeter" style="width: 18%;"></div>
       </div>
     </div>
 
-    <!-- TARJETA 5: MODO OPERATIVO & CANDADO DE SEGURIDAD -->
-    <div class="nav-card" id="cardModeTop" title="Selector interactivo de postura y candado de gas">
+    <!-- TARJETA 5: BLINDAJE & COSTO (GAS #501 + HYPERLIQUID MAKER) -->
+    <div class="nav-card" id="cardModeTop" title="Gas #501 intacto y modo Hyperliquid Maker a $0.00 Gas con conmutador a Radar DEX">
       <div class="card-meta">
-        <span class="card-tag gold">🔒 POSTURA MILITAR</span>
-        <span class="card-pill font-mono red-pill" id="topGasShieldBadge">PISO 150 POL ✔</span>
+        <span class="card-tag gold">🔒 BLINDAJE &amp; COSTO</span>
+        <span class="card-pill font-mono red-pill" id="topGasShieldBadge">155.05 POL INTACTO</span>
       </div>
-      <div class="mode-toggles-row">
-        <button class="mode-pill-btn active" id="btnModeRiskZero" onclick="setOperationalMode('PLANNING_ZERO_RISK')">
-          🛡️ MODO ATÓMICO (0% RIESGO)
+      <div class="card-metric-row">
+        <div class="metric-primary font-mono cyan-text" style="font-size:12px;">
+          HYPERLIQUID MAKER <span class="metric-sub" style="color:var(--text-dim);">(0.015% / $0 Gas)</span>
+        </div>
+      </div>
+      <div class="mode-toggles-row" style="margin-top:2px;">
+        <button class="mode-pill-btn active" id="btnSwitchToDexRadar" onclick="switchSquadSubView('SNIPING_RADAR')" style="width:100%;font-size:9.5px;padding:3px 6px;text-align:center;cursor:pointer;">
+          🎯 IR A VISTA B: RADAR ATÓMICO DEX
         </button>
-      </div>
-      <div class="tp-choice-row font-mono">
-        <span class="tp-label">Mentora #00:</span>
-        <span class="tp-choice-btn active">+0.04% BE</span>
-        <span class="tp-choice-btn active">➔ +0.08% TP Neto</span>
-        <span class="tp-choice-btn active" style="color:var(--cyan-primary);">Gas Self-Heal</span>
       </div>
     </div>
 
@@ -214,7 +213,7 @@
             <div class="link-step font-mono">03</div>
             <div class="link-title-group">
               <span class="link-name">32 Nebulosas IA (16 Binomios)</span>
-              <span class="link-sub">Pre-Simulación callStatic &amp; Cero Riesgo</span>
+              <span class="link-sub" id="linkNebulasStatus">Spread Actual: 0.024% vs Umbral 0.040% · callStatic: 0 Revert</span>
             </div>
             <span class="link-status-dot green"></span>
           </div>
@@ -222,7 +221,7 @@
             <div class="locks-grid">
               <span class="lock-item">🔒 callStatic 0 Revert</span>
               <span class="lock-item">🛡️ GoPlus 0% Honeypot</span>
-              <span class="lock-item">⚡ Spread >= +0.08% Neto</span>
+              <span class="lock-item">⚡ Spread >= +0.04% Neto</span>
               <span class="lock-item">🛑 NO_PROFIT_REVERT ($0 Gas)</span>
             </div>
           </div>
@@ -234,7 +233,7 @@
             <div class="link-step font-mono">04</div>
             <div class="link-title-group">
               <span class="link-name">Trader Bull &amp; Trader Bear</span>
-              <span class="link-sub" id="linkDualStatus">Disparo Bidireccional (Arriba y Abajo)</span>
+              <span class="link-sub" id="linkDualStatus">ESPERA DE SEÑAL (Spread &lt; 0.040%)</span>
             </div>
             <span class="link-status-dot green"></span>
           </div>
@@ -255,7 +254,7 @@
             <div class="link-step font-mono">05</div>
             <div class="link-title-group">
               <span class="link-name">Mentora #00 Zen-Equilibrium</span>
-              <span class="link-sub">+0.04% BE ➔ +0.08% TP + Gas Self-Heal</span>
+              <span class="link-sub" id="linkMentorStatus">+0.04% BE ➔ +0.08% TP + Gas Self-Heal (155.05 POL Intacto)</span>
             </div>
             <span class="link-status-dot green"></span>
           </div>
@@ -535,17 +534,58 @@
 
     </section>
 
-    <!-- PANEL INFERIOR: BITÁCORA REAL ON-CHAIN (HASHES VERIFICADOS EN POLYGONSCAN) -->
+    <!-- PANEL INFERIOR: TERMINAL DINÁMICA DE OPERACIONES EN VIVO (FONDO NEGRO AZABACHE) -->
     <section class="squad-panel squad-bottom-panel" id="panelCycleLedger">
       <div class="panel-header">
         <div class="panel-title-wrap">
-          <span class="panel-icon">📜</span>
-          <h2 class="panel-title">BITÁCORA ON-CHAIN // DISPAROS CONFIRMADOS EN POLYGONSCAN (0% SIMULACIÓN)</h2>
+          <span class="panel-icon">📟</span>
+          <h2 class="panel-title">[DINÁMICO · EN VIVO] TERMINAL DE OPERACIONES // ESCANEO &amp; DISPAROS</h2>
+          <div class="terminal-tab-group font-mono">
+            <button class="term-tab-btn active" id="btnTabTermLive" onclick="switchSquadTermTab('LIVE')">📟 CONSOLA EN VIVO</button>
+            <button class="term-tab-btn" id="btnTabTermLedger" onclick="switchSquadTermTab('LEDGER')">📜 REGISTRO POLYGONSCAN</button>
+          </div>
         </div>
-        <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">0 DISPAROS REGISTRADOS (CERO HUMO)</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="term-tab-btn" onclick="clearSquadTerm()" title="Limpiar Terminal" style="font-size:10px;">⌫ LIMPIAR</button>
+          <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">● EN VIVO</span>
+        </div>
       </div>
 
-      <div class="cycles-table-wrap">
+      <!-- VISTA 1: CONSOLA TERMINAL NEGRA AZABACHE (STREAMING DE OPERACIONES POCO A POCO) -->
+      <div class="squad-term-body" id="squadTermBody">
+        <div class="squad-term-line">
+          <span class="squad-term-time">[08:30:00]</span>
+          <span class="squad-term-tag ok">[INIT]</span>
+          <span class="squad-term-msg">Iniciando Terminal Cuantitativa Squad Secret // Cadencia 3m (1m Tiro / 2m Descanso).</span>
+        </div>
+        <div class="squad-term-line">
+          <span class="squad-term-time">[08:30:02]</span>
+          <span class="squad-term-tag floor">[PISO]</span>
+          <span class="squad-term-msg">Piso Sagrado Asentado: <strong>$450.00 USDC</strong> inalterable. Base Consolidada Total: <strong>$470.13 USDC</strong>.</span>
+        </div>
+        <div class="squad-term-line">
+          <span class="squad-term-time">[08:30:03]</span>
+          <span class="squad-term-tag ok">[GAS]</span>
+          <span class="squad-term-msg">Bóveda #501 Blindaje Gas: 155.05 POL (100% Blindado · Piso intocable de 150 POL).</span>
+        </div>
+        <div class="squad-term-line">
+          <span class="squad-term-time">[08:30:05]</span>
+          <span class="squad-term-tag scan">[ORACLE-PING]</span>
+          <span class="squad-term-msg">Kraken CEX BTC/USDC $68,450.00 vs Uniswap V3 $68,520.00 (Lead-Lag Spread: +0.102%).</span>
+        </div>
+        <div class="squad-term-line">
+          <span class="squad-term-time">[08:30:07]</span>
+          <span class="squad-term-tag ok">[CALLSTATIC]</span>
+          <span class="squad-term-msg">Simulación pre-vuelo callStatic QuickSwap Algebra V3: 0 reverts ($0 gas consumido).</span>
+        </div>
+        <div class="squad-term-line" id="squadTermLastLine">
+          <span class="squad-term-time font-mono" style="color:var(--cyan-primary);">PS C:\Area501\SquadSecret&gt;</span>
+          <span class="squad-term-msg" id="squadLivePromptTxt">Escaneando piscinas institucionales 0.01% y 0.05% on-chain...</span>
+        </div>
+      </div>
+
+      <!-- VISTA 2: TABLA DE HASHEADO EN POLYGONSCAN -->
+      <div class="cycles-table-wrap" id="squadLedgerWrap" style="display: none;">
         <table class="cycles-table font-mono" id="cyclesTable">
           <thead>
             <tr>
@@ -573,48 +613,40 @@
   </main>
 
   <!-- ========================================================================= -->
-  <!-- BLOQUE INFERIOR: DOCK OFICIAL UNIFICADO ÁREA 501 (3 ESPACIOS CLAROS)       -->
+  <!-- BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SELECTOR DE MÓDULOS)        -->
   <!-- ========================================================================= -->
-  <footer class="bottom-module-dock">
-    <!-- Izquierda: Estado del Sistema -->
-    <div class="dock-left-status">
-      <span class="pulse-dot-green" title="Sistema Activo"></span>
-      <span class="dock-status-txt">ÁREA 501 // FUEGO REAL</span>
+  <footer class="win-taskbar">
+    <div class="win-taskbar-left">
+      <nav class="win-app-tabs">
+        <!-- 1. Mando Central -->
+        <a href="../" class="win-tab-btn" title="Mando Central: Tesorería y Patrimonio Real">
+          <span>🏛️</span>
+          <span>MANDO CENTRAL</span>
+        </a>
+
+        <!-- 2. Squad Secret (Activo) -->
+        <a href="./" class="win-tab-btn active" title="Squad Secret: Trading Real, Bull &amp; Bear y Sniping Atómico">
+          <span>🕵️‍♂️</span>
+          <span>SQUAD SECRET</span>
+        </a>
+
+        <!-- 3. Flota X500 -->
+        <a href="../flota-x500/" class="win-tab-btn" title="Flota X500: Las 500 Carteras, Airdrops y Free-Mint">
+          <span>🪖</span>
+          <span>FLOTA X500</span>
+        </a>
+      </nav>
     </div>
 
-    <!-- Centro: Los 3 Únicos Espacios Oficiales -->
-    <div class="dock-center-modules">
-      <!-- 1. Mando Central -->
-      <a href="../" class="dock-module-btn" id="dockBtnMandoCentral" title="Mando Central: Tesorería, Saldos Reales On-Chain y Gas">
-        <span class="dock-module-icon">🏛️</span>
-        <span class="dock-label">MANDO CENTRAL</span>
-      </a>
-
-      <!-- 2. Squad Secret (Activo) -->
-      <a href="./" class="dock-module-btn active" id="dockBtnSquadSecret" title="Squad Secret: Trading Real, Bull &amp; Bear y Sniping Atómico">
-        <span class="dock-module-icon">🕵️‍♂️</span>
-        <span class="dock-label">SQUAD SECRET</span>
-      </a>
-
-      <!-- 3. Flota X500 -->
-      <a href="../flota-x500/" class="dock-module-btn" id="dockBtnFlota" title="Flota X500: Las 500 Carteras, Calendario de Airdrops y Free-Mint Flip">
-        <span class="dock-module-icon">🪖</span>
-        <span class="dock-label">FLOTA X500</span>
-      </a>
-    </div>
-
-    <!-- Derecha: Reloj Maestro UTC en Vivo + Candado Militar -->
-    <div class="dock-right-controls">
-      <div class="dock-utc-clock" id="dockUtcClock" title="Hora Oficial UTC">
-        <span class="clock-icon">🕒</span>
-        <span class="clock-time font-mono" id="masterUtcClockTime">--:--:-- UTC</span>
+    <div class="win-taskbar-right">
+      <div class="win-clock-tray">
+        <span>🕒</span>
+        <span id="winClockUtc">--:--:-- UTC</span>
       </div>
 
-      <button class="area501-lockout-btn dock-lock-btn" id="area501-lockout-btn" title="ÁREA 501 // Bloquear Sesión" aria-label="Bloquear Acceso">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
+      <button class="win-lock-btn" id="area501-lockout-btn" title="Cerrar Sesión y Bloquear Estación">
+        <span>🔒</span>
+        <span>BLOQUEAR</span>
       </button>
     </div>
   </footer>

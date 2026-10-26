@@ -4,41 +4,41 @@
    ============================================================================= */
 
 :root {
-  --bg-deep: #05070b;
-  --bg-base: #07090e;
-  --bg-card: rgba(12, 17, 28, 0.78);
-  --bg-card-hover: rgba(16, 23, 38, 0.92);
-  --bg-card-active: rgba(20, 29, 48, 0.95);
-  --bg-surface: rgba(255, 255, 255, 0.03);
+  --bg-deep: #eef2f6;
+  --bg-base: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-card-active: #e2e8f0;
+  --bg-surface: #ffffff;
 
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-card: rgba(255, 255, 255, 0.09);
-  --border-cyan: rgba(0, 240, 255, 0.32);
-  --border-gold: rgba(245, 158, 11, 0.32);
-  --border-purple: rgba(176, 38, 255, 0.32);
-  --border-green: rgba(0, 255, 136, 0.32);
-  --border-red: rgba(255, 51, 102, 0.32);
+  --border-subtle: #cbd5e1;
+  --border-card: #cbd5e1;
+  --border-cyan: rgba(2, 132, 199, 0.35);
+  --border-gold: rgba(180, 83, 9, 0.35);
+  --border-purple: rgba(109, 40, 217, 0.35);
+  --border-green: rgba(21, 128, 61, 0.35);
+  --border-red: rgba(220, 38, 38, 0.35);
 
-  --cyan: #00f0ff;
-  --gold: #f59e0b;
-  --green: #00ff88;
-  --purple: #b026ff;
-  --red: #ff3366;
-  --blue: #38bdf8;
-  --orange: #fb923c;
+  --cyan: #0284c7;
+  --gold: #b45309;
+  --green: #15803d;
+  --purple: #6d28d9;
+  --red: #dc2626;
+  --blue: #0284c7;
+  --orange: #ea580c;
 
-  --text-main: #f8fafc;
-  --text-dim: #94a3b8;
+  --text-main: #0f172a;
+  --text-dim: #475569;
   --text-muted: #64748b;
   --text-dark: #0f172a;
 
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Segoe UI', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
 
-  --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
-  --shadow-cyan: 0 0 20px rgba(0, 240, 255, 0.2);
-  --shadow-gold: 0 0 20px rgba(245, 158, 11, 0.2);
-  --shadow-green: 0 0 20px rgba(0, 255, 136, 0.2);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-cyan: 0 0 12px rgba(2, 132, 199, 0.15);
+  --shadow-gold: 0 0 12px rgba(180, 83, 9, 0.15);
+  --shadow-green: 0 0 12px rgba(21, 128, 61, 0.15);
 }
 
 /* Reset y Regla Sagrada Cero Scroll */
@@ -69,9 +69,9 @@ body.area501-flota-body {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) 40px;
   background-image:
-    radial-gradient(circle at 10% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 88% 82%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(176, 38, 255, 0.03) 0%, transparent 60%);
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
   position: relative;
 }
 
@@ -107,9 +107,9 @@ body.area501-flota-body {
   justify-content: space-between;
   gap: clamp(6px, 0.8vw, 10px);
   padding: 6px clamp(12px, 1.5vw, 18px);
-  background: rgba(7, 9, 14, 0.94);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-subtle);
+  background: #ffffff;
+  border-bottom: 2px solid #cbd5e1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   flex-shrink: 0;
   height: 56px;
   max-height: 56px;
@@ -122,22 +122,22 @@ body.area501-flota-body {
 }
 
 .floating-card {
-  background: var(--bg-card);
+  background: #ffffff;
   border: 1px solid var(--border-card);
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 4px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
 
 .floating-card:hover {
-  background: var(--bg-card-hover);
-  border-color: rgba(255, 255, 255, 0.16);
+  background: #f8fafc;
+  border-color: #94a3b8;
   transform: translateY(-1px);
 }
 
@@ -460,7 +460,7 @@ body.area501-flota-body {
   justify-content: space-between;
   padding: 8px 12px;
   border-bottom: 1px solid var(--border-subtle);
-  background: rgba(0, 0, 0, 0.2);
+  background: #f1f5f9;
   flex-shrink: 0;
 }
 
@@ -485,14 +485,14 @@ body.area501-flota-body {
   overflow-x: hidden;
   padding: 8px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
 }
 
 .card-body-scroll::-webkit-scrollbar {
   width: 4px;
 }
 .card-body-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(148, 163, 184, 0.4);
   border-radius: 2px;
 }
 
@@ -504,18 +504,19 @@ body.area501-flota-body {
 }
 
 .box-item-card {
-  background: rgba(255, 255, 255, 0.02);
+  background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   padding: 8px 10px;
   cursor: pointer;
   transition: all 0.18s ease;
   position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .box-item-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--border-cyan);
+  background: #f8fafc;
+  border-color: var(--cyan);
   transform: translateX(2px);
 }
 
@@ -689,8 +690,8 @@ body.area501-flota-body {
 .quant-table thead th {
   position: sticky;
   top: 0;
-  background: #090d15;
-  color: var(--text-dim);
+  background: #f1f5f9;
+  color: #0f172a;
   font-weight: 700;
   font-size: 10px;
   letter-spacing: 0.5px;
@@ -703,13 +704,13 @@ body.area501-flota-body {
 
 .quant-table tbody td {
   padding: 6px 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--text-main);
+  border-bottom: 1px solid #e2e8f0;
+  color: #0f172a;
   white-space: nowrap;
 }
 
 .quant-table tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.03);
+  background: #f8fafc;
 }
 
 .front-badge-wrap {

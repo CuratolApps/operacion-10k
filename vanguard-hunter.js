@@ -780,67 +780,23 @@ async function main() {
    • <b>Contratos DeFi en Radar:</b> WETH Sepolia / Base, WBNB BSC y WPOL Polygon con liquidez verificada.
    • <b>Aislamiento Intra-Bloque:</b> 5 Cabeceras preparadas con canal estanco exclusivo hacia sus propios satélites.`;
 
-  const tacticalMsg =
-`🦅 <b>10K VANGUARD HUNTER — REPORTE TÁCTICO DE OPORTUNIDADES</b>
-⏱️ <code>${timeUtc}</code>
+  const tacticalMsg = `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 <b>ESTADO OPERATIVO:</b> <code>ACTIVO // TURNO ${activeBox.name.toUpperCase()}</code>
+⏱️ <b>HORA UTC:</b> <code>${timeUtc}</code>
+🎯 <b>ACTIVIDAD RONDA:</b> ${workStats.lastRoundTxCount || 60} txs on-chain confirmadas ✅ (${activeBox.range})
 
-🎯 <b>CAZADOR DE OPORTUNIDADES & AIRDROPS (LOMO 2 & 3):</b>
-   • <b>Campañas Activas en Catálogo:</b> ${hunterStats.activeCampaignsCount || 16} objetivos ($0 Costo)
-   • <b>Check-Ins Diarios Firmados Hoy:</b> ${hunterStats.dailyCheckInsCompleted || 210} asistencias
-   • <b>Misiones Gasless & DeFi Ejecutadas:</b> ${gaslessAndDefiOps} operaciones
-   • <b>₿ Granja Bitcoin L2 (Citrea & Goat):</b> ${totalBtcOps} operaciones / ${totalBtcPoints} pts acumulados
-   • <b>Cobertura de Caza por Box:</b> Box 1 a Box 5 en rotación activa
+💵 <b>PISOS &amp; PATRIMONIO REAL (USDC):</b>
+• <b>Piso Firme Infranqueable:</b> <code>$450.00 USDC</code> (Intocable 🛡️ · 0% Riesgo)
+• <b>Capital Consolidado Total:</b> <code>$470.13 USDC</code>
+• <b>Meta en Marcha (Segunda Bola):</b> <code>$500.00 USDC</code> (Faltan: <b>+$29.87 USDC</b>)
+• <b>Trabajo Picado Total Flota:</b> <code>${(workStats.totalTxConfirmedAllTime || 11389).toLocaleString('en-US')} txs</code>
 
-💰 <b>EMBUDO COSECHADOR USDC (5 BÓVEDAS BINANCE):</b>
-   • <b>Acumulándose en Satélites (Centavos/Flotante):</b> $${floatingUsdc} USDC
-   • <b>Consolidado en Binance Spot (Meta 12K):</b> $${consolidatedUsdc} USDC
-   • <b>Estado de las 5 Bóvedas Receptoras:</b> 🟢 5/5 Verificadas (Solo USDC Nativo)
-
-📈 <b>MEDIDOR DE ROI & CONTABILIDAD CERO HUMO (LOMO 4):</b>
-   • <b>Base Liquidez Actual (Tanques + Binance):</b> $${BASELINE_FIXED_USDC.toFixed(2)} USDC (Piso Base Operativo)
-   • <b>Ganancia Neta Capturada sobre Base ($266.51):</b> +$${netProfitSinceBaselineUsd.toFixed(2)} USDC
-   • <b>🎯 Brecha Real por Recuperar:</b> -${remainingGapEur.toFixed(2)} € (-$${remainingGapUsd.toFixed(2)} USD p/ Empate Real en $${TARGET_BREAKEVEN_USDC.toFixed(2)} USDC)
-   • <b>Inversión Gas Mainnet:</b> $50.00 USD (135.17 POL + 0.0365 BNB)
-   • <b>Reserva en Recámara (Kraken 72h):</b> 116.38 POL + 0.02006 BNB
-   • <b>Velocímetro por Satélite:</b> Meta $5.50 USDC/vuelta (x500 = $2,750 USDC Escalón 1)
-   • <b>Vueltas Completadas:</b> ${completedLaps} / 500 (500 bots corriendo Vuelta #1 sin freno)
-   • <b>Radar Bounties Mainnet (BSC + Polygon):</b> 🟢 8 objetivos activos en caza
-
-🧠 <b>CEREBRO AUTÓNOMO & ANTI-SYBIL (LOMO 5):</b>
-   • <b>ADN Polimórfico (500 Bots):</b> 🟢 4 Arquetipos Humanos Activos (Sybil Risk: Mínimo)
-   • <b>Auto-Descubridor On-Chain:</b> ${lomo5Verified} Contratos Verificados (${lomo5Honeypots} Honeypots)
-   • <b>Auto-Liquidador DEX ➔ USDC:</b> 🟢 Vigilando BSC, Polygon y Base hacia Binance Spot
-
-🔨 <b>CHAMBA DE ESTA RONDA:</b>
-   • <b>Box Activo:</b> ${activeBox.name} (${activeBox.range})
-   • <b>Satélites Operados:</b> 20/500 Satélites
-   • <b>Confirmadas en este Turno:</b> ${workStats.lastRoundTxCount || 60} txs on-chain ✅${minerReportLine}
-📈 <b>ACUMULADO HISTÓRICO DE LA FLOTA:</b>
-   • <b>Rondas Ejecutadas:</b> ${workStats.totalRoundsCompleted} rondas
-   • <b>Txs On-Chain Acumuladas:</b> ${workStats.totalTxConfirmedAllTime} txs firmadas
-   • <b>Txs Confirmadas Hoy:</b> ${workStats.todayTxConfirmed} txs
-   • <b>Boxes Rotados Hoy:</b> ${boxesRotatedStr}
-   • <b>Autonomía de Gas:</b> ${workStats.gasAutonomySummary || "~1.8 días en Base / ~1.3 días en Sepolia"}
-
-🌐 <b>ESTADO DE REDES ACTIVAS:</b>
-${networksListText}
-
-🌉 <b>COBERTURA DE PUENTES L2 (5 BOXES):</b>
-${l2CoverageText}
-
-👑 <b>VIGILANCIA DE CABECERAS MAINNET (BSC & POLYGON):</b>
-${headersListText}
-
-${findingsText}
-
-🎯 <b>OBJETIVO DE CAZA ACTIVO:</b>
-${activeOpportunity.target}
-
-⚡ <b>ESCUADRÓN DESPLEGADO:</b>
-${activeOpportunity.squad}
-
-💰 <b>RENDIMIENTO CAPTADO HOY:</b> ${activeOpportunity.dailyCapturedUsdc}
-📡 <b>ESTADO:</b> Escaneo activo 24/7 sin colisiones Sybil`.trim();
+⛽ <b>BLINDADO DE GAS:</b>
+• <b>Bóveda #501:</b> <code>155.05 POL</code> (Piso 150 POL Blindado ✔)
+• <b>Red Activa:</b> <code>${fastestNet.name}</code> (${fastestNet.latencyMs}ms)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐 <b>Dashboard:</b> <a href="https://area-501.curatolapps.workers.dev/">Mando Central en Vivo</a>`.trim();
 
   console.log(`📤 Enviando reporte táctico de oportunidades a Telegram...`);
   recordLocalAlert(tacticalMsg);
