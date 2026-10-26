@@ -334,6 +334,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     const bearScore = 100 - bullScore;
     const direction = bullScore >= 50 ? "BULL" : "BEAR";
     const directionLabel = direction === "BULL" ? "🐂 BULL (LONG)" : "🐻 BEAR (SHORT)";
+    const pressureLabel = `${bullScore}% 🐂 BULL`;
     const dominantScore = Math.max(bullScore, bearScore);
     if (dominantScore > highestImbalance) {
       highestImbalance = dominantScore;
