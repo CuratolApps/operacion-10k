@@ -38,48 +38,60 @@ const TELEMETRY_FILE = path.join(TELEMETRY_DIR, "squad-secret-telemetry.json");
 // Bóveda Nodriza #501
 const VAULT_501_ADDRESS = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 
-// Restricción Operativa Absoluta
-const MAX_CONCURRENT_POSITIONS = 1;
-const BREAKEVEN_TRIGGER_PCT = 0.04; // +0.04%
-const TAKE_PROFIT_TRIGGER_PCT = 0.08; // +0.08%
-const MAKER_FEE_PCT = 0.015; // 0.015% Maker
+// ------------------------------------------------------------------------------
+// ESTRUCTURA OFICIAL: 3 ESCUADRONES SNIPER (1 PARA 3) + ESCUDO $40.02 USDC LIBRE
+// ------------------------------------------------------------------------------
+const UNTOUCHABLE_RESERVE_USDC = 40.02; // 40% del capital intocable en cash
+const SQUAD_MARGIN_USDC = 20.00;        // Margen fijo por escuadrón (5x apalancamiento)
+const SQUAD_LEVERAGE = 5;
 
-// Lista de los 9 Pares Calificados por el Squad en Hyperliquid L1
-const SQUAD_WATCHLIST = [
-  { pair: "BTC-USDC", symbol: "BTC", specialist: "#701 Oracle-Global", minLiquidityUsdc: 25000000 },
-  { pair: "ETH-USDC", symbol: "ETH", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 15000000 },
-  { pair: "SOL-USDC", symbol: "SOL", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 10000000 },
-  { pair: "BNB-USDC", symbol: "BNB", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 8000000 },
-  { pair: "POL-USDC", symbol: "POL", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 5000000 },
-  { pair: "PAXG-USDC", symbol: "PAXG", specialist: "#701 Oracle-Global", minLiquidityUsdc: 8000000 },
-  { pair: "LINK-USDC", symbol: "LINK", specialist: "#701 Oracle-Global", minLiquidityUsdc: 6000000 },
-  { pair: "SUI-USDC", symbol: "SUI", specialist: "#801 Nexus-Boss", minLiquidityUsdc: 7000000 },
-  { pair: "AAVE-USDC", symbol: "AAVE", specialist: "#801 Nexus-Boss", minLiquidityUsdc: 5000000 }
-];
-
-let activePositions = []; // Memoria de posiciones en curso
-
-/**
- * Consulta el libro de órdenes L2 de Hyperliquid para un símbolo específico
- */
-async function fetchL2Book(symbol) {
-  try {
-    const res = await fetch(HL_INFO_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "l2Book", coin: symbol })
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data && data.levels ? data.levels : null;
-  } catch (err) {
-    return null;
+const SQUADS = {
+  ALFA: {
+    id: "ALFA",
+    name: "Escuadrón Alfa",
+    specialist: "#601 Titan-Scalper",
+    role: "Fuerza Rápida High-Beta",
+    pairs: [
+      { pair: "SOL-USDC", symbol: "SOL" },
+      { pair: "SUI-USDC", symbol: "SUI" },
+      { pair: "POL-USDC", symbol: "POL" }
+    ],
+    allocatedMargin: SQUAD_MARGIN_USDC,
+    leverage: SQUAD_LEVERAGE,
+    activePosition: null
+  },
+  BRAVO: {
+    id: "BRAVO",
+    name: "Escuadrón Bravo",
+    specialist: "#701 Oracle-Global",
+    role: "Macro & Refugios RWA",
+    pairs: [
+      { pair: "BTC-USDC", symbol: "BTC" },
+      { pair: "PAXG-USDC", symbol: "PAXG" },
+      { pair: "LINK-USDC", symbol: "LINK" }
+    ],
+    allocatedMargin: SQUAD_MARGIN_USDC,
+    leverage: SQUAD_LEVERAGE,
+    activePosition: null
+  },
+  CHARLIE: {
+    id: "CHARLIE",
+    name: "Escuadrón Charlie",
+    specialist: "#801 Nexus-Boss",
+    role: "Ecosistema DeFi & ALO Maker",
+    pairs: [
+      { pair: "ETH-USDC", symbol: "ETH" },
+      { pair: "BNB-USDC", symbol: "BNB" },
+      { pair: "AAVE-USDC", symbol: "AAVE" }
+    ],
+    allocatedMargin: SQUAD_MARGIN_USDC,
+    leverage: SQUAD_LEVERAGE,
   }
-}
+};
 
-/**
- * Consulta todos los precios medios (AllMids) de Hyperliquid L1
- */
+const BREAKEVEN_TRIGGER_PCT = 0.04;
+const TAKE_PROFIT_TRIGGER_PCT = 0.08;
+
 async function fetchAllMids() {
   const t0 = Date.now();
   try {
@@ -89,101 +101,168 @@ async function fetchAllMids() {
       body: JSON.stringify({ type: "allMids" })
     });
     const t1 = Date.now();
-    if (!res.ok) return { mids: {}, latencyMs: 150 };
-    const mids = await res.json();
-    return { mids, latencyMs: Math.max(15, t1 - t0) };
+    const data = await res.json();
+    return { mids: data, latencyMs: t1 - t0 };
   } catch (err) {
-    return { mids: {}, latencyMs: 150 };
+    return { mids: {}, latencyMs: 999 };
   }
 }
 
-/**
- * Analiza el desequilibrio de compra/venta en las primeras 5 capas del L2 Book
- */
-function analyzeL2Layers(levels) {
-  if (!levels || !levels[0] || !levels[1]) {
-    return { bestBid: 0, bestAsk: 0, bidVol5: 0, askVol5: 0, imbalancePct: 50, bullScore: 50, bearScore: 50 };
+async function fetchL2Book(coin) {
+  try {
+    const res = await fetch(HL_INFO_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "l2Book", coin })
+    });
+    const data = await res.json();
+    return data && data.levels ? data.levels : [[], []];
+  } catch (_) {
+    return [[], []];
   }
+}
 
-  const bids = levels[0].slice(0, 5); // 5 mejores niveles de compra
-  const asks = levels[1].slice(0, 5); // 5 mejores niveles de venta
-
-  const bestBid = bids[0] ? parseFloat(bids[0].px) : 0;
-  const bestAsk = asks[0] ? parseFloat(asks[0].px) : 0;
-
-  const bidVol5 = bids.reduce((acc, b) => acc + (parseFloat(b.sz) * parseFloat(b.px)), 0);
-  const askVol5 = asks.reduce((acc, a) => acc + (parseFloat(a.sz) * parseFloat(a.px)), 0);
-
-  const totalVol = bidVol5 + askVol5;
-  const imbalancePct = totalVol > 0 ? (bidVol5 / totalVol) * 100 : 50;
-
-  const bullScore = Math.min(98, Math.max(2, Math.round(imbalancePct)));
+function analyzeL2Layers(levels) {
+  const bids = levels[0] || [];
+  const asks = levels[1] || [];
+  
+  let bidVol5 = 0;
+  for (let i = 0; i < Math.min(5, bids.length); i++) {
+    bidVol5 += (parseFloat(bids[i].px) * parseFloat(bids[i].sz));
+  }
+  let askVol5 = 0;
+  for (let i = 0; i < Math.min(5, asks.length); i++) {
+    askVol5 += (parseFloat(asks[i].px) * parseFloat(asks[i].sz));
+  }
+  
+  const total5 = bidVol5 + askVol5;
+  const imbalancePct = total5 > 0 ? (bidVol5 / total5) * 100 : 50;
+  const bullScore = Math.round(imbalancePct);
   const bearScore = 100 - bullScore;
 
-  return { bestBid, bestAsk, bidVol5, askVol5, imbalancePct, bullScore, bearScore };
+  return {
+    bestBid: bids[0] ? parseFloat(bids[0].px) : 0,
+    bestAsk: asks[0] ? parseFloat(asks[0].px) : 0,
+    bidVol5,
+    askVol5,
+    imbalancePct,
+    bullScore,
+    bearScore
+  };
 }
 
 /**
- * Ciclo Principal de Escaneo y Calibración del Squad
+ * Despacha reporte formal de Sniper a Telegram
+ */
+async function sendTelegramSquadReport(squadKey, eventType, data) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID || "-1004342131598";
+  if (!token || !chatId) return;
+
+  let title = "🎯 SQUAD SECRET // SNIPER REPORT";
+  if (eventType === "OPPORTUNITY_LOCKED") title = "🔍 <b>SQUAD SECRET // SEÑAL SNIPER DETECTADA</b>";
+  if (eventType === "ORDER_ENTERED") title = "⚡ <b>SQUAD SECRET // ENTRADA ALO MAKER REGISTRADA</b>";
+  if (eventType === "BREAKEVEN_LOCKED") title = "🔒 <b>SQUAD SECRET // CANDADO BREAKEVEN FIJADO (+0.04%)</b>";
+  if (eventType === "TAKE_PROFIT") title = "💰 <b>SQUAD SECRET // TOMA DE GANANCIA REAL (100% USDC)</b>";
+
+  const text = `
+${title}
+
+• <b>Escuadrón:</b> <b>${data.squadName}</b> (${data.specialist})
+• <b>Par:</b> <code>${data.pair}</code> (${data.direction === "BULL" ? "🐂 LONG" : "🐻 SHORT"})
+• <b>Certeza L2:</b> <b>${data.certainty}%</b>
+• <b>Margen Asignado:</b> $${data.marginUsdc.toFixed(2)} USDC (${data.leverage}x Nocional $${(data.marginUsdc * data.leverage).toFixed(2)})
+• <b>Entrada Maker:</b> $${data.entryPrice}
+• <b>Candado Breakeven:</b> $${data.bePrice} (+0.04% · $0 Pérdida)
+• <b>Take Profit:</b> $${data.tpPrice} (+0.08% / +$0.20 USDC)
+• <b>Tarifa Maker:</b> 0.015% | <b>Gas Red:</b> $0.00
+• <b>Escudo Reserva:</b> $${UNTOUCHABLE_RESERVE_USDC.toFixed(2)} USDC (40% Intocable)
+
+🛡️ <i>Regla Sniper: 1 tiro certero x escuadrón · Cero holding · 100% retorno a USDC</i>
+`.trim();
+
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
+    });
+  } catch (_) {}
+}
+
+/**
+ * Ciclo Principal de Escaneo de los 3 Escuadrones (1 para 3)
  */
 async function runSquadScanCycle() {
-  console.log(`\n[${new Date().toISOString()}] 🔍 SQUAD SECRET // ESCANEO HYPERLIQUID L1 MAKER`);
-
-  // Regla Infranqueable: Máximo 1 posición a la vez
-  if (activePositions.length >= MAX_CONCURRENT_POSITIONS) {
-    console.log(`[BLOQUEO ACTIVO] Posición en curso (${activePositions[0].pair} ${activePositions[0].direction}). Esperando cierre en USDC.`);
-    return;
-  }
+  console.log(`\n[${new Date().toISOString()}] 🔍 SQUAD SECRET // ESCANEO 3 ESCUADRONES (ALFA, BRAVO, CHARLIE)`);
+  console.log(`🛡️ Escudo de Reserva: $${UNTOUCHABLE_RESERVE_USDC.toFixed(2)} USDC Intocable | $60.00 USDC Fuego Máximo ($20 x 3)`);
 
   const { mids, latencyMs } = await fetchAllMids();
-  console.log(`[RADAR L2] Latencia Hyperliquid L1: ${latencyMs}ms | AllMids obtenidos: ${Object.keys(mids).length} monedas`);
+  console.log(`[RADAR L2] Latencia Hyperliquid L1: ${latencyMs}ms | AllMids obtenidos: ${Object.keys(mids).length} monedas\n`);
 
-  let bestOpportunity = null;
+  const scanResults = {};
 
-  for (const item of SQUAD_WATCHLIST) {
-    const mid = parseFloat(mids[item.symbol]);
-    if (!mid) continue;
+  for (const [squadKey, squad] of Object.entries(SQUADS)) {
+    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    console.log(`🔰 [${squad.name.toUpperCase()}] // ${squad.role} (${squad.specialist})`);
+    console.log(`   Margen: $${squad.allocatedMargin} USDC (${squad.leverage}x) | Pares: ${squad.pairs.map(p => p.symbol).join(" · ")}`);
 
-    const levels = await fetchL2Book(item.symbol);
-    const l2 = analyzeL2Layers(levels);
+    if (squad.activePosition) {
+      console.log(`   ⏸️ Posición en curso en ${squad.activePosition.pair}. Candado BE vigilando. No abre otro tiro.`);
+      continue;
+    }
 
-    const isBull = l2.imbalancePct >= 65;
-    const isBear = l2.imbalancePct <= 35;
-    const certainty = isBull ? l2.bullScore : (isBear ? l2.bearScore : 50);
+    let squadBest = null;
 
-    console.log(`  -> ${item.pair}: Mid $${mid.toFixed(2)} | Bids 5-Capas: $${(l2.bidVol5 / 1000).toFixed(0)}k | Asks 5-Capas: $${(l2.askVol5 / 1000).toFixed(0)}k | Desequilibrio: ${l2.imbalancePct.toFixed(1)}%`);
+    for (const item of squad.pairs) {
+      const mid = parseFloat(mids[item.symbol]);
+      if (!mid) continue;
 
-    if (certainty >= 75) {
-      if (!bestOpportunity || certainty > bestOpportunity.certainty) {
-        bestOpportunity = {
-          pair: item.pair,
-          symbol: item.symbol,
-          specialist: item.specialist,
-          mid,
-          bestBid: l2.bestBid,
-          bestAsk: l2.bestAsk,
-          direction: isBull ? "BULL" : "BEAR",
-          certainty,
-          bullScore: l2.bullScore,
-          bearScore: l2.bearScore,
-          bePrice: +(mid * (1 + (isBull ? BREAKEVEN_TRIGGER_PCT : -BREAKEVEN_TRIGGER_PCT) / 100)).toFixed(2),
-          tpPrice: +(mid * (1 + (isBull ? TAKE_PROFIT_TRIGGER_PCT : -TAKE_PROFIT_TRIGGER_PCT) / 100)).toFixed(2)
-        };
+      const levels = await fetchL2Book(item.symbol);
+      const l2 = analyzeL2Layers(levels);
+
+      const isBull = l2.imbalancePct >= 65;
+      const isBear = l2.imbalancePct <= 35;
+      const certainty = isBull ? l2.bullScore : (isBear ? l2.bearScore : 50);
+
+      console.log(`   -> ${item.pair}: Mid $${mid.toFixed(mid < 1 ? 4 : 2)} | Bids $${(l2.bidVol5 / 1000).toFixed(0)}k | Asks $${(l2.askVol5 / 1000).toFixed(0)}k | Desequilibrio: ${l2.imbalancePct.toFixed(1)}%`);
+
+      if (certainty >= 65) {
+        if (!squadBest || certainty > squadBest.certainty) {
+          squadBest = {
+            squadKey,
+            squadName: squad.name,
+            specialist: squad.specialist,
+            pair: item.pair,
+            symbol: item.symbol,
+            marginUsdc: squad.allocatedMargin,
+            leverage: squad.leverage,
+            mid,
+            bestBid: l2.bestBid,
+            bestAsk: l2.bestAsk,
+            direction: isBull ? "BULL" : "BEAR",
+            certainty,
+            entryPrice: mid,
+            bePrice: +(mid * (1 + (isBull ? BREAKEVEN_TRIGGER_PCT : -BREAKEVEN_TRIGGER_PCT) / 100)).toFixed(mid < 1 ? 5 : 2),
+            tpPrice: +(mid * (1 + (isBull ? TAKE_PROFIT_TRIGGER_PCT : -TAKE_PROFIT_TRIGGER_PCT) / 100)).toFixed(mid < 1 ? 5 : 2)
+          };
+        }
       }
+    }
+
+    if (squadBest) {
+      console.log(`   🎯 TIRO IDENTIFICADO: ${squadBest.pair} (${squadBest.direction}) | Certeza: ${squadBest.certainty}%`);
+      console.log(`      Entrada ALO: $${squadBest.entryPrice} ➔ BE: $${squadBest.bePrice} ➔ TP: $${squadBest.tpPrice}`);
+      scanResults[squadKey] = squadBest;
+    } else {
+      console.log(`   ⏳ Sin desequilibrio >= 65% en este bloque. Escuadrón en vigilia serena.`);
     }
   }
 
-  if (bestOpportunity) {
-    console.log(`\n🎯 [PAR GANADOR SELECCIONADO]: ${bestOpportunity.pair} (${bestOpportunity.direction})`);
-    console.log(`   Especialista: ${bestOpportunity.specialist} | Certeza: ${bestOpportunity.certainty}%`);
-    console.log(`   Entrada ALO Maker: $${bestOpportunity.mid} | BE Candado: $${bestOpportunity.bePrice} | TP: $${bestOpportunity.tpPrice}`);
-    console.log(`   Fee Maker: ${MAKER_FEE_PCT}% | Gas Hyperliquid: $0.00`);
-  } else {
-    console.log(`[ESPERA DE SEÑAL] Desequilibrio en libros L2 neutro (< 65%). Sin riesgo, esperando impulso institucional.`);
-  }
+  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+  return scanResults;
 }
 
-// Ejecución directa si se corre por línea de comandos
 if (require.main === module) {
   runSquadScanCycle().catch(err => console.error("Error en ciclo Squad:", err));
 }
@@ -193,5 +272,8 @@ module.exports = {
   fetchL2Book,
   fetchAllMids,
   analyzeL2Layers,
-  MAX_CONCURRENT_POSITIONS
+  sendTelegramSquadReport,
+  SQUADS,
+  UNTOUCHABLE_RESERVE_USDC,
+  SQUAD_MARGIN_USDC
 };

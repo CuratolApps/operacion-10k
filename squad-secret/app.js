@@ -29,40 +29,12 @@
   let lastPingTimestamp = 0;
   let wsReconnectTimer = null;
 
-  // Mapeo Oficial de los 9 Pares Calificados en Hyperliquid L1
+  // Mapeo Oficial de los 9 Pares Calificados en Hyperliquid L1 (3 Escuadrones x 3 Pares)
   const SQUAD_PAIRS_CONFIG = {
-    "BTC-USDC": {
-      symbol: "BTC",
-      category: "MACRO_STORE_OF_VALUE",
-      informant: "#701 Oracle-Global",
-      dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
-      poolFeeTier: "0.015% Maker (ALO) / $0 Gas",
-      depthUsdc: 28500000,
-      bullScore: 82,
-      bearScore: 18,
-      direction: "BULL",
-      directionLabel: "🐂 BULL (LONG)",
-      bullRationale: "Soporte institucional $80,200 sostenido por ETFs + acumulación en libro L1.",
-      bearRationale: "Toma de beneficios en resistencias con rotación de capital.",
-      spreadFactor: 0.024
-    },
-    "ETH-USDC": {
-      symbol: "ETH",
-      category: "L1_ETHEREUM_CORE",
-      informant: "#601 Titan-Scalper",
-      dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
-      poolFeeTier: "0.015% Maker (ALO) / $0 Gas",
-      depthUsdc: 19800000,
-      bullScore: 76,
-      bearScore: 24,
-      direction: "BULL",
-      directionLabel: "🐂 BULL (LONG)",
-      bullRationale: "Rebote técnico en soporte con compresión de volatilidad intradía.",
-      bearRationale: "Presión lateral en techos intradía con absorción institucional.",
-      spreadFactor: 0.019
-    },
     "SOL-USDC": {
       symbol: "SOL",
+      squadId: "ALFA",
+      squadName: "Escuadrón Alfa (#601 Fuerza Rápida)",
       category: "L1_SOLANA_HIGH_VOL",
       informant: "#601 Titan-Scalper",
       dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
@@ -72,27 +44,35 @@
       bearScore: 15,
       direction: "BULL",
       directionLabel: "🐂 BULL (LONG)",
+      marginUsdc: 20.00,
+      leverage: 5,
       bullRationale: "Volumen institucional continuo en L1 + compresión antes de ruptura.",
       bearRationale: "Rechazo en resistencia local con toma de beneficios en USDC nativo.",
       spreadFactor: 0.026
     },
-    "BNB-USDC": {
-      symbol: "BNB",
-      category: "BNB_CHAIN_CORE",
+    "SUI-USDC": {
+      symbol: "SUI",
+      squadId: "ALFA",
+      squadName: "Escuadrón Alfa (#601 Fuerza Rápida)",
+      category: "SUI_FAST_EXECUTION",
       informant: "#601 Titan-Scalper",
       dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
       poolFeeTier: "0.015% Maker (ALO) / $0 Gas",
-      depthUsdc: 9400000,
-      bullScore: 68,
-      bearScore: 32,
+      depthUsdc: 8900000,
+      bullScore: 86,
+      bearScore: 14,
       direction: "BULL",
       directionLabel: "🐂 BULL (LONG)",
-      bullRationale: "Defensa férrea de soporte clave + profundidad de compra continua.",
-      bearRationale: "Consolidación lateral con bajo volumen relativo.",
-      spreadFactor: 0.022
+      marginUsdc: 20.00,
+      leverage: 5,
+      bullRationale: "Crecimiento agresivo de TVL y velocidad de ejecución L1 con absorción alcista.",
+      bearRationale: "Descargas intradía en niveles de sobrecompra.",
+      spreadFactor: 0.031
     },
     "POL-USDC": {
       symbol: "POL",
+      squadId: "ALFA",
+      squadName: "Escuadrón Alfa (#601 Fuerza Rápida)",
       category: "POLYGON_L2_NATIVE",
       informant: "#601 Titan-Scalper",
       dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
@@ -102,12 +82,35 @@
       bearScore: 29,
       direction: "BULL",
       directionLabel: "🐂 BULL (LONG)",
+      marginUsdc: 20.00,
+      leverage: 5,
       bullRationale: "Soporte en piso DEX vs CEX con absorción en niveles clave.",
       bearRationale: "Ventas menores en rango estrecho de consolidación.",
       spreadFactor: 0.028
     },
+    "BTC-USDC": {
+      symbol: "BTC",
+      squadId: "BRAVO",
+      squadName: "Escuadrón Bravo (#701 Macro Refugios)",
+      category: "MACRO_STORE_OF_VALUE",
+      informant: "#701 Oracle-Global",
+      dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
+      poolFeeTier: "0.015% Maker (ALO) / $0 Gas",
+      depthUsdc: 28500000,
+      bullScore: 82,
+      bearScore: 18,
+      direction: "BULL",
+      directionLabel: "🐂 BULL (LONG)",
+      marginUsdc: 20.00,
+      leverage: 5,
+      bullRationale: "Soporte institucional $80,200 sostenido por ETFs + acumulación en libro L1.",
+      bearRationale: "Toma de beneficios en resistencias con rotación de capital.",
+      spreadFactor: 0.024
+    },
     "PAXG-USDC": {
       symbol: "PAXG",
+      squadId: "BRAVO",
+      squadName: "Escuadrón Bravo (#701 Macro Refugios)",
       category: "GOLD_RWA_SAFE_HAVEN",
       informant: "#701 Oracle-Global",
       dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
@@ -117,12 +120,16 @@
       bearScore: 21,
       direction: "BULL",
       directionLabel: "🐂 BULL (LONG)",
+      marginUsdc: 20.00,
+      leverage: 5,
       bullRationale: "Oro físico en máximos históricos + fuerte rotación macro de refugio.",
       bearRationale: "Pausa técnica en subida parabólica de metales.",
       spreadFactor: 0.021
     },
     "LINK-USDC": {
       symbol: "LINK",
+      squadId: "BRAVO",
+      squadName: "Escuadrón Bravo (#701 Macro Refugios)",
       category: "ORACLE_CCIP_INFRA",
       informant: "#701 Oracle-Global",
       dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
@@ -132,27 +139,54 @@
       bearScore: 27,
       direction: "BULL",
       directionLabel: "🐂 BULL (LONG)",
+      marginUsdc: 20.00,
+      leverage: 5,
       bullRationale: "Dominio de CCIP en liquidaciones institucionales y adopción bancaria RWA.",
       bearRationale: "Corrección tras impulso en resistencia semanal.",
       spreadFactor: 0.025
     },
-    "SUI-USDC": {
-      symbol: "SUI",
-      category: "SUI_FAST_EXECUTION",
+    "ETH-USDC": {
+      symbol: "ETH",
+      squadId: "CHARLIE",
+      squadName: "Escuadrón Charlie (#801 Ecosistema DeFi)",
+      category: "L1_ETHEREUM_CORE",
       informant: "#801 Nexus-Boss",
       dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
       poolFeeTier: "0.015% Maker (ALO) / $0 Gas",
-      depthUsdc: 8900000,
-      bullScore: 86,
-      bearScore: 14,
+      depthUsdc: 19800000,
+      bullScore: 76,
+      bearScore: 24,
       direction: "BULL",
       directionLabel: "🐂 BULL (LONG)",
-      bullRationale: "Crecimiento agresivo de TVL y velocidad de ejecución L1 con absorción alcista.",
-      bearRationale: "Descargas intradía en niveles de sobrecompra.",
-      spreadFactor: 0.031
+      marginUsdc: 20.00,
+      leverage: 5,
+      bullRationale: "Rebote técnico en soporte con compresión de volatilidad intradía.",
+      bearRationale: "Presión lateral en techos intradía con absorción institucional.",
+      spreadFactor: 0.019
+    },
+    "BNB-USDC": {
+      symbol: "BNB",
+      squadId: "CHARLIE",
+      squadName: "Escuadrón Charlie (#801 Ecosistema DeFi)",
+      category: "BNB_CHAIN_CORE",
+      informant: "#801 Nexus-Boss",
+      dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
+      poolFeeTier: "0.015% Maker (ALO) / $0 Gas",
+      depthUsdc: 9400000,
+      bullScore: 68,
+      bearScore: 32,
+      direction: "BULL",
+      directionLabel: "🐂 BULL (LONG)",
+      marginUsdc: 20.00,
+      leverage: 5,
+      bullRationale: "Defensa férrea de soporte clave + profundidad de compra continua.",
+      bearRationale: "Consolidación lateral con bajo volumen relativo.",
+      spreadFactor: 0.022
     },
     "AAVE-USDC": {
       symbol: "AAVE",
+      squadId: "CHARLIE",
+      squadName: "Escuadrón Charlie (#801 Ecosistema DeFi)",
       category: "DEFI_LENDING_LEADER",
       informant: "#801 Nexus-Boss",
       dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
@@ -162,6 +196,8 @@
       bearScore: 26,
       direction: "BULL",
       directionLabel: "🐂 BULL (LONG)",
+      marginUsdc: 20.00,
+      leverage: 5,
       bullRationale: "Liderazgo en protocolo lending DeFi y generación sostenida de comisiones.",
       bearRationale: "Absorción en soporte con bajo volumen de liquidaciones.",
       spreadFactor: 0.027
@@ -966,7 +1002,26 @@
       boxPairCertainty.textContent = `${certainty}% CERTEZA`;
     }
     if (boxPairSubtitle) {
-      boxPairSubtitle.textContent = `Especialista: ${pairConfig.informant} · Liquidez L2: $${(pairConfig.depthUsdc / 1000000).toFixed(1)}M · 0% Comisión Taker`;
+      boxPairSubtitle.textContent = `${pairConfig.squadName || "Escuadrón Alfa"} · Margen: $${(pairConfig.marginUsdc || 20).toFixed(2)} USDC (5x) · Liq L2: $${(pairConfig.depthUsdc / 1000000).toFixed(1)}M · 0% Taker`;
+    }
+
+    // Actualizar badges de estado de los 3 Escuadrones (Piso 2)
+    const badgeAlfa = document.getElementById("badgeAlfaState");
+    const badgeBravo = document.getElementById("badgeBravoState");
+    const badgeCharlie = document.getElementById("badgeCharlieState");
+    const currentSquadId = pairConfig.squadId || "ALFA";
+
+    if (badgeAlfa) {
+      badgeAlfa.textContent = currentSquadId === "ALFA" ? "$20 · ACTIVO" : "$20 · STANDBY";
+      badgeAlfa.className = currentSquadId === "ALFA" ? "sector-badge active font-mono" : "sector-badge font-mono";
+    }
+    if (badgeBravo) {
+      badgeBravo.textContent = currentSquadId === "BRAVO" ? "$20 · ACTIVO" : "$20 · STANDBY";
+      badgeBravo.className = currentSquadId === "BRAVO" ? "sector-badge active font-mono" : "sector-badge font-mono";
+    }
+    if (badgeCharlie) {
+      badgeCharlie.textContent = currentSquadId === "CHARLIE" ? "$20 · ACTIVO" : "$20 · STANDBY";
+      badgeCharlie.className = currentSquadId === "CHARLIE" ? "sector-badge active font-mono" : "sector-badge font-mono";
     }
 
     // Caja 02: Libro de Órdenes Hyperliquid en Vivo (Best Bid / Ask & Desequilibrio L2)

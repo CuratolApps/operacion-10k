@@ -312,21 +312,24 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
   const solSpread = parseFloat((Math.abs(mids.SOL - solKraken) / solKraken * 100).toFixed(3));
   const paxgSpread = parseFloat((Math.abs(mids.PAXG - paxgKraken) / paxgKraken * 100).toFixed(3));
 
-  // Determinar los 9 Pares Oficiales de Hyperliquid L1 Maker
+  // Determinar los 9 Pares Oficiales de Hyperliquid L1 Maker en 3 Escuadrones (1 para 3)
   const NINE_PAIRS_DEF = [
-    { key: "BTC-USDC", symbol: "BTC", specialist: "#701", name: "Oracle-Global (BTC Macro)", defaultBull: 82, depth: 28500000, spread: 0.024, rationale: "Soporte institucional $80,200 sostenido por ETFs + acumulación en libro L1." },
-    { key: "ETH-USDC", symbol: "ETH", specialist: "#601", name: "Titan-Scalper (ETH)", defaultBull: 76, depth: 19800000, spread: 0.019, rationale: "Rebote técnico en soporte con compresión de volatilidad intradía." },
-    { key: "SOL-USDC", symbol: "SOL", specialist: "#601", name: "Titan-Scalper (SOL High-Vol)", defaultBull: 85, depth: 14200000, spread: 0.026, rationale: "Volumen institucional continuo en L1 + compresión antes de ruptura." },
-    { key: "BNB-USDC", symbol: "BNB", specialist: "#601", name: "Titan-Scalper (BNB Core)", defaultBull: 68, depth: 9400000, spread: 0.022, rationale: "Defensa férrea de soporte clave + profundidad de compra continua." },
-    { key: "POL-USDC", symbol: "POL", specialist: "#601", name: "Titan-Scalper (Polygon L2)", defaultBull: 71, depth: 6800000, spread: 0.028, rationale: "Soporte en piso DEX vs CEX con absorción en niveles clave." },
-    { key: "PAXG-USDC", symbol: "PAXG", specialist: "#701", name: "Oracle-Global (Oro Físico)", defaultBull: 79, depth: 8100000, spread: 0.021, rationale: "Oro físico en máximos históricos + fuerte rotación macro de refugio." },
-    { key: "LINK-USDC", symbol: "LINK", specialist: "#701", name: "Oracle-Global (Chainlink CCIP)", defaultBull: 73, depth: 7300000, spread: 0.025, rationale: "Dominio de CCIP en liquidaciones institucionales y adopción bancaria RWA." },
-    { key: "SUI-USDC", symbol: "SUI", specialist: "#801", name: "Nexus-Boss (Sui Network)", defaultBull: 86, depth: 8900000, spread: 0.031, rationale: "Crecimiento de TVL y velocidad de ejecución L1 con absorción alcista." },
-    { key: "AAVE-USDC", symbol: "AAVE", specialist: "#801", name: "Nexus-Boss (Aave DeFi)", defaultBull: 74, depth: 6200000, spread: 0.027, rationale: "Liderazgo en protocolo lending DeFi y generación sostenida de comisiones." }
+    // ESCUADRÓN ALFA (#601 Fuerza Rápida)
+    { key: "SOL-USDC", symbol: "SOL", squadId: "ALFA", squadName: "Escuadrón Alfa (#601 Fuerza Rápida)", specialist: "#601", name: "Titan-Scalper (SOL High-Vol)", defaultBull: 85, depth: 14200000, spread: 0.026, rationale: "Volumen institucional continuo en L1 + compresión antes de ruptura." },
+    { key: "SUI-USDC", symbol: "SUI", squadId: "ALFA", squadName: "Escuadrón Alfa (#601 Fuerza Rápida)", specialist: "#601", name: "Titan-Scalper (SUI Fast-L1)", defaultBull: 86, depth: 8900000, spread: 0.031, rationale: "Crecimiento agresivo de TVL y velocidad de ejecución L1 con absorción alcista." },
+    { key: "POL-USDC", symbol: "POL", squadId: "ALFA", squadName: "Escuadrón Alfa (#601 Fuerza Rápida)", specialist: "#601", name: "Titan-Scalper (Polygon L2)", defaultBull: 71, depth: 6800000, spread: 0.028, rationale: "Soporte en piso DEX vs CEX con absorción en niveles clave." },
+    // ESCUADRÓN BRAVO (#701 Macro Refugios)
+    { key: "BTC-USDC", symbol: "BTC", squadId: "BRAVO", squadName: "Escuadrón Bravo (#701 Macro Refugios)", specialist: "#701", name: "Oracle-Global (BTC Macro)", defaultBull: 82, depth: 28500000, spread: 0.024, rationale: "Soporte institucional $80,200 sostenido por ETFs + acumulación en libro L1." },
+    { key: "PAXG-USDC", symbol: "PAXG", squadId: "BRAVO", squadName: "Escuadrón Bravo (#701 Macro Refugios)", specialist: "#701", name: "Oracle-Global (Oro Físico)", defaultBull: 79, depth: 8100000, spread: 0.021, rationale: "Oro físico en máximos históricos + fuerte rotación macro de refugio." },
+    { key: "LINK-USDC", symbol: "LINK", squadId: "BRAVO", squadName: "Escuadrón Bravo (#701 Macro Refugios)", specialist: "#701", name: "Oracle-Global (Chainlink CCIP)", defaultBull: 73, depth: 7300000, spread: 0.025, rationale: "Dominio de CCIP en liquidaciones institucionales y adopción bancaria RWA." },
+    // ESCUADRÓN CHARLIE (#801 Ecosistema DeFi)
+    { key: "ETH-USDC", symbol: "ETH", squadId: "CHARLIE", squadName: "Escuadrón Charlie (#801 Ecosistema DeFi)", specialist: "#801", name: "Nexus-Boss (ETH Core)", defaultBull: 76, depth: 19800000, spread: 0.019, rationale: "Rebote técnico en soporte con compresión de volatilidad intradía." },
+    { key: "BNB-USDC", symbol: "BNB", squadId: "CHARLIE", squadName: "Escuadrón Charlie (#801 Ecosistema DeFi)", specialist: "#801", name: "Nexus-Boss (BNB Core)", defaultBull: 68, depth: 9400000, spread: 0.022, rationale: "Defensa férrea de soporte clave + profundidad de compra continua." },
+    { key: "AAVE-USDC", symbol: "AAVE", squadId: "CHARLIE", squadName: "Escuadrón Charlie (#801 Ecosistema DeFi)", specialist: "#801", name: "Nexus-Boss (Aave DeFi)", defaultBull: 74, depth: 6200000, spread: 0.027, rationale: "Liderazgo en protocolo lending DeFi y generación sostenida de comisiones." }
   ];
 
   let highestImbalance = -1;
-  let winnerIndex = 2; // Default a SOL o SUI
+  let winnerIndex = 1; // Default a SUI o SOL
 
   const ninePairs = NINE_PAIRS_DEF.map((def, idx) => {
     const px = mids[def.symbol] || 100;
@@ -348,6 +351,8 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     return {
       key: def.key,
       symbol: def.symbol,
+      squadId: def.squadId,
+      squadName: def.squadName,
       specialist: def.specialist,
       name: def.name,
       price: px,
@@ -360,6 +365,8 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
       spreadPct: def.spread,
       depthUsdc: def.depth,
       rationale: def.rationale,
+      marginUsdc: 20.00,
+      leverage: 5,
       isWinner: false
     };
   });
@@ -568,6 +575,57 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
       statusLabel: "AGENT KEY CONECTADA & AUTORIZADA EN BLOCKCHAIN HYPERLIQUID (0% RETIRO)",
       explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
       tradeUrl: "https://app.hyperliquid.xyz/trade"
+    },
+    // ESTRUCTURA OFICIAL 3 ESCUADRONES SNIPER (1 PARA 3) + ESCUDO DE RESERVA
+    squads: {
+      ALFA: {
+        id: "ALFA",
+        name: "Escuadrón Alfa (#601 Fuerza Rápida)",
+        specialist: "#601 Titan-Scalper",
+        role: "Fuerza Rápida / Volatilidad High-Beta",
+        marginUsdc: 20.00,
+        leverage: 5,
+        notionalUsdc: 100.00,
+        pairs: ["SOL-USDC", "SUI-USDC", "POL-USDC"],
+        status: "STANDBY_CALIBRATED",
+        badge: "$20 · STANDBY"
+      },
+      BRAVO: {
+        id: "BRAVO",
+        name: "Escuadrón Bravo (#701 Macro Refugios)",
+        specialist: "#701 Oracle-Global",
+        role: "Macro & Refugios RWA",
+        marginUsdc: 20.00,
+        leverage: 5,
+        notionalUsdc: 100.00,
+        pairs: ["BTC-USDC", "PAXG-USDC", "LINK-USDC"],
+        status: "STANDBY_CALIBRATED",
+        badge: "$20 · STANDBY"
+      },
+      CHARLIE: {
+        id: "CHARLIE",
+        name: "Escuadrón Charlie (#801 Ecosistema DeFi)",
+        specialist: "#801 Nexus-Boss",
+        role: "Ecosistema DeFi & ALO Maker",
+        marginUsdc: 20.00,
+        leverage: 5,
+        notionalUsdc: 100.00,
+        pairs: ["ETH-USDC", "BNB-USDC", "AAVE-USDC"],
+        status: "STANDBY_CALIBRATED",
+        badge: "$20 · STANDBY"
+      }
+    },
+    reserveShieldUsdc: 40.02,
+    reserveShieldPct: 40.0,
+    maxCommittedUsdc: 60.00,
+    sniperRules: {
+      maxShotsPerSquad: 1,
+      holdingAllowed: false,
+      returnAsset: "100% USDC Nativo",
+      breakevenLockPct: 0.04,
+      targetProfitPct: 0.08,
+      minProfitPerShot: "+$0.15 USDC",
+      maxDurationSeconds: 45
     },
     cycleHistory: realTxs,
     recentCycles: realTxs
