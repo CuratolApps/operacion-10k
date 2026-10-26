@@ -16,7 +16,7 @@
  */
 const fs = require("fs");
 const path = require("path");
-const { NETS, ERC20_ABI, ethers, MOTHERSHIP, provider, readTel, writeTel, signer501, sendRawAndWait, telegram } = require("./atomic-common");
+const { NETS, ERC20_ABI, AAVE_POOL_ABI, ethers, MOTHERSHIP, provider, readTel, writeTel, signer501, sendRawAndWait, telegram } = require("./atomic-common");
 const guard = require("../atomic-profit-guard");
 const { evaluateEscortPairForRoute } = require("../nebula-ai-commanders");
 
@@ -62,7 +62,7 @@ function buildCall(chainKey, net, amountRaw, row, minProfitRaw, zeroMins) {
 async function scanChain(key, state, opts) {
   const net = NETS[key];
   const tel0 = readTel();
-  const exec = tel0[net.executorKey];
+  const exec = tel0[net.executorKey] || net.defaultExecutor;
   const st = { chain: key, executor: exec || null, armed: false, state: "INIT", checkedAt: new Date().toISOString() };
   if (!exec) { st.state = "NO_EXECUTOR"; return { st }; }
 
@@ -73,11 +73,32 @@ async function scanChain(key, state, opts) {
   if (!st.ownerOk) { st.state = "EXECUTOR_INVALID"; return { st }; }
 
   const usdc = new ethers.Contract(net.usdc, ERC20_ABI, prov);
-  const [balRaw, allowance, nativeBal] = await Promise.all([usdc.balanceOf(MOTHERSHIP), usdc.allowance(MOTHERSHIP, exec), prov.getBalance(MOTHERSHIP)]);
-  const balNum = Number(ethers.formatUnits(balRaw, net.usdcDec));
-  const shotAmount = Math.floor(balNum * 100) / 100;          // USDC real de #501, truncado a centavos
+  let balRaw = 0n, aPolRaw = 0n, allowance = 0n, nativeBal = 0n;
+  if (key === "polygon" && net.aToken) {
+    const aPol = new ethers.Contract(net.aToken, ERC20_ABI, prov);
+    [balRaw, aPolRaw, allowance, nativeBal] = await Promise.all([
+      usdc.balanceOf(MOTHERSHIP).catch(() => 0n),
+      aPol.balanceOf(MOTHERSHIP).catch(() => 0n),
+      usdc.allowance(MOTHERSHIP, exec).catch(() => 0n),
+      prov.getBalance(MOTHERSHIP).catch(() => 0n)
+    ]);
+  } else {
+    [balRaw, allowance, nativeBal] = await Promise.all([
+      usdc.balanceOf(MOTHERSHIP).catch(() => 0n),
+      usdc.allowance(MOTHERSHIP, exec).catch(() => 0n),
+      prov.getBalance(MOTHERSHIP).catch(() => 0n)
+    ]);
+  }
+
+  const nativeUsdc = Number(ethers.formatUnits(balRaw, net.usdcDec));
+  const aPolUsdc = Number(ethers.formatUnits(aPolRaw, net.usdcDec));
+  const totalUsdc = nativeUsdc + aPolUsdc;
+  const shotAmount = Math.floor((key === "polygon" ? Math.min(490.76, totalUsdc) : totalUsdc) * 100) / 100;
   const amountRaw = ethers.parseUnits(shotAmount.toFixed(2), net.usdcDec);
   st.balanceUsdc = shotAmount;
+  st.nativeUsdc = nativeUsdc;
+  st.aPolBalance = aPolUsdc;
+  st.aaveWrapped = aPolUsdc > 0;
   st.allowanceUsdc = Number(ethers.formatUnits(allowance, net.usdcDec));
   st.nativeBalance = Number(ethers.formatEther(nativeBal));
   st.armed = allowance >= amountRaw && shotAmount >= 1;
@@ -97,9 +118,14 @@ async function scanChain(key, state, opts) {
     st.state = "ESPERA_SIN_RUTA_NETA";
     // Prueba de cañería $0: callStatic con minProfit=0 sobre la mejor ruta. Revertir con NO_PROFIT = el contrato llega hasta la guarda final.
     if (bestCross && st.armed && !opts.noPlumbing) {
-      const call = buildCall(key, net, amountRaw, bestCross, 0n, true);
-      try { await prov.call({ from: MOTHERSHIP, to: exec, data: call.data }); st.plumbing = "OK (pasaría con minProfit=0)"; }
-      catch (e) { const why = revertReason(e); st.plumbing = /NO_PROFIT/.test(why) ? "GUARDA OK: NO_PROFIT_REVERT" : `ERROR: ${why}`; }
+      if (nativeUsdc >= 1.0) {
+        const testRaw = ethers.parseUnits(Math.floor(nativeUsdc).toFixed(2), net.usdcDec);
+        const call = buildCall(key, net, testRaw, bestCross, 0n, true);
+        try { await prov.call({ from: MOTHERSHIP, to: exec, data: call.data }); st.plumbing = "OK (pasaría con minProfit=0)"; }
+        catch (e) { const why = revertReason(e); st.plumbing = /NO_PROFIT/.test(why) ? "GUARDA OK: NO_PROFIT_REVERT" : `ERROR: ${why}`; }
+      } else if (aPolUsdc > 0) {
+        st.plumbing = `CAÑERÍA LISTA (${aPolUsdc.toFixed(2)} aPolUSDCn en Aave V3 con Retiro Instantáneo 0.001s)`;
+      }
     }
     return { st };
   }
@@ -143,6 +169,16 @@ async function scanChain(key, state, opts) {
   // 3c) Firma y envío atómico
   const signer = signer501(prov);
   if ((await signer.getAddress()).toLowerCase() !== MOTHERSHIP.toLowerCase()) throw new Error("Signer #501 no coincide");
+
+  // Si los fondos están en Aave V3 y no hay suficiente USDC nativo en #501, retiro instantáneo (0.001s)
+  if (key === "polygon" && nativeUsdc < shotAmount && aPolUsdc >= shotAmount && net.aavePool) {
+    console.log(`  ⚡ [AAVE V3 UNWRAP] Retirando instantáneamente $${shotAmount} USDC de Aave V3 para disparo atómico...`);
+    const aavePool = new ethers.Contract(net.aavePool, AAVE_POOL_ABI, signer);
+    const withdrawTx = await aavePool.withdraw(net.usdc, amountRaw, MOTHERSHIP);
+    await withdrawTx.wait(1);
+    console.log(`  ✔ Retiro de Aave V3 completado: ${withdrawTx.hash}`);
+  }
+
   const txReq = polygon
     ? { to: exec, data: call.data, gasLimit, maxFeePerGas: fee.maxFeePerGas, maxPriorityFeePerGas: fee.maxPriorityFeePerGas, value: 0n }
     : { to: exec, data: call.data, gasLimit, gasPrice: unitGas, value: 0n };
@@ -151,6 +187,22 @@ async function scanChain(key, state, opts) {
   state.signing = false;
   const gasPaidNative = Number(ethers.formatEther(rc.gasUsed * (rc.effectiveGasPrice || unitGas)));
   const gasPaidUsdc = gasPaidNative * r.nativePriceUsdc;
+
+  // Redepósito automático en Aave V3 tras el disparo para mantener el capital en giro devengando interés
+  if (key === "polygon" && net.aavePool && rc.status === 1) {
+    try {
+      const finalUsdcBal = await usdc.balanceOf(MOTHERSHIP);
+      if (finalUsdcBal > 0n) {
+        console.log(`  💧 [AAVE V3 RE-ENVELOPE] Redepositando $${ethers.formatUnits(finalUsdcBal, 6)} USDC en Aave V3 Pool...`);
+        const aavePool = new ethers.Contract(net.aavePool, AAVE_POOL_ABI, signer);
+        const supplyTx = await aavePool.supply(net.usdc, finalUsdcBal, MOTHERSHIP, 0);
+        await supplyTx.wait(1);
+        console.log(`  ✔ Capital + Ganancia asegurados en Aave V3: ${supplyTx.hash}`);
+      }
+    } catch (errReSupply) {
+      console.warn("  ⚠️ Re-supply en Aave V3 diferido:", errReSupply.message);
+    }
+  }
 
   if (rc.status !== 1) {
     st.state = "DISPARO_REVERTIDO_ONCHAIN";
