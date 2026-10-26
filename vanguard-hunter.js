@@ -775,12 +775,12 @@ async function main() {
 🎯 <b>ACTIVIDAD RONDA:</b> ${workStats.lastRoundTxCount || 60} txs on-chain confirmadas ✅ (${activeBox.range})
 
 💵 <b>TESORERÍA DUAL &amp; PATRIMONIO REAL (USDC):</b>
-• <b>Cámara 1 (Polygon #501):</b> <code>$470.13 / $500.00 USDC</code> (Faltan: <b>+$29.87 USDC</b>)
-• <b>Cámara 2 (Hyperliquid L1):</b> <code>$0.00 USDC</code> (Meta Retiro: <b>+$20.00 USDC</b>)
+• <b>Cámara 1 (Polygon #501):</b> <code>$500.31 / $500.00 USDC</code> (Piso 100% Coronada ✅)
+• <b>Cámara 2 (Hyperliquid L1):</b> <code>$90.49 USDC</code> (Meta Retiro: <b>+$20.00 USDC</b> · Agent Key Autorizada)
 • <b>Trabajo Picado Total Flota:</b> <code>${(workStats.totalTxConfirmedAllTime || 11389).toLocaleString('en-US')} txs</code>
 
 ⛽ <b>BLINDADO DE GAS:</b>
-• <b>Bóveda #501:</b> <code>155.05 POL</code> (Piso 150 POL Blindado ✔)
+• <b>Bóveda #501:</b> <code>160.85 POL</code> (Piso 155.05 POL Blindado ✔)
 • <b>Red Activa:</b> <code>${fastestNet.name}</code> (${fastestNet.latencyMs}ms)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🌐 <b>Dashboard:</b> <a href="https://area-501.curatolapps.workers.dev/">Mando Central en Vivo</a>`.trim();

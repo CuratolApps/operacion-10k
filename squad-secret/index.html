@@ -46,20 +46,20 @@
     <div class="nav-card" id="cardCapitalTop" title="Motor Dual: Cámara 1 ($500 USDC Polygon 0% Riesgo) + Cámara 2 (Arbitrum/Hyperliquid L1 + Meta 20 USDC)">
       <div class="card-meta">
         <span class="card-tag gold">💰 CAPITAL OPERATIVO #501</span>
-        <span class="card-pill font-mono green-pill" id="vaultGasStatus">BÓVEDA #501 · $470.13</span>
+        <span class="card-pill font-mono green-pill" id="vaultGasStatus">BÓVEDA #501 · $500.00</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
-          $470.13 <span class="metric-sub">/ $500.00 USDC</span>
+          $500.00 <span class="metric-sub">/ $500.00 USDC</span>
         </div>
       </div>
-      <div class="progress-wrap" title="Cámara 1: $470.13 en Polygon (0% Riesgo). Excedente > $500 a Hyperliquid L1 con Meta 20 USDC">
+      <div class="progress-wrap" title="Cámara 1: $500.00 en Polygon (0% Riesgo). Excedente a Hyperliquid L1 con Meta 20 USDC">
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 94.02%;"></div>
+          <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 100%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topProgressPct" class="green-text font-bold">Polygon: $470.13 (0% Riesgo)</span>
-          <span id="topRemainingUsdc" class="gold-text">Faltan $29.87 ➔ Meta HL: +$20 USDC</span>
+          <span id="topProgressPct" class="green-text font-bold">Polygon: $500.00 / $500.00 USDC (100% Coronada)</span>
+          <span id="topRemainingUsdc" class="gold-text">HL L1: $90.49 USDC · Meta: +$20 USDC</span>
         </div>
       </div>
     </div>
@@ -443,7 +443,7 @@
               🔍 Escaneando Orderbook L2 de Hyperliquid: esperando desequilibrio comprador &ge; 65% para colocar orden Maker ALO con riesgo $0.00.
             </div>
             <div class="box-meta-line font-mono" id="boxOperationSubText">
-              Bóveda #501: $470.13 USDC · Agent Key Sin Permiso de Retiro · Máx 1 Operación Concurrente
+              Bóveda #501: $500.00 USDC · Agent Key Sin Permiso de Retiro · Máx 1 Operación Concurrente
             </div>
           </div>
         </div>
@@ -476,7 +476,7 @@
         <div class="squad-term-line">
           <span class="squad-term-time">[08:30:02]</span>
           <span class="squad-term-tag floor">[PISO]</span>
-          <span class="squad-term-msg">Bóveda Nodriza #501: <strong>$470.13 USDC</strong> consolidado (Meta: $500.00).</span>
+          <span class="squad-term-msg">Bóveda Nodriza #501: <strong>$500.00 USDC</strong> consolidado (Meta $500.00 Coronada ✅).</span>
         </div>
         <div class="squad-term-line">
           <span class="squad-term-time">[08:30:03]</span>
@@ -587,11 +587,11 @@
           </div>
           <div class="modal-row">
             <span class="label">Saldo en Bóveda #501 (Polygon):</span>
-            <span class="value font-mono gold-text font-bold" id="modalPolygonBalance">$470.13 USDC Nativo</span>
+            <span class="value font-mono gold-text font-bold" id="modalPolygonBalance">$500.31 USDC Nativo (100% Coronada)</span>
           </div>
           <div class="modal-row">
             <span class="label">Saldo Operativo en Hyperliquid L1:</span>
-            <span class="value font-mono cyan-text font-bold" id="modalHlBalance">$0.00 USDC</span>
+            <span class="value font-mono cyan-text font-bold" id="modalHlBalance">$90.49 USDC</span>
           </div>
           <div class="modal-row">
             <span class="label">Agent Key Oficial:</span>
@@ -603,8 +603,8 @@
           </div>
           <div class="modal-row" style="align-items:flex-start;">
             <span class="label" style="white-space:nowrap;">Estado Agent Key:</span>
-            <span class="value font-mono font-bold" id="modalAgentStatus" style="font-size:8px; line-height:1.3; color:#d97706; text-align:right;">
-              🟡 LLAVE LISTA EN LOCAL — ESPERANDO PRIMER DEPÓSITO (&gt; $0 USDC) PARA ACTIVAR EN HYPERLIQUID
+            <span class="value font-mono font-bold" id="modalAgentStatus" style="font-size:8px; line-height:1.3; color:#16a34a; text-align:right;">
+              🟢 CONECTADA &amp; AUTORIZADA EN BLOCKCHAIN HYPERLIQUID
             </span>
           </div>
           <div class="modal-row">
@@ -652,7 +652,7 @@
           </div>
           <div class="modal-row">
             <span class="label">Saldo Disponible en #501:</span>
-            <span class="value font-mono gold-text font-bold">$470.13 USDC</span>
+            <span class="value font-mono gold-text font-bold">$500.31 USDC (Piso Protegido)</span>
           </div>
           <div class="modal-row">
             <span class="label">Monto de Prueba sugerido:</span>
@@ -680,7 +680,7 @@
           <strong>Ruta de Fondos Asistida:</strong> Transfiere USDC desde la Bóveda #501 hacia el contrato puente de Hyperliquid. Los fondos se acreditan inmediatamente en el Clearinghouse L1 a nombre de la #501. Una vez allí, el Squad ejecuta órdenes ALO Post-Only con $0.00 gas para siempre.
         </div>
         <div id="hlDepositValidationStatus" class="font-mono" style="font-size:8.5px; color:#047857; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:4px; padding:6px 8px;">
-          🟢 Tubería de puente verificada: Bóveda #501 lista con $470.13 USDC y Agent Key autorizada.
+          🟢 Tubería de puente verificada: Bóveda #501 fondeada con $90.49 USDC en L1 y Agent Key autorizada en blockchain.
         </div>
       </div>
       <div class="squad-modal-footer">

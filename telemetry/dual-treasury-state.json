@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T13:10:13.864Z",
+  "updatedAt": "2026-10-26T13:40:00.577Z",
   "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
   "gasShield": {
     "currentPol": 155.05,
@@ -7,37 +7,26 @@
     "status": "100% BLINDADO"
   },
   "chamber1_polygon": {
-    "currentUsdc": 470.13,
+    "currentUsdc": 500.31,
     "floorGoalUsdc": 500,
-    "remainingUsdc": 29.87,
-    "progressPct": 94.03,
+    "remainingUsdc": 0,
+    "progressPct": 100,
     "rotation": {
       "aaveV3ApyPct": 4.85,
-      "aPolUsdcBalance": 470.13,
-      "flashArbitragePairs": [
-        "USDC/WPOL 0.05%",
-        "USDC/WETH 0.01%"
-      ],
-      "flashLock": "NO_PROFIT_REVERT (Mismo Bloque)",
-      "keeperBounties": "Monitoreo V3 Liquidation Pools",
-      "status": "AVANZANDO: $470.13 / $500.00 (Faltan $29.87 USDC)"
+      "aPolUsdcBalance": 500.31,
+      "status": "CORONADA: $500.00 / $500.00 USDC (Piso Fijo Protegido 100%)"
     }
   },
   "chamber2_hyperliquid": {
-    "l1AccountValueUsdc": 0,
+    "l1AccountValueUsdc": 90.49,
     "l1WithdrawableUsdc": 0,
     "agentKey": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
     "agentPermissions": "POST-ONLY ALO MAKER (0% RETIRO)",
     "feeMakerPct": 0.015,
     "gasCostL1": "$0.00",
-    "breakevenLock": "+0.04% ($0 Pérdida)",
-    "takeProfitTarget": "+0.08% / +0.15%",
-    "accumulatedProfitL1Usdc": 0,
     "harvestTargetUsdc": 20,
-    "harvestCyclesCompleted": 0,
-    "currentHarvestProgressUsdc": 0,
-    "harvestReady": false,
-    "harvestAction": "Acumulando meta +$20.00 USDC ($0/$20.00 USDC)"
+    "harvestAction": "Operando Maker en L1 (Meta Retiro: +$20.00 USDC)",
+    "agentAuthorizedOnChain": true
   },
   "routingPolicy": {
     "description": "Recepción de POL en #501 ➔ Gas Shield (155.05 POL) ➔ Piso Polygon ($500 USDC) ➔ Excedente a Arbitrum/HL L1",

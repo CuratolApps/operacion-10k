@@ -59,24 +59,25 @@ function loadRealLedger() {
   }
   return {
     updatedAt: new Date().toISOString(),
-    baseOnChainUsdc: 470.13,
+    baseOnChainUsdc: 601.53,
     breakdownOnChain: {
-      polygon501Usdc: 459.40,
+      polygon501Usdc: 500.31,
+      hyperliquidL1Usdc: 90.49,
       capitanesUsdc: 1.75,
       bscUsdc: 7.98,
       binanceSpotUsdc: 1.00,
-      totalBaseOnChain: 470.13
+      totalBaseOnChain: 601.53
     },
     realWins: 0,
     realLosses: 0,
     realWinRatePct: 100.0,
     realPnlUsdc: 0.00,
-    totalConsolidatedUsdc: 470.13,
-    currentSettledBlock: 450.00,
-    nextMilestoneBlock: 500.00,
-    remainingToNextBlock: 29.87,
-    progressToNextBlockPct: 40.3,
-    gasSelfHealStatus: "155.05 POL INTACTO",
+    totalConsolidatedUsdc: 601.53,
+    currentSettledBlock: 500.00,
+    nextMilestoneBlock: 1000.00,
+    remainingToNextBlock: 398.47,
+    progressToNextBlockPct: 60.2,
+    gasSelfHealStatus: "160.85 POL INTACTO (Piso 155.05 BLINDADO)",
     realTransactions: []
   };
 }

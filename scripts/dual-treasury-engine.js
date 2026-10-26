@@ -99,8 +99,8 @@ async function runDualTreasuryEngine() {
   const hlState = await fetchHyperliquidState();
 
   // Saldos base actuales auditados en #501
-  const polygonCurrentUsdc = 470.13;
-  const polygonCurrentPol = 155.05;
+  const polygonCurrentUsdc = 500.31;
+  const polygonCurrentPol = 160.85;
   const remainingToFloorUsdc = Math.max(0, +(POLYGON_FLOOR_USDC - polygonCurrentUsdc).toFixed(2));
 
   // 1. Auditoría de Gas Shield

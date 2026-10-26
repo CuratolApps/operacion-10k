@@ -127,13 +127,13 @@ async function handleTesoreria(chatId) {
   const c2 = dState.chamber2_hyperliquid || {};
   const gas = dState.gasShield || {};
 
-  const c1Usdc = Number(c1.currentUsdc || 470.13).toFixed(2);
+  const c1Usdc = Number(c1.currentUsdc || 500.31).toFixed(2);
   const c1Goal = Number(c1.floorGoalUsdc || 500).toFixed(2);
-  const c1Rem = Number(c1.remainingUsdc || 29.87).toFixed(2);
-  const c1Pct = Number(c1.progressPct || 94.03).toFixed(1);
+  const c1Rem = Number(c1.remainingUsdc || 0).toFixed(2);
+  const c1Pct = Number(c1.progressPct || 100).toFixed(1);
   const aaveApy = c1.rotation?.aaveV3ApyPct || 4.85;
 
-  const c2Usdc = Number(c2.l1AccountValueUsdc || 0).toFixed(2);
+  const c2Usdc = Number(c2.l1AccountValueUsdc || 90.49).toFixed(2);
   const c2Goal = Number(c2.harvestTargetUsdc || 20).toFixed(2);
   const c2Acc = Number(c2.accumulatedProfitL1Usdc || 0).toFixed(2);
 
@@ -142,8 +142,8 @@ async function handleTesoreria(chatId) {
 <i>Arquitectura de Capitalización Perpetua 100% USDC</i>
 
 📦 <b>Cámara 1 (Polygon — 0% Riesgo):</b>
-• <b>Saldo Consolidado:</b> <b>$${c1Usdc} / $${c1Goal} USDC</b> (${c1Pct}%)
-• <b>Faltante para Piso Sagrado:</b> $${c1Rem} USDC
+• <b>Saldo Consolidado:</b> <b>$${c1Usdc} / $${c1Goal} USDC</b> (${c1Pct}% - CORONADA ✅)
+• <b>Estado Piso Sagrado:</b> $${c1Goal} USDC Asegurados e Inviolables
 • <b>Rendimiento Activo:</b> Aave V3 (${aaveApy}% APY) + Sniping Atómico
 • <b>Candado Atómico:</b> <code>NO_PROFIT_REVERT</code> (Mismo bloque)
 

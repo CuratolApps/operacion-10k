@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "timestamp": "2026-10-26T13:40:00.574Z",
+  "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "polygonGasShield": {
+    "currentPol": 160.8501,
+    "sacredFloorPol": 155.05,
+    "status": "100% BLINDADO Y SEGURO"
+  },
+  "chamber1_polygon": {
+    "floorTargetUsdc": 500,
+    "finalVaultUsdc": 500.31,
+    "crowned": true,
+    "swapTxHash": "0xf80f58d64bae914e96b979a17ccd2cf02eb6b1b71df546e0500df7bedcb44996",
+    "polygonscanUrl": "https://polygonscan.com/tx/0xf80f58d64bae914e96b979a17ccd2cf02eb6b1b71df546e0500df7bedcb44996"
+  },
+  "chamber2_hyperliquid": {
+    "bridgeEthTxHash": "0xd9b3f3731afe6485e3b9711a7412d044ab9fc7cfe43738088244fad4e81d8b1b",
+    "bridgeUsdcTxHash": "0x061115c5eb5d3e7c1b70bac66865a47564cc288e0ae01bdc5902d4f94ba487c1",
+    "hyperliquidDepositTxHash": "0x231c7ec10a0c8ad5eaa99633d6347b381a71229dec2101f05de654bc1ceffbae",
+    "accountValueUsdc": 90.491668,
+    "agentKey": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
+    "agentName": "SquadSecret501",
+    "agentApproved": true,
+    "permissions": "POST-ONLY ALO MAKER (0% RETIRO)"
+  }
+}

@@ -168,35 +168,39 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
 const DUAL_TREASURY_FILE = path.join(__dirname, "telemetry", "dual-treasury-state.json");
 
 function getExecutiveStatusHeader() {
-  let polyUsdc = 470.13;
+  let polyUsdc = 500.31;
   let floorGoal = 500.00;
-  let remaining = 29.87;
-  let hlBal = 0.00;
+  let remaining = 0.00;
+  let hlBal = 90.49;
   let harvestTarget = 20.00;
-  let gasPol = 155.05;
+  let gasPol = 160.85;
 
   try {
     if (fs.existsSync(DUAL_TREASURY_FILE)) {
       const dt = JSON.parse(fs.readFileSync(DUAL_TREASURY_FILE, "utf8"));
       if (dt.chamber1_polygon) {
-        polyUsdc = Number(dt.chamber1_polygon.currentUsdc || 470.13);
+        polyUsdc = Number(dt.chamber1_polygon.currentUsdc || 500.31);
         floorGoal = Number(dt.chamber1_polygon.floorGoalUsdc || 500.00);
         remaining = Number(dt.chamber1_polygon.remainingUsdc ?? Math.max(0, floorGoal - polyUsdc));
       }
       if (dt.chamber2_hyperliquid) {
-        hlBal = Number(dt.chamber2_hyperliquid.l1AccountValueUsdc || 0.00);
+        hlBal = Number(dt.chamber2_hyperliquid.l1AccountValueUsdc || 90.49);
         harvestTarget = Number(dt.chamber2_hyperliquid.harvestTargetUsdc || 20.00);
       }
       if (dt.gasShield) {
-        gasPol = Number(dt.gasShield.currentPol || 155.05);
+        gasPol = Number(dt.gasShield.currentPol || 160.85);
       }
     }
   } catch (_) {}
 
+  const c1Status = polyUsdc >= floorGoal
+    ? `<code>$${polyUsdc.toFixed(2)} / $${floorGoal.toFixed(2)} USDC</code> (Piso 100% Coronada ✅) · Rotando en Aave V3 + Sniping Atómico`
+    : `<code>$${polyUsdc.toFixed(2)} / $${floorGoal.toFixed(2)} USDC</code> (Faltan $${remaining.toFixed(2)}) · Rotando en Aave V3 + Sniping Atómico`;
+
   return `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>
-• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$${polyUsdc.toFixed(2)} / $${floorGoal.toFixed(2)} USDC</code> (Faltan $${remaining.toFixed(2)}) · Rotando en Aave V3 + Sniping Atómico
+• <b>Cámara 1 (Polygon 0% Riesgo):</b> ${c1Status}
 • <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$${hlBal.toFixed(2)} USDC</code> · Meta Retiro: <b>+$${harvestTarget.toFixed(2)} USDC</b> ($0.00 Gas · 0.015% Fee)
 • <b>Gas Blindado Intocable:</b> <code>${gasPol.toFixed(2)} POL (#501)</code> + <code>300.02 POL (Flota X500)</code>
 🌐 <b>Dashboard Directo:</b> <a href="https://area-501.curatolapps.workers.dev/">area-501.curatolapps.workers.dev</a>
