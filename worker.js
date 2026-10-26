@@ -977,7 +977,7 @@ export default {
             agentKey: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8 (SquadSecret501)",
             agentStatus: "⏸️ PAUSADO PREVENTIVO PARA AUDITORÍA DE BOTS (0% RETIRO)",
             tradingMode: "PAUSADO PREVENTIVO (CERO ÓRDENES ACTIVAS)",
-            explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+            explorerUrl: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
           },
           vault501Arbitrum: {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",

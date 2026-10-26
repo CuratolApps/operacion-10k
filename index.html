@@ -430,6 +430,58 @@
       border-color: var(--win-primary);
     }
 
+    /* Pastilla fija Hyperliquid L1 (Cristal Esmerilado & Verde/Oro Institucional) */
+    .hyperliquid-direct-pill {
+      font-family: var(--font-code);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(240, 253, 244, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #047857;
+      text-decoration: none;
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      box-shadow: 0 1px 3px rgba(16, 185, 129, 0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .hyperliquid-direct-pill:hover {
+      background: rgba(220, 252, 231, 0.95);
+      border-color: #10b981;
+      color: #065f46;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .hyperliquid-direct-pill .material-symbols-rounded {
+      font-size: 11px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+      font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 20;
+    }
+
+    .hyperliquid-direct-pill.top-bar-pill {
+      padding: 2px 7px;
+      font-size: 8.5px;
+      background: rgba(254, 243, 199, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.4);
+      color: #92400e;
+    }
+
+    .hyperliquid-direct-pill.top-bar-pill:hover {
+      background: rgba(254, 243, 199, 0.95);
+      border-color: #b45309;
+      color: #78350f;
+    }
+
     /* ========================================================================= */
     /* TABLA ESTILO WINDOWS EXPLORER / TASK MANAGER (CAPITANES)                  */
     /* ========================================================================= */
@@ -871,7 +923,10 @@
     <div class="win-metric-card" title="Fondos líquidos on-chain en Bóveda Matriz #501 (Polygon &amp; Arbitrum/HL &amp; BSC)">
       <div class="win-metric-head">
         <span>🏛️ Bóveda Matriz #501</span>
-        <span class="block-badge badge-blue">MULTI-CHAIN</span>
+        <a href="https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="hyperliquid-direct-pill top-bar-pill" title="Ver saldos y Perps en vivo en Hyperliquid L1">
+          <span class="material-symbols-rounded">open_in_new</span>
+          <span>HYPERLIQUID L1</span>
+        </a>
       </div>
       <div class="win-metric-val val-blue">
         <span id="valVault501Usdc">$598.76</span>
@@ -975,8 +1030,9 @@
             <a href="https://arbiscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
               <span>↗</span> ARBISCAN
             </a>
-            <a href="https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
-              <span>↗</span> HYPERLIQUID L1
+            <a href="https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="hyperliquid-direct-pill" title="Ver saldos y Perps en vivo en Hyperliquid L1">
+              <span class="material-symbols-rounded">open_in_new</span>
+              <span>HYPERLIQUID L1</span>
             </a>
             <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
               <span>↗</span> BSCSCAN
