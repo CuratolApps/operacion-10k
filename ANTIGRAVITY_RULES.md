@@ -1,0 +1,31 @@
+# ⚖️🏛️ CONSTITUCIÓN FINANCIERA INQUEBRANTABLE // PROYECTO ÁREA 501
+================================================================================
+REGLA SUPREMA: 100% VERDAD ON-CHAIN AUDITABLE // CERO SIMULACIÓN (ZERO_SIMULATION_LAW)
+================================================================================
+
+Este es un proyecto financiero real, serio y de alta precisión. Cada dólar proviene del esfuerzo y sacrificio directo del Comandante.
+Cualquier agente de IA, desarrollador o proceso automatizado DEBE ACATAR estas 4 leyes sin excepción ni atenuantes:
+
+### 1. PROHIBICIÓN ABSOLUTA DE DATOS FALSOS O SIMULADOS (`ZERO_SIMULATION_LAW`):
+- Queda TERMINANTEMENTE PROHIBIDO usar `Math.random()`, multiplicadores sintéticos por tiempo transcurrido (`Date.now() - startTime`), `mock`, `demo`, `fallback` inventado o sumar intereses proyectados al capital real.
+- Ningún saldo en `Mando Central` (`index.html`), `Squad Secret`, `Flota X500` ni `Telegram` puede mostrar un centavo que no provenga directamente de llamadas `balanceOf()` reales a contratos en la blockchain (PolygonScan, Arbiscan, BscScan, Hyperliquid L1 Info API).
+
+### 2. CONTABILIDAD FORENSE ESTRICTA DE CAPITAL Y PNL:
+- **Principal Base Inyectado Intocable:** **$598.76 USDC**
+  * **Polygon Bóveda #501:** `$490.76 USDC` (Contrato Nativo Circle: `0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359` / aPolUSDCn: `0xA4D94019934D8333Ef880ABFFbF2FDd611C762BD`).
+  * **Hyperliquid L1:** `$100.02 USDC` (Bóveda `#501`).
+  * **BNB Smart Chain (BSC):** `$7.98 USDC` (Bóveda `#501`).
+  * **Binance Spot:** `$1.00 USDC`.
+- **PnL Operativo (`realNetPnlUsdc`):**
+  * Es estrictamente: `Saldo_Físico_OnChain_Actual - Principal_Base_Inyectado ($598.76)`.
+  * Si hoy la suma on-chain es `$598.76`, el PnL Operativo es estrictamente `$0.00`. Jamás se inventan centavos ni se añaden deltas sintéticos (como el falso `+$0.4950`).
+- **Interés Real Acumulado:**
+  * Solo puede ser mayor a `$0.0000 USDC` si `aTokenBalance > 0` y la suma real física de `balanceOf(USDC) + balanceOf(aPolUSDCn)` excede el principal base de `$490.763151 USDC`.
+
+### 3. SEGURIDAD DE LLAVES Y GAS SAGRADO:
+- PROHIBIDO leer, imprimir, transferir o exponer archivos `.env`, frases mnemónicas o claves privadas en terminales, logs o respuestas.
+- **Piso Sagrado Intocable de Gas en #501:** **155.05 POL** (`STRICT_NO_GAS_SELL = true`). Jamás se drena combustible por debajo de este umbral.
+
+### 4. AUDITORÍA REAL EN FLOTA X500 Y TELEGRAM:
+- PROHIBIDO saltar contadores de `20/500` a `500/500` sin haber ejecutado las transacciones reales en los 25 lotes.
+- PROHIBIDO enviar alertas viejas repetidas a Telegram (como la alerta histórica de "FONDOS DE KRAKEN LIBERADOS" o duplicar/triplicar mensajes).

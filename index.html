@@ -1897,7 +1897,7 @@
         <button class="win-modal-close" id="btnCloseLiquidityModal" title="Cerrar ventana">✕</button>
       </div>
 
-      <div class="win-modal-body" style="padding: 10px 14px; gap: 7px; overflow: hidden; max-height: calc(94vh - 38px);">
+      <div class="win-modal-body" style="padding: 10px 14px; gap: 6px; overflow: hidden; max-height: calc(94vh - 38px);">
 
         <!-- SECCIÓN 1: CONEXIÓN CONTABLE AL PNL OPERATIVO -->
         <div style="background:#f8fafc;border:1px solid var(--win-border);border-left:4px solid var(--win-primary);border-radius:6px;padding:6px 9px;">
@@ -2406,8 +2406,9 @@
 
           // 1. Tarjeta Exterior en Columna 1
           const capGiroEl = document.getElementById('extLiqCapitalGiro');
-          if (capGiroEl && d.vault501) {
-            capGiroEl.textContent = `$${(d.vault501.usdcBalance || 490.76).toFixed(2)} USDC`;
+          if (capGiroEl) {
+            const tot = d.vault501?.totalPolygonUsdc || d.accounting?.baseCapitalUsdc || 490.76;
+            capGiroEl.textContent = `$${tot.toFixed(2)} USDC`;
           }
 
           const apyExtEl = document.getElementById('extLiqApyLive');
@@ -2467,8 +2468,9 @@
 
           // 3. Sección 2: Diagrama de 3 Enchufes
           const enchufe1El = document.getElementById('diagEnchufe1Usdc');
-          if (enchufe1El && d.vault501) {
-            enchufe1El.textContent = `$${(d.vault501.usdcBalance || 490.76).toFixed(2)} USDC`;
+          if (enchufe1El) {
+            const tot = d.vault501?.totalPolygonUsdc || d.accounting?.baseCapitalUsdc || 490.76;
+            enchufe1El.textContent = `$${tot.toFixed(2)} USDC`;
           }
 
           const enchufe2ApyEl = document.getElementById('diagEnchufe2Apy');

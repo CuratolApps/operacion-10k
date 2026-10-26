@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-10-26T19:38:17.638Z",
+  "timestamp": "2026-10-26T19:41:13.369Z",
   "vault501Address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
-  "polygonScanUrl": "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
-  "usdcNativeBalance": 490.76,
-  "aPolUsdcBalance": 0,
-  "totalUsdc": 490.76,
-  "polGasBalance": 155.24104958118818,
-  "allowanceUsdc": 0,
+  "polygonScanVault": "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "usdcNativeBalance": 0,
+  "aPolUsdcBalance": 491.255008,
+  "totalUsdc": 491.255008,
   "supplyApyPct": 3.48,
   "dailyYieldForecastUsdc": 0.0468,
-  "monthlyYieldForecastUsdc": 1.4,
+  "status": "AAVE_V3_ACTIVE",
   "withdrawalGuarantee": "1:1 en 0.001s (Cero Bloqueo)",
-  "status": "NATIVE_USDC_READY"
+  "txHashApprove": "0xd16f72cf4e03554e8f4b43f2da3b5cd71aaec2487ab46a9d313fd4b7af391f1d",
+  "txHashSupply": "0x5155282e7d18766e863855a61add3b209a2877b40bad8f5896dd1c49de98ccdd",
+  "polygonScanTxUrl": "https://polygonscan.com/tx/0x5155282e7d18766e863855a61add3b209a2877b40bad8f5896dd1c49de98ccdd"
 }
