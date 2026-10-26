@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-10-26T14:48:47.067Z",
+  "polygonBridgeTxHash": "0xef71195f048152a13eaaa665ea710311ba2854976b86c7c740a18606386aa57c",
+  "arbitrumDepositTxHash": "0xc50c9642d33ca326633ec52bdd9031b8a976861db76483516318bcd363c8a458",
+  "polygonUsdc": 490.758166,
+  "hyperliquidL1Usdc": 100.016791,
+  "gasPol": 160.78509814397358,
+  "motorStatus": "PAUSED_PREVENTIVE_AUDIT"
+}

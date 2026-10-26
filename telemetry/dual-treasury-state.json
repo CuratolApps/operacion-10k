@@ -1,47 +1,43 @@
 {
-  "updatedAt": "2026-10-26T13:40:00.577Z",
+  "updatedAt": "2026-10-26T14:49:00.000Z",
   "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
   "gasShield": {
-    "currentPol": 155.05,
+    "currentPol": 160.79,
     "floorPol": 155.05,
     "status": "100% BLINDADO"
   },
   "chamber1_polygon": {
-    "currentUsdc": 500.31,
+    "currentUsdc": 490.76,
     "floorGoalUsdc": 500,
-    "remainingUsdc": 0,
-    "progressPct": 100,
+    "remainingUsdc": 9.24,
+    "progressPct": 98.15,
     "rotation": {
       "aaveV3ApyPct": 4.85,
-      "aPolUsdcBalance": 500.31,
-      "status": "CORONADA: $500.00 / $500.00 USDC (Piso Fijo Protegido 100%)"
+      "aPolUsdcBalance": 490.76,
+      "status": "Piso Base: $490.76 USDC (0% Riesgo) · Excedente Fondeado a HL L1"
     }
   },
   "chamber2_hyperliquid": {
-    "l1AccountValueUsdc": 90.49,
-    "l1WithdrawableUsdc": 0,
+    "l1AccountValueUsdc": 100.02,
+    "l1WithdrawableUsdc": 100.02,
     "agentKey": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
     "agentPermissions": "POST-ONLY ALO MAKER (0% RETIRO)",
     "feeMakerPct": 0.015,
     "gasCostL1": "$0.00",
     "harvestTargetUsdc": 20,
-    "harvestAction": "Operando Maker en L1 (Meta Retiro: +$20.00 USDC)",
-    "agentAuthorizedOnChain": true
+    "harvestAction": "⏸️ PAUSADO PARA AUDITORÍA PRE-ARRANQUE",
+    "agentAuthorizedOnChain": true,
+    "motorActive": false,
+    "executionMode": "PAUSED_PREVENTIVE_AUDIT"
   },
   "routingPolicy": {
-    "description": "Recepción de POL en #501 ➔ Gas Shield (155.05 POL) ➔ Piso Polygon ($500 USDC) ➔ Excedente a Arbitrum/HL L1",
+    "description": "Cámara 1 Polygon ($490.76 USDC) + Cámara 2 Hyperliquid L1 ($100.02 USDC) + BSC ($7.98 USDC)",
     "gasShieldFloorPol": 155.05,
     "polygonFloorUsdc": 500,
-    "arbitrumGasReserveEthUsd": 1.5,
-    "currentDeficitToFloorUsdc": 29.87,
-    "exampleSimulation": {
-      "incomingPol": 0,
-      "convertedToPolygonFloorUsdc": 0,
-      "surplusRoutedToHyperliquidUsdc": 0
-    }
+    "arbitrumGasReserveEthUsd": 1.96
   },
   "livePrices": {
-    "polPriceUsd": 0.09003,
-    "ethPriceUsd": 2317.84
+    "polPriceUsd": 0.0903,
+    "ethPriceUsd": 2320.00
   }
 }

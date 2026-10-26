@@ -4,7 +4,7 @@
  * CONTROLADOR FRONTEND 100% ENFOCADO EN HYPERLIQUID L1 MAKER (ALO $0.00 GAS):
  * - CERO PISCINAS DEX (Uniswap/QuickSwap/PancakeSwap purgados completamente)
  * - Telemetría real Hyperliquid L1 (<150ms WebSocket directo & REST con cache de 1s)
- * - Saldos reales On-Chain Bóveda #501 ($500.31 USDC en Polygon / $90.49 USDC en HL L1)
+ * - Saldos reales On-Chain Bóveda #501 ($490.76 USDC en Polygon / $100.02 USDC en HL L1)
  * - Regla estricta e inviolable: MÁXIMO 1 OPERACIÓN A LA VEZ
  * - Post-Only Maker (ALO): Fee Maker 0.015% | $0.00 Gas de red
  * - Candado Breakeven Mentora #00 a +0.04% ($0.00 pérdida) ➔ TP +0.08% / +0.15%
@@ -17,7 +17,7 @@
 
   // Estado Local del Motor
   let currentTelemetry = window.__PRELOADED_SQUAD_SECRET__ || null;
-  let activeExecutionMode = "LIVE_MAKER_ACTIVE"; // 'LIVE_MAKER_ACTIVE', 'PAUSED', 'EMERGENCY_STOPPED'
+  let activeExecutionMode = "PAUSED"; // 'LIVE_MAKER_ACTIVE', 'PAUSED', 'EMERGENCY_STOPPED' (Pausa Preventiva para Auditoría)
   let isAuditingL2 = false;
   let selectedSquadPair = "SUI-USDC"; // Par activo en pantalla
   let manualLockedPair = null; // Par fijado explícitamente por clic del Comandante (null = sigue al Campeón)
@@ -710,9 +710,9 @@
       });
       if (hlRes.ok) {
         const hlState = await hlRes.json();
-        const l1Bal = parseFloat(hlState.marginSummary?.accountValue || "90.49") || 90.49;
+        const l1Bal = parseFloat(hlState.marginSummary?.accountValue || "100.02") || 100.02;
         syncClearinghouseUI({
-          polygonUsdc: 500.31,
+          polygonUsdc: 490.76,
           hyperliquidL1Usdc: l1Bal,
           agentKey: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8"
         });
@@ -722,8 +722,8 @@
 
   function syncClearinghouseUI(data) {
     if (!data) return;
-    const polyUsdc = typeof data.polygonUsdc === "number" ? data.polygonUsdc : (data.polygon501Usdc || 500.31);
-    const l1Usdc = typeof data.hyperliquidL1Usdc === "number" ? data.hyperliquidL1Usdc : 90.49;
+    const polyUsdc = typeof data.polygonUsdc === "number" ? data.polygonUsdc : (data.polygon501Usdc || 490.76);
+    const l1Usdc = typeof data.hyperliquidL1Usdc === "number" ? data.hyperliquidL1Usdc : 100.02;
 
     const modalPoly = document.getElementById("modalPolygonBalance");
     const modalHl = document.getElementById("modalHlBalance");
@@ -766,9 +766,9 @@
     }
 
     // 1. Tarjeta 1: Capital Operativo #501 (Motor Dual de Tesorería Activa)
-    const polyBal = 500.31;
-    const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 92.49)) || 92.49;
-    const consolidated = typeof data.consolidatedUsdc === "number" ? data.consolidatedUsdc : +(polyBal + l1Bal + 8.73).toFixed(2);
+    const polyBal = 490.76;
+    const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 100.02)) || 100.02;
+    const consolidated = typeof data.consolidatedUsdc === "number" ? data.consolidatedUsdc : +(polyBal + l1Bal + 7.98).toFixed(2);
 
     if (topCapitalDisplay) {
       topCapitalDisplay.innerHTML = `$${consolidated.toFixed(2)} <span class="metric-sub">USDC</span>`;
@@ -777,17 +777,17 @@
       topCapitalProgress.style.width = `100%`;
     }
     if (topProgressPct) {
-      topProgressPct.innerHTML = `Cámara 1 Pol: $${polyBal.toFixed(2)} (0% Riesgo) · Cámara 2 HL: $${l1Bal.toFixed(2)} (Meta Retiro: +$20 USDC)`;
+      topProgressPct.innerHTML = `Polygon Base: $${polyBal.toFixed(2)} USDC · Hyperliquid L1: $${l1Bal.toFixed(2)} USDC (Meta: +$20 USDC)`;
     }
     if (topRemainingUsdc) {
       topRemainingUsdc.innerHTML = ``;
       topRemainingUsdc.style.display = 'none';
     }
     if (vaultGasStatus) {
-      vaultGasStatus.textContent = `POLYGON: $${polyBal.toFixed(2)} ✅ · ARB/HL: $${l1Bal.toFixed(2)}`;
+      vaultGasStatus.textContent = `POLYGON: $${polyBal.toFixed(2)} · HL: $${l1Bal.toFixed(2)}`;
     }
     if (topGasShieldBadge) {
-      topGasShieldBadge.textContent = `GAS INTOCABLE: 155.05 POL`;
+      topGasShieldBadge.textContent = `GAS INTOCABLE: 160.79 POL`;
     }
 
     // 2. Tarjeta 2: Motor Hyperliquid L1 (<150ms) & Regla Máx 1 Operación
@@ -1025,11 +1025,11 @@
       if (activeExecutionMode === "EMERGENCY_STOPPED") {
         boxOperationStatusText.innerHTML = `🛑 <strong>PARADA DE EMERGENCIA ACTIVA:</strong> motor congelado, órdenes abiertas canceladas, 100% fondos seguros en USDC. Alerta despachada a Telegram.`;
       } else if (activeExecutionMode === "PAUSED") {
-        boxOperationStatusText.innerHTML = `⏸ <strong>Motor en Pausa:</strong> monitoreo L2 suspendido. Cero órdenes en mercado. Haz clic en <strong>[🟢 Motor en Vivo: ACTIVO]</strong> para reanudar.`;
+        boxOperationStatusText.innerHTML = `⏸ <strong>Motor en Pausa Preventiva:</strong> revisión de bots previa a arranque. Cero órdenes en mercado. Saldo auditado: $490.76 Polygon + $100.02 Hyperliquid L1.`;
       } else if (l1Bal <= 0) {
-        boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo en Polygon #501: $500.31 USDC (Coronado) | Saldo en Hyperliquid L1: $0.00 USDC.`;
+        boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo en Polygon #501: $490.76 USDC (0% Riesgo) | Saldo en Hyperliquid L1: $0.00 USDC.`;
       } else {
-        boxOperationStatusText.innerHTML = `🟢 <strong>Operando ${selectedSquadPair} en Hyperliquid L1:</strong> orden Post-Only ALO armada ($${l1Bal.toFixed(2)} USDC L1 · Bóveda #501 $500.31 USDC en Polygon). Candado BE clava a +0.04% y TP liquida a +0.08% en USDC directo a #501.`;
+        boxOperationStatusText.innerHTML = `🟢 <strong>Operando ${selectedSquadPair} en Hyperliquid L1:</strong> orden Post-Only ALO armada ($${l1Bal.toFixed(2)} USDC L1 · Bóveda #501 $490.76 USDC en Polygon). Candado BE clava a +0.04% y TP liquida a +0.08% en USDC directo a #501.`;
       }
     }
     if (boxOperationSubText) {
