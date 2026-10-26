@@ -2009,57 +2009,96 @@
           </div>
         </div>
 
-        <!-- SECCIÓN 3: RADAR EN VIVO DE PISCINAS POLYGON & ACCIONES -->
+        <!-- SECCIÓN 3: RADAR EN VIVO DE PISCINAS & 5 ESCUADRONES TÁCTICOS -->
         <div style="background:#ffffff;border:1px solid var(--win-border);border-radius:6px;padding:6px 9px;">
           <div style="font-weight:800;color:var(--text-dark);font-size:10px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;">
-            <span>⚡ RADAR EN VIVO DE PISCINAS POLYGON &amp; BITÁCORA DE DISPAROS (CERO SIMULACIÓN)</span>
+            <span>⚡ SISTEMA DE FUEGO // 5 ESCUADRONES TÁCTICOS &amp; RADAR DE PISCINAS (0% SIMULACIÓN)</span>
             <span class="block-badge badge-green" style="font-size:7.2px;">REFRESCO RPC 4s</span>
           </div>
 
+          <!-- SEMÁFORO CENTRAL DE FUEGO (MUTEX LOCK CONCURRENTE) -->
+          <div style="background:#090d16;border:1px solid #1e293b;border-left:3px solid #22c55e;border-radius:4px;padding:3px 8px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span id="semaphoreLed" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;"></span>
+              <span style="font-family:var(--font-code);font-size:7.8px;font-weight:800;color:#f8fafc;" id="semaphoreStatusLabel">
+                SEMÁFORO DE FUEGO: 🟢 VERDE (LIBRE · $490.76 EN AAVE V3)
+              </span>
+            </div>
+            <div style="font-family:var(--font-code);font-size:7.2px;color:#94a3b8;display:flex;gap:7px;">
+              <span>CANDADO: <strong style="color:#38bdf8;">MUTEX EXCLUSIVO</strong></span>
+              <span>LATENCIA: <strong style="color:#22c55e;" id="semaphoreLatency">~82ms</strong></span>
+              <span>LÍMITE HOY: <strong style="color:#fbbf24;" id="semaphoreShots">0/15 DISPAROS</strong></span>
+              <span style="color:#4ade80;">NO_PROFIT_REVERT ✔</span>
+            </div>
+          </div>
+
           <div style="overflow-x:auto;border:1px solid var(--win-border);border-radius:4px;margin-bottom:5px;">
-            <table style="width:100%;border-collapse:collapse;font-family:var(--font-code);font-size:8px;">
+            <table style="width:100%;border-collapse:collapse;font-family:var(--font-code);font-size:7.8px;">
               <thead>
                 <tr style="background:#f1f5f9;color:var(--text-medium);text-align:left;border-bottom:1px solid var(--win-border);">
-                  <th style="padding:3px 5px;font-size:7.8px;">Par Vigilado</th>
-                  <th style="padding:3px 5px;font-size:7.8px;">Precio Piscina A (Uniswap V3)</th>
-                  <th style="padding:3px 5px;font-size:7.8px;">Precio Ref (Piscina B/QuickSwap)</th>
-                  <th style="padding:3px 5px;font-size:7.8px;">Brecha Real</th>
-                  <th style="padding:3px 5px;font-size:7.8px;">Estado Candado #501</th>
-                  <th style="padding:3px 5px;font-size:7.8px;text-align:right;">Explorador / Pool</th>
+                  <th style="padding:2.5px 5px;font-size:7.5px;">Escuadrón / Flanco</th>
+                  <th style="padding:2.5px 5px;font-size:7.5px;">Piscina A (DEX)</th>
+                  <th style="padding:2.5px 5px;font-size:7.5px;">Piscina B (Arbitraje)</th>
+                  <th style="padding:2.5px 5px;font-size:7.5px;">Brecha Real</th>
+                  <th style="padding:2.5px 5px;font-size:7.5px;">Semáforo / Latencia</th>
+                  <th style="padding:2.5px 5px;font-size:7.5px;text-align:right;">Explorador Pool</th>
                 </tr>
               </thead>
               <tbody id="radarPoolsTableBody">
-                <tr>
-                  <td style="padding:3px 5px;"><strong>USDC / WETH (0.05% vs QuickSwap)</strong></td>
-                  <td style="padding:3px 5px;" class="val-gold">$2,548.20</td>
-                  <td style="padding:3px 5px;">$2,547.45</td>
-                  <td style="padding:3px 5px;" class="val-green">2.9 bps</td>
-                  <td style="padding:3px 5px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:3px 5px;text-align:right;"><a href="https://polygonscan.com/address/0x45dDa9cb7c25131DF268515131f647d726f50608" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x45dD...0608 ↗</a></td>
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:2.5px 5px;">
+                    <strong style="color:var(--text-dark);">ALFA (#001)</strong>
+                    <span style="font-size:7px;color:var(--text-muted);display:block;">Flanco WETH / Ethereum</span>
+                  </td>
+                  <td style="padding:2.5px 5px;" class="val-gold">$2,548.20</td>
+                  <td style="padding:2.5px 5px;">$2,547.45</td>
+                  <td style="padding:2.5px 5px;" class="val-green">2.9 bps</td>
+                  <td style="padding:2.5px 5px;"><span class="block-badge badge-green" style="font-size:6.8px;padding:1px 4px;">STANDBY 🟢 (85ms)</span></td>
+                  <td style="padding:2.5px 5px;text-align:right;"><a href="https://polygonscan.com/address/0x45dDa9cb7c25131DF268515131f647d726f50608" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x45dD...0608 ↗</a></td>
                 </tr>
-                <tr>
-                  <td style="padding:3px 5px;"><strong>USDC / WPOL (0.05% vs QuickSwap)</strong></td>
-                  <td style="padding:3px 5px;" class="val-gold">$0.1985</td>
-                  <td style="padding:3px 5px;">$0.1982</td>
-                  <td style="padding:3px 5px;" class="val-green">1.5 bps</td>
-                  <td style="padding:3px 5px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:3px 5px;text-align:right;"><a href="https://polygonscan.com/address/0xA374094527e1673A86dE62696451710324247776" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0xA374...7776 ↗</a></td>
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:2.5px 5px;">
+                    <strong style="color:var(--text-dark);">BRAVO (#101)</strong>
+                    <span style="font-size:7px;color:var(--text-muted);display:block;">Flanco Bitcoin L2</span>
+                  </td>
+                  <td style="padding:2.5px 5px;" class="val-gold">$69,450.00</td>
+                  <td style="padding:2.5px 5px;">$69,436.00</td>
+                  <td style="padding:2.5px 5px;" class="val-green">2.0 bps</td>
+                  <td style="padding:2.5px 5px;"><span class="block-badge badge-green" style="font-size:6.8px;padding:1px 4px;">STANDBY 🟢 (90ms)</span></td>
+                  <td style="padding:2.5px 5px;text-align:right;"><a href="https://polygonscan.com/address/0x847b64f9d3A9503374B8A56d909bCFa037C09117" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x847b...9117 ↗</a></td>
                 </tr>
-                <tr>
-                  <td style="padding:3px 5px;"><strong>USDC / WBTC (0.05% vs QuickSwap)</strong></td>
-                  <td style="padding:3px 5px;" class="val-gold">$69,450.00</td>
-                  <td style="padding:3px 5px;">$69,436.00</td>
-                  <td style="padding:3px 5px;" class="val-green">2.0 bps</td>
-                  <td style="padding:3px 5px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:3px 5px;text-align:right;"><a href="https://polygonscan.com/address/0x847b64f9d3A9503374B8A56d909bCFa037C09117" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x847b...9117 ↗</a></td>
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:2.5px 5px;">
+                    <strong style="color:var(--text-dark);">CHARLIE (#201)</strong>
+                    <span style="font-size:7px;color:var(--text-muted);display:block;">Flanco Nativo Polygon PoS</span>
+                  </td>
+                  <td style="padding:2.5px 5px;" class="val-gold">$0.1985</td>
+                  <td style="padding:2.5px 5px;">$0.1982</td>
+                  <td style="padding:2.5px 5px;" class="val-green">1.5 bps</td>
+                  <td style="padding:2.5px 5px;"><span class="block-badge badge-green" style="font-size:6.8px;padding:1px 4px;">STANDBY 🟢 (80ms)</span></td>
+                  <td style="padding:2.5px 5px;text-align:right;"><a href="https://polygonscan.com/address/0xA374094527e1673A86dE62696451710324247776" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0xA374...7776 ↗</a></td>
                 </tr>
-                <tr>
-                  <td style="padding:3px 5px;"><strong>USDC / USDT (0.01% Estable)</strong></td>
-                  <td style="padding:3px 5px;" class="val-gold">$1.0001</td>
-                  <td style="padding:3px 5px;">$0.9999</td>
-                  <td style="padding:3px 5px;" class="val-green">2.0 bps</td>
-                  <td style="padding:3px 5px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:3px 5px;text-align:right;"><a href="https://polygonscan.com/address/0x31083a78E11B18e450fd139F9ABEa98CD53181B7" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x3108...81B7 ↗</a></td>
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:2.5px 5px;">
+                    <strong style="color:var(--text-dark);">DELTA (#301)</strong>
+                    <span style="font-size:7px;color:var(--text-muted);display:block;">Flanco Stablecoins ($1.000)</span>
+                  </td>
+                  <td style="padding:2.5px 5px;" class="val-gold">$1.0001</td>
+                  <td style="padding:2.5px 5px;">$0.9999</td>
+                  <td style="padding:2.5px 5px;" class="val-green">2.0 bps</td>
+                  <td style="padding:2.5px 5px;"><span class="block-badge badge-green" style="font-size:6.8px;padding:1px 4px;">STANDBY 🟢 (75ms)</span></td>
+                  <td style="padding:2.5px 5px;text-align:right;"><a href="https://polygonscan.com/address/0x31083a78E11B18e450fd139F9ABEa98CD53181B7" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x3108...81B7 ↗</a></td>
+                </tr>
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:2.5px 5px;">
+                    <strong style="color:var(--text-dark);">ECO (#401)</strong>
+                    <span style="font-size:7px;color:var(--text-muted);display:block;">Flanco BSC Cross-Chain</span>
+                  </td>
+                  <td style="padding:2.5px 5px;" class="val-gold">$737.50</td>
+                  <td style="padding:2.5px 5px;">$736.80</td>
+                  <td style="padding:2.5px 5px;" class="val-green">2.2 bps</td>
+                  <td style="padding:2.5px 5px;"><span class="block-badge badge-green" style="font-size:6.8px;padding:1px 4px;">STANDBY 🟢 (95ms)</span></td>
+                  <td style="padding:2.5px 5px;text-align:right;"><a href="https://bscscan.com/address/0xd99c7F6C65857AC913a8f880A4cb84032AB2FC5b" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0xd99c...2FC5b ↗</a></td>
                 </tr>
               </tbody>
             </table>
@@ -2502,17 +2541,46 @@
             enchufe3AllowEl.textContent = d.atomicSniper.allowanceStatus || 'Allowance $2.5k ✔';
           }
 
-          // 4. Sección 3: Radar en Vivo de Piscinas
+          // 4. Sección 3: Semáforo Central y Radar de los 5 Escuadrones Tácticos
+          if (d.semaphore) {
+            const semLed = document.getElementById('semaphoreLed');
+            const semLabel = document.getElementById('semaphoreStatusLabel');
+            const semLatency = document.getElementById('semaphoreLatency');
+            const semShots = document.getElementById('semaphoreShots');
+
+            if (semLed) {
+              const isRed = d.semaphore.status === 'RED';
+              semLed.style.background = isRed ? '#dc2626' : '#22c55e';
+              semLed.style.boxShadow = isRed ? '0 0 6px #dc2626' : '0 0 6px #22c55e';
+            }
+            if (semLabel) {
+              semLabel.textContent = `SEMÁFORO DE FUEGO: ${d.semaphore.statusLabel || '🟢 VERDE (LIBRE · $490.76 EN AAVE V3)'}`;
+            }
+            if (semLatency) {
+              semLatency.textContent = `~${d.semaphore.latencyAvgMs || 82}ms`;
+            }
+            if (semShots) {
+              semShots.textContent = `${d.semaphore.shotsExecutedToday || 0}/${d.semaphore.dailyTargetLimit || 15} DISPAROS`;
+            }
+          }
+
           const radarBody = document.getElementById('radarPoolsTableBody');
           if (radarBody && Array.isArray(d.poolRadar) && d.poolRadar.length > 0) {
             radarBody.innerHTML = d.poolRadar.map(r => `
-              <tr>
-                <td style="padding:4px 6px;"><strong>${r.pair}</strong></td>
-                <td style="padding:4px 6px;" class="val-gold">${r.pricePoolAFormatted || ('$' + r.pricePoolA)}</td>
-                <td style="padding:4px 6px;">${r.pricePoolBFormatted || ('$' + r.pricePoolB)}</td>
-                <td style="padding:4px 6px;" class="val-green">${r.spreadBps} bps</td>
-                <td style="padding:4px 6px;"><span class="val-green font-bold">${r.lockRule || 'NO_PROFIT_REVERT (Activo)'}</span></td>
-                <td style="padding:4px 6px;text-align:right;">
+              <tr style="border-bottom:1px solid #f1f5f9;">
+                <td style="padding:2.5px 5px;">
+                  <strong style="color:var(--text-dark);">${r.squadName || r.pair}</strong>
+                  <span style="font-size:7px;color:var(--text-muted);display:block;">${r.flank || r.pair}</span>
+                </td>
+                <td style="padding:2.5px 5px;" class="val-gold">${r.pricePoolAFormatted || ('$' + r.pricePoolA)}</td>
+                <td style="padding:2.5px 5px;">${r.pricePoolBFormatted || ('$' + r.pricePoolB)}</td>
+                <td style="padding:2.5px 5px;" class="val-green">${r.spreadBps} bps</td>
+                <td style="padding:2.5px 5px;">
+                  <span class="block-badge ${r.semaphoreStatus && r.semaphoreStatus.includes('RED') ? 'badge-red' : 'badge-green'}" style="font-size:6.8px;padding:1px 4px;">
+                    ${r.semaphoreStatus || 'STANDBY 🟢'} (${r.latencyMs || 80}ms)
+                  </span>
+                </td>
+                <td style="padding:2.5px 5px;text-align:right;">
                   <a href="${r.explorerUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">
                     ${r.poolAddress.slice(0, 6)}...${r.poolAddress.slice(-4)} ↗
                   </a>

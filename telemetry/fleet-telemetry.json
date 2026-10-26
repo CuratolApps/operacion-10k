@@ -55561,7 +55561,7 @@
     "bsc": null
   },
   "atomicAutoShooter": {
-    "updatedAt": "2026-10-26T19:47:50.174Z",
+    "updatedAt": "2026-10-26T19:49:50.274Z",
     "minNetProfitUsdc": 0.03,
     "targetDaily": 15,
     "slippageBps": 5,
@@ -55574,25 +55574,25 @@
         "executor": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
         "armed": true,
         "state": "ESPERA_SIN_RUTA_NETA",
-        "checkedAt": "2026-10-26T19:47:47.329Z",
+        "checkedAt": "2026-10-26T19:49:47.273Z",
         "ownerOk": true,
         "balanceUsdc": 490.76,
         "nativeUsdc": 0,
-        "aPolBalance": 491.255221,
+        "aPolBalance": 491.255287,
         "aaveWrapped": true,
         "allowanceUsdc": 2500,
         "nativeBalance": 155.1409538273287,
         "scan": {
           "usdcIn": 490.76,
-          "gasUsdc": 0.0087,
+          "gasUsdc": 0.0083,
           "gasLimit": 240000,
           "minNet": 0.05,
           "bestCross": {
             "token": "USDC.e",
             "buy": "Uniswap V3 0.01%",
             "sell": "QuickSwap Algebra V3",
-            "netUsdc": -0.0698,
-            "netPct": -0.0142
+            "netUsdc": -0.0701,
+            "netPct": -0.0143
           },
           "firing": false
         },
@@ -55603,7 +55603,7 @@
         "executor": "0xD935F7B80237aA14B6D8F9D45070800e9E23Db20",
         "armed": true,
         "state": "ESPERA_SIN_RUTA_NETA",
-        "checkedAt": "2026-10-26T19:47:49.173Z",
+        "checkedAt": "2026-10-26T19:49:49.246Z",
         "ownerOk": true,
         "balanceUsdc": 7.97,
         "nativeUsdc": 7.977854684053033,
