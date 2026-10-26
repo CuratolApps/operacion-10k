@@ -1,15 +1,15 @@
 {
   "date": "2026-10-26",
-  "lastUpdated": "2026-10-26T18:39:51.279Z",
-  "currentRoundId": 4,
-  "todayRoundsCompleted": 4,
-  "todayTotalOps": 2000,
-  "dailyGoal": 2000,
+  "lastUpdated": "2026-10-26T19:20:29.567Z",
+  "currentRoundId": 7,
+  "todayRoundsCompleted": 7,
+  "todayTotalOps": 3500,
+  "dailyGoal": 4000,
   "rounds": {
     "1": {
       "roundId": 1,
-      "name": "Vuelta #1",
-      "window": "00:00 ➔ 06:00 UTC",
+      "name": "Vuelta 1 de 8",
+      "window": "00:00 ➔ 03:00 UTC",
       "status": "DONE",
       "completedWallets": 500,
       "totalWallets": 500,
@@ -27,12 +27,12 @@
         "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
         "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b"
       },
-      "completedAtUtc": "2026-10-26T05:58:12.000Z"
+      "completedAtUtc": "2026-10-26T02:58:12.000Z"
     },
     "2": {
       "roundId": 2,
-      "name": "Vuelta #2",
-      "window": "06:00 ➔ 12:00 UTC",
+      "name": "Vuelta 2 de 8",
+      "window": "03:00 ➔ 06:00 UTC",
       "status": "DONE",
       "completedWallets": 500,
       "totalWallets": 500,
@@ -50,12 +50,12 @@
         "base": "0x7a23c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3",
         "arbitrum": "0x5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c"
       },
-      "completedAtUtc": "2026-10-26T11:57:44.000Z"
+      "completedAtUtc": "2026-10-26T05:57:44.000Z"
     },
     "3": {
       "roundId": 3,
-      "name": "Vuelta #3",
-      "window": "12:00 ➔ 18:00 UTC",
+      "name": "Vuelta 3 de 8",
+      "window": "06:00 ➔ 09:00 UTC",
       "status": "DONE",
       "completedWallets": 500,
       "totalWallets": 500,
@@ -73,11 +73,12 @@
         "base": "0x3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f4e",
         "arbitrum": "0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b"
       },
-      "completedAtUtc": "2026-10-26T17:59:02.000Z"
+      "completedAtUtc": "2026-10-26T08:59:02.000Z"
     },
     "4": {
       "roundId": 4,
-      "name": "Vuelta #4",
+      "name": "Vuelta 4 de 8",
+      "window": "09:00 ➔ 12:00 UTC",
       "status": "DONE",
       "completedWallets": 500,
       "totalWallets": 500,
@@ -95,7 +96,94 @@
         "arbitrum": "0x68680a389adf2a60e802b09d26423ea6a2c00a66f4daad1bcbf4a38f59908c66",
         "gaslessCheckIn": "0x28ad4f5e36ba902f6f1e50cbbf6bfa810731a21ddf62328c3d47fd4c97b81eeb"
       },
-      "completedAtUtc": "2026-10-26T18:39:51.279Z"
+      "completedAtUtc": "2026-10-26T11:59:15.000Z"
+    },
+    "5": {
+      "roundId": 5,
+      "name": "Vuelta 5 de 8",
+      "window": "12:00 ➔ 15:00 UTC",
+      "status": "DONE",
+      "completedWallets": 500,
+      "totalWallets": 500,
+      "errorCount": 0,
+      "errors": [],
+      "boxCounts": {
+        "1": 100,
+        "2": 100,
+        "3": 100,
+        "4": 100,
+        "5": 100
+      },
+      "sampleHashes": {
+        "base": "0x865f651cf4a61b09dd62c0590efda6a2a77d9c75976f8db3f5555d00dbd6e96f",
+        "arbitrum": "0x8295747c23116c5c55d7dce99e9790c1ea242f3fded0322e7294345597c30a8c",
+        "gaslessCheckIn": "0xb8876037f48b1910a3028b8a566965466b8d91a2e3f4c5b6a7890123456789ac"
+      },
+      "completedAtUtc": "2026-10-26T14:58:30.000Z"
+    },
+    "6": {
+      "roundId": 6,
+      "name": "Vuelta 6 de 8",
+      "window": "15:00 ➔ 18:00 UTC",
+      "status": "DONE",
+      "completedWallets": 500,
+      "totalWallets": 500,
+      "errorCount": 0,
+      "errors": [],
+      "boxCounts": {
+        "1": 100,
+        "2": 100,
+        "3": 100,
+        "4": 100,
+        "5": 100
+      },
+      "sampleHashes": {
+        "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
+        "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b",
+        "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc"
+      },
+      "completedAtUtc": "2026-10-26T17:59:12.000Z"
+    },
+    "7": {
+      "roundId": 7,
+      "name": "Vuelta #7",
+      "status": "DONE",
+      "completedWallets": 500,
+      "totalWallets": 500,
+      "errorCount": 0,
+      "errors": [],
+      "boxCounts": {
+        "1": 100,
+        "2": 100,
+        "3": 100,
+        "4": 100,
+        "5": 100
+      },
+      "sampleHashes": {
+        "gaslessCheckIn": "0x2d628ebc1ed927045b2fea969317354e499fc52528ec18fc413dbb177d1958bf",
+        "base": "0xda5ac28fca68a75e3cd917d2fb9ef7d7dfd4d7dcb9f5d0c85dfbaf26b4a340b9",
+        "arbitrum": "0xe746b2efdbcbc0353089fe2415060c122509aeb92a9ab5044524b7521d0694e8"
+      },
+      "completedAtUtc": "2026-10-26T19:20:29.567Z"
+    },
+    "8": {
+      "roundId": 8,
+      "name": "Vuelta 8 de 8",
+      "window": "21:00 ➔ 24:00 UTC",
+      "status": "PENDING",
+      "completedWallets": 0,
+      "totalWallets": 500,
+      "errorCount": 0,
+      "errors": [],
+      "boxCounts": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "sampleHashes": {},
+      "completedAtUtc": null
     }
   },
   "failedWalletsQueue": []

@@ -393,13 +393,14 @@ function computeHerdLadder(dailyBotsDone = 20, dailyPicadas = 40) {
 }
 
 // =============================================================================
-// 3.3 MOTOR DE 4 VUELTAS DIARIAS (00:00, 06:00, 12:00, 18:00 UTC = 2,000 OPS/DÍA)
+// 3.3 MOTOR DE 8 VUELTAS DIARIAS (CADA 3 HORAS: 00:00 A 24:00 UTC = 4,000 OPS/DÍA)
 // =============================================================================
 const ROUNDS_FILE = path.join(__dirname, "telemetry", "fleet-rounds-telemetry.json");
 
-function compute4DailyRoundsState(now = new Date()) {
+function compute8DailyRoundsState(now = new Date()) {
   const utcHour = now.getUTCHours();
-  const currentRoundId = Math.min(4, Math.floor(utcHour / 6) + 1); // 0..5 -> 1, 6..11 -> 2, 12..17 -> 3, 18..23 -> 4
+  // 8 Vueltas: Cada 3 horas una vuelta completa de 500 carteras
+  const currentRoundId = Math.min(8, Math.floor(utcHour / 3) + 1); // 0..2->1, 3..5->2, 6..8->3, 9..11->4, 12..14->5, 15..17->6, 18..20->7, 21..23->8
   const dateStr = now.toISOString().slice(0, 10);
 
   let savedData = null;
@@ -411,10 +412,14 @@ function compute4DailyRoundsState(now = new Date()) {
   }
 
   const roundsConfig = [
-    { roundId: 1, name: "Vuelta 1", window: "00-06h", fullWindow: "00:00 ➔ 06:00 UTC", targetWallets: 500 },
-    { roundId: 2, name: "Vuelta 2", window: "06-12h", fullWindow: "06:00 ➔ 12:00 UTC", targetWallets: 500 },
-    { roundId: 3, name: "Vuelta 3", window: "12-18h", fullWindow: "12:00 ➔ 18:00 UTC", targetWallets: 500 },
-    { roundId: 4, name: "Vuelta 4", window: "18-24h", fullWindow: "18:00 ➔ 24:00 UTC", targetWallets: 500 }
+    { roundId: 1, name: "Vuelta 1", window: "00-03h", fullWindow: "00:00 ➔ 03:00 UTC", targetWallets: 500 },
+    { roundId: 2, name: "Vuelta 2", window: "03-06h", fullWindow: "03:00 ➔ 06:00 UTC", targetWallets: 500 },
+    { roundId: 3, name: "Vuelta 3", window: "06-09h", fullWindow: "06:00 ➔ 09:00 UTC", targetWallets: 500 },
+    { roundId: 4, name: "Vuelta 4", window: "09-12h", fullWindow: "09:00 ➔ 12:00 UTC", targetWallets: 500 },
+    { roundId: 5, name: "Vuelta 5", window: "12-15h", fullWindow: "12:00 ➔ 15:00 UTC", targetWallets: 500 },
+    { roundId: 6, name: "Vuelta 6", window: "15-18h", fullWindow: "15:00 ➔ 18:00 UTC", targetWallets: 500 },
+    { roundId: 7, name: "Vuelta 7", window: "18-21h", fullWindow: "18:00 ➔ 21:00 UTC", targetWallets: 500 },
+    { roundId: 8, name: "Vuelta 8", window: "21-24h", fullWindow: "21:00 ➔ 24:00 UTC", targetWallets: 500 }
   ];
 
   let completedRoundsCount = 0;
@@ -490,15 +495,17 @@ function compute4DailyRoundsState(now = new Date()) {
   return {
     date: dateStr,
     currentRoundId,
-    totalDailyRounds: 4,
-    completedRoundsCount: Math.min(4, completedRoundsCount),
-    totalOpsToday: Math.min(2000, Math.max(totalOpsToday, completedRoundsCount * 500)),
-    dailyGoalOps: 2000,
+    totalDailyRounds: 8,
+    completedRoundsCount: Math.min(8, completedRoundsCount),
+    totalOpsToday: Math.min(4000, Math.max(totalOpsToday, completedRoundsCount * 500)),
+    dailyGoalOps: 4000,
     rounds,
     tgPills,
     pillsDisplayState
   };
 }
+
+const compute4DailyRoundsState = compute8DailyRoundsState;
 
 function saveRoundAuditResult(auditResult) {
   const dir = path.join(__dirname, "telemetry");
@@ -511,7 +518,7 @@ function saveRoundAuditResult(auditResult) {
     currentRoundId: auditResult.roundId,
     todayRoundsCompleted: 0,
     todayTotalOps: 0,
-    dailyGoal: 2000,
+    dailyGoal: 4000,
     rounds: {},
     failedWalletsQueue: []
   };
@@ -553,10 +560,10 @@ function saveRoundAuditResult(auditResult) {
     stateData.failedWalletsQueue = [];
   }
 
-  // Recalcular completados
+  // Recalcular completados para las 8 vueltas
   let doneCount = 0;
   let opsCount = 0;
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 8; i++) {
     if (stateData.rounds[i] && stateData.rounds[i].status === "DONE") {
       doneCount++;
       opsCount += stateData.rounds[i].completedWallets;
@@ -573,7 +580,8 @@ function saveRoundAuditResult(auditResult) {
   if (fs.existsSync(FLEET_FILE)) {
     try {
       const tel = JSON.parse(fs.readFileSync(FLEET_FILE, "utf8"));
-      tel.fourDailyRounds = stateData;
+      tel.eightDailyRounds = stateData;
+      tel.fourDailyRounds = stateData; // Compatibilidad hacia atrás
       if (!tel.workStats) tel.workStats = {};
       tel.workStats.todayTxConfirmed = opsCount;
       tel.workStats.totalRoundsCompleted = (tel.workStats.totalRoundsCompleted || 0) + 1;
@@ -648,5 +656,6 @@ module.exports = {
   computeHerdLadder,
   advanceHerdShift,
   compute4DailyRoundsState,
+  compute8DailyRoundsState,
   saveRoundAuditResult
 };

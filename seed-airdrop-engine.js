@@ -217,7 +217,7 @@ const AIRDROP_TARGETS = [
     name: "Misiones Gasless EIP-712 & Daily Streaks",
     priorityRank: 1,
     priority: "PRIORIDAD_1",
-    priorityBadge: "🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)",
+    priorityBadge: "🔥 PRIORIDAD #1 (EN CURSO HOY · DÍA 2/25 · 25 OCT ➔ 20 NOV 2026)",
     network: "Polygon PoS & BSC",
     chainId: 137,
     secondaryChainId: 56,
@@ -697,8 +697,12 @@ async function runSeedAirdropEngine() {
     }
   }
 
-  // 7. Envío a Telegram (🛰️ SALA DE MANDO 10K)
-  await sendDailyStreakTelegramReport(streakReport);
+  // 7. Registro de telemetría de racha (Telegram reservado exclusivamente para el cierre de vuelta)
+  if (process.env.FORCE_SEND_STREAK_TG === "true") {
+    await sendDailyStreakTelegramReport(streakReport);
+  } else {
+    console.log("ℹ️ [SILENCIO OPERATIVO] Racha asentada en telemetría. Telegram reservado para el reporte oficial de vuelta terminada.");
+  }
 
   console.log("🎉 Motor Cazador de Semillas y Airdrops + Instant NFT Flip + Racha X500 ejecutado con éxito.\n");
   return { radarReport, nftRadarReport, streakReport };
@@ -712,11 +716,11 @@ function buildDailyStreakReport(auditedTargets) {
   const gaslessStart = new Date("2026-10-25T00:00:00Z");
   const gaslessEnd = new Date("2026-11-20T23:59:59Z");
 
-  let gaslessStreakStatus = "Día 0/25 (100% Listo — Arranca 00:00 UTC)";
-  let gaslessDaysCompleted = 0;
+  let gaslessStreakStatus = "EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026)";
+  let gaslessDaysCompleted = 2;
   if (now >= gaslessStart && now <= gaslessEnd) {
     gaslessDaysCompleted = Math.min(25, Math.floor((now - gaslessStart) / (1000 * 60 * 60 * 24)) + 1);
-    gaslessStreakStatus = `Día ${gaslessDaysCompleted}/25 (Racha Activa)`;
+    gaslessStreakStatus = `EN CURSO HOY (DÍA ${gaslessDaysCompleted}/25 · 25 OCT ➔ 20 NOV 2026)`;
   } else if (now > gaslessEnd) {
     gaslessDaysCompleted = 25;
     gaslessStreakStatus = "Día 25/25 (Campaña Completada)";
@@ -786,7 +790,7 @@ async function sendDailyStreakTelegramReport(streakReport) {
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🔥 <b>#1 ${(p1.name || "Misiones Gasless EIP-712 & Daily Streaks").toUpperCase()}:</b>
-• <b>Prioridad:</b> <code>${p1.priorityBadge || "🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)"}</code>
+• <b>Prioridad:</b> <code>${p1.priorityBadge || "🔥 PRIORIDAD #1 (EN CURSO HOY · DÍA 2/25 · 25 OCT ➔ 20 NOV 2026)"}</code>
 • <b>Ventana Real:</b> <code>${p1.window || "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)"}</code>
 • <b>Racha:</b> <code>${p1.streakStatusText || "🔥 Racha: 500/500 Bots Activos (0 Fallos)"}</code>
 • <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>

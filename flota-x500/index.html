@@ -83,20 +83,20 @@
       </div>
     </div>
 
-    <!-- TARJETA 4 · 🔥 4 VUELTAS DIARIAS CONTINUAS (2,000 OPS/DÍA) -->
-    <div class="win-metric-card" id="cardCarouselStatus" title="4 Vueltas Diarias Continuas: 00:00, 06:00, 12:00, 18:00 UTC = 2,000 Operaciones/Día con Auditoría Estricta">
+    <!-- TARJETA 4 · 🔥 8 VUELTAS DIARIAS (4,000 OPS/DÍA) -->
+    <div class="win-metric-card" id="cardCarouselStatus" title="8 Vueltas Diarias: 1 Vuelta Completa cada 3 Horas (00:00 a 24:00 UTC = 4,000 Operaciones/Día con Auditoría Estricta)">
       <div class="win-metric-head">
         <span style="display: flex; align-items: center; gap: 4px;">
           <span class="material-symbols-rounded icon-xs val-gold">autorenew</span>
-          <span>🔥 4 VUELTAS DIARIAS</span>
+          <span>🔥 8 VUELTAS DIARIAS</span>
         </span>
         <span class="badge-tag-tiny badge-green" id="streakProgressBadge">500/500 AUDITADO</span>
       </div>
-      <div class="win-metric-val val-gold" id="topStreakCounter" style="font-size: 13.5px; font-weight: 800; white-space: nowrap;">
-        4 / 4 VUELTAS HOY (2,000 OPS)
+      <div class="win-metric-val val-gold" id="topStreakCounter" style="font-size: 13px; font-weight: 800; white-space: nowrap;">
+        VUELTA 7 DE 8 · Lote 25/25 (500/500 Llaves)
       </div>
-      <div class="win-metric-sub" id="topNextTurnTimer" style="font-size: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="[Vuelta 1 (00-06h): 500/500 ✔] ➔ [Vuelta 2 (06-12h): 500/500 ✔] ➔ [Vuelta 3 (12-18h): 500/500 ✔] ➔ [Vuelta 4 (18-24h): 500/500 ✔]">
-        [V1: 500/500 ✔] ➔ [V2: 500/500 ✔] ➔ [V3: 500/500 ✔] ➔ [V4: 500/500 ✔]
+      <div class="win-metric-sub" id="topNextTurnTimer" style="font-size: 7.8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 ✔] [V7 🔄] [V8 ⏳]">
+        [V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 ✔] [V7 🔄] [V8 ⏳]
       </div>
     </div>
 
@@ -118,7 +118,7 @@
     </div>
 
     <!-- TARJETA 6 · ⏰ PRÓXIMO CORTE INMINENTE (100% ENCUADRADA DENTRO DE PANTALLA) -->
-    <div class="win-metric-card" id="cardNextCut" title="Fecha inminente de cierre: 30 de Octubre de 2026 (Base Avantis S3 y DogeOS Cap. 2)">
+    <div class="win-metric-card" id="cardNextCut" style="overflow: hidden; max-width: 100%; box-sizing: border-box;" title="Fecha inminente de cierre: 30 de Octubre de 2026 (Base Avantis S3 y DogeOS Cap. 2)">
       <div class="win-metric-head">
         <span style="display: flex; align-items: center; gap: 3px; white-space: nowrap; font-size: 8.8px; min-width: 0; overflow: hidden;">
           <span class="material-symbols-rounded icon-xs val-danger">alarm</span>
@@ -399,23 +399,31 @@
               <span><strong>DESTINO:</strong> 100% USDC Nativo ➔ Bóveda #501 (Sin micro-depósitos a CEX)</span>
             </div>
 
-            <!-- Reloj e Indicador en Vivo de las 4 Vueltas Diarias Continuas (2,000 Ops/Día) -->
+            <!-- Reloj e Indicador en Vivo de las 8 Vueltas Diarias Continuas (4,000 Ops/Día) -->
             <div class="herd-ladder-container" id="herdLadderTop">
               <div class="herd-ladder-header">
-                <span><strong>🪖 4 VUELTAS DIARIAS CONTINUAS (4 × 500 = 2,000 OPS/DÍA · AUDITORÍA ESTRICTA 500/500):</strong></span>
+                <span><strong>🪖 8 VUELTAS DIARIAS (4,000 OPS/DÍA · AUDITORÍA ESTRICTA 500/500):</strong></span>
                 <button class="btn-tg-report-tiny" onclick="triggerRoundReport()" title="Enviar informe oficial auditado a Telegram">
                   <span class="material-symbols-rounded" style="font-size: 11px;">send</span>
                   <span>ENVIAR PARTE TG</span>
                 </button>
               </div>
               <div class="herd-ladder-pills" id="herdLadderPillsTop">
-                <span class="ladder-pill ladder-pill-done" id="pill-v1">[Vuelta 1 (00-06h): 500/500 ✔]</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v1">[V1 ✔]</span>
                 <span class="ladder-arrow">➔</span>
-                <span class="ladder-pill ladder-pill-done" id="pill-v2">[Vuelta 2 (06-12h): 500/500 ✔]</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v2">[V2 ✔]</span>
                 <span class="ladder-arrow">➔</span>
-                <span class="ladder-pill ladder-pill-done" id="pill-v3">[Vuelta 3 (12-18h): 500/500 ✔]</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v3">[V3 ✔]</span>
                 <span class="ladder-arrow">➔</span>
-                <span class="ladder-pill ladder-pill-done" id="pill-v4">[Vuelta 4 (18-24h): 500/500 ✔]</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v4">[V4 ✔]</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v5">[V5 ✔]</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v6">[V6 ✔]</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-active" id="pill-v7">[V7 🔄]</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill" id="pill-v8">[V8 ⏳]</span>
               </div>
             </div>
 

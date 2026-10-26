@@ -37,18 +37,18 @@ function getMnemonic() {
 
 async function executeFull500Sweep(options = {}) {
   console.log("=========================================================================================");
-  console.log("🪖🕒 MOTOR DE 4 VUELTAS DIARIAS // BARRIDO COMPLETO DE 500 CARTERAS (OPERACIÓN 10K)");
+  console.log("🪖🕒 MOTOR DE 8 VUELTAS DIARIAS // BARRIDO COMPLETO DE 500 CARTERAS (OPERACIÓN 10K)");
   console.log("=========================================================================================");
 
   const now = new Date();
   const utcHour = now.getUTCHours();
-  // Determinar la vuelta actual: 00-06h -> 1, 06-12h -> 2, 12-18h -> 3, 18-24h -> 4
-  const detectedRound = Math.min(4, Math.floor(utcHour / 6) + 1);
+  // Determinar la vuelta actual (cada 3 horas): 00-03h -> 1, 03-06h -> 2 ... 21-24h -> 8
+  const detectedRound = Math.min(8, Math.floor(utcHour / 3) + 1);
   const roundId = options.roundId || parseInt(process.env.FORCE_ROUND || detectedRound, 10);
   const timeUtc = now.toISOString().slice(11, 19) + " UTC";
 
   console.log(`⏱️  Hora UTC actual : ${timeUtc}`);
-  console.log(`🎯 Vuelta en curso : Vuelta #${roundId} de 4 del día (Meta Diaria: 2,000 Ops)`);
+  console.log(`🎯 Vuelta en curso : Vuelta #${roundId} de 8 del día (Meta Diaria: 4,000 Ops)`);
 
   if (!fs.existsSync(WALLETS_FILE)) {
     throw new Error(`No se encontró el archivo de carteras: ${WALLETS_FILE}`);
@@ -253,7 +253,7 @@ async function executeFull500Sweep(options = {}) {
   console.log(`   • Box 3 (#201-#300): ${boxCounts[3]}/100`);
   console.log(`   • Box 4 (#301-#400): ${boxCounts[4]}/100`);
   console.log(`   • Box 5 (#401-#500): ${boxCounts[5]}/100`);
-  console.log(`   • Acumulado Día: Vuelta ${todayRoundsCompleted}/4 (${todayTotalOps.toLocaleString("en-US")} / 2,000 operaciones)`);
+  console.log(`   • Acumulado Día: Vuelta ${todayRoundsCompleted}/8 (${todayTotalOps.toLocaleString("en-US")} / 4,000 operaciones)`);
   console.log("-----------------------------------------------------------------------------------------");
 
   // Guardar estado de la vuelta en la telemetría

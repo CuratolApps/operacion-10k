@@ -1024,32 +1024,16 @@ async function runTaskRunner() {
     }
   }
 
-  // Notificar a Telegram con el reporte detallado
-  try {
-    console.log("📱 Enviando Reporte de Operaciones de Carteras a Telegram...");
-    await notifyRoundSummary({
-      executionMode: isDryRun ? "DRY-RUN" : "PRODUCTION",
-      squadRange,
-      squadSliceText: sliceText,
-      boxName,
-      totalSatellites: satellites.length,
-      squadSize: activeSquad.length,
-      networksBreakdown,
-      totalOnChainTx,
-      sampleHashes,
-      workStats,
-      herdLadder
-    });
-  } catch (notifyErr) {
-    console.log(`⚠️ Error al enviar reporte a Telegram: ${notifyErr.message}`);
-  }
+  // En lotes intermedios (20/500 a 480/500), el motor trabaja en silencio actualizando la web /flota-x500/
+  // Se elimina el envío a Telegram en cada lote para evitar spam y mensajes triplicados.
+  console.log(`ℹ️ [SILENCIO OPERATIVO] Lote ${shiftIndex + 1}/25 procesado. Telegram reservado para el cierre de vuelta.`);
 
   // Comprobar si se ha completado una vuelta completa de 500 carteras (Shift 24 completado o 500 carteras)
   if (shiftIndex === 24 || currentDailyBots >= 500) {
     try {
-      console.log("🪖 [VUELTA TERMINADA] ¡Se han completado los 25 bloques de la vuelta (500 carteras)! Emitiendo reporte auditado a Telegram...");
+      console.log("🪖 [VUELTA TERMINADA] ¡Se han completado los 25 bloques de la vuelta (500 carteras)! Emitiendo reporte auditado oficial a Telegram...");
       const utcHour = new Date().getUTCHours();
-      const roundId = Math.min(4, Math.floor(utcHour / 6) + 1);
+      const roundId = Math.min(8, Math.floor(utcHour / 3) + 1);
       const auditData = {
         roundId,
         timeUtc: new Date().toISOString().slice(11, 19) + " UTC",

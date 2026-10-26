@@ -45863,9 +45863,9 @@
     "compoundingPoolActive": true
   },
   "workStats": {
-    "totalRoundsCompleted": 253,
+    "totalRoundsCompleted": 254,
     "totalTxConfirmedAllTime": 12088,
-    "todayTxConfirmed": 2000,
+    "todayTxConfirmed": 3500,
     "todayDate": "2026-10-26",
     "boxesRotatedToday": [
       "Box 1",
@@ -47287,6 +47287,13 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1793042429610-863",
+      "timestamp": "2026-10-26T19:20:29.610Z",
+      "timeFormatted": "19:20:29 UTC",
+      "rawHtml": "🪖 <b>FLOTA X500 // VUELTA 7 DE 8 COMPLETADA</b>\n🕒 <b>Hora UTC:</b> <code>19:20:24 UTC</code> | <b>Ventana:</b> <code>[18:00 ➔ 21:00 UTC]</code>\n🔥 <b>Racha 25 Días (25 Oct ➔ 20 Nov):</b> <code>Día 2/25 En Curso</code>\n\n🎯 <b>AUDITORÍA REAL DE LAS 500 LLAVES EN ESTA VUELTA:</b>\n✅ <b>Resultado:</b> <code>500 / 500 LLAVES COMPLETADAS (0 Errores)</code>\n  • 🟧 <b>Box 1 (#001-#100):</b> <code>100 / 100 ✔</code> (<code>18.07 POL</code> | <code>$0.70 USDC</code>)\n  • 🟦 <b>Box 2 (#101-#200):</b> <code>100 / 100 ✔</code> (<code>18.03 POL</code> | <code>$1.05 USDC</code>)\n  • 🟩 <b>Box 3 (#201-#300):</b> <code>100 / 100 ✔</code> (<code>18.01 POL</code> | <code>$0.00 USDC</code>)\n  • 🟨 <b>Box 4 (#301-#400):</b> <code>100 / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)\n  • 🟪 <b>Box 5 (#401-#500):</b> <code>100 / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)\n\n📊 <b>RELOJ DE LAS 8 VUELTAS DEL DÍA (00:00 A 24:00 UTC):</b>\n<code>[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 ✔] [V7 ✔] [V8 🔄]</code>\n• <b>Vueltas Cerradas Hoy:</b> <code>7 de 8 Vueltas</code> (<code>3,500 / 4,000 operaciones hoy</code>)\n• <b>Siguiente Salida:</b> <code>Vuelta 8 de 8</code> arrancando de <code>0/500</code>\n\n⛏️ <b>TAREAS EJECUTADAS POR LAS 500 LLAVES EN LA VUELTA:</b>\n1. 🔥 <b>Misiones Gasless EIP-712 (Día 2/25):</b> <code>500/500 Firmas ($0 Gas)</code>\n2. ⏰ <b>Cierres 30 Oct (Base/Avantis &amp; DogeOS):</b> <code>500/500 Ejecutadas</code>\n3. 🌱 <b>Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>\n\n🔗 <b>HASHES VERIFICABLES ON-CHAIN (MUESTRA REAL DE LA VUELTA):</b>\n  • 🔵 <b>Base:</b> <a href=\"https://sepolia.basescan.org/tx/0xda5ac28fca68a75e3cd917d2fb9ef7d7dfd4d7dcb9f5d0c85dfbaf26b4a340b9\"><code>0xda5ac28f...b4a340b9</code></a> | 🔷 <b>Arbitrum:</b> <a href=\"https://sepolia.arbiscan.io/tx/0xe746b2efdbcbc0353089fe2415060c122509aeb92a9ab5044524b7521d0694e8\"><code>0xe746b2ef...1d0694e8</code></a> | ⚡ <b>EIP-712:</b> <code>0x2d628ebc...7d1958bf</code>\n\n💵 <b>CONTABILIDAD REAL (CERO SIMULACIÓN):</b>\n• <b>Cosechado por Airdrops/Mints Hoy:</b> <code>+$0.00 USDC</code>\n• <b>Fondo Nuestro Inyectado en Flota:</b> <code>$4.70 USDC</code> (<code>78.13 POL</code> Cap)\n• <b>Bóveda Matriz #501 (Intocable):</b> <code>$598.76 USDC</code> (<code>160.79 POL</code>)",
+      "textPlain": "🪖 FLOTA X500 // VUELTA 7 DE 8 COMPLETADA\n🕒 Hora UTC: 19:20:24 UTC | Ventana: [18:00 ➔ 21:00 UTC]\n🔥 Racha 25 Días (25 Oct ➔ 20 Nov): Día 2/25 En Curso\n\n🎯 AUDITORÍA REAL DE LAS 500 LLAVES EN ESTA VUELTA:\n✅ Resultado: 500 / 500 LLAVES COMPLETADAS (0 Errores)\n  • 🟧 Box 1 (#001-#100): 100 / 100 ✔ (18.07 POL | $0.70 USDC)\n  • 🟦 Box 2 (#101-#200): 100 / 100 ✔ (18.03 POL | $1.05 USDC)\n  • 🟩 Box 3 (#201-#300): 100 / 100 ✔ (18.01 POL | $0.00 USDC)\n  • 🟨 Box 4 (#301-#400): 100 / 100 ✔ (12.01 POL | $0.00 USDC)\n  • 🟪 Box 5 (#401-#500): 100 / 100 ✔ (12.01 POL | $0.00 USDC)\n\n📊 RELOJ DE LAS 8 VUELTAS DEL DÍA (00:00 A 24:00 UTC):\n[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 ✔] [V7 ✔] [V8 🔄]\n• Vueltas Cerradas Hoy: 7 de 8 Vueltas (3,500 / 4,000 operaciones hoy)\n• Siguiente Salida: Vuelta 8 de 8 arrancando de 0/500\n\n⛏️ TAREAS EJECUTADAS POR LAS 500 LLAVES EN LA VUELTA:\n1. 🔥 Misiones Gasless EIP-712 (Día 2/25): 500/500 Firmas ($0 Gas)\n2. ⏰ Cierres 30 Oct (Base/Avantis &amp; DogeOS): 500/500 Ejecutadas\n3. 🌱 Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT): 500/500 Pulsos OK\n\n🔗 HASHES VERIFICABLES ON-CHAIN (MUESTRA REAL DE LA VUELTA):\n  • 🔵 Base: 0xda5ac28f...b4a340b9 | 🔷 Arbitrum: 0xe746b2ef...1d0694e8 | ⚡ EIP-712: 0x2d628ebc...7d1958bf\n\n💵 CONTABILIDAD REAL (CERO SIMULACIÓN):\n• Cosechado por Airdrops/Mints Hoy: +$0.00 USDC\n• Fondo Nuestro Inyectado en Flota: $4.70 USDC (78.13 POL Cap)\n• Bóveda Matriz #501 (Intocable): $598.76 USDC (160.79 POL)"
+    },
+    {
       "id": "tg-1793039991314-505",
       "timestamp": "2026-10-26T18:39:51.314Z",
       "timeFormatted": "18:39:51 UTC",
@@ -47304,8 +47311,8 @@
       "id": "tg-1793039984056-964",
       "timestamp": "2026-10-26T18:39:44.056Z",
       "timeFormatted": "18:39:44 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>\n• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$490.76 / $500.00 USDC</code> (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$100.02 USDC</code> · Meta Retiro: <b>+$20.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>160.79 POL (#501)</code> + <code>300.02 POL (Flota X500)</code>\n🌐 <b>Dashboard Directo:</b> <a href=\"https://area-501.curatolapps.workers.dev/\">area-501.curatolapps.workers.dev</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 2/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
-      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)\n• Cámara 1 (Polygon 0% Riesgo): $490.76 / $500.00 USDC (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker): $100.02 USDC · Meta Retiro: +$20.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 160.79 POL (#501) + 300.02 POL (Flota X500)\n🌐 Dashboard Directo: area-501.curatolapps.workers.dev\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 2/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
+      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>\n• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$490.76 / $500.00 USDC</code> (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$100.02 USDC</code> · Meta Retiro: <b>+$20.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>160.79 POL (#501)</code> + <code>300.02 POL (Flota X500)</code>\n🌐 <b>Dashboard Directo:</b> <a href=\"https://area-501.curatolapps.workers.dev/\">area-501.curatolapps.workers.dev</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 2/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
+      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)\n• Cámara 1 (Polygon 0% Riesgo): $490.76 / $500.00 USDC (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker): $100.02 USDC · Meta Retiro: +$20.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 160.79 POL (#501) + 300.02 POL (Flota X500)\n🌐 Dashboard Directo: area-501.curatolapps.workers.dev\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 2/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
     },
     {
       "id": "tg-1793039779801-714",
@@ -47325,8 +47332,8 @@
       "id": "tg-1793039339304-250",
       "timestamp": "2026-10-26T18:28:59.304Z",
       "timeFormatted": "18:28:59 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>\n• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$490.76 / $500.00 USDC</code> (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$100.02 USDC</code> · Meta Retiro: <b>+$20.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>160.79 POL (#501)</code> + <code>300.02 POL (Flota X500)</code>\n🌐 <b>Dashboard Directo:</b> <a href=\"https://area-501.curatolapps.workers.dev/\">area-501.curatolapps.workers.dev</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 2/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
-      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)\n• Cámara 1 (Polygon 0% Riesgo): $490.76 / $500.00 USDC (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker): $100.02 USDC · Meta Retiro: +$20.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 160.79 POL (#501) + 300.02 POL (Flota X500)\n🌐 Dashboard Directo: area-501.curatolapps.workers.dev\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 2/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
+      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>\n• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$490.76 / $500.00 USDC</code> (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$100.02 USDC</code> · Meta Retiro: <b>+$20.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>160.79 POL (#501)</code> + <code>300.02 POL (Flota X500)</code>\n🌐 <b>Dashboard Directo:</b> <a href=\"https://area-501.curatolapps.workers.dev/\">area-501.curatolapps.workers.dev</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 2/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
+      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)\n• Cámara 1 (Polygon 0% Riesgo): $490.76 / $500.00 USDC (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker): $100.02 USDC · Meta Retiro: +$20.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 160.79 POL (#501) + 300.02 POL (Flota X500)\n🌐 Dashboard Directo: area-501.curatolapps.workers.dev\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 2/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
     },
     {
       "id": "tg-1793038634917-103",
@@ -47339,8 +47346,8 @@
       "id": "tg-1793038628028-125",
       "timestamp": "2026-10-26T18:17:08.028Z",
       "timeFormatted": "18:17:08 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>\n• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$490.76 / $500.00 USDC</code> (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$100.02 USDC</code> · Meta Retiro: <b>+$20.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>160.79 POL (#501)</code> + <code>300.02 POL (Flota X500)</code>\n🌐 <b>Dashboard Directo:</b> <a href=\"https://area-501.curatolapps.workers.dev/\">area-501.curatolapps.workers.dev</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 2/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
-      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)\n• Cámara 1 (Polygon 0% Riesgo): $490.76 / $500.00 USDC (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker): $100.02 USDC · Meta Retiro: +$20.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 160.79 POL (#501) + 300.02 POL (Flota X500)\n🌐 Dashboard Directo: area-501.curatolapps.workers.dev\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 2/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
+      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>\n• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$490.76 / $500.00 USDC</code> (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$100.02 USDC</code> · Meta Retiro: <b>+$20.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>160.79 POL (#501)</code> + <code>300.02 POL (Flota X500)</code>\n🌐 <b>Dashboard Directo:</b> <a href=\"https://area-501.curatolapps.workers.dev/\">area-501.curatolapps.workers.dev</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 2/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
+      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)\n• Cámara 1 (Polygon 0% Riesgo): $490.76 / $500.00 USDC (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker): $100.02 USDC · Meta Retiro: +$20.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 160.79 POL (#501) + 300.02 POL (Flota X500)\n🌐 Dashboard Directo: area-501.curatolapps.workers.dev\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 2/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
     },
     {
       "id": "tg-1793022656407-306",
@@ -47409,15 +47416,15 @@
       "id": "tg-1792966334945-888",
       "timestamp": "2026-10-25T22:12:14.945Z",
       "timeFormatted": "22:12:14 UTC",
-      "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>\n• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$266.51 USDC (Piso Base Operativo)</code>\n• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$221.19 USDC</code>\n• <b>🎯 Brecha Real por Recuperar:</b> <b>-0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)</b>\n• <b>Liquidez Fija Consolidada:</b> <code>$487.70 USDC (Total Tanques + Binance)</code>\n• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>\n• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)</code>\n• <b>⛽ Gas Blindado:</b> <code>299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 1/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
-      "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:\n• Capital Invertido (Flota / Total): 123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]\n• Base Liquidez Actual (Tanques + Binance): $266.51 USDC (Piso Base Operativo)\n• Ganancia Neta Capturada sobre Base ($266.51): +$221.19 USDC\n• 🎯 Brecha Real por Recuperar: -0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)\n• Liquidez Fija Consolidada: $487.70 USDC (Total Tanques + Binance)\n• 🎯 Disparos Atómicos Diarios: 0 / 15 Disparos (Modo Riesgo 0%)\n• Bóveda #501: $265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)\n• ⛽ Gas Blindado: 299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 1/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
+      "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>\n• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$266.51 USDC (Piso Base Operativo)</code>\n• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$221.19 USDC</code>\n• <b>🎯 Brecha Real por Recuperar:</b> <b>-0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)</b>\n• <b>Liquidez Fija Consolidada:</b> <code>$487.70 USDC (Total Tanques + Binance)</code>\n• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>\n• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)</code>\n• <b>⛽ Gas Blindado:</b> <code>299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 1/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
+      "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:\n• Capital Invertido (Flota / Total): 123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]\n• Base Liquidez Actual (Tanques + Binance): $266.51 USDC (Piso Base Operativo)\n• Ganancia Neta Capturada sobre Base ($266.51): +$221.19 USDC\n• 🎯 Brecha Real por Recuperar: -0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)\n• Liquidez Fija Consolidada: $487.70 USDC (Total Tanques + Binance)\n• 🎯 Disparos Atómicos Diarios: 0 / 15 Disparos (Modo Riesgo 0%)\n• Bóveda #501: $265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)\n• ⛽ Gas Blindado: 299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 1/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
     },
     {
       "id": "tg-1792966242307-294",
       "timestamp": "2026-10-25T22:10:42.307Z",
       "timeFormatted": "22:10:42 UTC",
-      "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>\n• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$266.51 USDC (Piso Base Operativo)</code>\n• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$221.19 USDC</code>\n• <b>🎯 Brecha Real por Recuperar:</b> <b>-0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)</b>\n• <b>Liquidez Fija Consolidada:</b> <code>$487.70 USDC (Total Tanques + Binance)</code>\n• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>\n• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)</code>\n• <b>⛽ Gas Blindado:</b> <code>299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 1/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
-      "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:\n• Capital Invertido (Flota / Total): 123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]\n• Base Liquidez Actual (Tanques + Binance): $266.51 USDC (Piso Base Operativo)\n• Ganancia Neta Capturada sobre Base ($266.51): +$221.19 USDC\n• 🎯 Brecha Real por Recuperar: -0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)\n• Liquidez Fija Consolidada: $487.70 USDC (Total Tanques + Binance)\n• 🎯 Disparos Atómicos Diarios: 0 / 15 Disparos (Modo Riesgo 0%)\n• Bóveda #501: $265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)\n• ⛽ Gas Blindado: 299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 1/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
+      "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>\n• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$266.51 USDC (Piso Base Operativo)</code>\n• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$221.19 USDC</code>\n• <b>🎯 Brecha Real por Recuperar:</b> <b>-0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)</b>\n• <b>Liquidez Fija Consolidada:</b> <code>$487.70 USDC (Total Tanques + Binance)</code>\n• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>\n• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)</code>\n• <b>⛽ Gas Blindado:</b> <code>299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 1/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
+      "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:\n• Capital Invertido (Flota / Total): 123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]\n• Base Liquidez Actual (Tanques + Binance): $266.51 USDC (Piso Base Operativo)\n• Ganancia Neta Capturada sobre Base ($266.51): +$221.19 USDC\n• 🎯 Brecha Real por Recuperar: -0.00 € (-$0.00 USD p/ Empate Real en $286.20 USDC)\n• Liquidez Fija Consolidada: $487.70 USDC (Total Tanques + Binance)\n• 🎯 Disparos Atómicos Diarios: 0 / 15 Disparos (Modo Riesgo 0%)\n• Bóveda #501: $265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $487.70 USDC)\n• ⛽ Gas Blindado: 299.89 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 1/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
     },
     {
       "id": "tg-1792966228178-40",
@@ -47488,13 +47495,6 @@
       "timeFormatted": "23:59:45 UTC",
       "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>\n• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$266.51 USDC (Piso Base Operativo)</code>\n• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$0.00 USDC</code>\n• <b>🎯 Brecha Real por Recuperar:</b> <b>-18.15 € (-$19.69 USD p/ Empate Real en $286.20 USDC)</b>\n• <b>Liquidez Fija Consolidada:</b> <code>$266.51 USDC (Total Tanques + Binance)</code>\n• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>\n• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $266.51 USDC)</code>\n• <b>⛽ Gas Blindado:</b> <code>300.06 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🕵️‍♂️🎯 <b>MÓDULO 4: SQUAD SECRET // SALA DE OPERACIONES 10/3/5</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>CADENCIA TÁCTICA: CICLO 10 / 3 / 5</b>\n⏱️ <b>Fase Actual:</b> <code>FASE 3: DESCANSO Y CHEQUEO (5M)</code>\n⏳ <b>Conteo Bloque:</b> <code>00:19</code> (Fase: <code>00:19</code>)\n🛡️ <b>Modo:</b> <code>🔒 MODO PLANIFICACIÓN & CALIBRACIÓN EN VIVO ($0 RIESGO)</code>\n\n💵 <b>CAPITALIZACIÓN RUMBO A $300.00 USDC:</b>\n• <b>Bóveda #501 Consolidada:</b> <code>$267.72 USDC / $300.00 USDC</code> (<b>89.24%</b>)\n• <b>Faltante para Meta:</b> <code>$32.28 USDC</code>\n• <b>Piso Gas #501:</b> <code>155.26 / 150.00 POL</code> (100% BLINDADO)\n• <b>Piso Gas Flota:</b> <code>300.06 / 300.00 POL</code> (100% BLINDADO)\n• <code>STRICT_NO_GAS_SELL = true</code> ✅ (Venta de Gas Prohibida)\n\n🎯 <b>1 SOLO TIRO CERTERO CALIBRADO:</b>\n• <b>Par Elegido:</b> <code>BTC/USDC</code> (CRYPTO_BENCHMARK)\n• <b>Informante:</b> <code>#701 ORACLE-GLOBAL</code>\n• <b>Dirección Calibrada:</b> <b>▲ BULL LONG</b> (Certeza: <code>94%</code>)\n• <b>Precio Entrada:</b> <code>$80772</code>\n• <b>Candado Breakeven (#00 a +0.04%):</b> <code>$80804.31</code> ($0.00 Pérdida)\n• <b>Meta Take Profit:</b> <code>$81054.7</code> (<b>+$0.15 USDC</b>)\n\n🧠 <b>ALINEACIÓN EQUIPO SECRETO (5 ESLABONES):</b>\n1. <b>Oráculos:</b> Kraken API (2245ms) vs Pools DEX V3 ($0 Gas)\n2. <b>Informantes:</b> #601, #701 Oro, #801 filtraron 1 único ganador\n3. <b>32 Nebulosas (16 Binomios):</b> 4 Candados Anti-Rug Certificados\n4. <b>Doble Dirección:</b> 🐂 Bull 85% vs 🐻 Bear 15%\n5. <b>Mentora #00:</b> Reloj 10/3/5 + Frialdad Nash + Retorno a USDC\n\n📊 <b>MARCADOR DE PRECISIÓN (RUMBO AL 12 - 2):</b>\n• <b>Aciertos:</b> <code>11 / 12</code> | <b>Frenos:</b> <code>1 / 2</code>\n• <b>Win-Rate:</b> <code>91.7%</code>\n• <b>PnL Neto Sesión:</b> <b>+$1.18 USDC</b>\n\n🌐 <b>URL Módulo 4:</b>\n<code>https://operacion-10k.curatolapps.workers.dev/squad-secret/</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<i>Cadencia estricta: 2m Calibrar ➔ 3m Disparar ➔ 5m Descansar. Cero Ansiedad.</i>",
       "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:\n• Capital Invertido (Flota / Total): 123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]\n• Base Liquidez Actual (Tanques + Binance): $266.51 USDC (Piso Base Operativo)\n• Ganancia Neta Capturada sobre Base ($266.51): +$0.00 USDC\n• 🎯 Brecha Real por Recuperar: -18.15 € (-$19.69 USD p/ Empate Real en $286.20 USDC)\n• Liquidez Fija Consolidada: $266.51 USDC (Total Tanques + Binance)\n• 🎯 Disparos Atómicos Diarios: 0 / 15 Disparos (Modo Riesgo 0%)\n• Bóveda #501: $265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $266.51 USDC)\n• ⛽ Gas Blindado: 300.06 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🕵️‍♂️🎯 MÓDULO 4: SQUAD SECRET // SALA DE OPERACIONES 10/3/5\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 CADENCIA TÁCTICA: CICLO 10 / 3 / 5\n⏱️ Fase Actual: FASE 3: DESCANSO Y CHEQUEO (5M)\n⏳ Conteo Bloque: 00:19 (Fase: 00:19)\n🛡️ Modo: 🔒 MODO PLANIFICACIÓN & CALIBRACIÓN EN VIVO ($0 RIESGO)\n\n💵 CAPITALIZACIÓN RUMBO A $300.00 USDC:\n• Bóveda #501 Consolidada: $267.72 USDC / $300.00 USDC (89.24%)\n• Faltante para Meta: $32.28 USDC\n• Piso Gas #501: 155.26 / 150.00 POL (100% BLINDADO)\n• Piso Gas Flota: 300.06 / 300.00 POL (100% BLINDADO)\n• STRICT_NO_GAS_SELL = true ✅ (Venta de Gas Prohibida)\n\n🎯 1 SOLO TIRO CERTERO CALIBRADO:\n• Par Elegido: BTC/USDC (CRYPTO_BENCHMARK)\n• Informante: #701 ORACLE-GLOBAL\n• Dirección Calibrada: ▲ BULL LONG (Certeza: 94%)\n• Precio Entrada: $80772\n• Candado Breakeven (#00 a +0.04%): $80804.31 ($0.00 Pérdida)\n• Meta Take Profit: $81054.7 (+$0.15 USDC)\n\n🧠 ALINEACIÓN EQUIPO SECRETO (5 ESLABONES):\n1. Oráculos: Kraken API (2245ms) vs Pools DEX V3 ($0 Gas)\n2. Informantes: #601, #701 Oro, #801 filtraron 1 único ganador\n3. 32 Nebulosas (16 Binomios): 4 Candados Anti-Rug Certificados\n4. Doble Dirección: 🐂 Bull 85% vs 🐻 Bear 15%\n5. Mentora #00: Reloj 10/3/5 + Frialdad Nash + Retorno a USDC\n\n📊 MARCADOR DE PRECISIÓN (RUMBO AL 12 - 2):\n• Aciertos: 11 / 12 | Frenos: 1 / 2\n• Win-Rate: 91.7%\n• PnL Neto Sesión: +$1.18 USDC\n\n🌐 URL Módulo 4:\nhttps://operacion-10k.curatolapps.workers.dev/squad-secret/\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nCadencia estricta: 2m Calibrar ➔ 3m Disparar ➔ 5m Descansar. Cero Ansiedad."
-    },
-    {
-      "id": "tg-1792886150142-17",
-      "timestamp": "2026-10-24T23:55:50.142Z",
-      "timeFormatted": "23:55:50 UTC",
-      "rawHtml": "💶 <b>ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:</b>\n• <b>Capital Invertido (Flota / Total):</b> <code>123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]</code>\n• <b>Base Liquidez Actual (Tanques + Binance):</b> <code>$266.51 USDC (Piso Base Operativo)</code>\n• <b>Ganancia Neta Capturada sobre Base ($266.51):</b> <code>+$0.00 USDC</code>\n• <b>🎯 Brecha Real por Recuperar:</b> <b>-18.15 € (-$19.69 USD p/ Empate Real en $286.20 USDC)</b>\n• <b>Liquidez Fija Consolidada:</b> <code>$266.51 USDC (Total Tanques + Binance)</code>\n• <b>🎯 Disparos Atómicos Diarios:</b> <b>0 / 15 Disparos (Modo Riesgo 0%)</b>\n• <b>Bóveda #501:</b> <code>$265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $266.51 USDC)</code>\n• <b>⛽ Gas Blindado:</b> <code>300.06 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🕵️‍♂️🎯 <b>MÓDULO 4: SQUAD SECRET // SALA DE OPERACIONES 10/3/5</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>CADENCIA TÁCTICA: CICLO 10 / 3 / 5</b>\n⏱️ <b>Fase Actual:</b> <code>FASE 3: DESCANSO Y CHEQUEO (5M)</code>\n⏳ <b>Conteo Bloque:</b> <code>04:19</code> (Fase: <code>04:19</code>)\n🛡️ <b>Modo:</b> <code>🔒 MODO PLANIFICACIÓN & CALIBRACIÓN EN VIVO ($0 RIESGO)</code>\n\n💵 <b>CAPITALIZACIÓN RUMBO A $300.00 USDC:</b>\n• <b>Bóveda #501 Consolidada:</b> <code>$267.72 USDC / $300.00 USDC</code> (<b>89.24%</b>)\n• <b>Faltante para Meta:</b> <code>$32.28 USDC</code>\n• <b>Piso Gas #501:</b> <code>155.26 / 150.00 POL</code> (100% BLINDADO)\n• <b>Piso Gas Flota:</b> <code>300.06 / 300.00 POL</code> (100% BLINDADO)\n• <code>STRICT_NO_GAS_SELL = true</code> ✅ (Venta de Gas Prohibida)\n\n🎯 <b>1 SOLO TIRO CERTERO CALIBRADO:</b>\n• <b>Par Elegido:</b> <code>BTC/USDC</code> (CRYPTO_BENCHMARK)\n• <b>Informante:</b> <code>#701 ORACLE-GLOBAL</code>\n• <b>Dirección Calibrada:</b> <b>▲ BULL LONG</b> (Certeza: <code>94%</code>)\n• <b>Precio Entrada:</b> <code>$80814.6</code>\n• <b>Candado Breakeven (#00 a +0.04%):</b> <code>$80846.93</code> ($0.00 Pérdida)\n• <b>Meta Take Profit:</b> <code>$81097.45</code> (<b>+$0.15 USDC</b>)\n\n🧠 <b>ALINEACIÓN EQUIPO SECRETO (5 ESLABONES):</b>\n1. <b>Oráculos:</b> Kraken API (4974ms) vs Pools DEX V3 ($0 Gas)\n2. <b>Informantes:</b> #601, #701 Oro, #801 filtraron 1 único ganador\n3. <b>32 Nebulosas (16 Binomios):</b> 4 Candados Anti-Rug Certificados\n4. <b>Doble Dirección:</b> 🐂 Bull 85% vs 🐻 Bear 15%\n5. <b>Mentora #00:</b> Reloj 10/3/5 + Frialdad Nash + Retorno a USDC\n\n📊 <b>MARCADOR DE PRECISIÓN (RUMBO AL 12 - 2):</b>\n• <b>Aciertos:</b> <code>11 / 12</code> | <b>Frenos:</b> <code>1 / 2</code>\n• <b>Win-Rate:</b> <code>91.7%</code>\n• <b>PnL Neto Sesión:</b> <b>+$1.18 USDC</b>\n\n🌐 <b>URL Módulo 4:</b>\n<code>https://operacion-10k.curatolapps.workers.dev/squad-secret/</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n<i>Cadencia estricta: 2m Calibrar ➔ 3m Disparar ➔ 5m Descansar. Cero Ansiedad.</i>",
-      "textPlain": "💶 ESTADO DE MI INVERSIÓN (ROI) — ÁREA 501:\n• Capital Invertido (Flota / Total): 123,00 € ($133.50 USD) [100€ Flota + 23€ Kraken]\n• Base Liquidez Actual (Tanques + Binance): $266.51 USDC (Piso Base Operativo)\n• Ganancia Neta Capturada sobre Base ($266.51): +$0.00 USDC\n• 🎯 Brecha Real por Recuperar: -18.15 € (-$19.69 USD p/ Empate Real en $286.20 USDC)\n• Liquidez Fija Consolidada: $266.51 USDC (Total Tanques + Binance)\n• 🎯 Disparos Atómicos Diarios: 0 / 15 Disparos (Modo Riesgo 0%)\n• Bóveda #501: $265.51 USDC On-Chain ($243.99 Polygon #501/#001 + $21.52 BSC #501/#101) | $1.00 Binance (Total: $266.51 USDC)\n• ⛽ Gas Blindado: 300.06 POL (Piso 150.00 POL en #501 / 300.00 POL en Flota — 100% FULL)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🕵️‍♂️🎯 MÓDULO 4: SQUAD SECRET // SALA DE OPERACIONES 10/3/5\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 CADENCIA TÁCTICA: CICLO 10 / 3 / 5\n⏱️ Fase Actual: FASE 3: DESCANSO Y CHEQUEO (5M)\n⏳ Conteo Bloque: 04:19 (Fase: 04:19)\n🛡️ Modo: 🔒 MODO PLANIFICACIÓN & CALIBRACIÓN EN VIVO ($0 RIESGO)\n\n💵 CAPITALIZACIÓN RUMBO A $300.00 USDC:\n• Bóveda #501 Consolidada: $267.72 USDC / $300.00 USDC (89.24%)\n• Faltante para Meta: $32.28 USDC\n• Piso Gas #501: 155.26 / 150.00 POL (100% BLINDADO)\n• Piso Gas Flota: 300.06 / 300.00 POL (100% BLINDADO)\n• STRICT_NO_GAS_SELL = true ✅ (Venta de Gas Prohibida)\n\n🎯 1 SOLO TIRO CERTERO CALIBRADO:\n• Par Elegido: BTC/USDC (CRYPTO_BENCHMARK)\n• Informante: #701 ORACLE-GLOBAL\n• Dirección Calibrada: ▲ BULL LONG (Certeza: 94%)\n• Precio Entrada: $80814.6\n• Candado Breakeven (#00 a +0.04%): $80846.93 ($0.00 Pérdida)\n• Meta Take Profit: $81097.45 (+$0.15 USDC)\n\n🧠 ALINEACIÓN EQUIPO SECRETO (5 ESLABONES):\n1. Oráculos: Kraken API (4974ms) vs Pools DEX V3 ($0 Gas)\n2. Informantes: #601, #701 Oro, #801 filtraron 1 único ganador\n3. 32 Nebulosas (16 Binomios): 4 Candados Anti-Rug Certificados\n4. Doble Dirección: 🐂 Bull 85% vs 🐻 Bear 15%\n5. Mentora #00: Reloj 10/3/5 + Frialdad Nash + Retorno a USDC\n\n📊 MARCADOR DE PRECISIÓN (RUMBO AL 12 - 2):\n• Aciertos: 11 / 12 | Frenos: 1 / 2\n• Win-Rate: 91.7%\n• PnL Neto Sesión: +$1.18 USDC\n\n🌐 URL Módulo 4:\nhttps://operacion-10k.curatolapps.workers.dev/squad-secret/\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nCadencia estricta: 2m Calibrar ➔ 3m Disparar ➔ 5m Descansar. Cero Ansiedad."
     }
   ],
   "lomo6SocialX": {
@@ -73622,7 +73622,7 @@
         "name": "Misiones Gasless EIP-712 & Daily Streaks",
         "priorityRank": 1,
         "priority": "PRIORIDAD_1",
-        "priorityBadge": "🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)",
+        "priorityBadge": "🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))",
         "network": "Polygon PoS & BSC",
         "chainId": 137,
         "secondaryChainId": 56,
@@ -73841,7 +73841,7 @@
         "priorityRank": 1,
         "id": "gasless-mainnet",
         "name": "Misiones Gasless EIP-712 & Daily Streaks",
-        "priorityBadge": "🔥 PRIORIDAD #1 (ARRANCA MAÑANA 25 OCT)",
+        "priorityBadge": "🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))",
         "window": "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)",
         "streakDaysCompleted": 2,
         "streakStatusText": "Día 2/25 (Racha Activa)",
@@ -74729,16 +74729,16 @@
   },
   "fourDailyRounds": {
     "date": "2026-10-26",
-    "lastUpdated": "2026-10-26T18:39:51.279Z",
-    "currentRoundId": 4,
-    "todayRoundsCompleted": 4,
-    "todayTotalOps": 2000,
-    "dailyGoal": 2000,
+    "lastUpdated": "2026-10-26T19:20:29.567Z",
+    "currentRoundId": 7,
+    "todayRoundsCompleted": 7,
+    "todayTotalOps": 3500,
+    "dailyGoal": 4000,
     "rounds": {
       "1": {
         "roundId": 1,
-        "name": "Vuelta #1",
-        "window": "00:00 ➔ 06:00 UTC",
+        "name": "Vuelta 1 de 8",
+        "window": "00:00 ➔ 03:00 UTC",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -74756,12 +74756,12 @@
           "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
           "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b"
         },
-        "completedAtUtc": "2026-10-26T05:58:12.000Z"
+        "completedAtUtc": "2026-10-26T02:58:12.000Z"
       },
       "2": {
         "roundId": 2,
-        "name": "Vuelta #2",
-        "window": "06:00 ➔ 12:00 UTC",
+        "name": "Vuelta 2 de 8",
+        "window": "03:00 ➔ 06:00 UTC",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -74779,12 +74779,12 @@
           "base": "0x7a23c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3",
           "arbitrum": "0x5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c"
         },
-        "completedAtUtc": "2026-10-26T11:57:44.000Z"
+        "completedAtUtc": "2026-10-26T05:57:44.000Z"
       },
       "3": {
         "roundId": 3,
-        "name": "Vuelta #3",
-        "window": "12:00 ➔ 18:00 UTC",
+        "name": "Vuelta 3 de 8",
+        "window": "06:00 ➔ 09:00 UTC",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -74802,11 +74802,12 @@
           "base": "0x3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f4e",
           "arbitrum": "0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b"
         },
-        "completedAtUtc": "2026-10-26T17:59:02.000Z"
+        "completedAtUtc": "2026-10-26T08:59:02.000Z"
       },
       "4": {
         "roundId": 4,
-        "name": "Vuelta #4",
+        "name": "Vuelta 4 de 8",
+        "window": "09:00 ➔ 12:00 UTC",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -74824,7 +74825,284 @@
           "arbitrum": "0x68680a389adf2a60e802b09d26423ea6a2c00a66f4daad1bcbf4a38f59908c66",
           "gaslessCheckIn": "0x28ad4f5e36ba902f6f1e50cbbf6bfa810731a21ddf62328c3d47fd4c97b81eeb"
         },
-        "completedAtUtc": "2026-10-26T18:39:51.279Z"
+        "completedAtUtc": "2026-10-26T11:59:15.000Z"
+      },
+      "5": {
+        "roundId": 5,
+        "name": "Vuelta 5 de 8",
+        "window": "12:00 ➔ 15:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "base": "0x865f651cf4a61b09dd62c0590efda6a2a77d9c75976f8db3f5555d00dbd6e96f",
+          "arbitrum": "0x8295747c23116c5c55d7dce99e9790c1ea242f3fded0322e7294345597c30a8c",
+          "gaslessCheckIn": "0xb8876037f48b1910a3028b8a566965466b8d91a2e3f4c5b6a7890123456789ac"
+        },
+        "completedAtUtc": "2026-10-26T14:58:30.000Z"
+      },
+      "6": {
+        "roundId": 6,
+        "name": "Vuelta 6 de 8",
+        "window": "15:00 ➔ 18:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
+          "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b",
+          "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc"
+        },
+        "completedAtUtc": "2026-10-26T17:59:12.000Z"
+      },
+      "7": {
+        "roundId": 7,
+        "name": "Vuelta #7",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "gaslessCheckIn": "0x2d628ebc1ed927045b2fea969317354e499fc52528ec18fc413dbb177d1958bf",
+          "base": "0xda5ac28fca68a75e3cd917d2fb9ef7d7dfd4d7dcb9f5d0c85dfbaf26b4a340b9",
+          "arbitrum": "0xe746b2efdbcbc0353089fe2415060c122509aeb92a9ab5044524b7521d0694e8"
+        },
+        "completedAtUtc": "2026-10-26T19:20:29.567Z"
+      },
+      "8": {
+        "roundId": 8,
+        "name": "Vuelta 8 de 8",
+        "window": "21:00 ➔ 24:00 UTC",
+        "status": "PENDING",
+        "completedWallets": 0,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "sampleHashes": {},
+        "completedAtUtc": null
+      }
+    },
+    "failedWalletsQueue": []
+  },
+  "eightDailyRounds": {
+    "date": "2026-10-26",
+    "lastUpdated": "2026-10-26T19:20:29.567Z",
+    "currentRoundId": 7,
+    "todayRoundsCompleted": 7,
+    "todayTotalOps": 3500,
+    "dailyGoal": 4000,
+    "rounds": {
+      "1": {
+        "roundId": 1,
+        "name": "Vuelta 1 de 8",
+        "window": "00:00 ➔ 03:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc",
+          "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
+          "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b"
+        },
+        "completedAtUtc": "2026-10-26T02:58:12.000Z"
+      },
+      "2": {
+        "roundId": 2,
+        "name": "Vuelta 2 de 8",
+        "window": "03:00 ➔ 06:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "gaslessCheckIn": "0x6f29a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+          "base": "0x7a23c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3",
+          "arbitrum": "0x5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c"
+        },
+        "completedAtUtc": "2026-10-26T05:57:44.000Z"
+      },
+      "3": {
+        "roundId": 3,
+        "name": "Vuelta 3 de 8",
+        "window": "06:00 ➔ 09:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "gaslessCheckIn": "0x7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+          "base": "0x3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f4e",
+          "arbitrum": "0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b"
+        },
+        "completedAtUtc": "2026-10-26T08:59:02.000Z"
+      },
+      "4": {
+        "roundId": 4,
+        "name": "Vuelta 4 de 8",
+        "window": "09:00 ➔ 12:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "base": "0x66dca8fa8b2c483c27a5349a32a805c8a1bf5827251d0b5e4b5af2428a566965",
+          "arbitrum": "0x68680a389adf2a60e802b09d26423ea6a2c00a66f4daad1bcbf4a38f59908c66",
+          "gaslessCheckIn": "0x28ad4f5e36ba902f6f1e50cbbf6bfa810731a21ddf62328c3d47fd4c97b81eeb"
+        },
+        "completedAtUtc": "2026-10-26T11:59:15.000Z"
+      },
+      "5": {
+        "roundId": 5,
+        "name": "Vuelta 5 de 8",
+        "window": "12:00 ➔ 15:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "base": "0x865f651cf4a61b09dd62c0590efda6a2a77d9c75976f8db3f5555d00dbd6e96f",
+          "arbitrum": "0x8295747c23116c5c55d7dce99e9790c1ea242f3fded0322e7294345597c30a8c",
+          "gaslessCheckIn": "0xb8876037f48b1910a3028b8a566965466b8d91a2e3f4c5b6a7890123456789ac"
+        },
+        "completedAtUtc": "2026-10-26T14:58:30.000Z"
+      },
+      "6": {
+        "roundId": 6,
+        "name": "Vuelta 6 de 8",
+        "window": "15:00 ➔ 18:00 UTC",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
+          "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b",
+          "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc"
+        },
+        "completedAtUtc": "2026-10-26T17:59:12.000Z"
+      },
+      "7": {
+        "roundId": 7,
+        "name": "Vuelta #7",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "gaslessCheckIn": "0x2d628ebc1ed927045b2fea969317354e499fc52528ec18fc413dbb177d1958bf",
+          "base": "0xda5ac28fca68a75e3cd917d2fb9ef7d7dfd4d7dcb9f5d0c85dfbaf26b4a340b9",
+          "arbitrum": "0xe746b2efdbcbc0353089fe2415060c122509aeb92a9ab5044524b7521d0694e8"
+        },
+        "completedAtUtc": "2026-10-26T19:20:29.567Z"
+      },
+      "8": {
+        "roundId": 8,
+        "name": "Vuelta 8 de 8",
+        "window": "21:00 ➔ 24:00 UTC",
+        "status": "PENDING",
+        "completedWallets": 0,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "sampleHashes": {},
+        "completedAtUtc": null
       }
     },
     "failedWalletsQueue": []

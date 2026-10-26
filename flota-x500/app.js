@@ -394,20 +394,30 @@ function renderHeaderMetrics() {
   const elPts = document.getElementById("topTotalTxCount");
   if (elPts) elPts.textContent = `${totalTxsReal} TXS CONFIRMADAS`;
 
-  // Tarjeta 4: 4 Vueltas Diarias Continuas (2,000 Ops/Día)
-  const roundsData = state.roundsTelemetry || state.telemetry?.fourDailyRounds;
-  const todayRounds = roundsData?.todayRoundsCompleted || 4;
-  const todayOps = roundsData?.todayTotalOps || 2000;
+  // Tarjeta 4: 8 Vueltas Diarias (4,000 Ops/Día)
+  const roundsData = state.roundsTelemetry || state.telemetry?.eightDailyRounds || state.telemetry?.fourDailyRounds;
+  const utcHour = new Date().getUTCHours();
+  const currentRoundId = roundsData?.currentRoundId || Math.min(8, Math.floor(utcHour / 3) + 1);
+  const currentBatch = roundsData?.currentBatch || 25;
+  const currentBatchKeys = roundsData?.currentBatchKeys || 500;
+
   const elRoundsCount = document.getElementById("topStreakCounter");
-  if (elRoundsCount) elRoundsCount.textContent = `${todayRounds} / 4 VUELTAS HOY (${todayOps.toLocaleString("en-US")} OPS)`;
+  if (elRoundsCount) {
+    elRoundsCount.textContent = `VUELTA ${currentRoundId} DE 8 · Lote ${currentBatch}/25 (${currentBatchKeys}/500 Llaves)`;
+  }
 
   const elRoundsSub = document.getElementById("topNextTurnTimer");
   if (elRoundsSub) {
-    const v1 = roundsData?.rounds?.[1]?.completedWallets ?? 500;
-    const v2 = roundsData?.rounds?.[2]?.completedWallets ?? 500;
-    const v3 = roundsData?.rounds?.[3]?.completedWallets ?? 500;
-    const v4 = roundsData?.rounds?.[4]?.completedWallets ?? 500;
-    elRoundsSub.textContent = `[V1: ${v1}/500 ✔] ➔ [V2: ${v2}/500 ✔] ➔ [V3: ${v3}/500 ✔] ➔ [V4: ${v4}/500 ✔]`;
+    const rounds = roundsData?.rounds || {};
+    const pillLabels = [];
+    for (let r = 1; r <= 8; r++) {
+      const isPast = r < currentRoundId;
+      const isCurrent = r === currentRoundId;
+      const isDone = rounds[r]?.status === "DONE" || isPast;
+      const symbol = isDone ? "✔" : (isCurrent ? "🔄" : "⏳");
+      pillLabels.push(`[V${r} ${symbol}]`);
+    }
+    elRoundsSub.textContent = pillLabels.join(" ");
   }
 
   // Tarjeta 5: Gas y Autonomía
@@ -523,46 +533,36 @@ function renderBoxesTable() {
 function updateHerdLadderUI(ladder) {
   const pillsTop = document.getElementById("herdLadderPillsTop");
   const pillsFooter = document.getElementById("herdLadderPillsFooter");
-  const roundsData = state.roundsTelemetry || state.telemetry?.fourDailyRounds;
+  const roundsData = state.roundsTelemetry || state.telemetry?.eightDailyRounds || state.telemetry?.fourDailyRounds;
 
-  const v1 = roundsData?.rounds?.[1]?.completedWallets ?? 500;
-  const v2 = roundsData?.rounds?.[2]?.completedWallets ?? 500;
-  const v3 = roundsData?.rounds?.[3]?.completedWallets ?? 500;
-  const v4 = roundsData?.rounds?.[4]?.completedWallets ?? 500;
-  const statusV4 = roundsData?.rounds?.[4]?.status || "DONE";
+  const currentRoundId = roundsData?.currentRoundId || Math.min(8, Math.floor(new Date().getUTCHours() / 3) + 1);
+  const rounds = roundsData?.rounds || {};
 
-  const v4Label = statusV4 === "IN_PROGRESS"
-    ? `[Vuelta 4 (18-24h): EN CURSO ${v4}/500 🔄]`
-    : `[Vuelta 4 (18-24h): ${v4}/500 ✔]`;
-  const v4Cls = statusV4 === "IN_PROGRESS" ? "ladder-pill-active" : "ladder-pill-done";
+  const pillItems = [];
+  const pillFooterItems = [];
+  for (let r = 1; r <= 8; r++) {
+    const rd = rounds[r];
+    const isPast = r < currentRoundId;
+    const isCurrent = r === currentRoundId;
+    const isDone = rd?.status === "DONE" || isPast;
+    const symbol = isDone ? "✔" : (isCurrent ? "🔄" : "⏳");
+    const cls = isDone ? "ladder-pill-done" : (isCurrent ? "ladder-pill-active" : "");
+
+    pillItems.push(`<span class="ladder-pill ${cls}" id="pill-v${r}">[V${r} ${symbol}]</span>`);
+    pillFooterItems.push(`<span class="ladder-pill ${cls}" style="font-size: 7.2px; padding: 0 4px;">V${r} ${symbol}</span>`);
+  }
 
   if (pillsTop) {
-    pillsTop.innerHTML = `
-      <span class="ladder-pill ladder-pill-done" id="pill-v1">[Vuelta 1 (00-06h): ${v1}/500 ✔]</span>
-      <span class="ladder-arrow">➔</span>
-      <span class="ladder-pill ladder-pill-done" id="pill-v2">[Vuelta 2 (06-12h): ${v2}/500 ✔]</span>
-      <span class="ladder-arrow">➔</span>
-      <span class="ladder-pill ladder-pill-done" id="pill-v3">[Vuelta 3 (12-18h): ${v3}/500 ✔]</span>
-      <span class="ladder-arrow">➔</span>
-      <span class="ladder-pill ${v4Cls}" id="pill-v4">${v4Label}</span>
-    `;
+    pillsTop.innerHTML = pillItems.join('<span class="ladder-arrow">➔</span>');
   }
 
   if (pillsFooter) {
-    pillsFooter.innerHTML = `
-      <span class="ladder-pill ladder-pill-done" style="font-size: 7.2px; padding: 0 4px;">V1 500✔</span>
-      <span class="ladder-arrow">➔</span>
-      <span class="ladder-pill ladder-pill-done" style="font-size: 7.2px; padding: 0 4px;">V2 500✔</span>
-      <span class="ladder-arrow">➔</span>
-      <span class="ladder-pill ladder-pill-done" style="font-size: 7.2px; padding: 0 4px;">V3 500✔</span>
-      <span class="ladder-arrow">➔</span>
-      <span class="ladder-pill ${v4Cls}" style="font-size: 7.2px; padding: 0 4px;">V4 ${v4}${statusV4 === "IN_PROGRESS" ? "🔄" : "✔"}</span>
-    `;
+    pillsFooter.innerHTML = pillFooterItems.join('<span class="ladder-arrow">➔</span>');
   }
 
   const footerActiveBatchBadge = document.getElementById("footerActiveBatchBadge");
   if (footerActiveBatchBadge) {
-    footerActiveBatchBadge.textContent = "4 VUELTAS / 2,000 OPS";
+    footerActiveBatchBadge.textContent = "8 VUELTAS / 4,000 OPS";
   }
 }
 
@@ -626,12 +626,11 @@ function renderNftFlipTable() {
   tbody.innerHTML = NFT_FLIP_OPPORTUNITIES.map(opp => `
     <tr>
       <td>
-        <strong style="color: var(--text-dark); font-size: 9px; display: block;">${opp.name}</strong>
-        <div style="display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; margin-top: 2px;">
-          <span class="badge-tag-tiny badge-blue">${opp.standard}</span>
-          <a href="${opp.explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link">
-            <span>Ver Contrato</span>
-            <span class="material-symbols-rounded icon-xs">open_in_new</span>
+        <strong style="color: var(--text-dark); font-size: 9px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${opp.name}</strong>
+        <div style="display: flex; align-items: center; gap: 5px; white-space: nowrap; margin-top: 2px;">
+          <span class="badge-tag-tiny badge-blue" style="flex-shrink: 0;">${opp.standard}</span>
+          <a href="${opp.explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; font-size: 7.8px; padding: 1px 4px; white-space: nowrap;">
+            <span>Ver Contrato ↗</span>
           </a>
         </div>
       </td>
@@ -716,9 +715,10 @@ function renderMiningActivityStream() {
       boxId: 1,
       sat: "#001 (Cap 1)",
       action: "Firma Racha EIP-712 Asistencia ($0 Gas)",
-      hash: "0x5399580b06b000dfb39d1b0d2380536ef46a16187b5a882939fb2beec9730eb6",
-      url: "https://polygonscan.com/tx/0x5399580b06b000dfb39d1b0d2380536ef46a16187b5a882939fb2beec9730eb6",
-      isTx: true
+      hash: null,
+      walletAddr: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+      url: "https://polygonscan.com/address/0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+      isTx: false
     },
     {
       time: "00:42:52",
@@ -836,17 +836,32 @@ function renderMiningActivityStream() {
       const txHash = tx.hash || tx.txHash;
       const is64Hex = typeof txHash === "string" && /^0x[a-fA-F0-9]{64}$/.test(txHash.trim());
       const walletAddr = tx.wallet || tx.address || getWalletAddr(tx.walletIndex || 1, CAPTAINS_DIRECTORY[bId].captainAddress);
-      const url = is64Hex ? (tx.url || `https://polygonscan.com/tx/${txHash}`) : `https://polygonscan.com/address/${walletAddr}`;
+      const isEip712 = (act && act.toLowerCase().includes("eip-712")) || tx.type === "EIP712" || tx.chain === "polygon_eip712" || bId === 1;
+
+      let url = tx.url;
+      if (!url) {
+        if (isEip712) {
+          url = `https://polygonscan.com/address/${walletAddr}`;
+        } else if (tx.chain === "base" || (act && act.toLowerCase().includes("base"))) {
+          url = is64Hex ? `https://sepolia.basescan.org/tx/${txHash}` : `https://sepolia.basescan.org/address/${walletAddr}`;
+        } else if (tx.chain === "arbitrum" || (act && act.toLowerCase().includes("arbitrum"))) {
+          url = is64Hex ? `https://sepolia.arbiscan.io/tx/${txHash}` : `https://sepolia.arbiscan.io/address/${walletAddr}`;
+        } else if (tx.chain === "sepolia" || (act && act.toLowerCase().includes("sepolia"))) {
+          url = is64Hex ? `https://sepolia.etherscan.io/tx/${txHash}` : `https://sepolia.etherscan.io/address/${walletAddr}`;
+        } else {
+          url = is64Hex ? `https://polygonscan.com/tx/${txHash}` : `https://polygonscan.com/address/${walletAddr}`;
+        }
+      }
 
       rows.unshift({
         time: tx.time || new Date().toISOString().slice(11, 19),
         boxId: bId,
         sat: tx.sat || `#${String(tx.walletIndex || 1).padStart(3, '0')}`,
         action: act,
-        hash: is64Hex ? txHash : null,
+        hash: (is64Hex && !isEip712) ? txHash : null,
         walletAddr: walletAddr,
         url: url,
-        isTx: is64Hex
+        isTx: is64Hex && !isEip712
       });
     });
   }
@@ -1073,7 +1088,7 @@ function renderModalWalletsTable() {
       </td>
       <td>
         <div style="display: flex; flex-direction: column; gap: 2px;">
-          <span class="badge-tag-tiny badge-gold" style="width: fit-content;">🔥 MANADA 500/500 · RACHA DÍA 2/25</span>
+          <span class="badge-tag-tiny badge-gold" style="width: fit-content;">🔥 MANADA 500/500 · VUELTA ${Math.min(8, Math.floor(new Date().getUTCHours() / 3) + 1)} DE 8</span>
           <span style="font-size: 8px; font-weight: 700; color: var(--text-dark);">${w.duty}</span>
         </div>
       </td>
