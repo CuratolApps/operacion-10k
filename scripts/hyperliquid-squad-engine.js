@@ -44,12 +44,17 @@ const BREAKEVEN_TRIGGER_PCT = 0.04; // +0.04%
 const TAKE_PROFIT_TRIGGER_PCT = 0.08; // +0.08%
 const MAKER_FEE_PCT = 0.015; // 0.015% Maker
 
-// Lista de Pares Calificados por el Squad
+// Lista de los 9 Pares Calificados por el Squad en Hyperliquid L1
 const SQUAD_WATCHLIST = [
-  { pair: "SOL-USDC", symbol: "SOL", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 10000000 },
   { pair: "BTC-USDC", symbol: "BTC", specialist: "#701 Oracle-Global", minLiquidityUsdc: 25000000 },
   { pair: "ETH-USDC", symbol: "ETH", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 15000000 },
-  { pair: "SUI-USDC", symbol: "SUI", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 5000000 }
+  { pair: "SOL-USDC", symbol: "SOL", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 10000000 },
+  { pair: "BNB-USDC", symbol: "BNB", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 8000000 },
+  { pair: "POL-USDC", symbol: "POL", specialist: "#601 Titan-Scalper", minLiquidityUsdc: 5000000 },
+  { pair: "PAXG-USDC", symbol: "PAXG", specialist: "#701 Oracle-Global", minLiquidityUsdc: 8000000 },
+  { pair: "LINK-USDC", symbol: "LINK", specialist: "#701 Oracle-Global", minLiquidityUsdc: 6000000 },
+  { pair: "SUI-USDC", symbol: "SUI", specialist: "#801 Nexus-Boss", minLiquidityUsdc: 7000000 },
+  { pair: "AAVE-USDC", symbol: "AAVE", specialist: "#801 Nexus-Boss", minLiquidityUsdc: 5000000 }
 ];
 
 let activePositions = []; // Memoria de posiciones en curso

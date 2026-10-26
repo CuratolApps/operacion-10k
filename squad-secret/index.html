@@ -122,20 +122,26 @@
       </div>
     </div>
 
-    <!-- TARJETA 5: MANDO DE EJECUCIÓN & COSTO $0 GAS (1 CLIC MAESTRO) -->
-    <div class="nav-card" id="cardModeTop" title="Fee Maker 0.015% y $0.00 Gas con conmutador maestro de activación">
+    <!-- TARJETA 5: MANDO DE EJECUCIÓN & COSTO $0 GAS (3 BOTONES MAESTROS) -->
+    <div class="nav-card" id="cardModeTop" title="Fee Maker 0.015% y $0.00 Gas con botonera de control maestro de 3 estados">
       <div class="card-meta">
         <span class="card-tag gold">🎛️ MANDO &amp; COSTO $0 GAS</span>
-        <span class="card-pill font-mono green-pill" id="topGasShieldBadge">GAS HYPERLIQUID: $0.00</span>
+        <span class="card-pill font-mono green-pill" id="topGasShieldBadge">GAS: $0.00</span>
       </div>
-      <div class="card-metric-row">
-        <div class="metric-primary font-mono cyan-text" style="font-size:11px;">
+      <div class="card-metric-row" style="margin-bottom:2px;">
+        <div class="metric-primary font-mono cyan-text" style="font-size:10px;">
           FEE MAKER: 0.015% <span class="metric-sub" style="color:var(--text-dim);">(ALO Post-Only)</span>
         </div>
       </div>
-      <div class="mode-toggles-row" style="margin-top:2px;">
-        <button class="master-mode-btn mode-reading" id="btnMasterModeToggle" onclick="toggleMasterHyperliquidMode()" title="Alternar entre modo lectura $0 riesgo y modo ejecución real">
-          🟡 MODO LECTURA EN VIVO ($0 RIESGO)
+      <div class="mode-controls-three-grid" id="modeControlsThreeGrid">
+        <button class="ctrl-state-btn btn-state-calib active" id="btnModeCalibration" onclick="setSquadExecutionMode('CALIBRATION_ZERO_RISK')" title="🟡 1. CALIBRACIÓN EN VIVO ($0 RIESGO): Abre/cierra automáticamente cuando desequilibrio L2 >= 65%">
+          🟡 1. CALIB.
+        </button>
+        <button class="ctrl-state-btn btn-state-real" id="btnModeReal" onclick="setSquadExecutionMode('LIVE_MAKER_ACTIVE')" title="🟢 2. ACTIVAR MODO REAL (FUEGO REAL): Tubería POST Hyperliquid L1 (ALO + BE #00) 24/7">
+          🟢 2. REAL
+        </button>
+        <button class="ctrl-state-btn btn-state-emergency" id="btnModeEmergency" onclick="triggerEmergencyStop()" title="🛑 3. PARADA DE EMERGENCIA: Congela motor, cancela órdenes, asegura 100% USDC y alerta a Telegram">
+          🛑 3. ALTO
         </button>
       </div>
     </div>
@@ -240,24 +246,104 @@
     <!-- COLUMNA 2 (CENTRO): MESA CENTRAL // HYPERLIQUID L1 MAKER (CERO PISCINAS DEX) -->
     <section class="squad-panel squad-center-panel" id="panelCenterMain">
 
-      <!-- CABECERA TÁCTICA: SELECTOR DE PARES & AUDITORÍA L2 -->
-      <div class="panel-header" style="height:38px; padding: 0 10px; background:var(--win-surface); border-bottom:2px solid var(--win-border);">
+      <!-- CABECERA TÁCTICA: ESCANEO AUTOMÁTICO & DISPARO DIRECTO EN PAR GANADOR -->
+      <div class="panel-header" style="height:36px; padding: 0 10px; background:var(--win-surface); border-bottom:1px solid var(--win-border);">
         <div class="panel-title-wrap">
           <span class="panel-icon">⚖️</span>
-          <span class="panel-title" style="font-size:9.5px;">HYPERLIQUID L1 MAKER:</span>
-          <div class="pairs-selector-group font-mono">
-            <button class="pair-tab-btn active" id="btnPairSol" onclick="selectSquadPair('SOL-USDC')">SOL-USDC</button>
-            <button class="pair-tab-btn" id="btnPairBtc" onclick="selectSquadPair('BTC-USDC')">BTC-USDC</button>
-            <button class="pair-tab-btn" id="btnPairEth" onclick="selectSquadPair('ETH-USDC')">ETH-USDC</button>
-          </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="asset-badge-dex font-mono" style="background:var(--win-primary-soft); color:var(--win-primary); font-weight:800; border-color:var(--win-primary-border);">
-            POST-ONLY (ALO)
+          <span class="panel-title" style="font-size:9.5px;">HYPERLIQUID L1 MAKER</span>
+          <span class="panel-badge-pill green font-mono" id="hlLiveScanIndicator" style="font-size:8px;">
+            🟢 ESCANEO AUTOMÁTICO 9 PARES EN VIVO (150ms · $0.00 GAS)
           </span>
-          <button class="center-action-btn" id="btnAuditOrderbook" onclick="auditHyperliquidOrderbook()" style="height:26px; font-size:9px; padding:0 8px;">
-            <span>⚡</span> <span id="btnAuditOrderbookText">AUDITAR ORDERBOOK L2 ($0 GAS)</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button class="center-action-btn" id="btnTriggerTestCycle" onclick="triggerTestCycle()" style="height:25px; font-size:8.5px; padding:0 10px; background:linear-gradient(135deg, #059669 0%, #047857 100%); border-color:#059669;" title="Ejecuta ciclo de prueba con entrada ALO Maker, candado Breakeven #00 (+0.04%) y TP (+0.08%)">
+            <span>⚡</span> <span id="btnTriggerTestCycleText">DISPARAR CICLO DE PRUEBA EN EL PAR GANADOR AHORA</span>
           </button>
+        </div>
+      </div>
+
+      <!-- REJILLA COMPACTA MULTIPAR EN TIEMPO REAL (9 PARES HYPERLIQUID L1) -->
+      <div class="hl-multipair-grid" id="hlMultiPairGrid">
+        <div class="multipair-card" id="mpCard_BTC" onclick="selectSquadPair('BTC-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">BTC</span>
+            <span class="mp-spec font-mono">#701</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_BTC">$80,425.50</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_BTC">82% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card" id="mpCard_ETH" onclick="selectSquadPair('ETH-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">ETH</span>
+            <span class="mp-spec font-mono">#601</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_ETH">$2,330.35</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_ETH">76% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card active" id="mpCard_SOL" onclick="selectSquadPair('SOL-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">SOL</span>
+            <span class="mp-spec font-mono">#601</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_SOL">$101.57</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_SOL">85% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card" id="mpCard_BNB" onclick="selectSquadPair('BNB-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">BNB</span>
+            <span class="mp-spec font-mono">#601</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_BNB">$740.45</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_BNB">68% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card" id="mpCard_POL" onclick="selectSquadPair('POL-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">POL</span>
+            <span class="mp-spec font-mono">#601</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_POL">$0.0895</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_POL">71% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card" id="mpCard_PAXG" onclick="selectSquadPair('PAXG-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">PAXG</span>
+            <span class="mp-spec font-mono">#701</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_PAXG">$4,023.55</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_PAXG">79% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card" id="mpCard_LINK" onclick="selectSquadPair('LINK-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">LINK</span>
+            <span class="mp-spec font-mono">#701</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_LINK">$11.45</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_LINK">73% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card winner-pair-glow" id="mpCard_SUI" onclick="selectSquadPair('SUI-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">SUI</span>
+            <span class="mp-spec font-mono">#801</span>
+            <span class="mp-winner-tag">🏆 #1</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_SUI">$0.9179</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_SUI">86% 🐂 BULL</div>
+        </div>
+
+        <div class="multipair-card" id="mpCard_AAVE" onclick="selectSquadPair('AAVE-USDC')">
+          <div class="mp-head">
+            <span class="mp-sym font-mono">AAVE</span>
+            <span class="mp-spec font-mono">#801</span>
+          </div>
+          <div class="mp-price font-mono" id="mpPrice_AAVE">$135.46</div>
+          <div class="mp-pressure font-mono bull" id="mpPressure_AAVE">74% 🐂 BULL</div>
         </div>
       </div>
 
