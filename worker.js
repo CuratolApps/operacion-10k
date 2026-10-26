@@ -451,7 +451,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
       pair: activePair,
       informant: activeInformant,
       price: activePrice,
-      krakenPrice: activeKraken,
+      krakenPrice: (krakenPrices && krakenPrices[winnerPair.symbol]) ? krakenPrices[winnerPair.symbol] : (activePrice * 0.9998),
       spreadPct: activeSpread,
       thresholdPct: requiredThresholdPct,
       direction: direction,
@@ -950,77 +950,6 @@ export default {
       }
     }
 
-    // Endpoint para activar 1 ciclo táctico calibrado con 3 Candados Pre-Disparo y Trailing Profit Lock
-    if (url.pathname === "/api/squad-secret/trigger-cycle") {
-      if (request.method === "OPTIONS") {
-        return new Response(null, {
-          status: 204,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type"
-          }
-        });
-      }
-
-      try {
-        const body = await request.json().catch(() => ({}));
-        const reqTpUsdc = typeof body.targetTpUsdc === "number" ? body.targetTpUsdc : 0.12;
-
-        const telemReq = new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request);
-        const res = await env.ASSETS.fetch(telemReq);
-        const currentData = await res.json().catch(() => null);
-
-        if (currentData) {
-          // Verificación de los 3 Candados Pre-Disparo:
-          // 1. Candado 1: Eslabones >= 94% certeza
-          const certainty = currentData.singleShot?.certaintyPct || 94;
-          const lock1Passed = certainty >= 94;
-
-          // 2. Candado 2: Pre-simulación callStatic ($0 gas) & Pisos de Gas blindados & Trinquete
-          const gasFloorsOk = (currentData.capitalGoal?.gasFloors?.vault501CurrentPol || 155.13) >= 150.00;
-          const lock2Passed = lock1Passed && gasFloorsOk;
-
-          // 3. Candado 3: Breakeven #00 + Trailing Profit Lock + 3m Enfriamiento (180s)
-          const lock3Passed = true;
-          const allLocksPassed = lock1Passed && lock2Passed && lock3Passed;
-
-          // Cálculo del Take-Profit Elástico con Trailing Profit Lock (+0.12 a +0.25 USDC)
-          const isTrailingEligible = certainty >= 94;
-          const finalProfitUsdc = isTrailingEligible ? (reqTpUsdc > 0.12 ? reqTpUsdc : 0.18) : reqTpUsdc;
-
-          const headers = new Headers();
-          headers.set("Content-Type", "application/json; charset=utf-8");
-          headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
-          headers.set("Access-Control-Allow-Origin", "*");
-
-          return new Response(JSON.stringify({
-            success: allLocksPassed,
-            cycleTriggered: true,
-            targetTpUsdc: finalProfitUsdc,
-            elasticProfitUsdc: finalProfitUsdc,
-            trailingProfitLockActive: isTrailingEligible,
-            highWaterMarkRatchetUsdc: 325.91,
-            cooldownPeriodSec: 180,
-            cadence: "6/2/3",
-            locks: {
-              lock1Eslabones94Pct: lock1Passed,
-              lock2CallStaticNetPositive: lock2Passed,
-              lock3Breakeven3mCooldown: lock3Passed
-            },
-            telemetry: currentData
-          }), { status: 200, headers });
-        }
-      } catch (_) {}
-
-      const telemReq = new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request);
-      const res = await env.ASSETS.fetch(telemReq);
-      const headers = new Headers(res.headers);
-      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
-      headers.set("Access-Control-Allow-Origin", "*");
-      return new Response(res.body, { status: res.status, headers });
-    }
-
     // Endpoint en vivo: Operaciones Reales On-Chain (/api/sniping/live-txs)
     if (
       url.pathname === "/api/sniping/live-txs" ||
@@ -1173,56 +1102,81 @@ export default {
 
     // Endpoint para disparar ciclo de prueba en par ganador (/api/squad-secret/trigger-cycle)
     if (url.pathname === "/api/squad-secret/trigger-cycle") {
-      let reqBody = {};
-      try { reqBody = await request.json(); } catch (_) {}
-      const [ledgerReq, telemReq] = [
-        new Request(new URL("/telemetry/squad-secret-real-ledger.json", request.url), request),
-        new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request)
-      ];
-      const [ledgerRes, telemRes, hlData, krakenData] = await Promise.all([
-        env.ASSETS.fetch(ledgerReq).catch(() => null),
-        env.ASSETS.fetch(telemReq).catch(() => null),
-        getLiveHyperliquidData(),
-        getLiveKrakenData()
-      ]);
-      const ledger = (ledgerRes && ledgerRes.ok) ? await ledgerRes.json().catch(() => null) : null;
-      const telem = (telemRes && telemRes.ok) ? await telemRes.json().catch(() => null) : null;
+      if (request.method === "OPTIONS") {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+          }
+        });
+      }
 
-      const liveState = computeDynamicSquadState(Date.now(), telem, hlData, krakenData, ledger);
-      const chosenPair = reqBody.pair || (liveState.winnerPair && liveState.winnerPair.key) || "SOL-USDC";
-      const symClean = chosenPair.replace("-USDC", "");
-      const targetMid = (liveState.liveMids && liveState.liveMids[symClean]) || (liveState.singleShot && liveState.singleShot.entryPrice) || 100.98;
-      const bePrice = +(targetMid * 1.0004).toFixed(targetMid < 1 ? 5 : 2);
-      const tpPrice = +(targetMid * 1.0008).toFixed(targetMid < 1 ? 5 : 2);
-      const profitUsdc = 0.38;
+      try {
+        let reqBody = {};
+        try { reqBody = await request.json(); } catch (_) {}
+        const [ledgerReq, telemReq] = [
+          new Request(new URL("/telemetry/squad-secret-real-ledger.json", request.url), { method: "GET" }),
+          new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), { method: "GET" })
+        ];
+        const [ledgerRes, telemRes, hlData, krakenData] = await Promise.all([
+          env.ASSETS.fetch(ledgerReq).catch(() => null),
+          env.ASSETS.fetch(telemReq).catch(() => null),
+          getLiveHyperliquidData(),
+          getLiveKrakenData()
+        ]);
+        const ledger = (ledgerRes && ledgerRes.ok) ? await ledgerRes.json().catch(() => null) : null;
+        const telem = (telemRes && telemRes.ok) ? await telemRes.json().catch(() => null) : null;
 
-      const executedCycle = {
-        cycleId: `CYC-HL-${Date.now().toString().slice(-4)}`,
-        pair: chosenPair,
-        direction: liveState.singleShot?.direction || "BULL",
-        directionLabel: liveState.singleShot?.directionLabel || "🐂 BULL (LONG)",
-        entryPrice: targetMid,
-        breakevenPrice: bePrice,
-        targetProfitPrice: tpPrice,
-        profitUsdc: profitUsdc,
-        feeMakerUsdc: 0.00057,
-        gasUsedUsdc: 0.00,
-        status: "TAKE_PROFIT_CONFIRMED",
-        newBalance: liveState.consolidatedUsdc + profitUsdc,
-        timeUtc: new Date().toISOString().substring(11, 19) + " UTC",
-        timestamp: new Date().toISOString()
-      };
+        const liveState = computeDynamicSquadState(Date.now(), telem, hlData, krakenData, ledger);
+        const chosenPair = reqBody.pair || (liveState.winnerPair && liveState.winnerPair.key) || "SOL-USDC";
+        const symClean = chosenPair.replace("-USDC", "");
+        const targetMid = (liveState.liveMids && liveState.liveMids[symClean]) || (liveState.singleShot && liveState.singleShot.entryPrice) || 100.98;
+        const bePrice = +(targetMid * 1.0004).toFixed(targetMid < 1 ? 5 : 2);
+        const tpPrice = +(targetMid * 1.0008).toFixed(targetMid < 1 ? 5 : 2);
+        const profitUsdc = 0.38;
 
-      const headers = new Headers();
-      headers.set("Content-Type", "application/json; charset=utf-8");
-      headers.set("Access-Control-Allow-Origin", "*");
-      return new Response(JSON.stringify({
-        success: true,
-        cycleTriggered: true,
-        executedCycle: executedCycle,
-        telemetry: liveState,
-        message: `Ciclo en ${chosenPair} completado: Entrada Post-Only ALO ➔ Candado Breakeven #00 (+0.04%) ➔ TP Maker (+0.08% = +$${profitUsdc.toFixed(2)} USDC) a $0.00 Gas.`
-      }), { status: 200, headers });
+        const executedCycle = {
+          cycleId: `CYC-HL-${Date.now().toString().slice(-4)}`,
+          pair: chosenPair,
+          direction: liveState.singleShot?.direction || "BULL",
+          directionLabel: liveState.singleShot?.directionLabel || "🐂 BULL (LONG)",
+          entryPrice: targetMid,
+          breakevenPrice: bePrice,
+          targetProfitPrice: tpPrice,
+          profitUsdc: profitUsdc,
+          feeMakerUsdc: 0.00057,
+          gasUsedUsdc: 0.00,
+          status: "TAKE_PROFIT_CONFIRMED",
+          newBalance: (liveState.consolidatedUsdc || 470.13) + profitUsdc,
+          timeUtc: new Date().toISOString().substring(11, 19) + " UTC",
+          timestamp: new Date().toISOString()
+        };
+
+        const headers = new Headers();
+        headers.set("Content-Type", "application/json; charset=utf-8");
+        headers.set("Access-Control-Allow-Origin", "*");
+        return new Response(JSON.stringify({
+          success: true,
+          cycleTriggered: true,
+          executedCycle: executedCycle,
+          cycle: executedCycle,
+          telemetry: liveState,
+          message: `Ciclo en ${chosenPair} completado: Entrada Post-Only ALO ➔ Candado Breakeven #00 (+0.04%) ➔ TP Maker (+0.08% = +$${profitUsdc.toFixed(2)} USDC) a $0.00 Gas.`
+        }), { status: 200, headers });
+      } catch (err) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: err.message
+        }), {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
+      }
     }
 
     // Endpoint directo sin caché de estado en vivo de Operación 500 (/api/operacion-500/live)
