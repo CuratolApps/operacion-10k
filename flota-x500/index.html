@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ÁREA 501 // FLOTA X500 · AIRDROPS & NFT FLIP (SATÉLITES #001 AL #500 · 100% DATOS REALES ON-CHAIN)</title>
+  <title>ÁREA 501 // FLOTA X500 · PANEL WINDOWS DEV WORKBENCH (500 CARTERAS & CALENDARIO CIERRES ON-CHAIN)</title>
 
-  <!-- Tipografías Oficiales: Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Tipografías Oficiales: JetBrains Mono & Segoe UI / Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
 
-  <!-- Iconografía Estricta: Google Material Symbols Rounded -->
+  <!-- Iconografía Oficial: Google Material Symbols Rounded -->
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-  <!-- Estilos Cuantitativos Espaciales Cero Scroll -->
+  <!-- Estilos Windows Dev Workbench 100vh Cero Scroll -->
   <link rel="stylesheet" href="style.css">
 
   <!-- Control Criptográfico de Acceso Militar -->
@@ -28,1016 +28,611 @@
 <body class="area501-flota-body">
 
   <!-- ========================================================================= -->
-  <!-- BLOQUE 1 (BARRA SUPERIOR FLOTANTE): 5 TARJETAS 3D FLOTANTES Y SIMÉTRICAS  -->
+  <!-- 1. RIBBON SUPERIOR WINDOWS DEV: 6 TARJETAS EJECUTIVAS DE LECTURA RÁPIDA  -->
   <!-- ========================================================================= -->
-  <header class="top-nav-bar" id="block-header">
+  <header class="win-header-ribbon" id="block-header">
 
-    <!-- TARJETA FLOTANTE 1: IDENTIDAD & ESTADO CLOUD -->
-    <div class="floating-card" id="cardIdentity" title="Flota X500: 500 Satélites Reales en 5 Boxes de 100">
-      <div class="card-top-meta">
-        <span class="card-top-title">
-          <span class="pulse-dot-green" id="liveConnDot" title="Conexión en vivo activa"></span>
-          <span>ÁREA 501 // FLOTA X500</span>
+    <!-- TARJETA 1 · IDENTIDAD & CONEXIÓN CLOUD -->
+    <div class="win-metric-card" id="cardIdentity" title="Flota X500: 500 Satélites Reales en 5 Boxes de 100">
+      <div class="win-metric-head">
+        <span style="display: flex; align-items: center; gap: 4px;">
+          <span class="pulse-dot" id="liveConnDot"></span>
+          <span>🪖 FLOTA X500</span>
         </span>
-        <span class="badge-tag-tiny badge-cyan">500 SATÉLITES</span>
+        <span class="badge-tag-tiny badge-green" id="fleetLiveBadge">EN VIVO</span>
       </div>
-      <div class="card-data-main">
-        <span class="metric-big-bold cyan">5 BOXES DE 100</span>
-        <span class="metric-sub-detail">#001 AL #500 ACTIVO</span>
+      <div class="win-metric-val val-blue" id="topFleetSquadTitle">
+        500 SATÉLITES
       </div>
-      <div class="id-pills-wrap">
-        <span class="id-cloud-pill" id="cfStatusPill" title="Cloudflare Workers Edge Network"><span class="material-symbols-rounded icon-xs cyan">cloud_done</span> CF WORKERS</span>
-        <span class="id-cloud-pill" id="cronStatusPill" title="Crons 24/7 (30m)"><span class="material-symbols-rounded icon-xs green-text">schedule</span> CRON 30M</span>
-        <span class="id-cloud-pill" id="tgStatusPill" title="Telegram: 🛰️ SALA DE MANDO 10K"><span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span> TG 10K</span>
+      <div class="win-metric-sub" id="topCloudStatusSub" title="Testigos reales de infraestructura">
+        CF Workers 🟢 · Cron GHA 30m 🟢 · TG 10K 🟢
       </div>
     </div>
 
-    <!-- TARJETA FLOTANTE 2: COSECHA A BINANCE SPOT (MODO ACUMULACIÓN ON-CHAIN) -->
-    <div class="floating-card" id="cardBinanceHarvest" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="Modo Acumulación On-Chain Bóveda #501 (Clic para auditar política CERO MICRO-DEPÓSITOS)">
-      <div class="card-top-meta">
-        <span class="card-top-title">
-          <span class="material-symbols-rounded icon-xs green-text">savings</span>
-          <span>COSECHA ON-CHAIN #501</span>
+    <!-- TARJETA 2 · 🌾 RECOLECTADO LÍQUIDO (HACIA #501) -->
+    <div class="win-metric-card" id="cardLiquidHarvest" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="Cosecha Líquida de la Flota hacia Bóveda #501 (Clic para ver política de retiro)">
+      <div class="win-metric-head">
+        <span style="display: flex; align-items: center; gap: 4px;">
+          <span class="material-symbols-rounded icon-xs val-green">savings</span>
+          <span>🌾 RECOLECTADO LÍQUIDO</span>
         </span>
-        <span class="badge-tag-tiny badge-lock-mode" id="harvestUsdcBadge" title="🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO MANUAL CONSOLIDADO)">🔒 ACUMULACIÓN #501</span>
+        <span class="badge-tag-tiny badge-gold" id="harvestSplitBadge">70/30 MICRO</span>
       </div>
-      <div class="card-data-main">
-        <span class="metric-big-bold green-text" id="topHarvestedUsdc">$1.00 USDC</span>
-        <span class="metric-sub-detail" id="topPendingFleetUsdc">BÓVEDA #501: $490.76 USDC</span>
+      <div class="win-metric-val val-green" id="topHarvestedUsdc">
+        $492.51 USDC
       </div>
-      <div class="metric-single-row">
-        <span>Retiro Binance: <strong class="gold-text">Manual en Bloque</strong></span>
-        <span class="green-text">Cero Micro-Depósitos</span>
+      <div class="win-metric-sub" id="topHarvestSub">
+        Regla 70/30 Micro · 100% Macro ➔ Bóveda #501
       </div>
     </div>
 
-    <!-- TARJETA FLOTANTE 3: TRABAJO REAL "PICADO" ON-CHAIN (11,468 TXS SINCERIZADAS) -->
-    <div class="floating-card" id="cardWorkMined" onclick="openMiningAuditModal()" style="cursor: pointer;" title="Txs y Nonces Auditados en Cadena (Clic para ver auditoría completa de las 11,468 TXS)">
-      <div class="card-top-meta">
-        <span class="card-top-title">
-          <span class="material-symbols-rounded icon-xs cyan">construction</span>
-          <span>PICADO ON-CHAIN</span>
+    <!-- TARJETA 3 · ⛏️ LO QUE ESTÁN "PICANDO" (ACUMULADO ON-CHAIN) -->
+    <div class="win-metric-card" id="cardWorkMined" onclick="openMiningAuditModal()" style="cursor: pointer;" title="Txs y Nonces Auditados en Cadena (Clic para auditoría sincera)">
+      <div class="win-metric-head">
+        <span style="display: flex; align-items: center; gap: 4px;">
+          <span class="material-symbols-rounded icon-xs val-blue">construction</span>
+          <span>⛏️ LO QUE ESTÁN PICANDO</span>
         </span>
-        <span class="badge-tag-tiny badge-cyan" id="workNonceBadge">248 RONDAS</span>
+        <span class="badge-tag-tiny badge-blue" id="workNonceBadge">11,468 NONCES</span>
       </div>
-      <div class="card-data-main">
-        <span class="metric-big-bold cyan" id="topTotalTxCount">11,468 TXS</span>
-        <span class="metric-sub-detail" id="topLastShiftTxCount">9,840 Test · 1,128 Main ✅</span>
+      <div class="win-metric-val val-blue" id="topTotalTxCount">
+        14,000+ PTS
       </div>
-      <div class="metric-single-row">
-        <span>Rotación: <strong class="cyan">20 Bots / Turno</strong></span>
-        <span class="green-text">500 EIP-712 Diarias</span>
+      <div class="win-metric-sub" id="topWorkSub">
+        Sembrando elegibilidad en 5 Frentes Activos
       </div>
     </div>
 
-    <!-- TARJETA FLOTANTE 4: ESTADO DEL CARRUSEL 24/7 -->
-    <div class="floating-card" id="cardCarouselStatus" title="Cadencia Continua 24/7">
-      <div class="card-top-meta">
-        <span class="card-top-title">
-          <span class="material-symbols-rounded icon-xs gold">autorenew</span>
-          <span>CARRUSEL 24/7</span>
+    <!-- TARJETA 4 · 🔥 RACHA DIARIA & CARRUSEL ANTI-SYBIL -->
+    <div class="win-metric-card" id="cardCarouselStatus" title="Racha Diaria 25 Días y Carrusel de 20 Satélites cada 30 minutos">
+      <div class="win-metric-head">
+        <span style="display: flex; align-items: center; gap: 4px;">
+          <span class="material-symbols-rounded icon-xs val-gold">autorenew</span>
+          <span>🔥 RACHA &amp; CARRUSEL</span>
         </span>
-        <span class="badge-tag-tiny badge-gold" id="carouselBatchBadge">20 BOTS / TURNO</span>
+        <span class="badge-tag-tiny badge-green" id="streakProgressBadge">500/500 SANA</span>
       </div>
-      <div class="card-data-main">
-        <span class="metric-big-bold gold" id="topActiveSquadRange">Box 2: #181–#200</span>
-        <span class="metric-sub-detail" id="topNextTurnTimer">PRÓXIMO: <strong class="green-text" id="countdownSecs">28:14</strong></span>
+      <div class="win-metric-val val-gold" id="topStreakCounter">
+        DÍA 2 / 25 (500 BOTS)
       </div>
-      <div class="metric-single-row">
-        <span>Cadencia: <strong class="gold-text">Cada 30 min</strong></span>
-        <span class="cyan">Cron GHA + CF</span>
+      <div class="win-metric-sub" id="topNextTurnTimer">
+        Turno Activo: 20 Bots/30m · Próximo en <strong class="val-green" id="countdownSecs">28:14</strong>
       </div>
     </div>
 
-    <!-- TARJETA FLOTANTE 5: GAS MATRIZ & RESERVA CAPITANES -->
-    <div class="floating-card" id="cardGasVaults" title="Gas Intocable Bóveda #501 (160.79 POL) + 5 Capitanes (78.13 POL)">
-      <div class="card-top-meta">
-        <span class="card-top-title">
-          <span class="material-symbols-rounded icon-xs gold">local_gas_station</span>
-          <span>GAS MATRIZ &amp; RESERVA</span>
+    <!-- TARJETA 5 · ⛽ GAS Y AUTONOMÍA DE LA FLOTA -->
+    <div class="win-metric-card" id="cardGasVaults" title="Combustible real en Capitanes y Flota, blindado del piso intocable de 160.79 POL de #501">
+      <div class="win-metric-head">
+        <span style="display: flex; align-items: center; gap: 4px;">
+          <span class="material-symbols-rounded icon-xs val-gold">local_gas_station</span>
+          <span>⛽ GAS &amp; AUTONOMÍA</span>
         </span>
-        <span class="badge-tag-tiny badge-green" id="vaultsLockBadge" title="Piso 150 POL Blindado">160.79 POL PISO</span>
+        <span class="badge-tag-tiny badge-purple" title="Piso 160.79 POL Intocable en Bóveda #501">#501 INTOCABLE</span>
       </div>
-      <div class="card-data-main">
-        <span class="metric-big-bold gold" id="topGasVaultDisplay">160.79 POL</span>
-        <span class="metric-sub-detail" id="topGasCaptainsDisplay">CAPITANES: 78.13 POL</span>
+      <div class="win-metric-val val-gold" id="topGasCaptainsDisplay">
+        78.13 POL CAPITANES
       </div>
-      <div class="metric-single-row">
-        <span>Total Red Flota: <strong class="gold-text">238.92 POL</strong></span>
-        <span class="cyan">5 Boxes Abastecidos</span>
+      <div class="win-metric-sub" id="topGasSub">
+        🟢 Tanque Óptimo (300.06 POL Flota) · Gasless $0
+      </div>
+    </div>
+
+    <!-- TARJETA 6 · ⏰ PRÓXIMO CORTE INMINENTE (CUENTA ATRÁS) -->
+    <div class="win-metric-card" id="cardNextCut" title="Fecha inminente de cierre: 30 de Octubre de 2026 (Base Avantis S3 y DogeOS Cap. 2)">
+      <div class="win-metric-head">
+        <span style="display: flex; align-items: center; gap: 4px;">
+          <span class="material-symbols-rounded icon-xs val-danger">alarm</span>
+          <span>⏰ CORTE INMINENTE</span>
+        </span>
+        <span class="badge-tag-tiny badge-danger" id="daysLeftBadge">QUEDAN 4 DÍAS</span>
+      </div>
+      <div class="win-metric-val val-danger" id="topCutCountdown">
+        CIERRE 30 OCT
+      </div>
+      <div class="win-metric-sub" id="topCutSub">
+        Base / Avantis S3 &amp; DogeOS Cap. 2
       </div>
     </div>
 
   </header>
 
   <!-- ========================================================================= -->
-  <!-- MAIN WORKSPACE: LAYOUT 100VH CERO SCROLL                                  -->
+  <!-- 2. ÁREA DE TRABAJO PRINCIPAL (3 COLUMNAS SIN SCROLL · 100VH)              -->
   <!-- ========================================================================= -->
-  <main class="flota-workspace">
+  <main class="win-workspace">
 
     <!-- ======================================================================= -->
-    <!-- COLUMNA IZQUIERDA: LOS 5 BOXES REALES & TANQUE DE GAS                   -->
+    <!-- COLUMNA 1: LOS 5 ESCUADRONES & CÓMO MONITOREAMOS CADA CARTERA           -->
     <!-- ======================================================================= -->
-    <aside class="col-fleet-left">
-
-      <!-- TARJETA 1: LOS 5 ESCUADRONES (BOXES 1 AL 5 - 100 CARTERAS C/U) -->
-      <section class="quant-card" style="flex: 1; min-height: 0;">
-        <div class="quant-card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded cyan">military_tech</span>
-            <h2 class="card-title">LOS 5 ESCUADRONES (500 BOTS)</h2>
+    <div class="win-col col-boxes">
+      <div class="win-window">
+        <div class="win-titlebar">
+          <div class="win-title">
+            <span class="material-symbols-rounded icon-xs val-blue">folder_open</span>
+            <span>C:\Area501\Fleet_Boxes.sys</span>
+            <span class="win-title-path">[5 Boxes · 100 Bots c/u]</span>
           </div>
-          <span class="badge-tag-tiny badge-cyan" id="boxesActiveTag">100 C/U · CLIC EXPEDIENTE</span>
-        </div>
-
-        <div class="card-body-scroll">
-          <div class="boxes-list-grid" id="boxesListContainer">
-            <!-- Box 1 -->
-            <div class="box-item-card" onclick="openBoxDossier(1)" id="boxCard-1">
-              <div class="box-head-row">
-                <span class="box-name-badge">
-                  <span class="material-symbols-rounded icon-xs cyan">token</span>
-                  <span>BOX 1 (#001–#100)</span>
-                </span>
-                <span class="box-captain-tag" title="Capitán Box 1">Cap: 0xb750...D40F</span>
-                <span class="box-binance-tag" onclick="event.stopPropagation(); inspectBinanceVault(1)" title="Subcuenta Binance Box 1: 0x48b2...531b (Clic para auditar)">Binance: ..531b</span>
-              </div>
-              <div class="box-data-row">
-                <span class="box-tag-focus">⚡ Gasless EIP-712 &amp; Rachas</span>
-                <span class="font-mono cyan" id="boxBal-1">31.29 POL · 0.007 BNB</span>
-              </div>
-            </div>
-
-            <!-- Box 2 -->
-            <div class="box-item-card" onclick="openBoxDossier(2)" id="boxCard-2">
-              <div class="box-head-row">
-                <span class="box-name-badge">
-                  <span class="material-symbols-rounded icon-xs gold">sports_esports</span>
-                  <span>BOX 2 (#101–#200)</span>
-                </span>
-                <span class="box-captain-tag" title="Capitán Box 2">Cap: 0x5682...adBA</span>
-                <span class="box-binance-tag" onclick="event.stopPropagation(); inspectBinanceVault(2)" title="Subcuenta Binance Box 2: 0x33cf...1bc4 (Clic para auditar)">Binance: ..1bc4</span>
-              </div>
-              <div class="box-data-row">
-                <span class="box-tag-focus">🟣 DogeOS Chap. 2 &amp; Startale</span>
-                <span class="font-mono gold" id="boxBal-2">31.25 POL · 0.009 BNB</span>
-              </div>
-            </div>
-
-            <!-- Box 3 -->
-            <div class="box-item-card" onclick="openBoxDossier(3)" id="boxCard-3">
-              <div class="box-head-row">
-                <span class="box-name-badge">
-                  <span class="material-symbols-rounded icon-xs green-text">water_drop</span>
-                  <span>BOX 3 (#201–#300)</span>
-                </span>
-                <span class="box-captain-tag" title="Capitán Box 3">Cap: 0x2810...6A7C</span>
-                <span class="box-binance-tag" onclick="event.stopPropagation(); inspectBinanceVault(3)" title="Subcuenta Binance Box 3: 0x409c...ca4e (Clic para auditar)">Binance: ..ca4e</span>
-              </div>
-              <div class="box-data-row">
-                <span class="box-tag-focus">🔵 Base Ecosystem &amp; Avantis S3</span>
-                <span class="font-mono green-text" id="boxBal-3">31.38 POL · 0.009 BNB</span>
-              </div>
-            </div>
-
-            <!-- Box 4 -->
-            <div class="box-item-card" onclick="openBoxDossier(4)" id="boxCard-4">
-              <div class="box-head-row">
-                <span class="box-name-badge">
-                  <span class="material-symbols-rounded icon-xs purple">card_giftcard</span>
-                  <span>BOX 4 (#301–#400)</span>
-                </span>
-                <span class="box-captain-tag" title="Capitán Box 4">Cap: 0xEb6a...Ca0f</span>
-                <span class="box-binance-tag" onclick="event.stopPropagation(); inspectBinanceVault(4)" title="Subcuenta Binance Box 4: 0x2734...ce54 (Clic para auditar)">Binance: ..ce54</span>
-              </div>
-              <div class="box-data-row">
-                <span class="box-tag-focus">🔵 Arbitrum Stylus WASM</span>
-                <span class="font-mono purple" id="boxBal-4">25.44 POL · 0.006 BNB</span>
-              </div>
-            </div>
-
-            <!-- Box 5 -->
-            <div class="box-item-card" onclick="openBoxDossier(5)" id="boxCard-5">
-              <div class="box-head-row">
-                <span class="box-name-badge">
-                  <span class="material-symbols-rounded icon-xs cyan">science</span>
-                  <span>BOX 5 (#401–#500)</span>
-                </span>
-                <span class="box-captain-tag" title="Capitán Box 5">Cap: 0x4C71...d070</span>
-                <span class="box-binance-tag" onclick="event.stopPropagation(); inspectBinanceVault(5)" title="Subcuenta Binance Box 5: 0xf746...dce7 (Clic para auditar)">Binance: ..dce7</span>
-              </div>
-              <div class="box-data-row">
-                <span class="box-tag-focus">🟠 Citrea Bitcoin ZK-Rollup</span>
-                <span class="font-mono cyan" id="boxBal-5">25.42 POL · 0.007 BNB</span>
-              </div>
-            </div>
+          <div class="win-controls">
+            <span class="win-btn">_</span>
+            <span class="win-btn">▢</span>
+            <span class="win-btn close">✕</span>
           </div>
         </div>
-      </section>
 
-      <!-- TARJETA 2: RESERVA DE GAS & POLÍTICA BINANCE SPOT (CERO SCROLL CONSOLIDADO) -->
-      <section class="quant-card gas-tank-card" style="flex-shrink: 0;">
-        <div class="quant-card-header">
-          <div class="card-title-group">
-            <span class="material-symbols-rounded gold">local_gas_station</span>
-            <h2 class="card-title">GAS &amp; 5 BÓVEDAS BINANCE</h2>
+        <div class="win-body">
+          <!-- 1. Tabla Interactiva de los 5 Boxes -->
+          <div class="boxes-table-wrap">
+            <table class="boxes-table">
+              <thead>
+                <tr>
+                  <th style="width: 28%;">ESCUADRÓN</th>
+                  <th style="width: 25%;">GAS &amp; SALDOS</th>
+                  <th style="width: 30%;">OFICIO HOY</th>
+                  <th style="width: 17%; text-align: center;">ACCIÓN</th>
+                </tr>
+              </thead>
+              <tbody id="boxesTableTbody">
+                <!-- Box 1 -->
+                <tr id="boxRow-1">
+                  <td>
+                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 1 (#001–#100)</strong>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0xb750...D40F</div>
+                  </td>
+                  <td>
+                    <span class="font-mono val-blue" style="font-weight: 700;">18.07 POL · $0.70</span>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">0.0051 BNB</div>
+                  </td>
+                  <td>
+                    <span class="badge-tag-tiny badge-blue">Prioridad #1</span>
+                    <div style="font-size: 7.5px; color: var(--text-dark); margin-top: 1px;">Gasless EIP-712 &amp; Racha</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="btn-inspect-box" onclick="openBoxDossier(1)" title="Inspeccionar las 100 carteras del Box 1">
+                      🔍 Ver 100
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Box 2 -->
+                <tr id="boxRow-2">
+                  <td>
+                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 2 (#101–#200)</strong>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0x5682...adBA</div>
+                  </td>
+                  <td>
+                    <span class="font-mono val-gold" style="font-weight: 700;">18.03 POL · $1.05</span>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">0.0079 BNB</div>
+                  </td>
+                  <td>
+                    <span class="badge-tag-tiny badge-danger">Cierre 30 Oct</span>
+                    <div style="font-size: 7.5px; color: var(--text-dark); margin-top: 1px;">DogeOS Cap. 2 &amp; Startale</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="btn-inspect-box" onclick="openBoxDossier(2)" title="Inspeccionar las 100 carteras del Box 2">
+                      🔍 Ver 100
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Box 3 -->
+                <tr id="boxRow-3">
+                  <td>
+                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 3 (#201–#300)</strong>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0x2810...6A7C</div>
+                  </td>
+                  <td>
+                    <span class="font-mono val-green" style="font-weight: 700;">18.01 POL · $0.00</span>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">0.0079 BNB</div>
+                  </td>
+                  <td>
+                    <span class="badge-tag-tiny badge-danger">Cierre 30 Oct</span>
+                    <div style="font-size: 7.5px; color: var(--text-dark); margin-top: 1px;">Base Ecosystem &amp; Avantis</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="btn-inspect-box" onclick="openBoxDossier(3)" title="Inspeccionar las 100 carteras del Box 3">
+                      🔍 Ver 100
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Box 4 -->
+                <tr id="boxRow-4">
+                  <td>
+                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 4 (#301–#400)</strong>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0xEb6a...Ca0f</div>
+                  </td>
+                  <td>
+                    <span class="font-mono val-purple" style="font-weight: 700;">12.01 POL · $0.00</span>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">0.0051 BNB</div>
+                  </td>
+                  <td>
+                    <span class="badge-tag-tiny badge-purple">Horizonte 2</span>
+                    <div style="font-size: 7.5px; color: var(--text-dark); margin-top: 1px;">Arbitrum Stylus &amp; OP</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="btn-inspect-box" onclick="openBoxDossier(4)" title="Inspeccionar las 100 carteras del Box 4">
+                      🔍 Ver 100
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Box 5 -->
+                <tr id="boxRow-5">
+                  <td>
+                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 5 (#401–#500)</strong>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0x4C71...d070</div>
+                  </td>
+                  <td>
+                    <span class="font-mono val-gold" style="font-weight: 700;">12.01 POL · $0.00</span>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">0.0051 BNB</div>
+                  </td>
+                  <td>
+                    <span class="badge-tag-tiny badge-gold">BTC L2 Seed</span>
+                    <div style="font-size: 7.5px; color: var(--text-dark); margin-top: 1px;">Citrea &amp; GOAT Network</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="btn-inspect-box" onclick="openBoxDossier(5)" title="Inspeccionar las 100 carteras del Box 5">
+                      🔍 Ver 100
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <span class="badge-tag-tiny badge-lock-mode" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="Clic para auditar política MiCA Cero Micro-Depósitos">🔒 CERO POLVO BINANCE</span>
-        </div>
 
-        <div style="padding: 6px 8px;">
-          <!-- Resumen Gas Mainnet y Testnets -->
-          <div class="gas-breakdown-grid" style="gap: 4px;">
-            <div class="gas-tier-box" style="padding: 4px 6px;">
-              <div class="gas-tier-header" style="margin-bottom: 2px;">
-                <span>GAS FLOTA: <strong class="gold-text" id="gasFleetMainnetPol">78.13 POL</strong> &amp; <strong class="gold-text" id="gasFleetMainnetBnb">0.038 BNB</strong></span>
-                <span class="green-text" title="160.79 POL Intocable en Bóveda #501">BÓVEDA #501 INTACTA</span>
+          <!-- 2. Bloque Explicativo: ¿Cómo monitoreamos lo que recolectan? (3 Detectores) -->
+          <div class="detectors-card">
+            <div class="detectors-card-head">
+              <span>🔬 ¿CÓMO MONITOREAMOS LO QUE RECOLECTAN?</span>
+              <span class="badge-tag-tiny badge-green">3 DETECTORES ON-CHAIN</span>
+            </div>
+
+            <!-- Detector 1 -->
+            <div class="detector-item">
+              <div class="detector-item-head">
+                <span style="color: var(--win-primary);">1. Tokens Líquidos ➔ USDC #501</span>
+                <span class="badge-tag-tiny badge-blue">Multicall3 + Odos SOR</span>
               </div>
-              <div style="font-size: 8.5px; color: var(--text-dim); display: flex; justify-content: space-between;">
-                <span>Testnets: <strong class="cyan">4.28 ETH Sepolia</strong> · <strong class="cyan">0.92 Base</strong></span>
-                <span>Total Red: <strong class="gold-text" id="gasFleetPolTotal">238.92 POL</strong></span>
+              <div class="detector-item-desc">
+                Escanea balances ERC-20 cada 30m; si un airdrop o swap entra a cualquier satélite, enruta conversión directa a USDC hacia la Bóveda #501.
               </div>
             </div>
 
-            <!-- Subcuentas Binance Spot de los 5 Boxes -->
-            <div class="gas-tier-box" style="padding: 4px 6px; background: #f8fafc;">
-              <div class="gas-tier-header" style="margin-bottom: 3px;">
-                <span style="font-size: 8.5px; color: var(--text-main); font-weight: 800;">5 SUBCUENTAS BINANCE SPOT:</span>
-                <span class="badge-tag-tiny badge-green" style="font-size: 7.5px;">RETIRO MANUAL</span>
+            <!-- Detector 2 -->
+            <div class="detector-item">
+              <div class="detector-item-head">
+                <span style="color: var(--win-purple);">2. "Piedritas" / NFTs &amp; Medallas</span>
+                <span class="badge-tag-tiny badge-purple">Instant Seaport Flip</span>
               </div>
-              <div class="binance-vaults-strip" id="binanceVaultsMiniList">
-                <div class="vault-mini-pill" onclick="inspectBinanceVault(1)" title="Box 1 CEX: 0x48b2...531b (Clic para auditar)">
-                  <span>B1:</span><strong>..531b</strong>
-                </div>
-                <div class="vault-mini-pill" onclick="inspectBinanceVault(2)" title="Box 2 CEX: 0x33cf...1bc4 (Clic para auditar)">
-                  <span>B2:</span><strong>..1bc4</strong>
-                </div>
-                <div class="vault-mini-pill" onclick="inspectBinanceVault(3)" title="Box 3 CEX: 0x409c...ca4e (Clic para auditar)">
-                  <span>B3:</span><strong>..ca4e</strong>
-                </div>
-                <div class="vault-mini-pill" onclick="inspectBinanceVault(4)" title="Box 4 CEX: 0x2734...ce54 (Clic para auditar)">
-                  <span>B4:</span><strong>..ce54</strong>
-                </div>
-                <div class="vault-mini-pill" onclick="inspectBinanceVault(5)" title="Box 5 CEX: 0xf746...dce7 (Clic para auditar)">
-                  <span>B5:</span><strong>..dce7</strong>
-                </div>
+              <div class="detector-item-desc">
+                Rastrea ERC-721/1155 y Badges. Si hay Collection Bid en mercado que supere el gas (+$0.05 neto), liquida al instante en USDC.
               </div>
-              <div style="font-size: 7.8px; color: var(--text-muted); margin-top: 3px; line-height: 1.25;">
-                🔒 <strong>Regla Cero Micro-Depósitos:</strong> Ningún bot envía polvo a Binance. Acumulación on-chain en Bóveda #501 ($490.76) y retiro manual en bloque consolidado.
+            </div>
+
+            <!-- Detector 3 -->
+            <div class="detector-item">
+              <div class="detector-item-head">
+                <span style="color: var(--win-success);">3. Escudo GoPlus Anti-Trampa</span>
+                <span class="badge-tag-tiny badge-green">0% Honeypot</span>
+              </div>
+              <div class="detector-item-desc">
+                Inspecciona bytecode de contrato antes de firmar cualquier claim o mint para asegurar 0% riesgo y blindar el gas.
               </div>
             </div>
           </div>
+
+          <!-- 3. Botón Principal: Abrir Inspector de las 500 Carteras -->
+          <button class="btn-open-inspector-primary" onclick="openBoxDossier('ALL')" title="Abrir inspector y explorador interactivo de las 500 carteras">
+            <span class="material-symbols-rounded icon-xs">view_list</span>
+            <span>🗂️ ABRIR INSPECTOR DE LAS 500 CARTERAS (ESTILO POLYGONSCAN)</span>
+          </button>
         </div>
-      </section>
-
-
-    </aside>
+      </div>
+    </div>
 
     <!-- ======================================================================= -->
-    <!-- COLUMNA CENTRAL & DERECHA: FRENTES DE AIRDROPS + BITÁCORA Y TELEGRAM    -->
+    <!-- COLUMNA 2: CALENDARIO DE AIRDROPS PRÓXIMOS ↔ CAZADOR FREE-MINT & FLIP    -->
     <!-- ======================================================================= -->
-    <div class="col-fleet-center">
-
-      <!-- ===================================================================== -->
-      <!-- ===================================================================== -->
-      <!-- ZONA 3 (PANEL SUPERIOR): CONMUTADOR CENTRAL AIRDROPS ↔ NFT FLIP (100VH) -->
-      <!-- ===================================================================== -->
-      <section class="quant-card panel-airdrop-fronts" id="blockAirdropFronts">
-        <!-- CABECERA CON CONMUTADOR DE PESTAÑAS EN 1 CLIC -->
-        <div class="quant-card-header panoramic-tabs-header">
-          <div class="panoramic-tabs-wrap">
-            <button class="panoramic-tab-btn active" id="tabBtnAirdrops" onclick="switchPanoramicTab('airdrops')" title="Ver Frentes y Calendario Anual de Airdrops (Fila India X500)">
-              <span class="material-symbols-rounded icon-xs gold">event_available</span>
-              <span>📅 CALENDARIO AIRDROPS &amp; SEMILLAS (FILA INDIA X500)</span>
-              <span class="badge-tag-tiny badge-gold" id="badgeAirdropsCount">5 FRENTES</span>
-            </button>
-            <button class="panoramic-tab-btn" id="tabBtnNftFlip" onclick="switchPanoramicTab('nftflip')" title="Ver Cazador de Free-Mints &amp; Instant NFT Flip (Escolta 2 Nebulosas)">
-              <span class="material-symbols-rounded icon-xs cyan">diamond</span>
-              <span>💎 CAZADOR FREE-MINT &amp; INSTANT NFT FLIP</span>
-              <span class="badge-tag-tiny badge-cyan" id="badgeNftCount">6 AUDITADAS</span>
-            </button>
-            <button class="panoramic-tab-btn" id="tabBtnDualView" onclick="switchPanoramicTab('dual')" title="Ver Vista Dual 50/50: Airdrops y Cazador Free-Mint simultáneos">
-              <span class="material-symbols-rounded icon-xs green-text">splitscreen</span>
-              <span>⚡ VISTA DUAL (50/50)</span>
-              <span class="badge-tag-tiny badge-green">PANORÁMICO</span>
-            </button>
+    <div class="win-col col-calendar">
+      <div class="win-window">
+        <div class="win-titlebar">
+          <div class="win-title">
+            <span class="material-symbols-rounded icon-xs val-gold">event_available</span>
+            <span>C:\Area501\Airdrop_Calendar_2026.exe</span>
+            <span class="win-title-path">[5 Frentes &amp; 6 Libros Seaport]</span>
           </div>
-
-          <!-- Controles dinámicos para Pestaña 1 (Airdrops) -->
-          <div class="panoramic-controls-row" id="airdropsControlsRow">
-            <span class="badge-tag-tiny badge-bot-oracle" id="botOracleStatusBadge" title="Oráculo Anual con Triple Auditoría (DefiLlama, DexScreener, GoPlus)">
-              🔭 Bot #1 Oráculo: ACTIVO
-            </span>
-            <span class="badge-tag-tiny badge-bot-dispatcher" id="botDispatcherStatusBadge" title="Director Táctico de Enrutamiento Dinámico de los 5 Boxes">
-              🧭 Bot #2 Director: ENRUTANDO
-            </span>
-            <button class="filter-pill-btn active" id="btnRefreshRpcs" onclick="refreshRpcPings()" title="Forzar medición en vivo de latencias RPC y auditoría">
-              <span class="material-symbols-rounded icon-xs cyan">sync</span>
-              <span>MEDIR RPCs</span>
-            </button>
-            <span class="badge-tag-tiny badge-gold" id="badgeTotalFrontsVerified">5/5 BOXES ENRUTADOS</span>
-          </div>
-
-          <!-- Controles dinámicos para Pestaña 2 (NFT Flip) -->
-          <div class="panoramic-controls-row" id="nftControlsRow" style="display: none;">
-            <span class="badge-tag-tiny badge-goplus" title="Auditoría GoPlus Security en Contratos de Minteo">
-              🛡️ GOPLUS: 0% TRAMPA
-            </span>
-            <span class="badge-tag-tiny badge-lock-mode" title="Conversión instantánea a USDC Nativo vía Odos SOR v2 directo a Bóveda #501 (Sin micro-depósitos a Binance)">
-              🔒 MiCA LOCK: BÓVEDA #501
-            </span>
-            <button class="filter-pill-btn active" id="btnRefreshNfts" onclick="refreshNftOpportunities()" title="Escanear y auditar liquidez instantánea y collection bids">
-              <span class="material-symbols-rounded icon-xs cyan">radar</span>
-              <span>AUDITAR BIDS</span>
-            </button>
-            <span class="badge-tag-tiny badge-green" id="badgeTotalNftsReady">6/6 LIBROS ESCANEADOS</span>
+          <div class="win-controls">
+            <span class="win-btn">_</span>
+            <span class="win-btn">▢</span>
+            <span class="win-btn close">✕</span>
           </div>
         </div>
 
-        <!-- CONTENIDO PESTAÑA CENTRAL 1 (Activa por defecto): CALENDARIO AIRDROPS & SEMILLAS -->
-        <div class="fronts-table-wrap" id="panoramicContentAirdrops" style="overflow-x: hidden;">
-          <!-- Barra de Situación Táctica de las 500 Carteras -->
-          <div class="fleet-tactical-strip">
-            <div class="tactical-strip-left">
-              <span class="tactical-chip"><strong class="cyan">MISIÓN 500 BOTS:</strong> Racha Gasless EIP-712 (Día 1/25 · 500/500 Firmados)</span>
-              <span class="tactical-sep">|</span>
-              <span class="tactical-chip"><strong class="gold">TOKENS RECLAMABLES:</strong> 0 Tokens Hoy (Siembra Pre-TGE Activa)</span>
-              <span class="tactical-sep">|</span>
-              <span class="tactical-chip"><strong class="purple">PRÓXIMO CORTE:</strong> 30 Oct 2026 (Base Avantis S3 &amp; DogeOS)</span>
-            </div>
-            <div class="tactical-strip-right">
-              <span class="tactical-chip"><strong class="green-text">DESTINO AIRDROPS:</strong> 100% USDC Nativo ➔ Bóveda #501</span>
-            </div>
-          </div>
-
-          <table class="quant-table" id="airdropFrontsTable" style="table-layout: fixed; width: 100%; overflow: hidden;">
-            <thead>
-              <tr>
-                <th style="width: 24%;">PROYECTO &amp; PRIORIDAD</th>
-                <th style="width: 20%;">VENTANA REAL &amp; ESTADO</th>
-                <th style="width: 21%;">RACHA DIARIA (500 BOTS)</th>
-                <th style="width: 22%;">CALIFICACIÓN &amp; DESTINO</th>
-                <th style="width: 13%;">PING &amp; EXPLORER</th>
-              </tr>
-            </thead>
-            <tbody id="airdropFrontsTbody">
-              <!-- Prioridad #1: Misiones Gasless EIP-712 & Daily Streaks (ACTIVO · DÍA 1/25) -->
-              <tr id="frontRow-gasless">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-polygon"></span>
-                    <strong style="color: var(--text-main); font-size: 10px;">⚡ Misiones Gasless EIP-712 &amp; Daily Streaks</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #1 (ACTIVO · DÍA 1/25)</span>
-                    <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
-                  </div>
-                  <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Polygon PoS &amp; BSC · 0x0d50...1270</div>
-                </td>
-                <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #dc2626;">Ventana Activa ➔ Racha 25 Días</div>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;" id="gaslessCountdownText">⚡ Ejecución Diaria EIP-712 · Cero Gas Perdido</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
-                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;" id="gaslessStreakDayText">Día 1/25 (500 Bots Firmados · Racha Activa)</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
-                </td>
-                <td>
-                  <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
-                    <span class="font-mono green-text" style="font-size: 9.5px; font-weight: 700;" id="pingMainnets">⚡ 118 ms</span>
-                    <a href="https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; font-size: 8.5px;" title="Ver contrato auditado en explorador">
-                      <span>EXPLORER</span>
-                      <span class="material-symbols-rounded icon-xs" style="font-size: 10px;">open_in_new</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- Prioridad #2: Base Ecosystem & Avantis S3 / Jumper (CIERRE 30 OCT) -->
-              <tr id="frontRow-base">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-base"></span>
-                    <strong style="color: var(--text-main); font-size: 10px;">🔵 Base Ecosystem &amp; Avantis S3 / Jumper</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #2 (CORTE 30 OCT)</span>
-                    <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
-                  </div>
-                  <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Base L2 Official · 0x1231...4EaE</div>
-                </td>
-                <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #dc2626;">Activa Hoy ➔ Corte: 30 Oct / 15 Nov</div>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Fase 1: 30 Oct 2026</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
-                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
-                </td>
-                <td>
-                  <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
-                    <span class="font-mono green-text" style="font-size: 9.5px; font-weight: 700;" id="pingBase">⚡ 265 ms</span>
-                    <a href="https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; font-size: 8.5px;" title="Ver contrato auditado en explorador">
-                      <span>EXPLORER</span>
-                      <span class="material-symbols-rounded icon-xs" style="font-size: 10px;">open_in_new</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- Prioridad #3: DogeOS Chapter 2 & Startale / Soneium (CIERRE 30 OCT) -->
-              <tr id="frontRow-dogeos">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-polygon"></span>
-                    <strong style="color: var(--text-main); font-size: 10px;">🟣 DogeOS Chapter 2 &amp; Startale / Soneium</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-fire">🔥 PRIORIDAD #3 (CORTE 30 OCT)</span>
-                    <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
-                  </div>
-                  <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Base / Soneium L2 · 0x4200...0006</div>
-                </td>
-                <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #dc2626;">Activa Hoy ➔ Corte: 30 Oct / 20 Nov</div>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">⏳ Corte Cap. 2: 30 Oct 2026</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
-                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
-                </td>
-                <td>
-                  <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
-                    <span class="font-mono green-text" style="font-size: 9.5px; font-weight: 700;" id="pingDogeos">⚡ 288 ms</span>
-                    <a href="https://basescan.org/address/0x4200000000000000000000000000000000000006" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; font-size: 8.5px;" title="Ver contrato auditado en explorador">
-                      <span>EXPLORER</span>
-                      <span class="material-symbols-rounded icon-xs" style="font-size: 10px;">open_in_new</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- Prioridad #4: Arbitrum Stylus & Optimism Superchain (HORIZONTE 2) -->
-              <tr id="frontRow-arbitrum">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-arbitrum"></span>
-                    <strong style="color: var(--text-main); font-size: 10px;">🔵 Arbitrum Stylus &amp; Optimism Superchain</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-seed">⚡ PRIORIDAD #4 (HORIZONTE 2)</span>
-                    <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
-                  </div>
-                  <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Arbitrum One / Sepolia · 0x82aF...Bab1</div>
-                </td>
-                <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #0284c7;">Siembra Continua 24/7 (Corte Q4 2026)</div>
-                  <div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">🌱 Siembra Continua Activa</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
-                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
-                </td>
-                <td>
-                  <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
-                    <span class="font-mono green-text" style="font-size: 9.5px; font-weight: 700;" id="pingArbitrum">⚡ 282 ms</span>
-                    <a href="https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; font-size: 8.5px;" title="Ver contrato auditado en explorador">
-                      <span>EXPLORER</span>
-                      <span class="material-symbols-rounded icon-xs" style="font-size: 10px;">open_in_new</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- Prioridad #5: Citrea Bitcoin ZK-Rollup & GOAT Network (HORIZONTE 3 BTC L2) -->
-              <tr id="frontRow-citrea">
-                <td>
-                  <div class="front-badge-wrap">
-                    <span class="chain-dot-mini chain-dot-citrea"></span>
-                    <strong style="color: var(--text-main); font-size: 10px;">🟠 Citrea Bitcoin ZK-Rollup &amp; GOAT Network</strong>
-                  </div>
-                  <div style="font-size: 8.5px; color: var(--text-muted); margin-top: 2px;">
-                    <span class="badge-tag-tiny badge-seed">🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</span>
-                    <span class="badge-tag-tiny badge-goplus">🛡️ 100% SEGURO</span>
-                  </div>
-                  <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">Citrea &amp; GOAT BTC L2 · 0xcA11...CA11</div>
-                </td>
-                <td>
-                  <div style="font-size: 9px; font-weight: 700; color: #0284c7;">Acumulación Puntos Pre-TGE (Snapshot Q1 2027)</div>
-                  <div style="font-size: 8.5px; color: var(--green); margin-top: 2px;">🌱 Acumulación Pre-TGE Activa</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🔥 500/500 Bots (0 Fallos)</span>
-                  <div style="font-size: 8.5px; color: var(--cyan); margin-top: 2px;">Boxes 1 al 5 en Rotación Activa</div>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">🏆 ELEGIBLE (500/500)</span>
-                  <div style="font-size: 8.5px; color: var(--gold); margin-top: 2px;">➔ Bóveda Matriz #501 (USDC)</div>
-                  <div style="font-size: 7.5px; color: var(--text-muted);">Tokens: 0 Reclamables Hoy (Pre-TGE)</div>
-                </td>
-                <td>
-                  <div style="display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
-                    <span class="font-mono green-text" style="font-size: 9.5px; font-weight: 700;" id="pingCitrea">⚡ 330 ms</span>
-                    <a href="https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; padding: 1px 4px; font-size: 8.5px;" title="Ver contrato auditado en explorador">
-                      <span>EXPLORER</span>
-                      <span class="material-symbols-rounded icon-xs" style="font-size: 10px;">open_in_new</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Pestañas Conmutables en 1 Clic -->
+        <div class="win-tabs-bar">
+          <button class="win-tab-switch active" id="tabBtnAirdrops" onclick="switchPanoramicTab('airdrops')">
+            <span class="material-symbols-rounded icon-xs val-gold">calendar_month</span>
+            <span>📅 CALENDARIO REAL AIRDROPS (QUÉ HACEN Y QUÉ VIENE)</span>
+          </button>
+          <button class="win-tab-switch" id="tabBtnNftFlip" onclick="switchPanoramicTab('nftflip')">
+            <span class="material-symbols-rounded icon-xs val-blue">diamond</span>
+            <span>💎 CAZADOR FREE-MINT &amp; INSTANT FLIP (6 AUDITADOS)</span>
+          </button>
         </div>
 
-        <!-- CONTENIDO PESTAÑA CENTRAL 2: CAZADOR FREE-MINT & INSTANT NFT FLIP (DIVIDIDO 62% RADAR / 38% ESCOLTA IA) -->
-        <div class="fronts-table-wrap" id="panoramicContentNftFlip" style="display: none; overflow: hidden;">
-          <!-- Resumen Compacto del Corredor Sigiloso NFT -->
-          <div class="nft-stealth-corridor-bar">
-            <div class="stealth-corridor-left">
-              <span class="corridor-pulse-dot"></span>
-              <span class="corridor-title">CORREDOR SIGILOSO NFT:</span>
-              <span class="corridor-item"><strong>Ganancia Cerrada Hoy:</strong> <span class="green-text" id="nftClosedProfitUsdc">$0.00 USDC (6 Contratos Vigilados 24/7)</span></span>
-              <span class="corridor-sep">|</span>
-              <span class="corridor-item"><strong>Regla de Disparo:</strong> <span class="gold">Solo acuña si Bid &gt; Ask + Gas (+$0.05)</span></span>
-              <span class="corridor-sep">|</span>
-              <span class="corridor-item"><strong>Destino:</strong> <span class="cyan">100% USDC Nativo en Bóveda #501</span></span>
+        <div class="win-body">
+          <!-- VISTA 1: CALENDARIO REAL DE AIRDROPS (Activa por defecto) -->
+          <div id="panoramicContentAirdrops" style="display: flex; flex-direction: column; gap: 6px; height: 100%;">
+            <!-- Tira Táctica Superior -->
+            <div class="airdrop-strip-tactical">
+              <span><strong>ESTADO HOY (26 OCT 2026):</strong> Fila India Activa · 500/500 Bots Calificados</span>
+              <span><strong>DESTINO:</strong> 100% USDC Nativo ➔ Bóveda #501 (Sin micro-depósitos a CEX)</span>
             </div>
-            <div class="stealth-corridor-right">
-              <span class="badge-tag-tiny badge-lock-mode" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="🔒 MODO ACUMULACIÓN: Cero micro-depósitos a Binance. Fondos acumulados en Bóveda #501.">
-                🔒 CERO MICRO-DEPÓSITOS A BINANCE
-              </span>
-            </div>
-          </div>
 
-          <!-- PANEL DIVIDIDO: IZQUIERDA RADAR DE MERCADO / DERECHA ESCOLTA IA Y LIQUIDACIÓN -->
-          <div class="nft-split-layout">
-            <!-- LADO IZQUIERDO: TABLA DE 6 OPORTUNIDADES AUDITADAS (CALIBRADA ALTO CONTRASTE) -->
-            <div class="nft-split-left">
-              <table class="quant-table" id="nftFlipTable" style="table-layout: fixed; width: 100%;">
+            <!-- Tabla de Frentes y Fechas de Cierre -->
+            <div class="airdrop-table-wrap">
+              <table class="airdrop-table">
                 <thead>
                   <tr>
-                    <th style="width: 25%;">COLECCIÓN / RECURSO</th>
-                    <th style="width: 17%;">RED &amp; CONTRATO</th>
-                    <th style="width: 28%;">COSTO (ASK) VS. MEJOR OFERTA (BID)</th>
-                    <th style="width: 15%;">SPREAD NETO</th>
-                    <th style="width: 15%;">ESTADO DISPARO</th>
+                    <th style="width: 25%;">PROYECTO &amp; RED</th>
+                    <th style="width: 22%;">VENTANA &amp; CIERRE</th>
+                    <th style="width: 26%;">¿QUÉ HACEN HOY?</th>
+                    <th style="width: 17%;">¿QUÉ RECOLECTAN?</th>
+                    <th style="width: 10%; text-align: center;">PING</th>
                   </tr>
                 </thead>
-                <tbody id="nftFlipTbody">
-                  <!-- Renderizado dinámico en vivo desde app.js -->
+                <tbody id="airdropFrontsTbody">
+                  <!-- Prioridad #1 -->
+                  <tr id="frontRow-gasless">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span class="chain-dot-mini chain-dot-polygon"></span>
+                        <strong style="color: var(--text-dark); font-size: 9.5px;">Misiones Gasless EIP-712</strong>
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
+                        Polygon &amp; BSC · <a href="https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270" target="_blank" rel="noopener noreferrer" class="explorer-link">0x0d50...1270 ↗</a>
+                      </div>
+                      <span class="badge-tag-tiny badge-blue" style="margin-top: 2px;">🔥 PRIORIDAD #1</span>
+                    </td>
+                    <td>
+                      <strong style="color: var(--win-success); font-size: 9px;">DÍA 2 / 25 ACTIVO</strong>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">25 Oct ➔ 20 Nov 2026</div>
+                      <div style="font-size: 7.5px; color: var(--win-gold);">Racha continua 24/7</div>
+                    </td>
+                    <td>
+                      <div style="font-size: 8.5px; color: var(--text-dark); font-weight: 600;">
+                        Firman asistencia criptográfica diaria a <strong>$0.00 de gas</strong>.
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Patrocinio de gasless relay validado.</div>
+                    </td>
+                    <td>
+                      <span class="badge-tag-tiny badge-green">Racha 25/25 USDC</span>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px;">Pools elegibles 500 bots</div>
+                    </td>
+                    <td style="text-align: center;">
+                      <span class="font-mono val-green" style="font-size: 8.5px; font-weight: 700;" id="pingMainnets">⚡ 118 ms</span>
+                    </td>
+                  </tr>
+
+                  <!-- Prioridad #2 -->
+                  <tr id="frontRow-base">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span class="chain-dot-mini chain-dot-base"></span>
+                        <strong style="color: var(--text-dark); font-size: 9.5px;">Base Avantis S3 &amp; Jumper</strong>
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
+                        Base L2 Official · <a href="https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE" target="_blank" rel="noopener noreferrer" class="explorer-link">0x1231...4EaE ↗</a>
+                      </div>
+                      <span class="badge-tag-tiny badge-danger" style="margin-top: 2px;">🔥 PRIORIDAD #2</span>
+                    </td>
+                    <td>
+                      <strong style="color: var(--win-danger); font-size: 9px;">CIERRE EN 4 DÍAS</strong>
+                      <div style="font-size: 7.5px; color: var(--win-danger); font-weight: 700;">30 Oct ➔ 15 Nov 2026</div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Snapshot inminente</div>
+                    </td>
+                    <td>
+                      <div style="font-size: 8.5px; color: var(--text-dark); font-weight: 600;">
+                        Micro-operaciones DeFi (Wrap/Unwrap WETH) e interacción bridge.
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Boxes 1 al 5 en turnos alternos.</div>
+                    </td>
+                    <td>
+                      <span class="badge-tag-tiny badge-gold">Puntos Snapshot</span>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px;">Antigüedad de cuenta</div>
+                    </td>
+                    <td style="text-align: center;">
+                      <span class="font-mono val-green" style="font-size: 8.5px; font-weight: 700;" id="pingBase">⚡ 265 ms</span>
+                    </td>
+                  </tr>
+
+                  <!-- Prioridad #3 -->
+                  <tr id="frontRow-dogeos">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span class="chain-dot-mini chain-dot-base"></span>
+                        <strong style="color: var(--text-dark); font-size: 9.5px;">DogeOS Cap. 2 &amp; Startale</strong>
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
+                        Base / Soneium · <a href="https://basescan.org/address/0x4200000000000000000000000000000000000006" target="_blank" rel="noopener noreferrer" class="explorer-link">0x4200...0006 ↗</a>
+                      </div>
+                      <span class="badge-tag-tiny badge-danger" style="margin-top: 2px;">🔥 PRIORIDAD #3</span>
+                    </td>
+                    <td>
+                      <strong style="color: var(--win-danger); font-size: 9px;">CIERRE EN 4 DÍAS</strong>
+                      <div style="font-size: 7.5px; color: var(--win-danger); font-weight: 700;">30 Oct ➔ 20 Nov 2026</div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Cierre Cap. 2</div>
+                    </td>
+                    <td>
+                      <div style="font-size: 8.5px; color: var(--text-dark); font-weight: 600;">
+                        Reclamo de medallas gratuitas (Early Badges / Free Mints).
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Atestación EIP-712 a $0 gas.</div>
+                    </td>
+                    <td>
+                      <span class="badge-tag-tiny badge-purple">Medallas TGE</span>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px;">Canjeables en lanzamiento</div>
+                    </td>
+                    <td style="text-align: center;">
+                      <span class="font-mono val-green" style="font-size: 8.5px; font-weight: 700;" id="pingDogeos">⚡ 288 ms</span>
+                    </td>
+                  </tr>
+
+                  <!-- Prioridad #4 -->
+                  <tr id="frontRow-arbitrum">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span class="chain-dot-mini chain-dot-arbitrum"></span>
+                        <strong style="color: var(--text-dark); font-size: 9.5px;">Arbitrum Stylus &amp; OP</strong>
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
+                        Arbitrum One · <a href="https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1" target="_blank" rel="noopener noreferrer" class="explorer-link">0x82aF...Bab1 ↗</a>
+                      </div>
+                      <span class="badge-tag-tiny badge-purple" style="margin-top: 2px;">⚡ PRIORIDAD #4</span>
+                    </td>
+                    <td>
+                      <strong style="color: var(--win-primary); font-size: 9px;">SIEMBRA CONTINUA</strong>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Horizonte Q1 2027</div>
+                      <div style="font-size: 7.5px; color: var(--win-success);">Siembra sin prisa</div>
+                    </td>
+                    <td>
+                      <div style="font-size: 8.5px; color: var(--text-dark); font-weight: 600;">
+                        Interacciones escalonadas Anti-Sybil del Box 4.
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Ejecuciones en Stylus WASM.</div>
+                    </td>
+                    <td>
+                      <span class="badge-tag-tiny badge-blue">Retroactivo OP</span>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px;">Historial de varios meses</div>
+                    </td>
+                    <td style="text-align: center;">
+                      <span class="font-mono val-green" style="font-size: 8.5px; font-weight: 700;" id="pingArbitrum">⚡ 282 ms</span>
+                    </td>
+                  </tr>
+
+                  <!-- Prioridad #5 -->
+                  <tr id="frontRow-citrea">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span class="chain-dot-mini chain-dot-citrea"></span>
+                        <strong style="color: var(--text-dark); font-size: 9.5px;">Citrea ZK &amp; GOAT Net</strong>
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
+                        Citrea BTC L2 · <a href="https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11" target="_blank" rel="noopener noreferrer" class="explorer-link">0xcA11...CA11 ↗</a>
+                      </div>
+                      <span class="badge-tag-tiny badge-gold" style="margin-top: 2px;">🌱 PRIORIDAD #5</span>
+                    </td>
+                    <td>
+                      <strong style="color: var(--win-gold); font-size: 9px;">SEMILLAS BTC L2</strong>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Snapshot Q1-Q2 2027</div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Puntos tempranos</div>
+                    </td>
+                    <td>
+                      <div style="font-size: 8.5px; color: var(--text-dark); font-weight: 600;">
+                        Goteo programado a costo $0 del Box 5.
+                      </div>
+                      <div style="font-size: 7.5px; color: var(--text-muted);">Multicall de registros cBTC.</div>
+                    </td>
+                    <td>
+                      <span class="badge-tag-tiny badge-gold">Puntos BTC L2</span>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px;">Asignación de génesis</div>
+                    </td>
+                    <td style="text-align: center;">
+                      <span class="font-mono val-green" style="font-size: 8.5px; font-weight: 700;" id="pingCitrea">⚡ 330 ms</span>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
+          </div>
 
-            <!-- LADO DERECHO: PANEL DE ESCOLTA IA (2 NEBULOSAS) & ODOS SOR v2 -->
-            <div class="nft-split-right">
-              <!-- Escolta IA #1: Calculista de Spread -->
-              <div class="nft-escort-card">
-                <div class="nft-escort-head">
-                  <span class="nft-escort-title">
-                    <span class="material-symbols-rounded icon-xs purple">psychology</span>
-                    <span>NEBULA-NFT-01: CALCULISTA</span>
-                  </span>
-                  <span class="badge-tag-tiny badge-purple">SPREAD MOTOR</span>
-                </div>
-                <div class="nft-escort-desc">
-                  Simula la orden de compra antes de autorizar el gas. Exige ganancia neta &ge; +$0.05 USDC por bot tras descontar comisiones de gas y marketplace.
-                </div>
-                <div class="nft-escort-status-row">
-                  <span>Regla Matemática:</span>
-                  <strong class="gold-text">Bid &gt; Ask + Gas (+$0.05)</strong>
-                </div>
-              </div>
+          <!-- VISTA 2: CAZADOR FREE-MINT & INSTANT NFT FLIP (Conmutador 1 clic) -->
+          <div id="panoramicContentNftFlip" style="display: none; flex-direction: column; gap: 6px; height: 100%;">
+            <div class="airdrop-strip-tactical" style="background: #f0fdf4; border-color: #86efac; color: #166534;">
+              <span><strong>VIGILANCIA SEAPORT 24/7:</strong> 6 Contratos Auditados (GoPlus 0% Riesgo)</span>
+              <span><strong>REGLA DE ORO:</strong> Solo acuña si Top Bid &gt; Mint ($0) + Gas (+$0.05 neto) ➔ USDC #501</span>
+            </div>
 
-              <!-- Escolta IA #2: Anti-Trampa GoPlus -->
-              <div class="nft-escort-card">
-                <div class="nft-escort-head">
-                  <span class="nft-escort-title">
-                    <span class="material-symbols-rounded icon-xs green-text">security</span>
-                    <span>NEBULA-NFT-02: GOPLUS AUDITOR</span>
-                  </span>
-                  <span class="badge-tag-tiny badge-green">ANTI-TRAMPA</span>
-                </div>
-                <div class="nft-escort-desc">
-                  Escaneo de bytecode en tiempo real. Comprueba que el contrato no posea honeypot, límites de transferencia ocultos, ni permisos maliciosos de quema.
-                </div>
-                <div class="nft-escort-status-row">
-                  <span>Auditoría de Contratos:</span>
-                  <strong class="green-text">🛡️ 6/6 Contratos 100% Seguros</strong>
-                </div>
-              </div>
-
-              <!-- Pipeline de Liquidación Atómica -->
-              <div class="nft-escort-card" style="background: #f8fafc;">
-                <div class="nft-escort-head">
-                  <span class="nft-escort-title">
-                    <span class="material-symbols-rounded icon-xs cyan">swap_horiz</span>
-                    <span>LIQUIDACIÓN ODOS SOR v2</span>
-                  </span>
-                  <span class="badge-tag-tiny badge-cyan">ATÓMICO</span>
-                </div>
-                <div class="nft-escort-desc">
-                  Conversión atómica instantánea del NFT acuñado a USDC Nativo vía Odos SOR v2. Los fondos se depositan en la <strong>Bóveda Matriz #501</strong> ($490.76 USDC).
-                </div>
-                <div class="nft-escort-status-row">
-                  <span>Destino de Fondos:</span>
-                  <strong class="green-text">➔ Bóveda #501 (Sin Dust CEX)</strong>
-                </div>
-              </div>
+            <div class="airdrop-table-wrap">
+              <table class="airdrop-table">
+                <thead>
+                  <tr>
+                    <th style="width: 25%;">COLECCIÓN / CONTRATO</th>
+                    <th style="width: 20%;">RED &amp; PROTOCOLO</th>
+                    <th style="width: 25%;">COSTO ASK VS. MEJOR BID</th>
+                    <th style="width: 15%;">SPREAD NETO</th>
+                    <th style="width: 15%; text-align: center;">ESTADO</th>
+                  </tr>
+                </thead>
+                <tbody id="nftFlipTbody">
+                  <!-- Renderizado dinámico en tiempo real desde app.js -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- CONTENIDO PESTAÑA CENTRAL 3: VISTA DUAL (50/50 AIRDROPS + NFT FLIP) -->
-        <div class="fronts-table-wrap" id="panoramicContentDual" style="display: none; overflow: hidden; padding: 6px;">
-          <div class="panoramic-dual-view">
-            <!-- Columna Dual 1: Calendario Airdrops -->
-            <div class="panoramic-dual-col">
-              <div class="dual-col-header">
-                <span>📅 5 FRENTES DE AIRDROPS (FILA INDIA X500)</span>
-                <span class="badge-tag-tiny badge-gold">500 BOTS ACTIVOS</span>
-              </div>
-              <div style="flex: 1; overflow-y: auto; padding: 4px;" id="dualAirdropsContainer">
-                <!-- Se proyecta la tabla de airdrops dinámicamente -->
-              </div>
-            </div>
-
-            <!-- Columna Dual 2: Cazador Free-Mint & NFT Flip -->
-            <div class="panoramic-dual-col">
-              <div class="dual-col-header">
-                <span>💎 CAZADOR FREE-MINT &amp; INSTANT FLIP (SEAPORT)</span>
-                <span class="badge-tag-tiny badge-cyan">ESCOLTA 2 NEBULOSAS</span>
-              </div>
-              <div style="flex: 1; overflow-y: auto; padding: 4px;" id="dualNftContainer">
-                <!-- Se proyecta la tabla de NFTs dinámicamente -->
-              </div>
-            </div>
+    <!-- ======================================================================= -->
+    <!-- COLUMNA 3: MONITOR EN VIVO DE PICADO ON-CHAIN & REPORTE DE RACHA        -->
+    <!-- ======================================================================= -->
+    <div class="win-col col-terminal">
+      <div class="win-terminal-window">
+        <div class="term-header-strip">
+          <div class="term-header-title">
+            <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">terminal</span>
+            <span>C:\Area501\Live_Miner_Stream.log</span>
           </div>
-        </div>
-      </section>
-
-      <!-- ===================================================================== -->
-      <!-- ZONA 4 (PANEL INFERIOR): BITÁCORA DE PICADO EN VIVO + ESPEJO TELEGRAM  -->
-      <!-- ===================================================================== -->
-      <section class="quant-card panel-bottom-activity" id="blockBottomActivity">
-
-        <!-- Selector de Pestaña: Terminal de Picado / Espejo Telegram -->
-        <div class="activity-tabs-header">
-          <div class="tab-buttons-wrap">
-            <button class="tab-btn active" id="tabBtnLog" onclick="switchActivityTab('log')">
-              <span class="material-symbols-rounded icon-xs cyan">terminal</span>
-              <span>&gt;_ TERMINAL DE PICADO EN VIVO</span>
-              <span class="badge-tag-tiny badge-cyan" id="logCountPill">142 OPS</span>
-            </button>
-            <button class="tab-btn" id="tabBtnTg" onclick="switchActivityTab('tg')">
-              <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">satellite_alt</span>
-              <span>ESPEJO TELEGRAM (SALA DE MANDO 10K)</span>
-              <span class="badge-tag-tiny badge-purple" id="tgCountPill">EN VIVO</span>
-            </button>
-          </div>
-
-          <!-- Filtros Rápidos de Box & Controles Terminal -->
-          <div class="filter-pills-row" id="logFilterControls">
-            <span style="font-size: 9px; color: var(--text-muted); font-family: var(--font-mono);">FILTRAR:</span>
-            <button class="filter-pill-btn active" onclick="filterActivityLog('ALL')">TODOS</button>
-            <button class="filter-pill-btn" onclick="filterActivityLog('BOX1')">BOX 1</button>
-            <button class="filter-pill-btn" onclick="filterActivityLog('BOX2')">BOX 2</button>
-            <button class="filter-pill-btn" onclick="filterActivityLog('BOX3')">BOX 3</button>
-            <button class="filter-pill-btn" onclick="filterActivityLog('BOX4')">BOX 4</button>
-            <button class="filter-pill-btn" onclick="filterActivityLog('BOX5')">BOX 5</button>
-            <button class="filter-pill-btn" onclick="filterActivityLog('HASH_ONLY')">SOLO TX</button>
-            <button class="filter-pill-btn" onclick="clearActivityConsole()" title="Limpiar y refrescar consola de picado" style="color: var(--cyan); border-color: rgba(2, 132, 199, 0.3);">
-              <span class="material-symbols-rounded icon-xs" style="font-size: 11px;">mop</span>
-              <span>LIMPIAR</span>
-            </button>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span class="badge-tag-tiny badge-green" id="logCountPill">142 OPS ON-CHAIN</span>
+            <button class="term-filter-btn" onclick="clearActivityConsole()" title="Limpiar pantalla" style="color: #38bdf8;">LIMPIAR</button>
           </div>
         </div>
 
-        <!-- CONTENIDO PESTAÑA 1: TABLA DE BITÁCORA ON-CHAIN -->
-        <div class="activity-tab-content" id="tabContentLog">
-          <table class="quant-table" id="miningActivityTable">
-            <thead>
-              <tr>
-                <th style="width: 14%;">HORA REAL (UTC)</th>
-                <th style="width: 18%;">BOX &amp; SATÉLITE (#001..#500)</th>
-                <th style="width: 20%;">RED / AIRDROP REAL</th>
-                <th style="width: 22%;">ACCIÓN ON-CHAIN</th>
-                <th style="width: 26%;">HASH VERIFICABLE / ESTADO</th>
-              </tr>
-            </thead>
-            <tbody id="miningActivityTbody">
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">07:52:00 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 0 (#501 (Matriz))</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0xD4D1...3743</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Polygon PoS</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">Swap DEX On-Chain (Uniswap V3 / Odos): 886.70 WPOL ➔ +$79.59 USDC</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com/tx/0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0xf908698b0314a4cce3eaf963e376d20425a97119cfd965891f69accb3509757a">
-                    <span>0xf90869...09757a</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">07:51:56 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 0 (#501 (Matriz))</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0xD4D1...3743</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Polygon PoS</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">Envoltorio Gas On-Chain (Wrap): Wrap 886.70 POL ➔ WPOL</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com/tx/0xe2c7848ae667ceaa7ee96c2146ff9b6c0082f6e5225c56d2cf99723be0152431" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0xe2c7848ae667ceaa7ee96c2146ff9b6c0082f6e5225c56d2cf99723be0152431">
-                    <span>0xe2c784...152431</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">07:37:29 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 0 (#501 (Matriz))</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0xD4D1...3743</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Polygon PoS</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">Inyección / Depósito de Fondos: Entrada +891.889 POL</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com/tx/0x21f9976378e9f5e1ad3cb4a02c38865f5773229b359c11818d6bc1f1a5f64128" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x21f9976378e9f5e1ad3cb4a02c38865f5773229b359c11818d6bc1f1a5f64128">
-                    <span>0x21f997...f64128</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">16:18:53 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 0 (#501 (Matriz))</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0xD4D1...3743</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Polygon PoS</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">Swap DEX On-Chain (Uniswap V3 / Odos): 72.75 WPOL ➔ +$6.66 USDC</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com/tx/0x39ef70b43bbdd2b3cbdf58c63ee9a72ad41164998797f1f974cb1855a8fb44ca" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x39ef70b43bbdd2b3cbdf58c63ee9a72ad41164998797f1f974cb1855a8fb44ca">
-                    <span>0x39ef70...fb44ca</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">16:18:48 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 0 (#501 (Matriz))</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0xD4D1...3743</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Polygon PoS</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">Envoltorio Gas On-Chain (Wrap): Wrap 72.75 POL ➔ WPOL</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com/tx/0x45885ff01abf19a09990141fc53a7a976a26cf6f81e3a9689fbf0eeb0440cb62" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x45885ff01abf19a09990141fc53a7a976a26cf6f81e3a9689fbf0eeb0440cb62">
-                    <span>0x45885f...40cb62</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">16:03:00 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 1 (#001 (Capitán 1))</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0xb750...D40F</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Polygon PoS</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">Minado On-Chain Multi-Red: Verificación Gasless</span>
-                </td>
-                <td>
-                  <a href="https://polygonscan.com/tx/0x5399580b06b000dfb39d1b0d2380536ef46a16187b5a882939fb2beec9730eb6" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x5399580b06b000dfb39d1b0d2380536ef46a16187b5a882939fb2beec9730eb6">
-                    <span>0x539958...730eb6</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#101)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0x5682...adBA</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Ethereum Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.etherscan.io/tx/0x8aff5509754f88728c19ee201ca8304c71eccdcecf8fde891fbd9f7656577acf" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x8aff5509754f88728c19ee201ca8304c71eccdcecf8fde891fbd9f7656577acf">
-                    <span>0x8aff55...577acf</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#102)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0x6185...478b</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Base Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.basescan.org/tx/0xea66915ec905fc3e379f2e113365fa5c33ebf6d858a00c01f24e2ca294f45638" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0xea66915ec905fc3e379f2e113365fa5c33ebf6d858a00c01f24e2ca294f45638">
-                    <span>0xea6691...f45638</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#103)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0x3235...9B07</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Arbitrum Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.arbiscan.io/tx/0x839a5b4f46cd3513de66ad9723cc11b222d2fc74c013bbb9d04e8f91b63b5fda" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x839a5b4f46cd3513de66ad9723cc11b222d2fc74c013bbb9d04e8f91b63b5fda">
-                    <span>0x839a5b...3b5fda</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#104)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0x7eAb...3010</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Ethereum Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.etherscan.io/tx/0x99a74ecff54b5df51a719ceea158913926839356ce307a5051912ea39540b021" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x99a74ecff54b5df51a719ceea158913926839356ce307a5051912ea39540b021">
-                    <span>0x99a74e...40b021</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#105)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0x889d...f9f0</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Base Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.basescan.org/tx/0x437c35e386927da97efb6d19e917d235c5c00eecb52a5c2d398f68205efc8da7" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x437c35e386927da97efb6d19e917d235c5c00eecb52a5c2d398f68205efc8da7">
-                    <span>0x437c35...fc8da7</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#106)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0x95c7...3A6a</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Arbitrum Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.arbiscan.io/tx/0x76c125df1a2e7960fa7e67ea73aef51ef40c96c4b2bafe2e2f69e6b5fe8c9c0d" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x76c125df1a2e7960fa7e67ea73aef51ef40c96c4b2bafe2e2f69e6b5fe8c9c0d">
-                    <span>0x76c125...8c9c0d</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#107)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0xA92C...CE16</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Ethereum Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.etherscan.io/tx/0x2bd0c8227b40d65b93d39f4088a2e4726bf6da78ba8040d9cb525ffc9db8c067" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x2bd0c8227b40d65b93d39f4088a2e4726bf6da78ba8040d9cb525ffc9db8c067">
-                    <span>0x2bd0c8...b8c067</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-mono text-dim" style="font-size: 10px;">00:42:52 UTC</td>
-                <td>
-                  <span class="font-mono gold" style="font-weight: 700;">Box 2 (#108)</span>
-                  <div style="font-size: 9px; color: var(--text-muted);">0x3233...019D</div>
-                </td>
-                <td>
-                  <span class="font-mono cyan" style="font-size: 10px;">Base Sepolia</span>
-                </td>
-                <td>
-                  <span class="badge-tag-tiny badge-green">DEFI_WETH9_DEPOSIT</span>
-                </td>
-                <td>
-                  <a href="https://sepolia.basescan.org/tx/0x9b46ba1ec34a9ef86a07ec829375bc37ec59b561cda48574e4ceeb556ca6fc8e" target="_blank" rel="noopener noreferrer" class="explorer-link" title="0x9b46ba1ec34a9ef86a07ec829375bc37ec59b561cda48574e4ceeb556ca6fc8e">
-                    <span>0x9b46ba...a6fc8e</span>
-                    <span class="material-symbols-rounded icon-xs">open_in_new</span>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="terminal-prompt-bar">
-            <span class="prompt-arrow">&gt;_</span>
-            <span class="prompt-text">ROTACIÓN ACTIVA 24/7 // 500 BOTS AUDITADOS · ENRUTANDO FIRMAS EIP-712 · CERO GAS PERDIDO · DESTINO: #501</span>
-            <span class="prompt-cursor">█</span>
+        <!-- Filtros rápidos por Box -->
+        <div class="term-filters-strip">
+          <span style="font-family: var(--font-code); font-size: 8px; color: #64748b; margin-right: 2px;">FILTRO:</span>
+          <button class="term-filter-btn active" id="termBtnFilter-ALL" onclick="filterActivityLog('ALL')">TODOS</button>
+          <button class="term-filter-btn" id="termBtnFilter-BOX1" onclick="filterActivityLog('BOX1')">BOX 1</button>
+          <button class="term-filter-btn" id="termBtnFilter-BOX2" onclick="filterActivityLog('BOX2')">BOX 2</button>
+          <button class="term-filter-btn" id="termBtnFilter-BOX3" onclick="filterActivityLog('BOX3')">BOX 3</button>
+          <button class="term-filter-btn" id="termBtnFilter-BOX4" onclick="filterActivityLog('BOX4')">BOX 4</button>
+          <button class="term-filter-btn" id="termBtnFilter-BOX5" onclick="filterActivityLog('BOX5')">BOX 5</button>
+          <button class="term-filter-btn" id="termBtnFilter-HASH" onclick="filterActivityLog('HASH_ONLY')">SOLO TX</button>
+        </div>
+
+        <!-- Informe Especial Diario de Racha (streak-eligibility-reporter) -->
+        <div class="streak-reporter-strip">
+          <div class="streak-reporter-top">
+            <span style="color: #22c55e; font-weight: 700;">✅ RACHA HOY (26 OCT): EN EJECUCIÓN CONTINUA</span>
+            <span style="color: #38bdf8;">500/500 BOTS</span>
+          </div>
+          <div class="streak-reporter-details">
+            <span>🟢 Escudo GoPlus: <strong>100% Seguro</strong></span>
+            <span>⛽ Gas Consumido: <strong>$0.00 (Gasless)</strong></span>
+            <span>🔒 Destino: <strong>Bóveda Matriz #501</strong></span>
           </div>
         </div>
 
-        <!-- CONTENIDO PESTAÑA 2: ESPEJO TELEGRAM SALA DE MANDO 10K -->
-        <div class="activity-tab-content" id="tabContentTg" style="display: none;">
-          <div class="telegram-feed-list" id="telegramFeedContainer">
-            <div style="text-align: center; color: var(--text-muted); padding: 18px;">
-              Cargando despachos tácticos de Telegram (Sala de Mando 10K)...
-            </div>
-          </div>
+        <!-- Stream On-Chain en Vivo -->
+        <div class="term-stream-body" id="miningActivityTbody">
+          <!-- Las filas del log on-chain se inyectan dinámicamente -->
         </div>
 
-      </section>
-
+        <!-- Prompt de terminal Windows -->
+        <div class="term-prompt-strip">
+          <span style="color: #38bdf8;">area501@x500-fleet:~$</span>
+          <span>rotacion_activa --turn=20_bots --interval=30m --target=0xD4D1...3743</span>
+          <span class="term-cursor"></span>
+        </div>
+      </div>
     </div>
 
   </main>
 
   <!-- ========================================================================= -->
-  <!-- BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SELECTOR DE MÓDULOS)        -->
+  <!-- 3. BARRA DE TAREAS INFERIOR UNIFICADA (WINDOWS TASKBAR)                   -->
   <!-- ========================================================================= -->
   <footer class="win-taskbar">
     <div class="win-taskbar-left">
@@ -1076,52 +671,47 @@
   </footer>
 
   <!-- ========================================================================= -->
-  <!-- MODAL / EXPEDIENTE DE FLOTA X500 (LAS 100 O 500 CARTERAS EN VIVO)         -->
+  <!-- MODAL 1: INSPECTOR EXPLORADOR DE LAS 500 CARTERAS (ESTILO POLYGONSCAN)    -->
   <!-- ========================================================================= -->
-  <div class="dossier-overlay" id="fleetDossierOverlay" style="display: none;">
-    <div class="dossier-modal">
-      <div class="dossier-header">
-        <div class="dossier-title-col">
-          <span class="dossier-id-badge" id="modalDossierBoxBadge">BOX 1 (#001–#100)</span>
-          <h3 class="dossier-title" id="modalDossierTitle">CENSO Y AUDITORÍA ON-CHAIN: 100 SATÉLITES REALES</h3>
+  <div class="win-modal-overlay" id="fleetDossierOverlay">
+    <div class="win-modal-window">
+      <div class="win-modal-titlebar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-rounded icon-xs val-blue">travel_explore</span>
+          <span id="modalDossierTitle">INSPECTOR ON-CHAIN DE CARTERAS: FLOTA X500</span>
+          <span class="badge-tag-tiny badge-blue" id="modalDossierBoxBadge">500 SATÉLITES</span>
         </div>
-        <button class="dossier-close-btn" onclick="closeFleetDossier()" title="Cerrar Expediente">
-          <span class="material-symbols-rounded">close</span>
-        </button>
+        <button class="win-modal-close" onclick="closeFleetDossier()" title="Cerrar Inspector">✕</button>
       </div>
 
-      <div class="dossier-filters-bar">
-        <div class="dossier-box-tabs">
-          <button class="dossier-box-btn active" id="modalBoxBtn-ALL" onclick="switchModalBoxView('ALL')">TODAS (500)</button>
-          <button class="dossier-box-btn" id="modalBoxBtn-1" onclick="switchModalBoxView(1)">BOX 1 (100)</button>
-          <button class="dossier-box-btn" id="modalBoxBtn-2" onclick="switchModalBoxView(2)">BOX 2 (100)</button>
-          <button class="dossier-box-btn" id="modalBoxBtn-3" onclick="switchModalBoxView(3)">BOX 3 (100)</button>
-          <button class="dossier-box-btn" id="modalBoxBtn-4" onclick="switchModalBoxView(4)">BOX 4 (100)</button>
-          <button class="dossier-box-btn" id="modalBoxBtn-5" onclick="switchModalBoxView(5)">BOX 5 (100)</button>
+      <div class="win-modal-controls-strip">
+        <div style="display: flex; gap: 4px;">
+          <button class="term-filter-btn active" id="modalBoxBtn-ALL" onclick="switchModalBoxView('ALL')">TODAS (500)</button>
+          <button class="term-filter-btn" id="modalBoxBtn-1" onclick="switchModalBoxView(1)">BOX 1 (100)</button>
+          <button class="term-filter-btn" id="modalBoxBtn-2" onclick="switchModalBoxView(2)">BOX 2 (100)</button>
+          <button class="term-filter-btn" id="modalBoxBtn-3" onclick="switchModalBoxView(3)">BOX 3 (100)</button>
+          <button class="term-filter-btn" id="modalBoxBtn-4" onclick="switchModalBoxView(4)">BOX 4 (100)</button>
+          <button class="term-filter-btn" id="modalBoxBtn-5" onclick="switchModalBoxView(5)">BOX 5 (100)</button>
         </div>
 
-        <input type="text" class="dossier-search-input" id="dossierSearchInput" placeholder="Buscar por #ID, 0x Dirección o Solana..." oninput="handleDossierSearch(this.value)">
+        <input type="text" class="win-modal-search" id="dossierSearchInput" placeholder="Buscar por #025, 0x Dirección o Solana..." oninput="handleDossierSearch(this.value)">
       </div>
 
-      <div class="dossier-body-scroll">
-        <table class="quant-table" id="modalWalletsTable">
+      <div class="win-modal-body-scroll">
+        <table class="boxes-table" id="modalWalletsTable">
           <thead>
             <tr>
               <th style="width: 8%;">ID</th>
-              <th style="width: 14%;">ROL ADN / RANGO</th>
-              <th style="width: 24%;">DIRECCIÓN EVM (0x...)</th>
+              <th style="width: 14%;">ROL ADN</th>
+              <th style="width: 26%;">DIRECCIÓN EVM (0x...)</th>
               <th style="width: 24%;">DIRECCIÓN SOLANA</th>
-              <th style="width: 18%;">GAS REAL AUDITADO</th>
-              <th style="width: 6%;">TXS</th>
-              <th style="width: 6%;">ESTADO</th>
+              <th style="width: 16%;">GAS POL / BNB</th>
+              <th style="width: 6%; text-align: center;">TXS</th>
+              <th style="width: 6%; text-align: center;">FICHA</th>
             </tr>
           </thead>
           <tbody id="modalWalletsTbody">
-            <tr>
-              <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">
-                Cargando satélites reales desde wallets-public-list.json y fleet-telemetry.json...
-              </td>
-            </tr>
+            <!-- Filas inyectadas dinámicamente con click para ficha individual -->
           </tbody>
         </table>
       </div>
@@ -1129,145 +719,155 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL DE AUDITORÍA SINCERA: 11,468 TXS ON-CHAIN                           -->
+  <!-- MODAL 2: CARNET / FICHA MILITAR INDIVIDUAL DEL SOLDADO                    -->
   <!-- ========================================================================= -->
-  <div class="audit-overlay" id="miningAuditModalOverlay" style="display: none;">
-    <div class="audit-modal">
-      <div class="audit-modal-header">
+  <div class="win-modal-overlay" id="soldierMilitaryModal">
+    <div class="win-modal-window soldier-dossier-card">
+      <div class="win-modal-titlebar">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="material-symbols-rounded cyan">verified</span>
-          <div>
-            <h3 style="font-size: 13px; font-weight: 800; font-family: var(--font-mono); color: var(--text-main);">AUDITORÍA ON-CHAIN: 11,468 TXS DE PICADO</h3>
-            <span style="font-size: 9px; color: var(--text-muted); font-family: var(--font-mono);">SINCERIZACIÓN EXACTA · 248 RONDAS DE ROTACIÓN CONTINUA</span>
-          </div>
+          <span class="material-symbols-rounded icon-xs val-gold">badge</span>
+          <span>EXPEDIENTE TÁCTICO INDIVIDUAL // ÁREA 501</span>
         </div>
-        <button class="dossier-close-btn" onclick="closeMiningAuditModal()" title="Cerrar Auditoría">
-          <span class="material-symbols-rounded">close</span>
-        </button>
+        <button class="win-modal-close" onclick="closeSoldierMilitaryModal()" title="Cerrar Carnet">✕</button>
       </div>
 
-      <div class="audit-modal-body">
-        <div class="audit-stat-grid">
-          <div class="audit-stat-box">
-            <span class="audit-stat-num cyan">11,468</span>
-            <span class="audit-stat-label">TXS EN CADENA</span>
+      <!-- Cabecera de Identidad Militar -->
+      <div class="soldier-profile-header">
+        <div class="soldier-avatar-badge" id="soldierAvatarBadge">
+          <span style="font-size: 9px; color: #94a3b8;">SAT</span>
+          <span id="soldierIdBadge">#001</span>
+        </div>
+        <div class="soldier-header-info">
+          <div class="soldier-header-id" id="soldierRoleTitle">Capitán Escuadrón Box 1</div>
+          <div style="font-size: 9.5px; color: var(--text-muted); font-family: var(--font-code);">
+            Asignado a: <strong class="val-blue" id="soldierBoxAssignment">BOX 1 (#001–#100)</strong> · Estado: <strong class="val-green">🟢 SANA &amp; ACTIVA</strong>
           </div>
-          <div class="audit-stat-box">
-            <span class="audit-stat-num gold">248 RONDAS</span>
-            <span class="audit-stat-label">CARRUSEL 24/7 (20/TURNO)</span>
-          </div>
-          <div class="audit-stat-box">
-            <span class="audit-stat-num green-text">100.0%</span>
-            <span class="audit-stat-label">0 FALLOS / 0 REVERTS</span>
+        </div>
+      </div>
+
+      <!-- Cuadrícula de Datos Técnicos y Criptográficos -->
+      <div class="soldier-dossier-grid">
+        <div class="soldier-dossier-cell" style="grid-column: span 2;">
+          <span class="soldier-dossier-label">Dirección EVM Oficial:</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 4px;">
+            <span class="soldier-dossier-val val-blue" id="soldierEvmAddress" style="font-size: 9.5px;">0x...</span>
+            <button class="btn-copy-address" id="btnCopySoldierEvm" title="Copiar"><span class="material-symbols-rounded icon-xs">content_copy</span></button>
           </div>
         </div>
 
-        <div style="background: #f8fafc; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 10px;">
-          <div style="font-weight: 800; color: var(--text-main); margin-bottom: 6px; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">
-            <span>DESGLOSE TÉCNICO ON-CHAIN POR CATEGORÍA:</span>
-            <span class="cyan">TOTAL: 11,468 TXS</span>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #e2e8f0;">
-            <span>1. Testnets EVM &amp; Bitcoin L2 (Sepolia, Base, Arb, Citrea):</span>
-            <strong class="cyan">9,840 TXS</strong>
-          </div>
-          <div style="padding-left: 12px; font-size: 8.5px; color: var(--text-dim); margin-bottom: 4px;">
-            • Sepolia Ethereum: 4,120 txs · Base Sepolia: 2,460 txs · Arbitrum Sepolia: 1,840 txs · Citrea cBTC: 1,420 txs
-          </div>
-
-          <div style="display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #e2e8f0;">
-            <span>2. Operaciones Mainnet Vivas (Polygon PoS &amp; BSC Odos Swaps):</span>
-            <strong class="gold-text">1,128 TXS</strong>
-          </div>
-          <div style="padding-left: 12px; font-size: 8.5px; color: var(--text-dim); margin-bottom: 4px;">
-            • Micro-swaps DEX, permisos ERC-20, interacciones con contratos verificados
-          </div>
-
-          <div style="display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #e2e8f0;">
-            <span>3. Rachas Diarias Gasless EIP-712 (Día 1/25 Activo):</span>
-            <strong class="green-text">500 FIRMAS</strong>
-          </div>
-          <div style="padding-left: 12px; font-size: 8.5px; color: var(--text-dim);">
-            • 500 satélites firmaron con éxito off-chain con relay gasless patrocinado ($0 gas gastado)
+        <div class="soldier-dossier-cell" style="grid-column: span 2;">
+          <span class="soldier-dossier-label">Dirección Solana Vinculada:</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 4px;">
+            <span class="soldier-dossier-val" id="soldierSolanaAddress" style="font-size: 9px; color: var(--text-medium);">—</span>
+            <button class="btn-copy-address" id="btnCopySoldierSolana" title="Copiar"><span class="material-symbols-rounded icon-xs">content_copy</span></button>
           </div>
         </div>
 
-        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 8px 10px; font-size: 9px; color: #15803d; line-height: 1.35;">
-          🛡️ <strong>Blindaje de Gas Confirmado:</strong> Durante las 248 rondas de picado, <strong>0.00 POL</strong> del Piso Blindado de Bóveda #501 han sido consumidos. Las 160.79 POL de la Nodriza Matriz permanecen 100% intactas.
+        <div class="soldier-dossier-cell">
+          <span class="soldier-dossier-label">Ruta de Derivación HD:</span>
+          <span class="soldier-dossier-val" id="soldierHdPath">m/44'/60'/0'/0/0</span>
+        </div>
+
+        <div class="soldier-dossier-cell">
+          <span class="soldier-dossier-label">Capitán al Mando:</span>
+          <span class="soldier-dossier-val val-gold" id="soldierCaptainLeader">Capitán 1 (0xb750...D40F)</span>
+        </div>
+
+        <div class="soldier-dossier-cell">
+          <span class="soldier-dossier-label">Combustible Real:</span>
+          <span class="soldier-dossier-val val-green" id="soldierGasBalances">18.07 POL · 0.0051 BNB</span>
+        </div>
+
+        <div class="soldier-dossier-cell">
+          <span class="soldier-dossier-label">Racha Asistencia Diaria:</span>
+          <span class="soldier-dossier-val val-blue" id="soldierStreakDay">Día 2/25 (100% Completado)</span>
+        </div>
+
+        <div class="soldier-dossier-cell" style="grid-column: span 2;">
+          <span class="soldier-dossier-label">Última Operación On-Chain:</span>
+          <span class="soldier-dossier-val" id="soldierLastAction" style="font-size: 8.5px; color: var(--text-dark);">Firma Gasless EIP-712 Asistencia Diaria ($0 Gas)</span>
+        </div>
+      </div>
+
+      <!-- Enlaces directos a exploradores oficiales con 1 clic -->
+      <div class="soldier-explorers-strip" id="soldierExplorersStrip">
+        <!-- Generados dinámicamente con los links directos -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: AUDITORÍA DE 11,468 TXS SINCERIZADAS                             -->
+  <!-- ========================================================================= -->
+  <div class="win-modal-overlay" id="miningAuditModalOverlay">
+    <div class="win-modal-window" style="max-width: 650px; height: auto;">
+      <div class="win-modal-titlebar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-rounded icon-xs val-green">verified</span>
+          <span>AUDITORÍA ON-CHAIN: 11,468 TXS PICADAS</span>
+        </div>
+        <button class="win-modal-close" onclick="closeMiningAuditModal()" title="Cerrar Auditoría">✕</button>
+      </div>
+
+      <div style="padding: 14px; font-family: var(--font-code); font-size: 10px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+          <div style="background: #f8fafc; border: 1px solid var(--win-border); padding: 8px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 16px; font-weight: 800; color: var(--win-primary);">11,468</div>
+            <div style="font-size: 8px; color: var(--text-muted);">TXS EN CADENA</div>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--win-border); padding: 8px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 16px; font-weight: 800; color: var(--win-gold);">248 RONDAS</div>
+            <div style="font-size: 8px; color: var(--text-muted);">CARRUSEL (20/TURNO)</div>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid var(--win-border); padding: 8px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 16px; font-weight: 800; color: var(--win-success);">100%</div>
+            <div style="font-size: 8px; color: var(--text-muted);">0 FALLOS / 0 REVERTS</div>
+          </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid var(--win-border); border-radius: 5px; padding: 10px; line-height: 1.5;">
+          <strong>Desglose Exacto On-Chain:</strong>
+          <ul style="margin: 6px 0 6px 16px; font-size: 9px; color: var(--text-medium);">
+            <li><strong>9,840 TXS:</strong> Testnets Sepolia, Base, Arbitrum y Citrea Bitcoin L2.</li>
+            <li><strong>1,128 TXS:</strong> Micro-swaps y contratos en Polygon PoS y BSC.</li>
+            <li><strong>500 FIRMAS:</strong> Racha diaria Gasless EIP-712 a $0 gas.</li>
+          </ul>
+          <div style="color: var(--win-success); font-weight: 700; font-size: 9px; border-top: 1px dashed var(--win-border); padding-top: 6px;">
+            🛡️ Piso de 160.79 POL de Bóveda Matriz #501 100% Intacto.
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL DE POLÍTICA: BÓVEDAS BINANCE SPOT Y CERO MICRO-DEPÓSITOS           -->
+  <!-- MODAL 4: POLÍTICA BINANCE SPOT Y CERO MICRO-DEPÓSITOS                     -->
   <!-- ========================================================================= -->
-  <div class="audit-overlay" id="binancePolicyModalOverlay" style="display: none;">
-    <div class="audit-modal">
-      <div class="audit-modal-header">
+  <div class="win-modal-overlay" id="binancePolicyModalOverlay">
+    <div class="win-modal-window" style="max-width: 650px; height: auto;">
+      <div class="win-modal-titlebar">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="material-symbols-rounded gold">account_balance</span>
-          <div>
-            <h3 style="font-size: 13px; font-weight: 800; font-family: var(--font-mono); color: var(--text-main);">POLÍTICA CEX: 5 BÓVEDAS BINANCE SPOT</h3>
-            <span style="font-size: 9px; color: var(--text-muted); font-family: var(--font-mono);">MODO ACUMULACIÓN ON-CHAIN · CERO MICRO-DEPÓSITOS (DUST)</span>
-          </div>
+          <span class="material-symbols-rounded icon-xs val-gold">account_balance</span>
+          <span>POLÍTICA DE RETIRO: BÓVEDA #501 &amp; CERO POLVO CEX</span>
         </div>
-        <button class="dossier-close-btn" onclick="closeBinancePolicyModal()" title="Cerrar Política">
-          <span class="material-symbols-rounded">close</span>
-        </button>
+        <button class="win-modal-close" onclick="closeBinancePolicyModal()" title="Cerrar Política">✕</button>
       </div>
 
-      <div class="audit-modal-body">
-        <div class="audit-stat-grid">
-          <div class="audit-stat-box">
-            <span class="audit-stat-num gold">5 SUBCUENTAS</span>
-            <span class="audit-stat-label">1 POR CADA BOX</span>
-          </div>
-          <div class="audit-stat-box">
-            <span class="audit-stat-num green-text">$490.76</span>
-            <span class="audit-stat-label">USDC EN BÓVEDA #501</span>
-          </div>
-          <div class="audit-stat-box">
-            <span class="audit-stat-num cyan">100% MANUAL</span>
-            <span class="audit-stat-label">RETIRO CONSOLIDADO</span>
-          </div>
+      <div style="padding: 14px; font-family: var(--font-code); font-size: 10px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px; font-size: 9.5px; color: #92400e; line-height: 1.45;">
+          <strong>Regla Sagrada: Cero Micro-Depósitos a Binance</strong><br>
+          Para evitar bloqueos por <em>dusting</em> y pérdidas en comisiones de red, los 500 bots operan bajo la política <strong>70/30 en Micro-Ganancias</strong> (70% USDC a Bóveda #501 y 30% a Gas Flota) y <strong>100% en Airdrops Macro</strong>.
+          Todo el capital cosechado ($492.51 USDC) se concentra en la Bóveda Matriz #501 (<code>0xD4D1...3743</code>) para retiro consolidado en bloque.
         </div>
 
-        <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px; font-size: 9.5px; color: #92400e; line-height: 1.4;">
-          <strong>¿Qué significa "Cero Micro-Depósito" y por qué se aplica?</strong><br>
-          Binance impone mínimos de depósito y estrictos filtros anti-spam. Si 500 satélites enviaran depósitos automáticos de $0.05 o $0.10:
-          <ul style="margin: 4px 0 4px 16px;">
-            <li>El depósito quedaría retenido o perdido por estar debajo del mínimo de red.</li>
-            <li>Binance podría bloquear la cuenta por sospecha de <em>micro-dusting</em>.</li>
-            <li>Se pagarían miles de comisiones de red inútiles.</li>
-          </ul>
-          <strong>Solución MiCA Aplicada:</strong> Los 500 satélites operan en <strong>MODO ACUMULACIÓN ON-CHAIN</strong>. Todo lo generado se concentra en la <strong>Bóveda Matriz #501 ($490.76 USDC)</strong>. Cuando el Comandante lo decide, se ejecuta un <strong>retiro manual en un solo bloque consolidado</strong> hacia las subcuentas oficiales.
-        </div>
-
-        <div style="background: #f8fafc; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 8px; font-family: var(--font-mono); font-size: 9px;">
-          <div style="font-weight: 800; color: var(--text-main); margin-bottom: 4px;">LAS 5 SUBCUENTAS OFICIALES BINANCE SPOT ASIGNADAS:</div>
-          <div style="display: flex; flex-direction: column; gap: 4px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 3px 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
-              <span><strong>Box 1 (#001–#100):</strong> 0x48b26dd0f9265573f31f7140cf01e9c48518531b</span>
-              <button class="btn-copy-address" onclick="copyToClipboard('0x48b26dd0f9265573f31f7140cf01e9c48518531b')" title="Copiar"><span class="material-symbols-rounded icon-xs">content_copy</span></button>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 3px 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
-              <span><strong>Box 2 (#101–#200):</strong> 0x33cffda0218122ed4d981dcb1797f4b458191bc4</span>
-              <button class="btn-copy-address" onclick="copyToClipboard('0x33cffda0218122ed4d981dcb1797f4b458191bc4')" title="Copiar"><span class="material-symbols-rounded icon-xs">content_copy</span></button>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 3px 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
-              <span><strong>Box 3 (#201–#300):</strong> 0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</span>
-              <button class="btn-copy-address" onclick="copyToClipboard('0x409c4695afd6c919ca660cd86c5c24eb54bfca4e')" title="Copiar"><span class="material-symbols-rounded icon-xs">content_copy</span></button>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 3px 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
-              <span><strong>Box 4 (#301–#400):</strong> 0x2734e0a264573056417d12478616107ff5d2ce54</span>
-              <button class="btn-copy-address" onclick="copyToClipboard('0x2734e0a264573056417d12478616107ff5d2ce54')" title="Copiar"><span class="material-symbols-rounded icon-xs">content_copy</span></button>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 3px 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
-              <span><strong>Box 5 (#401–#500):</strong> 0xf746f7da001c48367d76641a2e870db8e509dce7</span>
-              <button class="btn-copy-address" onclick="copyToClipboard('0xf746f7da001c48367d76641a2e870db8e509dce7')" title="Copiar"><span class="material-symbols-rounded icon-xs">content_copy</span></button>
-            </div>
+        <div style="background: #f8fafc; border: 1px solid var(--win-border); border-radius: 5px; padding: 8px; font-size: 8.5px;">
+          <strong>Subcuentas Oficiales Binance Spot asignadas por Box:</strong>
+          <div style="margin-top: 4px; display: flex; flex-direction: column; gap: 3px;">
+            <div>• Box 1: <code>0x48b26dd0f9265573f31f7140cf01e9c48518531b</code></div>
+            <div>• Box 2: <code>0x33cffda0218122ed4d981dcb1797f4b458191bc4</code></div>
+            <div>• Box 3: <code>0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</code></div>
+            <div>• Box 4: <code>0x2734e0a264573056417d12478616107ff5d2ce54</code></div>
+            <div>• Box 5: <code>0xf746f7da001c48367d76641a2e870db8e509dce7</code></div>
           </div>
         </div>
       </div>
@@ -1279,7 +879,7 @@
     ✓ DIRECCIÓN COPIADA AL PORTAPAPELES
   </div>
 
-  <!-- SCRIPT PRINCIPAL DE LA CABINA FLOTA X500 -->
+  <!-- SCRIPT PRINCIPAL DE LA FLOTA X500 -->
   <script src="app.js"></script>
 </body>
 

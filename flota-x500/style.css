@@ -1,47 +1,54 @@
 /* =============================================================================
-   ÁREA 501 // FLOTA X500 - CABINA CUANTITATIVA CERO SCROLL (100VH)
-   Estética Espacial Militar • Tipografía Cuantitativa • Sin Mocks • 100% En Vivo
+   ÁREA 501 // FLOTA X500 - PANEL WINDOWS DEV WORKBENCH (100VH CERO SCROLL)
+   Estética Exacta: Fondo claro confortable (#e2e8f0), Tarjetas blancas (#ffffff),
+   Bordes (#cbd5e1), Tipografía JetBrains Mono + Segoe UI, Terminal Oscura (#090d16).
+   100% Datos Reales On-Chain • Regla Sagrada: Cero Humo • 70/30 Micro / 100% Macro #501
    ============================================================================= */
 
 :root {
-  --bg-deep: #eef2f6;
-  --bg-base: #f8fafc;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --bg-card-active: #e2e8f0;
-  --bg-surface: #ffffff;
+  /* PALETA WINDOWS DEV WORKBENCH (IDÉNTICA A MANDO CENTRAL) */
+  --win-bg: #e2e8f0;
+  --win-surface: #ffffff;
+  --win-card: #f8fafc;
+  --win-card-hover: #f1f5f9;
+  --win-border: #cbd5e1;
+  --win-border-strong: #94a3b8;
+  --win-titlebar: #f1f5f9;
 
-  --border-subtle: #cbd5e1;
-  --border-card: #cbd5e1;
-  --border-cyan: rgba(2, 132, 199, 0.35);
-  --border-gold: rgba(180, 83, 9, 0.35);
-  --border-purple: rgba(109, 40, 217, 0.35);
-  --border-green: rgba(21, 128, 61, 0.35);
-  --border-red: rgba(220, 38, 38, 0.35);
+  /* COLORES SEMÁNTICOS INSTITUCIONALES */
+  --win-primary: #0284c7;
+  --win-primary-soft: #e0f2fe;
+  --win-success: #16a34a;
+  --win-success-soft: #dcfce7;
+  --win-gold: #b45309;
+  --win-gold-soft: #fef3c7;
+  --win-purple: #6d28d9;
+  --win-purple-soft: #f3e8ff;
+  --win-danger: #dc2626;
+  --win-danger-soft: #fee2e2;
 
-  --cyan: #0284c7;
-  --gold: #b45309;
-  --green: #15803d;
-  --purple: #6d28d9;
-  --red: #dc2626;
-  --blue: #0284c7;
-  --orange: #ea580c;
-
-  --text-main: #0f172a;
-  --text-dim: #475569;
-  --text-muted: #64748b;
+  /* TIPOGRAFÍA DE PROGRAMACIÓN & SISTEMA */
   --text-dark: #0f172a;
+  --text-medium: #334155;
+  --text-muted: #64748b;
+  --font-code: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+  --font-ui: 'Segoe UI', 'Plus Jakarta Sans', system-ui, sans-serif;
 
-  --font-sans: 'Segoe UI', 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
-
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.03);
-  --shadow-cyan: 0 0 12px rgba(2, 132, 199, 0.15);
-  --shadow-gold: 0 0 12px rgba(180, 83, 9, 0.15);
-  --shadow-green: 0 0 12px rgba(21, 128, 61, 0.15);
+  /* TERMINAL WINDOWS (FONDO NEGRO AZABACHE EXCLUSIVO) */
+  --term-bg: #090d16;
+  --term-card: #0f172a;
+  --term-border: #1e293b;
+  --term-green: #22c55e;
+  --term-cyan: #38bdf8;
+  --term-gold: #fbbf24;
+  --term-purple: #c084fc;
+  --term-white: #f8fafc;
+  --term-dim: #64748b;
 }
 
-/* Reset y Regla Sagrada Cero Scroll */
+/* =============================================================================
+   RESET Y REGLA SAGRADA 100VH CERO SCROLL
+   ============================================================================= */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -49,13 +56,16 @@
 }
 
 html, body {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   max-height: 100vh;
   overflow: hidden !important;
-  background-color: var(--bg-deep);
-  color: var(--text-main);
-  font-family: var(--font-sans);
+  background-color: var(--win-bg);
+  color: var(--text-dark);
+  font-family: var(--font-ui);
+  display: flex;
+  flex-direction: column;
+  user-select: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -68,1210 +78,731 @@ body.area501-flota-body {
   overflow: hidden !important;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-deep);
+  background-color: var(--win-bg);
   background-image: none !important; /* CERO CUADRICULADO */
-  position: relative;
 }
 
-/* Estilos de Iconos y Ayudas */
+/* Clases de Utilidad y Colores */
+.font-mono { font-family: var(--font-code); }
+.val-gold { color: var(--win-gold); }
+.val-blue { color: var(--win-primary); }
+.val-green { color: var(--win-success); }
+.val-purple { color: var(--win-purple); }
+.val-danger { color: var(--win-danger); }
+
 .material-symbols-rounded {
   font-family: 'Material Symbols Rounded';
   font-weight: normal;
   font-style: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
   display: inline-block;
   vertical-align: middle;
 }
-
-.icon-xs { font-size: 14px; }
-.icon-sm { font-size: 16px; }
-.icon-md { font-size: 20px; }
-.icon-lg { font-size: 24px; }
-
-.cyan { color: var(--cyan); }
-.gold { color: var(--gold); }
-.green-text { color: var(--green); }
-.purple { color: var(--purple); }
-.red-text { color: var(--red); }
-.font-mono { font-family: var(--font-mono); }
+.icon-xs { font-size: 13px; }
+.icon-sm { font-size: 15px; }
 
 /* =============================================================================
-   BLOQUE 1: BARRA SUPERIOR FLOTANTE (5 TARJETAS 3D FLOTANTES Y SIMÉTRICAS)
+   1. RIBBON SUPERIOR: 6 TARJETAS EJECUTIVAS WINDOWS DEV (ALTURA FIJA 86PX)
    ============================================================================= */
-.top-nav-bar {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
+.win-header-ribbon {
+  min-height: 86px;
+  height: 86px;
   padding: 6px 12px;
-  background: var(--bg-surface);
-  border-bottom: 2px solid var(--border-subtle);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  display: grid;
+  grid-template-columns: 1.05fr 1.05fr 1.05fr 1.05fr 1.05fr 0.95fr;
+  gap: 8px;
   flex-shrink: 0;
-  height: 88px;
-  min-height: 88px;
-  max-height: 88px;
-  z-index: 100;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  white-space: nowrap;
+  background: var(--win-surface);
+  border-bottom: 2px solid var(--win-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  z-index: 50;
   align-items: center;
+  box-sizing: border-box;
 }
 
-.floating-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 6px #16a34a;
+  animation: winPulse 1.8s infinite;
+  display: inline-block;
+}
+
+@keyframes winPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.win-metric-card {
+  background: var(--win-card);
+  border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 5px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   min-height: 72px;
   box-sizing: border-box;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   transition: all 0.15s ease;
+  overflow: visible;
   position: relative;
-  overflow: hidden;
 }
 
-.floating-card:hover {
-  background: var(--bg-card-hover);
-  border-color: #94a3b8;
+.win-metric-card:hover {
+  background: var(--win-card-hover);
+  border-color: var(--win-border-strong);
   transform: translateY(-1px);
 }
 
-/* Tarjeta 1: Identidad Área 501 & Conectividad Cloud */
-.nav-identity-card {
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  flex-shrink: 1;
-}
-
-.id-card-top-row {
+.win-metric-head {
   display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.shield-lock-icon-badge {
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  background: rgba(2, 132, 199, 0.12);
-  border: 1px solid var(--border-cyan);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--cyan);
-  flex-shrink: 0;
-}
-
-.shield-lock-icon-badge .material-symbols-rounded {
-  font-size: 13px !important;
-}
-
-.brand-tag {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  color: var(--text-main);
-  white-space: nowrap;
-}
-
-.id-card-sub-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.pulse-dot-green {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 6px var(--green);
-  animation: pulse-ring 2s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes pulse-ring {
-  0% { opacity: 0.6; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.15); }
-  100% { opacity: 0.6; transform: scale(0.9); }
-}
-
-.id-pills-wrap {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.id-cloud-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 1px 4px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.56rem;
-  font-weight: 700;
-  color: var(--text-dim);
-  line-height: 1;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.id-cloud-pill .material-symbols-rounded {
-  font-size: 10px !important;
-}
-
-/* Grupo de las otras 4 tarjetas simétricas */
-.nav-modules-row {
-  display: contents;
-}
-
-.nav-card-col {
-  width: 100%;
-  min-width: 0;
-}
-
-.metric-single-row {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  font-size: 8.8px;
+  font-weight: 700;
+  color: var(--text-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
   gap: 4px;
-  font-size: 8.5px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
+}
+
+.win-metric-val {
+  font-family: var(--font-code);
+  font-size: 14.5px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 1px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.card-top-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2px;
-}
-
-.card-top-title {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  font-weight: 700;
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+.win-metric-sub {
+  font-size: 8.6px;
+  line-height: 1.3;
+  color: var(--text-muted);
+  font-family: var(--font-code);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .badge-tag-tiny {
-  font-size: 9px;
-  font-family: var(--font-mono);
-  padding: 1px 5px;
-  border-radius: 4px;
-  font-weight: 700;
-}
-
-.badge-cyan { background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; }
-.badge-gold { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
-.badge-green { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-.badge-purple { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
-.badge-fire { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-weight: 800; letter-spacing: 0.2px; }
-.badge-seed { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-weight: 800; letter-spacing: 0.2px; }
-.badge-goplus { background: #dcfce7; color: #16a34a; border: 1px solid #86efac; font-weight: 700; white-space: nowrap; }
-.badge-bot-oracle { background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
-.badge-bot-dispatcher { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
-.badge-box-tag { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; font-weight: 800; font-size: 8.5px; padding: 1px 5px; border-radius: 3px; display: inline-block; }
-.badge-horizon-inminent { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-weight: 800; }
-.badge-horizon-mid { background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; font-weight: 800; }
-.badge-horizon-early { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-weight: 800; }
-.badge-lock-mode {
-  background: #fef3c7;
-  color: #b45309;
-  border: 1px solid #fcd34d;
+  font-family: var(--font-code);
   font-size: 8px;
-  font-family: var(--font-mono);
-  font-weight: 800;
-  padding: 1px 6px;
-  border-radius: 4px;
-  letter-spacing: 0.1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  display: inline-block;
-  box-shadow: 0 0 6px rgba(180, 83, 9, 0.1);
-  flex-shrink: 0;
-}
-
-.card-data-main {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.metric-big-bold {
-  font-family: var(--font-mono);
-  font-size: clamp(12px, 1.1vw, 15px);
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  white-space: nowrap;
-}
-
-.metric-sub-detail {
-  font-size: 9.5px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Tarjeta 5: Bóvedas Binance - Micro Selector */
-.binance-vaults-strip {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 4px;
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
-.vault-mini-pill {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  padding: 2px 4px;
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  color: var(--text-dim);
-  cursor: pointer;
-  display: flex;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
   gap: 2px;
-  transition: all 0.15s ease;
   white-space: nowrap;
-  min-width: 0;
+}
+
+.badge-green {
+  background: var(--win-success-soft);
+  color: var(--win-success);
+  border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.badge-blue {
+  background: var(--win-primary-soft);
+  color: var(--win-primary);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+.badge-gold {
+  background: var(--win-gold-soft);
+  color: var(--win-gold);
+  border: 1px solid rgba(180, 83, 9, 0.3);
+}
+
+.badge-purple {
+  background: var(--win-purple-soft);
+  color: var(--win-purple);
+  border: 1px solid rgba(109, 40, 217, 0.3);
+}
+
+.badge-danger {
+  background: var(--win-danger-soft);
+  color: var(--win-danger);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+/* =============================================================================
+   2. ÁREA DE TRABAJO PRINCIPAL: 3 COLUMNAS SIN SCROLL (100VH)
+   ============================================================================= */
+.win-workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 1.45fr 1.15fr;
+  gap: 8px;
+  padding: 8px 12px;
+  overflow: hidden;
+  min-height: 0;
   box-sizing: border-box;
 }
 
-.vault-mini-pill span {
-  font-size: 0.62rem;
+.win-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* VENTANA WINDOWS DEV WORKBENCH */
+.win-window {
+  background: var(--win-surface);
+  border: 1px solid var(--win-border);
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  min-height: 0;
+}
+
+.win-titlebar {
+  height: 28px;
+  background: var(--win-titlebar);
+  border-bottom: 1px solid var(--win-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.win-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+}
+
+.win-title-path {
+  font-family: var(--font-code);
+  font-size: 9px;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
-.vault-mini-pill strong {
-  font-size: 0.66rem;
-  letter-spacing: -0.2px;
-  color: var(--text-main);
+.win-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.vault-mini-pill:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: rgba(245, 158, 11, 0.08);
-}
-
-.vault-mini-pill.active {
-  border-color: var(--green);
-  color: var(--green);
-  background: rgba(0, 255, 136, 0.1);
-}
-
-/* Botón de Bloqueo / Cerrar Sesión */
-.nav-lock-card {
-  width: 44px;
-  padding: 0;
+.win-btn {
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-card);
-  color: var(--text-dim);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.nav-lock-card:hover {
-  color: var(--red);
-  border-color: var(--border-red);
-  background: rgba(255, 51, 102, 0.1);
-}
-
-/* =============================================================================
-   LAYOUT PRINCIPAL CERO SCROLL (100VH EXACTO)
-   ============================================================================= */
-.flota-workspace {
-  min-height: 0;
-  height: 100%;
-  max-height: 100%;
-  display: grid;
-  grid-template-columns: clamp(270px, 22vw, 330px) minmax(0, 1fr);
-  gap: 10px;
-  padding: 4px clamp(12px, 1.5vw, 18px);
-  overflow: hidden !important;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* =============================================================================
-   COLUMNA IZQUIERDA: LOS 5 BOXES REALES & TANQUE DE GAS
-   ============================================================================= */
-.col-fleet-left {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  height: 100%;
-  min-width: 0;
-  overflow: hidden;
-}
-
-/* =============================================================================
-   COLUMNA CENTRAL: CALENDARIO AIRDROPS & BITÁCORA ACTIVIDAD
-   ============================================================================= */
-.col-fleet-center {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  height: 100%;
-  min-height: 0;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.panel-airdrop-fronts {
-  flex: 1.15;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.panel-bottom-activity {
-  flex: 0.85;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.quant-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.quant-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border-subtle);
-  background: #f1f5f9;
-  flex-shrink: 0;
-}
-
-.card-title-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-title {
-  font-size: 11px;
+  border-radius: 3px;
+  font-size: 10px;
   font-weight: 800;
-  font-family: var(--font-mono);
-  letter-spacing: 0.6px;
-  color: var(--text-main);
-  text-transform: uppercase;
+  color: var(--text-medium);
+  cursor: default;
 }
 
-.card-body-scroll {
+.win-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.win-btn.close:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.win-body {
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
-}
-
-.card-body-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-.card-body-scroll::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
-  border-radius: 2px;
-}
-
-/* Tarjetas de los 5 Boxes */
-.boxes-list-grid {
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-.box-item-card {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  padding: 5px 8px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  position: relative;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-}
-
-.box-item-card:hover {
-  background: #f8fafc;
-  border-color: var(--cyan);
-}
-
-.box-item-card.active {
-  border-color: var(--cyan);
-  background: #f0f9ff;
-  box-shadow: 0 0 8px rgba(2, 132, 199, 0.12);
-}
-
-.box-head-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2px;
-}
-
-.box-name-badge {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--text-main);
-}
-
-.box-captain-tag {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  color: var(--gold);
-  background: #fef3c7;
-  padding: 1px 4px;
-  border-radius: 3px;
-  border: 1px solid #fde68a;
-  font-weight: 700;
-}
-
-.box-binance-tag {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  color: var(--purple);
-  background: #f5f3ff;
-  padding: 1px 4px;
-  border-radius: 3px;
-  border: 1px solid #ddd6fe;
-  font-weight: 700;
-}
-
-.box-data-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 9px;
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-}
-
-.box-tag-focus {
-  font-size: 8.5px;
-  color: var(--text-dim);
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 60%;
-}
-
-/* Tanque de Gas Real de la Flota X500 */
-.gas-tank-card {
-  flex-shrink: 0;
-}
-
-.gas-breakdown-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.gas-tier-box {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 7px 10px;
-}
-
-.gas-tier-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-dim);
-  margin-bottom: 4px;
-}
-
-.gas-values-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-}
-
-.gas-main-val {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.gas-sub-val {
-  font-size: 10px;
-  color: var(--text-muted);
+  background: #fafcff;
+  min-height: 0;
 }
 
 /* =============================================================================
-   COLUMNA CENTRAL/DERECHA: ZONA 3 (CALENDARIO AIRDROPS) + ZONA 4 (BITÁCORA/TELEGRAM)
+   COLUMNA 1: TABLA DE LOS 5 BOXES & 3 DETECTORES DE MONITOREO
    ============================================================================= */
-.col-fleet-center {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  height: 100%;
-  min-width: 0;
+.boxes-table-wrap {
+  border: 1px solid var(--win-border);
+  border-radius: 6px;
+  background: #ffffff;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
-/* Zona 3: Panel Panorámico de Airdrops y Conexiones Activas */
-.panel-airdrop-fronts {
-  flex: 0 0 46%;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.fronts-table-wrap {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-}
-
-.fronts-table-wrap::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-.fronts-table-wrap::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 2px;
-}
-
-.quant-table {
+.boxes-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 11px;
-  font-family: var(--font-mono);
-  text-align: left;
+  font-family: var(--font-code);
+  font-size: 8.5px;
 }
 
-/* Tabla de Frentes: Cero corte a la derecha, 5 columnas exactas fijas */
-#airdropFrontsTable {
-  table-layout: fixed;
-  width: 100%;
-  overflow: hidden;
-}
-
-#airdropFrontsTable thead th {
-  padding: 6px 6px;
-  font-size: 9.5px;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#airdropFrontsTable tbody td {
-  padding: 4px 6px;
-  overflow: hidden;
-  vertical-align: middle;
-  white-space: normal;
-}
-
-#airdropFrontsTable td:nth-child(5) {
-  text-align: center;
-}
-
-.quant-table thead th {
-  position: sticky;
-  top: 0;
+.boxes-table th {
   background: #f1f5f9;
-  color: #0f172a;
+  color: var(--text-medium);
+  text-align: left;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--win-border);
+  font-size: 8px;
   font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 6px 10px;
-  border-bottom: 1px solid var(--border-card);
-  z-index: 10;
-  white-space: nowrap;
 }
 
-.quant-table tbody td {
-  padding: 6px 10px;
-  border-bottom: 1px solid #e2e8f0;
-  color: #0f172a;
-  white-space: nowrap;
+.boxes-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-dark);
+  line-height: 1.25;
+  vertical-align: middle;
 }
 
-.quant-table tbody tr:hover td {
+.boxes-table tr:hover td {
   background: #f8fafc;
 }
 
-.front-badge-wrap {
+.btn-inspect-box {
+  background: #f8fafc;
+  border: 1px solid var(--win-border);
+  color: var(--win-primary);
+  font-family: var(--font-code);
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-inspect-box:hover {
+  background: var(--win-primary-soft);
+  border-color: var(--win-primary);
+}
+
+/* BLOQUE EXPLICATIVO: ¿CÓMO MONITOREAMOS LO QUE RECOLECTAN? (3 DETECTORES) */
+.detectors-card {
+  background: #ffffff;
+  border: 1px solid var(--win-border);
+  border-radius: 6px;
+  padding: 7px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.detectors-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--text-dark);
+  border-bottom: 1px dashed var(--win-border);
+  padding-bottom: 4px;
+}
+
+.detector-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  padding: 4px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detector-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.5px;
+  font-weight: 700;
+}
+
+.detector-item-desc {
+  font-size: 8px;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+
+.btn-open-inspector-primary {
+  width: 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  border: 1.5px solid var(--win-primary);
+  color: var(--win-primary);
+  font-family: var(--font-code);
+  font-size: 9px;
+  font-weight: 800;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.1);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.btn-open-inspector-primary:hover {
+  background: var(--win-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+  transform: translateY(-0.5px);
+}
+
+/* =============================================================================
+   COLUMNA 2: CALENDARIO DE AIRDROPS CONMUTABLE ↔ CAZADOR FREE-MINT
+   ============================================================================= */
+.win-tabs-bar {
+  display: flex;
+  gap: 4px;
+  background: #f1f5f9;
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--win-border);
+  flex-shrink: 0;
+}
+
+.win-tab-switch {
+  background: transparent;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 9.5px;
   font-weight: 700;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.win-tab-switch:hover {
+  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.win-tab-switch.active {
+  background: #ffffff;
+  color: var(--win-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.airdrop-strip-tactical {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  padding: 3px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8.5px;
+  color: #92400e;
+  font-family: var(--font-code);
+  flex-shrink: 0;
+}
+
+.airdrop-table-wrap {
+  border: 1px solid var(--win-border);
+  border-radius: 6px;
+  background: #ffffff;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.airdrop-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-code);
+  font-size: 8.5px;
+}
+
+.airdrop-table th {
+  background: #f1f5f9;
+  color: var(--text-medium);
+  text-align: left;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--win-border);
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.airdrop-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-dark);
+  vertical-align: top;
+  line-height: 1.3;
+}
+
+.airdrop-table tr:hover td {
+  background: #f8fafc;
 }
 
 .chain-dot-mini {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
+  display: inline-block;
   flex-shrink: 0;
 }
-
-.chain-dot-citrea { background: #f97316; box-shadow: 0 0 6px #f97316; }
-.chain-dot-goat { background: #eab308; box-shadow: 0 0 6px #eab308; }
-.chain-dot-base { background: #0052ff; box-shadow: 0 0 6px #0052ff; }
-.chain-dot-arbitrum { background: #28a0f0; box-shadow: 0 0 6px #28a0f0; }
-.chain-dot-polygon { background: #8247e5; box-shadow: 0 0 6px #8247e5; }
-.chain-dot-bsc { background: #f3ba2f; box-shadow: 0 0 6px #f3ba2f; }
+.chain-dot-polygon { background: #8247e5; }
+.chain-dot-base { background: #0052ff; }
+.chain-dot-arbitrum { background: #28a0f0; }
+.chain-dot-citrea { background: #f97316; }
 
 .explorer-link {
-  color: var(--cyan);
+  font-family: var(--font-code);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--win-primary);
   text-decoration: none;
+  background: #f1f5f9;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid #e2e8f0;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(0, 240, 255, 0.06);
-  border: 1px solid var(--border-cyan);
-  font-size: 9px;
-  transition: all 0.15s ease;
+  gap: 2px;
 }
-
 .explorer-link:hover {
-  background: rgba(0, 240, 255, 0.18);
-  color: #fff;
-  transform: translateY(-1px);
+  background: var(--win-primary-soft);
+  border-color: var(--win-primary);
 }
 
-/* Zona 4: Zona Inferior (Bitácora de Picado + Espejo Telegram) */
-.panel-bottom-activity {
-  flex: 1;
-  min-height: 0;
+/* =============================================================================
+   COLUMNA 3: TERMINAL WINDOWS OSCURA (#090D16) & INFORME ESPECIAL DE RACHA
+   ============================================================================= */
+.win-terminal-window {
+  background: var(--term-bg);
+  border: 1px solid var(--term-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  min-width: 0;
   overflow: hidden;
+  height: 100%;
+  min-height: 0;
 }
 
-.activity-tabs-header {
+.term-header-strip {
+  height: 30px;
+  background: #090d16;
+  border-bottom: 1px solid #1e293b;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 6px 10px;
-  background: #f8fafc;
-  border-bottom: 1px solid var(--border-card);
+  align-items: center;
+  padding: 0 10px;
+  user-select: none;
   flex-shrink: 0;
 }
 
-.tab-buttons-wrap {
+.term-header-title {
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 700;
+  color: #93c5fd;
   display: flex;
+  align-items: center;
   gap: 6px;
 }
 
-.tab-btn {
-  background: #ffffff;
-  border: 1px solid var(--border-card);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.term-filters-strip {
   display: flex;
   align-items: center;
-  gap: 5px;
-  transition: all 0.15s ease;
+  gap: 3px;
+  padding: 4px 8px;
+  background: #0d1322;
+  border-bottom: 1px solid #1e293b;
+  flex-shrink: 0;
 }
 
-.tab-btn:hover {
-  color: var(--text-main);
-  background: #f1f5f9;
-  border-color: #94a3b8;
-}
-
-.tab-btn.active {
-  background: #e0f2fe;
-  border-color: #0284c7;
-  color: #0284c7;
-  font-weight: 800;
-}
-
-.filter-pills-row {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.filter-pill-btn {
-  background: #ffffff;
-  border: 1px solid var(--border-card);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 9px;
+.term-filter-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  font-family: var(--font-code);
+  font-size: 8px;
   font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 4px;
+  padding: 2px 5px;
+  border-radius: 3px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
-.filter-pill-btn:hover {
-  color: var(--text-main);
-  border-color: #94a3b8;
-  background: #f8fafc;
+.term-filter-btn:hover {
+  background: #334155;
+  color: #f8fafc;
 }
 
-.filter-pill-btn.active {
-  background: #fef3c7;
-  border-color: #b45309;
-  color: #b45309;
-  font-weight: 800;
+.term-filter-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #38bdf8;
 }
 
-.activity-tab-content {
+/* INFORME ESPECIAL DE RACHA (STREAK-ELIGIBILITY-REPORTER) */
+.streak-reporter-strip {
+  background: #0f172a;
+  border-bottom: 1px solid #1e293b;
+  padding: 6px 8px;
+  font-family: var(--font-code);
+  font-size: 8.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.streak-reporter-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.streak-reporter-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7.8px;
+  color: #94a3b8;
+  border-top: 1px dashed #1e293b;
+  padding-top: 3px;
+}
+
+/* CUERPO DEL LOG STREAM EN VIVO */
+.term-stream-body {
   flex: 1;
+  background: var(--term-bg);
+  padding: 8px 10px;
+  font-family: var(--font-code);
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--term-white);
   overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
-  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 0;
 }
 
-.activity-tab-content::-webkit-scrollbar {
-  width: 4px;
-}
-.activity-tab-content::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
-  border-radius: 2px;
-}
-
-/* Terminal Windows Dev para Bitácora de Picado */
-#miningActivityTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-mono);
-  background: #090d16;
-  table-layout: fixed;
+.term-log-row {
+  display: grid;
+  grid-template-columns: 55px 75px 1fr 65px;
+  gap: 6px;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.4);
+  align-items: baseline;
 }
 
-#miningActivityTable thead th {
-  background: #0f172a;
-  color: #38bdf8;
-  font-size: 9px;
+.term-log-time {
+  color: var(--term-dim);
+  font-size: 8px;
+}
+
+.term-log-bot {
+  color: var(--term-gold);
   font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 5px 8px;
-  border-bottom: 1px solid #1e293b;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-#miningActivityTable tbody td {
-  padding: 4px 8px;
-  border-bottom: 1px solid #131b2e;
-  color: #f8fafc;
-  font-size: 10px;
-  vertical-align: middle;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-#miningActivityTable tbody tr:hover td {
-  background: #0f172a;
+.term-log-action {
+  color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.terminal-prompt-bar {
+.term-log-link {
+  color: var(--term-cyan);
+  text-align: right;
+  text-decoration: none;
+  font-size: 8px;
+}
+
+.term-log-link:hover {
+  text-decoration: underline;
+}
+
+.term-prompt-strip {
+  height: 24px;
+  background: #090d16;
+  border-top: 1px solid #1e293b;
+  padding: 0 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 10px;
-  background: #05070d;
-  border-top: 1px solid #1e293b;
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  color: #22c55e;
+  gap: 6px;
+  font-family: var(--font-code);
+  font-size: 8.5px;
+  color: #64748b;
   flex-shrink: 0;
-  white-space: nowrap;
 }
 
-.terminal-prompt-bar .prompt-cursor {
+.term-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  background: var(--term-green);
+  vertical-align: middle;
   animation: termBlink 1s infinite;
-  color: #38bdf8;
 }
 
 @keyframes termBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* Barra de Situación Táctica de las 500 Carteras */
-.fleet-tactical-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 10px;
-  background: #f1f5f9;
-  border-bottom: 1px solid var(--border-card);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  flex-shrink: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  gap: 8px;
-}
-
-.tactical-strip-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.tactical-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.tactical-sep {
-  color: #cbd5e1;
-}
-
-/* Telegram Mirror Card Feed */
-.telegram-feed-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 8px;
-}
-
-.tg-alert-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-left: 3px solid #229ed9;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.tg-alert-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.tg-channel-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  color: #38bdf8;
-}
-
-.tg-alert-time {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--text-muted);
-}
-
-.tg-alert-body {
-  color: #cbd5e1;
-  white-space: pre-wrap;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  max-height: 120px;
-  overflow-y: auto;
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 /* =============================================================================
-   MODAL / EXPEDIENTE DE FLOTA (LAS 100 CARTERAS POR BOX O LAS 500 TOTALES)
-   ============================================================================= */
-.dossier-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 7, 11, 0.88);
-  backdrop-filter: blur(14px);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.dossier-modal {
-  width: 94vw;
-  max-width: 1280px;
-  height: 88vh;
-  max-height: 88vh;
-  background: #090d16;
-  border: 1px solid var(--border-cyan);
-  border-radius: 14px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.15);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: modal-enter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes modal-enter {
-  from { opacity: 0; transform: scale(0.96) translateY(8px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.dossier-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 18px;
-  background: rgba(0, 0, 0, 0.4);
-  border-bottom: 1px solid var(--border-card);
-  flex-shrink: 0;
-}
-
-.dossier-title-col {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.dossier-id-badge {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: rgba(0, 240, 255, 0.15);
-  border: 1px solid var(--border-cyan);
-  color: var(--cyan);
-}
-
-.dossier-title {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  font-family: var(--font-mono);
-  color: var(--text-main);
-}
-
-.dossier-close-btn {
-  background: transparent;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-dim);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.dossier-close-btn:hover {
-  border-color: var(--red);
-  color: var(--red);
-  background: rgba(255, 51, 102, 0.1);
-}
-
-.dossier-filters-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 18px;
-  background: rgba(255, 255, 255, 0.02);
-  border-bottom: 1px solid var(--border-subtle);
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.dossier-box-tabs {
-  display: flex;
-  gap: 6px;
-}
-
-.dossier-box-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.dossier-box-btn:hover {
-  color: var(--text-main);
-  border-color: var(--border-cyan);
-}
-
-.dossier-box-btn.active {
-  background: rgba(0, 240, 255, 0.15);
-  border-color: var(--cyan);
-  color: var(--cyan);
-}
-
-.dossier-search-input {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  padding: 5px 12px;
-  color: var(--text-main);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  width: 260px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.dossier-search-input:focus {
-  border-color: var(--cyan);
-}
-
-.dossier-body-scroll {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: auto;
-  padding: 0;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-}
-
-/* Botón de Copiar y Toast Feedback */
-.btn-copy-address {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  padding: 2px 6px;
-  color: var(--text-dim);
-  cursor: pointer;
-  font-size: 10px;
-  font-family: var(--font-mono);
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  transition: all 0.15s ease;
-}
-
-.btn-copy-address:hover {
-  border-color: var(--cyan);
-  color: var(--cyan);
-  background: rgba(0, 240, 255, 0.1);
-}
-
-.copy-toast {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: rgba(0, 255, 136, 0.95);
-  color: #000;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 800;
-  padding: 8px 16px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
-  z-index: 2000;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.2s ease;
-  pointer-events: none;
-}
-
-.copy-toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =============================================================================
-   BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SELECTOR DE MÓDULOS)
+   4. BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR)
    ============================================================================= */
 .win-taskbar {
   height: 44px;
-  background: #ffffff;
-  border-top: 1px solid var(--border-card);
-  padding: 0 14px;
+  background: var(--win-surface);
+  border-top: 2px solid var(--win-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 12px;
   flex-shrink: 0;
+  z-index: 100;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.03);
-  z-index: 50;
-  width: 100%;
-  box-sizing: border-box;
 }
 
-.win-taskbar-left {
+.win-taskbar-left, .win-taskbar-right {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1279,7 +810,8 @@ body.area501-flota-body {
 
 .win-app-tabs {
   display: flex;
-  gap: 6px;
+  align-items: center;
+  gap: 4px;
 }
 
 .win-tab-btn {
@@ -1287,68 +819,57 @@ body.area501-flota-body {
   align-items: center;
   gap: 6px;
   padding: 5px 12px;
-  border-radius: 4px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  color: var(--text-dim);
-  text-decoration: none;
+  border-radius: 5px;
   font-size: 10.5px;
   font-weight: 700;
-  font-family: var(--font-sans);
+  color: var(--text-medium);
+  text-decoration: none;
+  background: #f1f5f9;
+  border: 1px solid var(--win-border);
   transition: all 0.15s ease;
-  white-space: nowrap;
+  line-height: 1.2;
 }
 
 .win-tab-btn:hover {
-  background: var(--bg-card-hover);
+  background: #e2e8f0;
   color: var(--text-dark);
-  border-color: #94a3b8;
 }
 
 .win-tab-btn.active {
-  background: #e0f2fe;
-  border-color: #0284c7;
-  color: #0284c7;
-  box-shadow: inset 0 -2px 0 #0284c7;
-  font-weight: 800;
-}
-
-.win-taskbar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  background: #ffffff;
+  color: var(--win-primary);
+  border-color: var(--win-primary);
+  box-shadow: 0 1px 4px rgba(2, 132, 199, 0.15);
 }
 
 .win-clock-tray {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
+  gap: 5px;
+  font-family: var(--font-code);
   font-size: 10.5px;
   font-weight: 700;
   color: var(--text-dark);
-  background: var(--bg-card);
-  padding: 4px 10px;
-  border-radius: 4px;
-  border: 1px solid var(--border-card);
-  white-space: nowrap;
+  background: #f8fafc;
+  border: 1px solid var(--win-border);
+  padding: 4px 9px;
+  border-radius: 5px;
 }
 
 .win-lock-btn {
-  background: #fee2e2;
-  border: 1px solid #fca5a5;
-  color: #dc2626;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  font-family: var(--font-code);
   font-size: 10px;
-  font-weight: 700;
-  font-family: var(--font-sans);
+  font-weight: 800;
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
   transition: all 0.15s ease;
-  white-space: nowrap;
 }
 
 .win-lock-btn:hover {
@@ -1357,427 +878,230 @@ body.area501-flota-body {
 }
 
 /* =============================================================================
-   CONMUTADOR CENTRAL PANORÁMICO: AIRDROPS & SEMILLAS ↔ CAZADOR FREE-MINT & INSTANT NFT FLIP
+   5. MODALES FLOTANTES WINDOWS DEV (EXPLORADOR 500 BOTS & FICHA MILITAR)
    ============================================================================= */
-.panoramic-tabs-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 10px;
-  background: #f8fafc;
-  border-bottom: 1px solid var(--border-card);
-  flex-shrink: 0;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.panoramic-tabs-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.panoramic-tab-btn {
-  background: #ffffff;
-  border: 1px solid var(--border-card);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.panoramic-tab-btn:hover {
-  background: #f1f5f9;
-  color: var(--text-main);
-  border-color: #94a3b8;
-}
-
-.panoramic-tab-btn.active {
-  background: #e0f2fe;
-  border-color: #0284c7;
-  color: #0284c7;
-  font-weight: 800;
-  box-shadow: inset 0 -2px 0 #0284c7;
-}
-
-.panoramic-tab-btn.active#tabBtnAirdrops {
-  background: #fef3c7;
-  border-color: #b45309;
-  color: #b45309;
-  box-shadow: inset 0 -2px 0 #b45309;
-}
-
-.panoramic-tab-btn.active#tabBtnDualView {
-  background: #f5f3ff;
-  border-color: #7c3aed;
-  color: #7c3aed;
-  box-shadow: inset 0 -2px 0 #7c3aed;
-}
-
-.panoramic-controls-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-/* Corredor Sigiloso NFT Banner */
-.nft-stealth-corridor-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 12px;
-  background: #f1f5f9;
-  border-bottom: 1px solid var(--border-card);
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  flex-shrink: 0;
-  gap: 8px;
-  color: #0f172a;
-}
-
-.stealth-corridor-left {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.stealth-corridor-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.corridor-pulse-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 8px var(--cyan);
-  animation: pulse-ring 1.8s infinite;
-  display: inline-block;
-}
-
-.corridor-title {
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: 0.5px;
-}
-
-.corridor-item {
-  color: #334155;
-  font-weight: 600;
-}
-
-.corridor-sep {
-  color: #cbd5e1;
-}
-
-.badge-flip-executing {
-  background: rgba(16, 185, 129, 0.2);
-  border: 1px solid #10b981;
-  color: #34d399;
-  font-weight: 800;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
-}
-
-.badge-flip-watching {
-  background: #e0f2fe;
-  border: 1px solid #7dd3fc;
-  color: #0284c7;
-  font-weight: 700;
-}
-
-.badge-flip-scanning {
-  background: #fef3c7;
-  border: 1px solid #fcd34d;
-  color: #b45309;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.badge-flip-authorized {
-  background: #dcfce7;
-  border: 1px solid #86efac;
-  color: #15803d;
-  font-weight: 800;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.badge-escort-ai {
-  background: #f5f3ff;
-  border: 1px solid #ddd6fe;
-  color: #7c3aed;
-  font-weight: 700;
-}
-
-/* =============================================================================
-   BLINDAJE Y AJUSTE MILIMÉTRICO: TABLA CAZADOR FREE-MINT & INSTANT NFT FLIP
-   Cero Scroll Horizontal / 100% Dentro del Panel Central / Cero Cortes en 1080p
-   ============================================================================= */
-#panoramicContentNftFlip {
-  overflow-x: hidden !important;
-  width: 100% !important;
-}
-
-#nftFlipTable {
-  table-layout: fixed !important;
-  width: 100% !important;
-  border-collapse: collapse !important;
-}
-
-#nftFlipTable thead th {
-  padding: 5px 6px !important;
-  font-size: 0.68rem !important;
-  letter-spacing: 0.2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-
-#nftFlipTable tbody td {
-  padding: 5px 6px !important;
-  font-size: 0.72rem !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal !important;
-  vertical-align: middle;
-  line-height: 1.25;
-  box-sizing: border-box;
-}
-
-#nftFlipTable .front-badge-wrap {
-  gap: 4px;
-  min-width: 0;
-  overflow: hidden;
-}
-
-#nftFlipTable .badge-tag-tiny {
-  padding: 1px 4px !important;
-  font-size: 7.5px !important;
-  letter-spacing: -0.2px;
-  line-height: 1.2;
-}
-
-#nftFlipTable .badge-flip-scanning,
-#nftFlipTable .badge-flip-authorized {
-  padding: 2.5px 4px !important;
-  font-size: 7.5px !important;
-  letter-spacing: -0.3px;
-  line-height: 1.15;
-  text-align: center;
-  white-space: normal !important;
-  display: block !important;
-  width: 100% !important;
-  box-sizing: border-box;
-  border-radius: 4px;
-}
-
-#nftFlipTable .explorer-link {
-  padding: 1px 4px !important;
-  font-size: 8px !important;
-  gap: 2px;
-}
-
-/* =============================================================================
-   LAYOUT DIVIDIDO DEL CAZADOR FREE-MINT & INSTANT NFT FLIP (62% RADAR / 38% ESCOLTA IA)
-   ============================================================================= */
-.nft-split-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.62fr) minmax(280px, 1fr);
-  gap: 8px;
-  height: calc(100% - 28px);
-  min-height: 0;
-  overflow: hidden;
-  padding: 4px;
-}
-
-.nft-split-left {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow-y: auto;
-  border-right: 1px solid var(--border-subtle);
-  padding-right: 6px;
-}
-
-.nft-split-right {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-height: 0;
-  overflow-y: auto;
-  padding-left: 2px;
-}
-
-.nft-escort-card {
-  background: #ffffff;
-  border: 1px solid var(--border-card);
-  border-radius: 6px;
-  padding: 6px 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-}
-
-.nft-escort-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 3px;
-}
-
-.nft-escort-title {
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  font-weight: 800;
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.nft-escort-desc {
-  font-size: 8.5px;
-  color: var(--text-dim);
-  line-height: 1.3;
-  margin-bottom: 3px;
-}
-
-.nft-escort-status-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  padding: 2px 4px;
-  background: #f8fafc;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
-}
-
-/* =============================================================================
-   VISTA DUAL PANORÁMICA (50/50 AIRDROPS + NFT FLIP)
-   ============================================================================= */
-.panoramic-dual-view {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  height: 100%;
-  min-height: 0;
-  overflow: hidden;
-}
-
-.panoramic-dual-col {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  background: #ffffff;
-}
-
-.dual-col-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 8px;
-  background: #f1f5f9;
-  border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  font-weight: 800;
-  color: var(--text-main);
-  flex-shrink: 0;
-}
-
-/* =============================================================================
-   MODALES TÁCTICOS: AUDITORÍA 11,468 TXS & POLÍTICA BINANCE SPOT
-   ============================================================================= */
-.audit-overlay {
+.win-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(4px);
-  z-index: 9999;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
   padding: 16px;
 }
 
-.audit-modal {
-  background: #ffffff;
-  border: 2px solid var(--border-card);
-  border-radius: 10px;
-  width: 100%;
-  max-width: 680px;
-  max-height: 90vh;
+.win-modal-overlay.active {
   display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  font-family: var(--font-sans);
 }
 
-.audit-modal-header {
+.win-modal-window {
+  background: #ffffff;
+  border: 1px solid var(--win-border-strong);
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 960px;
+  height: 85vh;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalPop 0.18s ease-out;
+}
+
+@keyframes modalPop {
+  from { transform: translateY(12px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.win-modal-titlebar {
+  height: 36px;
+  background: #0f172a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  color: #f8fafc;
+  font-size: 11.5px;
+  font-weight: 700;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.win-modal-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.win-modal-close:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.win-modal-controls-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--win-border);
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.win-modal-search {
+  padding: 4px 8px;
+  border: 1px solid var(--win-border);
+  border-radius: 4px;
+  font-family: var(--font-code);
+  font-size: 9.5px;
+  width: 260px;
+  outline: none;
+}
+.win-modal-search:focus {
+  border-color: var(--win-primary);
+}
+
+.win-modal-body-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  min-height: 0;
+}
+
+/* BOTONES DE COPIAR DIRECCIÓN */
+.btn-copy-address {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: var(--win-primary);
+  border-radius: 3px;
+  padding: 1px 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-copy-address:hover {
+  background: var(--win-primary-soft);
+  border-color: var(--win-primary);
+}
+
+/* FICHA MILITAR INDIVIDUAL DEL SOLDADO (CARNET MILITAR) */
+.soldier-dossier-card {
+  max-width: 600px;
+  height: auto !important;
+  max-height: 90vh;
+}
+
+.soldier-profile-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
+  gap: 12px;
+  padding: 12px;
   background: #f8fafc;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--win-border);
 }
 
-.audit-modal-body {
-  padding: 14px;
-  overflow-y: auto;
+.soldier-avatar-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #38bdf8;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 800;
+  border: 2px solid #38bdf8;
+  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.25);
 }
 
-.audit-stat-grid {
+.soldier-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.soldier-header-id {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.soldier-dossier-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
+  padding: 12px;
+  font-family: var(--font-code);
+  font-size: 9.5px;
 }
 
-.audit-stat-box {
+.soldier-dossier-cell {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  padding: 8px 10px;
-  text-align: center;
+  border-radius: 5px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.audit-stat-num {
-  font-family: var(--font-mono);
-  font-size: 16px;
-  font-weight: 800;
-  display: block;
-}
-
-.audit-stat-label {
-  font-size: 9.5px;
-  color: var(--text-dim);
-  text-transform: uppercase;
+.soldier-dossier-label {
+  font-size: 8px;
   font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
 }
 
+.soldier-dossier-val {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
 
+.soldier-explorers-strip {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px 14px;
+  flex-wrap: wrap;
+  border-top: 1px dashed var(--win-border);
+}
 
+/* TOAST COPIADO */
+.copy-toast {
+  position: fixed;
+  bottom: 54px;
+  right: 18px;
+  background: #0f172a;
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  display: none;
+  z-index: 2000;
+}
+.copy-toast.show {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
