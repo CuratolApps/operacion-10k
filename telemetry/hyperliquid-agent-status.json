@@ -1,0 +1,25 @@
+{
+  "configured": true,
+  "masterAddress": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "agentName": "SquadSecret501",
+  "agentAddress": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
+  "permissions": {
+    "trading": true,
+    "makerOnly": true,
+    "zeroGas": true,
+    "withdraw": false
+  },
+  "hyperliquidChain": "Mainnet",
+  "registeredAt": "2026-10-26T11:13:32.599Z",
+  "statusLabel": "AGENT KEY CONECTADA (0% RETIRO)",
+  "explorerUrl": "https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "tradeUrl": "https://app.hyperliquid.xyz/trade",
+  "approvalPayload": {
+    "type": "approveAgent",
+    "hyperliquidChain": "Mainnet",
+    "signatureChainId": "0xa4b1",
+    "agentAddress": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
+    "agentName": "SquadSecret501",
+    "nonce": 1793013212542
+  }
+}

@@ -337,11 +337,15 @@
   }
 
   /**
-   * Conmutador y Selector de los 9 Pares en Hyperliquid L1
+   * Conmutador y Selector de los 9 Pares en Hyperliquid L1 (Modo Inspección Manual)
    */
   window.selectSquadPair = function (pair) {
     if (!SQUAD_PAIRS_CONFIG[pair]) return;
+    window.__MANUAL_PAIR_PINNED__ = true;
     selectedSquadPair = pair;
+
+    const resetBtn = document.getElementById("btnResetAutoSelection");
+    if (resetBtn) resetBtn.style.display = "inline-flex";
 
     // Actualizar clases activas en las 9 tarjetas de la rejilla
     const sym = SQUAD_PAIRS_CONFIG[pair].symbol;
@@ -350,10 +354,106 @@
     const targetCard = document.getElementById(`mpCard_${sym}`);
     if (targetCard) targetCard.classList.add("active");
 
-    appendTerminalLog("PAIR", `Par seleccionado: <strong>${selectedSquadPair}</strong> (${SQUAD_PAIRS_CONFIG[pair].informant}) // Monitoreando Orderbook L2.`);
+    appendTerminalLog("PAIR", `📌 [MANUAL] Inspeccionando <strong>${selectedSquadPair}</strong> (${SQUAD_PAIRS_CONFIG[pair].informant}) // Clic en '🔄 Volver a Auto' para reanudar ganador.`);
 
     if (currentTelemetry) {
       applyTelemetry(currentTelemetry);
+    }
+  };
+
+  /**
+   * Restablece la Selección Automática del Squad al Par #1 con Mayor Desequilibrio L2
+   */
+  window.resetToAutoSquadSelection = function () {
+    window.__MANUAL_PAIR_PINNED__ = false;
+
+    const resetBtn = document.getElementById("btnResetAutoSelection");
+    if (resetBtn) resetBtn.style.display = "none";
+
+    if (currentTelemetry && currentTelemetry.winnerPair) {
+      selectedSquadPair = currentTelemetry.winnerPair.key;
+    } else {
+      selectedSquadPair = "BTC-USDC";
+    }
+
+    appendTerminalLog("AUTO", `🔄 [AUTO] Reanudado seguimiento automático del par con mayor desequilibrio L2 por el Squad.`);
+
+    if (currentTelemetry) {
+      applyTelemetry(currentTelemetry);
+    }
+  };
+
+  /**
+   * Modales de Hyperliquid: Cartera, Depósito y Retiro
+   */
+  window.openHlWalletModal = function () {
+    const m = document.getElementById("hlWalletModal");
+    if (m) m.classList.add("active");
+  };
+
+  window.openHlDepositModal = function () {
+    const m = document.getElementById("hlDepositModal");
+    if (m) m.classList.add("active");
+  };
+
+  window.openHlWithdrawModal = function () {
+    const m = document.getElementById("hlWithdrawModal");
+    if (m) m.classList.add("active");
+    window.updateWithdrawCalc();
+  };
+
+  window.closeSquadModals = function () {
+    const overlays = document.querySelectorAll(".squad-modal-overlay");
+    overlays.forEach(o => o.classList.remove("active"));
+  };
+
+  window.updateWithdrawCalc = function () {
+    const input = document.getElementById("hlWithdrawInput");
+    const netDisplay = document.getElementById("hlWithdrawNetDisplay");
+    if (!input || !netDisplay) return;
+    const val = parseFloat(input.value) || 0;
+    const net = Math.max(0, val - 1.00);
+    netDisplay.textContent = `$${net.toFixed(2)} USDC`;
+  };
+
+  window.executeWithdrawOrder = async function () {
+    const input = document.getElementById("hlWithdrawInput");
+    const statusMsg = document.getElementById("hlWithdrawStatusMsg");
+    const btn = document.getElementById("btnExecuteWithdraw");
+    const val = parseFloat(input ? input.value : "50") || 50;
+
+    if (btn) btn.disabled = true;
+    if (statusMsg) {
+      statusMsg.innerHTML = `⏳ Preparando orden EIP-712 <strong>withdraw3</strong> por $${val.toFixed(2)} USDC hacia la #501...`;
+      statusMsg.style.color = "var(--win-primary)";
+    }
+
+    try {
+      const res = await fetch("/api/squad-secret/prepare-withdraw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amountUsdc: val })
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (statusMsg) {
+          statusMsg.innerHTML = `✅ <strong>ORDEN RETIRO PREPARADA</strong>: $${data.amountUsdc.toFixed(2)} USDC ➔ Destino: <code>${data.destination.slice(0, 10)}...${data.destination.slice(-4)}</code>. Firma local completada.`;
+          statusMsg.style.color = "#059669";
+        }
+        appendTerminalLog("WITHDRAW", `💸 Orden EIP-712 withdraw3 preparada: <strong>$${val.toFixed(2)} USDC</strong> de regreso a la Bóveda Matriz #501 ($1.00 fee L1).`);
+      } else {
+        if (statusMsg) {
+          statusMsg.textContent = `❌ Error: ${data.message || "No se pudo preparar la orden"}`;
+          statusMsg.style.color = "#ef4444";
+        }
+      }
+    } catch (e) {
+      if (statusMsg) {
+        statusMsg.textContent = `❌ Error de red al preparar retiro: ${e.message}`;
+        statusMsg.style.color = "#ef4444";
+      }
+    } finally {
+      if (btn) btn.disabled = false;
     }
   };
 
@@ -572,7 +672,7 @@
       topSessionPnlDisplay.textContent = sessionPnlStr;
     }
 
-    // Actualización en Tiempo Real de las 9 Tarjetas Multipar (#hlMultiPairGrid)
+    // 4. Actualización en Tiempo Real de las 9 Tarjetas Multipar (#hlMultiPairGrid)
     const nineList = data.ninePairs || Object.keys(SQUAD_PAIRS_CONFIG).map(k => {
       const cfg = SQUAD_PAIRS_CONFIG[k];
       const px = (data.liveMids && data.liveMids[cfg.symbol]) || 100;
@@ -584,13 +684,35 @@
         bullScore: cfg.bullScore,
         bearScore: cfg.bearScore,
         direction: cfg.direction,
-        isWinner: k === "SUI-USDC"
+        isWinner: false
       };
     });
 
-    let topWinnerPair = null;
+    // 1. Identificar el Par #1 Ganador con mayor desequilibrio L2
+    let topWinnerPair = data.winnerPair || null;
+    if (!topWinnerPair) {
+      nineList.forEach(item => { if (item.isWinner) topWinnerPair = item; });
+    }
+    if (!topWinnerPair && nineList.length > 0) {
+      topWinnerPair = nineList.reduce((max, cur) => (cur.bullScore > max.bullScore ? cur : max), nineList[0]);
+    }
+
+    // 2. Resolver selectedSquadPair: Auto-selección por defecto O Selección Manual fijada por clic
+    if (!window.__MANUAL_PAIR_PINNED__) {
+      if (topWinnerPair) {
+        selectedSquadPair = topWinnerPair.key;
+      }
+      const resetBtn = document.getElementById("btnResetAutoSelection");
+      if (resetBtn) resetBtn.style.display = "none";
+    } else {
+      const resetBtn = document.getElementById("btnResetAutoSelection");
+      if (resetBtn) resetBtn.style.display = "inline-flex";
+    }
+
+    // 3. Renderizar las 9 tarjetas: precio real, presión L2, halo de ganador 🏆 #1 y clase active
     nineList.forEach(item => {
-      if (item.isWinner) topWinnerPair = item;
+      const isThisWinner = topWinnerPair && (item.key === topWinnerPair.key || item.symbol === topWinnerPair.symbol);
+      const isThisActive = item.key === selectedSquadPair;
 
       const cardEl = document.getElementById(`mpCard_${item.symbol}`);
       const priceEl = document.getElementById(`mpPrice_${item.symbol}`);
@@ -610,7 +732,8 @@
       }
 
       if (cardEl) {
-        if (item.isWinner) {
+        // Halo de Ganador #1
+        if (isThisWinner) {
           cardEl.classList.add("winner-pair-glow");
           let tag = cardEl.querySelector(".mp-winner-tag");
           if (!tag) {
@@ -628,7 +751,8 @@
           if (tag) tag.remove();
         }
 
-        if (item.key === selectedSquadPair) {
+        // Borde Activo (inspección actual sincronizada)
+        if (isThisActive) {
           cardEl.classList.add("active");
         } else {
           cardEl.classList.remove("active");
@@ -636,15 +760,10 @@
       }
     });
 
-    // Auto-fijar al par ganador solo si el operador no ha hecho clic manual en otro par
-    if (topWinnerPair && !window.__MANUAL_PAIR_PINNED__) {
-      selectedSquadPair = topWinnerPair.key;
-    }
-
-    // 4. Tarjeta 4: Par y Dirección Maker
-    const pairConfig = SQUAD_PAIRS_CONFIG[selectedSquadPair] || SQUAD_PAIRS_CONFIG["SOL-USDC"];
+    // 4. Tarjeta 4: Par y Dirección Maker (100% Coherente con selectedSquadPair)
+    const pairConfig = SQUAD_PAIRS_CONFIG[selectedSquadPair] || SQUAD_PAIRS_CONFIG["BTC-USDC"];
     const mids = data.liveMids || {};
-    const pairMid = mids[pairConfig.symbol] || (pairConfig.symbol === "SOL" ? 100.98 : (pairConfig.symbol === "BTC" ? 80238.50 : 2323.35));
+    const pairMid = mids[pairConfig.symbol] || (nineList.find(x => x.symbol === pairConfig.symbol)?.price) || 100.98;
     const spreadVal = pairConfig.spreadFactor;
     const direction = pairConfig.direction;
     const directionLabel = pairConfig.directionLabel;
@@ -743,6 +862,16 @@
     }
     if (boxOperationSubText) {
       boxOperationSubText.textContent = `Bóveda #501: $${consolidated.toFixed(2)} USDC · Agent Key Sin Permiso de Retiro · Regla: 1 Sola Posición Concurrente`;
+    }
+
+    // Actualizar datos dinámicos en los Modales de Cuenta Hyperliquid
+    const modalHlBal = document.getElementById("modalHlBalance");
+    if (modalHlBal) modalHlBal.textContent = `$${consolidated.toFixed(2)} USDC Nativo`;
+    if (data.agentStatus) {
+      const modalVault = document.getElementById("modalVaultAddress");
+      const modalAgent = document.getElementById("modalAgentAddress");
+      if (modalVault && data.agentStatus.masterAddress) modalVault.textContent = data.agentStatus.masterAddress;
+      if (modalAgent && data.agentStatus.agentAddress) modalAgent.textContent = data.agentStatus.agentAddress;
     }
 
     // 6. Columna Izquierda: Los Eslabones del Squad

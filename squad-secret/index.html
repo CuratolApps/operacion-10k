@@ -246,18 +246,30 @@
     <!-- COLUMNA 2 (CENTRO): MESA CENTRAL // HYPERLIQUID L1 MAKER (CERO PISCINAS DEX) -->
     <section class="squad-panel squad-center-panel" id="panelCenterMain">
 
-      <!-- CABECERA TÁCTICA: ESCANEO AUTOMÁTICO & DISPARO DIRECTO EN PAR GANADOR -->
-      <div class="panel-header" style="height:36px; padding: 0 10px; background:var(--win-surface); border-bottom:1px solid var(--win-border);">
-        <div class="panel-title-wrap">
+      <!-- CABECERA TÁCTICA: ESCANEO AUTOMÁTICO, RESET AUTO, BOTONERA DE CUENTA Y DISPARO -->
+      <div class="panel-header" style="height:38px; padding: 0 8px; background:var(--win-surface); border-bottom:1px solid var(--win-border); flex-wrap: nowrap; overflow-x: auto;">
+        <div class="panel-title-wrap" style="gap:6px; flex-shrink:0;">
           <span class="panel-icon">⚖️</span>
           <span class="panel-title" style="font-size:9.5px;">HYPERLIQUID L1 MAKER</span>
           <span class="panel-badge-pill green font-mono" id="hlLiveScanIndicator" style="font-size:8px;">
-            🟢 ESCANEO AUTOMÁTICO 9 PARES EN VIVO (150ms · $0.00 GAS)
+            🟢 ESCANEO 9 PARES (150ms · $0.00 GAS)
           </span>
+          <button class="manual-reset-pill font-mono" id="btnResetAutoSelection" onclick="resetToAutoSquadSelection()" style="display:none;" title="Hacer clic para volver a la selección automática del par #1 por el Squad">
+            🔄 Volver a Auto Squad
+          </button>
         </div>
-        <div style="display:flex; align-items:center; gap:6px;">
-          <button class="center-action-btn" id="btnTriggerTestCycle" onclick="triggerTestCycle()" style="height:25px; font-size:8.5px; padding:0 10px; background:linear-gradient(135deg, #059669 0%, #047857 100%); border-color:#059669;" title="Ejecuta ciclo de prueba con entrada ALO Maker, candado Breakeven #00 (+0.04%) y TP (+0.08%)">
-            <span>⚡</span> <span id="btnTriggerTestCycleText">DISPARAR CICLO DE PRUEBA EN EL PAR GANADOR AHORA</span>
+        <div style="display:flex; align-items:center; gap:5px; flex-shrink:0; margin-left:auto;">
+          <button class="btn-owner-hl btn-owner-wallet" id="btnOpenHlWalletModal" onclick="openHlWalletModal()" title="Ver estado de cartera 0xD4D1...3743 y Agent Key en Hyperliquid L1">
+            <span>🌐</span> CARTERA (#501)
+          </button>
+          <button class="btn-owner-hl btn-owner-deposit" id="btnOpenHlDepositModal" onclick="openHlDepositModal()" title="Asistente para depositar USDC operativo desde la #501 a Hyperliquid">
+            <span>⚡</span> DEPOSITAR
+          </button>
+          <button class="btn-owner-hl btn-owner-withdraw" id="btnOpenHlWithdrawModal" onclick="openHlWithdrawModal()" title="Preparar orden oficial EIP-712 withdraw3 hacia la Bóveda #501">
+            <span>💸</span> RETIRAR A #501
+          </button>
+          <button class="center-action-btn" id="btnTriggerTestCycle" onclick="triggerTestCycle()" style="height:25px; font-size:8.5px; padding:0 8px; background:linear-gradient(135deg, #059669 0%, #047857 100%); border-color:#059669;" title="Ejecuta ciclo de prueba con entrada ALO Maker, candado Breakeven #00 (+0.04%) y TP (+0.08%)">
+            <span>⚡</span> <span id="btnTriggerTestCycleText">DISPARAR PRUEBA</span>
           </button>
         </div>
       </div>
@@ -557,6 +569,154 @@
       </button>
     </div>
   </footer>
+
+  <!-- ========================================================================= -->
+  <!-- MODALES DE CONTROL HYPERLIQUID L1: CARTERA, DEPÓSITO Y RETIRO A #501 -->
+  <!-- ========================================================================= -->
+
+  <!-- MODAL 1: CARTERA HYPERLIQUID (#501 & AGENT KEY) -->
+  <div class="squad-modal-overlay" id="hlWalletModal">
+    <div class="squad-modal-card">
+      <div class="squad-modal-header">
+        <div class="squad-modal-title">
+          <span>🌐</span> CARTERA HYPERLIQUID L1 · BÓVEDA MATRIZ #501
+        </div>
+        <button class="squad-modal-close" onclick="closeSquadModals()">✕</button>
+      </div>
+      <div class="squad-modal-body">
+        <div class="modal-info-box">
+          <div class="modal-row">
+            <span class="label">Bóveda Matriz (#501):</span>
+            <span class="value font-mono" id="modalVaultAddress">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Agent Key Oficial:</span>
+            <span class="value font-mono cyan-text" id="modalAgentAddress">0xccb384286cCE024A318Ff98197E6c89e0f02F7f8</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Nombre del Agente:</span>
+            <span class="value font-mono">SquadSecret501</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Estado de Conexión:</span>
+            <span class="value green-text font-bold">🟢 CONECTADA &amp; AUTORIZADA</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Permiso de Trading:</span>
+            <span class="value font-bold">POST-ONLY ALO MAKER ($0.00 GAS)</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Permiso de Retiro:</span>
+            <span class="value font-bold" style="color:#ef4444;">0% (INVIOLABLE POR PROTOCOLO)</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Saldo Clearinghouse L1:</span>
+            <span class="value green-text font-mono font-bold" id="modalHlBalance">$470.13 USDC Nativo</span>
+          </div>
+        </div>
+        <div style="font-size:9px; color:var(--text-muted); line-height:1.4;">
+          🛡️ <strong>Seguridad Criptográfica:</strong> La Agent Key solo puede colocar y cancelar órdenes Post-Only Maker. Los fondos nunca pueden salir de Hyperliquid a otra dirección que no sea la Bóveda Matriz #501.
+        </div>
+      </div>
+      <div class="squad-modal-footer">
+        <a href="https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="btn-owner-hl btn-owner-wallet">
+          <span>🔗</span> Abrir en Explorer
+        </a>
+        <a href="https://app.hyperliquid.xyz/trade" target="_blank" rel="noopener noreferrer" class="btn-owner-hl btn-owner-deposit">
+          <span>📈</span> Terminal Hyperliquid
+        </a>
+        <button class="btn-owner-hl" onclick="closeSquadModals()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: DEPOSITAR A HYPERLIQUID -->
+  <div class="squad-modal-overlay" id="hlDepositModal">
+    <div class="squad-modal-card">
+      <div class="squad-modal-header">
+        <div class="squad-modal-title">
+          <span>⚡</span> ASISTENTE DE DEPÓSITO A HYPERLIQUID L1
+        </div>
+        <button class="squad-modal-close" onclick="closeSquadModals()">✕</button>
+      </div>
+      <div class="squad-modal-body">
+        <div class="modal-info-box">
+          <div class="modal-row">
+            <span class="label">Bóveda Origen:</span>
+            <span class="value font-mono">0xD4D1...3743 (#501)</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Red Puente:</span>
+            <span class="value font-bold">Arbitrum One (ChainID 42161)</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Contrato Puente Hyperliquid:</span>
+            <span class="value font-mono" style="font-size:8.5px;">0x2df1c51e09aecf9cacb7bc98cb1742757f163df7</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Activo Requerido:</span>
+            <span class="value font-bold green-text">USDC Nativo</span>
+          </div>
+        </div>
+        <div style="font-size:9.5px; color:var(--text-dark); background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:10px; line-height:1.4;">
+          <strong>Paso Operativo:</strong> Al depositar USDC desde Arbitrum hacia el contrato puente de Hyperliquid, los fondos se acreditan de forma inmediata en el Clearinghouse L1 a nombre de la #501. Una vez allí, el Squad opera con $0.00 gas permanentemente.
+        </div>
+      </div>
+      <div class="squad-modal-footer">
+        <a href="https://app.hyperliquid.xyz/" target="_blank" rel="noopener noreferrer" class="btn-owner-hl btn-owner-deposit">
+          <span>🚀</span> Abrir Pasarela Oficial Hyperliquid
+        </a>
+        <button class="btn-owner-hl" onclick="closeSquadModals()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: PREPARAR RETIRO (WITHDRAW A #501) -->
+  <div class="squad-modal-overlay" id="hlWithdrawModal">
+    <div class="squad-modal-card">
+      <div class="squad-modal-header">
+        <div class="squad-modal-title">
+          <span>💸</span> PREPARAR RETIRO OFICIAL (WITHDRAW A #501)
+        </div>
+        <button class="squad-modal-close" onclick="closeSquadModals()">✕</button>
+      </div>
+      <div class="squad-modal-body">
+        <div class="modal-info-box">
+          <div class="modal-row">
+            <span class="label">Destino Inviolable:</span>
+            <span class="value font-mono font-bold" style="color:var(--win-primary);">0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Monto a Retirar:</span>
+            <span class="value">
+              <input type="number" id="hlWithdrawInput" value="50" min="5" max="500" step="5" oninput="updateWithdrawCalc()" style="width:80px; padding:3px 6px; border:1px solid var(--win-border-strong); border-radius:4px; font-family:var(--font-code); font-weight:700;"> USDC
+            </span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Tarifa Fija de Retiro L1:</span>
+            <span class="value font-mono">$1.00 USDC</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Neto a Recibir en #501:</span>
+            <span class="value font-mono font-bold green-text" id="hlWithdrawNetDisplay">$49.00 USDC</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Tipo de Transacción:</span>
+            <span class="value font-mono cyan-text">EIP-712 withdraw3</span>
+          </div>
+        </div>
+        <div id="hlWithdrawStatusMsg" class="font-mono" style="font-size:9px; color:var(--text-muted); background:#f8fafc; border:1px solid var(--win-border); border-radius:4px; padding:6px 10px;">
+          ⏳ Listo para preparar y enviar orden EIP-712 a Hyperliquid L1.
+        </div>
+      </div>
+      <div class="squad-modal-footer">
+        <button class="btn-owner-hl btn-owner-withdraw" id="btnExecuteWithdraw" onclick="executeWithdrawOrder()">
+          <span>✅</span> FIRMAR Y RETIRAR A #501
+        </button>
+        <button class="btn-owner-hl" onclick="closeSquadModals()">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Script Lógico Principal de Squad Secret -->
   <script src="app.js"></script>

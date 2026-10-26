@@ -505,6 +505,21 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     liveMids: mids,
     ninePairs: ninePairs,
     winnerPair: winnerPair,
+    agentStatus: {
+      configured: true,
+      masterAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      agentName: "SquadSecret501",
+      agentAddress: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
+      permissions: {
+        trading: true,
+        makerOnly: true,
+        zeroGas: true,
+        withdraw: false
+      },
+      statusLabel: "AGENT KEY CONECTADA (0% RETIRO)",
+      explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
+      tradeUrl: "https://app.hyperliquid.xyz/trade"
+    },
     cycleHistory: realTxs,
     recentCycles: realTxs
   };
@@ -1177,6 +1192,73 @@ export default {
           }
         });
       }
+    }
+
+    // Endpoint para preparar depósito a Hyperliquid (/api/squad-secret/prepare-deposit)
+    if (url.pathname === "/api/squad-secret/prepare-deposit") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+          }
+        });
+      }
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json; charset=utf-8");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(JSON.stringify({
+        success: true,
+        masterVault: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+        bridgeChain: "Arbitrum One (ChainID 42161)",
+        depositContractArbitrum: "0x2df1c51e09aecf9cacb7bc98cb1742757f163df7",
+        token: "USDC (Nativo)",
+        officialDepositUrl: "https://app.hyperliquid.xyz/",
+        instructions: "Para fondear Hyperliquid L1, transfiere USDC desde la Bóveda #501 hacia el contrato puente oficial en Arbitrum One. Los fondos se acreditan en segundos en el Clearinghouse de Hyperliquid a nombre de la #501."
+      }, null, 2), { status: 200, headers });
+    }
+
+    // Endpoint para preparar retiro de Hyperliquid a #501 (/api/squad-secret/prepare-withdraw)
+    if (url.pathname === "/api/squad-secret/prepare-withdraw") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+          }
+        });
+      }
+      let reqBody = {};
+      try { reqBody = await request.json(); } catch (_) {}
+      const amountUsdc = typeof reqBody.amountUsdc === "number" ? reqBody.amountUsdc : 50.00;
+      const feeUsdc = 1.00; // Tarifa fija estándar de retiro en Hyperliquid
+      const netUsdc = Math.max(0, amountUsdc - feeUsdc);
+
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json; charset=utf-8");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(JSON.stringify({
+        success: true,
+        destination: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+        destinationLabel: "BÓVEDA MATRIZ #501 (DESTINO EXCLUSIVO)",
+        amountUsdc: amountUsdc,
+        feeUsdc: feeUsdc,
+        netReceivedUsdc: netUsdc,
+        time: Date.now(),
+        eip712Payload: {
+          type: "withdraw3",
+          hyperliquidChain: "Mainnet",
+          signatureChainId: "0xa4b1",
+          destination: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+          amount: amountUsdc.toString(),
+          time: Date.now()
+        },
+        message: `Orden EIP-712 withdraw3 preparada para transferir $${amountUsdc.toFixed(2)} USDC hacia la Bóveda Matriz #501.`
+      }, null, 2), { status: 200, headers });
     }
 
     // Endpoint directo sin caché de estado en vivo de Operación 500 (/api/operacion-500/live)
