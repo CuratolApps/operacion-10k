@@ -7,14 +7,14 @@
     "status": "100% BLINDADO"
   },
   "chamber1_polygon": {
-    "currentUsdc": 490.76,
+    "currentUsdc": 491.26,
     "floorGoalUsdc": 500,
-    "remainingUsdc": 9.24,
-    "progressPct": 98.15,
+    "remainingUsdc": 8.74,
+    "progressPct": 98.25,
     "rotation": {
       "aaveV3ApyPct": 4.85,
-      "aPolUsdcBalance": 490.76,
-      "status": "Piso Base: $490.76 USDC (0% Riesgo) · Excedente Fondeado a HL L1"
+      "aPolUsdcBalance": 491.26,
+      "status": "Piso Base: $491.26 USDC (Aave V3 1:1) · Excedente Fondeado a HL L1"
     }
   },
   "chamber2_hyperliquid": {
@@ -31,7 +31,7 @@
     "executionMode": "PAUSED_PREVENTIVE_AUDIT"
   },
   "routingPolicy": {
-    "description": "Cámara 1 Polygon ($490.76 USDC) + Cámara 2 Hyperliquid L1 ($100.02 USDC) + BSC ($7.98 USDC)",
+    "description": "Cámara 1 Polygon ($491.26 USDC) + Cámara 2 Hyperliquid L1 ($100.02 USDC) + BSC ($7.98 USDC)",
     "gasShieldFloorPol": 155.05,
     "polygonFloorUsdc": 500,
     "arbitrumGasReserveEthUsd": 1.96

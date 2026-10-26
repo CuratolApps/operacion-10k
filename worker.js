@@ -250,7 +250,7 @@ async function getLiveTransactions() {
 // ==============================================================================
 const SQUAD_ANCHOR = {
   CYCLE_INTERVAL_MS: 180 * 1000,
-  BASE_ONCHAIN_USDC: 598.76, // $490.76 (#501 Polygon) + $100.02 (HL L1) + $7.98 (#501 BSC)
+  BASE_ONCHAIN_USDC: 599.26, // $491.26 (#501 Polygon) + $100.02 (HL L1) + $7.98 (#501 BSC)
   CANDIDATE_PAIRS: [
     { pair: "BTC/USDC", informant: "#701 ORACLE-GLOBAL (BTC & Oro)", rationale: "Soporte institucional $80,200 sostenido por ETFs + Flujo neto positivo en Hyperliquid L1." },
     { pair: "PAXG/USDC", informant: "#701 ORACLE-GLOBAL (ORO)", rationale: "Oro físico superando $4,000/oz histórico + Fuerte rotación macro de refugio." },
@@ -435,10 +435,10 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     makerFeePct: 0.015,
     gasCostUsdc: 0.00,
     onChainBreakdown: {
-      polygon501Usdc: 490.76,
+      polygon501Usdc: 491.26,
       hyperliquidL1Usdc: hlAccountValue,
       bscUsdc: 7.98,
-      totalBaseOnChain: 598.76
+      totalBaseOnChain: 599.26
     },
     blockSettlement: {
       currentSettledBlock: currentSettledBlock,
@@ -1051,7 +1051,7 @@ async function getLiveLiquidityEngineData() {
 
   // Si aún no responde RPC o ambos están en 0 en el instante inicial
   if (usdcBalance === 0 && aTokenBalance === 0) {
-    aTokenBalance = 490.76;
+    aTokenBalance = 491.26;
   }
 
   let apyPct = 3.42;
@@ -1143,8 +1143,8 @@ async function getLiveLiquidityEngineData() {
     };
   });
 
-  const basePolygonPrincipal = 490.76;
-  const baseConsolidatedPrincipal = 598.76;
+  const basePolygonPrincipal = 491.26;
+  const baseConsolidatedPrincipal = 599.26;
   const totalPolygonUsdc = parseFloat((usdcBalance + aTokenBalance).toFixed(2));
   
   // Regla Matemática Estricta On-Chain (ZERO_SIMULATION_LAW):
@@ -1300,7 +1300,7 @@ export default {
 
       const data = await getLiveLiquidityEngineData();
       const vaultBal = data?.vault501?.usdcBalance || 0.00;
-      const aBal = data?.aaveV3?.aTokenBalance || 490.76;
+      const aBal = data?.aaveV3?.aTokenBalance || 491.26;
       const totalPol = vaultBal + aBal;
       const supplyApy = data?.aaveV3?.supplyApyPct || 3.42;
       const dailyYieldUsd = parseFloat((totalPol * (supplyApy / 100) / 365).toFixed(4));
@@ -1352,12 +1352,14 @@ export default {
       const gasMarketValuationUsd = parseFloat((polValuationUsd + bnbValuationUsd).toFixed(2));
 
       // Contabilidad Estricta: Inyección Base vs PnL Operativo Real de Bots
-      const principalBaseUsdc = 598.76; // $490.76 Pol + $100.02 Arb/HL + $7.98 BSC en #501
+      const polygonUsdcLive = parseFloat((liqEngine?.vault501?.totalPolygonUsdc || 491.26).toFixed(2));
+      const vault501BaseSum = parseFloat((polygonUsdcLive + 100.02 + 7.98).toFixed(2)); // $599.26
+      const principalBaseUsdc = vault501BaseSum;
       const realTradingPnlUsdc = parseFloat((liqEngine?.accounting?.totalYieldToPnlUsdc || 0.00).toFixed(2));
       const realTradingPnlPct = parseFloat((realTradingPnlUsdc / principalBaseUsdc * 100).toFixed(4));
       const totalConsolidatedUsdc = parseFloat((principalBaseUsdc + realTradingPnlUsdc).toFixed(2));
       const totalPortfolioUsd = parseFloat((totalConsolidatedUsdc + gasMarketValuationUsd).toFixed(2));
-      const vault501TotalUsdc = parseFloat((598.76 + realTradingPnlUsdc).toFixed(2));
+      const vault501TotalUsdc = parseFloat((vault501BaseSum + realTradingPnlUsdc).toFixed(2));
 
       const balancesData = {
         success: true,
@@ -1377,8 +1379,8 @@ export default {
           waveNum: 3,
           targetUsdc: 1000.00,
           currentUsdc: totalConsolidatedUsdc,
-          remainingUsdc: 401.24,
-          progressPct: 59.88,
+          remainingUsdc: parseFloat((1000.00 - totalConsolidatedUsdc).toFixed(2)),
+          progressPct: parseFloat((totalConsolidatedUsdc / 1000.00 * 100).toFixed(2)),
           crownedWaves: ["1ª Ola ($350)", "2ª Ola ($500)"]
         },
         gasAutonomyDays: 52,
@@ -1403,18 +1405,18 @@ export default {
         breakdown: {
           vault501Combined: {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-            totalUsdc: 598.76,
-            polygonUsdc: 490.76,
+            totalUsdc: vault501BaseSum,
+            polygonUsdc: polygonUsdcLive,
             arbitrumHlUsdc: 100.02,
             bscUsdc: 7.98,
-            subtitle: "Cámara 1 Pol: $490.76 (0% Riesgo) · Cámara 2 HL: $100.02 USDC"
+            subtitle: `Cámara 1 Pol: $${polygonUsdcLive.toFixed(2)} (Aave V3 1:1) · Cámara 2 HL: $100.02 USDC`
           },
           vault501Polygon: {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
             chain: "Polygon PoS Mainnet",
             asset: "USDC (Native Circle)",
             contract: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
-            balanceUsdc: 490.76,
+            balanceUsdc: polygonUsdcLive,
             gasPol: 160.79,
             gasFloorPol: 155.05,
             gasFloorStatus: "100% BLINDADO",

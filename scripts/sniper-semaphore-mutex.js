@@ -5,7 +5,7 @@
  * PARA LOS 5 ESCUADRONES TÁCTICOS DE CAZA ATÓMICA ON-CHAIN
  * ==============================================================================
  * Regla de Oro (ZERO_SIMULATION_LAW):
- * - El capital ($490.76 base en aPolUSDCn) permanece en Aave V3 devengando interés.
+ * - El capital ($491.26 en aPolUSDCn) permanece en Aave V3 devengando interés.
  * - Los 5 Escuadrones vigilan sus flancos en paralelo a $0 costo de gas.
  * - Cuando un Escuadrón detecta ganancia neta verificada (callStatic >= +$0.03 USDC):
  *     1. Adquiere el Semáforo (Mutex Lock: status -> RED).

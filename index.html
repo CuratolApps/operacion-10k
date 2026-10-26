@@ -1081,7 +1081,7 @@
         <span class="block-badge badge-gold">100% REAL</span>
       </div>
       <div class="win-metric-val val-gold">
-        <span id="valTotalUsdc">$598.76</span>
+        <span id="valTotalUsdc">$599.26</span>
         <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
       <div class="win-metric-sub">Piso Base: $500.00 USDC (Coronado ✅)</div>
@@ -1099,10 +1099,10 @@
         </a>
       </div>
       <div class="win-metric-val val-blue">
-        <span id="valVault501Usdc">$598.76</span>
+        <span id="valVault501Usdc">$599.26</span>
         <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="win-metric-sub" id="subVault501Usdc">Cámara 1 Pol: $490.76 (0% Riesgo) · Cámara 2 HL: $100.02 USDC
+      <div class="win-metric-sub" id="subVault501Usdc">Cámara 1 Pol: $491.26 (Aave V3 1:1) · Cámara 2 HL: $100.02 USDC
       </div>
     </div>
 
@@ -1146,10 +1146,10 @@
         <span class="block-badge badge-gold" id="badgeMilestoneTop">3ª OLA ACTIVA</span>
       </div>
       <div class="win-metric-val val-purple" id="valMilestoneTop">
-        <span id="valMilestoneTarget">$598.76 ➔ $1,000</span>
+        <span id="valMilestoneTarget">$599.26 ➔ $1,000</span>
         <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="win-metric-sub" id="subMilestoneTop">2ª Ola ($500) Coronada ✅ · Faltan $401.24 USDC para 3ª Ola</div>
+      <div class="win-metric-sub" id="subMilestoneTop">2ª Ola ($500) Coronada ✅ · Faltan $400.74 USDC para 3ª Ola</div>
     </div>
   </header>
 
@@ -1191,7 +1191,7 @@
             </div>
             <div class="data-grid-2col" style="gap: 5px 12px; font-size: 9.5px;">
               <div class="data-item" style="white-space: nowrap;"><span class="data-label">USDC Polygon:</span><strong
-                  class="val-gold">$490.76</strong></div>
+                  class="val-gold" id="valVault501PolUsdc">$491.26</strong></div>
               <div class="data-item" style="white-space: nowrap;"><span class="data-label">Gas POL #501:</span><strong
                   class="val-green">160.79 POL</strong></div>
               <div class="data-item" style="white-space: nowrap;"><span class="data-label">USDC
@@ -2186,14 +2186,14 @@
     const ROADMAP_WAVES = [
       { target: 350, waveNum: 1, name: "1ª Ola ($350)", desc: "Consolidación de Capital Semilla" },
       { target: 500, waveNum: 2, name: "2ª Ola ($500)", desc: "Piso Firme 0% Riesgo en Polygon" },
-      { target: 1000, waveNum: 3, name: "TERCERA OLA ($1,000.00 USDC)", desc: "Motor Dual Activo: $490.76 USDC en Polygon (0% Riesgo) + $100.02 USDC en Hyperliquid L1" },
+      { target: 1000, waveNum: 3, name: "TERCERA OLA ($1,000.00 USDC)", desc: "Motor Dual Activo: $491.26 USDC en Polygon (Aave V3 1:1) + $100.02 USDC en Hyperliquid L1" },
       { target: 1500, waveNum: 4, name: "CUARTA OLA ($1,500.00 USDC)", desc: "Escalado previo al Piso de Renta Mensual" },
       { target: 2000, waveNum: 5, name: "PISO DE FLUJO MENSUAL SOSTENIBLE ($2,000.00 USDC ➔ $500 - $1,500/MES)", desc: "Cosecha continua en USDC hacia Bóveda #501 y retiro manual a Binance" },
       { target: 5000, waveNum: 6, name: "EXPANSIÓN PATRIMONIAL ($5,000.00 USDC)", desc: "Flujo pasivo escalado a multi-bóvedas" }
     ];
 
     function renderDynamicRoadmap(totalUsdc) {
-      const total = typeof totalUsdc === 'number' ? totalUsdc : parseFloat(totalUsdc) || 598.76;
+      const total = typeof totalUsdc === 'number' ? totalUsdc : parseFloat(totalUsdc) || 599.26;
       const badgeRoadmap = document.getElementById('badgeRoadmapConsolidated');
       if (badgeRoadmap) badgeRoadmap.textContent = `CONSOLIDADO: $${total.toFixed(2)} USDC`;
 
@@ -2266,7 +2266,7 @@
         const res = await fetch('/api/mando-central/balances');
         if (res.ok) {
           const d = await res.json();
-          const totalUsdc = d.totalConsolidatedUsdc || 598.76;
+          const totalUsdc = d.totalConsolidatedUsdc || 599.26;
           if (d.totalConsolidatedUsdc) {
             document.getElementById('valTotalUsdc').textContent = `$${d.totalConsolidatedUsdc.toFixed(2)}`;
           }
@@ -2280,6 +2280,10 @@
             const subV501 = document.getElementById('subVault501Usdc');
             if (subV501) subV501.textContent = d.breakdown.vault501Combined.subtitle;
           }
+          if (d.breakdown && d.breakdown.vault501Polygon && d.breakdown.vault501Polygon.balanceUsdc !== undefined) {
+            const vPolEl = document.getElementById('valVault501PolUsdc');
+            if (vPolEl) vPolEl.textContent = `$${d.breakdown.vault501Polygon.balanceUsdc.toFixed(2)}`;
+          }
 
           // Contabilidad estricta: inyecciones no son PnL
           const pnlVal = d.realNetPnlUsdc !== undefined ? d.realNetPnlUsdc : 0.00;
@@ -2288,7 +2292,7 @@
             const prefix = pnlVal >= 0 ? '+' : '';
             pnlEl.textContent = `${prefix}$${pnlVal.toFixed(2)}`;
           }
-          const baseCap = d.principalBaseUsdc || 598.76;
+          const baseCap = d.principalBaseUsdc || 599.26;
 
           // Actualización de datos en el modal forense contable
           const mBase = document.getElementById('modalBaseCapital');
