@@ -98,9 +98,9 @@ html, body {
 .top-header,
 .metrics-row,
 .squad-top-strip {
-  min-height: 86px;
-  height: 86px;
-  padding: 8px 12px 0 12px !important;
+  min-height: 76px;
+  height: 76px;
+  padding: 6px 12px 6px 12px !important;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
@@ -111,18 +111,20 @@ html, body {
   box-shadow: none !important;
   backdrop-filter: none !important;
   z-index: 50;
-  align-items: center;
+  align-items: stretch;
 }
 
 .nav-card {
   background: #ffffff !important;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 7px 10px;
+  padding: 6px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  min-height: 0;
+  overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all 0.15s ease;
 }
@@ -205,9 +207,12 @@ html, body {
 .metric-primary.green-text { color: var(--win-success); }
 
 .metric-sub {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 600;
   color: var(--text-muted);
+  display: inline;
+  vertical-align: baseline;
+  letter-spacing: 0;
 }
 
 .cycle-total-pill {
@@ -245,7 +250,7 @@ html, body {
   background: linear-gradient(90deg, #0284c7, #0ea5e9);
 }
 
-.metric-sub, .card-sub-row, #chamberStatusText, .progress-labels {
+.card-sub-row, #chamberStatusText, .progress-labels {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -424,10 +429,10 @@ html, body {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 285px 1fr 450px; /* COLUMNA IZQUIERDA 285PX (1 SOLA LÍNEA) + MESA CENTRAL + TERMINAL 450PX */
-  grid-template-rows: 1fr;
+  grid-template-columns: 275px 1fr 425px; /* COLUMNA IZQUIERDA 275PX + MESA CENTRAL 1FR + TERMINAL 425PX */
+  grid-template-rows: minmax(0, 1fr);
   gap: 8px;
-  padding: 8px 12px;
+  padding: 6px 12px 8px 12px;
   background: var(--win-bg);
   overflow: hidden; /* CERO SCROLL GENERAL */
 }
@@ -759,8 +764,8 @@ html, body {
 .center-floor-one-toolbar {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  padding: 6px 8px;
+  gap: 6px;
+  padding: 5px 8px;
   background: var(--win-surface);
   border-bottom: 1px solid var(--win-border);
   flex-shrink: 0;
@@ -768,17 +773,17 @@ html, body {
 }
 
 .center-floor-btn {
-  height: 28px;
-  padding: 0 8px;
+  height: 26px;
+  padding: 0 6px;
   border-radius: 4px;
   font-family: var(--font-code);
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 800;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -892,8 +897,8 @@ html, body {
 .hl-multipair-grid {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  gap: 6px;
-  padding: 6px 8px;
+  gap: 5px;
+  padding: 5px 8px;
   background: #ffffff;
   border-bottom: 1px solid var(--win-border);
   flex-shrink: 0;
@@ -904,7 +909,7 @@ html, body {
   background: #f8fafc;
   border: 1px solid var(--win-border);
   border-radius: 4px;
-  padding: 4px 6px;
+  padding: 3px 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -913,7 +918,7 @@ html, body {
   transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
   min-width: 0;
   position: relative;
-  height: 48px;
+  height: 44px;
   user-select: none;
 }
 
@@ -1254,10 +1259,10 @@ html, body {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 8px;
-  padding: 8px 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 6px;
+  padding: 6px 8px;
   background: #f1f5f9;
   overflow: hidden;
 }
@@ -1266,10 +1271,13 @@ html, body {
   background: #ffffff;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 8px 10px;
+  padding: 6px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
   position: relative;
   transition: all 0.15s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -1297,34 +1305,43 @@ html, body {
 .box-head {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   margin-bottom: 2px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .box-num {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 800;
   color: var(--text-dark);
   background: #f1f5f9;
-  padding: 1px 5px;
+  padding: 1px 4px;
   border-radius: 3px;
   border: 1px solid var(--win-border);
+  flex-shrink: 0;
 }
 
 .box-tag {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   color: var(--text-muted);
   text-transform: uppercase;
   flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .box-badge-pill {
-  font-size: 8px;
+  font-size: 7.5px;
   padding: 1px 5px;
   border-radius: 4px;
   font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .box-badge-pill.green {
   background: var(--win-success-soft);
@@ -1345,27 +1362,32 @@ html, body {
 .box-body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2px;
+  justify-content: space-around;
+  gap: 3px;
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .big-pair-label {
-  font-size: 16px;
+  font-size: 14.5px;
   font-weight: 900;
   color: var(--text-dark);
   display: flex;
   align-items: center;
-  gap: 8px;
-  letter-spacing: 0.3px;
+  gap: 6px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .big-direction-pill {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
-  padding: 1px 6px;
+  padding: 1px 5px;
   border-radius: 4px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .big-direction-pill.bull {
   background: var(--win-success-soft);
@@ -1381,25 +1403,30 @@ html, body {
 .big-price-flow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .price-flow-segment {
   display: flex;
   align-items: baseline;
   gap: 4px;
+  white-space: nowrap;
 }
 
 .price-flow-segment .segment-label {
-  font-size: 9px;
+  font-size: 8.5px;
   color: var(--text-muted);
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .price-flow-segment .segment-val {
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 800;
   color: var(--text-dark);
+  white-space: nowrap;
 }
 
 .price-flow-segment .segment-val.text-glow {
@@ -1407,25 +1434,31 @@ html, body {
 }
 
 .flow-arrow {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 900;
   color: var(--win-primary);
+  white-space: nowrap;
 }
 
 .big-targets-flow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .target-chip {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 6px;
+  gap: 4px;
+  padding: 2.5px 5px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 9px;
   flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .target-chip.be {
@@ -1441,29 +1474,40 @@ html, body {
 }
 
 .chip-icon {
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .chip-txt {
-  font-size: 9.5px;
+  font-size: 8.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .big-status-alert {
-  font-size: 10.5px;
+  font-size: 9px;
   font-weight: 700;
   color: var(--win-primary);
   background: var(--win-primary-soft);
   border: 1px solid var(--win-primary-border);
   border-radius: 4px;
-  padding: 5px 8px;
-  line-height: 1.35;
+  padding: 4px 6px;
+  line-height: 1.25;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .box-meta-line {
-  font-size: 8.5px;
+  font-size: 8px;
   color: var(--text-medium);
-  line-height: 1.3;
+  line-height: 1.2;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ESTILOS DEL ORDERBOOK L2 DE HYPERLIQUID */

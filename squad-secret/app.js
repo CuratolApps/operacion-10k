@@ -777,7 +777,7 @@
       topCapitalProgress.style.width = `100%`;
     }
     if (topProgressPct) {
-      topProgressPct.innerHTML = `Polygon Base: $${polyBal.toFixed(2)} USDC · Hyperliquid L1: $${l1Bal.toFixed(2)} USDC (Meta: +$20 USDC)`;
+      topProgressPct.innerHTML = `Pol: $${polyBal.toFixed(2)} · HL L1: $${l1Bal.toFixed(2)} (Meta +$20)`;
     }
     if (topRemainingUsdc) {
       topRemainingUsdc.innerHTML = ``;
@@ -836,7 +836,7 @@
       topRatioDisplay.innerHTML = `${wins}G <span class="metric-sub">-</span> ${losses}P`;
     }
     if (topWinRateBadge) {
-      topWinRateBadge.textContent = (wins + losses > 0) ? `${winRate.toFixed(1)}% REAL` : "0 OPERACIONES CERRADAS";
+      topWinRateBadge.textContent = (wins + losses > 0) ? `${winRate.toFixed(1)}% REAL` : "0 OPS CERRADAS";
     }
     if (topSessionPnlDisplay) {
       topSessionPnlDisplay.textContent = sessionPnlStr;
