@@ -1,6 +1,6 @@
 /* =============================================================================
    ÁREA 501 // SQUAD SECRET (SALA DE OPERACIONES TÁCTICAS)
-   ESTILO WINDOWS DEV WORKBENCH // 100% LUMINOSO, ULTRA-LEGIBLE, CERO CUADRICULADO
+   ESTILO WINDOWS DEV WORKBENCH // 3 COLUMNAS CERO SCROLL
    COHERENCIA TOTAL CON MANDO CENTRAL
    ============================================================================= */
 
@@ -36,7 +36,7 @@
   --win-danger-soft: #fee2e2;
   --win-danger-border: #fca5a5;
 
-  /* TIPOGRAFÍA DE ALTO CONTRASTE (CERO TEXTOS ILEGIBLES) */
+  /* TIPOGRAFÍA DE ALTO CONTRASTE */
   --text-dark: #0f172a;
   --text-medium: #334155;
   --text-muted: #64748b;
@@ -53,7 +53,7 @@
   --term-white: #f8fafc;
   --term-dim: #64748b;
 
-  /* COMPATIBILIDAD CON CÓDIGOS ANTERIORES */
+  /* COMPATIBILIDAD CON REFERENCIAS */
   --bg-deep: var(--win-bg);
   --bg-card: var(--win-surface);
   --border-subtle: var(--win-border);
@@ -80,7 +80,7 @@ html, body {
   max-height: 100vh;
   overflow: hidden;
   background-color: var(--win-bg);
-  background-image: none !important; /* CERO FONDO CUADRICULADO MOLESTO */
+  background-image: none !important; /* CERO CUADRICULADO */
   color: var(--text-dark);
   font-family: var(--font-ui);
   display: flex;
@@ -306,87 +306,18 @@ html, body {
 }
 
 /* =============================================================================
-   2. SELECTOR DE VISTAS INTERNAS (MESA CENTRAL vs RADAR SNIPING ATÓMICO)
-   ============================================================================= */
-.squad-subview-selector-bar {
-  display: flex;
-  gap: 8px;
-  padding: 6px 14px;
-  background: var(--win-surface);
-  border-bottom: 2px solid var(--win-border);
-  flex-shrink: 0;
-  z-index: 40;
-}
-
-.subview-tab-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: var(--win-card);
-  border: 1px solid var(--win-border);
-  border-radius: 6px;
-  color: var(--text-medium);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-family: var(--font-ui);
-}
-
-.subview-tab-btn:hover {
-  background: var(--win-card-hover);
-  color: var(--text-dark);
-  border-color: var(--win-border-strong);
-}
-
-.subview-tab-btn.active {
-  background: var(--win-primary-soft);
-  border-color: var(--win-primary);
-  color: var(--win-primary);
-  box-shadow: inset 0 -2px 0 var(--win-primary);
-  font-weight: 800;
-}
-
-.subview-tab-btn .btn-icon {
-  font-size: 14px;
-}
-
-.subview-tab-btn .btn-txt {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.3px;
-}
-
-.subview-tab-btn .btn-chip {
-  font-family: var(--font-code);
-  font-size: 8.5px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: #ffffff;
-  color: var(--text-medium);
-  border: 1px solid var(--win-border);
-}
-
-.subview-tab-btn.active .btn-chip {
-  background: #ffffff;
-  color: var(--win-primary);
-  border-color: var(--win-primary-border);
-}
-
-/* =============================================================================
-   3. ZONA PRINCIPAL DE OPERACIONES (GRID DE TRABAJO 100VH CERO SCROLL)
+   2. ESTRUCTURA PRINCIPAL: 3 COLUMNAS HORIZONTALES (ESTILO MANDO CENTRAL)
    ============================================================================= */
 .squad-workspace-grid {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 350px 1fr;
-  grid-template-rows: 1fr 140px;
+  grid-template-columns: 270px 1fr 390px; /* 3 COLUMNAS SIMÉTRICAS */
+  grid-template-rows: 1fr;
   gap: 8px;
   padding: 8px 12px;
   background: var(--win-bg);
+  overflow: hidden; /* CERO SCROLL GENERAL */
 }
 
 .squad-panel {
@@ -397,11 +328,13 @@ html, body {
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  height: 100%;
+  min-height: 0;
 }
 
 .panel-header {
-  height: 36px;
-  padding: 0 12px;
+  height: 34px;
+  padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -417,11 +350,11 @@ html, body {
 }
 
 .panel-icon {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .panel-title {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.4px;
   color: var(--text-dark);
@@ -430,7 +363,7 @@ html, body {
 
 .panel-badge-pill {
   font-size: 8.5px;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 4px;
   font-weight: 700;
 }
@@ -446,11 +379,13 @@ html, body {
 }
 
 /* =============================================================================
-   4. PANEL IZQUIERDO: CHECKLIST EN VIVO DEL SQUAD (5 ESLABONES)
+   3. COLUMNA 1 (IZQUIERDA): SQUAD // 5 ESLABONES (CERO SCROLL)
    ============================================================================= */
 .squad-left-panel {
-  grid-column: 1 / 2;
-  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
 .funnel-links-list {
@@ -458,58 +393,44 @@ html, body {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 6px;
   padding: 8px;
-  overflow-y: auto;
+  overflow: hidden; /* CERO SCROLL */
   background: #f1f5f9;
-}
-
-.funnel-links-list::-webkit-scrollbar,
-.cycles-table-wrap::-webkit-scrollbar,
-.pools-table-wrap::-webkit-scrollbar,
-.squad-term-body::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-.funnel-links-list::-webkit-scrollbar-thumb,
-.cycles-table-wrap::-webkit-scrollbar-thumb,
-.pools-table-wrap::-webkit-scrollbar-thumb,
-.squad-term-body::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
 }
 
 .funnel-link-card {
   background: #ffffff;
   border: 1px solid var(--win-border);
-  border-radius: 6px;
-  padding: 8px 10px;
+  border-radius: 5px;
+  padding: 7px 9px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 2px;
   transition: all 0.15s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .funnel-link-card:hover {
   border-color: var(--win-border-strong);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .link-head {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .link-step {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 800;
   color: var(--win-gold);
   background: var(--win-gold-soft);
   border: 1px solid var(--win-gold-border);
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 2px 5px;
+  border-radius: 3px;
 }
 
 .link-title-group {
@@ -520,20 +441,20 @@ html, body {
 }
 
 .link-name {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 800;
-  color: var(--text-dark); /* ULTRA-LEGIBLE Y NITIDO */
+  color: var(--text-dark);
 }
 
 .link-sub {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 600;
   color: var(--text-medium);
 }
 
 .link-status-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -542,39 +463,15 @@ html, body {
   box-shadow: 0 0 6px rgba(21, 128, 61, 0.4);
 }
 
-.link-detail-body {
-  font-size: 9.5px;
-  line-height: 1.4;
-  color: var(--text-medium); /* PERFECTAMENTE LEGIBLE */
-  padding-left: 24px;
-}
-
-.locks-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  margin-top: 2px;
-}
-.lock-item {
-  font-size: 8.5px;
-  background: var(--win-success-soft);
-  border: 1px solid var(--win-success-border);
-  padding: 3px 6px;
-  border-radius: 4px;
-  color: var(--win-success);
-  font-weight: 700;
-}
-
 .dual-traders-box {
   display: flex;
-  gap: 6px;
-  margin-bottom: 3px;
+  gap: 4px;
 }
 .trader-pill {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
 }
 .trader-pill.bull-pill {
   background: var(--win-success-soft);
@@ -587,20 +484,87 @@ html, body {
   border: 1px solid var(--win-danger-border);
 }
 
-.trader-posture-txt {
-  font-size: 9px;
-  color: var(--text-medium);
-  line-height: 1.35;
-}
-
 /* =============================================================================
-   5. PANEL CENTRAL: CONTENEDOR DE SUB-VISTAS
+   4. COLUMNA 2 (CENTRO): BARRA DE 3 BOTONES + MESA CENTRAL + RADAR DEX
    ============================================================================= */
 .squad-center-panel {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* BARRA DE 3 BOTONES DE CONTROL */
+.center-controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--win-surface);
+  border-bottom: 2px solid var(--win-border);
+  flex-shrink: 0;
+}
+
+.center-control-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  background: var(--win-card);
+  border: 1px solid var(--win-border);
+  border-radius: 5px;
+  color: var(--text-medium);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.center-control-btn:hover {
+  background: var(--win-card-hover);
+  color: var(--text-dark);
+  border-color: var(--win-border-strong);
+}
+
+.center-control-btn.active {
+  background: var(--win-primary-soft);
+  border-color: var(--win-primary);
+  color: var(--win-primary);
+  font-weight: 800;
+  box-shadow: inset 0 -2px 0 var(--win-primary);
+}
+
+.center-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: 1px solid #0284c7;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3);
+  white-space: nowrap;
+}
+
+.center-action-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.45);
+}
+
+.center-action-btn:active {
+  transform: translateY(1px);
 }
 
 .subview-container {
@@ -608,6 +572,7 @@ html, body {
   flex-direction: column;
   height: 100%;
   width: 100%;
+  min-height: 0;
 }
 
 .subview-container.active {
@@ -621,9 +586,9 @@ html, body {
 }
 
 .asset-badge-main {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 4px;
   background: var(--win-gold-soft);
   border: 1px solid var(--win-gold-border);
@@ -631,18 +596,16 @@ html, body {
 }
 
 .asset-badge-dex {
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 700;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 4px;
   background: #f1f5f9;
   border: 1px solid var(--win-border);
   color: var(--text-medium);
 }
 
-/* =============================================================================
-   6. VISTA 1: 4 CAJAS TÁCTICAS GRANDES (.tactical-four-boxes-grid)
-   ============================================================================= */
+/* 4 CAJAS TÁCTICAS EN GRID 2X2 */
 .tactical-four-boxes-grid {
   flex: 1;
   min-height: 0;
@@ -650,9 +613,8 @@ html, body {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 8px 10px;
   background: #f1f5f9;
-  border-bottom: 1px solid var(--win-border);
   overflow: hidden;
 }
 
@@ -660,7 +622,7 @@ html, body {
   background: #ffffff;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 8px 12px;
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -691,32 +653,32 @@ html, body {
 .box-head {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 3px;
+  gap: 6px;
+  margin-bottom: 2px;
 }
 
 .box-num {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: var(--text-dark);
   background: #f1f5f9;
-  padding: 1px 6px;
+  padding: 1px 5px;
   border-radius: 3px;
   border: 1px solid var(--win-border);
 }
 
 .box-tag {
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   color: var(--text-muted);
   text-transform: uppercase;
   flex: 1;
 }
 
 .box-badge-pill {
-  font-size: 8.5px;
-  padding: 2px 6px;
+  font-size: 8px;
+  padding: 1px 5px;
   border-radius: 4px;
   font-weight: 700;
 }
@@ -740,25 +702,24 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   flex: 1;
 }
 
-/* CAJA 1: PAR Y DIRECCIÓN */
 .big-pair-label {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 900;
   color: var(--text-dark);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   letter-spacing: 0.3px;
 }
 
 .big-direction-pill {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 1px 6px;
   border-radius: 4px;
   text-transform: uppercase;
 }
@@ -773,27 +734,26 @@ html, body {
   color: var(--win-danger);
 }
 
-/* CAJA 2: PRECIOS EN VIVO CEX vs DEX */
 .big-price-flow {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .price-flow-segment {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 4px;
 }
 
 .price-flow-segment .segment-label {
-  font-size: 9.5px;
+  font-size: 9px;
   color: var(--text-muted);
   font-weight: 700;
 }
 
 .price-flow-segment .segment-val {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--text-dark);
 }
@@ -803,25 +763,24 @@ html, body {
 }
 
 .flow-arrow {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
   color: var(--win-primary);
 }
 
-/* CAJA 3: CANDADO BREAKEVEN ➔ META SALIDA */
 .big-targets-flow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .target-chip {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 5px;
-  font-size: 11px;
+  gap: 5px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 10px;
   flex: 1;
 }
 
@@ -838,122 +797,61 @@ html, body {
 }
 
 .chip-icon {
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .chip-txt {
-  font-size: 10px;
+  font-size: 9.5px;
 }
 
-/* CAJA 4: ESTADO OPERACIÓN */
 .big-status-alert {
-  font-size: 11.5px;
-  font-weight: 800;
+  font-size: 10.5px;
+  font-weight: 700;
   color: var(--win-primary);
   background: var(--win-primary-soft);
   border: 1px solid var(--win-primary-border);
-  border-radius: 5px;
-  padding: 6px 10px;
-  letter-spacing: 0.2px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  border-radius: 4px;
+  padding: 5px 8px;
+  line-height: 1.35;
 }
 
 .box-meta-line {
-  font-size: 9px;
+  font-size: 8.5px;
   color: var(--text-medium);
-  line-height: 1.35;
+  line-height: 1.3;
   font-weight: 600;
 }
 
-/* BOTÓN DE ACCIÓN / ESCANEO */
-.strike-action-row {
-  height: 46px;
-  padding: 5px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--win-surface);
-  border-top: 1px solid var(--win-border);
-  flex-shrink: 0;
-}
-
-.strike-master-btn {
-  width: 100%;
-  height: 36px;
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-  border: 1px solid #0284c7;
-  border-radius: 6px;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
-}
-
-.strike-master-btn:hover {
-  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(2, 132, 199, 0.35);
-}
-
-.strike-master-btn:active {
-  transform: translateY(1px);
-}
-
-.btn-sparkle {
-  font-size: 14px;
-}
-
-.btn-text {
-  font-family: var(--font-ui);
-  font-size: 11.5px;
-  font-weight: 800;
-  letter-spacing: 0.4px;
-}
-
-.btn-subtext {
-  font-size: 9px;
-  color: #e0f2fe;
-  font-weight: 600;
-}
-
-/* =============================================================================
-   7. VISTA 2: RADAR SNIPING ATÓMICO MULTI-PISCINA (LUMINOSO Y ULTRA-LEGIBLE)
-   ============================================================================= */
+/* RADAR SNIPING INTEGRADO */
 .sniping-integrated-radar-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 6px 10px;
   background: #f1f5f9;
 }
 
 .box-cannon-poly {
-  border-left: 5px solid var(--win-purple) !important;
+  border-left: 4px solid var(--win-purple) !important;
 }
 .box-cannon-bsc {
-  border-left: 5px solid var(--win-gold) !important;
+  border-left: 4px solid var(--win-gold) !important;
 }
 
 .cannon-data {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-top: 4px;
-  font-size: 10px;
+  gap: 3px;
+  margin-top: 3px;
+  font-size: 9.5px;
 }
 
 .cannon-stat-row {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 3px;
+  padding-bottom: 2px;
 }
 
 .cannon-stat-row span:first-child {
@@ -974,13 +872,12 @@ html, body {
   font-weight: 800;
 }
 
-/* TABLA DE PISCINAS EN VIVO (MODERNA, CLARA, CERO OSCURIDAD) */
 .pools-table-wrap {
   flex: 1;
   overflow-y: auto;
   border: 1px solid var(--win-border);
-  margin: 0 12px 8px 12px;
-  border-radius: 6px;
+  margin: 0 10px 6px 10px;
+  border-radius: 5px;
   background: #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
@@ -988,17 +885,17 @@ html, body {
 .pools-live-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 10.5px;
+  font-size: 10px;
 }
 
 .pools-live-table th {
-  padding: 7px 10px;
+  padding: 6px 8px;
   background: #f1f5f9;
   color: var(--text-medium);
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   text-align: left;
   border-bottom: 2px solid var(--win-border);
   position: sticky;
@@ -1007,7 +904,7 @@ html, body {
 }
 
 .pools-live-table td {
-  padding: 6px 10px;
+  padding: 5px 8px;
   border-bottom: 1px solid #e2e8f0;
   color: var(--text-dark);
   font-weight: 600;
@@ -1019,9 +916,9 @@ html, body {
 
 .chain-pill {
   display: inline-block;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 8.5px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 8px;
   font-weight: 800;
 }
 
@@ -1041,45 +938,46 @@ html, body {
   background: var(--win-success-soft);
   color: var(--win-success);
   border: 1px solid var(--win-success-border);
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
   font-weight: 700;
-  font-size: 9px;
+  font-size: 8.5px;
 }
 
 .scan-clean {
   background: var(--win-primary-soft);
   color: var(--win-primary);
   border: 1px solid var(--win-primary-border);
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
   font-weight: 700;
-  font-size: 9px;
+  font-size: 8.5px;
 }
 
 /* =============================================================================
-   8. PANEL INFERIOR: BITÁCORA Y TERMINAL DE OPERACIONES EN VIVO
+   5. COLUMNA 3 (DERECHA): TERMINAL DINÁMICA DE OPERACIONES (ESTILO MANDO CENTRAL)
    ============================================================================= */
-.squad-bottom-panel {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
+.squad-right-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
-/* TABS DE CONMUTACIÓN DE LA TERMINAL */
 .terminal-tab-group {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-left: 8px;
+  margin-left: 6px;
 }
 
 .term-tab-btn {
   background: #f1f5f9;
   border: 1px solid var(--win-border);
   color: var(--text-medium);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 8.5px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 8px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -1098,16 +996,15 @@ html, body {
   font-weight: 800;
 }
 
-/* TERMINAL DE OPERACIONES EN VIVO (FONDO NEGRO AZABACHE PROFESIONAL) */
 .squad-term-body {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   background: var(--term-bg);
-  padding: 6px 12px;
+  padding: 6px 10px;
   font-family: var(--font-code);
-  font-size: 9.5px;
-  line-height: 1.45;
+  font-size: 9px;
+  line-height: 1.4;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -1116,21 +1013,21 @@ html, body {
 .squad-term-line {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 6px;
   word-break: break-all;
 }
 
 .squad-term-time {
   color: var(--term-dim);
-  font-size: 8.5px;
+  font-size: 8px;
   flex-shrink: 0;
   font-weight: 600;
 }
 
 .squad-term-tag {
   font-weight: 800;
-  font-size: 8.5px;
-  padding: 1px 5px;
+  font-size: 8px;
+  padding: 1px 4px;
   border-radius: 3px;
   flex-shrink: 0;
 }
@@ -1158,7 +1055,6 @@ html, body {
   font-weight: 500;
 }
 
-/* TABLA DE REGISTROS HISTÓRICOS POLYGONSCAN */
 .cycles-table-wrap {
   flex: 1;
   min-height: 0;
@@ -1169,7 +1065,7 @@ html, body {
 .cycles-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 9.5px;
+  font-size: 9px;
   text-align: left;
 }
 
@@ -1177,17 +1073,17 @@ html, body {
   position: sticky;
   top: 0;
   background: #f1f5f9;
-  padding: 6px 8px;
+  padding: 5px 6px;
   color: var(--text-medium);
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 800;
   text-transform: uppercase;
   border-bottom: 2px solid var(--win-border);
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 
 .cycles-table td {
-  padding: 6px 8px;
+  padding: 5px 6px;
   border-bottom: 1px solid #e2e8f0;
   color: var(--text-dark);
   font-weight: 600;
@@ -1210,11 +1106,11 @@ html, body {
 .be-locked {
   color: var(--win-gold);
   font-weight: 700;
-  font-size: 9px;
+  font-size: 8.5px;
 }
 
 /* =============================================================================
-   9. BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SELECTOR DE MÓDULOS)
+   6. BARRA DE TAREAS INFERIOR (WINDOWS TASKBAR CON SELECTOR DE MÓDULOS)
    ============================================================================= */
 .win-taskbar {
   height: 44px;
@@ -1312,7 +1208,7 @@ html, body {
 }
 
 /* =============================================================================
-   10. RESPONSIVE DESIGN (VISTA MÓVIL Y TABLET)
+   7. RESPONSIVE DESIGN (VISTA MÓVIL Y TABLET)
    ============================================================================= */
 @media (max-width: 900px) {
   html, body {
