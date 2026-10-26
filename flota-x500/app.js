@@ -621,7 +621,7 @@ function renderTopNavMetrics() {
   const lastRun = state.lastRun || {};
 
   // Tarjeta 2: Cosecha Binance Spot (Modo Acumulación On-Chain Bóveda #501)
-  const consolidated501 = state.squadLive?.consolidatedUsdc || telem.totalOnChainFleetUsdc || 342.92;
+  const consolidated501 = state.squadLive?.consolidatedUsdc || 490.76;
   const harvestedUsdc = telem.totalHarvestedToBinanceUsdc !== undefined
     ? telem.totalHarvestedToBinanceUsdc
     : 1.00;
@@ -630,20 +630,20 @@ function renderTopNavMetrics() {
   if (elTopHarvested) elTopHarvested.textContent = `$${Number(harvestedUsdc).toFixed(2)} USDC`;
 
   const elTopPending = document.getElementById("topPendingFleetUsdc");
-  if (elTopPending) elTopPending.textContent = `BÓVEDA #501: $${Number(consolidated501).toFixed(2)} ON-CHAIN`;
+  if (elTopPending) elTopPending.textContent = `BÓVEDA #501: $${Number(consolidated501).toFixed(2)} USDC`;
 
   const elHarvestBadge = document.getElementById("harvestUsdcBadge");
   if (elHarvestBadge) {
-    elHarvestBadge.textContent = `🔒 ACUMULACIÓN #501: $${Number(consolidated501).toFixed(2)}`;
+    elHarvestBadge.textContent = `🔒 ACUMULACIÓN #501`;
     elHarvestBadge.className = "badge-tag-tiny badge-lock-mode";
     elHarvestBadge.title = `🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL) — Total Acumulado en Bóveda #501: $${Number(consolidated501).toFixed(2)} USDC rumbo a Bola 2 ($500 USDC)`;
   }
 
   const elVaultsBadge = document.getElementById("vaultsLockBadge");
   if (elVaultsBadge) {
-    elVaultsBadge.textContent = `🔒 ACUMULACIÓN #501: $${Number(consolidated501).toFixed(2)}`;
+    elVaultsBadge.textContent = `160.79 POL PISO`;
     elVaultsBadge.className = "badge-tag-tiny badge-lock-mode";
-    elVaultsBadge.title = `🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL) — Retiros hacia las 5 Bóvedas solo bajo orden explícita del Comandante`;
+    elVaultsBadge.title = `🔒 Bóveda #501: 160.79 POL Intocable + 78.13 POL en los 5 Capitanes de Flota`;
   }
 
   // Tarjeta 3: Trabajo "Picado" On-Chain (100% Nonces y Txs Confirmadas)
@@ -744,16 +744,16 @@ function renderGasTankColumn() {
   const telem = state.telemetry || {};
   const globalGas = telem.globalGasTank || telem.gasTankLive || {};
 
-  // Tanques sagrados auditados: 155.26 / 150.00 POL en #501 y 300.06 / 300.00 POL + 0.0620 BNB en Flota Mainnet
-  const fleetPolOnly = 300.06;
-  const totalPol = 300.06;
+  // Tanques auditados: 160.79 POL en Bóveda #501 + 78.13 POL en los 5 Capitanes = 238.92 POL total en red
+  const fleetPolOnly = 78.13;
+  const totalPol = 238.92;
 
   const elFleetPol = document.getElementById("gasFleetMainnetPol");
   if (elFleetPol) elFleetPol.textContent = `${fleetPolOnly.toFixed(2)} POL`;
 
-  const fleetBnbOnly = 0.0620;
+  const fleetBnbOnly = 0.038;
   const elFleetBnb = document.getElementById("gasFleetMainnetBnb");
-  if (elFleetBnb) elFleetBnb.textContent = `& ${fleetBnbOnly.toFixed(4)} BNB`;
+  if (elFleetBnb) elFleetBnb.textContent = `& ${fleetBnbOnly.toFixed(3)} BNB`;
 
   const elPolTotal = document.getElementById("gasFleetPolTotal");
   if (elPolTotal) elPolTotal.textContent = `${totalPol.toFixed(2)} POL`;

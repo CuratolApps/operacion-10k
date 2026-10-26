@@ -1456,7 +1456,7 @@ export default {
     const response = await env.ASSETS.fetch(request);
 
     // Eliminar caché para asegurar frescura instantánea de assets y telemetría
-    if (url.pathname.endsWith(".json") || url.pathname.endsWith(".css") || url.pathname.endsWith(".js") || url.pathname.endsWith(".html") || url.pathname.includes("/telemetry/") || url.pathname.includes("/squad-secret/")) {
+    if (url.pathname.endsWith(".json") || url.pathname.endsWith(".css") || url.pathname.endsWith(".js") || url.pathname.endsWith(".html") || url.pathname.includes("/telemetry/") || url.pathname.includes("/squad-secret/") || url.pathname.includes("/flota-x500/")) {
       const headers = new Headers(response.headers);
       headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
       headers.set("Access-Control-Allow-Origin", "*");

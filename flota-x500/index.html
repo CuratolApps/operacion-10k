@@ -33,107 +33,113 @@
   <header class="top-nav-bar" id="block-header">
 
     <!-- TARJETA FLOTANTE 1: IDENTIDAD & ESTADO CLOUD -->
-    <div class="nav-identity-card floating-card">
-      <div class="id-card-top-row">
-        <div class="shield-lock-icon-badge" title="Flota X500: 500 Satélites en 5 Boxes">
-          <span class="material-symbols-rounded">military_tech</span>
-        </div>
-        <span class="brand-tag">ÁREA 501 // FLOTA X500</span>
+    <div class="floating-card" id="cardIdentity" title="Flota X500: 500 Satélites Reales en 5 Boxes de 100">
+      <div class="card-top-meta">
+        <span class="card-top-title">
+          <span class="pulse-dot-green" id="liveConnDot" title="Conexión en vivo activa"></span>
+          <span>ÁREA 501 // FLOTA X500</span>
+        </span>
+        <span class="badge-tag-tiny badge-cyan">500 SATÉLITES</span>
       </div>
-      <div class="id-card-sub-row">
-        <span class="pulse-dot-green" id="liveConnDot" title="Conexión en vivo activa"></span>
-        <div class="id-pills-wrap">
-          <span class="id-cloud-pill" title="Cloudflare Workers Edge Network" id="cfStatusPill">
-            <span class="material-symbols-rounded icon-xs cyan">cloud_done</span> CF WORKERS
-          </span>
-          <span class="id-cloud-pill" title="Crons 24/7 (30m)" id="cronStatusPill">
-            <span class="material-symbols-rounded icon-xs green-text">schedule</span> CRON GHA
-          </span>
-          <span class="id-cloud-pill" title="Telegram: 🛰️ SALA DE MANDO 10K" id="tgStatusPill">
-            <span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span> TELEGRAM
-          </span>
-        </div>
+      <div class="card-data-main">
+        <span class="metric-big-bold cyan">5 BOXES DE 100</span>
+        <span class="metric-sub-detail">#001 AL #500 ACTIVO</span>
+      </div>
+      <div class="id-pills-wrap">
+        <span class="id-cloud-pill" id="cfStatusPill" title="Cloudflare Workers Edge Network"><span class="material-symbols-rounded icon-xs cyan">cloud_done</span> CF WORKERS</span>
+        <span class="id-cloud-pill" id="cronStatusPill" title="Crons 24/7 (30m)"><span class="material-symbols-rounded icon-xs green-text">schedule</span> CRON 30M</span>
+        <span class="id-cloud-pill" id="tgStatusPill" title="Telegram: 🛰️ SALA DE MANDO 10K"><span class="material-symbols-rounded icon-xs" style="color: #38bdf8;">send</span> TG 10K</span>
       </div>
     </div>
 
-    <!-- GRUPO SIMÉTRICO: LAS OTRAS 4 TARJETAS -->
-    <div class="nav-modules-row">
-
-      <!-- TARJETA FLOTANTE 2: COSECHA A BINANCE SPOT -->
-      <div class="floating-card nav-card-col" id="cardBinanceHarvest">
-        <div class="card-top-meta">
-          <span class="card-top-title">
-            <span class="material-symbols-rounded icon-xs green-text">savings</span>
-            <span>COSECHA BINANCE SPOT</span>
-          </span>
-          <span class="badge-tag-tiny badge-lock-mode" id="harvestUsdcBadge" title="🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Todo lo cosechado se acumula en Bóveda Máster #501 (0xD4D1...3743) y Capitanes">🔒 ACUMULACIÓN #501</span>
-        </div>
-        <div class="card-data-main">
-          <span class="metric-big-bold green-text" id="topHarvestedUsdc">$1.00 USDC</span>
-          <span class="metric-sub-detail" id="topPendingFleetUsdc">BÓVEDA #501: $459.40 USDC</span>
-        </div>
+    <!-- TARJETA FLOTANTE 2: COSECHA A BINANCE SPOT (MODO ACUMULACIÓN ON-CHAIN) -->
+    <div class="floating-card" id="cardBinanceHarvest" title="Modo Acumulación On-Chain Bóveda #501 (Cero Micro-Depósitos a Binance)">
+      <div class="card-top-meta">
+        <span class="card-top-title">
+          <span class="material-symbols-rounded icon-xs green-text">savings</span>
+          <span>COSECHA ON-CHAIN #501</span>
+        </span>
+        <span class="badge-tag-tiny badge-lock-mode" id="harvestUsdcBadge" title="🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO MANUAL)">🔒 ACUMULACIÓN #501</span>
       </div>
-
-      <!-- TARJETA FLOTANTE 3: TRABAJO REAL "PICADO" ON-CHAIN -->
-      <div class="floating-card nav-card-col" id="cardWorkMined">
-        <div class="card-top-meta">
-          <span class="card-top-title">
-            <span class="material-symbols-rounded icon-xs cyan">construction</span>
-            <span>PICADO ON-CHAIN</span>
-          </span>
-          <span class="badge-tag-tiny badge-cyan" id="workNonceBadge">NONCE AUDITADO</span>
-        </div>
-        <div class="card-data-main">
-          <span class="metric-big-bold cyan" id="topTotalTxCount">11,389 TXS</span>
-          <span class="metric-sub-detail" id="topLastShiftTxCount">ÚLTIMO TURNO: 59 TXS ✅</span>
-        </div>
+      <div class="card-data-main">
+        <span class="metric-big-bold green-text" id="topHarvestedUsdc">$1.00 USDC</span>
+        <span class="metric-sub-detail" id="topPendingFleetUsdc">BÓVEDA #501: $490.76 USDC</span>
       </div>
-
-      <!-- TARJETA FLOTANTE 4: ESTADO DEL CARRUSEL 24/7 -->
-      <div class="floating-card nav-card-col" id="cardCarouselStatus">
-        <div class="card-top-meta">
-          <span class="card-top-title">
-            <span class="material-symbols-rounded icon-xs gold">autorenew</span>
-            <span>CARRUSEL 24/7 (20 SATS)</span>
-          </span>
-          <span class="badge-tag-tiny badge-gold" id="carouselBatchBadge">20 BOTS / TURNO</span>
-        </div>
-        <div class="card-data-main">
-          <span class="metric-big-bold gold" id="topActiveSquadRange">Box 2: #181–#200</span>
-          <span class="metric-sub-detail" id="topNextTurnTimer">PRÓXIMO: <strong class="green-text" id="countdownSecs">28:14</strong></span>
-        </div>
+      <div class="metric-single-row">
+        <span>Retiro Binance: <strong class="gold-text">100% Manual</strong></span>
+        <span class="green-text">Cero Micro-Depósitos</span>
       </div>
-
-      <!-- TARJETA FLOTANTE 5: LAS 5 BÓVEDAS BINANCE SPOT -->
-      <div class="floating-card nav-card-col" id="cardBinanceVaults">
-        <div class="card-top-meta">
-          <span class="card-top-title">
-            <span class="material-symbols-rounded icon-xs purple">account_balance</span>
-            <span>5 BÓVEDAS BINANCE SPOT</span>
-          </span>
-          <span class="badge-tag-tiny badge-lock-mode" id="vaultsLockBadge" title="🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS) — Retiros hacia las 5 Bóvedas solo bajo orden explícita del Comandante">🔒 ACUMULACIÓN #501</span>
-        </div>
-        <div class="binance-vaults-strip" id="binanceVaultsMiniList">
-          <div class="vault-mini-pill" onclick="inspectBinanceVault(1)" title="Box 1: 0x48b26dd0f9265573f31f7140cf01e9c48518531b (Clic para inspeccionar)">
-            <span>B1:</span><strong>..531b</strong>
-          </div>
-          <div class="vault-mini-pill" onclick="inspectBinanceVault(2)" title="Box 2: 0x33cffda0218122ed4d981dcb1797f4b458191bc4 (Clic para inspeccionar)">
-            <span>B2:</span><strong>..1bc4</strong>
-          </div>
-          <div class="vault-mini-pill" onclick="inspectBinanceVault(3)" title="Box 3: 0x409c4695afd6c919ca660cd86c5c24eb54bfca4e (Clic para inspeccionar)">
-            <span>B3:</span><strong>..ca4e</strong>
-          </div>
-          <div class="vault-mini-pill" onclick="inspectBinanceVault(4)" title="Box 4: 0x2734e0a264573056417d12478616107ff5d2ce54 (Clic para inspeccionar)">
-            <span>B4:</span><strong>..ce54</strong>
-          </div>
-          <div class="vault-mini-pill" onclick="inspectBinanceVault(5)" title="Box 5: 0xf746f7da001c48367d76641a2e870db8e509dce7 (Clic para inspeccionar)">
-            <span>B5:</span><strong>..dce7</strong>
-          </div>
-        </div>
-      </div>
-
     </div>
 
+    <!-- TARJETA FLOTANTE 3: TRABAJO REAL "PICADO" ON-CHAIN -->
+    <div class="floating-card" id="cardWorkMined" title="Txs y Nonces Auditados en Cadena">
+      <div class="card-top-meta">
+        <span class="card-top-title">
+          <span class="material-symbols-rounded icon-xs cyan">construction</span>
+          <span>PICADO ON-CHAIN</span>
+        </span>
+        <span class="badge-tag-tiny badge-cyan" id="workNonceBadge">NONCE AUDITADO</span>
+      </div>
+      <div class="card-data-main">
+        <span class="metric-big-bold cyan" id="topTotalTxCount">11,389 TXS</span>
+        <span class="metric-sub-detail" id="topLastShiftTxCount">ÚLTIMO TURNO: 59 TXS ✅</span>
+      </div>
+      <div class="metric-single-row">
+        <span>Rotación: <strong class="cyan">20 Bots / Turno</strong></span>
+        <span class="green-text">100% En Cadena</span>
+      </div>
+    </div>
+
+    <!-- TARJETA FLOTANTE 4: ESTADO DEL CARRUSEL 24/7 -->
+    <div class="floating-card" id="cardCarouselStatus" title="Cadencia Continua 24/7">
+      <div class="card-top-meta">
+        <span class="card-top-title">
+          <span class="material-symbols-rounded icon-xs gold">autorenew</span>
+          <span>CARRUSEL 24/7</span>
+        </span>
+        <span class="badge-tag-tiny badge-gold" id="carouselBatchBadge">20 BOTS / TURNO</span>
+      </div>
+      <div class="card-data-main">
+        <span class="metric-big-bold gold" id="topActiveSquadRange">Box 2: #181–#200</span>
+        <span class="metric-sub-detail" id="topNextTurnTimer">PRÓXIMO: <strong class="green-text" id="countdownSecs">28:14</strong></span>
+      </div>
+      <div class="metric-single-row">
+        <span>Cadencia: <strong class="gold-text">Cada 30 min</strong></span>
+        <span class="cyan">Cron GHA + CF</span>
+      </div>
+    </div>
+
+    <!-- TARJETA FLOTANTE 5: LAS 5 BÓVEDAS BINANCE SPOT & GAS #501 -->
+    <div class="floating-card" id="cardBinanceVaults" title="Bóvedas Binance Spot y Gas Intocable">
+      <div class="card-top-meta">
+        <span class="card-top-title">
+          <span class="material-symbols-rounded icon-xs purple">account_balance</span>
+          <span>GAS #501 &amp; BÓVEDAS SPOT</span>
+        </span>
+        <span class="badge-tag-tiny badge-lock-mode" id="vaultsLockBadge" title="🔒 Bóveda #501: 160.79 POL Intocable">160.79 POL PISO</span>
+      </div>
+      <div class="binance-vaults-strip" id="binanceVaultsMiniList">
+        <div class="vault-mini-pill" onclick="inspectBinanceVault(1)" title="Box 1: 0x48b26dd0f9265573f31f7140cf01e9c48518531b (Clic para inspeccionar)">
+          <span>B1:</span><strong>..531b</strong>
+        </div>
+        <div class="vault-mini-pill" onclick="inspectBinanceVault(2)" title="Box 2: 0x33cffda0218122ed4d981dcb1797f4b458191bc4 (Clic para inspeccionar)">
+          <span>B2:</span><strong>..1bc4</strong>
+        </div>
+        <div class="vault-mini-pill" onclick="inspectBinanceVault(3)" title="Box 3: 0x409c4695afd6c919ca660cd86c5c24eb54bfca4e (Clic para inspeccionar)">
+          <span>B3:</span><strong>..ca4e</strong>
+        </div>
+        <div class="vault-mini-pill" onclick="inspectBinanceVault(4)" title="Box 4: 0x2734e0a264573056417d12478616107ff5d2ce54 (Clic para inspeccionar)">
+          <span>B4:</span><strong>..ce54</strong>
+        </div>
+        <div class="vault-mini-pill" onclick="inspectBinanceVault(5)" title="Box 5: 0xf746f7da001c48367d76641a2e870db8e509dce7 (Clic para inspeccionar)">
+          <span>B5:</span><strong>..dce7</strong>
+        </div>
+      </div>
+      <div class="metric-single-row">
+        <span>Capitanes: <strong class="purple">78.13 POL</strong></span>
+        <span class="gold-text">#501: 160.79 POL</span>
+      </div>
+    </div>
 
   </header>
 
@@ -256,11 +262,11 @@
                 <span class="cyan">SEPARADO DE #501</span>
               </div>
               <div class="gas-values-row">
-                <span class="gas-main-val cyan" id="gasFleetMainnetPol">150.47 POL</span>
-                <span class="gas-sub-val" id="gasFleetMainnetBnb">&amp; 0.0311 BNB</span>
+                <span class="gas-main-val cyan" id="gasFleetMainnetPol">78.13 POL</span>
+                <span class="gas-sub-val" id="gasFleetMainnetBnb">&amp; 0.038 BNB</span>
               </div>
               <div style="font-size: 9px; color: var(--text-muted); margin-top: 2px;">
-                Matriz #501 intacta: 155.05 POL (Piso 150) | Total Red Flota: <strong class="gold-text" id="gasFleetPolTotal">305.52 POL</strong>
+                Bóveda #501 intacta: 160.79 POL (Piso 150) | Total Red Flota: <strong class="gold-text" id="gasFleetPolTotal">238.92 POL</strong>
               </div>
             </div>
 
@@ -342,10 +348,6 @@
           </div>
         </div>
 
-        <!-- CONTENIDO PESTAÑA CENTRAL 1 (Activa por defecto): CALENDARIO AIRDROPS & SEMILLAS -->
-        <div class="fronts-table-wrap" id="panoramicContentAirdrops">
-          <table class="quant-table" id="airdropFrontsTable">
-            <thead>
         <!-- CONTENIDO PESTAÑA CENTRAL 1 (Activa por defecto): CALENDARIO AIRDROPS & SEMILLAS -->
         <div class="fronts-table-wrap" id="panoramicContentAirdrops" style="overflow-x: hidden;">
           <table class="quant-table" id="airdropFrontsTable" style="table-layout: fixed; width: 100%; overflow: hidden;">
