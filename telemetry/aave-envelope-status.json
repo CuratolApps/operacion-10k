@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-10-26T19:29:43.029Z",
+  "vault501Address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "polygonScanUrl": "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "usdcNativeBalance": 491.255007,
+  "aPolUsdcBalance": 0,
+  "totalUsdc": 491.26,
+  "polGasBalance": 155.24104958118818,
+  "allowanceUsdc": 0,
+  "supplyApyPct": 3.48,
+  "dailyYieldForecastUsdc": 0.0468,
+  "monthlyYieldForecastUsdc": 1.4,
+  "withdrawalGuarantee": "1:1 en 0.001s (Cero Bloqueo)",
+  "status": "NATIVE_USDC_READY"
+}

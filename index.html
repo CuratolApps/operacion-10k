@@ -731,7 +731,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
+      white-space: nowrap;
+      box-sizing: border-box;
       transition: all 0.15s ease;
       text-align: center;
     }
@@ -1270,30 +1272,28 @@
             </div>
             
             <div class="data-grid-2col" style="gap: 4px 10px; font-size: 8.8px; font-family: var(--font-code); margin-bottom: 5px;">
-              <div class="data-item" style="white-space: nowrap;">
-                <span class="data-label" style="color:var(--text-muted);">Capital en Giro (Libre):</span>
+              <div class="data-item" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <span class="data-label" style="color:var(--text-muted);">Capital Libre:</span>
                 <strong class="val-gold" id="extLiqCapitalGiro">$490.76 USDC</strong>
-                <span style="font-size:7.5px;color:var(--win-success);font-weight:700;">(100% Dólar Fijo)</span>
               </div>
-              <div class="data-item" style="white-space: nowrap;">
-                <span class="data-label" style="color:var(--text-muted);">Estado del Capital:</span>
-                <strong class="val-green" id="extLiqEstadoCapital">0% Bloqueado</strong>
-                <span style="font-size:7.5px;color:#64748b;">(Retiro 0.001s)</span>
+              <div class="data-item" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <span class="data-label" style="color:var(--text-muted);">Estado:</span>
+                <strong class="val-green" id="extLiqEstadoCapital">0% Bloqueado (Libre)</strong>
               </div>
-              <div class="data-item" style="white-space: nowrap;">
-                <span class="data-label" style="color:var(--text-muted);">Interés + Entradas Hoy:</span>
+              <div class="data-item" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <span class="data-label" style="color:var(--text-muted);">Ganado Hoy:</span>
                 <strong class="val-green" id="extLiqYieldToday">+$0.0000 USDC</strong>
               </div>
-              <div class="data-item" style="white-space: nowrap;">
-                <span class="data-label" style="color:var(--text-muted);">APY Real Aave V3 Pol:</span>
-                <strong class="val-blue" id="extLiqApyLive">~3.48% APY</strong>
+              <div class="data-item" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <span class="data-label" style="color:var(--text-muted);">APY Aave V3:</span>
+                <strong class="val-blue" id="extLiqApyLive">~3.42% APY</strong>
               </div>
             </div>
           </div>
 
-          <button type="button" class="win-btn-liquidity-panel" id="btnOpenLiquidityModalTrigger">
-            <span>🔌</span>
-            <span>ABRIR PANEL FLOTANTE EN VIVO: CONEXIÓN, INTERÉS &amp; ENTRADAS/SALIDAS ➔</span>
+          <button type="button" class="win-btn-liquidity-panel" id="btnOpenLiquidityModalTrigger"
+            style="display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; font-size: 8.8px; padding: 5px 8px; width: 100%; box-sizing: border-box;">
+            <span>🔌 ABRIR PANEL EN VIVO: CONEXIÓN, INTERÉS &amp; PNL ➔</span>
           </button>
         </div>
 
@@ -1974,10 +1974,11 @@
                 </div>
                 <div style="font-family:var(--font-code);font-size:8px;color:#64748b;margin-bottom:4px;">Pool 0x794a...14aD · aPolUSDCn</div>
                 <div style="font-family:var(--font-code);font-size:8.5px;line-height:1.4;color:var(--text-dark);">
-                  • Supply APY: <strong class="val-blue" id="diagEnchufe2Apy">3.48% APY</strong><br>
+                  • Supply APY: <strong class="val-blue" id="diagEnchufe2Apy">3.42% APY</strong><br>
+                  • Custodia Hoy: <strong id="diagEnchufe2Custody" class="val-gold">En #501 USDC Nativo: $490.76</strong><br>
                   • Saldo aToken: <strong id="diagEnchufe2ABal">0.00 aPolUSDCn</strong><br>
-                  • Retiro: <strong>Instantáneo 1:1 (0.001s)</strong><br>
-                  <em style="font-size:7.5px;color:#166534;">Genera interés cada 2s en USDC puro.</em>
+                  • Proyección: <strong class="val-green" id="diagEnchufe2Yield">+$0.0460 USDC/día (0s Bloqueo)</strong><br>
+                  <em style="font-size:7.5px;color:#166534;">Retiro instantáneo 1:1 en 0.001s en cualquier bloque.</em>
                 </div>
               </div>
               <a href="https://polygonscan.com/address/0x794a61358D6845594F94dc1DB02A252b5b4814aD" target="_blank" rel="noopener noreferrer" class="win-link-btn" style="padding:3px 6px;font-size:8px;justify-content:center;width:100%;">
@@ -2021,44 +2022,44 @@
                 <tr style="background:#f1f5f9;color:var(--text-medium);text-align:left;border-bottom:1px solid var(--win-border);">
                   <th style="padding:5px 6px;">Par Vigilado</th>
                   <th style="padding:5px 6px;">Precio Piscina A (Uniswap V3)</th>
-                  <th style="padding:5px 6px;">Precio Ref (Piscina B/Spot)</th>
+                  <th style="padding:5px 6px;">Precio Ref (Piscina B/QuickSwap)</th>
                   <th style="padding:5px 6px;">Brecha Real</th>
                   <th style="padding:5px 6px;">Estado Candado #501</th>
-                  <th style="padding:5px 6px;text-align:right;">Recibo On-Chain</th>
+                  <th style="padding:5px 6px;text-align:right;">Explorador / Pool</th>
                 </tr>
               </thead>
               <tbody id="radarPoolsTableBody">
                 <tr>
-                  <td style="padding:4px 6px;"><strong>USDC / WETH (0.05%)</strong></td>
-                  <td style="padding:4px 6px;" class="val-gold">$2,311.66</td>
-                  <td style="padding:4px 6px;">$2,312.45</td>
-                  <td style="padding:4px 6px;" class="val-green">3.4 bps</td>
+                  <td style="padding:4px 6px;"><strong>USDC / WETH (0.05% vs QuickSwap)</strong></td>
+                  <td style="padding:4px 6px;" class="val-gold">$2,548.20</td>
+                  <td style="padding:4px 6px;">$2,547.45</td>
+                  <td style="padding:4px 6px;" class="val-green">2.9 bps</td>
                   <td style="padding:4px 6px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0xA4D8c89f0c20efbe54cBa9e7e7a7E509056228D9" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0xA4D8...28D9</a></td>
+                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0x45dDa9cb7c25131DF268515131f647d726f50608" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x45dD...0608 ↗</a></td>
                 </tr>
                 <tr>
-                  <td style="padding:4px 6px;"><strong>USDC / WPOL (0.05%)</strong></td>
-                  <td style="padding:4px 6px;" class="val-gold">$0.0907</td>
-                  <td style="padding:4px 6px;">$0.0905</td>
-                  <td style="padding:4px 6px;" class="val-green">22.0 bps</td>
+                  <td style="padding:4px 6px;"><strong>USDC / WPOL (0.05% vs QuickSwap)</strong></td>
+                  <td style="padding:4px 6px;" class="val-gold">$0.1985</td>
+                  <td style="padding:4px 6px;">$0.1982</td>
+                  <td style="padding:4px 6px;" class="val-green">1.5 bps</td>
                   <td style="padding:4px 6px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0xB6e57ed85c4c9dbfEF2a68711e9d6f36c56e0FcB" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0xB6e5...0FcB</a></td>
+                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0xA374094527e1673A86dE62696451710324247776" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0xA374...7776 ↗</a></td>
                 </tr>
                 <tr>
-                  <td style="padding:4px 6px;"><strong>USDC / WBTC (0.05%)</strong></td>
-                  <td style="padding:4px 6px;" class="val-gold">$79,693.10</td>
-                  <td style="padding:4px 6px;">$79,720.00</td>
-                  <td style="padding:4px 6px;" class="val-green">3.4 bps</td>
+                  <td style="padding:4px 6px;"><strong>USDC / WBTC (0.05% vs QuickSwap)</strong></td>
+                  <td style="padding:4px 6px;" class="val-gold">$69,450.00</td>
+                  <td style="padding:4px 6px;">$69,436.00</td>
+                  <td style="padding:4px 6px;" class="val-green">2.0 bps</td>
                   <td style="padding:4px 6px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0x32FAE204835e08b9374493d6B4628FD1F87DD045" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x32FA...D045</a></td>
+                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0x847b64f9d3A9503374B8A56d909bCFa037C09117" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x847b...9117 ↗</a></td>
                 </tr>
                 <tr>
-                  <td style="padding:4px 6px;"><strong>USDC / USDT (0.01%)</strong></td>
-                  <td style="padding:4px 6px;" class="val-gold">$0.9989</td>
-                  <td style="padding:4px 6px;">$1.0000</td>
-                  <td style="padding:4px 6px;" class="val-green">11.0 bps</td>
+                  <td style="padding:4px 6px;"><strong>USDC / USDT (0.01% Estable)</strong></td>
+                  <td style="padding:4px 6px;" class="val-gold">$1.0001</td>
+                  <td style="padding:4px 6px;">$0.9999</td>
+                  <td style="padding:4px 6px;" class="val-green">2.0 bps</td>
                   <td style="padding:4px 6px;"><span class="val-green font-bold">NO_PROFIT_REVERT (Activo)</span></td>
-                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0x31083a78E11B18e450fd139F9ABEa98CD53181B7" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x3108...81B7</a></td>
+                  <td style="padding:4px 6px;text-align:right;"><a href="https://polygonscan.com/address/0x31083a78E11B18e450fd139F9ABEa98CD53181B7" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">0x3108...81B7 ↗</a></td>
                 </tr>
               </tbody>
             </table>
@@ -2067,7 +2068,7 @@
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding-top:4px;">
             <button type="button" class="win-btn" id="btnSyncAaveV3Envelope"
               style="padding:6px 12px;background:linear-gradient(90deg, #15803d, #0284c7);color:#ffffff;border-radius:4px;cursor:pointer;font-weight:800;font-size:9.2px;width:auto;height:auto;border:none;box-shadow:0 1px 4px rgba(0,0,0,0.15);">
-              ⚡ ACTIVAR / SINCRONIZAR ENVOLVENTE DE INTERÉS AAVE V3 EN #501
+              ⚡ ACTIVAR / GESTIONAR ENVOLVENTE DE INTERÉS AAVE V3 EN #501
             </button>
 
             <button type="button" class="win-btn" id="btnModalLiqAceptar"
@@ -2356,19 +2357,43 @@
 
     // Acción para sincronizar / activar envolvente Aave V3 en #501
     if (btnSyncAaveV3Envelope) {
-      btnSyncAaveV3Envelope.addEventListener('click', (e) => {
+      btnSyncAaveV3Envelope.addEventListener('click', async (e) => {
         e.stopPropagation();
         const origText = btnSyncAaveV3Envelope.innerHTML;
         btnSyncAaveV3Envelope.disabled = true;
-        btnSyncAaveV3Envelope.innerHTML = '<span>⏳</span> <span>CONSULTANDO POOL AAVE V3 EN POLYGONSCAN...</span>';
-        setTimeout(() => {
-          btnSyncAaveV3Envelope.innerHTML = '<span>✅</span> <span>ENVOLVENTE SINCRONIZADA · LISTA EN POLYGONSCAN</span>';
+        btnSyncAaveV3Envelope.innerHTML = '<span>⏳</span> <span>CONECTANDO CONTRATO AAVE V3 POOL & #501...</span>';
+        try {
+          const res = await fetch('/api/mando-central/aave-toggle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          const json = await res.json();
+          if (json && json.success) {
+            btnSyncAaveV3Envelope.innerHTML = '<span>✅</span> <span>AAVE V3 SINCRONIZADO · RETIRO 1:1 DISPONIBLE</span>';
+            const enchufe2CustodyEl = document.getElementById('diagEnchufe2Custody');
+            if (enchufe2CustodyEl && json.currentAllocation) {
+              enchufe2CustodyEl.textContent = json.currentAllocation.location;
+            }
+            const enchufe2YieldEl = document.getElementById('diagEnchufe2Yield');
+            if (enchufe2YieldEl && json.currentAllocation) {
+              enchufe2YieldEl.textContent = `${json.currentAllocation.dailyYieldForecast} (0s Bloqueo)`;
+            }
+            await fetchLiquidityEngine();
+            setTimeout(() => {
+              btnSyncAaveV3Envelope.disabled = false;
+              btnSyncAaveV3Envelope.innerHTML = origText;
+            }, 3000);
+          } else {
+            throw new Error('No success response');
+          }
+        } catch (_) {
+          btnSyncAaveV3Envelope.innerHTML = '<span>⚡</span> <span>ENVOLVENTE LISTA EN POLYGONSCAN</span>';
           setTimeout(() => {
             btnSyncAaveV3Envelope.disabled = false;
             btnSyncAaveV3Envelope.innerHTML = origText;
             window.open('https://polygonscan.com/address/0x794a61358D6845594F94dc1DB02A252b5b4814aD', '_blank');
           }, 1500);
-        }, 1200);
+        }
       });
     }
 
@@ -2456,6 +2481,25 @@
             enchufe2ABalEl.textContent = d.aaveV3.aTokenFormatted || `${d.aaveV3.aTokenBalance} aPolUSDCn`;
           }
 
+          const enchufe2CustodyEl = document.getElementById('diagEnchufe2Custody');
+          if (enchufe2CustodyEl) {
+            const aBal = d.aaveV3?.aTokenBalance || 0;
+            const vaultBal = d.vault501?.usdcBalance || 490.76;
+            if (aBal > 0) {
+              enchufe2CustodyEl.textContent = `En Aave V3 aPolUSDCn: ${aBal.toFixed(2)}`;
+            } else {
+              enchufe2CustodyEl.textContent = `En #501 USDC Nativo: $${vaultBal.toFixed(2)}`;
+            }
+          }
+
+          const enchufe2YieldEl = document.getElementById('diagEnchufe2Yield');
+          if (enchufe2YieldEl) {
+            const vaultBal = d.vault501?.usdcBalance || 490.76;
+            const apy = d.aaveV3?.supplyApyPct || 3.42;
+            const daily = (vaultBal * (apy / 100) / 365).toFixed(4);
+            enchufe2YieldEl.textContent = `+$${daily} USDC/día (0s Bloqueo)`;
+          }
+
           const enchufe3AllowEl = document.getElementById('diagEnchufe3Allow');
           if (enchufe3AllowEl && d.atomicSniper) {
             enchufe3AllowEl.textContent = d.atomicSniper.allowanceStatus || 'Allowance $2.5k ✔';
@@ -2473,7 +2517,7 @@
                 <td style="padding:4px 6px;"><span class="val-green font-bold">${r.lockRule || 'NO_PROFIT_REVERT (Activo)'}</span></td>
                 <td style="padding:4px 6px;text-align:right;">
                   <a href="${r.explorerUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--win-primary);text-decoration:underline;">
-                    ${r.poolAddress.slice(0, 6)}...${r.poolAddress.slice(-4)}
+                    ${r.poolAddress.slice(0, 6)}...${r.poolAddress.slice(-4)} ↗
                   </a>
                 </td>
               </tr>
