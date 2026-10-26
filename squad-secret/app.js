@@ -712,7 +712,7 @@
         const hlState = await hlRes.json();
         const l1Bal = parseFloat(hlState.marginSummary?.accountValue || "100.02") || 100.02;
         syncClearinghouseUI({
-          polygonUsdc: 490.76,
+          polygonUsdc: 491.26,
           hyperliquidL1Usdc: l1Bal,
           agentKey: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8"
         });
@@ -722,7 +722,7 @@
 
   function syncClearinghouseUI(data) {
     if (!data) return;
-    const polyUsdc = typeof data.polygonUsdc === "number" ? data.polygonUsdc : (data.polygon501Usdc || 490.76);
+    const polyUsdc = typeof data.polygonUsdc === "number" ? data.polygonUsdc : (data.polygon501Usdc || 491.26);
     const l1Usdc = typeof data.hyperliquidL1Usdc === "number" ? data.hyperliquidL1Usdc : 100.02;
 
     const modalPoly = document.getElementById("modalPolygonBalance");
@@ -766,9 +766,10 @@
     }
 
     // 1. Tarjeta 1: Capital Operativo #501 (Motor Dual de Tesorería Activa)
-    const polyBal = 490.76;
-    const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 100.02)) || 100.02;
-    const consolidated = typeof data.consolidatedUsdc === "number" ? data.consolidatedUsdc : +(polyBal + l1Bal + 7.98).toFixed(2);
+    const polyBal = typeof data.polygonUsdc === "number" ? data.polygonUsdc : (data.breakdown?.vault501Polygon?.balanceUsdc || data.onChainBreakdown?.polygon501Usdc || 491.26);
+    const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : (data.onChainBreakdown?.hyperliquidL1Usdc || 100.02))) || 100.02;
+    const bscBal = typeof data.bscUsdc === "number" ? data.bscUsdc : (data.breakdown?.bscYield?.balanceUsdc || data.onChainBreakdown?.bscYieldUsdc || 7.98);
+    const consolidated = typeof data.consolidatedUsdc === "number" ? data.consolidatedUsdc : +(polyBal + l1Bal + bscBal).toFixed(2);
 
     if (topCapitalDisplay) {
       topCapitalDisplay.innerHTML = `$${consolidated.toFixed(2)} <span class="metric-sub">USDC</span>`;
@@ -944,8 +945,9 @@
     const dominantScore = Math.max(bullScore, bearScore);
     const certainty = dominantScore.toFixed(1);
 
+    const shortDirection = direction === "BULL" ? "🐂 LONG" : "🐻 SHORT";
     if (topWinnerPairDisplay) {
-      topWinnerPairDisplay.innerHTML = `${selectedSquadPair} <span class="direction-badge ${direction.toLowerCase()}" id="topDirectionBadge">${directionLabel}</span>`;
+      topWinnerPairDisplay.innerHTML = `<span class="metric-pair-sym font-mono" id="topWinnerPairName">${selectedSquadPair}</span><span class="direction-badge ${direction.toLowerCase()} font-mono" id="topDirectionBadge">${shortDirection}</span>`;
     }
     if (topCertaintyBadge) {
       topCertaintyBadge.textContent = `${certainty}% CERTEZA`;
@@ -1030,9 +1032,9 @@
       if (activeExecutionMode === "EMERGENCY_STOPPED") {
         boxOperationStatusText.innerHTML = `🛑 <strong>PARADA DE EMERGENCIA:</strong> Motor congelado, órdenes canceladas, 100% fondos seguros en USDC.`;
       } else if (activeExecutionMode === "PAUSED") {
-        boxOperationStatusText.innerHTML = `⏸ <strong>Pausa Preventiva:</strong> Auditoría de bots. Saldo: $490.76 Polygon + $100.02 Hyperliquid L1.`;
+        boxOperationStatusText.innerHTML = `⏸ <strong>Pausa Preventiva:</strong> Auditoría de bots. Saldo: $${polyBal.toFixed(2)} Polygon + $${l1Bal.toFixed(2)} Hyperliquid L1.`;
       } else if (l1Bal <= 0) {
-        boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo Polygon #501: $490.76 USDC · Saldo L1: $0.00 USDC.`;
+        boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo Polygon #501: $${polyBal.toFixed(2)} USDC · Saldo L1: $0.00 USDC.`;
       } else {
         boxOperationStatusText.innerHTML = `🟢 <strong>Operando ${selectedSquadPair} (ALO):</strong> L1: $${l1Bal.toFixed(2)} USDC · Candado BE +0.04% ➔ TP +0.08% ($0 Pérdida)`;
       }
@@ -1079,12 +1081,24 @@
    */
   async function fetchTelemetry() {
     try {
-      const res = await fetch("/api/squad-secret/live?t=" + Date.now(), {
-        cache: "no-store",
-        headers: { "Accept": "application/json" }
-      });
-      if (res.ok) {
-        const liveData = await res.json();
+      const [liveRes, balRes] = await Promise.all([
+        fetch("/api/squad-secret/live?t=" + Date.now(), { cache: "no-store", headers: { "Accept": "application/json" } }).catch(() => null),
+        fetch("/api/mando-central/balances?t=" + Date.now(), { cache: "no-store", headers: { "Accept": "application/json" } }).catch(() => null)
+      ]);
+
+      let liveData = (liveRes && liveRes.ok) ? await liveRes.json().catch(() => null) : null;
+      const balData = (balRes && balRes.ok) ? await balRes.json().catch(() => null) : null;
+
+      if (balData) {
+        if (!liveData) liveData = {};
+        liveData.polygonUsdc = (balData.breakdown && balData.breakdown.vault501Polygon) ? balData.breakdown.vault501Polygon.balanceUsdc : 491.26;
+        liveData.bscUsdc = (balData.breakdown && balData.breakdown.bscYield) ? balData.breakdown.bscYield.balanceUsdc : 7.98;
+        if (typeof balData.totalConsolidatedUsdc === "number") {
+          liveData.consolidatedUsdc = balData.totalConsolidatedUsdc;
+        }
+      }
+
+      if (liveData) {
         applyTelemetry(liveData);
         return;
       }

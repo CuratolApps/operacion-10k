@@ -43,22 +43,22 @@
   <header class="top-nav-bar" id="squadHeader">
 
     <!-- TARJETA 1: CAPITAL OPERATIVO #501 (MOTOR DUAL DE TESORERÍA ACTIVA) -->
-    <div class="nav-card" id="cardCapitalTop" title="Motor Dual: Cámara 1 ($490.76 USDC Polygon 0% Riesgo) + Cámara 2 ($100.02 USDC Hyperliquid L1 + Meta Retiro +$20 USDC)">
+    <div class="nav-card" id="cardCapitalTop" title="Motor Dual: Cámara 1 ($491.26 USDC Polygon Aave V3) + Cámara 2 ($100.02 USDC Hyperliquid L1 + Meta Retiro +$20 USDC)">
       <div class="card-meta">
         <span class="card-tag gold">💰 CAPITAL OPERATIVO #501</span>
         <span class="card-pill font-mono green-pill" id="vaultGasStatus">BÓVEDA #501</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
-          $598.76 <span class="metric-sub">USDC</span>
+          $599.26 <span class="metric-sub">USDC</span>
         </div>
       </div>
-      <div class="progress-wrap" title="Cámara 1: $490.76 en Polygon (0% Riesgo) · Cámara 2: $100.02 en Hyperliquid L1 (Meta Retiro: +$20 USDC)">
+      <div class="progress-wrap" title="Cámara 1: $491.26 en Polygon (Aave V3 1:1) · Cámara 2: $100.02 en Hyperliquid L1 (Meta Retiro: +$20 USDC)">
         <div class="progress-bar-bg">
           <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 100%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topProgressPct" class="green-text font-bold">Polygon: $490.76 · HL: $100.02</span>
+          <span id="topProgressPct" class="green-text font-bold">Polygon: $491.26 · HL: $100.02</span>
           <span id="topRemainingUsdc" class="dim-txt">Meta: +$20</span>
         </div>
       </div>
@@ -109,10 +109,9 @@
         <span class="card-tag purple">🐂🐻 PAR &amp; DIRECCIÓN MAKER</span>
         <span class="card-pill font-mono" id="topCertaintyBadge">85.0% CERTEZA</span>
       </div>
-      <div class="card-metric-row">
-        <div class="metric-primary font-mono text-glow" id="topWinnerPairDisplay">
-          SOL-USDC <span class="direction-badge bull" id="topDirectionBadge">🐂 BULL (LONG)</span>
-        </div>
+      <div class="card-metric-row pair-direction-row" id="topWinnerPairDisplay">
+        <span class="metric-pair-sym font-mono" id="topWinnerPairName">SOL-USDC</span>
+        <span class="direction-badge bull font-mono" id="topDirectionBadge">🐂 LONG</span>
       </div>
       <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear informada por el Orderbook L2">
         <div class="dual-bar-fill bull" id="topBullMeter" style="width: 85%;"></div>
@@ -255,23 +254,17 @@
       </header>
 
       <!-- ===================================================================== -->
-      <!-- PISO 1 (ARRIBA AFUERA): BOTONERA DE MANDO Y CUENTA HYPERLIQUID (5 BOTONES AMPLIOS) -->
+      <!-- PISO 1 (ARRIBA AFUERA): BOTONERA DE MANDO SIMPLIFICADA (3 CONTROLES ESENCIALES) -->
       <!-- ===================================================================== -->
       <div class="center-floor-one-toolbar" id="centerFloorOneToolbar">
         <button class="center-floor-btn btn-motor-live active" id="btnToggleMotor" onclick="toggleSquadMotor()" title="Alternar Motor en Vivo / Motor en Pausa">
           <span class="status-dot motor-dot"></span> <span class="btn-text" id="btnToggleMotorText">Motor en Vivo</span>
         </button>
+        <button class="center-floor-btn btn-owner-wallet" id="btnOpenHlWalletModal" onclick="openHlWalletModal()" title="🌐 Ver Cartera en Hyperliquid (#501): Dirección matriz, Agent Key y balance L1">
+          <span class="btn-icon">🏛️</span> <span class="btn-text">Cartera #501 L1 ($100.02 USDC)</span>
+        </button>
         <button class="center-floor-btn btn-mode-emergency" id="btnModeEmergency" onclick="triggerEmergencyStop()" title="🛑 Stop Emergencia: Congela motor al instante, cancela órdenes y alerta a Telegram">
           <span class="btn-icon">🛑</span> <span class="btn-text">Stop Emergencia</span>
-        </button>
-        <button class="center-floor-btn btn-owner-wallet" id="btnOpenHlWalletModal" onclick="openHlWalletModal()" title="🌐 Ver Cartera en Hyperliquid (#501): Dirección matriz, Agent Key y balance L1">
-          <span class="btn-icon">🌐</span> <span class="btn-text">Cartera Hyperliquid (#501)</span>
-        </button>
-        <button class="center-floor-btn btn-owner-deposit" id="btnOpenHlDepositModal" onclick="openHlDepositModal()" title="⚡ Depositar USDC: Asistente para transferir capital desde la #501 a Hyperliquid L1">
-          <span class="btn-icon">⚡</span> <span class="btn-text">Depositar USDC</span>
-        </button>
-        <button class="center-floor-btn btn-owner-withdraw" id="btnOpenHlWithdrawModal" onclick="openHlWithdrawModal()" title="💸 Preparar Retiro: Orden oficial EIP-712 withdraw3 de regreso a la #501">
-          <span class="btn-icon">💸</span> <span class="btn-text">Preparar Retiro</span>
         </button>
       </div>
 
@@ -594,7 +587,7 @@
           </div>
           <div class="modal-row">
             <span class="label">Saldo en Bóveda #501 (Polygon):</span>
-            <span class="value font-mono gold-text font-bold" id="modalPolygonBalance">$490.76 USDC Nativo (100% Coronada)</span>
+            <span class="value font-mono gold-text font-bold" id="modalPolygonBalance">$491.26 USDC Nativo (100% Coronada)</span>
           </div>
           <div class="modal-row">
             <span class="label">Saldo Operativo en Hyperliquid L1:</span>
@@ -659,7 +652,7 @@
           </div>
           <div class="modal-row">
             <span class="label">Saldo Disponible en #501:</span>
-            <span class="value font-mono gold-text font-bold">$490.76 USDC (Piso Protegido)</span>
+            <span class="value font-mono gold-text font-bold">$491.26 USDC (Piso Protegido)</span>
           </div>
           <div class="modal-row">
             <span class="label">Monto de Prueba sugerido:</span>
@@ -687,7 +680,7 @@
           <strong>Ruta de Fondos Asistida:</strong> Transfiere USDC desde la Bóveda #501 hacia el contrato puente de Hyperliquid. Los fondos se acreditan inmediatamente en el Clearinghouse L1 a nombre de la #501. Una vez allí, el Squad ejecuta órdenes ALO Post-Only con $0.00 gas para siempre.
         </div>
         <div id="hlDepositValidationStatus" class="font-mono" style="font-size:8.5px; color:#047857; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:4px; padding:6px 8px;">
-          🟢 Tubería de puente verificada: Bóveda #501 fondeada con $90.49 USDC en L1 y Agent Key autorizada en blockchain.
+          🟢 Tubería de puente verificada: Bóveda #501 fondeada con $100.02 USDC en L1 y Agent Key autorizada en blockchain.
         </div>
       </div>
       <div class="squad-modal-footer">

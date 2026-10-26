@@ -292,21 +292,47 @@ html, body {
 .card-sub-metric .dim-txt { color: var(--text-muted); }
 .card-sub-metric .target-sub-txt { color: var(--text-muted); font-size: 8.5px; }
 
+.pair-direction-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  margin: 1.5px 0 !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.metric-pair-sym {
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  color: var(--text-dark) !important;
+  letter-spacing: -0.2px !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+}
+
 .direction-badge {
-  font-size: 9px;
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-weight: 800;
+  font-size: 8px !important;
+  padding: 1.5px 5px !important;
+  border-radius: 3px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  letter-spacing: 0.2px !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 .direction-badge.bull {
-  background: var(--win-success-soft);
-  color: var(--win-success);
-  border: 1px solid var(--win-success-border);
+  background: var(--win-success-soft) !important;
+  color: var(--win-success) !important;
+  border: 1px solid var(--win-success-border) !important;
 }
 .direction-badge.bear {
-  background: var(--win-danger-soft);
-  color: var(--win-danger);
-  border: 1px solid var(--win-danger-border);
+  background: var(--win-danger-soft) !important;
+  color: var(--win-danger) !important;
+  border: 1px solid var(--win-danger-border) !important;
 }
 
 .dual-balance-bar {
@@ -536,10 +562,11 @@ html, body {
   margin: 0;
 }
 .squad-left-header .panel-badge-pill {
-  font-size: 0.68rem !important;
-  white-space: nowrap;
-  padding: 2px 6px;
-  border-radius: 4px;
+  font-size: 7px !important;
+  white-space: nowrap !important;
+  padding: 1.5px 5px !important;
+  border-radius: 3px !important;
+  line-height: 1.2 !important;
 }
 
 /* =============================================================================
@@ -776,9 +803,9 @@ html, body {
    ============================================================================= */
 .center-floor-one-toolbar {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
-  padding: 4px 6px;
+  grid-template-columns: 135px 1fr 135px;
+  gap: 6px;
+  padding: 3px 8px;
   background: var(--win-surface);
   border-bottom: 1px solid var(--win-border);
   flex-shrink: 0;
@@ -787,17 +814,17 @@ html, body {
 }
 
 .center-floor-btn {
-  height: 24px;
-  padding: 0 4px;
+  height: 22px;
+  padding: 0 8px;
   border-radius: 4px;
   font-family: var(--font-code);
-  font-size: 7.5px;
-  font-weight: 800;
+  font-size: 8px;
+  font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
