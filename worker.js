@@ -536,9 +536,8 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
         championPair: winnerPair.key,
         breakevenLock: "+0.04% ($0.00 Pérdida Inviolable)",
         takeProfitRange: "+0.08% / +0.15%",
-        ratchetTargetUsdc: 22.00,
-        ratchetTargetEur: 20.00,
-        ratchetStatus: hlAccountValue >= 22.00 ? "COSECHA 20 € HABILITADA (PREPARAR RETIRO)" : "ACUMULANDO TRINQUETE 20 € (~$22 USDC)"
+        harvestTargetUsdc: 20.00,
+        harvestStatus: hlAccountValue >= 20.00 ? "COSECHA +20 USDC HABILITADA (PREPARAR RETIRO)" : "ACUMULANDO META +20 USDC"
       }
     },
     liveMids: mids,

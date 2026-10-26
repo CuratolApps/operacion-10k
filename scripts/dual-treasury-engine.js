@@ -15,7 +15,7 @@
  *   - Fondeo en USDC a Hyperliquid L1 con Agent Key SquadSecret501 (0% retiro).
  *   - Operación Post-Only ALO Maker ($0.00 Gas) sobre el Par Campeón 🥇.
  *   - Candado Breakeven #00 a +0.04% ($0 Pérdida) y TP a +0.08% / +0.15%.
- *   - Trinquete de Cosecha: Cada 20 € (~$22.00 USDC) de profit acumulado,
+ *   - Cosecha de Beneficios: Cada 20 USDC de profit acumulado,
  *     consolida ganancias y habilita la cosecha segura hacia la #501.
  * ==============================================================================
  */
@@ -32,8 +32,7 @@ const ARBITRUM_DEPOSIT_BRIDGE = "0x2df1c51e09aecf9cacb7bc98cb1742757f163df7";
 const GAS_SHIELD_POL = 155.05; // 155.05 POL intocables en #501
 const POLYGON_FLOOR_USDC = 500.00; // Piso base de liquidez en Polygon
 const ARBITRUM_GAS_ETH_USD = 1.50; // $1.50 USD en ETH reservado para puente
-const PROFIT_RATCHET_EUR = 20.00; // 20 € por trinquete de consolidación
-const PROFIT_RATCHET_USDC = 22.00; // ~$22.00 USDC por trinquete
+const TARGET_HARVEST_USDC = 20.00; // 20 USDC por ciclo de consolidación y cosecha
 
 const TELEMETRY_DIR = path.join(__dirname, "..", "telemetry");
 const DUAL_TREASURY_FILE = path.join(TELEMETRY_DIR, "dual-treasury-state.json");
@@ -120,7 +119,7 @@ async function runDualTreasuryEngine() {
   console.log(`🏦 [CÁMARA 1 - POLYGON]: ${chamber1ActiveYield.status}`);
   console.log(`   • Estrategias 0% Riesgo: Aave V3 (${chamber1ActiveYield.aaveV3ApyPct}% APY) + Flash Arbitrage Atómico + Keeper Bounties`);
 
-  // 3. Cámara 2: Arbitrum One ➔ Hyperliquid L1 + Trinquete 20 €
+  // 3. Cámara 2: Arbitrum One ➔ Hyperliquid L1 + Meta 20 USDC
   let realProfitL1 = 0.00;
   if (fs.existsSync(LEDGER_FILE)) {
     try {
@@ -129,9 +128,9 @@ async function runDualTreasuryEngine() {
     } catch (_) {}
   }
 
-  const ratchetCyclesCount = Math.floor(realProfitL1 / PROFIT_RATCHET_USDC);
-  const currentRatchetProgressUsdc = +(realProfitL1 % PROFIT_RATCHET_USDC).toFixed(2);
-  const ratchetHarvestReady = realProfitL1 >= PROFIT_RATCHET_USDC;
+  const harvestCyclesCount = Math.floor(realProfitL1 / TARGET_HARVEST_USDC);
+  const currentHarvestProgressUsdc = +(realProfitL1 % TARGET_HARVEST_USDC).toFixed(2);
+  const harvestReady = realProfitL1 >= TARGET_HARVEST_USDC;
 
   const chamber2Maker = {
     l1AccountValueUsdc: hlState.accountValue,
@@ -143,18 +142,17 @@ async function runDualTreasuryEngine() {
     breakevenLock: "+0.04% ($0 Pérdida)",
     takeProfitTarget: "+0.08% / +0.15%",
     accumulatedProfitL1Usdc: realProfitL1,
-    ratchetTargetEur: PROFIT_RATCHET_EUR,
-    ratchetTargetUsdc: PROFIT_RATCHET_USDC,
-    ratchetCyclesCompleted: ratchetCyclesCount,
-    currentRatchetProgressUsdc: currentRatchetProgressUsdc,
-    harvestReady: ratchetHarvestReady,
-    harvestAction: ratchetHarvestReady
-      ? `💸 Cosecha de 20 € ($${PROFIT_RATCHET_USDC} USDC) lista para retiro a #501`
-      : `Acumulando trinquete 20 € ($${currentRatchetProgressUsdc}/$${PROFIT_RATCHET_USDC} USDC)`
+    harvestTargetUsdc: TARGET_HARVEST_USDC,
+    harvestCyclesCompleted: harvestCyclesCount,
+    currentHarvestProgressUsdc: currentHarvestProgressUsdc,
+    harvestReady: harvestReady,
+    harvestAction: harvestReady
+      ? `💸 Cosecha de +$${TARGET_HARVEST_USDC.toFixed(2)} USDC lista para retiro a #501`
+      : `Acumulando meta +$${TARGET_HARVEST_USDC.toFixed(2)} USDC ($${currentHarvestProgressUsdc}/$${TARGET_HARVEST_USDC.toFixed(2)} USDC)`
   };
 
   console.log(`⚡ [CÁMARA 2 - HYPERLIQUID L1]: Saldo L1: $${hlState.accountValue.toFixed(2)} USDC | Profit Acumulado: +$${realProfitL1.toFixed(2)} USDC`);
-  console.log(`   • Trinquete 20 € (~$22.00 USDC): ${chamber2Maker.harvestAction}`);
+  console.log(`   • Meta Cosecha 20 USDC: ${chamber2Maker.harvestAction}`);
 
   // 4. Regla de Enrutamiento de Nuevos POL
   const sampleIncomingPol = 0.00; // Variable de simulación de depósito
@@ -221,5 +219,5 @@ module.exports = {
   AGENT_KEY_ADDRESS,
   GAS_SHIELD_POL,
   POLYGON_FLOOR_USDC,
-  PROFIT_RATCHET_USDC
+  TARGET_HARVEST_USDC
 };

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T12:45:42.622Z",
+  "updatedAt": "2026-10-26T13:10:13.864Z",
   "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
   "gasShield": {
     "currentPol": 155.05,
@@ -33,12 +33,11 @@
     "breakevenLock": "+0.04% ($0 Pérdida)",
     "takeProfitTarget": "+0.08% / +0.15%",
     "accumulatedProfitL1Usdc": 0,
-    "ratchetTargetEur": 20,
-    "ratchetTargetUsdc": 22,
-    "ratchetCyclesCompleted": 0,
-    "currentRatchetProgressUsdc": 0,
+    "harvestTargetUsdc": 20,
+    "harvestCyclesCompleted": 0,
+    "currentHarvestProgressUsdc": 0,
     "harvestReady": false,
-    "harvestAction": "Acumulando trinquete 20 € ($0/$22 USDC)"
+    "harvestAction": "Acumulando meta +$20.00 USDC ($0/$20.00 USDC)"
   },
   "routingPolicy": {
     "description": "Recepción de POL en #501 ➔ Gas Shield (155.05 POL) ➔ Piso Polygon ($500 USDC) ➔ Excedente a Arbitrum/HL L1",
@@ -53,7 +52,7 @@
     }
   },
   "livePrices": {
-    "polPriceUsd": 0.09025,
-    "ethPriceUsd": 2326.14
+    "polPriceUsd": 0.09003,
+    "ethPriceUsd": 2317.84
   }
 }

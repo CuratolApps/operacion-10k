@@ -90,25 +90,32 @@ html, body {
 }
 
 /* =============================================================================
-   1. BARRA SUPERIOR (5 TARJETAS SIMÉTRICAS): HEIGHT 86PX
+   1. BARRA SUPERIOR (5 TARJETAS SIMÉTRICAS FLOTANTES SOBRE FONDO GRIS): HEIGHT 86PX
    ============================================================================= */
-.top-nav-bar {
+.top-nav-bar,
+#squadHeader,
+.top-bar,
+.top-header,
+.metrics-row,
+.squad-top-strip {
   min-height: 86px;
   height: 86px;
-  padding: 6px 12px;
+  padding: 8px 12px 0 12px !important;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
   flex-shrink: 0;
-  background: var(--win-surface);
-  border-bottom: 2px solid var(--win-border);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  background: transparent !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
   z-index: 50;
   align-items: center;
 }
 
 .nav-card {
-  background: var(--win-card);
+  background: #ffffff !important;
   border: 1px solid var(--win-border);
   border-radius: 6px;
   padding: 7px 10px;
@@ -116,15 +123,15 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all 0.15s ease;
 }
 
 .nav-card:hover {
-  background: var(--win-surface);
+  background: #ffffff !important;
   border-color: var(--win-border-strong);
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
 }
 
 .card-meta {
@@ -238,12 +245,24 @@ html, body {
   background: linear-gradient(90deg, #0284c7, #0ea5e9);
 }
 
-.progress-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 8.5px;
+.metric-sub, .card-sub-row, #chamberStatusText, .progress-labels {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 0.64rem !important;
+  line-height: 1.1 !important;
+  gap: 6px !important;
   color: var(--text-muted);
   font-weight: 600;
+}
+
+.progress-labels span {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .card-sub-metric {

@@ -779,13 +779,13 @@
       topCapitalProgress.style.width = `${pct.toFixed(2)}%`;
     }
     if (topProgressPct) {
-      topProgressPct.innerHTML = `Polygon: $${consolidated.toFixed(2)} / $${polygonFloor.toFixed(2)} (0% Riesgo)`;
+      topProgressPct.innerHTML = `Polygon: $${consolidated.toFixed(2)} (0% Riesgo)`;
     }
     if (topRemainingUsdc) {
       if (consolidated >= polygonFloor) {
-        topRemainingUsdc.innerHTML = `HL: $${l1Bal.toFixed(2)} · Trinquete 20 € ($22 USDC) 🔒`;
+        topRemainingUsdc.innerHTML = `HL: $${l1Bal.toFixed(2)} ➔ Meta HL: +$20 USDC`;
       } else {
-        topRemainingUsdc.innerHTML = `Faltan $${remainingToPoly.toFixed(2)} ➔ HL + Trinquete 20 € ($22)`;
+        topRemainingUsdc.innerHTML = `Faltan $${remainingToPoly.toFixed(2)} ➔ Meta HL: +$20 USDC`;
       }
     }
     if (vaultGasStatus) {
