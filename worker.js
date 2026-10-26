@@ -1136,7 +1136,7 @@ async function getLiveLiquidityEngineData() {
       pricePoolBFormatted: priceBFormatted,
       spreadBps: spreadBps,
       latencyMs: p.latencyMs,
-      semaphoreStatus: "STANDBY 🟢",
+      semaphoreStatus: "EN VIVO · LISTO 🟢",
       lockRule: "NO_PROFIT_REVERT (Activo)",
       explorerUrl: p.chain === "bsc" ? `https://bscscan.com/address/${p.pool}` : `https://polygonscan.com/address/${p.pool}`,
       txExplorerUrl: `https://polygonscan.com/address/${sniperExecutorAddress}`
@@ -1178,11 +1178,11 @@ async function getLiveLiquidityEngineData() {
       atomicGuard: "NO_PROFIT_REVERT = VERIFICADO ✔"
     },
     squadrons: [
-      { id: "ALFA", name: "ALFA (#001)", box: "Box 1", captain: "#001", flank: "WETH / Ethereum", pool: "0x45dD...0608", latency: "85ms", status: "STANDBY 🟢" },
-      { id: "BRAVO", name: "BRAVO (#101)", box: "Box 2", captain: "#101", flank: "Bitcoin L2", pool: "0x847b...9117", latency: "90ms", status: "STANDBY 🟢" },
-      { id: "CHARLIE", name: "CHARLIE (#201)", box: "Box 3", captain: "#201", flank: "Polygon PoS Nativo", pool: "0xA374...7776", latency: "80ms", status: "STANDBY 🟢" },
-      { id: "DELTA", name: "DELTA (#301)", box: "Box 4", captain: "#301", flank: "Stablecoins ($1.000)", pool: "0x3108...81B7", latency: "75ms", status: "STANDBY 🟢" },
-      { id: "ECO", name: "ECO (#401)", box: "Box 5", captain: "#401", flank: "BSC Cross-Chain", pool: "0xd99c...2FC5b", latency: "95ms", status: "STANDBY 🟢" }
+      { id: "ALFA", name: "ALFA (#001)", box: "Box 1", captain: "#001", flank: "WETH / Ethereum", pool: "0x45dD...0608", latency: "85ms", status: "EN VIVO · LISTO 🟢" },
+      { id: "BRAVO", name: "BRAVO (#101)", box: "Box 2", captain: "#101", flank: "Bitcoin L2", pool: "0x847b...9117", latency: "90ms", status: "EN VIVO · LISTO 🟢" },
+      { id: "CHARLIE", name: "CHARLIE (#201)", box: "Box 3", captain: "#201", flank: "Polygon PoS Nativo", pool: "0xA374...7776", latency: "80ms", status: "EN VIVO · LISTO 🟢" },
+      { id: "DELTA", name: "DELTA (#301)", box: "Box 4", captain: "#301", flank: "Stablecoins ($1.000)", pool: "0x3108...81B7", latency: "75ms", status: "EN VIVO · LISTO 🟢" },
+      { id: "ECO", name: "ECO (#401)", box: "Box 5", captain: "#401", flank: "BSC Cross-Chain", pool: "0xd99c...2FC5b", latency: "95ms", status: "EN VIVO · LISTO 🟢" }
     ],
     vault501: {
       address: vaultAddress,
