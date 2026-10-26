@@ -349,7 +349,9 @@ async function auditTargetOnChain(target) {
   // 1. Verificación en RPC On-Chain
   try {
     const t0 = performance.now();
-    const provider = new ethers.JsonRpcProvider(target.rpc);
+    const fetchReq = new ethers.FetchRequest(target.rpc);
+    fetchReq.timeout = 2500;
+    const provider = new ethers.JsonRpcProvider(fetchReq, target.chainId || 1, { staticNetwork: true });
     
     // Normalizar checksum con ethers
     const normContract = ethers.getAddress(activeContract.toLowerCase());

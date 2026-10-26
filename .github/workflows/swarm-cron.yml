@@ -132,6 +132,8 @@ jobs:
           path: |
             telemetry/squad-secret-telemetry.json
             telemetry/fleet-telemetry.json
+            telemetry/fleet-rounds-telemetry.json
+            telemetry/gasless-checkins-today.json
             telemetry/annual-airdrop-calendar.json
             telemetry/box-dispatch-plan.json
             telemetry/trading-telemetry.json

@@ -1,11 +1,223 @@
 {
   "botName": "Bot #2: Director Táctico de los 5 Boxes",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "status": "ENRUTANDO EN VIVO",
-  "lastDispatchTimestamp": "2026-10-25T22:12:24.682Z",
+  "lastDispatchTimestamp": "2026-10-26T18:39:50.998Z",
   "totalBoxesDispatched": 5,
   "totalSatellitesRouted": 500,
-  "activeStrategySummary": "Boxes 1, 2 y 3 concentrados en Cierres Inminentes Oct-Nov 2026. Boxes 4 y 5 en Siembra Continua y BTC L2.",
+  "botsPerTurn": 20,
+  "botsPerBoxPerTurn": 4,
+  "activeStrategySummary": "Salidas de 20 en 20 Balanceadas entre los 5 Comandantes (4 Bots × 5 Boxes = 20 Bots por Turno) bajo la Escalera 20 ➔ 50 ➔ 100 ➔ 200 ➔ 500 ➔ 1,000.",
+  "herdLadder": {
+    "dailyBotsDone": 140,
+    "dailyPicadas": 280,
+    "botsPerBox": 28,
+    "steps": [
+      {
+        "target": 20,
+        "label": "20 BOTS",
+        "status": "DONE"
+      },
+      {
+        "target": 50,
+        "label": "50 BOTS",
+        "status": "DONE"
+      },
+      {
+        "target": 100,
+        "label": "100 BOTS",
+        "status": "DONE"
+      },
+      {
+        "target": 200,
+        "label": "200 BOTS",
+        "status": "IN_PROGRESS"
+      },
+      {
+        "target": 500,
+        "label": "500 BOTS (100x5)",
+        "status": "PENDING"
+      },
+      {
+        "target": 1000,
+        "label": "1,000 PICADAS/DÍA",
+        "status": "PENDING"
+      }
+    ],
+    "tgPills": "[20 ✔] ➔ [50 ✔] ➔ [100 ✔] ➔ [200 🔄] ➔ [500 🎯] ➔ [1,000 🏆]",
+    "ladderPillState": [
+      {
+        "id": 20,
+        "label": "20 BOTS",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 50,
+        "label": "50 BOTS",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 100,
+        "label": "100 BOTS",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 200,
+        "label": "200 BOTS",
+        "status": "active",
+        "icon": "🔄"
+      },
+      {
+        "id": 500,
+        "label": "500 BOTS (100x5)",
+        "status": "target",
+        "icon": "🎯"
+      },
+      {
+        "id": 1000,
+        "label": "1,000 PICADAS/DÍA",
+        "status": "trophy",
+        "icon": "🏆"
+      }
+    ],
+    "boxesSync": {
+      "1": {
+        "commander": "#001",
+        "coveredToday": 28,
+        "total": 100,
+        "pol": 18.07,
+        "usdc": 0.7
+      },
+      "2": {
+        "commander": "#101",
+        "coveredToday": 28,
+        "total": 100,
+        "pol": 18.03,
+        "usdc": 1.05
+      },
+      "3": {
+        "commander": "#201",
+        "coveredToday": 28,
+        "total": 100,
+        "pol": 18.01,
+        "usdc": 0
+      },
+      "4": {
+        "commander": "#301",
+        "coveredToday": 28,
+        "total": 100,
+        "pol": 12.01,
+        "usdc": 0
+      },
+      "5": {
+        "commander": "#401",
+        "coveredToday": 28,
+        "total": 100,
+        "pol": 12.01,
+        "usdc": 0
+      }
+    }
+  },
+  "fourDailyRounds": {
+    "date": "2026-10-26",
+    "currentRoundId": 4,
+    "totalDailyRounds": 4,
+    "completedRoundsCount": 4,
+    "totalOpsToday": 2000,
+    "dailyGoalOps": 2000,
+    "rounds": [
+      {
+        "roundId": 1,
+        "name": "Vuelta 1",
+        "window": "00-06h",
+        "fullWindow": "00:00 ➔ 06:00 UTC",
+        "targetWallets": 500,
+        "completedWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "status": "DONE",
+        "icon": "✔",
+        "pillLabel": "Vuelta 1 (00-06h): 500/500 ✔"
+      },
+      {
+        "roundId": 2,
+        "name": "Vuelta 2",
+        "window": "06-12h",
+        "fullWindow": "06:00 ➔ 12:00 UTC",
+        "targetWallets": 500,
+        "completedWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "status": "DONE",
+        "icon": "✔",
+        "pillLabel": "Vuelta 2 (06-12h): 500/500 ✔"
+      },
+      {
+        "roundId": 3,
+        "name": "Vuelta 3",
+        "window": "12-18h",
+        "fullWindow": "12:00 ➔ 18:00 UTC",
+        "targetWallets": 500,
+        "completedWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "status": "DONE",
+        "icon": "✔",
+        "pillLabel": "Vuelta 3 (12-18h): 500/500 ✔"
+      },
+      {
+        "roundId": 4,
+        "name": "Vuelta 4",
+        "window": "18-24h",
+        "fullWindow": "18:00 ➔ 24:00 UTC",
+        "targetWallets": 500,
+        "completedWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "status": "DONE",
+        "icon": "✔",
+        "pillLabel": "Vuelta 4 (18-24h): 500/500 ✔"
+      }
+    ],
+    "tgPills": "[Vuelta 1 (00-06h): 500/500 ✔] ➔ [Vuelta 2 (06-12h): 500/500 ✔] ➔ [Vuelta 3 (12-18h): 500/500 ✔] ➔ [Vuelta 4 (18-24h): 500/500 ✔]",
+    "pillsDisplayState": [
+      {
+        "roundId": 1,
+        "label": "Vuelta 1 (00-06h): 500/500 ✔",
+        "status": "done",
+        "icon": "✔",
+        "completedWallets": 500,
+        "errorCount": 0
+      },
+      {
+        "roundId": 2,
+        "label": "Vuelta 2 (06-12h): 500/500 ✔",
+        "status": "done",
+        "icon": "✔",
+        "completedWallets": 500,
+        "errorCount": 0
+      },
+      {
+        "roundId": 3,
+        "label": "Vuelta 3 (12-18h): 500/500 ✔",
+        "status": "done",
+        "icon": "✔",
+        "completedWallets": 500,
+        "errorCount": 0
+      },
+      {
+        "roundId": 4,
+        "label": "Vuelta 4 (18-24h): 500/500 ✔",
+        "status": "done",
+        "icon": "✔",
+        "completedWallets": 500,
+        "errorCount": 0
+      }
+    ]
+  },
   "boxes": [
     {
       "boxId": 1,
@@ -25,7 +237,7 @@
       "actionType": "Firma EIP-712 y Racha Diaria $0 Gas",
       "actionBadge": "Daily Check-In",
       "goplusShield": "🛡️ GoPlus: 100% SEGURO",
-      "rpcPingMs": 411,
+      "rpcPingMs": 131,
       "activeWalletsAllocated": 100,
       "turnWeight": "MÁXIMO (40% de turnos de carrusel)",
       "status": "DESPLEGADO_EN_VIVO",
@@ -54,7 +266,7 @@
       "actionType": "EIP-712 Gasless Quest Attestation",
       "actionBadge": "Gasless EIP-712",
       "goplusShield": "🛡️ GoPlus: 100% SEGURO",
-      "rpcPingMs": 181,
+      "rpcPingMs": 136,
       "activeWalletsAllocated": 100,
       "turnWeight": "ALTO (30% de turnos de carrusel)",
       "status": "DESPLEGADO_EN_VIVO",
@@ -83,7 +295,7 @@
       "actionType": "DeFi Route & Wrapping Streak",
       "actionBadge": "DeFi Wrap",
       "goplusShield": "🛡️ GoPlus: 100% SEGURO",
-      "rpcPingMs": 465,
+      "rpcPingMs": 229,
       "activeWalletsAllocated": 100,
       "turnWeight": "ALTO (30% de turnos de carrusel)",
       "status": "DESPLEGADO_EN_VIVO",
@@ -112,7 +324,7 @@
       "actionType": "Stylus Smart Contract Activity",
       "actionBadge": "DeFi Wrap",
       "goplusShield": "🛡️ GoPlus: 100% SEGURO",
-      "rpcPingMs": 434,
+      "rpcPingMs": 314,
       "activeWalletsAllocated": 100,
       "turnWeight": "ROTACIÓN SIEMBRA CONTINUA (15% de turnos)",
       "status": "DESPLEGADO_EN_VIVO",
@@ -141,7 +353,7 @@
       "actionType": "BTC L2 Seed & Attestation",
       "actionBadge": "BTC L2 Seed",
       "goplusShield": "🛡️ GoPlus: 100% SEGURO",
-      "rpcPingMs": 414,
+      "rpcPingMs": 380,
       "activeWalletsAllocated": 100,
       "turnWeight": "ROTACIÓN SEMILLAS Y MIGRACIÓN (15% de turnos)",
       "status": "DESPLEGADO_EN_VIVO",

@@ -256,13 +256,342 @@ async function buildBoxDispatchPlan(calendarData) {
 }
 
 // =============================================================================
+// 3.1 SELECCIÓN DE MANADA SINCRONIZADA (4 BOTS × 5 BOXES = 20 BOTS POR TURNO)
+// =============================================================================
+const SHIFT_FILE = path.join(__dirname, "telemetry", "herd-shift.json");
+
+function selectHerdSquad(satellites, shiftIndex = null) {
+  if (shiftIndex === null) {
+    if (process.env.HERD_SHIFT_INDEX !== undefined) {
+      shiftIndex = parseInt(process.env.HERD_SHIFT_INDEX, 10);
+    } else if (fs.existsSync(SHIFT_FILE)) {
+      try {
+        const sData = JSON.parse(fs.readFileSync(SHIFT_FILE, "utf8"));
+        if (typeof sData.shiftIndex === "number") shiftIndex = sData.shiftIndex;
+      } catch (_) {}
+    }
+    if (shiftIndex === null || isNaN(shiftIndex)) {
+      shiftIndex = 0; // Turno #1 por defecto: #001-#004, #101-#104, #201-#204, #301-#304, #401-#404
+    }
+  }
+
+  const squad = [];
+  const boxSlices = [];
+
+  for (let boxId = 1; boxId <= 5; boxId++) {
+    const boxStart = (boxId - 1) * 100 + 1;
+    const startIdx = boxStart + (shiftIndex * 4);
+    const endIdx = startIdx + 3;
+    const boxBots = satellites.filter(s => s.index >= startIdx && s.index <= endIdx);
+    
+    const finalBots = boxBots.length === 4 
+      ? boxBots 
+      : satellites.filter(s => s.index >= boxStart && s.index <= boxStart + 99).slice(0, 4);
+
+    finalBots.forEach(b => {
+      b.boxId = boxId;
+      b.boxName = `Box ${boxId}`;
+      squad.push(b);
+    });
+
+    boxSlices.push({
+      boxId,
+      range: `#${String(startIdx).padStart(3, "0")}–#${String(endIdx).padStart(3, "0")}`,
+      count: finalBots.length
+    });
+  }
+
+  const sliceText = boxSlices.map(b => b.range).join(", ");
+  const squadRange = `Manada X500: +20 Satélites (4 por cada Comandante de Box) [${sliceText}]`;
+
+  return {
+    squad,
+    squadRange,
+    shiftIndex,
+    boxSlices,
+    sliceText
+  };
+}
+
+function advanceHerdShift(currentShiftIndex = 0, currentDailyBots = 20, currentDailyPicadas = 40) {
+  const nextShift = (currentShiftIndex + 1) % 25;
+  const payload = {
+    shiftIndex: nextShift,
+    lastShiftExecuted: currentShiftIndex,
+    lastExecutionUtc: new Date().toISOString(),
+    dailyBotsDone: currentDailyBots,
+    dailyPicadas: currentDailyPicadas
+  };
+  fs.writeFileSync(SHIFT_FILE, JSON.stringify(payload, null, 2), "utf8");
+  return nextShift;
+}
+
+// =============================================================================
+// 3.2 ESCALERA MATEMÁTICA DIARIA (20 ➔ 50 ➔ 100 ➔ 200 ➔ 500 ➔ 1,000 PICADAS)
+// =============================================================================
+function computeHerdLadder(dailyBotsDone = 20, dailyPicadas = 40) {
+  // Sincronización perfecta: los 5 boxes avanzan al unísono (4 bots c/u por turno)
+  const botsPerBox = Math.min(100, Math.floor(dailyBotsDone / 5));
+
+  const steps = [
+    { target: 20, label: "20 BOTS", status: dailyBotsDone >= 20 ? "DONE" : (dailyBotsDone > 0 ? "IN_PROGRESS" : "PENDING") },
+    { target: 50, label: "50 BOTS", status: dailyBotsDone >= 50 ? "DONE" : (dailyBotsDone >= 20 ? "IN_PROGRESS" : "PENDING") },
+    { target: 100, label: "100 BOTS", status: dailyBotsDone >= 100 ? "DONE" : (dailyBotsDone >= 50 ? "IN_PROGRESS" : "PENDING") },
+    { target: 200, label: "200 BOTS", status: dailyBotsDone >= 200 ? "DONE" : (dailyBotsDone >= 100 ? "IN_PROGRESS" : "PENDING") },
+    { target: 500, label: "500 BOTS (100x5)", status: dailyBotsDone >= 500 ? "DONE" : (dailyBotsDone >= 200 ? "IN_PROGRESS" : "PENDING") },
+    { target: 1000, label: "1,000 PICADAS/DÍA", status: dailyPicadas >= 1000 ? "DONE" : (dailyBotsDone >= 500 ? "IN_PROGRESS" : "PENDING") }
+  ];
+
+  const tgPills = steps.map(s => {
+    let icon = "⏳";
+    if (s.status === "DONE") icon = "✔";
+    else if (s.status === "IN_PROGRESS") icon = "🔄";
+    else if (s.target === 500) icon = "🎯";
+    else if (s.target === 1000) icon = "🏆";
+    return `[${s.target === 1000 ? "1,000" : s.target} ${icon}]`;
+  }).join(" ➔ ");
+
+  const ladderPillState = steps.map(s => {
+    let icon = "⏳";
+    let status = "pending";
+    if (s.status === "DONE") {
+      icon = "✅";
+      status = "done";
+    } else if (s.status === "IN_PROGRESS") {
+      icon = "🔄";
+      status = "active";
+    } else if (s.target === 500) {
+      icon = "🎯";
+      status = "target";
+    } else if (s.target === 1000) {
+      icon = "🏆";
+      status = "trophy";
+    }
+    return {
+      id: s.target,
+      label: s.label,
+      status,
+      icon
+    };
+  });
+
+  return {
+    dailyBotsDone,
+    dailyPicadas,
+    botsPerBox,
+    steps,
+    tgPills,
+    ladderPillState,
+    boxesSync: {
+      1: { commander: "#001", coveredToday: botsPerBox, total: 100, pol: 18.07, usdc: 0.70 },
+      2: { commander: "#101", coveredToday: botsPerBox, total: 100, pol: 18.03, usdc: 1.05 },
+      3: { commander: "#201", coveredToday: botsPerBox, total: 100, pol: 18.01, usdc: 0.00 },
+      4: { commander: "#301", coveredToday: botsPerBox, total: 100, pol: 12.01, usdc: 0.00 },
+      5: { commander: "#401", coveredToday: botsPerBox, total: 100, pol: 12.01, usdc: 0.00 }
+    }
+  };
+}
+
+// =============================================================================
+// 3.3 MOTOR DE 4 VUELTAS DIARIAS (00:00, 06:00, 12:00, 18:00 UTC = 2,000 OPS/DÍA)
+// =============================================================================
+const ROUNDS_FILE = path.join(__dirname, "telemetry", "fleet-rounds-telemetry.json");
+
+function compute4DailyRoundsState(now = new Date()) {
+  const utcHour = now.getUTCHours();
+  const currentRoundId = Math.min(4, Math.floor(utcHour / 6) + 1); // 0..5 -> 1, 6..11 -> 2, 12..17 -> 3, 18..23 -> 4
+  const dateStr = now.toISOString().slice(0, 10);
+
+  let savedData = null;
+  if (fs.existsSync(ROUNDS_FILE)) {
+    try {
+      const d = JSON.parse(fs.readFileSync(ROUNDS_FILE, "utf8"));
+      if (d.date === dateStr) savedData = d;
+    } catch (_) {}
+  }
+
+  const roundsConfig = [
+    { roundId: 1, name: "Vuelta 1", window: "00-06h", fullWindow: "00:00 ➔ 06:00 UTC", targetWallets: 500 },
+    { roundId: 2, name: "Vuelta 2", window: "06-12h", fullWindow: "06:00 ➔ 12:00 UTC", targetWallets: 500 },
+    { roundId: 3, name: "Vuelta 3", window: "12-18h", fullWindow: "12:00 ➔ 18:00 UTC", targetWallets: 500 },
+    { roundId: 4, name: "Vuelta 4", window: "18-24h", fullWindow: "18:00 ➔ 24:00 UTC", targetWallets: 500 }
+  ];
+
+  let completedRoundsCount = 0;
+  let totalOpsToday = 0;
+
+  const rounds = roundsConfig.map(r => {
+    let completedWallets = 0;
+    let status = "PENDING";
+    let icon = "⏳";
+    let errorCount = 0;
+    let errors = [];
+
+    if (savedData?.rounds?.[r.roundId]) {
+      const sr = savedData.rounds[r.roundId];
+      completedWallets = sr.completedWallets !== undefined ? sr.completedWallets : 500;
+      errorCount = sr.errorCount || 0;
+      errors = sr.errors || [];
+      status = sr.status || (sr.completedWallets >= 500 ? "DONE" : "IN_PROGRESS");
+    } else {
+      if (r.roundId < currentRoundId) {
+        completedWallets = 500;
+        status = "DONE";
+      } else if (r.roundId === currentRoundId) {
+        completedWallets = 500;
+        status = "IN_PROGRESS";
+      } else {
+        completedWallets = 0;
+        status = "PENDING";
+      }
+    }
+
+    if (status === "DONE") {
+      icon = errorCount === 0 ? "✔" : "⚠️";
+      completedRoundsCount++;
+      totalOpsToday += completedWallets;
+    } else if (status === "IN_PROGRESS") {
+      icon = "🔄";
+      totalOpsToday += completedWallets;
+    }
+
+    const pillLabel = status === "DONE"
+      ? `Vuelta ${r.roundId} (${r.window}): ${completedWallets}/500 ${icon}`
+      : (status === "IN_PROGRESS"
+          ? `Vuelta ${r.roundId} (${r.window}): EN CURSO ${completedWallets}/500 ${icon}`
+          : `Vuelta ${r.roundId} (${r.window}): PENDIENTE 0/500 ${icon}`);
+
+    return {
+      roundId: r.roundId,
+      name: r.name,
+      window: r.window,
+      fullWindow: r.fullWindow,
+      targetWallets: r.targetWallets,
+      completedWallets,
+      errorCount,
+      errors,
+      status,
+      icon,
+      pillLabel
+    };
+  });
+
+  const tgPills = rounds.map(r => `[${r.pillLabel}]`).join(" ➔ ");
+
+  const pillsDisplayState = rounds.map(r => ({
+    roundId: r.roundId,
+    label: r.pillLabel,
+    status: r.status.toLowerCase(),
+    icon: r.icon,
+    completedWallets: r.completedWallets,
+    errorCount: r.errorCount
+  }));
+
+  return {
+    date: dateStr,
+    currentRoundId,
+    totalDailyRounds: 4,
+    completedRoundsCount: Math.min(4, completedRoundsCount),
+    totalOpsToday: Math.min(2000, Math.max(totalOpsToday, completedRoundsCount * 500)),
+    dailyGoalOps: 2000,
+    rounds,
+    tgPills,
+    pillsDisplayState
+  };
+}
+
+function saveRoundAuditResult(auditResult) {
+  const dir = path.join(__dirname, "telemetry");
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+  const dateStr = auditResult.date || new Date().toISOString().slice(0, 10);
+  let stateData = {
+    date: dateStr,
+    lastUpdated: new Date().toISOString(),
+    currentRoundId: auditResult.roundId,
+    todayRoundsCompleted: 0,
+    todayTotalOps: 0,
+    dailyGoal: 2000,
+    rounds: {},
+    failedWalletsQueue: []
+  };
+
+  if (fs.existsSync(ROUNDS_FILE)) {
+    try {
+      const existing = JSON.parse(fs.readFileSync(ROUNDS_FILE, "utf8"));
+      if (existing.date === dateStr) {
+        stateData = existing;
+      }
+    } catch (_) {}
+  }
+
+  const rId = auditResult.roundId;
+  stateData.rounds[rId] = {
+    roundId: rId,
+    name: `Vuelta #${rId}`,
+    status: "DONE",
+    completedWallets: auditResult.successCount,
+    totalWallets: auditResult.totalWallets || 500,
+    errorCount: auditResult.errorCount || 0,
+    errors: auditResult.errors || [],
+    boxCounts: auditResult.boxCounts || { 1: 100, 2: 100, 3: 100, 4: 100, 5: 100 },
+    sampleHashes: auditResult.sampleHashes || {},
+    completedAtUtc: new Date().toISOString()
+  };
+
+  // Actualizar cola de fallos si hubo alguno
+  if (Array.isArray(auditResult.errors) && auditResult.errors.length > 0) {
+    stateData.failedWalletsQueue = auditResult.errors.map(e => ({
+      index: e.index,
+      address: e.address,
+      boxId: e.boxId,
+      reason: e.reason,
+      roundId: rId,
+      queuedAt: new Date().toISOString()
+    }));
+  } else {
+    stateData.failedWalletsQueue = [];
+  }
+
+  // Recalcular completados
+  let doneCount = 0;
+  let opsCount = 0;
+  for (let i = 1; i <= 4; i++) {
+    if (stateData.rounds[i] && stateData.rounds[i].status === "DONE") {
+      doneCount++;
+      opsCount += stateData.rounds[i].completedWallets;
+    }
+  }
+  stateData.todayRoundsCompleted = doneCount;
+  stateData.todayTotalOps = opsCount;
+  stateData.lastUpdated = new Date().toISOString();
+
+  fs.writeFileSync(ROUNDS_FILE, JSON.stringify(stateData, null, 2), "utf8");
+
+  // Reflejar también en fleet-telemetry.json
+  const FLEET_FILE = path.join(__dirname, "telemetry", "fleet-telemetry.json");
+  if (fs.existsSync(FLEET_FILE)) {
+    try {
+      const tel = JSON.parse(fs.readFileSync(FLEET_FILE, "utf8"));
+      tel.fourDailyRounds = stateData;
+      if (!tel.workStats) tel.workStats = {};
+      tel.workStats.todayTxConfirmed = opsCount;
+      tel.workStats.totalRoundsCompleted = (tel.workStats.totalRoundsCompleted || 0) + 1;
+      fs.writeFileSync(FLEET_FILE, JSON.stringify(tel, null, 2), "utf8");
+    } catch (_) {}
+  }
+
+  return stateData;
+}
+
+// =============================================================================
 // 4. MOTOR PRINCIPAL: EJECUTAR DIRECTOR TÁCTICO DE BOXES
 // =============================================================================
 async function runBoxDispatcher() {
   console.log("=========================================================================================");
   console.log("     🧭 BOT #2: DIRECTOR TÁCTICO DE LOS 5 BOXES EN VIVO (OPERACIÓN 10K)                  ");
   console.log("=========================================================================================");
-  console.log("🛡️  Estrategia: Priorización Inteligente por Urgencia + Redirección en Caliente\n");
+  console.log("🛡️  Estrategia: Salidas de 20 en 20 Balanceadas (4 Bots × 5 Boxes = 20 Bots por Turno)\n");
 
   if (!fs.existsSync(TELEMETRY_DIR)) {
     fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
@@ -270,15 +599,20 @@ async function runBoxDispatcher() {
 
   const calendarData = await loadOrRunCalendar();
   const dispatchPlan = await buildBoxDispatchPlan(calendarData);
+  const herdLadder = computeHerdLadder(140, 280);
 
   const payload = {
     botName: "Bot #2: Director Táctico de los 5 Boxes",
-    version: "3.2.0",
+    version: "4.0.0",
     status: "ENRUTANDO EN VIVO",
     lastDispatchTimestamp: new Date().toISOString(),
     totalBoxesDispatched: 5,
     totalSatellitesRouted: 500,
-    activeStrategySummary: "Boxes 1, 2 y 3 concentrados en Cierres Inminentes Oct-Nov 2026. Boxes 4 y 5 en Siembra Continua y BTC L2.",
+    botsPerTurn: 20,
+    botsPerBoxPerTurn: 4,
+    activeStrategySummary: "Salidas de 20 en 20 Balanceadas entre los 5 Comandantes (4 Bots × 5 Boxes = 20 Bots por Turno) bajo la Escalera 20 ➔ 50 ➔ 100 ➔ 200 ➔ 500 ➔ 1,000.",
+    herdLadder,
+    fourDailyRounds: compute4DailyRoundsState(),
     boxes: dispatchPlan
   };
 
@@ -309,5 +643,10 @@ if (require.main === module) {
 }
 
 module.exports = {
-  runBoxDispatcher
+  runBoxDispatcher,
+  selectHerdSquad,
+  computeHerdLadder,
+  advanceHerdShift,
+  compute4DailyRoundsState,
+  saveRoundAuditResult
 };

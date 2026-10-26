@@ -49,20 +49,20 @@
       </div>
     </div>
 
-    <!-- TARJETA 2 · 🌾 LIQUIDEZ EN FLOTA X500 (PROHIBIDO SUMAR CAPITAL #501) -->
-    <div class="win-metric-card" id="cardLiquidHarvest" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="Liquidez real acumulada en las 500 carteras (Clic para ver política de retiro)">
+    <!-- TARJETA 2 · 🌾 COSECHA & FONDO FLOTA (PROHIBIDO SUMAR CAPITAL #501) -->
+    <div class="win-metric-card" id="cardLiquidHarvest" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="Fondo inyectado y cosechas reales en las 500 carteras (Clic para ver política de retiro)">
       <div class="win-metric-head">
         <span style="display: flex; align-items: center; gap: 4px; white-space: nowrap;">
           <span class="material-symbols-rounded icon-xs val-green">savings</span>
-          <span>🌾 LIQUIDEZ EN FLOTA X500</span>
+          <span>🌾 COSECHA &amp; FONDO FLOTA</span>
         </span>
         <span class="badge-tag-tiny badge-gold" id="harvestSplitBadge">SOLO 500 BOTS</span>
       </div>
       <div class="win-metric-val val-green" id="topHarvestedUsdc">
-        $4.70 USDC EN BOLSILLOS
+        +$0.00 USDC COSECHADOS
       </div>
-      <div class="win-metric-sub" id="topHarvestSub" title="Capitanes: $1.75 · Satélites: $2.95 · Barrido a #501: $0.00">
-        Capitanes: $1.75 · Satélites: $2.95 · Barrido a #501: $0.00
+      <div class="win-metric-sub" id="topHarvestSub" title="Fondo Inyectado en Flota: $4.70 USDC ($1.75 Caps + $2.95 Sats)">
+        Fondo Inyectado en Flota: $4.70 USDC ($1.75 Caps + $2.95 Sats)
       </div>
     </div>
 
@@ -73,30 +73,30 @@
           <span class="material-symbols-rounded icon-xs val-blue">construction</span>
           <span>⛏️ LO QUE ESTÁN PICANDO</span>
         </span>
-        <span class="badge-tag-tiny badge-blue" id="workNonceBadge">11,468 NONCES</span>
+        <span class="badge-tag-tiny badge-blue" id="workNonceBadge">660 NONCES RPC</span>
       </div>
       <div class="win-metric-val val-blue" id="topTotalTxCount">
-        14,000+ PTS
+        660 TXS ON-CHAIN
       </div>
       <div class="win-metric-sub" id="topWorkSub">
         Sembrando elegibilidad en 5 Frentes Activos
       </div>
     </div>
 
-    <!-- TARJETA 4 · 🔥 RACHA DIARIA & CARRUSEL ANTI-SYBIL -->
-    <div class="win-metric-card" id="cardCarouselStatus" title="Racha Diaria 25 Días y Carrusel de 20 Satélites cada 30 minutos">
+    <!-- TARJETA 4 · 🔥 4 VUELTAS DIARIAS CONTINUAS (2,000 OPS/DÍA) -->
+    <div class="win-metric-card" id="cardCarouselStatus" title="4 Vueltas Diarias Continuas: 00:00, 06:00, 12:00, 18:00 UTC = 2,000 Operaciones/Día con Auditoría Estricta">
       <div class="win-metric-head">
         <span style="display: flex; align-items: center; gap: 4px;">
           <span class="material-symbols-rounded icon-xs val-gold">autorenew</span>
-          <span>🔥 RACHA &amp; CARRUSEL</span>
+          <span>🔥 4 VUELTAS DIARIAS</span>
         </span>
-        <span class="badge-tag-tiny badge-green" id="streakProgressBadge">500/500 SANA</span>
+        <span class="badge-tag-tiny badge-green" id="streakProgressBadge">500/500 AUDITADO</span>
       </div>
-      <div class="win-metric-val val-gold" id="topStreakCounter">
-        DÍA 2 / 25 (500 BOTS)
+      <div class="win-metric-val val-gold" id="topStreakCounter" style="font-size: 13.5px; font-weight: 800; white-space: nowrap;">
+        4 / 4 VUELTAS HOY (2,000 OPS)
       </div>
-      <div class="win-metric-sub" id="topNextTurnTimer">
-        Turno Activo: 20 Bots/30m · Próximo en <strong class="val-green" id="countdownSecs">28:14</strong>
+      <div class="win-metric-sub" id="topNextTurnTimer" style="font-size: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="[Vuelta 1 (00-06h): 500/500 ✔] ➔ [Vuelta 2 (06-12h): 500/500 ✔] ➔ [Vuelta 3 (12-18h): 500/500 ✔] ➔ [Vuelta 4 (18-24h): 500/500 ✔]">
+        [V1: 500/500 ✔] ➔ [V2: 500/500 ✔] ➔ [V3: 500/500 ✔] ➔ [V4: 500/500 ✔]
       </div>
     </div>
 
@@ -175,8 +175,11 @@
                 <!-- Box 1 -->
                 <tr id="boxRow-1">
                   <td>
-                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 1 (#001–#100)</strong>
-                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0xb750...D40F</div>
+                    <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap;">
+                      <strong style="color: var(--text-dark); font-size: 9px;">BOX 1:</strong>
+                      <span class="box-sync-counter" id="boxSync-1">28/100</span>
+                    </div>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap #001: 0xb750...D40F</div>
                   </td>
                   <td>
                     <span class="font-mono val-blue" style="font-weight: 700;">18.07 POL · $0.70</span>
@@ -196,8 +199,11 @@
                 <!-- Box 2 -->
                 <tr id="boxRow-2">
                   <td>
-                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 2 (#101–#200)</strong>
-                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0x5682...adBA</div>
+                    <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap;">
+                      <strong style="color: var(--text-dark); font-size: 9px;">BOX 2:</strong>
+                      <span class="box-sync-counter" id="boxSync-2">28/100</span>
+                    </div>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap #101: 0x5682...adBA</div>
                   </td>
                   <td>
                     <span class="font-mono val-gold" style="font-weight: 700;">18.03 POL · $1.05</span>
@@ -217,8 +223,11 @@
                 <!-- Box 3 -->
                 <tr id="boxRow-3">
                   <td>
-                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 3 (#201–#300)</strong>
-                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0x2810...6A7C</div>
+                    <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap;">
+                      <strong style="color: var(--text-dark); font-size: 9px;">BOX 3:</strong>
+                      <span class="box-sync-counter" id="boxSync-3">28/100</span>
+                    </div>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap #201: 0x2810...6A7C</div>
                   </td>
                   <td>
                     <span class="font-mono val-green" style="font-weight: 700;">18.01 POL · $0.00</span>
@@ -238,8 +247,11 @@
                 <!-- Box 4 -->
                 <tr id="boxRow-4">
                   <td>
-                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 4 (#301–#400)</strong>
-                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0xEb6a...Ca0f</div>
+                    <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap;">
+                      <strong style="color: var(--text-dark); font-size: 9px;">BOX 4:</strong>
+                      <span class="box-sync-counter" id="boxSync-4">28/100</span>
+                    </div>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap #301: 0xEb6a...Ca0f</div>
                   </td>
                   <td>
                     <span class="font-mono val-purple" style="font-weight: 700;">12.01 POL · $0.00</span>
@@ -259,8 +271,11 @@
                 <!-- Box 5 -->
                 <tr id="boxRow-5">
                   <td>
-                    <strong style="color: var(--text-dark); font-size: 9px;">BOX 5 (#401–#500)</strong>
-                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap: 0x4C71...d070</div>
+                    <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap;">
+                      <strong style="color: var(--text-dark); font-size: 9px;">BOX 5:</strong>
+                      <span class="box-sync-counter" id="boxSync-5">28/100</span>
+                    </div>
+                    <div style="font-size: 7.5px; color: var(--text-muted);">Cap #401: 0x4C71...d070</div>
                   </td>
                   <td>
                     <span class="font-mono val-gold" style="font-weight: 700;">12.01 POL · $0.00</span>
@@ -382,6 +397,26 @@
             <div class="airdrop-strip-tactical">
               <span><strong>ESTADO HOY (26 OCT 2026):</strong> Fila India Activa · 500/500 Bots Calificados</span>
               <span><strong>DESTINO:</strong> 100% USDC Nativo ➔ Bóveda #501 (Sin micro-depósitos a CEX)</span>
+            </div>
+
+            <!-- Reloj e Indicador en Vivo de las 4 Vueltas Diarias Continuas (2,000 Ops/Día) -->
+            <div class="herd-ladder-container" id="herdLadderTop">
+              <div class="herd-ladder-header">
+                <span><strong>🪖 4 VUELTAS DIARIAS CONTINUAS (4 × 500 = 2,000 OPS/DÍA · AUDITORÍA ESTRICTA 500/500):</strong></span>
+                <button class="btn-tg-report-tiny" onclick="triggerRoundReport()" title="Enviar informe oficial auditado a Telegram">
+                  <span class="material-symbols-rounded" style="font-size: 11px;">send</span>
+                  <span>ENVIAR PARTE TG</span>
+                </button>
+              </div>
+              <div class="herd-ladder-pills" id="herdLadderPillsTop">
+                <span class="ladder-pill ladder-pill-done" id="pill-v1">[Vuelta 1 (00-06h): 500/500 ✔]</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v2">[Vuelta 2 (06-12h): 500/500 ✔]</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v3">[Vuelta 3 (12-18h): 500/500 ✔]</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-done" id="pill-v4">[Vuelta 4 (18-24h): 500/500 ✔]</span>
+              </div>
             </div>
 
             <!-- Tabla de Frentes y Fechas de Cierre -->
@@ -625,11 +660,28 @@
           <div class="fleet-herd-summary-footer">
             <div class="herd-summary-left">
               <span class="pulse-dot"></span>
-              <strong style="color: var(--text-dark); font-size: 8.8px;">MANADA 500/500 EN FILA INDIA</strong>
-              <span class="badge-tag-tiny badge-green">TURNO ACTIVO 20/30M</span>
+              <strong style="color: var(--text-dark); font-size: 8.8px;">MANADA 500/500 SINCRONIZADA</strong>
+              <span class="badge-tag-tiny badge-green" id="footerActiveBatchBadge">+20 BOTS/TURNO</span>
               <span class="badge-tag-tiny badge-blue">GASLESS EIP-712: $0 GAS</span>
+              <div class="herd-ladder-pills" id="herdLadderPillsFooter" style="display: inline-flex; margin-left: 6px;">
+                <span class="ladder-pill ladder-pill-done" style="font-size: 7.2px; padding: 0 4px;">20✔</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-done" style="font-size: 7.2px; padding: 0 4px;">50✔</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-done" style="font-size: 7.2px; padding: 0 4px;">100✔</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-active" style="font-size: 7.2px; padding: 0 4px;">200🔄</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-target" style="font-size: 7.2px; padding: 0 4px;">500🎯</span>
+                <span class="ladder-arrow">➔</span>
+                <span class="ladder-pill ladder-pill-trophy" style="font-size: 7.2px; padding: 0 4px;">1,000🏆</span>
+              </div>
             </div>
             <div class="herd-summary-right font-mono">
+              <button class="btn-tg-report-tiny" onclick="triggerTelegramReport()" title="Enviar reporte en vivo a Telegram" style="padding: 1px 5px; font-size: 7.5px;">
+                <span class="material-symbols-rounded" style="font-size: 10px;">send</span>
+                <span>TG REPORT</span>
+              </button>
               <span>LATENCIA: <strong class="val-green">256 ms</strong></span>
               <span>·</span>
               <span class="val-green" style="font-weight: 700;">🛡️ 0% ERRORES ON-CHAIN</span>
