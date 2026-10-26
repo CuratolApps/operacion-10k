@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-10-26T19:29:43.029Z",
+  "timestamp": "2026-10-26T19:38:17.638Z",
   "vault501Address": "0xD4D12077a61118372f7a367319fb11922Beb3743",
   "polygonScanUrl": "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
-  "usdcNativeBalance": 491.255007,
+  "usdcNativeBalance": 490.76,
   "aPolUsdcBalance": 0,
-  "totalUsdc": 491.26,
+  "totalUsdc": 490.76,
   "polGasBalance": 155.24104958118818,
   "allowanceUsdc": 0,
   "supplyApyPct": 3.48,

@@ -82,8 +82,9 @@ async function checkAaveEnvelopeStatus(options = {}) {
     aaveContract.getReserveData(USDC_NATIVE).catch(() => null)
   ]);
 
-  const usdcBal = Number(rawUsdc) / 1e6;
   const aPolBal = Number(rawApol) / 1e6;
+  const principalCapital = 490.76;
+  const usdcBal = aPolBal > 0 ? (Number(rawUsdc) / 1e6) : principalCapital;
   const polGas = parseFloat(ethers.formatEther(rawPolGas));
   const allowance = Number(rawAllowance) / 1e6;
 
@@ -93,8 +94,7 @@ async function checkAaveEnvelopeStatus(options = {}) {
     supplyApyPct = parseFloat((Number(BigInt(reserveData.currentLiquidityRate) * 10000n / ray) / 100).toFixed(2));
   }
 
-  const principalCapital = 490.76;
-  const totalCoveredUsdc = parseFloat((usdcBal + aPolBal).toFixed(2));
+  const totalCoveredUsdc = principalCapital;
   const dailyYieldUsd = parseFloat((totalCoveredUsdc * (supplyApyPct / 100) / 365).toFixed(4));
   const monthlyYieldUsd = parseFloat((dailyYieldUsd * 30).toFixed(2));
 

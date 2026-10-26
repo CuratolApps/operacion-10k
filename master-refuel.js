@@ -334,29 +334,9 @@ async function runMasterRefuel() {
     } catch (_) {}
   }
 
-  // Notificación de Celebración a Telegram
-  const alertText = `
-🎉 🚨 <b>¡ALERTA DE CELEBRACIÓN: FONDOS DETECTADOS EN BÓVEDA #501!</b>
-⛽ <b>FONDOS DE KRAKEN LIBERADOS EN MAINNET</b>
-
-🏦 <b>Bóveda Matriz #501:</b> <code>${masterAddress}</code>
-💰 <b>Fondos Capturados:</b>
-${tasks.map(t => `   • <b>${t.network}:</b> +${t.balance.toFixed(5)} ${t.symbol} ✅`).join("\n")}
-
-👑 <b>5 Cabeceras Fondeadas Automáticamente:</b>
-   • Cabecera #001 (Box 1)
-   • Cabecera #101 (Box 2)
-   • Cabecera #201 (Box 3)
-   • Cabecera #301 (Box 4)
-   • Cabecera #401 (Box 5)
-
-🛡️ <b>Dispersión Intra-Box:</b> Activa hacia satélites de cada Box.
-🔒 <b>Seguridad:</b> Aislamiento estanco intra-bloque 100% preservado.
-${statsText}
-⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>
-`.trim();
-
-  await sendTelegramAlert(alertText);
+  // Desactivada definitivamente la alerta vieja de Kraken para evitar repeticiones innecesarias en Telegram
+  // El evento de liberación de fondos de Kraken ya fue ejecutado y auditado el 25 de Octubre de 2026.
+  console.log("ℹ️ [TELEGRAM] Alerta histórica de Kraken silenciada por orden de auditoría forense.");
   return { status: "REFUELED", tasks };
 }
 
