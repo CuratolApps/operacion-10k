@@ -504,24 +504,42 @@
   };
 
   /**
-   * Actualiza el estado visual de los 3 botones maestros en la Tarjeta 5
+   * Actualiza el estado visual de los botones maestros en el Piso 1 y la lectura de Tarjeta 5
    */
   function updateThreeStateButtonsUI() {
     if (btnModeCalibration) {
       btnModeCalibration.className = activeExecutionMode === "CALIBRATION_ZERO_RISK"
-        ? "ctrl-state-btn btn-state-calib active"
-        : "ctrl-state-btn btn-state-calib";
+        ? "center-floor-btn btn-mode-calib active"
+        : "center-floor-btn btn-mode-calib";
     }
     if (btnModeReal) {
       btnModeReal.className = activeExecutionMode === "LIVE_MAKER_ACTIVE"
-        ? "ctrl-state-btn btn-state-real active"
-        : "ctrl-state-btn btn-state-real";
+        ? "center-floor-btn btn-mode-real active"
+        : "center-floor-btn btn-mode-real";
     }
     if (btnModeEmergency) {
       btnModeEmergency.className = activeExecutionMode === "EMERGENCY_STOPPED"
-        ? "ctrl-state-btn btn-state-emergency active"
-        : "ctrl-state-btn btn-state-emergency";
+        ? "center-floor-btn btn-mode-emergency active"
+        : "center-floor-btn btn-mode-emergency";
     }
+
+    const modeSub = document.getElementById("topModeStatusSub");
+    if (modeSub) {
+      if (activeExecutionMode === "EMERGENCY_STOPPED") {
+        modeSub.textContent = "🛑 PARADA DE EMERGENCIA ACTIVA (MOTOR DETENIDO)";
+        modeSub.style.color = "#dc2626";
+      } else if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
+        modeSub.textContent = "🟢 Modo Real Activo · ALO Post-Only Maker 24/7";
+        modeSub.style.color = "#16a34a";
+      } else {
+        modeSub.textContent = "Estado actual: Lectura en Vivo ($0 Riesgo) · Agent Key Lista";
+        modeSub.style.color = "var(--text-muted)";
+      }
+    }
+  }
+
+  function updateMasterModeButtonUI() {
+    updateThreeStateButtonsUI();
   }
 
   /**
@@ -709,11 +727,15 @@
       if (resetBtn) resetBtn.style.display = "inline-flex";
     }
 
-    // 3. Renderizar las 9 tarjetas: precio real, presión L2, halo de ganador 🏆 #1 y clase active
-    nineList.forEach(item => {
-      const isThisWinner = topWinnerPair && (item.key === topWinnerPair.key || item.symbol === topWinnerPair.symbol);
-      const isThisActive = item.key === selectedSquadPair;
+    // 3. Limpiar absolutamente todas las clases activas/resaltadas de las 9 tarjetas antes de pintar (CERO BUG DE SUI)
+    document.querySelectorAll(".multipair-card, .pair-card").forEach(el => {
+      el.classList.remove("active", "winner", "selected", "winner-pair-glow", "selected-pair-glow");
+      const tag = el.querySelector(".mp-winner-tag");
+      if (tag) tag.remove();
+    });
 
+    // 4. Renderizar las 9 tarjetas: actualizar precio y presión en vivo
+    nineList.forEach(item => {
       const cardEl = document.getElementById(`mpCard_${item.symbol}`);
       const priceEl = document.getElementById(`mpPrice_${item.symbol}`);
       const pressEl = document.getElementById(`mpPressure_${item.symbol}`);
@@ -731,31 +753,15 @@
         pressEl.textContent = isBull ? `${item.bullScore}% 🐂 BULL` : `${item.bearScore}% 🐻 BEAR`;
       }
 
-      if (cardEl) {
-        // Halo de Ganador #1
-        if (isThisWinner) {
-          cardEl.classList.add("winner-pair-glow");
-          let tag = cardEl.querySelector(".mp-winner-tag");
-          if (!tag) {
-            const head = cardEl.querySelector(".mp-head");
-            if (head) {
-              const span = document.createElement("span");
-              span.className = "mp-winner-tag";
-              span.textContent = "🏆 #1";
-              head.appendChild(span);
-            }
-          }
-        } else {
-          cardEl.classList.remove("winner-pair-glow");
-          const tag = cardEl.querySelector(".mp-winner-tag");
-          if (tag) tag.remove();
-        }
-
-        // Borde Activo (inspección actual sincronizada)
-        if (isThisActive) {
-          cardEl.classList.add("active");
-        } else {
-          cardEl.classList.remove("active");
+      // Resaltar ÚNICA Y EXCLUSIVAMENTE la tarjeta que coincide con selectedSquadPair (sincronizada al 100%)
+      if (cardEl && item.key === selectedSquadPair) {
+        cardEl.classList.add("active", "selected-pair-glow");
+        const head = cardEl.querySelector(".mp-head");
+        if (head && !head.querySelector(".mp-winner-tag")) {
+          const span = document.createElement("span");
+          span.className = "mp-winner-tag";
+          span.textContent = (topWinnerPair && item.key === topWinnerPair.key) ? "🏆 #1" : "🎯 ACTIVO";
+          head.appendChild(span);
         }
       }
     });
