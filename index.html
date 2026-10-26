@@ -334,6 +334,58 @@
       border: 1px solid #e2e8f0;
     }
 
+    .address-copy-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .address-copy-row .code-address {
+      margin-bottom: 0;
+      font-size: 9px;
+      padding: 2px 6px;
+    }
+
+    .win-copy-btn {
+      font-family: var(--font-code);
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #f8fafc;
+      color: var(--win-primary);
+      border: 1px solid var(--win-border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      line-height: 1.2;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .win-copy-btn:hover {
+      background: var(--win-primary-soft);
+      border-color: var(--win-primary);
+      transform: translateY(-0.5px);
+    }
+
+    .win-copy-btn:active {
+      transform: translateY(0);
+    }
+
+    .win-copy-btn.copied {
+      background: #ecfdf5 !important;
+      border-color: #10b981 !important;
+      color: #047857 !important;
+    }
+
+    .win-copy-btn .material-symbols-rounded {
+      font-size: 11px;
+      line-height: 1;
+    }
+
     .data-grid-2col {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -999,13 +1051,19 @@
       <div class="win-body">
 
         <!-- BÓVEDA MATRIZ #501 (NODRIZA DUAL / MULTI-CHAIN) -->
-        <div class="data-block primary-vault" style="flex: 1.35; display: flex; flex-direction: column; justify-content: space-between; padding: 10px 12px;">
+        <div class="data-block primary-vault" style="flex: 1.25; display: flex; flex-direction: column; justify-content: space-between; padding: 10px 12px;">
           <div>
             <div class="block-header-row" style="margin-bottom: 4px;">
               <span class="block-title" style="white-space: nowrap; font-size: 10.5px; letter-spacing: -0.2px;">BÓVEDA MATRIZ #501 · NODRIZA DUAL</span>
               <span class="block-badge badge-gold" style="white-space: nowrap; font-size: 8px; padding: 1px 5px;">PISO INFRANQUEABLE</span>
             </div>
-            <span class="code-address" style="margin-bottom: 5px; font-size: 9px; padding: 2px 6px;">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
+            <div class="address-copy-row">
+              <span class="code-address">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
+              <button type="button" class="win-copy-btn" onclick="copyAddress('0xD4D12077a61118372f7a367319fb11922Beb3743', this)" title="Copiar cartera Bóveda Matriz #501">
+                <span class="material-symbols-rounded">content_copy</span>
+                <span>COPIAR</span>
+              </button>
+            </div>
             <div class="data-grid-2col" style="gap: 5px 12px; font-size: 9.5px;">
               <div class="data-item" style="white-space: nowrap;"><span class="data-label">USDC Polygon:</span><strong class="val-gold">$490.76</strong></div>
               <div class="data-item" style="white-space: nowrap;"><span class="data-label">Gas POL #501:</span><strong class="val-green">160.79 POL</strong></div>
@@ -1043,13 +1101,19 @@
         </div>
 
         <!-- BÓVEDA VIP #00 (MENTORA) -->
-        <div class="data-block" style="flex: 0.85; display: flex; flex-direction: column; justify-content: space-between; padding: 8px 12px;">
+        <div class="data-block" style="flex: 0.8; display: flex; flex-direction: column; justify-content: space-between; padding: 8px 12px;">
           <div>
             <div class="block-header-row" style="margin-bottom: 4px;">
               <span class="block-title" style="white-space: nowrap; font-size: 10.5px;">BÓVEDA VIP #00 (MENTORA AISLADA)</span>
               <span class="block-badge badge-blue" style="font-size: 8px; padding: 2px 6px;">SOLO LECTURA</span>
             </div>
-            <span class="code-address" style="margin-bottom: 5px; font-size: 9px; padding: 2px 6px;">0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</span>
+            <div class="address-copy-row">
+              <span class="code-address">0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990</span>
+              <button type="button" class="win-copy-btn" onclick="copyAddress('0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990', this)" title="Copiar cartera Bóveda VIP #00">
+                <span class="material-symbols-rounded">content_copy</span>
+                <span>COPIAR</span>
+              </button>
+            </div>
             <div class="data-grid-2col" style="gap: 4px 12px; font-size: 9.5px;">
               <div class="data-item"><span class="data-label">POL Gas:</span><span>0.9565 POL</span></div>
               <div class="data-item"><span class="data-label">USDC Saldo:</span><span>$0.00 USDC</span></div>
@@ -1059,20 +1123,51 @@
           </div>
         </div>
 
-        <!-- 5 BÓVEDAS BINANCE SPOT & REGLA 70/30 -->
-        <div class="data-block" style="flex: 1.05; display: flex; flex-direction: column; justify-content: space-between; padding: 9px 12px;">
+        <!-- 5 BÓVEDAS BINANCE SPOT (#1 A #5) & REGLAS 70/30 Y 100% -->
+        <div class="data-block" style="flex: 1.35; display: flex; flex-direction: column; justify-content: space-between; padding: 9px 12px; border-left: 4px solid #f59e0b;">
           <div>
-            <div class="block-header-row" style="margin-bottom: 4px;">
+            <div class="block-header-row" style="margin-bottom: 5px;">
               <span class="block-title" style="white-space: nowrap; font-size: 10.5px;">5 BÓVEDAS BINANCE SPOT (#1 A #5)</span>
-              <span class="block-badge badge-green" style="font-size: 8px; padding: 2px 6px;">ACUMULACIÓN</span>
+              <span class="block-badge badge-green" style="font-size: 8px; padding: 2px 6px;">COSECHA &amp; SPOT</span>
             </div>
-            <div class="data-grid-2col" style="gap: 4px 12px; font-size: 9.5px;">
+            <div class="data-grid-2col" style="gap: 4px 12px; font-size: 9.5px; margin-bottom: 6px;">
               <div class="data-item"><span class="data-label">Saldo Spot #1:</span><strong class="val-gold">$1.00 USDC</strong></div>
               <div class="data-item"><span class="data-label">Auto-Sweep:</span><span class="val-green">FALSE (Cero Drenaje)</span></div>
+              <div class="data-item"><span class="data-label">Subcuentas:</span><strong>5 Cuentas Activas</strong></div>
+              <div class="data-item"><span class="data-label">Retiro Fiat:</span><strong class="val-blue">Manual / P2P</strong></div>
             </div>
-            <div style="background:#f1f5f9;border:1px solid #e2e8f0;border-left:3px solid var(--win-primary);border-radius:4px;padding:6px 9px;margin-top:6px;font-size:9px;font-family:var(--font-code);color:var(--text-dark);line-height:1.4;">
-              <strong>Regla Micro-ganancias:</strong> 70% a Capital USDC en #501 · 30% a Gas POL/BNB.<br>
-              <strong>Ganancia Grande:</strong> 100% se consolida en USDC en #501 de inmediato.
+            
+            <!-- TARJETAS DEDICADAS: REGLAS 70/30 Y 100% APROVECHANDO EL ESPACIO -->
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+              <!-- TARJETA REGLA 1: MICRO-GANANCIAS (70/30) -->
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid var(--win-primary); border-radius: 4px; padding: 5px 8px; font-family: var(--font-code); font-size: 8.8px; line-height: 1.4;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <strong style="color: var(--win-primary); font-size: 9px;">⚡ MICRO-GANANCIAS · DISCIPLINA 70 / 30</strong>
+                  <span class="block-badge badge-blue" style="font-size: 7.5px; padding: 1px 4px;">AUTOMÁTICO</span>
+                </div>
+                <div style="color: var(--text-dark);">
+                  • <strong class="val-gold">70% a Capital:</strong> USDC directo a Bóveda Matriz #501 (piso infranqueable).<br>
+                  • <strong class="val-green">30% a Gas:</strong> Reserva en POL y BNB para combustible de la flota.
+                </div>
+              </div>
+
+              <!-- TARJETA REGLA 2: GANANCIA GRANDE (100% CAPITALIZACIÓN) -->
+              <div style="background: #fffdf5; border: 1px solid #fef3c7; border-left: 3px solid var(--win-gold); border-radius: 4px; padding: 5px 8px; font-family: var(--font-code); font-size: 8.8px; line-height: 1.4;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <strong style="color: #b45309; font-size: 9px;">🎯 GANANCIA GRANDE · CAPITALIZACIÓN 100%</strong>
+                  <span class="block-badge badge-gold" style="font-size: 7.5px; padding: 1px 4px;">TRINQUETE</span>
+                </div>
+                <div style="color: var(--text-dark);">
+                  • <strong class="val-gold">100% a Bóveda #501:</strong> Airdrops o claims mayores se consolidan al 100% en USDC. Cero dilución ni gasto: sella un nuevo piso perpetuo.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="vault-security-strip" style="margin-top: 5px; padding-top: 4px; font-size: 8px;">
+            <div class="security-chip chip-green" style="width: 100%; justify-content: center;" title="Seguridad estricta: retiro manual verificado">
+              <span class="chip-label">Seguridad:</span>
+              <span class="chip-val">Solo lectura/Trade Spot · Retiro Fiat manual verificado</span>
             </div>
           </div>
         </div>
@@ -1092,125 +1187,142 @@
       </div>
       <div class="win-body">
 
-        <!-- TABLA DE LOS 5 CAPITANES DE BOX (SIN CORTES) -->
+        <!-- TABLA DE LOS 5 CAPITANES DE BOX (ESPACIADO INSTITUCIONAL) -->
         <div class="win-table-wrap">
           <table class="win-table">
             <thead>
               <tr>
-                <th>Box / Capitán</th>
-                <th>POL</th>
-                <th>USDC</th>
-                <th>BNB</th>
-                <th>Misión Asignada</th>
+                <th style="padding: 5px 8px;">Box / Capitán</th>
+                <th style="padding: 5px 8px;">POL</th>
+                <th style="padding: 5px 8px;">USDC</th>
+                <th style="padding: 5px 8px;">BNB</th>
+                <th style="padding: 5px 8px;">Misión Asignada</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>#001 (Box 1)</strong> <span style="color:#64748b;font-size:7.5px;">0xb750...D40F</span></td>
-                <td class="val-green font-bold">18.07</td>
-                <td class="val-gold font-bold">$0.70</td>
-                <td>0.0051</td>
-                <td>Misiones Gasless EIP-712</td>
+                <td style="padding: 4px 8px;"><strong>#001 (Box 1)</strong> <span style="color:#64748b;font-size:7.5px;">0xb750...D40F</span></td>
+                <td style="padding: 4px 8px;" class="val-green font-bold">18.07</td>
+                <td style="padding: 4px 8px;" class="val-gold font-bold">$0.70</td>
+                <td style="padding: 4px 8px;">0.0051</td>
+                <td style="padding: 4px 8px;">Misiones Gasless EIP-712</td>
               </tr>
               <tr>
-                <td><strong>#101 (Box 2)</strong> <span style="color:#64748b;font-size:7.5px;">0x5682...adBA</span></td>
-                <td class="val-green font-bold">18.03</td>
-                <td class="val-gold font-bold">$1.05</td>
-                <td>0.0079</td>
-                <td>DogeOS Cap. 2 &amp; Startale</td>
+                <td style="padding: 4px 8px;"><strong>#101 (Box 2)</strong> <span style="color:#64748b;font-size:7.5px;">0x5682...adBA</span></td>
+                <td style="padding: 4px 8px;" class="val-green font-bold">18.03</td>
+                <td style="padding: 4px 8px;" class="val-gold font-bold">$1.05</td>
+                <td style="padding: 4px 8px;">0.0079</td>
+                <td style="padding: 4px 8px;">DogeOS Cap. 2 &amp; Startale</td>
               </tr>
               <tr>
-                <td><strong>#201 (Box 3)</strong> <span style="color:#64748b;font-size:7.5px;">0x2810...6A7C</span></td>
-                <td class="val-green font-bold">18.01</td>
-                <td class="val-gold font-bold">$0.00</td>
-                <td>0.0079</td>
-                <td>Base Ecosystem &amp; Avantis S3</td>
+                <td style="padding: 4px 8px;"><strong>#201 (Box 3)</strong> <span style="color:#64748b;font-size:7.5px;">0x2810...6A7C</span></td>
+                <td style="padding: 4px 8px;" class="val-green font-bold">18.01</td>
+                <td style="padding: 4px 8px;" class="val-gold font-bold">$0.00</td>
+                <td style="padding: 4px 8px;">0.0079</td>
+                <td style="padding: 4px 8px;">Base Ecosystem &amp; Avantis S3</td>
               </tr>
               <tr>
-                <td><strong>#301 (Box 4)</strong> <span style="color:#64748b;font-size:7.5px;">0xEb6a...Ca0f</span></td>
-                <td class="val-green font-bold">12.01</td>
-                <td class="val-gold font-bold">$0.00</td>
-                <td>0.0051</td>
-                <td>Arbitrum Stylus &amp; OP Chain</td>
+                <td style="padding: 4px 8px;"><strong>#301 (Box 4)</strong> <span style="color:#64748b;font-size:7.5px;">0xEb6a...Ca0f</span></td>
+                <td style="padding: 4px 8px;" class="val-green font-bold">12.01</td>
+                <td style="padding: 4px 8px;" class="val-gold font-bold">$0.00</td>
+                <td style="padding: 4px 8px;">0.0051</td>
+                <td style="padding: 4px 8px;">Arbitrum Stylus &amp; OP Chain</td>
               </tr>
               <tr>
-                <td><strong>#401 (Box 5)</strong> <span style="color:#64748b;font-size:7.5px;">0x4C71...d070</span></td>
-                <td class="val-green font-bold">12.01</td>
-                <td class="val-gold font-bold">$0.00</td>
-                <td>0.0051</td>
-                <td>Citrea Bitcoin ZK &amp; GOAT</td>
+                <td style="padding: 4px 8px;"><strong>#401 (Box 5)</strong> <span style="color:#64748b;font-size:7.5px;">0x4C71...d070</span></td>
+                <td style="padding: 4px 8px;" class="val-green font-bold">12.01</td>
+                <td style="padding: 4px 8px;" class="val-gold font-bold">$0.00</td>
+                <td style="padding: 4px 8px;">0.0051</td>
+                <td style="padding: 4px 8px;">Citrea Bitcoin ZK &amp; GOAT</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <!-- MODELO DE NEGOCIO: INTERÉS COMPUESTO, PISOS & FLUJO PASIVO -->
-        <div class="data-block" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid var(--win-purple); padding: 10px 12px;">
+        <!-- MODELO DE NEGOCIO: INTERÉS COMPUESTO, PISOS & FLUJO PASIVO (DISTRIBUCIÓN TOTAL VERTICAL) -->
+        <div class="data-block" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid var(--win-purple); padding: 9px 12px; gap: 6px; min-height: 0;">
+          
+          <!-- CABECERA Y VISIÓN -->
           <div>
-            <div class="block-header-row" style="margin-bottom: 4px;">
+            <div class="block-header-row" style="margin-bottom: 3px;">
               <span class="block-title" style="white-space: nowrap; font-size: 10.5px;">MODELO DE NEGOCIO &amp; FLUJO MENSUAL PASIVO</span>
               <span class="block-badge badge-gold" style="font-size: 8px; padding: 2px 6px;">LIBERTAD FINANCIERA</span>
             </div>
-            <div style="font-size: 9.5px; color: var(--text-medium); margin-bottom: 6px; line-height: 1.35;">
+            <div style="font-size: 9.3px; color: var(--text-medium); line-height: 1.35;">
               Construcción con pisos inviolables para generar <strong>$500 a $1,500/mes de flujo pasivo constante</strong> sin retroceder jamás.
             </div>
+          </div>
 
-            <!-- REGLA DE MICRO Y MACRO GANANCIAS -->
-            <div style="background:#f1f5f9;border-radius:4px;padding:5px 9px;margin-bottom:6px;font-family:var(--font-code);font-size:8.8px;line-height:1.4;border:1px solid #e2e8f0;">
-              <div><strong class="val-gold">⚡ MICRO-GANANCIAS (70/30):</strong> 70% a Capital (#501) · 30% a Reserva Gas.</div>
-              <div><strong class="val-green">🎯 GANANCIA GRANDE:</strong> 100% Capitalizada de inmediato en USDC en #501 para nuevo piso.</div>
+          <!-- REGLAS DE MICRO Y MACRO GANANCIAS -->
+          <div style="background:#f8fafc; border-radius:5px; padding:5px 9px; font-family:var(--font-code); font-size:8.8px; line-height:1.4; border:1px solid #e2e8f0; border-left:3px solid var(--win-purple); display:flex; flex-direction:column; gap:2px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span><strong class="val-gold">⚡ MICRO-GANANCIAS (70/30):</strong> 70% Capital (#501) · 30% Reserva Gas Flota.</span>
+              <span class="badge-blue" style="font-size:7.5px; padding:1px 4px;">DISCIPLINA</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span><strong class="val-green">🎯 GANANCIA GRANDE:</strong> 100% Capitalizada de inmediato en USDC en #501.</span>
+              <span class="badge-gold" style="font-size:7.5px; padding:1px 4px;">PISO SELLADO</span>
+            </div>
+          </div>
+
+          <!-- SELLO COMPACTO HISTORIAL OLAS CORONADAS -->
+          <div id="crownedWavesSeal" style="padding: 4px 8px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 4px; font-size: 8.8px; font-weight: 700; color: #047857; display: flex; align-items: center; justify-content: space-between;">
+            <span>✅ 1ª Ola ($350) y 2ª Ola ($500) Coronadas al 100%</span>
+            <span class="badge-green" style="font-size:7.5px; padding:1px 5px;">INFRANQUEABLE</span>
+          </div>
+
+          <!-- ESCALERA DE HITOS Y ROADMAP (FLEXIBLE PARA OCUPAR EL ESPACIO) -->
+          <div id="dynamicRoadmapSteps" style="display: flex; flex-direction: column; justify-content: space-between; gap: 6px; flex: 1; min-height: 0;">
+            <!-- FILA ACTIVA #1: TERCERA OLA EN CURSO ($1,000.00 USDC) -->
+            <div class="step-card active-step" id="roadmapStepActive" style="padding: 6px 10px; display: flex; flex-direction: column; justify-content: space-between; gap: 3px;">
+              <div class="step-top" style="font-size: 9.8px;">
+                <span class="val-gold">TERCERA OLA EN CURSO ($1,000.00 USDC)</span>
+                <span class="val-green" style="font-family:var(--font-code);" id="step1Pct">59.88%</span>
+              </div>
+              <div class="step-bar-bg" style="height: 8px; border-radius: 4px;">
+                <div class="step-bar-fill" id="step1Bar" style="width: 59.88%; background: var(--win-primary); border-radius: 4px;"></div>
+              </div>
+              <div class="step-footer" id="step1Footer" style="font-size: 8.6px; line-height: 1.25;">
+                Motor Dual: $490.76 Pol (0% Riesgo) + $100.02 HL L1 · Faltan $401.24 USDC
+              </div>
             </div>
 
-            <!-- SELLO COMPACTO HISTORIAL OLAS CORONADAS -->
-            <div id="crownedWavesSeal" style="padding: 4px 8px; margin-bottom: 6px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 4px; font-size: 9px; font-weight: 700; color: #047857; display: flex; align-items: center; gap: 6px;">
-              <span>✅ 1ª Ola ($350) y 2ª Ola ($500) Coronadas al 100%</span>
+            <!-- FILA #2: PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC) -->
+            <div class="step-card" style="padding: 6px 10px; display: flex; flex-direction: column; justify-content: space-between; gap: 3px;" id="roadmapStepNext">
+              <div class="step-top" style="font-size: 9.5px;">
+                <span>PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC)</span>
+                <span style="font-family:var(--font-code);color:var(--text-muted);" id="step2Pct">40.10%</span>
+              </div>
+              <div class="step-bar-bg" style="height: 8px; border-radius: 4px;">
+                <div class="step-bar-fill" id="step2Bar" style="width: 40.10%; background: var(--win-primary); border-radius: 4px;"></div>
+              </div>
+              <div class="step-footer" id="step2Footer" style="font-size: 8.6px;">
+                Escalado previo al Piso de Renta Mensual
+              </div>
             </div>
 
-            <div id="dynamicRoadmapSteps" style="display: flex; flex-direction: column; gap: 5px;">
-              <!-- FILA ACTIVA #1: TERCERA OLA EN CURSO ($1,000.00 USDC) -->
-              <div class="step-card active-step" id="roadmapStepActive" style="padding: 6px 9px; gap: 3px;">
-                <div class="step-top" style="font-size: 9.5px;">
-                  <span class="val-gold">TERCERA OLA EN CURSO ($1,000.00 USDC)</span>
-                  <span class="val-green" style="font-family:var(--font-code);" id="step1Pct">59.88%</span>
-                </div>
-                <div class="step-bar-bg" style="height: 6px;">
-                  <div class="step-bar-fill" id="step1Bar" style="width: 59.88%; background: var(--win-primary);"></div>
-                </div>
-                <div class="step-footer" id="step1Footer" style="font-size: 8.5px;">
-                  Motor Dual: $490.76 Pol (0% Riesgo) + $100.02 HL L1 · Faltan $401.24 USDC
-                </div>
+            <!-- FILA #3: PISO DE FLUJO MENSUAL (CLICABLE CON ARQUITECTURA) -->
+            <div class="step-card" id="btnOpenFlowArchitecture" style="padding: 6px 10px; display: flex; flex-direction: column; justify-content: space-between; gap: 3px; cursor:pointer; border: 1.5px dashed #8b5cf6; background: #faf5ff; transition: all 0.2s ease;" title="Haz clic aquí para ver la arquitectura detallada de cómo se construye este flujo mensual">
+              <div class="step-top" style="font-size: 9.5px;">
+                <span style="color:#6b21a8; font-weight:800;" id="step3Title">PISO DE FLUJO MENSUAL SOSTENIBLE ($2,000.00 USDC)</span>
+                <span class="block-badge" style="background:#f3e8ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.3); font-size:8px; padding: 2px 5px;">🔍 VER PLAN</span>
               </div>
-
-              <!-- FILA #2: PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC) -->
-              <div class="step-card" style="padding: 5px 9px; gap: 3px;" id="roadmapStepNext">
-                <div class="step-top" style="font-size: 9.5px;">
-                  <span>PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC)</span>
-                  <span style="font-family:var(--font-code);color:var(--text-muted);" id="step2Pct">40.10%</span>
-                </div>
-                <div class="step-bar-bg" style="height: 6px;">
-                  <div class="step-bar-fill" id="step2Bar" style="width: 40.10%; background: var(--win-primary);"></div>
-                </div>
-                <div class="step-footer" id="step2Footer" style="font-size: 8.5px;">
-                  Escalado previo al Piso de Renta Mensual
-                </div>
+              <div class="step-bar-bg" style="height: 8px; background:#e9d5ff; border-radius: 4px;">
+                <div class="step-bar-fill" id="step3Bar" style="width: 30.08%; background: linear-gradient(90deg, #8b5cf6, #3b82f6); border-radius: 4px;"></div>
               </div>
-
-              <!-- FILA #3: PISO DE FLUJO MENSUAL (CLICABLE CON ARQUITECTURA) -->
-              <div class="step-card" id="btnOpenFlowArchitecture" style="padding: 6px 9px; gap: 3px; cursor:pointer; border: 1.5px dashed #8b5cf6; background: #faf5ff; transition: all 0.2s ease;" title="Haz clic aquí para ver la arquitectura detallada de cómo se construye este flujo mensual">
-                <div class="step-top" style="font-size: 9.5px;">
-                  <span style="color:#6b21a8; font-weight:800;" id="step3Title">PISO DE FLUJO MENSUAL SOSTENIBLE ($2,000.00 USDC)</span>
-                  <span class="block-badge" style="background:#f3e8ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.3); font-size:8px; padding: 2px 5px;">🔍 VER PLAN</span>
-                </div>
-                <div class="step-bar-bg" style="height: 6px; background:#e9d5ff;">
-                  <div class="step-bar-fill" id="step3Bar" style="width: 30.08%; background: linear-gradient(90deg, #8b5cf6, #3b82f6);"></div>
-                </div>
-                <div class="step-footer" style="display:flex; justify-content:space-between; align-items:center; font-size: 8.5px;" id="step3Footer">
-                  <span>Cosecha continua USDC #501 ➔ Binance</span>
-                  <span style="color:#7c3aed; font-weight:700;">30.08% 👆 Ver Plan ➔</span>
-                </div>
+              <div class="step-footer" style="display:flex; justify-content:space-between; align-items:center; font-size: 8.6px;" id="step3Footer">
+                <span>Cosecha continua USDC #501 ➔ Binance</span>
+                <span style="color:#7c3aed; font-weight:700;">30.08% 👆 Ver Plan ➔</span>
               </div>
             </div>
           </div>
+
+          <!-- POLÍTICA DE SEGURIDAD DEL TRINQUETE -->
+          <div style="background: #ffffff; border: 1px solid var(--win-border); border-radius: 4px; padding: 3px 8px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-code); font-size: 8px; color: var(--text-medium); margin-top: 1px;">
+            <span>🛡️ REGLA DEL TRINQUETE: Piso base 100% intacto</span>
+            <span style="color: var(--win-purple); font-weight: 700;">CERO RETROCESO</span>
+          </div>
+
         </div>
 
       </div>
@@ -1754,6 +1866,50 @@
       pnlModalOverlay.addEventListener('click', (e) => {
         if (e.target === pnlModalOverlay) closePnlModal();
       });
+    }
+
+    // =========================================================================
+    // COPIADO RÁPIDO DE DIRECCIONES ON-CHAIN CON FEEDBACK VISUAL
+    // =========================================================================
+    window.copyAddress = function(text, btn) {
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showCopiedFeedback(btn);
+        }).catch(() => {
+          fallbackClipboardCopy(text, btn);
+        });
+      } else {
+        fallbackClipboardCopy(text, btn);
+      }
+    };
+
+    function fallbackClipboardCopy(text, btn) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopiedFeedback(btn);
+      } catch (err) {
+        console.error('Error al copiar dirección:', err);
+      }
+    }
+
+    function showCopiedFeedback(btn) {
+      if (!btn) return;
+      const originalContent = btn.innerHTML;
+      btn.classList.add('copied');
+      btn.innerHTML = '<span class="material-symbols-rounded" style="font-size:11px;">done</span><span>¡COPIADO!</span>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = originalContent;
+      }, 1800);
     }
 
     // Terminal de Operaciones: Conexión Real On-Chain (0% Simulación)
