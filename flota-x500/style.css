@@ -402,51 +402,92 @@ body.area501-flota-body {
   border-color: var(--win-primary);
 }
 
-/* BLOQUE EXPLICATIVO: ¿CÓMO MONITOREAMOS LO QUE RECOLECTAN? (3 DETECTORES) */
-.detectors-card {
+/* BLOQUE INTERACTIVO: INVENTARIO EN VIVO EN LAS 500 CARTERAS (TOKENS, PIEDRITAS & NFTs) */
+.inventory-scanner-card {
   background: #ffffff;
   border: 1px solid var(--win-border);
   border-radius: 6px;
-  padding: 7px 8px;
+  padding: 6px 8px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   flex-shrink: 0;
 }
 
-.detectors-card-head {
+.inventory-card-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 800;
   color: var(--text-dark);
   border-bottom: 1px dashed var(--win-border);
   padding-bottom: 4px;
 }
 
-.detector-item {
+.inventory-scan-btn {
+  background: #f1f5f9;
+  border: 1px solid var(--win-border);
+  color: var(--win-primary);
+  font-family: var(--font-code);
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.inventory-scan-btn:hover {
+  background: var(--win-primary-soft);
+  border-color: var(--win-primary);
+}
+
+.inventory-metric-row {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 5px;
-  padding: 4px 6px;
+  padding: 5px 7px;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.detector-item-head {
+.inventory-metric-row:hover {
+  background: #f1f5f9;
+  border-color: var(--win-border-strong);
+  transform: translateY(-0.5px);
+}
+
+.inventory-row-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 8.5px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-.detector-item-desc {
+.inventory-row-desc {
   font-size: 8px;
-  line-height: 1.3;
+  line-height: 1.25;
   color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inventory-view-btn {
+  font-family: var(--font-code);
+  font-size: 7.8px;
+  font-weight: 700;
+  color: var(--win-primary);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .btn-open-inspector-primary {
@@ -474,6 +515,58 @@ body.area501-flota-body {
   color: #ffffff;
   box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
   transform: translateY(-0.5px);
+}
+
+/* CHIPS DE ENTORNO: MAINNET VS TESTNET EN CALENDARIO */
+.badge-mainnet-chip {
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  font-family: var(--font-code);
+  font-size: 7.8px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.badge-testnet-chip {
+  background: rgba(2, 132, 199, 0.12);
+  color: #0369a1;
+  border: 1px solid rgba(2, 132, 199, 0.35);
+  font-family: var(--font-code);
+  font-size: 7.8px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.contract-chip-link {
+  font-family: var(--font-code);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--win-primary);
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  transition: all 0.15s ease;
+}
+
+.contract-chip-link:hover {
+  background: var(--win-primary-soft);
+  border-color: var(--win-primary);
 }
 
 /* =============================================================================
@@ -642,11 +735,12 @@ body.area501-flota-body {
 .term-filters-strip {
   display: flex;
   align-items: center;
-  gap: 3px;
-  padding: 4px 8px;
+  gap: 6px;
+  padding: 5px 8px;
   background: #0d1322;
   border-bottom: 1px solid #1e293b;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .term-filter-btn {
@@ -654,12 +748,13 @@ body.area501-flota-body {
   border: 1px solid #334155;
   color: #94a3b8;
   font-family: var(--font-code);
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: 700;
-  padding: 2px 5px;
-  border-radius: 3px;
+  padding: 3px 8px;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .term-filter-btn:hover {
@@ -668,9 +763,10 @@ body.area501-flota-body {
 }
 
 .term-filter-btn.active {
-  background: rgba(56, 189, 248, 0.2);
+  background: rgba(56, 189, 248, 0.22);
   border-color: #38bdf8;
   color: #38bdf8;
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.25);
 }
 
 /* INFORME ESPECIAL DE RACHA (STREAK-ELIGIBILITY-REPORTER) */
@@ -707,34 +803,36 @@ body.area501-flota-body {
   background: var(--term-bg);
   padding: 8px 10px;
   font-family: var(--font-code);
-  font-size: 9px;
-  line-height: 1.4;
+  font-size: 9.5px;
+  line-height: 1.45;
   color: var(--term-white);
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   min-height: 0;
 }
 
 .term-log-row {
   display: grid;
-  grid-template-columns: 55px 75px 1fr 65px;
-  gap: 6px;
-  padding: 2px 0;
-  border-bottom: 1px solid rgba(30, 41, 59, 0.4);
-  align-items: baseline;
+  grid-template-columns: 52px 82px 1fr 108px;
+  gap: 8px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.45);
+  align-items: center;
 }
 
 .term-log-time {
   color: var(--term-dim);
   font-size: 8px;
+  font-family: var(--font-code);
 }
 
 .term-log-bot {
   color: var(--term-gold);
   font-weight: 700;
+  font-size: 9px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -742,20 +840,37 @@ body.area501-flota-body {
 
 .term-log-action {
   color: #cbd5e1;
+  font-size: 9px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.term-log-link {
-  color: var(--term-cyan);
-  text-align: right;
+.term-tx-pill-btn {
+  background: #1e293b;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: #38bdf8;
+  font-family: var(--font-code);
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
   text-decoration: none;
-  font-size: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  line-height: 1.2;
 }
 
-.term-log-link:hover {
-  text-decoration: underline;
+.term-tx-pill-btn:hover {
+  background: #38bdf8;
+  color: #090d16;
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+  transform: translateY(-0.5px);
 }
 
 .term-prompt-strip {

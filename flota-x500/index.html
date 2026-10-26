@@ -49,20 +49,20 @@
       </div>
     </div>
 
-    <!-- TARJETA 2 · 🌾 RECOLECTADO LÍQUIDO (HACIA #501) -->
-    <div class="win-metric-card" id="cardLiquidHarvest" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="Cosecha Líquida de la Flota hacia Bóveda #501 (Clic para ver política de retiro)">
+    <!-- TARJETA 2 · 🌾 LIQUIDEZ EN FLOTA X500 (PROHIBIDO SUMAR CAPITAL #501) -->
+    <div class="win-metric-card" id="cardLiquidHarvest" onclick="openBinancePolicyModal()" style="cursor: pointer;" title="Liquidez real acumulada en las 500 carteras (Clic para ver política de retiro)">
       <div class="win-metric-head">
-        <span style="display: flex; align-items: center; gap: 4px;">
+        <span style="display: flex; align-items: center; gap: 4px; white-space: nowrap;">
           <span class="material-symbols-rounded icon-xs val-green">savings</span>
-          <span>🌾 RECOLECTADO LÍQUIDO</span>
+          <span>🌾 LIQUIDEZ EN FLOTA X500</span>
         </span>
-        <span class="badge-tag-tiny badge-gold" id="harvestSplitBadge">70/30 MICRO</span>
+        <span class="badge-tag-tiny badge-gold" id="harvestSplitBadge">SOLO 500 BOTS</span>
       </div>
       <div class="win-metric-val val-green" id="topHarvestedUsdc">
-        $492.51 USDC
+        $4.70 USDC EN BOLSILLOS
       </div>
-      <div class="win-metric-sub" id="topHarvestSub">
-        Regla 70/30 Micro · 100% Macro ➔ Bóveda #501
+      <div class="win-metric-sub" id="topHarvestSub" title="Capitanes: $1.75 · Satélites: $2.95 · Barrido a #501: $0.00">
+        Capitanes: $1.75 · Satélites: $2.95 · Barrido a #501: $0.00
       </div>
     </div>
 
@@ -117,20 +117,20 @@
       </div>
     </div>
 
-    <!-- TARJETA 6 · ⏰ PRÓXIMO CORTE INMINENTE (CUENTA ATRÁS) -->
+    <!-- TARJETA 6 · ⏰ PRÓXIMO CORTE INMINENTE (CALIBRADA CERO DESBORDE) -->
     <div class="win-metric-card" id="cardNextCut" title="Fecha inminente de cierre: 30 de Octubre de 2026 (Base Avantis S3 y DogeOS Cap. 2)">
       <div class="win-metric-head">
-        <span style="display: flex; align-items: center; gap: 4px;">
+        <span style="display: flex; align-items: center; gap: 4px; white-space: nowrap; font-size: 8.8px;">
           <span class="material-symbols-rounded icon-xs val-danger">alarm</span>
-          <span>⏰ CORTE INMINENTE</span>
+          <span>⏰ PRÓXIMO CORTE</span>
         </span>
-        <span class="badge-tag-tiny badge-danger" id="daysLeftBadge">QUEDAN 4 DÍAS</span>
+        <span class="badge-tag-tiny badge-danger" id="daysLeftBadge" style="padding: 1px 5px; font-size: 8px;">4 DÍAS</span>
       </div>
       <div class="win-metric-val val-danger" id="topCutCountdown">
-        CIERRE 30 OCT
+        CIERRE: 30 OCT
       </div>
-      <div class="win-metric-sub" id="topCutSub">
-        Base / Avantis S3 &amp; DogeOS Cap. 2
+      <div class="win-metric-sub" id="topCutSub" style="font-size: 8.5px; white-space: nowrap;">
+        Base/Avantis S3 &amp; DogeOS Cap. 2
       </div>
     </div>
 
@@ -280,43 +280,58 @@
             </table>
           </div>
 
-          <!-- 2. Bloque Explicativo: ¿Cómo monitoreamos lo que recolectan? (3 Detectores) -->
-          <div class="detectors-card">
-            <div class="detectors-card-head">
-              <span>🔬 ¿CÓMO MONITOREAMOS LO QUE RECOLECTAN?</span>
-              <span class="badge-tag-tiny badge-green">3 DETECTORES ON-CHAIN</span>
+          <!-- 2. Bloque Interactivo: Inventario en Vivo en las 500 Carteras (Tokens, Piedritas & NFTs) -->
+          <div class="inventory-scanner-card">
+            <div class="inventory-card-head">
+              <span style="display: flex; align-items: center; gap: 4px;">
+                <span class="material-symbols-rounded icon-xs val-blue">radar</span>
+                <span>🔎 INVENTARIO EN VIVO (500 CARTERAS)</span>
+              </span>
+              <button class="inventory-scan-btn" onclick="scanFleetInventory()" title="Escanear en vivo monedas y NFTs en las 500 carteras">
+                <span class="material-symbols-rounded icon-xs">sync</span>
+                <span id="scanBtnText">ESCANEAR 500</span>
+              </button>
             </div>
 
-            <!-- Detector 1 -->
-            <div class="detector-item">
-              <div class="detector-item-head">
-                <span style="color: var(--win-primary);">1. Tokens Líquidos ➔ USDC #501</span>
-                <span class="badge-tag-tiny badge-blue">Multicall3 + Odos SOR</span>
+            <!-- Fila 1: Tokens / USDC Líquido en Bolsillos -->
+            <div class="inventory-metric-row" onclick="openBoxDossierWithFilter('TOKENS')" title="Clic para ver las carteras con saldo en el Inspector">
+              <div class="inventory-row-top">
+                <span style="color: var(--win-success); display: flex; align-items: center; gap: 3px;">
+                  <span>🪙</span> <span>MONEDAS / TOKENS EN BOLSILLOS</span>
+                </span>
+                <span class="badge-tag-tiny badge-green" id="invTokenWalletsBadge">11 CARTERAS ($4.70 USDC)</span>
               </div>
-              <div class="detector-item-desc">
-                Escanea balances ERC-20 cada 30m; si un airdrop o swap entra a cualquier satélite, enruta conversión directa a USDC hacia la Bóveda #501.
-              </div>
-            </div>
-
-            <!-- Detector 2 -->
-            <div class="detector-item">
-              <div class="detector-item-head">
-                <span style="color: var(--win-purple);">2. "Piedritas" / NFTs &amp; Medallas</span>
-                <span class="badge-tag-tiny badge-purple">Instant Seaport Flip</span>
-              </div>
-              <div class="detector-item-desc">
-                Rastrea ERC-721/1155 y Badges. Si hay Collection Bid en mercado que supere el gas (+$0.05 neto), liquida al instante en USDC.
+              <div class="inventory-row-desc">
+                <span>Capitanes ($1.75) + 9 Satélites ($2.95)</span>
+                <span class="inventory-view-btn">[Ver cuáles ➔]</span>
               </div>
             </div>
 
-            <!-- Detector 3 -->
-            <div class="detector-item">
-              <div class="detector-item-head">
-                <span style="color: var(--win-success);">3. Escudo GoPlus Anti-Trampa</span>
-                <span class="badge-tag-tiny badge-green">0% Honeypot</span>
+            <!-- Fila 2: "Piedritas", NFTs & Medallas -->
+            <div class="inventory-metric-row" onclick="openBoxDossierWithFilter('NFTS')" title="Clic para ver las carteras con NFTs o medallas en el Inspector">
+              <div class="inventory-row-top">
+                <span style="color: var(--win-purple); display: flex; align-items: center; gap: 3px;">
+                  <span>💎</span> <span>"PIEDRITAS", NFTs &amp; MEDALLAS</span>
+                </span>
+                <span class="badge-tag-tiny badge-purple" id="invNftWalletsBadge">4 MAINNET · 48 TESTNET</span>
               </div>
-              <div class="detector-item-desc">
-                Inspecciona bytecode de contrato antes de firmar cualquier claim o mint para asegurar 0% riesgo y blindar el gas.
+              <div class="inventory-row-desc">
+                <span>Badges / Mints activos en #001..#500</span>
+                <span class="inventory-view-btn">[Ver carteras ➔]</span>
+              </div>
+            </div>
+
+            <!-- Fila 3: Puntos & Firmas On-Chain (Nonces Reales) -->
+            <div class="inventory-metric-row" onclick="openMiningAuditModal()" title="Clic para ver auditoría de nonces y puntos">
+              <div class="inventory-row-top">
+                <span style="color: var(--win-primary); display: flex; align-items: center; gap: 3px;">
+                  <span>⛏️</span> <span>PUNTOS &amp; NONCES EN CADENA</span>
+                </span>
+                <span class="badge-tag-tiny badge-blue">500/500 SANA (11,468 TXS)</span>
+              </div>
+              <div class="inventory-row-desc">
+                <span>Escudo GoPlus: 0% Honeypot en 5 Frentes</span>
+                <span class="inventory-view-btn">[Auditar ➔]</span>
               </div>
             </div>
           </div>
@@ -389,10 +404,17 @@
                         <span class="chain-dot-mini chain-dot-polygon"></span>
                         <strong style="color: var(--text-dark); font-size: 9.5px;">Misiones Gasless EIP-712</strong>
                       </div>
-                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
-                        Polygon &amp; BSC · <a href="https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270" target="_blank" rel="noopener noreferrer" class="explorer-link">0x0d50...1270 ↗</a>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <span>Polygon &amp; BSC</span> · 
+                        <a href="https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270" target="_blank" rel="noopener noreferrer" class="contract-chip-link" title="Auditar contrato en PolygonScan">
+                          <span>0x0d50...1270</span>
+                          <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                        </a>
                       </div>
-                      <span class="badge-tag-tiny badge-blue" style="margin-top: 2px;">🔥 PRIORIDAD #1</span>
+                      <div style="margin-top: 3px; display: flex; gap: 3px;">
+                        <span class="badge-tag-tiny badge-blue">🔥 PRIORIDAD #1</span>
+                        <span class="badge-mainnet-chip">🟢 MAINNET ($0 EIP-712)</span>
+                      </div>
                     </td>
                     <td>
                       <strong style="color: var(--win-success); font-size: 9px;">DÍA 2 / 25 ACTIVO</strong>
@@ -421,10 +443,17 @@
                         <span class="chain-dot-mini chain-dot-base"></span>
                         <strong style="color: var(--text-dark); font-size: 9.5px;">Base Avantis S3 &amp; Jumper</strong>
                       </div>
-                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
-                        Base L2 Official · <a href="https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE" target="_blank" rel="noopener noreferrer" class="explorer-link">0x1231...4EaE ↗</a>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <span>Base L2 Official</span> · 
+                        <a href="https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE" target="_blank" rel="noopener noreferrer" class="contract-chip-link" title="Auditar contrato en BaseScan">
+                          <span>0x1231...4EaE</span>
+                          <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                        </a>
                       </div>
-                      <span class="badge-tag-tiny badge-danger" style="margin-top: 2px;">🔥 PRIORIDAD #2</span>
+                      <div style="margin-top: 3px; display: flex; gap: 3px;">
+                        <span class="badge-tag-tiny badge-danger">🔥 PRIORIDAD #2</span>
+                        <span class="badge-mainnet-chip">🟢 MAINNET (GAS REAL)</span>
+                      </div>
                     </td>
                     <td>
                       <strong style="color: var(--win-danger); font-size: 9px;">CIERRE EN 4 DÍAS</strong>
@@ -453,10 +482,17 @@
                         <span class="chain-dot-mini chain-dot-base"></span>
                         <strong style="color: var(--text-dark); font-size: 9.5px;">DogeOS Cap. 2 &amp; Startale</strong>
                       </div>
-                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
-                        Base / Soneium · <a href="https://basescan.org/address/0x4200000000000000000000000000000000000006" target="_blank" rel="noopener noreferrer" class="explorer-link">0x4200...0006 ↗</a>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <span>Base / Soneium L2</span> · 
+                        <a href="https://basescan.org/address/0x4200000000000000000000000000000000000006" target="_blank" rel="noopener noreferrer" class="contract-chip-link" title="Auditar contrato en BaseScan">
+                          <span>0x4200...0006</span>
+                          <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                        </a>
                       </div>
-                      <span class="badge-tag-tiny badge-danger" style="margin-top: 2px;">🔥 PRIORIDAD #3</span>
+                      <div style="margin-top: 3px; display: flex; gap: 3px;">
+                        <span class="badge-tag-tiny badge-danger">🔥 PRIORIDAD #3</span>
+                        <span class="badge-mainnet-chip">🟢 MAINNET ($0 EIP-712)</span>
+                      </div>
                     </td>
                     <td>
                       <strong style="color: var(--win-danger); font-size: 9px;">CIERRE EN 4 DÍAS</strong>
@@ -485,10 +521,17 @@
                         <span class="chain-dot-mini chain-dot-arbitrum"></span>
                         <strong style="color: var(--text-dark); font-size: 9.5px;">Arbitrum Stylus &amp; OP</strong>
                       </div>
-                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
-                        Arbitrum One · <a href="https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1" target="_blank" rel="noopener noreferrer" class="explorer-link">0x82aF...Bab1 ↗</a>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <span>Arbitrum One / Sepolia</span> · 
+                        <a href="https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1" target="_blank" rel="noopener noreferrer" class="contract-chip-link" title="Auditar contrato en ArbiScan">
+                          <span>0x82aF...Bab1</span>
+                          <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                        </a>
                       </div>
-                      <span class="badge-tag-tiny badge-purple" style="margin-top: 2px;">⚡ PRIORIDAD #4</span>
+                      <div style="margin-top: 3px; display: flex; gap: 3px;">
+                        <span class="badge-tag-tiny badge-purple">⚡ PRIORIDAD #4</span>
+                        <span class="badge-testnet-chip">🧪 TESTNET (SIEMBRA $0)</span>
+                      </div>
                     </td>
                     <td>
                       <strong style="color: var(--win-primary); font-size: 9px;">SIEMBRA CONTINUA</strong>
@@ -517,10 +560,17 @@
                         <span class="chain-dot-mini chain-dot-citrea"></span>
                         <strong style="color: var(--text-dark); font-size: 9.5px;">Citrea ZK &amp; GOAT Net</strong>
                       </div>
-                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 1px;">
-                        Citrea BTC L2 · <a href="https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11" target="_blank" rel="noopener noreferrer" class="explorer-link">0xcA11...CA11 ↗</a>
+                      <div style="font-size: 7.5px; color: var(--text-muted); margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <span>Citrea BTC L2</span> · 
+                        <a href="https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11" target="_blank" rel="noopener noreferrer" class="contract-chip-link" title="Auditar contrato en Citrea Explorer">
+                          <span>0xcA11...CA11</span>
+                          <span class="material-symbols-rounded icon-xs">open_in_new</span>
+                        </a>
                       </div>
-                      <span class="badge-tag-tiny badge-gold" style="margin-top: 2px;">🌱 PRIORIDAD #5</span>
+                      <div style="margin-top: 3px; display: flex; gap: 3px;">
+                        <span class="badge-tag-tiny badge-gold">🌱 PRIORIDAD #5</span>
+                        <span class="badge-testnet-chip">🧪 TESTNET (SIEMBRA $0)</span>
+                      </div>
                     </td>
                     <td>
                       <strong style="color: var(--win-gold); font-size: 9px;">SEMILLAS BTC L2</strong>
@@ -590,16 +640,16 @@
           </div>
         </div>
 
-        <!-- Filtros rápidos por Box -->
+        <!-- Filtros rápidos por Box (Agrandados y confortables) -->
         <div class="term-filters-strip">
-          <span style="font-family: var(--font-code); font-size: 8px; color: #64748b; margin-right: 2px;">FILTRO:</span>
+          <span style="font-family: var(--font-code); font-size: 8.5px; color: #64748b; margin-right: 2px;">FILTRO:</span>
           <button class="term-filter-btn active" id="termBtnFilter-ALL" onclick="filterActivityLog('ALL')">TODOS</button>
           <button class="term-filter-btn" id="termBtnFilter-BOX1" onclick="filterActivityLog('BOX1')">BOX 1</button>
           <button class="term-filter-btn" id="termBtnFilter-BOX2" onclick="filterActivityLog('BOX2')">BOX 2</button>
           <button class="term-filter-btn" id="termBtnFilter-BOX3" onclick="filterActivityLog('BOX3')">BOX 3</button>
           <button class="term-filter-btn" id="termBtnFilter-BOX4" onclick="filterActivityLog('BOX4')">BOX 4</button>
           <button class="term-filter-btn" id="termBtnFilter-BOX5" onclick="filterActivityLog('BOX5')">BOX 5</button>
-          <button class="term-filter-btn" id="termBtnFilter-HASH" onclick="filterActivityLog('HASH_ONLY')">SOLO TX</button>
+          <button class="term-filter-btn" id="termBtnFilter-HASH" onclick="filterActivityLog('HASH_ONLY')">🔗 SOLO TX ON-CHAIN</button>
         </div>
 
         <!-- Informe Especial Diario de Racha (streak-eligibility-reporter) -->
