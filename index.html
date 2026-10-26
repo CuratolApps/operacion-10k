@@ -868,16 +868,16 @@
     </div>
 
     <!-- TARJETA 3: BÓVEDA MATRIZ #501 -->
-    <div class="win-metric-card" title="Fondos líquidos on-chain en Bóveda Matriz #501 (Polygon &amp; BSC)">
+    <div class="win-metric-card" title="Fondos líquidos on-chain en Bóveda Matriz #501 (Polygon &amp; Arbitrum/HL &amp; BSC)">
       <div class="win-metric-head">
         <span>🏛️ Bóveda Matriz #501</span>
-        <span class="block-badge badge-blue">DUAL CHAIN</span>
+        <span class="block-badge badge-blue">MULTI-CHAIN</span>
       </div>
       <div class="win-metric-val val-blue">
-        <span id="valVault501Usdc">$459.40</span>
+        <span id="valVault501Usdc">$600.78</span>
         <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="win-metric-sub">+$7.98 USDC en BSC</div>
+      <div class="win-metric-sub" id="subVault501Usdc">Cámara 1 Pol: $500.31 (0% Riesgo) · Cámara 2 Arb/HL: $92.49 USDC</div>
     </div>
 
     <!-- TARJETA 4: GAS TOTAL & AUTONOMÍA -->
@@ -893,30 +893,30 @@
       <div class="win-metric-sub">155.05 #501 · 78.13 Caps</div>
     </div>
 
-    <!-- TARJETA 5: PNL REAL & FLUCTUACIÓN -->
-    <div class="win-metric-card" title="Rendimiento neto real del capital y valoración de mercado del gas en tiempo real">
+    <!-- TARJETA 5: PNL NETO OPERATIVO -->
+    <div class="win-metric-card" title="Rendimiento neto real del capital y PnL operativo estricto de bots">
       <div class="win-metric-head">
-        <span>📊 PnL Neto &amp; Gas</span>
-        <span class="block-badge badge-green" id="badgePnlNeto">+4.47% NETO</span>
+        <span>📊 PnL Neto Operativo</span>
+        <span class="block-badge badge-green" id="badgePnlNeto">0.00% ROI OPERATIVO (BASE: $601.53)</span>
       </div>
       <div class="win-metric-val val-pnl">
-        <span id="valRealPnl">+$20.13</span>
+        <span id="valRealPnl">+$0.00</span>
         <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="win-metric-sub" id="valGasSub">Gas Valor: ~$60.27 USD</div>
+      <div class="win-metric-sub" id="valGasSub">Inyección Base: $601.53 USDC · PnL Bots: +$0.00 USDC · Gas Red: Blindado</div>
     </div>
 
     <!-- TARJETA 6: PISO FIRME & META -->
-    <div class="win-metric-card" title="Piso inviolable asegurado hacia la meta de consolidación">
+    <div class="win-metric-card" title="Piso inviolable asegurado hacia la meta de consolidación" id="cardMilestoneTop">
       <div class="win-metric-head">
         <span>🛡️ Piso Firme &amp; Meta</span>
-        <span class="block-badge badge-gold">94.0% AVANCE</span>
+        <span class="block-badge badge-gold" id="badgeMilestoneTop">3ª OLA ACTIVA</span>
       </div>
-      <div class="win-metric-val val-purple">
-        <span>$450 ➔ $500</span>
+      <div class="win-metric-val val-purple" id="valMilestoneTop">
+        <span id="valMilestoneTarget">$601.53 ➔ $1,000</span>
         <span style="font-size:10px;color:var(--text-muted);">USDC</span>
       </div>
-      <div class="win-metric-sub">Restan solo +$29.87 a Meta</div>
+      <div class="win-metric-sub" id="subMilestoneTop">2ª Ola ($500) Coronada ✅ · Faltan $398.47 USDC para 3ª Ola</div>
     </div>
   </header>
 
@@ -941,7 +941,7 @@
       </div>
       <div class="win-body">
 
-        <!-- BÓVEDA MATRIZ #501 (NODRIZA DUAL) -->
+        <!-- BÓVEDA MATRIZ #501 (NODRIZA DUAL / MULTI-CHAIN) -->
         <div class="data-block primary-vault" style="flex: 1.35; display: flex; flex-direction: column; justify-content: space-between;">
           <div>
             <div class="block-header-row">
@@ -950,10 +950,12 @@
             </div>
             <span class="code-address">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
             <div class="data-grid-2col">
-              <div class="data-item"><span class="data-label">USDC Polygon:</span><strong class="val-gold">$459.40</strong></div>
-              <div class="data-item"><span class="data-label">POL Nativo:</span><strong class="val-green">155.05 POL</strong></div>
+              <div class="data-item"><span class="data-label">USDC Polygon (Cámara 1):</span><strong class="val-gold">$500.31</strong></div>
+              <div class="data-item"><span class="data-label">Gas Pol:</span><strong class="val-green">233.18 POL (Piso 155.05 Blindado)</strong></div>
+              <div class="data-item"><span class="data-label">USDC Arbitrum / HL (Cámara 2):</span><strong class="val-gold">$92.49</strong></div>
+              <div class="data-item"><span class="data-label">Gas Arb:</span><strong class="val-green">ETH Activo ($0.00 Gas L1)</strong></div>
               <div class="data-item"><span class="data-label">USDC BSC:</span><strong>$7.98</strong></div>
-              <div class="data-item"><span class="data-label">BNB BSC:</span><strong>0.0188 BNB</strong></div>
+              <div class="data-item"><span class="data-label">Gas BSC:</span><strong>0.0403 BNB</strong></div>
             </div>
             <div class="vault-security-strip">
               <div class="security-chip chip-blue" title="Permiso on-chain verificado en contrato AtomicSniperExecutor (0x03Ac...6b67)">
@@ -962,13 +964,19 @@
               </div>
               <div class="security-chip chip-green" title="Piso sagrado intocable de reserva de combustible en #501">
                 <span class="chip-label">Piso Gas:</span>
-                <span class="chip-val">150 POL Blindado</span>
+                <span class="chip-val">155.05 POL Blindado</span>
               </div>
             </div>
           </div>
-          <div class="win-actions-row">
+          <div class="win-actions-row" style="flex-wrap: wrap;">
             <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
               <span>↗</span> POLYGONSCAN
+            </a>
+            <a href="https://arbiscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
+              <span>↗</span> ARBISCAN
+            </a>
+            <a href="https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
+              <span>↗</span> HYPERLIQUID L1
             </a>
             <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="win-link-btn">
               <span>↗</span> BSCSCAN
@@ -1099,46 +1107,53 @@
               <div><strong class="val-green">🎯 GANANCIA GRANDE:</strong> 100% Capitalizada de inmediato en USDC en #501 para nuevo piso.</div>
             </div>
 
-            <!-- HITO ACTUAL: SEGUNDA BOLA ($500 USDC) -->
-            <div class="step-card active-step">
-              <div class="step-top">
-                <span class="val-gold">SEGUNDA BOLA ($500.00 USDC)</span>
-                <span class="val-green" style="font-family:var(--font-code);">100.0% ✅</span>
-              </div>
-              <div class="step-bar-bg">
-                <div class="step-bar-fill" style="width: 100.0%; background: #16a34a;"></div>
-              </div>
-              <div class="step-footer">
-                Piso Coronado: $500.31 USDC en Polygon + $90.49 USDC en Hyperliquid L1
-              </div>
+            <!-- SELLO COMPACTO HISTORIAL OLAS CORONADAS -->
+            <div id="crownedWavesSeal" style="padding: 4px 8px; margin-bottom: 6px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 4px; font-size: 9.5px; font-weight: 700; color: #047857; display: flex; align-items: center; gap: 6px;">
+              <span>✅ 1ª Ola ($350) y 2ª Ola ($500) Coronadas al 100%</span>
             </div>
 
-            <!-- HITO 2: TERCERA BOLA ($1,000 USDC) -->
-            <div class="step-card" style="margin-top:5px;">
-              <div class="step-top">
-                <span>PRÓXIMO PISO: TERCERA BOLA ($1,000.00 USDC)</span>
-                <span style="font-family:var(--font-code);color:var(--text-muted);">60.2%</span>
+            <div id="dynamicRoadmapSteps">
+              <!-- FILA ACTIVA #1: TERCERA OLA EN CURSO ($1,000.00 USDC) -->
+              <div class="step-card active-step" id="roadmapStepActive">
+                <div class="step-top">
+                  <span class="val-gold">TERCERA OLA EN CURSO ($1,000.00 USDC)</span>
+                  <span class="val-green" style="font-family:var(--font-code);" id="step1Pct">60.15%</span>
+                </div>
+                <div class="step-bar-bg">
+                  <div class="step-bar-fill" id="step1Bar" style="width: 60.15%; background: var(--win-primary);"></div>
+                </div>
+                <div class="step-footer" id="step1Footer">
+                  Motor Dual Activo: $500.31 USDC en Polygon (0% Riesgo) + $92.49 USDC en Arbitrum/Hyperliquid L1 · Faltan $398.47 USDC
+                </div>
               </div>
-              <div class="step-bar-bg">
-                <div class="step-bar-fill" style="width: 60.2%; background: var(--win-primary);"></div>
-              </div>
-              <div class="step-footer">
-                Multiplicación 2X con Cero Retiro · Expansión a Hyperliquid
-              </div>
-            </div>
 
-            <!-- HITO 3: PISO DE FLUJO MENSUAL (CLICABLE CON ARQUITECTURA) -->
-            <div class="step-card" id="btnOpenFlowArchitecture" style="margin-top:5px; cursor:pointer; border: 1.5px dashed #8b5cf6; background: #faf5ff; transition: all 0.2s ease;" title="Haz clic aquí para ver la arquitectura detallada de cómo se construye este flujo mensual">
-              <div class="step-top">
-                <span style="color:#6b21a8; font-weight:800;">PISO DE FLUJO MENSUAL ($500–$1,500/MES)</span>
-                <span class="block-badge" style="background:#f3e8ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.3); font-size:8px;">🔍 CLIC: VER PLAN</span>
+              <!-- FILA #2: PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC) -->
+              <div class="step-card" style="margin-top:5px;" id="roadmapStepNext">
+                <div class="step-top">
+                  <span>PRÓXIMO PISO: CUARTA OLA ($1,500.00 USDC)</span>
+                  <span style="font-family:var(--font-code);color:var(--text-muted);" id="step2Pct">40.10%</span>
+                </div>
+                <div class="step-bar-bg">
+                  <div class="step-bar-fill" id="step2Bar" style="width: 40.10%; background: var(--win-primary);"></div>
+                </div>
+                <div class="step-footer" id="step2Footer">
+                  Escalado previo al Piso de Renta Mensual
+                </div>
               </div>
-              <div class="step-bar-bg" style="background:#e9d5ff;">
-                <div class="step-bar-fill" style="width: 24.1%; background: linear-gradient(90deg, #8b5cf6, #3b82f6);"></div>
-              </div>
-              <div class="step-footer" style="display:flex; justify-content:space-between; align-items:center;">
-                <span>Avance Base: <strong>24.1%</strong> ($601.53 / $2,500 USDC)</span>
-                <span style="color:#7c3aed; font-weight:700;">👆 Ver Plan ➔</span>
+
+              <!-- FILA #3: PISO DE FLUJO MENSUAL (CLICABLE CON ARQUITECTURA) -->
+              <div class="step-card" id="btnOpenFlowArchitecture" style="margin-top:5px; cursor:pointer; border: 1.5px dashed #8b5cf6; background: #faf5ff; transition: all 0.2s ease;" title="Haz clic aquí para ver la arquitectura detallada de cómo se construye este flujo mensual">
+                <div class="step-top">
+                  <span style="color:#6b21a8; font-weight:800;" id="step3Title">PISO DE FLUJO MENSUAL SOSTENIBLE ($2,000.00 USDC ➔ $500 - $1,500/MES)</span>
+                  <span class="block-badge" style="background:#f3e8ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.3); font-size:8px;">🔍 CLIC: VER PLAN</span>
+                </div>
+                <div class="step-bar-bg" style="background:#e9d5ff;">
+                  <div class="step-bar-fill" id="step3Bar" style="width: 30.08%; background: linear-gradient(90deg, #8b5cf6, #3b82f6);"></div>
+                </div>
+                <div class="step-footer" style="display:flex; justify-content:space-between; align-items:center;" id="step3Footer">
+                  <span>Cosecha continua en USDC hacia Bóveda #501 y retiro manual a Binance</span>
+                  <span style="color:#7c3aed; font-weight:700;">30.08% 👆 Ver Plan ➔</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1345,38 +1360,171 @@
     setInterval(updateClock, 1000);
     updateClock();
 
+    // Escalera Oficial de Pisos y Metas Dinámicas
+    const OFFICIAL_MILESTONES = [
+      { target: 350, label: "1ª Ola", name: "Primera Ola ($350)" },
+      { target: 500, label: "2ª Ola", name: "Segunda Ola ($500)" },
+      { target: 1000, label: "3ª Ola", name: "Tercera Ola ($1,000)" },
+      { target: 1500, label: "4ª Ola", name: "Cuarta Ola ($1,500)" },
+      { target: 2000, label: "Piso Flujo Pasivo", name: "Quinta Ola ($2,000)" }
+    ];
+
+    function computeActiveMilestone(totalUsdc) {
+      const total = typeof totalUsdc === 'number' ? totalUsdc : parseFloat(totalUsdc) || 601.53;
+      let crowned = [];
+      let nextMilestone = null;
+      let prevMilestone = null;
+
+      for (let i = 0; i < OFFICIAL_MILESTONES.length; i++) {
+        if (total >= OFFICIAL_MILESTONES[i].target) {
+          crowned.push(OFFICIAL_MILESTONES[i]);
+          prevMilestone = OFFICIAL_MILESTONES[i];
+        } else {
+          if (!nextMilestone) {
+            nextMilestone = OFFICIAL_MILESTONES[i];
+          }
+        }
+      }
+
+      if (!nextMilestone) {
+        nextMilestone = { target: 5000, label: "Flujo Expansión", name: "Meta $5,000" };
+      }
+
+      const missing = Math.max(0, +(nextMilestone.target - total).toFixed(2));
+      const activeWaveNum = crowned.length + 1;
+      const badgeText = `${activeWaveNum}ª OLA ACTIVA`;
+      const targetText = `$${total.toFixed(2)} ➔ $${nextMilestone.target.toLocaleString()}`;
+      const prevLabel = prevMilestone ? `${prevMilestone.label} ($${prevMilestone.target}) Coronada ✅` : 'Iniciando';
+      const subText = `${prevLabel} · Faltan $${missing.toFixed(2)} USDC para ${nextMilestone.label}`;
+
+      const badgeEl = document.getElementById('badgeMilestoneTop');
+      const valEl = document.getElementById('valMilestoneTarget');
+      const subEl = document.getElementById('subMilestoneTop');
+
+      if (badgeEl) badgeEl.textContent = badgeText;
+      if (valEl) valEl.textContent = targetText;
+      if (subEl) subEl.textContent = subText;
+    }
+
+    const ROADMAP_WAVES = [
+      { target: 350, waveNum: 1, name: "1ª Ola ($350)", desc: "Consolidación de Capital Semilla" },
+      { target: 500, waveNum: 2, name: "2ª Ola ($500)", desc: "Piso Firme 0% Riesgo en Polygon" },
+      { target: 1000, waveNum: 3, name: "TERCERA OLA ($1,000.00 USDC)", desc: "Motor Dual Activo: $500.31 USDC en Polygon (0% Riesgo) + $92.49 USDC en Arbitrum/Hyperliquid L1" },
+      { target: 1500, waveNum: 4, name: "CUARTA OLA ($1,500.00 USDC)", desc: "Escalado previo al Piso de Renta Mensual" },
+      { target: 2000, waveNum: 5, name: "PISO DE FLUJO MENSUAL SOSTENIBLE ($2,000.00 USDC ➔ $500 - $1,500/MES)", desc: "Cosecha continua en USDC hacia Bóveda #501 y retiro manual a Binance" },
+      { target: 5000, waveNum: 6, name: "EXPANSIÓN PATRIMONIAL ($5,000.00 USDC)", desc: "Flujo pasivo escalado a multi-bóvedas" }
+    ];
+
+    function renderDynamicRoadmap(totalUsdc) {
+      const total = typeof totalUsdc === 'number' ? totalUsdc : parseFloat(totalUsdc) || 601.53;
+      const badgeRoadmap = document.getElementById('badgeRoadmapConsolidated');
+      if (badgeRoadmap) badgeRoadmap.textContent = `CONSOLIDADO: $${total.toFixed(2)} USDC`;
+
+      const crowned = ROADMAP_WAVES.filter(w => total >= w.target);
+      const pending = ROADMAP_WAVES.filter(w => total < w.target);
+
+      // 1. Sello de coronadas
+      const sealEl = document.getElementById('crownedWavesSeal');
+      if (sealEl) {
+        if (crowned.length > 0) {
+          sealEl.style.display = 'flex';
+          const crownedText = crowned.map(w => `${w.waveNum}ª Ola ($${w.target})`).join(' y ');
+          sealEl.innerHTML = `<span>✅ ${crownedText} Coronada${crowned.length > 1 ? 's' : ''} al 100%</span>`;
+        } else {
+          sealEl.style.display = 'none';
+        }
+      }
+
+      // 2. Fila Activa #1
+      const activeWave = pending[0] || ROADMAP_WAVES[ROADMAP_WAVES.length - 1];
+      const activePct = Math.min(100, Math.max(0, (total / activeWave.target) * 100));
+      const activeMissing = Math.max(0, +(activeWave.target - total).toFixed(2));
+
+      const stepActiveEl = document.getElementById('roadmapStepActive');
+      const step1Pct = document.getElementById('step1Pct');
+      const step1Bar = document.getElementById('step1Bar');
+      const step1Footer = document.getElementById('step1Footer');
+      if (stepActiveEl) {
+        const topTitle = stepActiveEl.querySelector('.val-gold');
+        if (topTitle) topTitle.textContent = `${activeWave.name.toUpperCase()} EN CURSO`;
+        if (step1Pct) step1Pct.textContent = `${activePct.toFixed(2)}%`;
+        if (step1Bar) {
+          step1Bar.style.width = `${activePct.toFixed(2)}%`;
+        }
+        if (step1Footer) {
+          step1Footer.textContent = `${activeWave.desc} · Faltan $${activeMissing.toFixed(2)} USDC`;
+        }
+      }
+
+      // 3. Fila #2 (Próximo Piso)
+      const nextWave = pending[1] || null;
+      const stepNextEl = document.getElementById('roadmapStepNext');
+      const step2Pct = document.getElementById('step2Pct');
+      const step2Bar = document.getElementById('step2Bar');
+      const step2Footer = document.getElementById('step2Footer');
+      if (stepNextEl && nextWave) {
+        stepNextEl.style.display = 'block';
+        const titleSpan = stepNextEl.querySelector('.step-top > span:first-child');
+        if (titleSpan) titleSpan.textContent = `PRÓXIMO PISO: ${nextWave.name.toUpperCase()}`;
+        const nextPct = Math.min(100, Math.max(0, (total / nextWave.target) * 100));
+        if (step2Pct) step2Pct.textContent = `${nextPct.toFixed(2)}%`;
+        if (step2Bar) step2Bar.style.width = `${nextPct.toFixed(2)}%`;
+        if (step2Footer) step2Footer.textContent = nextWave.desc;
+      }
+
+      // 4. Fila #3 (Meta de Libertad / Flujo Mensual Pasivo)
+      const freedomWave = ROADMAP_WAVES.find(w => w.target === 2000) || pending[pending.length - 1];
+      const freedomPct = Math.min(100, Math.max(0, (total / freedomWave.target) * 100));
+      const step3Bar = document.getElementById('step3Bar');
+      const step3Footer = document.getElementById('step3Footer');
+      if (step3Bar) step3Bar.style.width = `${freedomPct.toFixed(2)}%`;
+      if (step3Footer) {
+        step3Footer.innerHTML = `<span>Cosecha continua en USDC hacia Bóveda #501 y retiro manual a Binance</span><span style="color:#7c3aed; font-weight:700;">${freedomPct.toFixed(2)}% 👆 Ver Plan ➔</span>`;
+      }
+    }
+
     // Consulta de saldos auditados on-chain y precios en vivo
     async function fetchMandoBalances() {
       try {
         const res = await fetch('/api/mando-central/balances');
         if (res.ok) {
           const d = await res.json();
+          const totalUsdc = d.totalConsolidatedUsdc || 601.53;
           if (d.totalConsolidatedUsdc) {
             document.getElementById('valTotalUsdc').textContent = `$${d.totalConsolidatedUsdc.toFixed(2)}`;
           }
-          if (d.breakdown && d.breakdown.vault501Polygon) {
+          if (d.vault501TotalUsdc) {
+            const v501El = document.getElementById('valVault501Usdc');
+            if (v501El) v501El.textContent = `$${d.vault501TotalUsdc.toFixed(2)}`;
+          } else if (d.breakdown && d.breakdown.vault501Polygon) {
             document.getElementById('valVault501Usdc').textContent = `$${d.breakdown.vault501Polygon.balanceUsdc.toFixed(2)}`;
           }
-          if (d.realNetPnlUsdc !== undefined) {
-            const pnlEl = document.getElementById('valRealPnl');
-            if (pnlEl) {
-              const prefix = d.realNetPnlUsdc >= 0 ? '+' : '';
-              pnlEl.textContent = `${prefix}$${d.realNetPnlUsdc.toFixed(2)}`;
-            }
+          if (d.breakdown && d.breakdown.vault501Combined && d.breakdown.vault501Combined.subtitle) {
+            const subV501 = document.getElementById('subVault501Usdc');
+            if (subV501) subV501.textContent = d.breakdown.vault501Combined.subtitle;
           }
-          if (d.gasMarketValuationUsd !== undefined && d.livePrices) {
-            const gasSub = document.getElementById('valGasSub');
-            if (gasSub) {
-              gasSub.textContent = `Gas Valor: ~$${d.gasMarketValuationUsd.toFixed(2)} USD (POL: $${d.livePrices.polUsd.toFixed(3)} · BNB: $${d.livePrices.bnbUsd.toFixed(0)})`;
-            }
+
+          // Contabilidad estricta: inyecciones no son PnL
+          const pnlVal = d.realNetPnlUsdc !== undefined ? d.realNetPnlUsdc : 0.00;
+          const pnlEl = document.getElementById('valRealPnl');
+          if (pnlEl) {
+            const prefix = pnlVal >= 0 ? '+' : '';
+            pnlEl.textContent = `${prefix}$${pnlVal.toFixed(2)}`;
           }
-          if (d.realNetPnlPct !== undefined) {
-            const badge = document.getElementById('badgePnlNeto');
-            if (badge) {
-              const prefix = d.realNetPnlPct >= 0 ? '+' : '';
-              badge.textContent = `${prefix}${d.realNetPnlPct.toFixed(2)}% NETO`;
-            }
+          const pnlPct = d.realNetPnlPct !== undefined ? d.realNetPnlPct : 0.00;
+          const pnlBadge = document.getElementById('badgePnlNeto');
+          const baseCap = d.principalBaseUsdc || 601.53;
+          if (pnlBadge) {
+            pnlBadge.textContent = `${pnlPct.toFixed(2)}% ROI OPERATIVO (BASE: $${baseCap.toFixed(2)})`;
           }
+          const gasSub = document.getElementById('valGasSub');
+          if (gasSub) {
+            gasSub.textContent = `Inyección Base: $${baseCap.toFixed(2)} USDC · PnL Bots: +$${pnlVal.toFixed(2)} USDC · Gas Red: Blindado`;
+          }
+
+          // Automatización reactiva de hitos y roadmap
+          computeActiveMilestone(totalUsdc);
+          renderDynamicRoadmap(totalUsdc);
         }
       } catch (_) {}
     }

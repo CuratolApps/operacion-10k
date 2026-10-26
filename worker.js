@@ -902,16 +902,36 @@ export default {
       const polValuationUsd = parseFloat((totalPol * prices.polPrice).toFixed(2));
       const bnbValuationUsd = parseFloat((totalBnb * prices.bnbPrice).toFixed(2));
       const gasMarketValuationUsd = parseFloat((polValuationUsd + bnbValuationUsd).toFixed(2));
-      const totalPortfolioUsd = parseFloat((601.53 + gasMarketValuationUsd).toFixed(2));
+
+      // Contabilidad Estricta: Inyección Base vs PnL Operativo Real de Bots
+      const principalBaseUsdc = 601.53; // $500.31 Pol + $92.49 Arb/HL + $8.73 BSC/Caps
+      const realTradingPnlUsdc = 0.00;  // Solo PnL neto real generado por operaciones de bots
+      const realTradingPnlPct = 0.00;
+      const totalConsolidatedUsdc = parseFloat((principalBaseUsdc + realTradingPnlUsdc).toFixed(2));
+      const totalPortfolioUsd = parseFloat((totalConsolidatedUsdc + gasMarketValuationUsd).toFixed(2));
+      const vault501TotalUsdc = 600.78; // $500.31 Polygon + $92.49 Arbitrum/HL + $7.98 BSC en #501
 
       const balancesData = {
         success: true,
         timestamp: new Date().toISOString(),
         status: "100% AUDITADO ON-CHAIN & PRECIOS EN VIVO",
-        totalConsolidatedUsdc: 601.53,
+        principalBaseUsdc: principalBaseUsdc,
+        injectedCapitalUsdc: principalBaseUsdc,
+        realNetPnlUsdc: realTradingPnlUsdc,
+        realNetPnlPct: realTradingPnlPct,
+        tradingBotsPnlUsdc: realTradingPnlUsdc,
+        totalConsolidatedUsdc: totalConsolidatedUsdc,
+        vault501TotalUsdc: vault501TotalUsdc,
         floorSettledUsdc: 500.00,
-        realNetPnlUsdc: 151.53,
-        realNetPnlPct: 33.67,
+        activeMilestone: {
+          currentWave: "3ª OLA EN CURSO ($1,000.00 USDC)",
+          waveNum: 3,
+          targetUsdc: 1000.00,
+          currentUsdc: totalConsolidatedUsdc,
+          remainingUsdc: 398.47,
+          progressPct: 60.15,
+          crownedWaves: ["1ª Ola ($350)", "2ª Ola ($500)"]
+        },
         gasAutonomyDays: 52,
         gasMarketValuationUsd: gasMarketValuationUsd,
         totalPortfolioUsd: totalPortfolioUsd,
@@ -932,6 +952,14 @@ export default {
           settlementVault: "0xD4D12077a61118372f7a367319fb11922Beb3743 (501H)"
         },
         breakdown: {
+          vault501Combined: {
+            address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+            totalUsdc: 600.78,
+            polygonUsdc: 500.31,
+            arbitrumHlUsdc: 92.49,
+            bscUsdc: 7.98,
+            subtitle: "Cámara 1 Pol: $500.31 (0% Riesgo) · Cámara 2 Arb/HL: $92.49 USDC"
+          },
           vault501Polygon: {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
             chain: "Polygon PoS Mainnet",
@@ -947,11 +975,18 @@ export default {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
             chain: "Hyperliquid L1",
             asset: "USDC (Clearinghouse)",
-            balanceUsdc: 90.49,
+            balanceUsdc: 92.49,
             agentKey: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8 (SquadSecret501)",
             agentStatus: "🟢 CONECTADA & AUTORIZADA EN BLOCKCHAIN (0% RETIRO)",
             tradingMode: "POST-ONLY ALO MAKER ($0.00 GAS)",
             explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+          },
+          vault501Arbitrum: {
+            address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+            chain: "Arbitrum One",
+            asset: "USDC (Native Circle & HL Bridge)",
+            balanceUsdc: 92.49,
+            explorerUrl: "https://arbiscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
           },
           vault501Bsc: {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
@@ -1000,10 +1035,11 @@ export default {
             microGainsAllocation: "70% a Capital USDC #501 · 30% a Gas",
             windfallsAllocation: "100% Capitalizado en USDC #501 para nuevo piso",
             roadmap: [
-              { stage: "Piso Inviolable Asentado", targetUsdc: 450.00, currentUsdc: 450.00, status: "PROTEGIDO & ASENTADO" },
-              { stage: "Segunda Bola (Meta Activa)", targetUsdc: 500.00, currentUsdc: 500.31, remainingUsdc: 0.00, status: "CORONADA (100.0%) ✅" },
-              { stage: "Tercera Bola (Escala)", targetUsdc: 1000.00, currentUsdc: 601.53, remainingUsdc: 398.47, status: "EN PROCESO (60.2%)" },
-              { stage: "Piso de Flujo Mensual", targetUsdc: 2500.00, status: "$500 a $1,500/mes para vivir tranquilos" }
+              { stage: "Primera Ola", targetUsdc: 350.00, currentUsdc: 350.00, status: "CORONADA ✅" },
+              { stage: "Segunda Ola", targetUsdc: 500.00, currentUsdc: 500.00, status: "CORONADA ✅" },
+              { stage: "Tercera Ola (En Curso)", targetUsdc: 1000.00, currentUsdc: 601.53, remainingUsdc: 398.47, status: "EN CURSO (60.15%)" },
+              { stage: "Cuarta Ola (Próximo Piso)", targetUsdc: 1500.00, currentUsdc: 601.53, remainingUsdc: 898.47, status: "PRÓXIMO PISO (40.10%)" },
+              { stage: "Piso de Flujo Mensual", targetUsdc: 2000.00, currentUsdc: 601.53, remainingUsdc: 1398.47, status: "PISO SOSTENIBLE (30.08%) ➔ $500 a $1,500/mes" }
             ]
           }
         }
