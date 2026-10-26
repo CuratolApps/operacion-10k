@@ -2459,12 +2459,7 @@
             mTotalToPnl.textContent = `${prefix}$${totalYield.toFixed(2)} USDC`;
           }
 
-          // Conexión directa al PnL Operativo de la Tarjeta #5 (valRealPnl)
-          const valRealPnlEl = document.getElementById('valRealPnl');
-          if (valRealPnlEl) {
-            const prefix = totalYield >= 0 ? '+' : '';
-            valRealPnlEl.textContent = `${prefix}$${totalYield.toFixed(2)}`;
-          }
+          // El PnL Operativo (valRealPnl) permanece estrictamente enlazado a trades/operaciones reales ($0.00)
 
           // 3. Sección 2: Diagrama de 3 Enchufes
           const enchufe1El = document.getElementById('diagEnchufe1Usdc');

@@ -1073,11 +1073,13 @@ async function getLiveLiquidityEngineData() {
   const totalPolygonUsdc = parseFloat((usdcBalance + aTokenBalance).toFixed(2));
   
   // Regla Matemática Estricta On-Chain (ZERO_SIMULATION_LAW):
-  // CERO SIMULACIÓN: Interés Real Acumulado es estrictamente $0.0000 a menos que
-  // la suma física real de tokens supere el principal base inyectado de $490.763151 USDC
+  // CERO SIMULACIÓN: Interés Real Acumulado es estrictamente el rendimiento devengado
+  // por encima de la cantidad exacta física depositada en Aave V3 (491.255007 USDC en bloque #96225534)
+  const aaveSuppliedBaseline = 491.255007;
   let realAccruedInterestUsdc = 0.0000;
-  if (totalPolygonUsdc > 490.763151) {
-    realAccruedInterestUsdc = parseFloat((totalPolygonUsdc - 490.763151).toFixed(4));
+  const currentTotalOnChain = usdcBalance + aTokenBalance;
+  if (currentTotalOnChain > aaveSuppliedBaseline) {
+    realAccruedInterestUsdc = parseFloat((currentTotalOnChain - aaveSuppliedBaseline).toFixed(4));
   }
   const atomicProfitUsdc = 0.00;
   const confirmedAtomicHits = 0;
