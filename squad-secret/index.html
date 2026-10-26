@@ -147,88 +147,97 @@
 
     <!-- COLUMNA 1 (IZQUIERDA): SQUAD // HYPERLIQUID L1 (6 ESLABONES SIMÉTRICOS) -->
     <section class="squad-panel squad-left-panel" id="panelSecretSquad">
-      <div class="panel-header">
+      <div class="panel-header squad-left-header">
         <div class="panel-title-wrap">
           <span class="panel-icon">🕵️‍♂️</span>
           <h2 class="panel-title">SQUAD // HYPERLIQUID L1</h2>
         </div>
-        <span class="panel-badge-pill green font-mono" id="squadFunnelStatus">MAKER (ALO)</span>
+        <span class="panel-badge-pill green font-mono" id="squadFunnelStatus">MÁX 1 OP</span>
       </div>
 
       <div class="funnel-links-list" id="funnelLinksContainer">
 
-        <!-- ESLABÓN 1: RADAR L2 HYPERLIQUID -->
+        <!-- ESLABÓN 1: RADAR L2 (150MS) -->
         <div class="funnel-link-card active" id="linkCardOracles">
-          <div class="link-head">
-            <div class="link-step font-mono">01</div>
-            <div class="link-title-group">
-              <span class="link-name">Radar L2 Hyperliquid (~150ms)</span>
-              <span class="link-sub font-mono" id="linkRadarStatus">Orderbook L2 &amp; AllMids en tiempo real · $0.00 Gas</span>
+          <div class="card-row-top">
+            <div class="card-left-group">
+              <span class="link-step font-mono">01</span>
+              <span class="link-name font-mono">Radar L2 (150ms)</span>
             </div>
-            <span class="link-status-dot green"></span>
+            <span class="card-status-pill green font-mono" id="pillRadarStatus">150MS OK</span>
+          </div>
+          <div class="card-row-bottom">
+            <span class="link-sub font-mono" id="linkRadarStatus">Orderbook L2 &amp; AllMids (~142ms) · $0.00 Gas</span>
           </div>
         </div>
 
-        <!-- ESLABÓN 2A: ESPECIALISTA #601 PARES RÁPIDOS -->
+        <!-- ESLABÓN 2A: ESPECIALISTA #601 (RÁPIDOS) -->
         <div class="funnel-link-card active" id="linkCardFastPairs">
-          <div class="link-head">
-            <div class="link-step font-mono">02A</div>
-            <div class="link-title-group">
-              <span class="link-name">Especialista #601 (Pares Rápidos)</span>
-              <span class="link-sub font-mono" id="linkFastPairsStatus">SOL-USDC, ETH-USDC, SUI-USDC · 5 Capas L2</span>
+          <div class="card-row-top">
+            <div class="card-left-group">
+              <span class="link-step font-mono">02A</span>
+              <span class="link-name font-mono">Especialista #601 (Rápidos)</span>
             </div>
-            <span class="link-status-dot green"></span>
+            <span class="card-status-pill cyan font-mono" id="pillFastPairs">SOL·ETH·SUI</span>
+          </div>
+          <div class="card-row-bottom">
+            <span class="link-sub font-mono" id="linkFastPairsStatus">SOL, ETH, SUI · 5 Capas Profundas L2</span>
           </div>
         </div>
 
-        <!-- ESLABÓN 2B: ESPECIALISTA #701 FLUJO INSTITUCIONAL -->
+        <!-- ESLABÓN 2B: ESPECIALISTA #701 (MACRO) -->
         <div class="funnel-link-card active" id="linkCardInstFlow">
-          <div class="link-head">
-            <div class="link-step font-mono">02B</div>
-            <div class="link-title-group">
-              <span class="link-name">Especialista #701 (Flujo Macro)</span>
-              <span class="link-sub font-mono" id="linkInstFlowStatus">BTC-USDC, PAXG-USDC, LINK-USDC · Macro Flow</span>
+          <div class="card-row-top">
+            <div class="card-left-group">
+              <span class="link-step font-mono">02B</span>
+              <span class="link-name font-mono">Especialista #701 (Macro)</span>
             </div>
-            <span class="link-status-dot green"></span>
+            <span class="card-status-pill gold font-mono" id="pillInstFlow">BTC·PAXG</span>
+          </div>
+          <div class="card-row-bottom">
+            <span class="link-sub font-mono" id="linkInstFlowStatus">BTC, PAXG, LINK · Flujo Macro Refugio</span>
           </div>
         </div>
 
-        <!-- ESLABÓN 2C: ESPECIALISTA #801 + 32 NEBULOSAS FILTRO MAKER -->
+        <!-- ESLABÓN 2C: #801 + 32 NEBULOSAS -->
         <div class="funnel-link-card active" id="linkCardNebulas">
-          <div class="link-head">
-            <div class="link-step font-mono">02C</div>
-            <div class="link-title-group">
-              <span class="link-name">#801 + 32 Nebulosas (Filtro Maker)</span>
-              <span class="link-sub font-mono" id="linkNebulasStatus">Filtro ALO (Post-Only) · Liq &gt; $5M · 0 Taker Fee</span>
+          <div class="card-row-top">
+            <div class="card-left-group">
+              <span class="link-step font-mono">02C</span>
+              <span class="link-name font-mono">#801 + 32 Nebulosas</span>
             </div>
-            <span class="link-status-dot green"></span>
+            <span class="card-status-pill purple font-mono" id="pillNebulas">MAKER ALO</span>
+          </div>
+          <div class="card-row-bottom">
+            <span class="link-sub font-mono" id="linkNebulasStatus">Filtro ALO Post-Only · Liq &gt; $5M · 0% Taker Fee</span>
           </div>
         </div>
 
-        <!-- ESLABÓN 3: TRADER BULL & TRADER BEAR (1 SOLO TIRO A LA VEZ) -->
+        <!-- ESLABÓN 3: TRADER BULL & BEAR -->
         <div class="funnel-link-card active" id="linkCardDualTraders">
-          <div class="link-head">
-            <div class="link-step font-mono">03</div>
-            <div class="link-title-group">
-              <span class="link-name">Trader Bull &amp; Bear (1 Solo Tiro)</span>
-              <span class="link-sub font-mono" id="linkDualStatus">Máx 1 Operación Concurrente · Gatillo Protegido</span>
+          <div class="card-row-top">
+            <div class="card-left-group">
+              <span class="link-step font-mono">03</span>
+              <span class="link-name font-mono">Trader Bull &amp; Bear</span>
             </div>
-            <div class="dual-traders-box" style="margin:0;">
-              <span class="trader-pill bull-pill" id="traderBullPill">🐂 84%</span>
-              <span class="trader-pill bear-pill" id="traderBearPill">🐻 16%</span>
-            </div>
+            <span class="card-status-pill green font-mono" id="pillDualTraders">1 TIRO</span>
+          </div>
+          <div class="card-row-bottom">
+            <span class="link-sub font-mono" id="linkDualStatus">Máx 1 Operación Concurrente · Gatillo Protegido</span>
           </div>
         </div>
 
-        <!-- ESLABÓN 4: MENTORA #00 (CANDADO BREAKEVEN & SALIDA) -->
+        <!-- ESLABÓN 4: MENTORA #00 (CANDADO BE) -->
         <div class="funnel-link-card active" id="linkCardMentor00">
-          <div class="link-head">
-            <div class="link-step font-mono">04</div>
-            <div class="link-title-group">
-              <span class="link-name">Mentora #00 (Candado BE &amp; Salida)</span>
-              <span class="link-sub font-mono" id="linkMentorStatus">BE +0.04% ($0 Pérdida) ➔ TP +0.08% / +0.15%</span>
+          <div class="card-row-top">
+            <div class="card-left-group">
+              <span class="link-step font-mono">04</span>
+              <span class="link-name font-mono">Mentora #00 (Candado BE)</span>
             </div>
-            <span class="card-pill font-mono green-pill" style="font-size:8px;">USDC Nativo</span>
+            <span class="card-status-pill green font-mono" id="pillMentor00">BE +0.04%</span>
+          </div>
+          <div class="card-row-bottom">
+            <span class="link-sub font-mono" id="linkMentorStatus">BE +0.04% ($0 Pérdida) ➔ TP +0.08% / +0.15%</span>
           </div>
         </div>
 
@@ -586,8 +595,16 @@
             <span class="value font-mono" id="modalVaultAddress">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
           </div>
           <div class="modal-row">
+            <span class="label">Saldo en Polygon (#501):</span>
+            <span class="value font-mono gold-text font-bold" id="modalPolygonBalance">$470.13 USDC Nativo</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Saldo Clearinghouse L1:</span>
+            <span class="value font-mono cyan-text font-bold" id="modalHlBalance">$0.00 USDC (Esperando Puente)</span>
+          </div>
+          <div class="modal-row">
             <span class="label">Agent Key Oficial:</span>
-            <span class="value font-mono cyan-text" id="modalAgentAddress">0xccb384286cCE024A318Ff98197E6c89e0f02F7f8</span>
+            <span class="value font-mono cyan-text" id="modalAgentAddress" style="font-size:8.5px;">0xccb384286cCE024A318Ff98197E6c89e0f02F7f8</span>
           </div>
           <div class="modal-row">
             <span class="label">Nombre del Agente:</span>
@@ -595,7 +612,7 @@
           </div>
           <div class="modal-row">
             <span class="label">Estado de Conexión:</span>
-            <span class="value green-text font-bold">🟢 CONECTADA &amp; AUTORIZADA</span>
+            <span class="value green-text font-bold" id="modalAgentStatus">🟢 CONECTADA &amp; AUTORIZADA</span>
           </div>
           <div class="modal-row">
             <span class="label">Permiso de Trading:</span>
@@ -605,33 +622,32 @@
             <span class="label">Permiso de Retiro:</span>
             <span class="value font-bold" style="color:#ef4444;">0% (INVIOLABLE POR PROTOCOLO)</span>
           </div>
-          <div class="modal-row">
-            <span class="label">Saldo Clearinghouse L1:</span>
-            <span class="value green-text font-mono font-bold" id="modalHlBalance">$470.13 USDC Nativo</span>
-          </div>
         </div>
-        <div style="font-size:9px; color:var(--text-muted); line-height:1.4;">
-          🛡️ <strong>Seguridad Criptográfica:</strong> La Agent Key solo puede colocar y cancelar órdenes Post-Only Maker. Los fondos nunca pueden salir de Hyperliquid a otra dirección que no sea la Bóveda Matriz #501.
+        <div style="font-size:9px; color:var(--text-muted); line-height:1.4; background:#f8fafc; border:1px solid var(--win-border); border-radius:5px; padding:8px;">
+          🛡️ <strong>Seguridad Criptográfica Infranqueable:</strong> La Agent Key solo puede colocar y cancelar órdenes Post-Only Maker. Los fondos nunca pueden transferirse fuera de Hyperliquid hacia ninguna dirección que no sea la Bóveda Matriz #501.
         </div>
       </div>
       <div class="squad-modal-footer">
         <a href="https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="btn-owner-hl btn-owner-wallet">
-          <span>🔗</span> Abrir en Explorer
+          <span>🔗</span> Explorer L1
         </a>
-        <a href="https://app.hyperliquid.xyz/trade" target="_blank" rel="noopener noreferrer" class="btn-owner-hl btn-owner-deposit">
-          <span>📈</span> Terminal Hyperliquid
+        <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="btn-owner-hl" style="background:#f5f3ff; color:#7c3aed; border:1px solid #ddd6fe;">
+          <span>⛓️</span> PolygonScan #501
         </a>
+        <button class="btn-owner-hl btn-owner-deposit" onclick="openHlDepositModal()">
+          <span>⚡</span> Pasar Capital
+        </button>
         <button class="btn-owner-hl" onclick="closeSquadModals()">Cerrar</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: DEPOSITAR A HYPERLIQUID -->
+  <!-- MODAL 2: DEPOSITAR A HYPERLIQUID (PUENTE ASISTIDO) -->
   <div class="squad-modal-overlay" id="hlDepositModal">
     <div class="squad-modal-card">
       <div class="squad-modal-header">
         <div class="squad-modal-title">
-          <span>⚡</span> ASISTENTE DE DEPÓSITO A HYPERLIQUID L1
+          <span>⚡</span> ASISTENTE DE DEPÓSITO PUENTE: #501 ➔ HYPERLIQUID L1
         </div>
         <button class="squad-modal-close" onclick="closeSquadModals()">✕</button>
       </div>
@@ -639,29 +655,48 @@
         <div class="modal-info-box">
           <div class="modal-row">
             <span class="label">Bóveda Origen:</span>
-            <span class="value font-mono">0xD4D1...3743 (#501)</span>
+            <span class="value font-mono">0xD4D1...3743 (#501 Polygon)</span>
           </div>
           <div class="modal-row">
-            <span class="label">Red Puente:</span>
+            <span class="label">Saldo Disponible en #501:</span>
+            <span class="value font-mono gold-text font-bold">$470.13 USDC</span>
+          </div>
+          <div class="modal-row">
+            <span class="label">Monto de Prueba sugerido:</span>
+            <div style="display:flex; gap:4px; align-items:center;">
+              <button type="button" class="btn-owner-hl" onclick="setDepositPreset(10)" style="padding:1px 6px; font-size:8.5px;">$10</button>
+              <button type="button" class="btn-owner-hl" onclick="setDepositPreset(25)" style="padding:1px 6px; font-size:8.5px;">$25</button>
+              <button type="button" class="btn-owner-hl" onclick="setDepositPreset(50)" style="padding:1px 6px; font-size:8.5px;">$50</button>
+              <input type="number" id="hlDepositAmountInput" value="10" min="5" max="100" style="width:55px; padding:2px 4px; font-size:9px; border:1px solid var(--win-border-strong); border-radius:3px; font-family:var(--font-code); font-weight:700;">
+            </div>
+          </div>
+          <div class="modal-row">
+            <span class="label">Red Puente Oficial:</span>
             <span class="value font-bold">Arbitrum One (ChainID 42161)</span>
           </div>
           <div class="modal-row">
             <span class="label">Contrato Puente Hyperliquid:</span>
-            <span class="value font-mono" style="font-size:8.5px;">0x2df1c51e09aecf9cacb7bc98cb1742757f163df7</span>
+            <span class="value font-mono cyan-text" style="font-size:8px;">0x2df1c51e09aecf9cacb7bc98cb1742757f163df7</span>
           </div>
           <div class="modal-row">
-            <span class="label">Activo Requerido:</span>
-            <span class="value font-bold green-text">USDC Nativo</span>
+            <span class="label">Agent Key a Vincular:</span>
+            <span class="value font-mono" style="font-size:8px;">0xccb3...F7f8 (SquadSecret501)</span>
           </div>
         </div>
-        <div style="font-size:9.5px; color:var(--text-dark); background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:10px; line-height:1.4;">
-          <strong>Paso Operativo:</strong> Al depositar USDC desde Arbitrum hacia el contrato puente de Hyperliquid, los fondos se acreditan de forma inmediata en el Clearinghouse L1 a nombre de la #501. Una vez allí, el Squad opera con $0.00 gas permanentemente.
+        <div style="font-size:9px; color:var(--text-dark); background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:8px 10px; line-height:1.4;">
+          <strong>Ruta de Fondos Asistida:</strong> Transfiere USDC desde la Bóveda #501 hacia el contrato puente de Hyperliquid. Los fondos se acreditan inmediatamente en el Clearinghouse L1 a nombre de la #501. Una vez allí, el Squad ejecuta órdenes ALO Post-Only con $0.00 gas para siempre.
+        </div>
+        <div id="hlDepositValidationStatus" class="font-mono" style="font-size:8.5px; color:#047857; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:4px; padding:6px 8px;">
+          🟢 Tubería de puente verificada: Bóveda #501 lista con $470.13 USDC y Agent Key autorizada.
         </div>
       </div>
       <div class="squad-modal-footer">
         <a href="https://app.hyperliquid.xyz/" target="_blank" rel="noopener noreferrer" class="btn-owner-hl btn-owner-deposit">
-          <span>🚀</span> Abrir Pasarela Oficial Hyperliquid
+          <span>🚀</span> Pasarela Oficial Hyperliquid
         </a>
+        <button class="btn-owner-hl btn-owner-wallet" onclick="verifyAgentKeyBinding()">
+          <span>🔑</span> Verificar Agent Key
+        </button>
         <button class="btn-owner-hl" onclick="closeSquadModals()">Cerrar</button>
       </div>
     </div>
@@ -683,6 +718,10 @@
             <span class="value font-mono font-bold" style="color:var(--win-primary);">0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)</span>
           </div>
           <div class="modal-row">
+            <span class="label">Saldo Retirable en Hyperliquid L1:</span>
+            <span class="value font-mono cyan-text font-bold" id="modalWithdrawL1Bal">$0.00 USDC</span>
+          </div>
+          <div class="modal-row">
             <span class="label">Monto a Retirar:</span>
             <span class="value">
               <input type="number" id="hlWithdrawInput" value="50" min="5" max="500" step="5" oninput="updateWithdrawCalc()" style="width:80px; padding:3px 6px; border:1px solid var(--win-border-strong); border-radius:4px; font-family:var(--font-code); font-weight:700;"> USDC
@@ -702,7 +741,7 @@
           </div>
         </div>
         <div id="hlWithdrawStatusMsg" class="font-mono" style="font-size:9px; color:var(--text-muted); background:#f8fafc; border:1px solid var(--win-border); border-radius:4px; padding:6px 10px;">
-          ⏳ Listo para preparar y enviar orden EIP-712 a Hyperliquid L1.
+          ⏳ Saldo en L1: $0.00 USDC. Todo retiro firmado con EIP-712 transferirá exclusivamente las ganancias generadas hacia la Bóveda Matriz #501.
         </div>
       </div>
       <div class="squad-modal-footer">

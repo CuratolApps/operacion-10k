@@ -398,7 +398,7 @@ html, body {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 250px 1fr 480px; /* TERMINAL ANCHA 480PX + MESA CENTRAL + 5 TARJETAS */
+  grid-template-columns: 285px 1fr 450px; /* COLUMNA IZQUIERDA 285PX (1 SOLA LÍNEA) + MESA CENTRAL + TERMINAL 450PX */
   grid-template-rows: 1fr;
   gap: 8px;
   padding: 8px 12px;
@@ -427,12 +427,14 @@ html, body {
   border-bottom: 1px solid var(--win-border);
   background: var(--win-card);
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .panel-title-wrap {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
 .panel-icon {
@@ -445,6 +447,7 @@ html, body {
   letter-spacing: 0.4px;
   color: var(--text-dark);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .panel-badge-pill {
@@ -452,6 +455,7 @@ html, body {
   padding: 2px 6px;
   border-radius: 4px;
   font-weight: 700;
+  white-space: nowrap;
 }
 .panel-badge-pill.green {
   background: var(--win-success-soft);
@@ -464,8 +468,38 @@ html, body {
   color: var(--win-primary);
 }
 
+/* ENCABEZADO SUPERIOR IZQUIERDO EN 1 SOLA LÍNEA (0.74rem, IDÉNTICA ALTURA 34PX) */
+.squad-left-header {
+  white-space: nowrap !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  font-size: 0.74rem !important;
+  height: 34px !important;
+  padding: 0 10px !important;
+}
+.squad-left-header .panel-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.squad-left-header .panel-title {
+  font-size: 0.74rem !important;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  margin: 0;
+}
+.squad-left-header .panel-badge-pill {
+  font-size: 0.68rem !important;
+  white-space: nowrap;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
 /* =============================================================================
-   3. COLUMNA 1 (IZQUIERDA): SQUAD // 5 ESLABONES (CERO SCROLL)
+   3. COLUMNA 1 (IZQUIERDA): SQUAD // 6 ESLABONES EN 1 SOLA LÍNEA (CERO SCROLL)
    ============================================================================= */
 .squad-left-panel {
   display: flex;
@@ -495,9 +529,10 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1px;
+  gap: 2px;
   transition: all 0.15s ease;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
 }
 
 .funnel-link-card:hover {
@@ -505,71 +540,96 @@ html, body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.link-head {
+/* FILA SUPERIOR DE LA TARJETA (1 SOLA LÍNEA ESTRICTA CON white-space: nowrap) */
+.card-row-top {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 4px;
+  white-space: nowrap;
+  width: 100%;
+  min-width: 0;
+}
+
+.card-left-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .link-step {
-  font-size: 10.5px;
+  font-size: 8.5px;
   font-weight: 800;
   color: var(--win-gold);
   background: var(--win-gold-soft);
   border: 1px solid var(--win-gold-border);
-  padding: 2px 5px;
+  padding: 1px 4px;
   border-radius: 3px;
-}
-
-.link-title-group {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
+  line-height: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .link-name {
-  font-size: 10.5px;
+  font-size: 9.5px;
   font-weight: 800;
   color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.1;
 }
 
-.link-sub {
-  font-size: 8.5px;
-  font-weight: 600;
-  color: var(--text-medium);
-}
-
-.link-status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+/* PASTILLA DE ESTADO DERECHA EN 1 SOLA LÍNEA SIN PARTIRSE */
+.card-status-pill {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1.5px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  line-height: 1;
   flex-shrink: 0;
 }
-.link-status-dot.green {
-  background: var(--win-success);
-  box-shadow: 0 0 6px rgba(21, 128, 61, 0.4);
-}
-
-.dual-traders-box {
-  display: flex;
-  gap: 4px;
-}
-.trader-pill {
-  font-size: 8.5px;
-  font-weight: 800;
-  padding: 1px 5px;
-  border-radius: 3px;
-}
-.trader-pill.bull-pill {
+.card-status-pill.green {
   background: var(--win-success-soft);
   color: var(--win-success);
   border: 1px solid var(--win-success-border);
 }
-.trader-pill.bear-pill {
-  background: var(--win-danger-soft);
-  color: var(--win-danger);
-  border: 1px solid var(--win-danger-border);
+.card-status-pill.cyan {
+  background: var(--win-primary-soft);
+  color: var(--win-primary);
+  border: 1px solid var(--win-primary-border);
+}
+.card-status-pill.gold {
+  background: var(--win-gold-soft);
+  color: #b45309;
+  border: 1px solid var(--win-gold-border);
+}
+.card-status-pill.purple {
+  background: #faf5ff;
+  color: #7c3aed;
+  border: 1px solid #ddd6fe;
+}
+
+/* FILA INFERIOR DE LA TARJETA (1 LÍNEA LIMPIA COMPACTA CON ELLIPSIS) */
+.card-row-bottom {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.link-sub {
+  display: block;
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--text-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 /* =============================================================================
@@ -826,6 +886,26 @@ html, body {
   background: #ffffff !important;
   border-color: var(--win-primary) !important;
   box-shadow: 0 0 8px rgba(2, 132, 199, 0.45) !important;
+}
+
+/* BORDE AMARILLO DISTINTIVO EN MODO CALIBRACIÓN (DESEQUILIBRIO >= 65%) */
+.multipair-card.calib-winner {
+  background: #fffbeb !important;
+  border-color: #f59e0b !important;
+  border-width: 1.5px !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.55), inset 0 0 4px rgba(245, 158, 11, 0.15) !important;
+  animation: pulseCalibYellow 1.6s infinite alternate ease-in-out;
+}
+
+@keyframes pulseCalibYellow {
+  0% { box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+  100% { box-shadow: 0 0 12px rgba(245, 158, 11, 0.85); }
+}
+
+.multipair-card.calib-winner .mp-winner-tag {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
 }
 
 .mp-head {
