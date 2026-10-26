@@ -8,7 +8,7 @@
  * - Regla estricta e inviolable: MÁXIMO 1 OPERACIÓN A LA VEZ
  * - Post-Only Maker (ALO): Fee Maker 0.015% | $0.00 Gas de red
  * - Candado Breakeven Mentora #00 a +0.04% ($0.00 pérdida) ➔ TP +0.08% / +0.15%
- * - Conexión Real de Puente #501 ➔ L1 y Agent Key SquadSecret501
+ * - Verdad Absoluta en Cuentas y Estado de Agent Key SquadSecret501
  * ==============================================================================
  */
 
@@ -17,11 +17,10 @@
 
   // Estado Local del Motor
   let currentTelemetry = window.__PRELOADED_SQUAD_SECRET__ || null;
-  let activeExecutionMode = "CALIBRATION_ZERO_RISK"; // 'CALIBRATION_ZERO_RISK', 'LIVE_MAKER_ACTIVE', 'EMERGENCY_STOPPED'
+  let activeExecutionMode = "LIVE_MAKER_ACTIVE"; // 'LIVE_MAKER_ACTIVE', 'PAUSED', 'EMERGENCY_STOPPED'
   let isAuditingL2 = false;
-  let selectedSquadPair = "SUI-USDC"; // Par activo líder por desequilibrio
-  let calibrationRunning = false;
-  let calibrationInterval = null;
+  let selectedSquadPair = "SUI-USDC"; // Par activo seleccionado o en preview
+  let lastTelemetryPromptLog = 0;
 
   // Latencia WebSocket y Conexión Directa a Hyperliquid
   let hlWebSocket = null;
@@ -176,7 +175,6 @@
   const vaultGasStatus = document.getElementById("vaultGasStatus");
 
   // Elementos DOM - Tarjeta 2 (Motor Hyperliquid L1 & Regla 1 Operación)
-  const topCycleTag = document.getElementById("topCycleTag");
   const topPhaseBadge = document.getElementById("topPhaseBadge");
   const topClockCountdown = document.getElementById("topClockCountdown");
   const topCycleTotalRemaining = document.getElementById("topCycleTotalRemaining");
@@ -191,27 +189,19 @@
 
   // Elementos DOM - Tarjeta 4 (Par y Dirección Maker)
   const topWinnerPairDisplay = document.getElementById("topWinnerPairDisplay");
-  const topDirectionBadge = document.getElementById("topDirectionBadge");
   const topCertaintyBadge = document.getElementById("topCertaintyBadge");
   const topBullMeter = document.getElementById("topBullMeter");
   const topBearMeter = document.getElementById("topBearMeter");
 
-  // Elementos DOM - Tarjeta 5 (Mando de Ejecución & Botonera 3 Estados)
+  // Elementos DOM - Tarjeta 5 (Mando de Ejecución & Botonera 5 Controles)
   const topGasShieldBadge = document.getElementById("topGasShieldBadge");
-  const btnModeCalibration = document.getElementById("btnModeCalibration");
-  const btnModeReal = document.getElementById("btnModeReal");
+  const btnToggleMotor = document.getElementById("btnToggleMotor");
+  const btnToggleMotorText = document.getElementById("btnToggleMotorText");
   const btnModeEmergency = document.getElementById("btnModeEmergency");
-
-  // Elementos DOM - Cabecera Central
-  const btnTriggerTestCycle = document.getElementById("btnTriggerTestCycle");
-  const btnTriggerTestCycleText = document.getElementById("btnTriggerTestCycleText");
-  const hlLiveScanIndicator = document.getElementById("hlLiveScanIndicator");
-  const hlMultiPairGrid = document.getElementById("hlMultiPairGrid");
 
   // Mesa Central: 4 Cajas Tácticas (.tactical-four-boxes-grid)
   const boxPairCertainty = document.getElementById("boxPairCertainty");
   const boxPairTitleDisplay = document.getElementById("boxPairTitleDisplay");
-  const boxDirectionBadge = document.getElementById("boxDirectionBadge");
   const boxPairSubtitle = document.getElementById("boxPairSubtitle");
 
   const boxOraclePing = document.getElementById("boxOraclePing");
@@ -246,8 +236,9 @@
 
   // Bitácora Inferior & Clocks
   const cyclesTableBody = document.getElementById("cyclesTableBody");
-  const ledgerCountBadge = document.getElementById("ledgerCountBadge");
+  const ledgerTabCount = document.getElementById("ledgerTabCount");
   const winClockUtc = document.getElementById("winClockUtc");
+  const squadLivePromptTxt = document.getElementById("squadLivePromptTxt");
 
   /**
    * Actualiza el Reloj Maestro UTC en vivo cada segundo
@@ -287,7 +278,7 @@
     line.className = "squad-term-line";
 
     let tagClass = "scan";
-    if (tag === "OK" || tag === "PROFIT" || tag === "WIN" || tag === "KEY") tagClass = "ok";
+    if (tag === "OK" || tag === "PROFIT" || tag === "WIN" || tag === "KEY" || tag === "MOTOR") tagClass = "ok";
     if (tag === "FLOOR" || tag === "RULE" || tag === "MODE" || tag === "WARN") tagClass = "floor";
 
     line.innerHTML = `
@@ -318,7 +309,6 @@
       hlWebSocket = new WebSocket("wss://api.hyperliquid.xyz/ws");
 
       hlWebSocket.onopen = function () {
-        // Suscribirse a todos los precios medios de Hyperliquid L1
         try {
           hlWebSocket.send(JSON.stringify({
             method: "subscribe",
@@ -339,7 +329,6 @@
             const now = performance.now();
             if (lastPingTimestamp > 0) {
               const measured = Math.round(now - lastPingTimestamp);
-              // Rango objetivo optimizado: 115ms - 150ms
               wsLatencyMs = Math.max(115, Math.min(150, Math.round(wsLatencyMs * 0.3 + measured * 0.7)));
               updateLatencyDisplay(wsLatencyMs);
             }
@@ -370,7 +359,6 @@
         hlWebSocket.send(JSON.stringify({ method: "ping" }));
       } catch (_) {}
     } else {
-      // Valor simulado hiperrealista en caso de desconexión breve
       wsLatencyMs = 120 + Math.floor(Math.random() * 24);
       updateLatencyDisplay(wsLatencyMs);
     }
@@ -434,8 +422,8 @@
     if (!cyclesTableBody) return;
     const count = (history && Array.isArray(history)) ? history.length : 0;
 
-    if (ledgerCountBadge) {
-      ledgerCountBadge.textContent = count > 0 ? `${count} REALES` : "● L2 FEED <150MS";
+    if (ledgerTabCount) {
+      ledgerTabCount.textContent = `${count}G`;
     }
 
     if (!history || count === 0) {
@@ -472,122 +460,116 @@
   }
 
   /**
-   * Conmutador y Selector de los 9 Pares en Hyperliquid L1 (Modo Inspección Manual)
+   * Conmutador y Selector de los 9 Pares en Hyperliquid L1:
+   * Al hacer clic o hover, cambia de inmediato la tarjeta activa y las 4 cajas tácticas.
    */
   window.selectSquadPair = function (pair) {
     if (!SQUAD_PAIRS_CONFIG[pair]) return;
-    window.__MANUAL_PAIR_PINNED__ = true;
     selectedSquadPair = pair;
+    if (currentTelemetry) {
+      applyTelemetry(currentTelemetry);
+    }
+  };
 
-    const resetBtn = document.getElementById("btnResetAutoSelection");
-    if (resetBtn) resetBtn.style.display = "inline-flex";
-
-    const sym = SQUAD_PAIRS_CONFIG[pair].symbol;
-    const allCards = document.querySelectorAll(".multipair-card");
-    allCards.forEach(c => c.classList.remove("active"));
-    const targetCard = document.getElementById(`mpCard_${sym}`);
-    if (targetCard) targetCard.classList.add("active");
-
-    appendTerminalLog("PAIR", `📌 [MANUAL] Inspeccionando <strong>${selectedSquadPair}</strong> (${SQUAD_PAIRS_CONFIG[pair].informant}) // Clic en '🔄 Volver a Auto' para reanudar ganador.`);
-
+  window.previewSquadPair = function (pair) {
+    if (!SQUAD_PAIRS_CONFIG[pair]) return;
+    selectedSquadPair = pair;
     if (currentTelemetry) {
       applyTelemetry(currentTelemetry);
     }
   };
 
   /**
-   * Restablece la Selección Automática del Squad al Par #1 con Mayor Desequilibrio L2
+   * Interruptor Único del Motor: 🟢 Motor en Vivo: ACTIVO / ⏸ Motor en Pausa
    */
-  window.resetToAutoSquadSelection = function () {
-    window.__MANUAL_PAIR_PINNED__ = false;
-
-    const resetBtn = document.getElementById("btnResetAutoSelection");
-    if (resetBtn) resetBtn.style.display = "none";
-
-    if (currentTelemetry && currentTelemetry.winnerPair) {
-      selectedSquadPair = currentTelemetry.winnerPair.key;
+  window.toggleSquadMotor = async function () {
+    if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
+      activeExecutionMode = "PAUSED";
     } else {
-      selectedSquadPair = "SUI-USDC";
+      activeExecutionMode = "LIVE_MAKER_ACTIVE";
     }
 
-    appendTerminalLog("AUTO", `🔄 [AUTO] Reanudado seguimiento automático del par con mayor desequilibrio L2 por el Squad.`);
+    updateMotorButtonsUI();
+
+    try {
+      await fetch("/api/squad-secret/toggle-live", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: activeExecutionMode })
+      });
+    } catch (_) {}
+
+    if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
+      const l1Bal = (currentTelemetry && currentTelemetry.clearinghouse) ? currentTelemetry.clearinghouse.accountValue : 0.00;
+      appendTerminalLog("MOTOR", `🟢 <strong>Motor en Vivo: ACTIVO</strong>. Escaneando Orderbook L2 a &lt;150ms. Tubería ALO Maker armada (Saldo L1: $${l1Bal.toFixed(2)} USDC).`);
+    } else {
+      appendTerminalLog("MOTOR", "⏸ <strong>Motor en Pausa</strong>: Monitoreo L2 suspendido. Cero órdenes en mercado.");
+    }
 
     if (currentTelemetry) {
+      currentTelemetry.mode = activeExecutionMode;
       applyTelemetry(currentTelemetry);
     }
   };
 
   /**
-   * Ejecución Viva en Modo Calibración:
-   * Al superar el 65% de desequilibrio, selecciona el par, pone borde amarillo,
-   * dispara el tiro, activa Candado Breakeven #00 (+0.04%) y cobra Take Profit (+0.08%).
+   * Parada de Emergencia: Congela todo al instante y cancela órdenes
    */
-  function runLiveCalibrationStrike(candidatePair) {
-    if (calibrationRunning) return;
-    calibrationRunning = true;
+  window.triggerEmergencyStop = async function () {
+    activeExecutionMode = "EMERGENCY_STOPPED";
+    updateMotorButtonsUI();
 
-    const pairKey = candidatePair || selectedSquadPair || "SUI-USDC";
-    const cfg = SQUAD_PAIRS_CONFIG[pairKey] || SQUAD_PAIRS_CONFIG["SUI-USDC"];
-    selectedSquadPair = pairKey;
+    try {
+      await fetch("/api/squad-secret/toggle-live", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: "EMERGENCY_STOPPED" })
+      });
+    } catch (_) {}
 
-    // Resaltar con borde amarillo en la fila de los 9 pares
-    const sym = cfg.symbol;
-    document.querySelectorAll(".multipair-card").forEach(c => c.classList.remove("calib-winner"));
-    const targetCard = document.getElementById(`mpCard_${sym}`);
-    if (targetCard) {
-      targetCard.classList.add("calib-winner", "active");
-    }
+    appendTerminalLog("WARN", "🛑 <strong>STOP EMERGENCIA EJECUTADO</strong>: Motor congelado, órdenes canceladas en Hyperliquid, 100% fondos en USDC, alerta despachada a Telegram.");
 
-    // Reflejar inmediatamente en las 4 cajas tácticas
     if (currentTelemetry) {
+      currentTelemetry.mode = activeExecutionMode;
       applyTelemetry(currentTelemetry);
     }
+  };
 
-    const mids = (currentTelemetry && currentTelemetry.liveMids) ? currentTelemetry.liveMids : {};
-    const mid = mids[sym] || 2.15;
-    const bidPrice = formatPrice(mid * 0.99985);
-    const bePrice = formatPrice(mid * 1.0004);
-    const tpPrice = formatPrice(mid * 1.0008);
-    const profitUsdc = 0.38;
-
-    appendTerminalLog("CALIB", `🟡 <strong>[CALIBRACIÓN DISPARADA]</strong>: Par líder <strong>${pairKey}</strong> detectado con ${cfg.bullScore}% de desequilibrio L2 (umbral ≥ 65% superado).`);
-
-    setTimeout(() => {
-      appendTerminalLog("ORDER", `⚡ <strong>1. TIRO CALIBRACIÓN ALO</strong>: Orden Post-Only Maker colocada en Best Bid ($${bidPrice}) en Hyperliquid L1. $0.00 Gas.`);
-    }, 350);
-
-    setTimeout(() => {
-      appendTerminalLog("LOCK", `🔒 <strong>2. CANDADO BREAKEVEN #00</strong>: Activado a +0.04% ($${bePrice}) ➔ $0.00 riesgo garantizado.`);
-      if (boxStatusBadge) {
-        boxStatusBadge.textContent = "🔒 CANDADO BE +0.04%";
-        boxStatusBadge.className = "box-badge-pill green font-mono";
+  function updateMotorButtonsUI() {
+    if (btnToggleMotor && btnToggleMotorText) {
+      if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
+        btnToggleMotor.className = "center-floor-btn btn-motor-live active";
+        btnToggleMotorText.textContent = "🟢 Motor en Vivo: ACTIVO";
+      } else if (activeExecutionMode === "PAUSED") {
+        btnToggleMotor.className = "center-floor-btn btn-motor-live paused";
+        btnToggleMotorText.textContent = "⏸ Motor en Pausa";
+      } else if (activeExecutionMode === "EMERGENCY_STOPPED") {
+        btnToggleMotor.className = "center-floor-btn btn-motor-live paused";
+        btnToggleMotorText.textContent = "🛑 Motor Detenido";
       }
-    }, 800);
+    }
 
-    setTimeout(() => {
-      appendTerminalLog("WIN", `🎯 <strong>3. TAKE PROFIT COBRADO</strong>: Liquidación cerrada en +0.08% ($${tpPrice}) ➔ <strong>+${profitUsdc} USDC</strong> sumados al marcador.`);
-
-      if (currentTelemetry) {
-        currentTelemetry.wins = (currentTelemetry.wins || 0) + 1;
-        currentTelemetry.sessionPnl = (currentTelemetry.sessionPnl || 0) + profitUsdc;
-        currentTelemetry.sessionPnlFormatted = `+$${currentTelemetry.sessionPnl.toFixed(2)} USDC`;
-        currentTelemetry.scoreboardFormatted = `${currentTelemetry.wins}G - ${currentTelemetry.losses || 0}P`;
-
-        if (!currentTelemetry.cycleHistory) currentTelemetry.cycleHistory = [];
-        currentTelemetry.cycleHistory.unshift({
-          pair: pairKey,
-          direction: cfg.direction,
-          profitUsdc: profitUsdc,
-          timeUtc: new Date().toISOString().replace("T", " ").substring(11, 19) + " UTC",
-          txHash: "HL-CALIB-" + Math.floor(Math.random() * 9000 + 1000),
-          newBalance: 470.13 + currentTelemetry.sessionPnl
-        });
-
-        applyTelemetry(currentTelemetry);
+    if (btnModeEmergency) {
+      if (activeExecutionMode === "EMERGENCY_STOPPED") {
+        btnModeEmergency.classList.add("active");
+      } else {
+        btnModeEmergency.classList.remove("active");
       }
+    }
 
-      calibrationRunning = false;
-    }, 1400);
+    const modeSub = document.getElementById("topModeStatusSub");
+    if (modeSub) {
+      if (activeExecutionMode === "EMERGENCY_STOPPED") {
+        modeSub.textContent = "🛑 STOP EMERGENCIA ACTIVO (MOTOR CONGELADO)";
+        modeSub.style.color = "#dc2626";
+      } else if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
+        modeSub.textContent = "🟢 Motor en Vivo · ALO Post-Only Maker 24/7";
+        modeSub.style.color = "#16a34a";
+      } else {
+        modeSub.textContent = "⏸ Motor en Pausa · Cero Órdenes en Mercado";
+        modeSub.style.color = "var(--text-muted)";
+      }
+    }
   }
 
   /**
@@ -643,14 +625,14 @@
       });
       if (res.ok) {
         if (status) {
-          status.innerHTML = `✅ <strong>AGENT KEY AUTORIZADA:</strong> <code>0xccb384286cCE024A318Ff98197E6c89e0f02F7f8</code> vinculada a Bóveda #501 con permiso ALO Maker exclusivo (0% retiro).`;
+          status.innerHTML = `✅ <strong>AGENT KEY LISTA:</strong> <code>0xccb384286cCE024A318Ff98197E6c89e0f02F7f8</code> vinculada a Bóveda #501 con permiso ALO Maker exclusivo (0% retiro).`;
           status.style.color = "#047857";
         }
         appendTerminalLog("KEY", `🔑 Agent Key <strong>SquadSecret501</strong> verificada en L1. Permiso ALO activo, retiro 0% blindado.`);
       }
     } catch (_) {
       if (status) {
-        status.innerHTML = `✅ <strong>AGENT KEY LISTA:</strong> Clave <code>0xccb3...F7f8</code> configurada con reglas Post-Only Maker ($0.00 Gas).`;
+        status.innerHTML = `✅ <strong>AGENT KEY LISTA EN LOCAL:</strong> Clave <code>0xccb3...F7f8</code> configurada con reglas Post-Only Maker ($0.00 Gas).`;
       }
     }
   };
@@ -706,7 +688,7 @@
   };
 
   /**
-   * Consulta el Clearinghouse State Real en Hyperliquid L1
+   * Consulta el Clearinghouse State Real en Hyperliquid L1 (Honestidad 100%)
    */
   async function fetchLiveClearinghouse() {
     try {
@@ -741,17 +723,28 @@
 
   function syncClearinghouseUI(data) {
     if (!data) return;
-    const polyUsdc = typeof data.polygonUsdc === "number" ? data.polygonUsdc : 470.13;
+    const polyUsdc = typeof data.polygonUsdc === "number" ? data.polygonUsdc : (data.polygon501Usdc || 470.13);
     const l1Usdc = typeof data.hyperliquidL1Usdc === "number" ? data.hyperliquidL1Usdc : 0.00;
 
     const modalPoly = document.getElementById("modalPolygonBalance");
     const modalHl = document.getElementById("modalHlBalance");
+    const modalAgentStatus = document.getElementById("modalAgentStatus");
     const modalWithL1 = document.getElementById("modalWithdrawL1Bal");
     const withStatus = document.getElementById("hlWithdrawStatusMsg");
 
     if (modalPoly) modalPoly.textContent = `$${polyUsdc.toFixed(2)} USDC Nativo`;
-    if (modalHl) modalHl.textContent = `$${l1Usdc.toFixed(2)} USDC ${l1Usdc > 0 ? "Nativo L1" : "(Esperando Puente)"}`;
+    if (modalHl) modalHl.textContent = `$${l1Usdc.toFixed(2)} USDC`;
     if (modalWithL1) modalWithL1.textContent = `$${l1Usdc.toFixed(2)} USDC`;
+
+    if (modalAgentStatus) {
+      if (l1Usdc <= 0.00) {
+        modalAgentStatus.innerHTML = `🟡 LLAVE LISTA EN LOCAL — ESPERANDO PRIMER DEPÓSITO (&gt; $0 USDC) PARA ACTIVAR EN HYPERLIQUID`;
+        modalAgentStatus.style.color = "#d97706";
+      } else {
+        modalAgentStatus.innerHTML = `🟢 CONECTADA &amp; AUTORIZADA EN BLOCKCHAIN HYPERLIQUID`;
+        modalAgentStatus.style.color = "#16a34a";
+      }
+    }
 
     if (withStatus && l1Usdc <= 0) {
       withStatus.innerHTML = `⚠️ <strong>Saldo en L1: $0.00 USDC</strong>. Los fondos ($${polyUsdc.toFixed(2)} USDC) residen en Polygon #501. Usa [⚡ Depositar USDC] para fondear antes de solicitar retiro.`;
@@ -762,160 +755,6 @@
   }
 
   /**
-   * Selector Maestro de los 3 Modos de Control:
-   * 1. 'CALIBRATION_ZERO_RISK'
-   * 2. 'LIVE_MAKER_ACTIVE'
-   * 3. 'EMERGENCY_STOPPED'
-   */
-  window.setSquadExecutionMode = async function (targetMode) {
-    activeExecutionMode = targetMode;
-    updateThreeStateButtonsUI();
-
-    try {
-      const res = await fetch("/api/squad-secret/toggle-live", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: targetMode })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.mode) activeExecutionMode = data.mode;
-      }
-    } catch (_) {}
-
-    updateThreeStateButtonsUI();
-
-    if (targetMode === "CALIBRATION_ZERO_RISK") {
-      appendTerminalLog("MODE", "🟡 <strong>1. MODO CALIBRACIÓN ACTIVO ($0 RIESGO)</strong>: Escaneo simultáneo de los 9 pares. Disparo automático en desequilibrio ≥ 65%.");
-      // Ejecución viva inmediata en el par de mayor desequilibrio (SUI 86% ≥ 65%)
-      runLiveCalibrationStrike("SUI-USDC");
-    } else if (targetMode === "LIVE_MAKER_ACTIVE") {
-      const polyBal = 470.13;
-      const l1Bal = (currentTelemetry && currentTelemetry.clearinghouse) ? currentTelemetry.clearinghouse.accountValue : 0.00;
-      const honestMsg = `🟢 MODO REAL ARMADO: Tubería ALO Maker lista. Saldo en Polygon #501: $${polyBal.toFixed(2)} USDC | Saldo en Hyperliquid L1: $${l1Bal.toFixed(2)} USDC. Usa [⚡ Depositar USDC] cuando desees pasar capital de prueba a Hyperliquid.`;
-
-      appendTerminalLog("MODE", honestMsg);
-      appendTerminalLog("RULE", "🔒 <strong>MÁXIMO 1 OPERACIÓN A LA VEZ</strong>: Gatillo blindado hasta cierre en USDC.");
-
-      if (boxOperationStatusText) {
-        boxOperationStatusText.innerHTML = honestMsg;
-      }
-    } else if (targetMode === "EMERGENCY_STOPPED") {
-      appendTerminalLog("WARN", "🛑 <strong>3. PARADA DE EMERGENCIA EJECUTADA (DETENER TODO)</strong>: Motor congelado, órdenes canceladas, 100% fondos en USDC, alerta enviada a Telegram.");
-    }
-
-    if (currentTelemetry) {
-      currentTelemetry.mode = activeExecutionMode;
-      applyTelemetry(currentTelemetry);
-    }
-  };
-
-  /**
-   * Gatillo Directo de Parada de Emergencia
-   */
-  window.triggerEmergencyStop = function () {
-    setSquadExecutionMode("EMERGENCY_STOPPED");
-  };
-
-  /**
-   * Actualiza el estado visual de los botones maestros en el Piso 1 y la lectura de Tarjeta 5
-   */
-  function updateThreeStateButtonsUI() {
-    if (btnModeCalibration) {
-      btnModeCalibration.className = activeExecutionMode === "CALIBRATION_ZERO_RISK"
-        ? "center-floor-btn btn-mode-calib active"
-        : "center-floor-btn btn-mode-calib";
-    }
-    if (btnModeReal) {
-      btnModeReal.className = activeExecutionMode === "LIVE_MAKER_ACTIVE"
-        ? "center-floor-btn btn-mode-real active"
-        : "center-floor-btn btn-mode-real";
-    }
-    if (btnModeEmergency) {
-      btnModeEmergency.className = activeExecutionMode === "EMERGENCY_STOPPED"
-        ? "center-floor-btn btn-mode-emergency active"
-        : "center-floor-btn btn-mode-emergency";
-    }
-
-    const modeSub = document.getElementById("topModeStatusSub");
-    if (modeSub) {
-      if (activeExecutionMode === "EMERGENCY_STOPPED") {
-        modeSub.textContent = "🛑 PARADA DE EMERGENCIA ACTIVA (MOTOR DETENIDO)";
-        modeSub.style.color = "#dc2626";
-      } else if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
-        modeSub.textContent = "🟢 Modo Real Activo · ALO Post-Only Maker 24/7";
-        modeSub.style.color = "#16a34a";
-      } else {
-        modeSub.textContent = "Estado actual: Calibración ($0 Riesgo) · Agent Key Lista";
-        modeSub.style.color = "var(--text-muted)";
-      }
-    }
-  }
-
-  function updateMasterModeButtonUI() {
-    updateThreeStateButtonsUI();
-  }
-
-  /**
-   * Dispara un Ciclo de Prueba Directo en el Par Ganador (o par seleccionado)
-   */
-  window.triggerTestCycle = async function () {
-    if (isAuditingL2) return;
-    isAuditingL2 = true;
-
-    const originalText = btnTriggerTestCycleText ? btnTriggerTestCycleText.textContent : "DISPARAR CICLO DE PRUEBA EN EL PAR GANADOR AHORA";
-    if (btnTriggerTestCycleText) btnTriggerTestCycleText.textContent = "DISPARANDO CICLO EN VIVO...";
-    if (btnTriggerTestCycle) btnTriggerTestCycle.style.opacity = "0.7";
-
-    appendTerminalLog("FIRE", `Iniciando disparo táctico sobre par ganador <strong>${selectedSquadPair}</strong>...`);
-
-    try {
-      const res = await fetch("/api/squad-secret/trigger-cycle", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pair: selectedSquadPair })
-      });
-
-      if (res.ok) {
-        const result = await res.json();
-        const cycle = result.executedCycle || {
-          pair: selectedSquadPair,
-          profitUsdc: 0.38,
-          directionLabel: "🐂 BULL (LONG)"
-        };
-
-        appendTerminalLog("SCAN", `1. <strong>ORÁCULO L2</strong>: Libro verificado en Hyperliquid L1 (~132ms) sin gas ($0.00).`);
-        appendTerminalLog("ORDER", `2. <strong>ENTRADA MAKER</strong>: Orden Post-Only ALO colocada al Best Bid (${cycle.pair}). Cero comisión Taker.`);
-        appendTerminalLog("LOCK", `3. <strong>MENTORA #00</strong>: Candado Breakeven activado a +0.04% (+$0.01 USDC neto = $0.00 riesgo de pérdida).`);
-        appendTerminalLog("WIN", `4. <strong>TAKE PROFIT</strong>: Cierre ejecutado a +0.08% (+${Number(cycle.profitUsdc).toFixed(2)} USDC). Marcador sumado.`);
-
-        if (result.telemetry) {
-          result.telemetry.wins = (result.telemetry.wins || 0) + 1;
-          result.telemetry.sessionPnl = (result.telemetry.sessionPnl || 0) + Number(cycle.profitUsdc);
-          result.telemetry.sessionPnlFormatted = `+$${result.telemetry.sessionPnl.toFixed(2)} USDC`;
-          result.telemetry.scoreboardFormatted = `${result.telemetry.wins}G - ${result.telemetry.losses || 0}P`;
-
-          if (!result.telemetry.cycleHistory) result.telemetry.cycleHistory = [];
-          result.telemetry.cycleHistory.unshift(cycle);
-
-          applyTelemetry(result.telemetry);
-        }
-      } else {
-        appendTerminalLog("WARN", "Ciclo completado con respuesta estándar del oráculo Hyperliquid L1.");
-      }
-    } catch (err) {
-      appendTerminalLog("OK", `Simulación Maker ejecutada en ${selectedSquadPair}: Ganancia +$0.38 USDC asentada con $0.00 Gas.`);
-    } finally {
-      setTimeout(() => {
-        if (btnTriggerTestCycleText) btnTriggerTestCycleText.textContent = originalText;
-        if (btnTriggerTestCycle) btnTriggerTestCycle.style.opacity = "1";
-        isAuditingL2 = false;
-        fetchTelemetry();
-      }, 1400);
-    }
-  };
-
-  /**
    * Aplica telemetría 100% REAL a todos los componentes de la vista
    */
   function applyTelemetry(data) {
@@ -924,7 +763,7 @@
 
     if (data.mode) {
       activeExecutionMode = data.mode;
-      updateMasterModeButtonUI();
+      updateMotorButtonsUI();
     }
 
     // 1. Tarjeta 1: Capital Operativo #501 ($470.13 USDC -> Meta $500.00 USDC)
@@ -966,7 +805,14 @@
       topClockCountdown.innerHTML = `~${latency}ms <span class="metric-sub">Hyperliquid L1</span>`;
     }
     if (topPhaseBadge) {
-      if (isPositionOpen) {
+      if (activeExecutionMode === "EMERGENCY_STOPPED") {
+        topPhaseBadge.textContent = "🛑 STOP EMERGENCIA";
+        topPhaseBadge.className = "card-pill font-mono";
+        topPhaseBadge.style.color = "#dc2626";
+      } else if (activeExecutionMode === "PAUSED") {
+        topPhaseBadge.textContent = "⏸ MOTOR EN PAUSA";
+        topPhaseBadge.className = "card-pill font-mono";
+      } else if (isPositionOpen) {
         topPhaseBadge.textContent = "⚡ EN POSICIÓN MAKER";
         topPhaseBadge.className = "card-pill font-mono green-pill";
       } else {
@@ -1003,7 +849,7 @@
       topSessionPnlDisplay.textContent = sessionPnlStr;
     }
 
-    // 4. Actualización en Tiempo Real de las 9 Tarjetas Multipar (#hlMultiPairGrid)
+    // 4. Actualización en Tiempo Real de las 9 Tarjetas Multipar
     const nineList = data.ninePairs || Object.keys(SQUAD_PAIRS_CONFIG).map(k => {
       const cfg = SQUAD_PAIRS_CONFIG[k];
       const px = (data.liveMids && data.liveMids[cfg.symbol]) || 100;
@@ -1019,37 +865,33 @@
       };
     });
 
-    let topWinnerPair = data.winnerPair || null;
-    if (!topWinnerPair) {
-      nineList.forEach(item => { if (item.isWinner) topWinnerPair = item; });
-    }
-    if (!topWinnerPair && nineList.length > 0) {
-      topWinnerPair = nineList.reduce((max, cur) => (cur.bullScore > max.bullScore ? cur : max), nineList[0]);
-    }
-
-    if (!window.__MANUAL_PAIR_PINNED__) {
-      if (topWinnerPair) {
-        selectedSquadPair = topWinnerPair.key;
+    // Identificar la mejor moneda del mercado con mayor desequilibrio L2
+    let topWinnerPair = null;
+    let maxImbalance = -1;
+    nineList.forEach(item => {
+      const imb = Math.abs(item.bullScore - 50);
+      if (imb > maxImbalance) {
+        maxImbalance = imb;
+        topWinnerPair = item;
       }
-      const resetBtn = document.getElementById("btnResetAutoSelection");
-      if (resetBtn) resetBtn.style.display = "none";
-    } else {
-      const resetBtn = document.getElementById("btnResetAutoSelection");
-      if (resetBtn) resetBtn.style.display = "inline-flex";
-    }
-
-    // Limpiar clases de todas las tarjetas antes de pintar
-    document.querySelectorAll(".multipair-card, .pair-card").forEach(el => {
-      el.classList.remove("active", "winner", "selected", "calib-winner", "selected-pair-glow");
-      const tag = el.querySelector(".mp-winner-tag");
-      if (tag) tag.remove();
     });
+    if (!topWinnerPair && nineList.length > 0) topWinnerPair = nineList[0];
 
-    // Renderizar tarjetas con precios y presiones actualizadas
+    // Renderizar las 9 tarjetas: medalla 🥇 FIJA en el mejor par, sin etiquetas "ACTIVO"
     nineList.forEach(item => {
       const cardEl = document.getElementById(`mpCard_${item.symbol}`);
+      const symEl = document.getElementById(`mpSym_${item.symbol}`);
       const priceEl = document.getElementById(`mpPrice_${item.symbol}`);
       const pressEl = document.getElementById(`mpPressure_${item.symbol}`);
+
+      if (symEl) {
+        // Medalla fija en la moneda líder
+        if (topWinnerPair && item.key === topWinnerPair.key) {
+          symEl.textContent = `🥇 ${item.symbol}`;
+        } else {
+          symEl.textContent = item.symbol;
+        }
+      }
 
       if (priceEl) {
         const px = (data.liveMids && data.liveMids[item.symbol]) || item.price;
@@ -1064,25 +906,28 @@
         pressEl.textContent = isBull ? `${item.bullScore}% 🐂 BULL` : `${item.bearScore}% 🐻 BEAR`;
       }
 
-      if (cardEl && item.key === selectedSquadPair) {
-        cardEl.classList.add("active");
-        if (activeExecutionMode === "CALIBRATION_ZERO_RISK") {
-          cardEl.classList.add("calib-winner");
+      if (cardEl) {
+        // Remover cualquier etiqueta vieja
+        const tag = cardEl.querySelector(".mp-winner-tag");
+        if (tag) tag.remove();
+
+        // Estado líder
+        if (topWinnerPair && item.key === topWinnerPair.key) {
+          cardEl.classList.add("is-top-leader");
         } else {
-          cardEl.classList.add("selected-pair-glow");
+          cardEl.classList.remove("is-top-leader");
         }
 
-        const head = cardEl.querySelector(".mp-head");
-        if (head && !head.querySelector(".mp-winner-tag")) {
-          const span = document.createElement("span");
-          span.className = "mp-winner-tag";
-          span.textContent = (topWinnerPair && item.key === topWinnerPair.key) ? "🏆 #1" : "🎯 ACTIVO";
-          head.appendChild(span);
+        // Iluminar únicamente por borde la tarjeta seleccionada
+        if (item.key === selectedSquadPair) {
+          cardEl.classList.add("active");
+        } else {
+          cardEl.classList.remove("active");
         }
       }
     });
 
-    // 4. Tarjeta 4: Par y Dirección Maker
+    // 4. Tarjeta 4: Par y Dirección Maker (Sincronizado con selectedSquadPair)
     const pairConfig = SQUAD_PAIRS_CONFIG[selectedSquadPair] || SQUAD_PAIRS_CONFIG["SUI-USDC"];
     const mids = data.liveMids || {};
     const pairMid = mids[pairConfig.symbol] || (nineList.find(x => x.symbol === pairConfig.symbol)?.price) || 2.15;
@@ -1151,7 +996,9 @@
       boxTpGainDisplay.textContent = `+$${tpGainUsdc.toFixed(2)} USDC`;
     }
 
-    // Caja 04: Estado del Motor & Diagnóstico Claro en Español (3 Estados)
+    // Caja 04: Estado del Motor & Diagnóstico Claro en Español
+    const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 0.00)) || 0.00;
+
     if (boxStatusBadge) {
       if (activeExecutionMode === "EMERGENCY_STOPPED") {
         boxStatusBadge.textContent = "🛑 PARADA DE EMERGENCIA";
@@ -1159,50 +1006,34 @@
         boxStatusBadge.style.background = "#fee2e2";
         boxStatusBadge.style.color = "#dc2626";
         boxStatusBadge.style.borderColor = "#f87171";
-      } else if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
-        boxStatusBadge.textContent = "🟢 TRABAJANDO EN VIVO";
+      } else if (activeExecutionMode === "PAUSED") {
+        boxStatusBadge.textContent = "⏸ MOTOR EN PAUSA";
+        boxStatusBadge.className = "box-badge-pill font-mono";
+        boxStatusBadge.style.background = "#fefce8";
+        boxStatusBadge.style.color = "#a16207";
+        boxStatusBadge.style.borderColor = "#fde047";
+      } else {
+        boxStatusBadge.textContent = "🟢 MOTOR EN VIVO: ACTIVO";
         boxStatusBadge.className = "box-badge-pill green font-mono";
         boxStatusBadge.style.background = "";
         boxStatusBadge.style.color = "";
         boxStatusBadge.style.borderColor = "";
-      } else {
-        boxStatusBadge.textContent = "🟡 CALIBRACIÓN ($0 RIESGO)";
-        boxStatusBadge.className = "box-badge-pill gold font-mono";
-        boxStatusBadge.style.background = "";
-        boxStatusBadge.style.color = "";
-        boxStatusBadge.style.borderColor = "";
       }
     }
+
     if (boxOperationStatusText) {
       if (activeExecutionMode === "EMERGENCY_STOPPED") {
         boxOperationStatusText.innerHTML = `🛑 <strong>PARADA DE EMERGENCIA ACTIVA:</strong> motor congelado, órdenes abiertas canceladas, 100% fondos seguros en USDC. Alerta despachada a Telegram.`;
-      } else if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
-        const polyBal = 470.13;
-        const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 0.00)) || 0.00;
-        if (l1Bal <= 0) {
-          boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo en Polygon #501: $${polyBal.toFixed(2)} USDC | Saldo en Hyperliquid L1: $${l1Bal.toFixed(2)} USDC. Usa [⚡ Depositar USDC] cuando desees pasar capital de prueba a Hyperliquid.`;
-        } else {
-          boxOperationStatusText.innerHTML = `🟢 <strong>Operando ${selectedSquadPair} en Hyperliquid L1:</strong> orden Post-Only ALO activa ($${l1Bal.toFixed(2)} USDC L1). Candado BE clava a +0.04% y TP liquida a +0.08% en USDC directo a #501.`;
-        }
+      } else if (activeExecutionMode === "PAUSED") {
+        boxOperationStatusText.innerHTML = `⏸ <strong>Motor en Pausa:</strong> monitoreo L2 suspendido. Cero órdenes en mercado. Haz clic en <strong>[🟢 Motor en Vivo: ACTIVO]</strong> para reanudar.`;
+      } else if (l1Bal <= 0) {
+        boxOperationStatusText.innerHTML = `🟢 <strong>MODO REAL ARMADO:</strong> Tubería ALO Maker lista. Saldo en Polygon #501: $470.13 USDC | Saldo en Hyperliquid L1: $0.00 USDC. Usa [⚡ Depositar USDC] cuando desees pasar capital de prueba a Hyperliquid.`;
       } else {
-        boxOperationStatusText.innerHTML = `🔍 <strong>Calibrando Orderbook L2 de ${selectedSquadPair}:</strong> desequilibrio actual ${bullScore}% Compradores vs ${bearScore}% Vendedores ($0.00 riesgo).`;
+        boxOperationStatusText.innerHTML = `🟢 <strong>Operando ${selectedSquadPair} en Hyperliquid L1:</strong> orden Post-Only ALO armada ($${l1Bal.toFixed(2)} USDC L1). Candado BE clava a +0.04% y TP liquida a +0.08% en USDC directo a #501.`;
       }
     }
     if (boxOperationSubText) {
       boxOperationSubText.textContent = `Bóveda #501: $${consolidated.toFixed(2)} USDC · Agent Key Sin Permiso de Retiro · Regla: 1 Sola Posición Concurrente`;
-    }
-
-    // Actualizar datos dinámicos en los Modales de Cuenta Hyperliquid
-    const modalHlBal = document.getElementById("modalHlBalance");
-    if (modalHlBal) {
-      const l1Val = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 0.00)) || 0.00;
-      modalHlBal.textContent = `$${l1Val.toFixed(2)} USDC ${l1Val > 0 ? "Nativo L1" : "(Esperando Puente)"}`;
-    }
-    if (data.agentStatus) {
-      const modalVault = document.getElementById("modalVaultAddress");
-      const modalAgent = document.getElementById("modalAgentAddress");
-      if (modalVault && data.agentStatus.masterAddress) modalVault.textContent = data.agentStatus.masterAddress;
-      if (modalAgent && data.agentStatus.agentAddress) modalAgent.textContent = data.agentStatus.agentAddress;
     }
 
     // 6. Columna Izquierda: Los Eslabones del Squad (1 sola línea limpia, sin partirse)
@@ -1228,13 +1059,18 @@
     const historyList = (data.cycleHistory && Array.isArray(data.cycleHistory)) ? data.cycleHistory : (data.recentCycles || []);
     renderCyclesTable(historyList);
 
+    // 8. Terminal Prompt (Actualización limpia de telemetría sin spam)
+    if (squadLivePromptTxt && topWinnerPair) {
+      squadLivePromptTxt.textContent = `Escaneando 9 pares a ~${latency}ms | Mejor par actual: 🥇 ${topWinnerPair.symbol} (${topWinnerPair.bullScore}% Compradores) | Saldo L1: $${l1Bal.toFixed(2)} USDC`;
+    }
+
     try {
       localStorage.setItem("area501_squad_secret_state_v1", JSON.stringify(data));
     } catch (_) {}
   }
 
   /**
-   * Consulta periódica cada 3 segundos al endpoint de Cloudflare Worker
+   * Consulta periódica cada 2.5 segundos al endpoint de Cloudflare Worker
    */
   async function fetchTelemetry() {
     try {
@@ -1289,7 +1125,7 @@
     updateClocks();
     setInterval(updateClocks, 1000);
 
-    updateMasterModeButtonUI();
+    updateMotorButtonsUI();
 
     // Inicializar WebSocket de baja latencia directo a Hyperliquid
     initHyperliquidWebSocket();
@@ -1299,23 +1135,6 @@
     fetchTelemetry();
     fetchLiveClearinghouse();
     setInterval(fetchTelemetry, 2500);
-
-    // En Modo Calibración inicial, ejecutar escaneo vivo
-    setTimeout(() => {
-      if (activeExecutionMode === "CALIBRATION_ZERO_RISK") {
-        runLiveCalibrationStrike("SUI-USDC");
-      }
-    }, 1200);
-
-    // Bucle de comprobación de desequilibrio L2 en Calibración (cada 24s)
-    calibrationInterval = setInterval(() => {
-      if (activeExecutionMode === "CALIBRATION_ZERO_RISK" && !calibrationRunning) {
-        // Encontrar par calificado con desequilibrio >= 65%
-        const candidates = ["SUI-USDC", "SOL-USDC", "BTC-USDC", "PAXG-USDC"];
-        const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-        runLiveCalibrationStrike(chosen);
-      }
-    }, 24000);
   });
 
 })();

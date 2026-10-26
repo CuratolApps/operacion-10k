@@ -387,22 +387,27 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
   const targetProfitPrice = parseFloat((activePrice * 1.0008).toFixed(activePrice < 1 ? 5 : 2));
   const targetGainUsdc = parseFloat((capital * 0.0008).toFixed(2)); // +$0.37 USDC sobre $470.13
 
-  // Modos de Ejecución Oficiales: CALIBRATION_ZERO_RISK | LIVE_MAKER_ACTIVE | EMERGENCY_STOPPED
-  const executionMode = globalThis.__SQUAD_EXECUTION_MODE__ || "CALIBRATION_ZERO_RISK";
+  // Modos de Ejecución Oficiales: LIVE_MAKER_ACTIVE | PAUSED | EMERGENCY_STOPPED
+  const executionMode = globalThis.__SQUAD_EXECUTION_MODE__ || "LIVE_MAKER_ACTIVE";
   const isEmergency = executionMode === "EMERGENCY_STOPPED";
+  const isPaused = executionMode === "PAUSED";
   const isLiveActive = executionMode === "LIVE_MAKER_ACTIVE";
 
-  let cycleState = "CALIBRATION";
-  let cycleStatusBadge = "🟡 CALIBRACIÓN EN VIVO ($0 RIESGO)";
-  let operationDiagnostic = `Calibrando Orderbook L2 de ${activePair}: desequilibrio actual ${bullScore}% Compradores vs ${bearScore}% Vendedores ($0.00 riesgo).`;
+  let cycleState = "SCANNING_L2";
+  let cycleStatusBadge = "🟢 MOTOR EN VIVO: ACTIVO";
+  let operationDiagnostic = `Escaneando Orderbook L2 de 9 pares. Par líder actual: ${activePair} (${bullScore}% Compradores).`;
 
   if (isEmergency) {
     cycleState = "EMERGENCY_STOPPED";
     cycleStatusBadge = "🛑 PARADA DE EMERGENCIA ACTIVA";
     operationDiagnostic = "🛑 PARADA DE EMERGENCIA: Motor congelado, órdenes canceladas, 100% capital asegurado en USDC. Alerta despachada a Telegram.";
+  } else if (isPaused) {
+    cycleState = "PAUSED";
+    cycleStatusBadge = "⏸ MOTOR EN PAUSA";
+    operationDiagnostic = "⏸ Motor en Pausa: Monitoreo suspendido temporalmente por el Comandante. Cero órdenes en mercado.";
   } else if (isLiveActive) {
     cycleState = "ACTIVE_ORDER";
-    cycleStatusBadge = "🟢 TRABAJANDO EN VIVO (HYPERLIQUID)";
+    cycleStatusBadge = "🟢 MOTOR EN VIVO: ACTIVO";
     if (hlAccountValue <= 0.00) {
       operationDiagnostic = "🟢 MODO REAL ARMADO: Tubería ALO Maker lista. Saldo en Polygon #501: $470.13 USDC | Saldo en Hyperliquid L1: $0.00 USDC. Usa [⚡ Depositar USDC] cuando desees pasar capital de prueba a Hyperliquid.";
     } else {
@@ -1185,7 +1190,7 @@ export default {
     if (url.pathname === "/api/squad-secret/toggle-live") {
       let reqBody = {};
       try { reqBody = await request.json(); } catch (_) {}
-      const targetMode = reqBody.mode || "CALIBRATION_ZERO_RISK";
+      const targetMode = reqBody.mode || "LIVE_MAKER_ACTIVE";
       globalThis.__SQUAD_EXECUTION_MODE__ = targetMode;
 
       // Si es Parada de Emergencia, enviar alerta inmediata a Telegram (Sala de Mando 10K)

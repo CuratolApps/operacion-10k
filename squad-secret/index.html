@@ -152,7 +152,7 @@
           <span class="panel-icon">🕵️‍♂️</span>
           <h2 class="panel-title">SQUAD // HYPERLIQUID L1</h2>
         </div>
-        <span class="panel-badge-pill green font-mono" id="squadFunnelStatus">MÁX 1 OP</span>
+        <span class="panel-badge-pill green font-mono" id="squadFunnelStatus">🟢 EN VIVO</span>
       </div>
 
       <div class="funnel-links-list" id="funnelLinksContainer">
@@ -248,17 +248,14 @@
     <section class="squad-panel squad-center-panel" id="panelCenterMain">
 
       <!-- ===================================================================== -->
-      <!-- PISO 1 (ARRIBA AFUERA): BOTONERA DE MANDO Y CUENTA HYPERLIQUID (6 BOTONES) -->
+      <!-- PISO 1 (ARRIBA AFUERA): BOTONERA DE MANDO Y CUENTA HYPERLIQUID (5 BOTONES AMPLIOS) -->
       <!-- ===================================================================== -->
       <div class="center-floor-one-toolbar" id="centerFloorOneToolbar">
-        <button class="center-floor-btn btn-mode-calib active" id="btnModeCalibration" onclick="setSquadExecutionMode('CALIBRATION_ZERO_RISK')" title="🟡 1. Modo Calibración ($0 Riesgo): Escaneo continuo de los 9 pares. Disparo automático en desequilibrio >= 65%">
-          <span class="btn-icon">🟡</span> <span class="btn-text">Modo Calibración ($0 Riesgo)</span>
+        <button class="center-floor-btn btn-motor-live active" id="btnToggleMotor" onclick="toggleSquadMotor()" title="Alternar Motor en Vivo / Motor en Pausa">
+          <span class="motor-dot"></span> <span class="btn-text" id="btnToggleMotorText">🟢 Motor en Vivo: ACTIVO</span>
         </button>
-        <button class="center-floor-btn btn-mode-real" id="btnModeReal" onclick="setSquadExecutionMode('LIVE_MAKER_ACTIVE')" title="🟢 2. Activar Modo Real: Tubería POST Hyperliquid L1 (ALO + BE #00) 24/7">
-          <span class="btn-icon">🟢</span> <span class="btn-text">Activar Modo Real</span>
-        </button>
-        <button class="center-floor-btn btn-mode-emergency" id="btnModeEmergency" onclick="triggerEmergencyStop()" title="🛑 3. Parada de Emergencia: Congela motor, cancela órdenes, asegura 100% USDC y alerta a Telegram">
-          <span class="btn-icon">🛑</span> <span class="btn-text">Parada de Emergencia</span>
+        <button class="center-floor-btn btn-mode-emergency" id="btnModeEmergency" onclick="triggerEmergencyStop()" title="🛑 Stop Emergencia: Congela motor al instante, cancela órdenes y alerta a Telegram">
+          <span class="btn-icon">🛑</span> <span class="btn-text">Stop Emergencia</span>
         </button>
         <button class="center-floor-btn btn-owner-wallet" id="btnOpenHlWalletModal" onclick="openHlWalletModal()" title="🌐 Ver Cartera en Hyperliquid (#501): Dirección matriz, Agent Key y balance L1">
           <span class="btn-icon">🌐</span> <span class="btn-text">Cartera Hyperliquid (#501)</span>
@@ -275,81 +272,81 @@
       <!-- PISO 2 (EN MEDIO AFUERA): LÍNEA DE LOS 9 PARES EN VIVO SIN SCROLL -->
       <!-- ===================================================================== -->
       <div class="hl-multipair-grid" id="hlMultiPairGrid">
-        <div class="multipair-card" id="mpCard_BTC" onclick="selectSquadPair('BTC-USDC')">
+        <div class="multipair-card" id="mpCard_BTC" onclick="selectSquadPair('BTC-USDC')" onmouseenter="previewSquadPair('BTC-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">BTC</span>
+            <span class="mp-sym font-mono" id="mpSym_BTC">BTC</span>
             <span class="mp-spec font-mono">#701</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_BTC">$80,425.50</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_BTC">82% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_ETH" onclick="selectSquadPair('ETH-USDC')">
+        <div class="multipair-card" id="mpCard_ETH" onclick="selectSquadPair('ETH-USDC')" onmouseenter="previewSquadPair('ETH-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">ETH</span>
+            <span class="mp-sym font-mono" id="mpSym_ETH">ETH</span>
             <span class="mp-spec font-mono">#601</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_ETH">$2,330.35</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_ETH">76% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_SOL" onclick="selectSquadPair('SOL-USDC')">
+        <div class="multipair-card" id="mpCard_SOL" onclick="selectSquadPair('SOL-USDC')" onmouseenter="previewSquadPair('SOL-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">SOL</span>
+            <span class="mp-sym font-mono" id="mpSym_SOL">SOL</span>
             <span class="mp-spec font-mono">#601</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_SOL">$101.57</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_SOL">85% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_BNB" onclick="selectSquadPair('BNB-USDC')">
+        <div class="multipair-card" id="mpCard_BNB" onclick="selectSquadPair('BNB-USDC')" onmouseenter="previewSquadPair('BNB-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">BNB</span>
+            <span class="mp-sym font-mono" id="mpSym_BNB">BNB</span>
             <span class="mp-spec font-mono">#601</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_BNB">$740.45</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_BNB">68% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_POL" onclick="selectSquadPair('POL-USDC')">
+        <div class="multipair-card" id="mpCard_POL" onclick="selectSquadPair('POL-USDC')" onmouseenter="previewSquadPair('POL-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">POL</span>
+            <span class="mp-sym font-mono" id="mpSym_POL">POL</span>
             <span class="mp-spec font-mono">#601</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_POL">$0.0895</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_POL">71% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_PAXG" onclick="selectSquadPair('PAXG-USDC')">
+        <div class="multipair-card" id="mpCard_PAXG" onclick="selectSquadPair('PAXG-USDC')" onmouseenter="previewSquadPair('PAXG-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">PAXG</span>
+            <span class="mp-sym font-mono" id="mpSym_PAXG">PAXG</span>
             <span class="mp-spec font-mono">#701</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_PAXG">$4,023.55</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_PAXG">79% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_LINK" onclick="selectSquadPair('LINK-USDC')">
+        <div class="multipair-card" id="mpCard_LINK" onclick="selectSquadPair('LINK-USDC')" onmouseenter="previewSquadPair('LINK-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">LINK</span>
+            <span class="mp-sym font-mono" id="mpSym_LINK">LINK</span>
             <span class="mp-spec font-mono">#701</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_LINK">$11.45</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_LINK">73% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_SUI" onclick="selectSquadPair('SUI-USDC')">
+        <div class="multipair-card" id="mpCard_SUI" onclick="selectSquadPair('SUI-USDC')" onmouseenter="previewSquadPair('SUI-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">SUI</span>
+            <span class="mp-sym font-mono" id="mpSym_SUI">SUI</span>
             <span class="mp-spec font-mono">#801</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_SUI">$0.9179</div>
           <div class="mp-pressure font-mono bull" id="mpPressure_SUI">86% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_AAVE" onclick="selectSquadPair('AAVE-USDC')">
+        <div class="multipair-card" id="mpCard_AAVE" onclick="selectSquadPair('AAVE-USDC')" onmouseenter="previewSquadPair('AAVE-USDC')">
           <div class="mp-head">
-            <span class="mp-sym font-mono">AAVE</span>
+            <span class="mp-sym font-mono" id="mpSym_AAVE">AAVE</span>
             <span class="mp-spec font-mono">#801</span>
           </div>
           <div class="mp-price font-mono" id="mpPrice_AAVE">$135.46</div>
@@ -369,9 +366,6 @@
           <div class="box-head">
             <span class="box-num font-mono">01</span>
             <span class="box-tag">SELECCIÓN DEL SQUAD EN HYPERLIQUID</span>
-            <button class="manual-reset-pill font-mono" id="btnResetAutoSelection" onclick="resetToAutoSquadSelection()" style="display:none; font-size:7.5px; height:18px; padding:0 6px; margin-left:auto; margin-right:4px;" title="Hacer clic para volver a la selección automática del par #1 por el Squad">
-              🔄 Volver a Auto Squad
-            </button>
             <span class="box-badge-pill green font-mono" id="boxPairCertainty">95.4% CERTEZA</span>
           </div>
           <div class="box-body">
@@ -464,14 +458,11 @@
         <div class="panel-title-wrap">
           <span class="panel-icon">📟</span>
           <h2 class="panel-title">TERMINAL // HYPERLIQUID L1</h2>
-          <div class="terminal-tab-group font-mono">
-            <button class="term-tab-btn active" id="btnTabTermLive" onclick="switchSquadTermTab('LIVE')">📟 CONSOLA L2</button>
-            <button class="term-tab-btn" id="btnTabTermLedger" onclick="switchSquadTermTab('LEDGER')">📜 LEDGER REAL</button>
-          </div>
         </div>
-        <div style="display:flex; align-items:center; gap:6px;">
-          <button class="term-tab-btn" onclick="clearSquadTerm()" title="Limpiar Terminal" style="font-size:9.5px;padding:2px 6px;">⌫</button>
-          <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">● L2 FEED 150MS</span>
+        <div class="terminal-tab-group font-mono" style="display:flex; align-items:center; gap:4px;">
+          <button class="term-tab-btn active" id="btnTabTermLive" onclick="switchSquadTermTab('LIVE')">📟 CONSOLA L2</button>
+          <button class="term-tab-btn" id="btnTabTermLedger" onclick="switchSquadTermTab('LEDGER')">📜 LEDGER <span id="ledgerTabCount">0G</span></button>
+          <button class="term-tab-btn" onclick="clearSquadTerm()" title="Limpiar Terminal" style="font-size:9px; padding:2px 5px;">⌫</button>
         </div>
       </div>
 
@@ -595,12 +586,12 @@
             <span class="value font-mono" id="modalVaultAddress">0xD4D12077a61118372f7a367319fb11922Beb3743</span>
           </div>
           <div class="modal-row">
-            <span class="label">Saldo en Polygon (#501):</span>
+            <span class="label">Saldo en Bóveda #501 (Polygon):</span>
             <span class="value font-mono gold-text font-bold" id="modalPolygonBalance">$470.13 USDC Nativo</span>
           </div>
           <div class="modal-row">
-            <span class="label">Saldo Clearinghouse L1:</span>
-            <span class="value font-mono cyan-text font-bold" id="modalHlBalance">$0.00 USDC (Esperando Puente)</span>
+            <span class="label">Saldo Operativo en Hyperliquid L1:</span>
+            <span class="value font-mono cyan-text font-bold" id="modalHlBalance">$0.00 USDC</span>
           </div>
           <div class="modal-row">
             <span class="label">Agent Key Oficial:</span>
@@ -610,9 +601,11 @@
             <span class="label">Nombre del Agente:</span>
             <span class="value font-mono">SquadSecret501</span>
           </div>
-          <div class="modal-row">
-            <span class="label">Estado de Conexión:</span>
-            <span class="value green-text font-bold" id="modalAgentStatus">🟢 CONECTADA &amp; AUTORIZADA</span>
+          <div class="modal-row" style="align-items:flex-start;">
+            <span class="label" style="white-space:nowrap;">Estado Agent Key:</span>
+            <span class="value font-mono font-bold" id="modalAgentStatus" style="font-size:8px; line-height:1.3; color:#d97706; text-align:right;">
+              🟡 LLAVE LISTA EN LOCAL — ESPERANDO PRIMER DEPÓSITO (&gt; $0 USDC) PARA ACTIVAR EN HYPERLIQUID
+            </span>
           </div>
           <div class="modal-row">
             <span class="label">Permiso de Trading:</span>
@@ -629,10 +622,10 @@
       </div>
       <div class="squad-modal-footer">
         <a href="https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="btn-owner-hl btn-owner-wallet">
-          <span>🔗</span> Explorer L1
+          <span>🔗</span> Explorer L1 (#501)
         </a>
-        <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" rel="noopener noreferrer" class="btn-owner-hl" style="background:#f5f3ff; color:#7c3aed; border:1px solid #ddd6fe;">
-          <span>⛓️</span> PolygonScan #501
+        <a href="https://app.hyperliquid.xyz/trade" target="_blank" rel="noopener noreferrer" class="btn-owner-hl" style="background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0;">
+          <span>📈</span> Trading Hyperliquid L1
         </a>
         <button class="btn-owner-hl btn-owner-deposit" onclick="openHlDepositModal()">
           <span>⚡</span> Pasar Capital
