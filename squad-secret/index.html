@@ -42,11 +42,11 @@
   <!-- ========================================================================= -->
   <header class="top-nav-bar" id="squadHeader">
 
-    <!-- TARJETA 1: CAPITAL VERIFICADO (BÓVEDA #501 · SEGUNDA BOLA $500 GOAL) -->
-    <div class="nav-card" id="cardCapitalTop" title="Capital real verificado en Bóveda #501 auditado on-chain">
+    <!-- TARJETA 1: CAPITAL OPERATIVO #501 (BÓVEDA NODRIZA · $500 GOAL) -->
+    <div class="nav-card" id="cardCapitalTop" title="Capital real verificado en Bóveda #501 asignado a Hyperliquid L1">
       <div class="card-meta">
-        <span class="card-tag gold">💵 CAPITAL VERIFICADO</span>
-        <span class="card-pill font-mono green-pill" id="vaultGasStatus">GAS: 155.05 POL ✔</span>
+        <span class="card-tag gold">💰 CAPITAL OPERATIVO #501</span>
+        <span class="card-pill font-mono green-pill" id="vaultGasStatus">BÓVEDA #501 · $470.13</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono gold-text" id="topCapitalDisplay">
@@ -64,17 +64,17 @@
       </div>
     </div>
 
-    <!-- TARJETA 2: ESTADO DEL CICLO & LATENCIA HYPERLIQUID L1 -->
-    <div class="nav-card" id="cardClockTop" title="Estado real del motor y latencia L1 hacia Hyperliquid y oráculos CEX/DEX">
+    <!-- TARJETA 2: MOTOR HYPERLIQUID L1 (150MS) & REGLA 1 SOLA OPERACIÓN -->
+    <div class="nav-card" id="cardClockTop" title="Latencia en vivo Orderbook L2 Hyperliquid y regla estricta de 1 sola operación a la vez">
       <div class="card-meta">
-        <span class="card-tag cyan" id="topCycleTag">⚡ ESTADO DEL MOTOR</span>
-        <span class="card-pill font-mono green-pill" id="topPhaseBadge">🔍 ESCANEANDO EN VIVO</span>
+        <span class="card-tag cyan" id="topCycleTag">⚡ MOTOR HYPERLIQUID L1</span>
+        <span class="card-pill font-mono green-pill" id="topPhaseBadge">🔍 ESCANEANDO L2</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono cyan-text" id="topClockCountdown">
-          142ms <span class="metric-sub">Hyperliquid L1</span>
+          ~142ms <span class="metric-sub">Hyperliquid L1</span>
         </div>
-        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining">0.024% Spread</span>
+        <span class="cycle-total-pill font-mono" id="topCycleTotalRemaining">MÁX 1 OPERACIÓN A LA VEZ</span>
       </div>
       <div class="progress-wrap">
         <div class="progress-bar-bg">
@@ -82,15 +82,15 @@
         </div>
         <div class="progress-labels font-mono">
           <span id="topPhaseLabel">Cadencia ~150ms</span>
-          <span id="topNextPhaseLabel">Umbral &ge; 0.040%</span>
+          <span id="topNextPhaseLabel">Regla: 1 Sola Posición</span>
         </div>
       </div>
     </div>
 
-    <!-- TARJETA 3: MARCADOR DE FUEGO REAL ON-CHAIN -->
+    <!-- TARJETA 3: MARCADOR REAL HYPERLIQUID (CERO HUMO) -->
     <div class="nav-card" id="cardScoreboardTop" title="Marcador de transacciones reales leídas de squad-secret-real-ledger.json">
       <div class="card-meta">
-        <span class="card-tag green">🎯 MARCADOR REAL ON-CHAIN</span>
+        <span class="card-tag green">🎯 MARCADOR REAL HYPERLIQUID</span>
         <span class="card-pill font-mono green-pill" id="topWinRateBadge">0 OPERACIONES CERRADAS</span>
       </div>
       <div class="card-metric-row">
@@ -101,41 +101,41 @@
       <div class="card-sub-metric font-mono">
         <span class="dim-txt">PnL Real Acumulado:</span>
         <span class="green-text font-bold" id="topSessionPnlDisplay">+$0.00 USDC</span>
-        <span class="target-sub-txt">(Cero Simulación)</span>
+        <span class="target-sub-txt">(Cero Humo)</span>
       </div>
     </div>
 
-    <!-- TARJETA 4: DIRECCIÓN CALIBRADA (BULL vs BEAR) -->
-    <div class="nav-card" id="cardDirectionTop" title="Par con mayor desequilibrio real detectado entre Hyperliquid y CEX/DEX">
+    <!-- TARJETA 4: PAR Y DIRECCIÓN MAKER (1 SOLO PAR GANADOR) -->
+    <div class="nav-card" id="cardDirectionTop" title="Único par seleccionado por el Squad con desequilibrio favorable en el libro L2">
       <div class="card-meta">
-        <span class="card-tag purple">🐂🐻 DIRECCIÓN CALIBRADA</span>
+        <span class="card-tag purple">🐂🐻 PAR Y DIRECCIÓN MAKER</span>
         <span class="card-pill font-mono" id="topCertaintyBadge">95.4% CERTEZA</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono text-glow" id="topWinnerPairDisplay">
-          BTC/USDC <span class="direction-badge bull" id="topDirectionBadge">🐂 BULL (LONG)</span>
+          SOL-USDC <span class="direction-badge bull" id="topDirectionBadge">🐂 BULL (LONG)</span>
         </div>
       </div>
-      <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear informada por #701 Oracle">
-        <div class="dual-bar-fill bull" id="topBullMeter" style="width: 82%;"></div>
-        <div class="dual-bar-fill bear" id="topBearMeter" style="width: 18%;"></div>
+      <div class="dual-balance-bar" title="Fuerza relativa Bull vs Bear informada por el Orderbook L2">
+        <div class="dual-bar-fill bull" id="topBullMeter" style="width: 84%;"></div>
+        <div class="dual-bar-fill bear" id="topBearMeter" style="width: 16%;"></div>
       </div>
     </div>
 
-    <!-- TARJETA 5: BLINDAJE & COSTO (GAS #501 + HYPERLIQUID MAKER) -->
-    <div class="nav-card" id="cardModeTop" title="Gas #501 intacto y modo Hyperliquid Maker a $0.00 Gas con conmutador a Radar DEX">
+    <!-- TARJETA 5: MANDO DE EJECUCIÓN & COSTO $0 GAS (1 CLIC MAESTRO) -->
+    <div class="nav-card" id="cardModeTop" title="Fee Maker 0.015% y $0.00 Gas con conmutador maestro de activación">
       <div class="card-meta">
-        <span class="card-tag gold">🔒 BLINDAJE &amp; COSTO</span>
-        <span class="card-pill font-mono red-pill" id="topGasShieldBadge">155.05 POL INTACTO</span>
+        <span class="card-tag gold">🎛️ MANDO &amp; COSTO $0 GAS</span>
+        <span class="card-pill font-mono green-pill" id="topGasShieldBadge">GAS HYPERLIQUID: $0.00</span>
       </div>
       <div class="card-metric-row">
-        <div class="metric-primary font-mono cyan-text" style="font-size:12px;">
-          HYPERLIQUID MAKER <span class="metric-sub" style="color:var(--text-dim);">(0.015% / $0 Gas)</span>
+        <div class="metric-primary font-mono cyan-text" style="font-size:11px;">
+          FEE MAKER: 0.015% <span class="metric-sub" style="color:var(--text-dim);">(ALO Post-Only)</span>
         </div>
       </div>
       <div class="mode-toggles-row" style="margin-top:2px;">
-        <button class="mode-pill-btn active" id="btnSwitchToDexRadar" onclick="switchSquadSubView('SNIPING_RADAR')" style="width:100%;font-size:9.5px;padding:3px 6px;text-align:center;cursor:pointer;">
-          🎯 IR A VISTA B: RADAR ATÓMICO DEX
+        <button class="master-mode-btn mode-reading" id="btnMasterModeToggle" onclick="toggleMasterHyperliquidMode()" title="Alternar entre modo lectura $0 riesgo y modo ejecución real">
+          🟡 MODO LECTURA EN VIVO ($0 RIESGO)
         </button>
       </div>
     </div>
@@ -143,321 +143,212 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- SELECTOR DE VISTA INTERNA (BULL & BEAR vs RADAR SNIPING ATÓMICO)           -->
-  <!-- ========================================================================= -->
-  <!-- ========================================================================= -->
   <!-- ZONA PRINCIPAL DE OPERACIONES (ESTILO MANDO CENTRAL: 3 COLUMNAS CERO SCROLL) -->
   <!-- ========================================================================= -->
   <main class="squad-workspace-grid" id="squadWorkspace">
 
-    <!-- COLUMNA 1 (IZQUIERDA): SQUAD SECRET // 5 ESLABONES (CERO SCROLL COMPACTO) -->
+    <!-- COLUMNA 1 (IZQUIERDA): SQUAD // HYPERLIQUID L1 (6 ESLABONES SIMÉTRICOS) -->
     <section class="squad-panel squad-left-panel" id="panelSecretSquad">
       <div class="panel-header">
         <div class="panel-title-wrap">
           <span class="panel-icon">🕵️‍♂️</span>
-          <h2 class="panel-title">SQUAD // 5 ESLABONES</h2>
+          <h2 class="panel-title">SQUAD // HYPERLIQUID L1</h2>
         </div>
-        <span class="panel-badge-pill green font-mono" id="squadFunnelStatus">FUEGO REAL</span>
+        <span class="panel-badge-pill green font-mono" id="squadFunnelStatus">MAKER (ALO)</span>
       </div>
 
       <div class="funnel-links-list" id="funnelLinksContainer">
 
-        <!-- ESLABÓN 1: ORÁCULOS & LATENCIA -->
+        <!-- ESLABÓN 1: RADAR L2 HYPERLIQUID -->
         <div class="funnel-link-card active" id="linkCardOracles">
           <div class="link-head">
             <div class="link-step font-mono">01</div>
             <div class="link-title-group">
-              <span class="link-name">Oráculos Lead-Lag</span>
-              <span class="link-sub font-mono" id="linkOraclesStatus">Hyperliquid L1 · 150ms · $0 Gas</span>
+              <span class="link-name">Radar L2 Hyperliquid (~150ms)</span>
+              <span class="link-sub font-mono" id="linkRadarStatus">Orderbook L2 &amp; AllMids en tiempo real · $0.00 Gas</span>
             </div>
             <span class="link-status-dot green"></span>
           </div>
         </div>
 
-        <!-- ESLABÓN 2: INFORMANTES ESPECIALISTAS -->
-        <div class="funnel-link-card active" id="linkCardInformants">
+        <!-- ESLABÓN 2A: ESPECIALISTA #601 PARES RÁPIDOS -->
+        <div class="funnel-link-card active" id="linkCardFastPairs">
           <div class="link-head">
-            <div class="link-step font-mono">02</div>
+            <div class="link-step font-mono">02A</div>
             <div class="link-title-group">
-              <span class="link-name">Informantes Especialistas</span>
-              <span class="link-sub font-mono" id="linkInformantsStatus">#601 SOL · #701 BTC/Oro · #801 Vol</span>
+              <span class="link-name">Especialista #601 (Pares Rápidos)</span>
+              <span class="link-sub font-mono" id="linkFastPairsStatus">SOL-USDC, ETH-USDC, SUI-USDC · 5 Capas L2</span>
             </div>
             <span class="link-status-dot green"></span>
           </div>
         </div>
 
-        <!-- ESLABÓN 3: 32 NEBULOSAS IA (16 BINOMIOS) -->
+        <!-- ESLABÓN 2B: ESPECIALISTA #701 FLUJO INSTITUCIONAL -->
+        <div class="funnel-link-card active" id="linkCardInstFlow">
+          <div class="link-head">
+            <div class="link-step font-mono">02B</div>
+            <div class="link-title-group">
+              <span class="link-name">Especialista #701 (Flujo Macro)</span>
+              <span class="link-sub font-mono" id="linkInstFlowStatus">BTC-USDC, PAXG-USDC, LINK-USDC · Macro Flow</span>
+            </div>
+            <span class="link-status-dot green"></span>
+          </div>
+        </div>
+
+        <!-- ESLABÓN 2C: ESPECIALISTA #801 + 32 NEBULOSAS FILTRO MAKER -->
         <div class="funnel-link-card active" id="linkCardNebulas">
+          <div class="link-head">
+            <div class="link-step font-mono">02C</div>
+            <div class="link-title-group">
+              <span class="link-name">#801 + 32 Nebulosas (Filtro Maker)</span>
+              <span class="link-sub font-mono" id="linkNebulasStatus">Filtro ALO (Post-Only) · Liq &gt; $5M · 0 Taker Fee</span>
+            </div>
+            <span class="link-status-dot green"></span>
+          </div>
+        </div>
+
+        <!-- ESLABÓN 3: TRADER BULL & TRADER BEAR (1 SOLO TIRO A LA VEZ) -->
+        <div class="funnel-link-card active" id="linkCardDualTraders">
           <div class="link-head">
             <div class="link-step font-mono">03</div>
             <div class="link-title-group">
-              <span class="link-name">32 Nebulosas (16 Binomios)</span>
-              <span class="link-sub font-mono" id="linkNebulasStatus">Spread >= 0.04% · callStatic: 0 Revert</span>
+              <span class="link-name">Trader Bull &amp; Bear (1 Solo Tiro)</span>
+              <span class="link-sub font-mono" id="linkDualStatus">Máx 1 Operación Concurrente · Gatillo Protegido</span>
             </div>
-            <span class="link-status-dot green"></span>
+            <div class="dual-traders-box" style="margin:0;">
+              <span class="trader-pill bull-pill" id="traderBullPill">🐂 84%</span>
+              <span class="trader-pill bear-pill" id="traderBearPill">🐻 16%</span>
+            </div>
           </div>
         </div>
 
-        <!-- ESLABÓN 4: TRADER BULL & TRADER BEAR -->
-        <div class="funnel-link-card active" id="linkCardDualTraders">
+        <!-- ESLABÓN 4: MENTORA #00 (CANDADO BREAKEVEN & SALIDA) -->
+        <div class="funnel-link-card active" id="linkCardMentor00">
           <div class="link-head">
             <div class="link-step font-mono">04</div>
             <div class="link-title-group">
-              <span class="link-name">Trader Bull &amp; Bear</span>
-              <span class="link-sub font-mono" id="linkDualStatus">ESPERA DE SEÑAL</span>
+              <span class="link-name">Mentora #00 (Candado BE &amp; Salida)</span>
+              <span class="link-sub font-mono" id="linkMentorStatus">BE +0.04% ($0 Pérdida) ➔ TP +0.08% / +0.15%</span>
             </div>
-            <div class="dual-traders-box" style="margin:0;">
-              <span class="trader-pill bull-pill" id="traderBullPill">🐂 82%</span>
-              <span class="trader-pill bear-pill" id="traderBearPill">🐻 18%</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ESLABÓN 5: MENTORA #00 (CANDADO BE ➔ TP) -->
-        <div class="funnel-link-card active" id="linkCardMentor00">
-          <div class="link-head">
-            <div class="link-step font-mono">05</div>
-            <div class="link-title-group">
-              <span class="link-name">Mentora #00 Zen</span>
-              <span class="link-sub font-mono" id="linkMentorStatus">+0.04% BE ➔ +0.08% TP (+$0.38 USDC)</span>
-            </div>
-            <span class="card-pill font-mono green-pill" style="font-size:8px;">155.05 POL</span>
+            <span class="card-pill font-mono green-pill" style="font-size:8px;">USDC Nativo</span>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- COLUMNA 2 (CENTRO): MESA CENTRAL BULL & BEAR / RADAR SNIPING + 3 BOTONES -->
+    <!-- COLUMNA 2 (CENTRO): MESA CENTRAL // HYPERLIQUID L1 MAKER (CERO PISCINAS DEX) -->
     <section class="squad-panel squad-center-panel" id="panelCenterMain">
 
-      <!-- BARRA DE ACCIÓN CENTRAL: LOS 3 BOTONES DE CONTROL INTEGRADOS -->
-      <div class="center-controls-bar">
-        <button class="center-control-btn active" id="subviewBtnBullBear" onclick="switchSquadSubView('BULL_BEAR')">
-          <span class="btn-icon">🐂🐻</span>
-          <span class="btn-txt">MESA CENTRAL BULL &amp; BEAR</span>
-        </button>
-
-        <button class="center-control-btn" id="subviewBtnSnipingRadar" onclick="switchSquadSubView('SNIPING_RADAR')">
-          <span class="btn-icon">🎯</span>
-          <span class="btn-txt">RADAR SNIPING DEX (21 PISCINAS)</span>
-        </button>
-
-        <button class="center-action-btn" id="btnExecuteCycle" onclick="triggerSquadRealScan()">
-          <span class="btn-sparkle">🔍</span>
-          <span class="btn-txt" id="btnExecuteText">AUDITORÍA RPC EN VIVO ($0 GAS)</span>
-        </button>
-      </div>
-
-      <!-- SUB-VISTA A: MESA CENTRAL DE 4 CAJAS TÁCTICAS -->
-      <div class="subview-container active" id="subviewBullBearContent">
-        <div class="panel-header" style="height:36px; padding: 0 10px;">
-          <div class="panel-title-wrap">
-            <span class="panel-icon">🎯</span>
-            <span class="panel-title" style="font-size:9px;">PAR MONITOREADO:</span>
-            <div class="pairs-selector-group font-mono">
-              <button class="pair-tab-btn active" id="btnPairSol" onclick="selectSquadPair('SOL/USDC')">SOL/USDC</button>
-              <button class="pair-tab-btn" id="btnPairBtc" onclick="selectSquadPair('BTC/USDC')">BTC/USDC</button>
-              <button class="pair-tab-btn" id="btnPairEth" onclick="selectSquadPair('ETH/USDC')">ETH/USDC</button>
-            </div>
-          </div>
-          <div class="strike-asset-badges font-mono">
-            <span class="asset-badge-main" id="strikePairTitle">SOL/USDC</span>
-            <span class="asset-badge-dex" id="strikeDexPool">Hyperliquid L1 (0.015% Maker)</span>
+      <!-- CABECERA TÁCTICA: SELECTOR DE PARES & AUDITORÍA L2 -->
+      <div class="panel-header" style="height:38px; padding: 0 10px; background:var(--win-surface); border-bottom:2px solid var(--win-border);">
+        <div class="panel-title-wrap">
+          <span class="panel-icon">⚖️</span>
+          <span class="panel-title" style="font-size:9.5px;">HYPERLIQUID L1 MAKER:</span>
+          <div class="pairs-selector-group font-mono">
+            <button class="pair-tab-btn active" id="btnPairSol" onclick="selectSquadPair('SOL-USDC')">SOL-USDC</button>
+            <button class="pair-tab-btn" id="btnPairBtc" onclick="selectSquadPair('BTC-USDC')">BTC-USDC</button>
+            <button class="pair-tab-btn" id="btnPairEth" onclick="selectSquadPair('ETH-USDC')">ETH-USDC</button>
           </div>
         </div>
-
-        <!-- 4 CAJAS TÁCTICAS EN CUADRÍCULA 2X2 -->
-        <div class="tactical-four-boxes-grid" id="tacticalFourBoxes">
-
-          <!-- CAJA 1: PAR Y DIRECCIÓN CALIBRADA -->
-          <div class="tactical-box box-pair">
-            <div class="box-head">
-              <span class="box-num font-mono">01</span>
-              <span class="box-tag">PAR Y DIRECCIÓN CALIBRADA</span>
-              <span class="box-badge-pill green font-mono" id="boxPairCertainty">95.4% CERTEZA</span>
-            </div>
-            <div class="box-body">
-              <div class="big-pair-label font-mono" id="boxPairTitleDisplay">
-                SOL / USDC <span class="big-direction-pill bull" id="boxDirectionBadge">🐂 BULL LONG</span>
-              </div>
-              <div class="box-meta-line font-mono" id="boxPairSubtitle">
-                Hyperliquid L1 (0.015% Maker) · Informante: #601 Titan-Scalper
-              </div>
-            </div>
-          </div>
-
-          <!-- CAJA 2: PRECIOS EN VIVO CEX vs DEX -->
-          <div class="tactical-box box-prices">
-            <div class="box-head">
-              <span class="box-num font-mono">02</span>
-              <span class="box-tag">PRECIO CEX ➔ PRECIO DEX ON-CHAIN</span>
-              <span class="box-badge-pill cyan font-mono" id="boxOraclePing">HYPERLIQUID L1 · 150ms</span>
-            </div>
-            <div class="box-body">
-              <div class="big-price-flow font-mono">
-                <div class="price-flow-segment">
-                  <span class="segment-label">KRAKEN:</span>
-                  <span class="segment-val" id="boxEntryPriceDisplay">$101.12</span>
-                </div>
-                <span class="flow-arrow cyan-text">➔</span>
-                <div class="price-flow-segment">
-                  <span class="segment-label">HYPERLIQUID:</span>
-                  <span class="segment-val green-text text-glow" id="boxLivePriceDisplay">$101.25</span>
-                </div>
-              </div>
-              <div class="box-meta-line font-mono" id="boxSpreadLine">
-                Spread Lead-Lag: 0.124% (Umbral ≥ 0.040%) · Profundidad: $18.4M USDC
-              </div>
-            </div>
-          </div>
-
-          <!-- CAJA 3: CANDADO BREAKEVEN #00 ➔ META DE SALIDA -->
-          <div class="tactical-box box-targets">
-            <div class="box-head">
-              <span class="box-num font-mono">03</span>
-              <span class="box-tag">CANDADO BREAKEVEN #00 ➔ META NETO +0.08%</span>
-              <span class="box-badge-pill gold font-mono">INTERÉS COMPUESTO</span>
-            </div>
-            <div class="box-body">
-              <div class="big-targets-flow font-mono">
-                <div class="target-chip be" id="boxBreakevenChip">
-                  <span class="chip-icon">🛡️</span>
-                  <span class="chip-txt">BE: <strong>+0.04%</strong> (<span id="boxBreakevenPrice">$101.29</span>)</span>
-                </div>
-                <span class="flow-arrow gold-text">➔</span>
-                <div class="target-chip tp" id="boxTpChip">
-                  <span class="chip-icon">🎯</span>
-                  <span class="chip-txt">META: <strong class="green-text" id="boxTpGainDisplay">+$0.38 USDC</strong> (+0.08%)</span>
-                </div>
-              </div>
-              <div class="box-meta-line font-mono">
-                Gas Self-Heal: 0 POL gastado en Hyperliquid L1 · 155.05 POL en #501 intactos.
-              </div>
-            </div>
-          </div>
-
-          <!-- CAJA 4: ESTADO OPERATIVO TRANSPARENTE EN ESPAÑOL -->
-          <div class="tactical-box box-status">
-            <div class="box-head">
-              <span class="box-num font-mono">04</span>
-              <span class="box-tag">ESTADO DEL DISPARO ON-CHAIN</span>
-              <span class="box-badge-pill green font-mono" id="boxStatusBadge">⚡ MOTOR EN VIVO</span>
-            </div>
-            <div class="box-body">
-              <div class="big-status-alert font-mono" id="boxOperationStatusText">
-                🔍 Escaneando pares en vivo: spread favorable, ejecutando en Hyperliquid Maker con riesgo $0.00.
-              </div>
-              <div class="box-meta-line font-mono" id="boxOperationSubText">
-                Bóveda #501: $470.13 USDC consolidado · Dispara cuando retorno neto ≥ +0.08%.
-              </div>
-            </div>
-          </div>
-
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="asset-badge-dex font-mono" style="background:var(--win-primary-soft); color:var(--win-primary); font-weight:800; border-color:var(--win-primary-border);">
+            POST-ONLY (ALO)
+          </span>
+          <button class="center-action-btn" id="btnAuditOrderbook" onclick="auditHyperliquidOrderbook()" style="height:26px; font-size:9px; padding:0 8px;">
+            <span>⚡</span> <span id="btnAuditOrderbookText">AUDITAR ORDERBOOK L2 ($0 GAS)</span>
+          </button>
         </div>
       </div>
 
-      <!-- SUB-VISTA B: RADAR SNIPING ATÓMICO MULTI-PISCINA (21 PISCINAS) -->
-      <div class="subview-container" id="subviewSnipingRadarContent">
-        <div class="panel-header" style="height:32px;">
-          <div class="panel-title-wrap">
-            <span class="panel-icon">🎯</span>
-            <h2 class="panel-title" style="font-size:9.5px;">CONTRATO ATOMIC SNIPER EXECUTOR (21 PISCINAS)</h2>
-          </div>
-          <div class="strike-asset-badges font-mono">
-            <span class="asset-badge-main" style="background:var(--win-primary-soft);border-color:var(--win-primary-border);color:var(--win-primary);">0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67</span>
-            <span class="asset-badge-dex">Allowance: $2,500 USDC ✔</span>
-          </div>
-        </div>
+      <!-- 4 CAJAS TÁCTICAS EN CUADRÍCULA 2X2 (100% HYPERLIQUID L1) -->
+      <div class="tactical-four-boxes-grid" id="tacticalFourBoxes">
 
-        <div class="sniping-integrated-radar-grid">
-          <!-- CAÑÓN 1 POLYGON -->
-          <div class="tactical-box box-cannon-poly">
-            <div class="box-head">
-              <span class="box-num font-mono">C-01</span>
-              <span class="box-tag">CAÑÓN #1 POLYGON PoS (15 PISCINAS)</span>
-              <span class="box-badge-pill green font-mono">ACTIVO</span>
-            </div>
-            <div class="cannon-data font-mono">
-              <div class="cannon-stat-row">
-                <span>Comando:</span>
-                <strong>Bóveda #501 ($459.40) + Capitán #001 ($0.70)</strong>
-              </div>
-              <div class="cannon-stat-row">
-                <span>Gas Protegido:</span>
-                <span class="green-text">155.05 POL (Piso 150.00 POL Blindado)</span>
-              </div>
-              <div class="cannon-stat-row">
-                <span>Tokens:</span>
-                <span>WBTC, WETH, WPOL, LINK, AAVE, PAXG, USDT</span>
-              </div>
-            </div>
+        <!-- CAJA 1: SELECCIÓN DEL SQUAD EN HYPERLIQUID -->
+        <div class="tactical-box box-pair">
+          <div class="box-head">
+            <span class="box-num font-mono">01</span>
+            <span class="box-tag">SELECCIÓN DEL SQUAD EN HYPERLIQUID</span>
+            <span class="box-badge-pill green font-mono" id="boxPairCertainty">95.4% CERTEZA</span>
           </div>
-
-          <!-- CAÑÓN 2 BSC -->
-          <div class="tactical-box box-cannon-bsc">
-            <div class="box-head">
-              <span class="box-num font-mono">C-02</span>
-              <span class="box-tag">CAÑÓN #2 BSC MAINNET (6 PISCINAS)</span>
-              <span class="box-badge-pill green font-mono">ACTIVO</span>
+          <div class="box-body">
+            <div class="big-pair-label font-mono" id="boxPairTitleDisplay">
+              SOL-USDC <span class="big-direction-pill bull" id="boxDirectionBadge">🐂 BULL LONG (POST-ONLY ALO)</span>
             </div>
-            <div class="cannon-data font-mono">
-              <div class="cannon-stat-row">
-                <span>Comando:</span>
-                <strong>Bóveda #501 ($7.98 USDC) + Capitán #101 ($1.05)</strong>
-              </div>
-              <div class="cannon-stat-row">
-                <span>Gas Protegido:</span>
-                <span class="green-text">0.0225 BNB en #501 + 0.0311 BNB Flota</span>
-              </div>
-              <div class="cannon-stat-row">
-                <span>Tokens:</span>
-                <span>BTCB, ETH, WBNB, CAKE, XVS, USDT, FDUSD</span>
-              </div>
+            <div class="box-meta-line font-mono" id="boxPairSubtitle">
+              Especialista: #601 Titan-Scalper · Liquidez L2: $14.2M · 0% Comisión Taker
             </div>
           </div>
         </div>
 
-        <!-- TABLA LUMINOSA DE LAS 21 PISCINAS EN VIVO -->
-        <div class="pools-table-wrap font-mono">
-          <table class="pools-live-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>RED</th>
-                <th>DEX / PISCINA</th>
-                <th>FEE / TIPO</th>
-                <th>PAR INSTITUCIONAL</th>
-                <th>ESTADO</th>
-                <th>CALLSTATIC</th>
-              </tr>
-            </thead>
-            <tbody id="poolsTableBody">
-              <!-- 15 PISCINAS POLYGON POS -->
-              <tr><td>01</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.01% (Fee 100)</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>02</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.05% (Fee 500)</td><td>WBTC / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>03</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.05% (Fee 500)</td><td>WETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>04</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.05% (Fee 500)</td><td>WPOL / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>05</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.30% (Fee 3000)</td><td>LINK / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>06</td><td><span class="chain-pill poly">POLYGON</span></td><td>Uniswap V3</td><td>0.30% (Fee 3000)</td><td>AAVE / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>07</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.01%</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>08</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>WPOL / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>09</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>WETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>10</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>WBTC / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>11</td><td><span class="chain-pill poly">POLYGON</span></td><td>QuickSwap Algebra</td><td>Dinámico 0.05%</td><td>PAXG / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>12</td><td><span class="chain-pill poly">POLYGON</span></td><td>SushiSwap V3</td><td>0.05% (Fee 500)</td><td>WETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>13</td><td><span class="chain-pill poly">POLYGON</span></td><td>SushiSwap V3</td><td>0.05% (Fee 500)</td><td>WBTC / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>14</td><td><span class="chain-pill poly">POLYGON</span></td><td>SushiSwap V3</td><td>0.30% (Fee 3000)</td><td>LINK / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>15</td><td><span class="chain-pill poly">POLYGON</span></td><td>DODO V2</td><td>PMM 0.01%</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <!-- 6 PISCINAS BSC MAINNET -->
-              <tr><td>16</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.01% (Fee 100)</td><td>USDC / USDT</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>17</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.05% (Fee 500)</td><td>WBNB / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>18</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.05% (Fee 500)</td><td>BTCB / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>19</td><td><span class="chain-pill bsc">BSC</span></td><td>PancakeSwap V3</td><td>0.05% (Fee 500)</td><td>ETH / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>20</td><td><span class="chain-pill bsc">BSC</span></td><td>BiSwap V2</td><td>AMM 0.10%</td><td>USDT / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-              <tr><td>21</td><td><span class="chain-pill bsc">BSC</span></td><td>BiSwap V2</td><td>AMM 0.20%</td><td>WBNB / USDC</td><td><span class="status-active">🟢 Activa</span></td><td><span class="scan-clean">$0 Gas</span></td></tr>
-            </tbody>
-          </table>
+        <!-- CAJA 2: LIBRO DE ÓRDENES HYPERLIQUID EN VIVO (BEST BID / ASK) -->
+        <div class="tactical-box box-prices">
+          <div class="box-head">
+            <span class="box-num font-mono">02</span>
+            <span class="box-tag">LIBRO DE ÓRDENES HYPERLIQUID (L2BOOK)</span>
+            <span class="box-badge-pill cyan font-mono" id="boxOraclePing">HYPERLIQUID L1 · 142ms</span>
+          </div>
+          <div class="box-body">
+            <div class="big-price-flow font-mono" style="gap:10px;">
+              <div class="price-flow-segment">
+                <span class="segment-label">BEST BID:</span>
+                <span class="segment-val green-text" id="boxBestBidDisplay">$100.95</span>
+              </div>
+              <span class="flow-arrow cyan-text">➔</span>
+              <div class="price-flow-segment">
+                <span class="segment-label">BEST ASK:</span>
+                <span class="segment-val" id="boxBestAskDisplay">$100.98</span>
+              </div>
+            </div>
+            <div class="box-meta-line font-mono" id="boxL2Imbalance" style="color:var(--win-primary); font-weight:700;">
+              Desequilibrio L2: 68% Compradores vs 32% Vendedores (5 Capas Profundas)
+            </div>
+            <div class="box-meta-line font-mono" id="boxSpreadLine">
+              Spread Maker: 0.026% (Umbral &ge; 0.040%) · Latencia WebSocket: 142ms
+            </div>
+          </div>
+        </div>
+
+        <!-- CAJA 3: CANDADO BREAKEVEN #00 & TAKE PROFIT MAKER -->
+        <div class="tactical-box box-targets">
+          <div class="box-head">
+            <span class="box-num font-mono">03</span>
+            <span class="box-tag">CANDADO BREAKEVEN #00 &amp; TAKE PROFIT MAKER</span>
+            <span class="box-badge-pill gold font-mono">BLINDAJE $0 PÉRDIDA</span>
+          </div>
+          <div class="box-body">
+            <div class="big-targets-flow font-mono">
+              <div class="target-chip be" id="boxBreakevenChip">
+                <span class="chip-icon">🛡️</span>
+                <span class="chip-txt">BE: <strong>+0.04%</strong> (<span id="boxBreakevenPrice">$101.02</span>)</span>
+              </div>
+              <span class="flow-arrow gold-text">➔</span>
+              <div class="target-chip tp" id="boxTpChip">
+                <span class="chip-icon">🎯</span>
+                <span class="chip-txt">TP: <strong>+0.08%</strong> (<span id="boxTpPrice">$101.06</span>) ➔ <strong class="green-text" id="boxTpGainDisplay">+$0.38 USDC</strong></span>
+              </div>
+            </div>
+            <div class="box-meta-line font-mono">
+              Fee Maker: 0.015% descontado · Gas Hyperliquid: $0.00 · Cero Exposición Prolongada
+            </div>
+          </div>
+        </div>
+
+        <!-- CAJA 4: ESTADO DEL MOTOR & DIAGNÓSTICO CLARO -->
+        <div class="tactical-box box-status">
+          <div class="box-head">
+            <span class="box-num font-mono">04</span>
+            <span class="box-tag">ESTADO DEL MOTOR &amp; DIAGNÓSTICO CLARO</span>
+            <span class="box-badge-pill green font-mono" id="boxStatusBadge">AGENT KEY CONECTADA</span>
+          </div>
+          <div class="box-body">
+            <div class="big-status-alert font-mono" id="boxOperationStatusText">
+              🔍 Escaneando Orderbook L2 de Hyperliquid: esperando desequilibrio comprador &ge; 65% para colocar orden Maker ALO con riesgo $0.00.
+            </div>
+            <div class="box-meta-line font-mono" id="boxOperationSubText">
+              Bóveda #501: $470.13 USDC · Agent Key Sin Permiso de Retiro · Máx 1 Operación Concurrente
+            </div>
+          </div>
         </div>
 
       </div>
@@ -469,52 +360,52 @@
       <div class="panel-header">
         <div class="panel-title-wrap">
           <span class="panel-icon">📟</span>
-          <h2 class="panel-title">TERMINAL // CADENCIA EN VIVO</h2>
+          <h2 class="panel-title">TERMINAL // HYPERLIQUID L1</h2>
           <div class="terminal-tab-group font-mono">
-            <button class="term-tab-btn active" id="btnTabTermLive" onclick="switchSquadTermTab('LIVE')">📟 CONSOLA</button>
-            <button class="term-tab-btn" id="btnTabTermLedger" onclick="switchSquadTermTab('LEDGER')">📜 POLYGONSCAN</button>
+            <button class="term-tab-btn active" id="btnTabTermLive" onclick="switchSquadTermTab('LIVE')">📟 CONSOLA L2</button>
+            <button class="term-tab-btn" id="btnTabTermLedger" onclick="switchSquadTermTab('LEDGER')">📜 LEDGER REAL</button>
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:6px;">
           <button class="term-tab-btn" onclick="clearSquadTerm()" title="Limpiar Terminal" style="font-size:9.5px;padding:2px 6px;">⌫</button>
-          <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">● EN VIVO</span>
+          <span class="panel-badge-pill green font-mono" id="ledgerCountBadge">● L2 FEED 150MS</span>
         </div>
       </div>
 
-      <!-- VISTA 1: CONSOLA TERMINAL NEGRA AZABACHE (STREAMING EN TIEMPO REAL) -->
+      <!-- VISTA 1: CONSOLA TERMINAL NEGRA AZABACHE (STREAMING EN TIEMPO REAL HYPERLIQUID) -->
       <div class="squad-term-body" id="squadTermBody">
         <div class="squad-term-line">
           <span class="squad-term-time">[08:30:00]</span>
           <span class="squad-term-tag ok">[INIT]</span>
-          <span class="squad-term-msg">Iniciando Terminal Cuantitativa Squad Secret.</span>
+          <span class="squad-term-msg">Iniciando Terminal Cuantitativa Hyperliquid L1 Maker ($0.00 Gas).</span>
         </div>
         <div class="squad-term-line">
           <span class="squad-term-time">[08:30:02]</span>
           <span class="squad-term-tag floor">[PISO]</span>
-          <span class="squad-term-msg">Piso Sagrado: <strong>$450.00 USDC</strong> inalterable. Base: <strong>$470.13 USDC</strong>.</span>
+          <span class="squad-term-msg">Bóveda Nodriza #501: <strong>$470.13 USDC</strong> consolidado (Meta: $500.00).</span>
         </div>
         <div class="squad-term-line">
           <span class="squad-term-time">[08:30:03]</span>
-          <span class="squad-term-tag ok">[GAS]</span>
-          <span class="squad-term-msg">Bóveda #501: 155.05 POL (Blindado · Piso 150 POL).</span>
+          <span class="squad-term-tag ok">[RULE]</span>
+          <span class="squad-term-msg">Regla Infranqueable: <strong>MÁXIMO 1 OPERACIÓN A LA VEZ</strong> (Cero multi-exposición).</span>
         </div>
         <div class="squad-term-line">
           <span class="squad-term-time">[08:30:05]</span>
-          <span class="squad-term-tag scan">[ORACLE]</span>
-          <span class="squad-term-msg">Kraken SOL $101.12 vs Hyperliquid $101.25 (Spread: +0.124%).</span>
+          <span class="squad-term-tag scan">[MAKER]</span>
+          <span class="squad-term-msg">Protocolo ALO (Add Liquidity Only / Post-Only): Fee Maker 0.015% · Gas $0.00.</span>
         </div>
         <div class="squad-term-line">
           <span class="squad-term-time">[08:30:07]</span>
-          <span class="squad-term-tag ok">[CALLSTATIC]</span>
-          <span class="squad-term-msg">Simulación pre-vuelo: 0 reverts ($0 gas consumido).</span>
+          <span class="squad-term-tag ok">[KEY]</span>
+          <span class="squad-term-msg">Agent Key verificada: permiso de trading activo · retiro deshabilitado (100% Seguro).</span>
         </div>
         <div class="squad-term-line" id="squadTermLastLine">
-          <span class="squad-term-time font-mono" style="color:var(--term-cyan, #38bdf8);">PS C:\Area501\SquadSecret&gt;</span>
-          <span class="squad-term-msg" id="squadLivePromptTxt">Escaneando piscinas institucionales en vivo...</span>
+          <span class="squad-term-time font-mono" style="color:var(--term-cyan, #38bdf8);">PS C:\Area501\HyperliquidL1&gt;</span>
+          <span class="squad-term-msg" id="squadLivePromptTxt">Monitoreando Orderbook L2 a ~150ms...</span>
         </div>
       </div>
 
-      <!-- VISTA 2: TABLA DE HASHEADO EN POLYGONSCAN -->
+      <!-- VISTA 2: TABLA DE OPERACIONES REALES CERRADAS EN HYPERLIQUID -->
       <div class="cycles-table-wrap" id="squadLedgerWrap" style="display: none;">
         <table class="cycles-table font-mono" id="cyclesTable">
           <thead>
@@ -523,16 +414,16 @@
               <th>HORA UTC</th>
               <th>PAR</th>
               <th>DIR</th>
-              <th>TXHASH</th>
+              <th>ORDEN</th>
               <th>PROFIT</th>
               <th>GAS</th>
-              <th>SALDO</th>
+              <th>SALDO #501</th>
             </tr>
           </thead>
           <tbody id="cyclesTableBody">
             <tr id="emptyLedgerRow">
               <td colspan="8" style="text-align:center; padding:18px; color:var(--text-medium); font-weight:600;">
-                🛡️ <em>Esperando primera brecha institucional neta &ge; +0.08% para disparar on-chain. Todo disparo figurará aquí con su hash inmutable de PolygonScan.</em>
+                🛡️ <em>Esperando primera operación cerrada en Hyperliquid L1. Toda orden ejecutada figurará aquí con su hash y verificación real en USDC.</em>
               </td>
             </tr>
           </tbody>

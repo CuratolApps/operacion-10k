@@ -350,18 +350,21 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
   const targetProfitPrice = parseFloat((activePrice * 1.0008).toFixed(activePrice < 1 ? 5 : 2));
   const targetGainUsdc = parseFloat((capital * 0.0008).toFixed(2)); // +$0.37 USDC sobre $470.13
 
-  const operationDiagnostic = isArmed
-    ? `Disparando ${activePair}: spread favorable en ${activeSpread}% (>= ${requiredThresholdPct}%), ejecutando en Hyperliquid Maker con riesgo $0.00.`
-    : `Escaneando ${activePair} y SOL en vivo: spread actual en ${activeSpread}%, esperando impulso >= 0.040% para entrar con riesgo $0.00.`;
+  const executionMode = globalThis.__SQUAD_EXECUTION_MODE__ || "PLANNING_ZERO_RISK";
+  const isLiveActive = executionMode === "LIVE_MAKER_ACTIVE";
+
+  const operationDiagnostic = isLiveActive
+    ? `Operando ${activePair} en Hyperliquid L1 Maker: orden ALO armada, esperando llenado sin comisión Taker.`
+    : `Escaneando Orderbook L2 de ${activePair}: desequilibrio actual ${activeSpread}%, esperando señal >= 0.040% con riesgo $0.00.`;
 
   return {
     success: true,
     module: "SQUAD_SECRET_TACTICAL_ROOM",
-    mode: "REAL_MAINNET_ONCHAIN",
+    mode: executionMode,
     cycleId: cycleId,
     cycleNum: cycleNum,
-    cycleState: cycleState,
-    cycleStatusBadge: cycleStatusBadge,
+    cycleState: isLiveActive ? "ACTIVE_ORDER" : "SCANNING_L2",
+    cycleStatusBadge: isLiveActive ? "🟢 TRABAJANDO EN VIVO (HYPERLIQUID)" : "🔍 ESCANEANDO L2 (MODO LECTURA)",
     hlLatencyMs: hlLatencyMs,
     krakenLatencyMs: krakenLatencyMs,
     consolidatedUsdc: capital,
@@ -370,6 +373,10 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     goalStage: "SEGUNDA BOLA ($500 GOAL)",
     remainingUsdc: remainingUsdc,
     progressPct: progressPct,
+    maxConcurrentPositions: 1,
+    activePositionsCount: isLiveActive && isArmed ? 1 : 0,
+    makerFeePct: 0.015,
+    gasCostUsdc: 0.00,
     onChainBreakdown: {
       polygon501Usdc: 459.40,
       capitanesUsdc: 1.75,
@@ -418,8 +425,8 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
       breakevenPrice: breakevenPrice,
       targetProfitPrice: targetProfitPrice,
       winningPairDetails: {
-        dex: "Hyperliquid L1 / Uniswap V3",
-        poolFeeTier: "0.015% Maker / $0 Gas",
+        dex: "Hyperliquid L1 (Liquidado en USDC Nativo)",
+        poolFeeTier: "0.015% Maker (ALO) / $0.00 Gas",
         informant: activeInformant,
         oracle: "HYPERLIQUID L1",
         latencyMs: hlLatencyMs,
@@ -432,11 +439,11 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
       }
     },
     specialists: {
-      eslabon1: `Hyperliquid L1: ${hlLatencyMs}ms · Kraken: ${krakenLatencyMs}ms · $0.00 Gas`,
-      eslabon2: `#601 SOL $${mids.SOL.toFixed(2)} · #701 BTC $${mids.BTC.toFixed(0)} / PAXG $${mids.PAXG.toFixed(0)} · #801 Vol $18.4M`,
-      eslabon3: `Spread Actual: ${activeSpread}% vs Umbral Mín: 0.040% · callStatic: 0 Revert`,
-      eslabon4: isArmed ? (direction === "BULL" ? "COMPRANDO (LONG)" : "VENDIENDO (SHORT)") : "ESPERA DE SEÑAL (Spread < 0.040%)",
-      eslabon5: `Candado BE +0.04% Armado ➔ Meta TP +0.08% (+$${targetGainUsdc.toFixed(2)} USDC) · Gas 155.05 POL Intacto`
+      eslabon1: `Hyperliquid L1: ${hlLatencyMs}ms · Orderbook L2 & AllMids · $0.00 Gas`,
+      eslabon2: `#601 SOL $${mids.SOL.toFixed(2)} · #701 BTC $${mids.BTC.toFixed(0)} · Macro Flow`,
+      eslabon3: `#801 Filtro Maker: Liq > $5M · Post-Only ALO OK · 0% Taker Fee`,
+      eslabon4: `Trader Bull & Bear: Máx 1 Posición Concurrente · ${directionLabel}`,
+      eslabon5: `Candado BE +0.04% Armado ➔ Meta TP +0.08% (+$${targetGainUsdc.toFixed(2)} USDC) · $0.00 Gas`
     },
     operationDiagnostic: operationDiagnostic,
     gasFloors: {
@@ -1074,6 +1081,43 @@ export default {
       headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
       headers.set("Access-Control-Allow-Origin", "*");
       return new Response(JSON.stringify(liveState, null, 2), { status: 200, headers });
+    }
+
+    // Endpoint para alternar modo en vivo de Squad Secret (/api/squad-secret/toggle-live)
+    if (url.pathname === "/api/squad-secret/toggle-live") {
+      let reqBody = {};
+      try { reqBody = await request.json(); } catch (_) {}
+      const targetMode = reqBody.mode || (globalThis.__SQUAD_EXECUTION_MODE__ === "LIVE_MAKER_ACTIVE" ? "PLANNING_ZERO_RISK" : "LIVE_MAKER_ACTIVE");
+      globalThis.__SQUAD_EXECUTION_MODE__ = targetMode;
+
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json; charset=utf-8");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(JSON.stringify({ success: true, mode: targetMode, timestamp: Date.now() }), { status: 200, headers });
+    }
+
+    // Endpoint para auditar/disparar ciclo Hyperliquid L1 (/api/squad-secret/trigger-cycle)
+    if (url.pathname === "/api/squad-secret/trigger-cycle") {
+      let reqBody = {};
+      try { reqBody = await request.json(); } catch (_) {}
+      const [ledgerReq, telemReq] = [
+        new Request(new URL("/telemetry/squad-secret-real-ledger.json", request.url), request),
+        new Request(new URL("/telemetry/squad-secret-telemetry.json", request.url), request)
+      ];
+      const [ledgerRes, telemRes, hlData, krakenData] = await Promise.all([
+        env.ASSETS.fetch(ledgerReq).catch(() => null),
+        env.ASSETS.fetch(telemReq).catch(() => null),
+        getLiveHyperliquidData(),
+        getLiveKrakenData()
+      ]);
+      const ledger = (ledgerRes && ledgerRes.ok) ? await ledgerRes.json().catch(() => null) : null;
+      const telem = (telemRes && telemRes.ok) ? await telemRes.json().catch(() => null) : null;
+
+      const liveState = computeDynamicSquadState(Date.now(), telem, hlData, krakenData, ledger);
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json; charset=utf-8");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(JSON.stringify({ success: true, telemetry: liveState, message: "Orderbook L2 verificado en Hyperliquid ($0 Gas)" }), { status: 200, headers });
     }
 
     // Endpoint directo sin caché de estado en vivo de Operación 500 (/api/operacion-500/live)
