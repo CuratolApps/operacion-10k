@@ -19,7 +19,8 @@
   let currentTelemetry = window.__PRELOADED_SQUAD_SECRET__ || null;
   let activeExecutionMode = "LIVE_MAKER_ACTIVE"; // 'LIVE_MAKER_ACTIVE', 'PAUSED', 'EMERGENCY_STOPPED'
   let isAuditingL2 = false;
-  let selectedSquadPair = "SUI-USDC"; // Par activo seleccionado o en preview
+  let selectedSquadPair = "SUI-USDC"; // Par activo en pantalla
+  let manualLockedPair = null; // Par fijado explícitamente por clic del Comandante (null = sigue al Campeón)
   let lastTelemetryPromptLog = 0;
 
   // Latencia WebSocket y Conexión Directa a Hyperliquid
@@ -461,22 +462,20 @@
 
   /**
    * Conmutador y Selector de los 9 Pares en Hyperliquid L1:
-   * Al hacer clic o hover, cambia de inmediato la tarjeta activa y las 4 cajas tácticas.
+   * Solo al hacer CLIC se fija la tarjeta activa y se actualizan las 4 cajas tácticas.
    */
   window.selectSquadPair = function (pair) {
     if (!SQUAD_PAIRS_CONFIG[pair]) return;
+    manualLockedPair = pair;
     selectedSquadPair = pair;
     if (currentTelemetry) {
       applyTelemetry(currentTelemetry);
     }
   };
 
-  window.previewSquadPair = function (pair) {
-    if (!SQUAD_PAIRS_CONFIG[pair]) return;
-    selectedSquadPair = pair;
-    if (currentTelemetry) {
-      applyTelemetry(currentTelemetry);
-    }
+  // Hover desactivado: pasar el cursor NO cambia el par de las 4 cajas
+  window.previewSquadPair = function () {
+    /* No-op intencional: Cambio únicamente por clic */
   };
 
   /**
@@ -539,13 +538,13 @@
     if (btnToggleMotor && btnToggleMotorText) {
       if (activeExecutionMode === "LIVE_MAKER_ACTIVE") {
         btnToggleMotor.className = "center-floor-btn btn-motor-live active";
-        btnToggleMotorText.textContent = "🟢 Motor en Vivo: ACTIVO";
+        btnToggleMotorText.textContent = "Motor en Vivo";
       } else if (activeExecutionMode === "PAUSED") {
         btnToggleMotor.className = "center-floor-btn btn-motor-live paused";
-        btnToggleMotorText.textContent = "⏸ Motor en Pausa";
+        btnToggleMotorText.textContent = "Motor en Pausa";
       } else if (activeExecutionMode === "EMERGENCY_STOPPED") {
         btnToggleMotor.className = "center-floor-btn btn-motor-live paused";
-        btnToggleMotorText.textContent = "🛑 Motor Detenido";
+        btnToggleMotorText.textContent = "Motor Detenido";
       }
     }
 
@@ -766,35 +765,34 @@
       updateMotorButtonsUI();
     }
 
-    // 1. Tarjeta 1: Capital Operativo #501 ($470.13 USDC -> Meta $500.00 USDC)
+    // 1. Tarjeta 1: Capital Operativo #501 (Motor Dual de Tesorería Activa)
     const consolidated = typeof data.consolidatedUsdc === "number" ? data.consolidatedUsdc : 470.13;
-    const targetGoal = typeof data.goalTarget === "number" ? data.goalTarget : 500.00;
-    const remaining = typeof data.remainingUsdc === "number" ? data.remainingUsdc : Math.max(0, +(targetGoal - consolidated).toFixed(2));
-    const blk = data.blockSettlement || {
-      currentSettledBlock: 450.00,
-      nextMilestoneBlock: 500.00,
-      remainingToNextBlock: remaining,
-      progressToNextBlockPct: 40.3
-    };
+    const polygonFloor = 500.00;
+    const remainingToPoly = Math.max(0, +(polygonFloor - consolidated).toFixed(2));
+    const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 0.00)) || 0.00;
 
     if (topCapitalDisplay) {
-      topCapitalDisplay.innerHTML = `$${consolidated.toFixed(2)} <span class="metric-sub">/ $${targetGoal.toFixed(2)} USDC</span>`;
+      topCapitalDisplay.innerHTML = `$${consolidated.toFixed(2)} <span class="metric-sub">/ $${polygonFloor.toFixed(2)} USDC</span>`;
     }
     if (topCapitalProgress) {
-      const pct = Math.min(100, Math.max(0, (consolidated / targetGoal) * 100));
+      const pct = Math.min(100, Math.max(0, (consolidated / polygonFloor) * 100));
       topCapitalProgress.style.width = `${pct.toFixed(2)}%`;
     }
     if (topProgressPct) {
-      topProgressPct.innerHTML = `Bloque: $${blk.currentSettledBlock.toFixed(2)} 🛡️ Asentado`;
+      topProgressPct.innerHTML = `Polygon: $${consolidated.toFixed(2)} / $${polygonFloor.toFixed(2)} (0% Riesgo)`;
     }
     if (topRemainingUsdc) {
-      topRemainingUsdc.innerHTML = `Faltan $${remaining.toFixed(2)} USDC`;
+      if (consolidated >= polygonFloor) {
+        topRemainingUsdc.innerHTML = `HL: $${l1Bal.toFixed(2)} · Trinquete 20 € ($22 USDC) 🔒`;
+      } else {
+        topRemainingUsdc.innerHTML = `Faltan $${remainingToPoly.toFixed(2)} ➔ HL + Trinquete 20 € ($22)`;
+      }
     }
     if (vaultGasStatus) {
       vaultGasStatus.textContent = `BÓVEDA #501 · $${consolidated.toFixed(2)}`;
     }
     if (topGasShieldBadge) {
-      topGasShieldBadge.textContent = `GAS HYPERLIQUID: $0.00`;
+      topGasShieldBadge.textContent = `GAS INTOCABLE: 155.05 POL`;
     }
 
     // 2. Tarjeta 2: Motor Hyperliquid L1 (<150ms) & Regla Máx 1 Operación
@@ -865,32 +863,38 @@
       };
     });
 
-    // Identificar la mejor moneda del mercado con mayor desequilibrio L2
+    // Identificar dinámicamente al Campeón actual por mayor porcentaje de desequilibrio real en Orderbook L2: max(bullScore, bearScore)
     let topWinnerPair = null;
     let maxImbalance = -1;
     nineList.forEach(item => {
-      const imb = Math.abs(item.bullScore - 50);
-      if (imb > maxImbalance) {
-        maxImbalance = imb;
+      const dominantScore = Math.max(item.bullScore, item.bearScore);
+      if (dominantScore > maxImbalance) {
+        maxImbalance = dominantScore;
         topWinnerPair = item;
       }
     });
     if (!topWinnerPair && nineList.length > 0) topWinnerPair = nineList[0];
 
-    // Renderizar las 9 tarjetas: medalla 🥇 FIJA en el mejor par, sin etiquetas "ACTIVO"
+    // Si el Comandante no ha fijado una tarjeta por clic, mostrar el Campeón en vivo
+    if (!manualLockedPair) {
+      selectedSquadPair = topWinnerPair ? topWinnerPair.key : "SUI-USDC";
+    } else {
+      selectedSquadPair = manualLockedPair;
+    }
+
+    // Renderizar las 9 tarjetas
     nineList.forEach(item => {
       const cardEl = document.getElementById(`mpCard_${item.symbol}`);
       const symEl = document.getElementById(`mpSym_${item.symbol}`);
       const priceEl = document.getElementById(`mpPrice_${item.symbol}`);
       const pressEl = document.getElementById(`mpPressure_${item.symbol}`);
 
+      const isChampion = topWinnerPair && item.key === topWinnerPair.key;
+      const isSelected = item.key === selectedSquadPair;
+
       if (symEl) {
-        // Medalla fija en la moneda líder
-        if (topWinnerPair && item.key === topWinnerPair.key) {
-          symEl.textContent = `🥇 ${item.symbol}`;
-        } else {
-          symEl.textContent = item.symbol;
-        }
+        // Medalla 🥇 dinámica solo en el Campeón actual
+        symEl.textContent = isChampion ? `🥇 ${item.symbol}` : item.symbol;
       }
 
       if (priceEl) {
@@ -911,17 +915,19 @@
         const tag = cardEl.querySelector(".mp-winner-tag");
         if (tag) tag.remove();
 
-        // Estado líder
-        if (topWinnerPair && item.key === topWinnerPair.key) {
-          cardEl.classList.add("is-top-leader");
+        // 1. Estilo dorado de Campeón Automático
+        if (isChampion) {
+          cardEl.classList.add("pair-champion");
         } else {
-          cardEl.classList.remove("is-top-leader");
+          cardEl.classList.remove("pair-champion");
         }
 
-        // Iluminar únicamente por borde la tarjeta seleccionada
-        if (item.key === selectedSquadPair) {
+        // 2. Estilo nítido de Selección Fija por Clic (.pair-selected y .active)
+        if (isSelected) {
+          cardEl.classList.add("pair-selected");
           cardEl.classList.add("active");
         } else {
+          cardEl.classList.remove("pair-selected");
           cardEl.classList.remove("active");
         }
       }
@@ -997,7 +1003,6 @@
     }
 
     // Caja 04: Estado del Motor & Diagnóstico Claro en Español
-    const l1Bal = (data.clearinghouse ? data.clearinghouse.accountValue : (data.agentStatus ? data.agentStatus.hyperliquidL1Usdc : 0.00)) || 0.00;
 
     if (boxStatusBadge) {
       if (activeExecutionMode === "EMERGENCY_STOPPED") {

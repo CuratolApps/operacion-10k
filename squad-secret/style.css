@@ -170,6 +170,13 @@ html, body {
   border-color: var(--win-danger-border);
   color: var(--win-danger);
 }
+#topWinRateBadge {
+  white-space: nowrap !important;
+  padding: 3px 10px !important;
+  font-size: 0.68rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
 
 .card-metric-row {
   display: flex;
@@ -786,6 +793,7 @@ html, body {
   box-shadow: none;
 }
 
+.status-dot,
 .motor-dot {
   width: 6px;
   height: 6px;
@@ -794,7 +802,9 @@ html, body {
   box-shadow: 0 0 6px #22c55e;
   display: inline-block;
   animation: pulseMotorDot 1.4s infinite alternate;
+  flex-shrink: 0;
 }
+.center-floor-btn.btn-motor-live.paused .status-dot,
 .center-floor-btn.btn-motor-live.paused .motor-dot {
   background: #eab308;
   box-shadow: 0 0 6px #eab308;
@@ -881,32 +891,40 @@ html, body {
   justify-content: space-between;
   gap: 1px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
   min-width: 0;
   position: relative;
   height: 48px;
+  user-select: none;
 }
 
 .multipair-card:hover {
-  background: #f0f9ff;
-  border-color: #38bdf8;
-  transform: translateY(-1px);
+  background: #f1f5f9;
+  border-color: #94a3b8;
 }
 
+/* Campeón Automático Dinámico (Mayor % Desequilibrio Orderbook L2): Fondo/Borde Dorado */
+.multipair-card.pair-champion {
+  background: #fffbeb !important;
+  border: 1.5px solid #f59e0b !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.35) !important;
+}
+
+/* Selección Fija por Clic del Comandante: Borde Azul/Cian Nítido */
+.multipair-card.pair-selected,
 .multipair-card.active,
 .multipair-card.selected-pair-glow {
   background: #ffffff !important;
-  border-color: var(--win-primary) !important;
-  box-shadow: 0 0 8px rgba(2, 132, 199, 0.45) !important;
+  border: 1.5px solid #0284c7 !important;
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.5) !important;
 }
 
-.multipair-card.is-top-leader {
-  border-color: #f59e0b;
-}
-
-.multipair-card.is-top-leader.active {
-  border-color: #f59e0b !important;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.45) !important;
+/* Si el Campeón es además la tarjeta seleccionada por Clic */
+.multipair-card.pair-champion.pair-selected,
+.multipair-card.pair-champion.active {
+  background: #fffbeb !important;
+  border: 2px solid #0284c7 !important;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.55), inset 0 0 0 1px #f59e0b !important;
 }
 
 .mp-head {

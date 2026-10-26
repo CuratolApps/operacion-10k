@@ -42,8 +42,8 @@
   <!-- ========================================================================= -->
   <header class="top-nav-bar" id="squadHeader">
 
-    <!-- TARJETA 1: CAPITAL OPERATIVO #501 (BÓVEDA NODRIZA · $500 GOAL) -->
-    <div class="nav-card" id="cardCapitalTop" title="Capital real verificado en Bóveda #501 asignado a Hyperliquid L1">
+    <!-- TARJETA 1: CAPITAL OPERATIVO #501 (MOTOR DUAL DE TESORERÍA ACTIVA) -->
+    <div class="nav-card" id="cardCapitalTop" title="Motor Dual: Cámara 1 ($500 USDC Polygon 0% Riesgo) + Cámara 2 (Arbitrum/Hyperliquid L1 + Trinquete 20 €)">
       <div class="card-meta">
         <span class="card-tag gold">💰 CAPITAL OPERATIVO #501</span>
         <span class="card-pill font-mono green-pill" id="vaultGasStatus">BÓVEDA #501 · $470.13</span>
@@ -53,13 +53,13 @@
           $470.13 <span class="metric-sub">/ $500.00 USDC</span>
         </div>
       </div>
-      <div class="progress-wrap" title="Progreso hacia Segunda Bola ($500.00 USDC). Base Consolidada Total: $470.13 USDC">
+      <div class="progress-wrap" title="Cámara 1: $470.13 / $500.00 USDC en Polygon (Aave V3 + Arbitraje Atómico). Excedente > $500 a Hyperliquid L1 con Trinquete 20 € (~$22 USDC)">
         <div class="progress-bar-bg">
           <div class="progress-bar-fill gold-fill" id="topCapitalProgress" style="width: 94.02%;"></div>
         </div>
         <div class="progress-labels font-mono">
-          <span id="topProgressPct" class="green-text font-bold">Bloque: $450.00 🛡️ Asentado</span>
-          <span id="topRemainingUsdc" class="gold-text">Faltan $29.87 USDC</span>
+          <span id="topProgressPct" class="green-text font-bold">Polygon: $470.13 / $500.00 (0% Riesgo)</span>
+          <span id="topRemainingUsdc" class="gold-text">HL: $0.00 · Trinquete: 20 € ($22 USDC)</span>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@
     <div class="nav-card" id="cardScoreboardTop" title="Marcador de transacciones reales leídas de squad-secret-real-ledger.json">
       <div class="card-meta">
         <span class="card-tag green">🎯 MARCADOR REAL HYPERLIQUID</span>
-        <span class="card-pill font-mono green-pill" id="topWinRateBadge">0 OPERACIONES CERRADAS</span>
+        <span class="card-pill font-mono green-pill" id="topWinRateBadge" style="white-space: nowrap !important; padding: 3px 10px !important; font-size: 0.68rem !important;">0 OPERACIONES CERRADAS</span>
       </div>
       <div class="card-metric-row">
         <div class="metric-primary font-mono green-text" id="topRatioDisplay">
@@ -252,7 +252,7 @@
       <!-- ===================================================================== -->
       <div class="center-floor-one-toolbar" id="centerFloorOneToolbar">
         <button class="center-floor-btn btn-motor-live active" id="btnToggleMotor" onclick="toggleSquadMotor()" title="Alternar Motor en Vivo / Motor en Pausa">
-          <span class="motor-dot"></span> <span class="btn-text" id="btnToggleMotorText">🟢 Motor en Vivo: ACTIVO</span>
+          <span class="status-dot motor-dot"></span> <span class="btn-text" id="btnToggleMotorText">Motor en Vivo</span>
         </button>
         <button class="center-floor-btn btn-mode-emergency" id="btnModeEmergency" onclick="triggerEmergencyStop()" title="🛑 Stop Emergencia: Congela motor al instante, cancela órdenes y alerta a Telegram">
           <span class="btn-icon">🛑</span> <span class="btn-text">Stop Emergencia</span>
@@ -272,7 +272,7 @@
       <!-- PISO 2 (EN MEDIO AFUERA): LÍNEA DE LOS 9 PARES EN VIVO SIN SCROLL -->
       <!-- ===================================================================== -->
       <div class="hl-multipair-grid" id="hlMultiPairGrid">
-        <div class="multipair-card" id="mpCard_BTC" onclick="selectSquadPair('BTC-USDC')" onmouseenter="previewSquadPair('BTC-USDC')">
+        <div class="multipair-card" id="mpCard_BTC" onclick="selectSquadPair('BTC-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_BTC">BTC</span>
             <span class="mp-spec font-mono">#701</span>
@@ -281,7 +281,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_BTC">82% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_ETH" onclick="selectSquadPair('ETH-USDC')" onmouseenter="previewSquadPair('ETH-USDC')">
+        <div class="multipair-card" id="mpCard_ETH" onclick="selectSquadPair('ETH-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_ETH">ETH</span>
             <span class="mp-spec font-mono">#601</span>
@@ -290,7 +290,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_ETH">76% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_SOL" onclick="selectSquadPair('SOL-USDC')" onmouseenter="previewSquadPair('SOL-USDC')">
+        <div class="multipair-card" id="mpCard_SOL" onclick="selectSquadPair('SOL-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_SOL">SOL</span>
             <span class="mp-spec font-mono">#601</span>
@@ -299,7 +299,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_SOL">85% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_BNB" onclick="selectSquadPair('BNB-USDC')" onmouseenter="previewSquadPair('BNB-USDC')">
+        <div class="multipair-card" id="mpCard_BNB" onclick="selectSquadPair('BNB-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_BNB">BNB</span>
             <span class="mp-spec font-mono">#601</span>
@@ -308,7 +308,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_BNB">68% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_POL" onclick="selectSquadPair('POL-USDC')" onmouseenter="previewSquadPair('POL-USDC')">
+        <div class="multipair-card" id="mpCard_POL" onclick="selectSquadPair('POL-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_POL">POL</span>
             <span class="mp-spec font-mono">#601</span>
@@ -317,7 +317,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_POL">71% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_PAXG" onclick="selectSquadPair('PAXG-USDC')" onmouseenter="previewSquadPair('PAXG-USDC')">
+        <div class="multipair-card" id="mpCard_PAXG" onclick="selectSquadPair('PAXG-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_PAXG">PAXG</span>
             <span class="mp-spec font-mono">#701</span>
@@ -326,7 +326,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_PAXG">79% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_LINK" onclick="selectSquadPair('LINK-USDC')" onmouseenter="previewSquadPair('LINK-USDC')">
+        <div class="multipair-card" id="mpCard_LINK" onclick="selectSquadPair('LINK-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_LINK">LINK</span>
             <span class="mp-spec font-mono">#701</span>
@@ -335,7 +335,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_LINK">73% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_SUI" onclick="selectSquadPair('SUI-USDC')" onmouseenter="previewSquadPair('SUI-USDC')">
+        <div class="multipair-card" id="mpCard_SUI" onclick="selectSquadPair('SUI-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_SUI">SUI</span>
             <span class="mp-spec font-mono">#801</span>
@@ -344,7 +344,7 @@
           <div class="mp-pressure font-mono bull" id="mpPressure_SUI">86% 🐂 BULL</div>
         </div>
 
-        <div class="multipair-card" id="mpCard_AAVE" onclick="selectSquadPair('AAVE-USDC')" onmouseenter="previewSquadPair('AAVE-USDC')">
+        <div class="multipair-card" id="mpCard_AAVE" onclick="selectSquadPair('AAVE-USDC')">
           <div class="mp-head">
             <span class="mp-sym font-mono" id="mpSym_AAVE">AAVE</span>
             <span class="mp-spec font-mono">#801</span>

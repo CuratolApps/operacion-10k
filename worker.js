@@ -334,11 +334,9 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     const bearScore = 100 - bullScore;
     const direction = bullScore >= 50 ? "BULL" : "BEAR";
     const directionLabel = direction === "BULL" ? "🐂 BULL (LONG)" : "🐻 BEAR (SHORT)";
-    const pressureLabel = `${bullScore}% 🐂 BULL`;
-    const imbalance = Math.abs(bullScore - 50);
-
-    if (imbalance > highestImbalance) {
-      highestImbalance = imbalance;
+    const dominantScore = Math.max(bullScore, bearScore);
+    if (dominantScore > highestImbalance) {
+      highestImbalance = dominantScore;
       winnerIndex = idx;
     }
 
@@ -512,6 +510,35 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
       fleetFloorPol: 300.00,
       fleetFloorStatus: "100% FULL",
       strictNoGasSell: true
+    },
+    dualTreasury: {
+      vaultAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      gasShieldPol: 155.05,
+      gasShieldStatus: "100% INTOCABLE",
+      model: "MOTOR DUAL DE TESORERÍA ACTIVA",
+      chamber1: {
+        name: "Cámara 1 — Polygon #501 (Piso $500 USDC Líquido)",
+        targetFloorUsdc: 500.00,
+        currentBalanceUsdc: 470.13,
+        remainingUsdc: 29.87,
+        progressPct: 94.02,
+        activeRotation: "Aave V3 Polygon (aPolUSDC) + Arbitraje Atómico Flash (0.01%/0.05% NO_PROFIT_REVERT) + Keeper Bounties",
+        risk: "0.00% RIESGO (Reversión atómica en mismo bloque)"
+      },
+      chamber2: {
+        name: "Cámara 2 — Arbitrum One ➔ Hyperliquid L1 Maker",
+        routeRule: "Excedente (> $500.00 USDC) enrutado automáticamente a Hyperliquid L1",
+        gasReserveArbitrumEthUsd: 1.50,
+        currentHyperliquidL1Usdc: hlAccountValue,
+        tradingMode: "POST-ONLY ALO MAKER ($0.00 GAS)",
+        agentKey: "SquadSecret501 (0xccb384286cCE024A318Ff98197E6c89e0f02F7f8)",
+        championPair: winnerPair.key,
+        breakevenLock: "+0.04% ($0.00 Pérdida Inviolable)",
+        takeProfitRange: "+0.08% / +0.15%",
+        ratchetTargetUsdc: 22.00,
+        ratchetTargetEur: 20.00,
+        ratchetStatus: hlAccountValue >= 22.00 ? "COSECHA 20 € HABILITADA (PREPARAR RETIRO)" : "ACUMULANDO TRINQUETE 20 € (~$22 USDC)"
+      }
     },
     liveMids: mids,
     ninePairs: ninePairs,

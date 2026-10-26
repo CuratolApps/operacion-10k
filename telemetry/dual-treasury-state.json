@@ -1,0 +1,59 @@
+{
+  "updatedAt": "2026-10-26T12:45:42.622Z",
+  "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+  "gasShield": {
+    "currentPol": 155.05,
+    "floorPol": 155.05,
+    "status": "100% BLINDADO"
+  },
+  "chamber1_polygon": {
+    "currentUsdc": 470.13,
+    "floorGoalUsdc": 500,
+    "remainingUsdc": 29.87,
+    "progressPct": 94.03,
+    "rotation": {
+      "aaveV3ApyPct": 4.85,
+      "aPolUsdcBalance": 470.13,
+      "flashArbitragePairs": [
+        "USDC/WPOL 0.05%",
+        "USDC/WETH 0.01%"
+      ],
+      "flashLock": "NO_PROFIT_REVERT (Mismo Bloque)",
+      "keeperBounties": "Monitoreo V3 Liquidation Pools",
+      "status": "AVANZANDO: $470.13 / $500.00 (Faltan $29.87 USDC)"
+    }
+  },
+  "chamber2_hyperliquid": {
+    "l1AccountValueUsdc": 0,
+    "l1WithdrawableUsdc": 0,
+    "agentKey": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
+    "agentPermissions": "POST-ONLY ALO MAKER (0% RETIRO)",
+    "feeMakerPct": 0.015,
+    "gasCostL1": "$0.00",
+    "breakevenLock": "+0.04% ($0 Pérdida)",
+    "takeProfitTarget": "+0.08% / +0.15%",
+    "accumulatedProfitL1Usdc": 0,
+    "ratchetTargetEur": 20,
+    "ratchetTargetUsdc": 22,
+    "ratchetCyclesCompleted": 0,
+    "currentRatchetProgressUsdc": 0,
+    "harvestReady": false,
+    "harvestAction": "Acumulando trinquete 20 € ($0/$22 USDC)"
+  },
+  "routingPolicy": {
+    "description": "Recepción de POL en #501 ➔ Gas Shield (155.05 POL) ➔ Piso Polygon ($500 USDC) ➔ Excedente a Arbitrum/HL L1",
+    "gasShieldFloorPol": 155.05,
+    "polygonFloorUsdc": 500,
+    "arbitrumGasReserveEthUsd": 1.5,
+    "currentDeficitToFloorUsdc": 29.87,
+    "exampleSimulation": {
+      "incomingPol": 0,
+      "convertedToPolygonFloorUsdc": 0,
+      "surplusRoutedToHyperliquidUsdc": 0
+    }
+  },
+  "livePrices": {
+    "polPriceUsd": 0.09025,
+    "ethPriceUsd": 2326.14
+  }
+}
