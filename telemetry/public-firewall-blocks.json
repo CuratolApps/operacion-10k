@@ -1,0 +1,37 @@
+[
+  {
+    "timestamp": "2026-10-27T14:10:24.304Z",
+    "violations": [
+      "Coincidencia con patrón prohibido: \"Saldo\""
+    ],
+    "blockedSnippet": "Saldo en cuenta: .45 USDC"
+  },
+  {
+    "timestamp": "2026-10-27T14:10:24.303Z",
+    "violations": [
+      "Coincidencia con patrón prohibido: \"500 carteras\""
+    ],
+    "blockedSnippet": "Reporte de 500 carteras activas"
+  },
+  {
+    "timestamp": "2026-10-27T14:10:24.302Z",
+    "violations": [
+      "Coincidencia con patrón prohibido: \"0xD4D12077a61118372f7a367319fb11922Beb3743\""
+    ],
+    "blockedSnippet": "Dirección 0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
+    "timestamp": "2026-10-27T14:10:09.894Z",
+    "violations": [
+      "Coincidencia con patrón prohibido: \"500 carteras\""
+    ],
+    "blockedSnippet": "Reporte de 500 carteras activas"
+  },
+  {
+    "timestamp": "2026-10-27T14:10:09.890Z",
+    "violations": [
+      "Coincidencia con patrón prohibido: \"0xD4D12077a61118372f7a367319fb11922Beb3743\""
+    ],
+    "blockedSnippet": "Dirección 0xD4D12077a61118372f7a367319fb11922Beb3743"
+  }
+]
