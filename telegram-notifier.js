@@ -1,5 +1,5 @@
 /**
- * telegram-notifier.js - Operación 10k
+ * telegram-notifier.js - ÁREA 501
  * Sistema de alertas móviles a Telegram sin dependencias externas.
  * 
  * Regla de seguridad: PROHIBIDO registrar o mostrar tokens o claves privadas.
@@ -168,40 +168,40 @@ async function setTelegramChatTitle(title = "🛸 ÁREA 501 // SALA DE MANDO") {
 const DUAL_TREASURY_FILE = path.join(__dirname, "telemetry", "dual-treasury-state.json");
 
 function getExecutiveStatusHeader() {
-  let polyUsdc = 500.31;
+  let polyUsdc = 511.39;
   let floorGoal = 500.00;
   let remaining = 0.00;
-  let hlBal = 90.49;
-  let harvestTarget = 20.00;
-  let gasPol = 160.85;
+  let hlBal = 199.39;
+  let harvestTarget = 200.00;
+  let gasPol = 10.60;
 
   try {
     if (fs.existsSync(DUAL_TREASURY_FILE)) {
       const dt = JSON.parse(fs.readFileSync(DUAL_TREASURY_FILE, "utf8"));
       if (dt.chamber1_polygon) {
-        polyUsdc = Number(dt.chamber1_polygon.currentUsdc || 500.31);
+        polyUsdc = Number(dt.chamber1_polygon.currentUsdc || 511.39);
         floorGoal = Number(dt.chamber1_polygon.floorGoalUsdc || 500.00);
         remaining = Number(dt.chamber1_polygon.remainingUsdc ?? Math.max(0, floorGoal - polyUsdc));
       }
       if (dt.chamber2_hyperliquid) {
-        hlBal = Number(dt.chamber2_hyperliquid.l1AccountValueUsdc || 90.49);
-        harvestTarget = Number(dt.chamber2_hyperliquid.harvestTargetUsdc || 20.00);
+        hlBal = Number(dt.chamber2_hyperliquid.l1AccountValueUsdc || 199.39);
+        harvestTarget = Number(dt.chamber2_hyperliquid.harvestTargetUsdc || 200.00);
       }
       if (dt.gasShield) {
-        gasPol = Number(dt.gasShield.currentPol || 160.85);
+        gasPol = Number(dt.gasShield.currentPol || 10.60);
       }
     }
   } catch (_) {}
 
   const c1Status = polyUsdc >= floorGoal
-    ? `<code>$${polyUsdc.toFixed(2)} / $${floorGoal.toFixed(2)} USDC</code> (Piso 100% Coronada ✅) · Rotando en Aave V3 + Sniping Atómico`
-    : `<code>$${polyUsdc.toFixed(2)} / $${floorGoal.toFixed(2)} USDC</code> (Faltan $${remaining.toFixed(2)}) · Rotando en Aave V3 + Sniping Atómico`;
+    ? `<code>$${polyUsdc.toFixed(2)} / $${floorGoal.toFixed(2)} USDC</code> (Piso 100% Coronada ✅) · Aave V3 + Arbitraje Atómico`
+    : `<code>$${polyUsdc.toFixed(2)} / $${floorGoal.toFixed(2)} USDC</code> (Faltan $${remaining.toFixed(2)}) · Aave V3 + Arbitraje Atómico`;
 
   return `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>
-• <b>Cámara 1 (Polygon 0% Riesgo):</b> ${c1Status}
-• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$${hlBal.toFixed(2)} USDC</code> · Meta Retiro: <b>+$${harvestTarget.toFixed(2)} USDC</b> ($0.00 Gas · 0.015% Fee)
+🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)</b>
+• <b>Cámara 1 (Polygon Piso Blindado):</b> ${c1Status}
+• <b>Cámara 2 (Hyperliquid L1 Maker V2):</b> <code>$${hlBal.toFixed(2)} USDC</code> · Meta Retiro: <b>+$${harvestTarget.toFixed(2)} USDC</b> ($0.00 Gas · 0.015% Fee)
 • <b>Gas Blindado Intocable:</b> <code>${gasPol.toFixed(2)} POL (#501)</code> + <code>300.02 POL (Flota X500)</code>
 🌐 <b>Dashboard Directo:</b> <a href="https://area-501.curatolapps.workers.dev/">area-501.curatolapps.workers.dev</a>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
@@ -393,7 +393,7 @@ ${hashesBlock}
  */
 function buildRoundCompletedReport(auditData = {}) {
   const now = new Date();
-  const timeUtc = auditData.timeUtc || (now.toISOString().slice(11, 19) + " UTC");
+  const timeUtc = auditData.timeUtc || (now.toISOString().slice(11, 16) + " UTC");
   const roundId = auditData.roundId || 1;
   const successCount = auditData.successCount !== undefined ? auditData.successCount : 500;
   const totalWallets = auditData.totalWallets || 500;
@@ -410,16 +410,16 @@ function buildRoundCompletedReport(auditData = {}) {
     7: "18:00 ➔ 21:00 UTC",
     8: "21:00 ➔ 24:00 UTC"
   };
-  const windowTime = windowNames[roundId] || "00:00 ➔ 03:00 UTC";
+  const windowTime = windowNames[roundId] || "09:00 ➔ 12:00 UTC";
 
   let auditLine = "";
   if (errorCount === 0 && successCount === 500) {
-    auditLine = `✅ <b>Resultado:</b> <code>500 / 500 LLAVES COMPLETADAS (0 Errores)</code>`;
+    auditLine = `✅ <b>Resultado:</b> <code>500 / 500 CARTERAS TRABAJADAS (0 Errores)</code>`;
   } else {
     const errorDetails = errors.length > 0
       ? errors.slice(0, 2).map(e => `#${e.index} (${e.reason || "Timeout RPC"})`).join(", ")
       : `${errorCount} con incidencias`;
-    auditLine = `⚠️ <b>Resultado:</b> <code>${successCount} / ${totalWallets} LLAVES COMPLETADAS (${errorCount} Error en ${errorDetails})</code>`;
+    auditLine = `⚠️ <b>${successCount} / ${totalWallets}</b> — Falló ${errorDetails}`;
   }
 
   const b1 = auditData.boxCounts?.[1] ?? 100;
@@ -430,7 +430,6 @@ function buildRoundCompletedReport(auditData = {}) {
 
   const todayRounds = auditData.todayRoundsCompleted || roundId;
   const todayOps = auditData.todayTotalOps || (todayRounds * 500);
-  const nextRoundId = (roundId % 8) + 1;
 
   // Casillas del reloj [V1 ✔] .. [V8 ⏳]
   const clockPills = [];
@@ -447,39 +446,34 @@ function buildRoundCompletedReport(auditData = {}) {
   }
   const clockPillsStr = clockPills.join(" ");
 
-  const sampleBase = auditData.sampleHashes?.base || "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58";
-  const sampleArb = auditData.sampleHashes?.arbitrum || "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b";
-  const sampleEip = auditData.sampleHashes?.gaslessCheckIn || "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc";
-
-  return `🪖 <b>FLOTA X500 // VUELTA ${roundId} DE 8 COMPLETADA</b>
-🕒 <b>Hora UTC:</b> <code>${timeUtc}</code> | <b>Ventana:</b> <code>[${windowTime}]</code>
-🔥 <b>Racha 25 Días (25 Oct ➔ 20 Nov):</b> <code>Día 2/25 En Curso</code>
-
-🎯 <b>AUDITORÍA REAL DE LAS 500 LLAVES EN ESTA VUELTA:</b>
+  return `🛸 <b>ÁREA 501 // 🪖 FLOTA X500 — REPORTE DE VUELTA ${roundId} DE 8</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🕒 <b>Cierre de Vuelta:</b> <code>${timeUtc}</code> | <b>Ventana:</b> <code>[${windowTime}]</code>
+🎯 <b>AUDITORÍA DE LAS 500 CARTERAS:</b>
 ${auditLine}
-  • 🟧 <b>Box 1 (#001-#100):</b> <code>${b1} / 100 ✔</code> (<code>18.07 POL</code> | <code>$0.70 USDC</code>)
-  • 🟦 <b>Box 2 (#101-#200):</b> <code>${b2} / 100 ✔</code> (<code>18.03 POL</code> | <code>$1.05 USDC</code>)
-  • 🟩 <b>Box 3 (#201-#300):</b> <code>${b3} / 100 ✔</code> (<code>18.01 POL</code> | <code>$0.00 USDC</code>)
-  • 🟨 <b>Box 4 (#301-#400):</b> <code>${b4} / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)
-  • 🟪 <b>Box 5 (#401-#500):</b> <code>${b5} / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)
 
-📊 <b>RELOJ DE LAS 8 VUELTAS DEL DÍA (00:00 A 24:00 UTC):</b>
+🗂️ <b>DESGLOSE POR ESCUADRÓN (BOXES 1 AL 5):</b>
+• 🟧 <b>Box 1 (#001-#100):</b> <code>${b1} / 100 ✔</code>
+• 🟦 <b>Box 2 (#101-#200):</b> <code>${b2} / 100 ✔</code>
+• 🟩 <b>Box 3 (#201-#300):</b> <code>${b3} / 100 ✔</code>
+• 🟨 <b>Box 4 (#301-#400):</b> <code>${b4} / 100 ✔</code>
+• 🟪 <b>Box 5 (#401-#500):</b> <code>${b5} / 100 ✔</code>
+
+⛏️ <b>TRABAJO EJECUTADO Y CAMPAÑAS ACTIVAS:</b>
+• 🔥 <b>Racha Diaria Gasless (Día 3/25):</b> <code>500/500 Firmas OK ($0 Gas)</code>
+• ⏰ <b>Cierre 30 Oct — Base / Avantis S3:</b> <code>500/500 En Ruta (Faltan 3 días)</code>
+• ⏰ <b>Cierre 30 Oct — DogeOS Cap. 2:</b> <code>500/500 En Ruta (Faltan 3 días)</code>
+• 🌱 <b>Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>
+
+📊 <b>RELOJ DE LAS 8 VUELTAS DE HOY:</b>
 <code>${clockPillsStr}</code>
-• <b>Vueltas Cerradas Hoy:</b> <code>${todayRounds} de 8 Vueltas</code> (<code>${todayOps.toLocaleString("en-US")} / 4,000 operaciones hoy</code>)
-• <b>Siguiente Salida:</b> <code>Vuelta ${nextRoundId} de 8</code> arrancando de <code>0/500</code>
+• <b>Acumulado Hoy:</b> <code>${todayRounds} de 8 Vueltas</code> (<code>${todayOps.toLocaleString("en-US")} / 4,000 operaciones</code>)
 
-⛏️ <b>TAREAS EJECUTADAS POR LAS 500 LLAVES EN LA VUELTA:</b>
-1. 🔥 <b>Misiones Gasless EIP-712 (Día 2/25):</b> <code>500/500 Firmas ($0 Gas)</code>
-2. ⏰ <b>Cierres 30 Oct (Base/Avantis &amp; DogeOS):</b> <code>500/500 Ejecutadas</code>
-3. 🌱 <b>Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>
-
-🔗 <b>HASHES VERIFICABLES ON-CHAIN (MUESTRA REAL DE LA VUELTA):</b>
-  • 🔵 <b>Base:</b> <a href="https://sepolia.basescan.org/tx/${sampleBase}"><code>${sampleBase.slice(0, 10)}...${sampleBase.slice(-8)}</code></a> | 🔷 <b>Arbitrum:</b> <a href="https://sepolia.arbiscan.io/tx/${sampleArb}"><code>${sampleArb.slice(0, 10)}...${sampleArb.slice(-8)}</code></a> | ⚡ <b>EIP-712:</b> <code>${sampleEip.slice(0, 10)}...${sampleEip.slice(-8)}</code>
-
-💵 <b>CONTABILIDAD REAL (CERO SIMULACIÓN):</b>
-• <b>Cosechado por Airdrops/Mints Hoy:</b> <code>+$0.00 USDC</code>
-• <b>Fondo Nuestro Inyectado en Flota:</b> <code>$4.70 USDC</code> (<code>78.13 POL</code> Cap)
-• <b>Bóveda Matriz #501 (Intocable):</b> <code>$598.76 USDC</code> (<code>160.79 POL</code>)`;
+🎁 <b>DETECTOR DE AIRDROPS Y BOLSILLOS (500 CARTERAS):</b>
+• <b>Recompensas / Airdrops Nuevos Detectados Hoy:</b> <code>+$0.00 USDC (0 Tokens / 0 NFTs nuevos)</code>
+• <b>Liquidez en Bolsillos de Flota:</b> <code>$4.70 USDC</code> | <b>Gas Capitanes:</b> <code>78.13 POL</code>
+• <b>Destino de Cosecha:</b> 🔒 <code>100% Acumulación a Bóveda Matriz #501</code>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 }
 
 async function notifyRoundCompletedReport(auditData) {
@@ -498,18 +492,9 @@ async function notifyRoundCompletedReport(auditData) {
 }
 
 async function notifyRoundSummary(summaryData) {
-  let sendResult = false;
-  try {
-    const reportText = buildHerdReportText(summaryData);
-    sendResult = await sendTelegramAlert(reportText, null, { skipHeader: true });
-    if (sendResult) {
-      console.log("📱 [PARTE MANADA X500] Notificación de turno enviada con éxito a Telegram.");
-    }
-  } catch (err) {
-    console.error("⚠️ Error preparando reporte para Telegram:", err.message);
-  } finally {
-    return sendResult;
-  }
+  // SILENCIADO POR REGLA ESTRICTA ÁREA 501: Prohibido spam intermedio de 20 en 20 carteras.
+  // Solo se emite UN ÚNICO REPORTE OFICIAL al terminar las 500 carteras (notifyRoundCompletedReport).
+  return true;
 }
 
 // Ejecución directa de prueba

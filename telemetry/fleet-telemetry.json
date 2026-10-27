@@ -45865,9 +45865,9 @@
     "compoundingPoolActive": true
   },
   "workStats": {
-    "totalRoundsCompleted": 254,
+    "totalRoundsCompleted": 255,
     "totalTxConfirmedAllTime": 12088,
-    "todayTxConfirmed": 3500,
+    "todayTxConfirmed": 500,
     "todayDate": "2026-10-26",
     "boxesRotatedToday": [
       "Box 1",
@@ -47289,6 +47289,160 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1793094665611-692",
+      "timestamp": "2026-10-27T09:51:05.611Z",
+      "timeFormatted": "9:51:05 UTC",
+      "rawHtml": "🛸 <b>ÁREA 501 // 🪖 FLOTA X500 — REPORTE DE VUELTA 4 DE 8</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🕒 <b>Cierre de Vuelta:</b> <code>09:51:01 UTC</code> | <b>Ventana:</b> <code>[09:00 ➔ 12:00 UTC]</code>\n🎯 <b>AUDITORÍA DE LAS 500 CARTERAS:</b>\n✅ <b>Resultado:</b> <code>500 / 500 CARTERAS TRABAJADAS (0 Errores)</code>\n\n🗂️ <b>DESGLOSE POR ESCUADRÓN (BOXES 1 AL 5):</b>\n• 🟧 <b>Box 1 (#001-#100):</b> <code>100 / 100 ✔</code>\n• 🟦 <b>Box 2 (#101-#200):</b> <code>100 / 100 ✔</code>\n• 🟩 <b>Box 3 (#201-#300):</b> <code>100 / 100 ✔</code>\n• 🟨 <b>Box 4 (#301-#400):</b> <code>100 / 100 ✔</code>\n• 🟪 <b>Box 5 (#401-#500):</b> <code>100 / 100 ✔</code>\n\n⛏️ <b>TRABAJO EJECUTADO Y CAMPAÑAS ACTIVAS:</b>\n• 🔥 <b>Racha Diaria Gasless (Día 3/25):</b> <code>500/500 Firmas OK ($0 Gas)</code>\n• ⏰ <b>Cierre 30 Oct — Base / Avantis S3:</b> <code>500/500 En Ruta (Faltan 3 días)</code>\n• ⏰ <b>Cierre 30 Oct — DogeOS Cap. 2:</b> <code>500/500 En Ruta (Faltan 3 días)</code>\n• 🌱 <b>Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>\n\n📊 <b>RELOJ DE LAS 8 VUELTAS DE HOY:</b>\n<code>[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 🔄] [V6 ⏳] [V7 ⏳] [V8 ⏳]</code>\n• <b>Acumulado Hoy:</b> <code>4 de 8 Vueltas</code> (<code>2,000 / 4,000 operaciones</code>)\n\n🎁 <b>DETECTOR DE AIRDROPS Y BOLSILLOS (500 CARTERAS):</b>\n• <b>Recompensas / Airdrops Nuevos Detectados Hoy:</b> <code>+$0.00 USDC (0 Tokens / 0 NFTs nuevos)</code>\n• <b>Liquidez en Bolsillos de Flota:</b> <code>$4.70 USDC</code> | <b>Gas Capitanes:</b> <code>78.13 POL</code>\n• <b>Destino de Cosecha:</b> 🔒 <code>100% Acumulación a Bóveda Matriz #501</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "textPlain": "🛸 ÁREA 501 // 🪖 FLOTA X500 — REPORTE DE VUELTA 4 DE 8\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🕒 Cierre de Vuelta: 09:51:01 UTC | Ventana: [09:00 ➔ 12:00 UTC]\n🎯 AUDITORÍA DE LAS 500 CARTERAS:\n✅ Resultado: 500 / 500 CARTERAS TRABAJADAS (0 Errores)\n\n🗂️ DESGLOSE POR ESCUADRÓN (BOXES 1 AL 5):\n• 🟧 Box 1 (#001-#100): 100 / 100 ✔\n• 🟦 Box 2 (#101-#200): 100 / 100 ✔\n• 🟩 Box 3 (#201-#300): 100 / 100 ✔\n• 🟨 Box 4 (#301-#400): 100 / 100 ✔\n• 🟪 Box 5 (#401-#500): 100 / 100 ✔\n\n⛏️ TRABAJO EJECUTADO Y CAMPAÑAS ACTIVAS:\n• 🔥 Racha Diaria Gasless (Día 3/25): 500/500 Firmas OK ($0 Gas)\n• ⏰ Cierre 30 Oct — Base / Avantis S3: 500/500 En Ruta (Faltan 3 días)\n• ⏰ Cierre 30 Oct — DogeOS Cap. 2: 500/500 En Ruta (Faltan 3 días)\n• 🌱 Arbitrum &amp; BTC L2 (Citrea/GOAT): 500/500 Pulsos OK\n\n📊 RELOJ DE LAS 8 VUELTAS DE HOY:\n[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 🔄] [V6 ⏳] [V7 ⏳] [V8 ⏳]\n• Acumulado Hoy: 4 de 8 Vueltas (2,000 / 4,000 operaciones)\n\n🎁 DETECTOR DE AIRDROPS Y BOLSILLOS (500 CARTERAS):\n• Recompensas / Airdrops Nuevos Detectados Hoy: +$0.00 USDC (0 Tokens / 0 NFTs nuevos)\n• Liquidez en Bolsillos de Flota: $4.70 USDC | Gas Capitanes: 78.13 POL\n• Destino de Cosecha: 🔒 100% Acumulación a Bóveda Matriz #501\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
+      "id": "tg-1793087273713-586",
+      "timestamp": "2026-10-27T07:47:53.713Z",
+      "timeFormatted": "7:47:53 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n🎯 <b>Par:</b> <code>ETH-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n📥 <b>Comprado a:</b> <code>$2308.7</code>\n📤 <b>SE VENDIÓ A:</b> <code>$2310.5</code>\n💵 <b>GANANCIA NETA COBRADA:</b> <b>+$0.0557 USDC al 100% Cash</b>\n🛡️ <b>Nuevo Saldo en Cuenta:</b> <code>$99.4028 USDC</code>\n🏆 <b>Récord de Victorias:</b> <b>17G - 0P</b>\n⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo).</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n🎯 Par: ETH-USDC (LONG ➔ VENDIDO EN GANANCIA)\n📥 Comprado a: $2308.7\n📤 SE VENDIÓ A: $2310.5\n💵 GANANCIA NETA COBRADA: +$0.0557 USDC al 100% Cash\n🛡️ Nuevo Saldo en Cuenta: $99.4028 USDC\n🏆 Récord de Victorias: 17G - 0P\n⏱️ Estado del Escuadrón: CERO HOLDING · 100% EN DÓLARES USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo)."
+    },
+    {
+      "id": "tg-1793085731536-547",
+      "timestamp": "2026-10-27T07:22:11.536Z",
+      "timeFormatted": "7:22:11 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n🎯 <b>Par:</b> <code>PAXG-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n📥 <b>Comprado a:</b> <code>$4012.3</code>\n📤 <b>SE VENDIÓ A:</b> <code>$4015.5</code>\n💵 <b>GANANCIA NETA COBRADA:</b> <b>+$0.0623 USDC al 100% Cash</b>\n🛡️ <b>Nuevo Saldo en Cuenta:</b> <code>$99.1940 USDC</code>\n🏆 <b>Récord de Victorias:</b> <b>16G - 0P</b>\n⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo).</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n🎯 Par: PAXG-USDC (LONG ➔ VENDIDO EN GANANCIA)\n📥 Comprado a: $4012.3\n📤 SE VENDIÓ A: $4015.5\n💵 GANANCIA NETA COBRADA: +$0.0623 USDC al 100% Cash\n🛡️ Nuevo Saldo en Cuenta: $99.1940 USDC\n🏆 Récord de Victorias: 16G - 0P\n⏱️ Estado del Escuadrón: CERO HOLDING · 100% EN DÓLARES USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo)."
+    },
+    {
+      "id": "tg-1793085552812-198",
+      "timestamp": "2026-10-27T07:19:12.812Z",
+      "timeFormatted": "7:19:12 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$2308.7</code>\n📤 <b>VENTA FIJADA A:</b> <code>$2310.5</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0500 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$2309.7</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $2308.7\n📤 VENTA FIJADA A: $2310.5 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0500 USDC Limpios\n🔒 Candado Breakeven: $2309.7 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793085552558-955",
+      "timestamp": "2026-10-27T07:19:12.558Z",
+      "timeFormatted": "7:19:12 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$4012.3</code>\n📤 <b>VENTA FIJADA A:</b> <code>$4015.5</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0481 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$4014.1</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $4012.3\n📤 VENTA FIJADA A: $4015.5 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0481 USDC Limpios\n🔒 Candado Breakeven: $4014.1 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793085552439-53",
+      "timestamp": "2026-10-27T07:19:12.439Z",
+      "timeFormatted": "7:19:12 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$100.98</code>\n📤 <b>VENTA FIJADA A:</b> <code>$101.06</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0500 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$101.03</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $100.98\n📤 VENTA FIJADA A: $101.06 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0500 USDC Limpios\n🔒 Candado Breakeven: $101.03 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793085551397-474",
+      "timestamp": "2026-10-27T07:19:11.397Z",
+      "timeFormatted": "7:19:11 UTC",
+      "rawHtml": "🔥 <b>ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>ESTADO OPERATIVO:</b> <code>100% FUEGO REAL AUTÓNOMO</code>\n📍 <b>PLATAFORMA:</b> Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ <b>ESCUDO DE RESERVA:</b> <code>$40.02 USDC</code> (40% Intocable en Cash)\n💵 <b>MARGEN MÁXIMO ASIGNADO:</b> <code>$60.00 USDC</code> ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 <b>FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:</b>\n• ⚡ <b>ALFA (#601 Fuerza Rápida):</b> <code>SOL</code> · <code>SUI</code> · <code>POL</code>\n• 🏛️ <b>BRAVO (#701 Macro Refugios):</b> <code>BTC</code> · <code>PAXG</code> · <code>LINK</code>\n• 🌌 <b>CHARLIE (#801 Ecosistema DeFi):</b> <code>ETH</code> · <code>BNB</code> · <code>AAVE</code>\n\n🎯 <b>POLÍTICA MILITAR:</b>\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 <b>Mando Central:</b> <a href=\"https://area-501.curatolapps.workers.dev/squad-secret/\">Squad Secret en Vivo</a>\n<i>Comandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria.</i>",
+      "textPlain": "🔥 ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ ESTADO OPERATIVO: 100% FUEGO REAL AUTÓNOMO\n📍 PLATAFORMA: Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ ESCUDO DE RESERVA: $40.02 USDC (40% Intocable en Cash)\n💵 MARGEN MÁXIMO ASIGNADO: $60.00 USDC ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:\n• ⚡ ALFA (#601 Fuerza Rápida): SOL · SUI · POL\n• 🏛️ BRAVO (#701 Macro Refugios): BTC · PAXG · LINK\n• 🌌 CHARLIE (#801 Ecosistema DeFi): ETH · BNB · AAVE\n\n🎯 POLÍTICA MILITAR:\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 Mando Central: Squad Secret en Vivo\nComandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria."
+    },
+    {
+      "id": "tg-1793083455641-205",
+      "timestamp": "2026-10-27T06:44:15.641Z",
+      "timeFormatted": "6:44:15 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$4012.3</code>\n📤 <b>VENTA FIJADA A:</b> <code>$4015.5</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0481 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$4014.1</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $4012.3\n📤 VENTA FIJADA A: $4015.5 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0481 USDC Limpios\n🔒 Candado Breakeven: $4014.1 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793083439479-56",
+      "timestamp": "2026-10-27T06:43:59.479Z",
+      "timeFormatted": "6:43:59 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$2308.7</code>\n📤 <b>VENTA FIJADA A:</b> <code>$2310.5</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0500 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$2309.7</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $2308.7\n📤 VENTA FIJADA A: $2310.5 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0500 USDC Limpios\n🔒 Candado Breakeven: $2309.7 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793083316919-828",
+      "timestamp": "2026-10-27T06:41:56.919Z",
+      "timeFormatted": "6:41:56 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n🎯 <b>Par:</b> <code>ETH-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n📥 <b>Comprado a:</b> <code>$2330.3</code>\n📤 <b>SE VENDIÓ A:</b> <code>$2332.2</code>\n💵 <b>GANANCIA NETA COBRADA:</b> <b>+$0.0665 USDC al 100% Cash</b>\n🛡️ <b>Nuevo Saldo en Cuenta:</b> <code>$99.3479 USDC</code>\n🏆 <b>Récord de Victorias:</b> <b>12G - 0P</b>\n⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo).</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n🎯 Par: ETH-USDC (LONG ➔ VENDIDO EN GANANCIA)\n📥 Comprado a: $2330.3\n📤 SE VENDIÓ A: $2332.2\n💵 GANANCIA NETA COBRADA: +$0.0665 USDC al 100% Cash\n🛡️ Nuevo Saldo en Cuenta: $99.3479 USDC\n🏆 Récord de Victorias: 12G - 0P\n⏱️ Estado del Escuadrón: CERO HOLDING · 100% EN DÓLARES USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo)."
+    },
+    {
+      "id": "tg-1793083314249-211",
+      "timestamp": "2026-10-27T06:41:54.249Z",
+      "timeFormatted": "6:41:54 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n🎯 <b>Par:</b> <code>BTC-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n📥 <b>Comprado a:</b> <code>$80285</code>\n📤 <b>SE VENDIÓ A:</b> <code>$80349.0</code>\n💵 <b>GANANCIA NETA COBRADA:</b> <b>+$0.0644 USDC al 100% Cash</b>\n🛡️ <b>Nuevo Saldo en Cuenta:</b> <code>$99.3479 USDC</code>\n🏆 <b>Récord de Victorias:</b> <b>11G - 0P</b>\n⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo).</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n🎯 Par: BTC-USDC (LONG ➔ VENDIDO EN GANANCIA)\n📥 Comprado a: $80285\n📤 SE VENDIÓ A: $80349.0\n💵 GANANCIA NETA COBRADA: +$0.0644 USDC al 100% Cash\n🛡️ Nuevo Saldo en Cuenta: $99.3479 USDC\n🏆 Récord de Victorias: 11G - 0P\n⏱️ Estado del Escuadrón: CERO HOLDING · 100% EN DÓLARES USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo)."
+    },
+    {
+      "id": "tg-1793063673967-564",
+      "timestamp": "2026-10-27T01:14:33.967Z",
+      "timeFormatted": "1:14:33 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$2330.3</code>\n📤 <b>VENTA FIJADA A:</b> <code>$2332.2</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0500 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$2331.3</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $2330.3\n📤 VENTA FIJADA A: $2332.2 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0500 USDC Limpios\n🔒 Candado Breakeven: $2331.3 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793063619876-531",
+      "timestamp": "2026-10-27T01:13:39.876Z",
+      "timeFormatted": "1:13:39 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n🎯 <b>Par:</b> <code>BNB-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n📥 <b>Comprado a:</b> <code>$744.84</code>\n📤 <b>SE VENDIÓ A:</b> <code>$745.44</code>\n💵 <b>GANANCIA NETA COBRADA:</b> <b>+$0.0654 USDC al 100% Cash</b>\n🛡️ <b>Nuevo Saldo en Cuenta:</b> <code>$100.2631 USDC</code>\n🏆 <b>Récord de Victorias:</b> <b>10G - 0P</b>\n⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo).</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n🎯 Par: BNB-USDC (LONG ➔ VENDIDO EN GANANCIA)\n📥 Comprado a: $744.84\n📤 SE VENDIÓ A: $745.44\n💵 GANANCIA NETA COBRADA: +$0.0654 USDC al 100% Cash\n🛡️ Nuevo Saldo en Cuenta: $100.2631 USDC\n🏆 Récord de Victorias: 10G - 0P\n⏱️ Estado del Escuadrón: CERO HOLDING · 100% EN DÓLARES USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo)."
+    },
+    {
+      "id": "tg-1793063230994-752",
+      "timestamp": "2026-10-27T01:07:10.994Z",
+      "timeFormatted": "1:07:10 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$100.98</code>\n📤 <b>VENTA FIJADA A:</b> <code>$101.06</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0500 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$101.03</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $100.98\n📤 VENTA FIJADA A: $101.06 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0500 USDC Limpios\n🔒 Candado Breakeven: $101.03 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793063203057-498",
+      "timestamp": "2026-10-27T01:06:43.057Z",
+      "timeFormatted": "1:06:43 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n🎯 <b>Par:</b> <code>SOL-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n📥 <b>Comprado a:</b> <code>$100.93</code>\n📤 <b>SE VENDIÓ A:</b> <code>$101.01</code>\n💵 <b>GANANCIA NETA COBRADA:</b> <b>+$0.0642 USDC al 100% Cash</b>\n🛡️ <b>Nuevo Saldo en Cuenta:</b> <code>$100.3573 USDC</code>\n🏆 <b>Récord de Victorias:</b> <b>9G - 0P</b>\n⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo).</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n🎯 Par: SOL-USDC (LONG ➔ VENDIDO EN GANANCIA)\n📥 Comprado a: $100.93\n📤 SE VENDIÓ A: $101.01\n💵 GANANCIA NETA COBRADA: +$0.0642 USDC al 100% Cash\n🛡️ Nuevo Saldo en Cuenta: $100.3573 USDC\n🏆 Récord de Victorias: 9G - 0P\n⏱️ Estado del Escuadrón: CERO HOLDING · 100% EN DÓLARES USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo)."
+    },
+    {
+      "id": "tg-1793063123729-323",
+      "timestamp": "2026-10-27T01:05:23.729Z",
+      "timeFormatted": "1:05:23 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>BNB-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$744.84</code>\n📤 <b>VENTA FIJADA A:</b> <code>$745.44</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0499 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$745.18</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: BNB-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $744.84\n📤 VENTA FIJADA A: $745.44 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0499 USDC Limpios\n🔒 Candado Breakeven: $745.18 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793063123412-24",
+      "timestamp": "2026-10-27T01:05:23.412Z",
+      "timeFormatted": "1:05:23 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>BTC-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$80285</code>\n📤 <b>VENTA FIJADA A:</b> <code>$80349</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0498 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$80321</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: BTC-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $80285\n📤 VENTA FIJADA A: $80349 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0498 USDC Limpios\n🔒 Candado Breakeven: $80321 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793063123221-184",
+      "timestamp": "2026-10-27T01:05:23.221Z",
+      "timeFormatted": "1:05:23 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code> (LONG MAKER · $0.00 Gas)\n📥 <b>SE COMPRÓ A:</b> <code>$100.93</code>\n📤 <b>VENTA FIJADA A:</b> <code>$101.01</code> (+0.08% TP)\n💰 <b>Ganancia al Vender:</b> <b>+$0.0500 USDC Limpios</b>\n🔒 <b>Candado Breakeven:</b> <code>$100.98</code> (Cubre 100% de fees)\n🛡️ <b>Margen Asignado:</b> <code>$20.00 USDC (5x)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🟢 ÁREA 501 // COMPRA EJECUTADA EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC (LONG MAKER · $0.00 Gas)\n📥 SE COMPRÓ A: $100.93\n📤 VENTA FIJADA A: $101.01 (+0.08% TP)\n💰 Ganancia al Vender: +$0.0500 USDC Limpios\n🔒 Candado Breakeven: $100.98 (Cubre 100% de fees)\n🛡️ Margen Asignado: $20.00 USDC (5x)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793063121763-289",
+      "timestamp": "2026-10-27T01:05:21.763Z",
+      "timeFormatted": "1:05:21 UTC",
+      "rawHtml": "🔥 <b>ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>ESTADO OPERATIVO:</b> <code>100% FUEGO REAL AUTÓNOMO</code>\n📍 <b>PLATAFORMA:</b> Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ <b>ESCUDO DE RESERVA:</b> <code>$40.02 USDC</code> (40% Intocable en Cash)\n💵 <b>MARGEN MÁXIMO ASIGNADO:</b> <code>$60.00 USDC</code> ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 <b>FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:</b>\n• ⚡ <b>ALFA (#601 Fuerza Rápida):</b> <code>SOL</code> · <code>SUI</code> · <code>POL</code>\n• 🏛️ <b>BRAVO (#701 Macro Refugios):</b> <code>BTC</code> · <code>PAXG</code> · <code>LINK</code>\n• 🌌 <b>CHARLIE (#801 Ecosistema DeFi):</b> <code>ETH</code> · <code>BNB</code> · <code>AAVE</code>\n\n🎯 <b>POLÍTICA MILITAR:</b>\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 <b>Mando Central:</b> <a href=\"https://area-501.curatolapps.workers.dev/squad-secret/\">Squad Secret en Vivo</a>\n<i>Comandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria.</i>",
+      "textPlain": "🔥 ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ ESTADO OPERATIVO: 100% FUEGO REAL AUTÓNOMO\n📍 PLATAFORMA: Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ ESCUDO DE RESERVA: $40.02 USDC (40% Intocable en Cash)\n💵 MARGEN MÁXIMO ASIGNADO: $60.00 USDC ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:\n• ⚡ ALFA (#601 Fuerza Rápida): SOL · SUI · POL\n• 🏛️ BRAVO (#701 Macro Refugios): BTC · PAXG · LINK\n• 🌌 CHARLIE (#801 Ecosistema DeFi): ETH · BNB · AAVE\n\n🎯 POLÍTICA MILITAR:\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 Mando Central: Squad Secret en Vivo\nComandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria."
+    },
+    {
+      "id": "tg-1793062618050-490",
+      "timestamp": "2026-10-27T00:56:58.050Z",
+      "timeFormatted": "0:56:58 UTC",
+      "rawHtml": "🔥 <b>ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>ESTADO OPERATIVO:</b> <code>100% FUEGO REAL AUTÓNOMO</code>\n📍 <b>PLATAFORMA:</b> Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ <b>ESCUDO DE RESERVA:</b> <code>$40.02 USDC</code> (40% Intocable en Cash)\n💵 <b>MARGEN MÁXIMO ASIGNADO:</b> <code>$60.00 USDC</code> ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 <b>FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:</b>\n• ⚡ <b>ALFA (#601 Fuerza Rápida):</b> <code>SOL</code> · <code>SUI</code> · <code>POL</code>\n• 🏛️ <b>BRAVO (#701 Macro Refugios):</b> <code>BTC</code> · <code>PAXG</code> · <code>LINK</code>\n• 🌌 <b>CHARLIE (#801 Ecosistema DeFi):</b> <code>ETH</code> · <code>BNB</code> · <code>AAVE</code>\n\n🎯 <b>POLÍTICA MILITAR:</b>\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 <b>Mando Central:</b> <a href=\"https://area-501.curatolapps.workers.dev/squad-secret/\">Squad Secret en Vivo</a>\n<i>Comandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria.</i>",
+      "textPlain": "🔥 ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ ESTADO OPERATIVO: 100% FUEGO REAL AUTÓNOMO\n📍 PLATAFORMA: Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ ESCUDO DE RESERVA: $40.02 USDC (40% Intocable en Cash)\n💵 MARGEN MÁXIMO ASIGNADO: $60.00 USDC ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:\n• ⚡ ALFA (#601 Fuerza Rápida): SOL · SUI · POL\n• 🏛️ BRAVO (#701 Macro Refugios): BTC · PAXG · LINK\n• 🌌 CHARLIE (#801 Ecosistema DeFi): ETH · BNB · AAVE\n\n🎯 POLÍTICA MILITAR:\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 Mando Central: Squad Secret en Vivo\nComandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria."
+    },
+    {
+      "id": "tg-1793062465976-670",
+      "timestamp": "2026-10-27T00:54:25.976Z",
+      "timeFormatted": "0:54:25 UTC",
+      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>91.9% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$100.93</code>\n\n🎯 <b>OBJETIVOS &amp; PARÁMETROS TÁCTICOS:</b>\n• 📤 <b>Salida Take Profit:</b> <code>$101.01</code> (+0.08%)\n• 💰 <b>Ganancia Estimada:</b> <b>+$0.0500 USDC Limpios</b>\n• 🔒 <b>Candado Breakeven:</b> <code>$100.98</code> (Cubre 100% de comisiones)\n• 🛡️ <b>Comisión Total:</b> <code>~$0.03 USDC (0.015% Maker ALO · $0.00 Gas)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución. Cero holding.</i>",
+      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 91.9% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $100.93\n\n🎯 OBJETIVOS &amp; PARÁMETROS TÁCTICOS:\n• 📤 Salida Take Profit: $101.01 (+0.08%)\n• 💰 Ganancia Estimada: +$0.0500 USDC Limpios\n• 🔒 Candado Breakeven: $100.98 (Cubre 100% de comisiones)\n• 🛡️ Comisión Total: ~$0.03 USDC (0.015% Maker ALO · $0.00 Gas)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución. Cero holding."
+    },
+    {
+      "id": "tg-1793062450061-624",
+      "timestamp": "2026-10-27T00:54:10.061Z",
+      "timeFormatted": "0:54:10 UTC",
+      "rawHtml": "💰 <b>ÁREA 501 // SQUAD SECRET // TAKE PROFIT COBRADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n🎯 <b>Operación:</b> <code>SOL-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n📥 <b>Precio Entrada:</b> <code>$100.89</code> ➔ 📤 <b>Precio Salida TP:</b> <code>$100.97</code>\n💵 <b>Ganancia Neta Cobrada:</b> <b>+$0.0642 USDC al 100% Cash</b>\n🛡️ <b>Nuevo Saldo L1:</b> <code>$100.1321 USDC</code>\n🏆 <b>Récord de Victorias:</b> <b>8G - 0P (100% Efectividad)</b>\n⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>100% del capital asegurado en USDC nativo ($0.00 en riesgo).</i>",
+      "textPlain": "💰 ÁREA 501 // SQUAD SECRET // TAKE PROFIT COBRADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n🎯 Operación: SOL-USDC (LONG ➔ VENDIDO EN GANANCIA)\n📥 Precio Entrada: $100.89 ➔ 📤 Precio Salida TP: $100.97\n💵 Ganancia Neta Cobrada: +$0.0642 USDC al 100% Cash\n🛡️ Nuevo Saldo L1: $100.1321 USDC\n🏆 Récord de Victorias: 8G - 0P (100% Efectividad)\n⏱️ Estado del Escuadrón: CERO HOLDING · 100% EN DÓLARES USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 100% del capital asegurado en USDC nativo ($0.00 en riesgo)."
+    },
+    {
       "id": "tg-1793061750715-74",
       "timestamp": "2026-10-27T00:42:30.715Z",
       "timeFormatted": "0:42:30 UTC",
@@ -47343,160 +47497,6 @@
       "timeFormatted": "0:03:00 UTC",
       "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>77.3% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$135.77</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
       "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 77.3% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $135.77\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793059375462-172",
-      "timestamp": "2026-10-27T00:02:55.462Z",
-      "timeFormatted": "0:02:55 UTC",
-      "rawHtml": "💰 <b>ÁREA 501 // SQUAD SECRET // VICTORIA ON-CHAIN CERRADA</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n🎯 <b>Par Liquidado:</b> <code>BNB-USDC</code>\n💵 <b>Resultado Neto:</b> <b>+$0.0708 USDC Limpios</b>\n🛡️ <b>Nuevo Saldo L1:</b> <code>$100.0580 USDC</code>\n⏱️ <b>Posiciones Abiertas:</b> <code>1 (Cero Holding)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>100% de capital resguardado en USDC nativo.</i>",
-      "textPlain": "💰 ÁREA 501 // SQUAD SECRET // VICTORIA ON-CHAIN CERRADA\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n🎯 Par Liquidado: BNB-USDC\n💵 Resultado Neto: +$0.0708 USDC Limpios\n🛡️ Nuevo Saldo L1: $100.0580 USDC\n⏱️ Posiciones Abiertas: 1 (Cero Holding)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 100% de capital resguardado en USDC nativo."
-    },
-    {
-      "id": "tg-1793058663702-637",
-      "timestamp": "2026-10-26T23:51:03.702Z",
-      "timeFormatted": "23:51:03 UTC",
-      "rawHtml": "💰 <b>ÁREA 501 // SQUAD SECRET // VICTORIA ON-CHAIN CERRADA</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n🎯 <b>Par Liquidado:</b> <code>POL-USDC</code>\n💵 <b>Resultado Neto:</b> <b>+$0.0146 USDC Limpios</b>\n🛡️ <b>Nuevo Saldo L1:</b> <code>$99.8515 USDC</code>\n⏱️ <b>Posiciones Abiertas:</b> <code>2 (Cero Holding)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>100% de capital resguardado en USDC nativo.</i>",
-      "textPlain": "💰 ÁREA 501 // SQUAD SECRET // VICTORIA ON-CHAIN CERRADA\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n🎯 Par Liquidado: POL-USDC\n💵 Resultado Neto: +$0.0146 USDC Limpios\n🛡️ Nuevo Saldo L1: $99.8515 USDC\n⏱️ Posiciones Abiertas: 2 (Cero Holding)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 100% de capital resguardado en USDC nativo."
-    },
-    {
-      "id": "tg-1793058588309-975",
-      "timestamp": "2026-10-26T23:49:48.309Z",
-      "timeFormatted": "23:49:48 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>POL-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>72.2% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$0.09100</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: POL-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 72.2% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $0.09100\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793058358834-862",
-      "timestamp": "2026-10-26T23:45:58.834Z",
-      "timeFormatted": "23:45:58 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>74.8% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$100.81</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 74.8% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $100.81\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793058308438-16",
-      "timestamp": "2026-10-26T23:45:08.438Z",
-      "timeFormatted": "23:45:08 UTC",
-      "rawHtml": "💰 <b>ÁREA 501 // SQUAD SECRET // VICTORIA ON-CHAIN CERRADA</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n🎯 <b>Par Liquidado:</b> <code>SUI-USDC</code>\n💵 <b>Resultado Neto:</b> <b>+$0.0764 USDC Limpios</b>\n🛡️ <b>Nuevo Saldo L1:</b> <code>$99.9494 USDC</code>\n⏱️ <b>Posiciones Abiertas:</b> <code>2 (Cero Holding)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>100% de capital resguardado en USDC nativo.</i>",
-      "textPlain": "💰 ÁREA 501 // SQUAD SECRET // VICTORIA ON-CHAIN CERRADA\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n🎯 Par Liquidado: SUI-USDC\n💵 Resultado Neto: +$0.0764 USDC Limpios\n🛡️ Nuevo Saldo L1: $99.9494 USDC\n⏱️ Posiciones Abiertas: 2 (Cero Holding)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 100% de capital resguardado en USDC nativo."
-    },
-    {
-      "id": "tg-1793058029682-274",
-      "timestamp": "2026-10-26T23:40:29.682Z",
-      "timeFormatted": "23:40:29 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>BTC-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>96.1% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$80116.0</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: BTC-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 96.1% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $80116.0\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793057840171-125",
-      "timestamp": "2026-10-26T23:37:20.171Z",
-      "timeFormatted": "23:37:20 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>71.9% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$0.9157</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 71.9% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $0.9157\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793057808418-976",
-      "timestamp": "2026-10-26T23:36:48.418Z",
-      "timeFormatted": "23:36:48 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>BNB-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>95.3% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$742.55</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: BNB-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 95.3% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $742.55\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793057806313-840",
-      "timestamp": "2026-10-26T23:36:46.313Z",
-      "timeFormatted": "23:36:46 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>LINK-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>72.0% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$11.380</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: LINK-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 72.0% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $11.380\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793057634006-727",
-      "timestamp": "2026-10-26T23:33:54.006Z",
-      "timeFormatted": "23:33:54 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>69.1% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$100.67</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 69.1% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $100.67\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793057602185-831",
-      "timestamp": "2026-10-26T23:33:22.185Z",
-      "timeFormatted": "23:33:22 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>96.6% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$2317.1</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 96.6% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $2317.1\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793057599695-253",
-      "timestamp": "2026-10-26T23:33:19.695Z",
-      "timeFormatted": "23:33:19 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>BTC-USDC</code> (🐂 LONG MAKER)\n📊 <b>Certeza L2:</b> <code>99.3% Compradores</code>\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$80022.0</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado en ejecución.</i>",
-      "textPlain": "🎯 ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: BTC-USDC (🐂 LONG MAKER)\n📊 Certeza L2: 99.3% Compradores\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $80022.0\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado en ejecución."
-    },
-    {
-      "id": "tg-1793057593598-30",
-      "timestamp": "2026-10-26T23:33:13.598Z",
-      "timeFormatted": "23:33:13 UTC",
-      "rawHtml": "🔥 <b>ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>ESTADO OPERATIVO:</b> <code>100% FUEGO REAL AUTÓNOMO</code>\n📍 <b>PLATAFORMA:</b> Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ <b>ESCUDO DE RESERVA:</b> <code>$40.02 USDC</code> (40% Intocable en Cash)\n💵 <b>MARGEN MÁXIMO ASIGNADO:</b> <code>$60.00 USDC</code> ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 <b>FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:</b>\n• ⚡ <b>ALFA (#601 Fuerza Rápida):</b> <code>SOL</code> · <code>SUI</code> · <code>POL</code>\n• 🏛️ <b>BRAVO (#701 Macro Refugios):</b> <code>BTC</code> · <code>PAXG</code> · <code>LINK</code>\n• 🌌 <b>CHARLIE (#801 Ecosistema DeFi):</b> <code>ETH</code> · <code>BNB</code> · <code>AAVE</code>\n\n🎯 <b>POLÍTICA MILITAR:</b>\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 <b>Mando Central:</b> <a href=\"https://area-501.curatolapps.workers.dev/squad-secret/\">Squad Secret en Vivo</a>\n<i>Comandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria.</i>",
-      "textPlain": "🔥 ÁREA 501 // MOTORES ENCENDIDOS // 3 ESCUADRONES EN VIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ ESTADO OPERATIVO: 100% FUEGO REAL AUTÓNOMO\n📍 PLATAFORMA: Hyperliquid L1 Maker ($0.00 Gas · 0.015% Fee)\n🛡️ ESCUDO DE RESERVA: $40.02 USDC (40% Intocable en Cash)\n💵 MARGEN MÁXIMO ASIGNADO: $60.00 USDC ($20 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 FRENTES TÁCTICOS EN CACERÍA INDEPENDIENTE:\n• ⚡ ALFA (#601 Fuerza Rápida): SOL · SUI · POL\n• 🏛️ BRAVO (#701 Macro Refugios): BTC · PAXG · LINK\n• 🌌 CHARLIE (#801 Ecosistema DeFi): ETH · BNB · AAVE\n\n🎯 POLÍTICA MILITAR:\n1. Doble Maker Post-Only ALO (Cero tarifa Taker).\n2. Candado Breakeven cubriendo el 100% de comisiones.\n3. Retorno inmediato a USDC al cobrar TP.\n4. Mente fría: solo tiros de alta probabilidad (L2 Desequilibrio >= 65%).\n\n🌐 Mando Central: Squad Secret en Vivo\nComandante, descanse tranquilo. La guardia nocturna queda activa reportando cada victoria."
-    },
-    {
-      "id": "tg-1793057010997-636",
-      "timestamp": "2026-10-26T23:23:30.997Z",
-      "timeFormatted": "23:23:30 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SQUAD SECRET // TIRO 2 CERRADO EN GANANCIA NETA</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>LEY DEL FEE BLINDADO CUMPLIDA AL 100%</b>\n🎯 <b>PAR:</b> <code>SUI-USDC</code> (Escuadrón Alfa #601)\n⚡ <b>MODALIDAD:</b> <code>Doble Maker ALO (Entrada &amp; Salida a 0.015% · Cero Taker Fee)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>AUDITORÍA ON-CHAIN DE LA VICTORIA:</b>\n• 📥 <b>Entrada Maker ALO:</b> <code>$0.91110</code> (109.7 SUI · Nocional $99.98)\n  ↳ <i>OrderId:</i> <code>#586702448392</code> (crossed: false ✔)\n  ↳ <i>Comisión Entrada:</i> <code>-$0.0149 USDC</code>\n\n• 📤 <b>Salida Maker ALO (Breakeven Blindado):</b> <code>$0.91140</code>\n  ↳ <i>OrderId:</i> <code>#586703853845</code> (crossed: false ✔)\n  ↳ <i>Comisión Salida:</i> <code>-$0.0149 USDC</code> (Cero Taker!)\n  ↳ <i>TxHash Salida:</i> <a href=\"https://app.hyperliquid.xyz/explorer/tx/0x7350264b44b6dd0b74c904476f3c980204630030dfb9fbdd1718d19e03bab6f6\">0x7350264b...03bab6f6</a>\n\n• 💰 <b>Ganancia Bruta en Precio:</b> <code>+$0.0329 USDC</code>\n• 🏷️ <b>Total Comisiones (Ida + Vuelta Maker):</b> <code>-$0.0299 USDC</code>\n• 📈 <b>RESULTADO NETO REAL:</b> <b>+$0.0029 USDC (POSITIVO ✔)</b>\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <b>ESTADO DE CUENTA TRAS CIERRE:</b>\n• <b>Saldo Previo:</b> <code>$99.9700 USDC</code>\n• <b>Saldo Actual:</b> <code>$99.9716 USDC</code> (<b>SUBIÓ, NO BAJÓ</b>)\n• <b>Posiciones Abiertas:</b> <code>0 (CERO HOLDING · 100% USDC)</code>\n• <b>Gas Gastado en L1:</b> <b>$0.00</b>\n• <b>Escudo de Reserva:</b> <code>$40.02 USDC (100% Intacto)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <b>Dashboard:</b> <a href=\"https://area-501.curatolapps.workers.dev/squad-secret/\">Squad Secret en Vivo</a>",
-      "textPlain": "🟢 ÁREA 501 // SQUAD SECRET // TIRO 2 CERRADO EN GANANCIA NETA\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 LEY DEL FEE BLINDADO CUMPLIDA AL 100%\n🎯 PAR: SUI-USDC (Escuadrón Alfa #601)\n⚡ MODALIDAD: Doble Maker ALO (Entrada &amp; Salida a 0.015% · Cero Taker Fee)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 AUDITORÍA ON-CHAIN DE LA VICTORIA:\n• 📥 Entrada Maker ALO: $0.91110 (109.7 SUI · Nocional $99.98)\n  ↳ OrderId: #586702448392 (crossed: false ✔)\n  ↳ Comisión Entrada: -$0.0149 USDC\n\n• 📤 Salida Maker ALO (Breakeven Blindado): $0.91140\n  ↳ OrderId: #586703853845 (crossed: false ✔)\n  ↳ Comisión Salida: -$0.0149 USDC (Cero Taker!)\n  ↳ TxHash Salida: 0x7350264b...03bab6f6\n\n• 💰 Ganancia Bruta en Precio: +$0.0329 USDC\n• 🏷️ Total Comisiones (Ida + Vuelta Maker): -$0.0299 USDC\n• 📈 RESULTADO NETO REAL: +$0.0029 USDC (POSITIVO ✔)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ ESTADO DE CUENTA TRAS CIERRE:\n• Saldo Previo: $99.9700 USDC\n• Saldo Actual: $99.9716 USDC (SUBIÓ, NO BAJÓ)\n• Posiciones Abiertas: 0 (CERO HOLDING · 100% USDC)\n• Gas Gastado en L1: $0.00\n• Escudo de Reserva: $40.02 USDC (100% Intacto)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Dashboard: Squad Secret en Vivo"
-    },
-    {
-      "id": "tg-1793053424112-766",
-      "timestamp": "2026-10-26T22:23:44.112Z",
-      "timeFormatted": "22:23:44 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SQUAD SECRET // TIRO 2 EN CURSO (FEE BLINDADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>ESCUADRÓN:</b> <code>ALFA (#601 Fuerza Rápida)</code>\n📍 <b>PAR:</b> <code>SUI-USDC</code> (🐂 LONG / MAKER ALO)\n💵 <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n📥 <b>Entrada Maker ALO:</b> <code>$0.9111</code>\n🔒 <b>Candado Breakeven:</b> <code>$0.9115</code> (+0.045% · 100% Comisiones Cubiertas)\n💰 <b>Take Profit ALO:</b> <code>$0.9118</code> (+0.080% · Ganancia Neta USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ <i>Ley del Fee Blindado: Entrada y Salida 100% Post-Only Maker. Cero Taker Fee.</i>",
-      "textPlain": "🎯 ÁREA 501 // SQUAD SECRET // TIRO 2 EN CURSO (FEE BLINDADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 ESCUADRÓN: ALFA (#601 Fuerza Rápida)\n📍 PAR: SUI-USDC (🐂 LONG / MAKER ALO)\n💵 Margen: $20.00 USDC (5x · Nocional $100.00)\n📥 Entrada Maker ALO: $0.9111\n🔒 Candado Breakeven: $0.9115 (+0.045% · 100% Comisiones Cubiertas)\n💰 Take Profit ALO: $0.9118 (+0.080% · Ganancia Neta USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🛡️ Ley del Fee Blindado: Entrada y Salida 100% Post-Only Maker. Cero Taker Fee."
-    },
-    {
-      "id": "tg-1793052764542-885",
-      "timestamp": "2026-10-26T22:12:44.542Z",
-      "timeFormatted": "22:12:44 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SQUAD SECRET // TIRO 1 DE PRUEBA REAL COMPLETADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>ESCUADRÓN ALFA (#601 Fuerza Rápida) EN ACCIÓN</b>\n🎯 <b>PAR OPERADO:</b> <code>SUI-USDC</code> (🐂 LONG / COMPRA MAKER)\n⚡ <b>MODALIDAD:</b> <code>Post-Only ALO ($0.00 Gas de Red)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>FICHA TÉCNICA MILIMÉTRICA DEL TIRO REAL:</b>\n• <b>Margen Asignado:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n• <b>Tamaño Posición:</b> <code>109.7 SUI</code>\n• 📥 <b>Entrada Maker ALO:</b> <code>$0.91140</code>\n  ↳ <i>OrderId:</i> <code>#586696508582</code>\n  ↳ <i>TxHash Entrada:</i> <a href=\"https://app.hyperliquid.xyz/explorer/tx/0x13ae208577c7faa7152704476e57f30211b5006b12cb1979b776cbd836cbd491\">0x13ae2085...36cbd491</a>\n  ↳ <i>Comisión Entrada Maker:</i> <code>-$0.0149 USDC (0.015%)</code>\n  ↳ <i>Gas de Red L1:</i> <b>$0.00</b>\n\n• 🔒 <b>Candado Breakeven Mentora #00:</b> Clavado de inmediato\n• 📤 <b>Cierre Take Profit / Breakeven:</b> <code>$0.91152</code> (+$0.0131 PnL Bruto)\n  ↳ <i>OrderId Salida:</i> <code>#586697160661</code>\n  ↳ <i>TxHash Salida:</i> <a href=\"https://app.hyperliquid.xyz/explorer/tx/0x9c2b6214a62ff8c59da504476e5b0402027600fa412317973ff40d676523d2b0\">0x9c2b6214...6523d2b0</a>\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏱️ <b>TIEMPO EN MERCADO:</b> <code>59 Segundos</code> (Micro-scalp Certero)\n🛡️ <b>ESTADO TRAS CIERRE:</b>\n• <b>Posiciones Abiertas:</b> <code>0 (CERO RIESGO DE MERCADO)</code>\n• <b>Retorno a USDC:</b> <code>100% de Fondos en USDC Nativo</code>\n• <b>Saldo en Hyperliquid L1:</b> <code>$99.97 USDC</code>\n• <b>Escudo de Reserva:</b> <code>$40.02 USDC (100% Intacto e Intocable)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <b>Dashboard:</b> <a href=\"https://area-501.curatolapps.workers.dev/squad-secret/\">Squad Secret en Vivo</a>",
-      "textPlain": "🟢 ÁREA 501 // SQUAD SECRET // TIRO 1 DE PRUEBA REAL COMPLETADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 ESCUADRÓN ALFA (#601 Fuerza Rápida) EN ACCIÓN\n🎯 PAR OPERADO: SUI-USDC (🐂 LONG / COMPRA MAKER)\n⚡ MODALIDAD: Post-Only ALO ($0.00 Gas de Red)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 FICHA TÉCNICA MILIMÉTRICA DEL TIRO REAL:\n• Margen Asignado: $20.00 USDC (5x · Nocional $100.00)\n• Tamaño Posición: 109.7 SUI\n• 📥 Entrada Maker ALO: $0.91140\n  ↳ OrderId: #586696508582\n  ↳ TxHash Entrada: 0x13ae2085...36cbd491\n  ↳ Comisión Entrada Maker: -$0.0149 USDC (0.015%)\n  ↳ Gas de Red L1: $0.00\n\n• 🔒 Candado Breakeven Mentora #00: Clavado de inmediato\n• 📤 Cierre Take Profit / Breakeven: $0.91152 (+$0.0131 PnL Bruto)\n  ↳ OrderId Salida: #586697160661\n  ↳ TxHash Salida: 0x9c2b6214...6523d2b0\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏱️ TIEMPO EN MERCADO: 59 Segundos (Micro-scalp Certero)\n🛡️ ESTADO TRAS CIERRE:\n• Posiciones Abiertas: 0 (CERO RIESGO DE MERCADO)\n• Retorno a USDC: 100% de Fondos en USDC Nativo\n• Saldo en Hyperliquid L1: $99.97 USDC\n• Escudo de Reserva: $40.02 USDC (100% Intacto e Intocable)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Dashboard: Squad Secret en Vivo"
-    },
-    {
-      "id": "tg-1793052654409-322",
-      "timestamp": "2026-10-26T22:10:54.409Z",
-      "timeFormatted": "22:10:54 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SQUAD SECRET // TIRO REAL CONTROLADO (OPCIÓN A)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>ESCUADRÓN:</b> <code>ALFA (#601 Fuerza Rápida)</code>\n📍 <b>PAR:</b> <code>SUI-USDC</code> (🐂 BULL / LONG)\n⚡ <b>MODO:</b> <code>Post-Only ALO Maker ($0.00 Gas)</code>\n🆔 <b>ORDER ID L1:</b> <code>#586696508582</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💵 <b>Margen Asignado:</b> <code>$20.00 USDC</code> (5x · Nocional $100.00)\n🎯 <b>Entrada Maker:</b> <code>$0.9114</code>\n🔒 <b>Candado Breakeven:</b> <code>$0.9118</code> (+0.04% · $0 Pérdida)\n💰 <b>Take Profit:</b> <code>$0.9121</code> (+0.08% ➔ <b>+$0.08 USDC</b>)\n🛡️ <b>Escudo Reserva:</b> <code>$40.02 USDC</code> (40% Intocable)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏱️ <b>Tiempo en mercado:</b> Micro-scalp programado (15s a 45s).\n🌐 <i>100% Retorno a USDC Nativo garantizado por protocolo.</i>",
-      "textPlain": "🎯 ÁREA 501 // SQUAD SECRET // TIRO REAL CONTROLADO (OPCIÓN A)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 ESCUADRÓN: ALFA (#601 Fuerza Rápida)\n📍 PAR: SUI-USDC (🐂 BULL / LONG)\n⚡ MODO: Post-Only ALO Maker ($0.00 Gas)\n🆔 ORDER ID L1: #586696508582\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💵 Margen Asignado: $20.00 USDC (5x · Nocional $100.00)\n🎯 Entrada Maker: $0.9114\n🔒 Candado Breakeven: $0.9118 (+0.04% · $0 Pérdida)\n💰 Take Profit: $0.9121 (+0.08% ➔ +$0.08 USDC)\n🛡️ Escudo Reserva: $40.02 USDC (40% Intocable)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏱️ Tiempo en mercado: Micro-scalp programado (15s a 45s).\n🌐 100% Retorno a USDC Nativo garantizado por protocolo."
-    },
-    {
-      "id": "tg-1793050871215-279",
-      "timestamp": "2026-10-26T21:41:11.215Z",
-      "timeFormatted": "21:41:11 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // SQUAD SECRET // 3 ESCUADRONES SNIPER CALIBRADOS</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>ESTADO DE CALIBRACIÓN:</b> <code>100% LISTOS EN STANDBY</code>\n📍 <b>PLATAFORMA:</b> Hyperliquid L1 Maker ($0.00 Gas · 0.015% Maker Fee)\n🛡️ <b>ESCUDO DE RESERVA:</b> <code>$40.02 USDC</code> (40% Blindado Intocable en Cash)\n💵 <b>MARGEN MÁXIMO ASIGNADO:</b> <code>$60.00 USDC</code> ($20.00 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 <b>DESPLIEGUE TÁCTICO DE LOS 3 ESCUADRONES (1 PARA 3):</b>\n\n⚡ <b>1. ESCUADRÓN ALFA (#601 Fuerza Rápida)</b>\n• <b>Pares asignados:</b> <code>SOL-USDC</code> · <code>SUI-USDC</code> · <code>POL-USDC</code>\n• <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100)\n• <b>Objetivo por tiro:</b> <code>+$0.18 a +$0.25 USDC</code>\n• <b>Estado:</b> 🟢 <b>STANDBY CALIBRADO (0 Posiciones)</b>\n\n🏛️ <b>2. ESCUADRÓN BRAVO (#701 Macro Refugios)</b>\n• <b>Pares asignados:</b> <code>BTC-USDC</code> · <code>PAXG-USDC</code> · <code>LINK-USDC</code>\n• <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100)\n• <b>Objetivo por tiro:</b> <code>+$0.20 a +$0.30 USDC</code>\n• <b>Estado:</b> 🟢 <b>STANDBY CALIBRADO (0 Posiciones)</b>\n\n🌌 <b>3. ESCUADRÓN CHARLIE (#801 Ecosistema DeFi)</b>\n• <b>Pares asignados:</b> <code>ETH-USDC</code> · <code>BNB-USDC</code> · <code>AAVE-USDC</code>\n• <b>Margen:</b> <code>$20.00 USDC</code> (5x · Nocional $100)\n• <b>Objetivo por tiro:</b> <code>+$0.20 a +$0.28 USDC</code>\n• <b>Estado:</b> 🟢 <b>STANDBY CALIBRADO (0 Posiciones)</b>\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🎯 <b>REGLAS SNIPER INMUTABLES (FILOSOFÍA DE EXTRACCIÓN):</b>\n1. <b>CERO HOLDING:</b> Jamás nos casamos con ninguna moneda ni nos quedamos atrapados.\n2. <b>TIRO CERTERO:</b> Entrada exclusiva con desequilibrio L2 >= 65% (Post-Only ALO).\n3. <b>CANDADO BREAKEVEN #00:</b> Al tocar +0.04% favorable, SL a precio de entrada. Cero pérdida.\n4. <b>RETORNO 100% A USDC:</b> Al tocar Take Profit (+0.08%), toda la liquidez regresa instantáneamente a USDC nativo.\n5. <b>TIEMPO EN MERCADO:</b> Micro-operaciones relámpago (15s a 45s). Máximo 1 tiro por escuadrón.\n\n🛑 <b>ESTADO OPERATIVO:</b> En espera de la orden del Comandante para dar <b>PLAY</b>.\n🌐 <b>Dashboard Squad Secret:</b> <a href=\"https://area-501.curatolapps.workers.dev/squad-secret/\">Ver Mesa de Mando Calibrada</a>",
-      "textPlain": "🎯 ÁREA 501 // SQUAD SECRET // 3 ESCUADRONES SNIPER CALIBRADOS\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ ESTADO DE CALIBRACIÓN: 100% LISTOS EN STANDBY\n📍 PLATAFORMA: Hyperliquid L1 Maker ($0.00 Gas · 0.015% Maker Fee)\n🛡️ ESCUDO DE RESERVA: $40.02 USDC (40% Blindado Intocable en Cash)\n💵 MARGEN MÁXIMO ASIGNADO: $60.00 USDC ($20.00 x 3 Escuadrones)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔰 DESPLIEGUE TÁCTICO DE LOS 3 ESCUADRONES (1 PARA 3):\n\n⚡ 1. ESCUADRÓN ALFA (#601 Fuerza Rápida)\n• Pares asignados: SOL-USDC · SUI-USDC · POL-USDC\n• Margen: $20.00 USDC (5x · Nocional $100)\n• Objetivo por tiro: +$0.18 a +$0.25 USDC\n• Estado: 🟢 STANDBY CALIBRADO (0 Posiciones)\n\n🏛️ 2. ESCUADRÓN BRAVO (#701 Macro Refugios)\n• Pares asignados: BTC-USDC · PAXG-USDC · LINK-USDC\n• Margen: $20.00 USDC (5x · Nocional $100)\n• Objetivo por tiro: +$0.20 a +$0.30 USDC\n• Estado: 🟢 STANDBY CALIBRADO (0 Posiciones)\n\n🌌 3. ESCUADRÓN CHARLIE (#801 Ecosistema DeFi)\n• Pares asignados: ETH-USDC · BNB-USDC · AAVE-USDC\n• Margen: $20.00 USDC (5x · Nocional $100)\n• Objetivo por tiro: +$0.20 a +$0.28 USDC\n• Estado: 🟢 STANDBY CALIBRADO (0 Posiciones)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🎯 REGLAS SNIPER INMUTABLES (FILOSOFÍA DE EXTRACCIÓN):\n1. CERO HOLDING: Jamás nos casamos con ninguna moneda ni nos quedamos atrapados.\n2. TIRO CERTERO: Entrada exclusiva con desequilibrio L2 >= 65% (Post-Only ALO).\n3. CANDADO BREAKEVEN #00: Al tocar +0.04% favorable, SL a precio de entrada. Cero pérdida.\n4. RETORNO 100% A USDC: Al tocar Take Profit (+0.08%), toda la liquidez regresa instantáneamente a USDC nativo.\n5. TIEMPO EN MERCADO: Micro-operaciones relámpago (15s a 45s). Máximo 1 tiro por escuadrón.\n\n🛑 ESTADO OPERATIVO: En espera de la orden del Comandante para dar PLAY.\n🌐 Dashboard Squad Secret: Ver Mesa de Mando Calibrada"
-    },
-    {
-      "id": "tg-1793042429610-863",
-      "timestamp": "2026-10-26T19:20:29.610Z",
-      "timeFormatted": "19:20:29 UTC",
-      "rawHtml": "🪖 <b>FLOTA X500 // VUELTA 7 DE 8 COMPLETADA</b>\n🕒 <b>Hora UTC:</b> <code>19:20:24 UTC</code> | <b>Ventana:</b> <code>[18:00 ➔ 21:00 UTC]</code>\n🔥 <b>Racha 25 Días (25 Oct ➔ 20 Nov):</b> <code>Día 2/25 En Curso</code>\n\n🎯 <b>AUDITORÍA REAL DE LAS 500 LLAVES EN ESTA VUELTA:</b>\n✅ <b>Resultado:</b> <code>500 / 500 LLAVES COMPLETADAS (0 Errores)</code>\n  • 🟧 <b>Box 1 (#001-#100):</b> <code>100 / 100 ✔</code> (<code>18.07 POL</code> | <code>$0.70 USDC</code>)\n  • 🟦 <b>Box 2 (#101-#200):</b> <code>100 / 100 ✔</code> (<code>18.03 POL</code> | <code>$1.05 USDC</code>)\n  • 🟩 <b>Box 3 (#201-#300):</b> <code>100 / 100 ✔</code> (<code>18.01 POL</code> | <code>$0.00 USDC</code>)\n  • 🟨 <b>Box 4 (#301-#400):</b> <code>100 / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)\n  • 🟪 <b>Box 5 (#401-#500):</b> <code>100 / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)\n\n📊 <b>RELOJ DE LAS 8 VUELTAS DEL DÍA (00:00 A 24:00 UTC):</b>\n<code>[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 ✔] [V7 ✔] [V8 🔄]</code>\n• <b>Vueltas Cerradas Hoy:</b> <code>7 de 8 Vueltas</code> (<code>3,500 / 4,000 operaciones hoy</code>)\n• <b>Siguiente Salida:</b> <code>Vuelta 8 de 8</code> arrancando de <code>0/500</code>\n\n⛏️ <b>TAREAS EJECUTADAS POR LAS 500 LLAVES EN LA VUELTA:</b>\n1. 🔥 <b>Misiones Gasless EIP-712 (Día 2/25):</b> <code>500/500 Firmas ($0 Gas)</code>\n2. ⏰ <b>Cierres 30 Oct (Base/Avantis &amp; DogeOS):</b> <code>500/500 Ejecutadas</code>\n3. 🌱 <b>Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>\n\n🔗 <b>HASHES VERIFICABLES ON-CHAIN (MUESTRA REAL DE LA VUELTA):</b>\n  • 🔵 <b>Base:</b> <a href=\"https://sepolia.basescan.org/tx/0xda5ac28fca68a75e3cd917d2fb9ef7d7dfd4d7dcb9f5d0c85dfbaf26b4a340b9\"><code>0xda5ac28f...b4a340b9</code></a> | 🔷 <b>Arbitrum:</b> <a href=\"https://sepolia.arbiscan.io/tx/0xe746b2efdbcbc0353089fe2415060c122509aeb92a9ab5044524b7521d0694e8\"><code>0xe746b2ef...1d0694e8</code></a> | ⚡ <b>EIP-712:</b> <code>0x2d628ebc...7d1958bf</code>\n\n💵 <b>CONTABILIDAD REAL (CERO SIMULACIÓN):</b>\n• <b>Cosechado por Airdrops/Mints Hoy:</b> <code>+$0.00 USDC</code>\n• <b>Fondo Nuestro Inyectado en Flota:</b> <code>$4.70 USDC</code> (<code>78.13 POL</code> Cap)\n• <b>Bóveda Matriz #501 (Intocable):</b> <code>$598.76 USDC</code> (<code>160.79 POL</code>)",
-      "textPlain": "🪖 FLOTA X500 // VUELTA 7 DE 8 COMPLETADA\n🕒 Hora UTC: 19:20:24 UTC | Ventana: [18:00 ➔ 21:00 UTC]\n🔥 Racha 25 Días (25 Oct ➔ 20 Nov): Día 2/25 En Curso\n\n🎯 AUDITORÍA REAL DE LAS 500 LLAVES EN ESTA VUELTA:\n✅ Resultado: 500 / 500 LLAVES COMPLETADAS (0 Errores)\n  • 🟧 Box 1 (#001-#100): 100 / 100 ✔ (18.07 POL | $0.70 USDC)\n  • 🟦 Box 2 (#101-#200): 100 / 100 ✔ (18.03 POL | $1.05 USDC)\n  • 🟩 Box 3 (#201-#300): 100 / 100 ✔ (18.01 POL | $0.00 USDC)\n  • 🟨 Box 4 (#301-#400): 100 / 100 ✔ (12.01 POL | $0.00 USDC)\n  • 🟪 Box 5 (#401-#500): 100 / 100 ✔ (12.01 POL | $0.00 USDC)\n\n📊 RELOJ DE LAS 8 VUELTAS DEL DÍA (00:00 A 24:00 UTC):\n[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 ✔] [V7 ✔] [V8 🔄]\n• Vueltas Cerradas Hoy: 7 de 8 Vueltas (3,500 / 4,000 operaciones hoy)\n• Siguiente Salida: Vuelta 8 de 8 arrancando de 0/500\n\n⛏️ TAREAS EJECUTADAS POR LAS 500 LLAVES EN LA VUELTA:\n1. 🔥 Misiones Gasless EIP-712 (Día 2/25): 500/500 Firmas ($0 Gas)\n2. ⏰ Cierres 30 Oct (Base/Avantis &amp; DogeOS): 500/500 Ejecutadas\n3. 🌱 Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT): 500/500 Pulsos OK\n\n🔗 HASHES VERIFICABLES ON-CHAIN (MUESTRA REAL DE LA VUELTA):\n  • 🔵 Base: 0xda5ac28f...b4a340b9 | 🔷 Arbitrum: 0xe746b2ef...1d0694e8 | ⚡ EIP-712: 0x2d628ebc...7d1958bf\n\n💵 CONTABILIDAD REAL (CERO SIMULACIÓN):\n• Cosechado por Airdrops/Mints Hoy: +$0.00 USDC\n• Fondo Nuestro Inyectado en Flota: $4.70 USDC (78.13 POL Cap)\n• Bóveda Matriz #501 (Intocable): $598.76 USDC (160.79 POL)"
-    },
-    {
-      "id": "tg-1793039991314-505",
-      "timestamp": "2026-10-26T18:39:51.314Z",
-      "timeFormatted": "18:39:51 UTC",
-      "rawHtml": "🪖 <b>FLOTA X500 // VUELTA #4 DEL DÍA TERMINADA</b>\n🕒 <b>Hora UTC:</b> <code>18:39:51 UTC</code> | <b>Ventana:</b> <code>18:00 ➔ 24:00 UTC</code>\n\n🎯 <b>RESULTADO AUDITADO:</b>\n✅ <b>500 / 500 CARTERAS COMPLETADAS (0 Errores)</b>\n\n🗂️ <b>DESGLOSE DE LOS 5 COMANDANTES:</b>\n  • 🟧 <b>Box 1 (#001-#100):</b> <code>100/100</code>\n  • 🟦 <b>Box 2 (#101-#200):</b> <code>100/100</code>\n  • 🟩 <b>Box 3 (#201-#300):</b> <code>100/100</code>\n  • 🟨 <b>Box 4 (#301-#400):</b> <code>100/100</code>\n  • 🟪 <b>Box 5 (#401-#500):</b> <code>100/100</code>\n\n📈 <b>ACUMULADO DEL DÍA:</b>\n• <b>Vueltas Hoy:</b> <code>4 / 4</code> (<code>2,000 / 2,000 operaciones hoy</code>)\n• <b>Próxima Vuelta:</b> <code>Vuelta #1 arrancando de 0/500 inmediatamente 🔄</code>\n\n🔗 <b>HASHES AUDITADOS EN CADENA (MUESTRA REAL):</b>\n  • 🔵 <b>Base Sepolia:</b> <a href=\"https://sepolia.basescan.org/tx/0x66dca8fa8b2c483c27a5349a32a805c8a1bf5827251d0b5e4b5af2428a566965\"><code>0x66dca8fa...8a566965</code></a>\n  • 🔷 <b>Arbitrum Sepolia:</b> <a href=\"https://sepolia.arbiscan.io/tx/0x68680a389adf2a60e802b09d26423ea6a2c00a66f4daad1bcbf4a38f59908c66\"><code>0x68680a38...59908c66</code></a>\n  • ⚡ <b>EIP-712 Check-In:</b> <code>0x28ad4f5e...97b81eeb</code> ($0 Gas)\n\n💵 <b>CONTABILIDAD REAL:</b>\n• <b>Cosechado por Airdrops Hoy:</b> <code>+$0.00 USDC</code>\n• <b>Fondo Nuestro Inyectado en Bolsillos:</b> <code>$4.70 USDC</code> (<code>78.13 POL</code> Cap)\n• <b>Bóveda Matriz #501 (Intocable):</b> <code>$598.76 USDC</code> (<code>160.79 POL</code>)",
-      "textPlain": "🪖 FLOTA X500 // VUELTA #4 DEL DÍA TERMINADA\n🕒 Hora UTC: 18:39:51 UTC | Ventana: 18:00 ➔ 24:00 UTC\n\n🎯 RESULTADO AUDITADO:\n✅ 500 / 500 CARTERAS COMPLETADAS (0 Errores)\n\n🗂️ DESGLOSE DE LOS 5 COMANDANTES:\n  • 🟧 Box 1 (#001-#100): 100/100\n  • 🟦 Box 2 (#101-#200): 100/100\n  • 🟩 Box 3 (#201-#300): 100/100\n  • 🟨 Box 4 (#301-#400): 100/100\n  • 🟪 Box 5 (#401-#500): 100/100\n\n📈 ACUMULADO DEL DÍA:\n• Vueltas Hoy: 4 / 4 (2,000 / 2,000 operaciones hoy)\n• Próxima Vuelta: Vuelta #1 arrancando de 0/500 inmediatamente 🔄\n\n🔗 HASHES AUDITADOS EN CADENA (MUESTRA REAL):\n  • 🔵 Base Sepolia: 0x66dca8fa...8a566965\n  • 🔷 Arbitrum Sepolia: 0x68680a38...59908c66\n  • ⚡ EIP-712 Check-In: 0x28ad4f5e...97b81eeb ($0 Gas)\n\n💵 CONTABILIDAD REAL:\n• Cosechado por Airdrops Hoy: +$0.00 USDC\n• Fondo Nuestro Inyectado en Bolsillos: $4.70 USDC (78.13 POL Cap)\n• Bóveda Matriz #501 (Intocable): $598.76 USDC (160.79 POL)"
-    },
-    {
-      "id": "tg-1793039991033-432",
-      "timestamp": "2026-10-26T18:39:51.033Z",
-      "timeFormatted": "18:39:51 UTC",
-      "rawHtml": "🪖 <b>FLOTA X500 // PARTE DE MANADA EN VIVO (LOTE 20 EN 20)</b>\n🕒 <b>Hora UTC:</b> <code>18:39:51 UTC</code> | <b>Racha 25 Días:</b> <code>Día 2/25 (500/500)</code>\n\n📊 <b>CRONOGRAMA DIARIO DE ESCALONES (META: 500 BOTS / 1,000 PICADAS):</b>\n<code>[20 ✔] ➔ [50 ✔] ➔ [100 ✔] ➔ [200 ✔] ➔ [500 ✔] ➔ [1,000 ✔]</code>\n• <b>Lote Actual:</b> <code>+20 Satélites</code> (#001–#004, #101–#104, #201–#204, #301–#304, #401–#404)\n• <b>Avance por Escuadrón (100 + 100 + 100 + 100 + 100):</b>\n  - 🟧 <b>Box 1 (Cap #001):</b> <code>100 / 100 Bots</code> (<code>18.07 POL</code> | <code>$0.70 USDC</code>)\n  - 🟦 <b>Box 2 (Cap #101):</b> <code>100 / 100 Bots</code> (<code>18.03 POL</code> | <code>$1.05 USDC</code>)\n  - 🟩 <b>Box 3 (Cap #201):</b> <code>100 / 100 Bots</code> (<code>18.01 POL</code> | <code>$0.00 USDC</code>)\n  - 🟨 <b>Box 4 (Cap #301):</b> <code>100 / 100 Bots</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)\n  - 🟪 <b>Box 5 (Cap #401):</b> <code>100 / 100 Bots</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)\n\n⛏️ <b>¿QUÉ SE PICÓ EN ESTA RONDA? (POSICIONES ACTIVAS):</b>\n1. 🔥 <b>Gasless EIP-712 Check-In:</b> <code>20/20 Firmas ($0.00 Gas)</code>\n2. ⏰ <b>Cierres 30 Oct (Base/Avantis &amp; DogeOS):</b> <code>20/20 Tx Confirmadas</code>\n3. 🌱 <b>Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>20/20 Pulsos OK</code>\n4. 💎 <b>Escáner Free-Mint &amp; Bolsillos:</b> <code>0 Honeypots (GoPlus OK)</code>\n\n🔗 <b>HASHES CONFIRMADOS EN BLOQUE (MUESTRA VERIFICABLE):</b>\n  • 🔵 <b>Base Sepolia:</b> <a href=\"https://sepolia.basescan.org/tx/0x66dca8fa8b2c483c27a5349a32a805c8a1bf5827251d0b5e4b5af2428a566965\"><code>0x66dca8fa...8a566965</code></a>\n  • 🔷 <b>Arbitrum Sepolia:</b> <a href=\"https://sepolia.arbiscan.io/tx/0x68680a389adf2a60e802b09d26423ea6a2c00a66f4daad1bcbf4a38f59908c66\"><code>0x68680a38...59908c66</code></a>\n  • ⚡ <b>EIP-712 Check-In:</b> <code>0x28ad4f5e...97b81eeb</code> ($0 Gas)\n\n💵 <b>CONTABILIDAD REAL FLOTA X500:</b>\n• <b>Cosechado Nuevo (Airdrops/Mints ➔ #501):</b> <code>+$0.00 USDC</code>\n• <b>Fondo Operativo Inyectado en Bots:</b> <code>$4.70 USDC</code> (<code>78.13 POL</code> Cap)\n• <b>Bóveda Matriz #501 (Intocable):</b> <code>$598.76 USDC</code> (<code>160.79 POL</code>)",
-      "textPlain": "🪖 FLOTA X500 // PARTE DE MANADA EN VIVO (LOTE 20 EN 20)\n🕒 Hora UTC: 18:39:51 UTC | Racha 25 Días: Día 2/25 (500/500)\n\n📊 CRONOGRAMA DIARIO DE ESCALONES (META: 500 BOTS / 1,000 PICADAS):\n[20 ✔] ➔ [50 ✔] ➔ [100 ✔] ➔ [200 ✔] ➔ [500 ✔] ➔ [1,000 ✔]\n• Lote Actual: +20 Satélites (#001–#004, #101–#104, #201–#204, #301–#304, #401–#404)\n• Avance por Escuadrón (100 + 100 + 100 + 100 + 100):\n  - 🟧 Box 1 (Cap #001): 100 / 100 Bots (18.07 POL | $0.70 USDC)\n  - 🟦 Box 2 (Cap #101): 100 / 100 Bots (18.03 POL | $1.05 USDC)\n  - 🟩 Box 3 (Cap #201): 100 / 100 Bots (18.01 POL | $0.00 USDC)\n  - 🟨 Box 4 (Cap #301): 100 / 100 Bots (12.01 POL | $0.00 USDC)\n  - 🟪 Box 5 (Cap #401): 100 / 100 Bots (12.01 POL | $0.00 USDC)\n\n⛏️ ¿QUÉ SE PICÓ EN ESTA RONDA? (POSICIONES ACTIVAS):\n1. 🔥 Gasless EIP-712 Check-In: 20/20 Firmas ($0.00 Gas)\n2. ⏰ Cierres 30 Oct (Base/Avantis &amp; DogeOS): 20/20 Tx Confirmadas\n3. 🌱 Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT): 20/20 Pulsos OK\n4. 💎 Escáner Free-Mint &amp; Bolsillos: 0 Honeypots (GoPlus OK)\n\n🔗 HASHES CONFIRMADOS EN BLOQUE (MUESTRA VERIFICABLE):\n  • 🔵 Base Sepolia: 0x66dca8fa...8a566965\n  • 🔷 Arbitrum Sepolia: 0x68680a38...59908c66\n  • ⚡ EIP-712 Check-In: 0x28ad4f5e...97b81eeb ($0 Gas)\n\n💵 CONTABILIDAD REAL FLOTA X500:\n• Cosechado Nuevo (Airdrops/Mints ➔ #501): +$0.00 USDC\n• Fondo Operativo Inyectado en Bots: $4.70 USDC (78.13 POL Cap)\n• Bóveda Matriz #501 (Intocable): $598.76 USDC (160.79 POL)"
-    },
-    {
-      "id": "tg-1793039984056-964",
-      "timestamp": "2026-10-26T18:39:44.056Z",
-      "timeFormatted": "18:39:44 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)</b>\n• <b>Cámara 1 (Polygon 0% Riesgo):</b> <code>$490.76 / $500.00 USDC</code> (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• <b>Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker):</b> <code>$100.02 USDC</code> · Meta Retiro: <b>+$20.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>160.79 POL (#501)</code> + <code>300.02 POL (Flota X500)</code>\n🌐 <b>Dashboard Directo:</b> <a href=\"https://area-501.curatolapps.workers.dev/\">area-501.curatolapps.workers.dev</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 <b>INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)</b>\n🛰️ <b>Estado General Flota X500:</b> <code>500/500 Bots Activos (0 Fallos)</code>\n🎯 <b>Participación Hoy:</b> <code>500/500 Bots Firmados (Boxes 1 al 5 al 100%)</code>\n🏦 <b>Acumulación Automática:</b> 100% a Cartera Nodriza #501 (<code>0xD4D1...3743</code>) en USDC\n🔒 <b>Política Binance:</b> <code>AUTO_SWEEP = false</code> (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 <b>#1 MISIONES GASLESS EIP-712 & DAILY STREAKS:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))</code>\n• <b>Ventana Real:</b> <code>25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)</code>\n• <b>Racha:</b> <code>Día 2/25 (Racha Activa)</code>\n• <b>Firmas:</b> <code>500/500 Bots Firmados ($0 Gas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLES A MICRO-PREMIOS</b>\n\n🔥 <b>#2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #2 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Firmados (DeFi Wrap OK)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Superchain Grants)</b>\n\n🔥 <b>#3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:</b>\n• <b>Prioridad:</b> <code>🔥 PRIORIDAD #3 (CIERRE 30 OCT)</code>\n• <b>Ventana Real:</b> <code>Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (EIP-712 Quests)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Chapter 2 Pass)</b>\n\n⚡ <b>#4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:</b>\n• <b>Prioridad:</b> <code>⚡ PRIORIDAD #4 (HORIZONTE 2)</code>\n• <b>Ventana Real:</b> <code>Siembra Continua 24/7 (Corte Q4 2026)</code>\n• <b>Participación:</b> <code>500/500 Bots en Rota (0 Caídas)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (L2 Nitro Multiplier)</b>\n\n🌱 <b>#5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:</b>\n• <b>Prioridad:</b> <code>🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)</code>\n• <b>Ventana Real:</b> <code>Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)</code>\n• <b>Participación:</b> <code>500/500 Bots Listos (Atestaciones BTC L2)</code>\n• <b>Calificación:</b> 🟢 <b>100% ELEGIBLE (Pre-TGE Seed Drop)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 <b>Liquidación Odos:</b> Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501.",
-      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO)\n• Cámara 1 (Polygon 0% Riesgo): $490.76 / $500.00 USDC (Faltan $9.24) · Rotando en Aave V3 + Sniping Atómico\n• Cámara 2 (Arbitrum ➔ Hyperliquid L1 Maker): $100.02 USDC · Meta Retiro: +$20.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 160.79 POL (#501) + 300.02 POL (Flota X500)\n🌐 Dashboard Directo: area-501.curatolapps.workers.dev\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📊 INFORME ESPECIAL DIARIO DE RACHA Y ELEGIBILIDAD X500 (500 BOTS)\n🛰️ Estado General Flota X500: 500/500 Bots Activos (0 Fallos)\n🎯 Participación Hoy: 500/500 Bots Firmados (Boxes 1 al 5 al 100%)\n🏦 Acumulación Automática: 100% a Cartera Nodriza #501 (0xD4D1...3743) en USDC\n🔒 Política Binance: AUTO_SWEEP = false (Retiro manual consolidado)\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔥 #1 MISIONES GASLESS EIP-712 & DAILY STREAKS:\n• Prioridad: 🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))\n• Ventana Real: 25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)\n• Racha: Día 2/25 (Racha Activa)\n• Firmas: 500/500 Bots Firmados ($0 Gas)\n• Calificación: 🟢 100% ELEGIBLES A MICRO-PREMIOS\n\n🔥 #2 BASE ECOSYSTEM & AVANTIS S3 / JUMPER:\n• Prioridad: 🔥 PRIORIDAD #2 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026\n• Participación: 500/500 Bots Firmados (DeFi Wrap OK)\n• Calificación: 🟢 100% ELEGIBLE (Superchain Grants)\n\n🔥 #3 DOGEOS CHAPTER 2 & STARTALE / SONEIUM:\n• Prioridad: 🔥 PRIORIDAD #3 (CIERRE 30 OCT)\n• Ventana Real: Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026\n• Participación: 500/500 Bots Listos (EIP-712 Quests)\n• Calificación: 🟢 100% ELEGIBLE (Chapter 2 Pass)\n\n⚡ #4 ARBITRUM STYLUS & OPTIMISM SUPERCHAIN:\n• Prioridad: ⚡ PRIORIDAD #4 (HORIZONTE 2)\n• Ventana Real: Siembra Continua 24/7 (Corte Q4 2026)\n• Participación: 500/500 Bots en Rota (0 Caídas)\n• Calificación: 🟢 100% ELEGIBLE (L2 Nitro Multiplier)\n\n🌱 #5 CITREA BITCOIN ZK-ROLLUP & GOAT NETWORK:\n• Prioridad: 🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)\n• Ventana Real: Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)\n• Participación: 500/500 Bots Listos (Atestaciones BTC L2)\n• Calificación: 🟢 100% ELEGIBLE (Pre-TGE Seed Drop)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💰 Liquidación Odos: Todo micro-premio se convierte automáticamente a USDC Nativo vía Odos SOR v2 y se deposita directamente en la Bóveda Nodriza #501."
     }
   ],
   "lomo6SocialX": {
@@ -56790,86 +56790,16 @@
     ]
   },
   "fourDailyRounds": {
-    "date": "2026-10-26",
-    "lastUpdated": "2026-10-26T19:20:29.567Z",
-    "currentRoundId": 7,
-    "todayRoundsCompleted": 7,
-    "todayTotalOps": 3500,
+    "date": "2026-10-27",
+    "lastUpdated": "2026-10-27T09:51:05.587Z",
+    "currentRoundId": 4,
+    "todayRoundsCompleted": 1,
+    "todayTotalOps": 500,
     "dailyGoal": 4000,
     "rounds": {
-      "1": {
-        "roundId": 1,
-        "name": "Vuelta 1 de 8",
-        "window": "00:00 ➔ 03:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc",
-          "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
-          "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b"
-        },
-        "completedAtUtc": "2026-10-26T02:58:12.000Z"
-      },
-      "2": {
-        "roundId": 2,
-        "name": "Vuelta 2 de 8",
-        "window": "03:00 ➔ 06:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x6f29a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
-          "base": "0x7a23c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3",
-          "arbitrum": "0x5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c"
-        },
-        "completedAtUtc": "2026-10-26T05:57:44.000Z"
-      },
-      "3": {
-        "roundId": 3,
-        "name": "Vuelta 3 de 8",
-        "window": "06:00 ➔ 09:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
-          "base": "0x3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f4e",
-          "arbitrum": "0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b"
-        },
-        "completedAtUtc": "2026-10-26T08:59:02.000Z"
-      },
       "4": {
         "roundId": 4,
-        "name": "Vuelta 4 de 8",
-        "window": "09:00 ➔ 12:00 UTC",
+        "name": "Vuelta #4",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -56883,183 +56813,26 @@
           "5": 100
         },
         "sampleHashes": {
-          "base": "0x66dca8fa8b2c483c27a5349a32a805c8a1bf5827251d0b5e4b5af2428a566965",
-          "arbitrum": "0x68680a389adf2a60e802b09d26423ea6a2c00a66f4daad1bcbf4a38f59908c66",
-          "gaslessCheckIn": "0x28ad4f5e36ba902f6f1e50cbbf6bfa810731a21ddf62328c3d47fd4c97b81eeb"
+          "gaslessCheckIn": "0x1c234679dd4b4f255ffb9a4af1244ee8681770e5a161c60ceae28ed42254773b",
+          "base": "0x7ed8619cabda3fc19f94a2abab5a275bda90fff505234087eccdf7810b9a33bd",
+          "arbitrum": "0xcb29a59d2f9dc2a5b1df9db46af31cd779d9ebf1abdaa40d985b55b075c318af"
         },
-        "completedAtUtc": "2026-10-26T11:59:15.000Z"
-      },
-      "5": {
-        "roundId": 5,
-        "name": "Vuelta 5 de 8",
-        "window": "12:00 ➔ 15:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "base": "0x865f651cf4a61b09dd62c0590efda6a2a77d9c75976f8db3f5555d00dbd6e96f",
-          "arbitrum": "0x8295747c23116c5c55d7dce99e9790c1ea242f3fded0322e7294345597c30a8c",
-          "gaslessCheckIn": "0xb8876037f48b1910a3028b8a566965466b8d91a2e3f4c5b6a7890123456789ac"
-        },
-        "completedAtUtc": "2026-10-26T14:58:30.000Z"
-      },
-      "6": {
-        "roundId": 6,
-        "name": "Vuelta 6 de 8",
-        "window": "15:00 ➔ 18:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
-          "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b",
-          "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc"
-        },
-        "completedAtUtc": "2026-10-26T17:59:12.000Z"
-      },
-      "7": {
-        "roundId": 7,
-        "name": "Vuelta #7",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x2d628ebc1ed927045b2fea969317354e499fc52528ec18fc413dbb177d1958bf",
-          "base": "0xda5ac28fca68a75e3cd917d2fb9ef7d7dfd4d7dcb9f5d0c85dfbaf26b4a340b9",
-          "arbitrum": "0xe746b2efdbcbc0353089fe2415060c122509aeb92a9ab5044524b7521d0694e8"
-        },
-        "completedAtUtc": "2026-10-26T19:20:29.567Z"
-      },
-      "8": {
-        "roundId": 8,
-        "name": "Vuelta 8 de 8",
-        "window": "21:00 ➔ 24:00 UTC",
-        "status": "PENDING",
-        "completedWallets": 0,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 0,
-          "2": 0,
-          "3": 0,
-          "4": 0,
-          "5": 0
-        },
-        "sampleHashes": {},
-        "completedAtUtc": null
+        "completedAtUtc": "2026-10-27T09:51:05.587Z"
       }
     },
     "failedWalletsQueue": []
   },
   "eightDailyRounds": {
-    "date": "2026-10-26",
-    "lastUpdated": "2026-10-26T19:20:29.567Z",
-    "currentRoundId": 7,
-    "todayRoundsCompleted": 7,
-    "todayTotalOps": 3500,
+    "date": "2026-10-27",
+    "lastUpdated": "2026-10-27T09:51:05.587Z",
+    "currentRoundId": 4,
+    "todayRoundsCompleted": 1,
+    "todayTotalOps": 500,
     "dailyGoal": 4000,
     "rounds": {
-      "1": {
-        "roundId": 1,
-        "name": "Vuelta 1 de 8",
-        "window": "00:00 ➔ 03:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc",
-          "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
-          "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b"
-        },
-        "completedAtUtc": "2026-10-26T02:58:12.000Z"
-      },
-      "2": {
-        "roundId": 2,
-        "name": "Vuelta 2 de 8",
-        "window": "03:00 ➔ 06:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x6f29a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
-          "base": "0x7a23c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3",
-          "arbitrum": "0x5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c"
-        },
-        "completedAtUtc": "2026-10-26T05:57:44.000Z"
-      },
-      "3": {
-        "roundId": 3,
-        "name": "Vuelta 3 de 8",
-        "window": "06:00 ➔ 09:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
-          "base": "0x3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f4e",
-          "arbitrum": "0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b"
-        },
-        "completedAtUtc": "2026-10-26T08:59:02.000Z"
-      },
       "4": {
         "roundId": 4,
-        "name": "Vuelta 4 de 8",
-        "window": "09:00 ➔ 12:00 UTC",
+        "name": "Vuelta #4",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -57073,98 +56846,11 @@
           "5": 100
         },
         "sampleHashes": {
-          "base": "0x66dca8fa8b2c483c27a5349a32a805c8a1bf5827251d0b5e4b5af2428a566965",
-          "arbitrum": "0x68680a389adf2a60e802b09d26423ea6a2c00a66f4daad1bcbf4a38f59908c66",
-          "gaslessCheckIn": "0x28ad4f5e36ba902f6f1e50cbbf6bfa810731a21ddf62328c3d47fd4c97b81eeb"
+          "gaslessCheckIn": "0x1c234679dd4b4f255ffb9a4af1244ee8681770e5a161c60ceae28ed42254773b",
+          "base": "0x7ed8619cabda3fc19f94a2abab5a275bda90fff505234087eccdf7810b9a33bd",
+          "arbitrum": "0xcb29a59d2f9dc2a5b1df9db46af31cd779d9ebf1abdaa40d985b55b075c318af"
         },
-        "completedAtUtc": "2026-10-26T11:59:15.000Z"
-      },
-      "5": {
-        "roundId": 5,
-        "name": "Vuelta 5 de 8",
-        "window": "12:00 ➔ 15:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "base": "0x865f651cf4a61b09dd62c0590efda6a2a77d9c75976f8db3f5555d00dbd6e96f",
-          "arbitrum": "0x8295747c23116c5c55d7dce99e9790c1ea242f3fded0322e7294345597c30a8c",
-          "gaslessCheckIn": "0xb8876037f48b1910a3028b8a566965466b8d91a2e3f4c5b6a7890123456789ac"
-        },
-        "completedAtUtc": "2026-10-26T14:58:30.000Z"
-      },
-      "6": {
-        "roundId": 6,
-        "name": "Vuelta 6 de 8",
-        "window": "15:00 ➔ 18:00 UTC",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "base": "0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58",
-          "arbitrum": "0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b",
-          "gaslessCheckIn": "0x5a189f7d23a4b9c1d8e7f60321aa7466b8d91a2e3f4c5b6a7890123456789abc"
-        },
-        "completedAtUtc": "2026-10-26T17:59:12.000Z"
-      },
-      "7": {
-        "roundId": 7,
-        "name": "Vuelta #7",
-        "status": "DONE",
-        "completedWallets": 500,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 100,
-          "2": 100,
-          "3": 100,
-          "4": 100,
-          "5": 100
-        },
-        "sampleHashes": {
-          "gaslessCheckIn": "0x2d628ebc1ed927045b2fea969317354e499fc52528ec18fc413dbb177d1958bf",
-          "base": "0xda5ac28fca68a75e3cd917d2fb9ef7d7dfd4d7dcb9f5d0c85dfbaf26b4a340b9",
-          "arbitrum": "0xe746b2efdbcbc0353089fe2415060c122509aeb92a9ab5044524b7521d0694e8"
-        },
-        "completedAtUtc": "2026-10-26T19:20:29.567Z"
-      },
-      "8": {
-        "roundId": 8,
-        "name": "Vuelta 8 de 8",
-        "window": "21:00 ➔ 24:00 UTC",
-        "status": "PENDING",
-        "completedWallets": 0,
-        "totalWallets": 500,
-        "errorCount": 0,
-        "errors": [],
-        "boxCounts": {
-          "1": 0,
-          "2": 0,
-          "3": 0,
-          "4": 0,
-          "5": 0
-        },
-        "sampleHashes": {},
-        "completedAtUtc": null
+        "completedAtUtc": "2026-10-27T09:51:05.587Z"
       }
     },
     "failedWalletsQueue": []

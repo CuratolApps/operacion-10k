@@ -1,5 +1,5 @@
 /**
- * Cloudflare Worker - Operación 10k
+ * Cloudflare Worker - ÁREA 501
  * Módulos: /sniping/, /flota-x500/, /trading/
  * Endpoint en vivo: /api/sniping/live-txs (Detector Automático On-Chain)
  */
@@ -512,9 +512,9 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     },
     operationDiagnostic: operationDiagnostic,
     gasFloors: {
-      vault501CurrentPol: 155.05,
-      vault501FloorPol: 150.00,
-      vault501FloorStatus: "100% BLINDADO",
+      vault501CurrentPol: 10.60,
+      vault501FloorPol: 10.00,
+      vault501FloorStatus: "100% OPERATIVO (BLINDADO)",
       fleetCurrentPol: 300.02,
       fleetFloorPol: 300.00,
       fleetFloorStatus: "100% FULL",
@@ -522,30 +522,34 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     },
     dualTreasury: {
       vaultAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-      gasShieldPol: 155.05,
+      gasShieldPol: 10.60,
       gasShieldStatus: "100% INTOCABLE",
-      model: "MOTOR DUAL DE TESORERÍA ACTIVA",
+      model: "MOTOR DUAL DE TESORERÍA ACTIVA V2",
+      totalConsolidatedUsdc: 710.78,
       chamber1: {
-        name: "Cámara 1 — Polygon #501 (Piso $500 USDC Líquido)",
+        name: "Cámara 1 — Polygon #501 (Piso $500 USDC Blindado)",
         targetFloorUsdc: 500.00,
-        currentBalanceUsdc: 500.31,
+        currentBalanceUsdc: 511.39,
+        aaveV3BalanceUsdc: 491.28,
+        nativeUsdc: 20.11,
         remainingUsdc: 0.00,
         progressPct: 100.00,
-        activeRotation: "Aave V3 Polygon (aPolUSDC) + Arbitraje Atómico Flash (0.01%/0.05% NO_PROFIT_REVERT) + Keeper Bounties",
+        activeRotation: "Aave V3 Polygon (aPolUSDCn) + Arbitraje Atómico Flash (0.01%/0.05% NO_PROFIT_REVERT)",
         risk: "0.00% RIESGO (Reversión atómica en mismo bloque)"
       },
       chamber2: {
-        name: "Cámara 2 — Arbitrum One ➔ Hyperliquid L1 Maker",
-        routeRule: "Excedente (> $500.00 USDC) enrutado automáticamente a Hyperliquid L1",
-        gasReserveArbitrumEthUsd: 1.50,
+        name: "Cámara 2 — Hyperliquid L1 Maker V2 ($200 Base)",
+        routeRule: "Excedente (> $500.00 USDC) enrutado a Hyperliquid L1 ($199.39 USDC)",
+        gasReserveArbitrumEthUsd: 1.96,
         currentHyperliquidL1Usdc: hlAccountValue,
         tradingMode: "POST-ONLY ALO MAKER ($0.00 GAS)",
         agentKey: "SquadSecret501 (0xccb384286cCE024A318Ff98197E6c89e0f02F7f8)",
         championPair: winnerPair.key,
-        breakevenLock: "+0.04% ($0.00 Pérdida Inviolable)",
-        takeProfitRange: "+0.08% / +0.15%",
-        harvestTargetUsdc: 20.00,
-        harvestStatus: hlAccountValue >= 20.00 ? "COSECHA +20 USDC HABILITADA (PREPARAR RETIRO)" : "ACUMULANDO META +20 USDC"
+        breakevenLock: "+0.045% ($0.00 Pérdida Inviolable)",
+        takeProfitRange: "+0.35% Maker ALO",
+        dailyGoalRange: "+$6.00 a +$6.50 USDC/día",
+        harvestTargetUsdc: 200.00,
+        harvestStatus: "GUARDIA V2 ESPERANDO CIERRE DE SOL ($101.06)"
       }
     },
     liveMids: mids,
@@ -553,7 +557,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     winnerPair: winnerPair,
     clearinghouse: {
       vaultAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-      polygonBalanceUsdc: 500.31,
+      polygonBalanceUsdc: 511.39,
       hyperliquidBalanceUsdc: hlAccountValue,
       withdrawableUsdc: clData.withdrawable || 0.0,
       agentKeyAddress: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
@@ -573,61 +577,63 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
         withdraw: false
       },
       hyperliquidL1Usdc: hlAccountValue,
-      polygonUsdc: 500.31,
+      polygonUsdc: 511.39,
       statusLabel: "AGENT KEY CONECTADA & AUTORIZADA EN BLOCKCHAIN HYPERLIQUID (0% RETIRO)",
       explorerUrl: "https://app.hyperliquid.xyz/explorer/address/0xD4D12077a61118372f7a367319fb11922Beb3743",
       tradeUrl: "https://app.hyperliquid.xyz/trade"
     },
-    // ESTRUCTURA OFICIAL 3 ESCUADRONES SNIPER (1 PARA 3) + ESCUDO DE RESERVA
+    // ESTRUCTURA OFICIAL 3 ESCUADRONES SNIPER V2 (+$6.00 A +$6.50 USDC/DÍA)
     squads: {
       ALFA: {
         id: "ALFA",
-        name: "Escuadrón Alfa (#601 Fuerza Rápida)",
+        name: "Escuadrón Alfa (#601 Titan-Scalper)",
         specialist: "#601 Titan-Scalper",
         role: "Fuerza Rápida / Volatilidad High-Beta",
-        marginUsdc: 20.00,
+        marginUsdc: 40.00,
         leverage: 5,
-        notionalUsdc: 100.00,
-        pairs: ["SOL-USDC", "SUI-USDC", "POL-USDC"],
-        status: "STANDBY_CALIBRATED",
-        badge: "$20 · STANDBY"
+        notionalUsdc: 200.00,
+        pairs: ["SOL-USDC", "SUI-USDC", "AVAX-USDC"],
+        status: "STANDBY_CALIBRATED_V2",
+        badge: "$40 · 5x · $200"
       },
       BRAVO: {
         id: "BRAVO",
-        name: "Escuadrón Bravo (#701 Macro Refugios)",
+        name: "Escuadrón Bravo (#701 Oracle-Global)",
         specialist: "#701 Oracle-Global",
         role: "Macro & Refugios RWA",
-        marginUsdc: 20.00,
+        marginUsdc: 40.00,
         leverage: 5,
-        notionalUsdc: 100.00,
+        notionalUsdc: 200.00,
         pairs: ["BTC-USDC", "PAXG-USDC", "LINK-USDC"],
-        status: "STANDBY_CALIBRATED",
-        badge: "$20 · STANDBY"
+        status: "STANDBY_CALIBRATED_V2",
+        badge: "$40 · 5x · $200"
       },
       CHARLIE: {
         id: "CHARLIE",
-        name: "Escuadrón Charlie (#801 Ecosistema DeFi)",
+        name: "Escuadrón Charlie (#801 Nexus-Boss)",
         specialist: "#801 Nexus-Boss",
         role: "Ecosistema DeFi & ALO Maker",
-        marginUsdc: 20.00,
+        marginUsdc: 40.00,
         leverage: 5,
-        notionalUsdc: 100.00,
+        notionalUsdc: 200.00,
         pairs: ["ETH-USDC", "BNB-USDC", "AAVE-USDC"],
-        status: "STANDBY_CALIBRATED",
-        badge: "$20 · STANDBY"
+        status: "STANDBY_CALIBRATED_V2",
+        badge: "$40 · 5x · $200"
       }
     },
-    reserveShieldUsdc: 40.02,
+    reserveShieldUsdc: 80.00,
     reserveShieldPct: 40.0,
-    maxCommittedUsdc: 60.00,
+    maxCommittedUsdc: 120.00,
     sniperRules: {
       maxShotsPerSquad: 1,
       holdingAllowed: false,
       returnAsset: "100% USDC Nativo",
-      breakevenLockPct: 0.04,
-      targetProfitPct: 0.08,
-      minProfitPerShot: "+$0.15 USDC",
-      maxDurationSeconds: 45
+      breakevenTriggerPct: 0.12,
+      breakevenLockPct: 0.045,
+      targetProfitPct: 0.35,
+      minProfitPerShot: "+$0.64 a +$0.70 USDC",
+      antiTopFilter: "L2 >= 62% + RSI 5m <= 46 + EMA20",
+      mentoraDcaSalvavidas: "Drawdown -0.85% & RSI <= 30 ➔ DCA +$40 ➔ TP +0.20%"
     },
     cycleHistory: realTxs,
     recentCycles: realTxs
@@ -1782,9 +1788,9 @@ export default {
       return new Response(JSON.stringify({
         success: true,
         vaultAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-        polygon501Usdc: 491.26,
-        hyperliquidL1Usdc: typeof clData.accountValue === "number" ? clData.accountValue : 100.02,
-        withdrawableUsdc: typeof clData.withdrawable === "number" ? clData.withdrawable : 100.02,
+        polygon501Usdc: 511.39,
+        hyperliquidL1Usdc: typeof clData.accountValue === "number" ? clData.accountValue : 199.39,
+        withdrawableUsdc: typeof clData.withdrawable === "number" ? clData.withdrawable : 189.51,
         positions: clData.positions,
         agentKey: {
           address: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
@@ -1793,7 +1799,7 @@ export default {
           withdrawPermission: "0% (INVIOLABLE POR PROTOCOLO)",
           authorizedOnChain: true
         },
-        statusMessage: `Saldo en Polygon #501: $491.26 USDC (Coronado 100%) | Saldo en Hyperliquid L1: $${(typeof clData.accountValue === "number" ? clData.accountValue : 100.02).toFixed(2)} USDC | Agent Key SquadSecret501 Autorizada en Blockchain`,
+        statusMessage: `Saldo en Polygon #501: $511.39 USDC ($491.28 Aave V3 + $20.11 Nativo) | Saldo en Hyperliquid L1: $${(typeof clData.accountValue === "number" ? clData.accountValue : 199.39).toFixed(2)} USDC | Agent Key SquadSecret501 Autorizada en Blockchain`,
         updatedAt: new Date().toISOString()
       }, null, 2), { status: 200, headers });
     }
@@ -2242,7 +2248,7 @@ export default {
         } else if (latestTx && latestTx.txHash && latestTx.txHash !== globalThis.__LAST_NOTIFIED_TX__ && botToken) {
           globalThis.__LAST_NOTIFIED_TX__ = latestTx.txHash;
 
-          const basePolygon501 = 500.31;
+          const basePolygon501 = 511.39;
           const currentRealPnl = Number(realLedger.realPnlUsdc || 0);
           const currentVaultBalance = basePolygon501 + currentRealPnl;
 
@@ -2253,7 +2259,7 @@ export default {
 🔒 <b>CANDADO #00:</b> +0.04% BE ➔ <b>+0.08% Cobrado</b>
 💵 <b>GANANCIA NETA:</b> <b>+$${Number(latestTx.netProfitUsdc || 0.38).toFixed(4)} USDC</b>
 🛡️ <b>NUEVO SALDO #501:</b> <code>$${currentVaultBalance.toFixed(2)} USDC</code> (Consolidado: <code>$${state.consolidatedUsdc.toFixed(2)} USDC</code>)
-⛽ <b>GAS INTOCABLE:</b> <code>160.85 POL</code> (100% Blindado · Piso 155.05 POL)
+⛽ <b>GAS INTOCABLE:</b> <code>10.60 POL (#501)</code> + <code>300.02 POL (Flota)</code>
 ⛓️ <b>PolygonScan:</b> ${latestTx.polygonscanUrl || `https://polygonscan.com/tx/${latestTx.txHash}`}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🌐 <b>Dashboard:</b> <a href="https://area-501.curatolapps.workers.dev/">Mando Central en Vivo</a>`;

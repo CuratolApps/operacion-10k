@@ -352,7 +352,7 @@ async function runBridgeFleet() {
       const progressPercent = ((cumulativeCovered / totalFleet) * 100).toFixed(1);
 
       await sendTelegramAlert(
-        `🌉 <b>OPERACIÓN 10K - AUTO-BRIDGE L1->L2 (${bIdx + 1}/${batches.length})</b>\n\n` +
+        `🌉 <b>ÁREA 501 - AUTO-BRIDGE L1->L2 (${bIdx + 1}/${batches.length})</b>\n\n` +
         `📦 <b>Lote:</b> #${startIdx} al #${endIdx} [Bloque B${blockId}]\n` +
         (includeBase ? `🔵 <b>Base Sepolia:</b> ${batchBaseSuccess} puenteados\n` : "") +
         (includeArb ? `🟠 <b>Arbitrum Sepolia:</b> ${batchArbSuccess} puenteados\n` : "") +

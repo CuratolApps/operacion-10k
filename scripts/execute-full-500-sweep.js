@@ -37,7 +37,7 @@ function getMnemonic() {
 
 async function executeFull500Sweep(options = {}) {
   console.log("=========================================================================================");
-  console.log("🪖🕒 MOTOR DE 8 VUELTAS DIARIAS // BARRIDO COMPLETO DE 500 CARTERAS (OPERACIÓN 10K)");
+  console.log("🪖🕒 MOTOR DE 8 VUELTAS DIARIAS // BARRIDO COMPLETO DE 500 CARTERAS (ÁREA 501)");
   console.log("=========================================================================================");
 
   const now = new Date();
@@ -162,45 +162,57 @@ async function executeFull500Sweep(options = {}) {
 
   try {
     console.log("\n🔗 Obteniendo muestras verificadas de hashes on-chain para el parte...");
+    const timeoutPromise = (ms) => new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout RPC")), ms));
+
     const baseNet = networks.baseSepolia;
     const arbNet = networks.arbitrumSepolia;
 
     if (baseNet && baseNet.rpc) {
-      const baseProvider = createResilientProvider(baseNet);
-      const capSigner = baseNode.deriveChild(1).connect(baseProvider);
-      const capBal = await baseProvider.getBalance(capSigner.address).catch(() => 0n);
+      await Promise.race([
+        (async () => {
+          const baseProvider = createResilientProvider(baseNet);
+          const capSigner = baseNode.deriveChild(1).connect(baseProvider);
+          const capBal = await baseProvider.getBalance(capSigner.address).catch(() => 0n);
 
-      if (capBal > ethers.parseEther("0.0001")) {
-        const feeData = await baseProvider.getFeeData().catch(() => null);
-        const gasPrice = (feeData && feeData.gasPrice) ? (feeData.gasPrice * 120n / 100n) : ethers.parseUnits("1.5", "gwei");
-        const tx = await capSigner.sendTransaction({
-          to: capSigner.address,
-          value: 0n,
-          gasLimit: 30000n,
-          gasPrice
-        });
-        sampleHashes.base = tx.hash;
-        console.log(`   🔵 Base Sepolia Tx Hash: ${tx.hash}`);
-      }
+          if (capBal > ethers.parseEther("0.0001")) {
+            const feeData = await baseProvider.getFeeData().catch(() => null);
+            const gasPrice = (feeData && feeData.gasPrice) ? (feeData.gasPrice * 120n / 100n) : ethers.parseUnits("1.5", "gwei");
+            const tx = await capSigner.sendTransaction({
+              to: capSigner.address,
+              value: 0n,
+              gasLimit: 30000n,
+              gasPrice
+            });
+            sampleHashes.base = tx.hash;
+            console.log(`   🔵 Base Sepolia Tx Hash: ${tx.hash}`);
+          }
+        })(),
+        timeoutPromise(4000)
+      ]).catch(e => console.log(`   ℹ️ Base Sepolia sampling: ${e.message}`));
     }
 
     if (arbNet && arbNet.rpc) {
-      const arbProvider = createResilientProvider(arbNet);
-      const capSigner2 = baseNode.deriveChild(2).connect(arbProvider);
-      const capBal2 = await arbProvider.getBalance(capSigner2.address).catch(() => 0n);
+      await Promise.race([
+        (async () => {
+          const arbProvider = createResilientProvider(arbNet);
+          const capSigner2 = baseNode.deriveChild(2).connect(arbProvider);
+          const capBal2 = await arbProvider.getBalance(capSigner2.address).catch(() => 0n);
 
-      if (capBal2 > ethers.parseEther("0.0001")) {
-        const feeData2 = await arbProvider.getFeeData().catch(() => null);
-        const gasPrice2 = (feeData2 && feeData2.gasPrice) ? (feeData2.gasPrice * 120n / 100n) : ethers.parseUnits("0.1", "gwei");
-        const tx2 = await capSigner2.sendTransaction({
-          to: capSigner2.address,
-          value: 0n,
-          gasLimit: 40000n,
-          gasPrice: gasPrice2
-        });
-        sampleHashes.arbitrum = tx2.hash;
-        console.log(`   🔷 Arbitrum Sepolia Tx Hash: ${tx2.hash}`);
-      }
+          if (capBal2 > ethers.parseEther("0.0001")) {
+            const feeData2 = await arbProvider.getFeeData().catch(() => null);
+            const gasPrice2 = (feeData2 && feeData2.gasPrice) ? (feeData2.gasPrice * 120n / 100n) : ethers.parseUnits("0.1", "gwei");
+            const tx2 = await capSigner2.sendTransaction({
+              to: capSigner2.address,
+              value: 0n,
+              gasLimit: 40000n,
+              gasPrice: gasPrice2
+            });
+            sampleHashes.arbitrum = tx2.hash;
+            console.log(`   🔷 Arbitrum Sepolia Tx Hash: ${tx2.hash}`);
+          }
+        })(),
+        timeoutPromise(4000)
+      ]).catch(e => console.log(`   ℹ️ Arbitrum Sepolia sampling: ${e.message}`));
     }
   } catch (onChainErr) {
     console.log(`   ℹ️ Muestreo on-chain completado con hashes de sesión: ${onChainErr.message}`);
@@ -260,7 +272,7 @@ async function executeFull500Sweep(options = {}) {
   saveRoundAuditResult(auditResult);
 
   // 7. Enviar Reporte a Telegram
-  console.log("\n📱 Disparando Informe Oficial de Vuelta Terminada a Telegram (SALA DE MANDO 10K)...");
+  console.log("\n📱 Disparando Informe Oficial de Vuelta Terminada a Telegram (ÁREA 501)...");
   const tgSent = await notifyRoundCompletedReport(auditResult);
   console.log(`📱 Notificación Telegram enviada: ${tgSent ? "ÉXITO ✅" : "REGISTRADO EN TELEMETRÍA"}`);
 

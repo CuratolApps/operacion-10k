@@ -254,7 +254,7 @@ async function runDistributeGas() {
       const progressPercent = ((cumulativeFunded / totalFleetSatellites) * 100).toFixed(1);
 
       await sendTelegramAlert(
-        `⛽ <b>OPERACIÓN 10K - DISTRIBUCIÓN DE GAS INTRA-BLOQUE (${bIdx + 1}/${batches.length})</b>\n\n` +
+        `⛽ <b>ÁREA 501 - DISTRIBUCIÓN DE GAS INTRA-BLOQUE (${bIdx + 1}/${batches.length})</b>\n\n` +
         `🌐 <b>Red:</b> ${netConfig.name}\n` +
         `📦 <b>Bloque Aislado:</b> B${currentBlockId} (Rango #${batchStartIdx}-#${batchEndIdx})\n` +
         `🤖 <b>Satélites Fondeados:</b> ${batchSuccessCount}\n` +

@@ -277,7 +277,7 @@ async function runRadarHunter() {
     : `🟢 <b>STANDBY ÓPTIMO:</b> Flota 100% abastecida (> ${BASE_RECHARGE_THRESHOLD_ETH} ETH)`;
 
   const radarTelegramMessage = `
-📡 <b>OPERACIÓN 10K — RADAR DE SALUD DE FLOTA Y GAS</b>
+📡 <b>ÁREA 501 — RADAR DE SALUD DE FLOTA Y GAS</b>
 
 ⛽ <b>Salud de Gas & Autonomía (Carrusel 24x/día):</b>
    • <b>Ethereum Sepolia:</b> ${totalSepoliaEth.toFixed(3)} ETH total (~${daysAutonomySepolia} días)
@@ -303,8 +303,9 @@ async function runRadarHunter() {
 `.trim();
 
   try {
-    await sendTelegramAlert(radarTelegramMessage, CHAT_ID);
-    console.log("📱 [RADAR] Reporte de salud de flota enviado exitosamente. ✅ Telegram API Response: ok=true");
+    // Silenciado para cumplir la regla estricta de ÁREA 501: Exactamente 8 Reportes Oficiales al día
+    // await sendTelegramAlert(radarTelegramMessage, CHAT_ID);
+    console.log("ℹ️ [RADAR] Reporte de salud de flota asentado en telemetría local (Alerta Telegram delegada al Reporte Oficial de Vuelta).");
   } catch (err) {
     console.log(`⚠️ [RADAR] Error al enviar alerta: ${err.message}`);
   }

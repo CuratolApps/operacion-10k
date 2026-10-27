@@ -2,7 +2,7 @@
  * ÁREA 501 // FLOTA X500 (SATÉLITES #001 AL #500)
  * flota-x500/app.js - Panel Windows Dev Workbench 100vh Cero Scroll
  * Regla Sagrada: CERO HUMO · 100% DATOS REALES ON-CHAIN
- * Conexión en vivo: CF Workers, Crons GHA 30m, RPCs (Polygon, Base, BSC, Arbitrum, Citrea) y Telegram 10K.
+ * Conexión en vivo: CF Workers, Crons GHA 3h (8 Vueltas/Día), RPCs (Polygon, Base, BSC, Arbitrum, Citrea) y Telegram ÁREA 501.
  */
 
 // =============================================================================
@@ -570,7 +570,7 @@ async function triggerRoundReport() {
   const toast = document.getElementById("copyToast");
   try {
     if (toast) {
-      toast.textContent = "⏳ DISPARANDO INFORME OFICIAL DE VUELTA A TELEGRAM (SALA DE MANDO 10K)...";
+      toast.textContent = "⏳ DISPARANDO INFORME OFICIAL DE VUELTA A TELEGRAM (ÁREA 501)...";
       toast.classList.add("show");
     }
     const res = await fetch("/api/flota-x500/round-report", { method: "POST" });
@@ -1300,7 +1300,7 @@ function showNotificationToast(msg) {
 window.showNotificationToast = showNotificationToast;
 
 async function triggerTelegramReport() {
-  showNotificationToast("🛰️ Enviando Parte de Manada a Telegram (10K)...");
+  showNotificationToast("🛰️ Enviando Parte de Manada a Telegram (ÁREA 501)...");
   try {
     const res = await fetch("/api/flota-x500/report", {
       method: "POST",
@@ -1309,7 +1309,7 @@ async function triggerTelegramReport() {
     if (res.ok) {
       const data = await res.json();
       if (data.ok) {
-        showNotificationToast("🚀 ¡Parte de Manada enviado a Telegram 10K!");
+        showNotificationToast("🚀 ¡Parte de Manada enviado a Telegram (ÁREA 501)!");
       } else {
         showNotificationToast("⚠️ " + (data.error || "Error al enviar reporte"));
       }

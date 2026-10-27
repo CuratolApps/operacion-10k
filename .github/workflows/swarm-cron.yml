@@ -2,8 +2,8 @@ name: "ÁREA 501 - Swarm Engine Automation"
 
 on:
   schedule:
-    # Despierta automáticamente CADA 30 MINUTOS en el minuto 17 y 47 (48 veces al día)
-    - cron: '17,47 * * * *'
+    # 8 Vueltas Diarias Exactas: 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00 y 21:00 UTC
+    - cron: '0 0,3,6,9,12,15,18,21 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -89,11 +89,8 @@ jobs:
           run_safe node dynamic-box-dispatcher.js
           run_safe node bounty-booty-commander.js
 
-          if [ -n "$DRY" ]; then
-            run_safe node task-runner.js --force-dry-run
-          else
-            run_safe node task-runner.js
-          fi
+          # 🪖 BARRIDO COMPLETO DE 500 CARTERAS + REPORTE OFICIAL DE VUELTA (1 A 8)
+          run_safe node scripts/execute-full-500-sweep.js
 
           run_safe node bot-miner-swarm.js $DRY
           run_safe node bounty-and-quota-engine.js $DRY
@@ -111,8 +108,8 @@ jobs:
       - name: "💾 Sincronizar Telemetría al Dashboard"
         if: always()
         run: |
-          git config user.name "Operacion10K-Bot"
-          git config user.email "bot@curatools.io"
+          git config user.name "ÁREA 501 Sentinel"
+          git config user.email "sentinel@area501.local"
           git add telemetry/ last-run-report.json balances-report.json radar-report.json || true
           if ! git diff --staged --quiet; then
             git commit -m "chore(telemetry): live sync [skip ci]" || true

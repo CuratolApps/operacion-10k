@@ -691,8 +691,9 @@ ${nebulaBlock}
 ⏰ <i>${new Date().toLocaleString("es-ES", { timeZone: "UTC" })} UTC</i>
 `.trim();
 
-  await sendTelegramAlert(alertText);
-  console.log("📱 Reporte de Minería enviado a Telegram.");
+  // Silenciado para cumplir la regla estricta de ÁREA 501: Exactamente 8 Reportes Oficiales al día
+  // await sendTelegramAlert(alertText);
+  console.log("ℹ️ [Minería X500 registrada en telemetría local — Alerta Telegram delegada al Reporte Oficial de Vuelta]");
 
   return {
     success: true,

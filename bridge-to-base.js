@@ -242,7 +242,7 @@ async function runAutoBridge() {
   console.log("📱 Enviando reporte a Telegram...");
   const modeBadge = isDryRun ? "🧪 <b>[DRY-RUN SIMULACIÓN]</b>" : "⚡ <b>[PRODUCCIÓN EN VIVO]</b>";
   const telegramMessage = `
-🌉 <b>OPERACIÓN 10K - BRIDGE A BASE SEPOLIA</b>
+🌉 <b>ÁREA 501 - BRIDGE A BASE SEPOLIA</b>
 ${modeBadge}
 
 🎯 <b>Contrato:</b> <code>${BASE_SEPOLIA_L1_BRIDGE}</code>

@@ -191,7 +191,7 @@ async function runAutoBridgeArbitrum() {
 
   if (!isDryRun && successCount > 0) {
     await sendTelegramAlert(
-      `🌉 <b>OPERACIÓN 10K - AUTO-BRIDGE ARBITRUM SEPOLIA COMPLETADO</b>\n\n` +
+      `🌉 <b>ÁREA 501 - AUTO-BRIDGE ARBITRUM SEPOLIA COMPLETADO</b>\n\n` +
       `⚡ <b>Contrato:</b> Arbitrum Delayed Inbox\n` +
       `🤖 <b>Satélites Fondeados:</b> ${successCount}/${satellites.length}\n` +
       `💰 <b>Total Cruzado:</b> ${totalBridged.toFixed(4)} ETH\n` +

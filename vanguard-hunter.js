@@ -785,16 +785,10 @@ async function main() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🌐 <b>Dashboard:</b> <a href="https://area-501.curatolapps.workers.dev/">Mando Central en Vivo</a>`.trim();
 
-  console.log(`📤 Enviando reporte táctico de oportunidades a Telegram...`);
+  console.log(`ℹ️ [VANGUARD] Reporte táctico guardado en telemetría local (silenciado para Telegram por política ÁREA 501).`);
   recordLocalAlert(tacticalMsg);
-  try {
-    if (chatId) {
-      const sentReport = await sendTelegramMessage(token, chatId, tacticalMsg);
-      if (sentReport) console.log("   ✅ Reporte táctico de oportunidades recibido en Telegram.");
-    }
-  } finally {
-    console.log("\n🎯 10K Vanguard Hunter completó la ronda táctica con éxito.\n");
-  }
+  // SILENCIADO POR REGLA ESTRICTA ÁREA 501: Todo reporte pertenece a los 8 oficiales o a Squad Secret.
+  console.log("\n🎯 Vanguard Hunter completó la ronda táctica con éxito.\n");
 }
 
 if (require.main === module) {
