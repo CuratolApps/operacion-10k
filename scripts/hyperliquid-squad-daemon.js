@@ -197,6 +197,9 @@ async function startAutonomousSquadDaemon() {
 
   // Bucle autónomo continuo
   let cycleCounter = 0;
+  let milestone5Notified = false;
+  let milestone10Notified = false;
+
   while (true) {
     cycleCounter++;
     try {
@@ -207,6 +210,34 @@ async function startAutonomousSquadDaemon() {
       const openOrders = await info.openOrders({ user: VAULT_501 });
 
       const availableForTrading = Math.max(0, accountValue - UNTOUCHABLE_RESERVE_USDC);
+
+      // Verificación de Hito 1: Ciclo de +$5 consolidado dentro de la cartera ($105 USDC)
+      if (accountValue >= 105.00 && !milestone5Notified) {
+        milestone5Notified = true;
+        const msg5 = `🔒 <b>ÁREA 501 // SQUAD SECRET // CICLO DE $5 CONSOLIDADO</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `💰 <b>Saldo en Cartera:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
+          `🛡️ <b>Ganancia Protegida:</b> <b>+$5.00 USDC sellados en la misma cartera</b>\n` +
+          `🏛️ <b>Base Sagrada:</b> <code>$100.00 USDC</code> (Intocable)\n` +
+          `🎯 <b>Próxima Meta:</b> <code>$110.00 USDC (Cosecha de $10 hacia Polygon #501)</code>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <i>Trinquete militar: la ganancia queda protegida y no se arriesga.</i>`;
+        await sendSquadTelegram(msg5);
+      }
+
+      // Verificación de Hito 2: Excedente de +$10 listo para cosechar a Polygon #501 ($110 USDC)
+      if (accountValue >= 110.00 && !milestone10Notified) {
+        milestone10Notified = true;
+        const msg10 = `🚨 <b>ÁREA 501 // COSECHA LISTA: +$10.00 USDC A BÓVEDA POLYGON</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `💰 <b>Saldo Total en Hyperliquid L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
+          `🏛️ <b>Base Operativa Hyperliquid:</b> <code>$100.00 USDC (Continúa operando)</code>\n` +
+          `💸 <b>Excedente a Retirar:</b> <b>$10.00 USDC a Bóveda Matriz #501 (Polygon)</b>\n` +
+          `📈 <b>Destino Polygon:</b> <code>Aave V3 Polygon (#501) rumbo a los $1,000 USDC</code>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <i>Comandante: el bloque de $10.00 USDC está listo para transferir.</i>`;
+        await sendSquadTelegram(msg10);
+      }
 
       if (cycleCounter % 10 === 1) {
         console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Ciclo #${cycleCounter} | Saldo: $${accountValue.toFixed(4)} USDC | Fuego Disp: $${availableForTrading.toFixed(2)} USDC | Posiciones: ${openPositions.length}`);
