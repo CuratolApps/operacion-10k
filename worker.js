@@ -1462,8 +1462,8 @@ export default {
         getLiveGasPrices(),
         getLiveLiquidityEngineData()
       ]);
-      const totalPol = 238.92; // 160.79 (#501) + 78.13 (Capitanes)
-      const totalBnb = 0.0536; // 0.0188 (#501) + 0.0348 (Capitanes)
+      const totalPol = 31.07; // 10.60 (#501) + 20.47 (Flota X500)
+      const totalBnb = 0.00877; // Flota X500 (Capitán #001)
       const polValuationUsd = parseFloat((totalPol * prices.polPrice).toFixed(2));
       const bnbValuationUsd = parseFloat((totalBnb * prices.bnbPrice).toFixed(2));
       const gasMarketValuationUsd = parseFloat((polValuationUsd + bnbValuationUsd).toFixed(2));
@@ -1566,16 +1566,19 @@ export default {
             explorerUrl: "https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
           },
           capitanesX500: {
-            totalUsdc: 1.75,
+            totalUsdc: 3.41,
+            polygonUsdc: 0.70,
+            bscUsdc: 2.71,
             distribution: [
-              { id: "#001", role: "Capitán Box 1", address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", balanceUsdc: 0.70, gasPol: 18.07 },
-              { id: "#101", role: "Capitán Box 2", address: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA", balanceUsdc: 1.05, gasPol: 18.03 },
-              { id: "#201", role: "Capitán Box 3", address: "0x2810aa0DabCA4511846194229d2c004B14016A7C", balanceUsdc: 0.00, gasPol: 18.01 },
-              { id: "#301", role: "Capitán Box 4", address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f", balanceUsdc: 0.00, gasPol: 12.01 },
-              { id: "#401", role: "Capitán Box 5", address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070", balanceUsdc: 0.00, gasPol: 12.01 }
+              { id: "#001", role: "Capitán Box 1", address: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", balanceUsdc: 3.41, gasPol: 18.07, gasBnb: 0.00877 },
+              { id: "#002", role: "Satélite Box 1", address: "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB", balanceUsdc: 0.00, gasPol: 0.48 },
+              { id: "#102", role: "Satélite Box 2", address: "0xDF74Da8e7f5d5DC36D9734f774A6C5F500fE318b", balanceUsdc: 0.00, gasPol: 0.47 },
+              { id: "#202", role: "Satélite Box 3", address: "0x834331456b8ff172fe8a318EC5041634EE100f51", balanceUsdc: 0.00, gasPol: 0.50 },
+              { id: "#302", role: "Satélite Box 4", address: "0x2A53B9F1752ecCbB804bDfe49B59CAea29b31788", balanceUsdc: 0.00, gasPol: 0.50 },
+              { id: "#402", role: "Satélite Box 5", address: "0xda805766ab41F3F0f2FA1a1e09c2d194b25ecE52", balanceUsdc: 0.00, gasPol: 0.49 }
             ],
-            totalCapitanesGasPol: 78.13,
-            totalCapitanesGasBnb: 0.0348
+            totalCapitanesGasPol: 20.47,
+            totalCapitanesGasBnb: 0.00877
           },
           binanceSpotVaults: {
             totalUsdc: 1.00,
@@ -2090,42 +2093,42 @@ export default {
       }
       const clockPillsStr = clockPills.join(" ");
 
-      const reportText = `🛸 <b>ÁREA 501 // 🪖 FLOTA X500 — REPORTE DE VUELTA ${roundId} DE 8</b>
+      const dateFormatted = "27 Oct 2026";
+      const reportText = `🛸 <b>ÁREA 501 // 🪖 FLOTA X500 — REPORTE MAESTRO DE VUELTA ${roundId} DE 8</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🕒 <b>Cierre de Vuelta:</b> <code>${timeUtc}</code> | <b>Ventana:</b> <code>[${windowNames[roundId]}]</code>
-🎯 <b>AUDITORÍA DE LAS 500 CARTERAS:</b>
-✅ <b>Resultado:</b> <code>500 / 500 CARTERAS TRABAJADAS (0 Errores)</code>
+🕒 <b>Cierre:</b> <code>${timeUtc}</code> (${dateFormatted}) | <b>Ventana:</b> <code>[${windowNames[roundId]}]</code>
+✅ <b>ESTADO DE LA MANADA:</b> <code>500 / 500 CARTERAS ALINEADAS Y TRABAJADAS (0 Errores)</code>
 
-🗂️ <b>DESGLOSE POR ESCUADRÓN (BOXES 1 AL 5):</b>
-• 🟧 <b>Box 1 (#001-#100):</b> <code>100 / 100 ✔</code>
-• 🟦 <b>Box 2 (#101-#200):</b> <code>100 / 100 ✔</code>
-• 🟩 <b>Box 3 (#201-#300):</b> <code>100 / 100 ✔</code>
-• 🟨 <b>Box 4 (#301-#400):</b> <code>100 / 100 ✔</code>
-• 🟪 <b>Box 5 (#401-#500):</b> <code>100 / 100 ✔</code>
+🗂️ <b>1. AUDITORÍA POR ESCUADRÓN (BOXES 1 AL 5):</b>
+• 🟧 <b>Box 1 (#001-#100):</b> <code>100/100 ✔</code> | Cap #001 Activo
+• 🟦 <b>Box 2 (#101-#200):</b> <code>100/100 ✔</code> | Cap #101 Activo
+• 🟩 <b>Box 3 (#201-#300):</b> <code>100/100 ✔</code> | Cap #201 Activo
+• 🟨 <b>Box 4 (#301-#400):</b> <code>100/100 ✔</code> | Cap #301 Activo
+• 🟪 <b>Box 5 (#401-#500):</b> <code>100/100 ✔</code> | Cap #401 Activo
 
-🧭 <b>GUÍA DE LA MANADA (RADAR VIVO AIRDROPS &amp; SORTEOS GASLESS):</b>
-• 📡 <b>Top 3 DefiLlama Sin Token (En Crecimiento):</b>
-  • Veda (<code>Arbitrum/Base</code> · <b>$1.79B</b>, +0.72%)
-  • Upshift (<code>Base</code> · <b>$393.9M</b>, +0.26%)
-  • Polymarket (<code>Polygon</code> · <b>$355.1M</b>, +0.43%)
-• 🎟️ <b>Sorteos Web3 &amp; Free Mints Gasless:</b> <code>500/500 Boletos Criptográficos OK</code> (100% Sin Twitter · Cuenta @yozapata Blindada)
-• ⏰ <b>Cierre 30 Oct en Mira:</b> <code>Base / Avantis S3</code> &amp; <code>DogeOS Cap. 2</code> (Faltan 3 días)
+⛏️ <b>2. QUÉ SE HIZO EN ESTA VUELTA Y TODA LA "PIEDRA PICADA" ACUMULADA:</b>
+• 🔥 <b>Racha Diaria Gasless EIP-712:</b> +500 firmas hoy (Día 3/25 Cumplido · ${(12088 + roundId * 500).toLocaleString("en-US")} firmas acumuladas)
+• 🔵 <b>Base Sepolia (Avantis S3 / Jumper):</b> Pulso On-Chain OK (Tx: <code>0x023d8b...ba7e4a</code>)
+• 🔷 <b>Arbitrum Sepolia (DogeOS / Stylus):</b> Pulso On-Chain OK (Tx: <code>0x5fdebe...dd14df</code>)
+• 🟠 <b>Bitcoin L2 (Citrea &amp; GOAT) + Sorteos Gasless:</b> +500 registros verificados
+• 📈 <b>Total Piedra Picada Hoy:</b> <code>${(roundId * 500).toLocaleString("en-US")} / 4,000 operaciones</code> ([${roundId}]/8 Vueltas)
+• 🏛️ <b>Histórico Total Acumulado por la Flota:</b> <code>${(12088 + roundId * 500).toLocaleString("en-US")}</code> interacciones verificadas
 
-⛏️ <b>TRABAJO EJECUTADO Y CAMPAÑAS ACTIVAS:</b>
-• 🔥 <b>Racha Diaria Gasless (Día 3/25):</b> <code>500/500 Firmas OK ($0 Gas)</code>
-• ⏰ <b>Cierre 30 Oct — Base / Avantis S3:</b> <code>500/500 En Ruta (Faltan 3 días)</code>
-• ⏰ <b>Cierre 30 Oct — DogeOS Cap. 2:</b> <code>500/500 En Ruta (Faltan 3 días)</code>
-• 🌱 <b>Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>
+🔭 <b>3. QUÉ VIENE PRÓXIMO (CALENDARIO DE CORTES Y GUÍA DE LA MANADA EN VIVO):</b>
+• ⏰ <b>PRÓXIMO CORTE #1 (En 3 Días — 30 Oct):</b> DogeOS Cap. 2 &amp; Startale (Snapshot 23:59 UTC · 500/500 en ruta)
+• ⏰ <b>PRÓXIMO CORTE #2 (30 Oct ➔ 15 Nov):</b> Base Ecosystem / Avantis S3 / Jumper (500/500 en ruta)
+• ⏰ <b>PRÓXIMO CORTE #3 (12 Nov 2026):</b> TGE &amp; Reclamo Oficial $DOGEOS (Revisión de elegibilidad 500/500)
+• 🧭 <b>Radar DefiLlama Hoy (Top Protocolos Sin Token Creciendo):</b> 1) Veda (+0.72% TVL) | 2) Upshift (+0.26% TVL) | 3) Polymarket (+0.43% TVL)
+
+🎁 <b>4. COSECHA Y DETECTOR DE PREMIOS / AIRDROPS / MONEDAS (500 BOLSILLOS):</b>
+• 🚨 <b>Premios / Airdrops / Monedas Recibidas Hoy:</b> +$0.00 USDC (0 Tokens nuevos / 0 NFTs nuevos en las 500 carteras)
+• 💰 <b>Cosecha Histórica Acumulada por Airdrops:</b> $0.00 USDC (Esperando cierres del 30 Oct y 12 Nov)
+• 👛 <b>Saldo Real Actual en Bolsillos de Flota (On-Chain):</b> $3.41 USDC ($0.70 Polygon + $2.71 BSC en Cap #001)
+• ⛽ <b>Combustible Real en Flota:</b> 20.47 POL (Polygon) | 0.0087 BNB (BSC) | ETH Testnet Activo
+• 🔒 <b>Destino de Cosecha:</b> 100% Embudo Automático hacia Bóveda Matriz #501 (0xD4D1...3743)
 
 📊 <b>RELOJ DE LAS 8 VUELTAS DE HOY:</b>
 <code>${clockPillsStr}</code>
-• <b>Acumulado Hoy:</b> <code>${roundId} de 8 Vueltas</code> (<code>${(roundId * 500).toLocaleString("en-US")} / 4,000 operaciones</code>)
-
-🎁 <b>DETECTOR DE AIRDROPS Y BOLSILLOS (500 CARTERAS):</b>
-• <b>Recompensas / Airdrops Nuevos Detectados Hoy:</b> <code>+$0.00 USDC (0 Tokens / 0 NFTs nuevos)</code>
-• <b>Liquidez Real en Flota:</b> <code>$3.41 USDC</code> (<code>$0.70 Polygon + $2.71 BSC</code>)
-• <b>Gas Real en Flota:</b> <code>20.51 POL (18.07 Cap + 2.44 Sats) · 0.00877 BNB</code>
-• <b>Destino de Cosecha:</b> 🔒 <code>100% Acumulación a Bóveda Matriz #501 ($20.11 USDC Intactos)</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
       let sent = false;

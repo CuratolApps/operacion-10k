@@ -105,7 +105,7 @@ const NATIVE_USDC_CONTRACTS = {
     address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
     decimals: 6,
     chainId: 137,
-    rpc: "https://polygon-bor-rpc.publicnode.com",
+    rpc: process.env.POLYGON_RPC_URL || "https://polygon.drpc.org",
     fallbackRpc: "https://1rpc.io/matic",
     minGasWei: ethers.parseEther("0.02")
   }

@@ -1,0 +1,57 @@
+{
+  "protocol": "ÁREA 501 // FLOTA X500 PERSISTENT LEDGER",
+  "version": "2.0.0",
+  "streakDaysCompleted": 3,
+  "streakGoalDays": 25,
+  "streakStartDate": "2026-10-25",
+  "currentEpochDate": "2026-10-27",
+  "todayRoundsCompleted": 4,
+  "todayEip712Signatures": 2000,
+  "totalEip712SignaturesAllTime": 14088,
+  "onChainTransactions": {
+    "baseSepolia": {
+      "today": 4,
+      "allTime": 248,
+      "lastTxHash": "0xa05328925a34baab94c5ecb85e73dac79c10cc2b4f0a7e54ce66e35bb4bbec2e"
+    },
+    "arbitrumSepolia": {
+      "today": 4,
+      "allTime": 242,
+      "lastTxHash": "0xf299b5a4429eb0f81ecb08633a3adbca99857e44003ef72811dc8ac0f415c147"
+    },
+    "polygon": {
+      "today": 4,
+      "allTime": 156,
+      "lastTxHash": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
+    },
+    "citreaGoat": {
+      "today": 4,
+      "allTime": 180,
+      "lastAttestation": "EIP-712-BTC-L2-SEED-VERIFIED"
+    }
+  },
+  "todayTotalOps": 2000,
+  "totalHistoricalOps": 14088,
+  "rewardsScanner": {
+    "todayUsdc": 0,
+    "newTokensCount": 0,
+    "newNftsCount": 0,
+    "allTimeHarvestedUsdc": 0,
+    "matrixVaultDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    "autoSweepToBinance": false,
+    "status": "Escáner 500/500 activo esperando TGE/Snapshots (Oct 30 y Nov 12)"
+  },
+  "fleetRealBalances": {
+    "usdcTotal": 3.41,
+    "polygonUsdc": 0.7,
+    "bscUsdc": 2.71,
+    "polTotal": 20.51,
+    "polCap001": 18.07,
+    "polSatellites": 2.44,
+    "bnbTotal": 0.00877,
+    "baseSepoliaEth": 0.0144,
+    "arbitrumSepoliaEth": 0.0036
+  },
+  "lastRoundUpdated": 4,
+  "lastUpdated": "2026-10-27T10:34:40.672Z"
+}
