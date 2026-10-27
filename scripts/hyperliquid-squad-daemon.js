@@ -105,7 +105,7 @@ function loadRealLedger() {
     if (fs.existsSync(REAL_LEDGER_FILE)) {
       return JSON.parse(fs.readFileSync(REAL_LEDGER_FILE, "utf8"));
     }
-  } catch (_) {}
+  } catch (_) { }
   return { realWins: 0, realLosses: 0, realTransactions: [] };
 }
 
@@ -130,7 +130,7 @@ function recordTransactionInLedger(tx) {
         telem.scoreboard.sessionNetPnLFormatted = `+$${ledger.realPnlUsdc.toFixed(2)} USDC`;
         telem.cycleHistory = ledger.realTransactions.slice(0, 15);
         fs.writeFileSync(SQUAD_TELEMETRY_FILE, JSON.stringify(telem, null, 2), "utf8");
-      } catch (_) {}
+      } catch (_) { }
     }
   } catch (err) {
     console.error("Error guardando transacción en ledger:", err.message);
@@ -141,7 +141,7 @@ async function sendSquadTelegram(msg) {
   const chatId = process.env.TELEGRAM_CHAT_ID || "-1004342131598";
   try {
     await sendTelegramAlert(msg, chatId, { skipHeader: true });
-  } catch (_) {}
+  } catch (_) { }
 }
 
 async function startAutonomousSquadDaemon() {
@@ -197,9 +197,6 @@ async function startAutonomousSquadDaemon() {
 
   // Bucle autónomo continuo
   let cycleCounter = 0;
-  let milestone5Notified = false;
-  let milestone10Notified = false;
-
   while (true) {
     cycleCounter++;
     try {
@@ -210,34 +207,6 @@ async function startAutonomousSquadDaemon() {
       const openOrders = await info.openOrders({ user: VAULT_501 });
 
       const availableForTrading = Math.max(0, accountValue - UNTOUCHABLE_RESERVE_USDC);
-
-      // Verificación de Hito 1: Ciclo de +$5 consolidado dentro de la cartera ($105 USDC)
-      if (accountValue >= 105.00 && !milestone5Notified) {
-        milestone5Notified = true;
-        const msg5 = `🔒 <b>ÁREA 501 // SQUAD SECRET // CICLO DE $5 CONSOLIDADO</b>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-          `💰 <b>Saldo en Cartera:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
-          `🛡️ <b>Ganancia Protegida:</b> <b>+$5.00 USDC sellados en la misma cartera</b>\n` +
-          `🏛️ <b>Base Sagrada:</b> <code>$100.00 USDC</code> (Intocable)\n` +
-          `🎯 <b>Próxima Meta:</b> <code>$110.00 USDC (Cosecha de $10 hacia Polygon #501)</code>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-          `🌐 <i>Trinquete militar: la ganancia queda protegida y no se arriesga.</i>`;
-        await sendSquadTelegram(msg5);
-      }
-
-      // Verificación de Hito 2: Excedente de +$10 listo para cosechar a Polygon #501 ($110 USDC)
-      if (accountValue >= 110.00 && !milestone10Notified) {
-        milestone10Notified = true;
-        const msg10 = `🚨 <b>ÁREA 501 // COSECHA LISTA: +$10.00 USDC A BÓVEDA POLYGON</b>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-          `💰 <b>Saldo Total en Hyperliquid L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
-          `🏛️ <b>Base Operativa Hyperliquid:</b> <code>$100.00 USDC (Continúa operando)</code>\n` +
-          `💸 <b>Excedente a Retirar:</b> <b>$10.00 USDC a Bóveda Matriz #501 (Polygon)</b>\n` +
-          `📈 <b>Destino Polygon:</b> <code>Aave V3 Polygon (#501) rumbo a los $1,000 USDC</code>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-          `🌐 <i>Comandante: el bloque de $10.00 USDC está listo para transferir.</i>`;
-        await sendSquadTelegram(msg10);
-      }
 
       if (cycleCounter % 10 === 1) {
         console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Ciclo #${cycleCounter} | Saldo: $${accountValue.toFixed(4)} USDC | Fuego Disp: $${availableForTrading.toFixed(2)} USDC | Posiciones: ${openPositions.length}`);
@@ -258,14 +227,34 @@ async function startAutonomousSquadDaemon() {
           mem.activeCoin = coin;
           mem.entryPx = entryPx;
 
+          const targetGainPct = squadCfg.targetGainPct || 0.080;
+          const safeExitPxStr = formatHlPrice(entryPx * (1 + targetGainPct / 100), coin);
+          const beExitPxStr = formatHlPrice(entryPx * 1.00045, coin);
+          const notional = Math.abs(parseFloat(sz)) * entryPx;
+          const estNetGainUsdc = (notional * (targetGainPct / 100) - (notional * 0.00030)).toFixed(4);
+
+          // 🟢 NOTIFICACIÓN INMEDIATA: SE COMPRÓ A TAL PRECIO
+          if (!mem.notifiedEntry) {
+            mem.notifiedEntry = true;
+            const buyMsg = `🟢 <b>ÁREA 501 // COMPRA EJECUTADA EN VIVO</b>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
+              `📍 <b>Par:</b> <code>${coin}-USDC</code> (LONG MAKER · $0.00 Gas)\n` +
+              `📥 <b>SE COMPRÓ A:</b> <code>$${formatHlPrice(entryPx, coin)}</code>\n` +
+              `📤 <b>VENTA FIJADA A:</b> <code>$${safeExitPxStr}</code> (+${targetGainPct}% TP)\n` +
+              `💰 <b>Ganancia al Vender:</b> <b>+$${estNetGainUsdc} USDC Limpios</b>\n` +
+              `🔒 <b>Candado Breakeven:</b> <code>$${beExitPxStr}</code> (Cubre 100% de fees)\n` +
+              `🛡️ <b>Margen Asignado:</b> <code>$${SQUAD_MARGIN_USDC.toFixed(2)} USDC (5x)</code>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🌐 <a href="https://app.hyperliquid.xyz/trade">Ver Operación en Vivo en Hyperliquid</a>`;
+            await sendSquadTelegram(buyMsg);
+          }
+
           // Verificar si ya tiene orden de salida puesta
           const existingExitOrder = openOrders.find(o => o.coin === coin && o.side === "A" && o.reduceOnly === true);
 
           if (!existingExitOrder) {
             // Colocar orden de salida Take Profit / Breakeven Maker ALO
-            const targetGainPct = squadCfg.targetGainPct || 0.080;
-            const safeExitPxStr = formatHlPrice(entryPx * (1 + targetGainPct / 100), coin);
-
             console.log(`[${squadKey}] Colocando salida Maker ALO para ${coin}: ${sz} @ $${safeExitPxStr}`);
             try {
               const exitRes = await client.order({
@@ -299,6 +288,7 @@ async function startAutonomousSquadDaemon() {
             mem.entryPx = null;
             mem.restingOid = null;
             mem.tpOid = null;
+            mem.notifiedEntry = false;
 
             // Consultar último fill para detalles exactos
             const recentFills = await info.userFills({ user: VAULT_501 });
@@ -326,17 +316,19 @@ async function startAutonomousSquadDaemon() {
             recordTransactionInLedger(victoryTx);
             const currentLedger = loadRealLedger();
 
-            const victoryTg = `💰 <b>ÁREA 501 // SQUAD SECRET // TAKE PROFIT COBRADO</b>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})
-🎯 <b>Operación:</b> <code>${closedCoin}-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)
-📥 <b>Precio Entrada:</b> <code>$${entryPxStr}</code> ➔ 📤 <b>Precio Salida TP:</b> <code>$${exitPxStr}</code>
-💵 <b>Ganancia Neta Cobrada:</b> <b>+$${netGain.toFixed(4)} USDC al 100% Cash</b>
-🛡️ <b>Nuevo Saldo L1:</b> <code>$${accountValue.toFixed(4)} USDC</code>
-🏆 <b>Récord de Victorias:</b> <b>${currentLedger.realWins}G - 0P (100% Efectividad)</b>
-⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🌐 <i>100% del capital asegurado en USDC nativo ($0.00 en riesgo).</i>`;
+            // 🔴 NOTIFICACIÓN INMEDIATA: SE VENDIÓ A TAL PRECIO
+            const victoryTg = `🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT)</b>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
+              `🎯 <b>Par:</b> <code>${closedCoin}-USDC</code> (LONG ➔ VENDIDO EN GANANCIA)\n` +
+              `📥 <b>Comprado a:</b> <code>$${entryPxStr}</code>\n` +
+              `📤 <b>SE VENDIÓ A:</b> <code>$${exitPxStr}</code>\n` +
+              `💵 <b>GANANCIA NETA COBRADA:</b> <b>+$${netGain.toFixed(4)} USDC al 100% Cash</b>\n` +
+              `🛡️ <b>Nuevo Saldo en Cuenta:</b> <code>$${accountValue.toFixed(4)} USDC</code>\n` +
+              `🏆 <b>Récord de Victorias:</b> <b>${currentLedger.realWins}G - 0P</b>\n` +
+              `⏱️ <b>Estado del Escuadrón:</b> <code>CERO HOLDING · 100% EN DÓLARES USDC</code>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🌐 <i>Capital inmediatamente protegido en USDC nativo ($0.00 en riesgo).</i>`;
             await sendSquadTelegram(victoryTg);
           }
 
@@ -374,7 +366,7 @@ async function startAutonomousSquadDaemon() {
                       };
                     }
                   }
-                } catch (_) {}
+                } catch (_) { }
               }
 
               if (bestCandidate) {
@@ -410,23 +402,6 @@ async function startAutonomousSquadDaemon() {
                     mem.entryTime = Date.now();
                     mem.entryPx = entryPxNum;
                     console.log(`[${squadKey}] Orden Entrada ALO #${mem.restingOid} descansando en el libro.`);
-
-                    const alertTg = `🎯 <b>ÁREA 501 // SEÑAL SNIPER DETECTADA &amp; ORDEN ALO</b>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})
-📍 <b>Par:</b> <code>${coin}-USDC</code> (🐂 LONG MAKER)
-📊 <b>Certeza L2:</b> <code>${bestCandidate.bullPct.toFixed(1)}% Compradores</code>
-💵 <b>Margen:</b> <code>$${SQUAD_MARGIN_USDC.toFixed(2)} USDC</code> (5x · Nocional $${notional.toFixed(2)})
-📥 <b>Entrada Maker ALO:</b> <code>$${entryPxStr}</code>
-
-🎯 <b>OBJETIVOS &amp; PARÁMETROS TÁCTICOS:</b>
-• 📤 <b>Salida Take Profit:</b> <code>$${targetExitPxStr}</code> (+${targetGainPct}%)
-• 💰 <b>Ganancia Estimada:</b> <b>+$${estNetGainUsdc} USDC Limpios</b>
-• 🔒 <b>Candado Breakeven:</b> <code>$${beExitPxStr}</code> (Cubre 100% de comisiones)
-• 🛡️ <b>Comisión Total:</b> <code>~$0.03 USDC (0.015% Maker ALO · $0.00 Gas)</code>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🛡️ <i>Ley del Fee Blindado en ejecución. Cero holding.</i>`;
-                    await sendSquadTelegram(alertTg);
                   }
                 } catch (err) {
                   console.error(`[${squadKey}] Error colocando entrada ALO:`, err.message);
@@ -439,7 +414,7 @@ async function startAutonomousSquadDaemon() {
                 try {
                   await client.cancel({ cancels: [{ a: ASSET_INDICES[pendingEntry.coin], o: mem.restingOid }] });
                   mem.restingOid = null;
-                } catch (_) {}
+                } catch (_) { }
               }
             }
           }
