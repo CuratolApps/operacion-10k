@@ -19,6 +19,7 @@ const { ethers } = require("ethers");
 const { notifyRoundCompletedReport } = require("../telegram-notifier");
 const { saveRoundAuditResult, advanceHerdShift } = require("../dynamic-box-dispatcher");
 const { networks, createResilientProvider } = require("../networks");
+const { runAlphaFlockDirector, fetchLiveFleetBalances } = require("./alpha-flock-director");
 
 const WALLETS_FILE = path.join(__dirname, "..", "wallets-public-list.json");
 const CHECKIN_FILE = path.join(__dirname, "..", "telemetry", "gasless-checkins-today.json");
@@ -233,7 +234,17 @@ async function executeFull500Sweep(options = {}) {
     fs.writeFileSync(CHECKIN_FILE, JSON.stringify(checkinsToday, null, 2), "utf8");
   } catch (_) {}
 
-  // 6. Asentar Auditoría Estricta
+  // 6. Consultar Guía de la Manada (Saldos en Vivo RPC + DefiLlama + Sorteos Gasless)
+  console.log("\n🐺 Consultando Guía de la Manada (Lectura On-Chain en Vivo)...");
+  let flockDirector = null;
+  try {
+    flockDirector = await runAlphaFlockDirector();
+  } catch (err) {
+    console.log(`⚠️ Error ejecutando Alpha Flock Director: ${err.message}`);
+  }
+  const liveBalances = flockDirector?.liveBalances || await fetchLiveFleetBalances().catch(() => null);
+
+  // 7. Asentar Auditoría Estricta
   const totalWallets = satellites.length;
   const errorCount = errors.length;
   const todayRoundsCompleted = roundId;
@@ -250,7 +261,9 @@ async function executeFull500Sweep(options = {}) {
     boxCounts,
     sampleHashes,
     todayRoundsCompleted,
-    todayTotalOps
+    todayTotalOps,
+    flockDirector,
+    liveBalances
   };
 
   console.log("\n-----------------------------------------------------------------------------------------");

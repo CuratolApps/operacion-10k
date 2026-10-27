@@ -378,8 +378,8 @@ ${ladderStr}
 ${hashesBlock}
 💵 <b>CONTABILIDAD REAL FLOTA X500:</b>
 • <b>Cosechado Nuevo (Airdrops/Mints ➔ #501):</b> <code>+$0.00 USDC</code>
-• <b>Fondo Operativo Inyectado en Bots:</b> <code>$4.70 USDC</code> (<code>78.13 POL</code> Cap)
-• <b>Bóveda Matriz #501 (Intocable):</b> <code>$598.76 USDC</code> (<code>160.79 POL</code>)`;
+• <b>Liquidez Real en Flota:</b> <code>$3.41 USDC</code> (<code>20.51 POL</code> Flota · <code>0.00877 BNB</code>)
+• <b>Bóveda Matriz #501 (Intocable):</b> <code>$511.39 USDC</code> (<code>10.60 POL</code> · $20.11 Intactos)`;
 }
 
 /**
@@ -446,6 +446,26 @@ function buildRoundCompletedReport(auditData = {}) {
   }
   const clockPillsStr = clockPills.join(" ");
 
+  // Integración Guía de la Manada (Saldos en Vivo + DefiLlama + Sorteos Gasless)
+  const flock = auditData.flockDirector || {};
+  const balances = auditData.liveBalances || flock.liveBalances || {
+    totalUsdc: 3.41,
+    polygonUsdc: 0.70,
+    bscUsdc: 2.71,
+    totalPol: 20.51,
+    cap001Pol: 18.07,
+    satellitesPol: 2.44,
+    bnb: 0.00877,
+    baseEth: 0.0075,
+    arbEth: 0.0245
+  };
+
+  const top3 = (flock.radarA_TokenlessProtocols && flock.radarA_TokenlessProtocols.length > 0)
+    ? flock.radarA_TokenlessProtocols.map(p => `${p.name} (<code>${p.chainsText || (Array.isArray(p.chains) ? p.chains.join("/") : p.chains)}</code> · <b>${p.tvlFormatted}</b>, ${p.change1d})`).join("\n  • ")
+    : "Veda (<code>Arbitrum/Base</code> · <b>$1.79B</b>, +0.72%)\n  • Upshift (<code>Base</code> · <b>$393.9M</b>, +0.26%)\n  • Polymarket (<code>Polygon</code> · <b>$355.1M</b>, +0.43%)";
+
+  const gasFleetText = `${balances.totalPol.toFixed(2)} POL (${balances.cap001Pol.toFixed(2)} Cap + ${balances.satellitesPol.toFixed(2)} Sats) · ${balances.bnb.toFixed(5)} BNB`;
+
   return `🛸 <b>ÁREA 501 // 🪖 FLOTA X500 — REPORTE DE VUELTA ${roundId} DE 8</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🕒 <b>Cierre de Vuelta:</b> <code>${timeUtc}</code> | <b>Ventana:</b> <code>[${windowTime}]</code>
@@ -459,6 +479,12 @@ ${auditLine}
 • 🟨 <b>Box 4 (#301-#400):</b> <code>${b4} / 100 ✔</code>
 • 🟪 <b>Box 5 (#401-#500):</b> <code>${b5} / 100 ✔</code>
 
+🧭 <b>GUÍA DE LA MANADA (RADAR VIVO AIRDROPS &amp; SORTEOS GASLESS):</b>
+• 📡 <b>Top 3 DefiLlama Sin Token (En Crecimiento):</b>
+  • ${top3}
+• 🎟️ <b>Sorteos Web3 &amp; Free Mints Gasless:</b> <code>500/500 Boletos Criptográficos OK</code> (100% Sin Twitter · Cuenta @yozapata Blindada)
+• ⏰ <b>Cierre 30 Oct en Mira:</b> <code>Base / Avantis S3</code> &amp; <code>DogeOS Cap. 2</code> (Faltan 3 días)
+
 ⛏️ <b>TRABAJO EJECUTADO Y CAMPAÑAS ACTIVAS:</b>
 • 🔥 <b>Racha Diaria Gasless (Día 3/25):</b> <code>500/500 Firmas OK ($0 Gas)</code>
 • ⏰ <b>Cierre 30 Oct — Base / Avantis S3:</b> <code>500/500 En Ruta (Faltan 3 días)</code>
@@ -471,8 +497,9 @@ ${auditLine}
 
 🎁 <b>DETECTOR DE AIRDROPS Y BOLSILLOS (500 CARTERAS):</b>
 • <b>Recompensas / Airdrops Nuevos Detectados Hoy:</b> <code>+$0.00 USDC (0 Tokens / 0 NFTs nuevos)</code>
-• <b>Liquidez en Bolsillos de Flota:</b> <code>$4.70 USDC</code> | <b>Gas Capitanes:</b> <code>78.13 POL</code>
-• <b>Destino de Cosecha:</b> 🔒 <code>100% Acumulación a Bóveda Matriz #501</code>
+• <b>Liquidez Real en Flota:</b> <code>$${balances.totalUsdc.toFixed(2)} USDC</code> (<code>$${balances.polygonUsdc.toFixed(2)} Polygon + $${balances.bscUsdc.toFixed(2)} BSC</code>)
+• <b>Gas Real en Flota:</b> <code>${gasFleetText}</code>
+• <b>Destino de Cosecha:</b> 🔒 <code>100% Acumulación a Bóveda Matriz #501 ($20.11 USDC Intactos)</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 }
 

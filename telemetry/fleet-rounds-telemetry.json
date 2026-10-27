@@ -1,6 +1,6 @@
 {
   "date": "2026-10-27",
-  "lastUpdated": "2026-10-27T09:51:05.587Z",
+  "lastUpdated": "2026-10-27T10:25:12.319Z",
   "currentRoundId": 4,
   "todayRoundsCompleted": 1,
   "todayTotalOps": 500,
@@ -22,11 +22,11 @@
         "5": 100
       },
       "sampleHashes": {
-        "gaslessCheckIn": "0x1c234679dd4b4f255ffb9a4af1244ee8681770e5a161c60ceae28ed42254773b",
-        "base": "0x7ed8619cabda3fc19f94a2abab5a275bda90fff505234087eccdf7810b9a33bd",
-        "arbitrum": "0xcb29a59d2f9dc2a5b1df9db46af31cd779d9ebf1abdaa40d985b55b075c318af"
+        "gaslessCheckIn": "0xdaa358793910a18b6f0fd210456b68701bcfcb900753b9e37a327c2331aa38b8",
+        "base": "0x023d8bfea78a5140d5917f730680ce313e6a9676b17c5785fe104f5562ba7e4a",
+        "arbitrum": "0x5fdebee1c56b44a9d1b31e5f620828988817f3d4bdbc09469ed7370786dd14df"
       },
-      "completedAtUtc": "2026-10-27T09:51:05.587Z"
+      "completedAtUtc": "2026-10-27T10:25:12.319Z"
     }
   },
   "failedWalletsQueue": []

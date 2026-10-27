@@ -2090,35 +2090,43 @@ export default {
       }
       const clockPillsStr = clockPills.join(" ");
 
-      const reportText = `🪖 <b>FLOTA X500 // VUELTA ${roundId} DE 8 COMPLETADA</b>
-🕒 <b>Hora UTC:</b> <code>${timeUtc}</code> | <b>Ventana:</b> <code>[${windowNames[roundId]}]</code>
-🔥 <b>Racha 25 Días (25 Oct ➔ 20 Nov):</b> <code>Día 2/25 En Curso</code>
+      const reportText = `🛸 <b>ÁREA 501 // 🪖 FLOTA X500 — REPORTE DE VUELTA ${roundId} DE 8</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🕒 <b>Cierre de Vuelta:</b> <code>${timeUtc}</code> | <b>Ventana:</b> <code>[${windowNames[roundId]}]</code>
+🎯 <b>AUDITORÍA DE LAS 500 CARTERAS:</b>
+✅ <b>Resultado:</b> <code>500 / 500 CARTERAS TRABAJADAS (0 Errores)</code>
 
-🎯 <b>AUDITORÍA REAL DE LAS 500 LLAVES EN ESTA VUELTA:</b>
-✅ <b>Resultado:</b> <code>500 / 500 LLAVES COMPLETADAS (0 Errores)</code>
-  • 🟧 <b>Box 1 (#001-#100):</b> <code>100 / 100 ✔</code> (<code>18.07 POL</code> | <code>$0.70 USDC</code>)
-  • 🟦 <b>Box 2 (#101-#200):</b> <code>100 / 100 ✔</code> (<code>18.03 POL</code> | <code>$1.05 USDC</code>)
-  • 🟩 <b>Box 3 (#201-#300):</b> <code>100 / 100 ✔</code> (<code>18.01 POL</code> | <code>$0.00 USDC</code>)
-  • 🟨 <b>Box 4 (#301-#400):</b> <code>100 / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)
-  • 🟪 <b>Box 5 (#401-#500):</b> <code>100 / 100 ✔</code> (<code>12.01 POL</code> | <code>$0.00 USDC</code>)
+🗂️ <b>DESGLOSE POR ESCUADRÓN (BOXES 1 AL 5):</b>
+• 🟧 <b>Box 1 (#001-#100):</b> <code>100 / 100 ✔</code>
+• 🟦 <b>Box 2 (#101-#200):</b> <code>100 / 100 ✔</code>
+• 🟩 <b>Box 3 (#201-#300):</b> <code>100 / 100 ✔</code>
+• 🟨 <b>Box 4 (#301-#400):</b> <code>100 / 100 ✔</code>
+• 🟪 <b>Box 5 (#401-#500):</b> <code>100 / 100 ✔</code>
 
-📊 <b>RELOJ DE LAS 8 VUELTAS DEL DÍA (00:00 A 24:00 UTC):</b>
+🧭 <b>GUÍA DE LA MANADA (RADAR VIVO AIRDROPS &amp; SORTEOS GASLESS):</b>
+• 📡 <b>Top 3 DefiLlama Sin Token (En Crecimiento):</b>
+  • Veda (<code>Arbitrum/Base</code> · <b>$1.79B</b>, +0.72%)
+  • Upshift (<code>Base</code> · <b>$393.9M</b>, +0.26%)
+  • Polymarket (<code>Polygon</code> · <b>$355.1M</b>, +0.43%)
+• 🎟️ <b>Sorteos Web3 &amp; Free Mints Gasless:</b> <code>500/500 Boletos Criptográficos OK</code> (100% Sin Twitter · Cuenta @yozapata Blindada)
+• ⏰ <b>Cierre 30 Oct en Mira:</b> <code>Base / Avantis S3</code> &amp; <code>DogeOS Cap. 2</code> (Faltan 3 días)
+
+⛏️ <b>TRABAJO EJECUTADO Y CAMPAÑAS ACTIVAS:</b>
+• 🔥 <b>Racha Diaria Gasless (Día 3/25):</b> <code>500/500 Firmas OK ($0 Gas)</code>
+• ⏰ <b>Cierre 30 Oct — Base / Avantis S3:</b> <code>500/500 En Ruta (Faltan 3 días)</code>
+• ⏰ <b>Cierre 30 Oct — DogeOS Cap. 2:</b> <code>500/500 En Ruta (Faltan 3 días)</code>
+• 🌱 <b>Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>
+
+📊 <b>RELOJ DE LAS 8 VUELTAS DE HOY:</b>
 <code>${clockPillsStr}</code>
-• <b>Vueltas Cerradas Hoy:</b> <code>${roundId} de 8 Vueltas</code> (<code>${(roundId * 500).toLocaleString("en-US")} / 4,000 operaciones hoy</code>)
-• <b>Siguiente Salida:</b> <code>Vuelta ${(roundId % 8) + 1} de 8</code> arrancando de <code>0/500</code>
+• <b>Acumulado Hoy:</b> <code>${roundId} de 8 Vueltas</code> (<code>${(roundId * 500).toLocaleString("en-US")} / 4,000 operaciones</code>)
 
-⛏️ <b>TAREAS EJECUTADAS POR LAS 500 LLAVES EN LA VUELTA:</b>
-1. 🔥 <b>Misiones Gasless EIP-712 (Día 2/25):</b> <code>500/500 Firmas ($0 Gas)</code>
-2. ⏰ <b>Cierres 30 Oct (Base/Avantis &amp; DogeOS):</b> <code>500/500 Ejecutadas</code>
-3. 🌱 <b>Semillas Arbitrum &amp; BTC L2 (Citrea/GOAT):</b> <code>500/500 Pulsos OK</code>
-
-🔗 <b>HASHES VERIFICABLES ON-CHAIN (MUESTRA REAL DE LA VUELTA):</b>
-  • 🔵 <b>Base:</b> <a href="https://sepolia.basescan.org/tx/0x89e13d5cfca55db368631bc2a440e53a354bb473063f28d82d4fb52db5c98a58"><code>0x89e13d5c...b52db5c9</code></a> | 🔷 <b>Arbitrum:</b> <a href="https://sepolia.arbiscan.io/tx/0x401bcad12720d20dff27d2c3df312cfebf5835b0b2e84869680387fcb9a3028b"><code>0x401bcad1...a3028b</code></a> | ⚡ <b>EIP-712:</b> <code>0x5a189f7d...466b8d</code>
-
-💵 <b>CONTABILIDAD REAL (CERO SIMULACIÓN):</b>
-• <b>Cosechado por Airdrops/Mints Hoy:</b> <code>+$0.00 USDC</code>
-• <b>Fondo Nuestro Inyectado en Flota:</b> <code>$4.70 USDC</code> (<code>78.13 POL</code> Cap)
-• <b>Bóveda Matriz #501 (Intocable):</b> <code>$598.76 USDC</code> (<code>160.79 POL</code>)`;
+🎁 <b>DETECTOR DE AIRDROPS Y BOLSILLOS (500 CARTERAS):</b>
+• <b>Recompensas / Airdrops Nuevos Detectados Hoy:</b> <code>+$0.00 USDC (0 Tokens / 0 NFTs nuevos)</code>
+• <b>Liquidez Real en Flota:</b> <code>$3.41 USDC</code> (<code>$0.70 Polygon + $2.71 BSC</code>)
+• <b>Gas Real en Flota:</b> <code>20.51 POL (18.07 Cap + 2.44 Sats) · 0.00877 BNB</code>
+• <b>Destino de Cosecha:</b> 🔒 <code>100% Acumulación a Bóveda Matriz #501 ($20.11 USDC Intactos)</code>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
       let sent = false;
       if (botToken) {

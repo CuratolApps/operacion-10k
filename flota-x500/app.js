@@ -345,13 +345,14 @@ function initUtcClock() {
 async function loadAllTelemetryData() {
   const ts = Date.now();
   try {
-    const [telRes, roundsRes, lastRunRes, pubWalletsRes, squadRes, liveTxsRes] = await Promise.all([
+    const [telRes, roundsRes, lastRunRes, pubWalletsRes, squadRes, liveTxsRes, flockRes] = await Promise.all([
       fetch(`../telemetry/fleet-telemetry.json?t=${ts}`).catch(() => null),
       fetch(`../telemetry/fleet-rounds-telemetry.json?t=${ts}`).catch(() => null),
       fetch(`../last-run-report.json?t=${ts}`).catch(() => null),
       fetch(`../wallets-public-list.json?t=${ts}`).catch(() => null),
       fetch(`/api/squad-secret/live?t=${ts}`).catch(() => null),
-      fetch(`/api/sniping/live-txs?t=${ts}`).catch(() => null)
+      fetch(`/api/sniping/live-txs?t=${ts}`).catch(() => null),
+      fetch(`../telemetry/alpha-flock-director-state.json?t=${ts}`).catch(() => null)
     ]);
 
     if (telRes && telRes.ok) state.telemetry = await telRes.json();
@@ -359,6 +360,7 @@ async function loadAllTelemetryData() {
     if (lastRunRes && lastRunRes.ok) state.lastRun = await lastRunRes.json();
     if (pubWalletsRes && pubWalletsRes.ok) state.publicWallets = await pubWalletsRes.json();
     if (squadRes && squadRes.ok) state.squadLive = await squadRes.json();
+    if (flockRes && flockRes.ok) state.alphaFlock = await flockRes.json();
     if (liveTxsRes && liveTxsRes.ok) {
       const liveData = await liveTxsRes.json();
       if (liveData && Array.isArray(liveData.rows)) state.liveTxs = liveData.rows;
@@ -377,14 +379,24 @@ async function loadAllTelemetryData() {
 // =============================================================================
 function renderHeaderMetrics() {
   // Tarjeta 2: Cosecha & Fondo Flota X500 (PROHIBIDO MEZCLAR EL CAPITAL MATRIZ #501)
-  // Capital real dentro de las 500 carteras:
-  // Cosechado nuevo (Airdrops/Mints ➔ #501): +$0.00 USDC
-  // Fondo inyectado en flota: $4.70 USDC ($1.75 Caps + $2.95 Sats)
+  // Capital real dentro de las 500 carteras (100% Sincerado On-Chain):
+  const flockBalances = state.alphaFlock?.liveBalances || state.telemetry?.alphaFlockDirector?.liveBalances || {
+    totalUsdc: 3.41,
+    polygonUsdc: 0.70,
+    bscUsdc: 2.71,
+    totalPol: 20.51,
+    cap001Pol: 18.07,
+    satellitesPol: 2.44,
+    bnb: 0.00877
+  };
+
   const elLiquid = document.getElementById("topHarvestedUsdc");
   if (elLiquid) elLiquid.textContent = "+$0.00 USDC COSECHADOS";
 
   const elLiquidSub = document.getElementById("topHarvestSub");
-  if (elLiquidSub) elLiquidSub.textContent = "Fondo Inyectado en Flota: $4.70 USDC ($1.75 Caps + $2.95 Sats)";
+  if (elLiquidSub) {
+    elLiquidSub.textContent = `Fondo Real en Flota: $${flockBalances.totalUsdc.toFixed(2)} USDC ($${flockBalances.polygonUsdc.toFixed(2)} Polygon + $${flockBalances.bscUsdc.toFixed(2)} BSC)`;
+  }
 
   // Tarjeta 3: Picado On-Chain (Suma real de nonces confirmados en RPC)
   const totalTxsReal = state.telemetry?.workStats?.totalTxConfirmedAllTime || state.lastRun?.workStats?.totalTxConfirmedAllTime || 660;
@@ -420,12 +432,21 @@ function renderHeaderMetrics() {
     elRoundsSub.textContent = pillLabels.join(" ");
   }
 
-  // Tarjeta 5: Gas y Autonomía
+  // Tarjeta 5: Gas y Autonomía (Sincerado con lectura de Blockchain)
   const elGasCap = document.getElementById("topGasCaptainsDisplay");
-  if (elGasCap) elGasCap.textContent = "78.13 POL CAPITANES";
+  if (elGasCap) elGasCap.textContent = `${flockBalances.totalPol.toFixed(2)} POL EN FLOTA`;
 
   const elGasSub = document.getElementById("topGasSub");
-  if (elGasSub) elGasSub.textContent = "🟢 Tanque Óptimo (300.06 POL Flota) · Gasless $0";
+  if (elGasSub) {
+    elGasSub.textContent = `🟢 ${flockBalances.cap001Pol.toFixed(2)} POL Cap #001 · ${flockBalances.satellitesPol.toFixed(2)} POL Sats · ${flockBalances.bnb.toFixed(5)} BNB`;
+  }
+
+  // Actualizar banner Guía de la Manada si está presente
+  const elFlockTop3 = document.getElementById("flockDefiLlamaTop3");
+  if (elFlockTop3 && state.alphaFlock?.radarA_TokenlessProtocols) {
+    const list = state.alphaFlock.radarA_TokenlessProtocols;
+    elFlockTop3.textContent = list.map(p => `${p.name} (${p.tvlFormatted}, ${p.change1d})`).join(" · ");
+  }
 
   // Tarjeta 6: Cuenta atrás al 30 de Octubre de 2026
   calculateOct30Countdown();

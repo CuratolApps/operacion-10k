@@ -1,0 +1,123 @@
+{
+  "updatedAt": "2026-10-27T10:25:12.293Z",
+  "liveBalances": {
+    "totalUsdc": 3.41,
+    "polygonUsdc": 0.7,
+    "bscUsdc": 2.71,
+    "totalPol": 20.51,
+    "cap001Pol": 18.07,
+    "satellitesPol": 2.44,
+    "bnb": 0.00877,
+    "baseEth": 0.0144,
+    "arbEth": 0.0036,
+    "readTimestamp": "2026-10-27T10:25:07.629Z"
+  },
+  "radarA_TokenlessProtocols": [
+    {
+      "name": "Veda",
+      "category": "Onchain Capital Allocator",
+      "chains": [
+        "Arbitrum",
+        "Base"
+      ],
+      "chainsText": "Arbitrum/Base",
+      "tvlUsd": 1794518312.4177146,
+      "tvlFormatted": "$1794.5M",
+      "change1d": "+0.72%",
+      "url": "https://veda.tech"
+    },
+    {
+      "name": "Upshift",
+      "category": "Onchain Capital Allocator",
+      "chains": [
+        "Base"
+      ],
+      "chainsText": "Base",
+      "tvlUsd": 393865195.82978934,
+      "tvlFormatted": "$393.9M",
+      "change1d": "+0.26%",
+      "url": "https://app.upshift.finance"
+    },
+    {
+      "name": "Polymarket International",
+      "category": "Prediction Market",
+      "chains": [
+        "Polygon"
+      ],
+      "chainsText": "Polygon",
+      "tvlUsd": 355056110.78435856,
+      "tvlFormatted": "$355.1M",
+      "change1d": "+0.43%",
+      "url": "https://polymarket.com"
+    }
+  ],
+  "radarB_GaslessRaffles": [
+    {
+      "id": "gasless-flock-ticket-v2",
+      "name": "Rifa Semanal Web3 Gasless ÁREA 501",
+      "network": "Polygon / Base",
+      "type": "EIP-712 Typed Signature Raffle",
+      "costGas": "$0.00 Gas",
+      "twitterRequired": false,
+      "honeypotCheck": "0% Honeypot (Audit Score 98/100)",
+      "ticketsIssued": 500,
+      "quotaPerWallet": "1 Boleto Criptográfico / Cartera (500 Boletos Total Manada)",
+      "action": "Firma Digital EIP-712 Verificada"
+    },
+    {
+      "id": "base-avantis-gasless-mission",
+      "name": "Avantis S3 Gasless Community Pass",
+      "network": "Base Sepolia / Base Mainnet",
+      "type": "Gasless Proof-of-Activity",
+      "costGas": "$0.00 Gas",
+      "twitterRequired": false,
+      "honeypotCheck": "0% Honeypot (Superchain Verificado)",
+      "ticketsIssued": 500,
+      "quotaPerWallet": "Atestación EIP-712 sin fricción",
+      "action": "Registro Criptográfico On-Chain"
+    },
+    {
+      "id": "dogeos-chapter2-gasless-claim",
+      "name": "DogeOS Chapter 2 Quest Voucher",
+      "network": "Polygon PoS / Arbitrum",
+      "type": "Gasless Claim Ticket",
+      "costGas": "$0.00 Gas",
+      "twitterRequired": false,
+      "honeypotCheck": "0% Honeypot (Permit2 Standalone)",
+      "ticketsIssued": 500,
+      "quotaPerWallet": "Permit2 EIP-712 Check-In",
+      "action": "Firma Criptográfica Gasless"
+    }
+  ],
+  "radarC_Deadlines": [
+    {
+      "target": "Base / Avantis S3",
+      "network": "Base",
+      "deadline": "30 de Octubre de 2026",
+      "daysRemaining": 3,
+      "status": "🔥 EN RUTA (Faltan 3 días)",
+      "fleetCoverage": "500/500 Satélites Calificados"
+    },
+    {
+      "target": "DogeOS Chapter 2 / Startale",
+      "network": "Polygon / Arbitrum",
+      "deadline": "30 de Octubre de 2026",
+      "daysRemaining": 3,
+      "status": "🔥 EN RUTA (Faltan 3 días)",
+      "fleetCoverage": "500/500 Satélites Calificados"
+    },
+    {
+      "target": "Arbitrum Stylus & Citrea/GOAT BTC L2",
+      "network": "Arbitrum & Bitcoin L2s",
+      "deadline": "Fase Q4 2026 / Q1 2027",
+      "daysRemaining": 65,
+      "status": "🌱 SIEMBRA CONTINUA 24/7",
+      "fleetCoverage": "500/500 Satélites con Pulsos OK"
+    }
+  ],
+  "flockStrategy": {
+    "tier1_spearhead": "Capitán #001 (18.07 POL) + Satélites con POL (2.44 POL total) para micro-txs on-chain.",
+    "tier2_testnet": "Capitanes con Testnet ETH en Base Sepolia y Arbitrum Sepolia emitiendo txs verificables.",
+    "tier3_swarm": "500/500 Satélites firmando boletos EIP-712 a $0.00 Gas sin requerir Twitter."
+  }
+}
