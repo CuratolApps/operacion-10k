@@ -21,7 +21,7 @@ const NETS = {
     aToken: "0xA4D94019934D8333Ef880ABFFbF2FDd611C762BD",
     aavePool: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
     executorKey: "atomicExecutorAddressPolygon",
-    defaultExecutor: "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
+    defaultExecutor: "0x3e8b1d7f23560215eFD61A77a97d675cc92509f7",
     floorNative: 150.0,           // piso inviolable de #501 (POL)
     allowanceCapUsdc: 4000        // 15 disparos x ~$243.99 (se consume en cada transferFrom)
   },

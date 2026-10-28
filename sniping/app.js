@@ -324,6 +324,10 @@ async function syncTelemetry() {
       if (snapshot.gasTank && snapshot.gasTank.vault501Pol !== undefined) {
         setTextIfChanged(document.getElementById("topGasPol"), Number(snapshot.gasTank.vault501Pol).toFixed(2));
       }
+      if (data.contractExecutor) {
+        const shortAddr = `${data.contractExecutor.slice(0, 6)}...${data.contractExecutor.slice(-4)}`;
+        setTextIfChanged(document.getElementById("topExecutorPill"), `Ejecutor V2: ${shortAddr}`);
+      }
 
       // 3. Rejilla Central (54 Celdas Atómicas)
       if (snapshot.targets && snapshot.targets.length === 54) {

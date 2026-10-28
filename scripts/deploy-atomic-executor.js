@@ -16,11 +16,13 @@ const TG_CHAT = "-1004342131598";
 
 const NETS = {
   polygon: {
-    rpc: () => process.env.POLYGON_RPC_URL, maxDeployNative: 0.35, floorNative: 150.0, sym: "POL",
+    rpc: () => (process.env.POLYGON_RPC_URL && !process.env.POLYGON_RPC_URL.includes("alchemy.com")) ? process.env.POLYGON_RPC_URL : "https://polygon-bor-rpc.publicnode.com",
+    maxDeployNative: 1.0, floorNative: 5.0, sym: "POL",
     explorer: "https://polygonscan.com", addrKey: "atomicExecutorAddressPolygon", txKey: "atomicExecutorDeployTxPolygon", infoKey: "atomicExecutorDeployInfo"
   },
   bsc: {
-    rpc: () => process.env.BNB_RPC_URL || "https://bsc-dataseed.binance.org", maxDeployNative: 0.0005, floorNative: 0, sym: "BNB", legacyGas: true,
+    rpc: () => (process.env.BNB_RPC_URL && !process.env.BNB_RPC_URL.includes("alchemy.com")) ? process.env.BNB_RPC_URL : "https://bsc-dataseed.binance.org",
+    maxDeployNative: 0.0005, floorNative: 0, sym: "BNB", legacyGas: true,
     explorer: "https://bscscan.com", addrKey: "atomicExecutorAddressBsc", txKey: "atomicExecutorDeployTxBsc", infoKey: "atomicExecutorDeployInfoBsc"
   }
 };

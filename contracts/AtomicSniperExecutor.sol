@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 /**
- * AtomicSniperExecutor — ÁREA 501 PRODUCCIÓN
+ * AtomicSniperExecutor — ÁREA 501 PRODUCCIÓN V2
  * 
  * Motores Soportados:
  * 1. Motor #01: Keeper Harvest (Llamada directa / harvest con cobro hacia #501).
@@ -172,8 +172,7 @@ contract AtomicSniperExecutor {
 
         address usdc = tokens[0];
         uint256 borrowed = amounts[0];
-        uint256 fee = feeAmounts[0];
-        uint256 repayTotal = borrowed + fee;
+        uint256 repayTotal = borrowed + feeAmounts[0];
 
         (
             address intermediateToken,
@@ -184,19 +183,14 @@ contract AtomicSniperExecutor {
             Leg memory sellLeg
         ) = abi.decode(userData, (address, uint256, uint256, uint256, Leg, Leg));
 
-        // 1. Swap Leg 1: USDC -> Intermediate Token
         uint256 tokenOut = _swapMem(buyLeg, usdc, intermediateToken, borrowed, minOutLeg1);
-
-        // 2. Swap Leg 2: Intermediate Token -> USDC
         _swapMem(sellLeg, intermediateToken, usdc, tokenOut, minOutLeg2);
 
         uint256 usdcBal = IERC20(usdc).balanceOf(address(this));
         require(usdcBal >= repayTotal + minProfit, "ATOMIC_GUARD: BALANCER_NO_PROFIT_REVERT");
 
-        // 3. Devolver préstamo exacto a Balancer Vault
         _safeTransfer(usdc, BALANCER_VAULT, repayTotal);
 
-        // 4. Enviar ganancia neta líquida a la Bóveda #501
         uint256 netProfit = IERC20(usdc).balanceOf(address(this));
         if (netProfit > 0) {
             _safeTransfer(usdc, OWNER, netProfit);
@@ -233,52 +227,80 @@ contract AtomicSniperExecutor {
         uint8 actionType = abi.decode(params, (uint8));
 
         if (actionType == 1) {
-            // Acción 1: Arbitraje Flash
-            (, address intermediateToken, uint256 minProfit, uint256 minOutLeg1, uint256 minOutLeg2, Leg memory buyLeg, Leg memory sellLeg) =
-                abi.decode(params, (uint8, address, uint256, uint256, uint256, Leg, Leg));
-
-            uint256 tokenOut = _swapMem(buyLeg, asset, intermediateToken, amount, minOutLeg1);
-            _swapMem(sellLeg, intermediateToken, asset, tokenOut, minOutLeg2);
-
-            uint256 totalDebt = amount + premium;
-            uint256 bal = IERC20(asset).balanceOf(address(this));
-            require(bal >= totalDebt + minProfit, "ATOMIC_GUARD: AAVE_NO_PROFIT_REVERT");
-
-            _forceApprove(asset, AAVE_V3_POOL, totalDebt);
-
-            uint256 netProfit = bal - totalDebt;
-            if (netProfit > 0) {
-                _safeTransfer(asset, OWNER, netProfit);
-            }
-            emit FlashLoanArbitrage("AAVE_V3_0.05PCT", asset, amount, netProfit);
+            _executeAaveArbitrage(asset, amount, premium, params);
         } else if (actionType == 2) {
-            // Acción 2: Liquidación Aave V3 con +5% bono
-            (, address userToLiquidate, address collateralAsset, uint256 debtToCover, Leg memory swapCollateralLeg, uint256 minDebtOut) =
-                abi.decode(params, (uint8, address, address, uint256, Leg, uint256));
-
-            _forceApprove(asset, AAVE_V3_POOL, debtToCover);
-            IAaveV3Pool(AAVE_V3_POOL).liquidationCall(collateralAsset, asset, userToLiquidate, debtToCover, false);
-
-            uint256 seizedCollateral = IERC20(collateralAsset).balanceOf(address(this));
-            require(seizedCollateral > 0, "ZERO_COLLATERAL_SEIZED");
-
-            // Convertir colateral incautado de regreso al activo de deuda (USDC)
-            _swapMem(swapCollateralLeg, collateralAsset, asset, seizedCollateral, minDebtOut);
-
-            uint256 totalDebt = amount + premium;
-            uint256 finalBal = IERC20(asset).balanceOf(address(this));
-            require(finalBal >= totalDebt, "LIQUIDATION_DEFICIT_REVERT");
-
-            _forceApprove(asset, AAVE_V3_POOL, totalDebt);
-
-            uint256 liquidationProfit = finalBal - totalDebt;
-            if (liquidationProfit > 0) {
-                _safeTransfer(asset, OWNER, liquidationProfit);
-            }
-            emit LiquidationExecuted(userToLiquidate, collateralAsset, asset, debtToCover, liquidationProfit);
+            _executeAaveLiquidation(asset, amount, premium, params);
         }
 
         return true;
+    }
+
+    function _executeAaveArbitrage(
+        address asset,
+        uint256 amount,
+        uint256 premium,
+        bytes calldata params
+    ) internal {
+        (
+            ,
+            address intermediateToken,
+            uint256 minProfit,
+            uint256 minOutLeg1,
+            uint256 minOutLeg2,
+            Leg memory buyLeg,
+            Leg memory sellLeg
+        ) = abi.decode(params, (uint8, address, uint256, uint256, uint256, Leg, Leg));
+
+        uint256 tokenOut = _swapMem(buyLeg, asset, intermediateToken, amount, minOutLeg1);
+        _swapMem(sellLeg, intermediateToken, asset, tokenOut, minOutLeg2);
+
+        uint256 totalDebt = amount + premium;
+        uint256 bal = IERC20(asset).balanceOf(address(this));
+        require(bal >= totalDebt + minProfit, "ATOMIC_GUARD: AAVE_NO_PROFIT_REVERT");
+
+        _forceApprove(asset, AAVE_V3_POOL, totalDebt);
+
+        uint256 netProfit = bal - totalDebt;
+        if (netProfit > 0) {
+            _safeTransfer(asset, OWNER, netProfit);
+        }
+        emit FlashLoanArbitrage("AAVE_V3_0.05PCT", asset, amount, netProfit);
+    }
+
+    function _executeAaveLiquidation(
+        address asset,
+        uint256 amount,
+        uint256 premium,
+        bytes calldata params
+    ) internal {
+        (
+            ,
+            address userToLiquidate,
+            address collateralAsset,
+            uint256 debtToCover,
+            Leg memory swapCollateralLeg,
+            uint256 minDebtOut
+        ) = abi.decode(params, (uint8, address, address, uint256, Leg, uint256));
+
+        _forceApprove(asset, AAVE_V3_POOL, debtToCover);
+        IAaveV3Pool(AAVE_V3_POOL).liquidationCall(collateralAsset, asset, userToLiquidate, debtToCover, false);
+
+        uint256 seizedCollateral = IERC20(collateralAsset).balanceOf(address(this));
+        require(seizedCollateral > 0, "ZERO_COLLATERAL_SEIZED");
+
+        _swapMem(swapCollateralLeg, collateralAsset, asset, seizedCollateral, minDebtOut);
+
+        uint256 totalDebt = amount + premium;
+        uint256 finalBal = IERC20(asset).balanceOf(address(this));
+        require(finalBal >= totalDebt, "LIQUIDATION_DEFICIT_REVERT");
+
+        _forceApprove(asset, AAVE_V3_POOL, totalDebt);
+
+        uint256 liquidationProfit = finalBal - totalDebt;
+        if (liquidationProfit > 0) {
+            _safeTransfer(asset, OWNER, liquidationProfit);
+        }
+        emit LiquidationExecuted(userToLiquidate, collateralAsset, asset, debtToCover, liquidationProfit);
     }
 
     // =========================================================================

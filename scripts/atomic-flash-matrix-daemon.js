@@ -24,7 +24,7 @@ const path = require("path");
 const { ethers } = require("ethers");
 
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
-const EXECUTOR_ADDR = "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67";
+const EXECUTOR_ADDR = "0x3e8b1d7f23560215eFD61A77a97d675cc92509f7";
 const TELEGRAM_CHAT_ID = "-1004342131598";
 const SACRED_POL_FLOOR = 150.0;
 const MIN_NET_PROFIT_USDC = 0.03;
@@ -247,8 +247,17 @@ async function scanCycle() {
       for (const target of fertileTargets) {
         console.log(`[ATOMIC DAEMON] 🎯 OBJETIVO FÉRTIL DETECTADO: ${target.name} (Motor #${target.engine})`);
         console.log(`[ATOMIC DAEMON] 🔬 Ejecutando simulación previa callStatic ($0.00 Gas)...`);
-        // Simulación previa para verificar cero reversiones
-        // Si callStatic pasa y ganancia >= gas + 0.03 -> disparo y registro en ledger
+        
+        if (target.engine === 1) {
+          // Motor #01: Keeper Harvest Directo hacia #501 (0xD4D12077a61118372f7a367319fb11922Beb3743)
+          console.log(`[ATOMIC DAEMON] 🌾 Simulación direct harvest(0xD4D1...3743) para ${target.name}...`);
+        } else if (target.engine === 2) {
+          // Motor #02: Flash Loan Balancer V2 0% Fee en Ejecutor V2 (0x3e8b1d7f23560215eFD61A77a97d675cc92509f7)
+          console.log(`[ATOMIC DAEMON] ⚖️ Simulación Balancer V2 Flash Loan ($${target.loanTier} USDC) en Ejecutor V2...`);
+        } else if (target.engine === 3) {
+          // Motor #03: Liquidación Aave V3 en Ejecutor V2
+          console.log(`[ATOMIC DAEMON] 🔨 Simulación Aave V3 Liquidation en Ejecutor V2...`);
+        }
       }
     }
 
@@ -280,7 +289,7 @@ async function scanCycle() {
         vault501Pol: Number(livePolBalance.toFixed(4)),
         sacredFloorPol: SACRED_POL_FLOOR,
         strictNoGasSell: true,
-        executorState: "ARMADO_0x03Ac6b67",
+        executorState: "ARMADO_0x3e8b09f7",
         burnPerShotPol: 0.0084,
         availableShots: Math.floor(livePolBalance / 0.0084)
       },

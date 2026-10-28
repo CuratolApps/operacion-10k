@@ -14,12 +14,12 @@ const TRACKED_WALLETS = [
   { label: "#201 (Capitán Box 3)", address: "0x2810aa0DabCA4511846194229d2c004B14016A7C", boxId: 3 },
   { label: "#301 (Capitán Box 4)", address: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f", boxId: 4 },
   { label: "#401 (Capitán Box 5)", address: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070", boxId: 5 },
-  { label: "Ejecutor Atómico 0x03Ac...6b67", address: "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67", boxId: 1 }
+  { label: "Ejecutor Atómico V2 0x3e8b...09f7", address: "0x3e8b1d7f23560215eFD61A77a97d675cc92509f7", boxId: 1 }
 ];
 
 const ALLOWED_ASSETS = new Set(["POL", "MATIC", "WPOL", "WMATIC", "USDC", "USDT", "BNB", "WBNB"]);
 const WMATIC_ADDR = "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270";
-const EXECUTOR_ADDR = "0x03ac6307ef8c2ec6ba724072d823bbf0b5dc6b67";
+const EXECUTOR_ADDR = "0x3e8b1d7f23560215efd61a77a97d675cc92509f7";
 
 let cachedLiveTxs = null;
 let lastLiveTxsFetch = 0;
@@ -1046,7 +1046,7 @@ async function getLiveLiquidityEngineData() {
   const usdcAddress = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
   const aPolUsdcAddress = "0xA4D94019934D8333Ef880ABFFbF2FDd611C762BD";
   const aavePoolAddress = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
-  const sniperExecutorAddress = "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67";
+  const sniperExecutorAddress = "0x3e8b1d7f23560215eFD61A77a97d675cc92509f7";
 
   const balSelector = "0x70a08231" + vaultAddress.toLowerCase().replace("0x", "").padStart(64, "0");
   const aaveData = "0x35ea6a75" + usdcAddress.toLowerCase().replace("0x", "").padStart(64, "0");
@@ -1710,7 +1710,7 @@ export default {
           usdcNative: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
           aaveV3Pool: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
           aPolUsdcToken: "0xA4D94019934D8333Ef880ABFFbF2FDd611C762BD",
-          atomicSniperExecutor: "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67"
+          atomicSniperExecutor: "0x3e8b1d7f23560215eFD61A77a97d675cc92509f7"
         },
         onChainExecutionGuide: {
           status: "ENVOLVENTE AAVE V3 ACTIVA & CONFIRMADA EN BLOQUE #96225534",
