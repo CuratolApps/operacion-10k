@@ -80,15 +80,16 @@ const SYNTHETIC_DEFAULTS = {
 
 // ESTADO GLOBAL
 let appState = {
-  accountValue: 649.80,
-  withdrawable: 373.44,
+  accountValue: 803.55,
+  withdrawable: 480.00,
   openPositions: [],
   mids: {},
-  totalLoanInjected: 418.50,
+  totalLoanInjected: 568.50,
+  credit501Loan: 450.00,
   totalLoanRepaid: 0.00,
   block1Goal: 1000.00,
   totalWins: 39,
-  totalProfitUsdc: 45.53
+  totalProfitUsdc: 49.28
 };
 
 // INICIALIZACIÓN
@@ -298,14 +299,14 @@ function updateTopBarCards() {
   if (elProjProfit) elProjProfit.innerText = `+${netTotalPnl.toFixed(2)} USDC (+${pnlPct.toFixed(2)}%)`;
   const elProjClosing = document.getElementById("projClosingToday");
   if (elProjClosing) {
-    const lowClose = val + 15.20;
-    const highClose = val + 22.20;
+    const lowClose = Math.max(val + 16.50, 820.00);
+    const highClose = Math.max(val + 28.50, 832.00);
     elProjClosing.innerText = `~$${lowClose.toFixed(2)} – $${highClose.toFixed(2)} USDC`;
   }
   const elProjDist = document.getElementById("projDistance1000");
   if (elProjDist) {
     const missing = Math.max(0, 1000.00 - val);
-    elProjDist.innerText = `Faltan $${missing.toFixed(2)} USDC`;
+    elProjDist.innerText = `Faltan solo $${missing.toFixed(2)} USDC`;
   }
 }
 

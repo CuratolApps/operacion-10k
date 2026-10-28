@@ -2,14 +2,14 @@
  * scripts/hyperliquid-squad-daemon.js — ÁREA 501 // SQUAD SECRET V2 AUTONOMOUS DAEMON
  * ==============================================================================
  * MOTOR AUTÓNOMO V2 ESCALADO: 3 ESCUADRONES SNIPER EN HYPERLIQUID L1
- * - Escuadrón Alfa (#601 Titan-Scalper): SOL, SUI, AVAX (20% Margen · 5x · ~$650 Nocional)
- * - Escuadrón Bravo (#701 Oracle-Global): BTC, PAXG, LINK (20% Margen · 5x · ~$650 Nocional)
- * - Escuadrón Charlie (#801 Nexus-Boss): ETH, BNB, AAVE (20% Margen · 5x · ~$650 Nocional)
+ * - Escuadrón Alfa (#01 Titan-Scalper): SOL, SUI, AVAX (20% Margen · 5x · ~$800 Nocional)
+ * - Escuadrón Bravo (#02 Oracle-Global): BTC, PAXG, LINK (20% Margen · 5x · ~$800 Nocional)
+ * - Escuadrón Charlie (#03 Nexus-Boss): ETH, BNB, AAVE (20% Margen · 5x · ~$800 Nocional)
  * 
  * LEYES SAGRADAS V2 ESCALADAS — BLOQUE 1 RUMBO A $1,000 USDC:
- * 1. Capital Base en L1: ~$649.24 USDC ($410.50 USDC total inyectado desde Bóveda #501).
- * 2. Escudo Mentora #00: 40% del Capital (~$259.70+ USDC) 100% Intocables en Cash de Reserva.
- * 3. Margen Operativo por Escuadrón: 20% del Capital (~$129.85 USDC a 5x = ~$649.25 Nocional por tiro).
+ * 1. Capital Base en L1: ~$803.55 USDC ($450.00 USDC préstamo #501 / $568.50 USDC total inyectado a 0%).
+ * 2. Escudo Mentora #00: 40% del Capital (~$320.00+ USDC) 100% Intocables en Cash de Reserva.
+ * 3. Margen Operativo por Escuadrón: 20% del Capital (~$160.00 USDC a 5x = ~$800.00 Nocional por tiro).
  * 4. Interés Compuesto Dinámico: El margen y el nocional crecen automáticamente cada día con las ganancias.
  * 5. Doctrina de Consolidación por Bloques: 100% Capitalización Pura ($0 retiros) hasta alcanzar $1,000.00 USDC.
  *    Al tocar $1,000.00 USDC: Regla 70/30 (70% reinversión / 30% devolución a #501 o Bloque 2).
@@ -29,8 +29,8 @@ const { sendTelegramAlert } = require("../telegram-notifier");
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 
 // --- POLÍTICA DE CAPITAL ESCALADO V2 (40% RESERVA / 20% CADA ESCUADRÓN) ---
-const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$259.70+ USDC)
-const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$129.85 USDC a 5x = ~$649.25 Nocional)
+const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$320.00+ USDC)
+const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$160.00 USDC a 5x = ~$800.00 Nocional)
 const LEVERAGE = 5;
 const TARGET_GAIN_PCT = 0.35;           // +0.35% Take Profit (~+$2.10 a +$2.30 USDC netos por tiro)
 const BREAKEVEN_TRIGGER_PCT = 0.12;     // Activar candado BE al +0.12% a favor
