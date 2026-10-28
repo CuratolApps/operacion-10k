@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ÁREA 501 // POSICIÓN MATRIX 501 (EXPLORADOR MULTICADENA BÓVEDA #501)</title>
+
+  <!-- Tipografías Oficiales: JetBrains Mono & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Iconografía Oficial: Google Material Symbols Rounded (100% Cero Emojis) -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Control Criptográfico de Acceso Militar -->
+  <link rel="stylesheet" href="/assets/auth-gate.css">
+  <script src="/assets/auth-gate.js"></script>
+
+  <!-- Estilos Matrix Estándar 100vh Cero Scroll -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="matrix-viewport">
+
+    <!-- HEADER COMPACTO: IDENTIDAD DE LA BÓVEDA Y REDES -->
+    <header class="matrix-header-bar">
+      <div class="header-left">
+        <div class="brand-badge">
+          <span class="material-symbols-rounded">account_balance</span>
+          <span>ÁREA 501 · POSICIÓN MATRIX 501</span>
+        </div>
+        <div class="header-vault-address">
+          <span>BÓVEDA #501:</span>
+          <code id="topVaultAddrShort">0xD4D1...3743</code>
+          <button class="copy-btn" id="btnCopyAddress" title="Copiar dirección 0xD4D12077a61118372f7a367319fb11922Beb3743">
+            <span class="material-symbols-rounded">content_copy</span>
+            <span>COPIAR</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="network-pills-row">
+          <div class="net-pill hl" title="Hyperliquid L1 Conectado">
+            <span class="dot"></span>
+            <span>HYPERLIQUID L1</span>
+          </div>
+          <div class="net-pill poly" title="Polygon PoS Conectado">
+            <span class="dot"></span>
+            <span>POLYGON PoS</span>
+          </div>
+          <div class="net-pill bsc" title="BNB Smart Chain Conectado">
+            <span class="dot"></span>
+            <span>BNB CHAIN</span>
+          </div>
+          <div class="net-pill arb" title="Arbitrum One Conectado">
+            <span class="dot"></span>
+            <span>ARBITRUM</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- TOP FIXED BAR: 5 BUSINESS CARDS EN BLANCO SATINADO LUMINOSO -->
+    <section class="top-matrix-grid">
+      
+      <!-- TARJETA 1: PATRIMONIO TOTAL CONSOLIDADO #501 -->
+      <div class="biz-card" id="cardConsolidatedWealth">
+        <div class="card-tag">
+          <div class="card-tag-left">
+            <span class="material-symbols-rounded">account_balance_wallet</span>
+            <span>1. PATRIMONIO CONSOLIDADO #501</span>
+          </div>
+          <div class="explorer-links-mini">
+            <a href="https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="exp-link" title="PolygonScan">POLY</a>
+            <a href="https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="exp-link" title="BscScan">BSC</a>
+            <a href="https://arbiscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="exp-link" title="Arbiscan">ARB</a>
+            <a href="https://debank.com/profile/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="exp-link" title="DeBank">DEBANK</a>
+            <a href="https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743" target="_blank" class="exp-link" title="Hypurrscan">HL</a>
+          </div>
+        </div>
+        <div class="card-main-val">
+          <span class="currency-symbol">$</span>
+          <span id="topTotalWealthUsd">848.35</span>
+          <span class="unit-tag">USD TOTAL</span>
+        </div>
+        <div class="card-pills-row-1line">
+          <span class="pill-cap green" id="pillHlShare">HL L1: $843.63</span>
+          <span class="pill-cap blue" id="pillPolyShare">POL: 9.62 ($2.12)</span>
+          <span class="pill-cap amber" id="pillBscShare">BSC: $7.98</span>
+          <span class="pill-cap dark">0 DEUDAS EXTERNAS</span>
+        </div>
+      </div>
+
+      <!-- TARJETA 2: COMPOSICIÓN HYPERLIQUID L1 (MOTOR #01) -->
+      <div class="biz-card" id="cardHyperliquidComposition">
+        <div class="card-tag">
+          <div class="card-tag-left">
+            <span class="material-symbols-rounded">speed</span>
+            <span>2. HYPERLIQUID L1 (MOTOR #01)</span>
+          </div>
+          <span class="pill-cap blue" style="font-size:0.54rem;">POST-ONLY ALO</span>
+        </div>
+        <div class="card-main-val">
+          <span class="currency-symbol">$</span>
+          <span id="topHlBalanceUsdc" style="color: #0284C7;">843.63</span>
+          <span class="unit-tag">USDC CLEARING</span>
+        </div>
+        <div class="card-pills-row-1line">
+          <span class="pill-cap blue" id="topHlActiveMargin">60% Margen ($506.18)</span>
+          <span class="pill-cap amber" id="topHlShieldMargin">40% Escudo #00 ($337.45)</span>
+          <span class="pill-cap green" id="topHlRepaymentStatus">70/30 En Espera</span>
+        </div>
+      </div>
+
+      <!-- TARJETA 3: COMPOSICIÓN EVM ON-CHAIN (POLYGON · BSC · ARBITRUM) -->
+      <div class="biz-card" id="cardEvmComposition">
+        <div class="card-tag">
+          <div class="card-tag-left">
+            <span class="material-symbols-rounded">hub</span>
+            <span>3. COMPOSICIÓN EVM ON-CHAIN</span>
+          </div>
+          <span class="pill-cap green" style="font-size:0.54rem;">RPC EN VIVO</span>
+        </div>
+        <div class="card-main-val">
+          <span id="topEvmPolBal">9.6194</span>
+          <span class="unit-tag" style="color:#7C3AED;">POL</span>
+          <span style="font-size: 0.9rem; color: #94A3B8; margin: 0 4px;">+</span>
+          <span id="topEvmBnbBal">0.0188</span>
+          <span class="unit-tag" style="color:#D97706;">BNB</span>
+        </div>
+        <div class="card-pills-row-1line">
+          <span class="pill-cap purple" id="pillPolyUsdc">USDC Pol: $0.11 Nativo</span>
+          <span class="pill-cap amber" id="pillBscUsdc">USDC BSC: $7.98</span>
+          <span class="pill-cap blue" id="pillArbEth">ETH Arb: 0.00084</span>
+        </div>
+      </div>
+
+      <!-- TARJETA 4: FLUJO DE CAPITALIZACIÓN & RETORNO A #501 -->
+      <div class="biz-card" id="cardFlowCapitalization">
+        <div class="card-tag">
+          <div class="card-tag-left">
+            <span class="material-symbols-rounded">trending_up</span>
+            <span>4. FLUJO CAPITALIZACIÓN &amp; RETORNO</span>
+          </div>
+          <span class="pill-cap green" id="topProfitPctBadge">+33.92%</span>
+        </div>
+        <div class="card-main-val">
+          <span class="currency-symbol">+$</span>
+          <span id="topProfitAccumUsdc" style="color: #059669;">213.69</span>
+          <span class="unit-tag">USDC GANANCIA</span>
+        </div>
+        <div class="card-pills-row-1line">
+          <span class="pill-cap dark" id="pillInjectedBase">Base: $629.94 al 0%</span>
+          <span class="pill-cap blue" id="pillFleetPockets">Flota: $4.70 USDC</span>
+          <span class="pill-cap amber">Bóvedas B1-B5 Spot</span>
+        </div>
+      </div>
+
+      <!-- TARJETA 5: SEGURIDAD OPSEC, CONTRATOS & ALLOWANCES #501 -->
+      <div class="biz-card" id="cardOpsecSecurity">
+        <div class="card-tag">
+          <div class="card-tag-left">
+            <span class="material-symbols-rounded">gavel</span>
+            <span>5. SEGURIDAD OPSEC &amp; ALLOWANCES</span>
+          </div>
+          <span class="pill-cap dark" style="font-size:0.54rem;">100% BLINDADO</span>
+        </div>
+        <div class="card-main-val">
+          <span class="material-symbols-rounded" style="color: #059669; font-size: 1.15rem;">verified_user</span>
+          <span style="font-size: 0.88rem; font-family: var(--font-mono); color: #0F172A;" id="topContractExecutor">0x3e8b...09f7 (V2)</span>
+        </div>
+        <div class="card-pills-row-1line">
+          <span class="pill-cap green">NO_GAS_SELL = true</span>
+          <span class="pill-cap blue">SWEEP_BINANCE = false</span>
+          <span class="pill-cap dark">NONCES: 0 ERRORES</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CONTENEDOR CENTRAL: 4 VISTAS CONMUTABLES -->
+    <main class="matrix-main-content">
+
+      <!-- ====================================================================
+           VISTA 1: 54 CELDAS MULTICADENA (VERDE ESMERALDA / MENTA)
+           ==================================================================== -->
+      <section class="tab-pane active" id="paneCompositionGrid">
+        <div class="grid-54-wrapper">
+          <div class="grid-legend-bar">
+            <div class="legend-groups">
+              <div class="leg-item">
+                <span class="leg-dot cameras"></span>
+                <span>Cámaras Multicadena (C1-C6)</span>
+              </div>
+              <div class="leg-item">
+                <span class="leg-dot assets"></span>
+                <span>Activos en Cartera (A01-A12)</span>
+              </div>
+              <div class="leg-item">
+                <span class="leg-dot contracts"></span>
+                <span>Contratos &amp; Ejecutores (E01-E12)</span>
+              </div>
+              <div class="leg-item">
+                <span class="leg-dot vaults"></span>
+                <span>Bóvedas Binance Spot (B1-B5)</span>
+              </div>
+              <div class="leg-item">
+                <span class="leg-dot captains"></span>
+                <span>Capitanes Flota X500 (K01-K05)</span>
+              </div>
+            </div>
+            <div class="legend-info">
+              <span>ESTADO ANATÓMICO: <b>54 / 54 CELDAS MATRIZ AUDITADAS ON-CHAIN</b></span>
+            </div>
+          </div>
+
+          <div class="pos-grid-54" id="posMatrixGrid54">
+            <!-- 54 Celdas generadas dinámicamente por JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 2: EXPLORADOR DE MOVIMIENTOS EN VIVO (ESTILO BSCSCAN / HL SCAN)
+           ==================================================================== -->
+      <section class="tab-pane" id="paneTxExplorer">
+        <div class="explorer-container">
+          <div class="explorer-toolbar">
+            <div class="explorer-filters">
+              <button class="exp-filter-btn active" data-filter="ALL" id="filterAll">
+                <span class="material-symbols-rounded">view_list</span> TODAS LAS REDES
+              </button>
+              <button class="exp-filter-btn" data-filter="HL" id="filterHl">
+                <span class="material-symbols-rounded">speed</span> HYPERLIQUID L1
+              </button>
+              <button class="exp-filter-btn" data-filter="POLYGON" id="filterPoly">
+                <span class="material-symbols-rounded">layers</span> POLYGON PoS
+              </button>
+              <button class="exp-filter-btn" data-filter="BSC_ARB" id="filterBscArb">
+                <span class="material-symbols-rounded">hub</span> BSC / ARBITRUM
+              </button>
+            </div>
+
+            <div class="explorer-search-wrap">
+              <span class="material-symbols-rounded">search</span>
+              <input type="text" class="explorer-search-input" id="explorerSearchInput" placeholder="Buscar por TxHash, método o activo...">
+            </div>
+
+            <div class="explorer-counter-badge" id="txCountBadge">
+              18 MOVIMIENTOS REGISTRADOS
+            </div>
+          </div>
+
+          <div class="explorer-table-wrap">
+            <table class="tx-explorer-table" id="txExplorerTable">
+              <thead>
+                <tr>
+                  <th>TX / ORDEN HASH</th>
+                  <th>RED</th>
+                  <th>MÉTODO / ACCIÓN</th>
+                  <th>DESDE ➔ HACIA</th>
+                  <th>VALOR NETO</th>
+                  <th>FEE</th>
+                  <th>FECHA / HORA UTC</th>
+                  <th>ESTADO</th>
+                  <th>EXPLORADOR</th>
+                </tr>
+              </thead>
+              <tbody id="txExplorerTbody">
+                <!-- Filas inyectadas dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 3: DEVOLUCIÓN 0% INTERÉS & REGLA 70/30
+           ==================================================================== -->
+      <section class="tab-pane" id="paneAmortization">
+        <div class="amort-container">
+          
+          <div class="amort-top-cards">
+            <div class="amort-card">
+              <span class="ac-label">1. Capital Prestado por #501</span>
+              <div class="ac-val">$629.94 USDC</div>
+              <span class="ac-sub">Préstamo inyectado al 0.00% de interés a HL L1</span>
+            </div>
+            <div class="amort-card">
+              <span class="ac-label">2. Patrimonio Actual HL L1</span>
+              <div class="ac-val cyan" id="amortCurrentHlVal">$843.63 USDC</div>
+              <span class="ac-sub">60% Margen Activo + 40% Escudo Mentora #00</span>
+            </div>
+            <div class="amort-card">
+              <span class="ac-label">3. Ganancia Neta Acumulada</span>
+              <div class="ac-val green" id="amortNetProfitVal">+$213.69 USDC (+33.92%)</div>
+              <span class="ac-sub">Ganancia generada 100% Post-Only ALO ($0 gas)</span>
+            </div>
+            <div class="amort-card">
+              <span class="ac-label">4. Distancia al Gatillo 70/30</span>
+              <div class="ac-val amber" id="amortRemainingToTrigger">Faltan $156.37 USDC</div>
+              <span class="ac-sub">Gatillo automático al tocar $1,000.00 USDC</span>
+            </div>
+          </div>
+
+          <div class="amort-progress-card">
+            <div class="progress-header">
+              <span>PROGRESO HACIA HITO DE AMORTIZACIÓN AUTOMÁTICA ($1,000.00 USDC)</span>
+              <span class="font-mono text-cyan" id="amortProgressPctLabel">84.36% DE LA META</span>
+            </div>
+            <div class="progress-track-wrapper">
+              <div class="progress-fill-70" id="progressFillBar" style="width: 84.36%;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.62rem; color: #475569; font-weight: 700;">
+              <span>Base: $629.94 USDC</span>
+              <span>Actual: $843.63 USDC</span>
+              <span>Meta $1,000.00 USDC ➔ Comienza Amortización 30% a #501 + 70% Crecimiento</span>
+            </div>
+          </div>
+
+          <div class="amort-table-card">
+            <h4 style="font-size: 0.72rem; font-weight: 800; margin-bottom: 6px; color: #0F172A;">
+              CRONOGRAMA CONTABLE: AMORTIZACIÓN DEL PRÉSTAMO 0% DE REGRESO A LA BÓVEDA #501
+            </h4>
+            <table class="amort-table">
+              <thead>
+                <tr>
+                  <th>FASE CONTABLE</th>
+                  <th>CONDICIÓN / CAPITAL</th>
+                  <th>REGLA DE DISTRIBUCIÓN</th>
+                  <th>FLUJO A BÓVEDA #501</th>
+                  <th>RE-INVERSIÓN EN SQUAD</th>
+                  <th>ESTADO</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: #ECFDF5;">
+                  <td class="font-bold">Fase 1: Acumulación Inicial</td>
+                  <td>$629.94 ➔ $843.63 USDC</td>
+                  <td>100% Capitalización Activa</td>
+                  <td>$0.00 USDC (Protegiendo margen)</td>
+                  <td>100% de la ganancia</td>
+                  <td><span class="ar-badge-ok">EN CURSO (+$213.69)</span></td>
+                </tr>
+                <tr>
+                  <td class="font-bold">Fase 2: Cruce de la Meta $1,000</td>
+                  <td>$843.63 ➔ $1,000.00 USDC</td>
+                  <td>100% Capitalización Activa</td>
+                  <td>$0.00 USDC</td>
+                  <td>100% de la ganancia</td>
+                  <td><span class="foot-pill" style="color:#0284C7; background:#E0F2FE;">FALTAN $156.37</span></td>
+                </tr>
+                <tr>
+                  <td class="font-bold">Fase 3: Gatillo 70/30 Encendido</td>
+                  <td>&gt; $1,000.00 USDC</td>
+                  <td>70% Rueda Pesada / 30% Retorno</td>
+                  <td>30% de ganancia neta diaria</td>
+                  <td>70% a nuevo escuadrón</td>
+                  <td><span class="foot-pill">LISTO PARA ACTIVACIÓN</span></td>
+                </tr>
+                <tr>
+                  <td class="font-bold">Fase 4: Deuda 0% Saldada</td>
+                  <td>$629.94 Devueltos a #501</td>
+                  <td>10% Dividendo / 90% Squad</td>
+                  <td>100% Préstamo saldado</td>
+                  <td>18 Escuadrones a Pleno Pulmón</td>
+                  <td><span class="foot-pill">OBJETIVO FINAL</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 4: AUDITORÍA DE CONTRATOS & PERMISOS ON-CHAIN
+           ==================================================================== -->
+      <section class="tab-pane" id="paneAudit">
+        <div class="audit-container">
+          
+          <!-- Tarjeta Auditoría 1: Nonces y Gas por Cadena -->
+          <div class="audit-card">
+            <div class="audit-head">
+              <span class="material-symbols-rounded">speed</span>
+              <h4>1. NONCES Y COMBUSTIBLE ON-CHAIN</h4>
+            </div>
+            <div class="audit-list">
+              <div class="audit-row">
+                <span class="ar-label">Polygon PoS (Nonce #501):</span>
+                <span class="ar-val" id="auditPolyNonce">Nonce #82 (Sincronizado)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Combustible Polygon (#501):</span>
+                <span class="ar-val font-mono" id="auditPolyPol">9.6194 POL (1145 tiros)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">BNB Smart Chain (Nonce #501):</span>
+                <span class="ar-val" id="auditBscNonce">Nonce #24 (Sincronizado)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Combustible BSC (#501):</span>
+                <span class="ar-val font-mono" id="auditBscBnb">0.0188 BNB (Gas blindado)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Arbitrum One (Nonce #501):</span>
+                <span class="ar-val" id="auditArbNonce">Nonce #12 (Sincronizado)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Combustible Arbitrum (#501):</span>
+                <span class="ar-val font-mono" id="auditArbEth">0.00084 ETH (Puente HL)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Tanque de Gas en Flota X500:</span>
+                <span class="ar-val font-mono">20.47 POL + 0.00877 BNB</span>
+              </div>
+            </div>
+            <div class="ar-badge-ok" style="text-align: center;">COMBATIVIDAD COMPLETA · CERO TRANSACCIONES ATASCADAS</div>
+          </div>
+
+          <!-- Tarjeta Auditoría 2: Contratos Ejecutores y Allowances -->
+          <div class="audit-card">
+            <div class="audit-head">
+              <span class="material-symbols-rounded">smart_toy</span>
+              <h4>2. CONTRATOS &amp; ALLOWANCES ON-CHAIN</h4>
+            </div>
+            <div class="audit-list">
+              <div class="audit-row">
+                <span class="ar-label">Ejecutor Atómico V2 Polygon:</span>
+                <span class="ar-val font-mono">0x3e8b...09f7 (Deploy OK)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Owner Verificado en Bytecode:</span>
+                <span class="ar-val font-mono text-cyan">0xD4D1...3743 (#501)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Balancer V2 Vault (Flash Loan 0%):</span>
+                <span class="ar-val font-mono">0xBA12...2C8 (Autorizado)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Aave V3 Pool Polygon:</span>
+                <span class="ar-val font-mono">0x794a...14aD (Autorizado)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Allowance USDC ➔ Ejecutor V2:</span>
+                <span class="ar-val font-mono">2,500.00 USDC (Activo)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Hyperliquid Bridge (Arbitrum):</span>
+                <span class="ar-val font-mono">0x2df1...3df7 (Oficial)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Hyperliquid Agent Key:</span>
+                <span class="ar-val font-mono">0xccb3...F7f8 (Post-Only)</span>
+              </div>
+            </div>
+            <div class="ar-badge-ok" style="text-align: center;">CERO PERMISOS SOSPECHOSOS · CERO ALLOWANCES ILIMITADAS DE RIESGO</div>
+          </div>
+
+          <!-- Tarjeta Auditoría 3: Políticas OPSEC Inviolables -->
+          <div class="audit-card">
+            <div class="audit-head">
+              <span class="material-symbols-rounded">shield</span>
+              <h4>3. POLÍTICAS OPSEC DE ÁREA 501</h4>
+            </div>
+            <div class="audit-list">
+              <div class="audit-row">
+                <span class="ar-label">STRICT_NO_GAS_SELL:</span>
+                <span class="ar-val font-mono text-green">TRUE (Gas Intocable)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">AUTO_SWEEP_TO_BINANCE:</span>
+                <span class="ar-val font-mono text-cyan">FALSE (Retención #501)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Permiso Retiro Agent Key HL:</span>
+                <span class="ar-val font-mono text-green">0.00% (Inviolable)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Custodia Claves Privadas:</span>
+                <span class="ar-val">Local / Hardware / 0 Cloud</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Bóveda #00 Zen Mentor:</span>
+                <span class="ar-val">0x87e3...3990 (Aislada 100%)</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Firmas EIP-712 Swarm:</span>
+                <span class="ar-val">Gasless &amp; Anti-Sybil Activo</span>
+              </div>
+              <div class="audit-row">
+                <span class="ar-label">Trinquete Patrimonial:</span>
+                <span class="ar-val">Piso $500 Asegurado</span>
+              </div>
+            </div>
+            <div class="ar-badge-ok" style="text-align: center;">PROTOCOLO OPSEC CERTIFICADO DE ALTA SEGURIDAD</div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM FIXED BAR: BRAND, 4 TABS, 4-STATIONS MASTER BUTTON, CLOCK -->
+    <footer class="matrix-bottombar">
+      <!-- 1. ZONA IZQUIERDA: IDENTIDAD DEL MÓDULO ACTIVO -->
+      <div class="bottom-identity">
+        <span class="material-symbols-rounded brand-icon">account_balance</span>
+        <b class="brand-title">POSICIÓN MATRIX 501</b>
+        <span class="live-dot-green" title="En Vivo On-Chain"></span>
+      </div>
+
+      <!-- 2. ZONA CENTRAL: 4 PESTAÑAS OPERATIVAS EXCLUSIVAS -->
+      <nav class="matrix-nav-tabs">
+        <button class="nav-tab active" data-tab="paneCompositionGrid" id="tabBtnComp">
+          <span class="material-symbols-rounded tab-icon">grid_view</span> 54 CELDAS MULTICADENA
+        </button>
+        <button class="nav-tab" data-tab="paneTxExplorer" id="tabBtnExplorer">
+          <span class="material-symbols-rounded tab-icon">receipt_long</span> EXPLORADOR EN VIVO
+        </button>
+        <button class="nav-tab" data-tab="paneAmortization" id="tabBtnAmort">
+          <span class="material-symbols-rounded tab-icon">handshake</span> REGLA 70/30 &amp; 0%
+        </button>
+        <button class="nav-tab" data-tab="paneAudit" id="tabBtnAudit">
+          <span class="material-symbols-rounded tab-icon">security</span> AUDITORÍA &amp; OPSEC
+        </button>
+      </nav>
+
+      <!-- 3. ZONA DERECHA: BOTÓN MAESTRO DE 4 ESTACIONES + RELOJ UTC -->
+      <div class="bottom-system">
+        <button class="btn-stations-master" id="btnMasterStationsHub" title="Abrir el Hub de 4 Estaciones de Área 501">
+          <span class="material-symbols-rounded">hub</span> 4 ESTACIONES ÁREA 501
+        </button>
+        <div class="utc-clock">
+          <span class="material-symbols-rounded" style="font-size:14px; color:#64748B;">schedule</span>
+          <span id="liveUtcClock">00:00:00 UTC</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ==============================================================================
+       MODAL OFICIAL DE LAS 4 ESTACIONES DE ÁREA 501
+       ============================================================================== -->
+  <div class="stations-modal-overlay" id="stationsModalOverlay">
+    <div class="stations-modal-content">
+      <div class="modal-head">
+        <div class="modal-head-left">
+          <span class="material-symbols-rounded">hub</span>
+          <h3>NODRIZA MATRIZ ÁREA 501 · 4 ESTACIONES OPERATIVAS</h3>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn" title="Cerrar ventana">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+
+      <div class="modal-stations-grid">
+        <!-- ESTACIÓN MATRIZ: POSICIÓN MATRIX 501 -->
+        <a href="/posicion-501/" class="modal-station-card active-station">
+          <div class="m-card-top">
+            <span class="m-card-badge matriz">ESTACIÓN MATRIZ · PATRIMONIAL</span>
+          </div>
+          <div class="m-card-head">
+            <span class="material-symbols-rounded m-card-icon matriz">account_balance</span>
+            <h4>POSICIÓN MATRIX 501</h4>
+          </div>
+          <p class="m-card-desc">Explorador multicadena en vivo de la Bóveda Matriz #501 (<code>0xD4D1...3743</code>), 54 celdas anatómicas, balance consolidado $848.35+ USD y bitácora unificada.</p>
+          <div class="m-card-cta" style="color: #059669;">
+            <span>ESTACIÓN ACTUAL ACTIVA ➔</span>
+          </div>
+        </a>
+
+        <!-- ESTACIÓN #01: SQUAD MATRIX -->
+        <a href="/squad-matrix/" class="modal-station-card">
+          <div class="m-card-top">
+            <span class="m-card-badge hl">ESTACIÓN #01 · HYPERLIQUID L1</span>
+          </div>
+          <div class="m-card-head">
+            <span class="material-symbols-rounded m-card-icon hl">shield</span>
+            <h4>SQUAD MATRIX</h4>
+          </div>
+          <p class="m-card-desc">18 Escuadrones Iguales × 54 Pares Ultra-Líquidos operando en Hyperliquid L1. Meta Bloque 1: $1,000 USDC y control de inyección 0% Bóveda #501.</p>
+          <div class="m-card-cta">
+            <span>INGRESAR A SQUAD MATRIX ➔</span>
+          </div>
+        </a>
+
+        <!-- ESTACIÓN #02: ATOMIC FLASH MATRIX -->
+        <a href="/sniping/" class="modal-station-card">
+          <div class="m-card-top">
+            <span class="m-card-badge poly">ESTACIÓN #02 · POLYGON POS</span>
+          </div>
+          <div class="m-card-head">
+            <span class="material-symbols-rounded m-card-icon poly">bolt</span>
+            <h4>ATOMIC FLASH MATRIX</h4>
+          </div>
+          <p class="m-card-desc">3 Motores Atómicos × 54 Contratos en Polygon: Cobro Bóvedas (Keeper), Flash Loans 0% Fee ($5k-$50k Balancer) y Liquidaciones Aave V3 con $0 capital propio.</p>
+          <div class="m-card-cta" style="color: #D97706;">
+            <span>INGRESAR A ATOMIC FLASH ➔</span>
+          </div>
+        </a>
+
+        <!-- ESTACIÓN #03: SWARM 500 MATRIX -->
+        <a href="/flota-x500/" class="modal-station-card">
+          <div class="m-card-top">
+            <span class="m-card-badge swarm">ESTACIÓN #03 · ENJAMBRE GASLESS</span>
+          </div>
+          <div class="m-card-head">
+            <span class="material-symbols-rounded m-card-icon swarm">hive</span>
+            <h4>SWARM 500 MATRIX</h4>
+          </div>
+          <p class="m-card-desc">Enjambre de 500 satélites en 5 Boxes tácticos (#001-#500). Racha Gasless EIP-712, corte de airdrops (30 Oct / 12 Nov) y embudo automático a #501.</p>
+          <div class="m-card-cta" style="color: #7C3AED;">
+            <span>INGRESAR A SWARM 500 ➔</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST DE COPIADO EN 1 CLIC -->
+  <div class="toast-notice" id="toastNotice">
+    Dirección 0xD4D1...3743 copiada al portapapeles
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

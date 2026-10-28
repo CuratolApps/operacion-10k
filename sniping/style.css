@@ -847,8 +847,8 @@ html, body {
 
 .stations-cards-grid {
   display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 14px !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 12px !important;
   width: 100% !important;
   align-items: stretch !important;
 }
@@ -856,13 +856,13 @@ html, body {
 .station-hub-card {
   background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
   border-radius: 12px !important;
-  padding: 16px 18px !important;
+  padding: 14px 16px !important;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12) !important;
   text-decoration: none !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  gap: 12px !important;
+  gap: 10px !important;
   transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative !important;
   box-sizing: border-box !important;
@@ -872,6 +872,14 @@ html, body {
 .station-hub-card:hover {
   transform: translateY(-4px) !important;
   box-shadow: 0 16px 32px rgba(15, 23, 42, 0.2) !important;
+}
+
+.station-hub-card.active-border-matriz {
+  border-color: #0D9488 !important;
+}
+.station-hub-card.active-border-matriz:hover {
+  border-color: #059669 !important;
+  box-shadow: 0 16px 32px rgba(13, 148, 136, 0.25) !important;
 }
 
 .station-hub-card.active-border-hl {
@@ -912,6 +920,12 @@ html, body {
   padding: 3px 8px !important;
   border-radius: 5px !important;
   letter-spacing: 0.03em !important;
+}
+
+.matriz-badge {
+  background: #ECFDF5 !important;
+  color: #065F46 !important;
+  border: 1px solid #A7F3D0 !important;
 }
 
 .hl-badge {
@@ -980,6 +994,14 @@ html, body {
   transition: all 0.15s ease !important;
   margin-top: 4px !important;
   letter-spacing: 0.02em !important;
+}
+
+.matriz-cta {
+  background: #059669 !important;
+  color: #FFFFFF !important;
+}
+.matriz-cta:hover {
+  background: #047857 !important;
 }
 
 .hl-cta {
