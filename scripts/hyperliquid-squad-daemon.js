@@ -565,6 +565,44 @@ async function startAutonomousSquadDaemon() {
           mem.size = sz;
           mem.direction = isShort ? "SHORT" : "LONG";
 
+          // --- OPERACIÓN RESCATE #00 EN AVAX-USDC: SALIDA ESCALONADA 2 TRAMOS & PROHIBIDO SOBRE-APALANCAR ---
+          if (coin === "AVAX") {
+            mem.dcaDone = true; // Prohibido sobre-apalancar: Cero compras adicionales
+            const avaxExitOrders = openOrders.filter(o => o.coin === "AVAX" && o.reduceOnly === true);
+
+            // Si Tramo 1 ya se ejecutó (posición reducida a la mitad o menos <= 180 AVAX)
+            if (szNum <= 180 && !mem.beLocked) {
+              mem.beLocked = true;
+              console.log(`🎉 [OPERACIÓN RESCATE #00] ¡TRAMO 1 DE AVAX COMPLETADO! 50% de la posición liberada. Candado BE #00 activado para el 50% restante.`);
+              const rescueTg = `🎉🛡️ <b>ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO</b>\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
+                `💰 <b>Descarga de Alivio:</b> 50% de la posición cerrada con éxito.\n` +
+                `🔒 <b>Candado BE #00:</b> Activado en el 50% restante hacia Banda Media ($8.942).\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+              sendSquadTelegram(rescueTg).catch(() => {});
+            }
+
+            // Si por alguna razón no hay órdenes de salida puestas para AVAX, reponer salida escalonada
+            if (avaxExitOrders.length === 0 && isV2Armed) {
+              const szHalf1 = formatHlSize(szNum / 2, 2);
+              const szHalf2 = formatHlSize(szNum - parseFloat(szHalf1), 2);
+              console.log(`[RESCATE AVAX] Reponiendo salida escalonada en 2 tramos (${szHalf1} @ $8.890 / ${szHalf2} @ $8.942)...`);
+              try {
+                await client.order({
+                  orders: [
+                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.890", s: szHalf1, r: true, t: { limit: { tif: "Alo" } } },
+                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szHalf2, r: true, t: { limit: { tif: "Alo" } } }
+                  ],
+                  grouping: "na"
+                });
+              } catch (e) {
+                console.error("[RESCATE AVAX] Error reponiendo salida escalonada:", e.message);
+              }
+            }
+            continue; // Saltar trailing TP genérico y DCA para AVAX
+          }
+
           // Verificar si ya tiene orden de salida puesta
           const existingExitOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
 
@@ -831,6 +869,15 @@ async function startAutonomousSquadDaemon() {
 
           // --- ESCUADRÓN LIBRE: BUSCAR NUEVA ENTRADA CON EL FILTRO ANTI-TECHO V2 ---
           if (isV2Armed && availableForTrading >= dynamicSquadMargin) {
+            // REGLA OPERACIÓN RESCATE #00: Congelar totalmente nuevas entradas mientras AVAX esté en extracción
+            const isAvaxInRescue = openPositions.some(p => p.position.coin === "AVAX" && parseFloat(p.position.szi) !== 0);
+            if (isAvaxInRescue) {
+              if (cycleCounter % 15 === 1) {
+                console.log(`🚁 [MODO RESCATE #00] Nuevas entradas CONGELADAS: Posición AVAX en extracción escalonada ($8.890 / $8.942).`);
+              }
+              continue;
+            }
+
             // Regla de Exposición Inteligente (Cero Sangrado Cruzado):
             // 1. Límite estricto de 3 posiciones simultáneas totales
             if (openPositions.length >= MAX_CONCURRENT_TOTAL) {
