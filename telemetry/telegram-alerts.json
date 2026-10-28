@@ -1,5 +1,19 @@
 [
   {
+    "id": "tg-1793198920396-235",
+    "timestamp": "2026-10-28T14:48:40.396Z",
+    "timeFormatted": "14:48:40 UTC",
+    "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.17%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.17% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  },
+  {
+    "id": "tg-1793198788209-794",
+    "timestamp": "2026-10-28T14:46:28.209Z",
+    "timeFormatted": "14:46:28 UTC",
+    "rawHtml": "🚁🏦⚡ <b>ÁREA 501 // OPERACIÓN EXTRACCIÓN Y RESCATE #00</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>Origen:</b> Bóveda Matriz #501 (Aave V3 Polygon)\n💵 <b>Capital Rescatado:</b> <code>+$61.44 USDC</code> (100% remanente)\n⛽ <b>Gas POL:</b> <code>10.31 POL</code> (100% Intocable)\n⛓️ <b>Ruta Ejecutada:</b> Polygon Aave ➔ Relay Bridge ➔ Arbitrum ➔ Hyperliquid L1\n\n🎯 <b>PINZA DE PROMEDIO EN AVAX-USDC:</b>\n• <b>Tamaño Consolidado:</b> <code>400.75 AVAX</code> (~$3583 USD)\n• <b>Precio Promedio Reducido:</b> <code>$8.9397</code> (vs $8.9560)\n• <b>Tramo 1 (70% Alivio):</b> <code>280.52 AVAX @ $8.895</code>\n• <b>Tramo 2 (30% Banda Media):</b> <code>120.23 AVAX @ $8.942</code>\n\n📊 <b>CONTROL DE CRÉDITO #501 (0% INTERÉS):</b>\n• Inyectado Total: <code>$629.94 USDC</code>\n• Meta de Coronación: <code>$1,000.00 USDC</code> (Resta solo ~$208 USDC)\n• Doctrina: 100% Capitalización hasta $1,000 ➔ luego 70/30\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔗 <b>Tx Polygon:</b> <a href=\"https://polygonscan.com/tx/0xc4d0195842e1d5f47c2767bd616085bf4a9a66a0659b1d26404a81716e5516ba\">PolygonScan</a>\n🔗 <b>Tx Arbitrum:</b> <a href=\"https://arbiscan.io/tx/0x0fbb47ba4d9c1dfbe3936bd2fc8f1119c6f2e258377dd6d60b8d8e0ac7dbca77\">ArbiScan</a>",
+    "textPlain": "🚁🏦⚡ ÁREA 501 // OPERACIÓN EXTRACCIÓN Y RESCATE #00\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ Origen: Bóveda Matriz #501 (Aave V3 Polygon)\n💵 Capital Rescatado: +$61.44 USDC (100% remanente)\n⛽ Gas POL: 10.31 POL (100% Intocable)\n⛓️ Ruta Ejecutada: Polygon Aave ➔ Relay Bridge ➔ Arbitrum ➔ Hyperliquid L1\n\n🎯 PINZA DE PROMEDIO EN AVAX-USDC:\n• Tamaño Consolidado: 400.75 AVAX (~$3583 USD)\n• Precio Promedio Reducido: $8.9397 (vs $8.9560)\n• Tramo 1 (70% Alivio): 280.52 AVAX @ $8.895\n• Tramo 2 (30% Banda Media): 120.23 AVAX @ $8.942\n\n📊 CONTROL DE CRÉDITO #501 (0% INTERÉS):\n• Inyectado Total: $629.94 USDC\n• Meta de Coronación: $1,000.00 USDC (Resta solo ~$208 USDC)\n• Doctrina: 100% Capitalización hasta $1,000 ➔ luego 70/30\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔗 Tx Polygon: PolygonScan\n🔗 Tx Arbitrum: ArbiScan"
+  },
+  {
     "id": "tg-1793198280036-633",
     "timestamp": "2026-10-28T14:38:00.036Z",
     "timeFormatted": "14:38:00 UTC",
@@ -194,19 +208,5 @@
     "timeFormatted": "6:34:08 UTC",
     "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$0.9367</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$0.9400</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$1.6264 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 66.0% · RSI 5m 45.0\n🛡️ <b>Margen Asignado:</b> <code>$101.65 USDC (5x = $508.25 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
     "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $0.9367\n📤 OBJETIVO TAKE PROFIT: $0.9400 (+0.35%)\n💰 Ganancia Estimada: +$1.6264 USDC Limpios\n📊 Filtros: L2 66.0% · RSI 5m 45.0\n🛡️ Margen Asignado: $101.65 USDC (5x = $508.25 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-  },
-  {
-    "id": "tg-1793168427415-17",
-    "timestamp": "2026-10-28T06:20:27.415Z",
-    "timeFormatted": "6:20:27 UTC",
-    "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b>\n📍 <b>Par:</b> <code>BNB-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.12%</code>\n🛡️ <b>Candado Blindado a:</b> <code>$745.17</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-    "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie\n📍 Par: BNB-USDC\n📈 Avance Favorable: +0.12%\n🛡️ Candado Blindado a: $745.17 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  },
-  {
-    "id": "tg-1793168422947-565",
-    "timestamp": "2026-10-28T06:20:22.947Z",
-    "timeFormatted": "6:20:22 UTC",
-    "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$101.79</code>\n📤 <b>SE VENDIÓ A:</b> <code>$102.15</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.6756 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>47 Ganadas · 0 Pérdidas (100% Invictos)</b>\n💵 <b>Nuevo Balance en L1:</b> <code>$509.09 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-    "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC\n📥 Precio Entrada: $101.79\n📤 SE VENDIÓ A: $102.15 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$0.6756 USDC\n🏆 Récord Oficial: 47 Ganadas · 0 Pérdidas (100% Invictos)\n💵 Nuevo Balance en L1: $509.09 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
   }
 ]

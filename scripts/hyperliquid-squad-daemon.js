@@ -492,7 +492,7 @@ async function startAutonomousSquadDaemon() {
   console.log("🚀 ÁREA 501 // SQUAD SECRET V2 ESCALADO // BLOQUE 1 (~$800 USDC ➔ $1,000 USDC)");
   console.log("================================================================================");
   console.log(`• Bóveda Nodriza: ${VAULT_501}`);
-  console.log(`• Préstamo Bóveda #501 (0% interés): $450.00 USDC ($300 inicial + $150 hoy) | Total Inyectado: $568.50 USDC`);
+  console.log(`• Préstamo Bóveda #501 (0% interés): $511.44 USDC ($300 inicial + $150 + $61.44 hoy) | Total Inyectado: $629.94 USDC`);
   console.log(`• Doctrina de Consolidación: 100% Capitalización Pura hasta $1,000 USDC ➔ luego 70/30`);
   console.log(`• Escudo Mentora #00: 40% del Capital (~$320.00+ USDC Blindados en Reserva)`);
   console.log(`• Margen Operativo: 20% del Capital (~$160.00+ USDC a 5x = ~$800.00+ Nocional/tiro)`);
@@ -570,29 +570,29 @@ async function startAutonomousSquadDaemon() {
             mem.dcaDone = true; // Prohibido sobre-apalancar: Cero compras adicionales
             const avaxExitOrders = openOrders.filter(o => o.coin === "AVAX" && o.reduceOnly === true);
 
-            // Si Tramo 1 ya se ejecutó (posición reducida a la mitad o menos <= 180 AVAX)
-            if (szNum <= 180 && !mem.beLocked) {
+            // Si Tramo 1 (70% Alivio) ya se ejecutó (posición reducida a <= 130 AVAX)
+            if (szNum <= 130 && !mem.beLocked) {
               mem.beLocked = true;
-              console.log(`🎉 [OPERACIÓN RESCATE #00] ¡TRAMO 1 DE AVAX COMPLETADO! 50% de la posición liberada. Candado BE #00 activado para el 50% restante.`);
-              const rescueTg = `🎉🛡️ <b>ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO</b>\n` +
+              console.log(`🎉 [OPERACIÓN RESCATE #00] ¡TRAMO 1 DE AVAX COMPLETADO! 70% de la posición liberada. Candado BE #00 activado para el 30% restante.`);
+              const rescueTg = `🎉🛡️ <b>ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO (70%)</b>\n` +
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                 `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
-                `💰 <b>Descarga de Alivio:</b> 50% de la posición cerrada con éxito.\n` +
-                `🔒 <b>Candado BE #00:</b> Activado en el 50% restante hacia Banda Media ($8.942).\n` +
+                `💰 <b>Descarga de Alivio:</b> 70% de la posición cerrada con éxito.\n` +
+                `🔒 <b>Candado BE #00:</b> Activado en el 30% restante hacia Banda Media ($8.942).\n` +
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
               sendSquadTelegram(rescueTg).catch(() => {});
             }
 
-            // Si por alguna razón no hay órdenes de salida puestas para AVAX, reponer salida escalonada
+            // Si por alguna razón no hay órdenes de salida puestas para AVAX, reponer salida escalonada 70/30
             if (avaxExitOrders.length === 0 && isV2Armed) {
-              const szHalf1 = formatHlSize(szNum / 2, 2);
-              const szHalf2 = formatHlSize(szNum - parseFloat(szHalf1), 2);
-              console.log(`[RESCATE AVAX] Reponiendo salida escalonada en 2 tramos (${szHalf1} @ $8.890 / ${szHalf2} @ $8.942)...`);
+              const szTramo1 = formatHlSize(szNum * 0.70, 2);
+              const szTramo2 = formatHlSize(szNum - parseFloat(szTramo1), 2);
+              console.log(`[RESCATE AVAX] Reponiendo salida escalonada 70/30 (${szTramo1} @ $8.895 / ${szTramo2} @ $8.942)...`);
               try {
                 await client.order({
                   orders: [
-                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.890", s: szHalf1, r: true, t: { limit: { tif: "Alo" } } },
-                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szHalf2, r: true, t: { limit: { tif: "Alo" } } }
+                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.895", s: szTramo1, r: true, t: { limit: { tif: "Alo" } } },
+                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szTramo2, r: true, t: { limit: { tif: "Alo" } } }
                   ],
                   grouping: "na"
                 });
