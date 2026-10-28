@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SQUAD MATRIX // 18 Escuadrones × 54 Pares Ultra-Líquidos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="matrix-body">
+  <div class="matrix-app" id="matrixApp">
+    
+    <!-- TOP FIXED BAR: 5 BUSINESS CARDS -->
+    <header class="matrix-topbar">
+      <!-- Card 1: Capital Operativo Total -->
+      <div class="biz-card" id="cardCapitalTotal">
+        <div class="card-tag">💰 CAPITAL OPERATIVO (EN FUEGO)</div>
+        <div class="card-main-val">
+          <span class="currency-symbol">$</span><span id="topAccountValue">648.01</span>
+          <span class="unit-tag">USDC L1</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $388.81</span>
+          <span class="pill-shield" id="topShieldPill">Mentora 40%: $259.20</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Profit General & Por Escuadrón -->
+      <div class="biz-card" id="cardProfit">
+        <div class="card-tag">⚡ PROFIT GENERAL &amp; ESCUADRONES</div>
+        <div class="card-main-val text-green">
+          <span id="topTotalProfit">+$21.87</span>
+          <span class="pct-badge" id="topTotalProfitPct">+3.49%</span>
+        </div>
+        <div class="card-sub-info">
+          <span class="record-badge" id="topWinRecord">🏆 39G - 0P (100%)</span>
+          <span class="squad-mini-pnl">#01 +$7.2 · #02 +$6.9 · #03 +$7.8</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Capitalización Diaria (Meta $1,000) -->
+      <div class="biz-card" id="cardCapitalization">
+        <div class="card-tag">📈 CAPITALIZACIÓN BLOQUE 1 (META $1,000)</div>
+        <div class="progress-wrap">
+          <div class="progress-info">
+            <span class="progress-label" id="topBlock1ProgressLabel">$648.01 / $1,000.00 USDC</span>
+            <span class="progress-pct" id="topBlock1ProgressPct">64.8%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 64.8%;"></div>
+          </div>
+        </div>
+        <div class="rule-badge-glow">100% CAPITALIZACIÓN PURA ($0 ENVIOS HASTA $1,000)</div>
+      </div>
+
+      <!-- Card 4: Control de Capital Inyectado (70/30) -->
+      <div class="biz-card" id="cardLoanControl">
+        <div class="card-tag">🏦 CONTROL CAPITAL INYECTADO (0% INTERÉS)</div>
+        <div class="loan-stats-row">
+          <div class="loan-stat-col">
+            <span class="l-lbl">Inyectado:</span>
+            <span class="l-val" id="topLoanInjected">$410.50</span>
+          </div>
+          <div class="loan-stat-col">
+            <span class="l-lbl">Devuelto:</span>
+            <span class="l-val text-cyan" id="topLoanRepaid">$0.00</span>
+          </div>
+          <div class="loan-stat-col">
+            <span class="l-lbl">Pendiente:</span>
+            <span class="l-val text-amber" id="topLoanRemaining">$410.50</span>
+          </div>
+        </div>
+        <div class="rule-badge-sub">Al tocar $1,000: 70% Capitaliza / 30% Devolución</div>
+      </div>
+
+      <!-- Card 5: Radar Matrix 18x54 -->
+      <div class="biz-card" id="cardRadarMatrix">
+        <div class="card-tag">📡 RADAR MATRIX: 18 ESCUADRONES × 54 PARES</div>
+        <div class="squad-counter-row">
+          <span class="status-pill active-pill">🟢 3 / 18 Encendidos</span>
+          <span class="status-pill ready-pill">🟡 15 / 18 Listos</span>
+        </div>
+        <div class="sub-label-matrix">54 Pares Ultra-Líquidos · $0.00 Gas en Hyperliquid L1</div>
+      </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER (SWITCHES BETWEEN 3 TABS) -->
+    <main class="matrix-content">
+      
+      <!-- TAB 1: 54 PARES EN VIVO (GRID 9x6) -->
+      <section class="tab-pane active" id="panePairs">
+        <div class="pairs-grid-container" id="pairsGrid">
+          <!-- Las 54 celdas se inyectan dinámicamente desde app.js -->
+        </div>
+      </section>
+
+      <!-- TAB 2: 18 ESCUADRONES IGUALES (GRID 6x3) -->
+      <section class="tab-pane" id="paneSquads">
+        <div class="squads-grid-container" id="squadsGrid">
+          <!-- Las 18 tarjetas clonadas se inyectan dinámicamente desde app.js -->
+        </div>
+      </section>
+
+      <!-- TAB 3: RUEDA DE CAPITALIZACIÓN 1000 / 70-30 -->
+      <section class="tab-pane" id="paneCapitalization">
+        <div class="capitalization-layout">
+          
+          <!-- Columna Izquierda: Las 4 Leyes del Modelo -->
+          <div class="cap-column cap-laws">
+            <div class="panel-header">
+              <span class="panel-icon">⚖️</span>
+              <h3>LAS 4 LEYES SAGRADAS DEL MODELO SQUAD MATRIX</h3>
+            </div>
+            <div class="laws-list">
+              <div class="law-card active-law">
+                <div class="law-number">LEY 1</div>
+                <div class="law-body">
+                  <h4>Consolidación por Bloques de $1,000.00 USDC</h4>
+                  <p>Cada bloque opera 3 escuadrones con 20% de margen c/u a 5x y 40% intocable en Escudo Mentora #00. Reinvierte el 100% de cada ganancia diaria hasta coronar $1,000.00 USDC ($0 retiros).</p>
+                  <span class="law-status-tag tag-running">⚡ EN CURSO (BLOQUE 1: 64.8%)</span>
+                </div>
+              </div>
+
+              <div class="law-card">
+                <div class="law-number">LEY 2</div>
+                <div class="law-body">
+                  <h4>Gatillo 70% / 30% a 0% Interés</h4>
+                  <p>Al cruzar $1,000.00 USDC, se activa la partición automática de beneficios: 70% sigue acelerando el interés compuesto en L1 y 30% se destina a amortizar el capital inyectado a Bóveda #501 o a encender el siguiente bloque.</p>
+                  <span class="law-status-tag tag-ready">🎯 GATILLO A LOS $1,000 USDC</span>
+                </div>
+              </div>
+
+              <div class="law-card">
+                <div class="law-number">LEY 3</div>
+                <div class="law-body">
+                  <h4>Escalamiento en Cascada (6 Bloques × 3 Escuadrones)</h4>
+                  <p>Con $100.00 USDC acumulados del 30% se enciende cada nuevo bloque (Bloque 2, 3, 4, 5 y 6) hasta tener los 18 escuadrones operando simultáneamente a pleno pulmón ($18,000 USD de nocional).</p>
+                  <span class="law-status-tag tag-standby">🟡 5 BLOQUES EN ESPERA</span>
+                </div>
+              </div>
+
+              <div class="law-card">
+                <div class="law-number">LEY 4</div>
+                <div class="law-body">
+                  <h4>Rendimiento Pasivo 10% Diario a Tesorería</h4>
+                  <p>Con los 18 escuadrones consolidados en sus metas, el sistema envía automáticamente el 10% de las ganancias diarias reales hacia Bóveda #501 como dividendo neto pasivo, capitalizando el 90%.</p>
+                  <span class="law-status-tag tag-future">💎 META ESTRATÉGICA FINAL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Estado de los 6 Bloques & Cola de Órdenes Directas -->
+          <div class="cap-column cap-blocks">
+            <div class="panel-header">
+              <span class="panel-icon">🧱</span>
+              <h3>MATRIZ DE LOS 6 BLOQUES DE COMBATE</h3>
+            </div>
+            
+            <div class="blocks-grid" id="blocksStatusGrid">
+              <!-- Bloque 1 -->
+              <div class="block-card block-active">
+                <div class="block-head">
+                  <span class="blk-id">BLOQUE 01 · CRIPTO TITANES</span>
+                  <span class="blk-badge-on">🟢 OPERANDO (3/3)</span>
+                </div>
+                <div class="blk-squads">#01 ALFA · #02 BRAVO · #03 CHARLEY</div>
+                <div class="blk-meta">SOL, SUI, AVAX · BTC, PAXG, LINK · ETH, BNB, AAVE</div>
+                <div class="blk-capital-bar">
+                  <div class="blk-bar-info">
+                    <span>Capital Activo: <b>$648.01 USDC</b></span>
+                    <span>Meta: <b>$1,000.00</b> (64.8%)</span>
+                  </div>
+                  <div class="blk-fill-bg"><div class="blk-fill-bar" style="width: 64.8%;"></div></div>
+                </div>
+              </div>
+
+              <!-- Bloque 2 -->
+              <div class="block-card block-ready">
+                <div class="block-head">
+                  <span class="blk-id">BLOQUE 02 · CRIPTO EXPANDIDO</span>
+                  <span class="blk-badge-ready">🟡 IGNICIÓN CON $100</span>
+                </div>
+                <div class="blk-squads">#04 GOLF · #05 HOTEL · #06 INDIA</div>
+                <div class="blk-meta">XRP, DOGE, ADA · HYPE, TRX, TON · DOT, NEAR, LTC</div>
+                <div class="blk-capital-bar">
+                  <div class="blk-bar-info">
+                    <span>Estado: <b>Listos para despliegue</b></span>
+                    <span>$0 / $100 USDC</span>
+                  </div>
+                  <div class="blk-fill-bg"><div class="blk-fill-bar" style="width: 0%;"></div></div>
+                </div>
+              </div>
+
+              <!-- Bloque 3 -->
+              <div class="block-card">
+                <div class="block-head">
+                  <span class="blk-id">BLOQUE 03 · CRIPTO L2 &amp; AI</span>
+                  <span class="blk-badge-wait">⚪ STANDBY</span>
+                </div>
+                <div class="blk-squads">#07 JULIET · #08 KILO · #09 LIMA</div>
+                <div class="blk-meta">TAO, RENDER, FET · ARB, OP, UNI · ONDO, PENDLE, PEPE</div>
+              </div>
+
+              <!-- Bloque 4 -->
+              <div class="block-card">
+                <div class="block-head">
+                  <span class="blk-id">BLOQUE 04 · FOREX &amp; METALES</span>
+                  <span class="blk-badge-wait">⚪ STANDBY</span>
+                </div>
+                <div class="blk-squads">#10 DELTA · #11 ECHO · #12 FOXTROT</div>
+                <div class="blk-meta">EUR/USD, GBP/USD, USD/CHF · USD/JPY, AUD/USD, USD/CAD · XAU, XAG, EUR/JPY</div>
+              </div>
+
+              <!-- Bloque 5 -->
+              <div class="block-card">
+                <div class="block-head">
+                  <span class="blk-id">BLOQUE 05 · ENERGÍA &amp; ÍNDICES</span>
+                  <span class="blk-badge-wait">⚪ STANDBY</span>
+                </div>
+                <div class="blk-squads">#13 MIKE · #14 NOVEMBER · #15 OSCAR</div>
+                <div class="blk-meta">GBP/JPY, EUR/GBP, WTI/USD · NAS100, SPX500, US30 · DAX40, NGAS, HG/USD</div>
+              </div>
+
+              <!-- Bloque 6 -->
+              <div class="block-card">
+                <div class="block-head">
+                  <span class="blk-id">BLOQUE 06 · WALL STREET GIANTS</span>
+                  <span class="blk-badge-wait">⚪ STANDBY</span>
+                </div>
+                <div class="blk-squads">#16 PAPA · #17 QUEBEC · #18 ROMEO</div>
+                <div class="blk-meta">NVDA, TSLA, AAPL · MSFT, AMZN, META · GOOGL, COIN, MSTR</div>
+              </div>
+            </div>
+
+            <!-- Direct Orders Bridge Terminal -->
+            <div class="direct-orders-box">
+              <div class="panel-header">
+                <span class="panel-icon">⚡</span>
+                <h3>DIRECT ORDER BRIDGE (&lt;150ms HYPERLIQUID L1)</h3>
+              </div>
+              <div class="direct-orders-content">
+                <div class="direct-buttons-row">
+                  <button class="cmd-btn btn-danger" onclick="sendDirectOrder('CLOSE_ALL')">🛑 MARKET CLOSE ALL</button>
+                  <button class="cmd-btn btn-warning" onclick="sendDirectOrder('CANCEL_ALL')">❌ CANCEL ALL ORDERS</button>
+                  <button class="cmd-btn btn-primary" onclick="sendDirectOrder('FORCE_SYNC')">🔄 FORZAR AUDITORÍA</button>
+                  <button class="cmd-btn btn-secondary" onclick="sendDirectOrder('CYCLE_TEST_ALFA')">🎯 DISPARO PRUEBA ALFA</button>
+                </div>
+                <div class="cmd-log" id="directCmdOutput">
+                  [SISTEMA LISTO] Esperando órdenes directas del Comandante. Latencia L1: ~120ms.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM FIXED BAR: BRAND, 3 TABS, LATENCY, CLOCK -->
+    <footer class="matrix-bottombar">
+      <div class="bottom-identity">
+        <span class="brand-icon">💠</span>
+        <span class="brand-title">SQUAD MATRIX</span>
+        <span class="brand-divider">//</span>
+        <span class="brand-tag">18 ESCUADRONES × 54 PARES</span>
+        <span class="live-dot" title="WebSocket L1 Conectado"></span>
+      </div>
+
+      <!-- THE 3 MODEL TABS -->
+      <nav class="matrix-nav-tabs">
+        <button class="nav-tab active" data-tab="panePairs" id="tabBtnPairs">
+          <span class="tab-icon">📡</span> 54 PARES EN VIVO
+        </button>
+        <button class="nav-tab" data-tab="paneSquads" id="tabBtnSquads">
+          <span class="tab-icon">⚔️</span> 18 ESCUADRONES
+        </button>
+        <button class="nav-tab" data-tab="paneCapitalization" id="tabBtnCapitalization">
+          <span class="tab-icon">🔄</span> CAPITALIZACIÓN 1000 / 70-30
+        </button>
+      </nav>
+
+      <!-- SYSTEM STATUS & CLOCK -->
+      <div class="bottom-system">
+        <div class="ws-status">
+          <span class="status-bullet">●</span>
+          <span id="wsLatency">118ms L1</span>
+        </div>
+        <div class="utc-clock">
+          <span class="clock-icon">⏱️</span>
+          <span id="liveUtcClock">00:00:00 UTC</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

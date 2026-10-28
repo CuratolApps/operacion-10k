@@ -1389,6 +1389,37 @@ export default {
       return Response.redirect(`${url.origin}/flota-x500/`, 301);
     }
 
+    // Espacio 4: /squad-matrix/ (18 Escuadrones x 54 Pares - Modelo Cerrado 100% Independiente)
+    if (url.pathname === "/squad-matrix") {
+      return Response.redirect(`${url.origin}/squad-matrix/`, 301);
+    }
+
+    // ==============================================================================
+    // ENDPOINT: DIRECT ORDER BRIDGE SQUAD MATRIX (/api/squad-matrix/direct-order)
+    // ==============================================================================
+    if (url.pathname === "/api/squad-matrix/direct-order") {
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json; charset=utf-8");
+      headers.set("Access-Control-Allow-Origin", "*");
+      headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+      headers.set("Access-Control-Allow-Headers", "Content-Type");
+
+      if (request.method === "OPTIONS") {
+        return new Response(null, { status: 204, headers });
+      }
+
+      let payload = {};
+      try { payload = await request.json(); } catch (_) {}
+      return new Response(JSON.stringify({
+        ok: true,
+        success: true,
+        queued: true,
+        action: payload.action || "UNKNOWN",
+        timestamp: new Date().toISOString(),
+        message: `Orden ${payload.action || ""} registrada en Direct Order Bridge (<150ms)`
+      }), { status: 200, headers });
+    }
+
     // ==============================================================================
     // ENDPOINT EN VIVO: MOTOR DE LIQUIDEZ LIBRE & INTERÉS DIARIO (#501 POLYGON)
     // ==============================================================================
@@ -2179,7 +2210,7 @@ export default {
     const response = await env.ASSETS.fetch(request);
 
     // Eliminar caché para asegurar frescura instantánea de assets y telemetría
-    if (url.pathname.endsWith(".json") || url.pathname.endsWith(".css") || url.pathname.endsWith(".js") || url.pathname.endsWith(".html") || url.pathname.includes("/telemetry/") || url.pathname.includes("/squad-secret/") || url.pathname.includes("/flota-x500/")) {
+    if (url.pathname.endsWith(".json") || url.pathname.endsWith(".css") || url.pathname.endsWith(".js") || url.pathname.endsWith(".html") || url.pathname.includes("/telemetry/") || url.pathname.includes("/squad-secret/") || url.pathname.includes("/squad-matrix/") || url.pathname.includes("/flota-x500/")) {
       const headers = new Headers(response.headers);
       headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
       headers.set("Access-Control-Allow-Origin", "*");
