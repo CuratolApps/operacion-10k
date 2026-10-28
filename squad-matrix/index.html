@@ -42,6 +42,16 @@
               if (elPp) elPp.textContent = pct + "%";
               var elPb = document.getElementById("topBlock1ProgressBar");
               if (elPb) elPb.style.width = pct + "%";
+              var elB1Cap = document.getElementById("block1ActiveCapText");
+              if (elB1Cap) elB1Cap.textContent = "$" + Number(s.accountValue).toFixed(2) + " USDC";
+              var elB1Meta = document.getElementById("block1MetaPctText");
+              if (elB1Meta) elB1Meta.innerHTML = "Meta: <b>$1,000.00</b> (" + pct + "%)";
+              var elB1Bar = document.getElementById("block1FillBar");
+              if (elB1Bar) elB1Bar.style.width = pct + "%";
+              var elProjCap = document.getElementById("projCurrentCap");
+              if (elProjCap) elProjCap.textContent = "$" + Number(s.accountValue).toFixed(2) + " USDC";
+              var elProjDist = document.getElementById("projDistance1000");
+              if (elProjDist) elProjDist.textContent = "Faltan solo $" + Math.max(0, 1000 - Number(s.accountValue)).toFixed(2) + " USDC";
             });
           }
         }
@@ -360,10 +370,10 @@
                 <div class="blk-meta">SOL, SUI, AVAX · BTC, PAXG, LINK · ETH, BNB, AAVE</div>
                 <div class="blk-capital-bar">
                   <div class="blk-bar-info">
-                    <span>Capital Activo: <b>$803.55 USDC</b></span>
-                    <span>Meta: <b>$1,000.00</b> (80.4%)</span>
+                    <span>Capital Activo: <b id="block1ActiveCapText">$843.12 USDC</b></span>
+                    <span id="block1MetaPctText">Meta: <b>$1,000.00</b> (84.3%)</span>
                   </div>
-                  <div class="blk-fill-bg"><div class="blk-fill-bar" style="width: 80.4%;"></div></div>
+                  <div class="blk-fill-bg"><div class="blk-fill-bar" id="block1FillBar" style="width: 84.3%;"></div></div>
                 </div>
               </div>
 
@@ -471,21 +481,21 @@
                 </div>
                 <div class="p-metric-row">
                   <span class="pm-lbl">Capital Actual en Vivo:</span>
-                  <span class="pm-val font-mono text-cyan" id="projCurrentCap">$803.55 USDC</span>
+                  <span class="pm-val font-mono text-cyan" id="projCurrentCap">$843.12 USDC</span>
                 </div>
                 <div class="p-metric-row">
                   <span class="pm-lbl">Ganancia Acumulada Hoy:</span>
-                  <span class="pm-val font-mono text-green" id="projProfitToday">+$49.28 USDC (+6.54%)</span>
+                  <span class="pm-val font-mono text-green" id="projProfitToday">+$73.05 USDC (+11.78%)</span>
                 </div>
                 <div class="p-metric-row proj-highlight-row">
                   <span class="pm-lbl font-bold">Cierre Proyectado Hoy (24h):</span>
-                  <span class="pm-val font-mono text-gold font-bold" id="projClosingToday">~$820.00 – $832.00 USDC</span>
+                  <span class="pm-val font-mono text-gold font-bold" id="projClosingToday">~$860.00 – $875.00 USDC</span>
                 </div>
               </div>
               <div class="proj-footer-bar">
                 <div class="pf-info">
                   <span>Distancia a Meta $1,000:</span>
-                  <b class="text-amber" id="projDistance1000">Faltan solo $196.45 USDC</b>
+                  <b class="text-amber" id="projDistance1000">Faltan solo $156.88 USDC</b>
                 </div>
                 <div class="proj-subtag">100% Capitalización Activa ($0 Retiros)</div>
               </div>

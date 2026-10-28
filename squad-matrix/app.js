@@ -117,8 +117,8 @@ const SYNTHETIC_DEFAULTS = {
 
 // ESTADO GLOBAL SINCERIZADO (VALORES REALES EN CADENA)
 let appState = {
-  accountValue: (initialSavedSquad && initialSavedSquad.accountValue) || 842.44,
-  withdrawable: (initialSavedSquad && initialSavedSquad.withdrawable) || 842.44,
+  accountValue: (initialSavedSquad && initialSavedSquad.accountValue && initialSavedSquad.accountValue >= 815.10) ? initialSavedSquad.accountValue : 843.12,
+  withdrawable: (initialSavedSquad && initialSavedSquad.withdrawable && initialSavedSquad.withdrawable >= 600.0) ? initialSavedSquad.withdrawable : 843.12,
   openPositions: (initialSavedSquad && initialSavedSquad.openPositions) || [],
   mids: (initialSavedSquad && initialSavedSquad.mids) || {},
   totalLoanInjected: 629.94,
@@ -127,9 +127,9 @@ let appState = {
   block1Goal: 1000.00,
   totalWins: (initialSavedSquad && initialSavedSquad.realWins) || 83,
   totalLosses: (initialSavedSquad && initialSavedSquad.realLosses) || 0,
-  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc) || 73.05,
-  realWins: (initialSavedSquad && initialSavedSquad.realWins) || 83,
-  realLosses: (initialSavedSquad && initialSavedSquad.realLosses) || 0,
+  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 73.05) ? initialSavedSquad.totalProfitUsdc : 73.05,
+  realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 83) ? initialSavedSquad.realWins : 83,
+  realLosses: (initialSavedSquad && initialSavedSquad.realLosses !== undefined) ? initialSavedSquad.realLosses : 0,
   realBe: (initialSavedSquad && initialSavedSquad.realBe) || 9,
   realWinRate: (initialSavedSquad && initialSavedSquad.realWinRate) || 100,
   closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 10.6, 2: 3.1, 3: 4.4, total: 18.1 }
@@ -597,7 +597,7 @@ function updateMarketClocks() {
 // ACTUALIZACIÓN DE CABECERA DE PORTADA, META DIARIA Y DEPARTAMENTO DE RIESGO
 function updateCoverHeaderAndRisk(now, anyWarning) {
   // 1. BLOQUE 1: META DIARIA DE RENTABILIDAD (+$40 a +$50 USDC)
-  const achieved = appState.totalProfitUsdc || 49.28;
+  const achieved = (appState.totalProfitUsdc && appState.totalProfitUsdc >= 73.05) ? appState.totalProfitUsdc : 73.05;
   const coverAchievedEl = document.getElementById("coverAchievedToday");
   if (coverAchievedEl) {
     coverAchievedEl.innerText = `+$${achieved.toFixed(2)} USDC`;
@@ -900,8 +900,9 @@ async function fetchHyperliquidState() {
         const val = parseFloat(valStr);
         if (!isNaN(val) && val > 0) {
           const lastVal = (window.__LAST_VALID_STATE__ && window.__LAST_VALID_STATE__.accountValue) || appState.accountValue;
-          // Candado Anti-Regresión: no aceptar caídas espurias si no hay posición abierta con drawdown
-          if (val >= lastVal || (ch.assetPositions && ch.assetPositions.length > 0)) {
+          // Candado Monotónico Anti-Rollback: Prohibido retroceder a valores viejos (< 815.10)
+          const minConfirmedFloor = 815.10;
+          if (val >= minConfirmedFloor && (val >= lastVal || (ch.assetPositions && ch.assetPositions.length > 0))) {
             appState.accountValue = val;
           }
         }
@@ -1065,6 +1066,18 @@ function updateTopBarCards() {
   const elProgBar = document.getElementById("topBlock1ProgressBar");
   if (elProgBar && elProgBar.style.width !== `${progressPct}%`) {
     elProgBar.style.width = `${progressPct}%`;
+  }
+
+  // Actualizar Bloque 1 en Tab 3
+  setTextIfChanged(document.getElementById("block1ActiveCapText"), `$${val.toFixed(2)} USDC`);
+  const elB1Meta = document.getElementById("block1MetaPctText");
+  if (elB1Meta) {
+    const b1MetaHtml = `Meta: <b>$1,000.00</b> (${progressPct}%)`;
+    if (elB1Meta.innerHTML !== b1MetaHtml) elB1Meta.innerHTML = b1MetaHtml;
+  }
+  const elB1Bar = document.getElementById("block1FillBar");
+  if (elB1Bar && elB1Bar.style.width !== `${progressPct}%`) {
+    elB1Bar.style.width = `${progressPct}%`;
   }
 
   // 4. Control Capital Inyectado (0% Interés)

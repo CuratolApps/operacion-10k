@@ -11,6 +11,24 @@ on:
         required: false
         default: false
         type: boolean
+  workflow_call:
+    secrets:
+      TRUST_WALLET_SEED:
+        required: false
+      SWARM_MNEMONIC:
+        required: false
+      SWARM_SIZE:
+        required: false
+      POLYGON_RPC_URL:
+        required: false
+      BNB_RPC_URL:
+        required: false
+      TELEGRAM_BOT_TOKEN:
+        required: false
+      TELEGRAM_CHAT_ID:
+        required: false
+      VANGUARD_BOT_TOKEN:
+        required: false
 
 concurrency:
   group: area-501-main-swarm
