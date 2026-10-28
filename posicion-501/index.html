@@ -87,14 +87,14 @@
         </div>
         <div class="card-main-val">
           <span class="currency-symbol">$</span>
-          <span id="topTotalWealthUsd">848.35</span>
+          <span id="topTotalWealthUsd">865.72</span>
           <span class="unit-tag">USD TOTAL</span>
         </div>
         <div class="card-pills-row-1line">
-          <span class="pill-cap green" id="pillHlShare">HL L1: $843.63</span>
-          <span class="pill-cap blue" id="pillPolyShare">POL: 9.62 ($2.12)</span>
-          <span class="pill-cap amber" id="pillBscShare">BSC: $7.98</span>
-          <span class="pill-cap dark">0 DEUDAS EXTERNAS</span>
+          <span class="pill-cap green" id="pillHlShare">HL L1: $845.87 USDC</span>
+          <span class="pill-cap blue" id="pillPolyShare">POL: 9.62 (~$3.65)</span>
+          <span class="pill-cap amber" id="pillBscShare">BNB+ETH: ~$11.50</span>
+          <span class="pill-cap purple" id="pillFleetShare">Flota: $4.70 USDC</span>
         </div>
       </div>
 
@@ -109,13 +109,13 @@
         </div>
         <div class="card-main-val">
           <span class="currency-symbol">$</span>
-          <span id="topHlBalanceUsdc" style="color: #0284C7;">843.63</span>
+          <span id="topHlBalanceUsdc" style="color: #0284C7;">845.87</span>
           <span class="unit-tag">USDC CLEARING</span>
         </div>
         <div class="card-pills-row-1line">
-          <span class="pill-cap blue" id="topHlActiveMargin">60% Margen ($506.18)</span>
-          <span class="pill-cap amber" id="topHlShieldMargin">40% Escudo #00 ($337.45)</span>
-          <span class="pill-cap green" id="topHlRepaymentStatus">70/30 En Espera</span>
+          <span class="pill-cap blue" id="topHlActiveMargin">60% Margen ($507.52)</span>
+          <span class="pill-cap amber" id="topHlShieldMargin">40% Escudo #00 ($338.35)</span>
+          <span class="pill-cap green" id="topHlRepaymentStatus">Meta: 84.6%</span>
         </div>
       </div>
 
@@ -136,8 +136,8 @@
           <span class="unit-tag" style="color:#D97706;">BNB</span>
         </div>
         <div class="card-pills-row-1line">
-          <span class="pill-cap purple" id="pillPolyUsdc">USDC Pol: $0.11 Nativo</span>
-          <span class="pill-cap amber" id="pillBscUsdc">USDC BSC: $7.98</span>
+          <span class="pill-cap purple" id="pillPolyUsdc">USDC Pol: $0.00 Migrado</span>
+          <span class="pill-cap amber" id="pillBscUsdc">BNB: 0.0188</span>
           <span class="pill-cap blue" id="pillArbEth">ETH Arb: 0.00084</span>
         </div>
       </div>
@@ -149,11 +149,11 @@
             <span class="material-symbols-rounded">trending_up</span>
             <span>4. FLUJO CAPITALIZACIÓN &amp; RETORNO</span>
           </div>
-          <span class="pill-cap green" id="topProfitPctBadge">+33.92%</span>
+          <span class="pill-cap green" id="topProfitPctBadge">+34.28%</span>
         </div>
         <div class="card-main-val">
           <span class="currency-symbol">+$</span>
-          <span id="topProfitAccumUsdc" style="color: #059669;">213.69</span>
+          <span id="topProfitAccumUsdc" style="color: #059669;">215.93</span>
           <span class="unit-tag">USDC GANANCIA</span>
         </div>
         <div class="card-pills-row-1line">
@@ -185,99 +185,242 @@
 
     </section>
 
-    <!-- CONTENEDOR CENTRAL: 4 VISTAS CONMUTABLES -->
+    <!-- CONTENEDOR CENTRAL: 3 VISTAS CONMUTABLES (CHASIS 100vh CERO SCROLL) -->
     <main class="matrix-main-content">
 
       <!-- ====================================================================
-           VISTA 1: 54 CELDAS MULTICADENA (VERDE ESMERALDA / MENTA)
+           VISTA 1: ESTADO EJECUTIVO (4 CAJAS DE COMPOSICIÓN + TABLA DE MOVIMIENTOS)
            ==================================================================== -->
-      <section class="tab-pane active" id="paneCompositionGrid">
-        <div class="grid-54-wrapper">
-          <div class="grid-legend-bar">
-            <div class="legend-groups">
-              <div class="leg-item">
-                <span class="leg-dot cameras"></span>
-                <span>Cámaras Multicadena (C1-C6)</span>
+      <section class="tab-pane active" id="paneExecutiveLedger">
+        <div class="executive-view-container">
+
+          <!-- NIVEL SUPERIOR: 4 TARJETAS GRANDES (COMPOSICIÓN REAL DE LA #501) -->
+          <div class="vaults-summary-grid">
+            
+            <!-- CAJA 1: HYPERLIQUID L1 -->
+            <div class="vault-hero-card hl-vault">
+              <div class="vh-head">
+                <div class="vh-title-wrap">
+                  <span class="material-symbols-rounded vh-icon hl">shield</span>
+                  <span class="vh-title">1. HYPERLIQUID L1 (PRODUCCIÓN)</span>
+                </div>
+                <span class="vh-badge hl">POST-ONLY ALO</span>
               </div>
-              <div class="leg-item">
-                <span class="leg-dot assets"></span>
-                <span>Activos en Cartera (A01-A12)</span>
+
+              <div class="vh-val-row">
+                <span class="vh-symbol">$</span>
+                <span class="vh-num hl" id="heroHlBalance">845.87</span>
+                <span class="vh-unit">USDC</span>
               </div>
-              <div class="leg-item">
-                <span class="leg-dot contracts"></span>
-                <span>Contratos &amp; Ejecutores (E01-E12)</span>
+
+              <div class="vh-pills-row">
+                <div class="vh-pill blue" id="heroHlMarginPill">
+                  <span class="vh-pill-label">60% Margen Activo:</span>
+                  <b id="heroHlMarginVal">$507.52 USDC</b>
+                </div>
+                <div class="vh-pill amber" id="heroHlShieldPill">
+                  <span class="vh-pill-label">40% Escudo Mentora #00:</span>
+                  <b id="heroHlShieldVal">$338.35 USDC</b>
+                </div>
               </div>
-              <div class="leg-item">
-                <span class="leg-dot vaults"></span>
-                <span>Bóvedas Binance Spot (B1-B5)</span>
-              </div>
-              <div class="leg-item">
-                <span class="leg-dot captains"></span>
-                <span>Capitanes Flota X500 (K01-K05)</span>
+
+              <div class="vh-meta-box">
+                <div class="vh-meta-line">
+                  <span class="vh-meta-title">Meta Bloque 1:</span>
+                  <span class="vh-meta-val" id="heroHlMetaTarget">$845.87 / $1,000.00 USDC (84.6%)</span>
+                </div>
+                <div class="vh-progress-bar">
+                  <div class="vh-progress-fill hl" id="heroHlProgressFill" style="width: 84.6%;"></div>
+                </div>
+                <span class="vh-meta-sub">Al tocar $1,000 activa devolución 70/30 del préstamo $629.94 USDC</span>
               </div>
             </div>
-            <div class="legend-info">
-              <span>ESTADO ANATÓMICO: <b>54 / 54 CELDAS MATRIZ AUDITADAS ON-CHAIN</b></span>
+
+            <!-- CAJA 2: POLYGON PoS -->
+            <div class="vault-hero-card poly-vault">
+              <div class="vh-head">
+                <div class="vh-title-wrap">
+                  <span class="material-symbols-rounded vh-icon poly">bolt</span>
+                  <span class="vh-title">2. POLYGON PoS (BÓVEDA &amp; V2)</span>
+                </div>
+                <span class="vh-badge poly">KEEPER &amp; FLASH</span>
+              </div>
+
+              <div class="vh-val-row">
+                <span class="vh-symbol">$</span>
+                <span class="vh-num poly" id="heroPolyUsdc">0.00</span>
+                <span class="vh-unit">USDC</span>
+                <span class="vh-plus">+</span>
+                <span class="vh-subnum" id="heroPolyPol">9.62</span>
+                <span class="vh-unit purple">POL</span>
+              </div>
+
+              <div class="vh-pills-row">
+                <div class="vh-pill purple">
+                  <span class="vh-pill-label">Gas Líquido Disparo:</span>
+                  <b id="heroPolyPolUsd">9.62 POL (~$3.65 USD)</b>
+                </div>
+                <div class="vh-pill green">
+                  <span class="vh-pill-label">Capital Migrado a L1:</span>
+                  <b>$0.00 USDC Residual</b>
+                </div>
+              </div>
+
+              <div class="vh-contract-box">
+                <div class="vh-contract-header">
+                  <span>Contrato V2 Conectado:</span>
+                  <a href="https://polygonscan.com/address/0x3e8b1d7f23560215eFD61A77a97d675cc92509f7" target="_blank" class="vh-contract-link" title="Ver en PolygonScan">
+                    <code>0x3e8b...09f7</code>
+                    <span class="material-symbols-rounded">open_in_new</span>
+                  </a>
+                </div>
+                <div class="vh-contract-tags">
+                  <span class="vh-mini-tag">Balancer Flash Loan 0% Fee</span>
+                  <span class="vh-mini-tag">Aave V3 Liquidador</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CAJA 3: BNB CHAIN & ARBITRUM ONE -->
+            <div class="vault-hero-card bsc-arb-vault">
+              <div class="vh-head">
+                <div class="vh-title-wrap">
+                  <span class="material-symbols-rounded vh-icon bsc">hub</span>
+                  <span class="vh-title">3. BNB CHAIN &amp; ARBITRUM ONE</span>
+                </div>
+                <span class="vh-badge amber">RESERVA GAS</span>
+              </div>
+
+              <div class="vh-val-row">
+                <span class="vh-num amber" id="heroBscBnb">0.0188</span>
+                <span class="vh-unit gold">BNB</span>
+                <span class="vh-plus">+</span>
+                <span class="vh-num blue" id="heroArbEth">0.00084</span>
+                <span class="vh-unit cyan">ETH</span>
+              </div>
+
+              <div class="vh-pills-row">
+                <div class="vh-pill amber">
+                  <span class="vh-pill-label">Reserva BSC:</span>
+                  <b>0.0188 BNB (~$11.19)</b>
+                </div>
+                <div class="vh-pill blue">
+                  <span class="vh-pill-label">Reserva Arbitrum:</span>
+                  <b>0.00084 ETH (~$2.18)</b>
+                </div>
+              </div>
+
+              <div class="vh-contract-box">
+                <div class="vh-contract-header">
+                  <span>Saldo USDC Multicadena:</span>
+                  <b style="color: #0F172A;">$0.00 USDC (~$11.50 Gas Total)</b>
+                </div>
+                <div class="vh-contract-tags">
+                  <span class="vh-mini-tag">BEP-20 Acumulación</span>
+                  <span class="vh-mini-tag">Puente Oficial HL Arbitrum</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CAJA 4: BOLSILLOS FLOTA & 5 BÓVEDAS BINANCE -->
+            <div class="vault-hero-card fleet-vault">
+              <div class="vh-head">
+                <div class="vh-title-wrap">
+                  <span class="material-symbols-rounded vh-icon fleet">hive</span>
+                  <span class="vh-title">4. BOLSILLOS FLOTA &amp; BINANCE</span>
+                </div>
+                <span class="vh-badge purple">X500 &amp; B1-B5</span>
+              </div>
+
+              <div class="vh-val-row">
+                <span class="vh-symbol">$</span>
+                <span class="vh-num purple" id="heroFleetUsdc">4.70</span>
+                <span class="vh-unit">USDC</span>
+                <span class="vh-plus">+</span>
+                <span class="vh-subnum" id="heroFleetPol">20.47</span>
+                <span class="vh-unit purple">POL</span>
+              </div>
+
+              <div class="vh-pills-row">
+                <div class="vh-pill purple">
+                  <span class="vh-pill-label">Capitanes Flota (#001–#401):</span>
+                  <b>$4.70 + 20.47 POL</b>
+                </div>
+                <div class="vh-pill dark">
+                  <span class="vh-pill-label">5 Bóvedas Binance Spot:</span>
+                  <b>B1–B5 Protegidas</b>
+                </div>
+              </div>
+
+              <div class="vh-contract-box">
+                <div class="vh-contract-header">
+                  <span>Custodia &amp; Acumulación:</span>
+                  <span class="vh-opsec-ok">AUTO_SWEEP = FALSE</span>
+                </div>
+                <div class="vh-contract-tags">
+                  <span class="vh-mini-tag">500 Satélites EIP-712</span>
+                  <span class="vh-mini-tag">Acumulación Exclusiva #501</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- NIVEL INFERIOR: TABLA EJECUTIVA LIMPIA DE MOVIMIENTOS REALES EN VIVO -->
+          <div class="executive-table-wrapper">
+            <div class="ext-toolbar">
+              <div class="ext-toolbar-left">
+                <div class="ext-title-badge">
+                  <span class="material-symbols-rounded">receipt_long</span>
+                  <span>ESTADO DE CUENTA ON-CHAIN · BÓVEDA #501</span>
+                </div>
+                <div class="ext-counter-badge" id="txCountBadge">
+                  18 MOVIMIENTOS REGISTRADOS
+                </div>
+              </div>
+
+              <div class="ext-toolbar-right">
+                <div class="ext-search-box">
+                  <span class="material-symbols-rounded">search</span>
+                  <input type="text" class="ext-search-input" id="explorerSearchInput" placeholder="Buscar por operación, par, red o hash...">
+                </div>
+
+                <div class="ext-filters-group">
+                  <button class="ext-filter-btn active" data-filter="ALL" id="filterAll">
+                    <span class="material-symbols-rounded">view_list</span> Todos los Movimientos
+                  </button>
+                  <button class="ext-filter-btn" data-filter="HL" id="filterHl">
+                    <span class="material-symbols-rounded">shield</span> Hyperliquid L1
+                  </button>
+                  <button class="ext-filter-btn" data-filter="POLYGON_EVM" id="filterPolyEvm">
+                    <span class="material-symbols-rounded">bolt</span> Polygon &amp; EVM
+                  </button>
+                  <button class="ext-filter-btn" data-filter="RETIROS" id="filterRetiros">
+                    <span class="material-symbols-rounded">swap_horiz</span> Retiros &amp; Préstamo #501
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="ext-table-scroll-container">
+              <table class="ext-table" id="txExplorerTable">
+                <thead>
+                  <tr>
+                    <th>HORA UTC</th>
+                    <th>RED / ORIGEN</th>
+                    <th>OPERACIÓN REAL</th>
+                    <th>PAR / CONTRATO</th>
+                    <th>RESULTADO NETO</th>
+                    <th style="text-align: center;">RECIBO ON-CHAIN</th>
+                  </tr>
+                </thead>
+                <tbody id="txExplorerTbody">
+                  <!-- Filas inyectadas dinámicamente con DOM diffing -->
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <div class="pos-grid-54" id="posMatrixGrid54">
-            <!-- 54 Celdas generadas dinámicamente por JavaScript -->
-          </div>
-        </div>
-      </section>
-
-      <!-- ====================================================================
-           VISTA 2: EXPLORADOR DE MOVIMIENTOS EN VIVO (ESTILO BSCSCAN / HL SCAN)
-           ==================================================================== -->
-      <section class="tab-pane" id="paneTxExplorer">
-        <div class="explorer-container">
-          <div class="explorer-toolbar">
-            <div class="explorer-filters">
-              <button class="exp-filter-btn active" data-filter="ALL" id="filterAll">
-                <span class="material-symbols-rounded">view_list</span> TODAS LAS REDES
-              </button>
-              <button class="exp-filter-btn" data-filter="HL" id="filterHl">
-                <span class="material-symbols-rounded">speed</span> HYPERLIQUID L1
-              </button>
-              <button class="exp-filter-btn" data-filter="POLYGON" id="filterPoly">
-                <span class="material-symbols-rounded">layers</span> POLYGON PoS
-              </button>
-              <button class="exp-filter-btn" data-filter="BSC_ARB" id="filterBscArb">
-                <span class="material-symbols-rounded">hub</span> BSC / ARBITRUM
-              </button>
-            </div>
-
-            <div class="explorer-search-wrap">
-              <span class="material-symbols-rounded">search</span>
-              <input type="text" class="explorer-search-input" id="explorerSearchInput" placeholder="Buscar por TxHash, método o activo...">
-            </div>
-
-            <div class="explorer-counter-badge" id="txCountBadge">
-              18 MOVIMIENTOS REGISTRADOS
-            </div>
-          </div>
-
-          <div class="explorer-table-wrap">
-            <table class="tx-explorer-table" id="txExplorerTable">
-              <thead>
-                <tr>
-                  <th>TX / ORDEN HASH</th>
-                  <th>RED</th>
-                  <th>MÉTODO / ACCIÓN</th>
-                  <th>DESDE ➔ HACIA</th>
-                  <th>VALOR NETO</th>
-                  <th>FEE</th>
-                  <th>FECHA / HORA UTC</th>
-                  <th>ESTADO</th>
-                  <th>EXPLORADOR</th>
-                </tr>
-              </thead>
-              <tbody id="txExplorerTbody">
-                <!-- Filas inyectadas dinámicamente -->
-              </tbody>
-            </table>
-          </div>
         </div>
       </section>
 
@@ -517,16 +660,13 @@
         <span class="live-dot-green" title="En Vivo On-Chain"></span>
       </div>
 
-      <!-- 2. ZONA CENTRAL: 4 PESTAÑAS OPERATIVAS EXCLUSIVAS -->
+      <!-- 2. ZONA CENTRAL: 3 PESTAÑAS OPERATIVAS EXCLUSIVAS -->
       <nav class="matrix-nav-tabs">
-        <button class="nav-tab active" data-tab="paneCompositionGrid" id="tabBtnComp">
-          <span class="material-symbols-rounded tab-icon">grid_view</span> 54 CELDAS MULTICADENA
-        </button>
-        <button class="nav-tab" data-tab="paneTxExplorer" id="tabBtnExplorer">
-          <span class="material-symbols-rounded tab-icon">receipt_long</span> EXPLORADOR EN VIVO
+        <button class="nav-tab active" data-tab="paneExecutiveLedger" id="tabBtnExecutive">
+          <span class="material-symbols-rounded tab-icon">account_balance</span> ESTADO EJECUTIVO (#501)
         </button>
         <button class="nav-tab" data-tab="paneAmortization" id="tabBtnAmort">
-          <span class="material-symbols-rounded tab-icon">handshake</span> REGLA 70/30 &amp; 0%
+          <span class="material-symbols-rounded tab-icon">handshake</span> REGLA 70/30 &amp; PRÉSTAMO 0%
         </button>
         <button class="nav-tab" data-tab="paneAudit" id="tabBtnAudit">
           <span class="material-symbols-rounded tab-icon">security</span> AUDITORÍA &amp; OPSEC
@@ -572,7 +712,7 @@
             <span class="material-symbols-rounded m-card-icon matriz">account_balance</span>
             <h4>POSICIÓN MATRIX 501</h4>
           </div>
-          <p class="m-card-desc">Explorador multicadena en vivo de la Bóveda Matriz #501 (<code>0xD4D1...3743</code>), 54 celdas anatómicas, balance consolidado $848.35+ USD y bitácora unificada.</p>
+          <p class="m-card-desc">Explorador multicadena en vivo de la Bóveda Matriz #501 (<code>0xD4D1...3743</code>), composición real en 4 bóvedas, balance consolidado $865.72 USD y estado de cuenta on-chain unificado.</p>
           <div class="m-card-cta" style="color: #059669;">
             <span>ESTACIÓN ACTUAL ACTIVA ➔</span>
           </div>

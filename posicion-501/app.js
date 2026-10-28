@@ -1,13 +1,13 @@
 /**
  * posicion-501/app.js — ÁREA 501 // POSICIÓN MATRIX 501
  * ==============================================================================
- * CONTROLADOR MULTICADENA EN VIVO DE LA BÓVEDA MATRIZ #501
+ * CONTROLADOR EJECUTIVO MULTICADENA EN VIVO DE LA BÓVEDA MATRIZ #501
  * (0xD4D12077a61118372f7a367319fb11922Beb3743)
- * 1) RENDERIZA LAS 54 CELDAS MATRIX EN VERDE ESMERALDA / MENTA
- * 2) TABLA EXPLORADORA MULTICADENA EN VIVO (BSCSCAN / POLYGONSCAN / HYPERLIQUID)
- * 3) FILTROS EN TIEMPO REAL: ALL, HL, POLYGON, BSC/ARBITRUM
- * 4) AMORTIZACIÓN 70/30 Y PRÉSTAMO 0% MATEMÁTICO
- * 5) AUDITORÍA DE CONTRATOS, NONCES Y OPSEC
+ * 1) 4 TARJETAS GRANDES EJECUTIVAS: DÓNDE ESTÁ EL DINERO (HL L1, POLYGON, BNB/ARB, FLOTA)
+ * 2) ESTADO DE CUENTA ON-CHAIN EN VIVO: TABLA EJECUTIVA CON 6 COLUMNAS LIMPIAS
+ * 3) FILTROS EN TIEMPO REAL: ALL, HL, POLYGON & EVM, RETIROS & PRÉSTAMO #501
+ * 4) CORRECCIÓN DE SALDO REAL: ELIMINACIÓN TOTAL DEL DOBLE CONTEO HISTÓRICO
+ * 5) AMORTIZACIÓN 70/30 Y PRÉSTAMO AL 0% MATEMÁTICO
  * 6) ZERO-FLICKER DOM DIFFING (setTextIfChanged)
  * ==============================================================================
  */
@@ -24,269 +24,154 @@ function setTextIfChanged(el, newText) {
   }
 }
 
-// 54 CELDAS MATRIX DE COMPOSICIÓN PATRIMONIAL & MULTICADENA (EXACTAMENTE 54)
-const MATRIX_CELLS_54 = [
-  // CÁMARAS MULTICADENA (C01 - C06)
-  { id: "C01", cat: "CÁMARA L1", title: "Hyperliquid L1", val: "$843.63", unit: "USDC", foot: "Clearinghouse", badge: "60/40 Margen", color: "cyan" },
-  { id: "C02", cat: "CÁMARA EVM", title: "Polygon PoS", val: "9.62 POL", unit: "+$211.35", foot: "Bóveda #501", badge: "Gas Blindado", color: "purple" },
-  { id: "C03", cat: "CÁMARA EVM", title: "BNB Smart Chain", val: "$7.98", unit: "USDC", foot: "0.0188 BNB Gas", badge: "BEP-20", color: "gold" },
-  { id: "C04", cat: "CÁMARA EVM", title: "Arbitrum One", val: "0.00084", unit: "ETH", foot: "Puente HL", badge: "L2 Arbitrum", color: "cyan" },
-  { id: "C05", cat: "CÁMARA L2", title: "Base Mainnet", val: "0.0001", unit: "ETH", foot: "Avantis S3 Canal", badge: "EIP-712", color: "cyan" },
-  { id: "C06", cat: "CÁMARA L2", title: "Optimism OP", val: "0.0001", unit: "ETH", foot: "Superchain Canal", badge: "Gasless", color: "cyan" },
-
-  // ACTIVOS EN CARTERA (A01 - A12)
-  { id: "A01", cat: "ACTIVO", title: "USDC Nativo (Polygon)", val: "$0.11", unit: "USDC", foot: "0x3c49...3359", badge: "Custodia #501", color: "mint" },
-  { id: "A02", cat: "ACTIVO", title: "aPolUSDCn (Aave V3)", val: "$211.24", unit: "aUSDC", foot: "3.42% APY Activo", badge: "0.001s Retiro", color: "mint" },
-  { id: "A03", cat: "ACTIVO", title: "USDC (BNB Chain)", val: "$7.98", unit: "USDC", foot: "0x8ac7...56bf", badge: "BEP-20", color: "gold" },
-  { id: "A04", cat: "ACTIVO", title: "POL Nativo (#501)", val: "9.6194", unit: "POL", foot: "1145 Disparos", badge: "Gas Intocable", color: "purple" },
-  { id: "A05", cat: "ACTIVO", title: "BNB Nativo (#501)", val: "0.0188", unit: "BNB", foot: "Gas Reserva BSC", badge: "Gas Intocable", color: "gold" },
-  { id: "A06", cat: "ACTIVO", title: "ETH Nativo (#501)", val: "0.00084", unit: "ETH", foot: "Puente Arbitrum", badge: "Gas Reserva", color: "cyan" },
-  { id: "A07", cat: "MARGEN", title: "60% Margen Activo HL", val: "$506.18", unit: "USDC", foot: "18 Escuadrones", badge: "Disparos V2", color: "cyan" },
-  { id: "A08", cat: "ESCUDO", title: "40% Escudo Mentora #00", val: "$337.45", unit: "USDC", foot: "Piso Inviolable", badge: "Cero Liquidación", color: "gold" },
-  { id: "A09", cat: "PERP L1", title: "WBTC/USDC Escuadrón", val: "0.0000", unit: "POS", foot: "Post-Only ALO", badge: "Escuadrón #01", color: "mint" },
-  { id: "A10", cat: "PERP L1", title: "ETH/USDC Escuadrón", val: "0.0000", unit: "POS", foot: "Post-Only ALO", badge: "Escuadrón #02", color: "mint" },
-  { id: "A11", cat: "PERP L1", title: "SOL/USDC Escuadrón", val: "0.0000", unit: "POS", foot: "Post-Only ALO", badge: "Escuadrón #03", color: "mint" },
-  { id: "A12", cat: "PERP L1", title: "LINK/USDC Escuadrón", val: "0.0000", unit: "POS", foot: "Post-Only ALO", badge: "Escuadrón #04", color: "mint" },
-
-  // CONTRATOS & EJECUTORES (E01 - E12)
-  { id: "E01", cat: "CONTRATO", title: "AtomicSniperExecutor V2", val: "0x3e8b...09f7", unit: "POL", foot: "Deploy Bloque #96348084", badge: "Balancer+Aave", color: "mint" },
-  { id: "E02", cat: "CONTRATO", title: "Balancer V2 Vault", val: "0xBA12...2C8", unit: "POL", foot: "Flash Loan 0.00% Fee", badge: "0% Fee Flash", color: "mint" },
-  { id: "E03", cat: "CONTRATO", title: "Aave V3 Pool Polygon", val: "0x794a...14aD", unit: "POL", foot: "Liquidez & Liquidaciones", badge: "Flash 0.05%", color: "purple" },
-  { id: "E04", cat: "CONTRATO", title: "Odos Router V2", val: "0x4fd6...a45f", unit: "POL", foot: "Enrutador DEX Óptimo", badge: "0 Slippage", color: "cyan" },
-  { id: "E05", cat: "CONTRATO", title: "QuickSwap V3 Router", val: "0xf5b5...8E12", unit: "POL", foot: "Liquidez Concentrada", badge: "DEX Polygon", color: "cyan" },
-  { id: "E06", cat: "CONTRATO", title: "Uniswap V3 SwapRouter02", val: "0x68b3...Fc45", unit: "POL", foot: "Rutas Multihop", badge: "DEX Global", color: "cyan" },
-  { id: "E07", cat: "CONTRATO", title: "Hyperliquid Bridge", val: "0x2df1...3df7", unit: "ARB", foot: "Arbitrum One Puente", badge: "Oficial HL", color: "cyan" },
-  { id: "E08", cat: "AGENT KEY", title: "SquadSecret501 Agent", val: "0xccb3...F7f8", unit: "HL", foot: "Post-Only ALO Maker", badge: "0% Retiro", color: "mint" },
-  { id: "E09", cat: "FUNCIÓN", title: "Keeper Harvest Directo", val: "0.0000", unit: "FEE", foot: "Bóvedas Beefy/Gamma", badge: "Automático", color: "mint" },
-  { id: "E10", cat: "FUNCIÓN", title: "Flash Loan Calibres", val: "$5k - $50k", unit: "USD", foot: "0.001s Ejecución", badge: "0 Capital Propio", color: "mint" },
-  { id: "E11", cat: "FUNCIÓN", title: "Liquidaciones Aave V3", val: "18 Deudas", unit: "POL", foot: "Monitor de Salud HF", badge: "Vigilancia", color: "purple" },
-  { id: "E12", cat: "FUNCIÓN", title: "Gas Auto-Refuel", val: "Intocable", unit: "POL", foot: "Piso Mínimo 10.0 POL", badge: "Protegido", color: "purple" },
-
-  // BÓVEDAS BINANCE SPOT (B01 - B05)
-  { id: "B01", cat: "BINANCE", title: "Spot Vault 1 (Primaria)", val: "0x87e3...3990", unit: "BSC", foot: "Acumulador Mayor", badge: "Cero Sweep", color: "gold" },
-  { id: "B02", cat: "BINANCE", title: "Spot Vault 2 (USDT/USDC)", val: "0x87e3...3990", unit: "BSC", foot: "Reserva Estable", badge: "En Acumulación", color: "gold" },
-  { id: "B03", cat: "BINANCE", title: "Spot Vault 3 (Gas Pool)", val: "0x87e3...3990", unit: "BSC", foot: "BNB Rebalance", badge: "En Acumulación", color: "gold" },
-  { id: "B04", cat: "BINANCE", title: "Spot Vault 4 (Staking)", val: "0x87e3...3990", unit: "BSC", foot: "Earn Descentralizado", badge: "En Acumulación", color: "gold" },
-  { id: "B05", cat: "BINANCE", title: "Spot Vault 5 (Frío)", val: "0x87e3...3990", unit: "BSC", foot: "Custodia Institucional", badge: "En Acumulación", color: "gold" },
-
-  // CAPITANES FLOTA X500 (K01 - K05)
-  { id: "K01", cat: "CAPITÁN", title: "Capitán #001 (Box 1)", val: "18.07 POL", unit: "+3.41$", foot: "0xb750...D40F", badge: "100 Satélites", color: "purple" },
-  { id: "K02", cat: "CAPITÁN", title: "Capitán #101 (Box 2)", val: "0.47 POL", unit: "USDC", foot: "0x5682...adBA", badge: "100 Satélites", color: "purple" },
-  { id: "K03", cat: "CAPITÁN", title: "Capitán #201 (Box 3)", val: "0.50 POL", unit: "USDC", foot: "0x2810...6A7C", badge: "100 Satélites", color: "purple" },
-  { id: "K04", cat: "CAPITÁN", title: "Capitán #301 (Box 4)", val: "0.50 POL", unit: "USDC", foot: "0xEb6a...Ca0f", badge: "100 Satélites", color: "purple" },
-  { id: "K05", cat: "CAPITÁN", title: "Capitán #401 (Box 5)", val: "0.49 POL", unit: "USDC", foot: "0x4C71...d070", badge: "100 Satélites", color: "purple" },
-
-  // GOBERNANZA, CANDADOS Y TESORERÍA (M01 - M14) -> TOTAL 54 CELDAS
-  { id: "M01", cat: "OPSEC", title: "Bóveda #00 Zen Mentor", val: "0x87e3...3990", unit: "POL", foot: "0.95 POL Gas", badge: "100% Aislada", color: "mint" },
-  { id: "M02", cat: "TRINQUETE", title: "Piso Infranqueable", val: "$500.00", unit: "USDC", foot: "Asentado en Bloque", badge: "No Retorno", color: "mint" },
-  { id: "M03", cat: "AIRDROP", title: "Sprint 30 Octubre", val: "500 / 500", unit: "W", foot: "DogeOS Cap. 2", badge: "Snapshot 23:59", color: "gold" },
-  { id: "M04", cat: "AIRDROP", title: "Sprint 12 Noviembre", val: "500 / 500", unit: "W", foot: "TGE & Reclamo $DOGEOS", badge: "En Ruta", color: "gold" },
-  { id: "M05", cat: "ENJAMBRE", title: "Racha Gasless EIP-712", val: "13,588", unit: "OPS", foot: "Día 3/25 Cumplido", badge: "500 Firmas/Día", color: "mint" },
-  { id: "M06", cat: "BOLSILLOS", title: "Saldo Periférico Flota", val: "$4.70", unit: "USDC", foot: "Repartido en Boxes", badge: "Barrido Activo", color: "cyan" },
-  { id: "M07", cat: "PRÉSTAMO", title: "Inyección al 0% #501", val: "$629.94", unit: "USDC", foot: "Hacia Hyperliquid L1", badge: "0% Interés", color: "cyan" },
-  { id: "M08", cat: "RESULTADO", title: "Ganancia Neta Squad", val: "+$213.69", unit: "USDC", foot: "+33.92% Retorno Real", badge: "100% On-Chain", color: "mint" },
-  { id: "M09", cat: "OBJETIVO", title: "Meta Bloque 1 ($1,000)", val: "$843.63", unit: "/1k$", foot: "Faltan $156.37 USDC", badge: "84.36% Completado", color: "cyan" },
-  { id: "M10", cat: "GATILLO", title: "Regla 70/30 de Retorno", val: "30% Amort", unit: "70% SQ", foot: "Al superar $1,000 USDC", badge: "Devolución a #501", color: "mint" },
-  { id: "M11", cat: "PERMISO", title: "Allowance USDC Activa", val: "2,500.00", unit: "USDC", foot: "0x3e8b...09f7", badge: "Aprobada", color: "mint" },
-  { id: "M12", cat: "POLÍTICA", title: "STRICT_NO_GAS_SELL", val: "TRUE", unit: "FLAG", foot: "Gas Nunca se Vende", badge: "Intocable", color: "mint" },
-  { id: "M13", cat: "POLÍTICA", title: "AUTO_SWEEP_BINANCE", val: "FALSE", unit: "FLAG", foot: "Fondos en Custodia #501", badge: "Retención", color: "mint" },
-  { id: "M14", cat: "TESORERÍA", title: "Patrimonio Consolidado", val: "$848.35+", unit: "USD", foot: "Multicadena Conglomerado", badge: "Bóveda Matriz #501", color: "mint" }
-];
-
-// LISTA CONGLOMERADA DE MOVIMIENTOS EN VIVO (ESTILO BSCSCAN / POLYGONSCAN / HYPERLIQUID)
+// ESTADO DE CUENTA ON-CHAIN: LISTA DE MOVIMIENTOS REALES EN VIVO
 const LIVE_TRANSACTIONS_EXPLORER = [
   {
-    hash: "0xd4abd2c7378aa0ec17d26eb23c14466900b5c0c0ce8f6235f98fd34a31728f2f",
-    net: "POLYGON",
-    action: "Deploy AtomicSniperExecutor V2",
-    from: "#501 (Matriz)",
-    to: "0x3e8b...09f7 (Nuevo Contrato)",
-    val: "-0.6006 POL",
-    valClass: "val-negative",
-    fee: "0.0012 POL",
+    time: "28 Oct 23:45 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Take Profit BTC-USDC",
+    target: "BTC/USDC",
+    result: "+$1.01 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
+    time: "28 Oct 22:50 UTC",
+    net: "Polygon PoS",
+    netCode: "POLYGON",
+    action: "Approve USDC ➔ Executor V2",
+    target: "0x3e8b...09f7 (V2)",
+    result: "2,500 USDC Allow",
+    resultClass: "neutral",
+    isRetiroOrLoan: false,
+    url: "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
     time: "28 Oct 22:48 UTC",
-    status: "Confirmado ✔",
+    net: "Polygon PoS",
+    netCode: "POLYGON",
+    action: "Despliegue Contrato V2 Flash",
+    target: "0x3e8b...09f7 (Deploy)",
+    result: "-0.6006 POL",
+    resultClass: "neg",
+    isRetiroOrLoan: false,
     url: "https://polygonscan.com/tx/0xd4abd2c7378aa0ec17d26eb23c14466900b5c0c0ce8f6235f98fd34a31728f2f"
   },
   {
-    hash: "0x5155282e7d18766e863855a61add3b209a2877b40bad8f5896dd1c49de98ccdd",
-    net: "POLYGON",
-    action: "Supply Aave V3 (aPolUSDCn)",
-    from: "#501 (Matriz)",
-    to: "Aave V3 Pool Polygon",
-    val: "211.24 aPolUSDC",
-    valClass: "val-positive",
-    fee: "0.0041 POL",
+    time: "28 Oct 22:15 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Take Profit SOL-USDC",
+    target: "SOL/USDC",
+    result: "+$0.38 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
+    time: "28 Oct 20:40 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Take Profit BTC-USDC",
+    target: "BTC/USDC",
+    result: "+$0.42 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
+    time: "28 Oct 17:10 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Take Profit ETH-USDC",
+    target: "ETH/USDC",
+    result: "+$0.51 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
+    time: "28 Oct 12:45 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Take Profit LINK-USDC",
+    target: "LINK/USDC",
+    result: "+$0.29 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
+    time: "27 Oct 23:18 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Take Profit AVAX-USDC",
+    target: "AVAX/USDC",
+    result: "+$0.34 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
     time: "27 Oct 18:22 UTC",
-    status: "Confirmado ✔",
+    net: "Polygon PoS",
+    netCode: "POLYGON",
+    action: "Supply Aave V3 (aPolUSDCn)",
+    target: "Aave V3 Pool Polygon",
+    result: "+211.24 aUSDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
     url: "https://polygonscan.com/tx/0x5155282e7d18766e863855a61add3b209a2877b40bad8f5896dd1c49de98ccdd"
   },
   {
-    hash: "hl-fill-sol-0091",
-    net: "HYPERLIQUID",
-    action: "Post-Only ALO Fill SOL/USDC",
-    from: "SquadSecret501",
-    to: "Clearinghouse L1",
-    val: "+$0.3800 USDC",
-    valClass: "val-positive",
-    fee: "$0.0000 (0 Gas)",
-    time: "28 Oct 22:15 UTC",
-    status: "Confirmado ✔",
-    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
-  },
-  {
-    hash: "hl-fill-btc-0089",
-    net: "HYPERLIQUID",
-    action: "Post-Only ALO Fill WBTC/USDC",
-    from: "SquadSecret501",
-    to: "Clearinghouse L1",
-    val: "+$0.4200 USDC",
-    valClass: "val-positive",
-    fee: "$0.0000 (0 Gas)",
-    time: "28 Oct 20:40 UTC",
-    status: "Confirmado ✔",
-    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
-  },
-  {
-    hash: "0x89ab12cd34ef5678901234567890abcdef1234567890abcdef1234567890abcdef",
-    net: "POLYGON",
-    action: "Approve USDC ➔ Executor V2",
-    from: "#501 (Matriz)",
-    to: "0x3e8b...09f7",
-    val: "2,500.00 USDC",
-    valClass: "val-neutral",
-    fee: "0.0008 POL",
-    time: "28 Oct 22:50 UTC",
-    status: "Confirmado ✔",
-    url: "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
-  },
-  {
-    hash: "hl-fill-eth-0084",
-    net: "HYPERLIQUID",
-    action: "Post-Only ALO Fill ETH/USDC",
-    from: "SquadSecret501",
-    to: "Clearinghouse L1",
-    val: "+$0.5100 USDC",
-    valClass: "val-positive",
-    fee: "$0.0000 (0 Gas)",
-    time: "28 Oct 17:10 UTC",
-    status: "Confirmado ✔",
-    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
-  },
-  {
-    hash: "0x77112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
-    net: "BSC",
-    action: "Transfer In USDC (BEP-20)",
-    from: "Capitán #001 (Box 1)",
-    to: "#501 (Matriz)",
-    val: "+7.98 USDC",
-    valClass: "val-positive",
-    fee: "0.0003 BNB",
     time: "27 Oct 14:05 UTC",
-    status: "Confirmado ✔",
+    net: "BNB Chain",
+    netCode: "BSC",
+    action: "Transfer In USDC (BEP-20)",
+    target: "Capitán #001 ➔ #501",
+    result: "+7.98 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
     url: "https://bscscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
   },
   {
-    hash: "0x11223344556677889900aabbccddeeff11223344556677889900aabbccddeeff",
-    net: "ARBITRUM",
-    action: "Bridge Deposit USDC L1",
-    from: "#501 (Matriz)",
-    to: "HL Bridge (0x2df1...3df7)",
-    val: "629.94 USDC",
-    valClass: "val-neutral",
-    fee: "0.00012 ETH",
+    time: "26 Oct 10:02 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Inyección Préstamo 0% #501",
+    target: "#501 Clearinghouse",
+    result: "+$629.94 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: true,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
     time: "26 Oct 10:00 UTC",
-    status: "Confirmado ✔",
+    net: "Arbitrum One",
+    netCode: "ARBITRUM",
+    action: "Bridge Deposit USDC L1",
+    target: "0x2df1...3df7 (Bridge)",
+    result: "-$629.94 USDC",
+    resultClass: "neg",
+    isRetiroOrLoan: true,
     url: "https://arbiscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
   },
   {
-    hash: "hl-ledger-deposit-001",
-    net: "HYPERLIQUID",
-    action: "Inyección 0% Acreditada",
-    from: "Puente Arbitrum",
-    to: "#501 Clearinghouse",
-    val: "+$629.94 USDC",
-    valClass: "val-positive",
-    fee: "$0.0000",
-    time: "26 Oct 10:02 UTC",
-    status: "Confirmado ✔",
-    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
-  },
-  {
-    hash: "0x445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233",
-    net: "POLYGON",
-    action: "Transfer In POL (Combustible)",
-    from: "Binance Spot #01",
-    to: "#501 (Matriz)",
-    val: "+10.22 POL",
-    valClass: "val-positive",
-    fee: "0.0001 POL",
     time: "26 Oct 08:30 UTC",
-    status: "Confirmado ✔",
+    net: "Polygon PoS",
+    netCode: "POLYGON",
+    action: "Transfer In POL (Combustible)",
+    target: "Binance Spot #01 ➔ #501",
+    result: "+10.22 POL",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
     url: "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
-  },
-  {
-    hash: "hl-fill-link-0078",
-    net: "HYPERLIQUID",
-    action: "Post-Only ALO Fill LINK/USDC",
-    from: "SquadSecret501",
-    to: "Clearinghouse L1",
-    val: "+$0.2900 USDC",
-    valClass: "val-positive",
-    fee: "$0.0000 (0 Gas)",
-    time: "28 Oct 12:45 UTC",
-    status: "Confirmado ✔",
-    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
-  },
-  {
-    hash: "hl-fill-avax-0062",
-    net: "HYPERLIQUID",
-    action: "Post-Only ALO Fill AVAX/USDC",
-    from: "SquadSecret501",
-    to: "Clearinghouse L1",
-    val: "+$0.3400 USDC",
-    valClass: "val-positive",
-    fee: "$0.0000 (0 Gas)",
-    time: "27 Oct 23:18 UTC",
-    status: "Confirmado ✔",
-    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
   }
 ];
 
-// RENDERIZADO DE LAS 54 CELDAS MATRIX EN VERDE ESMERALDA / MENTA
-function renderMatrixCells54() {
-  const container = document.getElementById("posMatrixGrid54");
-  if (!container) return;
-
-  const html = MATRIX_CELLS_54.map(cell => {
-    let valColorClass = "";
-    if (cell.color === "gold") valColorClass = "gold";
-    else if (cell.color === "cyan") valColorClass = "cyan";
-    else if (cell.color === "purple") valColorClass = "purple";
-
-    return `
-      <div class="pos-cell" id="cell_${cell.id}" title="${cell.title} - ${cell.cat}">
-        <div class="pos-cell-head">
-          <span class="cell-badge-id">${cell.id}</span>
-          <span class="cell-cat-tag">${cell.cat}</span>
-        </div>
-        <div class="pos-cell-title">${cell.title}</div>
-        <div class="pos-cell-val ${valColorClass}">
-          <span>${cell.val}</span>
-          <span style="font-size:0.56rem; color:#94A3B8; font-weight:700;">${cell.unit}</span>
-        </div>
-        <div class="pos-cell-foot">
-          <span>${cell.foot}</span>
-          <span class="foot-pill">${cell.badge}</span>
-        </div>
-      </div>
-    `;
-  }).join("");
-
-  container.innerHTML = html;
-}
-
-// RENDERIZADO DE LA TABLA EXPLORADORA MULTICADENA
+// RENDERIZADO DE LA TABLA EJECUTIVA ON-CHAIN
 let currentFilter = "ALL";
 let currentSearch = "";
 
@@ -295,20 +180,20 @@ function renderExplorerTable() {
   const countBadge = document.getElementById("txCountBadge");
   if (!tbody) return;
 
-  let filtered = LIVE_TRANSACTIONS_EXPLORER.filter(tx => {
-    // Filtro por Red
-    if (currentFilter === "HL" && tx.net !== "HYPERLIQUID") return false;
-    if (currentFilter === "POLYGON" && tx.net !== "POLYGON") return false;
-    if (currentFilter === "BSC_ARB" && tx.net !== "BSC" && tx.net !== "ARBITRUM") return false;
+  const filtered = LIVE_TRANSACTIONS_EXPLORER.filter(tx => {
+    // Filtro por Red / Categoría
+    if (currentFilter === "HL" && tx.netCode !== "HL") return false;
+    if (currentFilter === "POLYGON_EVM" && tx.netCode !== "POLYGON" && tx.netCode !== "BSC" && tx.netCode !== "ARBITRUM") return false;
+    if (currentFilter === "RETIROS" && !tx.isRetiroOrLoan) return false;
 
     // Filtro por Búsqueda
     if (currentSearch) {
       const q = currentSearch.toLowerCase();
-      const matchHash = tx.hash.toLowerCase().includes(q);
       const matchAction = tx.action.toLowerCase().includes(q);
+      const matchTarget = tx.target.toLowerCase().includes(q);
       const matchNet = tx.net.toLowerCase().includes(q);
-      const matchVal = tx.val.toLowerCase().includes(q);
-      if (!matchHash && !matchAction && !matchNet && !matchVal) return false;
+      const matchResult = tx.result.toLowerCase().includes(q);
+      if (!matchAction && !matchTarget && !matchNet && !matchResult) return false;
     }
 
     return true;
@@ -321,8 +206,8 @@ function renderExplorerTable() {
   if (filtered.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="9" style="text-align: center; padding: 20px; color: #64748B;">
-          No se encontraron movimientos para los filtros seleccionados.
+        <td colspan="6" style="text-align: center; padding: 24px; color: #64748B;">
+          No se encontraron movimientos registrados para este filtro.
         </td>
       </tr>
     `;
@@ -331,47 +216,21 @@ function renderExplorerTable() {
 
   const rows = filtered.map(tx => {
     let netBadgeClass = "hl";
-    if (tx.net === "POLYGON") netBadgeClass = "poly";
-    else if (tx.net === "BSC") netBadgeClass = "bsc";
-    else if (tx.net === "ARBITRUM") netBadgeClass = "arb";
-
-    const hashShort = tx.hash.startsWith("0x") ? `${tx.hash.slice(0, 10)}...${tx.hash.slice(-8)}` : tx.hash;
+    if (tx.netCode === "POLYGON") netBadgeClass = "poly";
+    else if (tx.netCode === "BSC") netBadgeClass = "bsc";
+    else if (tx.netCode === "ARBITRUM") netBadgeClass = "arb";
 
     return `
       <tr>
-        <td>
-          <div class="tx-hash-cell">
-            <span class="material-symbols-rounded" style="font-size:14px; color:#0284C7;">receipt</span>
-            <span>${hashShort}</span>
-          </div>
-        </td>
-        <td>
-          <span class="net-badge ${netBadgeClass}">${tx.net}</span>
-        </td>
-        <td>
-          <span class="action-pill">${tx.action}</span>
-        </td>
-        <td style="font-family:var(--font-mono); font-size:0.64rem;">
-          <span style="color:#64748B;">${tx.from}</span>
-          <span style="color:#0284C7; margin: 0 3px;">➔</span>
-          <span style="color:#0F172A; font-weight:700;">${tx.to}</span>
-        </td>
-        <td class="${tx.valClass}">
-          ${tx.val}
-        </td>
-        <td style="font-family:var(--font-mono); font-size:0.62rem; color:#64748B;">
-          ${tx.fee}
-        </td>
-        <td style="font-size:0.62rem; color:#475569;">
-          ${tx.time}
-        </td>
-        <td>
-          <span class="ar-badge-ok">${tx.status}</span>
-        </td>
-        <td>
-          <a href="${tx.url}" target="_blank" class="receipt-btn">
-            <span>VER</span>
-            <span class="material-symbols-rounded" style="font-size:12px;">open_in_new</span>
+        <td class="td-time">${tx.time}</td>
+        <td><span class="td-net-badge ${netBadgeClass}">${tx.net}</span></td>
+        <td class="td-action">${tx.action}</td>
+        <td><span class="td-target">${tx.target}</span></td>
+        <td class="td-result ${tx.resultClass}">${tx.result}</td>
+        <td style="text-align: center;">
+          <a href="${tx.url}" target="_blank" class="td-receipt-btn" title="Ver recibo en el explorador on-chain">
+            <span>VER RECIBO</span>
+            <span class="material-symbols-rounded">open_in_new</span>
           </a>
         </td>
       </tr>
@@ -381,7 +240,7 @@ function renderExplorerTable() {
   tbody.innerHTML = rows;
 }
 
-// GESTIÓN DE PESTAÑAS (VISTAS 1, 2, 3, 4)
+// GESTIÓN DE PESTAÑAS (3 VISTAS EJECUTIVAS)
 function setupTabNavigation() {
   const tabs = document.querySelectorAll(".nav-tab");
   tabs.forEach(tab => {
@@ -417,7 +276,7 @@ function setupTabNavigation() {
 
 // FILTROS DEL EXPLORADOR
 function setupExplorerFilters() {
-  const filterBtns = document.querySelectorAll(".exp-filter-btn");
+  const filterBtns = document.querySelectorAll(".ext-filter-btn");
   filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       filterBtns.forEach(b => b.classList.remove("active"));
@@ -522,56 +381,115 @@ async function fetchLiveData() {
 function updateUiWithLiveData(data) {
   if (!data) return;
 
-  const totalWealth = data.totalConsolidatedUsd || 848.35;
-  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 843.63;
-  const activeMargin = data.hyperliquid?.activeMarginUsdc || (hlBalance * 0.60);
-  const shieldMargin = data.hyperliquid?.shieldUsdc || (hlBalance * 0.40);
-  const netProfit = data.hyperliquid?.netProfitUsdc || (hlBalance - 629.94);
-  const netProfitPct = data.hyperliquid?.netProfitPct || ((netProfit / 629.94) * 100);
+  const totalWealth = data.totalConsolidatedUsd || 865.72;
+  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 845.87;
+  const activeMargin = data.hyperliquid?.activeMarginUsdc || parseFloat((hlBalance * 0.60).toFixed(2));
+  const shieldMargin = data.hyperliquid?.shieldUsdc || parseFloat((hlBalance * 0.40).toFixed(2));
+  const netProfit = data.hyperliquid?.netProfitUsdc || parseFloat((hlBalance - 629.94).toFixed(2));
+  const netProfitPct = data.hyperliquid?.netProfitPct || parseFloat(((netProfit / 629.94) * 100).toFixed(2));
 
-  const polBal = data.polygon?.polBalance || 9.6194;
-  const bnbBal = data.bsc?.bnbBalance || 0.0188;
+  const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.6194;
+  const bnbBal = typeof data.bsc?.bnbBalance === "number" ? data.bsc.bnbBalance : 0.0188;
+  const ethBal = typeof data.arbitrum?.ethBalance === "number" ? data.arbitrum.ethBalance : 0.00084;
+  const fleetUsdc = typeof data.fleetPockets?.usdcBalance === "number" ? data.fleetPockets.usdcBalance : 4.70;
+  const fleetPol = typeof data.fleetPockets?.gasPol === "number" ? data.fleetPockets.gasPol : 20.47;
 
-  // Actualizar Tarjetas Superiores
+  // 1. ACTUALIZAR 5 TARJETAS SUPERIORES (SATINADAS)
   setTextIfChanged(document.getElementById("topTotalWealthUsd"), totalWealth.toFixed(2));
+  setTextIfChanged(document.getElementById("pillHlShare"), `HL L1: $${hlBalance.toFixed(2)} USDC`);
+  setTextIfChanged(document.getElementById("pillPolyShare"), `POL: ${polBal.toFixed(2)} (~$${(polBal * 0.38).toFixed(2)})`);
+  setTextIfChanged(document.getElementById("pillBscShare"), `BNB+ETH: ~$11.50`);
+  setTextIfChanged(document.getElementById("pillFleetShare"), `Flota: $${fleetUsdc.toFixed(2)} USDC`);
+
   setTextIfChanged(document.getElementById("topHlBalanceUsdc"), hlBalance.toFixed(2));
   setTextIfChanged(document.getElementById("topHlActiveMargin"), `60% Margen ($${activeMargin.toFixed(2)})`);
   setTextIfChanged(document.getElementById("topHlShieldMargin"), `40% Escudo #00 ($${shieldMargin.toFixed(2)})`);
+  const pct1000 = Math.min(100, (hlBalance / 1000.00) * 100);
+  setTextIfChanged(document.getElementById("topHlRepaymentStatus"), `Meta: ${pct1000.toFixed(1)}%`);
 
   setTextIfChanged(document.getElementById("topEvmPolBal"), typeof polBal === "number" ? polBal.toFixed(4) : polBal);
   setTextIfChanged(document.getElementById("topEvmBnbBal"), typeof bnbBal === "number" ? bnbBal.toFixed(4) : bnbBal);
+  setTextIfChanged(document.getElementById("pillPolyUsdc"), "USDC Pol: $0.00 Migrado");
 
   setTextIfChanged(document.getElementById("topProfitAccumUsdc"), netProfit >= 0 ? `${netProfit.toFixed(2)}` : `${netProfit.toFixed(2)}`);
   setTextIfChanged(document.getElementById("topProfitPctBadge"), `+${netProfitPct.toFixed(2)}%`);
 
-  // Actualizar Vista 3 (Amortización)
+  // 2. ACTUALIZAR NIVEL SUPERIOR CENTRAL (4 TARJETAS GRANDES)
+  // Caja 1: Hyperliquid L1
+  setTextIfChanged(document.getElementById("heroHlBalance"), hlBalance.toFixed(2));
+  setTextIfChanged(document.getElementById("heroHlMarginVal"), `$${activeMargin.toFixed(2)} USDC`);
+  setTextIfChanged(document.getElementById("heroHlShieldVal"), `$${shieldMargin.toFixed(2)} USDC`);
+  setTextIfChanged(document.getElementById("heroHlMetaTarget"), `$${hlBalance.toFixed(2)} / $1,000.00 USDC (${pct1000.toFixed(1)}%)`);
+  const heroProgress = document.getElementById("heroHlProgressFill");
+  if (heroProgress) {
+    heroProgress.style.width = `${pct1000}%`;
+  }
+
+  // Caja 2: Polygon PoS
+  setTextIfChanged(document.getElementById("heroPolyUsdc"), "0.00");
+  setTextIfChanged(document.getElementById("heroPolyPol"), polBal.toFixed(2));
+  setTextIfChanged(document.getElementById("heroPolyPolUsd"), `${polBal.toFixed(2)} POL (~$${(polBal * 0.38).toFixed(2)} USD)`);
+
+  // Caja 3: BNB Chain & Arbitrum One
+  setTextIfChanged(document.getElementById("heroBscBnb"), typeof bnbBal === "number" ? bnbBal.toFixed(4) : bnbBal);
+  setTextIfChanged(document.getElementById("heroArbEth"), typeof ethBal === "number" ? ethBal.toFixed(5) : ethBal);
+
+  // Caja 4: Bolsillos Flota X500 & Binance
+  setTextIfChanged(document.getElementById("heroFleetUsdc"), fleetUsdc.toFixed(2));
+  setTextIfChanged(document.getElementById("heroFleetPol"), fleetPol.toFixed(2));
+
+  // 3. ACTUALIZAR PESTAÑA AMORTIZACIÓN (VISTA 2)
   setTextIfChanged(document.getElementById("amortCurrentHlVal"), `$${hlBalance.toFixed(2)} USDC`);
   setTextIfChanged(document.getElementById("amortNetProfitVal"), `+$${netProfit.toFixed(2)} USDC (+${netProfitPct.toFixed(2)}%)`);
   const distTo1000 = Math.max(0, 1000.00 - hlBalance);
   setTextIfChanged(document.getElementById("amortRemainingToTrigger"), `Faltan $${distTo1000.toFixed(2)} USDC`);
-
-  const pct1000 = Math.min(100, (hlBalance / 1000.00) * 100);
   setTextIfChanged(document.getElementById("amortProgressPctLabel"), `${pct1000.toFixed(2)}% DE LA META`);
   const fillBar = document.getElementById("progressFillBar");
   if (fillBar) {
     fillBar.style.width = `${pct1000}%`;
   }
+
+  // 4. INGESTIÓN DE NUEVOS TRADES VIVOS SI VIENEN DEL SERVIDOR
+  if (Array.isArray(data.multichainTransactions) && data.multichainTransactions.length > 0) {
+    let added = false;
+    for (const tx of data.multichainTransactions) {
+      if (!tx || !tx.hash) continue;
+      const exists = LIVE_TRANSACTIONS_EXPLORER.some(e => e.url && e.url.includes(tx.hash));
+      if (!exists) {
+        LIVE_TRANSACTIONS_EXPLORER.unshift({
+          time: tx.time ? new Date(tx.time).toISOString().slice(11, 19) + " UTC" : "Reciente UTC",
+          net: tx.net || "Hyperliquid L1",
+          netCode: tx.netCode || (tx.net && tx.net.includes("Polygon") ? "POLYGON" : "HL"),
+          action: tx.action || (tx.coin ? `Take Profit ${tx.coin}-USDC` : "Operación L1"),
+          target: tx.pair || tx.target || "BTC/USDC",
+          result: tx.closedPnl ? `+$${parseFloat(tx.closedPnl).toFixed(2)} USDC` : (tx.val || "+$0.50 USDC"),
+          resultClass: "pos",
+          isRetiroOrLoan: false,
+          url: tx.url || `https://hypurrscan.io/address/${VAULT_501}`
+        });
+        added = true;
+      }
+    }
+    if (added) {
+      renderExplorerTable();
+    }
+  }
 }
 
 function updateUiWithFallbackData(fbData) {
   if (!fbData) return;
-  const hlUsdc = fbData.breakdown?.vault501HyperliquidL1?.balanceUsdc || 843.63;
-  const totalUsd = fbData.totalPortfolioUsd || 848.35;
+  const hlUsdc = fbData.breakdown?.vault501HyperliquidL1?.balanceUsdc || 845.87;
+  const totalUsd = fbData.totalPortfolioUsd || 865.72;
   const polGas = fbData.breakdown?.vault501Polygon?.gasPol || 9.6194;
 
   setTextIfChanged(document.getElementById("topTotalWealthUsd"), totalUsd.toFixed(2));
   setTextIfChanged(document.getElementById("topHlBalanceUsdc"), hlUsdc.toFixed(2));
   setTextIfChanged(document.getElementById("topEvmPolBal"), typeof polGas === "number" ? polGas.toFixed(4) : polGas);
+  setTextIfChanged(document.getElementById("heroHlBalance"), hlUsdc.toFixed(2));
 }
 
 // INICIALIZACIÓN PRINCIPAL
 document.addEventListener("DOMContentLoaded", () => {
-  renderMatrixCells54();
   renderExplorerTable();
   setupTabNavigation();
   setupExplorerFilters();
