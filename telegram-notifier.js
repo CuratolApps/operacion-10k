@@ -173,7 +173,7 @@ function getExecutiveStatusHeader() {
   let remaining = 0.00;
   let hlBal = 199.39;
   let harvestTarget = 200.00;
-  let gasPol = 10.60;
+  let gasPol = 9.62;
 
   try {
     if (fs.existsSync(DUAL_TREASURY_FILE)) {
@@ -188,7 +188,7 @@ function getExecutiveStatusHeader() {
         harvestTarget = Number(dt.chamber2_hyperliquid.harvestTargetUsdc || 200.00);
       }
       if (dt.gasShield) {
-        gasPol = Number(dt.gasShield.currentPol || 10.60);
+        gasPol = Number(dt.gasShield.currentPol || 9.62);
       }
     }
   } catch (_) {}
@@ -202,8 +202,8 @@ function getExecutiveStatusHeader() {
 🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)</b>
 • <b>Cámara 1 (Polygon Piso Blindado):</b> ${c1Status}
 • <b>Cámara 2 (Hyperliquid L1 Maker V2):</b> <code>$${hlBal.toFixed(2)} USDC</code> · Meta Retiro: <b>+$${harvestTarget.toFixed(2)} USDC</b> ($0.00 Gas · 0.015% Fee)
-• <b>Gas Blindado Intocable:</b> <code>${gasPol.toFixed(2)} POL (#501)</code> + <code>300.02 POL (Flota X500)</code>
-🌐 <b>Dashboard Directo:</b> <a href="https://area-501.curatolapps.workers.dev/">area-501.curatolapps.workers.dev</a>
+• <b>Gas Blindado Intocable:</b> <code>${gasPol.toFixed(2)} POL (#501)</code> + <code>20.47 POL (Flota X500)</code>
+🌐 <b>Posición Matrix 501:</b> <a href="https://area-501.curatolapps.workers.dev/posicion-501/">area-501.curatolapps.workers.dev/posicion-501/</a>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 }
 
@@ -379,7 +379,7 @@ ${hashesBlock}
 💵 <b>CONTABILIDAD REAL FLOTA X500:</b>
 • <b>Cosechado Nuevo (Airdrops/Mints ➔ #501):</b> <code>+$0.00 USDC</code>
 • <b>Liquidez Real en Flota:</b> <code>$3.41 USDC</code> (<code>20.51 POL</code> Flota · <code>0.00877 BNB</code>)
-• <b>Bóveda Matriz #501 (Intocable):</b> <code>$511.39 USDC</code> (<code>10.60 POL</code> · $20.11 Intactos)`;
+• <b>Bóveda Matriz #501 (Intocable):</b> <code>$511.39 USDC</code> (<code>9.62 POL</code> · $20.11 Intactos)`;
 }
 
 /**

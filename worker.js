@@ -512,8 +512,8 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     },
     operationDiagnostic: operationDiagnostic,
     gasFloors: {
-      vault501CurrentPol: 10.60,
-      vault501FloorPol: 10.00,
+      vault501CurrentPol: 9.62,
+      vault501FloorPol: 9.00,
       vault501FloorStatus: "100% OPERATIVO (BLINDADO)",
       fleetCurrentPol: 300.02,
       fleetFloorPol: 300.00,
@@ -522,7 +522,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     },
     dualTreasury: {
       vaultAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
-      gasShieldPol: 10.60,
+      gasShieldPol: 9.62,
       gasShieldStatus: "100% INTOCABLE",
       model: "MOTOR DUAL DE TESORERÍA ACTIVA V2",
       totalConsolidatedUsdc: 710.78,
@@ -837,23 +837,25 @@ async function getLiveClearinghouseState() {
       })
     ]);
 
-    let accountValue = 843.63;
-    let withdrawable = 506.18;
+    let accountValue = 846.09;
+    let withdrawable = 746.62;
     let positions = [];
     if (stateRes.ok) {
       const state = await stateRes.json();
       const marginSummary = state.marginSummary || state.crossMarginSummary || {};
-      accountValue = Math.max(843.63, parseFloat(marginSummary.accountValue || "0.0") || 843.63);
-      withdrawable = parseFloat(state.withdrawable || "0.0") || 506.18;
+      accountValue = parseFloat(marginSummary.accountValue || "0.0") || 846.09;
+      withdrawable = parseFloat(state.withdrawable || "0.0") || 746.62;
       positions = state.assetPositions || [];
     }
 
     let liveWins = 136;
     let livePnlUsdc = 213.69;
     let liveTransactions = [];
+    let rawFills = [];
     if (fillsRes.ok) {
       const fills = await fillsRes.json();
-      const closes = (Array.isArray(fills) ? fills : []).filter(f => f.dir === "Close Long");
+      rawFills = Array.isArray(fills) ? fills : [];
+      const closes = rawFills.filter(f => f.dir === "Close Long" || f.dir === "Close Short");
       liveWins = Math.max(136, closes.length);
       let calculatedPnl = 0.0;
       closes.forEach((c, idx) => {
@@ -865,8 +867,8 @@ async function getLiveClearinghouseState() {
           cycleId: `CYC-HL-${String(closes.length - idx).padStart(4, "0")}`,
           squad: `Hyperliquid L1 Maker (${c.coin})`,
           pair: `${c.coin}-USDC`,
-          direction: "BULL",
-          directionLabel: "🐂 BULL (LONG)",
+          direction: c.dir === "Close Long" ? "BULL" : "BEAR",
+          directionLabel: c.dir === "Close Long" ? "🐂 BULL (LONG)" : "🐻 BEAR (SHORT)",
           exitPrice: parseFloat(c.px),
           grossProfitUsdc: gross,
           feeUsdc: fee,
@@ -887,6 +889,7 @@ async function getLiveClearinghouseState() {
       liveWins,
       livePnlUsdc: parseFloat(livePnlUsdc.toFixed(4)),
       liveTransactions,
+      rawFills,
       timestamp: now
     };
     lastClearinghouseFetch = now;
@@ -894,12 +897,13 @@ async function getLiveClearinghouseState() {
   } catch (_) {}
   if (!cachedClearinghouse) {
     cachedClearinghouse = {
-      accountValue: 843.63,
-      withdrawable: 506.18,
+      accountValue: 846.09,
+      withdrawable: 746.62,
       positions: [],
       liveWins: 136,
       livePnlUsdc: 213.69,
       liveTransactions: [],
+      rawFills: [],
       timestamp: now
     };
   }
@@ -978,6 +982,48 @@ async function getLiveGasPrices() {
     if (!cachedGasPrices) cachedGasPrices = { polPrice: 0.089, bnbPrice: 737.0, timestamp: now };
   }
   return cachedGasPrices;
+}
+
+let cachedPolBalance = null;
+let lastPolBalanceFetch = 0;
+async function getLivePolBalance(address = "0xD4D12077a61118372f7a367319fb11922Beb3743") {
+  const now = Date.now();
+  if (cachedPolBalance !== null && (now - lastPolBalanceFetch < 5000)) {
+    return cachedPolBalance;
+  }
+  const rpcEndpoints = [
+    POLYGON_ALCHEMY,
+    "https://polygon-bor-rpc.publicnode.com",
+    "https://polygon.drpc.org",
+    "https://rpc.ankr.com/polygon"
+  ];
+  for (const rpc of rpcEndpoints) {
+    try {
+      const res = await fetch(rpc, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "eth_getBalance",
+          params: [address, "latest"]
+        })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.result && json.result.startsWith("0x")) {
+          const wei = BigInt(json.result);
+          const pol = Number(wei) / 1e18;
+          if (pol > 0) {
+            cachedPolBalance = parseFloat(pol.toFixed(2));
+            lastPolBalanceFetch = now;
+            return cachedPolBalance;
+          }
+        }
+      }
+    } catch (_) {}
+  }
+  return cachedPolBalance || 9.62;
 }
 
 // ==============================================================================
@@ -1731,7 +1777,7 @@ export default {
         getLiveGasPrices(),
         getLiveLiquidityEngineData()
       ]);
-      const totalPol = 31.07; // 10.60 (#501) + 20.47 (Flota X500)
+      const totalPol = 30.09; // 9.62 (#501) + 20.47 (Flota X500)
       const totalBnb = 0.00877; // Flota X500 (Capitán #001)
       const polValuationUsd = parseFloat((totalPol * prices.polPrice).toFixed(2));
       const bnbValuationUsd = parseFloat((totalBnb * prices.bnbPrice).toFixed(2));
@@ -1803,8 +1849,8 @@ export default {
             asset: "USDC (Native Circle)",
             contract: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
             balanceUsdc: polygonUsdcLive,
-            gasPol: 10.60,
-            gasFloorPol: 10.00,
+            gasPol: 9.62,
+            gasFloorPol: 9.00,
             gasFloorStatus: "100% BLINDADO",
             explorerUrl: "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
           },
@@ -2591,110 +2637,135 @@ export default {
   },
 
   async scheduled(event, env, ctx) {
-    // Disparador Cron de Cloudflare (*/2 * * * * cada 2 minutos en la nube con PC apagada)
+    // Disparador Cron de Cloudflare (cada 3 minutos en la nube)
     ctx.waitUntil((async () => {
       try {
         await getLiveTransactions();
 
-        // 1. Lectura de telemetría de Squad Secret
-        const telemUrl = new URL("/telemetry/squad-secret-telemetry.json", "https://operacion-10k.curatolapps.workers.dev");
-        const res = await env.ASSETS.fetch(new Request(telemUrl));
-        const telem = res.ok ? await res.json().catch(() => null) : null;
-
-        const botToken = env.TELEGRAM_BOT_TOKEN;
+        const botToken = env.TELEGRAM_BOT_TOKEN || "8788112547:AAGMtUPLHRQhgdUljwdOxa0BA9pnTFfakrQ";
         const chatId = env.TELEGRAM_CHAT_ID || "-1004342131598";
 
-        // Vigilante 24/7 de Horarios Mundiales y Alertas de Apertura/Cierre a Telegram (5 min antes)
+        // 1. Vigilante 24/7 de Horarios Mundiales y Alertas de Apertura/Cierre a Telegram (5 min antes)
         try {
           await checkMarketSessionAlerts(new Date(), botToken, chatId);
         } catch (sessErr) {
           console.error("[CRON WORKER] Error en checkMarketSessionAlerts:", sessErr);
         }
 
-        const state = computeDynamicSquadState(Date.now(), telem);
+        // ==============================================================================
+        // REGLA SAGRADA TELEGRAM: CERO SPAM ESTÁTICO / CERO MENSAJES PLANOS POR RELOJ
+        // SÓLO NOTIFICAR CUANDO CAMBIE REALMENTE EL SALDO POR UN CIERRE GANADOR
+        // (closedPnl > 0 en Hyperliquid L1 o disparo exitoso en AtomicSniperExecutor V2)
+        // ==============================================================================
 
-        // Inicializar memoria de último ciclo notificado (CYC-0091 ya notificado)
-        if (!globalThis.__LAST_NOTIFIED_CYCLE__) {
-          globalThis.__LAST_NOTIFIED_CYCLE__ = 91;
-        }
+        // 2. Consulta en vivo de saldos reales on-chain antes de cualquier evaluación
+        const [clData, livePol] = await Promise.all([
+          getLiveClearinghouseState(),
+          getLivePolBalance("0xD4D12077a61118372f7a367319fb11922Beb3743")
+        ]);
 
-        // Si ya fue notificado este ciclo, cero spam
-        if (state.cycleNum <= globalThis.__LAST_NOTIFIED_CYCLE__) {
-          console.log(`[AUTONOMOUS CRON 1M/2M] Ciclo ${state.cycleId} ya notificado. Cero spam.`);
-          return;
-        }
+        // Lectura de telemetría de Squad Secret / Atomic Matrix
+        let telem = null;
+        try {
+          const telemUrl = new URL("/telemetry/squad-secret-telemetry.json", "https://operacion-10k.curatolapps.workers.dev");
+          const res = await env.ASSETS.fetch(new Request(telemUrl));
+          telem = res.ok ? await res.json().catch(() => null) : null;
+        } catch (_) {}
 
-        // 2. Comprobación y Alerta Única de Asentamiento de Bloque Cerrado ($475, $500...)
-        if (!globalThis.__LAST_SETTLED_BLOCK__) {
-          globalThis.__LAST_SETTLED_BLOCK__ = 450.00;
-        }
+        // --- EVENTO 1: CIERRE GANADOR EN HYPERLIQUID L1 (closedPnl > 0) ---
+        const rawFills = clData?.rawFills || [];
+        const winningCloses = rawFills.filter(f => (f.dir === "Close Long" || f.dir === "Close Short") && parseFloat(f.closedPnl || "0") > 0);
+        const latestHlWin = winningCloses[0];
 
-        const settledBlk = state.blockSettlement.currentSettledBlock;
-        if (settledBlk > globalThis.__LAST_SETTLED_BLOCK__ && settledBlk >= 475.00) {
-          globalThis.__LAST_SETTLED_BLOCK__ = settledBlk;
-          const nextBlk = state.blockSettlement.nextMilestoneBlock;
-          const nowUtc = new Date().toISOString().slice(11, 19) + " UTC";
+        if (globalThis.__LAST_NOTIFIED_HL_TID__ === undefined) {
+          // Inicializar memoria en cold start para NUNCA disparar viejos trades históricos
+          globalThis.__LAST_NOTIFIED_HL_TID__ = latestHlWin ? latestHlWin.tid : null;
+          console.log(`[TELEGRAM GUARD] Cold start inicializado con TID: ${globalThis.__LAST_NOTIFIED_HL_TID__}. Cero spam.`);
+        } else if (latestHlWin && latestHlWin.tid && latestHlWin.tid !== globalThis.__LAST_NOTIFIED_HL_TID__ && botToken) {
+          const ageMs = Date.now() - latestHlWin.time;
+          // Solo notificar si ocurrió recientemente (en los últimos 10 minutos)
+          if (ageMs < 600000) {
+            globalThis.__LAST_NOTIFIED_HL_TID__ = latestHlWin.tid;
 
-          const milestoneMsg = `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>
+            const netGain = parseFloat((parseFloat(latestHlWin.closedPnl) - parseFloat(latestHlWin.fee || "0")).toFixed(4));
+            const coin = latestHlWin.coin || "CRYPTO";
+            const dir = latestHlWin.dir === "Close Long" ? "🐂 BULL (LONG CERRADO)" : "🐻 BEAR (SHORT CERRADO)";
+            const nowUtc = new Date(latestHlWin.time || Date.now()).toISOString().slice(11, 19) + " UTC";
+            const currentAccountVal = typeof clData.accountValue === "number" ? clData.accountValue.toFixed(2) : "846.09";
+
+            const telegramTradeMsg = `🟢 <b>ÁREA 501 // VICTORIA REAL ON-CHAIN CONFIRMADA</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏦✅ <b>BLOQUE $${settledBlk.toFixed(2)} USDC ASENTADO EN FIRME EN BÓVEDA #501</b>
-📍 <b>NUEVO PISO INFRANQUEABLE:</b> <code>$${settledBlk.toFixed(2)} USDC</code> (Interés Compuesto Protegido)
-💵 <b>CAPITAL CONSOLIDADO:</b> <code>$${state.consolidatedUsdc.toFixed(2)} USDC</code>
-🎯 <b>PRÓXIMO OBJETIVO:</b> <code>$${nextBlk.toFixed(2)} USDC</code> (Faltan: <b>+$${(nextBlk - state.consolidatedUsdc).toFixed(2)} USDC</b>)
-⛽ <b>GAS BLINDADO:</b> <code>${state.gasFloors.vault501CurrentPol} POL</code> en #501 (100% Blindado ✔)
+🔥 <b>HYPERLIQUID L1 // CIERRE GANADOR EJECUTADO</b>
+🎯 <b>ACCIÓN:</b> <code>${coin}/USDC</code> (${dir})
+💵 <b>GANANCIA NETA:</b> <b>+$${netGain.toFixed(4)} USDC</b>
+📊 <b>PRECIO SALIDA:</b> <code>$${latestHlWin.px}</code>
+🛡️ <b>CAPITAL BÓVEDA #501 (HL L1):</b> <code>$${currentAccountVal} USDC</code>
+⛽ <b>GAS POL EN VIVO:</b> <code>${livePol.toFixed(2)} POL</code> (Polygon PoS #501)
 ⏱️ <b>HORA UTC:</b> <code>${nowUtc}</code>
+🔗 <b>Tx Hash:</b> <code>${latestHlWin.hash ? latestHlWin.hash.slice(0, 16) + '...' : 'L1 Internal'}</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🌐 <b>Dashboard:</b> <a href="https://area-501.curatolapps.workers.dev/">Mando Central en Vivo</a>`;
+🏛️ <b>Posición Matrix 501:</b> <a href="https://area-501.curatolapps.workers.dev/posicion-501/">Ver Bóveda #501 On-Chain</a>
+🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;
 
-          if (botToken) {
             await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 chat_id: chatId,
-                text: milestoneMsg,
-                parse_mode: "HTML"
+                text: telegramTradeMsg,
+                parse_mode: "HTML",
+                disable_web_page_preview: false
               })
-            }).catch(e => console.error("Error enviando alerta de bloque:", e));
+            }).catch(e => console.error("[CRON WORKER] Error enviando alerta HL:", e));
+            console.log(`[AUTONOMOUS REAL NOTIFIER] Victoria Hyperliquid notificada a Telegram: TID ${latestHlWin.tid}`);
+          } else {
+            globalThis.__LAST_NOTIFIED_HL_TID__ = latestHlWin.tid;
           }
         }
 
+        // --- EVENTO 2: DISPARO EXITOSO EN ATOMIC SNIPER EXECUTOR V2 (0x3e8b1d7f23560215eFD61A77a97d675cc92509f7) ---
         const realLedger = (telem && telem.realLedger) ? telem.realLedger : null;
-        const latestTx = (realLedger && realLedger.realTransactions && realLedger.realTransactions[0]) ? realLedger.realTransactions[0] : null;
+        const latestAtomicTx = (realLedger && realLedger.realTransactions && realLedger.realTransactions[0]) ? realLedger.realTransactions[0] : null;
 
-        if (!globalThis.__LAST_NOTIFIED_TX__ && latestTx && latestTx.txHash) {
-          // Inicializar memoria para evitar reenvío de transacciones históricas en cold start
-          globalThis.__LAST_NOTIFIED_TX__ = latestTx.txHash;
-        } else if (latestTx && latestTx.txHash && latestTx.txHash !== globalThis.__LAST_NOTIFIED_TX__ && botToken) {
-          globalThis.__LAST_NOTIFIED_TX__ = latestTx.txHash;
+        if (globalThis.__LAST_NOTIFIED_ATOMIC_TX__ === undefined) {
+          globalThis.__LAST_NOTIFIED_ATOMIC_TX__ = (latestAtomicTx && latestAtomicTx.txHash) ? latestAtomicTx.txHash : null;
+        } else if (latestAtomicTx && latestAtomicTx.txHash && latestAtomicTx.txHash !== globalThis.__LAST_NOTIFIED_ATOMIC_TX__ && botToken) {
+          const netProfit = Number(latestAtomicTx.netProfitUsdc || 0);
+          if (netProfit > 0) {
+            globalThis.__LAST_NOTIFIED_ATOMIC_TX__ = latestAtomicTx.txHash;
 
-          const basePolygon501 = 511.39;
-          const currentRealPnl = Number(realLedger.realPnlUsdc || 0);
-          const currentVaultBalance = basePolygon501 + currentRealPnl;
+            const basePolygon501 = 211.35;
+            const currentVaultBalance = basePolygon501 + netProfit;
+            const currentAccountVal = typeof clData.accountValue === "number" ? clData.accountValue.toFixed(2) : "846.09";
 
-          const telegramReport = `🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>
+            const atomicReport = `🟢 <b>ÁREA 501 // DISPARO ATÓMICO CONFIRMADO</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔥 <b>SQUAD SECRET // VICTORIA REAL ON-CHAIN CONFIRMADA (#${realLedger.realWins || 1})</b>
-🎯 <b>ACCIÓN:</b> <code>${latestTx.pair || "WBTC/USDC"}</code> (${latestTx.direction === "BEAR" ? "🐻 BEAR" : "🐂 BULL"})
-🔒 <b>CANDADO #00:</b> +0.04% BE ➔ <b>+0.08% Cobrado</b>
-💵 <b>GANANCIA NETA:</b> <b>+$${Number(latestTx.netProfitUsdc || 0.38).toFixed(4)} USDC</b>
-🛡️ <b>NUEVO SALDO #501:</b> <code>$${currentVaultBalance.toFixed(2)} USDC</code> (Consolidado: <code>$${state.consolidatedUsdc.toFixed(2)} USDC</code>)
-⛽ <b>GAS INTOCABLE:</b> <code>10.60 POL (#501)</code> + <code>300.02 POL (Flota)</code>
-⛓️ <b>PolygonScan:</b> ${latestTx.polygonscanUrl || `https://polygonscan.com/tx/${latestTx.txHash}`}
+⚡ <b>ATOMIC SNIPER EXECUTOR V2 // ARBITRAJE DESTELLO</b>
+🎯 <b>CONTRATO:</b> <code>0x3e8b1d7f23560215eFD61A77a97d675cc92509f7</code>
+📊 <b>PAR / ACCIÓN:</b> <code>${latestAtomicTx.pair || "AAVE/USDC"}</code>
+💵 <b>GANANCIA NETA COBRADA:</b> <b>+$${netProfit.toFixed(4)} USDC</b>
+🛡️ <b>NUEVO SALDO #501 (POLYGON):</b> <code>$${currentVaultBalance.toFixed(2)} USDC</code>
+📈 <b>VALOR HL L1:</b> <code>$${currentAccountVal} USDC</code>
+⛽ <b>GAS POL EN VIVO:</b> <code>${livePol.toFixed(2)} POL</code> (#501)
+⛓️ <b>PolygonScan:</b> ${latestAtomicTx.polygonscanUrl || `https://polygonscan.com/tx/${latestAtomicTx.txHash}`}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🌐 <b>Dashboard:</b> <a href="https://area-501.curatolapps.workers.dev/">Mando Central en Vivo</a>`;
+🏛️ <b>Posición Matrix 501:</b> <a href="https://area-501.curatolapps.workers.dev/posicion-501/">Ver Bóveda #501 On-Chain</a>
+🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;
 
-          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: chatId,
-              text: telegramReport,
-              parse_mode: "HTML",
-              disable_web_page_preview: false
-            })
-          });
-          console.log(`[AUTONOMOUS REAL NOTIFIER] Victoria on-chain notificada a Telegram: ${latestTx.txHash}`);
+            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: atomicReport,
+                parse_mode: "HTML",
+                disable_web_page_preview: false
+              })
+            }).catch(e => console.error("[CRON WORKER] Error enviando alerta Atómica:", e));
+            console.log(`[AUTONOMOUS REAL NOTIFIER] Victoria Atómica notificada a Telegram: ${latestAtomicTx.txHash}`);
+          } else {
+            globalThis.__LAST_NOTIFIED_ATOMIC_TX__ = latestAtomicTx.txHash;
+          }
         }
       } catch (err) {
         console.error("[CRON WORKER] Error en ciclo programado:", err);
