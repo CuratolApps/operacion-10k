@@ -489,14 +489,14 @@ function isOpeningBellWick(now) {
 
 async function startAutonomousSquadDaemon() {
   console.log("================================================================================");
-  console.log("🚀 ÁREA 501 // SQUAD SECRET V2 ESCALADO // BLOQUE 1 ($649+ USDC ➔ $1,000 USDC)");
+  console.log("🚀 ÁREA 501 // SQUAD SECRET V2 ESCALADO // BLOQUE 1 (~$800 USDC ➔ $1,000 USDC)");
   console.log("================================================================================");
   console.log(`• Bóveda Nodriza: ${VAULT_501}`);
-  console.log(`• Deuda Total Bóveda #501 (0% interés): $410.50 USDC ($300 inicial + $110.50 POL)`);
+  console.log(`• Préstamo Bóveda #501 (0% interés): $450.00 USDC ($300 inicial + $150 hoy) | Total Inyectado: $568.50 USDC`);
   console.log(`• Doctrina de Consolidación: 100% Capitalización Pura hasta $1,000 USDC ➔ luego 70/30`);
-  console.log(`• Escudo Mentora #00: 40% del Capital (~$259.70+ USDC Blindados en Reserva)`);
-  console.log(`• Margen Operativo: 20% del Capital (~$129.85+ USDC a 5x = ~$649.25+ Nocional/tiro)`);
-  console.log(`• Meta Take Profit: +${TARGET_GAIN_PCT}% (~+$2.10 a +$2.30 USDC netos por victoria)`);
+  console.log(`• Escudo Mentora #00: 40% del Capital (~$320.00+ USDC Blindados en Reserva)`);
+  console.log(`• Margen Operativo: 20% del Capital (~$160.00+ USDC a 5x = ~$800.00+ Nocional/tiro)`);
+  console.log(`• Meta Take Profit: +${TARGET_GAIN_PCT}% (~+$2.80 USDC netos por victoria)`);
   console.log(`• Candado Breakeven: Activación al +${BREAKEVEN_TRIGGER_PCT}% ➔ Candado en +${BREAKEVEN_LOCK_PCT}%`);
   console.log(`• Direct Orders Bridge: Activo en telemetry/direct-orders-queue.json (<150ms)\n`);
 
