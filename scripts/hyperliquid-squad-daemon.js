@@ -2,16 +2,17 @@
  * scripts/hyperliquid-squad-daemon.js — ÁREA 501 // SQUAD SECRET V2 AUTONOMOUS DAEMON
  * ==============================================================================
  * MOTOR AUTÓNOMO V2 ESCALADO: 3 ESCUADRONES SNIPER EN HYPERLIQUID L1
- * - Escuadrón Alfa (#601 Titan-Scalper): SOL, SUI, AVAX (20% Margen · 5x · ~$508 Nocional)
- * - Escuadrón Bravo (#701 Oracle-Global): BTC, PAXG, LINK (20% Margen · 5x · ~$508 Nocional)
- * - Escuadrón Charlie (#801 Nexus-Boss): ETH, BNB, AAVE (20% Margen · 5x · ~$508 Nocional)
+ * - Escuadrón Alfa (#601 Titan-Scalper): SOL, SUI, AVAX (20% Margen · 5x · ~$650 Nocional)
+ * - Escuadrón Bravo (#701 Oracle-Global): BTC, PAXG, LINK (20% Margen · 5x · ~$650 Nocional)
+ * - Escuadrón Charlie (#801 Nexus-Boss): ETH, BNB, AAVE (20% Margen · 5x · ~$650 Nocional)
  * 
- * LEYES SAGRADAS V2 ESCALADAS (EXPANSIÓN $508.19 USDC):
- * 1. Capital Base en L1: ~$508.19 USDC ($300 autopréstamo #501 + $208.19 previos).
- * 2. Escudo Mentora #00: 40% del Capital (~$203.28 USDC) 100% Intocables en Cash de Reserva.
- * 3. Margen Operativo por Escuadrón: 20% del Capital (~$101.61 USDC a 5x = ~$508.05 Nocional por tiro).
+ * LEYES SAGRADAS V2 ESCALADAS — BLOQUE 1 RUMBO A $1,000 USDC:
+ * 1. Capital Base en L1: ~$649.24 USDC ($410.50 USDC total inyectado desde Bóveda #501).
+ * 2. Escudo Mentora #00: 40% del Capital (~$259.70+ USDC) 100% Intocables en Cash de Reserva.
+ * 3. Margen Operativo por Escuadrón: 20% del Capital (~$129.85 USDC a 5x = ~$649.25 Nocional por tiro).
  * 4. Interés Compuesto Dinámico: El margen y el nocional crecen automáticamente cada día con las ganancias.
- * 5. Plan de Amortización: $10.00 USDC/día amortizados hacia Bóveda #501 (30 cuotas exactas).
+ * 5. Doctrina de Consolidación por Bloques: 100% Capitalización Pura ($0 retiros) hasta alcanzar $1,000.00 USDC.
+ *    Al tocar $1,000.00 USDC: Regla 70/30 (70% reinversión / 30% devolución a #501 o Bloque 2).
  * 6. Direct Order Bridge: Cola de órdenes directas en telemetry/direct-orders-queue.json (<150ms).
  * 7. Filtro Anti-Techo 3 Capas: L2 Imbalance >= 62% + RSI(14) 5m <= 46 (Long) / >= 70 (Short) + EMA20 5m + vela 15m.
  * 8. Mentora #00 DCA Salvavidas: Refuerzo táctico en drawdown -0.85% y RSI <= 30 hacia TP +0.20%.
@@ -28,10 +29,10 @@ const { sendTelegramAlert } = require("../telegram-notifier");
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 
 // --- POLÍTICA DE CAPITAL ESCALADO V2 (40% RESERVA / 20% CADA ESCUADRÓN) ---
-const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$203.22+ USDC)
-const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$101.61 USDC iniciales a 5x = ~$508.05 Nocional)
+const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$259.70+ USDC)
+const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$129.85 USDC a 5x = ~$649.25 Nocional)
 const LEVERAGE = 5;
-const TARGET_GAIN_PCT = 0.35;           // +0.35% Take Profit (~+$1.65 a +$1.75 USDC netos por tiro)
+const TARGET_GAIN_PCT = 0.35;           // +0.35% Take Profit (~+$2.10 a +$2.30 USDC netos por tiro)
 const BREAKEVEN_TRIGGER_PCT = 0.12;     // Activar candado BE al +0.12% a favor
 const BREAKEVEN_LOCK_PCT = 0.045;       // Candado BE en +0.045% (cubre 100% fees)
 const DCA_TRIGGER_DRAWDOWN = -0.85;     // Refuerzo Mentora en -0.85%
@@ -249,47 +250,61 @@ async function processDirectOrdersQueue(client, info) {
 }
 
 /**
- * Control del Plan de Amortización Diario ($10.00 USDC/día x 30 días)
+ * Nueva Doctrina Oficial de Consolidación por Bloques ($1,000.00 USDC)
+ * - Fase 1 (accountValue < 1000.00 USDC): 100% Capitalización Pura ($0 retiros). Reinvierte todo.
+ * - Fase 2 (accountValue >= 1000.00 USDC): Regla 70/30 (70% reinversión continua / 30% devolución a #501 o Bloque 2).
  */
-function checkDailyAmortizationCut() {
+function checkDailyAmortizationCut(accountValue = 0) {
   try {
     if (!fs.existsSync(LOAN_LEDGER_FILE)) return;
     const loan = JSON.parse(fs.readFileSync(LOAN_LEDGER_FILE, "utf8"));
     const now = new Date();
     const todayStr = now.toISOString().slice(0, 10);
 
-    // Corte a las 12:00 PM UTC si no se ha aplicado hoy
-    if (loan.status === "ACTIVE_AMORTIZATION" && loan.lastCutDate !== todayStr && now.getUTCHours() >= 12) {
+    if (accountValue < 1000.00) {
+      // FASE 1: CAPITALIZACIÓN PURA ($0 RETIROS)
+      if (loan.lastLogDate !== todayStr && now.getUTCHours() >= 12) {
+        loan.lastLogDate = todayStr;
+        loan.status = "CAPITALIZING_TO_1000";
+        loan.updatedAt = now.toISOString();
+        fs.writeFileSync(LOAN_LEDGER_FILE, JSON.stringify(loan, null, 2), "utf8");
+        console.log(`🏦 [DOCTRINA BLOQUE 1] Capital: $${accountValue.toFixed(2)} / $1,000.00 USDC | 100% Capitalización Pura Activa ($0.00 retiros).`);
+      }
+      return;
+    }
+
+    // FASE 2: GATILLO $1,000 ALCANZADO (REGLA 70 / 30)
+    if (accountValue >= 1000.00 && loan.lastCutDate !== todayStr && now.getUTCHours() >= 12) {
       loan.lastCutDate = todayStr;
-      const quota = Number(loan.dailyRepaymentQuotaUsdc || 10.00);
-      loan.repaidSoFarUsdc = +(Number(loan.repaidSoFarUsdc || 0) + quota).toFixed(2);
+      loan.status = "PHASE_2_REPAYMENT_ACTIVE_70_30";
+      const dailyProfitEst = Math.max(10.00, +(accountValue - 1000.00).toFixed(2));
+      const quotaToVault501 = +(dailyProfitEst * 0.30).toFixed(2);
+      loan.repaidSoFarUsdc = +(Number(loan.repaidSoFarUsdc || 0) + quotaToVault501).toFixed(2);
       loan.remainingBalanceUsdc = Math.max(0, +(Number(loan.principalBorrowedUsdc) - Number(loan.repaidSoFarUsdc)).toFixed(2));
       loan.installmentsHistory = loan.installmentsHistory || [];
       loan.installmentsHistory.push({
-        installment: loan.currentInstallment || 1,
-        quotaUsdc: quota,
+        quotaUsdc: quotaToVault501,
         timestamp: now.toISOString(),
         remainingBalanceUsdc: loan.remainingBalanceUsdc,
-        action: "REPAYMENT_QUOTA_RESERVED_FOR_VAULT501"
+        action: "REPAYMENT_70_30_TO_VAULT501"
       });
-      if (loan.currentInstallment) loan.currentInstallment++;
-      if (loan.remainingBalanceUsdc <= 0) loan.status = "FULLY_REPAID";
       loan.updatedAt = now.toISOString();
       fs.writeFileSync(LOAN_LEDGER_FILE, JSON.stringify(loan, null, 2), "utf8");
-      console.log(`🏦 [AMORTIZACIÓN #501] Corte diario aplicado: $10.00 USDC asignados a devolución. Restante: $${loan.remainingBalanceUsdc} USDC.`);
+      console.log(`🎉 [DOCTRINA 70/30] $${quotaToVault501} USDC asignados a devolución #501. Restante: $${loan.remainingBalanceUsdc} USDC.`);
     }
   } catch (_) {}
 }
 
 async function startAutonomousSquadDaemon() {
   console.log("================================================================================");
-  console.log("🚀 ÁREA 501 // SQUAD SECRET V2 ESCALADO // EXPANSIÓN $508.19 USDC");
+  console.log("🚀 ÁREA 501 // SQUAD SECRET V2 ESCALADO // BLOQUE 1 ($649+ USDC ➔ $1,000 USDC)");
   console.log("================================================================================");
   console.log(`• Bóveda Nodriza: ${VAULT_501}`);
-  console.log(`• Autopréstamo #501 Activo: $300.00 USDC (Amortización $10.00/día x 30 cuotas)`);
-  console.log(`• Escudo Mentora #00: 40% del Capital (~$203.22 USDC Blindados en Reserva)`);
-  console.log(`• Margen Operativo: 20% del Capital (~$101.61 USDC a 5x = ~$508.05 Nocional/tiro)`);
-  console.log(`• Meta Take Profit: +${TARGET_GAIN_PCT}% (~+$1.65 a +$1.75 USDC netos por victoria)`);
+  console.log(`• Deuda Total Bóveda #501 (0% interés): $410.50 USDC ($300 inicial + $110.50 POL)`);
+  console.log(`• Doctrina de Consolidación: 100% Capitalización Pura hasta $1,000 USDC ➔ luego 70/30`);
+  console.log(`• Escudo Mentora #00: 40% del Capital (~$259.70+ USDC Blindados en Reserva)`);
+  console.log(`• Margen Operativo: 20% del Capital (~$129.85+ USDC a 5x = ~$649.25+ Nocional/tiro)`);
+  console.log(`• Meta Take Profit: +${TARGET_GAIN_PCT}% (~+$2.10 a +$2.30 USDC netos por victoria)`);
   console.log(`• Candado Breakeven: Activación al +${BREAKEVEN_TRIGGER_PCT}% ➔ Candado en +${BREAKEVEN_LOCK_PCT}%`);
   console.log(`• Direct Orders Bridge: Activo en telemetry/direct-orders-queue.json (<150ms)\n`);
 
@@ -316,15 +331,15 @@ async function startAutonomousSquadDaemon() {
   while (true) {
     cycleCounter++;
     try {
-      // 1. Procesar Cola de Órdenes Directas y Amortización
-      await processDirectOrdersQueue(client, info);
-      checkDailyAmortizationCut();
-
-      // 2. Obtener estado del Clearinghouse
+      // 1. Obtener estado del Clearinghouse
       const ch = await info.clearinghouseState({ user: VAULT_501 });
-      const accountValue = parseFloat(ch.marginSummary?.accountValue || "508.06");
+      const accountValue = parseFloat(ch.marginSummary?.accountValue || "649.24");
       const openPositions = (ch.assetPositions || []).filter(p => parseFloat(p.position.szi) !== 0);
       const openOrders = await info.openOrders({ user: VAULT_501 });
+
+      // 2. Procesar Cola de Órdenes Directas y Doctrina de Consolidación
+      await processDirectOrdersQueue(client, info);
+      checkDailyAmortizationCut(accountValue);
 
       // Dinámica de capitalización compuesta
       const reserveUsdc = +(accountValue * MENTORA_RESERVE_RATIO).toFixed(2);
@@ -333,7 +348,7 @@ async function startAutonomousSquadDaemon() {
       const dynamicNotional = +(dynamicSquadMargin * LEVERAGE).toFixed(2);
 
       if (cycleCounter % 10 === 1) {
-        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Ciclo #${cycleCounter} | Capital: $${accountValue.toFixed(2)} USDC | Margen/Tiro: $${dynamicSquadMargin.toFixed(2)} ($${dynamicNotional.toFixed(0)} Nocional) | Pos: ${openPositions.length}`);
+        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Bloque 1 | Ciclo #${cycleCounter} | Capital: $${accountValue.toFixed(2)} USDC (Meta $1,000) | Margen/Tiro: $${dynamicSquadMargin.toFixed(2)} ($${dynamicNotional.toFixed(0)} Nocional) | Pos: ${openPositions.length}`);
       }
 
       // 3. Gestionar cada escuadrón de forma independiente
@@ -361,14 +376,33 @@ async function startAutonomousSquadDaemon() {
           if (!existingExitOrder && isV2Armed) {
             // Colocar orden de salida Take Profit Maker ALO
             const targetGain = squadCfg.targetGainPct || TARGET_GAIN_PCT;
-            const exitPxNum = isShort
+            let currentMid = entryPx;
+            try {
+              const midsRes = await fetch("https://api.hyperliquid.xyz/info", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ type: "allMids" })
+              });
+              const mids = await midsRes.json();
+              if (mids[coin]) currentMid = parseFloat(mids[coin]);
+            } catch (_) {}
+
+            let exitPxNum = isShort
               ? entryPx * (1 - targetGain / 100)
               : entryPx * (1 + targetGain / 100);
+
+            // Si el mercado ya superó el TP (+0.35%), colocar orden ALO al precio actual respetando Maker para capturar la ganancia superior
+            if (!isShort && currentMid >= exitPxNum) {
+              exitPxNum = currentMid * 1.0003;
+            } else if (isShort && currentMid <= exitPxNum) {
+              exitPxNum = currentMid * 0.9997;
+            }
+
             const safeExitPxStr = formatHlPrice(exitPxNum, coin);
             const notional = Math.abs(szNum) * entryPx;
             const estNetGainUsdc = (notional * (targetGain / 100) - (notional * 0.00030)).toFixed(4);
 
-            console.log(`[${squadKey}] Colocando salida Take Profit ALO para ${coin}: ${Math.abs(szNum)} @ $${safeExitPxStr}`);
+            console.log(`[${squadKey}] Colocando salida Take Profit ALO para ${coin}: ${Math.abs(szNum)} @ $${safeExitPxStr} (Mid actual: $${currentMid})`);
             try {
               const exitRes = await client.order({
                 orders: [{

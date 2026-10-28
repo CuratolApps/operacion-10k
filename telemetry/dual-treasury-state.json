@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-28T07:05:00.000Z",
+  "updatedAt": "2026-10-28T11:05:00.000Z",
   "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
-  "totalConsolidatedPatrimonyUsdc": 719.41,
+  "totalConsolidatedPatrimonyUsdc": 860.59,
   "gasShield": {
-    "currentPol": 10.60,
+    "currentPol": 10.40,
     "floorPol": 10.00,
     "status": "100% OPERATIVO (GAS BLINDADO)"
   },
@@ -13,39 +13,37 @@
     "aaveV3ApyPct": 4.85,
     "aPolUsdcBalance": 211.24,
     "nativeUsdc": 0.11,
-    "loanDisbursedToHL": 300.00,
-    "dailyRepaymentReceivableUsdc": 10.00,
-    "status": "Reserva Aave V3 ($211.24 aPolUSDCn) + $300.00 Autopréstamo Amortizable a $10/día"
+    "loanDisbursedToHL": 410.50,
+    "status": "Reserva Aave V3 ($211.24 aPolUSDCn) + $410.50 Autopréstamo por Devolver a Bóveda #501 (0% Interés)"
   },
   "chamber2_hyperliquid": {
-    "l1AccountValueUsdc": 508.06,
-    "l1WithdrawableUsdc": 478.18,
+    "l1AccountValueUsdc": 649.24,
+    "l1WithdrawableUsdc": 373.44,
     "agentKey": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
     "agentPermissions": "POST-ONLY ALO MAKER (0% RETIRO)",
     "feeMakerPct": 0.015,
     "gasCostL1": "$0.00",
-    "loanPrincipalBorrowed": 300.00,
-    "dailyRepaymentQuota": 10.00,
-    "totalInstallments": 30,
-    "currentInstallment": 1,
-    "mentoraReserveUsdc": 203.22,
+    "loanPrincipalBorrowed": 410.50,
+    "doctrine": "NUEVA DOCTRINA OFICIAL DE CONSOLIDACIÓN POR BLOQUES ($1,000.00 USDC)",
+    "consolidationPhase": "FASE_1_CAPITALIZACION_PURA_1000",
+    "mentoraReserveUsdc": 259.70,
     "mentoraReserveRatio": 0.40,
     "squadMarginRatio": 0.20,
-    "squadMarginEachUsdc": 101.61,
-    "squadNotionalEachUsd": 508.05,
+    "squadMarginEachUsdc": 129.85,
+    "squadNotionalEachUsd": 649.25,
     "agentAuthorizedOnChain": true,
     "motorActive": true,
-    "executionMode": "V2_EXPANDED_COMPOUND_500"
+    "executionMode": "BLOQUE_1_RUMBO_A_1000_USDC"
   },
   "routingPolicy": {
-    "description": "Cámara 1 Polygon ($211.35 USDC en Aave V3) + Cámara 2 Hyperliquid L1 ($508.06 USDC) = $719.41 USDC Total Activo",
+    "description": "Cámara 1 Polygon ($211.35 USDC en Aave V3) + Cámara 2 Hyperliquid L1 ($649.24 USDC) = $860.59 USDC Total Consolidado",
     "gasShieldFloorPol": 10.00,
-    "arbitrumGasReserveEthUsd": 1.95,
+    "arbitrumGasReserveEthUsd": 2.15,
     "loanContract": "telemetry/vault501-loan-ledger.json",
     "directOrdersQueue": "telemetry/direct-orders-queue.json"
   },
   "livePrices": {
     "polPriceUsd": 0.0903,
-    "ethPriceUsd": 2346.00
+    "ethPriceUsd": 2351.00
   }
 }
