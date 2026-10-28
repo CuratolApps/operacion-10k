@@ -1541,11 +1541,11 @@ export default {
     const url = new URL(request.url);
 
     // ==============================================================================
-    // REDIRECCIONES CANÓNICAS 301 A LOS 3 ESPACIOS OFICIALES ÁREA 501
+    // REDIRECCIONES CANÓNICAS A LAS 3 ESTACIONES OFICIALES ÁREA 501
     // ==============================================================================
-    // Espacio 1: / (Mando Central)
-    if (url.pathname === "/dashboard" || url.pathname === "/dashboard/") {
-      return Response.redirect(`${url.origin}/`, 301);
+    // Jubilación del viejo dashboard monolítico: Redirigir raíz / y /dashboard hacia /squad-matrix/
+    if (url.pathname === "/" || url.pathname === "/dashboard" || url.pathname === "/dashboard/") {
+      return Response.redirect(`${url.origin}/squad-matrix/`, 302);
     }
 
     // Espacio 2: /squad-secret/ (Oficina de Trading: Bull & Bear + Sniping Atómico)

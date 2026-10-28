@@ -235,15 +235,15 @@ async function syncTelemetry() {
   }
 }
 
-// CONFIGURACIÓN DE PESTAÑAS (CERO RECARGA)
+// CONFIGURACIÓN DE PESTAÑAS Y LANZADOR DE LAS 3 ESTACIONES (CERO RECARGA)
 function setupTabs() {
-  const tabs = document.querySelectorAll(".nav-tab");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
+  const allNavButtons = document.querySelectorAll(".nav-tab, .btn-stations-master");
+  allNavButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      allNavButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
 
-      const targetPaneId = tab.getAttribute("data-tab");
+      const targetPaneId = btn.getAttribute("data-tab");
       document.querySelectorAll(".tab-pane").forEach(pane => {
         pane.classList.remove("active");
       });

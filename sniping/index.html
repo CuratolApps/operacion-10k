@@ -59,8 +59,8 @@
           <span class="unit-tag">POL (Polygon)</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-shield" id="topGasFloorPill">Piso Sagrado: 150.00 POL</span>
-          <span class="pill-active" id="topExecutorPill">Ejecutor: 0x03Ac...6b67</span>
+          <span class="pill-gas-orange" id="topGasFloorPill">Piso Sagrado: 150.00 POL</span>
+          <span class="pill-gas-blue" id="topExecutorPill">Ejecutor: 0x03Ac...6b67</span>
         </div>
       </div>
 
@@ -83,7 +83,7 @@
             <span class="l-val text-amber">0 Segundos</span>
           </div>
         </div>
-        <div class="rule-badge-sub">Garantía Exigida: $0.00 · Reversión Atómica en Mismo Bloque</div>
+        <div class="rule-badge-sub">Garantía Exigida: $0.00 · Reversión en 1 Bloque</div>
       </div>
 
       <!-- Tarjeta 5: Radar Atómico 3 Motores x 54 Objetivos -->
@@ -92,8 +92,8 @@
           <span class="material-symbols-rounded">radar</span> RADAR ATÓMICO: 3 MOTORES × 54 OBJETIVOS
         </div>
         <div class="squad-counter-row">
-          <span class="status-pill active-pill" id="topActiveTargetsPill"><span class="material-symbols-rounded">check_circle</span> 54 Contratos Vigilados</span>
-          <span class="status-pill ready-pill" id="topSweepIntervalPill"><span class="material-symbols-rounded">speed</span> Multicall3 c/4s</span>
+          <span class="status-pill active-pill" id="topActiveTargetsPill">🟢 54 Contratos Vigilados</span>
+          <span class="status-pill ready-pill" id="topSweepIntervalPill">⚡ Multicall3 c/4s</span>
         </div>
         <div class="sub-label-matrix">Polygon PoS · Balancer V2 · Aave V3 · Beefy Finance</div>
       </div>
@@ -238,43 +238,68 @@
         </div>
       </section>
 
-      <!-- TAB 4: ENLACES A OTRAS ESTACIONES -->
-      <section class="tab-pane" id="paneLinks">
-        <div class="links-view-container">
-          <div class="links-grid">
-            <a href="/squad-matrix/" class="link-station-card">
-              <div class="l-card-head">
-                <span class="material-symbols-rounded l-card-icon">deployed_code</span>
-                <h3>SQUAD MATRIX</h3>
+      <!-- TAB 4: 3 ESTACIONES OFICIALES ÁREA 501 -->
+      <section class="tab-pane" id="paneStationsHub">
+        <div class="stations-hub-container">
+          <div class="panel-hero-card">
+            <div class="p-hero-left">
+              <span class="material-symbols-rounded p-icon">account_balance</span>
+              <div>
+                <h2>NODRIZA MATRIZ ÁREA 501 · 3 ESTACIONES OPERATIVAS</h2>
+                <p>Infraestructura cuántica omnichain: Hyperliquid L1, Polygon PoS y Enjambre Gasless EIP-712.</p>
               </div>
-              <p>18 Escuadrones Iguales × 54 Pares Ultra-Líquidos operando en Hyperliquid L1. Interés compuesto cerrado con meta a $1,000 USDC.</p>
-              <div class="l-card-cta">
-                <span>INGRESAR A SQUAD MATRIX</span>
-                <span class="material-symbols-rounded">arrow_forward</span>
+            </div>
+            <div class="p-hero-right">
+              <div class="rule-badge-glow">Bóveda Matriz #501 · Control Total 360°</div>
+            </div>
+          </div>
+
+          <div class="stations-cards-grid">
+            <!-- Tarjeta 1: SQUAD MATRIX -->
+            <a href="/squad-matrix/" class="station-hub-card active-border-hl">
+              <div class="s-card-top">
+                <div class="s-card-badge hl-badge">ESTACIÓN #01 · HYPERLIQUID L1</div>
+                <span class="live-dot-station"></span>
+              </div>
+              <div class="s-card-head">
+                <span class="material-symbols-rounded s-card-icon text-cyan">shield</span>
+                <h3>🛡️ SQUAD MATRIX (HYPERLIQUID L1)</h3>
+              </div>
+              <p class="s-card-desc">18 Escuadrones Iguales × 54 Pares Ultra-Líquidos operando en Hyperliquid L1. Meta Bloque 1: $1,000 USDC y control de inyección 0% Bóveda #501.</p>
+              <div class="s-card-cta hl-cta">
+                <span>INGRESAR A SQUAD MATRIX ➔</span>
               </div>
             </a>
 
-            <a href="/flota-x500/" class="link-station-card">
-              <div class="l-card-head">
-                <span class="material-symbols-rounded l-card-icon">military_tech</span>
-                <h3>FLOTA X500 (500 CARTERAS)</h3>
+            <!-- Tarjeta 2: ATOMIC FLASH MATRIX -->
+            <a href="/sniping/" class="station-hub-card active-border-poly">
+              <div class="s-card-top">
+                <div class="s-card-badge poly-badge">ESTACIÓN #02 · POLYGON POS</div>
+                <span class="live-dot-station"></span>
               </div>
-              <p>El enjambre de 500 satélites organizado en 5 Boxes tácticos. Minería de airdrops, bridge multi-chain y claiming sin gastar gas propio.</p>
-              <div class="l-card-cta">
-                <span>INGRESAR A FLOTA X500</span>
-                <span class="material-symbols-rounded">arrow_forward</span>
+              <div class="s-card-head">
+                <span class="material-symbols-rounded s-card-icon text-amber">bolt</span>
+                <h3>⚡ ATOMIC FLASH MATRIX ($5K - $50K EN 1 SEGUNDO)</h3>
+              </div>
+              <p class="s-card-desc">3 Motores Atómicos × 54 Contratos en Polygon PoS: Cobro de Bóvedas (Keeper Harvest), Flash Loans 0% Fee ($5k-$50k) y Liquidaciones Aave V3 con $0.00 riesgo de capital.</p>
+              <div class="s-card-cta poly-cta">
+                <span>INGRESAR A ATOMIC FLASH MATRIX ➔</span>
               </div>
             </a>
 
-            <a href="/" class="link-station-card">
-              <div class="l-card-head">
-                <span class="material-symbols-rounded l-card-icon">hub</span>
-                <h3>MANDO CENTRAL ÁREA 501</h3>
+            <!-- Tarjeta 3: FLOTA X500 -->
+            <a href="/flota-x500/" class="station-hub-card active-border-x500">
+              <div class="s-card-top">
+                <div class="s-card-badge x500-badge">ESTACIÓN #03 · ENJAMBRE GASLESS</div>
+                <span class="live-dot-station"></span>
               </div>
-              <p>Visión panorámica de la Nodriza Matriz Dual #501, telemetría consolidada, gas unificado y auditoría omnichain en vivo.</p>
-              <div class="l-card-cta">
-                <span>IR AL MANDO CENTRAL</span>
-                <span class="material-symbols-rounded">arrow_forward</span>
+              <div class="s-card-head">
+                <span class="material-symbols-rounded s-card-icon text-green">military_tech</span>
+                <h3>🪖 FLOTA X500 (500 CARTERAS)</h3>
+              </div>
+              <p class="s-card-desc">El enjambre de 500 satélites organizado en 5 Boxes tácticos (#001 a #500). Racha Gasless EIP-712, cortes de Airdrops (30 Oct) y barrido hacia Bóveda #501.</p>
+              <div class="s-card-cta x500-cta">
+                <span>INGRESAR A FLOTA X500 ➔</span>
               </div>
             </a>
           </div>
@@ -283,17 +308,18 @@
 
     </main>
 
-    <!-- BOTTOM FIXED BAR: 100% EN UNA SOLA LÍNEA HORIZONTAL SIN ENVOLVER -->
+    <!-- BOTTOM FIXED BAR: 100% EN UNA SOLA LÍNEA HORIZONTAL EN AZUL OSCURO NOCTURNO -->
     <footer class="matrix-bottombar bottom-bar">
+      <!-- 1. ZONA IZQUIERDA: IDENTIDAD DEL MÓDULO ACTIVO -->
       <div class="bottom-identity">
         <span class="material-symbols-rounded brand-icon">bolt</span>
-        <b>ATOMIC FLASH MATRIX</b>
+        <b class="brand-title">ATOMIC FLASH MATRIX</b>
         <span class="brand-divider">//</span>
-        <span class="brand-tag">54 OBJETIVOS L1</span>
+        <span class="brand-tag">54 OBJETIVOS L1 🟢</span>
         <span class="live-dot" title="Telemetría en Vivo Conectada"></span>
       </div>
 
-      <!-- THE 4 MODEL TABS COMPACTOS -->
+      <!-- 2. ZONA CENTRAL: PESTAÑAS OPERATIVAS EXCLUSIVAS DEL MÓDULO -->
       <nav class="matrix-nav-tabs">
         <button class="nav-tab active" data-tab="paneTargetsGrid" id="tabBtnTargets">
           <span class="material-symbols-rounded tab-icon">grid_view</span> [ ⚡ 54 OBJETIVOS EN VIVO ]
@@ -304,13 +330,16 @@
         <button class="nav-tab" data-tab="paneLedger" id="tabBtnLedger">
           <span class="material-symbols-rounded tab-icon">receipt_long</span> [ 📜 BITÁCORA ON-CHAIN (0) ]
         </button>
-        <button class="nav-tab" data-tab="paneLinks" id="tabBtnLinks">
-          <span class="material-symbols-rounded tab-icon">open_in_new</span> [ 🏛️ ESTACIONES ÁREA 501 ]
-        </button>
       </nav>
 
-      <!-- SYSTEM STATUS & CLOCK HORIZONTAL EN 1 SOLA LÍNEA -->
+      <!-- 3. ZONA DERECHA: SEPARADA POR '|' · BOTÓN MAESTRO DE ESTACIONES + TELEMETRÍA + RELOJ UTC -->
       <div class="bottom-system">
+        <span class="dock-v-divider">|</span>
+        <button class="btn-stations-master" id="btnMasterStationsHub" data-tab="paneStationsHub" title="Abrir las 3 Estaciones de Área 501">
+          <span class="material-symbols-rounded master-hub-icon">account_balance</span>
+          <span>[ 🏛️ ÁREA 501 // 3 ESTACIONES ]</span>
+        </button>
+        <span class="dock-v-divider">|</span>
         <div class="ws-status">
           <span class="status-bullet">●</span>
           <span>24ms Polygon</span>

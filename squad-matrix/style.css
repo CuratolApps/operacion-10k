@@ -2247,49 +2247,244 @@ html, body {
 /* ==============================================================================
    BOTTOM FIXED BAR: IDENTITY, 4 TABS, CLOCK
    ============================================================================== */
+/* ==============================================================================
+   TAB 6: 3 ESTACIONES OFICIALES ÁREA 501
+   ============================================================================== */
+.stations-hub-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 6px 4px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+}
+
+.stations-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 14px !important;
+  width: 100% !important;
+  align-items: stretch !important;
+}
+
+.station-hub-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border-radius: 12px !important;
+  padding: 16px 18px !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12) !important;
+  text-decoration: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  border: 1.5px solid #E2E8F0 !important;
+}
+
+.station-hub-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.2) !important;
+}
+
+.station-hub-card.active-border-hl {
+  border-color: #38BDF8 !important;
+}
+.station-hub-card.active-border-hl:hover {
+  border-color: #0284C7 !important;
+  box-shadow: 0 16px 32px rgba(2, 132, 199, 0.25) !important;
+}
+
+.station-hub-card.active-border-poly {
+  border-color: #F59E0B !important;
+}
+.station-hub-card.active-border-poly:hover {
+  border-color: #D97706 !important;
+  box-shadow: 0 16px 32px rgba(217, 119, 6, 0.25) !important;
+}
+
+.station-hub-card.active-border-x500 {
+  border-color: #10B981 !important;
+}
+.station-hub-card.active-border-x500:hover {
+  border-color: #059669 !important;
+  box-shadow: 0 16px 32px rgba(16, 185, 129, 0.25) !important;
+}
+
+.s-card-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.s-card-badge {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.60rem !important;
+  font-weight: 800 !important;
+  padding: 3px 8px !important;
+  border-radius: 5px !important;
+  letter-spacing: 0.03em !important;
+}
+
+.hl-badge {
+  background: #E0F2FE !important;
+  color: #0369A1 !important;
+  border: 1px solid #BAE6FD !important;
+}
+
+.poly-badge {
+  background: #FEF3C7 !important;
+  color: #B45309 !important;
+  border: 1px solid #FDE68A !important;
+}
+
+.x500-badge {
+  background: #DCFCE7 !important;
+  color: #15803D !important;
+  border: 1px solid #BBF7D0 !important;
+}
+
+.live-dot-station {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #10B981 !important;
+  box-shadow: 0 0 8px #10B981 !important;
+  animation: pulseDot 2s infinite ease-in-out !important;
+}
+
+.s-card-head {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.s-card-icon {
+  font-size: 26px !important;
+}
+
+.s-card-head h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.94rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.s-card-desc {
+  font-size: 0.72rem !important;
+  color: #475569 !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+.s-card-cta {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.68rem !important;
+  font-weight: 800 !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+  margin-top: 4px !important;
+  letter-spacing: 0.02em !important;
+}
+
+.hl-cta {
+  background: #0284C7 !important;
+  color: #FFFFFF !important;
+}
+.hl-cta:hover {
+  background: #0369A1 !important;
+}
+
+.poly-cta {
+  background: #D97706 !important;
+  color: #FFFFFF !important;
+}
+.poly-cta:hover {
+  background: #B45309 !important;
+}
+
+.x500-cta {
+  background: #059669 !important;
+  color: #FFFFFF !important;
+}
+.x500-cta:hover {
+  background: #047857 !important;
+}
+
+/* ==============================================================================
+   BARRA INFERIOR UNIFICADA EN AZUL OSCURO NOCTURNO (ESTILO SQUAD MATRIX)
+   `linear-gradient(90deg, #091120 0%, #0F1A2E 50%, #091120 100%)`, 38px, nowrap
+   ============================================================================== */
 .matrix-bottombar {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  height: 44px !important;
-  min-height: 44px !important;
-  background: rgba(7, 18, 43, 0.96) !important;
-  backdrop-filter: blur(14px) !important;
-  border: 1px solid rgba(148, 163, 184, 0.2) !important;
-  border-radius: 8px !important;
-  padding: 0 14px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  background: linear-gradient(90deg, #091120 0%, #0F1A2E 50%, #091120 100%) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  border-radius: 10px !important;
+  padding: 0 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
   margin-top: 4px !important;
   z-index: 100 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  flex: 0 0 38px !important;
+  width: 100% !important;
+}
+
+.matrix-bottombar * {
+  white-space: nowrap !important;
+  line-height: 1 !important;
 }
 
 .bottom-identity {
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.66rem !important;
+  font-weight: 800 !important;
+  color: #F8FAFC !important;
+  flex: 0 0 auto !important;
 }
 
 .brand-icon {
-  font-size: 1.15rem !important;
+  font-size: 16px !important;
   color: #38BDF8 !important;
 }
 
 .brand-title {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.84rem !important;
+  font-size: 0.72rem !important;
   font-weight: 800 !important;
-  color: #FFFFFF !important;
-  letter-spacing: 0.05em !important;
+  color: #F8FAFC !important;
+  letter-spacing: 0.04em !important;
 }
 
 .brand-divider {
-  color: #2563EB !important;
+  color: #3B82F6 !important;
   font-weight: 700 !important;
 }
 
 .brand-tag {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.63rem !important;
-  font-weight: 600 !important;
+  font-size: 0.62rem !important;
+  font-weight: 700 !important;
   color: #94A3B8 !important;
 }
 
@@ -2311,7 +2506,9 @@ html, body {
 
 .matrix-nav-tabs {
   display: flex !important;
-  gap: 6px !important;
+  gap: 5px !important;
+  align-items: center !important;
+  flex: 0 1 auto !important;
 }
 
 .nav-tab {
@@ -2319,40 +2516,83 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   color: #94A3B8 !important;
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.68rem !important;
-  font-weight: 700 !important;
-  padding: 5px 12px !important;
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
+  padding: 4px 9px !important;
   border-radius: 6px !important;
   cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  display: flex !important;
+  transition: all 0.15s ease !important;
+  display: inline-flex !important;
   align-items: center !important;
-  gap: 5px !important;
+  gap: 4px !important;
+  white-space: nowrap !important;
 }
 
 .nav-tab .tab-icon {
-  font-size: 14px !important;
+  font-size: 13px !important;
 }
 
 .nav-tab:hover {
-  background: rgba(37, 99, 235, 0.18) !important;
+  background: rgba(37, 99, 235, 0.25) !important;
   color: #FFFFFF !important;
-  border-color: #2563EB !important;
+  border-color: #3B82F6 !important;
 }
 
 .nav-tab.active {
   background: #1D4ED8 !important;
   color: #FFFFFF !important;
-  border-color: #3B82F6 !important;
-  box-shadow: 0 2px 10px rgba(29, 78, 216, 0.45) !important;
+  border-color: #60A5FA !important;
+  box-shadow: 0 2px 10px rgba(29, 78, 216, 0.5) !important;
+}
+
+/* Línea Divisoria Vertical en Barra Inferior */
+.dock-v-divider {
+  color: rgba(148, 163, 184, 0.4) !important;
+  font-weight: 400 !important;
+  font-size: 0.75rem !important;
+  margin: 0 2px !important;
+}
+
+/* Botón Maestro Separado de las 3 Estaciones */
+.btn-stations-master {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(37, 99, 235, 0.25) 100%) !important;
+  border: 1.5px solid #F59E0B !important;
+  color: #FDE68A !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 0.64rem !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.btn-stations-master:hover,
+.btn-stations-master.active {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  color: #0F172A !important;
+  border-color: #FDE68A !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.6) !important;
+}
+
+.btn-stations-master .master-hub-icon {
+  font-size: 13px !important;
 }
 
 .bottom-system {
   display: flex !important;
   align-items: center !important;
-  gap: 14px !important;
+  gap: 8px !important;
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.66rem !important;
+  font-size: 0.62rem !important;
+  font-weight: 700 !important;
+  color: #94A3B8 !important;
+  flex: 0 0 auto !important;
 }
 
 .ws-status {
@@ -2363,19 +2603,21 @@ html, body {
 }
 
 .status-bullet {
-  font-size: 0.8rem !important;
+  color: #10B981 !important;
+  font-size: 9px !important;
 }
 
 .utc-clock {
   display: flex !important;
   align-items: center !important;
-  gap: 4px !important;
-  color: #CBD5E1 !important;
+  gap: 3px !important;
+  color: #F8FAFC !important;
+  font-weight: 800 !important;
 }
 
 .clock-icon {
   font-size: 13px !important;
-  color: #93C5FD !important;
+  color: #38BDF8 !important;
 }
 
 /* ==============================================================================

@@ -206,14 +206,14 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(fetchHyperliquidState, 3000);
 });
 
-// CONTROL DE PESTAÑAS (5 TABS)
+// CONTROL DE PESTAÑAS Y LANZADOR DE LAS 3 ESTACIONES
 function initTabs() {
-  const tabs = document.querySelectorAll(".nav-tab");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      const targetId = tab.getAttribute("data-tab");
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
+  const allNavButtons = document.querySelectorAll(".nav-tab, .btn-stations-master");
+  allNavButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-tab");
+      allNavButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
 
       document.querySelectorAll(".tab-pane").forEach(pane => {
         pane.classList.remove("active");
