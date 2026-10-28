@@ -574,12 +574,14 @@ async function startAutonomousSquadDaemon() {
             if (szNum <= 130 && !mem.beLocked) {
               mem.beLocked = true;
               console.log(`🎉 [OPERACIÓN RESCATE #00] ¡TRAMO 1 DE AVAX COMPLETADO! 70% de la posición liberada. Candado BE #00 activado para el 30% restante.`);
-              const rescueTg = `🎉🛡️ <b>ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO (70%)</b>\n` +
+              const rescueTg = `🔓 <b>ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX</b>\n` +
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                 `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
-                `💰 <b>Descarga de Alivio:</b> 70% de la posición cerrada con éxito.\n` +
-                `🔒 <b>Candado BE #00:</b> Activado en el 30% restante hacia Banda Media ($8.942).\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+                `💰 <b>Descarga de Alivio (70%):</b> 280.52 AVAX ejecutados en $8.895 sin pérdida.\n` +
+                `💵 <b>Capital Liberado:</b> ~$2,495 USD de nocional devueltos a margen libre.\n` +
+                `🔒 <b>Candado BE #00 Activado:</b> Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>`;
               sendSquadTelegram(rescueTg).catch(() => {});
             }
 
@@ -848,19 +850,33 @@ async function startAutonomousSquadDaemon() {
               recordTransactionInLedger(victoryTx);
               const currentLedger = loadRealLedger();
 
-              const victoryTg = `🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
-                `📍 <b>Par:</b> <code>${closedCoin}-USDC</code>\n` +
-                `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(recordedEntryPx || 0, closedCoin)}</code>\n` +
-                `📤 <b>SE VENDIÓ A:</b> <code>$${exitPxStr}</code> (+${TARGET_GAIN_PCT}% TP)\n` +
-                `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$${netGain.toFixed(4)} USDC</b>\n` +
-                `🏆 <b>Récord Oficial:</b> <b>${currentLedger.realWins} Ganadas · 0 Pérdidas (100% Invictos)</b>\n` +
-                `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo antes del próximo tiro\n` +
-                `💵 <b>Nuevo Balance en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
-                `📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>`;
+              let victoryTg = "";
+              if (closedCoin === "AVAX") {
+                victoryTg = `🏆 <b>ALERTA TELEGRAM — OPERACIÓN RESCATE AVAX COMPLETADA CON ÉXITO</b>\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                  `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
+                  `💰 <b>Cierre Final:</b> Tramo 2 ejecutado en Banda Media de 1H con ganancia limpia.\n` +
+                  `📤 <b>Precio de Venta:</b> <code>$${exitPxStr}</code>\n` +
+                  `💵 <b>Nuevo Balance en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
+                  `🎯 <b>Distancia a los $1,000:</b> Faltan solo <code>$${Math.max(0, 1000 - accountValue).toFixed(2)} USDC</code>\n` +
+                  `🔓 <b>Descongelamiento Total:</b> Los 3 escuadrones quedan habilitados para tiros limpios de alta certeza.\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                  `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>`;
+              } else {
+                victoryTg = `🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                  `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
+                  `📍 <b>Par:</b> <code>${closedCoin}-USDC</code>\n` +
+                  `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(recordedEntryPx || 0, closedCoin)}</code>\n` +
+                  `📤 <b>SE VENDIÓ A:</b> <code>$${exitPxStr}</code> (+${TARGET_GAIN_PCT}% TP)\n` +
+                  `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$${netGain.toFixed(4)} USDC</b>\n` +
+                  `🏆 <b>Récord Oficial:</b> <b>${currentLedger.realWins} Ganadas · 0 Pérdidas (100% Invictos)</b>\n` +
+                  `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo antes del próximo tiro\n` +
+                  `💵 <b>Nuevo Balance en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
+                  `📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                  `🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>`;
+              }
               await sendSquadTelegram(victoryTg);
             } catch (err) {
               console.error(`[${squadKey}] Error procesando victoria:`, err.message);
