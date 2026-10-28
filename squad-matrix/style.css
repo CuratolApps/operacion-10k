@@ -10,6 +10,10 @@
  */
 
 :root {
+  /* Zero-Flicker & Numeric Tabular Alignment */
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+
   /* Paleta Híbrida @yozapata */
   --bg-deep: #050B1A;
   --bg-space-dark: #07122B;
@@ -85,6 +89,31 @@ html, body {
   color: #0F172A;
   font-family: 'Plus Jakarta Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+.card-main-val,
+.card-main-val span,
+.pct-badge,
+.unit-tag,
+.currency-symbol,
+.l-val,
+.pair-price,
+.progress-pct,
+.progress-label,
+.sq-badge,
+.sq-badge span,
+.sq-val,
+.cell-gas-val,
+.target-main-val,
+.utc-clock,
+#liveUtcClock,
+#wsLatency,
+.status-pill,
+.pill-active,
+.pill-shield,
+.loan-stat-col span {
+  font-variant-numeric: tabular-nums lining-nums !important;
+  font-feature-settings: "tnum" 1, "lnum" 1 !important;
 }
 
 /* ==============================================================================

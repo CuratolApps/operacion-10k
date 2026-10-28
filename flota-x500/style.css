@@ -47,6 +47,29 @@
   /* Tipografías */
   --font-main: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* Soporte nativo de números tabulares (Zero-Jitter & Zero-Flicker) */
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/* Reglas Estrictas Anti-Jitter para cifras, badges y contadores */
+.card-main-val,
+.l-val,
+.currency-symbol,
+.unit-tag,
+.cell-gas-val,
+.cell-wallets-range,
+.status-pill,
+.sq-badge,
+.pill-active,
+.pill-shield,
+.pill-gas-orange,
+.pill-gas-blue,
+.utc-clock,
+#liveUtcClock {
+  font-variant-numeric: tabular-nums lining-nums !important;
+  font-feature-settings: "tnum" 1, "lnum" 1 !important;
 }
 
 *, *::before, *::after {

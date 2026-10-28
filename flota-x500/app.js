@@ -10,10 +10,68 @@
  * ==============================================================================
  */
 
+// Helper de mutación atómica de DOM sin saltos ni destrucción de nodos
+function setTextIfChanged(el, newText) {
+  if (!el) return;
+  const str = String(newText);
+  if (el.textContent !== str) {
+    el.textContent = str;
+  }
+}
+
+// ==============================================================================
+// ESTADO PERSISTENTE MONOTÓNICO (ANTI-REGRESIÓN & ZERO-FLICKER)
+// ==============================================================================
+const FLOTA_STORAGE_KEY = "area501_flota_state_v1";
+
+function loadPersistedFlotaState() {
+  if (window.__AREA501_FLOTA_STATE__) return window.__AREA501_FLOTA_STATE__;
+  try {
+    const raw = localStorage.getItem(FLOTA_STORAGE_KEY);
+    if (raw) {
+      window.__AREA501_FLOTA_STATE__ = JSON.parse(raw);
+      return window.__AREA501_FLOTA_STATE__;
+    }
+  } catch (e) {}
+  window.__AREA501_FLOTA_STATE__ = {
+    walletsActive: "500 / 500",
+    harvestedUsdc: "1.75",
+    turnCounter: "8/8",
+    fleetGasPol: "20.47",
+    streakDays: "Día 4/25",
+    streakGoal: "500 / 500 Auditado",
+    countdownPill: "🟢 Cierre 30 Oct (48h)",
+    lastTimestamp: 0
+  };
+  return window.__AREA501_FLOTA_STATE__;
+}
+
+function savePersistedFlotaState(newState) {
+  const current = loadPersistedFlotaState();
+  const merged = Object.assign({}, current, newState);
+  window.__AREA501_FLOTA_STATE__ = merged;
+  try {
+    localStorage.setItem(FLOTA_STORAGE_KEY, JSON.stringify(merged));
+  } catch (e) {}
+}
+
+function hydrateDomFromFlotaState() {
+  const state = loadPersistedFlotaState();
+  if (state.walletsActive) setTextIfChanged(document.getElementById("topWalletsActive"), state.walletsActive);
+  if (state.harvestedUsdc) setTextIfChanged(document.getElementById("topHarvestedUsdc"), state.harvestedUsdc);
+  if (state.turnCounter) setTextIfChanged(document.getElementById("turnCounterBadge"), state.turnCounter);
+  if (state.fleetGasPol) setTextIfChanged(document.getElementById("topFleetGasPol"), state.fleetGasPol);
+  if (state.streakDays) setTextIfChanged(document.getElementById("topStreakDays"), state.streakDays);
+  if (state.streakGoal) setTextIfChanged(document.getElementById("topStreakGoal"), state.streakGoal);
+  if (state.countdownPill) setTextIfChanged(document.getElementById("topCountdownPill"), state.countdownPill);
+}
+
 // Estado Global
 let allWalletsData = [];
 let currentFilterBox = "all";
 let currentSearchTerm = "";
+let isFetchingWallets = false;
+let isSyncingFleet = false;
 
 // Configuración de los 5 Boxes
 const BOXES_CONFIG = {
@@ -68,15 +126,26 @@ const MASTER_RADARS = [
   }
 ];
 
-// Generar o cargar carteras
+// Generar o cargar carteras con Candado de Concurrencia y Cache-Busting
 async function loadWallets() {
+  if (isFetchingWallets) return;
+  isFetchingWallets = true;
+
   try {
-    const res = await fetch("../wallets-public-list.json");
+    const res = await fetch(`../wallets-public-list.json?t=${Date.now()}`, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache"
+      }
+    });
     if (res.ok) {
       allWalletsData = await res.json();
     }
   } catch (err) {
     console.warn("No se pudo cargar wallets-public-list.json, usando generador offline:", err);
+  } finally {
+    isFetchingWallets = false;
   }
 
   // Si falló el fetch o está vacío, generar la lista canónica de 500 carteras
@@ -106,6 +175,63 @@ async function loadWallets() {
   renderInspectorTable();
 }
 
+// Bucle Único de Telemetría de Flota (Zero-Flicker & Anti-Rollback)
+async function syncFleetTelemetry() {
+  if (isSyncingFleet) return;
+  isSyncingFleet = true;
+
+  try {
+    const res = await fetch(`/telemetry/fleet-telemetry.json?t=${Date.now()}`, {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache"
+      }
+    });
+    if (!res.ok) return;
+    const telem = await res.json();
+    if (!telem) return;
+
+    const state = loadPersistedFlotaState();
+
+    // Anti-regresión: si el timestamp entrante es anterior al que ya está pintado, ignorar
+    const payloadTime = telem.timestamp ? new Date(telem.timestamp).getTime() : 0;
+    if (payloadTime && state.lastTimestamp && payloadTime < state.lastTimestamp) {
+      return;
+    }
+
+    const updates = {};
+    if (payloadTime) updates.lastTimestamp = payloadTime;
+
+    // Actualizaciones de tarjetas superiores de forma 100% invisible
+    if (telem.dailyCapturedUsdc !== undefined || telem.totalHistoricalUsdc !== undefined) {
+      const val = telem.dailyCapturedUsdc !== undefined ? telem.dailyCapturedUsdc : telem.totalHistoricalUsdc;
+      const fmtVal = Number(val).toFixed(2);
+      updates.harvestedUsdc = fmtVal;
+      setTextIfChanged(document.getElementById("topHarvestedUsdc"), fmtVal);
+    }
+
+    if (telem.totalCapitanesGasPol !== undefined || (telem.fleet && telem.fleet.totalCapitanesGasPol !== undefined)) {
+      const pol = telem.totalCapitanesGasPol !== undefined ? telem.totalCapitanesGasPol : telem.fleet.totalCapitanesGasPol;
+      const fmtPol = Number(pol).toFixed(2);
+      updates.fleetGasPol = fmtPol;
+      setTextIfChanged(document.getElementById("topFleetGasPol"), fmtPol);
+    }
+
+    if (telem.currentTurn !== undefined) {
+      const turnStr = `${telem.currentTurn}/8`;
+      updates.turnCounter = turnStr;
+      setTextIfChanged(document.getElementById("turnCounterBadge"), turnStr);
+    }
+
+    savePersistedFlotaState(updates);
+  } catch (err) {
+    // Si falla o da timeout, NUNCA resetear valores. Mantener el último estado válido.
+  } finally {
+    isSyncingFleet = false;
+  }
+}
+
 // Estado del Modal
 let isPlatoonModalOpen = false;
 let currentInspectingPlatoon = null;
@@ -123,8 +249,7 @@ function renderSwarm54Grid() {
       const noncesCount = 8 + (p % 7);
       const gasEl = document.getElementById(`swarmGas_${p}`);
       if (gasEl) {
-        const text = `${noncesCount}N · $0Gas`;
-        if (gasEl.textContent !== text) gasEl.textContent = text;
+        setTextIfChanged(gasEl, `${noncesCount}N · $0Gas`);
       }
     }
     return;
@@ -340,7 +465,7 @@ function updateLiveClock() {
   const h = String(now.getUTCHours()).padStart(2, "0");
   const m = String(now.getUTCMinutes()).padStart(2, "0");
   const s = String(now.getUTCSeconds()).padStart(2, "0");
-  el.innerText = `${h}:${m}:${s} UTC`;
+  setTextIfChanged(el, `${h}:${m}:${s} UTC`);
 }
 
 // Setup Event Listeners
@@ -391,10 +516,13 @@ function setupEvents() {
   });
 }
 
-// Inicialización
+// Inicialización Monotónica Zero-Flicker
 document.addEventListener("DOMContentLoaded", () => {
+  hydrateDomFromFlotaState();
   setupEvents();
   updateLiveClock();
   setInterval(updateLiveClock, 1000);
   loadWallets();
+  syncFleetTelemetry();
+  setInterval(syncFleetTelemetry, 5000);
 });

@@ -9,6 +9,43 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
   <link rel="stylesheet" href="style.css">
+  <!-- Micro-script síncrono de hidratación en milisegundo 0 (Zero-Flicker & Anti-Rollback) -->
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("__AREA501_SNIPING_STATE__");
+        if (raw) {
+          var s = JSON.parse(raw);
+          window.__LAST_VALID_STATE__ = s;
+          if (s) {
+            document.addEventListener("DOMContentLoaded", function () {
+              if (s.dividendsCapturedUsdc !== undefined) {
+                var el = document.getElementById("topTotalDividends");
+                if (el) el.textContent = Number(s.dividendsCapturedUsdc).toFixed(2);
+              }
+              if (s.dividendsBreakdown && s.dividendsBreakdown.streak) {
+                var elS = document.getElementById("winStreakText");
+                if (elS) elS.textContent = String(s.dividendsBreakdown.streak).replace(/\s+/g, "");
+              }
+              if (s.dividendsBreakdown) {
+                var b = s.dividendsBreakdown;
+                var elH = document.getElementById("bountyHarvestVal");
+                if (elH && b.harvestUsdc !== undefined) elH.textContent = "$" + Number(b.harvestUsdc).toFixed(2);
+                var elF = document.getElementById("bountyFlashVal");
+                if (elF && b.flashUsdc !== undefined) elF.textContent = "$" + Number(b.flashUsdc).toFixed(2);
+                var elL = document.getElementById("bountyLiquidatorVal");
+                if (elL && b.liquidationUsdc !== undefined) elL.textContent = "$" + Number(b.liquidationUsdc).toFixed(2);
+              }
+              if (s.gasTank && s.gasTank.vault501Pol !== undefined) {
+                var elG = document.getElementById("topGasPol");
+                if (elG) elG.textContent = Number(s.gasTank.vault501Pol).toFixed(2);
+              }
+            });
+          }
+        }
+      } catch (_) {}
+    })();
+  </script>
 </head>
 <body class="matrix-body">
   <div class="matrix-app matrix-viewport" id="matrixApp">
@@ -43,9 +80,9 @@
         </div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
           <span class="sq-badge streak"><b id="winStreakText">0G-0P</b></span>
-          <span class="sq-badge sq-unit" id="bountyHarvestBadge"><b>#01</b> $0.00</span>
-          <span class="sq-badge sq-unit" id="bountyFlashBadge"><b>#02</b> $0.00</span>
-          <span class="sq-badge sq-unit" id="bountyLiquidatorBadge"><b>#03</b> $0.00</span>
+          <span class="sq-badge sq-unit" id="bountyHarvestBadge"><b>#01</b> <span id="bountyHarvestVal">$0.00</span></span>
+          <span class="sq-badge sq-unit" id="bountyFlashBadge"><b>#02</b> <span id="bountyFlashVal">$0.00</span></span>
+          <span class="sq-badge sq-unit" id="bountyLiquidatorBadge"><b>#03</b> <span id="bountyLiquidatorVal">$0.00</span></span>
         </div>
       </div>
 

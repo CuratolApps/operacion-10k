@@ -9,6 +9,45 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
   <link rel="stylesheet" href="style.css">
+  <!-- Micro-script síncrono de hidratación en milisegundo 0 (Zero-Flicker & Anti-Rollback) -->
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("__AREA501_SQUAD_MATRIX_STATE__");
+        if (raw) {
+          var s = JSON.parse(raw);
+          window.__LAST_VALID_STATE__ = s;
+          if (s && s.accountValue) {
+            document.addEventListener("DOMContentLoaded", function () {
+              var elAcc = document.getElementById("topAccountValue");
+              if (elAcc) elAcc.textContent = Number(s.accountValue).toFixed(2);
+              var m = s.accountValue * 0.6;
+              var sh = s.accountValue * 0.4;
+              var elMargin = document.getElementById("topActiveMarginPill");
+              if (elMargin) elMargin.textContent = "Margen 60%: $" + m.toFixed(2);
+              var elShield = document.getElementById("topShieldPill");
+              if (elShield) elShield.textContent = "Mentora 40%: $" + sh.toFixed(2);
+              if (s.totalProfitUsdc !== undefined) {
+                var elP = document.getElementById("topTotalProfit");
+                if (elP) elP.textContent = (s.totalProfitUsdc >= 0 ? "+" : "") + "$" + Number(s.totalProfitUsdc).toFixed(2);
+              }
+              if (s.realWins !== undefined) {
+                var elW = document.getElementById("winStreakText");
+                if (elW) elW.textContent = s.realWins + "G-" + (s.realLosses || 0) + "P";
+              }
+              var pct = Math.min(100, (s.accountValue / 1000) * 100).toFixed(1);
+              var elPl = document.getElementById("topBlock1ProgressLabel");
+              if (elPl) elPl.textContent = "$" + Number(s.accountValue).toFixed(2) + " / $1,000.00 USDC";
+              var elPp = document.getElementById("topBlock1ProgressPct");
+              if (elPp) elPp.textContent = pct + "%";
+              var elPb = document.getElementById("topBlock1ProgressBar");
+              if (elPb) elPb.style.width = pct + "%";
+            });
+          }
+        }
+      } catch (_) {}
+    })();
+  </script>
 </head>
 <body class="matrix-body">
   <div class="matrix-app matrix-viewport" id="matrixApp">
@@ -21,12 +60,12 @@
           <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO (EN FUEGO)
         </div>
         <div class="card-main-val">
-          <span class="currency-symbol">$</span><span id="topAccountValue">803.55</span>
+          <span class="currency-symbol">$</span><span id="topAccountValue">842.44</span>
           <span class="unit-tag">USDC L1</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $482.13</span>
-          <span class="pill-shield" id="topShieldPill">Mentora 40%: $321.42</span>
+          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $505.46</span>
+          <span class="pill-shield" id="topShieldPill">Mentora 40%: $336.97</span>
         </div>
       </div>
 
@@ -36,14 +75,14 @@
           <span class="material-symbols-rounded">trending_up</span> PROFIT GENERAL &amp; ESCUADRONES
         </div>
         <div class="card-main-val text-green">
-          <span id="topTotalProfit">+$71.93</span>
-          <span class="pct-badge" id="topTotalProfitPct">+11.60%</span>
+          <span id="topTotalProfit">+$73.05</span>
+          <span class="pct-badge" id="topTotalProfitPct">+11.78%</span>
         </div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
-          <span class="sq-badge streak"><b id="winStreakText">53G-0P</b></span>
-          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> +$8.8</span>
-          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> +$6.6</span>
-          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> +$3.1</span>
+          <span class="sq-badge streak"><b id="winStreakText">83G-0P</b></span>
+          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$10.6</span></span>
+          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$3.1</span></span>
+          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$4.4</span></span>
         </div>
       </div>
 
@@ -54,11 +93,11 @@
         </div>
         <div class="progress-wrap">
           <div class="progress-info">
-            <span class="progress-label" id="topBlock1ProgressLabel">$803.55 / $1,000.00 USDC</span>
-            <span class="progress-pct" id="topBlock1ProgressPct">80.4%</span>
+            <span class="progress-label" id="topBlock1ProgressLabel">$842.44 / $1,000.00 USDC</span>
+            <span class="progress-pct" id="topBlock1ProgressPct">84.2%</span>
           </div>
           <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 80.4%;"></div>
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 84.2%;"></div>
           </div>
         </div>
         <div class="rule-badge-glow">100% Capitalización pura ($0 envíos hasta $1,000)</div>
@@ -92,8 +131,8 @@
           <span class="material-symbols-rounded">radar</span> RADAR MATRIX: 18 ESCUADRONES × 54 PARES
         </div>
         <div class="squad-counter-row">
-          <span class="status-pill active-pill" id="topActiveSquadsPill"><span class="material-symbols-rounded">bolt</span> 3/18 Activos</span>
-          <span class="status-pill ready-pill" id="topReadySquadsPill"><span class="material-symbols-rounded">schedule</span> 15/18 ($100)</span>
+          <span class="status-pill active-pill" id="topActiveSquadsPill"><span class="material-symbols-rounded">bolt</span> <span id="topActiveSquadsText">3/18 Activos</span></span>
+          <span class="status-pill ready-pill" id="topReadySquadsPill"><span class="material-symbols-rounded">schedule</span> <span id="topReadySquadsText">15/18 ($100)</span></span>
         </div>
         <div class="sub-label-matrix">54 Pares Ultra-Líquidos · $0.00 Gas L1</div>
       </div>

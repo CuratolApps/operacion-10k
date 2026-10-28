@@ -20,6 +20,44 @@
   <!-- Estilos Matrix Estándar 100vh Cero Scroll -->
   <link rel="stylesheet" href="style.css">
 
+  <!-- Micro-script de Hidratación Instantánea Milisegundo 0 (Zero-Flicker & Anti-Rollback) -->
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("area501_flota_state_v1");
+        if (raw) {
+          var state = JSON.parse(raw);
+          window.__AREA501_FLOTA_STATE__ = state;
+          document.addEventListener("DOMContentLoaded", function () {
+            try {
+              if (state.walletsActive && document.getElementById("topWalletsActive")) {
+                document.getElementById("topWalletsActive").textContent = state.walletsActive;
+              }
+              if (state.harvestedUsdc && document.getElementById("topHarvestedUsdc")) {
+                document.getElementById("topHarvestedUsdc").textContent = state.harvestedUsdc;
+              }
+              if (state.turnCounter && document.getElementById("turnCounterBadge")) {
+                document.getElementById("turnCounterBadge").textContent = state.turnCounter;
+              }
+              if (state.fleetGasPol && document.getElementById("topFleetGasPol")) {
+                document.getElementById("topFleetGasPol").textContent = state.fleetGasPol;
+              }
+              if (state.streakDays && document.getElementById("topStreakDays")) {
+                document.getElementById("topStreakDays").textContent = state.streakDays;
+              }
+              if (state.streakGoal && document.getElementById("topStreakGoal")) {
+                document.getElementById("topStreakGoal").textContent = state.streakGoal;
+              }
+              if (state.countdownPill && document.getElementById("topCountdownPill")) {
+                document.getElementById("topCountdownPill").textContent = state.countdownPill;
+              }
+            } catch (e) {}
+          });
+        }
+      } catch (err) {}
+    })();
+  </script>
+
   <!-- Control Criptográfico de Acceso Militar -->
   <link rel="stylesheet" href="../assets/auth-gate.css">
   <script src="../assets/auth-gate.js"></script>

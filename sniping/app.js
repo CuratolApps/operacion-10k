@@ -10,6 +10,41 @@
  * ==============================================================================
  */
 
+// HELPER: ACTUALIZACIÓN 100% INVISIBLE DE TEXTO (ZERO-FLICKER DOM DIFFING)
+function setTextIfChanged(el, newText) {
+  if (!el) return;
+  const str = String(newText);
+  if (el.textContent !== str) {
+    el.textContent = str;
+  }
+}
+
+// ESTADO PERSISTENTE MONOTÓNICO (CANDADO ANTI-REGRESIÓN)
+const STORAGE_KEY_SNIPING = "__AREA501_SNIPING_STATE__";
+
+function loadPersistedSnipingState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_SNIPING);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object") {
+        window.__LAST_VALID_STATE__ = parsed;
+        return parsed;
+      }
+    }
+  } catch (_) {}
+  return null;
+}
+
+function savePersistedSnipingState(state) {
+  try {
+    window.__LAST_VALID_STATE__ = state;
+    localStorage.setItem(STORAGE_KEY_SNIPING, JSON.stringify(state));
+  } catch (_) {}
+}
+
+const initialSavedSniping = window.__LAST_VALID_STATE__ || loadPersistedSnipingState();
+
 // 54 OBJETIVOS SINCEROS INICIALES (AZUL COBALTO EN VIGILANCIA REAL)
 const SINCERE_TARGETS = [
   // FILAS 1 Y 2: MOTOR #01 ALFA-HARVEST (18 BÓVEDAS)
@@ -108,15 +143,20 @@ function renderAtomicGrid(targets) {
 
       const cell = document.getElementById(`atomicCell_${t.id}`);
       if (cell) {
-        cell.className = isProfitable ? "atomic-cell active-shot" : "atomic-cell";
+        const expectedCellClass = isProfitable ? "atomic-cell active-shot" : "atomic-cell";
+        if (cell.className !== expectedCellClass) cell.className = expectedCellClass;
+
         const valEl = document.getElementById(`targetMain_${t.id}`);
-        if (valEl && valEl.textContent !== mainVal) valEl.textContent = mainVal;
+        if (valEl) setTextIfChanged(valEl, mainVal);
+
         const subEl = document.getElementById(`targetSub_${t.id}`);
-        if (subEl && subEl.textContent !== subVal) subEl.textContent = subVal;
+        if (subEl) setTextIfChanged(subEl, subVal);
+
         const pillEl = document.getElementById(`targetPill_${t.id}`);
         if (pillEl) {
-          if (pillEl.textContent !== statusLabel) pillEl.textContent = statusLabel;
-          pillEl.className = isProfitable ? "cell-status-pill cell-badge pill-green" : "cell-status-pill cell-badge pill-standby";
+          setTextIfChanged(pillEl, statusLabel);
+          const expectedPillClass = isProfitable ? "cell-status-pill cell-badge pill-green" : "cell-status-pill cell-badge pill-standby";
+          if (pillEl.className !== expectedPillClass) pillEl.className = expectedPillClass;
         }
       }
     });
@@ -182,10 +222,16 @@ function renderAtomicGrid(targets) {
   container.innerHTML = html;
 }
 
-// RENDERIZADO DE BITÁCORA ON-CHAIN (100% SINCERA)
+let lastRenderedReceiptsJson = "";
+
+// RENDERIZADO DE BITÁCORA ON-CHAIN (100% SINCERA, CERO RE-RENDER INNECESARIO)
 function renderReceipts(transactions) {
   const tbody = document.getElementById("receiptsTableBody");
   if (!tbody) return;
+
+  const currentJson = JSON.stringify(transactions || []);
+  if (currentJson === lastRenderedReceiptsJson) return;
+  lastRenderedReceiptsJson = currentJson;
 
   if (!transactions || transactions.length === 0) {
     tbody.innerHTML = `
@@ -220,53 +266,77 @@ function renderReceipts(transactions) {
   `).join("");
 }
 
-// SINCRONIZACIÓN EN VIVO CON TELEMETRÍA REAL
+// BLOQUEO MUTEX PARA TELEMETRÍA (EVITAR PETICIONES SOLAPADAS)
+let isSyncingTelemetry = false;
+
+// SINCRONIZACIÓN EN VIVO CON TELEMETRÍA REAL (100% INVISIBLE Y SIN ROLLBACK)
 async function syncTelemetry() {
+  if (isSyncingTelemetry) return;
+  isSyncingTelemetry = true;
   try {
-    let res = await fetch("/api/sniping/telemetry?_=" + Date.now()).catch(() => null);
+    const bust = `?t=${Date.now()}`;
+    const headers = {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Pragma": "no-cache"
+    };
+
+    let res = await fetch(`/api/sniping/telemetry${bust}`, { headers }).catch(() => null);
     if (!res || !res.ok) {
-      res = await fetch("/telemetry/atomic-flash-matrix-telemetry.json?_=" + Date.now()).catch(() => null);
+      res = await fetch(`/telemetry/atomic-flash-matrix-telemetry.json${bust}`, { headers }).catch(() => null);
     }
+
     if (res && res.ok) {
       const data = await res.json();
-      
-      // 1. Tarjeta 2: Dividendos Sinceros
-      const totalProfit = Number(data.dividendsCapturedUsdc || 0.00);
-      const topTotalDividends = document.getElementById("topTotalDividends");
-      if (topTotalDividends) topTotalDividends.textContent = totalProfit.toFixed(2);
+      if (!data || typeof data !== "object") return;
 
-      const b = data.dividendsBreakdown || {};
-      const winStreakText = document.getElementById("winStreakText");
-      if (winStreakText) {
-        const rawStreak = b.streak || "0G-0P";
-        winStreakText.textContent = rawStreak.replace(/\s+/g, '');
+      // Candado Anti-Regresión: Verificar timestamp
+      const incomingTs = data.updatedAt ? new Date(data.updatedAt).getTime() : 0;
+      const lastTs = (window.__LAST_VALID_STATE__ && window.__LAST_VALID_STATE__.timestamp) || 0;
+      if (incomingTs > 0 && lastTs > 0 && incomingTs < lastTs) {
+        // Payload más antiguo que el que ya tenemos pintado, ignorar
+        return;
       }
 
-      const bHarvest = document.getElementById("bountyHarvestBadge");
-      if (bHarvest) bHarvest.innerHTML = `<b>#01</b> $${Number(b.harvestUsdc || 0.00).toFixed(2)}`;
+      // Guardar snapshot válido
+      const snapshot = {
+        dividendsCapturedUsdc: Number(data.dividendsCapturedUsdc || 0),
+        dividendsBreakdown: data.dividendsBreakdown || {},
+        gasTank: data.gasTank || {},
+        targets: data.targets || [],
+        transactions: data.transactions || [],
+        timestamp: incomingTs || Date.now()
+      };
+      savePersistedSnipingState(snapshot);
 
-      const bFlash = document.getElementById("bountyFlashBadge");
-      if (bFlash) bFlash.innerHTML = `<b>#02</b> $${Number(b.flashUsdc || 0.00).toFixed(2)}`;
+      // 1. Tarjeta 2: Dividendos Sinceros (100% textContent)
+      const totalProfit = snapshot.dividendsCapturedUsdc;
+      setTextIfChanged(document.getElementById("topTotalDividends"), totalProfit.toFixed(2));
 
-      const bLiq = document.getElementById("bountyLiquidatorBadge");
-      if (bLiq) bLiq.innerHTML = `<b>#03</b> $${Number(b.liquidationUsdc || 0.00).toFixed(2)}`;
+      const b = snapshot.dividendsBreakdown;
+      const rawStreak = (b.streak || "0G-0P").replace(/\s+/g, "");
+      setTextIfChanged(document.getElementById("winStreakText"), rawStreak);
 
-      // 2. Tarjeta 3: Gas en Polygon
-      if (data.gasTank) {
-        const topGasPol = document.getElementById("topGasPol");
-        if (topGasPol) topGasPol.textContent = Number(data.gasTank.vault501Pol || 160.85).toFixed(2);
+      setTextIfChanged(document.getElementById("bountyHarvestVal"), `$${Number(b.harvestUsdc || 0.00).toFixed(2)}`);
+      setTextIfChanged(document.getElementById("bountyFlashVal"), `$${Number(b.flashUsdc || 0.00).toFixed(2)}`);
+      setTextIfChanged(document.getElementById("bountyLiquidatorVal"), `$${Number(b.liquidationUsdc || 0.00).toFixed(2)}`);
+
+      // 2. Tarjeta 3: Gas en Polygon (100% textContent)
+      if (snapshot.gasTank && snapshot.gasTank.vault501Pol !== undefined) {
+        setTextIfChanged(document.getElementById("topGasPol"), Number(snapshot.gasTank.vault501Pol).toFixed(2));
       }
 
       // 3. Rejilla Central (54 Celdas Atómicas)
-      if (data.targets && data.targets.length === 54) {
-        renderAtomicGrid(data.targets);
+      if (snapshot.targets && snapshot.targets.length === 54) {
+        renderAtomicGrid(snapshot.targets);
       }
 
       // 4. Bitácora On-Chain
-      renderReceipts(data.transactions || []);
+      renderReceipts(snapshot.transactions || []);
     }
   } catch (_) {
-    // Si hay micro-retraso en fetch, mantener renderizado previo
+    // Si hay micro-retraso o fallo, PROHIBIDO resetear pantalla. Mantén window.__LAST_VALID_STATE__
+  } finally {
+    isSyncingTelemetry = false;
   }
 }
 
@@ -299,13 +369,13 @@ function setupTabs() {
   activateTab(savedTab);
 }
 
-// RELOJ UTC EN VIVO (HORA EN 1 SOLA LÍNEA)
+// RELOJ UTC EN VIVO (100% textContent)
 function startUtcClock() {
   const clockEl = document.getElementById("liveUtcClock");
   const update = () => {
     const now = new Date();
     const utcStr = now.toISOString().slice(11, 19) + " UTC";
-    if (clockEl) clockEl.textContent = utcStr;
+    if (clockEl) setTextIfChanged(clockEl, utcStr);
   };
   update();
   setInterval(update, 1000);
@@ -316,9 +386,16 @@ document.addEventListener("DOMContentLoaded", () => {
   setupTabs();
   startUtcClock();
 
-  // Render inicial sincero desde el primer milisegundo
-  renderAtomicGrid(SINCERE_TARGETS);
-  renderReceipts([]);
+  // Render inicial sincero desde el primer milisegundo (usando estado persistido si existe)
+  const initialTargets = (initialSavedSniping && initialSavedSniping.targets && initialSavedSniping.targets.length === 54)
+    ? initialSavedSniping.targets
+    : SINCERE_TARGETS;
+  const initialTxs = (initialSavedSniping && initialSavedSniping.transactions)
+    ? initialSavedSniping.transactions
+    : [];
+
+  renderAtomicGrid(initialTargets);
+  renderReceipts(initialTxs);
 
   // Sincronización continua cada 3 segundos
   syncTelemetry();

@@ -47289,214 +47289,11 @@
   ],
   "recentTelegramAlerts": [
     {
-      "id": "tg-1793212652172-260",
-      "timestamp": "2026-10-28T18:37:32.172Z",
-      "timeFormatted": "18:37:32 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b>\n📍 <b>Par:</b> <code>SOL-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.12%</code> (Disparo: 0.05%)\n🛡️ <b>Candado Blindado a:</b> <code>$102.45</code> (+0.03% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa\n📍 Par: SOL-USDC\n📈 Avance Favorable: +0.12% (Disparo: 0.05%)\n🛡️ Candado Blindado a: $102.45 (+0.03% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793212650288-881",
-      "timestamp": "2026-10-28T18:37:30.288Z",
-      "timeFormatted": "18:37:30 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b>\n📍 <b>Par:</b> <code>SOL-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.12%</code> (Disparo: 0.05%)\n🛡️ <b>Candado Blindado a:</b> <code>$102.45</code> (+0.03% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa\n📍 Par: SOL-USDC\n📈 Avance Favorable: +0.12% (Disparo: 0.05%)\n🛡️ Candado Blindado a: $102.45 (+0.03% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793212630011-643",
-      "timestamp": "2026-10-28T18:37:10.011Z",
-      "timeFormatted": "18:37:10 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$135.16</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$134.69</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$2.6485 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 86.5% · RSI 5m 74.8\n🛡️ <b>Margen Asignado:</b> <code>$165.53 USDC (5x = $827.65 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
-      "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $135.16\n📤 OBJETIVO TAKE PROFIT: $134.69 (+0.35%)\n💰 Ganancia Estimada: +$2.6485 USDC Limpios\n📊 Filtros: L2 86.5% · RSI 5m 74.8\n🛡️ Margen Asignado: $165.53 USDC (5x = $827.65 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-    },
-    {
-      "id": "tg-1793212626427-411",
-      "timestamp": "2026-10-28T18:37:06.427Z",
-      "timeFormatted": "18:37:06 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$102.48</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$102.12</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$2.6485 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 82.0% · RSI 5m 72.5\n🛡️ <b>Margen Asignado:</b> <code>$165.53 USDC (5x = $827.65 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
-      "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $102.48\n📤 OBJETIVO TAKE PROFIT: $102.12 (+0.35%)\n💰 Ganancia Estimada: +$2.6485 USDC Limpios\n📊 Filtros: L2 82.0% · RSI 5m 72.5\n🛡️ Margen Asignado: $165.53 USDC (5x = $827.65 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-    },
-    {
-      "id": "tg-1793212581587-620",
-      "timestamp": "2026-10-28T18:36:21.587Z",
-      "timeFormatted": "18:36:21 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$2351.1</code>\n📤 <b>SE VENDIÓ A:</b> <code>$2356.5</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$2.1681 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>62 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>ETH</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$829.97 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC\n📥 Precio Entrada: $2351.1\n📤 SE VENDIÓ A: $2356.5 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$2.1681 USDC\n🏆 Récord Oficial: 62 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: ETH en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $829.97 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-    },
-    {
-      "id": "tg-1793212581082-685",
-      "timestamp": "2026-10-28T18:36:21.082Z",
-      "timeFormatted": "18:36:21 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>LINK-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$11.705</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$11.664</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$2.6558 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 88.6% · RSI 5m 71.5\n🛡️ <b>Margen Asignado:</b> <code>$165.99 USDC (5x = $829.95 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
-      "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: LINK-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $11.705\n📤 OBJETIVO TAKE PROFIT: $11.664 (+0.35%)\n💰 Ganancia Estimada: +$2.6558 USDC Limpios\n📊 Filtros: L2 88.6% · RSI 5m 71.5\n🛡️ Margen Asignado: $165.99 USDC (5x = $829.95 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-    },
-    {
-      "id": "tg-1793212575876-515",
-      "timestamp": "2026-10-28T18:36:15.876Z",
-      "timeFormatted": "18:36:15 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$2351.1</code>\n📤 <b>SE VENDIÓ A:</b> <code>$2356.5</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$2.1681 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>61 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>ETH</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$829.97 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC\n📥 Precio Entrada: $2351.1\n📤 SE VENDIÓ A: $2356.5 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$2.1681 USDC\n🏆 Récord Oficial: 61 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: ETH en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $829.97 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-    },
-    {
-      "id": "tg-1793212575579-213",
-      "timestamp": "2026-10-28T18:36:15.579Z",
-      "timeFormatted": "18:36:15 UTC",
-      "rawHtml": "🏆 <b>ALERTA TELEGRAM — OPERACIÓN RESCATE AVAX COMPLETADA CON ÉXITO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Cierre Final:</b> Tramo 2 ejecutado en Banda Media de 1H con ganancia limpia.\n📤 <b>Precio de Venta:</b> <code>$8.928</code>\n💵 <b>Nuevo Balance en L1:</b> <code>$829.97 USDC</code>\n🎯 <b>Distancia a los $1,000:</b> Faltan solo <code>$170.03 USDC</code>\n🔓 <b>Descongelamiento Total:</b> Los 3 escuadrones quedan habilitados para tiros limpios de alta certeza.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>",
-      "textPlain": "🏆 ALERTA TELEGRAM — OPERACIÓN RESCATE AVAX COMPLETADA CON ÉXITO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Cierre Final: Tramo 2 ejecutado en Banda Media de 1H con ganancia limpia.\n📤 Precio de Venta: $8.928\n💵 Nuevo Balance en L1: $829.97 USDC\n🎯 Distancia a los $1,000: Faltan solo $170.03 USDC\n🔓 Descongelamiento Total: Los 3 escuadrones quedan habilitados para tiros limpios de alta certeza.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en Bloque 1."
-    },
-    {
-      "id": "tg-1793212570183-559",
-      "timestamp": "2026-10-28T18:36:10.183Z",
-      "timeFormatted": "18:36:10 UTC",
-      "rawHtml": "🏆 <b>ALERTA TELEGRAM — OPERACIÓN RESCATE AVAX COMPLETADA CON ÉXITO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Cierre Final:</b> Tramo 2 ejecutado en Banda Media de 1H con ganancia limpia.\n📤 <b>Precio de Venta:</b> <code>$8.928</code>\n💵 <b>Nuevo Balance en L1:</b> <code>$829.97 USDC</code>\n🎯 <b>Distancia a los $1,000:</b> Faltan solo <code>$170.03 USDC</code>\n🔓 <b>Descongelamiento Total:</b> Los 3 escuadrones quedan habilitados para tiros limpios de alta certeza.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>",
-      "textPlain": "🏆 ALERTA TELEGRAM — OPERACIÓN RESCATE AVAX COMPLETADA CON ÉXITO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Cierre Final: Tramo 2 ejecutado en Banda Media de 1H con ganancia limpia.\n📤 Precio de Venta: $8.928\n💵 Nuevo Balance en L1: $829.97 USDC\n🎯 Distancia a los $1,000: Faltan solo $170.03 USDC\n🔓 Descongelamiento Total: Los 3 escuadrones quedan habilitados para tiros limpios de alta certeza.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en Bloque 1."
-    },
-    {
-      "id": "tg-1793212552723-486",
-      "timestamp": "2026-10-28T18:35:52.723Z",
-      "timeFormatted": "18:35:52 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b>\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.12%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$2352.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie\n📍 Par: ETH-USDC\n📈 Avance Favorable: +0.12% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $2352.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793212547636-237",
-      "timestamp": "2026-10-28T18:35:47.636Z",
-      "timeFormatted": "18:35:47 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b>\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.18%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$2352.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie\n📍 Par: ETH-USDC\n📈 Avance Favorable: +0.18% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $2352.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793212440589-100",
-      "timestamp": "2026-10-28T18:34:00.589Z",
-      "timeFormatted": "18:34:00 UTC",
-      "rawHtml": "🔓 <b>ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Descarga de Alivio (70%):</b> 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 <b>Capital Liberado:</b> ~$2,495 USD de nocional devueltos a margen libre.\n🔒 <b>Candado BE #00 Activado:</b> Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>",
-      "textPlain": "🔓 ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Descarga de Alivio (70%): 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 Capital Liberado: ~$2,495 USD de nocional devueltos a margen libre.\n🔒 Candado BE #00 Activado: Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en Bloque 1."
-    },
-    {
-      "id": "tg-1793212435514-696",
-      "timestamp": "2026-10-28T18:33:55.514Z",
-      "timeFormatted": "18:33:55 UTC",
-      "rawHtml": "🔓 <b>ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Descarga de Alivio (70%):</b> 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 <b>Capital Liberado:</b> ~$2,495 USD de nocional devueltos a margen libre.\n🔒 <b>Candado BE #00 Activado:</b> Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>",
-      "textPlain": "🔓 ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Descarga de Alivio (70%): 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 Capital Liberado: ~$2,495 USD de nocional devueltos a margen libre.\n🔒 Candado BE #00 Activado: Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en Bloque 1."
-    },
-    {
-      "id": "tg-1793210930488-881",
-      "timestamp": "2026-10-28T18:08:50.488Z",
-      "timeFormatted": "18:08:50 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$4052.3</code>\n📤 <b>SE VENDIÓ A:</b> <code>$4038.1</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$1.6993 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>58 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>PAXG</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$816.40 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC\n📥 Precio Entrada: $4052.3\n📤 SE VENDIÓ A: $4038.1 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$1.6993 USDC\n🏆 Récord Oficial: 58 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: PAXG en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $816.40 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-    },
-    {
-      "id": "tg-1793210924998-324",
-      "timestamp": "2026-10-28T18:08:44.998Z",
-      "timeFormatted": "18:08:44 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$4052.3</code>\n📤 <b>SE VENDIÓ A:</b> <code>$4038.1</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$1.6993 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>57 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>PAXG</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$816.41 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC\n📥 Precio Entrada: $4052.3\n📤 SE VENDIÓ A: $4038.1 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$1.6993 USDC\n🏆 Récord Oficial: 57 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: PAXG en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $816.41 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-    },
-    {
-      "id": "tg-1793210592365-974",
-      "timestamp": "2026-10-28T18:03:12.365Z",
-      "timeFormatted": "18:03:12 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b>\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.13%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$2352.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie\n📍 Par: ETH-USDC\n📈 Avance Favorable: +0.13% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $2352.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793210585940-57",
-      "timestamp": "2026-10-28T18:03:05.940Z",
-      "timeFormatted": "18:03:05 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b>\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.11%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$2352.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie\n📍 Par: ETH-USDC\n📈 Avance Favorable: +0.11% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $2352.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793210585275-161",
-      "timestamp": "2026-10-28T18:03:05.275Z",
-      "timeFormatted": "18:03:05 UTC",
-      "rawHtml": "🔓 <b>ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Descarga de Alivio (70%):</b> 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 <b>Capital Liberado:</b> ~$2,495 USD de nocional devueltos a margen libre.\n🔒 <b>Candado BE #00 Activado:</b> Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>",
-      "textPlain": "🔓 ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Descarga de Alivio (70%): 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 Capital Liberado: ~$2,495 USD de nocional devueltos a margen libre.\n🔒 Candado BE #00 Activado: Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en Bloque 1."
-    },
-    {
-      "id": "tg-1793210580018-37",
-      "timestamp": "2026-10-28T18:03:00.018Z",
-      "timeFormatted": "18:03:00 UTC",
-      "rawHtml": "🎉🛡️ <b>ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO (70%)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Descarga de Alivio:</b> 70% de la posición cerrada con éxito.\n🔒 <b>Candado BE #00:</b> Activado en el 30% restante hacia Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🎉🛡️ ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO (70%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Descarga de Alivio: 70% de la posición cerrada con éxito.\n🔒 Candado BE #00: Activado en el 30% restante hacia Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793202135785-104",
-      "timestamp": "2026-10-28T15:42:15.785Z",
-      "timeFormatted": "15:42:15 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.10%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.10% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793198951385-776",
-      "timestamp": "2026-10-28T14:49:11.385Z",
-      "timeFormatted": "14:49:11 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.16%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.16% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793198920396-235",
-      "timestamp": "2026-10-28T14:48:40.396Z",
-      "timeFormatted": "14:48:40 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.17%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.17% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793198788209-794",
-      "timestamp": "2026-10-28T14:46:28.209Z",
-      "timeFormatted": "14:46:28 UTC",
-      "rawHtml": "🚁🏦⚡ <b>ÁREA 501 // OPERACIÓN EXTRACCIÓN Y RESCATE #00</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>Origen:</b> Bóveda Matriz #501 (Aave V3 Polygon)\n💵 <b>Capital Rescatado:</b> <code>+$61.44 USDC</code> (100% remanente)\n⛽ <b>Gas POL:</b> <code>10.31 POL</code> (100% Intocable)\n⛓️ <b>Ruta Ejecutada:</b> Polygon Aave ➔ Relay Bridge ➔ Arbitrum ➔ Hyperliquid L1\n\n🎯 <b>PINZA DE PROMEDIO EN AVAX-USDC:</b>\n• <b>Tamaño Consolidado:</b> <code>400.75 AVAX</code> (~$3583 USD)\n• <b>Precio Promedio Reducido:</b> <code>$8.9397</code> (vs $8.9560)\n• <b>Tramo 1 (70% Alivio):</b> <code>280.52 AVAX @ $8.895</code>\n• <b>Tramo 2 (30% Banda Media):</b> <code>120.23 AVAX @ $8.942</code>\n\n📊 <b>CONTROL DE CRÉDITO #501 (0% INTERÉS):</b>\n• Inyectado Total: <code>$629.94 USDC</code>\n• Meta de Coronación: <code>$1,000.00 USDC</code> (Resta solo ~$208 USDC)\n• Doctrina: 100% Capitalización hasta $1,000 ➔ luego 70/30\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔗 <b>Tx Polygon:</b> <a href=\"https://polygonscan.com/tx/0xc4d0195842e1d5f47c2767bd616085bf4a9a66a0659b1d26404a81716e5516ba\">PolygonScan</a>\n🔗 <b>Tx Arbitrum:</b> <a href=\"https://arbiscan.io/tx/0x0fbb47ba4d9c1dfbe3936bd2fc8f1119c6f2e258377dd6d60b8d8e0ac7dbca77\">ArbiScan</a>",
-      "textPlain": "🚁🏦⚡ ÁREA 501 // OPERACIÓN EXTRACCIÓN Y RESCATE #00\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ Origen: Bóveda Matriz #501 (Aave V3 Polygon)\n💵 Capital Rescatado: +$61.44 USDC (100% remanente)\n⛽ Gas POL: 10.31 POL (100% Intocable)\n⛓️ Ruta Ejecutada: Polygon Aave ➔ Relay Bridge ➔ Arbitrum ➔ Hyperliquid L1\n\n🎯 PINZA DE PROMEDIO EN AVAX-USDC:\n• Tamaño Consolidado: 400.75 AVAX (~$3583 USD)\n• Precio Promedio Reducido: $8.9397 (vs $8.9560)\n• Tramo 1 (70% Alivio): 280.52 AVAX @ $8.895\n• Tramo 2 (30% Banda Media): 120.23 AVAX @ $8.942\n\n📊 CONTROL DE CRÉDITO #501 (0% INTERÉS):\n• Inyectado Total: $629.94 USDC\n• Meta de Coronación: $1,000.00 USDC (Resta solo ~$208 USDC)\n• Doctrina: 100% Capitalización hasta $1,000 ➔ luego 70/30\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔗 Tx Polygon: PolygonScan\n🔗 Tx Arbitrum: ArbiScan"
-    },
-    {
-      "id": "tg-1793198280036-633",
-      "timestamp": "2026-10-28T14:38:00.036Z",
-      "timeFormatted": "14:38:00 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.29%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.29% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793198262674-578",
-      "timestamp": "2026-10-28T14:37:42.674Z",
-      "timeFormatted": "14:37:42 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.29%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.29% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793198174802-280",
-      "timestamp": "2026-10-28T14:36:14.802Z",
-      "timeFormatted": "14:36:14 UTC",
-      "rawHtml": "🚁🛡️ <b>ÁREA 501 // OPERACIÓN RESCATE #00: AVAX-USDC</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n📦 <b>Volumen Total:</b> <code>349.79 AVAX (~$3083.75 USD)</code>\n💰 <b>Precio de Entrada:</b> <code>$8.9560</code> (Mark: $8.8160)\n🛡️ <b>Liquidación Segura:</b> <code>$7.4214</code>\n\n🎯 <b>SALIDA ESCALONADA ACTIVADA:</b>\n1. 🪜 <b>Tramo 1 (50% Alivio):</b> <code>174.89 AVAX @ $8.890</code>\n   ➔ Libera ~$1,550 USD de nocional sin pérdida en el primer impulso.\n2. 🎯 <b>Tramo 2 (50% Banda Media):</b> <code>174.90 AVAX @ $8.942</code>\n   ➔ Salida final en Banda Media de 1H con Candado BE #00.\n🚫 <b>Nuevas Entradas:</b> CONGELADAS temporalmente hasta finalizar extracción.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Departamento de Mitigación de Riesgo Squad Matrix.</i>",
-      "textPlain": "🚁🛡️ ÁREA 501 // OPERACIÓN RESCATE #00: AVAX-USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n📦 Volumen Total: 349.79 AVAX (~$3083.75 USD)\n💰 Precio de Entrada: $8.9560 (Mark: $8.8160)\n🛡️ Liquidación Segura: $7.4214\n\n🎯 SALIDA ESCALONADA ACTIVADA:\n1. 🪜 Tramo 1 (50% Alivio): 174.89 AVAX @ $8.890\n   ➔ Libera ~$1,550 USD de nocional sin pérdida en el primer impulso.\n2. 🎯 Tramo 2 (50% Banda Media): 174.90 AVAX @ $8.942\n   ➔ Salida final en Banda Media de 1H con Candado BE #00.\n🚫 Nuevas Entradas: CONGELADAS temporalmente hasta finalizar extracción.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Departamento de Mitigación de Riesgo Squad Matrix."
-    },
-    {
-      "id": "tg-1793197997971-274",
-      "timestamp": "2026-10-28T14:33:17.971Z",
-      "timeFormatted": "14:33:17 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.19%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.19% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793197997891-341",
-      "timestamp": "2026-10-28T14:33:17.891Z",
-      "timeFormatted": "14:33:17 UTC",
-      "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.19%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.19% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793192036703-44",
-      "timestamp": "2026-10-28T12:53:56.703Z",
-      "timeFormatted": "12:53:56 UTC",
-      "rawHtml": "🛡️ <b>ÁREA 501 // MENTORA #00 // TIRO GEMELO DCA EN SOPORTE</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b>\n📍 <b>Par:</b> <code>AVAX-USDC</code>\n📉 <b>Drawdown:</b> <code>-1.26%</code> (RSI 5m: 23.3)\n📥 <b>Refuerzo Táctico:</b> <code>84.98 AVAX @ $8.87</code> ($150.78 Margen · 5x)\n🎯 <b>Nuevo Take Profit:</b> <code>$8.94</code> (+0.2% sobre promedio)\n🎯 <b>Objetivo:</b> Evacuación inmediata de doble volumen con ganancia neta.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🛡️ ÁREA 501 // MENTORA #00 // TIRO GEMELO DCA EN SOPORTE\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa\n📍 Par: AVAX-USDC\n📉 Drawdown: -1.26% (RSI 5m: 23.3)\n📥 Refuerzo Táctico: 84.98 AVAX @ $8.87 ($150.78 Margen · 5x)\n🎯 Nuevo Take Profit: $8.94 (+0.2% sobre promedio)\n🎯 Objetivo: Evacuación inmediata de doble volumen con ganancia neta.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793189546470-869",
-      "timestamp": "2026-10-28T12:12:26.470Z",
-      "timeFormatted": "12:12:26 UTC",
-      "rawHtml": "🛡️ <b>ÁREA 501 // MENTORA #00 // TIRO GEMELO DCA EN SOPORTE</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b>\n📍 <b>Par:</b> <code>AVAX-USDC</code>\n📉 <b>Drawdown:</b> <code>-0.89%</code> (RSI 5m: 23.3)\n📥 <b>Refuerzo Táctico:</b> <code>87.06 AVAX @ $8.93</code> ($155.5 Margen · 5x)\n🎯 <b>Nuevo Take Profit:</b> <code>$8.99</code> (+0.2% sobre promedio)\n🎯 <b>Objetivo:</b> Evacuación inmediata de doble volumen con ganancia neta.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🛡️ ÁREA 501 // MENTORA #00 // TIRO GEMELO DCA EN SOPORTE\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa\n📍 Par: AVAX-USDC\n📉 Drawdown: -0.89% (RSI 5m: 23.3)\n📥 Refuerzo Táctico: 87.06 AVAX @ $8.93 ($155.5 Margen · 5x)\n🎯 Nuevo Take Profit: $8.99 (+0.2% sobre promedio)\n🎯 Objetivo: Evacuación inmediata de doble volumen con ganancia neta.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      "id": "tg-1793220912699-413",
+      "timestamp": "2026-10-28T20:55:12.699Z",
+      "timeFormatted": "20:55:12 UTC",
+      "rawHtml": "🔔🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA CERRAR</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>Mercado:</b> COMMODITIES & METALES (CME GLOBEX — ORO, PLATA, PETRÓLEO)\n⏰ <b>Hora de Cierre:</b> 21:00 UTC (En exactamente 5 minutos)\n📊 <b>Estado:</b> 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n🔰 <b>Escuadrones Asignados:</b> #02 BRAVO (#701 PAXG-Oro, BTC, LINK) · #12 FOXTROT · #15 OSCAR\n💎 <b>Pares Vigilados:</b> <code>PAXG-USD, XAU, XAG, WTI/USD, NGAS</code>\n\n🛡️ <b>MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:</b>\n1. 🔒 <b>Candado BE #00 (+0.045%):</b> Asegurado en posiciones abiertas ante posibles sacudones de liquidación de cierre.\n2. ❄️ <b>Enfriamiento Táctico 12m:</b> Pares que cierren en ganancia entran en 12 minutos de reposo y recalibración.\n3. 🛡️ <b>Protección del Piso Ganado:</b> Cuota diaria protegida para asegurar la coronación de los $1,000 USDC sin devolver ni un centavo.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en 4-5 días.</i>",
+      "textPlain": "🔔🕒 AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA CERRAR\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ Mercado: COMMODITIES & METALES (CME GLOBEX — ORO, PLATA, PETRÓLEO)\n⏰ Hora de Cierre: 21:00 UTC (En exactamente 5 minutos)\n📊 Estado: 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n🔰 Escuadrones Asignados: #02 BRAVO (#701 PAXG-Oro, BTC, LINK) · #12 FOXTROT · #15 OSCAR\n💎 Pares Vigilados: PAXG-USD, XAU, XAG, WTI/USD, NGAS\n\n🛡️ MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:\n1. 🔒 Candado BE #00 (+0.045%): Asegurado en posiciones abiertas ante posibles sacudones de liquidación de cierre.\n2. ❄️ Enfriamiento Táctico 12m: Pares que cierren en ganancia entran en 12 minutos de reposo y recalibración.\n3. 🛡️ Protección del Piso Ganado: Cuota diaria protegida para asegurar la coronación de los $1,000 USDC sin devolver ni un centavo.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en 4-5 días."
     }
   ],
   "lomo6SocialX": {
@@ -55644,6 +55441,1220 @@
       "currency": "100% USDC NATIVO",
       "autoSweepToBinance": false,
       "mode": "🔒 MODO ACUMULACIÓN ON-CHAIN (RETIRO A BINANCE: 100% MANUAL — CERO MICRO-DEPÓSITOS)",
+      "onChainMasterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+      "onChainCaptains": {
+        "1": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+        "2": "0x56828557b774676527F386851f8C96f5b30cadBA",
+        "3": "0x2810C26bB958257007A7C0B0CbbFaee563456A7C",
+        "4": "0xEb6a0C99Eb4EB8152528148b30F16d80F16CCa0f",
+        "5": "0x4C71869Ea3A4C2E426Fe361eb2c64bE7112ed070"
+      },
+      "destinationVaultsManualOnly": {
+        "1": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+        "2": "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
+        "3": "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e",
+        "4": "0x2734e0a264573056417d12478616107ff5d2ce54",
+        "5": "0xf746f7da001c48367d76641a2e870db8e509dce7"
+      },
+      "lastQuote": {
+        "status": "ESTIMATED_DEX",
+        "router": "Odos SOR v2 (Standby Ready)",
+        "netOutUsdc": "1.0000",
+        "priceImpact": "0.02%",
+        "pathId": "direct-vault-settlement"
+      }
+    },
+    "defiLlamaDiscovery": {
+      "status": "ONLINE",
+      "totalChainsTracked": 439,
+      "ecosystemsTvl": {
+        "base": "$9.24B",
+        "arbitrum": "$2.18B",
+        "bsc": "$7.64B",
+        "polygon": "$718.8M"
+      },
+      "timestamp": "2026-10-26T18:39:38.927Z"
+    },
+    "targets": [
+      {
+        "id": "gasless-mainnet",
+        "name": "Misiones Gasless EIP-712 & Daily Streaks",
+        "priorityRank": 1,
+        "priority": "PRIORIDAD_1",
+        "priorityBadge": "🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))",
+        "network": "Polygon PoS & BSC",
+        "chainId": 137,
+        "secondaryChainId": 56,
+        "symbol": "POL / BNB",
+        "deliveryWindow": "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)",
+        "windowStart": "2026-10-25T00:00:00Z",
+        "windowEnd": "2026-11-20T23:59:59Z",
+        "streakDaysTotal": 25,
+        "streakCountLabel": "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
+        "eligibilityBadge": "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
+        "action": "Firmas Gasless EIP-712 ($0 Gas)",
+        "actionBadge": "Gasless EIP-712",
+        "contract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "contractLabel": "WPOL / WBNB Check-in Multiplier",
+        "rpc": "https://polygon-bor-rpc.publicnode.com",
+        "explorer": "https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "qualifiedWallets": "500/500 (Flota Completa)",
+        "qualifiedRatio": "500 / 500",
+        "expectedReward": "Gasless Bounties & Daily Multipliers ➔ USDC #501",
+        "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
+        "honeypotPct": 0,
+        "taxes": "0.0% / 0.0%",
+        "rpcPingMs": 120,
+        "currentBlock": 0,
+        "isSafeToExecute": true
+      },
+      {
+        "id": "base",
+        "name": "Base Ecosystem & Avantis S3 / Jumper",
+        "priorityRank": 2,
+        "priority": "PRIORIDAD_2",
+        "priorityBadge": "🔥 PRIORIDAD #2 (CIERRE 30 OCT)",
+        "network": "Base L2 Official",
+        "chainId": 8453,
+        "testnetChainId": 84532,
+        "symbol": "ETH",
+        "deliveryWindow": "Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026",
+        "windowStart": "2026-10-24T00:00:00Z",
+        "windowEnd": "2026-11-15T23:59:59Z",
+        "streakDaysTotal": 16,
+        "streakCountLabel": "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
+        "eligibilityBadge": "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
+        "action": "DeFi Volume & Wrapping",
+        "actionBadge": "DeFi Wrap",
+        "contract": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+        "contractLabel": "Jumper Li.Fi Diamond Base",
+        "rpc": "https://mainnet.base.org",
+        "explorer": "https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+        "qualifiedWallets": "500/500 (Flota Completa)",
+        "qualifiedRatio": "500 / 500",
+        "expectedReward": "Superchain Grants & Ecosystem Drop ➔ USDC #501",
+        "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
+        "honeypotPct": 0,
+        "taxes": "0.0% / 0.0%",
+        "rpcPingMs": 271,
+        "currentBlock": 53125316,
+        "isSafeToExecute": true
+      },
+      {
+        "id": "dogeos",
+        "name": "DogeOS Chapter 2 & Startale / Soneium",
+        "priorityRank": 3,
+        "priority": "PRIORIDAD_3",
+        "priorityBadge": "🔥 PRIORIDAD #3 (CIERRE 30 OCT)",
+        "network": "Base / Soneium L2",
+        "chainId": 8453,
+        "secondaryChainId": 1868,
+        "symbol": "ETH / ASTR",
+        "deliveryWindow": "Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026",
+        "windowStart": "2026-10-24T00:00:00Z",
+        "windowEnd": "2026-11-20T23:59:59Z",
+        "streakDaysTotal": 21,
+        "streakCountLabel": "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
+        "eligibilityBadge": "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
+        "action": "EIP-712 Gasless Quest Attestation",
+        "actionBadge": "Gasless EIP-712",
+        "contract": "0x4200000000000000000000000000000000000006",
+        "contractLabel": "DogeOS / Soneium Quest Protocol",
+        "rpc": "https://mainnet.base.org",
+        "explorer": "https://basescan.org/address/0x4200000000000000000000000000000000000006",
+        "qualifiedWallets": "500/500 (Flota Completa)",
+        "qualifiedRatio": "500 / 500",
+        "expectedReward": "$DOGEOS Allocation + Startale Pass ➔ USDC #501",
+        "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
+        "honeypotPct": 0,
+        "taxes": "0.0% / 0.0%",
+        "rpcPingMs": 169,
+        "currentBlock": 53125317,
+        "isSafeToExecute": true
+      },
+      {
+        "id": "arbitrum-superchain",
+        "name": "Arbitrum Stylus & Optimism Superchain",
+        "priorityRank": 4,
+        "priority": "PRIORIDAD_4",
+        "priorityBadge": "⚡ PRIORIDAD #4 (HORIZONTE 2)",
+        "network": "Arbitrum One / Sepolia",
+        "chainId": 42161,
+        "secondaryChainId": 10,
+        "symbol": "ETH",
+        "deliveryWindow": "Siembra Continua 24/7 (Corte Q4 2026)",
+        "windowStart": "2026-10-24T00:00:00Z",
+        "windowEnd": "2026-12-31T23:59:59Z",
+        "streakDaysTotal": 68,
+        "streakCountLabel": "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
+        "eligibilityBadge": "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
+        "action": "Stylus WASM & Superchain Activity",
+        "actionBadge": "Stylus WASM",
+        "contract": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        "contractLabel": "WETH Arbitrum Official",
+        "rpc": "https://arb1.arbitrum.io/rpc",
+        "explorer": "https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        "qualifiedWallets": "500/500 (Flota Completa)",
+        "qualifiedRatio": "500 / 500",
+        "expectedReward": "L2 Nitro Activity Multiplier ➔ USDC #501",
+        "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
+        "honeypotPct": 0,
+        "taxes": "0.0% / 0.0%",
+        "rpcPingMs": 336,
+        "currentBlock": 518521233,
+        "isSafeToExecute": true
+      },
+      {
+        "id": "citrea-goat",
+        "name": "Citrea Bitcoin ZK-Rollup & GOAT Network",
+        "priorityRank": 5,
+        "priority": "PRIORIDAD_5",
+        "priorityBadge": "🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)",
+        "network": "Citrea & GOAT BTC L2",
+        "chainId": 137,
+        "secondaryChainId": 5115,
+        "symbol": "cBTC / BTC",
+        "deliveryWindow": "Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)",
+        "windowStart": "2026-10-24T00:00:00Z",
+        "windowEnd": "2027-03-31T23:59:59Z",
+        "streakDaysTotal": 158,
+        "streakCountLabel": "🔥 Racha: 500/500 Bots Activos (0 Fallos)",
+        "eligibilityBadge": "🏆 ELEGIBLE PREMIO (500/500) ➔ Destino: Nodriza #501 (USDC)",
+        "action": "BTC zk-EVM Farm & Point Accumulation",
+        "actionBadge": "BTC L2 Seed",
+        "contract": "0xcA11bde05977b3631167028862bE2a173976CA11",
+        "contractLabel": "Multicall3 Canonical BTC L2",
+        "rpc": "https://polygon-bor-rpc.publicnode.com",
+        "explorer": "https://explorer.testnet.citrea.xyz",
+        "qualifiedWallets": "500/500 (Flota Completa)",
+        "qualifiedRatio": "500 / 500",
+        "expectedReward": "Pre-TGE Seed Drop ➔ USDC #501",
+        "goPlusShield": "🛡️ GoPlus: 100% SEGURO",
+        "honeypotPct": 0,
+        "taxes": "0.0% / 0.0%",
+        "rpcPingMs": 120,
+        "currentBlock": 0,
+        "isSafeToExecute": true
+      }
+    ]
+  },
+  "dailyStreakReport": {
+    "schemaVersion": "2.0.0",
+    "title": "📊 INFORME ESPECIAL DIARIO DE RACHA Y CALIFICACIÓN A MICRO-PREMIOS (500 BOTS)",
+    "generatedAt": "2026-10-26T18:39:44.021Z",
+    "fleetStatus": "🟢 500/500 BOTS CALIFICADOS (Gas Mainnet + Anti-Sybil OK)",
+    "totalBotsTracked": 500,
+    "totalBoxesTracked": 5,
+    "accumulationMasterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
+    "autoSweepToBinance": false,
+    "policy": "🔒 MODO ACUMULACIÓN #501 (CERO MICRO-DEPÓSITOS A BINANCE)",
+    "boxes": [
+      {
+        "boxId": 1,
+        "range": "Bots #001 al #100",
+        "totalWallets": 100,
+        "signedToday": 100,
+        "missedWallets": 0,
+        "status": "100% ACTIVO",
+        "captain": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F"
+      },
+      {
+        "boxId": 2,
+        "range": "Bots #101 al #200",
+        "totalWallets": 100,
+        "signedToday": 100,
+        "missedWallets": 0,
+        "status": "100% ACTIVO",
+        "captain": "0x56828557b774676527F386851f8C96f5b30cadBA"
+      },
+      {
+        "boxId": 3,
+        "range": "Bots #201 al #300",
+        "totalWallets": 100,
+        "signedToday": 100,
+        "missedWallets": 0,
+        "status": "100% ACTIVO",
+        "captain": "0x2810C26bB958257007A7C0B0CbbFaee563456A7C"
+      },
+      {
+        "boxId": 4,
+        "range": "Bots #301 al #400",
+        "totalWallets": 100,
+        "signedToday": 100,
+        "missedWallets": 0,
+        "status": "100% ACTIVO",
+        "captain": "0xEb6a0C99Eb4EB8152528148b30F16d80F16CCa0f"
+      },
+      {
+        "boxId": 5,
+        "range": "Bots #401 al #500",
+        "totalWallets": 100,
+        "signedToday": 100,
+        "missedWallets": 0,
+        "status": "100% ACTIVO",
+        "captain": "0x4C71869Ea3A4C2E426Fe361eb2c64bE7112ed070"
+      }
+    ],
+    "projects": [
+      {
+        "priorityRank": 1,
+        "id": "gasless-mainnet",
+        "name": "Misiones Gasless EIP-712 & Daily Streaks",
+        "priorityBadge": "🔥 PRIORIDAD #1 (EN CURSO HOY (DÍA 2/25 · 25 OCT ➔ 20 NOV 2026))",
+        "window": "25 Oct 2026 (00:00 UTC) ➔ 20 Nov 2026 (Racha 25 Días)",
+        "streakDaysCompleted": 2,
+        "streakStatusText": "Día 2/25 (Racha Activa)",
+        "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+        "qualifiedWallets": 500,
+        "missedWallets": 0,
+        "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+        "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+        "autoSweepToBinance": false,
+        "settlementToken": "USDC Nativo vía Odos SOR v2"
+      },
+      {
+        "priorityRank": 2,
+        "id": "base",
+        "name": "Base Ecosystem & Avantis S3 / Jumper",
+        "priorityBadge": "🔥 PRIORIDAD #2 (CIERRE 30 OCT)",
+        "window": "Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026",
+        "streakDaysCompleted": 1,
+        "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+        "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+        "qualifiedWallets": 500,
+        "missedWallets": 0,
+        "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+        "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+        "autoSweepToBinance": false,
+        "settlementToken": "USDC Nativo vía Odos SOR v2"
+      },
+      {
+        "priorityRank": 3,
+        "id": "dogeos",
+        "name": "DogeOS Chapter 2 & Startale / Soneium",
+        "priorityBadge": "🔥 PRIORIDAD #3 (CIERRE 30 OCT)",
+        "window": "Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026",
+        "streakDaysCompleted": 1,
+        "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+        "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+        "qualifiedWallets": 500,
+        "missedWallets": 0,
+        "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+        "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+        "autoSweepToBinance": false,
+        "settlementToken": "USDC Nativo vía Odos SOR v2"
+      },
+      {
+        "priorityRank": 4,
+        "id": "arbitrum-superchain",
+        "name": "Arbitrum Stylus & Optimism Superchain",
+        "priorityBadge": "⚡ PRIORIDAD #4 (HORIZONTE 2)",
+        "window": "Siembra Continua 24/7 (Corte Q4 2026)",
+        "streakDaysCompleted": 1,
+        "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+        "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+        "qualifiedWallets": 500,
+        "missedWallets": 0,
+        "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+        "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+        "autoSweepToBinance": false,
+        "settlementToken": "USDC Nativo vía Odos SOR v2"
+      },
+      {
+        "priorityRank": 5,
+        "id": "citrea-goat",
+        "name": "Citrea Bitcoin ZK-Rollup & GOAT Network",
+        "priorityBadge": "🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)",
+        "window": "Acumulación Puntos Pre-TGE (Snapshot Q1 2027 — Sin fecha falsa de Oct)",
+        "streakDaysCompleted": 1,
+        "streakStatusText": "Racha Activa: 500/500 Bots (0 Fallos)",
+        "participationToday": "500/500 Bots Firmados (Boxes 1 al 5 al 100%)",
+        "qualifiedWallets": 500,
+        "missedWallets": 0,
+        "eligibilityStatus": "🟢 100% ELEGIBLES (500/500 Bots Calificados)",
+        "rewardDestination": "0xD4D12077a61118372f7a367319fb11922Beb3743 (#501)",
+        "autoSweepToBinance": false,
+        "settlementToken": "USDC Nativo vía Odos SOR v2"
+      }
+    ]
+  },
+  "herdLadder": {
+    "dailyBotsDone": 500,
+    "dailyPicadas": 1040,
+    "botsPerBox": 100,
+    "steps": [
+      {
+        "target": 20,
+        "label": "20 BOTS",
+        "status": "DONE"
+      },
+      {
+        "target": 50,
+        "label": "50 BOTS",
+        "status": "DONE"
+      },
+      {
+        "target": 100,
+        "label": "100 BOTS",
+        "status": "DONE"
+      },
+      {
+        "target": 200,
+        "label": "200 BOTS",
+        "status": "DONE"
+      },
+      {
+        "target": 500,
+        "label": "500 BOTS (100x5)",
+        "status": "DONE"
+      },
+      {
+        "target": 1000,
+        "label": "1,000 PICADAS/DÍA",
+        "status": "DONE"
+      }
+    ],
+    "tgPills": "[20 ✔] ➔ [50 ✔] ➔ [100 ✔] ➔ [200 ✔] ➔ [500 ✔] ➔ [1,000 ✔]",
+    "ladderPillState": [
+      {
+        "id": 20,
+        "label": "20 BOTS",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 50,
+        "label": "50 BOTS",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 100,
+        "label": "100 BOTS",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 200,
+        "label": "200 BOTS",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 500,
+        "label": "500 BOTS (100x5)",
+        "status": "done",
+        "icon": "✅"
+      },
+      {
+        "id": 1000,
+        "label": "1,000 PICADAS/DÍA",
+        "status": "done",
+        "icon": "✅"
+      }
+    ],
+    "boxesSync": {
+      "1": {
+        "commander": "#001",
+        "coveredToday": 100,
+        "total": 100,
+        "pol": 18.07,
+        "usdc": 0.7
+      },
+      "2": {
+        "commander": "#101",
+        "coveredToday": 100,
+        "total": 100,
+        "pol": 18.03,
+        "usdc": 1.05
+      },
+      "3": {
+        "commander": "#201",
+        "coveredToday": 100,
+        "total": 100,
+        "pol": 18.01,
+        "usdc": 0
+      },
+      "4": {
+        "commander": "#301",
+        "coveredToday": 100,
+        "total": 100,
+        "pol": 12.01,
+        "usdc": 0
+      },
+      "5": {
+        "commander": "#401",
+        "coveredToday": 100,
+        "total": 100,
+        "pol": 12.01,
+        "usdc": 0
+      }
+    }
+  },
+  "annualAirdropCalendar": {
+    "botName": "Bot #1: Oráculo Auditado del Calendario Anual",
+    "version": "3.2.0",
+    "status": "ACTIVO (Corte 00:00 UTC)",
+    "lastAuditTimestamp": "2026-10-26T18:39:50.370Z",
+    "utcDate": "2026-10-26",
+    "totalTargetsAudited": 8,
+    "totalSafeContracts": 8,
+    "safetyAuditScore": "100% (0% Honeypot / Cero Contratos Vacíos)",
+    "defillamaMetrics": {
+      "status": "ONLINE",
+      "totalChainsTracked": 439,
+      "tvl": {
+        "base": "$9.24B",
+        "arbitrum": "$2.18B",
+        "polygon": "$0.72B",
+        "bsc": "$7.64B",
+        "optimism": "$1.13B"
+      }
+    },
+    "horizons": {
+      "inminent": {
+        "id": "HORIZON_1_INMINENT",
+        "title": "🔥 CIERRES INMINENTES (OCTUBRE–NOVIEMBRE 2026)",
+        "badge": "🔥 CIERRE INMINENTE · OCT-NOV 2026",
+        "priority": "PRIORIDAD_1",
+        "assignedBoxes": [
+          "Box 1",
+          "Box 2",
+          "Box 3"
+        ],
+        "targetsCount": 3,
+        "targets": [
+          {
+            "id": "gasless-quests-multi",
+            "name": "Misiones Gasless EIP-712 & Daily Streaks",
+            "category": "Gasless Signatures ($0.00 Gas)",
+            "chainId": 137,
+            "secondaryChainId": 56,
+            "network": "Polygon / BNB Chain",
+            "symbol": "POL / BNB",
+            "contract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "secondaryContract": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+            "contractLabel": "WPOL / WBNB Check-in Multiplier",
+            "rpc": "https://polygon-bor-rpc.publicnode.com",
+            "fallbackRpc": "https://bsc-rpc.publicnode.com",
+            "explorer": "https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "deadline": "25 Oct – 20 Nov 2026",
+            "actionType": "Firma EIP-712 y Racha Diaria $0 Gas",
+            "actionBadge": "Daily Check-In",
+            "qualifiedWallets": "500 / 500 (Flota Completa)",
+            "estimatedReward": "KieDex, Pheasant & Fables Multipliers",
+            "priority": "PRIORIDAD_1",
+            "horizonId": "HORIZON_1_INMINENT",
+            "verifiedContract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "codeLengthBytes": 4096,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 131,
+            "currentBlock": null,
+            "dexInfo": {
+              "status": "ACTIVE_LIQUIDITY",
+              "dex": "uniswap",
+              "priceUsd": "$0.0912",
+              "volume24h": "$4,068,486",
+              "pairAddress": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7"
+            },
+            "auditTimestamp": "2026-10-26T18:39:45.290Z"
+          },
+          {
+            "id": "base-avantis-jumper",
+            "name": "Base Ecosystem & Avantis S3 / Jumper",
+            "category": "DeFi Volume & Free Mints",
+            "chainId": 8453,
+            "network": "Base Mainnet",
+            "symbol": "ETH / USDC",
+            "contract": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+            "secondaryContract": "0x4200000000000000000000000000000000000006",
+            "contractLabel": "Jumper Li.Fi Diamond Base",
+            "rpc": "https://mainnet.base.org",
+            "fallbackRpc": "https://base-rpc.publicnode.com",
+            "explorer": "https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+            "deadline": "30 Oct – 15 Nov 2026",
+            "actionType": "DeFi Route & Wrapping Streak",
+            "actionBadge": "DeFi Wrap",
+            "qualifiedWallets": "300 / 500 (Boxes 1, 2)",
+            "estimatedReward": "Avantis S3 Drop + Superchain XP",
+            "priority": "PRIORIDAD_1",
+            "horizonId": "HORIZON_1_INMINENT",
+            "verifiedContract": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+            "codeLengthBytes": 5176,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 229,
+            "currentBlock": 53125319,
+            "dexInfo": {
+              "status": "ACTIVE_VERIFIED",
+              "dex": "Multi-DEX",
+              "priceUsd": "$1.0000",
+              "volume24h": "Active"
+            },
+            "auditTimestamp": "2026-10-26T18:39:46.010Z"
+          },
+          {
+            "id": "dogeos-startale",
+            "name": "DogeOS Chapter 2 & Startale / GenLayer",
+            "category": "EIP-712 Attestation & Interop",
+            "chainId": 137,
+            "secondaryChainId": 56,
+            "network": "Polygon PoS / BSC",
+            "symbol": "POL / BNB",
+            "contract": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+            "secondaryContract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "contractLabel": "DogeOS / Interop Protocol",
+            "rpc": "https://polygon-bor-rpc.publicnode.com",
+            "fallbackRpc": "https://1rpc.io/matic",
+            "explorer": "https://polygonscan.com/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+            "deadline": "30 Oct – 20 Nov 2026",
+            "actionType": "EIP-712 Gasless Quest Attestation",
+            "actionBadge": "Gasless EIP-712",
+            "qualifiedWallets": "200 / 500 (Boxes 2, 3)",
+            "estimatedReward": "$DOGEOS Allocation + Startale Pass",
+            "priority": "PRIORIDAD_1",
+            "horizonId": "HORIZON_1_INMINENT",
+            "verifiedContract": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+            "codeLengthBytes": 4096,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 136,
+            "currentBlock": null,
+            "dexInfo": {
+              "status": "ACTIVE_VERIFIED",
+              "dex": "Multi-DEX",
+              "priceUsd": "$1.0000",
+              "volume24h": "Active"
+            },
+            "auditTimestamp": "2026-10-26T18:39:46.627Z"
+          }
+        ]
+      },
+      "midDistance": {
+        "id": "HORIZON_2_MID_DISTANCE",
+        "title": "📅 MEDIA DISTANCIA (DICIEMBRE 2026 – Q1 2027)",
+        "badge": "📅 MEDIA DISTANCIA · DIC 2026–Q1 2027",
+        "priority": "PRIORIDAD_2",
+        "assignedBoxes": [
+          "Box 4",
+          "Box 5"
+        ],
+        "targetsCount": 3,
+        "targets": [
+          {
+            "id": "arbitrum-stylus-orbit",
+            "name": "Arbitrum Stylus WASM & Nitro Orbit",
+            "category": "Layer 2 Expansion & WASM VM",
+            "chainId": 42161,
+            "testnetChainId": 421614,
+            "network": "Arbitrum One / Sepolia",
+            "symbol": "ETH",
+            "contract": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+            "secondaryContract": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73",
+            "contractLabel": "WETH Arbitrum Official",
+            "rpc": "https://arb1.arbitrum.io/rpc",
+            "fallbackRpc": "https://arbitrum-one-rpc.publicnode.com",
+            "explorer": "https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+            "deadline": "Diciembre 2026 – Febrero 2027",
+            "actionType": "Stylus Smart Contract Activity",
+            "actionBadge": "DeFi Wrap",
+            "qualifiedWallets": "200 / 500 (Boxes 4, 5)",
+            "estimatedReward": "Arbitrum Stylus Early Developer Grant",
+            "priority": "PRIORIDAD_2",
+            "horizonId": "HORIZON_2_MID_DISTANCE",
+            "verifiedContract": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+            "codeLengthBytes": 2092,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 314,
+            "currentBlock": 518521256,
+            "dexInfo": {
+              "status": "ACTIVE_LIQUIDITY",
+              "dex": "uniswap",
+              "priceUsd": "$2324.9700",
+              "volume24h": "$4,375,079",
+              "pairAddress": "0x641C00A822e8b671738d32a431a4Fb6074E5c79d"
+            },
+            "auditTimestamp": "2026-10-26T18:39:47.290Z"
+          },
+          {
+            "id": "optimism-superchain-interop",
+            "name": "Optimism Superchain & Interop Quests",
+            "category": "Superchain Interoperability",
+            "chainId": 10,
+            "testnetChainId": 11155420,
+            "network": "OP Mainnet / Sepolia",
+            "symbol": "ETH",
+            "contract": "0x4200000000000000000000000000000000000006",
+            "contractLabel": "WETH OP Superchain",
+            "rpc": "https://mainnet.optimism.io",
+            "fallbackRpc": "https://optimism-rpc.publicnode.com",
+            "explorer": "https://optimistic.etherscan.io/address/0x4200000000000000000000000000000000000006",
+            "deadline": "Enero – Marzo 2027",
+            "actionType": "Cross-Superchain Proofs",
+            "actionBadge": "Gasless EIP-712",
+            "qualifiedWallets": "200 / 500 (Boxes 4, 5)",
+            "estimatedReward": "OP RetroPGF & Interop Allocation",
+            "priority": "PRIORIDAD_2",
+            "horizonId": "HORIZON_2_MID_DISTANCE",
+            "verifiedContract": "0x4200000000000000000000000000000000000006",
+            "codeLengthBytes": 2041,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 250,
+            "currentBlock": 158720605,
+            "dexInfo": null,
+            "auditTimestamp": "2026-10-26T18:39:47.809Z"
+          },
+          {
+            "id": "soneium-sony-chain",
+            "name": "Soneium (Sony Blockchain Ecosystem)",
+            "category": "Consumer L2 Mass Adoption",
+            "chainId": 1946,
+            "network": "Soneium Minato L2",
+            "symbol": "ETH",
+            "contract": "0x4200000000000000000000000000000000000006",
+            "contractLabel": "WETH Soneium Official",
+            "rpc": "https://rpc.minato.soneium.org",
+            "fallbackRpc": "https://rpc.minato.soneium.org",
+            "explorer": "https://explorer-testnet.soneium.org/address/0x4200000000000000000000000000000000000006",
+            "deadline": "Febrero – Abril 2027",
+            "actionType": "Early Pioneer Mint & Attestation",
+            "actionBadge": "Free Mint",
+            "qualifiedWallets": "100 / 500 (Box 5)",
+            "estimatedReward": "Soneium Genesis Community Airdrop",
+            "priority": "PRIORIDAD_2",
+            "horizonId": "HORIZON_2_MID_DISTANCE",
+            "verifiedContract": "0x4200000000000000000000000000000000000006",
+            "codeLengthBytes": 2865,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 541,
+            "currentBlock": 34922825,
+            "dexInfo": null,
+            "auditTimestamp": "2026-10-26T18:39:48.617Z"
+          }
+        ]
+      },
+      "earlySeeds": {
+        "id": "HORIZON_3_EARLY_SEEDS",
+        "title": "🌱 SEMILLAS TEMPRANAS ANUALES (Q1–Q2 2027)",
+        "badge": "🌱 SEMILLA TEMPRANA · Q1-Q2 2027",
+        "priority": "PRIORIDAD_2",
+        "assignedBoxes": [
+          "Box 4",
+          "Box 5"
+        ],
+        "targetsCount": 2,
+        "targets": [
+          {
+            "id": "citrea-bitcoin-zk",
+            "name": "Citrea Bitcoin ZK-Rollup",
+            "category": "Bitcoin L2 / ZK-Rollup",
+            "chainId": 5115,
+            "network": "Citrea Testnet",
+            "symbol": "cBTC",
+            "contract": "0xcA11bde05977b3631167028862bE2a173976CA11",
+            "secondaryContract": "0x8A920f65319C321714F4B8487771b437C35F1225",
+            "contractLabel": "Multicall3 & WcBTC Citrea",
+            "rpc": "https://rpc.testnet.citrea.xyz",
+            "fallbackRpc": "https://citrea-testnet.rpc.thirdweb.com",
+            "explorer": "https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11",
+            "deadline": "Q1 – Q2 2027 (Fase Incentivada)",
+            "actionType": "BTC L2 Seed & Attestation",
+            "actionBadge": "BTC L2 Seed",
+            "qualifiedWallets": "100 / 500 (Box 1 / Box 5)",
+            "estimatedReward": "High-Margin Bitcoin L2 Seed Allocation",
+            "priority": "PRIORIDAD_2",
+            "horizonId": "HORIZON_3_EARLY_SEEDS",
+            "verifiedContract": "0xcA11bde05977b3631167028862bE2a173976CA11",
+            "codeLengthBytes": 3808,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 380,
+            "currentBlock": 33119187,
+            "dexInfo": null,
+            "auditTimestamp": "2026-10-26T18:39:49.312Z"
+          },
+          {
+            "id": "goat-bitcoin-zkevm",
+            "name": "GOAT Network Bitcoin zk-EVM",
+            "category": "Bitcoin L2 zk-EVM",
+            "chainId": 48816,
+            "network": "GOAT Network Testnet 3",
+            "symbol": "BTC",
+            "contract": "0xcA11bde05977b3631167028862bE2a173976CA11",
+            "secondaryContract": "0x265538d4F3Fd6189912c09c62C2F6D4d1264cEC3",
+            "contractLabel": "Multicall3 & WBTC GOAT",
+            "rpc": "https://rpc.testnet3.goat.network",
+            "fallbackRpc": "https://goat-testnet.rpc.thirdweb.com",
+            "explorer": "https://explorer.testnet3.goat.network/address/0xcA11bde05977b3631167028862bE2a173976CA11",
+            "deadline": "Q1 – Q2 2027",
+            "actionType": "BTC zk-EVM Farm Streak",
+            "actionBadge": "BTC L2 Seed",
+            "qualifiedWallets": "100 / 500 (Box 1 / Box 5)",
+            "estimatedReward": "GOAT Network Bitcoin Yield & Seed Token",
+            "priority": "PRIORIDAD_2",
+            "horizonId": "HORIZON_3_EARLY_SEEDS",
+            "verifiedContract": "0xcA11bde05977b3631167028862bE2a173976CA11",
+            "codeLengthBytes": 3808,
+            "isOnChainCodeValid": true,
+            "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+            "isHoneypot": false,
+            "rpcPingMs": 787,
+            "currentBlock": 17786597,
+            "dexInfo": null,
+            "auditTimestamp": "2026-10-26T18:39:50.370Z"
+          }
+        ]
+      }
+    }
+  },
+  "boxDispatchPlan": {
+    "botName": "Bot #2: Director Táctico de los 5 Boxes",
+    "version": "4.0.0",
+    "status": "ENRUTANDO EN VIVO",
+    "lastDispatchTimestamp": "2026-10-26T18:39:50.998Z",
+    "totalBoxesDispatched": 5,
+    "totalSatellitesRouted": 500,
+    "botsPerTurn": 20,
+    "botsPerBoxPerTurn": 4,
+    "activeStrategySummary": "Salidas de 20 en 20 Balanceadas entre los 5 Comandantes (4 Bots × 5 Boxes = 20 Bots por Turno) bajo la Escalera 20 ➔ 50 ➔ 100 ➔ 200 ➔ 500 ➔ 1,000.",
+    "herdLadder": {
+      "dailyBotsDone": 140,
+      "dailyPicadas": 280,
+      "botsPerBox": 28,
+      "steps": [
+        {
+          "target": 20,
+          "label": "20 BOTS",
+          "status": "DONE"
+        },
+        {
+          "target": 50,
+          "label": "50 BOTS",
+          "status": "DONE"
+        },
+        {
+          "target": 100,
+          "label": "100 BOTS",
+          "status": "DONE"
+        },
+        {
+          "target": 200,
+          "label": "200 BOTS",
+          "status": "IN_PROGRESS"
+        },
+        {
+          "target": 500,
+          "label": "500 BOTS (100x5)",
+          "status": "PENDING"
+        },
+        {
+          "target": 1000,
+          "label": "1,000 PICADAS/DÍA",
+          "status": "PENDING"
+        }
+      ],
+      "tgPills": "[20 ✔] ➔ [50 ✔] ➔ [100 ✔] ➔ [200 🔄] ➔ [500 🎯] ➔ [1,000 🏆]",
+      "ladderPillState": [
+        {
+          "id": 20,
+          "label": "20 BOTS",
+          "status": "done",
+          "icon": "✅"
+        },
+        {
+          "id": 50,
+          "label": "50 BOTS",
+          "status": "done",
+          "icon": "✅"
+        },
+        {
+          "id": 100,
+          "label": "100 BOTS",
+          "status": "done",
+          "icon": "✅"
+        },
+        {
+          "id": 200,
+          "label": "200 BOTS",
+          "status": "active",
+          "icon": "🔄"
+        },
+        {
+          "id": 500,
+          "label": "500 BOTS (100x5)",
+          "status": "target",
+          "icon": "🎯"
+        },
+        {
+          "id": 1000,
+          "label": "1,000 PICADAS/DÍA",
+          "status": "trophy",
+          "icon": "🏆"
+        }
+      ],
+      "boxesSync": {
+        "1": {
+          "commander": "#001",
+          "coveredToday": 28,
+          "total": 100,
+          "pol": 18.07,
+          "usdc": 0.7
+        },
+        "2": {
+          "commander": "#101",
+          "coveredToday": 28,
+          "total": 100,
+          "pol": 18.03,
+          "usdc": 1.05
+        },
+        "3": {
+          "commander": "#201",
+          "coveredToday": 28,
+          "total": 100,
+          "pol": 18.01,
+          "usdc": 0
+        },
+        "4": {
+          "commander": "#301",
+          "coveredToday": 28,
+          "total": 100,
+          "pol": 12.01,
+          "usdc": 0
+        },
+        "5": {
+          "commander": "#401",
+          "coveredToday": 28,
+          "total": 100,
+          "pol": 12.01,
+          "usdc": 0
+        }
+      }
+    },
+    "fourDailyRounds": {
+      "date": "2026-10-26",
+      "currentRoundId": 4,
+      "totalDailyRounds": 4,
+      "completedRoundsCount": 4,
+      "totalOpsToday": 2000,
+      "dailyGoalOps": 2000,
+      "rounds": [
+        {
+          "roundId": 1,
+          "name": "Vuelta 1",
+          "window": "00-06h",
+          "fullWindow": "00:00 ➔ 06:00 UTC",
+          "targetWallets": 500,
+          "completedWallets": 500,
+          "errorCount": 0,
+          "errors": [],
+          "status": "DONE",
+          "icon": "✔",
+          "pillLabel": "Vuelta 1 (00-06h): 500/500 ✔"
+        },
+        {
+          "roundId": 2,
+          "name": "Vuelta 2",
+          "window": "06-12h",
+          "fullWindow": "06:00 ➔ 12:00 UTC",
+          "targetWallets": 500,
+          "completedWallets": 500,
+          "errorCount": 0,
+          "errors": [],
+          "status": "DONE",
+          "icon": "✔",
+          "pillLabel": "Vuelta 2 (06-12h): 500/500 ✔"
+        },
+        {
+          "roundId": 3,
+          "name": "Vuelta 3",
+          "window": "12-18h",
+          "fullWindow": "12:00 ➔ 18:00 UTC",
+          "targetWallets": 500,
+          "completedWallets": 500,
+          "errorCount": 0,
+          "errors": [],
+          "status": "DONE",
+          "icon": "✔",
+          "pillLabel": "Vuelta 3 (12-18h): 500/500 ✔"
+        },
+        {
+          "roundId": 4,
+          "name": "Vuelta 4",
+          "window": "18-24h",
+          "fullWindow": "18:00 ➔ 24:00 UTC",
+          "targetWallets": 500,
+          "completedWallets": 500,
+          "errorCount": 0,
+          "errors": [],
+          "status": "DONE",
+          "icon": "✔",
+          "pillLabel": "Vuelta 4 (18-24h): 500/500 ✔"
+        }
+      ],
+      "tgPills": "[Vuelta 1 (00-06h): 500/500 ✔] ➔ [Vuelta 2 (06-12h): 500/500 ✔] ➔ [Vuelta 3 (12-18h): 500/500 ✔] ➔ [Vuelta 4 (18-24h): 500/500 ✔]",
+      "pillsDisplayState": [
+        {
+          "roundId": 1,
+          "label": "Vuelta 1 (00-06h): 500/500 ✔",
+          "status": "done",
+          "icon": "✔",
+          "completedWallets": 500,
+          "errorCount": 0
+        },
+        {
+          "roundId": 2,
+          "label": "Vuelta 2 (06-12h): 500/500 ✔",
+          "status": "done",
+          "icon": "✔",
+          "completedWallets": 500,
+          "errorCount": 0
+        },
+        {
+          "roundId": 3,
+          "label": "Vuelta 3 (12-18h): 500/500 ✔",
+          "status": "done",
+          "icon": "✔",
+          "completedWallets": 500,
+          "errorCount": 0
+        },
+        {
+          "roundId": 4,
+          "label": "Vuelta 4 (18-24h): 500/500 ✔",
+          "status": "done",
+          "icon": "✔",
+          "completedWallets": 500,
+          "errorCount": 0
+        }
+      ]
+    },
+    "boxes": [
+      {
+        "boxId": 1,
+        "name": "BOX 1 (Satélites #001 al #100)",
+        "captain": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+        "captainShort": "0xb750...D40F",
+        "binanceVault": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+        "urgencyHorizon": "🔥 PRIORIDAD #1 (ARRANCA 25 OCT 00:00 UTC)",
+        "assignedTargetId": "gasless-quests-multi",
+        "targetName": "Misiones Gasless EIP-712 & Daily Streaks",
+        "targetChainId": 137,
+        "targetNetwork": "Polygon / BNB Chain",
+        "primaryContract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "fallbackContract": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "contractLabel": "WPOL / WBNB Check-in Multiplier",
+        "deadline": "25 Oct – 20 Nov 2026",
+        "actionType": "Firma EIP-712 y Racha Diaria $0 Gas",
+        "actionBadge": "Daily Check-In",
+        "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+        "rpcPingMs": 131,
+        "activeWalletsAllocated": 100,
+        "turnWeight": "MÁXIMO (40% de turnos de carrusel)",
+        "status": "DESPLEGADO_EN_VIVO",
+        "harvestOdosQuote": {
+          "status": "ESTIMATED_QUOTE",
+          "quotedUsdc": "~$1.0000 USDC",
+          "priceImpact": "<0.05%",
+          "targetBinanceVault": "0x48b26dd0f9265573f31f7140cf01e9c48518531b"
+        }
+      },
+      {
+        "boxId": 2,
+        "name": "BOX 2 (Satélites #101 al #200)",
+        "captain": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
+        "captainShort": "0x5682...adBA",
+        "binanceVault": "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
+        "urgencyHorizon": "🔥 PRIORIDAD #2 / #4 · CIERRE INMINENTE (OCT–NOV 2026)",
+        "assignedTargetId": "dogeos-startale",
+        "targetName": "DogeOS Chapter 2 & Startale / GenLayer",
+        "targetChainId": 137,
+        "targetNetwork": "Polygon PoS / BSC",
+        "primaryContract": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+        "fallbackContract": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+        "contractLabel": "DogeOS / Interop Protocol",
+        "deadline": "30 Oct – 20 Nov 2026",
+        "actionType": "EIP-712 Gasless Quest Attestation",
+        "actionBadge": "Gasless EIP-712",
+        "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+        "rpcPingMs": 136,
+        "activeWalletsAllocated": 100,
+        "turnWeight": "ALTO (30% de turnos de carrusel)",
+        "status": "DESPLEGADO_EN_VIVO",
+        "harvestOdosQuote": {
+          "status": "ESTIMATED_QUOTE",
+          "quotedUsdc": "~$1.0000 USDC",
+          "priceImpact": "<0.05%",
+          "targetBinanceVault": "0x33cffda0218122ed4d981dcb1797f4b458191bc4"
+        }
+      },
+      {
+        "boxId": 3,
+        "name": "BOX 3 (Satélites #201 al #300)",
+        "captain": "0x2810aa0DabCA4511846194229d2c004B14016A7C",
+        "captainShort": "0x2810...6A7C",
+        "binanceVault": "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e",
+        "urgencyHorizon": "🔥 PRIORIDAD #3 · CORTE 30 OCT–15 NOV 2026",
+        "assignedTargetId": "base-avantis-jumper",
+        "targetName": "Base Ecosystem & Avantis S3 / Jumper",
+        "targetChainId": 8453,
+        "targetNetwork": "Base Mainnet",
+        "primaryContract": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+        "fallbackContract": "0x4200000000000000000000000000000000000006",
+        "contractLabel": "Jumper Li.Fi Diamond Base",
+        "deadline": "30 Oct – 15 Nov 2026",
+        "actionType": "DeFi Route & Wrapping Streak",
+        "actionBadge": "DeFi Wrap",
+        "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+        "rpcPingMs": 229,
+        "activeWalletsAllocated": 100,
+        "turnWeight": "ALTO (30% de turnos de carrusel)",
+        "status": "DESPLEGADO_EN_VIVO",
+        "harvestOdosQuote": {
+          "status": "ESTIMATED_QUOTE",
+          "quotedUsdc": "~$1.0000 USDC",
+          "priceImpact": "<0.05%",
+          "targetBinanceVault": "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e"
+        }
+      },
+      {
+        "boxId": 4,
+        "name": "BOX 4 (Satélites #301 al #400)",
+        "captain": "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
+        "captainShort": "0xEb6a...Ca0f",
+        "binanceVault": "0x2734e0a264573056417d12478616107ff5d2ce54",
+        "urgencyHorizon": "📅 MEDIA DISTANCIA · ACUMULACIÓN (DIC 2026–Q1 2027)",
+        "assignedTargetId": "arbitrum-stylus-orbit",
+        "targetName": "Arbitrum Stylus WASM & Nitro Orbit",
+        "targetChainId": 42161,
+        "targetNetwork": "Arbitrum One / Sepolia",
+        "primaryContract": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        "fallbackContract": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73",
+        "contractLabel": "WETH Arbitrum Official",
+        "deadline": "Diciembre 2026 – Febrero 2027",
+        "actionType": "Stylus Smart Contract Activity",
+        "actionBadge": "DeFi Wrap",
+        "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+        "rpcPingMs": 314,
+        "activeWalletsAllocated": 100,
+        "turnWeight": "ROTACIÓN SIEMBRA CONTINUA (15% de turnos)",
+        "status": "DESPLEGADO_EN_VIVO",
+        "harvestOdosQuote": {
+          "status": "ESTIMATED_QUOTE",
+          "quotedUsdc": "~$1.0000 USDC",
+          "priceImpact": "<0.05%",
+          "targetBinanceVault": "0x2734e0a264573056417d12478616107ff5d2ce54"
+        }
+      },
+      {
+        "boxId": 5,
+        "name": "BOX 5 (Satélites #401 al #500)",
+        "captain": "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
+        "captainShort": "0x4C71...d070",
+        "binanceVault": "0xf746f7da001c48367d76641a2e870db8e509dce7",
+        "urgencyHorizon": "🌱 SEMILLAS TEMPRANAS & BITCOIN L2 (Q1–Q2 2027)",
+        "assignedTargetId": "citrea-bitcoin-zk",
+        "targetName": "Citrea Bitcoin ZK-Rollup & GOAT Network Bitcoin zk-EVM",
+        "targetChainId": 5115,
+        "targetNetwork": "Citrea Testnet",
+        "primaryContract": "0xcA11bde05977b3631167028862bE2a173976CA11",
+        "fallbackContract": "0x8A920f65319C321714F4B8487771b437C35F1225",
+        "contractLabel": "Multicall3 & WcBTC Citrea",
+        "deadline": "Q1 – Q2 2027 (Fase Incentivada)",
+        "actionType": "BTC L2 Seed & Attestation",
+        "actionBadge": "BTC L2 Seed",
+        "goplusShield": "🛡️ GoPlus: 100% SEGURO",
+        "rpcPingMs": 380,
+        "activeWalletsAllocated": 100,
+        "turnWeight": "ROTACIÓN SEMILLAS Y MIGRACIÓN (15% de turnos)",
+        "status": "DESPLEGADO_EN_VIVO",
+        "harvestOdosQuote": {
+          "status": "ESTIMATED_QUOTE",
+          "quotedUsdc": "~$1.0000 USDC",
+          "priceImpact": "<0.05%",
+          "targetBinanceVault": "0xf746f7da001c48367d76641a2e870db8e509dce7"
+        }
+      }
+    ]
+  },
+  "fourDailyRounds": {
+    "date": "2026-10-27",
+    "lastUpdated": "2026-10-27T10:34:40.686Z",
+    "currentRoundId": 4,
+    "todayRoundsCompleted": 1,
+    "todayTotalOps": 500,
+    "dailyGoal": 4000,
+    "rounds": {
+      "4": {
+        "roundId": 4,
+        "name": "Vuelta #4",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "gaslessCheckIn": "0xcb7f6de626147dee9ebb87dbb21e2b3c1940357d262cb24e4f181a21777c4bdd",
+          "base": "0xa05328925a34baab94c5ecb85e73dac79c10cc2b4f0a7e54ce66e35bb4bbec2e",
+          "arbitrum": "0xf299b5a4429eb0f81ecb08633a3adbca99857e44003ef72811dc8ac0f415c147"
+        },
+        "completedAtUtc": "2026-10-27T10:34:40.686Z"
+      }
+    },
+    "failedWalletsQueue": []
+  },
+  "eightDailyRounds": {
+    "date": "2026-10-27",
+    "lastUpdated": "2026-10-27T10:34:40.686Z",
+    "currentRoundId": 4,
+    "todayRoundsCompleted": 1,
+    "todayTotalOps": 500,
+    "dailyGoal": 4000,
+    "rounds": {
+      "4": {
+        "roundId": 4,
+        "name": "Vuelta #4",
+        "status": "DONE",
+        "completedWallets": 500,
+        "totalWallets": 500,
+        "errorCount": 0,
+        "errors": [],
+        "boxCounts": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "4": 100,
+          "5": 100
+        },
+        "sampleHashes": {
+          "gaslessCheckIn": "0xcb7f6de626147dee9ebb87dbb21e2b3c1940357d262cb24e4f181a21777c4bdd",
+          "base": "0xa05328925a34baab94c5ecb85e73dac79c10cc2b4f0a7e54ce66e35bb4bbec2e",
+          "arbitrum": "0xf299b5a4429eb0f81ecb08633a3adbca99857e44003ef72811dc8ac0f415c147"
+        },
+        "completedAtUtc": "2026-10-27T10:34:40.686Z"
+      }
+    },
+    "failedWalletsQueue": []
+  },
+  "atomicExecutorAddressPolygon": "0x03Ac6307eF8c2Ec6ba724072D823bbf0b5DC6b67",
+  "atomicExecutorAddressBsc": "0xD935F7B80237aA14B6D8F9D45070800e9E23Db20"
+}ANUAL — CERO MICRO-DEPÓSITOS)",
       "onChainMasterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
       "onChainCaptains": {
         "1": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
