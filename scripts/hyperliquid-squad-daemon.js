@@ -28,6 +28,14 @@ const { sendTelegramAlert } = require("../telegram-notifier");
 
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 
+// Resiliencia 24/7 ante errores de red o RPCs externos
+process.on("unhandledRejection", (reason) => {
+  console.error("⚠️ [DAEMON] Promesa rechazada no capturada (resiliente, continuando):", reason?.message || reason);
+});
+process.on("uncaughtException", (err) => {
+  console.error("⚠️ [DAEMON] Excepción no capturada (resiliente, continuando):", err?.message || err);
+});
+
 // --- POLÍTICA DE CAPITAL ESCALADO V2 (40% RESERVA / 20% CADA ESCUADRÓN) ---
 const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$320.00+ USDC)
 const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$160.00 USDC a 5x = ~$800.00 Nocional)
@@ -585,21 +593,36 @@ async function startAutonomousSquadDaemon() {
               sendSquadTelegram(rescueTg).catch(() => {});
             }
 
-            // Si por alguna razón no hay órdenes de salida puestas para AVAX, reponer salida escalonada 70/30
+            // Si por alguna razón no hay órdenes de salida puestas para AVAX, reponer salida
             if (avaxExitOrders.length === 0 && isV2Armed) {
-              const szTramo1 = formatHlSize(szNum * 0.70, 2);
-              const szTramo2 = formatHlSize(szNum - parseFloat(szTramo1), 2);
-              console.log(`[RESCATE AVAX] Reponiendo salida escalonada 70/30 (${szTramo1} @ $8.895 / ${szTramo2} @ $8.942)...`);
-              try {
-                await client.order({
-                  orders: [
-                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.895", s: szTramo1, r: true, t: { limit: { tif: "Alo" } } },
-                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szTramo2, r: true, t: { limit: { tif: "Alo" } } }
-                  ],
-                  grouping: "na"
-                });
-              } catch (e) {
-                console.error("[RESCATE AVAX] Error reponiendo salida escalonada:", e.message);
+              if (szNum <= 130) {
+                const szRemain = formatHlSize(szNum, 2);
+                console.log(`[RESCATE AVAX] Reponiendo salida final de Tramo 2 (${szRemain} @ $8.942)...`);
+                try {
+                  await client.order({
+                    orders: [
+                      { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szRemain, r: true, t: { limit: { tif: "Alo" } } }
+                    ],
+                    grouping: "na"
+                  });
+                } catch (e) {
+                  console.error("[RESCATE AVAX] Error reponiendo salida final:", e.message);
+                }
+              } else {
+                const szTramo1 = formatHlSize(szNum * 0.70, 2);
+                const szTramo2 = formatHlSize(szNum - parseFloat(szTramo1), 2);
+                console.log(`[RESCATE AVAX] Reponiendo salida escalonada 70/30 (${szTramo1} @ $8.895 / ${szTramo2} @ $8.942)...`);
+                try {
+                  await client.order({
+                    orders: [
+                      { a: ASSET_INDICES["AVAX"], b: false, p: "8.895", s: szTramo1, r: true, t: { limit: { tif: "Alo" } } },
+                      { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szTramo2, r: true, t: { limit: { tif: "Alo" } } }
+                    ],
+                    grouping: "na"
+                  });
+                } catch (e) {
+                  console.error("[RESCATE AVAX] Error reponiendo salida escalonada:", e.message);
+                }
               }
             }
             continue; // Saltar trailing TP genérico y DCA para AVAX
@@ -1071,10 +1094,17 @@ async function startAutonomousSquadDaemon() {
 }
 
 if (require.main === module) {
-  startAutonomousSquadDaemon().catch(err => {
-    console.error("Fallo fatal en daemon:", err);
-    process.exit(1);
-  });
+  async function runDaemonForever() {
+    while (true) {
+      try {
+        await startAutonomousSquadDaemon();
+      } catch (err) {
+        console.error("⚠️ Fallo en loop daemon, reiniciando en 5 segundos:", err?.message || err);
+        await new Promise(r => setTimeout(r, 5000));
+      }
+    }
+  }
+  runDaemonForever();
 }
 
 module.exports = {
