@@ -13,7 +13,7 @@
   <script>
     (function () {
       try {
-        var raw = localStorage.getItem("__AREA501_SQUAD_MATRIX_STATE__");
+        var raw = localStorage.getItem("__AREA501_SQUAD_VALID_STATE__") || localStorage.getItem("__AREA501_SQUAD_MATRIX_STATE__");
         if (raw) {
           var s = JSON.parse(raw);
           window.__LAST_VALID_STATE__ = s;
@@ -70,12 +70,12 @@
           <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO (EN FUEGO)
         </div>
         <div class="card-main-val">
-          <span class="currency-symbol">$</span><span id="topAccountValue">842.44</span>
+          <span class="currency-symbol">$</span><span id="topAccountValue">843.63</span>
           <span class="unit-tag">USDC L1</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $505.46</span>
-          <span class="pill-shield" id="topShieldPill">Mentora 40%: $336.97</span>
+          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $506.18</span>
+          <span class="pill-shield" id="topShieldPill">Mentora 40%: $337.45</span>
         </div>
       </div>
 
@@ -85,14 +85,14 @@
           <span class="material-symbols-rounded">trending_up</span> PROFIT GENERAL &amp; ESCUADRONES
         </div>
         <div class="card-main-val text-green">
-          <span id="topTotalProfit">+$73.05</span>
-          <span class="pct-badge" id="topTotalProfitPct">+11.78%</span>
+          <span id="topTotalProfit">+$213.69</span>
+          <span class="pct-badge" id="topTotalProfitPct">+33.92%</span>
         </div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
-          <span class="sq-badge streak"><b id="winStreakText">83G-0P</b></span>
-          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$10.6</span></span>
-          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$3.1</span></span>
-          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$4.4</span></span>
+          <span class="sq-badge streak"><b id="winStreakText">136G-0P</b></span>
+          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$76.4</span></span>
+          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$71.2</span></span>
+          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$66.1</span></span>
         </div>
       </div>
 
@@ -103,11 +103,11 @@
         </div>
         <div class="progress-wrap">
           <div class="progress-info">
-            <span class="progress-label" id="topBlock1ProgressLabel">$842.44 / $1,000.00 USDC</span>
-            <span class="progress-pct" id="topBlock1ProgressPct">84.2%</span>
+            <span class="progress-label" id="topBlock1ProgressLabel">$843.63 / $1,000.00 USDC</span>
+            <span class="progress-pct" id="topBlock1ProgressPct">84.4%</span>
           </div>
           <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 84.2%;"></div>
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 84.4%;"></div>
           </div>
         </div>
         <div class="rule-badge-glow">100% Capitalización pura ($0 envíos hasta $1,000)</div>
@@ -174,7 +174,7 @@
                 <span class="material-symbols-rounded target-icon">flag</span>
                 <span class="target-label">OBJETIVO DIARIO: <b>+$40.00 a +$50.00 USDC</b></span>
                 <span class="target-divider">|</span>
-                <span class="target-achieved-text">LOGRADO HOY: <b id="coverAchievedToday">+$49.28 USDC</b></span>
+                <span class="target-achieved-text">LOGRADO HOY: <b id="coverAchievedToday">+$213.69 USDC</b></span>
                 <span class="target-badge-pill meta-ok" id="coverTargetStatusPill"><span class="material-symbols-rounded">verified</span> META DIARIA CUMPLIDA</span>
               </div>
               <div class="target-progress-row">
@@ -212,7 +212,7 @@
                 <span class="material-symbols-rounded dept-icon">verified_user</span>
                 <span class="dept-title">DEPARTAMENTO DE CONTROL Y MITIGACIÓN DE RIESGO</span>
               </div>
-              <span class="dept-badge-locked" id="coverFloorLockedToday"><span class="material-symbols-rounded">lock</span> PISO PROTEGIDO HOY: +$49.28 USDC</span>
+              <span class="dept-badge-locked" id="coverFloorLockedToday"><span class="material-symbols-rounded">lock</span> PISO PROTEGIDO HOY: +$213.69 USDC</span>
             </div>
 
             <div class="dept-metrics-row">
@@ -370,10 +370,10 @@
                 <div class="blk-meta">SOL, SUI, AVAX · BTC, PAXG, LINK · ETH, BNB, AAVE</div>
                 <div class="blk-capital-bar">
                   <div class="blk-bar-info">
-                    <span>Capital Activo: <b id="block1ActiveCapText">$843.12 USDC</b></span>
-                    <span id="block1MetaPctText">Meta: <b>$1,000.00</b> (84.3%)</span>
+                    <span>Capital Activo: <b id="block1ActiveCapText">$843.63 USDC</b></span>
+                    <span id="block1MetaPctText">Meta: <b>$1,000.00</b> (84.4%)</span>
                   </div>
-                  <div class="blk-fill-bg"><div class="blk-fill-bar" id="block1FillBar" style="width: 84.3%;"></div></div>
+                  <div class="blk-fill-bg"><div class="blk-fill-bar" id="block1FillBar" style="width: 84.4%;"></div></div>
                 </div>
               </div>
 
@@ -481,21 +481,21 @@
                 </div>
                 <div class="p-metric-row">
                   <span class="pm-lbl">Capital Actual en Vivo:</span>
-                  <span class="pm-val font-mono text-cyan" id="projCurrentCap">$843.12 USDC</span>
+                  <span class="pm-val font-mono text-cyan" id="projCurrentCap">$843.63 USDC</span>
                 </div>
                 <div class="p-metric-row">
                   <span class="pm-lbl">Ganancia Acumulada Hoy:</span>
-                  <span class="pm-val font-mono text-green" id="projProfitToday">+$73.05 USDC (+11.78%)</span>
+                  <span class="pm-val font-mono text-green" id="projProfitToday">+$213.69 USDC (+33.92%)</span>
                 </div>
                 <div class="p-metric-row proj-highlight-row">
                   <span class="pm-lbl font-bold">Cierre Proyectado Hoy (24h):</span>
-                  <span class="pm-val font-mono text-gold font-bold" id="projClosingToday">~$860.00 – $875.00 USDC</span>
+                  <span class="pm-val font-mono text-gold font-bold" id="projClosingToday">~$865.00 – $880.00 USDC</span>
                 </div>
               </div>
               <div class="proj-footer-bar">
                 <div class="pf-info">
                   <span>Distancia a Meta $1,000:</span>
-                  <b class="text-amber" id="projDistance1000">Faltan solo $156.88 USDC</b>
+                  <b class="text-amber" id="projDistance1000">Faltan solo $156.37 USDC</b>
                 </div>
                 <div class="proj-subtag">100% Capitalización Activa ($0 Retiros)</div>
               </div>

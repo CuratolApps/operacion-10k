@@ -1717,6 +1717,38 @@ html, body {
   color: #60A5FA !important;
 }
 
+.squad-relay-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(16, 185, 129, 0.08) !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+  border-radius: 4px !important;
+  padding: 1px 4px !important;
+  margin: 1px 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.relay-line {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.53rem !important;
+  font-weight: 700 !important;
+  color: #34D399 !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1.1 !important;
+}
+
+.squad-card:not(.squad-card-active) .squad-relay-row {
+  background: rgba(100, 116, 139, 0.08) !important;
+  border-color: rgba(100, 116, 139, 0.2) !important;
+}
+
+.squad-card:not(.squad-card-active) .relay-line {
+  color: #94A3B8 !important;
+}
+
 .squad-footer-stats {
   display: flex !important;
   justify-content: space-between !important;
