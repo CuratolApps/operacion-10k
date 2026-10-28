@@ -1382,7 +1382,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "OPEN",
       timeUtc: "00:00 UTC",
       targetMins: 23 * 60 + 55, // 23:55 UTC (Domingo a Jueves noche)
-      activeDays: [0, 1, 2, 3, 4]
+      activeDays: [0, 1, 2, 3, 4],
+      squads: "#01 ALFA (#601 Titan-Scalper) · #11 ECHO (FX Pacific)",
+      pairs: "SOL, AVAX, SUI, USD/JPY, EUR/JPY"
     },
     {
       id: "TSE_CLOSE",
@@ -1390,7 +1392,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "CLOSE",
       timeUtc: "06:00 UTC",
       targetMins: 5 * 60 + 55, // 05:55 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#01 ALFA · #11 ECHO · #12 FOXTROT",
+      pairs: "SOL, AVAX, USD/JPY, XAU/USD"
     },
     {
       id: "FRA_OPEN",
@@ -1398,7 +1402,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "OPEN",
       timeUtc: "07:00 UTC",
       targetMins: 6 * 60 + 55, // 06:55 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO (#701 Oracle-Global) · #10 DELTA · #15 OSCAR",
+      pairs: "BTC, PAXG, DAX40, EUR/USD"
     },
     {
       id: "FRA_CLOSE",
@@ -1406,7 +1412,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "CLOSE",
       timeUtc: "15:30 UTC",
       targetMins: 15 * 60 + 25, // 15:25 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO · #10 DELTA · #15 OSCAR",
+      pairs: "DAX40, EUR/USD, BTC, PAXG"
     },
     {
       id: "LSE_OPEN",
@@ -1414,7 +1422,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "OPEN",
       timeUtc: "08:00 UTC",
       targetMins: 7 * 60 + 55, // 07:55 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO (#701 BTC, PAXG, LINK) · #03 CHARLIE (#801 ETH, BNB) · #10 DELTA · #13 MIKE",
+      pairs: "BTC, PAXG, ETH, BNB, EUR/USD, GBP/USD"
     },
     {
       id: "LSE_CLOSE",
@@ -1422,7 +1432,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "CLOSE",
       timeUtc: "16:30 UTC",
       targetMins: 16 * 60 + 25, // 16:25 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO · #03 CHARLIE · #10 DELTA · #13 MIKE",
+      pairs: "PAXG, BTC, ETH, BNB, EUR/USD, GBP/USD"
     },
     {
       id: "NYSE_OPEN",
@@ -1430,7 +1442,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "OPEN",
       timeUtc: "13:30 UTC",
       targetMins: 13 * 60 + 25, // 13:25 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#01 ALFA · #02 BRAVO · #03 CHARLIE · #14 NOV · #16 PAPA",
+      pairs: "BTC, ETH, SOL, BNB, AVAX, PAXG, NAS100, NVDA, TSLA"
     },
     {
       id: "NYSE_CLOSE",
@@ -1438,7 +1452,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "CLOSE",
       timeUtc: "20:00 UTC",
       targetMins: 19 * 60 + 55, // 19:55 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#01 ALFA · #02 BRAVO · #03 CHARLIE · #14 NOV",
+      pairs: "NAS100, SPX500, BTC, ETH, SOL, BNB"
     },
     {
       id: "CME_PAUSE",
@@ -1446,7 +1462,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "CLOSE",
       timeUtc: "21:00 UTC",
       targetMins: 20 * 60 + 55, // 20:55 UTC (Lunes a Viernes)
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO (#701 PAXG-Oro, BTC, LINK) · #12 FOXTROT · #15 OSCAR",
+      pairs: "PAXG-USD, XAU, XAG, WTI/USD, NGAS"
     },
     {
       id: "CME_OPEN",
@@ -1454,7 +1472,9 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       type: "OPEN",
       timeUtc: "22:00 UTC",
       targetMins: 21 * 60 + 55, // 21:55 UTC (Domingo a Jueves)
-      activeDays: [0, 1, 2, 3, 4]
+      activeDays: [0, 1, 2, 3, 4],
+      squads: "#02 BRAVO (#701 PAXG-Oro, BTC, LINK) · #12 FOXTROT",
+      pairs: "PAXG-USD, BTC, Oro, Plata, Gas"
     }
   ];
 
@@ -1470,25 +1490,32 @@ async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
       let msgText = "";
       if (ev.type === "OPEN") {
         msgText = `🚨🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR</b>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `🏛️ <b>Mercado:</b> ${ev.market}\n` +
           `⏰ <b>Hora de Apertura:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
-          `📊 <b>Estado Actual:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n\n` +
-          `⚡ <b>ALERTA DE MOVIMIENTO BRUSCO (PROTECCIÓN + CAZA DE OLA):</b>\n` +
-          `• En los próximos minutos entrará fuerte volumen institucional.\n` +
-          `• 🛡️ <b>Defensa Mentora #00:</b> Candado Breakeven (+0.045%) reforzado en posiciones abiertas (AVAX, PAXG, ETH, BNB...) para que ningún mechazo nos tumbe el precio.\n` +
-          `• 🐂🐻 <b>Ataque Bull & Bear:</b> Radares L2 listos a 150ms para agarrar la ola de apertura tanto hacia ARRIBA (LONG) como hacia ABAJO (SHORT).\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━`;
+          `📊 <b>Estado:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n` +
+          `🔰 <b>Escuadrones Asignados:</b> ${ev.squads}\n` +
+          `💎 <b>Pares Vigilados:</b> <code>${ev.pairs}</code>\n\n` +
+          `🛡️ <b>MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:</b>\n` +
+          `1. 🔒 <b>Candado BE #00 (+0.045%):</b> Asegurado en todas las posiciones abiertas en verde. Cero devolución de ganancias.\n` +
+          `2. ⏸️ <b>Pausa de Mechazo Inicial:</b> Congelación de nuevas entradas durante el mechazo inicial de la campana (primeros 60s) para evitar spreads falsos.\n` +
+          `3. 🎯 <b>Disparo de Alta Certeza:</b> Entrada selectiva únicamente al confirmar dirección real del flujo institucional (L2 >= 65% + RSI 5m + EMA20) para sumar a la meta diaria sin retrocesos.\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en 4-5 días.</i>`;
       } else {
         msgText = `🔔🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA CERRAR</b>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `🏛️ <b>Mercado:</b> ${ev.market}\n` +
           `⏰ <b>Hora de Cierre:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
-          `📊 <b>Estado Actual:</b> 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n\n` +
-          `🛡️ <b>PROTOCOLO DE CIERRE DE SESIÓN:</b>\n` +
-          `• Posibles sacudones de liquidación de cierre de sesión.\n` +
-          `• 🔒 <b>Mentora #00</b> asegurando ganancias flotantes y ajustando filtros Anti-Techo en los escuadrones activos.\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━`;
+          `📊 <b>Estado:</b> 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n` +
+          `🔰 <b>Escuadrones Asignados:</b> ${ev.squads}\n` +
+          `💎 <b>Pares Vigilados:</b> <code>${ev.pairs}</code>\n\n` +
+          `🛡️ <b>MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:</b>\n` +
+          `1. 🔒 <b>Candado BE #00 (+0.045%):</b> Asegurado en posiciones abiertas ante posibles sacudones de liquidación de cierre.\n` +
+          `2. ❄️ <b>Enfriamiento Táctico 12m:</b> Pares que cierren en ganancia entran en 12 minutos de reposo y recalibración.\n` +
+          `3. 🛡️ <b>Protección del Piso Ganado:</b> Cuota diaria protegida para asegurar la coronación de los $1,000 USDC sin devolver ni un centavo.\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en 4-5 días.</i>`;
       }
 
       try {
@@ -1590,16 +1617,18 @@ export default {
       let sent = false;
 
       const testMsg = `🚨🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR</b>\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
         `🏛️ <b>Mercado:</b> WALL STREET — NUEVA YORK (NYSE / NASDAQ)\n` +
         `⏰ <b>Hora de Apertura:</b> 13:30 UTC (En exactamente 5 minutos)\n` +
-        `📊 <b>Estado Actual:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n\n` +
-        `⚡ <b>ALERTA DE MOVIMIENTO BRUSCO (PROTECCIÓN + CAZA DE OLA):</b>\n` +
-        `• En los próximos minutos entrará fuerte volumen institucional.\n` +
-        `• 🛡️ <b>Defensa Mentora #00:</b> Candado Breakeven (+0.045%) reforzado en posiciones abiertas (AVAX, PAXG, ETH, BNB...) para que ningún mechazo nos tumbe el precio.\n` +
-        `• 🐂🐻 <b>Ataque Bull & Bear:</b> Radares L2 listos a 150ms para agarrar la ola de apertura tanto hacia ARRIBA (LONG) como hacia ABAJO (SHORT).\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `<i>(Prueba de Alerta 5-Minutos iniciada desde Portada de Squad Matrix)</i>`;
+        `📊 <b>Estado:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n` +
+        `🔰 <b>Escuadrones Asignados:</b> #01 ALFA · #02 BRAVO · #03 CHARLIE · #14 NOV · #16 PAPA\n` +
+        `💎 <b>Pares Vigilados:</b> <code>BTC, ETH, SOL, BNB, AVAX, PAXG, NAS100, NVDA, TSLA</code>\n\n` +
+        `🛡️ <b>MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:</b>\n` +
+        `1. 🔒 <b>Candado BE #00 (+0.045%):</b> Asegurado en todas las posiciones abiertas en verde. Cero devolución de ganancias.\n` +
+        `2. ⏸️ <b>Pausa de Mechazo Inicial:</b> Congelación de nuevas entradas durante el mechazo inicial de la campana (primeros 60s) para evitar spreads falsos.\n` +
+        `3. 🎯 <b>Disparo de Alta Certeza:</b> Entrada selectiva únicamente al confirmar dirección real del flujo institucional (L2 >= 65% + RSI 5m + EMA20) para sumar a la meta diaria sin retrocesos.\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `🌐 <i>(Prueba de Alerta 5-Minutos emitida desde Portada de Squad Matrix)</i>`;
 
       if (botToken) {
         try {

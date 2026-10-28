@@ -32,12 +32,18 @@ const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$320.00+ USDC)
 const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$160.00 USDC a 5x = ~$800.00 Nocional)
 const LEVERAGE = 5;
-const TARGET_GAIN_PCT = 0.35;           // +0.35% Take Profit (~+$2.10 a +$2.30 USDC netos por tiro)
-const BREAKEVEN_TRIGGER_PCT = 0.12;     // Activar candado BE al +0.12% a favor
+const TARGET_GAIN_PCT = 0.35;           // +0.35% Take Profit base (con Trailing hacia arriba)
+const BREAKEVEN_TRIGGER_PCT = 0.10;     // Activar candado BE al +0.10% a favor
 const BREAKEVEN_LOCK_PCT = 0.045;       // Candado BE en +0.045% (cubre 100% fees)
+const COOLDOWN_DURATION_MS = 12 * 60 * 1000; // 12 minutos de enfriamiento táctico post-TP
+const MIN_CERTAINTY_L2_PCT = 65.0;      // 65% de presión L2 mínima para tiro de alta certeza
+const MAX_CONCURRENT_INITIAL = 2;       // Máximo 2 concurrentes sin BE #00
+const MAX_CONCURRENT_TOTAL = 3;         // Máximo 3 concurrentes totales si las anteriores tienen BE #00
+const pairCooldowns = {};               // Mapa de enfriamiento táctico { coin: timestampMs }
 const DCA_TRIGGER_DRAWDOWN = -0.85;     // Refuerzo Mentora en -0.85%
 const DCA_TRIGGER_RSI = 30;             // RSI sobreventa extrema
 const DCA_TARGET_GAIN_PCT = 0.20;       // Evacuación rápida doble posición al +0.20%
+
 
 const TELEMETRY_DIR = path.join(__dirname, "..", "telemetry");
 const REAL_LEDGER_FILE = path.join(TELEMETRY_DIR, "squad-secret-real-ledger.json");
@@ -314,7 +320,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "OPEN",
       timeUtc: "00:00 UTC",
       targetMins: 23 * 60 + 55,
-      activeDays: [0, 1, 2, 3, 4]
+      activeDays: [0, 1, 2, 3, 4],
+      squads: "#01 ALFA (#601 Titan-Scalper) · #11 ECHO (FX Pacific)",
+      pairs: "SOL, AVAX, SUI, USD/JPY, EUR/JPY"
     },
     {
       id: "TSE_CLOSE",
@@ -322,7 +330,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "CLOSE",
       timeUtc: "06:00 UTC",
       targetMins: 5 * 60 + 55,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#01 ALFA · #11 ECHO · #12 FOXTROT",
+      pairs: "SOL, AVAX, USD/JPY, XAU/USD"
     },
     {
       id: "FRA_OPEN",
@@ -330,7 +340,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "OPEN",
       timeUtc: "07:00 UTC",
       targetMins: 6 * 60 + 55,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO (#701 Oracle-Global) · #10 DELTA · #15 OSCAR",
+      pairs: "BTC, PAXG, DAX40, EUR/USD"
     },
     {
       id: "FRA_CLOSE",
@@ -338,7 +350,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "CLOSE",
       timeUtc: "15:30 UTC",
       targetMins: 15 * 60 + 25,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO · #10 DELTA · #15 OSCAR",
+      pairs: "DAX40, EUR/USD, BTC, PAXG"
     },
     {
       id: "LSE_OPEN",
@@ -346,7 +360,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "OPEN",
       timeUtc: "08:00 UTC",
       targetMins: 7 * 60 + 55,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO (#701 BTC, PAXG, LINK) · #03 CHARLIE (#801 ETH, BNB) · #10 DELTA · #13 MIKE",
+      pairs: "BTC, PAXG, ETH, BNB, EUR/USD, GBP/USD"
     },
     {
       id: "LSE_CLOSE",
@@ -354,7 +370,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "CLOSE",
       timeUtc: "16:30 UTC",
       targetMins: 16 * 60 + 25,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO · #03 CHARLIE · #10 DELTA · #13 MIKE",
+      pairs: "PAXG, BTC, ETH, BNB, EUR/USD, GBP/USD"
     },
     {
       id: "NYSE_OPEN",
@@ -362,7 +380,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "OPEN",
       timeUtc: "13:30 UTC",
       targetMins: 13 * 60 + 25,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#01 ALFA · #02 BRAVO · #03 CHARLIE · #14 NOV · #16 PAPA",
+      pairs: "BTC, ETH, SOL, BNB, AVAX, PAXG, NAS100, NVDA, TSLA"
     },
     {
       id: "NYSE_CLOSE",
@@ -370,7 +390,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "CLOSE",
       timeUtc: "20:00 UTC",
       targetMins: 19 * 60 + 55,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#01 ALFA · #02 BRAVO · #03 CHARLIE · #14 NOV",
+      pairs: "NAS100, SPX500, BTC, ETH, SOL, BNB"
     },
     {
       id: "CME_PAUSE",
@@ -378,7 +400,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "CLOSE",
       timeUtc: "21:00 UTC",
       targetMins: 20 * 60 + 55,
-      activeDays: [1, 2, 3, 4, 5]
+      activeDays: [1, 2, 3, 4, 5],
+      squads: "#02 BRAVO (#701 PAXG-Oro, BTC, LINK) · #12 FOXTROT · #15 OSCAR",
+      pairs: "PAXG-USD, XAU, XAG, WTI/USD, NGAS"
     },
     {
       id: "CME_OPEN",
@@ -386,7 +410,9 @@ async function checkMarketSessionAlertsDaemon(now) {
       type: "OPEN",
       timeUtc: "22:00 UTC",
       targetMins: 21 * 60 + 55,
-      activeDays: [0, 1, 2, 3, 4]
+      activeDays: [0, 1, 2, 3, 4],
+      squads: "#02 BRAVO (#701 PAXG-Oro, BTC, LINK) · #12 FOXTROT",
+      pairs: "PAXG-USD, BTC, Oro, Plata, Gas"
     }
   ];
 
@@ -401,25 +427,32 @@ async function checkMarketSessionAlertsDaemon(now) {
       let msgText = "";
       if (ev.type === "OPEN") {
         msgText = `🚨🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR</b>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `🏛️ <b>Mercado:</b> ${ev.market}\n` +
           `⏰ <b>Hora de Apertura:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
-          `📊 <b>Estado Actual:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n\n` +
-          `⚡ <b>ALERTA DE MOVIMIENTO BRUSCO (PROTECCIÓN + CAZA DE OLA):</b>\n` +
-          `• En los próximos minutos entrará fuerte volumen institucional.\n` +
-          `• 🛡️ <b>Defensa Mentora #00:</b> Candado Breakeven (+0.045%) reforzado en posiciones abiertas (AVAX, PAXG, ETH, BNB...) para que ningún mechazo nos tumbe el precio.\n` +
-          `• 🐂🐻 <b>Ataque Bull & Bear:</b> Radares L2 listos a 150ms para agarrar la ola de apertura tanto hacia ARRIBA (LONG) como hacia ABAJO (SHORT).\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━`;
+          `📊 <b>Estado:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n` +
+          `🔰 <b>Escuadrones Asignados:</b> ${ev.squads}\n` +
+          `💎 <b>Pares Vigilados:</b> <code>${ev.pairs}</code>\n\n` +
+          `🛡️ <b>MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:</b>\n` +
+          `1. 🔒 <b>Candado BE #00 (+0.045%):</b> Asegurado en todas las posiciones abiertas en verde. Cero devolución de ganancias.\n` +
+          `2. ⏸️ <b>Pausa de Mechazo Inicial:</b> Congelación de nuevas entradas durante el mechazo inicial de la campana (primeros 60s) para evitar spreads falsos.\n` +
+          `3. 🎯 <b>Disparo de Alta Certeza:</b> Entrada selectiva únicamente al confirmar dirección real del flujo institucional (L2 >= 65% + RSI 5m + EMA20) para sumar a la meta diaria sin retrocesos.\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en 4-5 días.</i>`;
       } else {
         msgText = `🔔🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA CERRAR</b>\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `🏛️ <b>Mercado:</b> ${ev.market}\n` +
           `⏰ <b>Hora de Cierre:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
-          `📊 <b>Estado Actual:</b> 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n\n` +
-          `🛡️ <b>PROTOCOLO DE CIERRE DE SESIÓN:</b>\n` +
-          `• Posibles sacudones de liquidación de cierre de sesión.\n` +
-          `• 🔒 <b>Mentora #00</b> asegurando ganancias flotantes y ajustando filtros Anti-Techo en los escuadrones activos.\n` +
-          `━━━━━━━━━━━━━━━━━━━━━━`;
+          `📊 <b>Estado:</b> 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n` +
+          `🔰 <b>Escuadrones Asignados:</b> ${ev.squads}\n` +
+          `💎 <b>Pares Vigilados:</b> <code>${ev.pairs}</code>\n\n` +
+          `🛡️ <b>MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:</b>\n` +
+          `1. 🔒 <b>Candado BE #00 (+0.045%):</b> Asegurado en posiciones abiertas ante posibles sacudones de liquidación de cierre.\n` +
+          `2. ❄️ <b>Enfriamiento Táctico 12m:</b> Pares que cierren en ganancia entran en 12 minutos de reposo y recalibración.\n` +
+          `3. 🛡️ <b>Protección del Piso Ganado:</b> Cuota diaria protegida para asegurar la coronación de los $1,000 USDC sin devolver ni un centavo.\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en 4-5 días.</i>`;
       }
 
       console.log(`[SESSION ALERTS DAEMON] Disparando aviso de mercado: ${ev.id}`);
@@ -440,6 +473,18 @@ function isMarketShakeWindow(now) {
   // Nueva York 13:30 UTC ± 5 min -> 13:25 a 13:35 UTC (805 a 815 mins)
   const isNyWave = totalMins >= 805 && totalMins <= 815;
   return isLondonWave || isNyWave;
+}
+
+// Pausa de Mechazo de Campana Inicial (primeros 60 segundos tras 08:00 o 13:30 UTC)
+function isOpeningBellWick(now) {
+  const utcDay = now.getUTCDay();
+  if (utcDay < 1 || utcDay > 5) return false;
+  const hours = now.getUTCHours();
+  const mins = now.getUTCMinutes();
+  const secs = now.getUTCSeconds();
+  const isLondonBell = hours === 8 && mins === 0 && secs < 60;
+  const isNyBell = hours === 13 && mins === 30 && secs < 60;
+  return isLondonBell || isNyBell;
 }
 
 async function startAutonomousSquadDaemon() {
@@ -590,10 +635,10 @@ async function startAutonomousSquadDaemon() {
                 ? (currentMid - entryPx) / entryPx * 100
                 : (entryPx - currentMid) / entryPx * 100;
 
-              // 1. CANDADO BREAKEVEN (+0.12% ➔ Clavado en +0.045% cubriendo comisiones)
-              // EN VENTANA DE SACUDÓN (±5 min de Apertura Londres/NY): Mentora #00 aprieta al +0.08%
+              // 1. CANDADO BREAKEVEN (+0.10% ➔ Clavado en +0.045% cubriendo comisiones)
+              // EN VENTANA DE SACUDÓN (±5 min de Apertura Londres/NY): Mentora #00 aprieta al +0.05%
               const inShakeWindow = isMarketShakeWindow(new Date());
-              const effectiveBeTrigger = inShakeWindow ? 0.08 : BREAKEVEN_TRIGGER_PCT;
+              const effectiveBeTrigger = inShakeWindow ? 0.05 : BREAKEVEN_TRIGGER_PCT;
 
               if (gainPct >= effectiveBeTrigger && !mem.beLocked) {
                 mem.beLocked = true;
@@ -612,6 +657,31 @@ async function startAutonomousSquadDaemon() {
                   `🛡️ <b>Candado Blindado a:</b> <code>$${bePxStr}</code> (+${BREAKEVEN_LOCK_PCT}% · $0.00 Pérdida Garantizada)\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
                 await sendSquadTelegram(beTg);
+              }
+
+              // 1.1 TRAILING TAKE-PROFIT: Si el precio avanza más allá de +0.35%, correr TP al alza para capturar ganancias extraordinarias
+              if (gainPct >= 0.35 && existingExitOrder) {
+                const currentOrderPx = parseFloat(existingExitOrder.limitPx || "0");
+                const desiredTrailingPx = isShort ? currentMid * 0.9996 : currentMid * 1.0004;
+                const isBetterTrailing = isShort ? (desiredTrailingPx < currentOrderPx) : (desiredTrailingPx > currentOrderPx);
+                if (isBetterTrailing) {
+                  try {
+                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] });
+                    const newTpStr = formatHlPrice(desiredTrailingPx, coin);
+                    await client.order({
+                      orders: [{
+                        a: ASSET_INDICES[coin],
+                        b: isShort,
+                        p: newTpStr,
+                        s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
+                        r: true,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    });
+                    console.log(`🚀 [TRAILING TAKE-PROFIT] Ganancia extendida en ${coin} (+${gainPct.toFixed(2)}%): TP elevado a $${newTpStr}`);
+                  } catch (_) {}
+                }
               }
 
               // 2. MENTORA #00 DCA SALVAVIDAS (Drawdown <= -0.85% y RSI 5m <= 30)
@@ -701,6 +771,11 @@ async function startAutonomousSquadDaemon() {
             const closedCoin = mem.activeCoin;
             const recordedEntryPx = mem.entryPx;
             const wasShort = mem.direction === "SHORT";
+            
+            // Activar Enfriamiento Táctico de 12 minutos post-TP para este par
+            pairCooldowns[closedCoin] = Date.now() + COOLDOWN_DURATION_MS;
+            console.log(`❄️ [ENFRIAMIENTO TÁCTICO] ${closedCoin} entra en 12 minutos de reposo y recalibración tras Take-Profit.`);
+
             mem.activeCoin = null;
             mem.entryPx = null;
             mem.tpOid = null;
@@ -743,6 +818,7 @@ async function startAutonomousSquadDaemon() {
                 `📤 <b>SE VENDIÓ A:</b> <code>$${exitPxStr}</code> (+${TARGET_GAIN_PCT}% TP)\n` +
                 `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$${netGain.toFixed(4)} USDC</b>\n` +
                 `🏆 <b>Récord Oficial:</b> <b>${currentLedger.realWins} Ganadas · 0 Pérdidas (100% Invictos)</b>\n` +
+                `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo antes del próximo tiro\n` +
                 `💵 <b>Nuevo Balance en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
                 `📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n` +
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
@@ -755,10 +831,45 @@ async function startAutonomousSquadDaemon() {
 
           // --- ESCUADRÓN LIBRE: BUSCAR NUEVA ENTRADA CON EL FILTRO ANTI-TECHO V2 ---
           if (isV2Armed && availableForTrading >= dynamicSquadMargin) {
+            // Regla de Exposición Inteligente (Cero Sangrado Cruzado):
+            // 1. Límite estricto de 3 posiciones simultáneas totales
+            if (openPositions.length >= MAX_CONCURRENT_TOTAL) {
+              continue;
+            }
+
+            // 2. Si ya hay 2 posiciones abiertas, la 3ra posición SOLO se permite si las anteriores ya tienen el Candado BE #00 activado
+            if (openPositions.length >= MAX_CONCURRENT_INITIAL) {
+              const unhedged = openPositions.some(p => {
+                const uPnl = parseFloat(p.position?.unrealizedPnl || "0");
+                return uPnl < 0.05; // No está en verde cubriendo comisiones con BE #00
+              });
+              if (unhedged) {
+                if (cycleCounter % 15 === 1) {
+                  console.log(`🛡️ [CONTROL DE RIESGO] Exposición en pausa: Hay posiciones abiertas sin Candado BE #00. Cero sangrado cruzado.`);
+                }
+                continue;
+              }
+            }
+
+            // 3. Pausa de Mechazo Inicial en apertura (primeros 60s tras campana 08:00 o 13:30 UTC)
+            if (isOpeningBellWick(new Date())) {
+              console.log(`⏸️ [PAUSA DE MECHAZO] Congelando nuevas entradas durante la campana de apertura institucional.`);
+              continue;
+            }
+
             try {
               let bestCandidate = null;
 
               for (const coin of squadCfg.pairs) {
+                // Enfriamiento Táctico de 12 minutos post-TP
+                if (pairCooldowns[coin] && pairCooldowns[coin] > Date.now()) {
+                  const remMins = Math.ceil((pairCooldowns[coin] - Date.now()) / 60000);
+                  if (cycleCounter % 15 === 1) {
+                    console.log(`❄️ [COOLDOWN] ${coin} en enfriamiento táctico (${remMins}m restantes). Evitando entrar agotado.`);
+                  }
+                  continue;
+                }
+
                 try {
                   // Capa 1: L2 Orderbook Depth
                   const l2 = await info.l2Book({ coin });
@@ -794,8 +905,8 @@ async function startAutonomousSquadDaemon() {
                   const isWaveLong = inWaveWindow && bullPct >= 66.0;
                   const isWaveShort = inWaveWindow && bearPct >= 66.0;
 
-                  // LONG: L2 >= 62%, RSI <= 46, no en el 25% superior de la vela de 15m (o por debajo de EMA20), O Caza de Ola en Apertura (L2 >= 66%)
-                  if (isWaveLong || (bullPct >= 62.0 && rsi5m <= 46.0 && (!isTop25Pct || currentPrice <= ema20_5m))) {
+                  // FILTRO DE ALTA CERTEZA: L2 >= 65%, RSI 5m en zona limpia (<= 46 para Long), confirmación EMA20
+                  if (isWaveLong || (bullPct >= MIN_CERTAINTY_L2_PCT && rsi5m <= 46.0 && (!isTop25Pct || currentPrice <= ema20_5m))) {
                     if (!bestCandidate || bullPct > bestCandidate.score) {
                       bestCandidate = {
                         coin,
@@ -809,8 +920,8 @@ async function startAutonomousSquadDaemon() {
                     }
                   }
 
-                  // SHORT: L2 >= 62% vendedora, RSI >= 70 en sobrecompra extrema (Rechazo de Techo), O Caza de Ola en Desplome de Apertura (L2 >= 66%)
-                  if (isWaveShort || (bearPct >= 62.0 && rsi5m >= 70.0)) {
+                  // SHORT DE ALTA CERTEZA: L2 >= 65% vendedora, RSI >= 70 en sobrecompra extrema (Rechazo de Techo), O Caza de Ola en Desplome de Apertura (L2 >= 66%)
+                  if (isWaveShort || (bearPct >= MIN_CERTAINTY_L2_PCT && rsi5m >= 70.0)) {
                     if (!bestCandidate || bearPct > bestCandidate.score) {
                       bestCandidate = {
                         coin,

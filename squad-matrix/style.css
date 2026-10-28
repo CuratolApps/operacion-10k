@@ -117,7 +117,7 @@ html, body {
   width: 100% !important;
   max-width: 100vw !important;
   height: 100vh !important;
-  padding: 10px 26px 10px 18px !important; /* Margen seguro para que NUNCA se corten los extremos izquierdo y derecho */
+  padding: 10px 26px !important; /* Margen simétrico para que NUNCA se corte la Tarjeta 5 superior derecha ni el lateral */
   box-sizing: border-box !important;
   overflow: hidden !important;
   display: flex !important;
@@ -538,44 +538,45 @@ html, body {
   display: flex !important;
 }
 
-/* Bloque Superior de Portada (Sello Presidencial) */
+/* BLOQUE 1: TAPA DE PRESENTACIÓN & META DEL DÍA (COMPACTO ~54px) */
 .cover-hero-card {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 55%, #EFF6FF 100%) !important;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 60%, #EFF6FF 100%) !important;
   border: 1.5px solid #FFFFFF !important;
-  border-radius: 10px !important;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16) !important;
-  padding: 8px 14px !important;
+  border-radius: 9px !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12) !important;
+  padding: 5px 12px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 12px !important;
-  min-height: 84px !important;
-  max-height: 90px !important;
+  gap: 10px !important;
+  min-height: 50px !important;
+  max-height: 56px !important;
   box-sizing: border-box !important;
   position: relative !important;
   overflow: hidden !important;
+  flex: 0 0 auto !important;
 }
 
 .cover-hero-left {
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
+  gap: 8px !important;
   flex: 0 0 auto !important;
 }
 
 .cover-brand-icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
   background: linear-gradient(135deg, #1D4ED8 0%, #0F172A 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35);
+  box-shadow: 0 3px 10px rgba(29, 78, 216, 0.35);
 }
 
 .cover-hub-icon {
-  font-size: 26px !important;
+  font-size: 22px !important;
   color: #38BDF8 !important;
 }
 
@@ -587,7 +588,7 @@ html, body {
 
 .cover-brand-title {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 1.15rem !important;
+  font-size: 1.02rem !important;
   font-weight: 800 !important;
   color: #0F172A !important;
   letter-spacing: 0.04em !important;
@@ -597,171 +598,168 @@ html, body {
 
 .cover-brand-sub {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.58rem !important;
+  font-size: 0.52rem !important;
   font-weight: 700 !important;
   color: #1E40AF !important;
   letter-spacing: 0.02em !important;
-  margin-top: 2px !important;
+  margin-top: 1px !important;
   white-space: nowrap !important;
 }
 
-/* Centro: Reloj Maestro y Radar de Volatilidad */
+/* Centro: Control de Objetivo Diario de Rentabilidad */
 .cover-hero-center {
   display: flex !important;
-  flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 4px !important;
   flex: 1 1 auto !important;
+  min-width: 0 !important;
 }
 
-.cover-clocks-row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-}
-
-.master-clock-box {
+.daily-target-banner {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid rgba(148, 163, 184, 0.35) !important;
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important;
-  background: rgba(15, 23, 42, 0.05) !important;
-  border: 1px solid rgba(148, 163, 184, 0.25) !important;
-  padding: 2px 10px !important;
-  border-radius: 6px !important;
+  gap: 3px !important;
+  width: 100% !important;
+  max-width: 580px !important;
+  box-sizing: border-box !important;
 }
 
-.master-clock-box.local {
-  background: rgba(29, 78, 216, 0.06) !important;
-  border-color: rgba(147, 197, 253, 0.4) !important;
-}
-
-.m-clock-lbl {
-  font-size: 0.52rem !important;
-  font-weight: 700 !important;
-  color: #64748B !important;
+.target-title-row {
   display: flex !important;
   align-items: center !important;
-  gap: 3px !important;
-  text-transform: uppercase !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.60rem !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
 }
 
-.m-clock-lbl .material-symbols-rounded {
+.target-icon {
+  font-size: 13px !important;
+  color: #D97706 !important;
+}
+
+.target-label {
+  color: #475569 !important;
+}
+
+.target-label b {
+  color: #0F172A !important;
+}
+
+.target-divider {
+  color: #94A3B8 !important;
+}
+
+.target-achieved-text {
+  color: #059669 !important;
+}
+
+.target-achieved-text b {
+  color: #047857 !important;
+  font-weight: 800 !important;
+}
+
+.target-badge-pill {
+  font-size: 0.52rem !important;
+  font-weight: 800 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  line-height: 1 !important;
+}
+
+.target-badge-pill .material-symbols-rounded {
   font-size: 11px !important;
 }
 
-.m-clock-time {
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.88rem !important;
-  font-weight: 800 !important;
-  color: #0F172A !important;
-  line-height: 1.1 !important;
+.target-badge-pill.meta-ok {
+  background: #DCFCE7 !important;
+  color: #15803D !important;
+  border: 1px solid #86EFAC !important;
 }
 
-.master-clock-box.local .m-clock-time {
-  color: #1D4ED8 !important;
-}
-
-/* Semáforo de Cambio de Sesión */
-.cover-session-radar {
+.target-progress-row {
   display: flex !important;
   align-items: center !important;
-  gap: 5px !important;
-  padding: 3px 10px !important;
-  border-radius: 5px !important;
-  font-size: 0.58rem !important;
-  font-weight: 800 !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.target-progress-bar-bg {
+  flex: 1 !important;
+  height: 5px !important;
+  background: #E2E8F0 !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+}
+
+.target-progress-bar-fill {
+  height: 100% !important;
+  background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
+  border-radius: 3px !important;
+  transition: width 0.4s ease !important;
+}
+
+.target-horizon-tag {
   font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.52rem !important;
+  font-weight: 800 !important;
+  color: #1E40AF !important;
   white-space: nowrap !important;
-  background: #ECFDF5 !important;
-  color: #065F46 !important;
-  border: 1px solid #A7F3D0 !important;
-  transition: all 0.3s ease !important;
 }
 
-.cover-session-radar.radar-warning {
-  background: #FEF3C7 !important;
-  color: #92400E !important;
-  border-color: #F59E0B !important;
-  animation: pulseRadarAmber 1.5s infinite !important;
-}
-
-@keyframes pulseRadarAmber {
-  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-}
-
-.radar-alert-icon {
-  font-size: 13px !important;
-}
-
-/* Derecha: Estado de Telegram y Botón */
+/* Derecha: Estado de Mitigación de Riesgo Activa */
 .cover-hero-right {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-end !important;
-  justify-content: center !important;
-  gap: 4px !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
   flex: 0 0 auto !important;
 }
 
-.tg-notifier-pill {
+.risk-active-pill {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 4px !important;
+  gap: 7px !important;
   background: #0F172A !important;
   color: #F8FAFC !important;
-  padding: 3px 8px !important;
-  border-radius: 5px !important;
-  font-size: 0.58rem !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-weight: 700 !important;
-  white-space: nowrap !important;
+  padding: 4px 8px !important;
+  border-radius: 7px !important;
+  border: 1px solid #1E293B !important;
 }
 
-.tg-notifier-pill .material-symbols-rounded {
-  font-size: 12px !important;
-  color: #10B981 !important;
+.risk-active-pill .shield-icon {
+  font-size: 18px !important;
+  color: #38BDF8 !important;
 }
 
-.tg-notifier-pill b {
-  color: #34D399 !important;
+.risk-active-text {
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1.1 !important;
 }
 
-.btn-test-alert {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%) !important;
-  color: #FFFFFF !important;
-  border: 1px solid #60A5FA !important;
-  border-radius: 5px !important;
-  padding: 3px 8px !important;
-  font-size: 0.58rem !important;
-  font-weight: 800 !important;
+.risk-pill-title {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  white-space: nowrap !important;
+  font-size: 0.60rem !important;
+  font-weight: 800 !important;
+  color: #38BDF8 !important;
+  letter-spacing: 0.04em !important;
 }
 
-.btn-test-alert:hover {
-  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4) !important;
-}
-
-.btn-test-alert .material-symbols-rounded {
-  font-size: 11px !important;
-}
-
-.test-alert-status {
-  font-size: 0.52rem !important;
-  font-weight: 700 !important;
-  color: #059669 !important;
+.risk-pill-rules {
   font-family: 'JetBrains Mono', monospace !important;
-  min-height: 12px !important;
+  font-size: 0.48rem !important;
+  font-weight: 700 !important;
+  color: #94A3B8 !important;
+  white-space: nowrap !important;
 }
 
 /* ==============================================================================
@@ -1006,6 +1004,279 @@ html, body {
 .mc-impact-tag {
   color: #CBD5E1 !important;
   font-weight: 600 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* ==============================================================================
+   BLOQUE 3: DEPARTAMENTO DE RIESGO & MONITOR TELEGRAM (2 COLUMNAS COMPACTO ~130px)
+   ============================================================================== */
+.cover-risk-grid {
+  display: grid !important;
+  grid-template-columns: 1.25fr 0.75fr !important;
+  gap: 8px !important;
+  min-height: 122px !important;
+  max-height: 134px !important;
+  flex: 0 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+.risk-dept-card,
+.tg-monitor-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 60%, #EFF6FF 100%) !important;
+  border: 1.5px solid #FFFFFF !important;
+  border-radius: 9px !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12) !important;
+  padding: 6px 10px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden !important;
+}
+
+.dept-card-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  width: 100% !important;
+  padding-bottom: 3px !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.dept-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.dept-icon {
+  font-size: 15px !important;
+  color: #1D4ED8 !important;
+}
+
+.dept-icon.tg {
+  color: #0284C7 !important;
+}
+
+.dept-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  letter-spacing: 0.02em !important;
+}
+
+.dept-badge-locked {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.54rem !important;
+  font-weight: 800 !important;
+  background: #DCFCE7 !important;
+  color: #15803D !important;
+  border: 1px solid #86EFAC !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  white-space: nowrap !important;
+}
+
+.dept-badge-locked .material-symbols-rounded {
+  font-size: 11px !important;
+}
+
+.dept-metrics-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 6px !important;
+  margin-top: 4px !important;
+}
+
+.dept-metric-box {
+  background: rgba(15, 23, 42, 0.03) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  border-radius: 6px !important;
+  padding: 4px 6px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.d-m-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+  margin-bottom: 2px !important;
+}
+
+.d-m-label {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.54rem !important;
+  font-weight: 700 !important;
+  color: #64748B !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+
+.d-m-label .material-symbols-rounded {
+  font-size: 11px !important;
+  color: #2563EB !important;
+}
+
+.d-m-val {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.58rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+}
+
+.d-m-val.text-green {
+  color: #059669 !important;
+}
+
+.d-m-val.text-cyan {
+  color: #0284C7 !important;
+}
+
+.d-m-desc {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.50rem !important;
+  color: #475569 !important;
+  line-height: 1.2 !important;
+}
+
+.cooldown-pairs-row {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 3px !important;
+  margin-top: 2px !important;
+}
+
+.cooldown-pill {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.50rem !important;
+  font-weight: 800 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+.cooldown-pill.ready {
+  background: #ECFDF5 !important;
+  color: #065F46 !important;
+  border: 1px solid #A7F3D0 !important;
+}
+
+.cooldown-pill.cooling {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  border: 1px solid #FDE68A !important;
+  animation: pulseCardAmber 1.5s infinite !important;
+}
+
+/* Columna Derecha: Monitor Telegram */
+.tg-chat-badge {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.52rem !important;
+  font-weight: 700 !important;
+  color: #0284C7 !important;
+  background: #E0F2FE !important;
+  border: 1px solid #BAE6FD !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+}
+
+.tg-monitor-body {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+  flex: 1 !important;
+  margin-top: 3px !important;
+}
+
+.next-alert-box {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+}
+
+.alert-bell-icon {
+  font-size: 16px !important;
+  color: #D97706 !important;
+}
+
+.next-alert-info {
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+}
+
+.next-alert-lbl {
+  font-size: 0.50rem !important;
+  font-weight: 700 !important;
+  color: #64748B !important;
+}
+
+.next-alert-val {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.60rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.tg-action-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+.btn-test-alert-large {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid #60A5FA !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  font-size: 0.58rem !important;
+  font-weight: 800 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.btn-test-alert-large:hover {
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4) !important;
+}
+
+.btn-test-alert-large .material-symbols-rounded {
+  font-size: 12px !important;
+}
+
+.test-alert-status-text {
+  font-size: 0.52rem !important;
+  font-weight: 700 !important;
+  color: #059669 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }

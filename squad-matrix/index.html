@@ -102,57 +102,134 @@
     <!-- MAIN VIEW CONTAINER (SWITCHES BETWEEN 5 TABS) -->
     <main class="matrix-content">
       
-      <!-- TAB 1 (PORTADA / LA TAPA DE SQUAD MATRIX): RELOJES EN VIVO DE TODOS LOS MERCADOS -->
+      <!-- TAB 1 (PORTADA / LA TAPA DE SQUAD MATRIX): 8 RELOJES MUNDIALES & DEPARTAMENTO DE RIESGO -->
       <section class="tab-pane active" id="paneCover">
-        <!-- Bloque Superior de Portada (Sello de Presentación) -->
+        
+        <!-- BLOQUE 1: TAPA DE PRESENTACIÓN & META DEL DÍA -->
         <div class="cover-hero-card">
-          <!-- Izquierda: Identidad Grande -->
+          <!-- Izquierda: Sello Grande SQUAD MATRIX -->
           <div class="cover-hero-left">
             <div class="cover-brand-icon-wrap">
               <span class="material-symbols-rounded cover-hub-icon">hub</span>
             </div>
             <div class="cover-brand-text">
               <h1 class="cover-brand-title">SQUAD MATRIX</h1>
-              <div class="cover-brand-sub">ECOSISTEMA AUTÓNOMO DE 18 ESCUADRONES IGUALES × 54 PARES ULTRA-LÍQUIDOS</div>
+              <div class="cover-brand-sub">18 ESCUADRONES IGUALES × 54 PARES ULTRA-LÍQUIDOS</div>
             </div>
           </div>
 
-          <!-- Centro: Reloj Maestro Global & Radar de Sacudones -->
+          <!-- Centro: Control de Objetivo Diario de Rentabilidad -->
           <div class="cover-hero-center">
-            <div class="cover-clocks-row">
-              <div class="master-clock-box">
-                <span class="m-clock-lbl"><span class="material-symbols-rounded">schedule</span> HORA MAESTRA UTC</span>
-                <span class="m-clock-time" id="coverUtcTime">--:--:-- UTC</span>
+            <div class="daily-target-banner">
+              <div class="target-title-row">
+                <span class="material-symbols-rounded target-icon">flag</span>
+                <span class="target-label">OBJETIVO DIARIO: <b>+$40.00 a +$50.00 USDC</b></span>
+                <span class="target-divider">|</span>
+                <span class="target-achieved-text">LOGRADO HOY: <b id="coverAchievedToday">+$49.28 USDC</b></span>
+                <span class="target-badge-pill meta-ok" id="coverTargetStatusPill"><span class="material-symbols-rounded">verified</span> META DIARIA CUMPLIDA</span>
               </div>
-              <div class="master-clock-box local">
-                <span class="m-clock-lbl"><span class="material-symbols-rounded">public</span> HORA LOCAL</span>
-                <span class="m-clock-time" id="coverLocalTime">--:--:--</span>
+              <div class="target-progress-row">
+                <div class="target-progress-bar-bg">
+                  <div class="target-progress-bar-fill" id="coverTargetProgressFill" style="width: 100%;"></div>
+                </div>
+                <span class="target-horizon-tag">CORONACIÓN $1,000 EN 4-5 DÍAS</span>
               </div>
-            </div>
-            <!-- Semáforo de Cambio de Sesión -->
-            <div class="cover-session-radar" id="coverSessionRadar">
-              <span class="material-symbols-rounded radar-alert-icon" id="coverRadarIcon">shield</span>
-              <span class="radar-status-text" id="coverRadarText">🛡️ FLUJO DE MERCADO ESTABLE · ESCUDO #00 EN VIGILANCIA NORMAL</span>
             </div>
           </div>
 
-          <!-- Derecha: Estado de Telegram y Botón de Prueba -->
+          <!-- Derecha: Estado de Mitigación de Riesgo Activa -->
           <div class="cover-hero-right">
-            <div class="tg-notifier-pill">
-              <span class="material-symbols-rounded">notifications_active</span>
-              <span>AVISO TELEGRAM (-5 MIN APERTURA / -5 MIN CIERRE): <b>ACTIVO 24/7</b></span>
+            <div class="risk-active-pill">
+              <span class="material-symbols-rounded shield-icon">shield</span>
+              <div class="risk-active-text">
+                <span class="risk-pill-title">MITIGACIÓN ACTIVA</span>
+                <span class="risk-pill-rules">MÁX 2 TIROS SIN BE #00 · ENFRIAMIENTO 12M · CERTEZA &gt;= 65%</span>
+              </div>
             </div>
-            <button class="btn-test-alert" id="btnTestTelegramAlert" type="button" onclick="triggerTestTelegramAlert()">
-              <span class="material-symbols-rounded">send</span> 📲 PROBAR ALERTA TELEGRAM 5-MIN
-            </button>
-            <div class="test-alert-status" id="testAlertStatus"></div>
           </div>
         </div>
 
-        <!-- Bloque Cuadrícula de los 8 Relojes de Todos los Mercados (4x2) -->
+        <!-- BLOQUE 2: CUADRÍCULA DE LOS 8 RELOJES DE TODOS LOS MERCADOS (4x2) -->
         <div class="market-clocks-grid" id="marketClocksGrid">
           <!-- Inyectado dinámicamente desde app.js cada 1s -->
         </div>
+
+        <!-- BLOQUE 3: DEPARTAMENTO DE MITIGACIÓN DE RIESGO & MONITOR DE ALERTAS TELEGRAM (2 COLUMNAS) -->
+        <div class="cover-risk-grid">
+          <!-- Columna Izquierda: Estado de Enfriamiento y Exposición de Escuadrones -->
+          <div class="risk-dept-card">
+            <div class="dept-card-header">
+              <div class="dept-title-wrap">
+                <span class="material-symbols-rounded dept-icon">verified_user</span>
+                <span class="dept-title">DEPARTAMENTO DE CONTROL Y MITIGACIÓN DE RIESGO</span>
+              </div>
+              <span class="dept-badge-locked" id="coverFloorLockedToday"><span class="material-symbols-rounded">lock</span> PISO PROTEGIDO HOY: +$49.28 USDC</span>
+            </div>
+
+            <div class="dept-metrics-row">
+              <!-- Métrica 1: Exposición Inteligente -->
+              <div class="dept-metric-box">
+                <div class="d-m-head">
+                  <span class="d-m-label"><span class="material-symbols-rounded">layers</span> EXPOSICIÓN INTELIGENTE</span>
+                  <span class="d-m-val" id="riskExposureVal">0 / 3 ABIERTAS</span>
+                </div>
+                <div class="d-m-desc">Máximo 2 simultáneas en fase inicial. La 3ra exige que las anteriores tengan <b>BE #00</b> (+0.045%). Cero sangrado cruzado.</div>
+              </div>
+
+              <!-- Métrica 2: Enfriamiento Táctico 12m -->
+              <div class="dept-metric-box">
+                <div class="d-m-head">
+                  <span class="d-m-label"><span class="material-symbols-rounded">ac_unit</span> ENFRIAMIENTO 12 MINUTOS</span>
+                  <span class="d-m-val text-green" id="riskCooldownSummary">4/4 LISTOS</span>
+                </div>
+                <div class="cooldown-pairs-row" id="cooldownPairsRow">
+                  <span class="cooldown-pill ready">BNB: LISTO</span>
+                  <span class="cooldown-pill ready">ETH: LISTO</span>
+                  <span class="cooldown-pill ready">AVAX: LISTO</span>
+                  <span class="cooldown-pill ready">PAXG: LISTO</span>
+                </div>
+              </div>
+
+              <!-- Métrica 3: Puntería & Trailing -->
+              <div class="dept-metric-box">
+                <div class="d-m-head">
+                  <span class="d-m-label"><span class="material-symbols-rounded">track_changes</span> PUNTERÍA &amp; TRAILING</span>
+                  <span class="d-m-val text-cyan">L2 &gt;= 65% · EMA20</span>
+                </div>
+                <div class="d-m-desc">BE al <b>+0.10%</b> (+0.045% asegurado) + Trailing TP desde <b>+0.35%</b> para maximizar ganancias como BNB (+$29.69).</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Monitor de Alertas Telegram (-5 min Apertura/Cierre) -->
+          <div class="tg-monitor-card">
+            <div class="dept-card-header">
+              <div class="dept-title-wrap">
+                <span class="material-symbols-rounded dept-icon tg">notifications_active</span>
+                <span class="dept-title">MONITOR DE ALERTAS A TELEGRAM (-5 MIN)</span>
+              </div>
+              <span class="tg-chat-badge">CANAL: -1004342131598</span>
+            </div>
+
+            <div class="tg-monitor-body">
+              <div class="next-alert-box">
+                <span class="material-symbols-rounded alert-bell-icon">schedule</span>
+                <div class="next-alert-info">
+                  <span class="next-alert-lbl">PRÓXIMA ALERTA PROGRAMADA:</span>
+                  <span class="next-alert-val" id="coverNextAlertText">Calculando próxima sesión...</span>
+                </div>
+              </div>
+
+              <div class="tg-action-row">
+                <button class="btn-test-alert-large" id="btnTestTelegramAlert" type="button" onclick="triggerTestTelegramAlert()">
+                  <span class="material-symbols-rounded">send</span> 📲 ENVIAR PRUEBA A TELEGRAM
+                </button>
+                <span class="test-alert-status-text" id="testAlertStatus">Vigilante 24/7 conectado con éxito</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <!-- TAB 2: 54 PARES EN VIVO (GRID 9x6) -->

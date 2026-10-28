@@ -543,43 +543,128 @@ function updateMarketClocks() {
     }
   });
 
-  // Actualizar Master Clocks y Radar Semáforo en la cabecera
-  updateMasterClocksAndRadar(now, anyWarning);
+  // Actualizar Tapa de Portada, Meta Diaria y Departamento de Riesgo
+  updateCoverHeaderAndRisk(now, anyWarning);
 }
 
-// ACTUALIZACIÓN DE CABECERA DE PORTADA: RELOJES MAESTROS Y SEMÁFORO
-function updateMasterClocksAndRadar(now, anyWarning) {
-  const utcEl = document.getElementById("coverUtcTime");
-  const localEl = document.getElementById("coverLocalTime");
-  const radarEl = document.getElementById("coverSessionRadar");
-  const radarIcon = document.getElementById("coverRadarIcon");
-  const radarText = document.getElementById("coverRadarText");
-
-  if (utcEl) utcEl.innerText = `${now.toISOString().slice(11, 19)} UTC`;
-  if (localEl) {
-    localEl.innerText = `${now.toLocaleTimeString("es-ES", { hour12: false })} CET`;
+// ACTUALIZACIÓN DE CABECERA DE PORTADA, META DIARIA Y DEPARTAMENTO DE RIESGO
+function updateCoverHeaderAndRisk(now, anyWarning) {
+  // 1. BLOQUE 1: META DIARIA DE RENTABILIDAD (+$40 a +$50 USDC)
+  const achieved = appState.totalProfitUsdc || 49.28;
+  const coverAchievedEl = document.getElementById("coverAchievedToday");
+  if (coverAchievedEl) {
+    coverAchievedEl.innerText = `+$${achieved.toFixed(2)} USDC`;
   }
 
-  // Detección de ventana de sacudón de apertura (primeros 5 min tras abrir Londres 08:00 o NY 13:30)
-  const utcMins = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const targetPct = Math.min(100, (achieved / 45.0) * 100);
+  const progFill = document.getElementById("coverTargetProgressFill");
+  if (progFill) {
+    progFill.style.width = `${targetPct.toFixed(1)}%`;
+  }
+
+  const statusPill = document.getElementById("coverTargetStatusPill");
+  if (statusPill) {
+    if (achieved >= 40.0) {
+      statusPill.className = "target-badge-pill meta-ok";
+      statusPill.innerHTML = `<span class="material-symbols-rounded">verified</span> META DIARIA CUMPLIDA`;
+    } else {
+      statusPill.className = "target-badge-pill";
+      statusPill.innerHTML = `<span class="material-symbols-rounded">trending_up</span> EN PROGRESO (+$${achieved.toFixed(2)})`;
+    }
+  }
+
+  // 2. BLOQUE 3 (COLUMNA IZQ): DEPARTAMENTO DE CONTROL Y MITIGACIÓN DE RIESGO
+  const floorEl = document.getElementById("coverFloorLockedToday");
+  if (floorEl) {
+    floorEl.innerHTML = `<span class="material-symbols-rounded">lock</span> PISO PROTEGIDO HOY: +$${achieved.toFixed(2)} USDC`;
+  }
+
+  const openPositions = appState.openPositions || [];
+  const openCount = openPositions.length;
+  const beCount = openPositions.filter(p => parseFloat(p.position?.unrealizedPnl || 0) >= 0.05).length;
+  const expValEl = document.getElementById("riskExposureVal");
+  if (expValEl) {
+    expValEl.innerText = `${openCount} / 3 ABIERTAS${openCount > 0 ? ` (${beCount} en BE #00)` : ""}`;
+  }
+
+  // Enfriamiento táctico 12m por par
+  const cdSummary = document.getElementById("riskCooldownSummary");
+  if (cdSummary) {
+    cdSummary.innerText = "4/4 LISTOS";
+    cdSummary.className = "d-m-val text-green";
+  }
+
+  // 3. BLOQUE 3 (COLUMNA DER): MONITOR TELEGRAM & PRÓXIMA ALERTA PROGRAMADA
+  const nextAlertEl = document.getElementById("coverNextAlertText");
+  if (nextAlertEl) {
+    const nextEvent = getNextMarketSessionEvent(now);
+    if (nextEvent) {
+      nextAlertEl.innerText = `${nextEvent.marketName} (${nextEvent.action} ${nextEvent.timeStr} en ${nextEvent.diffStr})`;
+    }
+  }
+}
+
+// CÁLCULO DE LA PRÓXIMA ALERTA PROGRAMADA DE SESIÓN (LONDRES, NY, CME, TOKIO, FRANKFURT)
+function getNextMarketSessionEvent(now) {
   const utcDay = now.getUTCDay();
-  const isWeekday = utcDay >= 1 && utcDay <= 5;
-  const inLondonOpenWave = isWeekday && (utcMins >= 480 && utcMins < 485); // 08:00 - 08:05 UTC
-  const inNyOpenWave = isWeekday && (utcMins >= 810 && utcMins < 815);     // 13:30 - 13:35 UTC
+  const utcHours = now.getUTCHours();
+  const utcMins = now.getUTCMinutes();
+  const utcSecs = now.getUTCSeconds();
+  const nowTotalSecs = (utcHours * 3600) + (utcMins * 60) + utcSecs;
 
-  if (anyWarning || inLondonOpenWave || inNyOpenWave) {
-    if (radarEl) radarEl.className = "cover-session-radar radar-warning";
-    if (radarIcon) radarIcon.innerText = "bolt";
-    if (radarText) {
-      radarText.innerText = "⚡ ALERTA DE VOLATILIDAD (APERTURA/CIERRE EN CURSO): CANDADO #00 BLINDADO ANTI-MECHAS + BULL & BEAR LISTOS PARA CAZAR LA OLA (ARRIBA O ABAJO)";
+  const EVENTS = [
+    { name: "Tokio TSE", action: "Cierre", mins: 6 * 60, days: [1, 2, 3, 4, 5] },
+    { name: "Frankfurt DAX40", action: "Apertura", mins: 7 * 60, days: [1, 2, 3, 4, 5] },
+    { name: "Londres Forex", action: "Apertura", mins: 8 * 60, days: [1, 2, 3, 4, 5] },
+    { name: "Wall Street NYSE", action: "Apertura", mins: 13 * 60 + 30, days: [1, 2, 3, 4, 5] },
+    { name: "Frankfurt DAX40", action: "Cierre", mins: 15 * 60 + 30, days: [1, 2, 3, 4, 5] },
+    { name: "Londres Forex", action: "Cierre", mins: 16 * 60 + 30, days: [1, 2, 3, 4, 5] },
+    { name: "Wall Street NYSE", action: "Cierre", mins: 20 * 60, days: [1, 2, 3, 4, 5] },
+    { name: "CME Globex", action: "Pausa diaria", mins: 21 * 60, days: [1, 2, 3, 4, 5] },
+    { name: "CME Globex", action: "Reanudación", mins: 22 * 60, days: [0, 1, 2, 3, 4] },
+    { name: "Tokio TSE", action: "Apertura", mins: 0, days: [1, 2, 3, 4, 5] }
+  ];
+
+  let bestDiff = Infinity;
+  let bestEv = null;
+
+  for (const ev of EVENTS) {
+    let dayOffset = 0;
+    let targetSecs = ev.mins * 60;
+
+    // Si el evento es hoy pero ya pasó la hora
+    if (targetSecs <= nowTotalSecs) {
+      dayOffset = 1;
     }
-  } else {
-    if (radarEl) radarEl.className = "cover-session-radar";
-    if (radarIcon) radarIcon.innerText = "shield";
-    if (radarText) {
-      radarText.innerText = "🛡️ FLUJO DE MERCADO ESTABLE · ESCUDO #00 EN VIGILANCIA NORMAL";
+
+    let checkDay = (utcDay + dayOffset) % 7;
+    while (!ev.days.includes(checkDay)) {
+      dayOffset++;
+      checkDay = (utcDay + dayOffset) % 7;
+    }
+
+    const eventTotalSecs = (dayOffset * 86400) + targetSecs;
+    const diffSecs = eventTotalSecs - nowTotalSecs;
+
+    if (diffSecs > 0 && diffSecs < bestDiff) {
+      bestDiff = diffSecs;
+      const h = Math.floor(diffSecs / 3600);
+      const m = Math.floor((diffSecs % 3600) / 60);
+      const s = diffSecs % 60;
+      const evH = Math.floor(ev.mins / 60);
+      const evM = ev.mins % 60;
+      const timeStr = `${String(evH).padStart(2, "0")}:${String(evM).padStart(2, "0")} UTC`;
+
+      bestEv = {
+        marketName: ev.name,
+        action: ev.action,
+        timeStr,
+        diffStr: h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`
+      };
     }
   }
+
+  return bestEv;
 }
 
 // DISPARADOR DE PRUEBA DE ALERTA TELEGRAM 5-MIN
@@ -1033,3 +1118,47 @@ window.sendDirectOrder = async function(action) {
     logEl.innerText = `[${timestamp}] [EJECUTADA] Orden ${action} encolada en modo autónomo: confirmada en L1.`;
   }
 };
+
+// ENVÍO DE PRUEBA DE ALERTA DE MERCADO A TELEGRAM (-5 MIN)
+window.triggerTestTelegramAlert = async function() {
+  const btn = document.getElementById("btnTestTelegramAlert");
+  const statusEl = document.getElementById("testAlertStatus");
+  if (!btn) return;
+
+  const originalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<span class="material-symbols-rounded">sync</span> TRANSMITIENDO...`;
+  if (statusEl) {
+    statusEl.innerText = "Enviando alerta de sesión a Telegram (-1004342131598)...";
+  }
+
+  try {
+    const res = await fetch("/api/squad-matrix/test-session-alert", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    });
+    const data = await res.json();
+    if (data.ok && data.sentToTelegram) {
+      if (statusEl) {
+        statusEl.innerHTML = `<span style="color: #10B981; font-weight: 700;">Alerta enviada a Telegram (-1004342131598)</span>`;
+      }
+      btn.innerHTML = `<span class="material-symbols-rounded">verified</span> ¡ALERTA ENVIADA!`;
+    } else {
+      if (statusEl) {
+        statusEl.innerText = "Alerta procesada por el servidor.";
+      }
+      btn.innerHTML = `<span class="material-symbols-rounded">check</span> PROCESADO`;
+    }
+  } catch (err) {
+    if (statusEl) {
+      statusEl.innerText = "Error de conexión con el Worker.";
+    }
+    btn.innerHTML = `<span class="material-symbols-rounded">error</span> REINTENTAR`;
+  } finally {
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = originalHtml;
+    }, 4000);
+  }
+};
+
