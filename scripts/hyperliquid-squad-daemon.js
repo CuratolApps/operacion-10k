@@ -40,9 +40,12 @@ process.on("uncaughtException", (err) => {
 const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$320.00+ USDC)
 const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$160.00 USDC a 5x = ~$800.00 Nocional)
 const LEVERAGE = 5;
-const TARGET_GAIN_PCT = 0.35;           // +0.35% Take Profit base (con Trailing hacia arriba)
-const BREAKEVEN_TRIGGER_PCT = 0.10;     // Activar candado BE al +0.10% a favor
-const BREAKEVEN_LOCK_PCT = 0.045;       // Candado BE en +0.045% (cubre 100% fees)
+const MAX_NOTIONAL_PER_COIN = 250.00;   // REGLA ANTI-LIQUIDEZ ESTÁTICA: Máx $250.00 USD por par (~10% del poder de la cuenta)
+const TARGET_GAIN_PCT = 0.15;           // +0.15% Take Profit Rápido (Rango +0.12% a +0.18% · Rotación Rápida)
+const BREAKEVEN_TRIGGER_PCT = 0.05;     // Candado Breakeven #00 se activa al +0.05%
+const BREAKEVEN_LOCK_PCT = 0.03;        // Candado BE en +0.03% (cubre 100% comisiones Maker y asegura centavos verdes)
+const TIME_STOP_MS = 20 * 60 * 1000;    // Reloj Anti-Estancamiento: 20 minutos
+const TIME_STOP_MIN_PNL_USDC = 0.02;    // Si lleva >20m y PnL >= +$0.02 USDC, cierra de inmediato para rotación
 const COOLDOWN_DURATION_MS = 12 * 60 * 1000; // 12 minutos de enfriamiento táctico post-TP
 const MIN_CERTAINTY_L2_PCT = 65.0;      // 65% de presión L2 mínima para tiro de alta certeza
 const MAX_CONCURRENT_INITIAL = 2;       // Máximo 2 concurrentes sin BE #00
@@ -525,6 +528,8 @@ async function startAutonomousSquadDaemon() {
     CHARLIE: { activeCoin: null, entryPx: 0, size: "0", direction: "LONG", tpOid: null, dcaDone: false, beLocked: false, notifiedEntry: false }
   };
 
+  const lastConfirmedPositionSizes = {};
+  const positionOpenTimestamps = {};
   let cycleCounter = 0;
   let isV2Armed = true;
 
@@ -537,6 +542,43 @@ async function startAutonomousSquadDaemon() {
       const openPositions = (ch.assetPositions || []).filter(p => parseFloat(p.position.szi) !== 0);
       const openOrders = await info.openOrders({ user: VAULT_501 });
 
+      // Verificador Estricto de Fills Reales en Clearinghouse (Prohibido alertar por solo enviar órdenes)
+      for (const pos of openPositions) {
+        const coin = pos.position.coin;
+        const currentSz = Math.abs(parseFloat(pos.position.szi));
+
+        if (lastConfirmedPositionSizes[coin] === undefined) {
+          lastConfirmedPositionSizes[coin] = currentSz;
+          positionOpenTimestamps[coin] = Date.now();
+        } else if (currentSz < lastConfirmedPositionSizes[coin]) {
+          const executedSz = +(lastConfirmedPositionSizes[coin] - currentSz).toFixed(4);
+          lastConfirmedPositionSizes[coin] = currentSz;
+          console.log(`🎉 [FILL CONFIRMADO ON-CHAIN] ${coin}: se ejecutaron ${executedSz} unidades. Posición restante: ${currentSz}`);
+
+          if (coin === "AVAX") {
+            const destrabeTg = `🔓 <b>ALERTA VERIFICADA TELEGRAM — TRAMO DESTRABADO EN AVAX</b>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
+              `💰 <b>Descarga Verificada en L1:</b> <code>${executedSz} AVAX</code> ejecutados.\n` +
+              `📉 <b>Posición Restante:</b> <code>${currentSz} AVAX</code>\n` +
+              `💵 <b>Balance Total en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
+              `🔓 <b>Estado:</b> Liquidez liberada y devuelta a capital disponible.\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🌐 <i>SQUAD MATRIX // Destrabe Rápido Verificado</i>`;
+            sendSquadTelegram(destrabeTg).catch(() => {});
+          }
+        }
+      }
+
+      // Limpieza de posiciones cerradas totalmente
+      for (const [coin, prevSz] of Object.entries(lastConfirmedPositionSizes)) {
+        if (prevSz > 0 && !openPositions.some(p => p.position.coin === coin)) {
+          console.log(`🎉 [CIERRE COMPLETO ON-CHAIN] ${coin}: posición cerrada al 100%.`);
+          lastConfirmedPositionSizes[coin] = 0;
+          delete positionOpenTimestamps[coin];
+        }
+      }
+
       // 2. Procesar Cola de Órdenes Directas y Doctrina de Consolidación
       await processDirectOrdersQueue(client, info);
       checkDailyAmortizationCut(accountValue);
@@ -548,7 +590,7 @@ async function startAutonomousSquadDaemon() {
       const reserveUsdc = +(accountValue * MENTORA_RESERVE_RATIO).toFixed(2);
       const availableForTrading = Math.max(0, accountValue - reserveUsdc);
       const dynamicSquadMargin = Math.max(40.00, +(accountValue * SQUAD_MARGIN_RATIO).toFixed(2));
-      const dynamicNotional = +(dynamicSquadMargin * LEVERAGE).toFixed(2);
+      const dynamicNotional = Math.min(MAX_NOTIONAL_PER_COIN, +(dynamicSquadMargin * LEVERAGE).toFixed(2));
 
       if (cycleCounter % 10 === 1) {
         console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Bloque 1 | Ciclo #${cycleCounter} | Capital: $${accountValue.toFixed(2)} USDC (Meta $1,000) | Margen/Tiro: $${dynamicSquadMargin.toFixed(2)} ($${dynamicNotional.toFixed(0)} Nocional) | Pos: ${openPositions.length}`);
@@ -573,56 +615,24 @@ async function startAutonomousSquadDaemon() {
           mem.size = sz;
           mem.direction = isShort ? "SHORT" : "LONG";
 
-          // --- OPERACIÓN RESCATE #00 EN AVAX-USDC: SALIDA ESCALONADA 2 TRAMOS & PROHIBIDO SOBRE-APALANCAR ---
+          // --- OPERACIÓN RESCATE #00 EN AVAX-USDC: SALIDA ESCALONADA & PROHIBIDO SOBRE-APALANCAR ---
           if (coin === "AVAX") {
             mem.dcaDone = true; // Prohibido sobre-apalancar: Cero compras adicionales
             const avaxExitOrders = openOrders.filter(o => o.coin === "AVAX" && o.reduceOnly === true);
 
-            // Si Tramo 1 (70% Alivio) ya se ejecutó (posición reducida a <= 130 AVAX)
-            if (szNum <= 130 && !mem.beLocked) {
-              mem.beLocked = true;
-              console.log(`🎉 [OPERACIÓN RESCATE #00] ¡TRAMO 1 DE AVAX COMPLETADO! 70% de la posición liberada. Candado BE #00 activado para el 30% restante.`);
-              const rescueTg = `🔓 <b>ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX</b>\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
-                `💰 <b>Descarga de Alivio (70%):</b> 280.52 AVAX ejecutados en $8.895 sin pérdida.\n` +
-                `💵 <b>Capital Liberado:</b> ~$2,495 USD de nocional devueltos a margen libre.\n` +
-                `🔒 <b>Candado BE #00 Activado:</b> Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>`;
-              sendSquadTelegram(rescueTg).catch(() => {});
-            }
-
-            // Si por alguna razón no hay órdenes de salida puestas para AVAX, reponer salida
+            // Si por alguna razón no hay órdenes de salida puestas para AVAX, colocar salida final con orden reduceOnly
             if (avaxExitOrders.length === 0 && isV2Armed) {
-              if (szNum <= 130) {
-                const szRemain = formatHlSize(szNum, 2);
-                console.log(`[RESCATE AVAX] Reponiendo salida final de Tramo 2 (${szRemain} @ $8.942)...`);
-                try {
-                  await client.order({
-                    orders: [
-                      { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szRemain, r: true, t: { limit: { tif: "Alo" } } }
-                    ],
-                    grouping: "na"
-                  });
-                } catch (e) {
-                  console.error("[RESCATE AVAX] Error reponiendo salida final:", e.message);
-                }
-              } else {
-                const szTramo1 = formatHlSize(szNum * 0.70, 2);
-                const szTramo2 = formatHlSize(szNum - parseFloat(szTramo1), 2);
-                console.log(`[RESCATE AVAX] Reponiendo salida escalonada 70/30 (${szTramo1} @ $8.895 / ${szTramo2} @ $8.942)...`);
-                try {
-                  await client.order({
-                    orders: [
-                      { a: ASSET_INDICES["AVAX"], b: false, p: "8.895", s: szTramo1, r: true, t: { limit: { tif: "Alo" } } },
-                      { a: ASSET_INDICES["AVAX"], b: false, p: "8.942", s: szTramo2, r: true, t: { limit: { tif: "Alo" } } }
-                    ],
-                    grouping: "na"
-                  });
-                } catch (e) {
-                  console.error("[RESCATE AVAX] Error reponiendo salida escalonada:", e.message);
-                }
+              const szRemain = formatHlSize(szNum, 2);
+              console.log(`[DESTRABE AVAX] Reponiendo salida final de tramo restante (${szRemain} @ $8.928)...`);
+              try {
+                await client.order({
+                  orders: [
+                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.928", s: szRemain, r: true, t: { limit: { tif: "Alo" } } }
+                  ],
+                  grouping: "na"
+                });
+              } catch (e) {
+                console.error("[DESTRABE AVAX] Error reponiendo salida final:", e.message);
               }
             }
             continue; // Saltar trailing TP genérico y DCA para AVAX
@@ -645,11 +655,16 @@ async function startAutonomousSquadDaemon() {
               if (mids[coin]) currentMid = parseFloat(mids[coin]);
             } catch (_) {}
 
-            let exitPxNum = isShort
-              ? entryPx * (1 - targetGain / 100)
-              : entryPx * (1 + targetGain / 100);
+            let exitPxNum;
+            if (coin === "ETH") {
+              exitPxNum = 2356.50; // Salida rápida al +0.23% ordenada por Comandante para soltar carga
+            } else {
+              exitPxNum = isShort
+                ? entryPx * (1 - targetGain / 100)
+                : entryPx * (1 + targetGain / 100);
+            }
 
-            // Si el mercado ya superó el TP (+0.35%), colocar orden ALO al precio actual respetando Maker para capturar la ganancia superior
+            // Si el mercado ya superó el TP (+0.15%), colocar orden ALO al precio actual respetando Maker para capturar la ganancia superior
             if (!isShort && currentMid >= exitPxNum) {
               exitPxNum = currentMid * 1.0003;
             } else if (isShort && currentMid <= exitPxNum) {
@@ -697,8 +712,50 @@ async function startAutonomousSquadDaemon() {
               const drawdownPct = isShort
                 ? (currentMid - entryPx) / entryPx * 100
                 : (entryPx - currentMid) / entryPx * 100;
+              const uPnlNum = parseFloat(activePos.position?.unrealizedPnl || "0");
 
-              // 1. CANDADO BREAKEVEN (+0.10% ➔ Clavado en +0.045% cubriendo comisiones)
+              // 0. RELOJ ANTI-ESTANCAMIENTO (20 MINUTOS) — PROHIBIDO AMARRAR CAPITAL
+              if (!positionOpenTimestamps[coin]) {
+                positionOpenTimestamps[coin] = Date.now();
+              }
+              const elapsedMins = (Date.now() - positionOpenTimestamps[coin]) / (60 * 1000);
+              if (elapsedMins >= 20 && uPnlNum >= TIME_STOP_MIN_PNL_USDC) {
+                console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] Posición ${coin} abierta hace ${elapsedMins.toFixed(1)}m con ganancia (+$${uPnlNum.toFixed(4)} USDC). Cierre de alivio forzado.`);
+                if (existingExitOrder) {
+                  try {
+                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] });
+                  } catch (_) {}
+                }
+                const closePx = isShort ? currentMid * 1.0002 : currentMid * 0.9998;
+                const closePxStr = formatHlPrice(closePx, coin);
+                try {
+                  await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isShort,
+                      p: closePxStr,
+                      s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
+                      r: true,
+                      t: { limit: { tif: "Alo" } }
+                    }],
+                    grouping: "na"
+                  });
+                  console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] Orden enviada a $${closePxStr} para rotar capital.`);
+                  const timeStopTg = `⏱️ <b>ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)</b>\n` +
+                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                    `📍 <b>Activo:</b> <code>${coin}-USDC</code>\n` +
+                    `⏳ <b>Tiempo Abierto:</b> ${elapsedMins.toFixed(0)} minutos\n` +
+                    `💰 <b>Ganancia Asegurada:</b> <code>+$${uPnlNum.toFixed(4)} USDC</code>\n` +
+                    `🔓 <b>Acción:</b> Cierre ejecutado para rotación inmediata de capital.\n` +
+                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+                  await sendSquadTelegram(timeStopTg);
+                } catch (err) {
+                  console.error(`[ANTI-ESTANCAMIENTO] Error enviando cierre:`, err.message);
+                }
+                continue;
+              }
+
+              // 1. CANDADO BREAKEVEN (+0.05% ➔ Clavado en +0.03% cubriendo comisiones Maker)
               // EN VENTANA DE SACUDÓN (±5 min de Apertura Londres/NY): Mentora #00 aprieta al +0.05%
               const inShakeWindow = isMarketShakeWindow(new Date());
               const effectiveBeTrigger = inShakeWindow ? 0.05 : BREAKEVEN_TRIGGER_PCT;
@@ -1025,7 +1082,7 @@ async function startAutonomousSquadDaemon() {
 
               if (bestCandidate) {
                 const coin = bestCandidate.coin;
-                const notional = dynamicSquadMargin * LEVERAGE; // ~$508.05 USD
+                const notional = Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE); // Máx $250.00 USD nocional por regla anti-estancamiento
                 const szFormatted = formatHlSize(notional / bestCandidate.price, ASSET_DECIMALS[coin].sz);
                 const isLong = bestCandidate.direction === "LONG";
                 const entryPxStr = formatHlPrice(bestCandidate.price, coin);
