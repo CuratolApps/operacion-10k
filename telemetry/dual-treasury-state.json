@@ -1,45 +1,51 @@
 {
-  "updatedAt": "2026-10-27T10:30:00.000Z",
+  "updatedAt": "2026-10-28T07:05:00.000Z",
   "masterVault": "0xD4D12077a61118372f7a367319fb11922Beb3743",
-  "totalConsolidatedPatrimonyUsdc": 710.78,
+  "totalConsolidatedPatrimonyUsdc": 719.41,
   "gasShield": {
     "currentPol": 10.60,
     "floorPol": 10.00,
     "status": "100% OPERATIVO (GAS BLINDADO)"
   },
   "chamber1_polygon": {
-    "currentUsdc": 511.39,
-    "floorGoalUsdc": 500,
-    "remainingUsdc": 0.00,
-    "progressPct": 100.00,
-    "rotation": {
-      "aaveV3ApyPct": 4.85,
-      "aPolUsdcBalance": 491.28,
-      "nativeUsdc": 20.11,
-      "status": "Piso Blindado: $511.39 USDC ($491.28 Aave V3 1:1 + $20.11 Nativo)"
-    }
+    "currentUsdc": 211.35,
+    "floorGoalUsdc": 200.00,
+    "aaveV3ApyPct": 4.85,
+    "aPolUsdcBalance": 211.24,
+    "nativeUsdc": 0.11,
+    "loanDisbursedToHL": 300.00,
+    "dailyRepaymentReceivableUsdc": 10.00,
+    "status": "Reserva Aave V3 ($211.24 aPolUSDCn) + $300.00 Autopréstamo Amortizable a $10/día"
   },
   "chamber2_hyperliquid": {
-    "l1AccountValueUsdc": 199.39,
-    "l1WithdrawableUsdc": 189.51,
+    "l1AccountValueUsdc": 508.06,
+    "l1WithdrawableUsdc": 478.18,
     "agentKey": "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
     "agentPermissions": "POST-ONLY ALO MAKER (0% RETIRO)",
     "feeMakerPct": 0.015,
     "gasCostL1": "$0.00",
-    "harvestTargetUsdc": 200,
-    "harvestAction": "🛡️ GUARDIA V2 ESPERANDO CIERRE DE SOL ($101.06)",
+    "loanPrincipalBorrowed": 300.00,
+    "dailyRepaymentQuota": 10.00,
+    "totalInstallments": 30,
+    "currentInstallment": 1,
+    "mentoraReserveUsdc": 203.22,
+    "mentoraReserveRatio": 0.40,
+    "squadMarginRatio": 0.20,
+    "squadMarginEachUsdc": 101.61,
+    "squadNotionalEachUsd": 508.05,
     "agentAuthorizedOnChain": true,
     "motorActive": true,
-    "executionMode": "V2_STANDBY_GUARD_SOL"
+    "executionMode": "V2_EXPANDED_COMPOUND_500"
   },
   "routingPolicy": {
-    "description": "Cámara 1 Polygon ($511.39 USDC) + Cámara 2 Hyperliquid L1 ($199.39 USDC) = $710.78 USDC Total Activo",
+    "description": "Cámara 1 Polygon ($211.35 USDC en Aave V3) + Cámara 2 Hyperliquid L1 ($508.06 USDC) = $719.41 USDC Total Activo",
     "gasShieldFloorPol": 10.00,
-    "polygonFloorUsdc": 500,
-    "arbitrumGasReserveEthUsd": 1.96
+    "arbitrumGasReserveEthUsd": 1.95,
+    "loanContract": "telemetry/vault501-loan-ledger.json",
+    "directOrdersQueue": "telemetry/direct-orders-queue.json"
   },
   "livePrices": {
     "polPriceUsd": 0.0903,
-    "ethPriceUsd": 2320.00
+    "ethPriceUsd": 2346.00
   }
 }

@@ -1,0 +1,23 @@
+{
+  "loanId": "LOAN-501-HL-300",
+  "borrower": "Squad Secret V2 (Hyperliquid L1)",
+  "lender": "Bóveda Matriz #501 (Polygon Aave V3)",
+  "principalBorrowedUsdc": 300.00,
+  "dailyRepaymentQuotaUsdc": 10.00,
+  "totalInstallments": 30,
+  "currentInstallment": 1,
+  "repaidSoFarUsdc": 0.00,
+  "remainingBalanceUsdc": 300.00,
+  "startDate": "2026-10-28T07:00:00.000Z",
+  "maturityDate": "2026-11-27T07:00:00.000Z",
+  "status": "ACTIVE_AMORTIZATION",
+  "terms": {
+    "dailyCutUtc": "12:00:00 UTC",
+    "dailyRepaymentUsdc": 10.00,
+    "excessProfitAction": "100% CAPITALIZED_IN_HYPERLIQUID_L1_COMPOUND_INTEREST",
+    "collateralOrigin": "Aave V3 Polygon Collateral (aPolUSDCn)",
+    "destination": "Hyperliquid L1 Maker ALO Squads"
+  },
+  "installmentsHistory": [],
+  "updatedAt": "2026-10-28T07:00:00.000Z"
+}

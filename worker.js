@@ -1524,9 +1524,9 @@ export default {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
             totalUsdc: vault501BaseSum,
             polygonUsdc: polygonUsdcLive,
-            arbitrumHlUsdc: 100.02,
+            arbitrumHlUsdc: 508.06,
             bscUsdc: 7.98,
-            subtitle: `Cámara 1 Pol: $${polygonUsdcLive.toFixed(2)} (Aave V3 1:1) · Cámara 2 HL: $100.02 USDC`
+            subtitle: `Cámara 1 Pol: $${polygonUsdcLive.toFixed(2)} (Aave V3 1:1) · Cámara 2 HL: $508.06 USDC (Escalado)`
           },
           vault501Polygon: {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
@@ -1534,8 +1534,8 @@ export default {
             asset: "USDC (Native Circle)",
             contract: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
             balanceUsdc: polygonUsdcLive,
-            gasPol: 160.79,
-            gasFloorPol: 155.05,
+            gasPol: 10.60,
+            gasFloorPol: 10.00,
             gasFloorStatus: "100% BLINDADO",
             explorerUrl: "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
           },
@@ -1543,10 +1543,11 @@ export default {
             address: "0xD4D12077a61118372f7a367319fb11922Beb3743",
             chain: "Hyperliquid L1",
             asset: "USDC (Clearinghouse)",
-            balanceUsdc: 100.02,
+            balanceUsdc: 508.06,
+            loanContract: "Préstamo #501: $300.00 USDC | Cuota Diaria: $10.00 USDC (Día 1/30) | Excedente: 100% Capitalizado en Hyperliquid L1",
             agentKey: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8 (SquadSecret501)",
-            agentStatus: "⏸️ PAUSADO PREVENTIVO PARA AUDITORÍA DE BOTS (0% RETIRO)",
-            tradingMode: "PAUSADO PREVENTIVO (CERO ÓRDENES ACTIVAS)",
+            agentStatus: "🚀 OPERATIVO V2 ESCALADO ACTIVO (POST-ONLY ALO MAKER · 20% MARGEN/TIRO · ESCUDO MENTORA 40%)",
+            tradingMode: "V2_EXPANDED_COMPOUND_500",
             explorerUrl: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
           },
           vault501Arbitrum: {
