@@ -1,5 +1,12 @@
 [
   {
+    "id": "tg-1793202135785-104",
+    "timestamp": "2026-10-28T15:42:15.785Z",
+    "timeFormatted": "15:42:15 UTC",
+    "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.10%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$4050.5</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.10% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $4050.5 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  },
+  {
     "id": "tg-1793198951385-776",
     "timestamp": "2026-10-28T14:49:11.385Z",
     "timeFormatted": "14:49:11 UTC",
@@ -201,12 +208,5 @@
     "timeFormatted": "7:41:46 UTC",
     "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.14%</code>\n🛡️ <b>Candado Blindado a:</b> <code>$4039.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
     "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.14%\n🛡️ Candado Blindado a: $4039.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  },
-  {
-    "id": "tg-1793169262306-999",
-    "timestamp": "2026-10-28T06:34:22.306Z",
-    "timeFormatted": "6:34:22 UTC",
-    "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$0.9367</code>\n📤 <b>SE VENDIÓ A:</b> <code>$0.9164</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.0614 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>48 Ganadas · 0 Pérdidas (100% Invictos)</b>\n💵 <b>Nuevo Balance en L1:</b> <code>$508.72 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-    "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC\n📥 Precio Entrada: $0.9367\n📤 SE VENDIÓ A: $0.9164 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$0.0614 USDC\n🏆 Récord Oficial: 48 Ganadas · 0 Pérdidas (100% Invictos)\n💵 Nuevo Balance en L1: $508.72 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
   }
 ]

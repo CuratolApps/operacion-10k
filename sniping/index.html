@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ATOMIC FLASH MATRIX // Sniping Atómico en 1s · 54 Objetivos On-Chain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="matrix-body">
+  <div class="matrix-app matrix-viewport" id="matrixApp">
+    
+    <!-- TOP FIXED BAR: 5 BUSINESS CARDS (ESTILO SQUAD MATRIX - CERO SCROLL) -->
+    <header class="matrix-topbar top-matrix-grid">
+      
+      <!-- Tarjeta 1: Calibre Flash Loan Disponible -->
+      <div class="biz-card" id="cardFlashCaliber">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">bolt</span> CALIBRE FLASH LOAN DISPONIBLE
+        </div>
+        <div class="card-main-val">
+          <span class="currency-symbol">$</span><span id="topCaliberRange">5,000 – 50,000</span>
+          <span class="unit-tag">USDC</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-active" id="topBalancerFeePill">Balancer Fee: 0.00%</span>
+          <span class="pill-shield" id="topAaveFeePill">Aave V3 Fee: 0.05%</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: Dividendos Cobrados a #501 -->
+      <div class="biz-card" id="cardDividends">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">payments</span> DIVIDENDOS COBRADOS A #501
+        </div>
+        <div class="card-main-val text-green">
+          <span id="topTotalDividends">+$34.82</span>
+          <span class="pct-badge" id="topDividendsPct">+100% LIMPIO</span>
+        </div>
+        <div class="card-sub-badges-row">
+          <span class="sq-badge streak"><i class="material-symbols-rounded">workspace_premium</i> <b id="winStreakText">8G-0P (100%)</b></span>
+          <span class="sq-badge sq-unit" id="bountyHarvestBadge"><b>#01</b> +$12.5</span>
+          <span class="sq-badge sq-unit" id="bountyFlashBadge"><b>#02</b> +$14.9</span>
+          <span class="sq-badge sq-unit" id="bountyLiquidatorBadge"><b>#03</b> +$7.5</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3: Tanque de Gas #501 & Escudo Atómico -->
+      <div class="biz-card" id="cardGasShield">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">local_gas_station</span> TANQUE DE GAS #501 &amp; ESCUDO ATÓMICO
+        </div>
+        <div class="card-main-val">
+          <span id="topGasPol">160.85</span>
+          <span class="unit-tag">POL (Polygon)</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-shield" id="topGasFloorPill">Piso Sagrado: 150.00 POL</span>
+          <span class="pill-active" id="topExecutorPill">Ejecutor: 0x03Ac...6b67</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 4: Regla de Oro: Cero Riesgo de Capital -->
+      <div class="biz-card" id="cardZeroRisk">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">verified_user</span> REGLA DE ORO: CERO RIESGO DE CAPITAL
+        </div>
+        <div class="loan-stats-row">
+          <div class="loan-stat-col">
+            <span class="l-lbl">Simulación:</span>
+            <span class="l-val text-cyan">callStatic ($0)</span>
+          </div>
+          <div class="loan-stat-col">
+            <span class="l-lbl">Candado:</span>
+            <span class="l-val text-green">NO_PROFIT_REVERT</span>
+          </div>
+          <div class="loan-stat-col">
+            <span class="l-lbl">Retención:</span>
+            <span class="l-val text-amber">0 Segundos</span>
+          </div>
+        </div>
+        <div class="rule-badge-sub">Garantía Exigida: $0.00 · Reversión Atómica en Mismo Bloque</div>
+      </div>
+
+      <!-- Tarjeta 5: Radar Atómico 3 Motores x 54 Objetivos -->
+      <div class="biz-card" id="cardRadar">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">radar</span> RADAR ATÓMICO: 3 MOTORES × 54 OBJETIVOS
+        </div>
+        <div class="squad-counter-row">
+          <span class="status-pill active-pill" id="topActiveTargetsPill"><span class="material-symbols-rounded">check_circle</span> 54 Contratos Vigilados</span>
+          <span class="status-pill ready-pill" id="topSweepIntervalPill"><span class="material-symbols-rounded">speed</span> Multicall3 c/3s</span>
+        </div>
+        <div class="sub-label-matrix">Polygon PoS · Balancer V2 · Aave V3 · Beefy Finance</div>
+      </div>
+
+    </header>
+
+    <!-- MAIN VIEW CONTAINER (SWITCHES BETWEEN 4 TABS WITHOUT RELOAD) -->
+    <main class="matrix-content">
+      
+      <!-- TAB 1: 54 OBJETIVOS ATÓMICOS EN VIVO (GRID 9x6) -->
+      <section class="tab-pane active" id="paneTargetsGrid">
+        
+        <!-- HEADER DE BARRAS DE ESTADO DE LOS 3 MOTORES -->
+        <div class="grid-subhead-banner">
+          <div class="subhead-badge harvest-tag">
+            <span class="material-symbols-rounded">agriculture</span>
+            <b>FILAS 1-2: MOTOR #01 ALFA-HARVEST</b>
+            <span>(18 Bóvedas Keeper Bounties · Beefy, Gamma &amp; QuickSwap)</span>
+          </div>
+          <div class="subhead-badge flash-tag">
+            <span class="material-symbols-rounded">swap_horiz</span>
+            <b>FILAS 3-4: MOTOR #02 BRAVO-FLASH</b>
+            <span>(18 Rutas Flash Loan $5k-$25k · Balancer 0% Fee + Aave V3)</span>
+          </div>
+          <div class="subhead-badge liquidator-tag">
+            <span class="material-symbols-rounded">gavel</span>
+            <b>FILAS 5-6: MOTOR #03 CHARLEY-LIQUIDATOR</b>
+            <span>(18 Posiciones Deuda HF &lt; 1.000 · Bono +5% en 1s)</span>
+          </div>
+        </div>
+
+        <!-- LA REJILLA CENTRAL DE 54 OBJETIVOS (9 COLUMNAS x 6 FILAS) -->
+        <div class="pairs-grid-container" id="atomic54Grid">
+          <!-- Inyectado dinámicamente desde app.js (54 tarjetas en Azul Cobalto / Esmeralda) -->
+        </div>
+      </section>
+
+      <!-- TAB 2: ESCALERA DE CALIBRES FLASH ($5K A $50K) -->
+      <section class="tab-pane" id="paneLadder">
+        <div class="ladder-view-container">
+          <div class="panel-hero-card">
+            <div class="p-hero-left">
+              <span class="material-symbols-rounded p-icon">account_balance</span>
+              <div>
+                <h2>ESCALERA DE CALIBRES FLASH LOAN ATÓMICO ($5,000 A $50,000 USDC)</h2>
+                <p>Préstamos relámpago tomados y liquidados dentro de la misma transacción (1 bloque = 1 segundo). Cero retención, cero colateral y 100% blindado contra pérdidas.</p>
+              </div>
+            </div>
+            <div class="p-hero-right">
+              <div class="rule-badge-glow">Condición Inviolable: Reversión Total (Gas Refund) si Profit &lt; Gas × 1.5</div>
+            </div>
+          </div>
+
+          <div class="ladder-cards-grid">
+            <!-- Escalón 1: $5,000 -->
+            <div class="ladder-tier-card">
+              <div class="tier-badge">ESCALÓN #01 · MICRO-ARB</div>
+              <div class="tier-val">$5,000 <small>USDC</small></div>
+              <div class="tier-meta">
+                <div class="t-row"><span>Proveedor Óptimo:</span> <b>Balancer V2 (0.00% Fee)</b></div>
+                <div class="t-row"><span>Costo del Préstamo:</span> <b class="text-green">$0.00 USDC</b></div>
+                <div class="t-row"><span>Opción Alternativa:</span> <b>Aave V3 ($2.50 Fee)</b></div>
+                <div class="t-row"><span>Ruta Frecuente:</span> <b>USDC ➔ GHST ➔ WPOL</b></div>
+                <div class="t-row"><span>Spread Requerido:</span> <b>+0.08% Neto</b></div>
+                <div class="t-row"><span>Tiempo de Ejecución:</span> <b>1 Segundo (Mismo Bloque)</b></div>
+              </div>
+              <div class="tier-foot">
+                <span class="pill-active"><span class="material-symbols-rounded">check</span> RIESGO $0.00</span>
+                <span class="pill-shield">COLATERAL $0</span>
+              </div>
+            </div>
+
+            <!-- Escalón 2: $10,000 -->
+            <div class="ladder-tier-card highlight-tier">
+              <div class="tier-badge">ESCALÓN #02 · ESTÁNDAR TRIANGULAR</div>
+              <div class="tier-val">$10,000 <small>USDC</small></div>
+              <div class="tier-meta">
+                <div class="t-row"><span>Proveedor Óptimo:</span> <b>Balancer V2 (0.00% Fee)</b></div>
+                <div class="t-row"><span>Costo del Préstamo:</span> <b class="text-green">$0.00 USDC</b></div>
+                <div class="t-row"><span>Opción Alternativa:</span> <b>Aave V3 ($5.00 Fee)</b></div>
+                <div class="t-row"><span>Ruta Frecuente:</span> <b>USDC ➔ WPOL ➔ QUICK</b></div>
+                <div class="t-row"><span>Spread Requerido:</span> <b>+0.05% Neto</b></div>
+                <div class="t-row"><span>Tiempo de Ejecución:</span> <b>1 Segundo (Mismo Bloque)</b></div>
+              </div>
+              <div class="tier-foot">
+                <span class="pill-active"><span class="material-symbols-rounded">bolt</span> MÁXIMA FRECUENCIA</span>
+                <span class="pill-shield">NO_PROFIT_REVERT</span>
+              </div>
+            </div>
+
+            <!-- Escalón 3: $25,000 -->
+            <div class="ladder-tier-card">
+              <div class="tier-badge">ESCALÓN #03 · PESADO BLUE-CHIP</div>
+              <div class="tier-val">$25,000 <small>USDC</small></div>
+              <div class="tier-meta">
+                <div class="t-row"><span>Proveedor Óptimo:</span> <b>Balancer V2 (0.00% Fee)</b></div>
+                <div class="t-row"><span>Costo del Préstamo:</span> <b class="text-green">$0.00 USDC</b></div>
+                <div class="t-row"><span>Opción Alternativa:</span> <b>Aave V3 ($12.50 Fee)</b></div>
+                <div class="t-row"><span>Ruta Frecuente:</span> <b>USDC ➔ WETH ➔ LINK</b></div>
+                <div class="t-row"><span>Spread Requerido:</span> <b>+0.03% Neto</b></div>
+                <div class="t-row"><span>Tiempo de Ejecución:</span> <b>1 Segundo (Mismo Bloque)</b></div>
+              </div>
+              <div class="tier-foot">
+                <span class="pill-active"><span class="material-symbols-rounded">verified</span> ALTO DIVIDENDO</span>
+                <span class="pill-shield">CALLSTATIC OK</span>
+              </div>
+            </div>
+
+            <!-- Escalón 4: $50,000 -->
+            <div class="ladder-tier-card">
+              <div class="tier-badge">ESCALÓN #04 · TITÁN LIQUIDACIONES</div>
+              <div class="tier-val">$50,000 <small>USDC</small></div>
+              <div class="tier-meta">
+                <div class="t-row"><span>Proveedor Óptimo:</span> <b>Balancer V2 (0.00% Fee)</b></div>
+                <div class="t-row"><span>Costo del Préstamo:</span> <b class="text-green">$0.00 USDC</b></div>
+                <div class="t-row"><span>Opción Alternativa:</span> <b>Aave V3 ($25.00 Fee)</b></div>
+                <div class="t-row"><span>Ruta Frecuente:</span> <b>Liquidaciones Aave V3 &amp; Curve</b></div>
+                <div class="t-row"><span>Bono Estimado:</span> <b>+5.00% (+$2,500 Max)</b></div>
+                <div class="t-row"><span>Tiempo de Ejecución:</span> <b>1 Segundo (Mismo Bloque)</b></div>
+              </div>
+              <div class="tier-foot">
+                <span class="pill-active"><span class="material-symbols-rounded">shield</span> ESCUDO DE ACERO</span>
+                <span class="pill-shield">COLATERAL $0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: BITÁCORA REAL ON-CHAIN & RECIBOS 0x -->
+      <section class="tab-pane" id="paneLedger">
+        <div class="ledger-view-container">
+          <div class="ledger-hero-bar">
+            <div class="l-hero-title">
+              <span class="material-symbols-rounded">receipt_long</span>
+              <h3>BITÁCORA REAL ON-CHAIN &amp; RECIBOS DE DISPARO</h3>
+            </div>
+            <div class="l-hero-stats">
+              <span class="l-stat-tag"><span class="material-symbols-rounded">verified</span> Auditoría 100% Pública en PolygonScan</span>
+              <span class="l-stat-tag text-green"><span class="material-symbols-rounded">attach_money</span> Todos los Dividendos depositados en Bóveda #501</span>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <table class="matrix-table" id="receiptsTable">
+              <thead>
+                <tr>
+                  <th>HORA UTC / BLOQUE</th>
+                  <th>MOTOR ATÓMICO</th>
+                  <th>OBJETIVO DE TIRO</th>
+                  <th>CALIBRE FLASH</th>
+                  <th>COSTO GAS (POL)</th>
+                  <th>DIVIDENDO LIMPIO</th>
+                  <th>ESTADO ON-CHAIN</th>
+                  <th>RECIBO POLYGONSCAN</th>
+                </tr>
+              </thead>
+              <tbody id="receiptsTableBody">
+                <!-- Se inyecta dinámicamente desde app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: ENLACES A OTRAS ESTACIONES -->
+      <section class="tab-pane" id="paneLinks">
+        <div class="links-view-container">
+          <div class="links-grid">
+            <a href="/squad-matrix/" class="link-station-card">
+              <div class="l-card-head">
+                <span class="material-symbols-rounded l-card-icon">deployed_code</span>
+                <h3>SQUAD MATRIX</h3>
+              </div>
+              <p>18 Escuadrones Iguales × 54 Pares Ultra-Líquidos operando en Hyperliquid L1. Interés compuesto cerrado con meta a $1,000 USDC.</p>
+              <div class="l-card-cta">
+                <span>INGRESAR A SQUAD MATRIX</span>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </div>
+            </a>
+
+            <a href="/flota-x500/" class="link-station-card">
+              <div class="l-card-head">
+                <span class="material-symbols-rounded l-card-icon">military_tech</span>
+                <h3>FLOTA X500 (500 CARTERAS)</h3>
+              </div>
+              <p>El enjambre de 500 satélites organizado en 5 Boxes tácticos. Minería de airdrops, bridge multi-chain y claiming sin gastar gas propio.</p>
+              <div class="l-card-cta">
+                <span>INGRESAR A FLOTA X500</span>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </div>
+            </a>
+
+            <a href="/" class="link-station-card">
+              <div class="l-card-head">
+                <span class="material-symbols-rounded l-card-icon">hub</span>
+                <h3>MANDO CENTRAL ÁREA 501</h3>
+              </div>
+              <p>Visión panorámica de la Nodriza Matriz Dual #501, telemetría consolidada, gas unificado y auditoría omnichain en vivo.</p>
+              <div class="l-card-cta">
+                <span>IR AL MANDO CENTRAL</span>
+                <span class="material-symbols-rounded">arrow_forward</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM FIXED BAR: BRAND, 4 TABS, LATENCY, CLOCK -->
+    <footer class="matrix-bottombar">
+      <div class="bottom-identity">
+        <span class="material-symbols-rounded brand-icon">bolt</span>
+        <span class="brand-title">ATOMIC FLASH MATRIX</span>
+        <span class="brand-divider">//</span>
+        <span class="brand-tag">54 OBJETIVOS ON-CHAIN EN 1s</span>
+        <span class="live-dot" title="Telemetría en Vivo Conectada"></span>
+      </div>
+
+      <!-- THE 4 MODEL TABS -->
+      <nav class="matrix-nav-tabs">
+        <button class="nav-tab active" data-tab="paneTargetsGrid" id="tabBtnTargets">
+          <span class="material-symbols-rounded tab-icon">grid_view</span> ⚡ 54 OBJETIVOS ATÓMICOS EN VIVO
+        </button>
+        <button class="nav-tab" data-tab="paneLadder" id="tabBtnLadder">
+          <span class="material-symbols-rounded tab-icon">account_balance</span> 🏦 ESCALERA DE CALIBRES FLASH ($5K A $50K)
+        </button>
+        <button class="nav-tab" data-tab="paneLedger" id="tabBtnLedger">
+          <span class="material-symbols-rounded tab-icon">receipt_long</span> 📜 BITÁCORA REAL ON-CHAIN &amp; RECIBOS 0x
+        </button>
+        <button class="nav-tab" data-tab="paneLinks" id="tabBtnLinks">
+          <span class="material-symbols-rounded tab-icon">open_in_new</span> 🏛️ IR A SQUAD MATRIX / FLOTA X500
+        </button>
+      </nav>
+
+      <!-- SYSTEM STATUS & CLOCK -->
+      <div class="bottom-system">
+        <div class="ws-status">
+          <span class="status-bullet">●</span>
+          <span id="wsLatency">24ms Polygon</span>
+        </div>
+        <div class="utc-clock">
+          <span class="material-symbols-rounded clock-icon">schedule</span>
+          <span id="liveUtcClock">00:00:00 UTC</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

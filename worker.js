@@ -1552,8 +1552,8 @@ export default {
     if (url.pathname === "/squad-secret") {
       return Response.redirect(`${url.origin}/squad-secret/`, 301);
     }
-    if (url.pathname === "/sniping" || url.pathname === "/sniping/") {
-      return Response.redirect(`${url.origin}/squad-secret/`, 301);
+    if (url.pathname === "/sniping") {
+      return Response.redirect(`${url.origin}/sniping/`, 301);
     }
     if (url.pathname === "/trading" || url.pathname === "/trading/") {
       return Response.redirect(`${url.origin}/squad-secret/`, 301);
@@ -1964,6 +1964,16 @@ export default {
     // Endpoint directo sin caché de telemetría de trading
     if (url.pathname === "/api/trading/telemetry" || url.pathname === "/trading/telemetry.json") {
       const telemReq = new Request(new URL("/telemetry/trading-telemetry.json", request.url), request);
+      const res = await env.ASSETS.fetch(telemReq);
+      const headers = new Headers(res.headers);
+      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(res.body, { status: res.status, headers });
+    }
+
+    // Endpoint directo sin caché de telemetría de Atomic Flash Matrix (/api/sniping/telemetry)
+    if (url.pathname === "/api/sniping/telemetry" || url.pathname === "/sniping/telemetry.json") {
+      const telemReq = new Request(new URL("/telemetry/atomic-flash-matrix-telemetry.json", request.url), request);
       const res = await env.ASSETS.fetch(telemReq);
       const headers = new Headers(res.headers);
       headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
