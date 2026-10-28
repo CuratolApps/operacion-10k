@@ -20,10 +20,10 @@
       "arbitrumTx": "0xf8b5736914078ac7bcc3fd58d29e2e05ed96e598b8d2772db63711fa97d6fa07"
     }
   ],
-  "principalBorrowedUsdc": 410.50,
+  "principalBorrowedUsdc": 418.50,
   "interestRate": "0%",
   "repaidSoFarUsdc": 0.00,
-  "remainingBalanceUsdc": 410.50,
+  "remainingBalanceUsdc": 418.50,
   "doctrine": "NUEVA DOCTRINA OFICIAL DE CONSOLIDACIÓN POR BLOQUES ($1,000.00 USDC)",
   "consolidationRule": {
     "targetAccountValueUsdc": 1000.00,

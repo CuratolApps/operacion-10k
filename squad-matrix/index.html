@@ -12,18 +12,18 @@
 <body class="matrix-body">
   <div class="matrix-app" id="matrixApp">
     
-    <!-- TOP FIXED BAR: 5 BUSINESS CARDS -->
-    <header class="matrix-topbar">
+    <!-- TOP FIXED BAR: 5 BUSINESS CARDS (OBSIDIAN & CHAMPAGNE GOLD - ZERO CLIPPING) -->
+    <header class="matrix-topbar top-matrix-grid">
       <!-- Card 1: Capital Operativo Total -->
       <div class="biz-card" id="cardCapitalTotal">
         <div class="card-tag">💰 CAPITAL OPERATIVO (EN FUEGO)</div>
         <div class="card-main-val">
-          <span class="currency-symbol">$</span><span id="topAccountValue">648.01</span>
+          <span class="currency-symbol">$</span><span id="topAccountValue">649.80</span>
           <span class="unit-tag">USDC L1</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $388.81</span>
-          <span class="pill-shield" id="topShieldPill">Mentora 40%: $259.20</span>
+          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $389.88</span>
+          <span class="pill-shield" id="topShieldPill">Mentora 40%: $259.92</span>
         </div>
       </div>
 
@@ -31,12 +31,12 @@
       <div class="biz-card" id="cardProfit">
         <div class="card-tag">⚡ PROFIT GENERAL &amp; ESCUADRONES</div>
         <div class="card-main-val text-green">
-          <span id="topTotalProfit">+$21.87</span>
-          <span class="pct-badge" id="topTotalProfitPct">+3.49%</span>
+          <span id="topTotalProfit">+$45.53</span>
+          <span class="pct-badge" id="topTotalProfitPct">+7.34%</span>
         </div>
         <div class="card-sub-info">
           <span class="record-badge" id="topWinRecord">🏆 39G - 0P (100%)</span>
-          <span class="squad-mini-pnl">#01 +$7.2 · #02 +$6.9 · #03 +$7.8</span>
+          <span class="squad-mini-pnl" id="topSquadsMiniPnl">#01 +$15.2 · #02 +$14.8 · #03 +$15.5</span>
         </div>
       </div>
 
@@ -45,14 +45,14 @@
         <div class="card-tag">📈 CAPITALIZACIÓN BLOQUE 1 (META $1,000)</div>
         <div class="progress-wrap">
           <div class="progress-info">
-            <span class="progress-label" id="topBlock1ProgressLabel">$648.01 / $1,000.00 USDC</span>
-            <span class="progress-pct" id="topBlock1ProgressPct">64.8%</span>
+            <span class="progress-label" id="topBlock1ProgressLabel">$649.80 / $1,000.00 USDC</span>
+            <span class="progress-pct" id="topBlock1ProgressPct">65.0%</span>
           </div>
           <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 64.8%;"></div>
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 65.0%;"></div>
           </div>
         </div>
-        <div class="rule-badge-glow">100% CAPITALIZACIÓN PURA ($0 ENVIOS HASTA $1,000)</div>
+        <div class="rule-badge-glow">100% Capitalización pura ($0 envíos hasta $1,000)</div>
       </div>
 
       <!-- Card 4: Control de Capital Inyectado (70/30) -->
@@ -61,7 +61,7 @@
         <div class="loan-stats-row">
           <div class="loan-stat-col">
             <span class="l-lbl">Inyectado:</span>
-            <span class="l-val" id="topLoanInjected">$410.50</span>
+            <span class="l-val" id="topLoanInjected">$418.50</span>
           </div>
           <div class="loan-stat-col">
             <span class="l-lbl">Devuelto:</span>
@@ -69,7 +69,7 @@
           </div>
           <div class="loan-stat-col">
             <span class="l-lbl">Pendiente:</span>
-            <span class="l-val text-amber" id="topLoanRemaining">$410.50</span>
+            <span class="l-val text-amber" id="topLoanRemaining">$418.50</span>
           </div>
         </div>
         <div class="rule-badge-sub">Al tocar $1,000: 70% Capitaliza / 30% Devolución</div>
@@ -80,13 +80,13 @@
         <div class="card-tag">📡 RADAR MATRIX: 18 ESCUADRONES × 54 PARES</div>
         <div class="squad-counter-row">
           <span class="status-pill active-pill">🟢 3 / 18 Encendidos</span>
-          <span class="status-pill ready-pill">🟡 15 / 18 Listos</span>
+          <span class="status-pill ready-pill">🟡 15 / 18 Listos ($100 c/u)</span>
         </div>
-        <div class="sub-label-matrix">54 Pares Ultra-Líquidos · $0.00 Gas en Hyperliquid L1</div>
+        <div class="sub-label-matrix">54 Pares Ultra-Líquidos · $0.00 Gas L1</div>
       </div>
     </header>
 
-    <!-- MAIN VIEW CONTAINER (SWITCHES BETWEEN 3 TABS) -->
+    <!-- MAIN VIEW CONTAINER (SWITCHES BETWEEN 4 TABS) -->
     <main class="matrix-content">
       
       <!-- TAB 1: 54 PARES EN VIVO (GRID 9x6) -->
@@ -111,42 +111,50 @@
           <div class="cap-column cap-laws">
             <div class="panel-header">
               <span class="panel-icon">⚖️</span>
-              <h3>LAS 4 LEYES SAGRADAS DEL MODELO SQUAD MATRIX</h3>
+              <h3>LAS 4 LEYES DEL MODELO SQUAD MATRIX</h3>
             </div>
             <div class="laws-list">
               <div class="law-card active-law">
                 <div class="law-number">LEY 1</div>
                 <div class="law-body">
-                  <h4>Consolidación por Bloques de $1,000.00 USDC</h4>
+                  <div class="law-head-line">
+                    <h4>Consolidación Bloques $1,000 USDC</h4>
+                    <span class="law-status-tag tag-running">⚡ EN CURSO (65.0%)</span>
+                  </div>
                   <p>Cada bloque opera 3 escuadrones con 20% de margen c/u a 5x y 40% intocable en Escudo Mentora #00. Reinvierte el 100% de cada ganancia diaria hasta coronar $1,000.00 USDC ($0 retiros).</p>
-                  <span class="law-status-tag tag-running">⚡ EN CURSO (BLOQUE 1: 64.8%)</span>
                 </div>
               </div>
 
               <div class="law-card">
                 <div class="law-number">LEY 2</div>
                 <div class="law-body">
-                  <h4>Gatillo 70% / 30% a 0% Interés</h4>
-                  <p>Al cruzar $1,000.00 USDC, se activa la partición automática de beneficios: 70% sigue acelerando el interés compuesto en L1 y 30% se destina a amortizar el capital inyectado a Bóveda #501 o a encender el siguiente bloque.</p>
-                  <span class="law-status-tag tag-ready">🎯 GATILLO A LOS $1,000 USDC</span>
+                  <div class="law-head-line">
+                    <h4>Gatillo 70% / 30% a 0% Interés</h4>
+                    <span class="law-status-tag tag-ready">🎯 GATILLO $1,000</span>
+                  </div>
+                  <p>Al cruzar $1,000.00 USDC, se activa la partición automática: 70% sigue acelerando el interés compuesto en L1 y 30% se destina a amortizar el capital inyectado a Bóveda #501 o a encender el siguiente bloque.</p>
                 </div>
               </div>
 
               <div class="law-card">
                 <div class="law-number">LEY 3</div>
                 <div class="law-body">
-                  <h4>Escalamiento en Cascada (6 Bloques × 3 Escuadrones)</h4>
-                  <p>Con $100.00 USDC acumulados del 30% se enciende cada nuevo bloque (Bloque 2, 3, 4, 5 y 6) hasta tener los 18 escuadrones operando simultáneamente a pleno pulmón ($18,000 USD de nocional).</p>
-                  <span class="law-status-tag tag-standby">🟡 5 BLOQUES EN ESPERA</span>
+                  <div class="law-head-line">
+                    <h4>Escalamiento Cascada (6 Bloques)</h4>
+                    <span class="law-status-tag tag-standby">🟡 5 BLOQUES STANDBY</span>
+                  </div>
+                  <p>Con $100.00 USDC acumulados del 30% se enciende cada nuevo bloque (Bloque 2, 3, 4, 5 y 6) hasta tener los 18 escuadrones operando simultáneamente ($18,000 USD nocional).</p>
                 </div>
               </div>
 
               <div class="law-card">
                 <div class="law-number">LEY 4</div>
                 <div class="law-body">
-                  <h4>Rendimiento Pasivo 10% Diario a Tesorería</h4>
-                  <p>Con los 18 escuadrones consolidados en sus metas, el sistema envía automáticamente el 10% de las ganancias diarias reales hacia Bóveda #501 como dividendo neto pasivo, capitalizando el 90%.</p>
-                  <span class="law-status-tag tag-future">💎 META ESTRATÉGICA FINAL</span>
+                  <div class="law-head-line">
+                    <h4>Rendimiento Pasivo 10% Diario</h4>
+                    <span class="law-status-tag tag-future">💎 META ESTRATÉGICA</span>
+                  </div>
+                  <p>Con los 18 escuadrones consolidados en sus metas, el sistema envía automáticamente el 10% de las ganancias diarias reales hacia Bóveda #501 como dividendo neto pasivo, capitalizando el 90% restante.</p>
                 </div>
               </div>
             </div>
@@ -170,10 +178,10 @@
                 <div class="blk-meta">SOL, SUI, AVAX · BTC, PAXG, LINK · ETH, BNB, AAVE</div>
                 <div class="blk-capital-bar">
                   <div class="blk-bar-info">
-                    <span>Capital Activo: <b>$648.01 USDC</b></span>
-                    <span>Meta: <b>$1,000.00</b> (64.8%)</span>
+                    <span>Capital Activo: <b>$649.80 USDC</b></span>
+                    <span>Meta: <b>$1,000.00</b> (65.0%)</span>
                   </div>
-                  <div class="blk-fill-bg"><div class="blk-fill-bar" style="width: 64.8%;"></div></div>
+                  <div class="blk-fill-bg"><div class="blk-fill-bar" style="width: 65.0%;"></div></div>
                 </div>
               </div>
 
@@ -181,7 +189,7 @@
               <div class="block-card block-ready">
                 <div class="block-head">
                   <span class="blk-id">BLOQUE 02 · CRIPTO EXPANDIDO</span>
-                  <span class="blk-badge-ready">🟡 IGNICIÓN CON $100</span>
+                  <span class="blk-badge-ready">🟡 IGNICIÓN $100</span>
                 </div>
                 <div class="blk-squads">#04 GOLF · #05 HOTEL · #06 INDIA</div>
                 <div class="blk-meta">XRP, DOGE, ADA · HYPE, TRX, TON · DOT, NEAR, LTC</div>
@@ -258,9 +266,227 @@
         </div>
       </section>
 
+      <!-- TAB 4: PROYECCIONES & PATRIMONIO (CIERRE DÍA · SEMANA · MES + ESCALERA PATRIMONIAL) -->
+      <section class="tab-pane" id="paneProjections">
+        <div class="projections-layout">
+          
+          <!-- PARTE A: 3 PANELES SUPERIORES DE PROYECCIÓN EN VIVO -->
+          <div class="proj-top-cards-row">
+            
+            <!-- Panel 1: Cierre del Día -->
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <div class="proj-title-wrap">
+                  <span class="proj-icon">📅</span>
+                  <span class="proj-title">1. CIERRE DEL DÍA (HOY 24H)</span>
+                </div>
+                <span class="proj-badge badge-day">HOY EN CURSO</span>
+              </div>
+              <div class="proj-metrics">
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Capital Inicio Ciclo:</span>
+                  <span class="pm-val font-mono">$604.27 USDC</span>
+                </div>
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Capital Actual en Vivo:</span>
+                  <span class="pm-val font-mono text-cyan" id="projCurrentCap">$649.80 USDC</span>
+                </div>
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Ganancia Acumulada Hoy:</span>
+                  <span class="pm-val font-mono text-green" id="projProfitToday">+$45.53 USDC (+7.34%)</span>
+                </div>
+                <div class="p-metric-row proj-highlight-row">
+                  <span class="pm-lbl font-bold">Cierre Proyectado Hoy (24h):</span>
+                  <span class="pm-val font-mono text-gold font-bold" id="projClosingToday">~$665.00 – $672.00 USDC</span>
+                </div>
+              </div>
+              <div class="proj-footer-bar">
+                <div class="pf-info">
+                  <span>Distancia a Meta $1,000:</span>
+                  <b class="text-amber" id="projDistance1000">Faltan $350.20 USDC</b>
+                </div>
+                <div class="proj-subtag">100% Capitalización Activa ($0 Retiros)</div>
+              </div>
+            </div>
+
+            <!-- Panel 2: Cierre de la Semana -->
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <div class="proj-title-wrap">
+                  <span class="proj-icon">📆</span>
+                  <span class="proj-title">2. CIERRE SEMANA (7 DÍAS)</span>
+                </div>
+                <span class="proj-badge badge-week">INTERÉS COMPUESTO</span>
+              </div>
+              <div class="proj-metrics">
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Tasa Diaria Estimada:</span>
+                  <span class="pm-val font-mono text-green">~4.5% – 5.5% / día</span>
+                </div>
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Capital Proyectado Día 7:</span>
+                  <span class="pm-val font-mono text-gold font-bold">~$895.00 – $965.00 USDC</span>
+                </div>
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Hito Bloque 1 ($1,000):</span>
+                  <span class="pm-val font-mono text-cyan font-bold">🎯 Coronación en ~8 a 9 días</span>
+                </div>
+                <div class="p-metric-row proj-highlight-row">
+                  <span class="pm-lbl font-bold">Con Inyección Parcial:</span>
+                  <span class="pm-val font-mono text-green font-bold">Coronación en 3 a 4 días</span>
+                </div>
+              </div>
+              <div class="proj-footer-bar">
+                <div class="pf-info">
+                  <span>Activación al cruzar $1,000:</span>
+                  <b class="text-cyan">Gatillo 70% / 30% Automático</b>
+                </div>
+                <div class="proj-subtag">Amortización #501 ($418.50) + Bloque 2 ($100)</div>
+              </div>
+            </div>
+
+            <!-- Panel 3: Cierre del Mes -->
+            <div class="proj-card">
+              <div class="proj-card-head">
+                <div class="proj-title-wrap">
+                  <span class="proj-icon">🗓️</span>
+                  <span class="proj-title">3. CIERRE MES (30 DÍAS)</span>
+                </div>
+                <span class="proj-badge badge-month">RUEDA PESADA</span>
+              </div>
+              <div class="proj-metrics">
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Bloque 1 Consolidado:</span>
+                  <span class="pm-val font-mono text-green">$1,000+ USDC (~$50/día)</span>
+                </div>
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Deuda Bóveda #501 ($418.50):</span>
+                  <span class="pm-val font-mono text-cyan font-bold">100% Saldada vía 30%</span>
+                </div>
+                <div class="p-metric-row">
+                  <span class="pm-lbl">Bloques Nuevos Encendidos:</span>
+                  <span class="pm-val font-mono text-gold">Bloques 2, 3 y 4 Activos</span>
+                </div>
+                <div class="p-metric-row proj-highlight-row">
+                  <span class="pm-lbl font-bold">Patrimonio Proyectado 30D:</span>
+                  <span class="pm-val font-mono text-gold font-bold">~$1,850.00 – $2,400.00 USDC</span>
+                </div>
+              </div>
+              <div class="proj-footer-bar">
+                <div class="pf-info">
+                  <span>Régimen Final Estable:</span>
+                  <b class="text-green">18 Escuadrones a Pleno Pulmón</b>
+                </div>
+                <div class="proj-subtag">Dividendo 10% Diario Pasivo a Tesorería #501</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- PARTE B: TABLA EJECUTIVA ESCALERA PATRIMONIAL (8 FILAS CLAVE) -->
+          <div class="proj-bottom-table-card">
+            <div class="panel-header">
+              <span class="panel-icon">📊</span>
+              <h3>ESCALERA DE CONTROL PATRIMONIAL Y CAPITALIZACIÓN (HOJA DE RUTA DÍA A DÍA / BLOQUE A BLOQUE)</h3>
+            </div>
+            
+            <div class="roadmap-table-container">
+              <table class="roadmap-table">
+                <thead>
+                  <tr>
+                    <th>ETAPA / HORIZONTE</th>
+                    <th>CAPITAL INICIO</th>
+                    <th>GANANCIA PROYECTADA</th>
+                    <th>REGLA APLICADA</th>
+                    <th>DEVUELTO A #501</th>
+                    <th>BLOQUES ACTIVOS</th>
+                    <th>PATRIMONIO FINAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="row-highlight-today">
+                    <td class="font-bold"><span class="table-tag tag-day">HOY</span> Cierre Hoy (Día 1)</td>
+                    <td class="font-mono">$604.27</td>
+                    <td class="font-mono text-green font-bold">+$60.73 (+10.1%)</td>
+                    <td><span class="rule-chip chip-100">100% Capitalización Pura</span></td>
+                    <td class="font-mono text-slate">$0.00</td>
+                    <td><span class="blk-pill blk-1">1 / 6 (Alfa, Bravo, Charley)</span></td>
+                    <td class="font-mono font-bold text-gold">~$665.00 USDC</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold">Cierre Día 3</td>
+                    <td class="font-mono">~$665.00</td>
+                    <td class="font-mono text-green">+$98.50 (+14.8%)</td>
+                    <td><span class="rule-chip chip-100">100% Capitalización Pura</span></td>
+                    <td class="font-mono text-slate">$0.00</td>
+                    <td><span class="blk-pill blk-1">1 / 6</span></td>
+                    <td class="font-mono font-bold text-gold">~$763.50 USDC</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold">Cierre Semana 1 (Día 7)</td>
+                    <td class="font-mono">~$763.50</td>
+                    <td class="font-mono text-green">+$166.50 (+21.8%)</td>
+                    <td><span class="rule-chip chip-100">100% Capitalización Pura</span></td>
+                    <td class="font-mono text-slate">$0.00</td>
+                    <td><span class="blk-pill blk-1">1 / 6</span></td>
+                    <td class="font-mono font-bold text-gold">~$930.00 USDC</td>
+                  </tr>
+                  <tr class="row-milestone">
+                    <td class="font-bold text-cyan">🎯 Coronación Bloque 1 ($1,000)</td>
+                    <td class="font-mono">~$930.00</td>
+                    <td class="font-mono text-green font-bold">+$70.00 (+7.5%)</td>
+                    <td><span class="rule-chip chip-trigger">👑 Gatillo 70% / 30% Activado</span></td>
+                    <td class="font-mono text-cyan font-bold">Comienza Retorno</td>
+                    <td><span class="blk-pill blk-1">1 / 6 (Consolidado)</span></td>
+                    <td class="font-mono font-bold text-gold">🎯 $1,000.00 USDC</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold">Cierre Semana 2 (Día 14)</td>
+                    <td class="font-mono">$1,000.00</td>
+                    <td class="font-mono text-green">+$280.00 (+28.0%)</td>
+                    <td><span class="rule-chip chip-7030">70% Compounding / 30% Retorno</span></td>
+                    <td class="font-mono text-cyan">$84.00 USDC</td>
+                    <td><span class="blk-pill blk-1">1 / 6</span></td>
+                    <td class="font-mono font-bold text-gold">~$1,196.00 USDC</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold">Cierre Semana 3 (Día 21)</td>
+                    <td class="font-mono">~$1,196.00</td>
+                    <td class="font-mono text-green">+$350.00 (+29.2%)</td>
+                    <td><span class="rule-chip chip-7030">70% Compounding / 30% Retorno</span></td>
+                    <td class="font-mono text-cyan">$189.00 USDC</td>
+                    <td><span class="blk-pill blk-2">2 / 6 (Bloque 2 Ignición)</span></td>
+                    <td class="font-mono font-bold text-gold">~$1,441.00 USDC</td>
+                  </tr>
+                  <tr class="row-milestone-gold">
+                    <td class="font-bold text-gold">🏁 Cierre Mes 1 (Día 30)</td>
+                    <td class="font-mono">~$1,441.00</td>
+                    <td class="font-mono text-green font-bold">+$560.00 (+38.8%)</td>
+                    <td><span class="rule-chip chip-7030">70% Compounding / 30% Bloques</span></td>
+                    <td class="font-mono text-green font-bold">✅ $418.50 (100% SALDADO)</td>
+                    <td><span class="blk-pill blk-3">3 / 6 (Bloque 3 Ignición)</span></td>
+                    <td class="font-mono font-bold text-gold">~$1,833.00 USDC</td>
+                  </tr>
+                  <tr class="row-final-goal">
+                    <td class="font-bold text-green">🚀 Meta Rueda Completa (18 Esc)</td>
+                    <td class="font-mono">~$1,833.00</td>
+                    <td class="font-mono text-green font-bold">+$1,800.00 / mes</td>
+                    <td><span class="rule-chip chip-10">💎 10% Diario Pasivo / 90% Comp</span></td>
+                    <td class="font-mono text-green font-bold">Dividendo Pasivo Continuo</td>
+                    <td><span class="blk-pill blk-all">6 / 6 (18/18 ACTIVOS)</span></td>
+                    <td class="font-mono font-bold text-gold">🚀 $3,000.00+ USDC</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
     </main>
 
-    <!-- BOTTOM FIXED BAR: BRAND, 3 TABS, LATENCY, CLOCK -->
+    <!-- BOTTOM FIXED BAR: BRAND, 4 TABS, LATENCY, CLOCK -->
     <footer class="matrix-bottombar">
       <div class="bottom-identity">
         <span class="brand-icon">💠</span>
@@ -270,7 +496,7 @@
         <span class="live-dot" title="WebSocket L1 Conectado"></span>
       </div>
 
-      <!-- THE 3 MODEL TABS -->
+      <!-- THE 4 MODEL TABS -->
       <nav class="matrix-nav-tabs">
         <button class="nav-tab active" data-tab="panePairs" id="tabBtnPairs">
           <span class="tab-icon">📡</span> 54 PARES EN VIVO
@@ -280,6 +506,9 @@
         </button>
         <button class="nav-tab" data-tab="paneCapitalization" id="tabBtnCapitalization">
           <span class="tab-icon">🔄</span> CAPITALIZACIÓN 1000 / 70-30
+        </button>
+        <button class="nav-tab" data-tab="paneProjections" id="tabBtnProjections">
+          <span class="tab-icon">📈</span> PROYECCIONES &amp; PATRIMONIO
         </button>
       </nav>
 

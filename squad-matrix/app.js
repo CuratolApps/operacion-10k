@@ -80,15 +80,15 @@ const SYNTHETIC_DEFAULTS = {
 
 // ESTADO GLOBAL
 let appState = {
-  accountValue: 648.01,
+  accountValue: 649.80,
   withdrawable: 373.44,
   openPositions: [],
   mids: {},
-  totalLoanInjected: 410.50,
+  totalLoanInjected: 418.50,
   totalLoanRepaid: 0.00,
   block1Goal: 1000.00,
   totalWins: 39,
-  totalProfitUsdc: 21.87
+  totalProfitUsdc: 45.53
 };
 
 // INICIALIZACIÓN
@@ -240,7 +240,7 @@ async function fetchHyperliquidState() {
   }
 }
 
-// ACTUALIZAR LAS 5 TARJETAS DE LA BARRA SUPERIOR
+// ACTUALIZAR LAS 5 TARJETAS DE LA BARRA SUPERIOR Y TAB PROYECCIONES
 function updateTopBarCards() {
   const val = appState.accountValue;
   const activeMargin = val * 0.60;
@@ -275,6 +275,14 @@ function updateTopBarCards() {
   const elProgBar = document.getElementById("topBlock1ProgressBar");
   if (elProgBar) elProgBar.style.width = `${progressPct}%`;
 
+  // 4. Control Capital Inyectado (0% Interés)
+  const elLoanInj = document.getElementById("topLoanInjected");
+  if (elLoanInj) elLoanInj.innerText = `$${appState.totalLoanInjected.toFixed(2)}`;
+  const elLoanRep = document.getElementById("topLoanRepaid");
+  if (elLoanRep) elLoanRep.innerText = `$${appState.totalLoanRepaid.toFixed(2)}`;
+  const elLoanRem = document.getElementById("topLoanRemaining");
+  if (elLoanRem) elLoanRem.innerText = `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`;
+
   // Actualizar capital en Tab 2 para escuadrones activos
   const squadMarginEach = (val * 0.20).toFixed(2);
   const squadNotionalEach = (val * 0.20 * 5).toFixed(0);
@@ -282,6 +290,23 @@ function updateTopBarCards() {
     const el = document.getElementById(`sqCap_${id}`);
     if (el) el.innerText = `$${squadMarginEach} USDC ($${squadNotionalEach} Nocional)`;
   });
+
+  // Actualizar métricas dinámicas de Tab 4: Proyecciones & Patrimonio
+  const elProjCap = document.getElementById("projCurrentCap");
+  if (elProjCap) elProjCap.innerText = `$${val.toFixed(2)} USDC`;
+  const elProjProfit = document.getElementById("projProfitToday");
+  if (elProjProfit) elProjProfit.innerText = `+${netTotalPnl.toFixed(2)} USDC (+${pnlPct.toFixed(2)}%)`;
+  const elProjClosing = document.getElementById("projClosingToday");
+  if (elProjClosing) {
+    const lowClose = val + 15.20;
+    const highClose = val + 22.20;
+    elProjClosing.innerText = `~$${lowClose.toFixed(2)} – $${highClose.toFixed(2)} USDC`;
+  }
+  const elProjDist = document.getElementById("projDistance1000");
+  if (elProjDist) {
+    const missing = Math.max(0, 1000.00 - val);
+    elProjDist.innerText = `Faltan $${missing.toFixed(2)} USDC`;
+  }
 }
 
 // ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES
