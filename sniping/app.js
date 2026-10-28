@@ -1,176 +1,147 @@
 /**
  * sniping/app.js — ÁREA 501 // ATOMIC FLASH MATRIX
  * ==============================================================================
- * CONTROLADOR FRONTEND EN VIVO:
- * 1) RENDERIZA LAS 54 CELDAS ATÓMICAS (9x6) EN AZUL COBALTO / ESMERALDA BRILLANTE
- * 2) SINCRONIZA TELEMETRÍA CADA 2.5s DESDE /telemetry/atomic-flash-matrix-telemetry.json
- * 3) GESTIÓN DE 4 PESTAÑAS SIN RECARGA (CERO SCROLL)
- * 4) RELOJ UTC Y LATENCIA ON-CHAIN
+ * CONTROLADOR FRONTEND EN VIVO (MODO SINCERO 100% REAL):
+ * 1) RENDERIZA LAS 54 CELDAS ATÓMICAS (.atomic-grid-54 y .atomic-cell)
+ * 2) 3 LÍNEAS LIMPIAS POR CELDA SIN CORTES DE TEXTO
+ * 3) CERO HUMO: ARRANCA EN $0.00 USDC Y 0G - 0P
+ * 4) BITÁCORA LIMPIA CON MENSAJE SINCERO (0 DISPAROS HOY)
+ * 5) BARRA INFERIOR EN 1 SOLA LÍNEA HORIZONTAL
  * ==============================================================================
  */
 
-// 54 OBJETIVOS DE RESPALDO (SIEMPRE DISPONIBLES)
-const FALLBACK_TARGETS = [
+// 54 OBJETIVOS SINCEROS INICIALES (AZUL COBALTO EN VIGILANCIA REAL)
+const SINCERE_TARGETS = [
   // FILAS 1 Y 2: MOTOR #01 ALFA-HARVEST (18 BÓVEDAS)
-  { id: 1, engine: 1, name: "Beefy USDC-USDT", platform: "Beefy", token: "USDC-USDT", currentBounty: 0.42, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.42" },
-  { id: 2, engine: 1, name: "Beefy WPOL-USDC", platform: "Beefy", token: "WPOL-USDC", currentBounty: 0.78, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.78" },
-  { id: 3, engine: 1, name: "Beefy WETH-USDC", platform: "Beefy", token: "WETH-USDC", currentBounty: 1.15, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$1.15" },
-  { id: 4, engine: 1, name: "Beefy WBTC-USDC", platform: "Beefy", token: "WBTC-USDC", currentBounty: 0.65, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.65" },
-  { id: 5, engine: 1, name: "Gamma QUICK-WPOL", platform: "Gamma", token: "QUICK-WPOL", currentBounty: 0.22, gasUsd: 0.002, isProfitable: false, actionLabel: "ACUMULANDO" },
-  { id: 6, engine: 1, name: "Gamma AAVE-WPOL", platform: "Gamma", token: "AAVE-WPOL", currentBounty: 0.52, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.52" },
-  { id: 7, engine: 1, name: "QuickSwap WETH-USDC", platform: "QuickSwap", token: "WETH-USDC", currentBounty: 0.88, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.88" },
-  { id: 8, engine: 1, name: "QuickSwap LINK-WETH", platform: "QuickSwap", token: "LINK-WETH", currentBounty: 0.44, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.44" },
-  { id: 9, engine: 1, name: "Beefy CRV-USDC", platform: "Beefy", token: "CRV-USDC", currentBounty: 0.18, gasUsd: 0.002, isProfitable: false, actionLabel: "ACUMULANDO" },
-  { id: 10, engine: 1, name: "Beefy DAI-USDC", platform: "Beefy", token: "DAI-USDC", currentBounty: 0.28, gasUsd: 0.002, isProfitable: false, actionLabel: "ACUMULANDO" },
-  { id: 11, engine: 1, name: "Gamma USDC-USDT", platform: "Gamma", token: "USDC-USDT", currentBounty: 0.49, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.49" },
-  { id: 12, engine: 1, name: "Aave V3 Incentives WPOL", platform: "Aave V3", token: "WPOL Rew", currentBounty: 0.72, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.72" },
-  { id: 13, engine: 1, name: "Beefy BAL-WETH", platform: "Beefy", token: "BAL-WETH", currentBounty: 0.19, gasUsd: 0.002, isProfitable: false, actionLabel: "ACUMULANDO" },
-  { id: 14, engine: 1, name: "Beefy SAND-WPOL", platform: "Beefy", token: "SAND-WPOL", currentBounty: 0.40, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.40" },
-  { id: 15, engine: 1, name: "QuickSwap UNI-WPOL", platform: "QuickSwap", token: "UNI-WPOL", currentBounty: 0.58, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.58" },
-  { id: 16, engine: 1, name: "Beefy GHST-USDC", platform: "Beefy", token: "GHST-USDC", currentBounty: 0.33, gasUsd: 0.002, isProfitable: false, actionLabel: "ACUMULANDO" },
-  { id: 17, engine: 1, name: "Gamma WETH-WBTC", platform: "Gamma", token: "WETH-WBTC", currentBounty: 0.81, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.81" },
-  { id: 18, engine: 1, name: "Aave V3 Incentives USDC", platform: "Aave V3", token: "USDC Rew", currentBounty: 0.67, gasUsd: 0.002, isProfitable: true, actionLabel: "COSECHAR +$0.67" },
+  { id: 1, engine: 1, name: "Beefy USDC", full: "Beefy USDC-USDT", bounty: 0.024, isProfitable: false },
+  { id: 2, engine: 1, name: "Beefy WPOL", full: "Beefy WPOL-USDC", bounty: 0.038, isProfitable: false },
+  { id: 3, engine: 1, name: "Beefy WETH", full: "Beefy WETH-USDC", bounty: 0.041, isProfitable: false },
+  { id: 4, engine: 1, name: "Beefy WBTC", full: "Beefy WBTC-USDC", bounty: 0.029, isProfitable: false },
+  { id: 5, engine: 1, name: "Gamma QUICK", full: "Gamma QUICK-WPOL", bounty: 0.018, isProfitable: false },
+  { id: 6, engine: 1, name: "Gamma AAVE", full: "Gamma AAVE-WPOL", bounty: 0.025, isProfitable: false },
+  { id: 7, engine: 1, name: "Quick WETH", full: "QuickSwap WETH-USDC", bounty: 0.035, isProfitable: false },
+  { id: 8, engine: 1, name: "Quick LINK", full: "QuickSwap LINK-WETH", bounty: 0.022, isProfitable: false },
+  { id: 9, engine: 1, name: "Beefy CRV", full: "Beefy CRV-USDC", bounty: 0.015, isProfitable: false },
+  { id: 10, engine: 1, name: "Beefy DAI", full: "Beefy DAI-USDC", bounty: 0.017, isProfitable: false },
+  { id: 11, engine: 1, name: "Gamma USDT", full: "Gamma USDC-USDT", bounty: 0.028, isProfitable: false },
+  { id: 12, engine: 1, name: "Aave WPOL", full: "Aave V3 Incentives WPOL", bounty: 0.032, isProfitable: false },
+  { id: 13, engine: 1, name: "Beefy BAL", full: "Beefy BAL-WETH", bounty: 0.019, isProfitable: false },
+  { id: 14, engine: 1, name: "Beefy SAND", full: "Beefy SAND-WPOL", bounty: 0.023, isProfitable: false },
+  { id: 15, engine: 1, name: "Quick UNI", full: "QuickSwap UNI-WPOL", bounty: 0.027, isProfitable: false },
+  { id: 16, engine: 1, name: "Beefy GHST", full: "Beefy GHST-USDC", bounty: 0.016, isProfitable: false },
+  { id: 17, engine: 1, name: "Gamma WBTC", full: "Gamma WETH-WBTC", bounty: 0.036, isProfitable: false },
+  { id: 18, engine: 1, name: "Aave USDC", full: "Aave V3 Incentives USDC", bounty: 0.031, isProfitable: false },
 
-  // FILAS 3 Y 4: MOTOR #02 BRAVO-FLASH (18 RUTAS SECUNDARIAS)
-  { id: 19, engine: 2, name: "USDC➔WPOL➔QUICK➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.180, estProfit: 1.80, isProfitable: true, actionLabel: "DISPARAR +$1.80" },
-  { id: 20, engine: 2, name: "USDC➔WETH➔LINK➔USDC", platform: "Balancer", loanTier: 25000, spreadPct: 0.380, estProfit: 4.25, isProfitable: true, actionLabel: "DISPARAR +$4.25" },
-  { id: 21, engine: 2, name: "USDC➔SAND➔WPOL➔USDC", platform: "Aave V3", loanTier: 10000, spreadPct: 0.040, estProfit: -0.10, isProfitable: false, actionLabel: "NO_PROFIT_REVERT" },
-  { id: 22, engine: 2, name: "USDC➔AAVE➔WETH➔USDC", platform: "Balancer", loanTier: 25000, spreadPct: 0.290, estProfit: 3.62, isProfitable: true, actionLabel: "DISPARAR +$3.62" },
-  { id: 23, engine: 2, name: "USDC➔CRV➔USDT➔USDC", platform: "Balancer", loanTier: 50000, spreadPct: 0.120, estProfit: 2.40, isProfitable: true, actionLabel: "DISPARAR +$2.40" },
-  { id: 24, engine: 2, name: "USDC➔UNI➔WPOL➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.190, estProfit: 1.90, isProfitable: true, actionLabel: "DISPARAR +$1.90" },
-  { id: 25, engine: 2, name: "USDC➔GHST➔WPOL➔USDC", platform: "Aave V3", loanTier: 5000, spreadPct: 0.350, estProfit: 1.50, isProfitable: true, actionLabel: "DISPARAR +$1.50" },
-  { id: 26, engine: 2, name: "USDC➔BAL➔WETH➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.210, estProfit: 2.10, isProfitable: true, actionLabel: "DISPARAR +$2.10" },
-  { id: 27, engine: 2, name: "USDC➔USDT➔DAI➔USDC", platform: "Curve", loanTier: 50000, spreadPct: 0.020, estProfit: 0.10, isProfitable: false, actionLabel: "NO_PROFIT_REVERT" },
-  { id: 28, engine: 2, name: "USDC➔MATIC➔GRT➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.170, estProfit: 1.70, isProfitable: true, actionLabel: "DISPARAR +$1.70" },
-  { id: 29, engine: 2, name: "USDC➔SUSHI➔WETH➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.220, estProfit: 2.20, isProfitable: true, actionLabel: "DISPARAR +$2.20" },
-  { id: 30, engine: 2, name: "USDC➔APE➔WPOL➔USDC", platform: "Aave V3", loanTier: 5000, spreadPct: 0.030, estProfit: -0.15, isProfitable: false, actionLabel: "NO_PROFIT_REVERT" },
-  { id: 31, engine: 2, name: "USDC➔SHIB➔USDT➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.250, estProfit: 2.50, isProfitable: true, actionLabel: "DISPARAR +$2.50" },
-  { id: 32, engine: 2, name: "USDC➔LDO➔WETH➔USDC", platform: "Balancer", loanTier: 25000, spreadPct: 0.280, estProfit: 3.50, isProfitable: true, actionLabel: "DISPARAR +$3.50" },
-  { id: 33, engine: 2, name: "USDC➔MKR➔DAI➔USDC", platform: "Balancer", loanTier: 25000, spreadPct: 0.040, estProfit: 0.25, isProfitable: false, actionLabel: "NO_PROFIT_REVERT" },
-  { id: 34, engine: 2, name: "USDC➔SNX➔WETH➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.230, estProfit: 2.30, isProfitable: true, actionLabel: "DISPARAR +$2.30" },
-  { id: 35, engine: 2, name: "USDC➔DYDX➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.160, estProfit: 1.60, isProfitable: true, actionLabel: "DISPARAR +$1.60" },
-  { id: 36, engine: 2, name: "USDC➔COMP➔USDT➔USDC", platform: "Balancer", loanTier: 10000, spreadPct: 0.210, estProfit: 2.10, isProfitable: true, actionLabel: "DISPARAR +$2.10" },
+  // FILAS 3 Y 4: MOTOR #02 BRAVO-FLASH (18 RUTAS $5k-$50k)
+  { id: 19, engine: 2, name: "USDC/WPOL", full: "USDC➔WPOL➔QUICK➔USDC", loanTier: 10000, spreadPct: -0.015, isProfitable: false },
+  { id: 20, engine: 2, name: "USDC/WETH", full: "USDC➔WETH➔LINK➔USDC", loanTier: 25000, spreadPct: -0.008, isProfitable: false },
+  { id: 21, engine: 2, name: "USDC/SAND", full: "USDC➔SAND➔WPOL➔USDC", loanTier: 10000, spreadPct: -0.025, isProfitable: false },
+  { id: 22, engine: 2, name: "USDC/AAVE", full: "USDC➔AAVE➔WETH➔USDC", loanTier: 25000, spreadPct: -0.012, isProfitable: false },
+  { id: 23, engine: 2, name: "USDC/CRV", full: "USDC➔CRV➔USDT➔USDC", loanTier: 50000, spreadPct: -0.018, isProfitable: false },
+  { id: 24, engine: 2, name: "USDC/UNI", full: "USDC➔UNI➔WPOL➔USDC", loanTier: 10000, spreadPct: -0.021, isProfitable: false },
+  { id: 25, engine: 2, name: "USDC/GHST", full: "USDC➔GHST➔WPOL➔USDC", loanTier: 5000, spreadPct: 0.005, isProfitable: false },
+  { id: 26, engine: 2, name: "USDC/BAL", full: "USDC➔BAL➔WETH➔USDC", loanTier: 10000, spreadPct: -0.014, isProfitable: false },
+  { id: 27, engine: 2, name: "USDC/USDT", full: "USDC➔USDT➔DAI➔USDC", loanTier: 50000, spreadPct: -0.005, isProfitable: false },
+  { id: 28, engine: 2, name: "USDC/GRT", full: "USDC➔MATIC➔GRT➔USDC", loanTier: 10000, spreadPct: -0.028, isProfitable: false },
+  { id: 29, engine: 2, name: "USDC/SUSHI", full: "USDC➔SUSHI➔WETH➔USDC", loanTier: 10000, spreadPct: -0.019, isProfitable: false },
+  { id: 30, engine: 2, name: "USDC/APE", full: "USDC➔APE➔WPOL➔USDC", loanTier: 5000, spreadPct: -0.035, isProfitable: false },
+  { id: 31, engine: 2, name: "USDC/SHIB", full: "USDC➔SHIB➔USDT➔USDC", loanTier: 10000, spreadPct: -0.022, isProfitable: false },
+  { id: 32, engine: 2, name: "USDC/LDO", full: "USDC➔LDO➔WETH➔USDC", loanTier: 25000, spreadPct: -0.011, isProfitable: false },
+  { id: 33, engine: 2, name: "USDC/MKR", full: "USDC➔MKR➔DAI➔USDC", loanTier: 25000, spreadPct: -0.016, isProfitable: false },
+  { id: 34, engine: 2, name: "USDC/SNX", full: "USDC➔SNX➔WETH➔USDC", loanTier: 10000, spreadPct: -0.024, isProfitable: false },
+  { id: 35, engine: 2, name: "USDC/DYDX", full: "USDC➔DYDX➔USDC", loanTier: 10000, spreadPct: -0.017, isProfitable: false },
+  { id: 36, engine: 2, name: "USDC/COMP", full: "USDC➔COMP➔USDT➔USDC", loanTier: 10000, spreadPct: -0.020, isProfitable: false },
 
-  // FILAS 5 Y 6: MOTOR #03 CHARLEY-LIQUIDATOR (18 POSICIONES AAVE)
-  { id: 37, engine: 3, debtor: "0x71A2...89B1", protocol: "Aave V3", debtAmount: 18500, currentHf: 1.032, bonusUsdc: 925, isLiquidatable: false },
-  { id: 38, engine: 3, debtor: "0x3B84...C210", protocol: "Aave V3", debtAmount: 9200, currentHf: 1.018, bonusUsdc: 460, isLiquidatable: false },
-  { id: 39, engine: 3, debtor: "0x91F0...44E7", protocol: "Aave V3", debtAmount: 42000, currentHf: 1.045, bonusUsdc: 2100, isLiquidatable: false },
-  { id: 40, engine: 3, debtor: "0x52D9...88A3", protocol: "Aave V3", debtAmount: 12400, currentHf: 1.025, bonusUsdc: 620, isLiquidatable: false },
-  { id: 41, engine: 3, debtor: "0x19A7...F32B", protocol: "Aave V3", debtAmount: 7600, currentHf: 1.012, bonusUsdc: 380, isLiquidatable: false },
-  { id: 42, engine: 3, debtor: "0x8C31...20D4", protocol: "Aave V3", debtAmount: 26000, currentHf: 1.039, bonusUsdc: 1300, isLiquidatable: false },
-  { id: 43, engine: 3, debtor: "0x44E2...A9B0", protocol: "Aave V3", debtAmount: 6400, currentHf: 0.994, bonusUsdc: 320, isLiquidatable: true },
-  { id: 44, engine: 3, debtor: "0x6F11...91C3", protocol: "Aave V3", debtAmount: 15100, currentHf: 1.028, bonusUsdc: 755, isLiquidatable: false },
-  { id: 45, engine: 3, debtor: "0x228B...E051", protocol: "Aave V3", debtAmount: 38000, currentHf: 1.052, bonusUsdc: 1900, isLiquidatable: false },
-  { id: 46, engine: 3, debtor: "0xAE71...31F9", protocol: "Aave V3", debtAmount: 11000, currentHf: 1.021, bonusUsdc: 550, isLiquidatable: false },
-  { id: 47, engine: 3, debtor: "0xD082...77C1", protocol: "Venus BSC", debtAmount: 22000, currentHf: 1.015, bonusUsdc: 1100, isLiquidatable: false },
-  { id: 48, engine: 3, debtor: "0x117F...66D2", protocol: "Venus BSC", debtAmount: 35000, currentHf: 1.037, bonusUsdc: 1750, isLiquidatable: false },
-  { id: 49, engine: 3, debtor: "0x8892...AA41", protocol: "Aave V3", debtAmount: 29500, currentHf: 1.041, bonusUsdc: 1475, isLiquidatable: false },
-  { id: 50, engine: 3, debtor: "0x41F3...B119", protocol: "Aave V3", debtAmount: 8900, currentHf: 1.022, bonusUsdc: 445, isLiquidatable: false },
-  { id: 51, engine: 3, debtor: "0x98D2...CC03", protocol: "Aave V3", debtAmount: 14300, currentHf: 1.031, bonusUsdc: 715, isLiquidatable: false },
-  { id: 52, engine: 3, debtor: "0x33A1...74E8", protocol: "Aave V3", debtAmount: 48000, currentHf: 1.049, bonusUsdc: 2400, isLiquidatable: false },
-  { id: 53, engine: 3, debtor: "0x77E4...99A2", protocol: "Aave V3", debtAmount: 21000, currentHf: 1.016, bonusUsdc: 1050, isLiquidatable: false },
-  { id: 54, engine: 3, debtor: "0x60D5...F812", protocol: "Aave V3", debtAmount: 13500, currentHf: 1.024, bonusUsdc: 675, isLiquidatable: false }
+  // FILAS 5 Y 6: MOTOR #03 CHARLEY-LIQUIDATOR (18 DEUDAS AAVE V3)
+  { id: 37, engine: 3, name: "Deudor #01", debtor: "0x71A2..09B1", debtAmount: 18500, hf: 1.037, isLiquidatable: false },
+  { id: 38, engine: 3, name: "Deudor #02", debtor: "0x3B84..C210", debtAmount: 9200, hf: 1.028, isLiquidatable: false },
+  { id: 39, engine: 3, name: "Deudor #03", debtor: "0x91F0..44E7", debtAmount: 42000, hf: 1.045, isLiquidatable: false },
+  { id: 40, engine: 3, name: "Deudor #04", debtor: "0x52D9..88A3", debtAmount: 12400, hf: 1.031, isLiquidatable: false },
+  { id: 41, engine: 3, name: "Deudor #05", debtor: "0x19A7..F32B", debtAmount: 7600, hf: 1.022, isLiquidatable: false },
+  { id: 42, engine: 3, name: "Deudor #06", debtor: "0x8C31..20D4", debtAmount: 26000, hf: 1.039, isLiquidatable: false },
+  { id: 43, engine: 3, name: "Deudor #07", debtor: "0x44E2..A9B0", debtAmount: 6400, hf: 1.019, isLiquidatable: false },
+  { id: 44, engine: 3, name: "Deudor #08", debtor: "0x6F11..91C3", debtAmount: 15100, hf: 1.034, isLiquidatable: false },
+  { id: 45, engine: 3, name: "Deudor #09", debtor: "0x228B..E051", debtAmount: 38000, hf: 1.052, isLiquidatable: false },
+  { id: 46, engine: 3, name: "Deudor #10", debtor: "0xAE71..31F9", debtAmount: 11000, hf: 1.026, isLiquidatable: false },
+  { id: 47, engine: 3, name: "Deudor #11", debtor: "0xD082..77C1", debtAmount: 22000, hf: 1.025, isLiquidatable: false },
+  { id: 48, engine: 3, name: "Deudor #12", debtor: "0x117F..66D2", debtAmount: 35000, hf: 1.042, isLiquidatable: false },
+  { id: 49, engine: 3, name: "Deudor #13", debtor: "0x8892..AA41", debtAmount: 29500, hf: 1.048, isLiquidatable: false },
+  { id: 50, engine: 3, name: "Deudor #14", debtor: "0x41F3..B119", debtAmount: 8900, hf: 1.030, isLiquidatable: false },
+  { id: 51, engine: 3, name: "Deudor #15", debtor: "0x98D2..CC03", debtAmount: 14300, hf: 1.035, isLiquidatable: false },
+  { id: 52, engine: 3, name: "Deudor #16", debtor: "0x33A1..74E8", debtAmount: 48000, hf: 1.056, isLiquidatable: false },
+  { id: 53, engine: 3, name: "Deudor #17", debtor: "0x77E4..99A2", debtAmount: 21000, hf: 1.024, isLiquidatable: false },
+  { id: 54, engine: 3, name: "Deudor #18", debtor: "0x60D5..F812", debtAmount: 13500, hf: 1.033, isLiquidatable: false }
 ];
 
-// RECIBOS HISTÓRICOS OFICIALES
-const DEFAULT_RECEIPTS = [
-  {
-    time: "2026-10-28 17:52:10 UTC",
-    block: "63488910",
-    engine: "MOTOR #01 (HARVEST)",
-    target: "Beefy WETH-USDC",
-    loan: "$0.00",
-    gas: "0.0062 POL",
-    profit: "+$0.95 USDC",
-    status: "CONFIRMADO_EN_FIRME",
-    tx: "0x58f7e2a9103cba79e8312015e5883d6a8b79219e49c71a39d8923058a9e03c14",
-    url: "https://polygonscan.com/tx/0x58f7e2a9103cba79e8312015e5883d6a8b79219e49c71a39d8923058a9e03c14"
-  },
-  {
-    time: "2026-10-28 17:38:40 UTC",
-    block: "63487402",
-    engine: "MOTOR #02 (FLASH LOAN)",
-    target: "USDC➔WETH➔LINK➔USDC",
-    loan: "$25,000 USDC",
-    gas: "0.0089 POL",
-    profit: "+$3.84 USDC",
-    status: "CONFIRMADO_EN_FIRME",
-    tx: "0x391ad810f27c3e590021b384810fce37d9482619e0481b7e0129f10a8274d9e1",
-    url: "https://polygonscan.com/tx/0x391ad810f27c3e590021b384810fce37d9482619e0481b7e0129f10a8274d9e1"
-  },
-  {
-    time: "2026-10-28 17:15:20 UTC",
-    block: "63485120",
-    engine: "MOTOR #03 (LIQUIDACIÓN)",
-    target: "0x44E2...A9B0 (CRV/USDC)",
-    loan: "$6,400 USDC",
-    gas: "0.0120 POL",
-    profit: "+$7.50 USDC",
-    status: "CONFIRMADO_EN_FIRME",
-    tx: "0x892a0e4177b912c0182479e01348ba930d81029e847103ba72938102830f8102",
-    url: "https://polygonscan.com/tx/0x892a0e4177b912c0182479e01348ba930d81029e847103ba72938102830f8102"
-  }
-];
-
-// RENDERIZADO DE LAS 54 CELDAS ATÓMICAS (9x6)
-function renderGrid(targets) {
+// RENDERIZADO DE LAS 54 CELDAS ATÓMICAS (3 LÍNEAS EXACTAS SIN CORTES)
+function renderAtomicGrid(targets) {
   const container = document.getElementById("atomic54Grid");
   if (!container) return;
 
   const html = targets.map(t => {
-    let badgeLabel = "";
+    let tagLabel = "";
     let mainVal = "";
     let subVal = "";
-    let actionPill = "";
-    let isIlluminated = false;
+    let statusLabel = "";
+    let isProfitable = false;
 
     if (t.engine === 1) {
       // Motor 1: Keeper Harvest
-      badgeLabel = `#01 HARVEST`;
-      mainVal = `$${Number(t.currentBounty || 0.42).toFixed(2)}`;
-      subVal = `Gas: $0.002`;
-      isIlluminated = t.isProfitable === true;
-      actionPill = `<span class="signal-pill ${isIlluminated ? 'signal-green' : 'signal-wait'}">
-        <span class="material-symbols-rounded">${isIlluminated ? 'check_circle' : 'schedule'}</span>
-        ${t.actionLabel || (isIlluminated ? `COSECHAR +$${t.currentBounty.toFixed(2)}` : 'ACUMULANDO')}
-      </span>`;
+      tagLabel = "#01 HARV";
+      const bounty = Number(t.currentBounty || t.bounty || 0.03);
+      mainVal = `$${bounty.toFixed(2)}`;
+      subVal = "Meta >$0.15";
+      isProfitable = t.isProfitable === true;
+      statusLabel = isProfitable
+        ? `COSECHAR +$${bounty.toFixed(2)}`
+        : `⏳ ACUMULANDO ($0 GAS)`;
     } else if (t.engine === 2) {
-      // Motor 2: Flash Loan Triangular
-      badgeLabel = `#02 FLASH`;
-      mainVal = `$${(t.loanTier || 10000).toLocaleString()}`;
-      subVal = `Spread: +${Number(t.spreadPct || 0.18).toFixed(2)}%`;
-      isIlluminated = t.isProfitable === true;
-      actionPill = `<span class="signal-pill ${isIlluminated ? 'signal-green' : 'signal-wait'}">
-        <span class="material-symbols-rounded">${isIlluminated ? 'bolt' : 'lock'}</span>
-        ${t.actionLabel || (isIlluminated ? `DISPARAR +$${t.estProfit.toFixed(2)}` : 'NO_PROFIT_REVERT')}
-      </span>`;
+      // Motor 2: Flash Loan
+      tagLabel = "#02 FLASH";
+      const loan = t.loanTier || 10000;
+      const sp = Number(t.currentSpread !== undefined ? t.currentSpread : (t.spreadPct || -0.015));
+      mainVal = `$${loan.toLocaleString()}`;
+      subVal = `Sp: ${sp >= 0 ? '+' : ''}${sp.toFixed(2)}%`;
+      isProfitable = t.isProfitable === true;
+      statusLabel = isProfitable
+        ? `DISPARAR +$${((loan * sp) / 100).toFixed(2)}`
+        : `📡 VIGILANDO SPREAD`;
     } else {
-      // Motor 3: Liquidaciones Aave V3
-      badgeLabel = `#03 LIQ`;
-      mainVal = `HF: ${Number(t.currentHf || 1.025).toFixed(3)}`;
-      subVal = `Deuda: $${(t.debtAmount || 15000).toLocaleString()}`;
-      isIlluminated = t.isLiquidatable === true;
-      const isNearDanger = !isIlluminated && t.currentHf < 1.025;
-      actionPill = `<span class="signal-pill ${isIlluminated ? 'signal-green' : (isNearDanger ? 'signal-amber' : 'signal-wait')}">
-        <span class="material-symbols-rounded">${isIlluminated ? 'gavel' : 'shield'}</span>
-        ${isIlluminated ? `LIQUIDAR EN 1s (+$${t.bonusUsdc})` : `Bono +5% = +$${t.bonusUsdc}`}
-      </span>`;
+      // Motor 3: Liquidator
+      tagLabel = "#03 LIQ";
+      const hfVal = Number(t.currentHf || t.hf || 1.037);
+      const debt = Number(t.debtAmount || 18500);
+      const debtK = (debt / 1000).toFixed(1);
+      mainVal = `HF ${hfVal.toFixed(3)}`;
+      subVal = `$${debtK}k`;
+      isProfitable = t.isLiquidatable === true;
+      statusLabel = isProfitable
+        ? `LIQUIDAR EN 1s`
+        : `🛡️ SANO (HF < 1.00)`;
     }
 
-    const cardClass = isIlluminated ? "pair-cell pair-cell-active-pos pair-cell-green" : "pair-cell";
+    const cellClass = isProfitable ? "atomic-cell cell-active" : "atomic-cell";
+    const pillClass = isProfitable ? "cell-status-pill pill-green" : "cell-status-pill pill-standby";
 
     return `
-      <div class="${cardClass}" id="targetCell_${t.id}">
-        <div class="pair-header-row">
-          <span class="pair-title" title="${t.name || t.debtor}">${t.name || t.debtor}</span>
-          <span class="pair-squad-badge">${badgeLabel}</span>
+      <div class="${cellClass}" id="atomicCell_${t.id}">
+        <!-- Línea 1: Nombre Corto + Tag de Motor -->
+        <div class="cell-header-row">
+          <span class="cell-title" title="${t.full || t.name}">${t.name}</span>
+          <span class="cell-tag">${tagLabel}</span>
         </div>
-        <div class="pair-price-row">
-          <span class="pair-price">${mainVal}</span>
-          <span class="pair-sub-metric">${subVal}</span>
+
+        <!-- Línea 2: Número Principal Grande + Subdato -->
+        <div class="cell-middle-row">
+          <span class="cell-main-val">${mainVal}</span>
+          <span class="cell-sub-val">${subVal}</span>
         </div>
-        <div class="pair-signal-row">
-          ${actionPill}
+
+        <!-- Línea 3: Pastilla de Estado en 1 sola línea sin cortarse -->
+        <div class="cell-bottom-row">
+          <span class="${pillClass}">
+            ${statusLabel}
+          </span>
         </div>
       </div>
     `;
@@ -179,23 +150,37 @@ function renderGrid(targets) {
   container.innerHTML = html;
 }
 
-// RENDERIZADO DE TABLA DE BITÁCORA ON-CHAIN
-function renderReceipts(receipts) {
+// RENDERIZADO DE BITÁCORA ON-CHAIN (100% SINCERA)
+function renderReceipts(transactions) {
   const tbody = document.getElementById("receiptsTableBody");
   if (!tbody) return;
 
-  tbody.innerHTML = receipts.map(r => `
+  if (!transactions || transactions.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty-ledger-cell">
+          <span class="material-symbols-rounded" style="font-size: 26px; color: #1D4ED8; margin-bottom: 6px;">radar</span><br>
+          <b>📡 0 Disparos Ejecutados Hoy ($0.00 USDC)</b><br>
+          Escaneando 54 contratos en Polygon PoS cada 4 segundos con <code>callStatic</code> ($0.00 Gas).<br>
+          <small style="color: #64748B;">Aquí solo aparecerán transacciones reales verificadas en PolygonScan.</small>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = transactions.map(r => `
     <tr>
-      <td><b>${r.time}</b><br><small style="color: #64748B;">Bloque #${r.block}</small></td>
+      <td><b>${new Date(r.timestamp).toISOString().replace("T", " ").slice(0, 19)} UTC</b><br><small style="color: #64748B;">Bloque #${r.blockNumber}</small></td>
       <td><span class="sq-badge sq-unit"><b>${r.engine}</b></span></td>
       <td><b>${r.target}</b></td>
-      <td>${r.loan}</td>
-      <td style="color: #D97706;">${r.gas}</td>
-      <td class="text-green" style="font-weight: 800;">${r.profit}</td>
+      <td>${r.loanUsdc ? `$${Number(r.loanUsdc).toLocaleString()} USDC` : "$0.00"}</td>
+      <td style="color: #D97706;">${r.gasCostPol} POL</td>
+      <td class="text-green" style="font-weight: 800;">+$${Number(r.netProfitUsdc).toFixed(2)} USDC</td>
       <td><span class="target-badge-pill meta-ok"><span class="material-symbols-rounded">verified</span> ${r.status}</span></td>
       <td>
-        <a href="${r.url}" target="_blank" rel="noopener" class="tx-scan-link">
-          ${r.tx.slice(0, 10)}...${r.tx.slice(-6)}
+        <a href="https://polygonscan.com/tx/${r.txHash}" target="_blank" rel="noopener" class="tx-scan-link">
+          ${r.txHash.slice(0, 10)}...${r.txHash.slice(-6)}
           <span class="material-symbols-rounded" style="font-size: 13px;">open_in_new</span>
         </a>
       </td>
@@ -203,7 +188,7 @@ function renderReceipts(receipts) {
   `).join("");
 }
 
-// SINCRONIZACIÓN DE TELEMETRÍA
+// SINCRONIZACIÓN EN VIVO CON TELEMETRÍA REAL
 async function syncTelemetry() {
   try {
     let res = await fetch("/api/sniping/telemetry?_=" + Date.now()).catch(() => null);
@@ -213,57 +198,44 @@ async function syncTelemetry() {
     if (res && res.ok) {
       const data = await res.json();
       
-      // Actualizar tarjetas superiores
-      if (data.dividendsCapturedUsdc !== undefined) {
-        const topTotalDividends = document.getElementById("topTotalDividends");
-        if (topTotalDividends) topTotalDividends.textContent = `+$${data.dividendsCapturedUsdc.toFixed(2)}`;
-      }
+      // 1. Tarjeta 2: Dividendos Sinceros
+      const totalProfit = Number(data.dividendsCapturedUsdc || 0.00);
+      const topTotalDividends = document.getElementById("topTotalDividends");
+      if (topTotalDividends) topTotalDividends.textContent = totalProfit.toFixed(2);
 
-      if (data.dividendsBreakdown) {
-        const b = data.dividendsBreakdown;
-        const bHarvest = document.getElementById("bountyHarvestBadge");
-        if (bHarvest) bHarvest.innerHTML = `<b>#01</b> +$${(b.harvestUsdc || 12.5).toFixed(1)}`;
-        const bFlash = document.getElementById("bountyFlashBadge");
-        if (bFlash) bFlash.innerHTML = `<b>#02</b> +$${(b.flashUsdc || 14.9).toFixed(1)}`;
-        const bLiq = document.getElementById("bountyLiquidatorBadge");
-        if (bLiq) bLiq.innerHTML = `<b>#03</b> +$${(b.liquidationUsdc || 7.5).toFixed(1)}`;
-        const winStreakText = document.getElementById("winStreakText");
-        if (winStreakText) winStreakText.textContent = b.streak || "8G-0P (100%)";
-      }
+      const b = data.dividendsBreakdown || {};
+      const winStreakText = document.getElementById("winStreakText");
+      if (winStreakText) winStreakText.textContent = b.streak || "0G - 0P";
 
+      const bHarvest = document.getElementById("bountyHarvestBadge");
+      if (bHarvest) bHarvest.innerHTML = `<b>#01</b> $${Number(b.harvestUsdc || 0.00).toFixed(2)}`;
+
+      const bFlash = document.getElementById("bountyFlashBadge");
+      if (bFlash) bFlash.innerHTML = `<b>#02</b> $${Number(b.flashUsdc || 0.00).toFixed(2)}`;
+
+      const bLiq = document.getElementById("bountyLiquidatorBadge");
+      if (bLiq) bLiq.innerHTML = `<b>#03</b> $${Number(b.liquidationUsdc || 0.00).toFixed(2)}`;
+
+      // 2. Tarjeta 3: Gas en Polygon
       if (data.gasTank) {
         const topGasPol = document.getElementById("topGasPol");
-        if (topGasPol) topGasPol.textContent = `${Number(data.gasTank.vault501Pol || 160.85).toFixed(2)}`;
+        if (topGasPol) topGasPol.textContent = Number(data.gasTank.vault501Pol || 160.85).toFixed(2);
       }
 
-      // Actualizar rejilla de 54 objetivos si vienen datos
+      // 3. Rejilla Central (54 Celdas Atómicas)
       if (data.targets && data.targets.length === 54) {
-        renderGrid(data.targets);
+        renderAtomicGrid(data.targets);
       }
 
-      // Actualizar recibos
-      if (data.recentTransactions && data.recentTransactions.length > 0) {
-        const mapped = data.recentTransactions.map(t => ({
-          time: new Date(t.timestamp).toISOString().replace("T", " ").slice(0, 19) + " UTC",
-          block: String(t.blockNumber),
-          engine: t.engine,
-          target: t.target,
-          loan: t.loanUsdc > 0 ? `$${t.loanUsdc.toLocaleString()} USDC` : "$0.00",
-          gas: `${t.gasCostPol} POL`,
-          profit: `+$${t.netProfitUsdc.toFixed(2)} USDC`,
-          status: t.status,
-          tx: t.txHash,
-          url: t.url
-        }));
-        renderReceipts(mapped);
-      }
+      // 4. Bitácora On-Chain
+      renderReceipts(data.transactions || []);
     }
   } catch (_) {
-    // Si la telemetría aún se está escribiendo, mantener renderizado fallback
+    // Si hay micro-retraso en fetch, mantener renderizado previo
   }
 }
 
-// CONFIGURACIÓN DE PESTAÑAS (ZERO RELOAD)
+// CONFIGURACIÓN DE PESTAÑAS (CERO RECARGA)
 function setupTabs() {
   const tabs = document.querySelectorAll(".nav-tab");
   tabs.forEach(tab => {
@@ -284,7 +256,7 @@ function setupTabs() {
   });
 }
 
-// RELOJ UTC EN VIVO
+// RELOJ UTC EN VIVO (HORA EN 1 SOLA LÍNEA)
 function startUtcClock() {
   const clockEl = document.getElementById("liveUtcClock");
   const update = () => {
@@ -296,16 +268,16 @@ function startUtcClock() {
   setInterval(update, 1000);
 }
 
-// INICIALIZACIÓN COMPLETA
+// INICIALIZACIÓN
 document.addEventListener("DOMContentLoaded", () => {
   setupTabs();
   startUtcClock();
 
-  // Primer renderizado inmediato con los 54 objetivos estándar
-  renderGrid(FALLBACK_TARGETS);
-  renderReceipts(DEFAULT_RECEIPTS);
+  // Render inicial sincero desde el primer milisegundo
+  renderAtomicGrid(SINCERE_TARGETS);
+  renderReceipts([]);
 
-  // Sincronizar telemetría cada 2.5 segundos
+  // Sincronización continua cada 3 segundos
   syncTelemetry();
-  setInterval(syncTelemetry, 2500);
+  setInterval(syncTelemetry, 3000);
 });

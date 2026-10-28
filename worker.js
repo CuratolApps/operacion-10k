@@ -1981,6 +1981,16 @@ export default {
       return new Response(res.body, { status: res.status, headers });
     }
 
+    // Endpoint directo sin caché del libro mayor (/api/sniping/ledger)
+    if (url.pathname === "/api/sniping/ledger" || url.pathname === "/sniping/ledger.json") {
+      const ledgerReq = new Request(new URL("/telemetry/atomic-flash-ledger.json", request.url), request);
+      const res = await env.ASSETS.fetch(ledgerReq);
+      const headers = new Headers(res.headers);
+      headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(res.body, { status: res.status, headers });
+    }
+
     // Endpoint de despacho de Reporte de Auditoría a Telegram (Sala de Mando 10K)
     if (url.pathname === "/api/trading/telegram-report") {
       if (request.method === "OPTIONS") {

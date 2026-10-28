@@ -1,0 +1,15 @@
+{
+  "updatedAt": "2026-10-28T18:25:00.000Z",
+  "status": "LIVE_ZERO_RISK",
+  "totalProfitUsdc": 0.00,
+  "winStreak": "0G-0P",
+  "winRate": "100%",
+  "totalShotsToday": 0,
+  "totalExecutions": 0,
+  "enginesBreakdown": {
+    "engine1HarvestUsdc": 0.00,
+    "engine2FlashUsdc": 0.00,
+    "engine3LiquidationsUsdc": 0.00
+  },
+  "transactions": []
+}

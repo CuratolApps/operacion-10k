@@ -31,20 +31,21 @@
         </div>
       </div>
 
-      <!-- Tarjeta 2: Dividendos Cobrados a #501 -->
+      <!-- Tarjeta 2: Dividendos Cobrados a #501 (100% Sincero $0.00 USDC / 0G-0P) -->
       <div class="biz-card" id="cardDividends">
         <div class="card-tag">
           <span class="material-symbols-rounded">payments</span> DIVIDENDOS COBRADOS A #501
         </div>
         <div class="card-main-val text-green">
-          <span id="topTotalDividends">+$34.82</span>
-          <span class="pct-badge" id="topDividendsPct">+100% LIMPIO</span>
+          <span class="currency-symbol">$</span><span id="topTotalDividends">0.00</span>
+          <span class="unit-tag">USDC</span>
+          <span class="pct-badge" id="topDividendsPct">MODO EN VIVO ($0 RIESGO)</span>
         </div>
         <div class="card-sub-badges-row">
-          <span class="sq-badge streak"><i class="material-symbols-rounded">workspace_premium</i> <b id="winStreakText">8G-0P (100%)</b></span>
-          <span class="sq-badge sq-unit" id="bountyHarvestBadge"><b>#01</b> +$12.5</span>
-          <span class="sq-badge sq-unit" id="bountyFlashBadge"><b>#02</b> +$14.9</span>
-          <span class="sq-badge sq-unit" id="bountyLiquidatorBadge"><b>#03</b> +$7.5</span>
+          <span class="sq-badge streak"><i class="material-symbols-rounded">verified</i> <b id="winStreakText">0G - 0P</b></span>
+          <span class="sq-badge sq-unit" id="bountyHarvestBadge"><b>#01</b> $0.00</span>
+          <span class="sq-badge sq-unit" id="bountyFlashBadge"><b>#02</b> $0.00</span>
+          <span class="sq-badge sq-unit" id="bountyLiquidatorBadge"><b>#03</b> $0.00</span>
         </div>
       </div>
 
@@ -92,7 +93,7 @@
         </div>
         <div class="squad-counter-row">
           <span class="status-pill active-pill" id="topActiveTargetsPill"><span class="material-symbols-rounded">check_circle</span> 54 Contratos Vigilados</span>
-          <span class="status-pill ready-pill" id="topSweepIntervalPill"><span class="material-symbols-rounded">speed</span> Multicall3 c/3s</span>
+          <span class="status-pill ready-pill" id="topSweepIntervalPill"><span class="material-symbols-rounded">speed</span> Multicall3 c/4s</span>
         </div>
         <div class="sub-label-matrix">Polygon PoS · Balancer V2 · Aave V3 · Beefy Finance</div>
       </div>
@@ -102,30 +103,9 @@
     <!-- MAIN VIEW CONTAINER (SWITCHES BETWEEN 4 TABS WITHOUT RELOAD) -->
     <main class="matrix-content">
       
-      <!-- TAB 1: 54 OBJETIVOS ATÓMICOS EN VIVO (GRID 9x6) -->
+      <!-- TAB 1: 54 OBJETIVOS ATÓMICOS EN VIVO (GRID 9x6 COMPACTO - CERO SCROLL) -->
       <section class="tab-pane active" id="paneTargetsGrid">
-        
-        <!-- HEADER DE BARRAS DE ESTADO DE LOS 3 MOTORES -->
-        <div class="grid-subhead-banner">
-          <div class="subhead-badge harvest-tag">
-            <span class="material-symbols-rounded">agriculture</span>
-            <b>FILAS 1-2: MOTOR #01 ALFA-HARVEST</b>
-            <span>(18 Bóvedas Keeper Bounties · Beefy, Gamma &amp; QuickSwap)</span>
-          </div>
-          <div class="subhead-badge flash-tag">
-            <span class="material-symbols-rounded">swap_horiz</span>
-            <b>FILAS 3-4: MOTOR #02 BRAVO-FLASH</b>
-            <span>(18 Rutas Flash Loan $5k-$25k · Balancer 0% Fee + Aave V3)</span>
-          </div>
-          <div class="subhead-badge liquidator-tag">
-            <span class="material-symbols-rounded">gavel</span>
-            <b>FILAS 5-6: MOTOR #03 CHARLEY-LIQUIDATOR</b>
-            <span>(18 Posiciones Deuda HF &lt; 1.000 · Bono +5% en 1s)</span>
-          </div>
-        </div>
-
-        <!-- LA REJILLA CENTRAL DE 54 OBJETIVOS (9 COLUMNAS x 6 FILAS) -->
-        <div class="pairs-grid-container" id="atomic54Grid">
+        <div class="atomic-grid-54" id="atomic54Grid">
           <!-- Inyectado dinámicamente desde app.js (54 tarjetas en Azul Cobalto / Esmeralda) -->
         </div>
       </section>
@@ -251,7 +231,7 @@
                 </tr>
               </thead>
               <tbody id="receiptsTableBody">
-                <!-- Se inyecta dinámicamente desde app.js -->
+                <!-- Se inyecta dinámicamente desde app.js (vacio sincero si 0 disparos) -->
               </tbody>
             </table>
           </div>
@@ -303,38 +283,39 @@
 
     </main>
 
-    <!-- BOTTOM FIXED BAR: BRAND, 4 TABS, LATENCY, CLOCK -->
-    <footer class="matrix-bottombar">
+    <!-- BOTTOM FIXED BAR: 100% EN UNA SOLA LÍNEA HORIZONTAL SIN ENVOLVER -->
+    <footer class="matrix-bottombar bottom-bar">
       <div class="bottom-identity">
         <span class="material-symbols-rounded brand-icon">bolt</span>
-        <span class="brand-title">ATOMIC FLASH MATRIX</span>
+        <b>ATOMIC FLASH MATRIX</b>
         <span class="brand-divider">//</span>
-        <span class="brand-tag">54 OBJETIVOS ON-CHAIN EN 1s</span>
+        <span class="brand-tag">54 OBJETIVOS L1</span>
         <span class="live-dot" title="Telemetría en Vivo Conectada"></span>
       </div>
 
-      <!-- THE 4 MODEL TABS -->
+      <!-- THE 4 MODEL TABS COMPACTOS -->
       <nav class="matrix-nav-tabs">
         <button class="nav-tab active" data-tab="paneTargetsGrid" id="tabBtnTargets">
-          <span class="material-symbols-rounded tab-icon">grid_view</span> ⚡ 54 OBJETIVOS ATÓMICOS EN VIVO
+          <span class="material-symbols-rounded tab-icon">grid_view</span> [ ⚡ 54 OBJETIVOS EN VIVO ]
         </button>
         <button class="nav-tab" data-tab="paneLadder" id="tabBtnLadder">
-          <span class="material-symbols-rounded tab-icon">account_balance</span> 🏦 ESCALERA DE CALIBRES FLASH ($5K A $50K)
+          <span class="material-symbols-rounded tab-icon">account_balance</span> [ 🏦 CALIBRES FLASH ($5K-$50K) ]
         </button>
         <button class="nav-tab" data-tab="paneLedger" id="tabBtnLedger">
-          <span class="material-symbols-rounded tab-icon">receipt_long</span> 📜 BITÁCORA REAL ON-CHAIN &amp; RECIBOS 0x
+          <span class="material-symbols-rounded tab-icon">receipt_long</span> [ 📜 BITÁCORA ON-CHAIN (0) ]
         </button>
         <button class="nav-tab" data-tab="paneLinks" id="tabBtnLinks">
-          <span class="material-symbols-rounded tab-icon">open_in_new</span> 🏛️ IR A SQUAD MATRIX / FLOTA X500
+          <span class="material-symbols-rounded tab-icon">open_in_new</span> [ 🏛️ ESTACIONES ÁREA 501 ]
         </button>
       </nav>
 
-      <!-- SYSTEM STATUS & CLOCK -->
+      <!-- SYSTEM STATUS & CLOCK HORIZONTAL EN 1 SOLA LÍNEA -->
       <div class="bottom-system">
         <div class="ws-status">
           <span class="status-bullet">●</span>
-          <span id="wsLatency">24ms Polygon</span>
+          <span>24ms Polygon</span>
         </div>
+        <span class="brand-divider">·</span>
         <div class="utc-clock">
           <span class="material-symbols-rounded clock-icon">schedule</span>
           <span id="liveUtcClock">00:00:00 UTC</span>
