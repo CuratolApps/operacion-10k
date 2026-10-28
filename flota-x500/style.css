@@ -441,10 +441,12 @@ html, body {
   overflow: hidden !important;
 }
 
+/* Celda de Enjambre en Verde Esmeralda / Menta Satinado */
 .swarm-cell {
-  background: linear-gradient(145deg, rgba(15, 25, 50, 0.92) 0%, rgba(10, 17, 36, 0.97) 100%) !important;
-  border: 1px solid rgba(148, 163, 184, 0.22) !important;
-  border-radius: 6px !important;
+  background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%) !important;
+  border: 1px solid rgba(167, 243, 208, 0.65) !important;
+  box-shadow: 0 4px 10px rgba(4, 120, 87, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
+  border-radius: 9px !important;
   padding: 4px 6px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -453,15 +455,16 @@ html, body {
   position: relative !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
-  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  transition: background 0.15s ease, border-color 0.15s ease !important;
+  transform: none !important;
+  color: #FFFFFF !important;
 }
 
 .swarm-cell:hover {
-  transform: translateY(-2px) !important;
-  border-color: #38BDF8 !important;
-  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35) !important;
-  z-index: 10 !important;
+  background: linear-gradient(145deg, #0F766E 0%, #047857 55%, #065F46 100%) !important;
+  border-color: #A7F3D0 !important;
+  transform: none !important;
+  box-shadow: 0 4px 12px rgba(4, 120, 87, 0.3) !important;
 }
 
 .cell-top-bar {
@@ -1115,17 +1118,22 @@ html, body {
 .x500-cta:hover { background: #047857 !important; }
 
 /* ==============================================================================
-   BARRA INFERIOR UNIFICADA EN AZUL OSCURO NOCTURNO (100% ESTÁNDAR ÁREA 501)
-   `linear-gradient(90deg, #091120 0%, #0F1A2E 50%, #091120 100%)`, 38px, nowrap
+   BARRA INFERIOR (FOOTER DOCK) BLANCO/GRIS SATINADO CLARO (ESTILO TARJETAS SUPERIORES)
    ============================================================================== */
-.bottom-bar, .footer-dock, footer, .matrix-bottombar {
-  background: linear-gradient(90deg, #091120 0%, #0F1A2E 50%, #091120 100%) !important;
-  border: 1px solid rgba(148, 163, 184, 0.22) !important;
-  border-radius: 10px !important;
+.bottom-bar,
+.footer-dock,
+footer,
+.matrix-bottombar {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 #FFFFFF !important;
+  border-radius: 12px !important;
   height: 38px !important;
   min-height: 38px !important;
   max-height: 38px !important;
-  padding: 0 12px !important;
+  padding: 0 14px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -1134,8 +1142,7 @@ html, body {
   box-sizing: border-box !important;
   white-space: nowrap !important;
   overflow: hidden !important;
-  color: #F8FAFC !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  color: #0F172A !important;
   margin-top: 4px !important;
   z-index: 100 !important;
   flex: 0 0 38px !important;
@@ -1153,20 +1160,20 @@ html, body {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 0.66rem !important;
   font-weight: 800 !important;
-  color: #F8FAFC !important;
+  color: #0F172A !important;
   flex: 0 0 auto !important;
 }
 
 .brand-icon {
   font-size: 16px !important;
-  color: #10B981 !important;
+  color: #059669 !important;
 }
 
 .brand-title {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 0.72rem !important;
   font-weight: 800 !important;
-  color: #F8FAFC !important;
+  color: #0F172A !important;
   letter-spacing: 0.04em !important;
 }
 
@@ -1193,38 +1200,63 @@ html, body {
   flex: 0 1 auto !important;
 }
 
+/* Botones de pestañas dentro de la barra inferior gris/blanca satinada */
+.bottom-bar button,
+.footer-dock button,
+.dock-tab-btn,
 .nav-tab {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #94A3B8 !important;
+  background: #E2E8F0 !important;
+  color: #1E293B !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 7px !important;
+  padding: 4px 10px !important;
+  font-size: 0.66rem !important;
+  font-weight: 700 !important;
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.64rem !important;
-  font-weight: 800 !important;
-  padding: 4px 9px !important;
-  border-radius: 6px !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 4px !important;
+  gap: 5px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
   white-space: nowrap !important;
+}
+
+.bottom-bar button *,
+.footer-dock button *,
+.dock-tab-btn *,
+.nav-tab * {
+  color: #1E293B !important;
 }
 
 .nav-tab .tab-icon {
   font-size: 13px !important;
 }
 
+.bottom-bar button:hover,
+.footer-dock button:hover,
+.dock-tab-btn:hover,
 .nav-tab:hover {
-  background: rgba(16, 185, 129, 0.25) !important;
-  color: #FFFFFF !important;
-  border-color: #10B981 !important;
+  background: #CBD5E1 !important;
+  border-color: #94A3B8 !important;
+  color: #0F172A !important;
 }
 
+/* Pestaña activa en Verde Mate haciendo juego con las tarjetas centrales */
+.bottom-bar button.active,
+.footer-dock button.active,
+.dock-tab-btn.active,
 .nav-tab.active {
-  background: #059669 !important;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
   color: #FFFFFF !important;
-  border-color: #34D399 !important;
-  box-shadow: 0 2px 10px rgba(5, 150, 105, 0.5) !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35) !important;
+}
+
+.bottom-bar button.active *,
+.footer-dock button.active *,
+.dock-tab-btn.active *,
+.nav-tab.active * {
+  color: #FFFFFF !important;
 }
 
 .bottom-system {
@@ -1234,49 +1266,144 @@ html, body {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 0.62rem !important;
   font-weight: 700 !important;
-  color: #94A3B8 !important;
+  color: #0F172A !important;
   flex: 0 0 auto !important;
 }
 
+/* Botón separado de las 3 Estaciones a la derecha */
+.btn-stations-hub,
 .btn-stations-master {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(37, 99, 235, 0.25) 100%) !important;
-  border: 1.5px solid #F59E0B !important;
-  color: #FDE68A !important;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3) !important;
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-weight: 800 !important;
-  font-size: 0.64rem !important;
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid #334155 !important;
+  border-radius: 7px !important;
   padding: 4px 10px !important;
-  border-radius: 6px !important;
-  cursor: pointer !important;
+  font-size: 0.66rem !important;
+  font-weight: 700 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 4px !important;
-  transition: all 0.2s ease !important;
+  gap: 5px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
   white-space: nowrap !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2) !important;
 }
 
-.btn-stations-master:hover,
+.btn-stations-hub *,
+.btn-stations-master * {
+  color: #FFFFFF !important;
+}
+
+.btn-stations-hub:hover,
+.btn-stations-master:hover {
+  background: linear-gradient(135deg, #1E293B 0%, #334155 100%) !important;
+  border-color: #475569 !important;
+}
+
+.btn-stations-hub.active,
 .btn-stations-master.active {
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
-  color: #0F172A !important;
-  border-color: #FDE68A !important;
-  box-shadow: 0 0 16px rgba(245, 158, 11, 0.6) !important;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  border-color: #10B981 !important;
+  color: #FFFFFF !important;
+}
+
+.btn-stations-hub.active *,
+.btn-stations-master.active * {
+  color: #FFFFFF !important;
 }
 
 .btn-stations-master .master-hub-icon {
   font-size: 13px !important;
 }
 
-.utc-clock {
+.utc-clock,
+.bottom-bar .utc-clock,
+.footer-dock .utc-clock,
+.matrix-bottombar .utc-clock {
   display: flex !important;
   align-items: center !important;
   gap: 3px !important;
-  color: #F8FAFC !important;
+  color: #0F172A !important;
   font-weight: 800 !important;
+}
+
+.utc-clock *,
+.bottom-bar .utc-clock *,
+.footer-dock .utc-clock *,
+.matrix-bottombar .utc-clock * {
+  color: #0F172A !important;
 }
 
 .clock-icon {
   font-size: 13px !important;
-  color: #38BDF8 !important;
+  color: #059669 !important;
+}
+
+/* ==============================================================================
+   REGLAS SAGRADAS: 54 TARJETAS VERDE ESMERALDA / MENTA + TEXTO BLANCO
+   ============================================================================== */
+.pair-card,
+.pair-cell,
+.atomic-cell,
+.swarm-cell,
+.platoon-card,
+.matrix-card {
+  background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%) !important;
+  border: 1px solid rgba(167, 243, 208, 0.65) !important;
+  box-shadow:
+    0 4px 10px rgba(4, 120, 87, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
+  border-radius: 9px !important;
+  color: #FFFFFF !important;
+  transform: none !important;
+  transition: background 0.15s ease, border-color 0.15s ease !important;
+}
+
+.pair-card:hover,
+.pair-cell:hover,
+.atomic-cell:hover,
+.swarm-cell:hover,
+.platoon-card:hover,
+.matrix-card:hover {
+  transform: none !important;
+  border-color: #A7F3D0 !important;
+  background: linear-gradient(145deg, #0F766E 0%, #047857 55%, #065F46 100%) !important;
+}
+
+.pair-card *,
+.pair-cell *,
+.atomic-cell *,
+.swarm-cell *,
+.platoon-card *,
+.matrix-card * {
+  color: #FFFFFF !important;
+}
+
+.pair-card .cell-badge,
+.pair-cell .cell-badge,
+.atomic-cell .cell-badge,
+.swarm-cell .cell-badge,
+.platoon-card .cell-badge,
+.pair-card .pair-squad-badge,
+.pair-cell .pair-squad-badge,
+.pair-card .cell-tag,
+.pair-cell .cell-tag,
+.atomic-cell .cell-tag,
+.swarm-cell .cell-tag,
+.platoon-card .cell-tag {
+  background: rgba(6, 78, 59, 0.48) !important;
+  border: 1px solid rgba(167, 243, 208, 0.45) !important;
+  color: #ECFDF5 !important;
+  font-weight: 700 !important;
+}
+
+.pair-card.active-trade,
+.pair-cell.pair-cell-active-pos,
+.atomic-cell.active-shot,
+.swarm-cell.active-turn {
+  background: linear-gradient(145deg, #10B981 0%, #059669 100%) !important;
+  border: 2px solid #FEF08A !important;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.45) !important;
+  transform: none !important;
 }

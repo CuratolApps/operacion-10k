@@ -47289,6 +47289,20 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1793210930488-881",
+      "timestamp": "2026-10-28T18:08:50.488Z",
+      "timeFormatted": "18:08:50 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$4052.3</code>\n📤 <b>SE VENDIÓ A:</b> <code>$4038.1</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$1.6993 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>58 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>PAXG</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$816.40 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC\n📥 Precio Entrada: $4052.3\n📤 SE VENDIÓ A: $4038.1 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$1.6993 USDC\n🏆 Récord Oficial: 58 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: PAXG en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $816.40 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
+    },
+    {
+      "id": "tg-1793210924998-324",
+      "timestamp": "2026-10-28T18:08:44.998Z",
+      "timeFormatted": "18:08:44 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$4052.3</code>\n📤 <b>SE VENDIÓ A:</b> <code>$4038.1</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$1.6993 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>57 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>PAXG</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$816.41 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC\n📥 Precio Entrada: $4052.3\n📤 SE VENDIÓ A: $4038.1 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$1.6993 USDC\n🏆 Récord Oficial: 57 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: PAXG en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $816.41 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
+    },
+    {
       "id": "tg-1793210592365-974",
       "timestamp": "2026-10-28T18:03:12.365Z",
       "timeFormatted": "18:03:12 UTC",
@@ -47483,20 +47497,6 @@
       "timeFormatted": "8:30:53 UTC",
       "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b>\n📍 <b>Par:</b> <code>SUI-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.14%</code>\n🛡️ <b>Candado Blindado a:</b> <code>$0.9431</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
       "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa\n📍 Par: SUI-USDC\n📈 Avance Favorable: +0.14%\n🛡️ Candado Blindado a: $0.9431 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793176103128-229",
-      "timestamp": "2026-10-28T08:28:23.128Z",
-      "timeFormatted": "8:28:23 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$0.9435</code>\n📤 <b>SE VENDIÓ A:</b> <code>$0.94</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$1.2503 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>51 Ganadas · 0 Pérdidas (100% Invictos)</b>\n💵 <b>Nuevo Balance en L1:</b> <code>$529.59 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC\n📥 Precio Entrada: $0.9435\n📤 SE VENDIÓ A: $0.94 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$1.2503 USDC\n🏆 Récord Oficial: 51 Ganadas · 0 Pérdidas (100% Invictos)\n💵 Nuevo Balance en L1: $529.59 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-    },
-    {
-      "id": "tg-1793176090641-334",
-      "timestamp": "2026-10-28T08:28:10.641Z",
-      "timeFormatted": "8:28:10 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$0.9435</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$0.9402</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$1.6955 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 67.3% · RSI 5m 72.4\n🛡️ <b>Margen Asignado:</b> <code>$105.97 USDC (5x = $529.85 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
-      "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $0.9435\n📤 OBJETIVO TAKE PROFIT: $0.9402 (+0.35%)\n💰 Ganancia Estimada: +$1.6955 USDC Limpios\n📊 Filtros: L2 67.3% · RSI 5m 72.4\n🛡️ Margen Asignado: $105.97 USDC (5x = $529.85 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
     }
   ],
   "lomo6SocialX": {

@@ -206,22 +206,33 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(fetchHyperliquidState, 3000);
 });
 
-// CONTROL DE PESTAÑAS Y LANZADOR DE LAS 3 ESTACIONES
+// CONTROL DE PESTAÑAS Y LANZADOR DE LAS 3 ESTACIONES (PERSISTENTE EN SESSIONSTORAGE)
 function initTabs() {
+  const savedTab = sessionStorage.getItem("squad_matrix_active_tab") || "paneCover";
   const allNavButtons = document.querySelectorAll(".nav-tab, .btn-stations-master");
+
+  function activateTab(targetId) {
+    if (!targetId) return;
+    sessionStorage.setItem("squad_matrix_active_tab", targetId);
+
+    allNavButtons.forEach(b => {
+      b.classList.toggle("active", b.getAttribute("data-tab") === targetId);
+    });
+
+    document.querySelectorAll(".tab-pane").forEach(pane => {
+      pane.classList.toggle("active", pane.id === targetId);
+    });
+  }
+
   allNavButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-tab");
-      allNavButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      document.querySelectorAll(".tab-pane").forEach(pane => {
-        pane.classList.remove("active");
-      });
-      const targetPane = document.getElementById(targetId);
-      if (targetPane) targetPane.classList.add("active");
+      if (targetId) activateTab(targetId);
     });
   });
+
+  // Restaurar pestaña activa guardada
+  activateTab(savedTab);
 }
 
 // FORMATO DE HORA LOCAL EN CIUDAD

@@ -73,41 +73,75 @@ const SINCERE_TARGETS = [
   { id: 54, engine: 3, name: "Deudor #18", debtor: "0x60D5..F812", debtAmount: 13500, hf: 1.033, isLiquidatable: false }
 ];
 
-// RENDERIZADO DE LAS 54 CELDAS ATÓMICAS (3 LÍNEAS EXACTAS SIN CORTES)
+// RENDERIZADO DE LAS 54 CELDAS ATÓMICAS (UNA SOLA VEZ AL CARGAR + IN-PLACE UPDATES)
 function renderAtomicGrid(targets) {
   const container = document.getElementById("atomic54Grid");
   if (!container) return;
 
-  const html = targets.map(t => {
-    let tagLabel = "";
-    let mainVal = "";
-    let subVal = "";
-    let statusLabel = "";
-    let isProfitable = false;
+  // Si las 54 celdas ya existen, solo actualizar textContent in-place (0% titileo, cero recreación DOM)
+  const existingCell0 = document.getElementById("atomicCell_1");
+  if (existingCell0 && container.children.length === targets.length) {
+    targets.forEach(t => {
+      let mainVal = "", subVal = "", statusLabel = "", isProfitable = false;
+      if (t.engine === 1) {
+        const bounty = Number(t.currentBounty || t.bounty || 0.03);
+        mainVal = `$${bounty.toFixed(2)}`;
+        subVal = "Meta >$0.15";
+        isProfitable = t.isProfitable === true;
+        statusLabel = isProfitable ? `COSECHAR +$${bounty.toFixed(2)}` : `⏳ ACUMULANDO ($0 GAS)`;
+      } else if (t.engine === 2) {
+        const loan = t.loanTier || 10000;
+        const sp = Number(t.currentSpread !== undefined ? t.currentSpread : (t.spreadPct || -0.015));
+        mainVal = `$${loan.toLocaleString()}`;
+        subVal = `Sp: ${sp >= 0 ? '+' : ''}${sp.toFixed(2)}%`;
+        isProfitable = t.isProfitable === true;
+        statusLabel = isProfitable ? `DISPARAR +$${((loan * sp) / 100).toFixed(2)}` : `📡 VIGILANDO SPREAD`;
+      } else {
+        const hfVal = Number(t.currentHf || t.hf || 1.037);
+        const debt = Number(t.debtAmount || 18500);
+        const debtK = (debt / 1000).toFixed(1);
+        mainVal = `HF ${hfVal.toFixed(3)}`;
+        subVal = `$${debtK}k`;
+        isProfitable = t.isLiquidatable === true;
+        statusLabel = isProfitable ? `LIQUIDAR EN 1s` : `🛡️ SANO (HF < 1.00)`;
+      }
 
+      const cell = document.getElementById(`atomicCell_${t.id}`);
+      if (cell) {
+        cell.className = isProfitable ? "atomic-cell active-shot" : "atomic-cell";
+        const valEl = document.getElementById(`targetMain_${t.id}`);
+        if (valEl && valEl.textContent !== mainVal) valEl.textContent = mainVal;
+        const subEl = document.getElementById(`targetSub_${t.id}`);
+        if (subEl && subEl.textContent !== subVal) subEl.textContent = subVal;
+        const pillEl = document.getElementById(`targetPill_${t.id}`);
+        if (pillEl) {
+          if (pillEl.textContent !== statusLabel) pillEl.textContent = statusLabel;
+          pillEl.className = isProfitable ? "cell-status-pill cell-badge pill-green" : "cell-status-pill cell-badge pill-standby";
+        }
+      }
+    });
+    return;
+  }
+
+  // Render inicial: UNA SOLA VEZ AL INICIO
+  const html = targets.map(t => {
+    let tagLabel = "", mainVal = "", subVal = "", statusLabel = "", isProfitable = false;
     if (t.engine === 1) {
-      // Motor 1: Keeper Harvest
       tagLabel = "#01 HARV";
       const bounty = Number(t.currentBounty || t.bounty || 0.03);
       mainVal = `$${bounty.toFixed(2)}`;
       subVal = "Meta >$0.15";
       isProfitable = t.isProfitable === true;
-      statusLabel = isProfitable
-        ? `COSECHAR +$${bounty.toFixed(2)}`
-        : `⏳ ACUMULANDO ($0 GAS)`;
+      statusLabel = isProfitable ? `COSECHAR +$${bounty.toFixed(2)}` : `⏳ ACUMULANDO ($0 GAS)`;
     } else if (t.engine === 2) {
-      // Motor 2: Flash Loan
       tagLabel = "#02 FLASH";
       const loan = t.loanTier || 10000;
       const sp = Number(t.currentSpread !== undefined ? t.currentSpread : (t.spreadPct || -0.015));
       mainVal = `$${loan.toLocaleString()}`;
       subVal = `Sp: ${sp >= 0 ? '+' : ''}${sp.toFixed(2)}%`;
       isProfitable = t.isProfitable === true;
-      statusLabel = isProfitable
-        ? `DISPARAR +$${((loan * sp) / 100).toFixed(2)}`
-        : `📡 VIGILANDO SPREAD`;
+      statusLabel = isProfitable ? `DISPARAR +$${((loan * sp) / 100).toFixed(2)}` : `📡 VIGILANDO SPREAD`;
     } else {
-      // Motor 3: Liquidator
       tagLabel = "#03 LIQ";
       const hfVal = Number(t.currentHf || t.hf || 1.037);
       const debt = Number(t.debtAmount || 18500);
@@ -115,13 +149,11 @@ function renderAtomicGrid(targets) {
       mainVal = `HF ${hfVal.toFixed(3)}`;
       subVal = `$${debtK}k`;
       isProfitable = t.isLiquidatable === true;
-      statusLabel = isProfitable
-        ? `LIQUIDAR EN 1s`
-        : `🛡️ SANO (HF < 1.00)`;
+      statusLabel = isProfitable ? `LIQUIDAR EN 1s` : `🛡️ SANO (HF < 1.00)`;
     }
 
-    const cellClass = isProfitable ? "atomic-cell cell-active" : "atomic-cell";
-    const pillClass = isProfitable ? "cell-status-pill pill-green" : "cell-status-pill pill-standby";
+    const cellClass = isProfitable ? "atomic-cell active-shot" : "atomic-cell";
+    const pillClass = isProfitable ? "cell-status-pill cell-badge pill-green" : "cell-status-pill cell-badge pill-standby";
 
     return `
       <div class="${cellClass}" id="atomicCell_${t.id}">
@@ -133,13 +165,13 @@ function renderAtomicGrid(targets) {
 
         <!-- Línea 2: Número Principal Grande + Subdato -->
         <div class="cell-middle-row">
-          <span class="cell-main-val">${mainVal}</span>
-          <span class="cell-sub-val">${subVal}</span>
+          <span class="cell-main-val" id="targetMain_${t.id}">${mainVal}</span>
+          <span class="cell-sub-val" id="targetSub_${t.id}">${subVal}</span>
         </div>
 
         <!-- Línea 3: Pastilla de Estado en 1 sola línea sin cortarse -->
         <div class="cell-bottom-row">
-          <span class="${pillClass}">
+          <span class="${pillClass}" id="targetPill_${t.id}">
             ${statusLabel}
           </span>
         </div>
@@ -238,25 +270,33 @@ async function syncTelemetry() {
   }
 }
 
-// CONFIGURACIÓN DE PESTAÑAS Y LANZADOR DE LAS 3 ESTACIONES (CERO RECARGA)
+// CONFIGURACIÓN DE PESTAÑAS Y LANZADOR DE LAS 3 ESTACIONES (PERSISTENTE EN SESSIONSTORAGE)
 function setupTabs() {
+  const savedTab = sessionStorage.getItem("sniping_active_tab") || "paneTargetsGrid";
   const allNavButtons = document.querySelectorAll(".nav-tab, .btn-stations-master");
+
+  function activateTab(targetPaneId) {
+    if (!targetPaneId) return;
+    sessionStorage.setItem("sniping_active_tab", targetPaneId);
+
+    allNavButtons.forEach(b => {
+      b.classList.toggle("active", b.getAttribute("data-tab") === targetPaneId);
+    });
+
+    document.querySelectorAll(".tab-pane").forEach(pane => {
+      pane.classList.toggle("active", pane.id === targetPaneId);
+    });
+  }
+
   allNavButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      allNavButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
       const targetPaneId = btn.getAttribute("data-tab");
-      document.querySelectorAll(".tab-pane").forEach(pane => {
-        pane.classList.remove("active");
-      });
-
-      const activePane = document.getElementById(targetPaneId);
-      if (activePane) {
-        activePane.classList.add("active");
-      }
+      if (targetPaneId) activateTab(targetPaneId);
     });
   });
+
+  // Restaurar pestaña activa guardada
+  activateTab(savedTab);
 }
 
 // RELOJ UTC EN VIVO (HORA EN 1 SOLA LÍNEA)

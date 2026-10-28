@@ -106,10 +106,31 @@ async function loadWallets() {
   renderInspectorTable();
 }
 
-// Renderizar la rejilla central de 54 celdas
+// Estado del Modal
+let isPlatoonModalOpen = false;
+let currentInspectingPlatoon = null;
+
+// Renderizar la rejilla central de 54 celdas (UNA SOLA VEZ AL CARGAR + IN-PLACE)
 function renderSwarm54Grid() {
   const container = document.getElementById("swarm54Grid");
   if (!container) return;
+
+  // Si las 54 celdas ya existen, NO destruir el DOM
+  const existingCell1 = document.getElementById("swarmCell_1");
+  if (existingCell1 && container.children.length === 54) {
+    // Si se necesita actualizar texto en vivo, hacerlo in-place
+    for (let p = 1; p <= 50; p++) {
+      const noncesCount = 8 + (p % 7);
+      const gasEl = document.getElementById(`swarmGas_${p}`);
+      if (gasEl) {
+        const text = `${noncesCount}N · $0Gas`;
+        if (gasEl.textContent !== text) gasEl.textContent = text;
+      }
+    }
+    return;
+  }
+
+  // Render inicial: UNA SOLA VEZ
   container.innerHTML = "";
 
   // 1. Celdas 1 a 50: Pelotones de 10 carteras
@@ -121,6 +142,7 @@ function renderSwarm54Grid() {
 
     const cell = document.createElement("div");
     cell.className = "swarm-cell";
+    cell.id = `swarmCell_${p}`;
     cell.title = `Pelotón #${String(p).padStart(2, "0")} (${boxConf.name}) · Clic para ver las 10 carteras`;
     cell.onclick = () => openPlatoonModal(p, boxId, startIdx, endIdx);
 
@@ -140,7 +162,7 @@ function renderSwarm54Grid() {
       <div class="cell-mission-tag">${boxConf.mission}</div>
       <div class="cell-foot-bar">
         <span class="cell-status-ok"><span class="material-symbols-rounded" style="font-size: 10px; vertical-align: middle;">verified</span> 10/10 OK</span>
-        <span class="cell-gas-val">${noncesCount}N · $0Gas</span>
+        <span class="cell-gas-val cell-badge" id="swarmGas_${p}">${noncesCount}N · $0Gas</span>
       </div>
     `;
 
@@ -151,6 +173,7 @@ function renderSwarm54Grid() {
   MASTER_RADARS.forEach(r => {
     const cell = document.createElement("div");
     cell.className = "swarm-cell radar-cell";
+    cell.id = `radarCell_${r.cellId}`;
     cell.title = `${r.title} · Clic para ver calendario y auditoría`;
     cell.onclick = () => switchTab(r.hrefTab);
 
@@ -180,6 +203,9 @@ function openPlatoonModal(platoonNum, boxId, startIdx, endIdx) {
   const title = document.getElementById("modalPlatoonTitle");
   const tbody = document.getElementById("modalWalletsBody");
   if (!modal || !title || !tbody) return;
+
+  isPlatoonModalOpen = true;
+  currentInspectingPlatoon = platoonNum;
 
   const boxConf = BOXES_CONFIG[boxId] || BOXES_CONFIG[1];
   title.innerText = `PELOTÓN #${String(platoonNum).padStart(2, "0")} · ${boxConf.name} (#${String(startIdx).padStart(3, "0")} A #${String(endIdx).padStart(3, "0")})`;
@@ -219,6 +245,8 @@ function closePlatoonModal(e) {
   if (e && e.target && e.target.classList.contains("modal-card")) return;
   const modal = document.getElementById("platoonModal");
   if (modal) modal.classList.remove("active");
+  isPlatoonModalOpen = false;
+  currentInspectingPlatoon = null;
 }
 
 function copyToClipboard(text) {
@@ -285,8 +313,11 @@ function renderInspectorTable() {
   });
 }
 
-// Conmutación de Pestañas
+// Conmutación de Pestañas (PERSISTENCIA TOTAL EN SESSIONSTORAGE)
 function switchTab(targetId) {
+  if (!targetId) return;
+  sessionStorage.setItem("flota_active_tab", targetId);
+
   document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
   const targetPane = document.getElementById(targetId);
   if (targetPane) targetPane.classList.add("active");
@@ -314,6 +345,8 @@ function updateLiveClock() {
 
 // Setup Event Listeners
 function setupEvents() {
+  const savedTab = sessionStorage.getItem("flota_active_tab") || "paneMatrix500";
+
   // Tabs en footer
   document.querySelectorAll(".nav-tab").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -329,6 +362,9 @@ function setupEvents() {
       switchTab("paneStationsHub");
     });
   }
+
+  // Restaurar pestaña activa
+  switchTab(savedTab);
 
   // Filtros del inspector de carteras
   document.querySelectorAll(".filter-btn").forEach(btn => {
