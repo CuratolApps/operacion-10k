@@ -919,10 +919,9 @@ function updateTopBarCards() {
   // Renderizar las 4 etiquetas de Card 2
   const winStreakEl = document.getElementById("winStreakText");
   if (winStreakEl) {
-    const wins = appState.realWins !== undefined ? appState.realWins : 49;
+    const wins = appState.realWins !== undefined ? appState.realWins : 53;
     const losses = appState.realLosses !== undefined ? appState.realLosses : 0;
-    const winRate = appState.realWinRate !== undefined ? appState.realWinRate : 100;
-    winStreakEl.innerText = `${wins}G-${losses}P (${winRate}%)`;
+    winStreakEl.innerText = `${wins}G-${losses}P`;
   }
 
   const formatSqBadge = (num, pnl) => {

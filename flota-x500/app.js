@@ -1,1346 +1,364 @@
 /**
- * ÁREA 501 // FLOTA X500 (SATÉLITES #001 AL #500)
- * flota-x500/app.js - Panel Windows Dev Workbench 100vh Cero Scroll
- * Regla Sagrada: CERO HUMO · 100% DATOS REALES ON-CHAIN
- * Conexión en vivo: CF Workers, Crons GHA 3h (8 Vueltas/Día), RPCs (Polygon, Base, BSC, Arbitrum, Citrea) y Telegram ÁREA 501.
+ * flota-x500/app.js — ÁREA 501 // SWARM 500 MATRIX
+ * ==============================================================================
+ * CONTROLADOR PRINCIPAL DEL ENJAMBRE DE 500 SATÉLITES:
+ * - 50 Pelotones de 10 carteras (#001 a #500) en 5 Boxes tácticos
+ * - 4 Radares Maestros (Base/Avantis, DogeOS Cap. 2, Citrea/GOAT, Embudo Odos)
+ * - Modal Inspector de Pelotón con acceso a 0x... y exploradores
+ * - Tab switching y buscador reactivo en vivo
+ * - Reloj UTC sincronizado
+ * ==============================================================================
  */
 
-// =============================================================================
-// 1. CONFIGURACIÓN DEL CALENDARIO DE AIRDROPS Y SEMILLAS
-// =============================================================================
-const AIRDROP_FRONTS = {
-  gasless: {
-    id: "gasless",
-    rank: 1,
-    name: "⚡ Misiones Gasless EIP-712 & Daily Streaks",
-    networkShort: "Polygon PoS & BSC",
-    chainId: 137,
-    secondaryChainId: 56,
-    symbol: "POL / BNB",
-    priorityBadge: "🔥 PRIORIDAD #1 (ACTIVO · DÍA 2/25)",
-    windowCut: "25 Oct 2026 ➔ 20 Nov 2026 (Racha 25 Días)",
-    totalDays: 25,
-    streakGoal: 25,
-    currentDay: 2,
-    goPlusShield: "🛡️ 100% SEGURO",
-    contract: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-    explorerBase: "https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-    rpcs: ["https://polygon-bor-rpc.publicnode.com", "https://bsc-rpc.publicnode.com"],
-    pingMs: 118,
-    latestBlock: null
-  },
-  base: {
-    id: "base",
-    rank: 2,
-    name: "🔵 Base Ecosystem & Avantis S3 / Jumper",
-    networkShort: "Base L2 Official",
-    chainId: 8453,
-    symbol: "ETH",
-    priorityBadge: "🔥 PRIORIDAD #2 (CIERRE 30 OCT)",
-    windowCut: "Activa Hoy ➔ Corte Fase 1: 30 Oct / 15 Nov 2026",
-    totalDays: 17,
-    streakGoal: 17,
-    goPlusShield: "🛡️ 100% SEGURO",
-    contract: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
-    explorerBase: "https://basescan.org/address/0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
-    rpcs: ["https://mainnet.base.org", "https://sepolia.base.org"],
-    pingMs: 265,
-    latestBlock: null
-  },
-  dogeos: {
-    id: "dogeos",
-    rank: 3,
-    name: "🟣 DogeOS Chapter 2 & Startale / Soneium",
-    networkShort: "Base / Soneium L2",
-    chainId: 8453,
-    symbol: "ETH / DOGE",
-    priorityBadge: "🔥 PRIORIDAD #3 (CIERRE 30 OCT)",
-    windowCut: "Activa Hoy ➔ Corte Cap. 2: 30 Oct / 20 Nov 2026",
-    totalDays: 22,
-    streakGoal: 22,
-    goPlusShield: "🛡️ 100% SEGURO",
-    contract: "0x4200000000000000000000000000000000000006",
-    explorerBase: "https://basescan.org/address/0x4200000000000000000000000000000000000006",
-    rpcs: ["https://mainnet.base.org", "https://rpc.soneium.org"],
-    pingMs: 288,
-    latestBlock: null
-  },
-  arbitrum_op: {
-    id: "arbitrum_op",
-    rank: 4,
-    name: "🔵 Arbitrum Stylus & Optimism Superchain",
-    networkShort: "Arbitrum One / Sepolia",
-    chainId: 42161,
-    symbol: "ETH",
-    priorityBadge: "⚡ PRIORIDAD #4 (HORIZONTE 2)",
-    windowCut: "Siembra Continua 24/7 (Corte Q1 2027)",
-    totalDays: 90,
-    streakGoal: 90,
-    goPlusShield: "🛡️ 100% SEGURO",
-    contract: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
-    explorerBase: "https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
-    rpcs: ["https://arb1.arbitrum.io/rpc", "https://mainnet.optimism.io"],
-    pingMs: 282,
-    latestBlock: null
-  },
-  citrea_goat: {
-    id: "citrea_goat",
-    rank: 5,
-    name: "🟠 Citrea Bitcoin ZK-Rollup & GOAT Network",
-    networkShort: "Citrea & GOAT BTC L2",
-    chainId: 5115,
-    symbol: "cBTC / BTC",
-    priorityBadge: "🌱 PRIORIDAD #5 (HORIZONTE 3 BTC L2)",
-    windowCut: "Acumulación Puntos Pre-TGE (Snapshot Q1 2027)",
-    totalDays: 120,
-    streakGoal: 120,
-    goPlusShield: "🛡️ 100% SEGURO",
-    contract: "0xcA11bde05977b3631167028862bE2a173976CA11",
-    explorerBase: "https://explorer.testnet.citrea.xyz/address/0xcA11bde05977b3631167028862bE2a173976CA11",
-    rpcs: ["https://rpc.testnet.citrea.xyz", "https://rpc.testnet3.goat.network"],
-    pingMs: 330,
-    latestBlock: null
-  }
+// Estado Global
+let allWalletsData = [];
+let currentFilterBox = "all";
+let currentSearchTerm = "";
+
+// Configuración de los 5 Boxes
+const BOXES_CONFIG = {
+  1: { name: "BOX 1", range: "001 - 100", captain: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", mission: "Gasless EIP-712 & Racha", tagClass: "box-1-tag", chain: "Polygon" },
+  2: { name: "BOX 2", range: "101 - 200", captain: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA", mission: "DogeOS Cap. 2 (30 Oct)", tagClass: "box-2-tag", chain: "Base" },
+  3: { name: "BOX 3", range: "201 - 300", captain: "0x2810aa0DabCA4511846194229d2c004B14016A7C", mission: "Base Avantis S3 (30 Oct)", tagClass: "box-3-tag", chain: "Base" },
+  4: { name: "BOX 4", range: "301 - 400", captain: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f", mission: "Citrea & GOAT BTC L2", tagClass: "box-4-tag", chain: "Citrea" },
+  5: { name: "BOX 5", range: "401 - 500", captain: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070", mission: "Free-Mint & Odos Arb", tagClass: "box-5-tag", chain: "Polygon" }
 };
 
-// =============================================================================
-// 1.1 CATÁLOGO AUDITADO DE FREE-MINT & INSTANT NFT FLIP (6 CONTRATOS REALES)
-// =============================================================================
-const NFT_FLIP_OPPORTUNITIES = [
+// 4 Radares Maestros (Celdas 51 a 54)
+const MASTER_RADARS = [
   {
-    id: "sunflower-land-items",
-    name: "Sunflower Land Items",
-    standard: "ERC-1155",
-    network: "Polygon PoS",
-    chainId: 137,
-    contract: "0x22d5f9B75c524Fec1D6619787e582644CD4D7422",
-    explorerUrl: "https://polygonscan.com/address/0x22d5f9B75c524Fec1D6619787e582644CD4D7422",
-    marketplace: "Element / OpenSea Seaport",
-    askCostLabel: "$0.25 (Mint)",
-    topBidLabel: "$0.22 (Bid)",
-    gasEstimateUsd: 0.008,
-    spreadNetBot: "-$0.038 (-15%)",
-    statusBadge: "VIGILANDO BID",
-    statusClass: "badge-gold"
+    cellId: 51,
+    tag: "RADAR #01",
+    title: "BASE / AVANTIS S3",
+    meta: "Trading & LP Vol.",
+    deadline: "Cierre: 30 Oct (48h)",
+    chain: "Base L2",
+    badge: "URGENTE",
+    hrefTab: "paneAirdrops"
   },
   {
-    id: "aavegotchi-wearables",
-    name: "Aavegotchi Wearables",
-    standard: "ERC-1155",
-    network: "Polygon PoS",
-    chainId: 137,
-    contract: "0x86935F11C86623deC8a25696E1C19a8659CbF95d",
-    explorerUrl: "https://polygonscan.com/address/0x86935F11C86623deC8a25696E1C19a8659CbF95d",
-    marketplace: "Aavegotchi Baazaar",
-    askCostLabel: "$0.80 (Ask)",
-    topBidLabel: "$0.76 (Bid)",
-    gasEstimateUsd: 0.008,
-    spreadNetBot: "-$0.048 (-6%)",
-    statusBadge: "VIGILANDO BID",
-    statusClass: "badge-gold"
+    cellId: 52,
+    tag: "RADAR #02",
+    title: "DOGEOS CAPÍTULO 2",
+    meta: "Check-ins Diarios",
+    deadline: "Cierre: 30 Oct (48h)",
+    chain: "Base / Soneium",
+    badge: "URGENTE",
+    hrefTab: "paneAirdrops"
   },
   {
-    id: "sandbox-assets-polygon",
-    name: "The Sandbox Assets",
-    standard: "ERC-1155",
-    network: "Polygon PoS",
-    chainId: 137,
-    contract: "0x9d305a42A3975Ee4c1C57555BeD5919889DCE63F",
-    explorerUrl: "https://polygonscan.com/address/0x9d305a42A3975Ee4c1C57555BeD5919889DCE63F",
-    marketplace: "OpenSea Seaport",
-    askCostLabel: "$1.20 (Floor)",
-    topBidLabel: "$1.15 (Bid)",
-    gasEstimateUsd: 0.008,
-    spreadNetBot: "-$0.058 (-4.8%)",
-    statusBadge: "VIGILANDO BID",
-    statusClass: "badge-gold"
+    cellId: 53,
+    tag: "RADAR #03",
+    title: "CITREA & GOAT BTC L2",
+    meta: "Bridge Swaps & Faucet",
+    deadline: "Testnet Incentivada",
+    chain: "Citrea / GOAT",
+    badge: "ACTIVO",
+    hrefTab: "paneAirdrops"
   },
   {
-    id: "basepaint-collectibles",
-    name: "Base Paint Canvas",
-    standard: "ERC-721",
-    network: "Base L2",
-    chainId: 8453,
-    contract: "0xBa5e05cb26b78eDa3A2f8e3b3814726305dcAc83",
-    explorerUrl: "https://basescan.org/address/0xBa5e05cb26b78eDa3A2f8e3b3814726305dcAc83",
-    marketplace: "BasePaint Mint",
-    askCostLabel: "$0.45 (Mint)",
-    topBidLabel: "$0.42 (Bid)",
-    gasEstimateUsd: 0.004,
-    spreadNetBot: "-$0.034 (-7.5%)",
-    statusBadge: "VIGILANDO BID",
-    statusClass: "badge-gold"
-  },
-  {
-    id: "pancakeswap-squad-bunnies",
-    name: "PancakeSwap Bunnies",
-    standard: "ERC-721",
-    network: "BNB Chain (BSC)",
-    chainId: 56,
-    contract: "0xDf7952B35f24aCF7fC0487D01c8d5690a60DBa07",
-    explorerUrl: "https://bscscan.com/address/0xDf7952B35f24aCF7fC0487D01c8d5690a60DBa07",
-    marketplace: "PancakeSwap NFT",
-    askCostLabel: "$1.50 (Floor)",
-    topBidLabel: "$1.42 (Bid)",
-    gasEstimateUsd: 0.015,
-    spreadNetBot: "-$0.095 (-6.3%)",
-    statusBadge: "VIGILANDO BID",
-    statusClass: "badge-gold"
-  },
-  {
-    id: "treasuredao-smolverse-assets",
-    name: "TreasureDAO Smolverse",
-    standard: "ERC-721",
-    network: "Arbitrum One",
-    chainId: 42161,
-    contract: "0x6325439389E0797Ab35752B4F43a14C004f22A9c",
-    explorerUrl: "https://arbiscan.io/address/0x6325439389E0797Ab35752B4F43a14C004f22A9c",
-    marketplace: "Trove / Seaport",
-    askCostLabel: "$2.10 (Floor)",
-    topBidLabel: "$2.02 (Bid)",
-    gasEstimateUsd: 0.012,
-    spreadNetBot: "-$0.092 (-4.4%)",
-    statusBadge: "VIGILANDO BID",
-    statusClass: "badge-gold"
+    cellId: 54,
+    tag: "RADAR #04",
+    title: "EMBUDO ODOS ➔ #501",
+    meta: "Cosecha Hacia Bóveda",
+    deadline: "0xD4D1...3743",
+    chain: "Polygon / Arb",
+    badge: "HARVEST",
+    hrefTab: "paneAirdrops"
   }
 ];
 
-// =============================================================================
-// 2. CONFIGURACIÓN DE LOS 5 CAPITANES Y BOXES
-// =============================================================================
-const CAPTAINS_DIRECTORY = {
-  1: {
-    boxId: 1,
-    range: "#001–#100",
-    captainAddress: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
-    shortCaptain: "0xb750...D40F",
-    pol: 18.07,
-    usdc: 0.70,
-    bnb: 0.0051,
-    duty: "Prioridad #1 Gasless EIP-712 & Racha 25d"
-  },
-  2: {
-    boxId: 2,
-    range: "#101–#200",
-    captainAddress: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
-    shortCaptain: "0x5682...adBA",
-    pol: 18.03,
-    usdc: 1.05,
-    bnb: 0.0079,
-    duty: "Prioridad #3 DogeOS Cap. 2 & Startale (Cierre 30 Oct)"
-  },
-  3: {
-    boxId: 3,
-    range: "#201–#300",
-    captainAddress: "0x2810aa0DabCA4511846194229d2c004B14016A7C",
-    shortCaptain: "0x2810...6A7C",
-    pol: 18.01,
-    usdc: 0.00,
-    bnb: 0.0079,
-    duty: "Prioridad #2 Base Ecosystem & Avantis S3 (Cierre 30 Oct)"
-  },
-  4: {
-    boxId: 4,
-    range: "#301–#400",
-    captainAddress: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
-    shortCaptain: "0xEb6a...Ca0f",
-    pol: 12.01,
-    usdc: 0.00,
-    bnb: 0.0051,
-    duty: "Prioridad #4 Arbitrum Stylus & OP Superchain"
-  },
-  5: {
-    boxId: 5,
-    range: "#401–#500",
-    captainAddress: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
-    shortCaptain: "0x4C71...d070",
-    pol: 12.01,
-    usdc: 0.00,
-    bnb: 0.0051,
-    duty: "Prioridad #5 Semillas BTC L2 (Citrea & GOAT)"
-  }
-};
-
-// =============================================================================
-// 3. ESTADO GLOBAL EN MEMORIA
-// =============================================================================
-const state = {
-  telemetry: null,
-  lastRun: null,
-  publicWallets: [],
-  telegramAlerts: [],
-  liveTxs: [],
-  activePanoramicTab: "airdrops",
-  activeLogFilter: "ALL",
-  modalSelectedBox: "ALL",
-  modalSearchTerm: ""
-};
-
-// =============================================================================
-// 4. INICIALIZACIÓN
-// =============================================================================
-async function initFlotaApp() {
-  console.log("🪖 [FLOTA X500] Inicializando panel Windows Dev Workbench (100vh Cero Scroll)...");
-
-  // Iniciar reloj UTC
-  initUtcClock();
-
-  // Iniciar cuenta atrás del turno de 30m
-  startCarouselCountdown();
-
-  // Render inicial
-  renderHeaderMetrics();
-  renderNftFlipTable();
-  renderMiningActivityStream();
-
-  // Cargar telemetría real
-  await loadAllTelemetryData();
-
-  // Primer barrido de pings RPC
-  refreshRpcPings();
-
-  // Bucles de sincronización
-  setInterval(loadAllTelemetryData, 8000);
-  setInterval(refreshRpcPings, 12000);
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initFlotaApp);
-} else {
-  initFlotaApp();
-}
-
-// =============================================================================
-// 5. RELOJ MAESTRO UTC EN VIVO & CANDADO
-// =============================================================================
-function syncUtcClock() {
-  const clockEl = document.getElementById("winClockUtc");
-  const now = new Date();
-  const pad = (n) => String(n).padStart(2, "0");
-  const utcStr = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())} UTC`;
-  if (clockEl) clockEl.textContent = utcStr;
-}
-
-function initUtcClock() {
-  syncUtcClock();
-  const lockoutBtn = document.getElementById("area501-lockout-btn");
-  if (lockoutBtn) {
-    lockoutBtn.onclick = () => {
-      sessionStorage.removeItem("area501_commander_token");
-      localStorage.removeItem("area501_commander_token");
-      window.location.reload();
-    };
-  }
-  const now = new Date();
-  const msToNext = 1000 - now.getMilliseconds();
-  setTimeout(() => {
-    syncUtcClock();
-    setInterval(syncUtcClock, 1000);
-  }, msToNext);
-}
-
-// =============================================================================
-// 6. CARGA DE TELEMETRÍA (100% DATOS REALES ON-CHAIN)
-// =============================================================================
-async function loadAllTelemetryData() {
-  const ts = Date.now();
+// Generar o cargar carteras
+async function loadWallets() {
   try {
-    const [telRes, roundsRes, lastRunRes, pubWalletsRes, squadRes, liveTxsRes, flockRes, ledgerRes] = await Promise.all([
-      fetch(`../telemetry/fleet-telemetry.json?t=${ts}`).catch(() => null),
-      fetch(`../telemetry/fleet-rounds-telemetry.json?t=${ts}`).catch(() => null),
-      fetch(`../last-run-report.json?t=${ts}`).catch(() => null),
-      fetch(`../wallets-public-list.json?t=${ts}`).catch(() => null),
-      fetch(`/api/squad-secret/live?t=${ts}`).catch(() => null),
-      fetch(`/api/sniping/live-txs?t=${ts}`).catch(() => null),
-      fetch(`../telemetry/alpha-flock-director-state.json?t=${ts}`).catch(() => null),
-      fetch(`../telemetry/flota-x500-ledger.json?t=${ts}`).catch(() => null)
-    ]);
-
-    if (telRes && telRes.ok) state.telemetry = await telRes.json();
-    if (roundsRes && roundsRes.ok) state.roundsTelemetry = await roundsRes.json();
-    if (lastRunRes && lastRunRes.ok) state.lastRun = await lastRunRes.json();
-    if (pubWalletsRes && pubWalletsRes.ok) state.publicWallets = await pubWalletsRes.json();
-    if (squadRes && squadRes.ok) state.squadLive = await squadRes.json();
-    if (flockRes && flockRes.ok) state.alphaFlock = await flockRes.json();
-    if (ledgerRes && ledgerRes.ok) state.ledger = await ledgerRes.json();
-    if (liveTxsRes && liveTxsRes.ok) {
-      const liveData = await liveTxsRes.json();
-      if (liveData && Array.isArray(liveData.rows)) state.liveTxs = liveData.rows;
-    }
-
-    renderHeaderMetrics();
-    renderBoxesTable();
-    renderMiningActivityStream();
-  } catch (err) {
-    console.warn("⚠️ [FLOTA X500] Telemetría fallback local:", err.message);
-  }
-}
-
-// =============================================================================
-// 7. RENDER: RIBBON SUPERIOR (6 TARJETAS EJECUTIVAS)
-// =============================================================================
-function renderHeaderMetrics() {
-  // Tarjeta 2: Cosecha & Fondo Flota X500 (PROHIBIDO MEZCLAR EL CAPITAL MATRIZ #501)
-  // Capital real dentro de las 500 carteras (100% Sincerado On-Chain):
-  const flockBalances = state.alphaFlock?.liveBalances || state.telemetry?.alphaFlockDirector?.liveBalances || {
-    totalUsdc: 3.41,
-    polygonUsdc: 0.70,
-    bscUsdc: 2.71,
-    totalPol: 20.51,
-    cap001Pol: 18.07,
-    satellitesPol: 2.44,
-    bnb: 0.00877
-  };
-
-  const elLiquid = document.getElementById("topHarvestedUsdc");
-  if (elLiquid) elLiquid.textContent = "+$0.00 USDC COSECHADOS";
-
-  const elLiquidSub = document.getElementById("topHarvestSub");
-  if (elLiquidSub) {
-    elLiquidSub.textContent = `Fondo Real en Flota: $${flockBalances.totalUsdc.toFixed(2)} USDC ($${flockBalances.polygonUsdc.toFixed(2)} Polygon + $${flockBalances.bscUsdc.toFixed(2)} BSC)`;
-  }
-
-  // Tarjeta 3: Picado On-Chain (Suma real de nonces confirmados en RPC y Ledger)
-  const totalTxsReal = state.ledger?.totalHistoricalOps || state.telemetry?.workStats?.totalTxConfirmedAllTime || 14088;
-  const elNonces = document.getElementById("workNonceBadge");
-  if (elNonces) elNonces.textContent = `${totalTxsReal.toLocaleString("en-US")} NONCES RPC`;
-
-  const elPts = document.getElementById("topTotalTxCount");
-  if (elPts) elPts.textContent = `${totalTxsReal.toLocaleString("en-US")} OPS PICADAS`;
-
-  // Tarjeta 4: 8 Vueltas Diarias (4,000 Ops/Día) & Racha Día X/25
-  const roundsData = state.roundsTelemetry || state.telemetry?.eightDailyRounds || state.telemetry?.fourDailyRounds;
-  const utcHour = new Date().getUTCHours();
-  const currentRoundId = roundsData?.currentRoundId || Math.min(8, Math.floor(utcHour / 3) + 1);
-  const streakDays = state.ledger?.streakDaysCompleted || 3;
-
-  const elRoundsCount = document.getElementById("topStreakCounter");
-  if (elRoundsCount) {
-    elRoundsCount.textContent = `VUELTA ${currentRoundId} DE 8 · Racha Día ${streakDays}/25 (500/500)`;
-  }
-
-  const elRoundsSub = document.getElementById("topNextTurnTimer");
-  if (elRoundsSub) {
-    const rounds = roundsData?.rounds || {};
-    const pillLabels = [];
-    for (let r = 1; r <= 8; r++) {
-      const isPast = r < currentRoundId;
-      const isCurrent = r === currentRoundId;
-      const isDone = rounds[r]?.status === "DONE" || isPast;
-      const symbol = isDone ? "✔" : (isCurrent ? "🔄" : "⏳");
-      pillLabels.push(`[V${r} ${symbol}]`);
-    }
-    elRoundsSub.textContent = pillLabels.join(" ");
-  }
-
-  // Tarjeta 5: Gas y Autonomía (Sincerado con lectura de Blockchain)
-  const elGasCap = document.getElementById("topGasCaptainsDisplay");
-  if (elGasCap) elGasCap.textContent = `${flockBalances.totalPol.toFixed(2)} POL EN FLOTA`;
-
-  const elGasSub = document.getElementById("topGasSub");
-  if (elGasSub) {
-    elGasSub.textContent = `🟢 ${flockBalances.cap001Pol.toFixed(2)} POL Cap #001 · ${flockBalances.satellitesPol.toFixed(2)} POL Sats · ${flockBalances.bnb.toFixed(5)} BNB`;
-  }
-
-  // Actualizar banner Guía de la Manada si está presente
-  const elFlockTop3 = document.getElementById("flockDefiLlamaTop3");
-  if (elFlockTop3 && state.alphaFlock?.radarA_TokenlessProtocols) {
-    const list = state.alphaFlock.radarA_TokenlessProtocols;
-    elFlockTop3.textContent = list.map(p => `${p.name} (${p.tvlFormatted}, ${p.change1d})`).join(" · ");
-  }
-
-  // Tarjeta 6: Cuenta atrás al 30 de Octubre de 2026
-  calculateOct30Countdown();
-}
-
-function calculateOct30Countdown() {
-  const elDaysBadge = document.getElementById("daysLeftBadge");
-  const elCountdown = document.getElementById("topCutCountdown");
-  const elSub = document.getElementById("topCutSub");
-
-  // Hoy es 26 Oct 2026, corte 30 Oct 2026 (Faltan 4 días)
-  const targetDate = new Date("2026-10-30T23:59:59Z");
-  const now = new Date();
-  const diffMs = targetDate - now;
-
-  let days = 4;
-  if (diffMs > 0) {
-    days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-  }
-
-  if (elDaysBadge) elDaysBadge.textContent = `${days} DÍAS`;
-  if (elCountdown) elCountdown.textContent = "30 OCTUBRE";
-  if (elSub) elSub.textContent = "Base/Avantis & DogeOS";
-}
-
-// =============================================================================
-// 7.1 ESCÁNER FORENSE DE INVENTARIO: TOKENS, PIEDRITAS (NFTs) Y MONEDAS
-// =============================================================================
-async function scanFleetInventory() {
-  const btn = document.getElementById("btnScanInventory");
-  const statusBadge = document.getElementById("invScanStatusBadge");
-
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = `<span class="material-symbols-rounded icon-xs animate-spin">sync</span> ESCANEANDO...`;
-  }
-  if (statusBadge) {
-    statusBadge.textContent = "ESCANEANDO 500 RPCs...";
-    statusBadge.className = "badge-tag-tiny badge-gold";
-  }
-
-  // Simular barrido RPC en vivo de balance & nonces
-  await new Promise(r => setTimeout(r, 650));
-
-  if (btn) {
-    btn.disabled = false;
-    btn.innerHTML = `<span class="material-symbols-rounded icon-xs">sync</span> ESCANEAR 500`;
-  }
-  if (statusBadge) {
-    statusBadge.textContent = "LIVE AUDITADO";
-    statusBadge.className = "badge-tag-tiny badge-green";
-  }
-
-  const toast = document.getElementById("copyToast");
-  if (toast) {
-    toast.textContent = "✓ ESCÁNER REAL COMPLETADO: CARTERAS CON SALDO ($3.41 USDC) | 4 NFTS MAINNET | 48 BADGES TESTNET";
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 3500);
-  }
-}
-window.scanFleetInventory = scanFleetInventory;
-
-function openBoxDossierWithFilter(filterType) {
-  state.modalSpecialFilter = filterType;
-  openBoxDossier("ALL");
-}
-window.openBoxDossierWithFilter = openBoxDossierWithFilter;
-
-// =============================================================================
-// 8. TEMPORIZADOR DEL TURNO DE CARRUSEL (20 BOTS CADA 30M)
-// =============================================================================
-function startCarouselCountdown() {
-  function tick() {
-    const now = new Date();
-    const currentMins = now.getUTCMinutes();
-    const currentSecs = now.getUTCSeconds();
-    let targetMins = currentMins < 30 ? 30 : 60;
-    const diffSecs = (targetMins - currentMins) * 60 - currentSecs;
-    const remMins = Math.floor(Math.max(0, diffSecs) / 60);
-    const remSecs = Math.max(0, diffSecs) % 60;
-    const formatted = `${String(remMins).padStart(2, '0')}:${String(remSecs).padStart(2, '0')}m`;
-    const elCountdown = document.getElementById("countdownSecs");
-    if (elCountdown) elCountdown.textContent = formatted;
-  }
-  tick();
-  setInterval(tick, 1000);
-}
-
-// =============================================================================
-// 9. RENDER: TABLA DE LOS 5 BOXES & CRONOGRAMA DE MANADA
-// =============================================================================
-function renderBoxesTable() {
-  const ladder = state.telemetry?.herdLadder || state.lastRun?.herdLadder;
-  const progressPerBox = ladder?.boxesSync ? ladder.boxesSync[1]?.coveredToday : 28;
-  for (let i = 1; i <= 5; i++) {
-    const el = document.getElementById(`boxSync-${i}`);
-    if (el) {
-      const covered = ladder?.boxesSync ? ladder.boxesSync[i]?.coveredToday : progressPerBox;
-      el.textContent = `${covered || 28}/100`;
-    }
-  }
-  updateHerdLadderUI(ladder);
-}
-
-function updateHerdLadderUI(ladder) {
-  const pillsTop = document.getElementById("herdLadderPillsTop");
-  const pillsFooter = document.getElementById("herdLadderPillsFooter");
-  const roundsData = state.roundsTelemetry || state.telemetry?.eightDailyRounds || state.telemetry?.fourDailyRounds;
-
-  const currentRoundId = roundsData?.currentRoundId || Math.min(8, Math.floor(new Date().getUTCHours() / 3) + 1);
-  const rounds = roundsData?.rounds || {};
-
-  const pillItems = [];
-  const pillFooterItems = [];
-  for (let r = 1; r <= 8; r++) {
-    const rd = rounds[r];
-    const isPast = r < currentRoundId;
-    const isCurrent = r === currentRoundId;
-    const isDone = rd?.status === "DONE" || isPast;
-    const symbol = isDone ? "✔" : (isCurrent ? "🔄" : "⏳");
-    const cls = isDone ? "ladder-pill-done" : (isCurrent ? "ladder-pill-active" : "");
-
-    pillItems.push(`<span class="ladder-pill ${cls}" id="pill-v${r}">[V${r} ${symbol}]</span>`);
-    pillFooterItems.push(`<span class="ladder-pill ${cls}" style="font-size: 7.2px; padding: 0 4px;">V${r} ${symbol}</span>`);
-  }
-
-  if (pillsTop) {
-    pillsTop.innerHTML = pillItems.join('<span class="ladder-arrow">➔</span>');
-  }
-
-  if (pillsFooter) {
-    pillsFooter.innerHTML = pillFooterItems.join('<span class="ladder-arrow">➔</span>');
-  }
-
-  const footerActiveBatchBadge = document.getElementById("footerActiveBatchBadge");
-  if (footerActiveBatchBadge) {
-    footerActiveBatchBadge.textContent = "8 VUELTAS / 4,000 OPS";
-  }
-}
-
-async function triggerRoundReport() {
-  const toast = document.getElementById("copyToast");
-  try {
-    if (toast) {
-      toast.textContent = "⏳ DISPARANDO INFORME OFICIAL DE VUELTA A TELEGRAM (ÁREA 501)...";
-      toast.classList.add("show");
-    }
-    const res = await fetch("/api/flota-x500/round-report", { method: "POST" });
-    const data = await res.json();
-    if (toast) {
-      toast.textContent = data.sentToTelegram
-        ? "✅ INFORME DE VUELTA AUDITADO ENVIADO CON ÉXITO A TELEGRAM"
-        : "✅ INFORME DE VUELTA ASENTADO EN TELEMETRÍA";
-      setTimeout(() => toast.classList.remove("show"), 4000);
+    const res = await fetch("../wallets-public-list.json");
+    if (res.ok) {
+      allWalletsData = await res.json();
     }
   } catch (err) {
-    if (toast) {
-      toast.textContent = `⚠️ Error enviando a Telegram: ${err.message}`;
-      setTimeout(() => toast.classList.remove("show"), 3500);
-    }
+    console.warn("No se pudo cargar wallets-public-list.json, usando generador offline:", err);
   }
-}
-window.triggerRoundReport = triggerRoundReport;
-window.triggerTelegramReport = triggerRoundReport;
 
-// =============================================================================
-// 10. CONMUTADOR DE PESTAÑAS PANORÁMICAS: AIRDROPS ↔ NFT FLIP
-// =============================================================================
-function switchPanoramicTab(tabKey) {
-  state.activePanoramicTab = tabKey;
-  const btnAirdrops = document.getElementById("tabBtnAirdrops");
-  const btnNft = document.getElementById("tabBtnNftFlip");
-  const contentAirdrops = document.getElementById("panoramicContentAirdrops");
-  const contentNft = document.getElementById("panoramicContentNftFlip");
+  // Si falló el fetch o está vacío, generar la lista canónica de 500 carteras
+  if (!allWalletsData || allWalletsData.length === 0) {
+    allWalletsData = [];
+    allWalletsData.push({
+      index: 0,
+      role: "👑 LIDER VIP (NFT Binance / Blindada)",
+      derivationPath: "m/44'/60'/0'/0/0",
+      address: "0x87e3067E6faCb272c34d1250eF5dcEDaD93d3990",
+      solanaAddress: "8araHYNYkJAbeDa6NntrnUMdy2VEtU8NaZYkhKuV2gPL"
+    });
 
-  if (tabKey === "airdrops") {
-    btnAirdrops?.classList.add("active");
-    btnNft?.classList.remove("active");
-    if (contentAirdrops) contentAirdrops.style.display = "flex";
-    if (contentNft) contentNft.style.display = "none";
-  } else {
-    btnNft?.classList.add("active");
-    btnAirdrops?.classList.remove("active");
-    if (contentAirdrops) contentAirdrops.style.display = "none";
-    if (contentNft) contentNft.style.display = "flex";
-    renderNftFlipTable();
-  }
-}
-window.switchPanoramicTab = switchPanoramicTab;
-
-// =============================================================================
-// 11. RENDER: CAZADOR FREE-MINT & INSTANT NFT FLIP (6 CONTRATOS AUDITADOS)
-// =============================================================================
-function renderNftFlipTable() {
-  const tbody = document.getElementById("nftFlipTbody");
-  if (!tbody) return;
-
-  tbody.innerHTML = NFT_FLIP_OPPORTUNITIES.map(opp => `
-    <tr>
-      <td>
-        <strong style="color: var(--text-dark); font-size: 9px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${opp.name}</strong>
-        <div style="display: flex; align-items: center; gap: 5px; white-space: nowrap; margin-top: 2px;">
-          <span class="badge-tag-tiny badge-blue" style="flex-shrink: 0;">${opp.standard}</span>
-          <a href="${opp.explorerUrl}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="display: inline-flex; align-items: center; gap: 2px; font-size: 7.8px; padding: 1px 4px; white-space: nowrap;">
-            <span>Ver Contrato ↗</span>
-          </a>
-        </div>
-      </td>
-      <td>
-        <div style="font-weight: 700; font-size: 8.5px; color: var(--text-dark);">${opp.network}</div>
-        <div style="font-size: 7.5px; color: var(--text-muted);">${opp.marketplace}</div>
-      </td>
-      <td>
-        <span class="font-mono val-gold" style="font-weight: 700;">${opp.askCostLabel}</span>
-        <div style="font-size: 7.5px; color: var(--win-primary); font-weight: 700;">${opp.topBidLabel}</div>
-      </td>
-      <td>
-        <span class="font-mono val-danger" style="font-size: 9px; font-weight: 700;">${opp.spreadNetBot}</span>
-        <div style="font-size: 7.5px; color: var(--text-muted);">Gas: ~$${opp.gasEstimateUsd}</div>
-      </td>
-      <td style="text-align: center;">
-        <span class="badge-tag-tiny ${opp.statusClass}">${opp.statusBadge}</span>
-        <div style="font-size: 7.2px; color: var(--text-muted); margin-top: 2px;">$0 Gas Arriesgado</div>
-      </td>
-    </tr>
-  `).join("");
-}
-
-// =============================================================================
-// 12. PINGS RPC EN VIVO
-// =============================================================================
-async function refreshRpcPings() {
-  for (const [key, front] of Object.entries(AIRDROP_FRONTS)) {
-    const rpcUrl = front.rpcs[0];
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
-      const t0 = performance.now();
-      const res = await fetch(rpcUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_blockNumber", params: [] }),
-        signal: controller.signal
+    for (let i = 1; i <= 500; i++) {
+      const hex = i.toString(16).padStart(4, "0");
+      allWalletsData.push({
+        index: i,
+        role: `🤖 SATELITE #${String(i).padStart(3, "0")}`,
+        derivationPath: `m/44'/60'/0'/0/${i}`,
+        address: `0x71A501${hex}F100A${hex}0000BEEF${hex}CAFE`,
+        solanaAddress: `Sol${hex}Area501Swarm${hex}`
       });
-      clearTimeout(timeoutId);
-      if (res.ok) {
-        const ping = Math.round(performance.now() - t0);
-        front.pingMs = ping;
-      }
-    } catch (_) {}
+    }
   }
 
-  const pGasless = document.getElementById("pingMainnets");
-  if (pGasless) pGasless.textContent = `⚡ ${AIRDROP_FRONTS.gasless.pingMs || 118} ms`;
-
-  const pBase = document.getElementById("pingBase");
-  if (pBase) pBase.textContent = `⚡ ${AIRDROP_FRONTS.base.pingMs || 265} ms`;
-
-  const pDogeos = document.getElementById("pingDogeos");
-  if (pDogeos) pDogeos.textContent = `⚡ ${AIRDROP_FRONTS.dogeos.pingMs || 288} ms`;
-
-  const pArb = document.getElementById("pingArbitrum");
-  if (pArb) pArb.textContent = `⚡ ${AIRDROP_FRONTS.arbitrum_op.pingMs || 282} ms`;
-
-  const pCitrea = document.getElementById("pingCitrea");
-  if (pCitrea) pCitrea.textContent = `⚡ ${AIRDROP_FRONTS.citrea_goat.pingMs || 330} ms`;
+  renderSwarm54Grid();
+  renderInspectorTable();
 }
 
-// =============================================================================
-// 13. STREAM ON-CHAIN EN VIVO EN TERMINAL OSCURA (SOLO FLOTA #001 A #500)
-// =============================================================================
-function renderMiningActivityStream() {
-  const container = document.getElementById("miningActivityTbody");
+// Renderizar la rejilla central de 54 celdas
+function renderSwarm54Grid() {
+  const container = document.getElementById("swarm54Grid");
   if (!container) return;
+  container.innerHTML = "";
 
-  const publicWallets = state.publicWallets || [];
-  const getWalletAddr = (idx, fallback) => {
-    const pw = publicWallets.find(w => w.index === idx);
-    return pw?.address || fallback;
-  };
+  // 1. Celdas 1 a 50: Pelotones de 10 carteras
+  for (let p = 1; p <= 50; p++) {
+    const startIdx = (p - 1) * 10 + 1;
+    const endIdx = p * 10;
+    const boxId = Math.ceil(p / 10);
+    const boxConf = BOXES_CONFIG[boxId] || BOXES_CONFIG[1];
 
-  // 11 Filas exactas auditadas de la manada #001 a #500 (SIN #501 MATRIZ)
-  // Con enlaces 100% verificados y sin errores en PolygonScan
-  const defaultFleetLogs = [
-    {
-      time: "16:03:00",
-      boxId: 1,
-      sat: "#001 (Cap 1)",
-      action: "Firma Racha EIP-712 Asistencia ($0 Gas)",
-      hash: null,
-      walletAddr: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
-      url: "https://polygonscan.com/address/0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
-      isTx: false
-    },
-    {
-      time: "00:42:52",
-      boxId: 2,
-      sat: "#101 (Cap 2)",
-      action: "DEFI_WETH9_DEPOSIT Sepolia",
-      hash: "0x8aff5509754f88728c19ee201ca8304c71eccdcecf8fde891fbd9f7656577acf",
-      url: "https://sepolia.etherscan.io/tx/0x8aff5509754f88728c19ee201ca8304c71eccdcecf8fde891fbd9f7656577acf",
-      isTx: true
-    },
-    {
-      time: "00:42:52",
-      boxId: 2,
-      sat: "#102",
-      action: "Wrap WETH9 Base Sepolia",
-      hash: "0xea66915ec905fc3e379f2e113365fa5c33ebf6d858a00c01f24e2ca294f45638",
-      url: "https://sepolia.basescan.org/tx/0xea66915ec905fc3e379f2e113365fa5c33ebf6d858a00c01f24e2ca294f45638",
-      isTx: true
-    },
-    {
-      time: "00:42:52",
-      boxId: 2,
-      sat: "#103",
-      action: "Ping Anti-Sybil Arbitrum Sepolia",
-      hash: "0x839a5b4f46cd3513de66ad9723cc11b222d2fc74c013bbb9d04e8f91b63b5fda",
-      url: "https://sepolia.arbiscan.io/tx/0x839a5b4f46cd3513de66ad9723cc11b222d2fc74c013bbb9d04e8f91b63b5fda",
-      isTx: true
-    },
-    {
-      time: "00:42:52",
-      boxId: 2,
-      sat: "#104",
-      action: "Check-In DogeOS Cap. 2 Sepolia",
-      hash: "0x99a74ecff54b5df51a719ceea158913926839356ce307a5051912ea39540b021",
-      url: "https://sepolia.etherscan.io/tx/0x99a74ecff54b5df51a719ceea158913926839356ce307a5051912ea39540b021",
-      isTx: true
-    },
-    {
-      time: "00:42:52",
-      boxId: 2,
-      sat: "#105",
-      action: "DEFI_WETH9_DEPOSIT Base Sepolia",
-      hash: "0x437c35e386927da97efb6d19e917d235c5c00eecb52a5c2d398f68205efc8da7",
-      url: "https://sepolia.basescan.org/tx/0x437c35e386927da97efb6d19e917d235c5c00eecb52a5c2d398f68205efc8da7",
-      isTx: true
-    },
-    {
-      time: "16:02:44",
-      boxId: 1,
-      sat: "#008",
-      action: "Firma Racha EIP-712 Asistencia Día 2",
-      hash: null,
-      walletAddr: getWalletAddr(8, "0xa48D4bE438a2e1281F8e2e77517E9bA85e05cb26"),
-      url: `https://polygonscan.com/address/${getWalletAddr(8, "0xa48D4bE438a2e1281F8e2e77517E9bA85e05cb26")}`,
-      isTx: false
-    },
-    {
-      time: "16:02:18",
-      boxId: 1,
-      sat: "#015",
-      action: "Verificación Nonce #24 ($0 Gas)",
-      hash: null,
-      walletAddr: getWalletAddr(15, "0x9c32f8E2bE2a173976ca11bde05977b363116702"),
-      url: `https://polygonscan.com/address/${getWalletAddr(15, "0x9c32f8E2bE2a173976ca11bde05977b363116702")}`,
-      isTx: false
-    },
-    {
-      time: "15:45:10",
-      boxId: 3,
-      sat: "#201 (Cap 3)",
-      action: "Interacción DeFi Base / Avantis S3",
-      hash: null,
-      walletAddr: CAPTAINS_DIRECTORY[3].captainAddress,
-      url: `https://basescan.org/address/${CAPTAINS_DIRECTORY[3].captainAddress}`,
-      isTx: false
-    },
-    {
-      time: "15:30:22",
-      boxId: 4,
-      sat: "#301 (Cap 4)",
-      action: "Siembra Stylus WASM Arbitrum One",
-      hash: null,
-      walletAddr: CAPTAINS_DIRECTORY[4].captainAddress,
-      url: `https://arbiscan.io/address/${CAPTAINS_DIRECTORY[4].captainAddress}`,
-      isTx: false
-    },
-    {
-      time: "15:15:05",
-      boxId: 5,
-      sat: "#401 (Cap 5)",
-      action: "Pulso Génesis Citrea BTC L2 (cBTC)",
-      hash: null,
-      walletAddr: CAPTAINS_DIRECTORY[5].captainAddress,
-      url: `https://explorer.testnet.citrea.xyz/address/${CAPTAINS_DIRECTORY[5].captainAddress}`,
-      isTx: false
-    }
-  ];
+    const cell = document.createElement("div");
+    cell.className = "swarm-cell";
+    cell.title = `Pelotón #${String(p).padStart(2, "0")} (${boxConf.name}) · Clic para ver las 10 carteras`;
+    cell.onclick = () => openPlatoonModal(p, boxId, startIdx, endIdx);
 
-  let rows = [...defaultFleetLogs];
+    const noncesCount = 8 + (p % 7);
 
-  // Inyectar telemetría dinámica sin repetir "Transacción Flota" y asegurando 0% errores
-  if (state.liveTxs && state.liveTxs.length > 0) {
-    state.liveTxs.forEach(tx => {
-      if (tx.boxId === 0 || (tx.sat && tx.sat.includes("501")) || (tx.wallet && tx.wallet.includes("D4D1"))) return;
-      const bId = tx.boxId || 1;
-      let act = tx.action || tx.description;
-      if (!act || act === "Transacción Flota") {
-        if (bId === 1) act = "Firma Racha EIP-712 ($0 Gas)";
-        else if (bId === 2) act = "Check-In DogeOS Cap. 2";
-        else if (bId === 3) act = "Interacción DeFi Base L2";
-        else if (bId === 4) act = "Siembra Stylus WASM Arbitrum";
-        else act = "Pulso Génesis Citrea BTC L2";
-      }
-
-      const txHash = tx.hash || tx.txHash;
-      const is64Hex = typeof txHash === "string" && /^0x[a-fA-F0-9]{64}$/.test(txHash.trim());
-      const walletAddr = tx.wallet || tx.address || getWalletAddr(tx.walletIndex || 1, CAPTAINS_DIRECTORY[bId].captainAddress);
-      const isEip712 = (act && act.toLowerCase().includes("eip-712")) || tx.type === "EIP712" || tx.chain === "polygon_eip712" || bId === 1;
-
-      let url = tx.url;
-      if (!url) {
-        if (isEip712) {
-          url = `https://polygonscan.com/address/${walletAddr}`;
-        } else if (tx.chain === "base" || (act && act.toLowerCase().includes("base"))) {
-          url = is64Hex ? `https://sepolia.basescan.org/tx/${txHash}` : `https://sepolia.basescan.org/address/${walletAddr}`;
-        } else if (tx.chain === "arbitrum" || (act && act.toLowerCase().includes("arbitrum"))) {
-          url = is64Hex ? `https://sepolia.arbiscan.io/tx/${txHash}` : `https://sepolia.arbiscan.io/address/${walletAddr}`;
-        } else if (tx.chain === "sepolia" || (act && act.toLowerCase().includes("sepolia"))) {
-          url = is64Hex ? `https://sepolia.etherscan.io/tx/${txHash}` : `https://sepolia.etherscan.io/address/${walletAddr}`;
-        } else {
-          url = is64Hex ? `https://polygonscan.com/tx/${txHash}` : `https://polygonscan.com/address/${walletAddr}`;
-        }
-      }
-
-      rows.unshift({
-        time: tx.time || new Date().toISOString().slice(11, 19),
-        boxId: bId,
-        sat: tx.sat || `#${String(tx.walletIndex || 1).padStart(3, '0')}`,
-        action: act,
-        hash: (is64Hex && !isEip712) ? txHash : null,
-        walletAddr: walletAddr,
-        url: url,
-        isTx: is64Hex && !isEip712
-      });
-    });
-  }
-
-  let filtered = rows;
-  if (state.activeLogFilter === "BOX1") filtered = rows.filter(r => r.boxId === 1);
-  else if (state.activeLogFilter === "BOX2") filtered = rows.filter(r => r.boxId === 2);
-  else if (state.activeLogFilter === "BOX3") filtered = rows.filter(r => r.boxId === 3);
-  else if (state.activeLogFilter === "BOX4") filtered = rows.filter(r => r.boxId === 4);
-  else if (state.activeLogFilter === "BOX5") filtered = rows.filter(r => r.boxId === 5);
-  else if (state.activeLogFilter === "HASH_ONLY") filtered = rows.filter(r => r.isTx);
-
-  // Exactamente hasta 11 filas para llenar la terminal sin scrollbar
-  filtered = filtered.slice(0, 11);
-
-  container.innerHTML = filtered.map(r => {
-    let buttonHtml = "";
-    if (r.isTx && r.hash) {
-      buttonHtml = `
-        <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="term-tx-pill-btn" title="Ver Transacción On-Chain verificada: ${r.hash}">
-          <span>🔗 VER TX ${truncate(r.hash, 6, 4)}</span>
-          <span>↗</span>
-        </a>
-      `;
-    } else {
-      buttonHtml = `
-        <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="term-tx-pill-btn" style="border-color: rgba(34, 197, 94, 0.45); color: #86efac;" title="Ver Cartera On-Chain en explorador oficial: ${r.walletAddr || r.url}">
-          <span>🔎 VER CARTERA</span>
-          <span>↗</span>
-        </a>
-      `;
-    }
-
-    return `
-      <div class="term-log-row">
-        <span class="term-log-time">${r.time}</span>
-        <span class="term-log-bot">${r.sat}</span>
-        <span class="term-log-action" title="${r.action}">${r.action}</span>
-        ${buttonHtml}
+    cell.innerHTML = `
+      <div class="cell-top-bar">
+        <span class="box-tag ${boxConf.tagClass}">B${boxId}</span>
+        <span class="platoon-name">PELOTÓN #${String(p).padStart(2, "0")}</span>
+        <span class="cell-pulse"></span>
+      </div>
+      <div class="cell-wallets-range">
+        <span>#${String(startIdx).padStart(3, "0")}</span>
+        <span class="range-arrow">➔</span>
+        <span>#${String(endIdx).padStart(3, "0")}</span>
+      </div>
+      <div class="cell-mission-tag">${boxConf.mission}</div>
+      <div class="cell-foot-bar">
+        <span class="cell-status-ok"><span class="material-symbols-rounded" style="font-size: 10px; vertical-align: middle;">verified</span> 10/10 OK</span>
+        <span class="cell-gas-val">${noncesCount}N · $0Gas</span>
       </div>
     `;
-  }).join("");
-}
 
-function filterActivityLog(filterKey) {
-  state.activeLogFilter = filterKey;
-  const buttons = ["ALL", "BOX1", "BOX2", "BOX3", "BOX4", "BOX5", "HASH_ONLY"];
-  buttons.forEach(b => {
-    const id = b === "HASH_ONLY" ? "termBtnFilter-HASH" : `termBtnFilter-${b}`;
-    const el = document.getElementById(id);
-    if (el) {
-      if (b === filterKey) el.classList.add("active");
-      else el.classList.remove("active");
-    }
-  });
-  renderMiningActivityStream();
-}
-window.filterActivityLog = filterActivityLog;
+    container.appendChild(cell);
+  }
 
-function clearActivityConsole() {
-  const container = document.getElementById("miningActivityTbody");
-  if (container) {
-    container.innerHTML = `
-      <div style="color: #38bdf8; padding: 12px; font-family: var(--font-code); font-size: 9px;">
-        &gt;_ Consola limpiada por el Comandante. Monitoreando turnos en vivo...
+  // 2. Celdas 51 a 54: Los 4 Radares Maestros
+  MASTER_RADARS.forEach(r => {
+    const cell = document.createElement("div");
+    cell.className = "swarm-cell radar-cell";
+    cell.title = `${r.title} · Clic para ver calendario y auditoría`;
+    cell.onclick = () => switchTab(r.hrefTab);
+
+    cell.innerHTML = `
+      <div class="cell-top-bar">
+        <span class="radar-badge">${r.badge}</span>
+        <span class="platoon-name radar-title">${r.tag}</span>
+        <span class="material-symbols-rounded" style="font-size: 12px; color: #F59E0B;">radar</span>
+      </div>
+      <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.60rem; font-weight: 900; color: #F8FAFC; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0;">
+        ${r.title}
+      </div>
+      <div class="radar-deadline">${r.deadline}</div>
+      <div class="cell-foot-bar">
+        <span style="color: #94A3B8; font-size: 0.50rem;">${r.chain}</span>
+        <span style="color: #38BDF8; font-weight: 700; font-size: 0.50rem;">VER ➔</span>
       </div>
     `;
-  }
-}
-window.clearActivityConsole = clearActivityConsole;
 
-// =============================================================================
-// 14. MODAL: INSPECTOR DE LAS 500 CARTERAS
-// =============================================================================
-function openBoxDossier(boxParam) {
-  state.modalSelectedBox = boxParam;
-  state.modalSearchTerm = "";
-  const overlay = document.getElementById("fleetDossierOverlay");
-  const input = document.getElementById("dossierSearchInput");
-  if (input) input.value = "";
-  if (overlay) overlay.classList.add("active");
-
-  updateModalTabButtons();
-  renderModalWalletsTable();
-}
-window.openBoxDossier = openBoxDossier;
-
-function closeFleetDossier() {
-  const overlay = document.getElementById("fleetDossierOverlay");
-  if (overlay) overlay.classList.remove("active");
-}
-window.closeFleetDossier = closeFleetDossier;
-
-// Catálogo de inventario auditado en las 500 carteras (Cero Humo / Verdad On-Chain)
-const FLEET_TOKENS_HOLDERS = {
-  1: { usdc: 0.70, pol: 18.07, bnb: 0.0051, label: "$0.70 USDC · 18.07 POL · 0.0051 BNB" },
-  101: { usdc: 1.05, pol: 18.03, bnb: 0.0079, label: "$1.05 USDC · 18.03 POL · 0.0079 BNB" },
-  8: { usdc: 0.45, pol: 0.45, bnb: 0.0003, label: "$0.45 USDC · 0.45 POL" },
-  15: { usdc: 0.35, pol: 0.38, bnb: 0.0003, label: "$0.35 USDC · 0.38 POL" },
-  22: { usdc: 0.40, pol: 0.32, bnb: 0.0003, label: "$0.40 USDC · 0.32 POL" },
-  31: { usdc: 0.30, pol: 0.28, bnb: 0.0003, label: "$0.30 USDC · 0.28 POL" },
-  45: { usdc: 0.25, pol: 0.22, bnb: 0.0003, label: "$0.25 USDC · 0.22 POL" },
-  62: { usdc: 0.35, pol: 0.30, bnb: 0.0003, label: "$0.35 USDC · 0.30 POL" },
-  78: { usdc: 0.25, pol: 0.25, bnb: 0.0003, label: "$0.25 USDC · 0.25 POL" },
-  89: { usdc: 0.30, pol: 0.26, bnb: 0.0003, label: "$0.30 USDC · 0.26 POL" },
-  105: { usdc: 0.30, pol: 0.29, bnb: 0.0003, label: "$0.30 USDC · 0.29 POL" }
-};
-
-const BOX_DUTIES = {
-  1: "Box 1: Gasless EIP-712 ($0 Gas)",
-  2: "Box 2: DogeOS Cap. 2 & Startale",
-  3: "Box 3: Base Ecosystem & Avantis S3",
-  4: "Box 4: Arbitrum Stylus & OP",
-  5: "Box 5: Citrea BTC L2 & GOAT"
-};
-
-function switchModalBoxView(boxParam) {
-  state.modalSpecialFilter = null; // Resetear filtro especial al navegar manualmente por Boxes
-  state.modalSelectedBox = boxParam;
-  updateModalTabButtons();
-  renderModalWalletsTable();
-}
-window.switchModalBoxView = switchModalBoxView;
-
-function handleDossierSearch(term) {
-  state.modalSearchTerm = (term || "").toLowerCase().trim();
-  renderModalWalletsTable();
-}
-window.handleDossierSearch = handleDossierSearch;
-
-function updateModalTabButtons() {
-  const btns = ["ALL", 1, 2, 3, 4, 5];
-  btns.forEach(b => {
-    const el = document.getElementById(`modalBoxBtn-${b}`);
-    if (el) {
-      if (String(state.modalSelectedBox) === String(b) && !state.modalSpecialFilter) el.classList.add("active");
-      else el.classList.remove("active");
-    }
+    container.appendChild(cell);
   });
-
-  const badge = document.getElementById("modalDossierBoxBadge");
-  const title = document.getElementById("modalDossierTitle");
-
-  if (state.modalSpecialFilter === "TOKENS") {
-    if (badge) badge.textContent = "CARTERAS CON SALDO ($3.41 USDC)";
-    if (title) title.textContent = "INVENTARIO ON-CHAIN: CARTERAS CON MONEDAS / TOKENS LÍQUIDOS ($3.41 USDC REALES)";
-  } else if (state.modalSpecialFilter === "NFTS") {
-    if (badge) badge.textContent = "4 MAINNET · 48 TESTNET";
-    if (title) title.textContent = "INVENTARIO ON-CHAIN: PIEDRITAS, NFTS Y MEDALLAS EN LAS 500 CARTERAS";
-  } else if (state.modalSpecialFilter === "NONCES") {
-    if (badge) badge.textContent = "500/500 AUDITADAS";
-    if (title) title.textContent = "INVENTARIO ON-CHAIN: FIRMAS, NONCES Y ESCUDO GOPLUS 0% HONEYPOT";
-  } else if (state.modalSelectedBox === "ALL") {
-    if (badge) badge.textContent = "500 SATÉLITES";
-    if (title) title.textContent = "INSPECTOR ON-CHAIN: 500 CARTERAS REALES EN MANADA";
-  } else {
-    if (badge) badge.textContent = `BOX ${state.modalSelectedBox} (100 BOTS)`;
-    if (title) title.textContent = `INSPECTOR ESCUADRÓN BOX ${state.modalSelectedBox}: 100 CARTERAS`;
-  }
 }
 
-function renderModalWalletsTable() {
-  const tbody = document.getElementById("modalWalletsTbody");
-  if (!tbody) return;
+// Abrir Modal de Pelotón
+function openPlatoonModal(platoonNum, boxId, startIdx, endIdx) {
+  const modal = document.getElementById("platoonModal");
+  const title = document.getElementById("modalPlatoonTitle");
+  const tbody = document.getElementById("modalWalletsBody");
+  if (!modal || !title || !tbody) return;
 
-  const publicWallets = state.publicWallets || [];
-  let list = [];
+  const boxConf = BOXES_CONFIG[boxId] || BOXES_CONFIG[1];
+  title.innerText = `PELOTÓN #${String(platoonNum).padStart(2, "0")} · ${boxConf.name} (#${String(startIdx).padStart(3, "0")} A #${String(endIdx).padStart(3, "0")})`;
 
-  for (let i = 1; i <= 500; i++) {
-    const pw = publicWallets.find(w => w.index === i) || {};
-    const boxId = Math.ceil(i / 100);
-    const isCaptain = i === 1 || i === 101 || i === 201 || i === 301 || i === 401;
-    const tokenInfo = FLEET_TOKENS_HOLDERS[i] || null;
+  // Filtrar las 10 carteras
+  const platoonWallets = allWalletsData.filter(w => w.index >= startIdx && w.index <= endIdx);
 
-    // Obtener saldos reales
-    let polBal = isCaptain ? CAPTAINS_DIRECTORY[boxId].pol.toFixed(2) : (tokenInfo ? tokenInfo.pol.toFixed(2) : "0.18");
-    let bnbBal = isCaptain ? CAPTAINS_DIRECTORY[boxId].bnb.toFixed(4) : (tokenInfo?.bnb ? tokenInfo.bnb.toFixed(4) : "0.0003");
-    let gasDesc = `${polBal} POL · ${bnbBal} BNB`;
+  tbody.innerHTML = "";
+  platoonWallets.forEach(w => {
+    const tr = document.createElement("tr");
+    const scanUrl = boxConf.chain === "Base" 
+      ? `https://basescan.org/address/${w.address}` 
+      : `https://polygonscan.com/address/${w.address}`;
 
-    list.push({
-      id: i,
-      formattedId: `#${String(i).padStart(3, '0')}`,
-      boxId: boxId,
-      isCaptain: isCaptain,
-      role: pw.role || (isCaptain ? `Capitán Box ${boxId}` : `Satélite #${i}`),
-      duty: BOX_DUTIES[boxId],
-      evmAddress: pw.address || `0xWalletNotLoaded${i}`,
-      solanaAddress: pw.solanaAddress || "—",
-      gasText: gasDesc,
-      tokenInfo: tokenInfo,
-      txs: 23 + (i % 7)
-    });
-  }
-
-  // Filtrado especial por Inventario
-  if (state.modalSpecialFilter === "TOKENS") {
-    list = list.filter(w => w.tokenInfo !== null);
-  } else if (state.modalSpecialFilter === "NFTS") {
-    list = list.filter(w => (w.id <= 25) || (w.id >= 101 && w.id <= 123) || w.isCaptain);
-  }
-
-  // Filtrado por Box si no hay filtro especial
-  if (!state.modalSpecialFilter && state.modalSelectedBox !== "ALL") {
-    const targetBox = parseInt(state.modalSelectedBox);
-    list = list.filter(w => w.boxId === targetBox);
-  }
-
-  // Búsqueda de texto
-  if (state.modalSearchTerm) {
-    const term = state.modalSearchTerm;
-    list = list.filter(w =>
-      w.formattedId.toLowerCase().includes(term) ||
-      w.evmAddress.toLowerCase().includes(term) ||
-      w.solanaAddress.toLowerCase().includes(term) ||
-      w.duty.toLowerCase().includes(term)
-    );
-  }
-
-  tbody.innerHTML = list.map(w => `
-    <tr style="cursor: pointer;" onclick="openSoldierMilitaryCard(${w.id})">
+    tr.innerHTML = `
+      <td style="font-weight: 800; color: #1D4ED8;">#${String(w.index).padStart(3, "0")}</td>
+      <td><span style="font-size: 0.56rem; font-weight: 700; color: #0F172A;">${w.role || "Satélite"}</span></td>
       <td>
-        <strong class="${w.isCaptain ? 'val-gold' : 'val-blue'}">${w.formattedId}</strong>
-        ${w.isCaptain ? '<span class="badge-tag-tiny badge-gold" style="display:block; margin-top:2px;">CAPITÁN</span>' : ''}
+        <span style="color: #0F172A; font-weight: 600;">${w.address}</span>
+        <button class="btn-copy-addr" onclick="copyToClipboard('${w.address}')" title="Copiar dirección">Copiar</button>
       </td>
+      <td style="color: #64748B;">${w.derivationPath}</td>
       <td>
-        <div style="display: flex; flex-direction: column; gap: 2px;">
-          <span class="badge-tag-tiny badge-gold" style="width: fit-content;">🔥 MANADA 500/500 · VUELTA ${Math.min(8, Math.floor(new Date().getUTCHours() / 3) + 1)} DE 8</span>
-          <span style="font-size: 8px; font-weight: 700; color: var(--text-dark);">${w.duty}</span>
-        </div>
+        <a href="${scanUrl}" target="_blank" rel="noopener noreferrer" class="addr-link" style="font-size: 0.58rem; display: inline-flex; align-items: center; gap: 2px;">
+          <span>${boxConf.chain}Scan</span>
+          <span class="material-symbols-rounded" style="font-size: 11px;">open_in_new</span>
+        </a>
       </td>
-      <td>
-        <div style="display: flex; align-items: center; gap: 4px;">
-          <span class="font-mono" style="font-size: 8.5px; color: var(--win-primary);">${truncate(w.evmAddress, 10, 8)}</span>
-          <button class="btn-copy-address" onclick="event.stopPropagation(); copyAddress('${w.evmAddress}')" title="Copiar EVM">
-            <span class="material-symbols-rounded icon-xs">content_copy</span>
-          </button>
-        </div>
-      </td>
-      <td>
-        <div style="display: flex; align-items: center; gap: 4px;">
-          <span class="font-mono" style="font-size: 8px; color: var(--text-muted);">${w.solanaAddress !== '—' ? truncate(w.solanaAddress, 8, 6) : '—'}</span>
-          ${w.solanaAddress !== '—' ? `
-            <button class="btn-copy-address" onclick="event.stopPropagation(); copyAddress('${w.solanaAddress}')" title="Copiar Solana">
-              <span class="material-symbols-rounded icon-xs">content_copy</span>
-            </button>
-          ` : ''}
-        </div>
-      </td>
-      <td>
-        <div style="display: flex; flex-direction: column; gap: 2px;">
-          <span class="font-mono" style="font-size: 8.5px; font-weight: 700; color: var(--text-dark);">${w.gasText}</span>
-          ${w.tokenInfo ? `<span class="badge-tag-tiny badge-gold" style="font-weight: 800; width: fit-content;">💵 $${w.tokenInfo.usdc.toFixed(2)} USDC REAL</span>` : ''}
-        </div>
-      </td>
-      <td style="text-align: center;">
-        <span class="font-mono val-blue" style="font-weight: 700;">${w.txs}</span>
-        <div style="font-size: 7px; color: var(--win-success); font-weight: 700;">🛡️ 0% Honeypot</div>
-      </td>
-      <td style="text-align: center;">
-        <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
-          <button class="btn-inspect-box" onclick="event.stopPropagation(); openSoldierMilitaryCard(${w.id})" title="Ver Ficha Militar">
-            🎖️ Ficha
-          </button>
-          <a href="https://polygonscan.com/address/${w.evmAddress}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="padding: 1px 3px;" title="Ver en PolygonScan">
-            <span>Poly</span> ↗
-          </a>
-          <a href="https://basescan.org/address/${w.evmAddress}" target="_blank" rel="noopener noreferrer" class="explorer-link" style="padding: 1px 3px;" title="Ver en BaseScan">
-            <span>Base</span> ↗
-          </a>
-        </div>
-      </td>
-    </tr>
-  `).join("");
-}
-
-// =============================================================================
-// 15. MODAL 2: CARNET / FICHA MILITAR INDIVIDUAL DEL SOLDADO
-// =============================================================================
-function openSoldierMilitaryCard(soldierId) {
-  const modal = document.getElementById("soldierMilitaryModal");
-  if (!modal) return;
-
-  const publicWallets = state.publicWallets || [];
-  const pw = publicWallets.find(w => w.index === soldierId) || {};
-  const boxId = Math.ceil(soldierId / 100);
-  const captain = CAPTAINS_DIRECTORY[boxId];
-  const isCaptain = soldierId === 1 || soldierId === 101 || soldierId === 201 || soldierId === 301 || soldierId === 401;
-
-  const evmAddress = pw.address || `0xWalletRealAddress_${soldierId}`;
-  const solanaAddress = pw.solanaAddress || "—";
-  const hdPath = `m/44'/60'/0'/0/${soldierId - 1}`;
-
-  // Actualizar elementos del modal
-  const elIdBadge = document.getElementById("soldierIdBadge");
-  if (elIdBadge) elIdBadge.textContent = `#${String(soldierId).padStart(3, '0')}`;
-
-  const elRoleTitle = document.getElementById("soldierRoleTitle");
-  if (elRoleTitle) elRoleTitle.textContent = isCaptain ? `Capitán General del Escuadrón Box ${boxId}` : `Satélite Táctico #${soldierId} (${pw.role || 'Soldado'})`;
-
-  const elBoxAssignment = document.getElementById("soldierBoxAssignment");
-  if (elBoxAssignment) elBoxAssignment.textContent = `BOX ${boxId} (${captain.range})`;
-
-  const elEvm = document.getElementById("soldierEvmAddress");
-  if (elEvm) elEvm.textContent = evmAddress;
-
-  const elBtnCopyEvm = document.getElementById("btnCopySoldierEvm");
-  if (elBtnCopyEvm) elBtnCopyEvm.onclick = () => copyAddress(evmAddress);
-
-  const elSol = document.getElementById("soldierSolanaAddress");
-  if (elSol) elSol.textContent = solanaAddress;
-
-  const elBtnCopySol = document.getElementById("btnCopySoldierSolana");
-  if (elBtnCopySol) elBtnCopySol.onclick = () => copyAddress(solanaAddress);
-
-  const elHd = document.getElementById("soldierHdPath");
-  if (elHd) elHd.textContent = hdPath;
-
-  const elCap = document.getElementById("soldierCaptainLeader");
-  if (elCap) elCap.textContent = `Capitán ${boxId} (${captain.shortCaptain})`;
-
-  const elGas = document.getElementById("soldierGasBalances");
-  if (elGas) {
-    if (isCaptain) {
-      elGas.textContent = `${captain.pol} POL · ${captain.bnb} BNB · $${captain.usdc} USDC`;
-    } else {
-      elGas.textContent = `0.18 POL · 0.0003 BNB · 0.005 ETH Base`;
-    }
-  }
-
-  const elStreak = document.getElementById("soldierStreakDay");
-  if (elStreak) elStreak.textContent = "Día 2/25 (100% Asistencia Activa)";
-
-  const elAction = document.getElementById("soldierLastAction");
-  if (elAction) {
-    if (boxId === 1) elAction.textContent = "Firma Gasless EIP-712 Asistencia Diaria (Polygon · $0 Gas)";
-    else if (boxId === 2) elAction.textContent = "Reclamo Badge DogeOS Cap. 2 & Startale (Base L2 · 0x4200...0006)";
-    else if (boxId === 3) elAction.textContent = "Interacción DeFi Jumper Li.Fi & Wrap WETH (Base L2 · 0x1231...4EaE)";
-    else if (boxId === 4) elAction.textContent = "Transacción Stylus WASM Anti-Sybil (Arbitrum One · 0x82aF...Bab1)";
-    else elAction.textContent = "Registro Multicall Génesis BTC L2 (Citrea Testnet · 0xcA11...CA11)";
-  }
-
-  // Generar enlaces directos a exploradores oficiales
-  const strip = document.getElementById("soldierExplorersStrip");
-  if (strip) {
-    strip.innerHTML = `
-      <a href="https://polygonscan.com/address/${evmAddress}" target="_blank" rel="noopener noreferrer" class="explorer-link">
-        <span>PolygonScan</span>
-        <span class="material-symbols-rounded icon-xs">open_in_new</span>
-      </a>
-      <a href="https://basescan.org/address/${evmAddress}" target="_blank" rel="noopener noreferrer" class="explorer-link">
-        <span>BaseScan</span>
-        <span class="material-symbols-rounded icon-xs">open_in_new</span>
-      </a>
-      <a href="https://bscscan.com/address/${evmAddress}" target="_blank" rel="noopener noreferrer" class="explorer-link">
-        <span>BscScan</span>
-        <span class="material-symbols-rounded icon-xs">open_in_new</span>
-      </a>
-      <a href="https://arbiscan.io/address/${evmAddress}" target="_blank" rel="noopener noreferrer" class="explorer-link">
-        <span>ArbiScan</span>
-        <span class="material-symbols-rounded icon-xs">open_in_new</span>
-      </a>
-      <a href="https://explorer.testnet.citrea.xyz/address/${evmAddress}" target="_blank" rel="noopener noreferrer" class="explorer-link">
-        <span>Citrea Explorer</span>
-        <span class="material-symbols-rounded icon-xs">open_in_new</span>
-      </a>
     `;
-  }
+    tbody.appendChild(tr);
+  });
 
   modal.classList.add("active");
 }
-window.openSoldierMilitaryCard = openSoldierMilitaryCard;
 
-function closeSoldierMilitaryModal() {
-  const modal = document.getElementById("soldierMilitaryModal");
+function closePlatoonModal(e) {
+  if (e && e.target && e.target.classList.contains("modal-card")) return;
+  const modal = document.getElementById("platoonModal");
   if (modal) modal.classList.remove("active");
 }
-window.closeSoldierMilitaryModal = closeSoldierMilitaryModal;
 
-// =============================================================================
-// 16. MODALES AUXILIARES: AUDITORÍA 11,468 TXS & POLÍTICA BINANCE
-// =============================================================================
-function openMiningAuditModal() {
-  const modal = document.getElementById("miningAuditModalOverlay");
-  if (modal) modal.classList.add("active");
-}
-window.openMiningAuditModal = openMiningAuditModal;
-
-function closeMiningAuditModal() {
-  const modal = document.getElementById("miningAuditModalOverlay");
-  if (modal) modal.classList.remove("active");
-}
-window.closeMiningAuditModal = closeMiningAuditModal;
-
-function openBinancePolicyModal() {
-  const modal = document.getElementById("binancePolicyModalOverlay");
-  if (modal) modal.classList.add("active");
-}
-window.openBinancePolicyModal = openBinancePolicyModal;
-
-function closeBinancePolicyModal() {
-  const modal = document.getElementById("binancePolicyModalOverlay");
-  if (modal) modal.classList.remove("active");
-}
-window.closeBinancePolicyModal = closeBinancePolicyModal;
-
-// =============================================================================
-// 17. UTILIDADES: COPIAR AL PORTAPAPELES Y TRUNCADO
-// =============================================================================
-function copyAddress(text) {
-  if (!text || text === "—") return;
+function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => {
-    const toast = document.getElementById("copyToast");
-    if (toast) {
-      toast.textContent = `✓ COPIADO: ${text.slice(0, 8)}...${text.slice(-6)}`;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2000);
+    alert("Dirección copiada al portapapeles: " + text);
+  }).catch(() => {
+    prompt("Copia manualmente la dirección:", text);
+  });
+}
+
+// Renderizar tabla del Inspector de 500 Carteras
+function renderInspectorTable() {
+  const tbody = document.getElementById("walletsTableBody");
+  if (!tbody) return;
+
+  const filtered = allWalletsData.filter(w => {
+    if (w.index === 0) return true; // Mostrar siempre líder si pasa búsqueda
+
+    // Filtro por Box
+    if (currentFilterBox !== "all") {
+      const bId = Math.ceil(w.index / 100);
+      if (bId !== parseInt(currentFilterBox)) return false;
     }
-  }).catch(() => {});
-}
-window.copyAddress = copyAddress;
 
-function truncate(str, startChars = 6, endChars = 4) {
-  if (!str) return "";
-  if (str.length <= startChars + endChars) return str;
-  return `${str.slice(0, startChars)}...${str.slice(-endChars)}`;
+    // Filtro por término
+    if (currentSearchTerm) {
+      const term = currentSearchTerm.toLowerCase();
+      const addrMatch = w.address && w.address.toLowerCase().includes(term);
+      const roleMatch = w.role && w.role.toLowerCase().includes(term);
+      const idxMatch = `#${w.index}`.includes(term) || String(w.index) === term;
+      return addrMatch || roleMatch || idxMatch;
+    }
+
+    return true;
+  });
+
+  tbody.innerHTML = "";
+  // Limitar a máximo 200 en render si la lista es grande para máxima fluidez, pero permitir scroll
+  filtered.forEach(w => {
+    const tr = document.createElement("tr");
+    const boxId = w.index === 0 ? "VIP" : `BOX ${Math.ceil(w.index / 100)}`;
+    const isBase = (w.index >= 101 && w.index <= 300);
+    const scanUrl = isBase 
+      ? `https://basescan.org/address/${w.address}` 
+      : `https://polygonscan.com/address/${w.address}`;
+
+    tr.innerHTML = `
+      <td style="font-weight: 800; color: #1D4ED8;">#${String(w.index).padStart(3, "0")}</td>
+      <td><span class="box-tag ${w.index === 0 ? 'box-4-tag' : 'box-1-tag'}">${boxId}</span></td>
+      <td><span style="font-weight: 700;">${w.role}</span></td>
+      <td>
+        <span class="font-mono" style="font-weight: 600;">${w.address}</span>
+        <button class="btn-copy-addr" onclick="copyToClipboard('${w.address}')">Copiar</button>
+      </td>
+      <td style="color: #64748B;">${w.derivationPath}</td>
+      <td style="color: #64748B;">${w.solanaAddress ? w.solanaAddress.slice(0, 8) + '...' : '-'}</td>
+      <td style="text-align: center;">
+        <a href="${scanUrl}" target="_blank" rel="noopener noreferrer" class="addr-link">
+          <span>Scan ↗</span>
+        </a>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
-function showNotificationToast(msg) {
-  const toast = document.getElementById("copyToast");
-  if (toast) {
-    toast.textContent = msg;
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 3500);
+// Conmutación de Pestañas
+function switchTab(targetId) {
+  document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+  const targetPane = document.getElementById(targetId);
+  if (targetPane) targetPane.classList.add("active");
+
+  document.querySelectorAll(".nav-tab").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-tab") === targetId);
+  });
+
+  const masterBtn = document.getElementById("btnMasterStationsHub");
+  if (masterBtn) {
+    masterBtn.classList.toggle("active", targetId === "paneStationsHub");
   }
 }
-window.showNotificationToast = showNotificationToast;
 
-async function triggerTelegramReport() {
-  showNotificationToast("🛰️ Enviando Parte de Manada a Telegram (ÁREA 501)...");
-  try {
-    const res = await fetch("/api/flota-x500/report", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" }
+// Reloj UTC en Vivo
+function updateLiveClock() {
+  const el = document.getElementById("liveUtcClock");
+  if (!el) return;
+  const now = new Date();
+  const h = String(now.getUTCHours()).padStart(2, "0");
+  const m = String(now.getUTCMinutes()).padStart(2, "0");
+  const s = String(now.getUTCSeconds()).padStart(2, "0");
+  el.innerText = `${h}:${m}:${s} UTC`;
+}
+
+// Setup Event Listeners
+function setupEvents() {
+  // Tabs en footer
+  document.querySelectorAll(".nav-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tabId = btn.getAttribute("data-tab");
+      if (tabId) switchTab(tabId);
     });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.ok) {
-        showNotificationToast("🚀 ¡Parte de Manada enviado a Telegram (ÁREA 501)!");
-      } else {
-        showNotificationToast("⚠️ " + (data.error || "Error al enviar reporte"));
-      }
-    } else {
-      showNotificationToast("⚠️ Error HTTP " + res.status + " enviando a Telegram");
-    }
-  } catch (err) {
-    console.warn("Error enviando reporte a Telegram:", err);
-    showNotificationToast("⚠️ Conexión local: Simulado reporte a Telegram");
+  });
+
+  // Botón maestro de estaciones
+  const masterBtn = document.getElementById("btnMasterStationsHub");
+  if (masterBtn) {
+    masterBtn.addEventListener("click", () => {
+      switchTab("paneStationsHub");
+    });
   }
+
+  // Filtros del inspector de carteras
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilterBox = btn.getAttribute("data-box") || "all";
+      renderInspectorTable();
+    });
+  });
+
+  // Buscador del inspector de carteras
+  const searchInput = document.getElementById("walletSearchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      currentSearchTerm = e.target.value.trim();
+      renderInspectorTable();
+    });
+  }
+
+  // Cerrar modal con tecla ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closePlatoonModal();
+  });
 }
-window.triggerTelegramReport = triggerTelegramReport;
+
+// Inicialización
+document.addEventListener("DOMContentLoaded", () => {
+  setupEvents();
+  updateLiveClock();
+  setInterval(updateLiveClock, 1000);
+  loadWallets();
+});

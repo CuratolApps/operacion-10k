@@ -1,5 +1,33 @@
 [
   {
+    "id": "tg-1793210592365-974",
+    "timestamp": "2026-10-28T18:03:12.365Z",
+    "timeFormatted": "18:03:12 UTC",
+    "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b>\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.13%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$2352.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie\n📍 Par: ETH-USDC\n📈 Avance Favorable: +0.13% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $2352.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  },
+  {
+    "id": "tg-1793210585940-57",
+    "timestamp": "2026-10-28T18:03:05.940Z",
+    "timeFormatted": "18:03:05 UTC",
+    "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b>\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.11%</code> (Disparo: 0.1%)\n🛡️ <b>Candado Blindado a:</b> <code>$2352.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie\n📍 Par: ETH-USDC\n📈 Avance Favorable: +0.11% (Disparo: 0.1%)\n🛡️ Candado Blindado a: $2352.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  },
+  {
+    "id": "tg-1793210585275-161",
+    "timestamp": "2026-10-28T18:03:05.275Z",
+    "timeFormatted": "18:03:05 UTC",
+    "rawHtml": "🔓 <b>ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Descarga de Alivio (70%):</b> 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 <b>Capital Liberado:</b> ~$2,495 USD de nocional devueltos a margen libre.\n🔒 <b>Candado BE #00 Activado:</b> Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>",
+    "textPlain": "🔓 ALERTA TELEGRAM — TRAMO 1 LIBERADO / CANDADO BE #00 ACTIVADO EN AVAX\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Descarga de Alivio (70%): 280.52 AVAX ejecutados en $8.895 sin pérdida.\n💵 Capital Liberado: ~$2,495 USD de nocional devueltos a margen libre.\n🔒 Candado BE #00 Activado: Clavado en el 30% restante (120.23 AVAX) con salida en Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en Bloque 1."
+  },
+  {
+    "id": "tg-1793210580018-37",
+    "timestamp": "2026-10-28T18:03:00.018Z",
+    "timeFormatted": "18:03:00 UTC",
+    "rawHtml": "🎉🛡️ <b>ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO (70%)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n💰 <b>Descarga de Alivio:</b> 70% de la posición cerrada con éxito.\n🔒 <b>Candado BE #00:</b> Activado en el 30% restante hacia Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    "textPlain": "🎉🛡️ ÁREA 501 // OPERACIÓN RESCATE #00 // TRAMO 1 COMPLETADO (70%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AVAX-USDC (LONG)\n💰 Descarga de Alivio: 70% de la posición cerrada con éxito.\n🔒 Candado BE #00: Activado en el 30% restante hacia Banda Media ($8.942).\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  },
+  {
     "id": "tg-1793202135785-104",
     "timestamp": "2026-10-28T15:42:15.785Z",
     "timeFormatted": "15:42:15 UTC",
@@ -180,33 +208,5 @@
     "timeFormatted": "8:28:10 UTC",
     "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$0.9435</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$0.9402</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$1.6955 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 67.3% · RSI 5m 72.4\n🛡️ <b>Margen Asignado:</b> <code>$105.97 USDC (5x = $529.85 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
     "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $0.9435\n📤 OBJETIVO TAKE PROFIT: $0.9402 (+0.35%)\n💰 Ganancia Estimada: +$1.6955 USDC Limpios\n📊 Filtros: L2 67.3% · RSI 5m 72.4\n🛡️ Margen Asignado: $105.97 USDC (5x = $529.85 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-  },
-  {
-    "id": "tg-1793175377871-346",
-    "timestamp": "2026-10-28T08:16:17.871Z",
-    "timeFormatted": "8:16:17 UTC",
-    "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$4052.3</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$4038.1</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$1.6723 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 84.0% · RSI 5m 72.2\n🛡️ <b>Margen Asignado:</b> <code>$104.52 USDC (5x = $522.60 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
-    "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (SHORT)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $4052.3\n📤 OBJETIVO TAKE PROFIT: $4038.1 (+0.35%)\n💰 Ganancia Estimada: +$1.6723 USDC Limpios\n📊 Filtros: L2 84.0% · RSI 5m 72.2\n🛡️ Margen Asignado: $104.52 USDC (5x = $522.60 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-  },
-  {
-    "id": "tg-1793175357146-706",
-    "timestamp": "2026-10-28T08:15:57.146Z",
-    "timeFormatted": "8:15:57 UTC",
-    "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$4037.4</code>\n📤 <b>SE VENDIÓ A:</b> <code>$4051.5</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.1079 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>50 Ganadas · 0 Pérdidas (100% Invictos)</b>\n💵 <b>Nuevo Balance en L1:</b> <code>$522.90 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-    "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC\n📥 Precio Entrada: $4037.4\n📤 SE VENDIÓ A: $4051.5 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$0.1079 USDC\n🏆 Récord Oficial: 50 Ganadas · 0 Pérdidas (100% Invictos)\n💵 Nuevo Balance en L1: $522.90 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-  },
-  {
-    "id": "tg-1793174660656-955",
-    "timestamp": "2026-10-28T08:04:20.656Z",
-    "timeFormatted": "8:04:20 UTC",
-    "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$0.9367</code>\n📤 <b>SE VENDIÓ A:</b> <code>$0.94</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$1.2503 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>49 Ganadas · 0 Pérdidas (100% Invictos)</b>\n💵 <b>Nuevo Balance en L1:</b> <code>$519.88 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-    "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC\n📥 Precio Entrada: $0.9367\n📤 SE VENDIÓ A: $0.94 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$1.2503 USDC\n🏆 Récord Oficial: 49 Ganadas · 0 Pérdidas (100% Invictos)\n💵 Nuevo Balance en L1: $519.88 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-  },
-  {
-    "id": "tg-1793173306879-655",
-    "timestamp": "2026-10-28T07:41:46.879Z",
-    "timeFormatted": "7:41:46 UTC",
-    "rawHtml": "🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📈 <b>Avance Favorable:</b> <code>+0.14%</code>\n🛡️ <b>Candado Blindado a:</b> <code>$4039.2</code> (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-    "textPlain": "🔒 ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo\n📍 Par: PAXG-USDC\n📈 Avance Favorable: +0.14%\n🛡️ Candado Blindado a: $4039.2 (+0.045% · $0.00 Pérdida Garantizada)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   }
 ]

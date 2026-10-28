@@ -267,28 +267,30 @@ html, body {
   margin-left: 4px !important;
 }
 
-.card-sub-badges-row {
+.sq-badges-row, .card-2-bottom-pills, .card-sub-badges-row {
   display: grid !important;
-  grid-template-columns: auto 1fr 1fr 1fr !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 4px !important;
   width: 100% !important;
-  align-items: center !important;
-  margin-top: 2px !important;
   box-sizing: border-box !important;
+  overflow: hidden !important;
+  margin-top: 2px !important;
 }
 
-.sq-badge {
-  display: inline-flex !important;
+.sq-badge, .card-2-bottom-pills > span {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.58rem !important;
+  font-weight: 700 !important;
+  padding: 3px 4px !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 2px !important;
-  padding: 3px 5px !important;
-  border-radius: 5px !important;
-  font-size: 0.56rem !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-weight: 700 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
   box-sizing: border-box !important;
   line-height: 1 !important;
 }
@@ -297,11 +299,6 @@ html, body {
   background: #0F172A !important;
   color: #FFFFFF !important;
   border: none !important;
-}
-
-.sq-badge.streak .material-symbols-rounded {
-  font-size: 11px !important;
-  color: #10B981 !important;
 }
 
 .sq-badge.sq-unit {
@@ -986,9 +983,7 @@ html, body {
    BARRA INFERIOR UNIFICADA EN AZUL OSCURO NOCTURNO (ESTILO SQUAD MATRIX)
    `linear-gradient(90deg, #091120 0%, #0F1A2E 50%, #091120 100%)`, 38px, nowrap
    ============================================================================== */
-.matrix-bottombar,
-.bottom-bar,
-footer {
+.bottom-bar, .footer-dock, footer, .matrix-bottombar {
   height: 38px !important;
   min-height: 38px !important;
   max-height: 38px !important;
@@ -997,16 +992,18 @@ footer {
   flex-direction: row !important;
   align-items: center !important;
   justify-content: space-between !important;
+  gap: 8px !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
   background: linear-gradient(90deg, #091120 0%, #0F1A2E 50%, #091120 100%) !important;
   border-radius: 10px !important;
-  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
   z-index: 100 !important;
   flex: 0 0 38px !important;
   width: 100% !important;
+  color: #F8FAFC !important;
 }
 
 .matrix-bottombar * {

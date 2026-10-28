@@ -41,8 +41,8 @@
           <span class="unit-tag">USDC</span>
           <span class="pct-badge" id="topDividendsPct">MODO EN VIVO ($0 RIESGO)</span>
         </div>
-        <div class="card-sub-badges-row">
-          <span class="sq-badge streak"><i class="material-symbols-rounded">verified</i> <b id="winStreakText">0G - 0P</b></span>
+        <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
+          <span class="sq-badge streak"><b id="winStreakText">0G-0P</b></span>
           <span class="sq-badge sq-unit" id="bountyHarvestBadge"><b>#01</b> $0.00</span>
           <span class="sq-badge sq-unit" id="bountyFlashBadge"><b>#02</b> $0.00</span>
           <span class="sq-badge sq-unit" id="bountyLiquidatorBadge"><b>#03</b> $0.00</span>
@@ -263,7 +263,7 @@
               </div>
               <div class="s-card-head">
                 <span class="material-symbols-rounded s-card-icon text-cyan">shield</span>
-                <h3>🛡️ SQUAD MATRIX (HYPERLIQUID L1)</h3>
+                <h3>SQUAD MATRIX (HYPERLIQUID L1)</h3>
               </div>
               <p class="s-card-desc">18 Escuadrones Iguales × 54 Pares Ultra-Líquidos operando en Hyperliquid L1. Meta Bloque 1: $1,000 USDC y control de inyección 0% Bóveda #501.</p>
               <div class="s-card-cta hl-cta">
@@ -279,7 +279,7 @@
               </div>
               <div class="s-card-head">
                 <span class="material-symbols-rounded s-card-icon text-amber">bolt</span>
-                <h3>⚡ ATOMIC FLASH MATRIX ($5K - $50K EN 1 SEGUNDO)</h3>
+                <h3>ATOMIC FLASH MATRIX ($5K - $50K EN 1 SEGUNDO)</h3>
               </div>
               <p class="s-card-desc">3 Motores Atómicos × 54 Contratos en Polygon PoS: Cobro de Bóvedas (Keeper Harvest), Flash Loans 0% Fee ($5k-$50k) y Liquidaciones Aave V3 con $0.00 riesgo de capital.</p>
               <div class="s-card-cta poly-cta">
@@ -287,19 +287,19 @@
               </div>
             </a>
 
-            <!-- Tarjeta 3: FLOTA X500 -->
+            <!-- Tarjeta 3: SWARM 500 MATRIX -->
             <a href="/flota-x500/" class="station-hub-card active-border-x500">
               <div class="s-card-top">
                 <div class="s-card-badge x500-badge">ESTACIÓN #03 · ENJAMBRE GASLESS</div>
                 <span class="live-dot-station"></span>
               </div>
               <div class="s-card-head">
-                <span class="material-symbols-rounded s-card-icon text-green">military_tech</span>
-                <h3>🪖 FLOTA X500 (500 CARTERAS)</h3>
+                <span class="material-symbols-rounded s-card-icon text-green">hive</span>
+                <h3>SWARM 500 MATRIX (500 CARTERAS)</h3>
               </div>
               <p class="s-card-desc">El enjambre de 500 satélites organizado en 5 Boxes tácticos (#001 a #500). Racha Gasless EIP-712, cortes de Airdrops (30 Oct) y barrido hacia Bóveda #501.</p>
               <div class="s-card-cta x500-cta">
-                <span>INGRESAR A FLOTA X500 ➔</span>
+                <span>INGRESAR A SWARM 500 ➔</span>
               </div>
             </a>
           </div>
@@ -314,37 +314,27 @@
       <div class="bottom-identity">
         <span class="material-symbols-rounded brand-icon">bolt</span>
         <b class="brand-title">ATOMIC FLASH MATRIX</b>
-        <span class="brand-divider">//</span>
-        <span class="brand-tag">54 OBJETIVOS L1 🟢</span>
-        <span class="live-dot" title="Telemetría en Vivo Conectada"></span>
+        <span class="live-dot" title="Online"></span>
       </div>
 
       <!-- 2. ZONA CENTRAL: PESTAÑAS OPERATIVAS EXCLUSIVAS DEL MÓDULO -->
       <nav class="matrix-nav-tabs">
         <button class="nav-tab active" data-tab="paneTargetsGrid" id="tabBtnTargets">
-          <span class="material-symbols-rounded tab-icon">grid_view</span> [ ⚡ 54 OBJETIVOS EN VIVO ]
+          <span class="material-symbols-rounded tab-icon">grid_view</span> 54 OBJETIVOS EN VIVO
         </button>
         <button class="nav-tab" data-tab="paneLadder" id="tabBtnLadder">
-          <span class="material-symbols-rounded tab-icon">account_balance</span> [ 🏦 CALIBRES FLASH ($5K-$50K) ]
+          <span class="material-symbols-rounded tab-icon">account_balance</span> CALIBRES FLASH ($5K-$50K)
         </button>
         <button class="nav-tab" data-tab="paneLedger" id="tabBtnLedger">
-          <span class="material-symbols-rounded tab-icon">receipt_long</span> [ 📜 BITÁCORA ON-CHAIN (0) ]
+          <span class="material-symbols-rounded tab-icon">receipt_long</span> BITÁCORA ON-CHAIN (0)
         </button>
       </nav>
 
-      <!-- 3. ZONA DERECHA: SEPARADA POR '|' · BOTÓN MAESTRO DE ESTACIONES + TELEMETRÍA + RELOJ UTC -->
+      <!-- 3. ZONA DERECHA: BOTÓN MAESTRO DE ESTACIONES + RELOJ UTC -->
       <div class="bottom-system">
-        <span class="dock-v-divider">|</span>
         <button class="btn-stations-master" id="btnMasterStationsHub" data-tab="paneStationsHub" title="Abrir las 3 Estaciones de Área 501">
-          <span class="material-symbols-rounded master-hub-icon">account_balance</span>
-          <span>[ 🏛️ ÁREA 501 // 3 ESTACIONES ]</span>
+          <span class="material-symbols-rounded master-hub-icon">hub</span> 3 ESTACIONES ÁREA 501
         </button>
-        <span class="dock-v-divider">|</span>
-        <div class="ws-status">
-          <span class="status-bullet">●</span>
-          <span>24ms Polygon</span>
-        </div>
-        <span class="brand-divider">·</span>
         <div class="utc-clock">
           <span class="material-symbols-rounded clock-icon">schedule</span>
           <span id="liveUtcClock">00:00:00 UTC</span>

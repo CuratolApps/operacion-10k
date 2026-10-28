@@ -205,7 +205,10 @@ async function syncTelemetry() {
 
       const b = data.dividendsBreakdown || {};
       const winStreakText = document.getElementById("winStreakText");
-      if (winStreakText) winStreakText.textContent = b.streak || "0G - 0P";
+      if (winStreakText) {
+        const rawStreak = b.streak || "0G-0P";
+        winStreakText.textContent = rawStreak.replace(/\s+/g, '');
+      }
 
       const bHarvest = document.getElementById("bountyHarvestBadge");
       if (bHarvest) bHarvest.innerHTML = `<b>#01</b> $${Number(b.harvestUsdc || 0.00).toFixed(2)}`;
