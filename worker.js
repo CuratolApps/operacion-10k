@@ -1358,6 +1358,157 @@ async function getLiveLiquidityEngineData() {
   return cachedLiquidityData;
 }
 
+// ==============================================================================
+// VIGILANTE DE HORARIOS Y ALERTAS DE MERCADOS MUNDIALES (5 MIN ANTES DE ABRIR/CERRAR)
+// ==============================================================================
+async function checkMarketSessionAlerts(now, botTokenParam, chatIdParam) {
+  const botToken = botTokenParam || "8788112547:AAGMtUPLHRQhgdUljwdOxa0BA9pnTFfakrQ";
+  const chatId = chatIdParam || "-1004342131598";
+  if (!botToken || !chatId) return;
+  if (!globalThis.__SENT_SESSION_ALERTS__) {
+    globalThis.__SENT_SESSION_ALERTS__ = {};
+  }
+
+  const utcDay = now.getUTCDay(); // 0=Sun, 1=Mon, ..., 5=Fri, 6=Sat
+  const utcHours = now.getUTCHours();
+  const utcMins = now.getUTCMinutes();
+  const totalMins = utcHours * 60 + utcMins;
+  const dateKey = now.toISOString().slice(0, 10);
+
+  const SESSION_EVENTS = [
+    {
+      id: "TSE_OPEN",
+      market: "BOLSA DE TOKIO (SESIÓN ASIÁTICA — TSE & YEN)",
+      type: "OPEN",
+      timeUtc: "00:00 UTC",
+      targetMins: 23 * 60 + 55, // 23:55 UTC (Domingo a Jueves noche)
+      activeDays: [0, 1, 2, 3, 4]
+    },
+    {
+      id: "TSE_CLOSE",
+      market: "BOLSA DE TOKIO (SESIÓN ASIÁTICA — TSE & YEN)",
+      type: "CLOSE",
+      timeUtc: "06:00 UTC",
+      targetMins: 5 * 60 + 55, // 05:55 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "FRA_OPEN",
+      market: "BOLSA DE FRANKFURT (DAX40 & APERTURA BANCARIA EUROPEA)",
+      type: "OPEN",
+      timeUtc: "07:00 UTC",
+      targetMins: 6 * 60 + 55, // 06:55 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "FRA_CLOSE",
+      market: "BOLSA DE FRANKFURT (DAX40 & APERTURA BANCARIA EUROPEA)",
+      type: "CLOSE",
+      timeUtc: "15:30 UTC",
+      targetMins: 15 * 60 + 25, // 15:25 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "LSE_OPEN",
+      market: "BOLSA DE LONDRES (FOREX & EUROPA — LSE)",
+      type: "OPEN",
+      timeUtc: "08:00 UTC",
+      targetMins: 7 * 60 + 55, // 07:55 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "LSE_CLOSE",
+      market: "BOLSA DE LONDRES (FOREX & EUROPA — LSE)",
+      type: "CLOSE",
+      timeUtc: "16:30 UTC",
+      targetMins: 16 * 60 + 25, // 16:25 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "NYSE_OPEN",
+      market: "WALL STREET — NUEVA YORK (NYSE / NASDAQ)",
+      type: "OPEN",
+      timeUtc: "13:30 UTC",
+      targetMins: 13 * 60 + 25, // 13:25 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "NYSE_CLOSE",
+      market: "WALL STREET — NUEVA YORK (NYSE / NASDAQ)",
+      type: "CLOSE",
+      timeUtc: "20:00 UTC",
+      targetMins: 19 * 60 + 55, // 19:55 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "CME_PAUSE",
+      market: "COMMODITIES & METALES (CME GLOBEX — ORO, PLATA, PETRÓLEO)",
+      type: "CLOSE",
+      timeUtc: "21:00 UTC",
+      targetMins: 20 * 60 + 55, // 20:55 UTC (Lunes a Viernes)
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "CME_OPEN",
+      market: "COMMODITIES & METALES (CME GLOBEX — ORO, PLATA, PETRÓLEO)",
+      type: "OPEN",
+      timeUtc: "22:00 UTC",
+      targetMins: 21 * 60 + 55, // 21:55 UTC (Domingo a Jueves)
+      activeDays: [0, 1, 2, 3, 4]
+    }
+  ];
+
+  for (const ev of SESSION_EVENTS) {
+    if (!ev.activeDays.includes(utcDay)) continue;
+
+    const diff = Math.abs(totalMins - ev.targetMins);
+    if (diff <= 2) {
+      const alertKey = `${ev.id}_${dateKey}`;
+      if (globalThis.__SENT_SESSION_ALERTS__[alertKey]) continue;
+      globalThis.__SENT_SESSION_ALERTS__[alertKey] = true;
+
+      let msgText = "";
+      if (ev.type === "OPEN") {
+        msgText = `🚨🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🏛️ <b>Mercado:</b> ${ev.market}\n` +
+          `⏰ <b>Hora de Apertura:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
+          `📊 <b>Estado Actual:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n\n` +
+          `⚡ <b>ALERTA DE MOVIMIENTO BRUSCO (PROTECCIÓN + CAZA DE OLA):</b>\n` +
+          `• En los próximos minutos entrará fuerte volumen institucional.\n` +
+          `• 🛡️ <b>Defensa Mentora #00:</b> Candado Breakeven (+0.045%) reforzado en posiciones abiertas (AVAX, PAXG, ETH, BNB...) para que ningún mechazo nos tumbe el precio.\n` +
+          `• 🐂🐻 <b>Ataque Bull & Bear:</b> Radares L2 listos a 150ms para agarrar la ola de apertura tanto hacia ARRIBA (LONG) como hacia ABAJO (SHORT).\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━`;
+      } else {
+        msgText = `🔔🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA CERRAR</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🏛️ <b>Mercado:</b> ${ev.market}\n` +
+          `⏰ <b>Hora de Cierre:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
+          `📊 <b>Estado Actual:</b> 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n\n` +
+          `🛡️ <b>PROTOCOLO DE CIERRE DE SESIÓN:</b>\n` +
+          `• Posibles sacudones de liquidación de cierre de sesión.\n` +
+          `• 🔒 <b>Mentora #00</b> asegurando ganancias flotantes y ajustando filtros Anti-Techo en los escuadrones activos.\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━`;
+      }
+
+      try {
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: msgText,
+            parse_mode: "HTML"
+          })
+        });
+        console.log(`[SESSION ALERTS] Alerta enviada a Telegram: ${ev.id}`);
+      } catch (err) {
+        console.error(`[SESSION ALERTS] Error enviando alerta ${ev.id}:`, err);
+      }
+    }
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -1417,6 +1568,60 @@ export default {
         action: payload.action || "UNKNOWN",
         timestamp: new Date().toISOString(),
         message: `Orden ${payload.action || ""} registrada en Direct Order Bridge (<150ms)`
+      }), { status: 200, headers });
+    }
+
+    // ==============================================================================
+    // ENDPOINT: PROBAR ALERTA DE MERCADO 5-MIN TELEGRAM (/api/squad-matrix/test-session-alert)
+    // ==============================================================================
+    if (url.pathname === "/api/squad-matrix/test-session-alert") {
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json; charset=utf-8");
+      headers.set("Access-Control-Allow-Origin", "*");
+      headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+      headers.set("Access-Control-Allow-Headers", "Content-Type");
+
+      if (request.method === "OPTIONS") {
+        return new Response(null, { status: 204, headers });
+      }
+
+      const botToken = env.TELEGRAM_BOT_TOKEN || "8788112547:AAGMtUPLHRQhgdUljwdOxa0BA9pnTFfakrQ";
+      const chatId = env.TELEGRAM_CHAT_ID || "-1004342131598";
+      let sent = false;
+
+      const testMsg = `🚨🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `🏛️ <b>Mercado:</b> WALL STREET — NUEVA YORK (NYSE / NASDAQ)\n` +
+        `⏰ <b>Hora de Apertura:</b> 13:30 UTC (En exactamente 5 minutos)\n` +
+        `📊 <b>Estado Actual:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n\n` +
+        `⚡ <b>ALERTA DE MOVIMIENTO BRUSCO (PROTECCIÓN + CAZA DE OLA):</b>\n` +
+        `• En los próximos minutos entrará fuerte volumen institucional.\n` +
+        `• 🛡️ <b>Defensa Mentora #00:</b> Candado Breakeven (+0.045%) reforzado en posiciones abiertas (AVAX, PAXG, ETH, BNB...) para que ningún mechazo nos tumbe el precio.\n` +
+        `• 🐂🐻 <b>Ataque Bull & Bear:</b> Radares L2 listos a 150ms para agarrar la ola de apertura tanto hacia ARRIBA (LONG) como hacia ABAJO (SHORT).\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `<i>(Prueba de Alerta 5-Minutos iniciada desde Portada de Squad Matrix)</i>`;
+
+      if (botToken) {
+        try {
+          const resTg = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: testMsg,
+              parse_mode: "HTML"
+            })
+          });
+          const dataTg = await resTg.json();
+          sent = dataTg.ok === true;
+        } catch (_) {}
+      }
+
+      return new Response(JSON.stringify({
+        ok: true,
+        sentToTelegram: sent,
+        chatId,
+        message: sent ? "Alerta de prueba emitida a Telegram" : "Alerta registrada (botToken activo)"
       }), { status: 200, headers });
     }
 
@@ -2233,6 +2438,13 @@ export default {
 
         const botToken = env.TELEGRAM_BOT_TOKEN;
         const chatId = env.TELEGRAM_CHAT_ID || "-1004342131598";
+
+        // Vigilante 24/7 de Horarios Mundiales y Alertas de Apertura/Cierre a Telegram (5 min antes)
+        try {
+          await checkMarketSessionAlerts(new Date(), botToken, chatId);
+        } catch (sessErr) {
+          console.error("[CRON WORKER] Error en checkMarketSessionAlerts:", sessErr);
+        }
 
         const state = computeDynamicSquadState(Date.now(), telem);
 

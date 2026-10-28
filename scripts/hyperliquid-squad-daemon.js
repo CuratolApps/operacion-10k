@@ -295,6 +295,153 @@ function checkDailyAmortizationCut(accountValue = 0) {
   } catch (_) {}
 }
 
+// ==============================================================================
+// VIGILANTE DE SESIONES MUNDIALES (ALERTAS TELEGRAM -5 MIN ANTES DE ABRIR/CERRAR)
+// ==============================================================================
+const sentSessionAlertsDaemon = {};
+
+async function checkMarketSessionAlertsDaemon(now) {
+  const utcDay = now.getUTCDay();
+  const utcHours = now.getUTCHours();
+  const utcMins = now.getUTCMinutes();
+  const totalMins = utcHours * 60 + utcMins;
+  const dateKey = now.toISOString().slice(0, 10);
+
+  const SESSION_EVENTS = [
+    {
+      id: "TSE_OPEN",
+      market: "BOLSA DE TOKIO (SESIÓN ASIÁTICA — TSE & YEN)",
+      type: "OPEN",
+      timeUtc: "00:00 UTC",
+      targetMins: 23 * 60 + 55,
+      activeDays: [0, 1, 2, 3, 4]
+    },
+    {
+      id: "TSE_CLOSE",
+      market: "BOLSA DE TOKIO (SESIÓN ASIÁTICA — TSE & YEN)",
+      type: "CLOSE",
+      timeUtc: "06:00 UTC",
+      targetMins: 5 * 60 + 55,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "FRA_OPEN",
+      market: "BOLSA DE FRANKFURT (DAX40 & APERTURA BANCARIA EUROPEA)",
+      type: "OPEN",
+      timeUtc: "07:00 UTC",
+      targetMins: 6 * 60 + 55,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "FRA_CLOSE",
+      market: "BOLSA DE FRANKFURT (DAX40 & APERTURA BANCARIA EUROPEA)",
+      type: "CLOSE",
+      timeUtc: "15:30 UTC",
+      targetMins: 15 * 60 + 25,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "LSE_OPEN",
+      market: "BOLSA DE LONDRES (FOREX & EUROPA — LSE)",
+      type: "OPEN",
+      timeUtc: "08:00 UTC",
+      targetMins: 7 * 60 + 55,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "LSE_CLOSE",
+      market: "BOLSA DE LONDRES (FOREX & EUROPA — LSE)",
+      type: "CLOSE",
+      timeUtc: "16:30 UTC",
+      targetMins: 16 * 60 + 25,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "NYSE_OPEN",
+      market: "WALL STREET — NUEVA YORK (NYSE / NASDAQ)",
+      type: "OPEN",
+      timeUtc: "13:30 UTC",
+      targetMins: 13 * 60 + 25,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "NYSE_CLOSE",
+      market: "WALL STREET — NUEVA YORK (NYSE / NASDAQ)",
+      type: "CLOSE",
+      timeUtc: "20:00 UTC",
+      targetMins: 19 * 60 + 55,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "CME_PAUSE",
+      market: "COMMODITIES & METALES (CME GLOBEX — ORO, PLATA, PETRÓLEO)",
+      type: "CLOSE",
+      timeUtc: "21:00 UTC",
+      targetMins: 20 * 60 + 55,
+      activeDays: [1, 2, 3, 4, 5]
+    },
+    {
+      id: "CME_OPEN",
+      market: "COMMODITIES & METALES (CME GLOBEX — ORO, PLATA, PETRÓLEO)",
+      type: "OPEN",
+      timeUtc: "22:00 UTC",
+      targetMins: 21 * 60 + 55,
+      activeDays: [0, 1, 2, 3, 4]
+    }
+  ];
+
+  for (const ev of SESSION_EVENTS) {
+    if (!ev.activeDays.includes(utcDay)) continue;
+
+    if (totalMins === ev.targetMins) {
+      const alertKey = `${ev.id}_${dateKey}`;
+      if (sentSessionAlertsDaemon[alertKey]) continue;
+      sentSessionAlertsDaemon[alertKey] = true;
+
+      let msgText = "";
+      if (ev.type === "OPEN") {
+        msgText = `🚨🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🏛️ <b>Mercado:</b> ${ev.market}\n` +
+          `⏰ <b>Hora de Apertura:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
+          `📊 <b>Estado Actual:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n\n` +
+          `⚡ <b>ALERTA DE MOVIMIENTO BRUSCO (PROTECCIÓN + CAZA DE OLA):</b>\n` +
+          `• En los próximos minutos entrará fuerte volumen institucional.\n` +
+          `• 🛡️ <b>Defensa Mentora #00:</b> Candado Breakeven (+0.045%) reforzado en posiciones abiertas (AVAX, PAXG, ETH, BNB...) para que ningún mechazo nos tumbe el precio.\n` +
+          `• 🐂🐻 <b>Ataque Bull & Bear:</b> Radares L2 listos a 150ms para agarrar la ola de apertura tanto hacia ARRIBA (LONG) como hacia ABAJO (SHORT).\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━`;
+      } else {
+        msgText = `🔔🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA CERRAR</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🏛️ <b>Mercado:</b> ${ev.market}\n` +
+          `⏰ <b>Hora de Cierre:</b> ${ev.timeUtc} (En exactamente 5 minutos)\n` +
+          `📊 <b>Estado Actual:</b> 🟢 ABIERTO ➔ Pasando a 🔴 CERRADO\n\n` +
+          `🛡️ <b>PROTOCOLO DE CIERRE DE SESIÓN:</b>\n` +
+          `• Posibles sacudones de liquidación de cierre de sesión.\n` +
+          `• 🔒 <b>Mentora #00</b> asegurando ganancias flotantes y ajustando filtros Anti-Techo en los escuadrones activos.\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━`;
+      }
+
+      console.log(`[SESSION ALERTS DAEMON] Disparando aviso de mercado: ${ev.id}`);
+      await sendSquadTelegram(msgText);
+    }
+  }
+}
+
+// ==============================================================================
+// DETECTOR DE VENTANA DE SACUDÓN (±5 MIN DE APERTURA LONDRES 08:00 / NY 13:30)
+// ==============================================================================
+function isMarketShakeWindow(now) {
+  const utcDay = now.getUTCDay();
+  if (utcDay < 1 || utcDay > 5) return false;
+  const totalMins = now.getUTCHours() * 60 + now.getUTCMinutes();
+  // Londres 08:00 UTC ± 5 min -> 07:55 a 08:05 UTC (475 a 485 mins)
+  const isLondonWave = totalMins >= 475 && totalMins <= 485;
+  // Nueva York 13:30 UTC ± 5 min -> 13:25 a 13:35 UTC (805 a 815 mins)
+  const isNyWave = totalMins >= 805 && totalMins <= 815;
+  return isLondonWave || isNyWave;
+}
+
 async function startAutonomousSquadDaemon() {
   console.log("================================================================================");
   console.log("🚀 ÁREA 501 // SQUAD SECRET V2 ESCALADO // BLOQUE 1 ($649+ USDC ➔ $1,000 USDC)");
@@ -340,6 +487,9 @@ async function startAutonomousSquadDaemon() {
       // 2. Procesar Cola de Órdenes Directas y Doctrina de Consolidación
       await processDirectOrdersQueue(client, info);
       checkDailyAmortizationCut(accountValue);
+
+      // Vigilante de Horarios Mundiales y Alertas 5-Minutos a Telegram
+      await checkMarketSessionAlertsDaemon(new Date());
 
       // Dinámica de capitalización compuesta
       const reserveUsdc = +(accountValue * MENTORA_RESERVE_RATIO).toFixed(2);
@@ -441,19 +591,24 @@ async function startAutonomousSquadDaemon() {
                 : (entryPx - currentMid) / entryPx * 100;
 
               // 1. CANDADO BREAKEVEN (+0.12% ➔ Clavado en +0.045% cubriendo comisiones)
-              if (gainPct >= BREAKEVEN_TRIGGER_PCT && !mem.beLocked) {
+              // EN VENTANA DE SACUDÓN (±5 min de Apertura Londres/NY): Mentora #00 aprieta al +0.08%
+              const inShakeWindow = isMarketShakeWindow(new Date());
+              const effectiveBeTrigger = inShakeWindow ? 0.08 : BREAKEVEN_TRIGGER_PCT;
+
+              if (gainPct >= effectiveBeTrigger && !mem.beLocked) {
                 mem.beLocked = true;
                 const bePx = isShort
                   ? entryPx * (1 - BREAKEVEN_LOCK_PCT / 100)
                   : entryPx * (1 + BREAKEVEN_LOCK_PCT / 100);
                 const bePxStr = formatHlPrice(bePx, coin);
-                console.log(`🔒 [MENTORA #00] Candado Breakeven activado en ${coin} al alcanzar +${gainPct.toFixed(2)}%! Nivel seguro fijado en $${bePxStr} (+${BREAKEVEN_LOCK_PCT}%).`);
+                const shakeTag = inShakeWindow ? " [VENTANA DE SACUDÓN ±5M APERTURA]" : "";
+                console.log(`🔒 [MENTORA #00] Candado Breakeven activado${shakeTag} en ${coin} al alcanzar +${gainPct.toFixed(2)}%! Nivel seguro fijado en $${bePxStr} (+${BREAKEVEN_LOCK_PCT}%).`);
 
-                const beTg = `🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO</b>\n` +
+                const beTg = `🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO${shakeTag}</b>\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b>\n` +
                   `📍 <b>Par:</b> <code>${coin}-USDC</code>\n` +
-                  `📈 <b>Avance Favorable:</b> <code>+${gainPct.toFixed(2)}%</code>\n` +
+                  `📈 <b>Avance Favorable:</b> <code>+${gainPct.toFixed(2)}%</code> (Disparo: ${effectiveBeTrigger}%)\n` +
                   `🛡️ <b>Candado Blindado a:</b> <code>$${bePxStr}</code> (+${BREAKEVEN_LOCK_PCT}% · $0.00 Pérdida Garantizada)\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
                 await sendSquadTelegram(beTg);
@@ -634,8 +789,13 @@ async function startAutonomousSquadDaemon() {
                   const currentPrice = parseFloat(bids[0].px);
                   const isTop25Pct = range15m > 0 ? (currentPrice - parseFloat(last15m.l)) / range15m > 0.75 : false;
 
-                  // LONG: L2 >= 62%, RSI <= 46, no en el 25% superior de la vela de 15m (o por debajo de EMA20)
-                  if (bullPct >= 62.0 && rsi5m <= 46.0 && (!isTop25Pct || currentPrice <= ema20_5m)) {
+                  // Protocolo Onda de Apertura (Ventana de Sacudón ±5 min Londres/NY): Caza de Olas con L2 >= 66%
+                  const inWaveWindow = isMarketShakeWindow(new Date());
+                  const isWaveLong = inWaveWindow && bullPct >= 66.0;
+                  const isWaveShort = inWaveWindow && bearPct >= 66.0;
+
+                  // LONG: L2 >= 62%, RSI <= 46, no en el 25% superior de la vela de 15m (o por debajo de EMA20), O Caza de Ola en Apertura (L2 >= 66%)
+                  if (isWaveLong || (bullPct >= 62.0 && rsi5m <= 46.0 && (!isTop25Pct || currentPrice <= ema20_5m))) {
                     if (!bestCandidate || bullPct > bestCandidate.score) {
                       bestCandidate = {
                         coin,
@@ -643,13 +803,14 @@ async function startAutonomousSquadDaemon() {
                         price: currentPrice,
                         score: bullPct,
                         rsi: rsi5m,
-                        ema: ema20_5m
+                        ema: ema20_5m,
+                        isWaveTrade: isWaveLong
                       };
                     }
                   }
 
-                  // SHORT: L2 >= 62% vendedora, RSI >= 70 en sobrecompra extrema (Rechazo de Techo)
-                  if (bearPct >= 62.0 && rsi5m >= 70.0) {
+                  // SHORT: L2 >= 62% vendedora, RSI >= 70 en sobrecompra extrema (Rechazo de Techo), O Caza de Ola en Desplome de Apertura (L2 >= 66%)
+                  if (isWaveShort || (bearPct >= 62.0 && rsi5m >= 70.0)) {
                     if (!bestCandidate || bearPct > bestCandidate.score) {
                       bestCandidate = {
                         coin,
@@ -657,7 +818,8 @@ async function startAutonomousSquadDaemon() {
                         price: parseFloat(asks[0].px),
                         score: bearPct,
                         rsi: rsi5m,
-                        ema: ema20_5m
+                        ema: ema20_5m,
+                        isWaveTrade: isWaveShort
                       };
                     }
                   }

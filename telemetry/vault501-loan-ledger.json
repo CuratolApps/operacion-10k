@@ -6,7 +6,7 @@
     {
       "id": "INJECTION_01",
       "origin": "Bóveda Matriz #501 (Aave V3 Polygon)",
-      "amountUsdc": 300.00,
+      "amountUsdc": 300,
       "date": "2026-10-28T07:00:00.000Z",
       "polygonTx": "0x9b92cda27d8f4c6b476b295f724e881abd4928d47c7de991278b433bf3d2554f",
       "arbitrumTx": "0xb0ef9eacab9a2ca5d5319d8bae4d70187157fce537cf21ad63c2223c476b3531"
@@ -14,7 +14,7 @@
     {
       "id": "INJECTION_02",
       "origin": "Depósito 1,196.7312 POL en Bóveda #501 (Polygon PoS)",
-      "amountUsdc": 118.50,
+      "amountUsdc": 118.5,
       "date": "2026-10-28T11:04:00.000Z",
       "polygonTx": "0x7ce43d27880d813cec50d131796aa7633219ac352d258e17e19ed06124cb2120",
       "arbitrumTx": "0xf8b5736914078ac7bcc3fd58d29e2e05ed96e598b8d2772db63711fa97d6fa07"
@@ -22,28 +22,29 @@
     {
       "id": "INJECTION_03",
       "origin": "Ampliación Crédito Bóveda Matriz #501 (Aave V3 Polygon)",
-      "amountUsdc": 150.00,
+      "amountUsdc": 150,
       "date": "2026-10-28T12:00:20.000Z",
       "polygonWithdrawTx": "0x987332891e545a0b25f03059ee5da429ca5fb58e23f0a32d256fd002174ee81b",
       "polygonBridgeTx": "0xa41a1bf14768cff374044c2ff5c8e3acf4a794cdcc6942fe991eae88da75a885",
       "arbitrumDepositTx": "0x5c6e9a0f5cbd8b3c884f93d5dafcdfcc4b4ac80f63966bbb6787332dafb94083"
     }
   ],
-  "credit501BorrowedUsdc": 450.00,
-  "externalInjectedUsdc": 118.50,
-  "principalBorrowedUsdc": 568.50,
+  "credit501BorrowedUsdc": 450,
+  "externalInjectedUsdc": 118.5,
+  "principalBorrowedUsdc": 568.5,
   "interestRate": "0%",
-  "repaidSoFarUsdc": 0.00,
-  "remainingBalanceUsdc": 568.50,
+  "repaidSoFarUsdc": 0,
+  "remainingBalanceUsdc": 568.5,
   "doctrine": "NUEVA DOCTRINA OFICIAL DE CONSOLIDACIÓN POR BLOQUES ($1,000.00 USDC)",
   "consolidationRule": {
-    "targetAccountValueUsdc": 1000.00,
+    "targetAccountValueUsdc": 1000,
     "currentPhase": "PHASE_1_PURE_COMPOUNDING",
-    "phase1WithdrawalsUsdc": 0.00,
+    "phase1WithdrawalsUsdc": 0,
     "phase1Description": "100% de las ganancias diarias se reinvierten automáticamente en Hyperliquid L1 hasta alcanzar $1,000.00 USDC. $0.00 retiros diarios.",
     "phase2Trigger": "accountValue >= 1000.00 USDC",
     "phase2Rule": "Regla 70/30: 70% capitalización continua / 30% asignado a devolución a Bóveda #501 (o activación de Bloque 2 desde $100.00 USDC)"
   },
   "status": "CAPITALIZING_TO_1000",
-  "updatedAt": "2026-10-28T12:00:20.000Z"
+  "updatedAt": "2026-10-28T12:00:09.555Z",
+  "lastLogDate": "2026-10-28"
 }

@@ -47289,6 +47289,13 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1793189546470-869",
+      "timestamp": "2026-10-28T12:12:26.470Z",
+      "timeFormatted": "12:12:26 UTC",
+      "rawHtml": "🛡️ <b>ÁREA 501 // MENTORA #00 // TIRO GEMELO DCA EN SOPORTE</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b>\n📍 <b>Par:</b> <code>AVAX-USDC</code>\n📉 <b>Drawdown:</b> <code>-0.89%</code> (RSI 5m: 23.3)\n📥 <b>Refuerzo Táctico:</b> <code>87.06 AVAX @ $8.93</code> ($155.5 Margen · 5x)\n🎯 <b>Nuevo Take Profit:</b> <code>$8.99</code> (+0.2% sobre promedio)\n🎯 <b>Objetivo:</b> Evacuación inmediata de doble volumen con ganancia neta.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "textPlain": "🛡️ ÁREA 501 // MENTORA #00 // TIRO GEMELO DCA EN SOPORTE\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa\n📍 Par: AVAX-USDC\n📉 Drawdown: -0.89% (RSI 5m: 23.3)\n📥 Refuerzo Táctico: 87.06 AVAX @ $8.93 ($155.5 Margen · 5x)\n🎯 Nuevo Take Profit: $8.99 (+0.2% sobre promedio)\n🎯 Objetivo: Evacuación inmediata de doble volumen con ganancia neta.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
       "id": "tg-1793185375713-817",
       "timestamp": "2026-10-28T11:02:55.713Z",
       "timeFormatted": "11:02:55 UTC",
@@ -47490,13 +47497,6 @@
       "timeFormatted": "6:06:52 UTC",
       "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$2351.6</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$2359.8</code> (+0.35%)\n💰 <b>Ganancia Estimada:</b> <b>+$1.6261 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 97.4% · RSI 5m 43.3\n🛡️ <b>Margen Asignado:</b> <code>$101.63 USDC (5x = $508.15 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
       "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $2351.6\n📤 OBJETIVO TAKE PROFIT: $2359.8 (+0.35%)\n💰 Ganancia Estimada: +$1.6261 USDC Limpios\n📊 Filtros: L2 97.4% · RSI 5m 43.3\n🛡️ Margen Asignado: $101.63 USDC (5x = $508.15 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-    },
-    {
-      "id": "tg-1793167586300-228",
-      "timestamp": "2026-10-28T06:06:26.300Z",
-      "timeFormatted": "6:06:26 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$2350.9</code>\n📤 <b>SE VENDIÓ A:</b> <code>$2326.8</code> (+0.35% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.6681 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>44 Ganadas · 0 Pérdidas (100% Invictos)</b>\n💵 <b>Nuevo Balance en L1:</b> <code>$508.10 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC\n📥 Precio Entrada: $2350.9\n📤 SE VENDIÓ A: $2326.8 (+0.35% TP)\n💰 GANANCIA NETA EN CAJA: +$0.6681 USDC\n🏆 Récord Oficial: 44 Ganadas · 0 Pérdidas (100% Invictos)\n💵 Nuevo Balance en L1: $508.10 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
     }
   ],
   "lomo6SocialX": {

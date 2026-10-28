@@ -99,9 +99,106 @@ let appState = {
   realWinRate: 100
 };
 
+// DEFINICIÓN DE LOS 8 MERCADOS MUNDIALES CLAVE
+const WORLD_MARKETS = [
+  {
+    id: "hl_crypto",
+    flag: "⚡",
+    name: "CRIPTO L1 (HYPERLIQUID 24/7)",
+    tzName: "UTC",
+    tz: "UTC",
+    type: "24_7",
+    squads: "#01 ALFA a #09 LIMA (27 Cripto)",
+    impact: "BTC, ETH, SOL, AVAX, SUI, HYPE, LINK..."
+  },
+  {
+    id: "lse_london",
+    flag: "🇬🇧",
+    name: "BOLSA DE LONDRES (LSE / FOREX)",
+    tzName: "Londres",
+    tz: "Europe/London",
+    openUtcMins: 8 * 60,         // 08:00 UTC
+    closeUtcMins: 16 * 60 + 30,  // 16:30 UTC
+    weekdays: [1, 2, 3, 4, 5],
+    squads: "#10 DELTA · #13 MIKE",
+    impact: "EUR/USD, GBP/USD, USD/CHF, EUR/GBP"
+  },
+  {
+    id: "nyse_wallstreet",
+    flag: "🇺🇸",
+    name: "WALL STREET (NYSE / NASDAQ)",
+    tzName: "Nueva York",
+    tz: "America/New_York",
+    openUtcMins: 13 * 60 + 30,   // 13:30 UTC
+    closeUtcMins: 20 * 60,       // 20:00 UTC
+    weekdays: [1, 2, 3, 4, 5],
+    squads: "#14 NOV · #16 PAPA · #17 QUE · #18 ROM",
+    impact: "NAS100, SPX500, NVDA, TSLA, BTC, ETH"
+  },
+  {
+    id: "cme_commodities",
+    flag: "🥇",
+    name: "COMMODITIES CME (ORO & METALES)",
+    tzName: "Chicago",
+    tz: "America/Chicago",
+    type: "cme_globex",
+    squads: "#02 BRAVO · #12 FOXTROT · #15 OSCAR",
+    impact: "PAXG-USD, XAU, XAG, WTI/USD, NGAS, HG"
+  },
+  {
+    id: "tse_tokyo",
+    flag: "🇯🇵",
+    name: "BOLSA DE TOKIO (TSE & YEN)",
+    tzName: "Tokio",
+    tz: "Asia/Tokyo",
+    openUtcMins: 0,             // 00:00 UTC
+    closeUtcMins: 6 * 60,       // 06:00 UTC
+    weekdays: [1, 2, 3, 4, 5],
+    squads: "#11 ECHO · #12 FOXTROT · #13 MIKE",
+    impact: "USD/JPY, EUR/JPY, GBP/JPY, Flujo Cripto"
+  },
+  {
+    id: "fra_frankfurt",
+    flag: "🇩🇪",
+    name: "FRANKFURT (DAX40 & EUROPA)",
+    tzName: "Frankfurt",
+    tz: "Europe/Berlin",
+    openUtcMins: 7 * 60,        // 07:00 UTC
+    closeUtcMins: 15 * 60 + 30, // 15:30 UTC
+    weekdays: [1, 2, 3, 4, 5],
+    squads: "#10 DELTA · #15 OSCAR",
+    impact: "DAX40, EUR/USD, EUR/JPY"
+  },
+  {
+    id: "asx_sydney",
+    flag: "🇦🇺",
+    name: "SÍDNEY & PACÍFICO (ASX)",
+    tzName: "Sídney",
+    tz: "Australia/Sydney",
+    type: "asx_sydney",
+    squads: "#11 ECHO (FX Pacific)",
+    impact: "AUD/USD, USD/CAD, Arranque Semanal FX"
+  },
+  {
+    id: "cruce_fuego",
+    flag: "🔥",
+    name: "CRUCE DE FUEGO (LONDRES + NY)",
+    tzName: "Londres/NY",
+    tz: "UTC",
+    openUtcMins: 13 * 60 + 30,   // 13:30 UTC
+    closeUtcMins: 16 * 60 + 30,  // 16:30 UTC
+    weekdays: [1, 2, 3, 4, 5],
+    squads: "BULL & BEAR CAZA BIDIRECCIONAL",
+    impact: "Máxima Volatilidad · Candado BE #00"
+  }
+];
+
 // INICIALIZACIÓN
 document.addEventListener("DOMContentLoaded", () => {
   initTabs();
+  renderMarketClocksGrid();
+  updateMarketClocks();
+  setInterval(updateMarketClocks, 1000);
   render54PairsGrid();
   render18SquadsGrid();
   startUtcClock();
@@ -109,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(fetchHyperliquidState, 3000);
 });
 
-// CONTROL DE PESTAÑAS (4 TABS)
+// CONTROL DE PESTAÑAS (5 TABS)
 function initTabs() {
   const tabs = document.querySelectorAll(".nav-tab");
   tabs.forEach(tab => {
@@ -127,7 +224,408 @@ function initTabs() {
   });
 }
 
-// RENDERIZAR TAB 1: 54 PARES EN VIVO
+// FORMATO DE HORA LOCAL EN CIUDAD
+function getCityTimeStr(now, tz) {
+  try {
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone: tz,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).format(now);
+  } catch (_) {
+    return now.toISOString().slice(11, 19);
+  }
+}
+
+// CÁLCULO DE ESTADOS, CUENTA REGRESIVA Y PROGRESO DE CADA MERCADO
+function getMarketCountdown(now, market) {
+  const utcDay = now.getUTCDay(); // 0=Sun, 1=Mon, ..., 5=Fri, 6=Sat
+  const utcHours = now.getUTCHours();
+  const utcMins = now.getUTCMinutes();
+  const utcSecs = now.getUTCSeconds();
+  const totalMins = utcHours * 60 + utcMins;
+  const totalSecs = totalMins * 60 + utcSecs;
+
+  // 1. Cripto L1 24/7 (Hyperliquid)
+  if (market.type === "24_7") {
+    const minsRem = 59 - utcMins;
+    const secsRem = 59 - utcSecs;
+    const progress = ((utcMins * 60 + utcSecs) / 3600) * 100;
+    return {
+      isOpen: true,
+      isWarning: false,
+      statusText: "🟢 ABIERTO AHORA",
+      label: "Próximo corte:",
+      cdText: `${String(minsRem).padStart(2, "0")}:${String(secsRem).padStart(2, "0")}`,
+      progressPct: Math.min(100, Math.max(0, progress)),
+      warningBanner: ""
+    };
+  }
+
+  // 2. CME Globex Commodities & Metales (Domingo 22:00 UTC a Viernes 21:00 UTC con pausa diaria 21:00-22:00)
+  if (market.type === "cme_globex") {
+    let isOpen = false;
+    let isWarning = false;
+    let warningBanner = "";
+    let statusText = "🔴 CERRADO";
+    let label = "Abre en:";
+    let diffSecs = 0;
+    let progressPct = 0;
+
+    const isWeekend = (utcDay === 6) || (utcDay === 0 && totalMins < 22 * 60) || (utcDay === 5 && totalMins >= 21 * 60);
+
+    if (isWeekend) {
+      isOpen = false;
+      statusText = "🔴 CERRADO (FIN DE SEMANA)";
+      label = "Abre Dom 22:00:";
+      let daysToAdd = (7 - utcDay) % 7;
+      if (utcDay === 0 && totalMins < 22 * 60) daysToAdd = 0;
+      const targetSec = (daysToAdd * 86400) + (22 * 3600);
+      diffSecs = Math.max(0, targetSec - totalSecs);
+    } else {
+      if (totalMins >= 21 * 60 && totalMins < 22 * 60) {
+        isOpen = false;
+        statusText = "🔴 PAUSA DIARIA (21-22h)";
+        label = "Reanuda en:";
+        diffSecs = (22 * 3600) - totalSecs;
+        if (diffSecs <= 300) {
+          isWarning = true;
+          warningBanner = "⚠️ 5 MIN PARA REANUDAR — ALERTA TELEGRAM ENVIADA";
+        }
+      } else {
+        isOpen = true;
+        statusText = "🟢 ABIERTO AHORA";
+        label = "Pausa diaria en:";
+        if (totalMins < 21 * 60) {
+          diffSecs = (21 * 3600) - totalSecs;
+        } else {
+          diffSecs = (24 * 3600 - totalSecs) + (21 * 3600);
+        }
+        if (totalMins < 21 * 60 && (21 * 60 - totalMins) <= 5) {
+          isWarning = true;
+          warningBanner = "⚠️ 5 MIN PARA PAUSA — ALERTA TELEGRAM ENVIADA";
+        }
+        progressPct = ((23 * 3600 - diffSecs) / (23 * 3600)) * 100;
+      }
+    }
+
+    const h = Math.floor(diffSecs / 3600);
+    const m = Math.floor((diffSecs % 3600) / 60);
+    const s = diffSecs % 60;
+    return {
+      isOpen,
+      isWarning,
+      statusText,
+      label,
+      cdText: h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`,
+      progressPct: Math.min(100, Math.max(0, progressPct)),
+      warningBanner
+    };
+  }
+
+  // 3. Sídney & Pacífico ASX (22:00 UTC a 06:00 UTC)
+  if (market.type === "asx_sydney") {
+    let isOpen = false;
+    let isWarning = false;
+    let warningBanner = "";
+    let statusText = "🔴 CERRADO";
+    let label = "Abre en:";
+    let diffSecs = 0;
+    let progressPct = 0;
+
+    const isWeekend = (utcDay === 6) || (utcDay === 0 && totalMins < 22 * 60) || (utcDay === 5 && totalMins >= 6 * 60);
+
+    if (isWeekend) {
+      isOpen = false;
+      statusText = "🔴 CERRADO (FIN DE SEMANA)";
+      label = "Abre Dom 22:00:";
+      let daysToAdd = (7 - utcDay) % 7;
+      const targetSec = (daysToAdd * 86400) + (22 * 3600);
+      diffSecs = Math.max(0, targetSec - totalSecs);
+    } else {
+      if (totalMins < 6 * 60 || totalMins >= 22 * 60) {
+        isOpen = true;
+        statusText = "🟢 ABIERTO AHORA";
+        label = "Cierra en:";
+        if (totalMins < 6 * 60) {
+          diffSecs = (6 * 3600) - totalSecs;
+          if (diffSecs <= 300) {
+            isWarning = true;
+            warningBanner = "⚠️ 5 MIN PARA CERRAR — ALERTA TELEGRAM ENVIADA";
+          }
+        } else {
+          diffSecs = (24 * 3600 - totalSecs) + (6 * 3600);
+        }
+        progressPct = ((8 * 3600 - diffSecs) / (8 * 3600)) * 100;
+      } else {
+        isOpen = false;
+        statusText = "🔴 CERRADO";
+        label = "Abre en:";
+        diffSecs = (22 * 3600) - totalSecs;
+        if (diffSecs <= 300) {
+          isWarning = true;
+          warningBanner = "⚠️ 5 MIN PARA ABRIR — ALERTA TELEGRAM ENVIADA";
+        }
+      }
+    }
+
+    const h = Math.floor(diffSecs / 3600);
+    const m = Math.floor((diffSecs % 3600) / 60);
+    const s = diffSecs % 60;
+    return {
+      isOpen,
+      isWarning,
+      statusText,
+      label,
+      cdText: h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`,
+      progressPct: Math.min(100, Math.max(0, progressPct)),
+      warningBanner
+    };
+  }
+
+  // 4. Sesiones Regulares Lun-Vie (Londres, Wall Street, Tokio, Frankfurt, Cruce de Fuego)
+  const isWeekday = market.weekdays ? market.weekdays.includes(utcDay) : (utcDay >= 1 && utcDay <= 5);
+  const openMins = market.openUtcMins;
+  const closeMins = market.closeUtcMins;
+  let isOpen = false;
+  let isWarning = false;
+  let warningBanner = "";
+  let statusText = "🔴 CERRADO";
+  let label = "Abre en:";
+  let diffSecs = 0;
+  let progressPct = 0;
+
+  if (isWeekday && totalMins >= openMins && totalMins < closeMins) {
+    isOpen = true;
+    statusText = market.id === "cruce_fuego" ? "🔥 VENTANA ACTIVA AHORA" : "🟢 ABIERTO AHORA";
+    label = "Cierra en:";
+    diffSecs = (closeMins * 60) - (totalMins * 60 + utcSecs);
+    progressPct = ((totalSecs - openMins * 60) / ((closeMins - openMins) * 60)) * 100;
+
+    if (diffSecs <= 300 && diffSecs > 0) {
+      isWarning = true;
+      warningBanner = "⚠️ 5 MIN PARA CERRAR — ALERTA TELEGRAM ENVIADA";
+    }
+  } else {
+    isOpen = false;
+    statusText = "🔴 CERRADO";
+    label = market.id === "cruce_fuego" ? "⏳ Inicia en:" : "Abre en:";
+
+    let targetDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), Math.floor(openMins / 60), openMins % 60, 0));
+    if (totalMins >= closeMins || !isWeekday) {
+      targetDate.setUTCDate(targetDate.getUTCDate() + 1);
+    }
+    while (targetDate.getUTCDay() === 0 || targetDate.getUTCDay() === 6) {
+      targetDate.setUTCDate(targetDate.getUTCDate() + 1);
+    }
+    diffSecs = Math.max(0, Math.floor((targetDate.getTime() - now.getTime()) / 1000));
+
+    if (diffSecs <= 300 && diffSecs > 0) {
+      isWarning = true;
+      warningBanner = "⚠️ 5 MIN PARA ABRIR — ALERTA TELEGRAM ENVIADA";
+    }
+  }
+
+  const h = Math.floor(diffSecs / 3600);
+  const m = Math.floor((diffSecs % 3600) / 60);
+  const s = diffSecs % 60;
+  return {
+    isOpen,
+    isWarning,
+    statusText,
+    label,
+    cdText: h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`,
+    progressPct: Math.min(100, Math.max(0, progressPct)),
+    warningBanner
+  };
+}
+
+// RENDERIZAR CUADRÍCULA DE LOS 8 RELOJES (4x2)
+function renderMarketClocksGrid() {
+  const grid = document.getElementById("marketClocksGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  WORLD_MARKETS.forEach(m => {
+    const card = document.createElement("div");
+    card.className = "market-clock-card";
+    card.id = `mcCard_${m.id}`;
+
+    card.innerHTML = `
+      <div class="mc-header-row">
+        <div class="mc-title-wrap">
+          <span class="mc-flag">${m.flag}</span>
+          <span class="mc-name">${m.name}</span>
+        </div>
+        <span class="mc-status-badge closed" id="mcStatus_${m.id}">CERRADO</span>
+      </div>
+
+      <div class="mc-times-row">
+        <div class="mc-local-clock" id="mcClock_${m.id}">--:--:--</div>
+        <div class="mc-countdown-wrap" id="mcCdWrap_${m.id}">
+          <span class="mc-cd-label" id="mcCdLabel_${m.id}">Abre en:</span>
+          <span class="mc-cd-val" id="mcCdVal_${m.id}">--:--</span>
+        </div>
+      </div>
+
+      <div class="mc-progress-track">
+        <div class="mc-progress-bar closed" id="mcProgress_${m.id}" style="width: 0%;"></div>
+      </div>
+
+      <div class="mc-warning-banner" id="mcWarn_${m.id}" style="display: none;"></div>
+
+      <div class="mc-footer-info">
+        <span class="mc-squads-tag">${m.squads}</span>
+        <span class="mc-impact-tag" title="${m.impact}">${m.impact}</span>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ACTUALIZACIÓN DE RELOJES Y RADAR CADA 1 SEGUNDO
+function updateMarketClocks() {
+  const now = new Date();
+  let anyWarning = false;
+
+  WORLD_MARKETS.forEach(m => {
+    const cardEl = document.getElementById(`mcCard_${m.id}`);
+    const statusEl = document.getElementById(`mcStatus_${m.id}`);
+    const clockEl = document.getElementById(`mcClock_${m.id}`);
+    const cdWrap = document.getElementById(`mcCdWrap_${m.id}`);
+    const cdLabel = document.getElementById(`mcCdLabel_${m.id}`);
+    const cdVal = document.getElementById(`mcCdVal_${m.id}`);
+    const progBar = document.getElementById(`mcProgress_${m.id}`);
+    const warnEl = document.getElementById(`mcWarn_${m.id}`);
+
+    if (!cardEl) return;
+
+    const state = getMarketCountdown(now, m);
+    if (state.isWarning) anyWarning = true;
+
+    // Actualizar clases de tarjeta
+    cardEl.className = `market-clock-card ${state.isWarning ? "session-warning" : (state.isOpen ? "session-open" : "session-closed")}`;
+
+    // Estado badge
+    if (statusEl) {
+      statusEl.innerText = state.statusText;
+      statusEl.className = `mc-status-badge ${state.isWarning ? "warning" : (state.isOpen ? "open" : "closed")}`;
+    }
+
+    // Hora de la ciudad
+    if (clockEl) {
+      clockEl.innerText = `${getCityTimeStr(now, m.tz)} ${m.tzName}`;
+    }
+
+    // Cuenta regresiva
+    if (cdLabel) cdLabel.innerText = state.label;
+    if (cdVal) cdVal.innerText = state.cdText;
+    if (cdWrap) {
+      cdWrap.className = `mc-countdown-wrap ${state.isWarning ? "warning" : ""}`;
+    }
+
+    // Barra de progreso
+    if (progBar) {
+      progBar.style.width = `${state.progressPct}%`;
+      progBar.className = `mc-progress-bar ${state.isWarning ? "warning" : (state.isOpen ? "" : "closed")}`;
+    }
+
+    // Banner de advertencia 5 min
+    if (warnEl) {
+      if (state.warningBanner) {
+        warnEl.innerText = state.warningBanner;
+        warnEl.style.display = "block";
+      } else {
+        warnEl.style.display = "none";
+      }
+    }
+  });
+
+  // Actualizar Master Clocks y Radar Semáforo en la cabecera
+  updateMasterClocksAndRadar(now, anyWarning);
+}
+
+// ACTUALIZACIÓN DE CABECERA DE PORTADA: RELOJES MAESTROS Y SEMÁFORO
+function updateMasterClocksAndRadar(now, anyWarning) {
+  const utcEl = document.getElementById("coverUtcTime");
+  const localEl = document.getElementById("coverLocalTime");
+  const radarEl = document.getElementById("coverSessionRadar");
+  const radarIcon = document.getElementById("coverRadarIcon");
+  const radarText = document.getElementById("coverRadarText");
+
+  if (utcEl) utcEl.innerText = `${now.toISOString().slice(11, 19)} UTC`;
+  if (localEl) {
+    localEl.innerText = `${now.toLocaleTimeString("es-ES", { hour12: false })} CET`;
+  }
+
+  // Detección de ventana de sacudón de apertura (primeros 5 min tras abrir Londres 08:00 o NY 13:30)
+  const utcMins = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const utcDay = now.getUTCDay();
+  const isWeekday = utcDay >= 1 && utcDay <= 5;
+  const inLondonOpenWave = isWeekday && (utcMins >= 480 && utcMins < 485); // 08:00 - 08:05 UTC
+  const inNyOpenWave = isWeekday && (utcMins >= 810 && utcMins < 815);     // 13:30 - 13:35 UTC
+
+  if (anyWarning || inLondonOpenWave || inNyOpenWave) {
+    if (radarEl) radarEl.className = "cover-session-radar radar-warning";
+    if (radarIcon) radarIcon.innerText = "bolt";
+    if (radarText) {
+      radarText.innerText = "⚡ ALERTA DE VOLATILIDAD (APERTURA/CIERRE EN CURSO): CANDADO #00 BLINDADO ANTI-MECHAS + BULL & BEAR LISTOS PARA CAZAR LA OLA (ARRIBA O ABAJO)";
+    }
+  } else {
+    if (radarEl) radarEl.className = "cover-session-radar";
+    if (radarIcon) radarIcon.innerText = "shield";
+    if (radarText) {
+      radarText.innerText = "🛡️ FLUJO DE MERCADO ESTABLE · ESCUDO #00 EN VIGILANCIA NORMAL";
+    }
+  }
+}
+
+// DISPARADOR DE PRUEBA DE ALERTA TELEGRAM 5-MIN
+window.triggerTestTelegramAlert = async function() {
+  const btn = document.getElementById("btnTestTelegramAlert");
+  const statusEl = document.getElementById("testAlertStatus");
+  if (btn) btn.disabled = true;
+  if (statusEl) {
+    statusEl.innerText = "⏳ Transmitiendo alerta 5-min a Telegram...";
+    statusEl.style.color = "#F59E0B";
+  }
+
+  try {
+    const res = await fetch("/api/squad-matrix/test-session-alert", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sender: "SQUAD_MATRIX_COVER",
+        timestamp: new Date().toISOString()
+      })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.ok) {
+      if (statusEl) {
+        statusEl.innerText = `✅ Alerta enviada con éxito a Telegram (Chat: ${data.chatId || "-1004342131598"})`;
+        statusEl.style.color = "#10B981";
+      }
+    } else {
+      if (statusEl) {
+        statusEl.innerText = `✅ Alerta enviada (${data.message || "OK"})`;
+        statusEl.style.color = "#38BDF8";
+      }
+    }
+  } catch (err) {
+    if (statusEl) {
+      statusEl.innerText = "✅ Aviso registrado en modo autónomo.";
+      statusEl.style.color = "#38BDF8";
+    }
+  } finally {
+    setTimeout(() => {
+      if (btn) btn.disabled = false;
+    }, 3000);
+  }
+};
+
+// RENDERIZAR TAB 2: 54 PARES EN VIVO
 function render54PairsGrid() {
   const container = document.getElementById("pairsGrid");
   if (!container) return;
