@@ -29,6 +29,14 @@ on:
         required: false
       VANGUARD_BOT_TOKEN:
         required: false
+      HL_AGENT_PRIVATE_KEY:
+        required: false
+      HL_WALLET_ADDRESS:
+        required: false
+      HL_AGENT_ADDRESS:
+        required: false
+      POLYGON_EXECUTOR_KEY:
+        required: false
 
 concurrency:
   group: area-501-main-swarm
@@ -56,6 +64,10 @@ jobs:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || '' }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '-1004342131598' }}
       VANGUARD_BOT_TOKEN: ${{ secrets.VANGUARD_BOT_TOKEN || '' }}
+      HL_AGENT_PRIVATE_KEY: ${{ secrets.HL_AGENT_PRIVATE_KEY || '' }}
+      HL_WALLET_ADDRESS: ${{ secrets.HL_WALLET_ADDRESS || '' }}
+      HL_AGENT_ADDRESS: ${{ secrets.HL_AGENT_ADDRESS || '' }}
+      POLYGON_EXECUTOR_KEY: ${{ secrets.POLYGON_EXECUTOR_KEY || '' }}
       # 🛑 X/Twitter BLINDADO: sin credenciales X_* en este job mientras @yozapata está en revisión.
 
     steps:
