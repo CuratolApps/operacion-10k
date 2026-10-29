@@ -136,6 +136,18 @@ async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0, ho
   if (!process.env.HL_AGENT_PRIVATE_KEY) {
     return { ordered: false, reason: "MISSING_AGENT_KEY" };
   }
+  try {
+    const fs = require("fs");
+    const path = require("path");
+    const ctrlPath = path.join(__dirname, "..", "telemetry", "squad-recovery-control.json");
+    if (fs.existsSync(ctrlPath)) {
+      const ctrl = JSON.parse(fs.readFileSync(ctrlPath, "utf8"));
+      const targetResetMs = ctrl.TARGET_RESET_UTC ? new Date(ctrl.TARGET_RESET_UTC).getTime() : 0;
+      if (ctrl.LOCK_NEW_OPENINGS || (ctrl.COOLDOWN_UNTIL_00_UTC && Date.now() < targetResetMs)) {
+        return { ordered: false, reason: "LOCK_UNTIL_ALL_RECOVERED_AND_00_UTC" };
+      }
+    }
+  } catch (_) {}
   const meta = HL_ASSET_META[coin];
   if (!meta) {
     return { ordered: false, reason: `UNSUPPORTED_ASSET_META_${coin}` };
@@ -167,9 +179,9 @@ async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0, ho
       return { ordered: false, reason: "RESCUE_PRIORITY_LOCK_ACTIVE" };
     }
 
-    // Candado de Exposición Inteligente: máximo 4 posiciones abiertas simultáneas en total
-    if (openPositions.length >= 4) {
-      return { ordered: false, reason: "MAX_4_OPEN_POSITIONS_REACHED" };
+    // Candado de Exposición Inteligente post-00:00 UTC: máximo 2 posiciones abiertas simultáneas en total
+    if (openPositions.length >= 2) {
+      return { ordered: false, reason: "MAX_2_OPEN_POSITIONS_REACHED" };
     }
 
     // Verificar si ya tenemos posición o orden de entrada abierta en esta moneda

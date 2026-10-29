@@ -3302,7 +3302,7 @@ export default {
                 const hasTp = openOrders.some(o => o.coin === coin && o.reduceOnly === true);
                 if (!hasTp && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
                   const isShort = szNum < 0;
-                  const targetPct = Math.abs(szNum) * entryPx > 600 ? 0.12 : 0.14;
+                  const targetPct = coin === "NEAR" ? 0.035 : (["SOL", "HYPE", "BTC", "XRP"].includes(coin) ? 0.055 : 0.060);
                   const tpPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
                   await client.order({
                     orders: [{
@@ -3333,7 +3333,8 @@ export default {
                 }
               }
 
-              // 2. Francotirador del Minuto :59 Pre-Funding + Micro-Ping-Pong + 6 Escuadrones en Cloud (hasta 6 cupos)
+              // 2. MODO RECUPERACIÓN TOTAL 1 A 1 + CERO NUEVAS ENTRADAS HASTA 00:00:00 UTC
+              // Y Freno de Velocidad Post-00:00 UTC (MAX_CONCURRENT_POSITIONS = 2)
               const utcMinsCloud = new Date().getUTCMinutes();
               const isPreFundingMinute = (utcMinsCloud === 58 || utcMinsCloud === 59);
               const cloudUnits = [
@@ -3345,13 +3346,10 @@ export default {
                 { name: "#03 CHARLIE (Bloque 1)", pairs: ["ETH", "BNB", "AAVE"], notional: 180, minImb: 62.0, tpPct: 0.15 }
               ];
 
-              const totalNotionalCloud = openPositions.reduce((s, p) => {
-                const posObj = p.position || p;
-                return s + Math.abs(parseFloat(posObj.szi || "0")) * parseFloat(posObj.entryPx || "0");
-              }, 0);
-              const acctValCloud = typeof clData.accountValue === "number" ? clData.accountValue : 900.0;
-              const shieldIntactCloud = (acctValCloud - (totalNotionalCloud / 5.0) - 25.0) >= (acctValCloud * 0.40);
-              let slotsLeft = (shieldIntactCloud ? 10 : 6) - openPositions.length;
+              const isBeforeMidnightUtc = Date.now() < Date.parse("2026-10-30T00:00:00.000Z");
+              // BLOQUEO ABSOLUTO DE NUEVAS OPERACIONES HASTA 00:00:00 UTC Y 0 POSICIONES PENDIENTES
+              // Post-00:00 UTC: Máximo 2 posiciones concurrentes en toda la matriz
+              let slotsLeft = isBeforeMidnightUtc ? 0 : Math.max(0, 2 - openPositions.length);
               for (const unit of cloudUnits) {
                 if (slotsLeft <= 0) break;
                 const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly)).length;

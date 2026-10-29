@@ -816,22 +816,25 @@ function render54PairsGrid() {
   });
 }
 
-// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2)
+// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / MODO RECUPERACIÓN 1 A 1 HASTA 00:00 UTC)
 function getSquadRelayText(sq) {
   if (appState.clonesMap && appState.clonesMap[sq.id] && appState.clonesMap[sq.id].relayStatus) {
     return appState.clonesMap[sq.id].relayStatus;
   }
-  if (sq.block === 1) {
+  const isBefore00Utc = Date.now() < new Date("2026-10-30T00:00:00.000Z").getTime();
+  if (sq.block <= 2) {
     const activeCoins = (appState.openPositions || []).map(p => p.position.coin);
-    const inPosCoin = sq.pairs.find(c => activeCoins.includes(c));
-    if (inPosCoin) {
-      return `⚡ ${sq.code} 1: ACTIVO ⇄ ${sq.code} 2: RELEVO`;
+    const inPosCoins = sq.pairs.filter(c => activeCoins.includes(c));
+    if (isBefore00Utc || activeCoins.length > 0) {
+      if (activeCoins.length === 0) {
+        return `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
+      }
+      if (inPosCoins.length > 0) {
+        return `🛡️ ${sq.code} 1: RECUPERANDO (${inPosCoins.join("+")}) ⇄ ❄️ ${sq.code} 2: CERO APERTURAS`;
+      }
+      return `❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅)`;
     }
-    // Si no hay posiciones abiertas y es Bravo (BTC acaba de cerrar en $81,251.0):
-    if (sq.code === "BRAVO" && activeCoins.length === 0) {
-      return `🔄 BRAVO 1: ENFRIAMIENTO 12m ⇄ ⚡ BRAVO 2: CAZANDO`;
-    }
-    return `⚡ ${sq.code} 1: ACTIVO ⇄ ${sq.code} 2: RELEVO`;
+    return `⚡ ${sq.code} 1: ACTIVO (MÁX 2) ⇄ ${sq.code} 2: FRENO VELOCIDAD`;
   }
   return `⏸️ ${sq.code} 1: PRE-ARMADO ⇄ ${sq.code} 2: PRE-ARMADO ($100)`;
 }
@@ -1200,18 +1203,34 @@ function updateTopBarCards() {
     }));
   } catch (_) {}
 
-  // 5. Radar Matrix 18x54 Pills
-  const activeCoins = new Set(appState.openPositions.map(p => p.position.coin));
-  const activeSquads = new Set();
-  PAIRS_54.forEach(p => {
-    if (activeCoins.has(p.symbol)) {
-      activeSquads.add(p.squadNum);
+  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador MODO RECUPERACIÓN (CERO APERTURAS)
+  const openCount = appState.openPositions.length;
+  const totalRecoveryRef = 7;
+  const isBefore00Utc = Date.now() < new Date("2026-10-30T00:00:00.000Z").getTime();
+
+  let topPillText = "";
+  let subLabelText = "";
+  let bottomBannerText = "";
+
+  if (isBefore00Utc || openCount > 0) {
+    if (openCount === 0) {
+      topPillText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
+      subLabelText = `7/7 RECUPERADAS EN VERDE · ARRANQUE FRESCO 00:00 UTC`;
+      bottomBannerText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
+    } else {
+      topPillText = `❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN ${openCount}/${totalRecoveryRef} POR CERRAR`;
+      subLabelText = `➔ ARRANQUE FRESCO 00:00 UTC (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)`;
+      bottomBannerText = `❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN ${openCount}/${totalRecoveryRef} POR CERRAR ➔ ARRANQUE FRESCO 00:00 UTC`;
     }
-  });
-  const activeCount = Math.max(6, activeSquads.size);
-  const readyCount = Math.max(0, 18 - activeCount);
-  setTextIfChanged(document.getElementById("topActiveSquadsText"), `${activeCount}/18 Activos`);
-  setTextIfChanged(document.getElementById("topReadySquadsText"), `${readyCount}/18 ($100)`);
+  } else {
+    topPillText = `🟢 ARRANQUE FRESCO 00:00 UTC: ${openCount}/2 ABIERTAS`;
+    subLabelText = `Freno Anti-Aceleración Activo (Máx 2 Simultáneas + 15m Cooldown)`;
+    bottomBannerText = `🟢 ARRANQUE FRESCO 00:00 UTC ACTIVO (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)`;
+  }
+
+  setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
+  setTextIfChanged(document.getElementById("topRadarSubLabel"), subLabelText);
+  setTextIfChanged(document.getElementById("bottomRecoveryBannerPill"), bottomBannerText);
 
   // Actualizar capital en Tab 2 para los 6 escuadrones activos (#01 ALFA a #06 INDIA)
   const squadMarginEach = Math.max(90.00, (val * 0.10)).toFixed(2);
@@ -1237,8 +1256,25 @@ function updateTopBarCards() {
   }
 }
 
-// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (100% INVISIBLE DIFFING)
+// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON ORDEN DE FILA Y DISTANCIA A #00)
 function updatePricesAndSignals() {
+  const cascadePriority = ["ETH", "PAXG", "SUI", "DOGE", "SOL", "HYPE", "BTC", "XRP", "NEAR"];
+  const sortedOpenCoins = [...appState.openPositions]
+    .sort((a, b) => {
+      const cA = a.position.coin;
+      const cB = b.position.coin;
+      const iA = cascadePriority.indexOf(cA);
+      const iB = cascadePriority.indexOf(cB);
+      if (iA !== -1 && iB !== -1) return iA - iB;
+      if (iA !== -1) return -1;
+      if (iB !== -1) return 1;
+      return Math.abs(parseFloat(a.position.unrealizedPnl || 0)) - Math.abs(parseFloat(b.position.unrealizedPnl || 0));
+    })
+    .map(p => p.position.coin);
+
+  const tier1Set = new Set(["ETH", "PAXG", "SUI", "DOGE"]);
+  const tier2Set = new Set(["SOL", "HYPE", "BTC", "XRP"]);
+
   PAIRS_54.forEach(p => {
     const cleanId = p.symbol.replace(/[\/\s]/g, "_");
     const cell = document.getElementById(`pairCell_${cleanId}`);
@@ -1277,7 +1313,18 @@ function updatePricesAndSignals() {
     const activePos = appState.openPositions.find(pos => pos.position.coin === p.symbol);
     if (activePos) {
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
-      const isShort = parseFloat(activePos.position.szi) < 0;
+      const szi = parseFloat(activePos.position.szi);
+      const isShort = szi < 0;
+      const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
+      const midPx = currentPrice > 0 ? currentPrice : entryPx;
+
+      const targetPct = tier1Set.has(p.symbol) ? 0.060 : (tier2Set.has(p.symbol) ? 0.055 : 0.035);
+      const targetPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
+      const distPct = isShort
+        ? Math.max(0, ((midPx - targetPx) / midPx) * 100)
+        : Math.max(0, ((targetPx - midPx) / midPx) * 100);
+      const distUsd = Math.max(0, +(0.05 - pnl).toFixed(2));
+      const queueOrder = sortedOpenCoins.indexOf(p.symbol) + 1;
 
       const targetCellClass = "pair-cell pair-cell-active-pos " + (pnl >= 0 ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
@@ -1287,32 +1334,27 @@ function updatePricesAndSignals() {
         if (sigPill.className !== pillClass) sigPill.className = pillClass;
         setTextIfChanged(sigIcon, isShort ? "south_east" : "north_east");
         const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
-        setTextIfChanged(sigText, `${isShort ? "SHORT" : "LONG"} ${pnlFormatted}`);
+        setTextIfChanged(sigText, `${queueOrder}º ${p.symbol} (${pnlFormatted})`);
       }
       if (sigLock) {
         if (sigLock.style.display !== "inline-flex") sigLock.style.display = "inline-flex";
-        const lockClass = pnl >= 0 ? "active-lock-tag be" : "active-lock-tag shield";
+        const lockClass = pnl >= 0.05 ? "active-lock-tag be" : "active-lock-tag shield";
         if (sigLock.className !== lockClass) sigLock.className = lockClass;
-        setTextIfChanged(sigLockText, pnl >= 0 ? "BE #00" : "#00 OK");
+        setTextIfChanged(
+          sigLockText,
+          pnl >= 0.05
+            ? `BE #00 LISTO`
+            : `A #00: ${distPct.toFixed(2)}% ($${distUsd.toFixed(2)})`
+        );
       }
     } else {
       if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
       if (sigLock && sigLock.style.display !== "none") sigLock.style.display = "none";
 
-      const pseudoHash = (p.symbol.charCodeAt(0) * 17 + p.symbol.charCodeAt(1) * 31) % 100;
       if (sigPill) {
         let pillClass = "signal-pill signal-wait";
-        let icon = "horizontal_rule";
-        let text = "ESPERA";
-        if (pseudoHash > 55) {
-          pillClass = "signal-pill signal-bull";
-          icon = "north_east";
-          text = `${pseudoHash}% BULL`;
-        } else if (pseudoHash < 40) {
-          pillClass = "signal-pill signal-bear";
-          icon = "south_east";
-          text = `${100 - pseudoHash}% BEAR`;
-        }
+        let icon = "ac_unit";
+        let text = p.block <= 2 ? "❄️ ENFRIAMIENTO 00:00" : "STANDBY $100";
         if (sigPill.className !== pillClass) sigPill.className = pillClass;
         setTextIfChanged(sigIcon, icon);
         setTextIfChanged(sigText, text);

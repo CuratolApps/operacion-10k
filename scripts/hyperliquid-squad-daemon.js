@@ -49,12 +49,14 @@ const BREAKEVEN_TRIGGER_PCT = 0.05;     // Candado Breakeven #00 se activa al +0
 const BREAKEVEN_LOCK_PCT = 0.03;        // Candado BE en +0.03% (cubre 100% comisiones Maker y asegura centavos verdes)
 const TIME_STOP_MS = 10 * 60 * 1000;    // Reloj Anti-Holder Cero Estancamiento: 10 minutos
 const TIME_STOP_MIN_PNL_USDC = 0.02;    // Si lleva >=10m y PnL >= +$0.02 USDC, cierra de inmediato para rotar liquidez
-const COOLDOWN_DURATION_MS = 8 * 60 * 1000;  // 8 minutos de enfriamiento táctico post-TP por par (Clon releva al instante)
+const POST_TRADE_COOLDOWN_MS = 15 * 60 * 1000; // 15 minutos reales de enfriamiento obligatorio post-cobro tras las 00:00 UTC
+const COOLDOWN_DURATION_MS = POST_TRADE_COOLDOWN_MS;
+let globalPostRecoveryCooldownUntil = 0;
 const MIN_CERTAINTY_L2_PCT = 58.0;      // 58% de presión L2 mínima para tiro con confluencia real
-const MAX_CONCURRENT_BLOCK_1 = 4;       // Cupo propio Bloque 1 (#01 ALFA, #02 BRAVO, #03 CHARLIE): hasta 4 posiciones
-const MAX_CONCURRENT_BLOCK_2 = 3;       // Cupo propio INDEPENDIENTE Bloque 2 (#04 GOLF, #05 HOTEL, #06 INDIA): 3 posiciones ($100 c/u)
-const MAX_CONCURRENT_INITIAL = 6;       // Hasta 6 simultáneas directas (1 por cada uno de los 6 escuadrones activos)
-const MAX_CONCURRENT_TOTAL = 7;         // Hasta 7 simultáneas totales (4 Bloque 1 + 3 Bloque 2 independientes)
+const MAX_CONCURRENT_BLOCK_1 = 2;       // Freno de Velocidad Post-00:00 UTC: Máx 2 simultáneas en toda la matriz
+const MAX_CONCURRENT_BLOCK_2 = 1;       // Subordinado al tope global de 2 simultáneas (3ra solo si las 2 primeras tienen BE #00)
+const MAX_CONCURRENT_INITIAL = 2;       // Máximo 2 operaciones abiertas al mismo tiempo sin BE #00
+const MAX_CONCURRENT_TOTAL = 2;         // Prohibido volver a tener 7 abiertas simultáneas
 const pairCooldowns = {};               // Mapa de enfriamiento táctico { coin: timestampMs }
 const DCA_TRIGGER_DRAWDOWN = -0.85;     // Refuerzo Mentora en -0.85%
 const DCA_TRIGGER_RSI = 30;             // RSI sobreventa extrema
@@ -64,9 +66,31 @@ const DCA_TARGET_GAIN_PCT = 0.20;       // Evacuación rápida doble posición a
 const TELEMETRY_DIR = path.join(__dirname, "..", "telemetry");
 const REAL_LEDGER_FILE = path.join(TELEMETRY_DIR, "squad-secret-real-ledger.json");
 const SQUAD_TELEMETRY_FILE = path.join(TELEMETRY_DIR, "squad-secret-telemetry.json");
+const SQUAD_MATRIX_TELEMETRY_FILE = path.join(TELEMETRY_DIR, "squad-matrix-telemetry.json");
+const RECOVERY_CONTROL_FILE = path.join(TELEMETRY_DIR, "squad-recovery-control.json");
 const LOAN_LEDGER_FILE = path.join(TELEMETRY_DIR, "vault501-loan-ledger.json");
 const DIRECT_ORDERS_FILE = path.join(TELEMETRY_DIR, "direct-orders-queue.json");
 const SQUAD_CLONES_FILE = path.join(TELEMETRY_DIR, "squad-matrix-clones.json");
+
+function loadRecoveryControlConfig() {
+  const defaults = {
+    LOCK_UNTIL_ALL_RECOVERED: true,
+    LOCK_NEW_OPENINGS: true,
+    COOLDOWN_UNTIL_00_UTC: true,
+    HOT_SWAP_CLONES: false,
+    TARGET_RESET_UTC: "2026-10-30T00:00:00.000Z",
+    POST_00_UTC_MAX_CONCURRENT_POSITIONS: 2,
+    REQUIRE_BE_LOCK_FOR_3RD_POSITION: true,
+    POST_TRADE_COOLDOWN_MS: 900000,
+    RECOVERY_CASCADE_ORDER: ["ETH", "PAXG", "SUI", "DOGE", "SOL", "HYPE", "BTC", "XRP", "NEAR"]
+  };
+  try {
+    if (fs.existsSync(RECOVERY_CONTROL_FILE)) {
+      return Object.assign(defaults, JSON.parse(fs.readFileSync(RECOVERY_CONTROL_FILE, "utf8")));
+    }
+  } catch (_) {}
+  return defaults;
+}
 
 const ASSET_INDICES = {
   BTC: 0,
@@ -566,8 +590,8 @@ function isOpeningBellWick(now) {
   return isLondonBell || isNyBell;
 }
 
-// Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots / 12 Bots Activos en Bloques 1 y 2 sobre 18 Pares)
-function updateSquadMatrixClones(openPositions, pairCooldowns) {
+// Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots / Modo Recuperación Total 1 a 1 & Enfriamiento 00:00 UTC)
+function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = null) {
   try {
     const spaces = [
       { id: 1, code: "ALFA", num: "#01", block: 1, titular: "ALFA 1", clon: "ALFA 2", pairs: ["SOL", "SUI", "AVAX"] },
@@ -591,17 +615,52 @@ function updateSquadMatrixClones(openPositions, pairCooldowns) {
     ];
 
     const now = Date.now();
+    const ctrl = recoveryCtrl || loadRecoveryControlConfig();
+    const target00UtcMs = ctrl.TARGET_RESET_UTC ? new Date(ctrl.TARGET_RESET_UTC).getTime() : 0;
+    const isPre00UtcLock = Boolean(ctrl.LOCK_NEW_OPENINGS || (ctrl.COOLDOWN_UNTIL_00_UTC && now < target00UtcMs));
     const activeCoins = (openPositions || []).map(p => p.position.coin);
 
     const clonesState = spaces.map(sp => {
       if (sp.block <= 2) {
-        const inPosCoin = sp.pairs.find(c => activeCoins.includes(c));
+        const inPosCoins = sp.pairs.filter(c => activeCoins.includes(c));
+        const inPosCoin = inPosCoins[0] || null;
         const cooldownCoin = sp.pairs.find(c => pairCooldowns && pairCooldowns[c] && pairCooldowns[c] > now);
+
+        if (isPre00UtcLock) {
+          if (activeCoins.length === 0) {
+            return {
+              ...sp,
+              relayStatus: `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`,
+              activeBot: "ENFRIAMIENTO 00:00 UTC",
+              standbyBot: sp.clon,
+              mode: "FULL_COOLDOWN_00_UTC",
+              pairInAction: null
+            };
+          }
+          if (inPosCoin) {
+            return {
+              ...sp,
+              relayStatus: `🛡️ ${sp.titular}: RECUPERANDO (${inPosCoins.join("+")}) ⇄ ❄️ ${sp.clon}: CERO APERTURAS`,
+              activeBot: sp.titular,
+              standbyBot: sp.clon,
+              mode: "RECOVERY_ACTIVE",
+              pairInAction: inPosCoin
+            };
+          }
+          return {
+            ...sp,
+            relayStatus: `❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅)`,
+            activeBot: "RECUPERADA",
+            standbyBot: sp.clon,
+            mode: "COOLDOWN_UNTIL_00_UTC",
+            pairInAction: null
+          };
+        }
 
         if (inPosCoin) {
           return {
             ...sp,
-            relayStatus: `⚡ ${sp.titular}: ACTIVO (${inPosCoin}) ⇄ ${sp.clon}: RELEVO`,
+            relayStatus: `⚡ ${sp.titular}: ACTIVO (${inPosCoin}) ⇄ ${sp.clon}: FRENO VELOCIDAD (MÁX 2)`,
             activeBot: sp.titular,
             standbyBot: sp.clon,
             mode: "ACTIVE_POSITION",
@@ -611,17 +670,17 @@ function updateSquadMatrixClones(openPositions, pairCooldowns) {
           const remMins = Math.ceil((pairCooldowns[cooldownCoin] - now) / 60000);
           return {
             ...sp,
-            relayStatus: `🔄 ${sp.titular}: ENFRIAMIENTO ${remMins}m ⇄ ⚡ ${sp.clon}: CAZANDO`,
-            activeBot: sp.clon,
-            standbyBot: sp.titular,
-            mode: "HOT_SWAP_RELAY",
+            relayStatus: `❄️ ${sp.titular}: ENFRIAMIENTO ${remMins}m (REGLA 15M POST-TP)`,
+            activeBot: sp.titular,
+            standbyBot: sp.clon,
+            mode: "COOLDOWN_15M",
             cooldownCoin,
             cooldownRemainingMins: remMins
           };
         } else {
           return {
             ...sp,
-            relayStatus: `⚡ ${sp.titular}: ACTIVO ⇄ ${sp.clon}: RELEVO`,
+            relayStatus: `⚡ ${sp.titular}: ACTIVO (MÁX 2 SIMULTÁNEAS) ⇄ ${sp.clon}: STANDBY`,
             activeBot: sp.titular,
             standbyBot: sp.clon,
             mode: "SCANNING",
@@ -642,13 +701,15 @@ function updateSquadMatrixClones(openPositions, pairCooldowns) {
 
     const payload = {
       updatedAt: new Date().toISOString(),
-      architecture: "Hot-Swap Relay 1 ⇄ 2 (6 Escuadrones Activos #01-#06 × 12 Bots en 18 Pares)",
+      architecture: isPre00UtcLock
+        ? "MODO RECUPERACIÓN TOTAL 1 A 1 + CERO NUEVAS ENTRADAS + ENFRIAMIENTO HASTA 00:00:00 UTC"
+        : "Arranque Fresco Desacelerado Post-00:00 UTC (Máx 2 Simultáneas + 15m Cooldown)",
       rules: {
-        radarL2: ">= 62%",
-        rsi5m: "<= 46 (Long) / >= 70 (Short) + EMA20",
-        nebulosas: "32 Direccionales",
-        candadoBreakeven: "+0.045% Mentora #00",
-        cooldownPostTp: "12 minutos por par / relevo instantáneo al clon en pares libres"
+        lockNewOpenings: isPre00UtcLock,
+        hotSwapClones: Boolean(ctrl.HOT_SWAP_CLONES),
+        maxConcurrentPost00Utc: ctrl.POST_00_UTC_MAX_CONCURRENT_POSITIONS || 2,
+        candadoBreakeven: "+0.035% / +$0.05 USDC Mentora #00",
+        cooldownPostTp: "Enfriamiento hasta 00:00 UTC (Luego 15 minutos reales post-cobro)"
       },
       spaces: clonesState
     };
@@ -692,36 +753,83 @@ async function startAutonomousSquadDaemon() {
   let lastHourlySnapHourKey = "";
   let cycleCounter = 0;
   let isV2Armed = true;
+  let initialRecoveryTotalCount = 7;
+  let recoveredInSessionCount = 0;
 
   while (true) {
     cycleCounter++;
     try {
+      const recoveryCtrl = loadRecoveryControlConfig();
+      const target00UtcMs = recoveryCtrl.TARGET_RESET_UTC ? new Date(recoveryCtrl.TARGET_RESET_UTC).getTime() : 0;
+
       // 1. Obtener estado del Clearinghouse y Órdenes Abiertas
       const ch = await info.clearinghouseState({ user: VAULT_501 });
       const accountValue = parseFloat(ch.marginSummary?.accountValue || "902.05");
       const openPositions = (ch.assetPositions || []).filter(p => parseFloat(p.position.szi) !== 0);
       let openOrders = await info.openOrders({ user: VAULT_501 });
 
-      // 1.1 Limpiar órdenes de entrada (!reduceOnly) estancadas > 45s sin ejecutarse para no bloquear a los escuadrones
+      if (cycleCounter === 1 && openPositions.length > 0) {
+        initialRecoveryTotalCount = Math.max(7, openPositions.length);
+      }
+
+      // Determinar si sigue activo el Bloqueo de Recuperación pre-00:00 UTC o hasta cerrar todas las actuales
+      let isPre00UtcOrRecovering = Boolean(
+        recoveryCtrl.LOCK_NEW_OPENINGS ||
+        (recoveryCtrl.LOCK_UNTIL_ALL_RECOVERED && openPositions.length > 0 && Date.now() < target00UtcMs) ||
+        (recoveryCtrl.COOLDOWN_UNTIL_00_UTC && Date.now() < target00UtcMs)
+      );
+
+      // Si ya son las 00:00:00 UTC o más Y las operaciones previas ya se recuperaron al 100% (0 abiertas), levantar bloqueo hacia Arranque Fresco Desacelerado
+      if (isPre00UtcOrRecovering && Date.now() >= target00UtcMs && openPositions.length === 0) {
+        isPre00UtcOrRecovering = false;
+        recoveryCtrl.LOCK_NEW_OPENINGS = false;
+        recoveryCtrl.LOCK_UNTIL_ALL_RECOVERED = false;
+        recoveryCtrl.COOLDOWN_UNTIL_00_UTC = false;
+        try {
+          fs.writeFileSync(RECOVERY_CONTROL_FILE, JSON.stringify(recoveryCtrl, null, 2), "utf8");
+        } catch (_) {}
+        console.log(`🌅🚀 [ARRANQUE FRESCO 00:00 UTC] 100% de posiciones recuperadas y reloj en 00:00 UTC -> Activando modo desacelerado (MÁX 2 simultáneas + 15m Cooldown).`);
+      }
+
+      // 1.1 Si estamos en Bloqueo de Recuperación (LOCK_NEW_OPENINGS), cancelar INMEDIATAMENTE cualquier orden de entrada (!reduceOnly)
       const nowMs = Date.now();
-      const staleEntryOrders = openOrders.filter(o => !o.reduceOnly && o.timestamp && (nowMs - o.timestamp > 45000));
-      if (staleEntryOrders.length > 0) {
+      const nonReduceOrders = openOrders.filter(o => !o.reduceOnly);
+      if (isPre00UtcOrRecovering && nonReduceOrders.length > 0) {
         try {
           await client.cancel({
-            cancels: staleEntryOrders.map(o => ({ a: ASSET_INDICES[o.coin] ?? 0, o: o.oid }))
+            cancels: nonReduceOrders.map(o => ({ a: ASSET_INDICES[o.coin] ?? 0, o: o.oid }))
           });
-          console.log(`🧹 [CLEANUP] Canceladas ${staleEntryOrders.length} órdenes de entrada estancadas (>45s) para re-apuntar al precio actual.`);
+          console.log(`🛡️❄️ [BLOQUEO CERO APERTURAS] Canceladas ${nonReduceOrders.length} órdenes de entrada (!reduceOnly). Prohibido abrir nuevas posiciones.`);
           openOrders = await info.openOrders({ user: VAULT_501 });
         } catch (_) {}
+      } else {
+        const staleEntryOrders = openOrders.filter(o => !o.reduceOnly && o.timestamp && (nowMs - o.timestamp > 45000));
+        if (staleEntryOrders.length > 0) {
+          try {
+            await client.cancel({
+              cancels: staleEntryOrders.map(o => ({ a: ASSET_INDICES[o.coin] ?? 0, o: o.oid }))
+            });
+            console.log(`🧹 [CLEANUP] Canceladas ${staleEntryOrders.length} órdenes de entrada estancadas (>45s) para re-apuntar al precio actual.`);
+            openOrders = await info.openOrders({ user: VAULT_501 });
+          } catch (_) {}
+        }
       }
 
       // 1.2 Detectar cierres reales de posiciones previamente confirmadas en Clearinghouse
       for (const [closedCoin, prevInfo] of Object.entries(confirmedOpenByCoin)) {
         const stillOpen = openPositions.some(p => p.position.coin === closedCoin);
         if (!stillOpen) {
-          console.log(`🎉 [VICTORIA CONFIRMADA ON-CHAIN] ${closedCoin} (${prevInfo.squadKey}): posición cerrada al 100%.`);
-          pairCooldowns[closedCoin] = Date.now() + COOLDOWN_DURATION_MS;
-          console.log(`❄️ [ENFRIAMIENTO TÁCTICO] ${closedCoin} entra en 12 minutos de reposo tras cierre.`);
+          recoveredInSessionCount++;
+          const cooldownMsToApply = isPre00UtcOrRecovering
+            ? Math.max(POST_TRADE_COOLDOWN_MS, target00UtcMs - Date.now())
+            : (recoveryCtrl.POST_TRADE_COOLDOWN_MS || POST_TRADE_COOLDOWN_MS);
+          pairCooldowns[closedCoin] = Date.now() + cooldownMsToApply;
+          globalPostRecoveryCooldownUntil = Date.now() + cooldownMsToApply;
+
+          const totalRef = Math.max(7, openPositions.length + recoveredInSessionCount);
+          const doneIdx = Math.min(totalRef, totalRef - openPositions.length);
+          console.log(`🎉 [VICTORIA CONFIRMADA ON-CHAIN] ✅ RECUPERADA ${doneIdx}/${totalRef} (${closedCoin}-USDC) — Quedan ${openPositions.length}/${totalRef} antes de las 00:00 UTC.`);
+          console.log(`❄️ [ENFRIAMIENTO OFICIAL] ${closedCoin} pasa a estado EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅).`);
 
           delete confirmedOpenByCoin[closedCoin];
           lastConfirmedPositionSizes[closedCoin] = 0;
@@ -754,15 +862,15 @@ async function startAutonomousSquadDaemon() {
             recordTransactionInLedger(victoryTx);
             const currentLedger = loadRealLedger();
 
-            const victoryTg = `🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n` +
+            const victoryTg = `✅❄️ <b>RECUPERADA ${doneIdx}/7 (${closedCoin}-USDC) — Quedan ${openPositions.length}/7 antes de las 00:00 UTC</b>\n` +
               `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
               `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
               `📍 <b>Par:</b> <code>${closedCoin}-USDC</code> (${prevInfo.isShort ? "SHORT" : "LONG"})\n` +
               `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(prevInfo.entryPx || 0, closedCoin)}</code>\n` +
-              `📤 <b>Precio Cierre TP:</b> <code>$${exitPxStr}</code>\n` +
+              `📤 <b>Precio Cierre TP (#00):</b> <code>$${exitPxStr}</code>\n` +
               `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+${netGain >= 0 ? "$" : "-$"}${Math.abs(netGain).toFixed(4)} USDC</b>\n` +
               `🏆 <b>Récord Oficial:</b> <b>${currentLedger.realWins} Ganadas · 0 Pérdidas (100% Invictos)</b>\n` +
-              `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo (Clon relevo cazando en pares libres)\n` +
+              `❄️ <b>Estado Par:</b> <code>❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅)</code>\n` +
               `💵 <b>Equity Real en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
               `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
               `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>`;
@@ -777,7 +885,7 @@ async function startAutonomousSquadDaemon() {
       await processDirectOrdersQueue(client, info);
       checkDailyAmortizationCut(accountValue);
       await checkMarketSessionAlertsDaemon(new Date());
-      updateSquadMatrixClones(openPositions, pairCooldowns);
+      updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl);
 
       // Dinámica de capitalización compuesta (40% Escudo #00 / 60% repartido en 6 Escuadrones ~$90-$100 c/u)
       const reserveUsdc = +(accountValue * MENTORA_RESERVE_RATIO).toFixed(2);
@@ -786,8 +894,8 @@ async function startAutonomousSquadDaemon() {
       const dynamicNotional = Math.min(MAX_NOTIONAL_PER_COIN, +(dynamicSquadMargin * LEVERAGE).toFixed(2));
 
       if (cycleCounter % 6 === 1) {
-        const openSummary = openPositions.map(p => `${p.position.coin}(${p.position.szi}@$${p.position.entryPx})`).join(", ") || "Ninguna";
-        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] 6 Escuadrones (#01-#06) | Ciclo #${cycleCounter} | Equity Real: $${accountValue.toFixed(2)} USDC | Pos (${openPositions.length}/${MAX_CONCURRENT_TOTAL}): ${openSummary}`);
+        const openSummary = openPositions.map(p => `${p.position.coin}(${p.position.szi}@$${p.position.entryPx})`).join(", ") || "Ninguna (100% Liquidez USDC)";
+        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] ❄️ MODO RECUPERACIÓN (CERO APERTURAS) | Ciclo #${cycleCounter} | Equity Real: $${accountValue.toFixed(2)} USDC | Faltan ${openPositions.length}/7: ${openSummary}`);
       }
 
       // Obtener precios mid actuales una sola vez por ciclo
@@ -945,7 +1053,10 @@ async function startAutonomousSquadDaemon() {
         }, null, 2), "utf8");
       } catch (_) {}
 
-      // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS ACTUALES (TP AUTOMÁTICO, BREAKEVEN #00, RESCATE #00 Y ALERTA DE APERTURA)
+      // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS ACTUALES (ESCALONES 1, 2 Y 3 DE RECUPERACIÓN 1 A 1 ANTES DE LAS 00:00:00 UTC)
+      const tier1Set = new Set(["ETH", "PAXG", "SUI", "DOGE"]);
+      const tier2Set = new Set(["SOL", "HYPE", "BTC", "XRP"]);
+
       for (const activePos of openPositions) {
         const coin = activePos.position.coin;
         const sz = activePos.position.szi;
@@ -971,43 +1082,7 @@ async function startAutonomousSquadDaemon() {
             evacAloPlaced: false,
             halfUnloaded: false
           };
-          // Si ya viene promediada de antes, marcarla con antigüedad >= 8m para activar el Carril de Recuperación y Evacuación Rápida
           positionOpenTimestamps[coin] = isRescuedSize ? (Date.now() - 9 * 60000) : Date.now();
-
-          // Si se abrió después del ciclo 1 y aún no enviamos alerta de apertura en los últimos 60s, notificar a Telegram!
-          if (cycleCounter > 1 && (!recentOrderSentCoins[coin] || (Date.now() - recentOrderSentCoins[coin] > 60000))) {
-            recentOrderSentCoins[coin] = Date.now();
-            const targetGainPct = notionalVal >= 1500 ? 0.08 : (notionalVal >= 600 ? 0.12 : TARGET_GAIN_PCT);
-            const tpEstNum = isShort ? entryPx * (1 - targetGainPct / 100) : entryPx * (1 + targetGainPct / 100);
-            const tpEstStr = formatHlPrice(tpEstNum, coin);
-            const estGainUsdc = +(notionalVal * (targetGainPct / 100) - (notionalVal * 0.0003)).toFixed(4);
-
-            const specialMode = pingPongMetaByCoin[coin]?.mode || null;
-            const modeHeader = specialMode === "HOURLY_SNAP"
-              ? "⚡⏱️ <b>ÁREA 501 // FRANCOTIRADOR MINUTO :59 (24 VECES/DÍA) — ABIERTO</b>"
-              : specialMode === "PING_PONG"
-                ? "🏓⚡ <b>ÁREA 501 // MICRO-PING-PONG (±0.16%) — ABIERTO</b>"
-                : specialMode === "WICK_SNIPER"
-                  ? "🎯⚡ <b>ÁREA 501 // WICK SNIPER L1 (±0.85%) — ABIERTO</b>"
-                  : "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>";
-            const unitLabel = specialMode === "HOURLY_SNAP"
-              ? "Francotirador Minuto :59 Pre-Funding (24 Tiros/Día)"
-              : specialMode === "PING_PONG"
-                ? "Motor Micro-Ping-Pong (±0.16% Rango Estrecho)"
-                : `${squadCfg.name} (${squadCfg.specialist})`;
-
-            const openConfirmedTg = `${modeHeader}\n` +
-              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-              `🔰 <b>Motor / Unidad:</b> <b>${unitLabel}</b>\n` +
-              `📍 <b>Par:</b> <code>${coin}-USDC</code> (<b>${isShort ? "SHORT 🐻" : "LONG 🐂"}</b> · ${Math.abs(szNum)} ${coin})\n` +
-              `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(entryPx, coin)}</code> ($${notionalVal.toFixed(2)} Nocional)\n` +
-              `📤 <b>Orden Take-Profit (+${targetGainPct}%):</b> <code>$${tpEstStr}</code> (Reduce-Only)\n` +
-              `💰 <b>Ganancia Estimada TP:</b> <b>+$${estGainUsdc.toFixed(4)} USDC</b>\n` +
-              `🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($${reserveUsdc.toFixed(2)} USDC)\n` +
-              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-              `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>`;
-            await sendSquadTelegram(openConfirmedTg);
-          }
         } else {
           confirmedOpenByCoin[coin].entryPx = entryPx;
           confirmedOpenByCoin[coin].szi = szNum;
@@ -1015,15 +1090,16 @@ async function startAutonomousSquadDaemon() {
         }
         const posMeta = confirmedOpenByCoin[coin];
         const posElapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
-        posMeta.inRecoveryLane = Boolean(posMeta.dcaDone || posElapsedMins >= 8.0);
+        posMeta.inRecoveryLane = Boolean(isPre00UtcOrRecovering || posMeta.dcaDone || posElapsedMins >= 8.0);
 
-        // Verificar si ya tiene orden Reduce-Only Take Profit en el libro L1 (incluye posiciones del Escudo #00)
         const existingExitOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
         const currentMid = parseFloat(mids[coin] || entryPx);
 
+        // Determinar meta de salida por Escalón (Escalón 1: +0.06%, Escalón 2: +0.055%, Escalón 3 NEAR: +0.035%)
+        const recoveryTargetPct = tier1Set.has(coin) ? 0.060 : (tier2Set.has(coin) ? 0.055 : 0.035);
+
         if (!existingExitOrder && isV2Armed && ASSET_DECIMALS[coin]) {
-          // ARMA #2: Si está en Carril de Recuperación (promediada o >=8m), meta sin codicia (+0.045% salida rápida en verde)
-          const targetGainPct = posMeta.inRecoveryLane ? 0.045 : (notionalVal >= 1500 ? 0.08 : (squadCfg.targetGainPct || TARGET_GAIN_PCT));
+          const targetGainPct = posMeta.inRecoveryLane ? recoveryTargetPct : 0.48;
           let exitPxNum = isShort
             ? entryPx * (1 - targetGainPct / 100)
             : entryPx * (1 + targetGainPct / 100);
@@ -1089,181 +1165,229 @@ async function startAutonomousSquadDaemon() {
             ? (currentMid - entryPx) / entryPx * 100
             : (entryPx - currentMid) / entryPx * 100;
 
-          // Reloj Anti-Estancamiento Cero-Holder (Garantiza 100% ganancia neta positiva después de comisiones)
-          // Si supera el tiempo y ya cubre comisión Taker + ganancia limpia (>= $0.26 USDC), cierra IOC inmediato;
-          // o si está en verde moderado (>= $0.10 USDC), acerca el Reduce-Only ALO Maker (+0.07% sobre entrada) para cobrar 0% comisión Taker.
-          const specialMeta = pingPongMetaByCoin[coin];
-          const isHourlySnapPos = specialMeta && specialMeta.mode === "HOURLY_SNAP";
-          const isPingPongPos = specialMeta && specialMeta.mode === "PING_PONG";
-          const minMinsForStop = isHourlySnapPos ? 1.5 : (isPingPongPos ? 5.0 : 10.0);
-          const minPnlForIocNet = posMeta.dcaDone ? 0.55 : (isHourlySnapPos ? 0.22 : (isPingPongPos ? 0.22 : 0.26));
-          const elapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
-          if (elapsedMins >= minMinsForStop && uPnlNum >= minPnlForIocNet) {
-            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO // ${specialMeta ? specialMeta.mode : "SQUAD"}] ${coin} abierta hace ${elapsedMins.toFixed(1)}m con +$${uPnlNum.toFixed(4)} USDC. Cerrando en ganancia neta asegurada.`);
-            if (existingExitOrder) {
-              await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+          posMeta.peakGainPct = Math.max(posMeta.peakGainPct || 0, gainPct);
+
+          // ESCALÓN 1 (ETH, PAXG, SUI, DOGE): Candado Breakeven #00 (+$0.05 USDC netos) en el instante en que toquen +0.035%
+          if (tier1Set.has(coin)) {
+            if (posMeta.peakGainPct >= 0.035 && !posMeta.beLocked) {
+              posMeta.beLocked = true;
+              posMeta.trailingFloorPct = 0.025;
+              console.log(`🔒 [ESCALÓN 1 // CANDADO #00] ${coin} tocó +${posMeta.peakGainPct.toFixed(3)}% -> Candado Breakeven #00 (+$0.05 USDC) ARMADO.`);
             }
-            const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
-            await client.order({
-              orders: [{
-                a: ASSET_INDICES[coin],
-                b: isShort,
-                p: formatHlPrice(closePx, coin),
-                s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
-                r: true,
-                t: { limit: { tif: "Ioc" } }
-              }],
-              grouping: "na"
-            }).catch(() => {});
-            delete pingPongMetaByCoin[coin];
-            continue;
-          } else if ((elapsedMins >= 8.0 || posMeta.dcaDone) && !posMeta.evacAloPlaced) {
-            // ARMA #2 + ARMA #3: EVACUACIÓN RELÁMPAGO SIN CODICIA (+0.045% Maker ALO 0% Fee) Y DESARME POR MITADES
-            const evacTargetPct = 0.045;
-            const evacMakerTp = isShort ? entryPx * (1 - evacTargetPct / 100) : entryPx * (1 + evacTargetPct / 100);
-            const canPlaceEvacAlo = (isShort && currentMid > evacMakerTp) || (!isShort && currentMid < evacMakerTp);
-            if (canPlaceEvacAlo) {
-              posMeta.evacAloPlaced = true;
+            if (posMeta.beLocked && gainPct <= 0.030 && uPnlNum >= 0.05) {
+              console.log(`💰🔓 [ESCALÓN 1 // DESBLOQUEO RÁPIDO] ${coin} cobrada en Candado #00 (+$${uPnlNum.toFixed(4)} USDC)!`);
               if (existingExitOrder) {
                 await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
               }
+              const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
               await client.order({
                 orders: [{
                   a: ASSET_INDICES[coin],
                   b: isShort,
-                  p: formatHlPrice(evacMakerTp, coin),
+                  p: formatHlPrice(closePx, coin),
                   s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
                   r: true,
-                  t: { limit: { tif: "Alo" } }
+                  t: { limit: { tif: "Ioc" } }
                 }],
                 grouping: "na"
               }).catch(() => {});
-              console.log(`⚡🔓 [ARMA #2 // EVACUACIÓN RÁPIDA EN VERDE] ${coin} (${posMeta.dcaDone ? "Rescatada" : elapsedMins.toFixed(1) + "m"}): TP acercado a $${formatHlPrice(evacMakerTp, coin)} (+0.045% 0% Fee) para liberar cupo al primer rebote.`);
-            } else if (posMeta.dcaDone && !posMeta.halfUnloaded && uPnlNum >= 0.06 && Math.abs(szNum) * currentMid >= 260) {
-              // ARMA #3: Si ya está en verde (+$0.06 USDC) y tiene doble cartucho, descargar el 50% de inmediato para liberar liquidez
-              posMeta.halfUnloaded = true;
-              const halfSzStr = formatHlSize(Math.abs(szNum) * 0.5, ASSET_DECIMALS[coin].sz);
-              if (parseFloat(halfSzStr) > 0) {
-                const halfClosePx = isShort ? currentMid * 1.0003 : currentMid * 0.9997;
+              continue;
+            }
+          }
+
+          // ESCALÓN 2 (SOL, HYPE, BTC, XRP): Candado #00 al +0.05% + Trailing corto de 0.03% si L2 Book >= 68%
+          if (tier2Set.has(coin)) {
+            if (posMeta.peakGainPct >= 0.050 && !posMeta.beLocked) {
+              posMeta.beLocked = true;
+              posMeta.trailingFloorPct = 0.040;
+              console.log(`🔒 [ESCALÓN 2 // CANDADO #00] ${coin} alcanzó equilibrio neto (+${posMeta.peakGainPct.toFixed(3)}%) -> Candado #00 ARMADO.`);
+            }
+            if (posMeta.beLocked) {
+              const dynamicFloor = Math.max(0.040, +(posMeta.peakGainPct - 0.030).toFixed(3));
+              posMeta.trailingFloorPct = dynamicFloor;
+              if (gainPct <= dynamicFloor && uPnlNum >= 0.05) {
+                console.log(`💰🔓 [ESCALÓN 2 // LIBERACIÓN INTERMEDIA] ${coin} cobrada con Trailing Corto 0.03% (+$${uPnlNum.toFixed(4)} USDC)!`);
+                if (existingExitOrder) {
+                  await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+                }
+                const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
                 await client.order({
                   orders: [{
                     a: ASSET_INDICES[coin],
                     b: isShort,
-                    p: formatHlPrice(halfClosePx, coin),
-                    s: halfSzStr,
+                    p: formatHlPrice(closePx, coin),
+                    s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
                     r: true,
                     t: { limit: { tif: "Ioc" } }
                   }],
                   grouping: "na"
                 }).catch(() => {});
-                console.log(`✂️💵 [ARMA #3 // DESARME POR MITADES] ${coin}: 50% (${halfSzStr}) liberado en verde (+$${uPnlNum.toFixed(3)}). Liquidez devuelta a caja.`);
+                continue;
               }
             }
           }
 
-          // Candado Breakeven #00 (+0.05%)
-          if (gainPct >= BREAKEVEN_TRIGGER_PCT && !posMeta.beLocked) {
-            posMeta.beLocked = true;
-            const bePx = isShort ? entryPx * (1 - BREAKEVEN_LOCK_PCT / 100) : entryPx * (1 + BREAKEVEN_LOCK_PCT / 100);
-            const bePxStr = formatHlPrice(bePx, coin);
-            console.log(`🔒 [MENTORA #00] Candado Breakeven activado en ${coin} (+${gainPct.toFixed(2)}%) -> Nivel seguro $${bePxStr}`);
-          }
-
-          // Rescate Inteligente Mentora #00: Si drawdown >= 1.2% y aún no se ha usado el cartucho de rescate
-          if (!posMeta.dcaDone && drawdownPct >= 1.20 && availableForTrading >= dynamicSquadMargin) {
-            console.log(`\n🛡️ [MENTORA #00] RESCATE INTELIGENTE ACTIVADO EN ${coin} (-${drawdownPct.toFixed(2)}% desde $${entryPx}). Inyectando 1 cartucho de promediación...`);
-            posMeta.dcaDone = true;
-
-            const rescueSzStr = formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz);
-            const rescuePx = isShort ? currentMid * 0.998 : currentMid * 1.002;
-            const rescuePxStr = formatHlPrice(rescuePx, coin);
-
-            try {
+          // ESCALÓN 3 (NEAR — ÚLTIMA POSICIÓN): Candado #00 al +0.030% y Micro-Pinza Táctica solo si las otras ya están 100% cerradas y margen libre > 80%
+          if (coin === "NEAR") {
+            if (posMeta.peakGainPct >= 0.030 && !posMeta.beLocked) {
+              posMeta.beLocked = true;
+              posMeta.trailingFloorPct = 0.020;
+              console.log(`🔒 [ESCALÓN 3 // CANDADO #00 NEAR] NEAR alcanzó +${posMeta.peakGainPct.toFixed(3)}% -> Salida limpia asegurada.`);
+            }
+            if (posMeta.beLocked && gainPct <= 0.025 && uPnlNum >= 0.05) {
+              console.log(`💰🔓 [ESCALÓN 3 // RESCATE COMPLETADO] NEAR liquidada en verde (+$${uPnlNum.toFixed(4)} USDC)!`);
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
               await client.order({
                 orders: [{
                   a: ASSET_INDICES[coin],
-                  b: !isShort,
-                  p: rescuePxStr,
-                  s: rescueSzStr,
-                  r: false,
+                  b: isShort,
+                  p: formatHlPrice(closePx, coin),
+                  s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
+                  r: true,
                   t: { limit: { tif: "Ioc" } }
                 }],
                 grouping: "na"
-              });
+              }).catch(() => {});
+              continue;
+            }
 
-              await new Promise(r => setTimeout(r, 1200));
-              const chUpdated = await info.clearinghouseState({ user: VAULT_501 });
-              const updatedPos = (chUpdated.assetPositions || []).find(p => p.position.coin === coin);
-              if (updatedPos) {
-                const newSzi = Math.abs(parseFloat(updatedPos.position.szi));
-                const newEntryPx = parseFloat(updatedPos.position.entryPx);
-                posMeta.entryPx = newEntryPx;
-                posMeta.szi = newSzi;
-
-                if (existingExitOrder) {
-                  await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+            // Micro-pinza táctica para NEAR solo si las demás posiciones ya están 100% cerradas y el margen libre supera el 80%
+            const marginUsedPct = accountValue > 0 ? ((parseFloat(ch.marginSummary?.totalMarginUsed || "0") / accountValue) * 100) : 100;
+            const freeMarginPct = 100 - marginUsedPct;
+            if (openPositions.length === 1 && freeMarginPct >= 80.0 && !posMeta.finalPinzaDone && drawdownPct >= 1.20) {
+              try {
+                const now = Date.now();
+                const candles5m = await info.candleSnapshot({ coin: "NEAR", interval: "5m", startTime: now - (3600000 * 3), endTime: now });
+                const closes5m = (candles5m || []).map(c => parseFloat(c.c));
+                const rsi5m = closes5m.length >= 15 ? calculateRSI(closes5m, 14) : 50;
+                const l2 = await info.l2Book({ coin: "NEAR" });
+                const bids = l2.levels?.[0] || [], asks = l2.levels?.[1] || [];
+                let bVol = 0, aVol = 0;
+                for (let i = 0; i < 5; i++) {
+                  bVol += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                  aVol += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
                 }
-
-                const tpPx = isShort ? newEntryPx * (1 - 0.0012) : newEntryPx * (1 + 0.0012);
-                const tpPxStr = formatHlPrice(tpPx, coin);
-                const totalSzStr = formatHlSize(newSzi, ASSET_DECIMALS[coin].sz);
-
-                await client.order({
-                  orders: [{
-                    a: ASSET_INDICES[coin],
-                    b: isShort,
-                    p: tpPxStr,
-                    s: totalSzStr,
-                    r: true,
-                    t: { limit: { tif: "Alo" } }
-                  }],
-                  grouping: "na"
-                });
-
-                const rescueTg = `🛡️ <b>ÁREA 501 // MENTORA #00 // RESCATE PROMEDIO TÁCTICO EN ${coin}-USDC</b>\n` +
-                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                  `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b>\n` +
-                  `📉 <b>Entrada Anterior:</b> <code>$${entryPx}</code>\n` +
-                  `🎯 <b>Nuevo Precio Promedio:</b> <code>$${newEntryPx.toFixed(4)}</code> (${totalSzStr} ${coin})\n` +
-                  `📤 <b>Orden Limit Reduce-Only TP:</b> <code>$${tpPxStr}</code> (+0.12% neto)\n` +
-                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-                await sendSquadTelegram(rescueTg);
-              }
-            } catch (rescueErr) {
-              console.error(`[MENTORA #00] Error en rescate de ${coin}:`, rescueErr.message);
+                const bullPct = (bVol + aVol) > 0 ? (bVol / (bVol + aVol)) * 100 : 50;
+                if (rsi5m <= 28.0 && bullPct >= 60.0) {
+                  posMeta.finalPinzaDone = true;
+                  const pinzaSz = formatHlSize(120.0 / currentMid, ASSET_DECIMALS.NEAR.sz);
+                  const pinzaPx = formatHlPrice(currentMid * 1.002, "NEAR");
+                  console.log(`🛡️🎯 [ESCALÓN 3 // MICRO-PINZA NEAR] Otras 6 cerradas + Margen Libre ${freeMarginPct.toFixed(1)}% + RSI ${rsi5m.toFixed(1)} -> Inyectando ${pinzaSz} NEAR.`);
+                  await client.order({
+                    orders: [{ a: ASSET_INDICES.NEAR, b: true, p: pinzaPx, s: pinzaSz, r: false, t: { limit: { tif: "Ioc" } } }],
+                    grouping: "na"
+                  }).catch(() => {});
+                }
+              } catch (_) {}
             }
           }
         }
       }
 
-      // Enviar reporte de arranque en el Ciclo #1 confirmando los 6 Escuadrones Activos y el Cupo Independiente Bloque 2 ($300 USDC)
+      // Escribir telemetría en vivo para /squad-matrix/ (telemetry/squad-matrix-telemetry.json)
+      try {
+        const cascadeOrder = recoveryCtrl.RECOVERY_CASCADE_ORDER || ["ETH", "PAXG", "SUI", "DOGE", "SOL", "HYPE", "BTC", "XRP", "NEAR"];
+        const sortedOpen = [...openPositions].sort((a, b) => {
+          const cA = a.position.coin;
+          const cB = b.position.coin;
+          const iA = cascadeOrder.indexOf(cA);
+          const iB = cascadeOrder.indexOf(cB);
+          if (iA !== -1 && iB !== -1) return iA - iB;
+          if (iA !== -1) return -1;
+          if (iB !== -1) return 1;
+          return Math.abs(parseFloat(a.position.unrealizedPnl || 0)) - Math.abs(parseFloat(b.position.unrealizedPnl || 0));
+        });
+
+        const recoveryQueue = sortedOpen.map((pObj, idx) => {
+          const p = pObj.position;
+          const c = p.coin;
+          const szi = parseFloat(p.szi);
+          const isShort = szi < 0;
+          const entryPx = parseFloat(p.entryPx);
+          const midPx = parseFloat(mids[c] || entryPx);
+          const uPnl = parseFloat(p.unrealizedPnl || "0");
+          const targetPct = tier1Set.has(c) ? 0.060 : (tier2Set.has(c) ? 0.055 : 0.035);
+          const targetPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
+          const distPct = isShort
+            ? Math.max(0, ((midPx - targetPx) / midPx) * 100)
+            : Math.max(0, ((targetPx - midPx) / midPx) * 100);
+          const distUsd = Math.max(0, +(0.05 - uPnl).toFixed(2));
+          const tier = tier1Set.has(c) ? 1 : (tier2Set.has(c) ? 2 : 3);
+          return {
+            queueRank: idx + 1,
+            queueLabel: `${idx + 1}º ${c}`,
+            coin: c,
+            pair: `${c}-USDC`,
+            tier,
+            side: isShort ? "SHORT" : "LONG",
+            szi: Math.abs(szi),
+            entryPx: +entryPx.toFixed(4),
+            midPx: +midPx.toFixed(4),
+            recoveryTargetPx: +targetPx.toFixed(4),
+            unrealizedPnlUsdc: +uPnl.toFixed(2),
+            distanceToRecoveryPct: +distPct.toFixed(2),
+            distanceToRecoveryUsd: distUsd,
+            status: uPnl >= 0.05 ? "BE_00_READY" : `FILA_${idx + 1}_RECUPERANDO`
+          };
+        });
+
+        const remainingCount = openPositions.length;
+        const totalRef = 7;
+        const topBannerText = isPre00UtcOrRecovering
+          ? (remainingCount > 0
+            ? `❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN ${remainingCount}/${totalRef} POR CERRAR ➔ ARRANQUE FRESCO 00:00 UTC`
+            : `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`)
+          : `🟢 ARRANQUE FRESCO 00:00 UTC ACTIVO (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)`;
+
+        fs.writeFileSync(SQUAD_MATRIX_TELEMETRY_FILE, JSON.stringify({
+          updatedAt: new Date().toISOString(),
+          mode: isPre00UtcOrRecovering ? "RECOVERY_LOCK_UNTIL_00_UTC" : "FRESH_START_POST_00_UTC",
+          lockNewOpenings: isPre00UtcOrRecovering,
+          cooldownUntil00Utc: Boolean(recoveryCtrl.COOLDOWN_UNTIL_00_UTC),
+          hotSwapClones: Boolean(recoveryCtrl.HOT_SWAP_CLONES),
+          targetResetUtc: recoveryCtrl.TARGET_RESET_UTC,
+          post00UtcMaxConcurrent: recoveryCtrl.POST_00_UTC_MAX_CONCURRENT_POSITIONS || 2,
+          postTradeCooldownMs: recoveryCtrl.POST_TRADE_COOLDOWN_MS || 900000,
+          accountValueUsdc: +accountValue.toFixed(2),
+          withdrawableUsdc: parseFloat(ch.withdrawable || "0"),
+          openPositionsCount: remainingCount,
+          totalInitialPositions: totalRef,
+          recoveredCount: Math.max(0, totalRef - remainingCount),
+          bannerText: topBannerText,
+          recoveryQueue
+        }, null, 2), "utf8");
+      } catch (_) {}
+
+      // Enviar reporte de arranque en el Ciclo #1 confirmando el Modo Recuperación Total 1 a 1 + Cero Nuevas Entradas
       if (cycleCounter === 1) {
-        const posLines = openPositions.map(p => {
+        const posLines = openPositions.map((p, idx) => {
           const c = p.position.coin;
           const s = parseFloat(p.position.szi);
           const e = parseFloat(p.position.entryPx);
-          const tpMult = s >= 0 ? 1.0015 : 0.9985;
-          return `• <code>${c}-USDC</code> (${s >= 0 ? "LONG" : "SHORT"} ${Math.abs(s)} @ $${formatHlPrice(e, c)} ➔ TP $${formatHlPrice(e * tpMult, c)})`;
-        }).join("\n") || "• Sin posiciones abiertas (Escaneando 18 pares)";
+          const u = parseFloat(p.position.unrealizedPnl || "0");
+          const distUsd = Math.max(0, +(0.05 - u).toFixed(2));
+          return `• <b>${idx + 1}º</b> <code>${c}-USDC</code> (${s >= 0 ? "LONG" : "SHORT"} ${Math.abs(s)} @ $${formatHlPrice(e, c)} | Flotante: ${u >= 0 ? "+" : "-"}$${Math.abs(u).toFixed(2)} | A #00: $${distUsd.toFixed(2)})`;
+        }).join("\n") || "• 🧘‍♀️ 100% Liquidez USDC (0 posiciones abiertas)";
 
-        const bootTg = `🚀🛡️ <b>ÁREA 501 // BLOQUE 1 + BLOQUE 2 ($300 USDC INDEPENDIENTES) EN FUEGO PARALELO</b>\n` +
+        const bootTg = `🛡️❄️🎯 <b>ÁREA 501 // ORDEN MAESTRA ACTIVADA: MODO RECUPERACIÓN 1 A 1 + CERO NUEVAS ENTRADAS</b>\n` +
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🔒 <b>LOCK_NEW_OPENINGS:</b> <code>true (PROHIBIDO ABRIR NUEVAS POSICIONES)</code>\n` +
+          `❄️ <b>COOLDOWN_UNTIL_00_UTC:</b> <code>true (Enfriamiento hasta 00:00:00 UTC)</code>\n` +
+          `⏸️ <b>HOT_SWAP_CLONES:</b> <code>false (Relevo de clones desactivado)</code>\n` +
           `💵 <b>Patrimonio L1:</b> <code>$${accountValue.toFixed(2)} USDC</code> (Escudo 40%: <code>$${reserveUsdc.toFixed(2)} USDC</code>)\n` +
-          `🔰 <b>Bloque 1 (#01 ALFA, #02 BRAVO, #03 CHARLIE):</b> Cupo Propio 4 Posiciones\n` +
-          `⚡ <b>Bloque 2 Independiente ($300 USDC · $100 c/u · Cero Bloqueo):</b>\n` +
-          `  • <b>#04 GOLF ($100):</b> XRP, DOGE, ADA (TP +0.12% Rápido)\n` +
-          `  • <b>#05 HOTEL ($100):</b> HYPE, TRX, UNI (TP +0.12% Rápido)\n` +
-          `  • <b>#06 INDIA ($100):</b> DOT, NEAR, LTC (TP +0.12% Rápido)\n` +
-          `📊 <b>Posiciones Abiertas Ahora (${openPositions.length}/${MAX_CONCURRENT_TOTAL}):</b>\n${posLines}\n` +
-          `⏱️ <b>Doctrina Cero-Holder:</b> Rotación rápida de liquidez (TP +0.12%/+0.15% + Reloj 10m en verde)\n` +
-          `🔔 <b>Notificaciones Telegram:</b> 100% Activas en CADA Apertura y CADA Cierre\n` +
+          `📊 <b>Fila de Salida Escalonada (${openPositions.length} abiertas ➔ 0 antes de 00:00 UTC):</b>\n${posLines}\n` +
+          `🌅 <b>Arranque 00:00:00 UTC:</b> Máximo 2 operaciones simultáneas + 15m de enfriamiento real post-cobro\n` +
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Cuenta #501 en Hypurrscan (Sin conectar Wallet)</a>`;
         await sendSquadTelegram(bootTg);
       }
 
-      // 4. REGLA DE INDEPENDENCIA DE BLOQUES + ARMA #1 (AISLAMIENTO EN UCI Y DESBLOQUEO DE CLONES #2) + MICRO-PING-PONG + MINUTO :59
-      // Protección Sagrada del Capital: Calculamos el margen real usado (a 5x en Hyperliquid L1) y verificamos que el Escudo Mentora 40% esté 100% blindado
+      // 4. CONTROL ESTRICTO DE APERTURAS:
+      // - Antes de las 00:00:00 UTC o mientras quede cualquier posición por recuperar: CERO NUEVAS ENTRADAS (canOpenNewPositions = false).
+      // - Después de las 00:00:00 UTC (con las anteriores 100% recuperadas): Máximo 2 simultáneas (3ra solo si las 2 primeras tienen Candado BE #00) y 15m Cooldown.
       const activeCoins = openPositions.map(p => p.position.coin);
       const restingEntryCoins = openOrders.filter(o => !o.reduceOnly).map(o => o.coin);
       const allActiveOrResting = [...new Set([...activeCoins, ...restingEntryCoins])];
@@ -1273,14 +1397,16 @@ async function startAutonomousSquadDaemon() {
         const px = parseFloat(p.position.entryPx || "0");
         return sum + (sz * px);
       }, 0);
-      const actualMarginUsedL1 = totalNotionalOpen / 5.0; // Hyperliquid 5x cross margin
+      const actualMarginUsedL1 = totalNotionalOpen / 5.0;
       const freeShieldableMarginUsdc = accountValue - actualMarginUsedL1;
-      // Condición Estricta de Protección 501: Solo se permite usar el Carril Rápido de Clones #2 si sobra el 40% del Escudo Mentora #00 ($360+ USDC) + $30 de colchón
-      const isCapitalShieldIntact = (freeShieldableMarginUsdc - 25.0) >= reserveUsdc;
-      const MAX_SAFE_TOTAL_WITH_RECOVERY = isCapitalShieldIntact ? 10 : MAX_CONCURRENT_TOTAL;
+      const isInPostTradeCooldown = Date.now() < globalPostRecoveryCooldownUntil;
+      const allOpenHaveBeLocked = openPositions.length >= 2 && openPositions.every(p => Boolean(confirmedOpenByCoin[p.position.coin]?.beLocked));
+      const dynamicMaxPost00Utc = allOpenHaveBeLocked ? 3 : (recoveryCtrl.POST_00_UTC_MAX_CONCURRENT_POSITIONS || 2);
 
-      // Monedas en el Carril Rápido (excluyendo las que ya pasaron a la Sala de Recuperación Mentora #00 tras >=8m o rescate)
-      const fastLaneActiveCoins = activeCoins.filter(c => !(confirmedOpenByCoin[c] && confirmedOpenByCoin[c].inRecoveryLane));
+      const isCapitalShieldIntact = !isPre00UtcOrRecovering && !isInPostTradeCooldown && (freeShieldableMarginUsdc - 25.0) >= reserveUsdc;
+      const MAX_SAFE_TOTAL_WITH_RECOVERY = isPre00UtcOrRecovering ? 0 : dynamicMaxPost00Utc;
+
+      const fastLaneActiveCoins = activeCoins;
       const fastLaneTotalCount = fastLaneActiveCoins.length + restingEntryCoins.length;
 
       // 4.0 Actualizar historial móvil de 60s para Micro-Ping-Pong (±0.16%) y Wick Sniper (±0.85%)
@@ -1528,15 +1654,15 @@ async function startAutonomousSquadDaemon() {
           const hasFastOpenInSquad = fastLaneActiveCoins.some(c => squadCfg.pairs.includes(c));
           const hasRestingInSquad = restingEntryCoins.some(c => squadCfg.pairs.includes(c));
           const openInSquadCount = activeCoins.filter(c => squadCfg.pairs.includes(c)).length;
+          const allowClones = Boolean(recoveryCtrl.HOT_SWAP_CLONES);
           return {
             unitKey,
             squadCfg,
             isBlock2: squadCfg.block === 2,
             isCloneRelayShot: hasAnyOpenInSquad,
-            botName: hasAnyOpenInSquad ? `${unitKey} 2 (Clon Relevo Desbloqueado)` : `${unitKey} 1 (Titular)`,
+            botName: hasAnyOpenInSquad ? `${unitKey} 2 (Clon Relevo)` : `${unitKey} 1 (Titular)`,
             candidatePairs: squadCfg.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
-            // ARMA #1: Si el Titular #1 pasó a Sala de Recuperación (!hasFastOpenInSquad), el Clon #2 queda DESBLOQUEADO (máx 2 pares por escuadrón)
-            alreadyHasPos: hasFastOpenInSquad || hasRestingInSquad || (openInSquadCount >= 2)
+            alreadyHasPos: (!allowClones && hasAnyOpenInSquad) || hasFastOpenInSquad || hasRestingInSquad || (openInSquadCount >= 2)
           };
         });
 
@@ -1630,7 +1756,8 @@ async function startAutonomousSquadDaemon() {
 
             if (bestCandidate) {
               const coin = bestCandidate.coin;
-              const unitTargetGainPct = unit.isCloneRelayShot ? 0.11 : (unit.squadCfg.targetGainPct || TARGET_GAIN_PCT);
+              // Techo Exprimidor amplio (+0.48%) acompañado del Candado con Ganancia en Escalera (Trailing Profit desde +0.12%)
+              const unitTargetGainPct = 0.48;
               // Si es un tiro de Clon Relevo #2 (mientras el Titular #1 está en recuperación), usa calibre compacto de $115 USDC ($23 margen) para cuidar el Escudo 40%
               const notional = unit.isCloneRelayShot
                 ? 115.0

@@ -118,10 +118,13 @@
           <span class="material-symbols-rounded">radar</span> RADAR MATRIX: 18 ESCUADRONES × 54 PARES
         </div>
         <div class="squad-counter-row">
-          <span class="status-pill active-pill" id="topActiveSquadsPill"><span class="material-symbols-rounded">bolt</span> <span id="topActiveSquadsText">6/18 Activos</span></span>
-          <span class="status-pill ready-pill" id="topReadySquadsPill"><span class="material-symbols-rounded">schedule</span> <span id="topReadySquadsText">12/18 ($100)</span></span>
+          <span class="status-pill active-pill" id="topActiveSquadsPill" style="background: #EFF6FF; color: #1D4ED8; border-color: #93C5FD; width: 100%; justify-content: center;">
+            <span class="material-symbols-rounded">ac_unit</span>
+            <span id="topActiveSquadsText">❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN 7/7 POR CERRAR</span>
+          </span>
+          <span class="status-pill ready-pill" id="topReadySquadsPill" style="display: none;"><span class="material-symbols-rounded">schedule</span> <span id="topReadySquadsText">12/18 ($100)</span></span>
         </div>
-        <div class="sub-label-matrix">18 Pares Activos (#01-#06) · $0.00 Gas L1</div>
+        <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #0369A1; font-weight: 800;">➔ ARRANQUE FRESCO 00:00 UTC (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)</div>
       </div>
     </header>
     <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v4) para CERO salto al pulsar F5 -->
@@ -192,11 +195,11 @@
 
           <!-- Derecha: Estado de Mitigación de Riesgo Activa -->
           <div class="cover-hero-right">
-            <div class="risk-active-pill">
-              <span class="material-symbols-rounded shield-icon">shield</span>
+            <div class="risk-active-pill" style="background: #EFF6FF; border-color: #93C5FD;">
+              <span class="material-symbols-rounded shield-icon" style="color: #0284C7;">ac_unit</span>
               <div class="risk-active-text">
-                <span class="risk-pill-title">MITIGACIÓN ACTIVA</span>
-                <span class="risk-pill-rules">MÁX 2 TIROS SIN BE #00 · ENFRIAMIENTO 12M · CERTEZA &gt;= 65%</span>
+                <span class="risk-pill-title" id="coverRiskModeTitle" style="color: #0369A1;">❄️ MODO RECUPERACIÓN (CERO APERTURAS)</span>
+                <span class="risk-pill-rules" id="coverRiskModeRules">RECUPERACIÓN 1 A 1 ➔ ARRANQUE FRESCO 00:00 UTC (MÁX 2 · 15M COOLDOWN)</span>
               </div>
             </div>
           </div>
@@ -813,8 +816,11 @@
         </a>
       </nav>
 
-      <!-- 3. ZONA DERECHA: BOTÓN MAESTRO DE ESTACIONES + RELOJ UTC -->
+      <!-- 3. ZONA DERECHA: INDICADOR MODO RECUPERACIÓN + BOTÓN MAESTRO DE ESTACIONES + RELOJ UTC -->
       <div class="bottom-system">
+        <span id="bottomRecoveryBannerPill" style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; background: #EFF6FF; border: 1px solid #93C5FD; color: #1D4ED8; font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; font-weight: 800; white-space: nowrap;">
+          ❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN 7/7 POR CERRAR ➔ ARRANQUE FRESCO 00:00 UTC
+        </span>
         <button class="btn-stations-master" id="btnMasterStationsHub" data-tab="paneStationsHub" title="Abrir las 5 Estaciones de Área 501">
           <span class="material-symbols-rounded master-hub-icon">hub</span> 5 ESTACIONES ÁREA 501
         </button>
@@ -827,6 +833,6 @@
 
   </div>
 
-  <script src="app.js?v=20261029v9"></script>
+  <script src="app.js?v=20261029v10"></script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-29T16:11:23.554Z",
-  "lastScanUtc": "16:11:23 UTC",
+  "updatedAt": "2026-10-29T20:41:57.860Z",
+  "lastScanUtc": "20:41:57 UTC",
   "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-  "cycleCount": 22,
+  "cycleCount": 563,
   "walletsActive": "500 / 500",
   "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
@@ -16,41 +16,41 @@
   "streakGoal": "500 / 500 Firmado EIP-712",
   "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
   "currentPlatoonScanned": {
-    "platoonId": 22,
-    "walletRange": "#211 ➔ #220",
+    "platoonId": 13,
+    "walletRange": "#121 ➔ #130",
     "attestationsCount": 10,
     "polyDetectedUsdc": 0,
     "baseDetectedUsdc": 0,
     "sampleAttestations": [
       {
-        "index": 211,
-        "address": "0x029EF113924FdcEAdd185628F57d03DA33E24ed0",
-        "platoonId": 22,
-        "campaign": "Base Avantis S3 (30 Oct)",
-        "signatureHash": "0x17bbb97483285bf0...9fe4b4",
+        "index": 121,
+        "address": "0x69D3Bf86d7459C83B5390314dfb176D64BcCb176",
+        "platoonId": 13,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0x16e1b3bf97a1ac80...74535c",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T16:11:19.824Z"
+        "timestamp": "2026-10-29T20:41:54.110Z"
       },
       {
-        "index": 212,
-        "address": "0xD38574ef61096Bc7069179CF498018FCcBf5F4B7",
-        "platoonId": 22,
-        "campaign": "Base Avantis S3 (30 Oct)",
-        "signatureHash": "0x2339b7fbea7727f8...262368",
+        "index": 122,
+        "address": "0x97bed57A9A2662cFEb3Da6e5a09773d036964A39",
+        "platoonId": 13,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0x85898a1e58d7a3cc...00d65b",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T16:11:19.824Z"
+        "timestamp": "2026-10-29T20:41:54.110Z"
       },
       {
-        "index": 213,
-        "address": "0x8D3c8a0EE12acB018c59Fc850a1D6cAD49f45f5a",
-        "platoonId": 22,
-        "campaign": "Base Avantis S3 (30 Oct)",
-        "signatureHash": "0x012767bb3afc22f2...b49b4d",
+        "index": 123,
+        "address": "0xcdfFF72a325fA014C16b55B3d6A6794f1aDC4f8d",
+        "platoonId": 13,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0x6e0a9d88008c86d5...f5d0e7",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T16:11:19.824Z"
+        "timestamp": "2026-10-29T20:41:54.111Z"
       }
     ]
   },
