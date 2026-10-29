@@ -816,7 +816,89 @@ function render54PairsGrid() {
   });
 }
 
-// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / MODO RECUPERACIÓN 1 A 1 HASTA 00:00 UTC)
+// HELPER: FEE-AWARE RATCHET #00 (ARQUITECTURA NEXUS APEX-36) EN CLIENTE
+const clientRatchetMemory = {};
+function computeClientRatchetStatus(activePos, currentPrice) {
+  if (!activePos || !activePos.position) {
+    return {
+      isLocked: false,
+      lockedNetUsd: 0,
+      statusLabel: "🔓 BUSCANDO CANDADO NETO +$0.02",
+      lockClass: "active-lock-tag shield"
+    };
+  }
+  const pos = activePos.position;
+  const coin = pos.coin;
+  const szi = parseFloat(pos.szi || "0");
+  const absSz = Math.abs(szi);
+  const entryPx = parseFloat(pos.entryPx || currentPrice || "0");
+  const midPx = currentPrice > 0 ? currentPrice : entryPx;
+  const isShort = szi < 0;
+  const notional = absSz * entryPx;
+
+  // Comisión real Hyperliquid L1: 0.015% Maker + 0.045% Taker = 0.060% ida y vuelta
+  const rtFeeUsd = notional * 0.00060;
+  const rawPnl = parseFloat(pos.unrealizedPnl || "0");
+  const priceDiff = isShort ? (entryPx - midPx) : (midPx - entryPx);
+  const grossPnl = entryPx > 0 ? priceDiff * absSz : rawPnl;
+  const effectiveGross = Math.max(rawPnl, grossPnl);
+  const netAfterFee = effectiveGross - rtFeeUsd;
+  const gainPct = entryPx > 0 ? (priceDiff / entryPx) * 100 : 0;
+
+  if (!clientRatchetMemory[coin] || clientRatchetMemory[coin].entryPx !== entryPx) {
+    // Las 6 posiciones en recuperación previa llevan > 180s abiertas
+    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR"]);
+    clientRatchetMemory[coin] = {
+      entryPx,
+      openedAt: initialRecoveryCoins.has(coin) ? (Date.now() - 240000) : Date.now(),
+      peakNetAfterFee: netAfterFee,
+      peakGainPct: gainPct,
+      lockedNetUsd: 0
+    };
+  }
+  const mem = clientRatchetMemory[coin];
+  if (netAfterFee > mem.peakNetAfterFee) mem.peakNetAfterFee = netAfterFee;
+  if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
+
+  // Candado Nivel 1 (+$0.02 USDC neto real) y Nivel 2 (Exprimido Elástico Sin Techo: 75% / 83% / 90%)
+  if (mem.peakNetAfterFee >= 0.02) {
+    let lockNet = 0.02;
+    if (mem.peakGainPct > 0.80) {
+      lockNet = Math.max(0.02, mem.peakNetAfterFee * 0.90);
+    } else if (mem.peakGainPct >= 0.25) {
+      lockNet = Math.max(0.02, mem.peakNetAfterFee * 0.83);
+    } else if (mem.peakGainPct >= 0.10) {
+      lockNet = Math.max(0.02, mem.peakNetAfterFee * 0.75);
+    }
+    if (lockNet > mem.lockedNetUsd) mem.lockedNetUsd = lockNet;
+    return {
+      isLocked: true,
+      lockedNetUsd: mem.lockedNetUsd,
+      statusLabel: `🔒 CANDADO ACTIVO +$${mem.lockedNetUsd.toFixed(2)} | EXPRIMIENDO OLA 🌊`,
+      lockClass: "active-lock-tag be"
+    };
+  }
+
+  // Ley 2: Protocolo de Evacuación Limpia a los 180 Segundos (+$0.01 USDC Post-Only Maker)
+  const elapsedMs = Date.now() - mem.openedAt;
+  if (elapsedMs >= 180000 && mem.peakGainPct < 0.10) {
+    return {
+      isLocked: false,
+      lockedNetUsd: 0.01,
+      statusLabel: `🎯 EVACUACIÓN LIMPIA +$0.01`,
+      lockClass: "active-lock-tag shield"
+    };
+  }
+
+  return {
+    isLocked: false,
+    lockedNetUsd: 0,
+    statusLabel: `🔓 BUSCANDO CANDADO NETO +$0.02`,
+    lockClass: "active-lock-tag shield"
+  };
+}
+
+// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / ARQUITECTURA NEXUS APEX-36)
 function getSquadRelayText(sq) {
   if (appState.clonesMap && appState.clonesMap[sq.id] && appState.clonesMap[sq.id].relayStatus) {
     return appState.clonesMap[sq.id].relayStatus;
@@ -825,16 +907,20 @@ function getSquadRelayText(sq) {
   if (sq.block <= 2) {
     const activeCoins = (appState.openPositions || []).map(p => p.position.coin);
     const inPosCoins = sq.pairs.filter(c => activeCoins.includes(c));
+    if (inPosCoins.length > 0) {
+      const firstCoin = inPosCoins[0];
+      const posObj = (appState.openPositions || []).find(p => p.position.coin === firstCoin);
+      const px = appState.mids && appState.mids[firstCoin] ? parseFloat(appState.mids[firstCoin]) : 0;
+      const rInfo = computeClientRatchetStatus(posObj, px);
+      return `${sq.code} 1 (${inPosCoins.join("+")}): ${rInfo.statusLabel} ⇄ ${sq.code} 2: GIRO BRUSCO <50ms`;
+    }
     if (isBefore00Utc || activeCoins.length > 0) {
       if (activeCoins.length === 0) {
         return `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
       }
-      if (inPosCoins.length > 0) {
-        return `🛡️ ${sq.code} 1: RECUPERANDO (${inPosCoins.join("+")}) ⇄ ❄️ ${sq.code} 2: CERO APERTURAS`;
-      }
-      return `❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅)`;
+      return `❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅ · 0 PÉRDIDAS)`;
     }
-    return `⚡ ${sq.code} 1: ACTIVO (MÁX 2) ⇄ ${sq.code} 2: FRENO VELOCIDAD`;
+    return `⚡ ${sq.code} 1: ACTIVO (CUPOS LIGEREZA MÁX 2) ⇄ ${sq.code} 2: STOP-AND-REVERSE`;
   }
   return `⏸️ ${sq.code} 1: PRE-ARMADO ⇄ ${sq.code} 2: PRE-ARMADO ($100)`;
 }
@@ -895,9 +981,9 @@ function render18SquadsGrid() {
       </div>
 
       <div class="squad-blocks-info">
-        <div class="s-block-item"><span class="material-symbols-rounded">visibility</span> Radar L2 150ms + Anti-Techo</div>
-        <div class="s-block-item"><span class="material-symbols-rounded">hub</span> 32 Nebulosas Direccionales</div>
-        <div class="s-block-item"><span class="material-symbols-rounded">lock</span> Mentora #00 (Candado BE +0.045%)</div>
+        <div class="s-block-item"><span class="material-symbols-rounded">visibility</span> Radar L2 150ms + Giro Brusco &lt;50ms</div>
+        <div class="s-block-item"><span class="material-symbols-rounded">hub</span> 32 Nebulosas + Evacuación Limpia 180s (+$0.01)</div>
+        <div class="s-block-item"><span class="material-symbols-rounded">lock</span> Mentora #00 (Candado Elástico 75%/83%/90% · 0 TP Fijo)</div>
       </div>
 
       <div class="squad-footer-stats">
@@ -1317,16 +1403,10 @@ function updatePricesAndSignals() {
       const isShort = szi < 0;
       const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
-
-      const targetPct = p.symbol === "NEAR" ? 0.035 : 0.050;
-      const targetPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
-      const distPct = isShort
-        ? Math.max(0, ((midPx - targetPx) / midPx) * 100)
-        : Math.max(0, ((targetPx - midPx) / midPx) * 100);
-      const distUsd = Math.max(0, +(0.05 - pnl).toFixed(2));
       const queueOrder = sortedOpenCoins.indexOf(p.symbol) + 1;
+      const rInfo = computeClientRatchetStatus(activePos, midPx);
 
-      const targetCellClass = "pair-cell pair-cell-active-pos " + (pnl >= 0 ? "pair-cell-green" : "pair-cell-amber");
+      const targetCellClass = "pair-cell pair-cell-active-pos " + (pnl >= 0 || rInfo.isLocked ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       if (sigPill) {
@@ -1338,14 +1418,8 @@ function updatePricesAndSignals() {
       }
       if (sigLock) {
         if (sigLock.style.display !== "inline-flex") sigLock.style.display = "inline-flex";
-        const lockClass = pnl >= 0.05 ? "active-lock-tag be" : "active-lock-tag shield";
-        if (sigLock.className !== lockClass) sigLock.className = lockClass;
-        setTextIfChanged(
-          sigLockText,
-          pnl >= 0.05
-            ? `BE #00 LISTO`
-            : `A #00: ${distPct.toFixed(2)}% ($${distUsd.toFixed(2)})`
-        );
+        if (sigLock.className !== rInfo.lockClass) sigLock.className = rInfo.lockClass;
+        setTextIfChanged(sigLockText, rInfo.statusLabel);
       }
     } else {
       if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
