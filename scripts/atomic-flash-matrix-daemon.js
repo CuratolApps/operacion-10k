@@ -389,8 +389,11 @@ async function scanAll54TargetsOnChain() {
     callsBatch1.push({ target: strat, allowFailure: true, callData: SEL_PAUSED });
   }
   for (const r of FLASH_ROUTES) {
-    const q = encodeBuyQuote(r, probeUsdcRaw);
-    callsBatch1.push({ target: norm(q.target), allowFailure: true, callData: q.callData });
+    const qFwd = encodeBuyQuote(r, probeUsdcRaw);
+    const rRev = { ...r, buyType: r.sellType, buyFee: r.sellFee || r.buyFee, sellType: r.buyType, sellFee: r.buyFee };
+    const qRev = encodeBuyQuote(rRev, probeUsdcRaw);
+    callsBatch1.push({ target: norm(qFwd.target), allowFailure: true, callData: qFwd.callData });
+    callsBatch1.push({ target: norm(qRev.target), allowFailure: true, callData: qRev.callData });
   }
   for (const d of AAVE_DEBTORS) {
     callsBatch1.push({
@@ -468,19 +471,34 @@ async function scanAll54TargetsOnChain() {
     });
   }
 
-  // 4. Procesar Pata 2 de Venta para las 18 Rutas Flash (Motor #02) vía Multicall3
+  // 4. Procesar Pata 2 de Venta Bidireccional (Ida y Vuelta) para las 18 Rutas Flash (Motor #02) vía Multicall3
   const offsetFlash = BEEFY_TARGETS.length * 3;
-  const buyAmountsRaw = [];
+  const buyFwdAmountsRaw = [];
+  const buyRevAmountsRaw = [];
   const sellCalls = [];
 
   for (let i = 0; i < FLASH_ROUTES.length; i++) {
     const route = FLASH_ROUTES[i];
-    const rBuy = resBatch1[offsetFlash + i];
-    const outTokenRaw = (rBuy && rBuy.success) ? decodeQuoteOut(route.buyType, rBuy.returnData) : 0n;
-    buyAmountsRaw.push(outTokenRaw);
-    if (outTokenRaw > 0n) {
-      const sq = encodeSellQuote(route, outTokenRaw);
-      sellCalls.push({ target: sq.target, allowFailure: true, callData: sq.callData });
+    const rRev = { ...route, buyType: route.sellType, buyFee: route.sellFee || route.buyFee, sellType: route.buyType, sellFee: route.buyFee };
+    const rBuyFwd = resBatch1[offsetFlash + i * 2];
+    const rBuyRev = resBatch1[offsetFlash + i * 2 + 1];
+
+    const outFwdRaw = (rBuyFwd && rBuyFwd.success) ? decodeQuoteOut(route.buyType, rBuyFwd.returnData) : 0n;
+    const outRevRaw = (rBuyRev && rBuyRev.success) ? decodeQuoteOut(rRev.buyType, rBuyRev.returnData) : 0n;
+
+    buyFwdAmountsRaw.push(outFwdRaw);
+    buyRevAmountsRaw.push(outRevRaw);
+
+    if (outFwdRaw > 0n) {
+      const sqFwd = encodeSellQuote(route, outFwdRaw);
+      sellCalls.push({ target: norm(sqFwd.target), allowFailure: true, callData: sqFwd.callData });
+    } else {
+      sellCalls.push({ target: MULTICALL3_ADDR, allowFailure: true, callData: "0x" });
+    }
+
+    if (outRevRaw > 0n) {
+      const sqRev = encodeSellQuote(rRev, outRevRaw);
+      sellCalls.push({ target: norm(sqRev.target), allowFailure: true, callData: sqRev.callData });
     } else {
       sellCalls.push({ target: MULTICALL3_ADDR, allowFailure: true, callData: "0x" });
     }
@@ -494,21 +512,39 @@ async function scanAll54TargetsOnChain() {
   const engine2Results = [];
   for (let i = 0; i < FLASH_ROUTES.length; i++) {
     const route = FLASH_ROUTES[i];
-    const boughtRaw = buyAmountsRaw[i];
-    const rSell = resSellBatch[i];
-    const finalUsdcRaw = (boughtRaw > 0n && rSell && rSell.success)
-      ? decodeQuoteOut(route.sellType, rSell.returnData)
+    const rRev = { ...route, buyType: route.sellType, buyFee: route.sellFee || route.buyFee, sellType: route.buyType, sellFee: route.buyFee };
+
+    const boughtFwdRaw = buyFwdAmountsRaw[i];
+    const boughtRevRaw = buyRevAmountsRaw[i];
+    const rSellFwd = resSellBatch[i * 2];
+    const rSellRev = resSellBatch[i * 2 + 1];
+
+    const finalFwdRaw = (boughtFwdRaw > 0n && rSellFwd && rSellFwd.success)
+      ? decodeQuoteOut(route.sellType, rSellFwd.returnData)
       : 0n;
+    const finalRevRaw = (boughtRevRaw > 0n && rSellRev && rSellRev.success)
+      ? decodeQuoteOut(rRev.sellType, rSellRev.returnData)
+      : 0n;
+
+    const useReverse = finalRevRaw > finalFwdRaw;
+    const bestFinalUsdcRaw = useReverse ? finalRevRaw : finalFwdRaw;
+    const bestBoughtRaw = useReverse ? boughtRevRaw : boughtFwdRaw;
+    const activeBuyType = useReverse ? rRev.buyType : route.buyType;
+    const activeSellType = useReverse ? rRev.sellType : route.sellType;
+    const activeBuyFee = useReverse ? rRev.buyFee : route.buyFee;
+    const activeSellFee = useReverse ? rRev.sellFee : route.sellFee;
 
     let currentSpreadPct = -0.050;
     let estGrossUsdc = -0.125;
     let estNetUsdc = -(0.125 + gasUsdcCost);
 
-    if (finalUsdcRaw > 0n) {
-      const finalUsdc = Number(ethers.formatUnits(finalUsdcRaw, 6));
+    if (bestFinalUsdcRaw > 0n) {
+      const finalUsdc = Number(ethers.formatUnits(bestFinalUsdcRaw, 6));
       const diffPct = ((finalUsdc - probeUsdcAmount) / probeUsdcAmount) * 100;
       currentSpreadPct = +Math.max(-2.500, Math.min(5.000, diffPct)).toFixed(3);
-      estGrossUsdc = +((probeUsdcAmount * currentSpreadPct) / 100).toFixed(4);
+      // Escalar el ingreso estimado al préstamo Flash de Balancer V2 (0% fee) si el spread es positivo
+      const effectiveCapital = currentSpreadPct > 0 ? route.loanTier : probeUsdcAmount;
+      estGrossUsdc = +((effectiveCapital * currentSpreadPct) / 100).toFixed(4);
       estNetUsdc = +(estGrossUsdc - gasUsdcCost).toFixed(4);
     }
 
@@ -517,13 +553,18 @@ async function scanAll54TargetsOnChain() {
       id: route.id,
       engine: 2,
       name: route.name,
-      full: route.full,
+      full: useReverse ? `${route.name} (${activeBuyType.toUpperCase()}➔${activeSellType.toUpperCase()})` : route.full,
       token: route.token,
+      buyType: activeBuyType,
+      sellType: activeSellType,
+      buyFee: activeBuyFee,
+      sellFee: activeSellFee,
+      directionMode: useReverse ? "REVERSE_B_TO_A" : "FORWARD_A_TO_B",
       type: "FLASH",
       loanTier: route.loanTier,
       probeUsdc: probeUsdcAmount,
-      buyOutRaw: boughtRaw.toString(),
-      sellOutRaw: finalUsdcRaw.toString(),
+      buyOutRaw: bestBoughtRaw.toString(),
+      sellOutRaw: bestFinalUsdcRaw.toString(),
       currentSpread: currentSpreadPct,
       estGrossUsdc,
       estNetUsdc,
@@ -532,8 +573,8 @@ async function scanAll54TargetsOnChain() {
       callStaticOk: false,
       isProfitable: false,
       reason: meetsThreshold
-        ? `Spread positivo +${currentSpreadPct.toFixed(3)}% (Verificando callStatic)`
-        : `Spread bruto insuficiente tras fee DEX (${currentSpreadPct >= 0 ? "+" : ""}${currentSpreadPct.toFixed(3)}%)`,
+        ? `Spread positivo +${currentSpreadPct.toFixed(3)}% en ${useReverse ? "Vuelta" : "Ida"} (Balancer 0% FlashLoan)`
+        : `Mejor spread bidireccional (${currentSpreadPct >= 0 ? "+" : ""}${currentSpreadPct.toFixed(3)}%)`,
       actionLabel: `📡 Sp ${currentSpreadPct >= 0 ? "+" : ""}${currentSpreadPct.toFixed(3)}%`,
       status: "LIVE_SCANNING",
       statusColor: "cobalt"
@@ -541,7 +582,7 @@ async function scanAll54TargetsOnChain() {
   }
 
   // 5. Procesar Motor #03 (18 Deudores Aave V3 en Polygon)
-  const offsetAave = BEEFY_TARGETS.length * 3 + FLASH_ROUTES.length;
+  const offsetAave = BEEFY_TARGETS.length * 3 + FLASH_ROUTES.length * 2;
   const engine3Results = [];
   for (let i = 0; i < AAVE_DEBTORS.length; i++) {
     const d = AAVE_DEBTORS[i];

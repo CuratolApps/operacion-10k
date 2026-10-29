@@ -1,31 +1,18 @@
 {
-  "updatedAt": "2026-10-27T10:34:40.670Z",
+  "updatedAt": "2026-10-29T13:21:42.907Z",
   "liveBalances": {
     "totalUsdc": 3.41,
     "polygonUsdc": 0.7,
     "bscUsdc": 2.71,
-    "totalPol": 20.51,
+    "totalPol": 20.47,
     "cap001Pol": 18.07,
-    "satellitesPol": 2.44,
+    "satellitesPol": 2.4,
     "bnb": 0.00877,
     "baseEth": 0.0144,
     "arbEth": 0.0036,
-    "readTimestamp": "2026-10-27T10:34:34.022Z"
+    "readTimestamp": "2026-10-29T13:21:34.455Z"
   },
   "radarA_TokenlessProtocols": [
-    {
-      "name": "Veda",
-      "category": "Onchain Capital Allocator",
-      "chains": [
-        "Arbitrum",
-        "Base"
-      ],
-      "chainsText": "Arbitrum/Base",
-      "tvlUsd": 1794518312.4177146,
-      "tvlFormatted": "$1794.5M",
-      "change1d": "+0.72%",
-      "url": "https://veda.tech"
-    },
     {
       "name": "Upshift",
       "category": "Onchain Capital Allocator",
@@ -33,22 +20,34 @@
         "Base"
       ],
       "chainsText": "Base",
-      "tvlUsd": 393865195.82978934,
-      "tvlFormatted": "$393.9M",
-      "change1d": "+0.26%",
+      "tvlUsd": 453945949.4824565,
+      "tvlFormatted": "$453.9M",
+      "change1d": "+3.04%",
       "url": "https://app.upshift.finance"
     },
     {
-      "name": "Polymarket International",
-      "category": "Prediction Market",
+      "name": "Popdex Bridge",
+      "category": "Canonical Bridge",
       "chains": [
-        "Polygon"
+        "Arbitrum"
       ],
-      "chainsText": "Polygon",
-      "tvlUsd": 355056110.78435856,
-      "tvlFormatted": "$355.1M",
-      "change1d": "+0.43%",
-      "url": "https://polymarket.com"
+      "chainsText": "Arbitrum",
+      "tvlUsd": 76011298.12576553,
+      "tvlFormatted": "$76.0M",
+      "change1d": "+0.32%",
+      "url": "https://popdex.xyz/"
+    },
+    {
+      "name": "infiniFi",
+      "category": "Yield",
+      "chains": [
+        "Base"
+      ],
+      "chainsText": "Base",
+      "tvlUsd": 70151279.86003254,
+      "tvlFormatted": "$70.2M",
+      "change1d": "+1.11%",
+      "url": "https://infinifi.xyz"
     }
   ],
   "radarB_GaslessRaffles": [

@@ -1,0 +1,127 @@
+{
+  "updatedAt": "2026-10-29T13:25:34.498Z",
+  "lastScanUtc": "13:25:34 UTC",
+  "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
+  "cycleCount": 18,
+  "walletsActive": "500 / 500",
+  "fleetPocketsUsdc": 4.7,
+  "captainsPocketsUsdc": 1.75,
+  "satellitesPocketsUsdc": 2.95,
+  "sweptTo501Usdc": 0,
+  "totalCapitanesGasPol": 20.47,
+  "cap001Pol": 18.07,
+  "satellitesPol": 2.4,
+  "fleetBnb": 0.00877,
+  "streakDays": "Día 5/25",
+  "streakGoal": "500 / 500 Firmado EIP-712",
+  "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
+  "currentPlatoonScanned": {
+    "platoonId": 18,
+    "walletRange": "#171 ➔ #180",
+    "attestationsCount": 10,
+    "polyDetectedUsdc": 0,
+    "baseDetectedUsdc": 0,
+    "sampleAttestations": [
+      {
+        "index": 171,
+        "address": "0xA4b501068fE982e62D5f3B40e8b575B31ecd3D97",
+        "platoonId": 18,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0x29750457119e738f...d26ddb",
+        "gasSpentUsd": 0,
+        "status": "VERIFIED_EIP712_OK",
+        "timestamp": "2026-10-29T13:25:30.759Z"
+      },
+      {
+        "index": 172,
+        "address": "0x682287C84B9Fbf122DFFc99b023bE883aEc225df",
+        "platoonId": 18,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0x37d200282c8caac3...2dc28a",
+        "gasSpentUsd": 0,
+        "status": "VERIFIED_EIP712_OK",
+        "timestamp": "2026-10-29T13:25:30.759Z"
+      },
+      {
+        "index": 173,
+        "address": "0xEc8D2C782a17B0281AF59B925f96BC9b33C720c4",
+        "platoonId": 18,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0x3c5190f6dd8f93a9...81fd86",
+        "gasSpentUsd": 0,
+        "status": "VERIFIED_EIP712_OK",
+        "timestamp": "2026-10-29T13:25:30.759Z"
+      }
+    ]
+  },
+  "keeperBountiesRadar": [
+    {
+      "chain": "BSC",
+      "name": "Pancake COW USDT-WBNB",
+      "strategy": "0x92a0E71DC623A5D94A1E921eF55A0404D702006f",
+      "rewardNative": 0,
+      "nativeSymbol": "BNB",
+      "rewardUsd": 0,
+      "status": "ACCUMULATING"
+    },
+    {
+      "chain": "BSC",
+      "name": "Venus BNB Core",
+      "strategy": "0x3Acb4E8B67A7B9838F3165B2B15F9B7D92878F4c",
+      "rewardNative": 0,
+      "nativeSymbol": "BNB",
+      "rewardUsd": 0,
+      "status": "ACCUMULATING"
+    },
+    {
+      "chain": "POLYGON",
+      "name": "Beefy Quick WPOL-USDC",
+      "strategy": "0x4E8a22D5fbF1173b36F9C699A2E5bC89A0653D32",
+      "rewardNative": 0,
+      "nativeSymbol": "POL",
+      "rewardUsd": 0,
+      "status": "ACCUMULATING"
+    },
+    {
+      "chain": "POLYGON",
+      "name": "Beefy Curve am3CRV",
+      "strategy": "0x5A0801BAd20B6c62d86C566ca90688A6b9ea1d3f",
+      "rewardNative": 0,
+      "nativeSymbol": "POL",
+      "rewardUsd": 0,
+      "status": "ACCUMULATING"
+    }
+  ],
+  "boxCaptains": {
+    "1": {
+      "index": 1,
+      "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+      "box": "BOX 1 (#001-#100)",
+      "mission": "Gasless EIP-712 & Keeper Polygon"
+    },
+    "2": {
+      "index": 101,
+      "address": "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA",
+      "box": "BOX 2 (#101-#200)",
+      "mission": "DogeOS Cap. 2 & Keeper BSC"
+    },
+    "3": {
+      "index": 201,
+      "address": "0x2810aa0DabCA4511846194229d2c004B14016A7C",
+      "box": "BOX 3 (#201-#300)",
+      "mission": "Base Avantis S3 & Superchain"
+    },
+    "4": {
+      "index": 301,
+      "address": "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f",
+      "box": "BOX 4 (#301-#400)",
+      "mission": "Citrea & GOAT BTC L2"
+    },
+    "5": {
+      "index": 401,
+      "address": "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070",
+      "box": "BOX 5 (#401-#500)",
+      "mission": "Embudo Odos ➔ Bóveda #501"
+    }
+  }
+}

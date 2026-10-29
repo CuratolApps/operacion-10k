@@ -45,8 +45,8 @@
     "phase2Rule": "Regla 70/30: 70% capitalización continua / 30% asignado a devolución a Bóveda #501 (o activación de Bloque 2 desde $100.00 USDC)"
   },
   "status": "CAPITALIZING_TO_1000",
-  "updatedAt": "2026-10-28T12:00:09.555Z",
-  "lastLogDate": "2026-10-28",
+  "updatedAt": "2026-10-29T12:00:09.454Z",
+  "lastLogDate": "2026-10-29",
   "totalInjectedUsdc": 629.94,
   "credit501Usdc": 511.44,
   "remainingDebtUsdc": 629.94,

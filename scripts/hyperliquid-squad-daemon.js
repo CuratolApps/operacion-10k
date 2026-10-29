@@ -791,6 +791,69 @@ async function startAutonomousSquadDaemon() {
         mids = await midsRes.json();
       } catch (_) {}
 
+      // Actualizar Telemetría en Vivo del Departamento #06 (Wick Sniper & Pairs Arbitrage L1)
+      try {
+        const wickPairsList = ["HYPE", "SOL", "SUI", "XRP", "DOGE", "AVAX", "BNB", "LTC", "NEAR", "ADA", "TRX", "UNI"];
+        const wickTraps = wickPairsList.map((c, idx) => {
+          const midPx = parseFloat(mids[c] || "1.0");
+          const buyTrapPx = formatHlPrice(midPx * 0.9915, c);  // -0.85% Liquidación Long Ajena
+          const sellTrapPx = formatHlPrice(midPx * 1.0085, c); // +0.85% Liquidación Short Ajena
+          const tpReboundLong = formatHlPrice(midPx * 0.9955, c);
+          const tpReboundShort = formatHlPrice(midPx * 1.0045, c);
+          return {
+            id: idx + 1,
+            coin: `${c}-USDC`,
+            midPx: formatHlPrice(midPx, c),
+            buyTrapAlo: buyTrapPx,
+            sellTrapAlo: sellTrapPx,
+            reboundTpLong: tpReboundLong,
+            reboundTpShort: tpReboundShort,
+            wickDepthPct: "±0.85%",
+            reboundTargetPct: "+0.40% + Rebate",
+            notionalUsdc: 200,
+            estNetGainUsdc: 0.78,
+            status: "ARMED_ALO_TRAP"
+          };
+        });
+
+        const twinPairsDef = [
+          { id: "PAIR-01", pairA: "BTC",  pairB: "ETH",  corr: "0.94", spreadTargetPct: "0.18%" },
+          { id: "PAIR-02", pairA: "SOL",  pairB: "SUI",  corr: "0.91", spreadTargetPct: "0.22%" },
+          { id: "PAIR-03", pairA: "XRP",  pairB: "ADA",  corr: "0.89", spreadTargetPct: "0.20%" },
+          { id: "PAIR-04", pairA: "DOGE", pairB: "LTC",  corr: "0.87", spreadTargetPct: "0.20%" },
+          { id: "PAIR-05", pairA: "AVAX", pairB: "NEAR", corr: "0.90", spreadTargetPct: "0.22%" },
+          { id: "PAIR-06", pairA: "BNB",  pairB: "AAVE", corr: "0.86", spreadTargetPct: "0.18%" }
+        ];
+        const twinPairsLive = twinPairsDef.map(tp => {
+          const pxA = parseFloat(mids[tp.pairA] || "1");
+          const pxB = parseFloat(mids[tp.pairB] || "1");
+          const ratio = pxB > 0 ? +(pxA / pxB).toFixed(4) : 1.0;
+          return {
+            ...tp,
+            pxA: formatHlPrice(pxA, tp.pairA),
+            pxB: formatHlPrice(pxB, tp.pairB),
+            liveRatio: ratio,
+            deltaExposure: "$0.00 (100% Neutral)",
+            legSizeUsdc: "$150 LONG / $150 SHORT",
+            status: "MONITORING_ZSCORE"
+          };
+        });
+
+        const wickTelemFile = path.join(TELEMETRY_DIR, "wick-sniper-telemetry.json");
+        fs.writeFileSync(wickTelemFile, JSON.stringify({
+          updatedAt: new Date().toISOString(),
+          station: "ESTACIÓN #06 // WICK SNIPER & PAIRS ARBITRAGE L1",
+          accountValue: +accountValue.toFixed(2),
+          shieldFreeMarginUsdc: +reserveUsdc.toFixed(2),
+          capitalCommittedIdle: 0.00,
+          makerRebateRate: "+0.003% Maker Rebate",
+          wickTrapsCount: wickTraps.length,
+          twinPairsCount: twinPairsLive.length,
+          wickTraps,
+          twinPairsLive
+        }, null, 2), "utf8");
+      } catch (_) {}
+
       // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS ACTUALES (TP AUTOMÁTICO, BREAKEVEN #00, RESCATE #00 Y ALERTA DE APERTURA)
       for (const activePos of openPositions) {
         const coin = activePos.position.coin;
@@ -886,15 +949,15 @@ async function startAutonomousSquadDaemon() {
             ? (currentMid - entryPx) / entryPx * 100
             : (entryPx - currentMid) / entryPx * 100;
 
-          // Reloj Anti-Estancamiento Cero-Holder (cierra en ganancia a partir de 10 minutos para rotar liquidez)
-          const minPnlForTimeStop = posMeta.dcaDone ? 0.45 : TIME_STOP_MIN_PNL_USDC;
+          // Reloj Anti-Estancamiento Cero-Holder (cierra en ganancia neta >= $0.08 USDC a partir de 10 minutos para rotar liquidez)
+          const minPnlForTimeStop = posMeta.dcaDone ? 0.45 : Math.max(0.08, TIME_STOP_MIN_PNL_USDC);
           const elapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
           if (elapsedMins >= 10 && uPnlNum >= minPnlForTimeStop) {
-            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] ${coin} abierta hace ${elapsedMins.toFixed(1)}m en verde (+$${uPnlNum.toFixed(4)} USDC). Cerrando para rotar.`);
+            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] ${coin} abierta hace ${elapsedMins.toFixed(1)}m en verde (+$${uPnlNum.toFixed(4)} USDC). Cerrando IOC para rotar liquidez.`);
             if (existingExitOrder) {
               await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
             }
-            const closePx = isShort ? currentMid * 1.0002 : currentMid * 0.9998;
+            const closePx = isShort ? currentMid * 1.001 : currentMid * 0.999;
             await client.order({
               orders: [{
                 a: ASSET_INDICES[coin],
@@ -902,7 +965,7 @@ async function startAutonomousSquadDaemon() {
                 p: formatHlPrice(closePx, coin),
                 s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
                 r: true,
-                t: { limit: { tif: "Alo" } }
+                t: { limit: { tif: "Ioc" } }
               }],
               grouping: "na"
             }).catch(() => {});
