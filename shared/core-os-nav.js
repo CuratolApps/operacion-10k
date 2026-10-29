@@ -1,11 +1,11 @@
 /**
  * shared/core-os-nav.js — ÁREA 501 // UNIFIED HYBRID-MODE NAVIGATION & 10-MIN EXECUTIVE HUB
  * ==============================================================================
- * - Estandariza las 6 Estaciones en Modo Híbrido (Satin White + Gris Esmerilado + Esmeralda/Cobalto).
- * - Limpia las pestañas centrales de la barra inferior para que SOLO muestren las vistas
- *   internas numeradas (1, 2, 3...) de la estación actual (cero confusión de menús).
- * - Añade el Selector Rápido 01–06 en la barra inferior y el botón "RESUMEN 10 MIN · 6 ESTACIONES".
- * - Hidrata en tiempo real desde Hyperliquid L1 (0xD4D1...3743) qué genera cada estación.
+ * 1) Descongestiona al 100% la barra inferior: deja SOLO las pestañas internas de la
+ *    estación actual en el centro y UN SOLO botón grande "[ MENÚ CENTRAL · 6 ESTACIONES ]" a la derecha.
+ * 2) Corrige el bug de sessionStorage ("paneStationsHub") que impedía entrar a Swarm 500 (/flota-x500/).
+ * 3) Muestra con honestidad contable 100% real cuánto dinero real lleva cobrado cada estación hoy,
+ *    qué está cazando y exactamente a qué bóveda cae cada recompensa.
  */
 (function () {
   const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
@@ -17,16 +17,17 @@
       id: "posicion-501",
       num: "01",
       badgeClass: "emerald",
-      shortLabel: "01·BÓVEDA",
       stationBarTitle: "ESTACIÓN 01 · BÓVEDA #501",
       title: "POSICIÓN MATRIX 501 (BÓVEDA CENTRAL)",
       icon: "account_balance",
       href: "/posicion-501/",
-      desc: "Contabilidad maestra multicadena, custodia de las 4 bóvedas y control de amortización 70/30 del préstamo 0% ($684.04 USDC).",
-      capitalAssigned: "$919.45 USD Consolidados",
-      whatItGeneratesId: "execYieldSt01",
-      whatItGeneratesDefault: "+$218.12 USDC Netos (+31.89%)",
-      dailyTarget: "Meta Bloque 1: 90.2% ($902.16 / $1,000)",
+      defaultPaneId: "paneExecutiveLedger",
+      desc: "Caja fuerte principal y contabilidad multicadena de tus 4 bóvedas. Aquí se acumulan todas las ganancias y se controla el préstamo 0% ($684.04).",
+      realCollectedId: "execReal_posicion-501",
+      realCollectedDefault: "$921.84 USD Patrimonio Total (+$220.51 Ganados)",
+      whatItHuntsId: "execHunt_posicion-501",
+      whatItHuntsDefault: "Meta Bloque 1: 90.5% ($904.55 / $1,000 USDC)",
+      whereMoneyLands: "Custodia Directa 0xD4D1...3743 (Hyperliquid L1 + Polygon)",
       tabs: [
         { label: "1. Estado Ejecutivo (#501)", tabId: "paneExecutiveLedger" },
         { label: "2. Regla 70/30 & Préstamo 0%", tabId: "paneAmortization" },
@@ -37,16 +38,17 @@
       id: "squad-matrix",
       num: "02",
       badgeClass: "cobalt",
-      shortLabel: "02·SQUAD",
       stationBarTitle: "ESTACIÓN 02 · SQUAD MATRIX",
-      title: "SQUAD MATRIX (18 ESCUADRONES L1)",
+      title: "SQUAD MATRIX (TRADING BLOQUES 1 Y 2)",
       icon: "shield",
       href: "/squad-matrix/",
-      desc: "Motor principal de trading direccional Post-Only ALO en Hyperliquid L1: Bloque 1 Titanes (#01-#03) + Bloque 2 Independiente $300 (#04-#06).",
-      capitalAssigned: "60% Margen Activo ($541.30) + $300 Bloque 2",
-      whatItGeneratesId: "execYieldSt02",
-      whatItGeneratesDefault: "+$10.00 a +$18.00 USDC / Día (142G-0P)",
-      dailyTarget: "7/7 Slots Operando en Vivo (+0.12% a +0.22% TP)",
+      defaultPaneId: "paneCover",
+      desc: "Nuestro motor principal que más dinero produce hoy: Bloque 1 Titanes (#01-#03) + Bloque 2 Independiente de $300 (#04-#06) operando en Hyperliquid L1.",
+      realCollectedId: "execReal_squad-matrix",
+      realCollectedDefault: "+$220.51 USDC Reales Cerrados (142 Ganadas – 0 Perdidas)",
+      whatItHuntsId: "execHunt_squad-matrix",
+      whatItHuntsDefault: "5/7 Operaciones Abiertas Ahora (+0.12% a +0.22% por tiro)",
+      whereMoneyLands: "Cae al instante en USDC dentro de Bóveda #501 (Hyperliquid L1)",
       tabs: [
         { label: "1. Portada & Relojes", tabId: "paneCover" },
         { label: "2. 54 Pares en Vivo", tabId: "panePairs" },
@@ -59,18 +61,19 @@
       id: "funding-matrix",
       num: "03",
       badgeClass: "emerald",
-      shortLabel: "03·FUNDING",
       stationBarTitle: "ESTACIÓN 03 · FUNDING MATRIX",
-      title: "FUNDING RATE MATRIX (RENTA 24/7)",
+      title: "FUNDING RATE MATRIX (RENTA CADA HORA)",
       icon: "currency_exchange",
       href: "/funding-matrix/",
-      desc: "Cobro horario cada 60 minutos (24 pagos/día) en Hyperliquid L1 con el 40% del Escudo Mentora #00 y salida rápida +0.15% TP.",
-      capitalAssigned: "40% Escudo #00 ($360.86 USDC)",
-      whatItGeneratesId: "execYieldSt03",
-      whatItGeneratesDefault: "+$0.85 a +$2.50 USDC / Día (31 Cortes)",
-      dailyTarget: "Cazando Corte :00 UTC + Rebates Maker",
+      defaultPaneId: "paneFundingMain",
+      desc: "Usa el 40% del Escudo Mentora #00 ($361.82 USDC) para cobrar pagos de Funding cada 60 minutos (:00 UTC) y salir rápido en ganancia (+0.15%).",
+      realCollectedId: "execReal_funding-matrix",
+      realCollectedDefault: "+$0.1127 USDC Reales Cobrados (31 Cortes Positivos)",
+      whatItHuntsId: "execHunt_funding-matrix",
+      whatItHuntsDefault: "Cazando Corte Horario :00 UTC + Rebates Maker",
+      whereMoneyLands: "Se suma cada hora (:00) al saldo USDC de Bóveda #501 en L1",
       tabs: [
-        { label: "1. Posiciones Abiertas & Libro 24h", tabId: "paneFundingMain" },
+        { label: "1. Posiciones Abiertas & Cortes 24h", tabId: "paneFundingMain" },
         { label: "2. Solo Cobros Positivos (+USDC)", tabId: "paneFundingMain", filterBtn: "btnFilterPosCuts" }
       ]
     },
@@ -78,16 +81,17 @@
       id: "sniping",
       num: "04",
       badgeClass: "amber",
-      shortLabel: "04·FLASH",
       stationBarTitle: "ESTACIÓN 04 · ATOMIC FLASH",
       title: "ATOMIC FLASH MATRIX (POLYGON V2)",
       icon: "bolt",
       href: "/sniping/",
-      desc: "Arbitraje atómico bidireccional (36 rutas A⇄B), Keeper Harvest y Liquidaciones Aave V3 con préstamos Balancer 0% Fee ($5k–$50k).",
-      capitalAssigned: "$0.00 Capital Propio · 9.90 POL Gas",
-      whatItGeneratesId: "execYieldSt04",
-      whatItGeneratesDefault: "+$0.65 USDC On-Chain (26G-0P)",
-      dailyTarget: "+$0.50 a +$15.00 / Tiro en Picos Volátiles",
+      defaultPaneId: "paneTargetsGrid",
+      desc: "Arbitraje atómico bidireccional (36 rutas A⇄B) y liquidaciones en Polygon PoS con préstamos Flash 0% Fee ($5k–$50k) sin arriesgar tu capital.",
+      realCollectedId: "execReal_sniping",
+      realCollectedDefault: "+$0.65 USDC Reales On-Chain (26 Ganadas – 0 Perdidas)",
+      whatItHuntsId: "execHunt_sniping",
+      whatItHuntsDefault: "Escaneando 36 rutas c/3s (9.90 POL = 1,178 tiros listos)",
+      whereMoneyLands: "El contrato 0x3e8b...09f7 envía el USDC directo a #501 en Polygon",
       tabs: [
         { label: "1. 54 Objetivos en Vivo", tabId: "paneTargetsGrid" },
         { label: "2. Calibres Flash ($5k-$50k)", tabId: "paneLadder" },
@@ -98,16 +102,17 @@
       id: "flota-x500",
       num: "05",
       badgeClass: "purple",
-      shortLabel: "05·SWARM",
       stationBarTitle: "ESTACIÓN 05 · SWARM 500",
       title: "SWARM 500 MATRIX (500 CARTERAS)",
       icon: "hive",
       href: "/flota-x500/",
-      desc: "Enjambre de 500 satélites en 50 Pelotones firmando attestations Gasless EIP-712 ($0 gas), cazando recompensas Keeper y Airdrops 30 Oct.",
-      capitalAssigned: "$4.70 USDC Bolsillos + 20.47 POL Gas",
-      whatItGeneratesId: "execYieldSt05",
-      whatItGeneratesDefault: "$4.70 USDC Reales ($1.75 Cap + $2.95 Sat)",
-      dailyTarget: "500/500 Carteras Elegibles Corte 30 Oct",
+      defaultPaneId: "paneMatrix500",
+      desc: "Enjambre de 500 carteras en 50 Pelotones generando firmas Gasless EIP-712 ($0 gas), cazando recompensas Keeper y Airdrops (Corte 30 Oct).",
+      realCollectedId: "execReal_flota-x500",
+      realCollectedDefault: "$4.70 USDC Reales en Bolsillos ($1.75 Cap + $2.95 Sat)",
+      whatItHuntsId: "execHunt_flota-x500",
+      whatItHuntsDefault: "500/500 Carteras Activas · Corte Airdrops 30 Octubre",
+      whereMoneyLands: "Bolsillos Flota ➔ Embudo Odos barre hacia Bóveda #501",
       tabs: [
         { label: "1. Matriz 500 (50 Pelotones)", tabId: "paneMatrix500" },
         { label: "2. Cortes Airdrops (30 Oct)", tabId: "paneAirdrops" },
@@ -119,20 +124,21 @@
       id: "wick-matrix",
       num: "06",
       badgeClass: "emerald",
-      shortLabel: "06·WICK L1",
       stationBarTitle: "ESTACIÓN 06 · WICK & PAIRS L1",
-      title: "WICK SNIPER & PAIRS ARBITRAGE L1",
+      title: "WICK SNIPER & PAIRS L1 (NUEVO DPTO)",
       icon: "ads_click",
       href: "/wick-matrix/",
-      desc: "12 Redes Trampa Caza-Mechas (±0.85% ALO) para capturar agujas de liquidación ajena en 5–20s + 6 Binomios de Pares Gemelos Neutrales.",
-      capitalAssigned: "$0.00 Capital Inmovilizado en Espera",
-      whatItGeneratesId: "execYieldSt06",
-      whatItGeneratesDefault: "+$3.50 a +$12.00 USDC / Día (+0.40%/tiro)",
-      dailyTarget: "+$0.78 USDC + Maker Rebate por cada aguja",
+      defaultPaneId: "paneWickMain",
+      desc: "12 Redes Trampa Caza-Mechas (±0.85% ALO) esperando agujas violentas de liquidación en Wall Street + 6 Pares Gemelos Neutrales ($0 capital bloqueado).",
+      realCollectedId: "execReal_wick-matrix",
+      realCollectedDefault: "$0.00 USDC Cobrados Hoy (0 Agujas Capturadas aún)",
+      whatItHuntsId: "execHunt_wick-matrix",
+      whatItHuntsDefault: "Meta cuando caiga una aguja: +$0.78 USDC (+0.40% + Rebate)",
+      whereMoneyLands: "Al cerrar el rebote cae directo al saldo USDC de #501 en L1",
       tabs: [
         { label: "1. Redes Caza-Mechas & Gemelos", tabId: "paneWickMain" },
-        { label: "2. Radar Completo 12 Pares L1", tabId: "paneWickFullRadar" },
-        { label: "3. Reglas & Qué Genera (#06)", tabId: "paneWickRules" }
+        { label: "2. ¿Cómo y Dónde Llega el Dinero?", tabId: "paneWickRewardPath" },
+        { label: "3. Tabla Completa 12 Pares", tabId: "paneWickFullRadar" }
       ]
     }
   ];
@@ -145,10 +151,31 @@
     return STATIONS[0];
   }
 
+  // Limpiar cualquier bloqueo de sessionStorage que mandaba al menú viejo ("paneStationsHub")
+  function healStuckSessionStorage(activeStation) {
+    try {
+      const keys = ["flota_active_tab", "sniping_active_tab", "squad_matrix_active_tab"];
+      keys.forEach(k => {
+        const val = sessionStorage.getItem(k);
+        if (val === "paneStationsHub" || val === "paneFundingStations") {
+          sessionStorage.removeItem(k);
+        }
+      });
+
+      const oldHubPane = document.getElementById("paneStationsHub") || document.getElementById("paneFundingStations");
+      if (oldHubPane && oldHubPane.classList.contains("active")) {
+        oldHubPane.classList.remove("active");
+        const mainPane = document.getElementById(activeStation.defaultPaneId);
+        if (mainPane) mainPane.classList.add("active");
+        const firstTabBtn = document.querySelector(`.nav-tab[data-tab="${activeStation.defaultPaneId}"], .nav-btn[data-tab="${activeStation.defaultPaneId}"]`);
+        if (firstTabBtn) firstTabBtn.classList.add("active");
+      }
+    } catch (_) {}
+  }
+
   function activateInternalTab(tabId, filterBtnId) {
     if (!tabId) return;
-    // Buscar botón nativo con data-tab
-    const nativeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+    const nativeBtn = document.querySelector(`.nav-tab[data-tab="${tabId}"], .nav-btn[data-tab="${tabId}"]`);
     if (nativeBtn) {
       nativeBtn.click();
     } else {
@@ -174,13 +201,11 @@
       brandTitleEl.textContent = activeStation.stationBarTitle;
     }
 
-    // 2. Limpiar la zona central de pestañas: eliminar enlaces externos mezclados y numerar pestañas internas
+    // 2. Limpiar la zona central de pestañas: dejar SOLO las pestañas internas de esta estación
     const navContainer = bottomBar.querySelector(".matrix-nav-tabs, .bottom-nav");
     if (navContainer) {
-      // Eliminar links <a href="..."> que apuntaban a otras estaciones en medio de las pestañas internas
       navContainer.querySelectorAll("a[href]").forEach(a => a.remove());
 
-      // Si estamos en funding-matrix, añadir pestañas internas claras para filtrar Todos vs Cobros Positivos
       if (activeStation.id === "funding-matrix") {
         navContainer.innerHTML = `
           <button class="nav-btn active" type="button" id="fTabAll">
@@ -205,7 +230,6 @@
           });
         }
       } else {
-        // Numerar claramente las pestañas internas (1., 2., 3...) si aún no tienen número
         const btns = Array.from(navContainer.querySelectorAll("button.nav-tab, button.nav-btn"));
         btns.forEach((btn, idx) => {
           const iconEl = btn.querySelector(".material-symbols-rounded");
@@ -224,27 +248,17 @@
       }
     }
 
-    // 3. Estandarizar la Zona Derecha: Selector Rápido 01–06 + Botón Maestro "RESUMEN 10 MIN · 6 ESTACIONES"
+    // 3. Zona Derecha DESCONGESTIONADA: Eliminar píldoras apretadas y dejar UN SOLO BOTÓN MAESTRO claro
     const rightZone = bottomBar.querySelector(".bottom-system, .bottom-right");
     if (rightZone) {
-      // Crear tira rápida 01–06 si no existe
-      if (!rightZone.querySelector(".hybrid-quick-stations")) {
-        const quickStrip = document.createElement("div");
-        quickStrip.className = "hybrid-quick-stations";
-        quickStrip.title = "Cambio directo entre las 6 Estaciones de Área 501";
-        quickStrip.innerHTML = STATIONS.map(st => {
-          const isAct = st.id === activeStation.id ? "active" : "";
-          return `<a href="${st.href}" class="hq-station-pill ${isAct}" title="Ir a ${st.stationBarTitle}: ${st.title}">${st.shortLabel}</a>`;
-        }).join("");
-        rightZone.insertBefore(quickStrip, rightZone.firstChild);
-      }
+      const oldQuickStrip = rightZone.querySelector(".hybrid-quick-stations");
+      if (oldQuickStrip) oldQuickStrip.remove();
 
-      // Estandarizar el botón maestro existente (usando fase de captura para anular modales antiguos)
-      const masterBtn = rightZone.querySelector("#btnMasterStationsHub, [data-tab='paneFundingStations'], .btn-stations-master");
+      const masterBtn = rightZone.querySelector("#btnMasterStationsHub, [data-tab='paneFundingStations'], .btn-stations-master, .btn-executive-10min");
       if (masterBtn) {
         masterBtn.className = "btn-executive-10min";
         masterBtn.removeAttribute("data-tab");
-        masterBtn.innerHTML = `<span class="material-symbols-rounded">hub</span> RESUMEN 10 MIN · 6 ESTACIONES`;
+        masterBtn.innerHTML = `<span class="material-symbols-rounded">apps</span> MENÚ CENTRAL · 6 ESTACIONES`;
         masterBtn.addEventListener("click", function (e) {
           e.preventDefault();
           e.stopPropagation();
@@ -275,35 +289,35 @@
           <div>
             <div class="esc-top-row">
               <span class="esc-num-badge ${st.badgeClass}">ESTACIÓN ${st.num} ${st.id === activeStation.id ? "· ESTÁS AQUÍ" : ""}</span>
-              <span class="esc-status-live">● ACTIVA 24/7</span>
+              <span class="esc-status-live">● OPERANDO 24/7</span>
             </div>
             <div class="esc-title-row" style="margin-top:5px;">
               <div class="esc-title-left">
                 <span class="material-symbols-rounded">${st.icon}</span>
                 <h4>${st.title}</h4>
               </div>
-              <a href="${st.href}" class="esc-enter-btn">ENTRAR ➔</a>
+              <a href="${st.href}" class="esc-enter-btn">ENTRAR A ESTACIÓN ${st.num} ➔</a>
             </div>
             <p class="esc-desc" style="margin-top:4px;">${st.desc}</p>
           </div>
 
           <div class="esc-yield-box">
             <div class="esc-yield-row">
-              <span class="esc-yield-lbl">Capital Asignado:</span>
-              <span class="esc-yield-val" id="execCap_${st.id}">${st.capitalAssigned}</span>
+              <span class="esc-yield-lbl">💵 Cobrado Real / En Bolsillo:</span>
+              <span class="esc-yield-val" id="${st.realCollectedId}">${st.realCollectedDefault}</span>
             </div>
             <div class="esc-yield-row">
-              <span class="esc-yield-lbl">¿Qué Genera / Resultado?:</span>
-              <span class="esc-yield-val" id="${st.whatItGeneratesId}">${st.whatItGeneratesDefault}</span>
+              <span class="esc-yield-lbl">🎯 Qué Está Cazando Ahora:</span>
+              <span class="esc-yield-val" id="${st.whatItHuntsId}">${st.whatItHuntsDefault}</span>
             </div>
             <div class="esc-yield-row">
-              <span class="esc-yield-lbl">Estado Operativo Hoy:</span>
-              <span class="esc-yield-val" id="execTarget_${st.id}">${st.dailyTarget}</span>
+              <span class="esc-yield-lbl">🏦 ¿Dónde Cae la Recompensa?:</span>
+              <span class="esc-yield-val" style="color:#1E40AF;">${st.whereMoneyLands}</span>
             </div>
           </div>
 
           <div class="esc-tabs-group">
-            <span class="esc-tabs-label">Pestañas Internas de la Estación ${st.num} (Acceso en 1 Clic):</span>
+            <span class="esc-tabs-label">Entrar directo a una vista de la Estación ${st.num}:</span>
             <div class="esc-tabs-pills">
               ${tabsHtml}
             </div>
@@ -317,45 +331,45 @@
         <div class="exec-modal-header">
           <div class="exec-header-left">
             <div class="exec-brand-icon">
-              <span class="material-symbols-rounded">hub</span>
+              <span class="material-symbols-rounded">apps</span>
             </div>
             <div>
-              <div class="exec-header-title">PANORAMA EJECUTIVO DE 10 MINUTOS · LAS 6 ESTACIONES DE ÁREA 501</div>
-              <div class="exec-header-sub">Vista Unificada Híbrida · Qué pertenece a cada estación, capital asignado y qué está generando en tiempo real</div>
+              <div class="exec-header-title">MENÚ CENTRAL ÁREA 501 · PANORAMA SINCERO DE LAS 6 ESTACIONES</div>
+              <div class="exec-header-sub">Selecciona cualquier Estación para entrar, o revisa en 10 segundos cuánto lleva cobrado real cada una y a dónde llega el dinero</div>
             </div>
           </div>
           <div class="exec-header-right">
             <span class="exec-cloud-badge">
               <span class="live-dot-green"></span>
-              <span>5 DEMONIOS LOCALES + CLOUD 24/7 ACTIVOS</span>
+              <span>5 MOTORES LOCALES + CLOUD 24/7 ACTIVOS</span>
             </span>
             <button type="button" class="exec-close-btn" id="btnCloseExecModal">
-              <span class="material-symbols-rounded" style="font-size:15px;">close</span> CERRAR (ESC)
+              <span class="material-symbols-rounded" style="font-size:15px;">close</span> CERRAR MENÚ (ESC)
             </button>
           </div>
         </div>
 
-        <!-- 4 TARJETAS GLOBALES DE LECTURA EN 10 SEGUNDOS -->
+        <!-- 4 TARJETAS GLOBALES DE LECTURA RÁPIDA -->
         <div class="exec-kpi-strip-4">
           <div class="exec-satin-kpi">
-            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#059669;">account_balance</span> 1. PATRIMONIO TOTAL CONSOLIDADO</div>
-            <div class="exec-kpi-val green" id="execTotalWealthVal">$919.45 USD</div>
-            <div class="exec-kpi-sub" id="execTotalWealthSub">Hyperliquid L1: $902.16 USDC + Multicadena/Flota: $17.29</div>
+            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#059669;">account_balance</span> 1. PATRIMONIO REAL CONSOLIDADO</div>
+            <div class="exec-kpi-val green" id="execTotalWealthVal">$921.84 USD</div>
+            <div class="exec-kpi-sub" id="execTotalWealthSub">Hyperliquid L1: $904.55 USDC + Gas/Flota: $17.29 USD</div>
           </div>
           <div class="exec-satin-kpi">
-            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#1D4ED8;">trending_up</span> 2. GANANCIA NETA ACUMULADA</div>
-            <div class="exec-kpi-val blue" id="execNetProfitVal">+$218.12 USDC (+31.89%)</div>
-            <div class="exec-kpi-sub" id="execNetProfitSub">Sobre Préstamo 0% ($684.04) · Récord: 142 Ganadas – 0 Perdidas</div>
+            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#1D4ED8;">verified</span> 2. GANANCIA REAL CERRADA (L1)</div>
+            <div class="exec-kpi-val blue" id="execNetProfitVal">+$220.51 USDC (+32.23%)</div>
+            <div class="exec-kpi-sub" id="execNetProfitSub">Dinero real ya cobrado sobre Préstamo $684.04 · 142G-0P</div>
           </div>
           <div class="exec-satin-kpi">
-            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#D97706;">payments</span> 3. PRODUCCIÓN DIARIA (6 ESTACIONES)</div>
-            <div class="exec-kpi-val amber">+$14.00 – $25.00 / DÍA</div>
-            <div class="exec-kpi-sub" id="execActiveOpsSub">Squad Bloque 1+2 (7/7) + Wick L1 + Funding 24/7 + Flash + Swarm</div>
+            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#D97706;">bolt</span> 3. OPERACIONES ABIERTAS AHORA</div>
+            <div class="exec-kpi-val amber" id="execActivePositionsVal">5 / 7 EN FUEGO</div>
+            <div class="exec-kpi-sub" id="execActiveOpsSub">Bloque 1 + Bloque 2 ($300) trabajando en vivo en Wall Street</div>
           </div>
           <div class="exec-satin-kpi">
-            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#059669;">flag</span> 4. META BLOQUE 1 ($1,000 ➔ 70/30)</div>
-            <div class="exec-kpi-val green" id="execGoalPctVal">90.2% COMPLETADO</div>
-            <div class="exec-kpi-sub" id="execGoalDistSub">Faltan $97.84 USDC para iniciar devolución 30% a Bóveda #501</div>
+            <div class="exec-kpi-lbl"><span class="material-symbols-rounded" style="font-size:14px; color:#059669;">flag</span> 4. META BLOQUE 1 ($1,000 USDC)</div>
+            <div class="exec-kpi-val green" id="execGoalPctVal">90.5% COMPLETADO</div>
+            <div class="exec-kpi-sub" id="execGoalDistSub">Faltan solo $95.45 USDC para activar retorno 30% a #501</div>
           </div>
         </div>
 
@@ -376,7 +390,6 @@
       if (e.key === "Escape") closeExecutiveModal();
     });
 
-    // Interceptar clics en pestañas internas si ya estamos en la misma estación
     modal.querySelectorAll(".esc-tab-link").forEach(link => {
       link.addEventListener("click", (e) => {
         const stId = link.getAttribute("data-st");
@@ -404,6 +417,8 @@
     if (modal) modal.classList.remove("open");
   }
 
+  window.openArea501ExecutiveModal = openExecutiveModal;
+
   async function refreshExecutiveLiveTelemetry() {
     try {
       const res = await fetch("https://api.hyperliquid.xyz/info", {
@@ -421,8 +436,6 @@
       const netProfitPct = (netProfit / INITIAL_LOAN_501) * 100;
       const pct1000 = Math.min(100, (hlEq / 1000) * 100);
       const dist1000 = Math.max(0, 1000 - hlEq);
-      const activeMargin60 = hlEq * 0.60;
-      const shield40 = hlEq * 0.40;
 
       const openPositions = (ch?.assetPositions || [])
         .map(p => p?.position)
@@ -436,20 +449,18 @@
       };
 
       setTxt("execTotalWealthVal", `$${totalWealth.toFixed(2)} USD`);
-      setTxt("execTotalWealthSub", `Hyperliquid L1: $${hlEq.toFixed(2)} USDC + Multicadena/Flota: $${EXTRA_MULTICHAIN_USD.toFixed(2)}`);
+      setTxt("execTotalWealthSub", `Hyperliquid L1: $${hlEq.toFixed(2)} USDC + Gas/Flota: $${EXTRA_MULTICHAIN_USD.toFixed(2)} USD`);
       setTxt("execNetProfitVal", `+$${netProfit.toFixed(2)} USDC (+${netProfitPct.toFixed(2)}%)`);
+      setTxt("execActivePositionsVal", `${openPositions.length} / 7 EN FUEGO`);
+      setTxt("execActiveOpsSub", `Pares Abiertos Ahora: ${posCoins || "Escaneando L1"}`);
       setTxt("execGoalPctVal", `${pct1000.toFixed(1)}% COMPLETADO`);
-      setTxt("execGoalDistSub", `Faltan $${dist1000.toFixed(2)} USDC para iniciar devolución 30% a Bóveda #501`);
+      setTxt("execGoalDistSub", `Faltan solo $${dist1000.toFixed(2)} USDC para activar retorno 30% a #501`);
 
-      // Actualizar tarjetas de las 6 estaciones con los datos reales en vivo
-      setTxt("execCap_posicion-501", `$${totalWealth.toFixed(2)} USD Consolidados`);
-      setTxt("execYieldSt01", `+$${netProfit.toFixed(2)} USDC Netos (+${netProfitPct.toFixed(2)}%)`);
-      setTxt("execTarget_posicion-501", `Meta Bloque 1: ${pct1000.toFixed(1)}% ($${hlEq.toFixed(2)} / $1,000)`);
+      setTxt("execReal_posicion-501", `$${totalWealth.toFixed(2)} USD Patrimonio (+$${netProfit.toFixed(2)} Ganados)`);
+      setTxt("execHunt_posicion-501", `Meta Bloque 1: ${pct1000.toFixed(1)}% ($${hlEq.toFixed(2)} / $1,000 USDC)`);
 
-      setTxt("execCap_squad-matrix", `60% Margen ($${activeMargin60.toFixed(2)}) + $300 Bloque 2`);
-      setTxt("execTarget_squad-matrix", `${openPositions.length}/7 Posiciones Activas (${posCoins || "Escaneando L1"})`);
-
-      setTxt("execCap_funding-matrix", `40% Escudo #00 ($${shield40.toFixed(2)} USDC)`);
+      setTxt("execReal_squad-matrix", `+$${netProfit.toFixed(2)} USDC Reales Cerrados (142G-0P)`);
+      setTxt("execHunt_squad-matrix", `${openPositions.length}/7 Posiciones Activas (${posCoins || "Escaneando L1"})`);
     } catch (_) {}
   }
 
@@ -458,23 +469,21 @@
       const params = new URLSearchParams(window.location.search);
       const tabId = params.get("tab");
       const filterBtn = params.get("filter");
-      if (tabId) {
+      if (tabId && tabId !== "paneStationsHub" && tabId !== "paneFundingStations") {
         setTimeout(() => activateInternalTab(tabId, filterBtn), 120);
       }
     } catch (_) {}
   }
 
   function initHybridNavigation() {
-    // Eliminar cualquier rastro de barra oscura antigua si existiera
-    const oldBar = document.getElementById("coreMatrixOsWrapper");
-    if (oldBar) oldBar.remove();
-
     const activeStation = getActiveStation();
+    healStuckSessionStorage(activeStation);
+    setTimeout(() => healStuckSessionStorage(activeStation), 180);
     standardizeBottomBar(activeStation);
     buildExecutiveModal(activeStation);
     handleUrlTabParam();
     refreshExecutiveLiveTelemetry();
-    setInterval(refreshExecutiveLiveTelemetry, 8000);
+    setInterval(refreshExecutiveLiveTelemetry, 6000);
   }
 
   if (document.readyState === "loading") {

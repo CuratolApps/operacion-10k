@@ -459,9 +459,15 @@ function renderInspectorTable() {
   });
 }
 
-// Conmutación de Pestañas (PERSISTENCIA TOTAL EN SESSIONSTORAGE)
+// Conmutación de Pestañas (PERSISTENCIA TOTAL EN SESSIONSTORAGE, NUNCA BLOQUEAR EN HUB ANTIGUO)
 function switchTab(targetId) {
-  if (!targetId) return;
+  if (!targetId || targetId === "paneStationsHub") {
+    if (typeof window.openArea501ExecutiveModal === "function") {
+      window.openArea501ExecutiveModal();
+      return;
+    }
+    targetId = "paneMatrix500";
+  }
   sessionStorage.setItem("flota_active_tab", targetId);
 
   document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
@@ -471,11 +477,6 @@ function switchTab(targetId) {
   document.querySelectorAll(".nav-tab").forEach(btn => {
     btn.classList.toggle("active", btn.getAttribute("data-tab") === targetId);
   });
-
-  const masterBtn = document.getElementById("btnMasterStationsHub");
-  if (masterBtn) {
-    masterBtn.classList.toggle("active", targetId === "paneStationsHub");
-  }
 }
 
 // Reloj UTC en Vivo
@@ -491,7 +492,11 @@ function updateLiveClock() {
 
 // Setup Event Listeners
 function setupEvents() {
-  const savedTab = sessionStorage.getItem("flota_active_tab") || "paneMatrix500";
+  let savedTab = sessionStorage.getItem("flota_active_tab") || "paneMatrix500";
+  if (savedTab === "paneStationsHub") {
+    savedTab = "paneMatrix500";
+    sessionStorage.setItem("flota_active_tab", "paneMatrix500");
+  }
 
   // Tabs en footer
   document.querySelectorAll(".nav-tab").forEach(btn => {
@@ -501,15 +506,7 @@ function setupEvents() {
     });
   });
 
-  // Botón maestro de estaciones
-  const masterBtn = document.getElementById("btnMasterStationsHub");
-  if (masterBtn) {
-    masterBtn.addEventListener("click", () => {
-      switchTab("paneStationsHub");
-    });
-  }
-
-  // Restaurar pestaña activa
+  // Restaurar pestaña activa (siempre abre en Matriz 500 o la pestaña interna elegida)
   switchTab(savedTab);
 
   // Filtros del inspector de carteras

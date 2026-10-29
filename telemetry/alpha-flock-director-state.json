@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T13:21:42.907Z",
+  "updatedAt": "2026-10-29T14:01:43.712Z",
   "liveBalances": {
     "totalUsdc": 3.41,
     "polygonUsdc": 0.7,
@@ -10,7 +10,7 @@
     "bnb": 0.00877,
     "baseEth": 0.0144,
     "arbEth": 0.0036,
-    "readTimestamp": "2026-10-29T13:21:34.455Z"
+    "readTimestamp": "2026-10-29T14:01:35.108Z"
   },
   "radarA_TokenlessProtocols": [
     {
@@ -20,9 +20,9 @@
         "Base"
       ],
       "chainsText": "Base",
-      "tvlUsd": 453945949.4824565,
-      "tvlFormatted": "$453.9M",
-      "change1d": "+3.04%",
+      "tvlUsd": 454070302.2112716,
+      "tvlFormatted": "$454.1M",
+      "change1d": "+3.07%",
       "url": "https://app.upshift.finance"
     },
     {
@@ -32,9 +32,9 @@
         "Arbitrum"
       ],
       "chainsText": "Arbitrum",
-      "tvlUsd": 76011298.12576553,
+      "tvlUsd": 76043832.4345802,
       "tvlFormatted": "$76.0M",
-      "change1d": "+0.32%",
+      "change1d": "+0.37%",
       "url": "https://popdex.xyz/"
     },
     {
@@ -44,9 +44,9 @@
         "Base"
       ],
       "chainsText": "Base",
-      "tvlUsd": 70151279.86003254,
+      "tvlUsd": 70159390.156552,
       "tvlFormatted": "$70.2M",
-      "change1d": "+1.11%",
+      "change1d": "+1.12%",
       "url": "https://infinifi.xyz"
     }
   ],

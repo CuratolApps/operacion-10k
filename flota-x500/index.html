@@ -18,15 +18,16 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <!-- Estilos Matrix Estándar 100vh Cero Scroll -->
-  <link rel="stylesheet" href="style.css?v=20261029v5">
+  <link rel="stylesheet" href="style.css?v=20261029v9">
   <!-- Sistema Operativo Unificado CORE MATRIX 501 (Modo Híbrido 6 Estaciones) -->
-  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261029v8">
-  <script src="/shared/core-os-nav.js?v=20261029v8" defer></script>
+  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261029v9">
+  <script src="/shared/core-os-nav.js?v=20261029v9" defer></script>
 
   <!-- Micro-script de Hidratación Instantánea Milisegundo 0 (Zero-Flicker & Anti-Rollback) -->
   <script>
     (function () {
       try {
+        sessionStorage.removeItem("flota_active_tab");
         localStorage.removeItem("area501_flota_state_v1");
         var raw = localStorage.getItem("area501_flota_state_v2");
         if (raw) {
@@ -522,6 +523,6 @@
 
   </div>
 
-  <script src="app.js?v=20261029v5"></script>
+  <script src="app.js?v=20261029v9"></script>
 </body>
 </html>

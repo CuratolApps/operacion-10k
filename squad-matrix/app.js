@@ -255,13 +255,23 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(fetchHyperliquidState, 3000);
 });
 
-// CONTROL DE PESTAÑAS Y LANZADOR DE LAS 3 ESTACIONES (PERSISTENTE EN SESSIONSTORAGE)
+// CONTROL DE PESTAÑAS Y LANZADOR DE LAS 6 ESTACIONES (PERSISTENTE EN SESSIONSTORAGE)
 function initTabs() {
-  const savedTab = sessionStorage.getItem("squad_matrix_active_tab") || "paneCover";
-  const allNavButtons = document.querySelectorAll(".nav-tab, .btn-stations-master");
+  let savedTab = sessionStorage.getItem("squad_matrix_active_tab") || "paneCover";
+  if (savedTab === "paneStationsHub") {
+    savedTab = "paneCover";
+    sessionStorage.setItem("squad_matrix_active_tab", "paneCover");
+  }
+  const allNavButtons = document.querySelectorAll(".nav-tab");
 
   function activateTab(targetId) {
-    if (!targetId) return;
+    if (!targetId || targetId === "paneStationsHub") {
+      if (typeof window.openArea501ExecutiveModal === "function") {
+        window.openArea501ExecutiveModal();
+        return;
+      }
+      targetId = "paneCover";
+    }
     sessionStorage.setItem("squad_matrix_active_tab", targetId);
 
     allNavButtons.forEach(b => {

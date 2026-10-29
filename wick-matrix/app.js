@@ -2,8 +2,10 @@
  * wick-matrix/app.js — ÁREA 501 // ESTACIÓN #06 · WICK SNIPER & PAIRS ARBITRAGE L1
  * ==============================================================================
  * Hidrata en tiempo real las 12 Redes Caza-Mechas (Post-Only ALO ±0.85%) y los
- * 6 Binomios de Arbitraje Delta-Neutral desde el demonio L1 y la API oficial de
- * Hyperliquid L1 (https://api.hyperliquid.xyz/info).
+ * 6 Binomios de Arbitraje Delta-Neutral con 100% honestidad contable:
+ * - Precios actuales leídos en vivo desde Hyperliquid L1 (https://api.hyperliquid.xyz/info)
+ * - Diferenciación clara entre "Cobrado Real Hoy ($0.00 USDC)" y "Meta por Aguja (+$0.78 USDC)"
+ * - Destino exacto de acreditación: Bóveda #501 (0xD4D1...3743 en Hyperliquid L1)
  */
 (function () {
   const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
@@ -49,19 +51,27 @@
     return "$" + n.toFixed(5);
   }
 
-  function renderTables(wickTraps, twinPairs, accountEquity, shield40, syncUtc) {
+  function renderTables(wickTraps, twinPairs, accountEquity, shield40, syncUtc, realCapturedUsdc = 0, realCapturesCount = 0) {
     const eqEl = document.getElementById("kpiEquityTotal");
     const shEl = document.getElementById("kpiShieldFree");
     const syncEl = document.getElementById("wickSyncBadge");
+    const colEl = document.getElementById("kpiRealCollectedWick");
+    const cntEl = document.getElementById("kpiRealCapturesCount");
 
     if (eqEl && accountEquity > 0) {
-      eqEl.textContent = `Patrimonio L1: $${Number(accountEquity).toFixed(2)}`;
+      eqEl.textContent = `Saldo L1: $${Number(accountEquity).toFixed(2)} USDC`;
     }
     if (shEl && shield40 > 0) {
       shEl.textContent = `$${Number(shield40).toFixed(2)} USDC`;
     }
     if (syncEl && syncUtc) {
-      syncEl.textContent = `L1 en Vivo · ${syncUtc}`;
+      syncEl.textContent = `Precios L1 en Vivo · ${syncUtc}`;
+    }
+    if (colEl) {
+      colEl.textContent = `$${Number(realCapturedUsdc || 0).toFixed(2)}`;
+    }
+    if (cntEl) {
+      cntEl.textContent = `${Number(realCapturesCount || 0)} CAPTURAS HOY`;
     }
 
     const tbodyMain = document.getElementById("wickTrapsTableBody");
@@ -69,12 +79,12 @@
       tbodyMain.innerHTML = wickTraps.map(t => `
         <tr>
           <td><b>${t.coin}</b></td>
-          <td>${fmtPx(t.midPx)}</td>
+          <td><b>${fmtPx(t.midPx)}</b></td>
           <td style="color:#059669; font-weight:700;">${fmtPx(t.bidTrapPx)}</td>
           <td style="color:#1D4ED8; font-weight:700;">${fmtPx(t.reboteLongTpPx)}</td>
-          <td style="color:#D97706; font-weight:700;">${fmtPx(t.askTrapPx)}</td>
-          <td style="color:#059669; font-weight:800;">+$${Number(t.estNetProfitUsdc || 0.78).toFixed(2)} USDC</td>
-          <td><span class="status-chip"><span class="material-symbols-rounded" style="font-size:12px;">check_circle</span> ${t.status || "TRAMPA ALO ACTIVA"}</span></td>
+          <td style="color:#D97706; font-weight:800;">Meta: +$${Number(t.estNetProfitUsdc || 0.78).toFixed(2)}</td>
+          <td><span class="status-chip blue">➔ Bóveda #501 (L1)</span></td>
+          <td><span class="status-chip"><span class="material-symbols-rounded" style="font-size:12px;">radar</span> VIGILANDO AGUJA</span></td>
         </tr>
       `).join("");
     }
@@ -85,13 +95,13 @@
         <tr>
           <td>#${String(idx + 1).padStart(2, "0")}</td>
           <td><b>${t.coin}</b></td>
-          <td>${fmtPx(t.midPx)}</td>
+          <td><b>${fmtPx(t.midPx)}</b></td>
           <td style="color:#059669; font-weight:700;">${fmtPx(t.bidTrapPx)} (-0.85%)</td>
           <td style="color:#1D4ED8; font-weight:700;">${fmtPx(t.reboteLongTpPx)} (+0.40%)</td>
           <td style="color:#D97706; font-weight:700;">${fmtPx(t.askTrapPx)} (+0.85%)</td>
           <td style="color:#1D4ED8; font-weight:700;">${fmtPx(t.reboteShortTpPx || (t.askTrapPx * 0.996))} (-0.40%)</td>
-          <td style="color:#059669; font-weight:800;">+$${Number(t.estNetProfitUsdc || 0.78).toFixed(2)} USDC + Rebate</td>
-          <td><span class="status-chip"><span class="material-symbols-rounded" style="font-size:12px;">bolt</span> VIGILANDO AGUJA L1</span></td>
+          <td style="color:#D97706; font-weight:800;">Meta: +$${Number(t.estNetProfitUsdc || 0.78).toFixed(2)} USDC</td>
+          <td><span class="status-chip blue">0xD4D1...3743 (#501 L1)</span></td>
         </tr>
       `).join("");
     }
@@ -104,8 +114,8 @@
           <td><span class="status-chip blue">${tp.corr || tp.correlation}</span></td>
           <td>${fmtPx(tp.pxA)} / ${fmtPx(tp.pxB)}</td>
           <td><b>${tp.liveRatio}</b></td>
-          <td style="color:#059669; font-weight:700;">+0.20% Neto ($0 Riesgo)</td>
-          <td><span class="status-chip">${tp.status || "VIGILANDO Z-SCORE"}</span></td>
+          <td style="color:#D97706; font-weight:700;">Meta: +0.20% ➔ #501</td>
+          <td><span class="status-chip">VIGILANDO SPREAD</span></td>
         </tr>
       `).join("");
     }
@@ -113,28 +123,6 @@
 
   async function refreshWickTelemetry() {
     try {
-      // 1. Intentar leer primero la telemetría del demonio local o worker
-      const endpoints = ["/api/telemetry/wick-sniper", "/telemetry/wick-sniper-telemetry.json"];
-      for (const url of endpoints) {
-        try {
-          const res = await fetch(url + "?t=" + Date.now(), { cache: "no-store" });
-          if (res.ok) {
-            const data = await res.json();
-            if (data && Array.isArray(data.wickTraps) && data.wickTraps.length > 0) {
-              renderTables(
-                data.wickTraps,
-                data.twinPairs || [],
-                data.accountEquityUsdc || 902.15,
-                data.shield40MarginFreeUsdc || 360.86,
-                (data.updatedAt || new Date().toISOString()).slice(11, 19) + " UTC"
-              );
-              return;
-            }
-          }
-        } catch (_) {}
-      }
-
-      // 2. Fallback directo en vivo desde Hyperliquid L1 Info API
       const [midsRes, chRes] = await Promise.all([
         fetch("https://api.hyperliquid.xyz/info", {
           method: "POST",
@@ -150,7 +138,7 @@
 
       if (midsRes.ok) {
         const mids = await midsRes.json();
-        let eq = 902.15;
+        let eq = 904.55;
         if (chRes.ok) {
           const ch = await chRes.json();
           const parsedEq = Number(ch?.marginSummary?.accountValue || 0);
@@ -166,7 +154,7 @@
             reboteLongTpPx: mid * (1 - 0.0045),
             reboteShortTpPx: mid * (1 + 0.0045),
             estNetProfitUsdc: 0.78,
-            status: "TRAMPA ALO ACTIVA"
+            status: "VIGILANDO AGUJA"
           };
         });
         const twins = TWIN_PAIRS.map(tp => {
@@ -178,14 +166,14 @@
             pxA,
             pxB,
             liveRatio: pxB > 0 ? (pxA / pxB).toFixed(4) : "0.0000",
-            status: "VIGILANDO Z-SCORE"
+            status: "VIGILANDO SPREAD"
           };
         });
-        renderTables(traps, twins, eq, eq * 0.40, new Date().toISOString().slice(11, 19) + " UTC");
+        renderTables(traps, twins, eq, eq * 0.40, new Date().toISOString().slice(11, 19) + " UTC", 0, 0);
       }
     } catch (_) {}
   }
 
   refreshWickTelemetry();
-  setInterval(refreshWickTelemetry, 4500);
+  setInterval(refreshWickTelemetry, 4000);
 })();

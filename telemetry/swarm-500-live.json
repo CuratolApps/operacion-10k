@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-29T13:25:34.498Z",
-  "lastScanUtc": "13:25:34 UTC",
+  "updatedAt": "2026-10-29T14:04:05.136Z",
+  "lastScanUtc": "14:04:05 UTC",
   "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-  "cycleCount": 18,
+  "cycleCount": 95,
   "walletsActive": "500 / 500",
   "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
@@ -16,41 +16,41 @@
   "streakGoal": "500 / 500 Firmado EIP-712",
   "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
   "currentPlatoonScanned": {
-    "platoonId": 18,
-    "walletRange": "#171 ➔ #180",
+    "platoonId": 45,
+    "walletRange": "#441 ➔ #450",
     "attestationsCount": 10,
     "polyDetectedUsdc": 0,
     "baseDetectedUsdc": 0,
     "sampleAttestations": [
       {
-        "index": 171,
-        "address": "0xA4b501068fE982e62D5f3B40e8b575B31ecd3D97",
-        "platoonId": 18,
-        "campaign": "DogeOS Cap. 2 (30 Oct)",
-        "signatureHash": "0x29750457119e738f...d26ddb",
+        "index": 441,
+        "address": "0x7D53298466760f7485d1766e7e2016eF18bC92e8",
+        "platoonId": 45,
+        "campaign": "Free-Mint & Odos Arb",
+        "signatureHash": "0xa1825e17679dab62...ffa5de",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T13:25:30.759Z"
+        "timestamp": "2026-10-29T14:04:01.395Z"
       },
       {
-        "index": 172,
-        "address": "0x682287C84B9Fbf122DFFc99b023bE883aEc225df",
-        "platoonId": 18,
-        "campaign": "DogeOS Cap. 2 (30 Oct)",
-        "signatureHash": "0x37d200282c8caac3...2dc28a",
+        "index": 442,
+        "address": "0x30B230043EC44d4381Fc85aC7C5721c24556018E",
+        "platoonId": 45,
+        "campaign": "Free-Mint & Odos Arb",
+        "signatureHash": "0x09f4ed186b29d134...fd9172",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T13:25:30.759Z"
+        "timestamp": "2026-10-29T14:04:01.395Z"
       },
       {
-        "index": 173,
-        "address": "0xEc8D2C782a17B0281AF59B925f96BC9b33C720c4",
-        "platoonId": 18,
-        "campaign": "DogeOS Cap. 2 (30 Oct)",
-        "signatureHash": "0x3c5190f6dd8f93a9...81fd86",
+        "index": 443,
+        "address": "0xECB1367E5DE373fa584C8AcD1e62D554C69f5eBb",
+        "platoonId": 45,
+        "campaign": "Free-Mint & Odos Arb",
+        "signatureHash": "0x9ab91b7f09266fca...087b01",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T13:25:30.759Z"
+        "timestamp": "2026-10-29T14:04:01.395Z"
       }
     ]
   },

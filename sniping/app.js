@@ -360,11 +360,21 @@ async function syncTelemetry() {
 }
 
 function setupTabs() {
-  const savedTab = sessionStorage.getItem("sniping_active_tab") || "paneTargetsGrid";
-  const allNavButtons = document.querySelectorAll(".nav-tab, .btn-stations-master");
+  let savedTab = sessionStorage.getItem("sniping_active_tab") || "paneTargetsGrid";
+  if (savedTab === "paneStationsHub") {
+    savedTab = "paneTargetsGrid";
+    sessionStorage.setItem("sniping_active_tab", "paneTargetsGrid");
+  }
+  const allNavButtons = document.querySelectorAll(".nav-tab");
 
   function activateTab(targetPaneId) {
-    if (!targetPaneId) return;
+    if (!targetPaneId || targetPaneId === "paneStationsHub") {
+      if (typeof window.openArea501ExecutiveModal === "function") {
+        window.openArea501ExecutiveModal();
+        return;
+      }
+      targetPaneId = "paneTargetsGrid";
+    }
     sessionStorage.setItem("sniping_active_tab", targetPaneId);
 
     allNavButtons.forEach(b => {
