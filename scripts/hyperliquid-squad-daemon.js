@@ -36,20 +36,25 @@ process.on("uncaughtException", (err) => {
   console.error("⚠️ [DAEMON] Excepción no capturada (resiliente, continuando):", err?.message || err);
 });
 
-// --- POLÍTICA DE CAPITAL ESCALADO V3 (40% ESCUDO #00 / 60% EN 6 ESCUADRONES #01-#06 ~ $90-$100 C/U) ---
+// --- POLÍTICA DE CAPITAL ESCALADO V3 (40% ESCUDO #00 / BLOQUE 1 INDEPENDIENTE + BLOQUE 2 $300 USDC INDEPENDIENTE) ---
 const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$360.82+ USDC Intocables)
 const SQUAD_MARGIN_RATIO = 0.11;        // ~11% Margen por Escuadrón (~$100.00 USDC x 6 Escuadrones = ~$600 / 60% Operativo)
-const LEVERAGE = 2.5;                   // ~$100 Margen * 2.5x = ~$250.00 Nocional seguro por tiro
+const BLOCK2_DEDICATED_MARGIN = 100.00; // $100.00 USDC dedicados para #04 GOLF, #05 HOTEL, #06 INDIA ($300 USDC Bloque 2)
+const BLOCK2_LEVERAGE = 2.0;            // $100.00 * 2.0x = $200.00 Nocional ágil por disparo en Bloque 2
+const LEVERAGE = 2.5;                   // ~$100 Margen * 2.5x = ~$250.00 Nocional seguro por tiro en Bloque 1
 const MAX_NOTIONAL_PER_COIN = 250.00;   // REGLA ANTI-LIQUIDEZ ESTÁTICA: Máx $250.00 USD por par
-const TARGET_GAIN_PCT = 0.15;           // +0.15% Take Profit Rápido (Rotación Rápida +0.15%)
+const TARGET_GAIN_PCT = 0.15;           // +0.15% Take Profit Rápido Bloque 1
+const BLOCK2_TARGET_GAIN_PCT = 0.12;    // +0.12% Take Profit Ultra-Rápido Bloque 2 (Cero Holder / Liquidez Rápida)
 const BREAKEVEN_TRIGGER_PCT = 0.05;     // Candado Breakeven #00 se activa al +0.05%
 const BREAKEVEN_LOCK_PCT = 0.03;        // Candado BE en +0.03% (cubre 100% comisiones Maker y asegura centavos verdes)
-const TIME_STOP_MS = 20 * 60 * 1000;    // Reloj Anti-Estancamiento: 20 minutos
-const TIME_STOP_MIN_PNL_USDC = 0.02;    // Si lleva >20m y PnL >= +$0.02 USDC, cierra de inmediato para rotación
-const COOLDOWN_DURATION_MS = 12 * 60 * 1000; // 12 minutos de enfriamiento táctico post-TP
-const MIN_CERTAINTY_L2_PCT = 65.0;      // 65% de presión L2 mínima para tiro de alta certeza
-const MAX_CONCURRENT_INITIAL = 3;       // Hasta 3 simultáneas directas entre los 6 escuadrones
-const MAX_CONCURRENT_TOTAL = 4;         // Hasta 4 simultáneas si al menos 1 ya está en verde / BE #00
+const TIME_STOP_MS = 10 * 60 * 1000;    // Reloj Anti-Holder Cero Estancamiento: 10 minutos
+const TIME_STOP_MIN_PNL_USDC = 0.02;    // Si lleva >=10m y PnL >= +$0.02 USDC, cierra de inmediato para rotar liquidez
+const COOLDOWN_DURATION_MS = 8 * 60 * 1000;  // 8 minutos de enfriamiento táctico post-TP por par (Clon releva al instante)
+const MIN_CERTAINTY_L2_PCT = 58.0;      // 58% de presión L2 mínima para tiro con confluencia real
+const MAX_CONCURRENT_BLOCK_1 = 4;       // Cupo propio Bloque 1 (#01 ALFA, #02 BRAVO, #03 CHARLIE): hasta 4 posiciones
+const MAX_CONCURRENT_BLOCK_2 = 3;       // Cupo propio INDEPENDIENTE Bloque 2 (#04 GOLF, #05 HOTEL, #06 INDIA): 3 posiciones ($100 c/u)
+const MAX_CONCURRENT_INITIAL = 6;       // Hasta 6 simultáneas directas (1 por cada uno de los 6 escuadrones activos)
+const MAX_CONCURRENT_TOTAL = 7;         // Hasta 7 simultáneas totales (4 Bloque 1 + 3 Bloque 2 independientes)
 const pairCooldowns = {};               // Mapa de enfriamiento táctico { coin: timestampMs }
 const DCA_TRIGGER_DRAWDOWN = -0.85;     // Refuerzo Mentora en -0.85%
 const DCA_TRIGGER_RSI = 30;             // RSI sobreventa extrema
@@ -112,56 +117,65 @@ const ASSET_DECIMALS = {
 const SQUADS_CONFIG = {
   ALFA: {
     id: "ALFA",
+    block: 1,
     name: "Escuadrón #01 Alfa",
     specialist: "#601 Titan-Scalper",
-    role: "Fuerza Rápida High-Beta",
+    role: "Fuerza Rápida High-Beta (Bloque 1)",
     pairs: ["SOL", "SUI", "AVAX"],
     targetGainPct: TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   BRAVO: {
     id: "BRAVO",
+    block: 1,
     name: "Escuadrón #02 Bravo",
     specialist: "#701 Oracle-Global",
-    role: "Macro & Refugios RWA",
+    role: "Macro & Refugios RWA (Bloque 1)",
     pairs: ["BTC", "PAXG", "LINK"],
     targetGainPct: TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   CHARLIE: {
     id: "CHARLIE",
+    block: 1,
     name: "Escuadrón #03 Charlie",
     specialist: "#801 Nexus-Boss",
-    role: "Ecosistema DeFi & ALO Maker",
+    role: "Ecosistema DeFi & ALO Maker (Bloque 1)",
     pairs: ["ETH", "BNB", "AAVE"],
     targetGainPct: TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   GOLF: {
     id: "GOLF",
+    block: 2,
+    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
     name: "Escuadrón #04 Golf",
     specialist: "#901 Golf-Velocity",
-    role: "Alta Velocidad & Liquidez Masiva",
+    role: "Alta Velocidad & Liquidez Masiva ($100 Bloque 2)",
     pairs: ["XRP", "DOGE", "ADA"],
-    targetGainPct: TARGET_GAIN_PCT,
+    targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   HOTEL: {
     id: "HOTEL",
+    block: 2,
+    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
     name: "Escuadrón #05 Hotel",
     specialist: "#902 Hotel-HyperL1",
-    role: "Nativos L1 & Flujo Institucional",
+    role: "Nativos L1 & Flujo Institucional ($100 Bloque 2)",
     pairs: ["HYPE", "TRX", "UNI"],
-    targetGainPct: TARGET_GAIN_PCT,
+    targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   INDIA: {
     id: "INDIA",
+    block: 2,
+    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
     name: "Escuadrón #06 India",
     specialist: "#903 India-CrossChain",
-    role: "Infraestructura L0/L1 & PoW",
+    role: "Infraestructura L0/L1 & PoW ($100 Bloque 2)",
     pairs: ["DOT", "NEAR", "LTC"],
-    targetGainPct: TARGET_GAIN_PCT,
+    targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   }
 };
@@ -872,10 +886,10 @@ async function startAutonomousSquadDaemon() {
             ? (currentMid - entryPx) / entryPx * 100
             : (entryPx - currentMid) / entryPx * 100;
 
-          // Reloj Anti-Estancamiento (sólo para posiciones normales o si uPnlNum >= $0.55 en posición rescatada)
-          const minPnlForTimeStop = posMeta.dcaDone ? 0.55 : TIME_STOP_MIN_PNL_USDC;
+          // Reloj Anti-Estancamiento Cero-Holder (cierra en ganancia a partir de 10 minutos para rotar liquidez)
+          const minPnlForTimeStop = posMeta.dcaDone ? 0.45 : TIME_STOP_MIN_PNL_USDC;
           const elapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
-          if (elapsedMins >= 20 && uPnlNum >= minPnlForTimeStop) {
+          if (elapsedMins >= 10 && uPnlNum >= minPnlForTimeStop) {
             console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] ${coin} abierta hace ${elapsedMins.toFixed(1)}m en verde (+$${uPnlNum.toFixed(4)} USDC). Cerrando para rotar.`);
             if (existingExitOrder) {
               await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
@@ -970,7 +984,7 @@ async function startAutonomousSquadDaemon() {
         }
       }
 
-      // Enviar reporte de arranque en el Ciclo #1 confirmando los 6 Escuadrones Activos y las posiciones vigentes
+      // Enviar reporte de arranque en el Ciclo #1 confirmando los 6 Escuadrones Activos y el Cupo Independiente Bloque 2 ($300 USDC)
       if (cycleCounter === 1) {
         const posLines = openPositions.map(p => {
           const c = p.position.coin;
@@ -980,58 +994,63 @@ async function startAutonomousSquadDaemon() {
           return `• <code>${c}-USDC</code> (${s >= 0 ? "LONG" : "SHORT"} ${Math.abs(s)} @ $${formatHlPrice(e, c)} ➔ TP $${formatHlPrice(e * tpMult, c)})`;
         }).join("\n") || "• Sin posiciones abiertas (Escaneando 18 pares)";
 
-        const bootTg = `🚀🛡️ <b>ÁREA 501 // 6 ESCUADRONES ACTIVOS (#01 ALFA A #06 INDIA) + ESCUDO #00 TP</b>\n` +
+        const bootTg = `🚀🛡️ <b>ÁREA 501 // BLOQUE 1 + BLOQUE 2 ($300 USDC INDEPENDIENTES) EN FUEGO PARALELO</b>\n` +
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `💵 <b>Patrimonio L1:</b> <code>$${accountValue.toFixed(2)} USDC</code> (Escudo 40%: <code>$${reserveUsdc.toFixed(2)} USDC</code>)\n` +
-          `🔰 <b>6 Escuadrones en Fuego (12 Bots 1 ⇄ 2 · 18 Pares):</b>\n` +
-          `  • <b>#01 ALFA:</b> SOL, SUI, AVAX\n` +
-          `  • <b>#02 BRAVO:</b> BTC, PAXG, LINK\n` +
-          `  • <b>#03 CHARLIE:</b> ETH, BNB, AAVE\n` +
-          `  • <b>#04 GOLF:</b> XRP, DOGE, ADA\n` +
-          `  • <b>#05 HOTEL:</b> HYPE, TRX, UNI\n` +
-          `  • <b>#06 INDIA:</b> DOT, NEAR, LTC\n` +
+          `🔰 <b>Bloque 1 (#01 ALFA, #02 BRAVO, #03 CHARLIE):</b> Cupo Propio 4 Posiciones\n` +
+          `⚡ <b>Bloque 2 Independiente ($300 USDC · $100 c/u · Cero Bloqueo):</b>\n` +
+          `  • <b>#04 GOLF ($100):</b> XRP, DOGE, ADA (TP +0.12% Rápido)\n` +
+          `  • <b>#05 HOTEL ($100):</b> HYPE, TRX, UNI (TP +0.12% Rápido)\n` +
+          `  • <b>#06 INDIA ($100):</b> DOT, NEAR, LTC (TP +0.12% Rápido)\n` +
           `📊 <b>Posiciones Abiertas Ahora (${openPositions.length}/${MAX_CONCURRENT_TOTAL}):</b>\n${posLines}\n` +
+          `⏱️ <b>Doctrina Cero-Holder:</b> Rotación rápida de liquidez (TP +0.12%/+0.15% + Reloj 10m en verde)\n` +
           `🔔 <b>Notificaciones Telegram:</b> 100% Activas en CADA Apertura y CADA Cierre\n` +
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Cuenta #501 en Hypurrscan (Sin conectar Wallet)</a>`;
         await sendSquadTelegram(bootTg);
       }
 
-      // 4. REGLA DE INDEPENDENCIA DE LOS 6 ESCUADRONES (#01 ALFA A #06 INDIA) Y SUS CLONES (1 ⇄ 2)
-      const hasAtLeastOneInGreenOrBe = openPositions.some(p => {
-        const c = p.position.coin;
-        return parseFloat(p.position?.unrealizedPnl || "0") >= 0.03 || (confirmedOpenByCoin[c] && confirmedOpenByCoin[c].beLocked);
-      });
-      const allowedMaxConcurrent = (openPositions.length >= MAX_CONCURRENT_INITIAL && !hasAtLeastOneInGreenOrBe)
-        ? MAX_CONCURRENT_INITIAL
-        : MAX_CONCURRENT_TOTAL;
+      // 4. REGLA DE INDEPENDENCIA DE BLOQUES: BLOQUE 1 (#01-#03) Y BLOQUE 2 ($300 USDC: #04 GOLF, #05 HOTEL, #06 INDIA)
+      // El Bloque 2 tiene sus propios 3 cupos independientes ($100 c/u) y NUNCA es bloqueado por las posiciones abiertas del Bloque 1
+      const activeCoins = openPositions.map(p => p.position.coin);
+      const restingEntryCoins = openOrders.filter(o => !o.reduceOnly).map(o => o.coin);
+      const allActiveOrResting = [...new Set([...activeCoins, ...restingEntryCoins])];
 
-      if (isV2Armed && openPositions.length < allowedMaxConcurrent && !isOpeningBellWick(new Date())) {
-        const activeCoins = openPositions.map(p => p.position.coin);
-        const restingEntryCoins = openOrders.filter(o => !o.reduceOnly).map(o => o.coin);
+      const block1Pairs = [...SQUADS_CONFIG.ALFA.pairs, ...SQUADS_CONFIG.BRAVO.pairs, ...SQUADS_CONFIG.CHARLIE.pairs];
+      const block2Pairs = [...SQUADS_CONFIG.GOLF.pairs, ...SQUADS_CONFIG.HOTEL.pairs, ...SQUADS_CONFIG.INDIA.pairs];
 
-        const baseUnits = ["ALFA", "BRAVO", "CHARLIE", "GOLF", "HOTEL", "INDIA"].map(unitKey => {
+      let block1OpenCount = allActiveOrResting.filter(c => block1Pairs.includes(c)).length;
+      let block2OpenCount = allActiveOrResting.filter(c => block2Pairs.includes(c)).length;
+
+      if (isV2Armed && (block1OpenCount < MAX_CONCURRENT_BLOCK_1 || block2OpenCount < MAX_CONCURRENT_BLOCK_2) && !isOpeningBellWick(new Date())) {
+        // Priorizar a los escuadrones del Bloque 2 (#04 GOLF, #05 HOTEL, #06 INDIA) cuando tienen su cupo libre (block2OpenCount < 3)
+        const orderedKeys = block2OpenCount < MAX_CONCURRENT_BLOCK_2
+          ? ["GOLF", "HOTEL", "INDIA", "ALFA", "BRAVO", "CHARLIE"]
+          : ["ALFA", "BRAVO", "CHARLIE", "GOLF", "HOTEL", "INDIA"];
+
+        const baseUnits = orderedKeys.map(unitKey => {
           const squadCfg = SQUADS_CONFIG[unitKey];
           const hasOpenInSquad = activeCoins.some(c => squadCfg.pairs.includes(c));
           const hasRestingInSquad = restingEntryCoins.some(c => squadCfg.pairs.includes(c));
           return {
             unitKey,
             squadCfg,
+            isBlock2: squadCfg.block === 2,
             botName: hasOpenInSquad ? `${unitKey} 2 (Clon Relevo)` : `${unitKey} 1 (Titular)`,
             candidatePairs: squadCfg.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
             alreadyHasPos: hasOpenInSquad || hasRestingInSquad
           };
         });
 
-        // Rotar prioridad en cada ciclo para que los 6 escuadrones (Bloques 1 y 2) operen con equidad
-        const offset = cycleCounter % baseUnits.length;
-        const huntingUnits = [...baseUnits.slice(offset), ...baseUnits.slice(0, offset)];
+        let currentTotalOpen = allActiveOrResting.length;
 
-        let currentTotalOpen = openPositions.length + restingEntryCoins.length;
-
-        for (const unit of huntingUnits) {
-          if (currentTotalOpen >= allowedMaxConcurrent) break;
+        for (const unit of baseUnits) {
+          if (currentTotalOpen >= MAX_CONCURRENT_TOTAL) break;
           if (unit.alreadyHasPos || unit.candidatePairs.length === 0) continue;
+
+          // Verificar cupo independiente del bloque correspondiente
+          if (unit.isBlock2 && block2OpenCount >= MAX_CONCURRENT_BLOCK_2) continue;
+          if (!unit.isBlock2 && block1OpenCount >= MAX_CONCURRENT_BLOCK_1) continue;
 
           try {
             let bestCandidate = null;
@@ -1067,13 +1086,20 @@ async function startAutonomousSquadDaemon() {
                 const range15m = last15m ? parseFloat(last15m.h) - parseFloat(last15m.l) : 0;
                 const currentPrice = parseFloat(bids[0].px);
                 const isTop25Pct = range15m > 0 ? (currentPrice - parseFloat(last15m.l)) / range15m > 0.75 : false;
+                const isBottom25Pct = range15m > 0 ? (currentPrice - parseFloat(last15m.l)) / range15m < 0.25 : false;
 
                 const inWaveWindow = isMarketShakeWindow(new Date());
-                const isWaveLong = inWaveWindow && bullPct >= 64.0;
-                const isWaveShort = inWaveWindow && bearPct >= 64.0;
+                const isWaveLong = inWaveWindow && bullPct >= 60.0;
+                const isWaveShort = inWaveWindow && bearPct >= 60.0;
 
-                // Filtro Long de Alta Certeza (L2 >= 62%, RSI 5m <= 48, o confluencia EMA20)
-                if (isWaveLong || (bullPct >= 62.0 && rsi5m <= 48.0 && (!isTop25Pct || currentPrice <= ema20_5m))) {
+                // Umbrales ágiles para Bloque 2 ($300 USDC Rotación Rápida) vs Bloque 1
+                const minBullL2 = unit.isBlock2 ? 56.5 : 61.0;
+                const maxLongRsi = unit.isBlock2 ? 52.0 : 48.0;
+                const minBearL2 = unit.isBlock2 ? 56.5 : 63.0;
+                const minShortRsi = unit.isBlock2 ? 53.0 : 66.0;
+
+                // Filtro Long de Liquidez Rápida
+                if (isWaveLong || (bullPct >= minBullL2 && rsi5m <= maxLongRsi && (!isTop25Pct || currentPrice <= ema20_5m))) {
                   if (!bestCandidate || bullPct > bestCandidate.score) {
                     bestCandidate = {
                       coin,
@@ -1087,8 +1113,8 @@ async function startAutonomousSquadDaemon() {
                   }
                 }
 
-                // Filtro Short de Alta Certeza
-                if (isWaveShort || (bearPct >= 65.0 && rsi5m >= 68.0)) {
+                // Filtro Short de Liquidez Rápida
+                if (isWaveShort || (bearPct >= minBearL2 && rsi5m >= minShortRsi && (!isBottom25Pct || currentPrice >= ema20_5m))) {
                   if (!bestCandidate || bearPct > bestCandidate.score) {
                     bestCandidate = {
                       coin,
@@ -1106,7 +1132,10 @@ async function startAutonomousSquadDaemon() {
 
             if (bestCandidate) {
               const coin = bestCandidate.coin;
-              const notional = Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE);
+              const unitTargetGainPct = unit.squadCfg.targetGainPct || TARGET_GAIN_PCT;
+              const notional = unit.isBlock2
+                ? Math.min(MAX_NOTIONAL_PER_COIN, BLOCK2_DEDICATED_MARGIN * BLOCK2_LEVERAGE)
+                : Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE);
               const szFormatted = formatHlSize(notional / bestCandidate.price, ASSET_DECIMALS[coin].sz);
               if (parseFloat(szFormatted) <= 0) continue;
               const isLong = bestCandidate.direction === "LONG";
@@ -1114,14 +1143,14 @@ async function startAutonomousSquadDaemon() {
               const entryPxNum = parseFloat(entryPxStr);
 
               const tpPriceNum = isLong
-                ? entryPxNum * (1 + TARGET_GAIN_PCT / 100)
-                : entryPxNum * (1 - TARGET_GAIN_PCT / 100);
+                ? entryPxNum * (1 + unitTargetGainPct / 100)
+                : entryPxNum * (1 - unitTargetGainPct / 100);
               const tpPxStr = formatHlPrice(tpPriceNum, coin);
-              const estNetGain = (notional * (TARGET_GAIN_PCT / 100) - (notional * 0.00030)).toFixed(4);
+              const estNetGain = (notional * (unitTargetGainPct / 100) - (notional * 0.00030)).toFixed(4);
 
-              console.log(`\n🎯 [${unit.unitKey} // ${unit.botName}] Disparo paralelo en ${coin} (${bestCandidate.direction}):`);
+              console.log(`\n🎯 [${unit.unitKey} // ${unit.botName} // BLOQUE ${unit.squadCfg.block}] Disparo paralelo en ${coin} (${bestCandidate.direction}):`);
               console.log(`   • Confluencia: L2 ${bestCandidate.score.toFixed(1)}% | RSI 5m: ${bestCandidate.rsi.toFixed(1)} | EMA20: $${bestCandidate.ema.toFixed(4)}`);
-              console.log(`   • Entrada: ${szFormatted} ${coin} @ $${entryPxStr} ($${notional.toFixed(0)} Nocional) -> TP: $${tpPxStr}`);
+              console.log(`   • Entrada: ${szFormatted} ${coin} @ $${entryPxStr} ($${notional.toFixed(0)} Nocional) -> TP: $${tpPxStr} (+${unitTargetGainPct}%)`);
 
               try {
                 let orderRes = await client.order({
@@ -1155,6 +1184,8 @@ async function startAutonomousSquadDaemon() {
 
                 if (status.resting || status.filled) {
                   currentTotalOpen++;
+                  if (unit.isBlock2) block2OpenCount++;
+                  else block1OpenCount++;
                   recentOrderSentCoins[coin] = Date.now();
                   const oid = status.resting?.oid || status.filled?.oid || "FILLED";
                   console.log(`   ✔ [${unit.unitKey}] Orden #${oid} activa en Hyperliquid L1 (${status.filled ? "EJECUTADA" : "EN LIBRO"}).`);
@@ -1174,12 +1205,12 @@ async function startAutonomousSquadDaemon() {
                     }).catch(() => {});
                   }
 
-                  const orderTg = `🟢🎯 <b>ÁREA 501 // OPERACIÓN ABIERTA (${bestCandidate.direction})</b>\n` +
+                  const orderTg = `🟢🎯 <b>ÁREA 501 // OPERACIÓN ABIERTA — BLOQUE ${unit.squadCfg.block} (${bestCandidate.direction})</b>\n` +
                     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                     `🔰 <b>Unidad:</b> <b>${unit.squadCfg.name} — ${unit.botName}</b>\n` +
                     `📍 <b>Par:</b> <code>${coin}-USDC</code> (${szFormatted} ${coin})\n` +
                     `📥 <b>PRECIO ENTRADA:</b> <code>$${entryPxStr}</code> ($${notional.toFixed(0)} Nocional)\n` +
-                    `📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$${tpPxStr}</code> (+${TARGET_GAIN_PCT}%)\n` +
+                    `📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$${tpPxStr}</code> (+${unitTargetGainPct}% Reduce-Only)\n` +
                     `💰 <b>Ganancia Estimada:</b> <b>+$${estNetGain} USDC Limpios</b>\n` +
                     `📊 <b>Filtros:</b> L2 ${bestCandidate.score.toFixed(1)}% · RSI 5m ${bestCandidate.rsi.toFixed(1)}\n` +
                     `📌 <b>Estado:</b> <b>${status.filled ? "EJECUTADA EN VIVO (TP COLOCADO)" : "EN LIBRO L1 (POST-ONLY ALO)"}</b>\n` +

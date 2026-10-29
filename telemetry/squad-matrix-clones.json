@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T11:51:40.301Z",
+  "updatedAt": "2026-10-29T12:12:21.724Z",
   "architecture": "Hot-Swap Relay 1 ⇄ 2 (6 Escuadrones Activos #01-#06 × 12 Bots en 18 Pares)",
   "rules": {
     "radarL2": ">= 62%",
@@ -75,11 +75,11 @@
         "DOGE",
         "ADA"
       ],
-      "relayStatus": "⚡ GOLF 1: ACTIVO ⇄ GOLF 2: RELEVO",
+      "relayStatus": "⚡ GOLF 1: ACTIVO (DOGE) ⇄ GOLF 2: RELEVO",
       "activeBot": "GOLF 1",
       "standbyBot": "GOLF 2",
-      "mode": "SCANNING",
-      "pairInAction": null
+      "mode": "ACTIVE_POSITION",
+      "pairInAction": "DOGE"
     },
     {
       "id": 5,
