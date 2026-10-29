@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T14:04:14.267Z",
+  "updatedAt": "2026-10-29T14:28:55.734Z",
   "architecture": "Hot-Swap Relay 1 ⇄ 2 (6 Escuadrones Activos #01-#06 × 12 Bots en 18 Pares)",
   "rules": {
     "radarL2": ">= 62%",
@@ -21,12 +21,11 @@
         "SUI",
         "AVAX"
       ],
-      "relayStatus": "🔄 ALFA 1: ENFRIAMIENTO 1m ⇄ ⚡ ALFA 2: CAZANDO",
-      "activeBot": "ALFA 2",
-      "standbyBot": "ALFA 1",
-      "mode": "HOT_SWAP_RELAY",
-      "cooldownCoin": "SOL",
-      "cooldownRemainingMins": 1
+      "relayStatus": "⚡ ALFA 1: ACTIVO ⇄ ALFA 2: RELEVO",
+      "activeBot": "ALFA 1",
+      "standbyBot": "ALFA 2",
+      "mode": "SCANNING",
+      "pairInAction": null
     },
     {
       "id": 2,
@@ -58,11 +57,11 @@
         "BNB",
         "AAVE"
       ],
-      "relayStatus": "⚡ CHARLIE 1: ACTIVO ⇄ CHARLIE 2: RELEVO",
+      "relayStatus": "⚡ CHARLIE 1: ACTIVO (BNB) ⇄ CHARLIE 2: RELEVO",
       "activeBot": "CHARLIE 1",
       "standbyBot": "CHARLIE 2",
-      "mode": "SCANNING",
-      "pairInAction": null
+      "mode": "ACTIVE_POSITION",
+      "pairInAction": "BNB"
     },
     {
       "id": 4,
@@ -94,11 +93,11 @@
         "TRX",
         "UNI"
       ],
-      "relayStatus": "⚡ HOTEL 1: ACTIVO (TRX) ⇄ HOTEL 2: RELEVO",
+      "relayStatus": "⚡ HOTEL 1: ACTIVO (HYPE) ⇄ HOTEL 2: RELEVO",
       "activeBot": "HOTEL 1",
       "standbyBot": "HOTEL 2",
       "mode": "ACTIVE_POSITION",
-      "pairInAction": "TRX"
+      "pairInAction": "HYPE"
     },
     {
       "id": 6,
@@ -112,11 +111,11 @@
         "NEAR",
         "LTC"
       ],
-      "relayStatus": "⚡ INDIA 1: ACTIVO (DOT) ⇄ INDIA 2: RELEVO",
+      "relayStatus": "⚡ INDIA 1: ACTIVO (LTC) ⇄ INDIA 2: RELEVO",
       "activeBot": "INDIA 1",
       "standbyBot": "INDIA 2",
       "mode": "ACTIVE_POSITION",
-      "pairInAction": "DOT"
+      "pairInAction": "LTC"
     },
     {
       "id": 7,

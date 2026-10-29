@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.0.0",
   "projectName": "ÁREA 501",
-  "timestamp": "2026-10-29T14:04:05.136Z",
+  "timestamp": "2026-10-29T14:28:35.520Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -47293,6 +47293,132 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1793284136022-27",
+      "timestamp": "2026-10-29T14:28:56.022Z",
+      "timeFormatted": "14:28:56 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (<b>SHORT 🐻</b> · 2.2 HYPE)\n📥 <b>Precio Entrada:</b> <code>$90.834</code> ($199.83 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$90.698</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2398 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($363.01 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT 🐻 · 2.2 HYPE)\n📥 Precio Entrada: $90.834 ($199.83 Nocional)\n📤 Orden Take-Profit (+0.15%): $90.698 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2398 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($363.01 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793284104245-515",
+      "timestamp": "2026-10-29T14:28:24.245Z",
+      "timeFormatted": "14:28:24 UTC",
+      "rawHtml": "🚀🛡️ <b>ÁREA 501 // BLOQUE 1 + BLOQUE 2 ($300 USDC INDEPENDIENTES) EN FUEGO PARALELO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💵 <b>Patrimonio L1:</b> <code>$907.61 USDC</code> (Escudo 40%: <code>$363.04 USDC</code>)\n🔰 <b>Bloque 1 (#01 ALFA, #02 BRAVO, #03 CHARLIE):</b> Cupo Propio 4 Posiciones\n⚡ <b>Bloque 2 Independiente ($300 USDC · $100 c/u · Cero Bloqueo):</b>\n  • <b>#04 GOLF ($100):</b> XRP, DOGE, ADA (TP +0.12% Rápido)\n  • <b>#05 HOTEL ($100):</b> HYPE, TRX, UNI (TP +0.12% Rápido)\n  • <b>#06 INDIA ($100):</b> DOT, NEAR, LTC (TP +0.12% Rápido)\n📊 <b>Posiciones Abiertas Ahora (4/7):</b>\n• <code>BNB-USDC</code> (SHORT 0.333 @ $743.30 ➔ TP $742.19)\n• <code>LTC-USDC</code> (LONG 3.44 @ $57.982 ➔ TP $58.069)\n• <code>DOGE-USDC</code> (SHORT 2531 @ $0.079003 ➔ TP $0.078884)\n• <code>PAXG-USDC</code> (LONG 0.061 @ $4040.1 ➔ TP $4046.2)\n⏱️ <b>Doctrina Cero-Holder:</b> Rotación rápida de liquidez (TP +0.12%/+0.15% + Reloj 10m en verde)\n🔔 <b>Notificaciones Telegram:</b> 100% Activas en CADA Apertura y CADA Cierre\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Cuenta #501 en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🚀🛡️ ÁREA 501 // BLOQUE 1 + BLOQUE 2 ($300 USDC INDEPENDIENTES) EN FUEGO PARALELO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💵 Patrimonio L1: $907.61 USDC (Escudo 40%: $363.04 USDC)\n🔰 Bloque 1 (#01 ALFA, #02 BRAVO, #03 CHARLIE): Cupo Propio 4 Posiciones\n⚡ Bloque 2 Independiente ($300 USDC · $100 c/u · Cero Bloqueo):\n  • #04 GOLF ($100): XRP, DOGE, ADA (TP +0.12% Rápido)\n  • #05 HOTEL ($100): HYPE, TRX, UNI (TP +0.12% Rápido)\n  • #06 INDIA ($100): DOT, NEAR, LTC (TP +0.12% Rápido)\n📊 Posiciones Abiertas Ahora (4/7):\n• BNB-USDC (SHORT 0.333 @ $743.30 ➔ TP $742.19)\n• LTC-USDC (LONG 3.44 @ $57.982 ➔ TP $58.069)\n• DOGE-USDC (SHORT 2531 @ $0.079003 ➔ TP $0.078884)\n• PAXG-USDC (LONG 0.061 @ $4040.1 ➔ TP $4046.2)\n⏱️ Doctrina Cero-Holder: Rotación rápida de liquidez (TP +0.12%/+0.15% + Reloj 10m en verde)\n🔔 Notificaciones Telegram: 100% Activas en CADA Apertura y CADA Cierre\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Cuenta #501 en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283852935-9",
+      "timestamp": "2026-10-29T14:24:12.935Z",
+      "timeFormatted": "14:24:12 UTC",
+      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$91.288</code>\n📤 <b>Precio Cierre TP:</b> <code>$91.178</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.2109 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>189 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>HYPE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$907.42 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT)\n📥 Precio Entrada: $91.288\n📤 Precio Cierre TP: $91.178\n💰 GANANCIA NETA EN CAJA: +$0.2109 USDC\n🏆 Récord Oficial: 189 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: HYPE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $907.42 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283768930-635",
+      "timestamp": "2026-10-29T14:22:48.930Z",
+      "timeFormatted": "14:22:48 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (<b>SHORT 🐻</b> · 2.19 HYPE)\n📥 <b>Precio Entrada:</b> <code>$91.288</code> ($199.92 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$91.151</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2399 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.90 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT 🐻 · 2.19 HYPE)\n📥 Precio Entrada: $91.288 ($199.92 Nocional)\n📤 Orden Take-Profit (+0.15%): $91.151 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2399 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.90 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283736124-576",
+      "timestamp": "2026-10-29T14:22:16.124Z",
+      "timeFormatted": "14:22:16 UTC",
+      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>UNI-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$7.2012</code>\n📤 <b>Precio Cierre TP:</b> <code>$7.2052</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+-$0.2006 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>188 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>UNI</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$907.23 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: UNI-USDC (SHORT)\n📥 Precio Entrada: $7.2012\n📤 Precio Cierre TP: $7.2052\n💰 GANANCIA NETA EN CAJA: +-$0.2006 USDC\n🏆 Récord Oficial: 188 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: UNI en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $907.23 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283527884-649",
+      "timestamp": "2026-10-29T14:18:47.884Z",
+      "timeFormatted": "14:18:47 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #06 India</b> (#903 India-CrossChain)\n📍 <b>Par:</b> <code>LTC-USDC</code> (<b>LONG 🐂</b> · 3.44 LTC)\n📥 <b>Precio Entrada:</b> <code>$57.982</code> ($199.46 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$58.069</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2393 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.61 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #06 India (#903 India-CrossChain)\n📍 Par: LTC-USDC (LONG 🐂 · 3.44 LTC)\n📥 Precio Entrada: $57.982 ($199.46 Nocional)\n📤 Orden Take-Profit (+0.15%): $58.069 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2393 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.61 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283467901-868",
+      "timestamp": "2026-10-29T14:17:47.901Z",
+      "timeFormatted": "14:17:47 UTC",
+      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code> (LONG)\n📥 <b>Precio Entrada:</b> <code>$2327.1</code>\n📤 <b>Precio Cierre TP:</b> <code>$2330.6</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.3384 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>187 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>ETH</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$906.50 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC (LONG)\n📥 Precio Entrada: $2327.1\n📤 Precio Cierre TP: $2330.6\n💰 GANANCIA NETA EN CAJA: +$0.3384 USDC\n🏆 Récord Oficial: 187 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: ETH en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $906.50 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283467133-672",
+      "timestamp": "2026-10-29T14:17:47.133Z",
+      "timeFormatted": "14:17:47 UTC",
+      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #06 India</b> (#903 India-CrossChain)\n📍 <b>Par:</b> <code>NEAR-USDC</code> (LONG)\n📥 <b>Precio Entrada:</b> <code>$4.4452</code>\n📤 <b>Precio Cierre TP:</b> <code>$4.4505</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.2080 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>186 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>NEAR</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$906.50 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #06 India (#903 India-CrossChain)\n📍 Par: NEAR-USDC (LONG)\n📥 Precio Entrada: $4.4452\n📤 Precio Cierre TP: $4.4505\n💰 GANANCIA NETA EN CAJA: +$0.2080 USDC\n🏆 Récord Oficial: 186 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: NEAR en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $906.50 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283417698-953",
+      "timestamp": "2026-10-29T14:16:57.698Z",
+      "timeFormatted": "14:16:57 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code> (<b>LONG 🐂</b> · 0.1074 ETH)\n📥 <b>Precio Entrada:</b> <code>$2327.1</code> ($249.93 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$2330.6</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2999 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.65 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC (LONG 🐂 · 0.1074 ETH)\n📥 Precio Entrada: $2327.1 ($249.93 Nocional)\n📤 Orden Take-Profit (+0.15%): $2330.6 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2999 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.65 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283240694-721",
+      "timestamp": "2026-10-29T14:14:00.694Z",
+      "timeFormatted": "14:14:00 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #06 India</b> (#903 India-CrossChain)\n📍 <b>Par:</b> <code>NEAR-USDC</code> (<b>LONG 🐂</b> · 44.9 NEAR)\n📥 <b>Precio Entrada:</b> <code>$4.4452</code> ($199.59 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$4.4519</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2395 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.73 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #06 India (#903 India-CrossChain)\n📍 Par: NEAR-USDC (LONG 🐂 · 44.9 NEAR)\n📥 Precio Entrada: $4.4452 ($199.59 Nocional)\n📤 Orden Take-Profit (+0.15%): $4.4519 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2395 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.73 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283070484-981",
+      "timestamp": "2026-10-29T14:11:10.484Z",
+      "timeFormatted": "14:11:10 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>UNI-USDC</code> (<b>SHORT 🐻</b> · 27.7 UNI)\n📥 <b>Precio Entrada:</b> <code>$7.2012</code> ($199.47 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$7.1904</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2394 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($363.17 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: UNI-USDC (SHORT 🐻 · 27.7 UNI)\n📥 Precio Entrada: $7.2012 ($199.47 Nocional)\n📤 Orden Take-Profit (+0.15%): $7.1904 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2394 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($363.17 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283069352-769",
+      "timestamp": "2026-10-29T14:11:09.352Z",
+      "timeFormatted": "14:11:09 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>BNB-USDC</code> (<b>SHORT 🐻</b> · 0.333 BNB)\n📥 <b>Precio Entrada:</b> <code>$743.30</code> ($247.52 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$742.19</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2970 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($363.17 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie (#801 Nexus-Boss)\n📍 Par: BNB-USDC (SHORT 🐻 · 0.333 BNB)\n📥 Precio Entrada: $743.30 ($247.52 Nocional)\n📤 Orden Take-Profit (+0.15%): $742.19 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2970 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($363.17 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283068593-976",
+      "timestamp": "2026-10-29T14:11:08.593Z",
+      "timeFormatted": "14:11:08 UTC",
+      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #06 India</b> (#903 India-CrossChain)\n📍 <b>Par:</b> <code>DOT-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$0.99593</code>\n📤 <b>Precio Cierre TP:</b> <code>$0.99484</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.1290 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>185 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>DOT</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$907.94 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #06 India (#903 India-CrossChain)\n📍 Par: DOT-USDC (SHORT)\n📥 Precio Entrada: $0.99593\n📤 Precio Cierre TP: $0.99484\n💰 GANANCIA NETA EN CAJA: +$0.1290 USDC\n🏆 Récord Oficial: 185 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: DOT en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $907.94 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793283050026-195",
+      "timestamp": "2026-10-29T14:10:50.026Z",
+      "timeFormatted": "14:10:50 UTC",
+      "rawHtml": "🛡️🎯 <b>ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Unidad:</b> <b>Escudo Mentora #00 (40% L1)</b>\n📍 <b>Par:</b> <code>BNB-USDC</code> (0.333 BNB · <b>SHORT COBRA</b>)\n📥 <b>Entrada ALO Maker:</b> <code>$743.30</code> ($247.52 Nocional)\n📤 <b>Take-Profit Reduce-Only (+0.15%):</b> <code>$742.19</code>\n💸 <b>Tasa Funding a Cobrar:</b> <code>+0.0013%/h (10.9% APR)</code>\n📊 <b>Estado Orden:</b> <b>EN LIBRO L1 (POST-ONLY ALO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "textPlain": "🛡️🎯 ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Unidad: Escudo Mentora #00 (40% L1)\n📍 Par: BNB-USDC (0.333 BNB · SHORT COBRA)\n📥 Entrada ALO Maker: $743.30 ($247.52 Nocional)\n📤 Take-Profit Reduce-Only (+0.15%): $742.19\n💸 Tasa Funding a Cobrar: +0.0013%/h (10.9% APR)\n📊 Estado Orden: EN LIBRO L1 (POST-ONLY ALO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
+      "id": "tg-1793282950228-480",
+      "timestamp": "2026-10-29T14:09:10.228Z",
+      "timeFormatted": "14:09:10 UTC",
+      "rawHtml": "🛡️🎯 <b>ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Unidad:</b> <b>Escudo Mentora #00 (40% L1)</b>\n📍 <b>Par:</b> <code>BNB-USDC</code> (0.333 BNB · <b>SHORT COBRA</b>)\n📥 <b>Entrada ALO Maker:</b> <code>$743.89</code> ($247.72 Nocional)\n📤 <b>Take-Profit Reduce-Only (+0.15%):</b> <code>$742.77</code>\n💸 <b>Tasa Funding a Cobrar:</b> <code>+0.0013%/h (10.9% APR)</code>\n📊 <b>Estado Orden:</b> <b>EN LIBRO L1 (POST-ONLY ALO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "textPlain": "🛡️🎯 ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Unidad: Escudo Mentora #00 (40% L1)\n📍 Par: BNB-USDC (0.333 BNB · SHORT COBRA)\n📥 Entrada ALO Maker: $743.89 ($247.72 Nocional)\n📤 Take-Profit Reduce-Only (+0.15%): $742.77\n💸 Tasa Funding a Cobrar: +0.0013%/h (10.9% APR)\n📊 Estado Orden: EN LIBRO L1 (POST-ONLY ALO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
+      "id": "tg-1793282937417-232",
+      "timestamp": "2026-10-29T14:08:57.417Z",
+      "timeFormatted": "14:08:57 UTC",
+      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$91.054</code>\n📤 <b>Precio Cierre TP:</b> <code>$90.945</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.1278 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>184 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>HYPE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$907.41 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT)\n📥 Precio Entrada: $91.054\n📤 Precio Cierre TP: $90.945\n💰 GANANCIA NETA EN CAJA: +$0.1278 USDC\n🏆 Récord Oficial: 184 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: HYPE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $907.41 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793282903488-725",
+      "timestamp": "2026-10-29T14:08:23.488Z",
+      "timeFormatted": "14:08:23 UTC",
+      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (<b>SHORT 🐻</b> · 2.19 HYPE)\n📥 <b>Precio Entrada:</b> <code>$91.054</code> ($199.41 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$90.917</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2393 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.72 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT 🐻 · 2.19 HYPE)\n📥 Precio Entrada: $91.054 ($199.41 Nocional)\n📤 Orden Take-Profit (+0.15%): $90.917 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2393 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.72 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793282884263-411",
+      "timestamp": "2026-10-29T14:08:04.263Z",
+      "timeFormatted": "14:08:04 UTC",
+      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>TRX-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$0.33182</code>\n📤 <b>Precio Cierre TP:</b> <code>$0.33142</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.0844 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>183 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>TRX</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$906.83 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: TRX-USDC (SHORT)\n📥 Precio Entrada: $0.33182\n📤 Precio Cierre TP: $0.33142\n💰 GANANCIA NETA EN CAJA: +$0.0844 USDC\n🏆 Récord Oficial: 183 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: TRX en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $906.83 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
       "id": "tg-1793282220338-399",
       "timestamp": "2026-10-29T13:57:00.338Z",
       "timeFormatted": "13:57:00 UTC",
@@ -47375,132 +47501,6 @@
       "timeFormatted": "13:47:55 UTC",
       "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$91.300</code>\n📤 <b>Precio Cierre TP:</b> <code>$91.19</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.2610 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>178 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>HYPE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$906.45 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
       "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT)\n📥 Precio Entrada: $91.300\n📤 Precio Cierre TP: $91.19\n💰 GANANCIA NETA EN CAJA: +$0.2610 USDC\n🏆 Récord Oficial: 178 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: HYPE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $906.45 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281649004-616",
-      "timestamp": "2026-10-29T13:47:29.004Z",
-      "timeFormatted": "13:47:29 UTC",
-      "rawHtml": "🛡️🎯 <b>ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Unidad:</b> <b>Escudo Mentora #00 (40% L1)</b>\n📍 <b>Par:</b> <code>HYPE-USDC</code> (2.71 HYPE · <b>SHORT COBRA</b>)\n📥 <b>Entrada ALO Maker:</b> <code>$91.300</code> ($247.42 Nocional)\n📤 <b>Take-Profit Reduce-Only (+0.15%):</b> <code>$91.163</code>\n💸 <b>Tasa Funding a Cobrar:</b> <code>+0.0041%/h (35.9% APR)</code>\n📊 <b>Estado Orden:</b> <b>EN LIBRO L1 (POST-ONLY ALO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🛡️🎯 ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Unidad: Escudo Mentora #00 (40% L1)\n📍 Par: HYPE-USDC (2.71 HYPE · SHORT COBRA)\n📥 Entrada ALO Maker: $91.300 ($247.42 Nocional)\n📤 Take-Profit Reduce-Only (+0.15%): $91.163\n💸 Tasa Funding a Cobrar: +0.0041%/h (35.9% APR)\n📊 Estado Orden: EN LIBRO L1 (POST-ONLY ALO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793281643450-173",
-      "timestamp": "2026-10-29T13:47:23.450Z",
-      "timeFormatted": "13:47:23 UTC",
-      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$91.295</code>\n📤 <b>Precio Cierre TP:</b> <code>$91.185</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.2610 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>177 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>HYPE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$906.36 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT)\n📥 Precio Entrada: $91.295\n📤 Precio Cierre TP: $91.185\n💰 GANANCIA NETA EN CAJA: +$0.2610 USDC\n🏆 Récord Oficial: 177 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: HYPE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $906.36 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281611232-170",
-      "timestamp": "2026-10-29T13:46:51.232Z",
-      "timeFormatted": "13:46:51 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (<b>SHORT 🐻</b> · 2.71 HYPE)\n📥 <b>Precio Entrada:</b> <code>$91.295</code> ($247.41 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$91.158</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2969 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.51 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT 🐻 · 2.71 HYPE)\n📥 Precio Entrada: $91.295 ($247.41 Nocional)\n📤 Orden Take-Profit (+0.15%): $91.158 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2969 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.51 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281598993-888",
-      "timestamp": "2026-10-29T13:46:38.993Z",
-      "timeFormatted": "13:46:38 UTC",
-      "rawHtml": "🛡️🎯 <b>ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Unidad:</b> <b>Escudo Mentora #00 (40% L1)</b>\n📍 <b>Par:</b> <code>HYPE-USDC</code> (2.71 HYPE · <b>SHORT COBRA</b>)\n📥 <b>Entrada ALO Maker:</b> <code>$91.295</code> ($247.41 Nocional)\n📤 <b>Take-Profit Reduce-Only (+0.15%):</b> <code>$91.158</code>\n💸 <b>Tasa Funding a Cobrar:</b> <code>+0.0041%/h (35.6% APR)</code>\n📊 <b>Estado Orden:</b> <b>EN LIBRO L1 (POST-ONLY ALO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🛡️🎯 ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Unidad: Escudo Mentora #00 (40% L1)\n📍 Par: HYPE-USDC (2.71 HYPE · SHORT COBRA)\n📥 Entrada ALO Maker: $91.295 ($247.41 Nocional)\n📤 Take-Profit Reduce-Only (+0.15%): $91.158\n💸 Tasa Funding a Cobrar: +0.0041%/h (35.6% APR)\n📊 Estado Orden: EN LIBRO L1 (POST-ONLY ALO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793281596301-342",
-      "timestamp": "2026-10-29T13:46:36.301Z",
-      "timeFormatted": "13:46:36 UTC",
-      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #06 India</b> (#903 India-CrossChain)\n📍 <b>Par:</b> <code>LTC-USDC</code> (LONG)\n📥 <b>Precio Entrada:</b> <code>$57.871</code>\n📤 <b>Precio Cierre TP:</b> <code>$57.94</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.2081 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>176 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>LTC</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$906.60 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #06 India (#903 India-CrossChain)\n📍 Par: LTC-USDC (LONG)\n📥 Precio Entrada: $57.871\n📤 Precio Cierre TP: $57.94\n💰 GANANCIA NETA EN CAJA: +$0.2081 USDC\n🏆 Récord Oficial: 176 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: LTC en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $906.60 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281595070-875",
-      "timestamp": "2026-10-29T13:46:35.070Z",
-      "timeFormatted": "13:46:35 UTC",
-      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code> (LONG)\n📥 <b>Precio Entrada:</b> <code>$132.35</code>\n📤 <b>Precio Cierre TP:</b> <code>$132.55</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.3386 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>175 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>AAVE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$906.60 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC (LONG)\n📥 Precio Entrada: $132.35\n📤 Precio Cierre TP: $132.55\n💰 GANANCIA NETA EN CAJA: +$0.3386 USDC\n🏆 Récord Oficial: 175 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: AAVE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $906.60 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281449704-556",
-      "timestamp": "2026-10-29T13:44:09.704Z",
-      "timeFormatted": "13:44:09 UTC",
-      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #04 Golf</b> (#901 Golf-Velocity)\n📍 <b>Par:</b> <code>DOGE-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$0.079016</code>\n📤 <b>Precio Cierre TP:</b> <code>$0.078921</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.1989 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>174 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>DOGE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$904.42 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #04 Golf (#901 Golf-Velocity)\n📍 Par: DOGE-USDC (SHORT)\n📥 Precio Entrada: $0.079016\n📤 Precio Cierre TP: $0.078921\n💰 GANANCIA NETA EN CAJA: +$0.1989 USDC\n🏆 Récord Oficial: 174 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: DOGE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $904.42 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281415542-232",
-      "timestamp": "2026-10-29T13:43:35.542Z",
-      "timeFormatted": "13:43:35 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #06 India</b> (#903 India-CrossChain)\n📍 <b>Par:</b> <code>LTC-USDC</code> (<b>LONG 🐂</b> · 3.45 LTC)\n📥 <b>Precio Entrada:</b> <code>$57.871</code> ($199.65 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$57.958</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2396 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.04 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #06 India (#903 India-CrossChain)\n📍 Par: LTC-USDC (LONG 🐂 · 3.45 LTC)\n📥 Precio Entrada: $57.871 ($199.65 Nocional)\n📤 Orden Take-Profit (+0.15%): $57.958 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2396 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.04 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281344101-855",
-      "timestamp": "2026-10-29T13:42:24.101Z",
-      "timeFormatted": "13:42:24 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code> (<b>LONG 🐂</b> · 1.88 AAVE)\n📥 <b>Precio Entrada:</b> <code>$132.35</code> ($248.82 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$132.55</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2986 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.26 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC (LONG 🐂 · 1.88 AAVE)\n📥 Precio Entrada: $132.35 ($248.82 Nocional)\n📤 Orden Take-Profit (+0.15%): $132.55 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2986 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.26 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281331913-343",
-      "timestamp": "2026-10-29T13:42:11.913Z",
-      "timeFormatted": "13:42:11 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #04 Golf</b> (#901 Golf-Velocity)\n📍 <b>Par:</b> <code>DOGE-USDC</code> (<b>SHORT 🐻</b> · 2531 DOGE)\n📥 <b>Precio Entrada:</b> <code>$0.079016</code> ($199.99 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$0.078897</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2400 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.31 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #04 Golf (#901 Golf-Velocity)\n📍 Par: DOGE-USDC (SHORT 🐻 · 2531 DOGE)\n📥 Precio Entrada: $0.079016 ($199.99 Nocional)\n📤 Orden Take-Profit (+0.15%): $0.078897 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2400 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.31 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281318614-618",
-      "timestamp": "2026-10-29T13:41:58.614Z",
-      "timeFormatted": "13:41:58 UTC",
-      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #04 Golf</b> (#901 Golf-Velocity)\n📍 <b>Par:</b> <code>XRP-USDC</code> (LONG)\n📥 <b>Precio Entrada:</b> <code>$1.2892</code>\n📤 <b>Precio Cierre TP:</b> <code>$1.2907</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.2025 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>173 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>XRP</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$905.84 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #04 Golf (#901 Golf-Velocity)\n📍 Par: XRP-USDC (LONG)\n📥 Precio Entrada: $1.2892\n📤 Precio Cierre TP: $1.2907\n💰 GANANCIA NETA EN CAJA: +$0.2025 USDC\n🏆 Récord Oficial: 173 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: XRP en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $905.84 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281287450-579",
-      "timestamp": "2026-10-29T13:41:27.450Z",
-      "timeFormatted": "13:41:27 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #04 Golf</b> (#901 Golf-Velocity)\n📍 <b>Par:</b> <code>XRP-USDC</code> (<b>LONG 🐂</b> · 155 XRP)\n📥 <b>Precio Entrada:</b> <code>$1.2892</code> ($199.83 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$1.2911</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2398 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.07 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #04 Golf (#901 Golf-Velocity)\n📍 Par: XRP-USDC (LONG 🐂 · 155 XRP)\n📥 Precio Entrada: $1.2892 ($199.83 Nocional)\n📤 Orden Take-Profit (+0.15%): $1.2911 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2398 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.07 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281273221-853",
-      "timestamp": "2026-10-29T13:41:13.221Z",
-      "timeFormatted": "13:41:13 UTC",
-      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$90.904</code>\n📤 <b>Precio Cierre TP:</b> <code>$90.795</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.2594 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>172 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>HYPE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$905.15 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT)\n📥 Precio Entrada: $90.904\n📤 Precio Cierre TP: $90.795\n💰 GANANCIA NETA EN CAJA: +$0.2594 USDC\n🏆 Récord Oficial: 172 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: HYPE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $905.15 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281254996-641",
-      "timestamp": "2026-10-29T13:40:54.996Z",
-      "timeFormatted": "13:40:54 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (<b>SHORT 🐻</b> · 2.72 HYPE)\n📥 <b>Precio Entrada:</b> <code>$90.904</code> ($247.26 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$90.768</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2967 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.01 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT 🐻 · 2.72 HYPE)\n📥 Precio Entrada: $90.904 ($247.26 Nocional)\n📤 Orden Take-Profit (+0.15%): $90.768 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2967 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($362.01 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281248567-718",
-      "timestamp": "2026-10-29T13:40:48.567Z",
-      "timeFormatted": "13:40:48 UTC",
-      "rawHtml": "🛡️🎯 <b>ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Unidad:</b> <b>Escudo Mentora #00 (40% L1)</b>\n📍 <b>Par:</b> <code>HYPE-USDC</code> (2.72 HYPE · <b>SHORT COBRA</b>)\n📥 <b>Entrada ALO Maker:</b> <code>$90.904</code> ($247.26 Nocional)\n📤 <b>Take-Profit Reduce-Only (+0.15%):</b> <code>$90.768</code>\n💸 <b>Tasa Funding a Cobrar:</b> <code>+0.0034%/h (29.6% APR)</code>\n📊 <b>Estado Orden:</b> <b>EN LIBRO L1 (POST-ONLY ALO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "🛡️🎯 ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Unidad: Escudo Mentora #00 (40% L1)\n📍 Par: HYPE-USDC (2.72 HYPE · SHORT COBRA)\n📥 Entrada ALO Maker: $90.904 ($247.26 Nocional)\n📤 Take-Profit Reduce-Only (+0.15%): $90.768\n💸 Tasa Funding a Cobrar: +0.0034%/h (29.6% APR)\n📊 Estado Orden: EN LIBRO L1 (POST-ONLY ALO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793281216555-186",
-      "timestamp": "2026-10-29T13:40:16.555Z",
-      "timeFormatted": "13:40:16 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>TRX-USDC</code> (<b>SHORT 🐻</b> · 517 TRX)\n📥 <b>Precio Entrada:</b> <code>$0.33182</code> ($171.55 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$0.33132</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2059 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($361.99 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: TRX-USDC (SHORT 🐻 · 517 TRX)\n📥 Precio Entrada: $0.33182 ($171.55 Nocional)\n📤 Orden Take-Profit (+0.15%): $0.33132 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2059 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($361.99 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281199112-896",
-      "timestamp": "2026-10-29T13:39:59.112Z",
-      "timeFormatted": "13:39:59 UTC",
-      "rawHtml": "🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (SHORT)\n📥 <b>Precio Entrada:</b> <code>$90.730</code>\n📤 <b>Precio Cierre TP:</b> <code>$90.621</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.0448 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>171 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>HYPE</code> en 12m de reposo (Clon relevo cazando en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$904.74 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🔴💰 ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT)\n📥 Precio Entrada: $90.730\n📤 Precio Cierre TP: $90.621\n💰 GANANCIA NETA EN CAJA: +$0.0448 USDC\n🏆 Récord Oficial: 171 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: HYPE en 12m de reposo (Clon relevo cazando en pares libres)\n💵 Equity Real en L1: $904.74 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793281183580-450",
-      "timestamp": "2026-10-29T13:39:43.580Z",
-      "timeFormatted": "13:39:43 UTC",
-      "rawHtml": "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (<b>SHORT 🐻</b> · 2.73 HYPE)\n📥 <b>Precio Entrada:</b> <code>$90.730</code> ($247.69 Nocional)\n📤 <b>Orden Take-Profit (+0.15%):</b> <code>$90.594</code> (Reduce-Only)\n💰 <b>Ganancia Estimada TP:</b> <b>+$0.2972 USDC</b>\n🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($361.87 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🟢⚡ ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (SHORT 🐻 · 2.73 HYPE)\n📥 Precio Entrada: $90.730 ($247.69 Nocional)\n📤 Orden Take-Profit (+0.15%): $90.594 (Reduce-Only)\n💰 Ganancia Estimada TP: +$0.2972 USDC\n🛡️ Protección: Candado BE #00 (+0.05%) + Escudo Mentora #00 ($361.87 USDC)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Posición en Hypurrscan (Sin conectar Wallet)"
     }
   ],
   "lomo6SocialX": {
@@ -56864,10 +56864,10 @@
   "atomicExecutorAddressBsc": "0xD935F7B80237aA14B6D8F9D45070800e9E23Db20",
   "totalCapitanesGasPol": 20.47,
   "swarmDaemonLive": {
-    "updatedAt": "2026-10-29T14:04:05.136Z",
-    "lastScanUtc": "14:04:05 UTC",
+    "updatedAt": "2026-10-29T14:28:35.520Z",
+    "lastScanUtc": "14:28:35 UTC",
     "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-    "cycleCount": 95,
+    "cycleCount": 144,
     "walletsActive": "500 / 500",
     "fleetPocketsUsdc": 4.7,
     "captainsPocketsUsdc": 1.75,
@@ -56881,41 +56881,41 @@
     "streakGoal": "500 / 500 Firmado EIP-712",
     "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
     "currentPlatoonScanned": {
-      "platoonId": 45,
-      "walletRange": "#441 ➔ #450",
+      "platoonId": 44,
+      "walletRange": "#431 ➔ #440",
       "attestationsCount": 10,
       "polyDetectedUsdc": 0,
       "baseDetectedUsdc": 0,
       "sampleAttestations": [
         {
-          "index": 441,
-          "address": "0x7D53298466760f7485d1766e7e2016eF18bC92e8",
-          "platoonId": 45,
+          "index": 431,
+          "address": "0x19553F134E1D396ae6e932d495010eE5B7E37eB4",
+          "platoonId": 44,
           "campaign": "Free-Mint & Odos Arb",
-          "signatureHash": "0xa1825e17679dab62...ffa5de",
+          "signatureHash": "0xefb39fc4029a6ab9...c3d0c3",
           "gasSpentUsd": 0,
           "status": "VERIFIED_EIP712_OK",
-          "timestamp": "2026-10-29T14:04:01.395Z"
+          "timestamp": "2026-10-29T14:28:31.761Z"
         },
         {
-          "index": 442,
-          "address": "0x30B230043EC44d4381Fc85aC7C5721c24556018E",
-          "platoonId": 45,
+          "index": 432,
+          "address": "0x35F310Fe6E9180C244fFB80185Ccc1BA6423F696",
+          "platoonId": 44,
           "campaign": "Free-Mint & Odos Arb",
-          "signatureHash": "0x09f4ed186b29d134...fd9172",
+          "signatureHash": "0xa8f0756b56584634...7cae95",
           "gasSpentUsd": 0,
           "status": "VERIFIED_EIP712_OK",
-          "timestamp": "2026-10-29T14:04:01.395Z"
+          "timestamp": "2026-10-29T14:28:31.761Z"
         },
         {
-          "index": 443,
-          "address": "0xECB1367E5DE373fa584C8AcD1e62D554C69f5eBb",
-          "platoonId": 45,
+          "index": 433,
+          "address": "0x66DA15a31a1b5fB9CB914f4F26F4C29Fe6dC8E50",
+          "platoonId": 44,
           "campaign": "Free-Mint & Odos Arb",
-          "signatureHash": "0x9ab91b7f09266fca...087b01",
+          "signatureHash": "0x7e347b0087a48260...dfa1ac",
           "gasSpentUsd": 0,
           "status": "VERIFIED_EIP712_OK",
-          "timestamp": "2026-10-29T14:04:01.395Z"
+          "timestamp": "2026-10-29T14:28:31.761Z"
         }
       ]
     },

@@ -680,6 +680,9 @@ async function startAutonomousSquadDaemon() {
   const lastConfirmedPositionSizes = {};
   const positionOpenTimestamps = {};
   const recentOrderSentCoins = {};
+  const rollingMidsHistory = {}; // { [coin]: Array<{ ts, px }> } ventana móvil 60s
+  const pingPongMetaByCoin = {}; // { [coin]: { openedAt, mode: 'PING_PONG' | 'HOURLY_SNAP' | 'WICK_SNIPER' } }
+  let lastHourlySnapHourKey = "";
   let cycleCounter = 0;
   let isV2Armed = true;
 
@@ -949,11 +952,15 @@ async function startAutonomousSquadDaemon() {
             ? (currentMid - entryPx) / entryPx * 100
             : (entryPx - currentMid) / entryPx * 100;
 
-          // Reloj Anti-Estancamiento Cero-Holder (cierra en ganancia neta >= $0.08 USDC a partir de 10 minutos para rotar liquidez)
-          const minPnlForTimeStop = posMeta.dcaDone ? 0.45 : Math.max(0.08, TIME_STOP_MIN_PNL_USDC);
+          // Reloj Anti-Estancamiento Cero-Holder (cierra en ganancia neta >= $0.08 USDC a partir de 10m, o >= $0.05 en 5m para Ping-Pong / 90s para Minuto :59)
+          const specialMeta = pingPongMetaByCoin[coin];
+          const isHourlySnapPos = specialMeta && specialMeta.mode === "HOURLY_SNAP";
+          const isPingPongPos = specialMeta && specialMeta.mode === "PING_PONG";
+          const minMinsForStop = isHourlySnapPos ? 1.5 : (isPingPongPos ? 5.0 : 10.0);
+          const minPnlForTimeStop = posMeta.dcaDone ? 0.45 : (isHourlySnapPos ? 0.04 : (isPingPongPos ? 0.05 : Math.max(0.08, TIME_STOP_MIN_PNL_USDC)));
           const elapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
-          if (elapsedMins >= 10 && uPnlNum >= minPnlForTimeStop) {
-            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] ${coin} abierta hace ${elapsedMins.toFixed(1)}m en verde (+$${uPnlNum.toFixed(4)} USDC). Cerrando IOC para rotar liquidez.`);
+          if (elapsedMins >= minMinsForStop && uPnlNum >= minPnlForTimeStop) {
+            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO // ${specialMeta ? specialMeta.mode : "SQUAD"}] ${coin} abierta hace ${elapsedMins.toFixed(1)}m en verde (+$${uPnlNum.toFixed(4)} USDC). Cerrando IOC para rotar liquidez.`);
             if (existingExitOrder) {
               await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
             }
@@ -969,6 +976,7 @@ async function startAutonomousSquadDaemon() {
               }],
               grouping: "na"
             }).catch(() => {});
+            delete pingPongMetaByCoin[coin];
             continue;
           }
 
@@ -1073,11 +1081,159 @@ async function startAutonomousSquadDaemon() {
         await sendSquadTelegram(bootTg);
       }
 
-      // 4. REGLA DE INDEPENDENCIA DE BLOQUES: BLOQUE 1 (#01-#03) Y BLOQUE 2 ($300 USDC: #04 GOLF, #05 HOTEL, #06 INDIA)
+      // 4. REGLA DE INDEPENDENCIA DE BLOQUES + MICRO-PING-PONG (±0.16%) + FRANCOTIRADOR MINUTO :59 PRE-FUNDING
       // El Bloque 2 tiene sus propios 3 cupos independientes ($100 c/u) y NUNCA es bloqueado por las posiciones abiertas del Bloque 1
       const activeCoins = openPositions.map(p => p.position.coin);
       const restingEntryCoins = openOrders.filter(o => !o.reduceOnly).map(o => o.coin);
       const allActiveOrResting = [...new Set([...activeCoins, ...restingEntryCoins])];
+
+      // 4.0 Actualizar historial móvil de 60s para Micro-Ping-Pong (±0.16%) y Wick Sniper (±0.85%)
+      const nowTs = Date.now();
+      for (const [cKey, pxVal] of Object.entries(mids)) {
+        const pxNum = parseFloat(pxVal);
+        if (!pxNum || pxNum <= 0) continue;
+        if (!rollingMidsHistory[cKey]) rollingMidsHistory[cKey] = [];
+        rollingMidsHistory[cKey].push({ ts: nowTs, px: pxNum });
+        rollingMidsHistory[cKey] = rollingMidsHistory[cKey].filter(item => (nowTs - item.ts) <= 75000);
+      }
+
+      // 4.1 MOTOR FRANCOTIRADOR DEL MINUTO :59 PRE-FUNDING (24 Disparos/Día: Minutos :58 y :59 UTC -> Salida :00:30-:01:30 UTC)
+      const nowUtcDate = new Date();
+      const utcMins = nowUtcDate.getUTCMinutes();
+      const currentHourKey = `${nowUtcDate.getUTCFullYear()}-${nowUtcDate.getUTCMonth()}-${nowUtcDate.getUTCDate()}-${nowUtcDate.getUTCHours()}`;
+      if (isV2Armed && (utcMins === 58 || utcMins === 59) && lastHourlySnapHourKey !== currentHourKey && allActiveOrResting.length < MAX_CONCURRENT_TOTAL) {
+        const snapUniverse = ["HYPE", "SOL", "SUI", "DOGE", "XRP", "ETH", "AVAX"].filter(c =>
+          !allActiveOrResting.includes(c) && (!pairCooldowns[c] || pairCooldowns[c] <= nowTs)
+        );
+        let bestSnap = null;
+        for (const sCoin of snapUniverse) {
+          try {
+            const l2 = await info.l2Book({ coin: sCoin });
+            const bids = l2.levels?.[0] || [], asks = l2.levels?.[1] || [];
+            if (bids.length < 3 || asks.length < 3) continue;
+            let bVol = 0, aVol = 0;
+            for (let i = 0; i < 5; i++) {
+              bVol += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+              aVol += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+            }
+            const tot = bVol + aVol;
+            if (tot <= 0) continue;
+            const bullP = (bVol / tot) * 100;
+            const bearP = (aVol / tot) * 100;
+            if (bullP >= 56.0 && (!bestSnap || bullP > bestSnap.score)) {
+              bestSnap = { coin: sCoin, isLong: true, px: parseFloat(bids[0].px), score: bullP };
+            } else if (bearP >= 56.0 && (!bestSnap || bearP > bestSnap.score)) {
+              bestSnap = { coin: sCoin, isLong: false, px: parseFloat(asks[0].px), score: bearP };
+            }
+          } catch (_) {}
+        }
+
+        if (bestSnap) {
+          lastHourlySnapHourKey = currentHourKey;
+          const sCoin = bestSnap.coin;
+          const snapNotional = 150.0; // $150 USDC nocional ($30 margen a 5x)
+          const snapSz = formatHlSize(snapNotional / bestSnap.px, ASSET_DECIMALS[sCoin].sz);
+          const snapPxStr = formatHlPrice(bestSnap.px, sCoin);
+          const snapTpNum = bestSnap.isLong ? bestSnap.px * 1.0012 : bestSnap.px * 0.9988;
+          const snapTpStr = formatHlPrice(snapTpNum, sCoin);
+
+          console.log(`⚡⏱️ [FRANCOTIRADOR MINUTO :59 PRE-FUNDING] Disparando en ${sCoin} (${bestSnap.isLong ? "LONG" : "SHORT"}) @ $${snapPxStr} (L2 ${bestSnap.score.toFixed(1)}%) -> TP $${snapTpStr} (+0.12% / Salida 90s)`);
+          try {
+            let snapRes = await client.order({
+              orders: [{ a: ASSET_INDICES[sCoin], b: bestSnap.isLong, p: snapPxStr, s: snapSz, r: false, t: { limit: { tif: "Alo" } } }],
+              grouping: "na"
+            });
+            let snapSt = snapRes.response?.data?.statuses?.[0] || {};
+            if (snapSt.error) {
+              snapRes = await client.order({
+                orders: [{ a: ASSET_INDICES[sCoin], b: bestSnap.isLong, p: snapPxStr, s: snapSz, r: false, t: { limit: { tif: "Gtc" } } }],
+                grouping: "na"
+              });
+              snapSt = snapRes.response?.data?.statuses?.[0] || {};
+            }
+            if (snapSt.resting || snapSt.filled) {
+              pingPongMetaByCoin[sCoin] = { openedAt: Date.now(), mode: "HOURLY_SNAP" };
+              allActiveOrResting.push(sCoin);
+              if (snapSt.filled) {
+                recentOrderSentCoins[sCoin] = Date.now();
+                await client.order({
+                  orders: [{ a: ASSET_INDICES[sCoin], b: !bestSnap.isLong, p: snapTpStr, s: snapSz, r: true, t: { limit: { tif: "Alo" } } }],
+                  grouping: "na"
+                }).catch(() => {});
+              }
+            }
+          } catch (eSnap) {
+            console.error(`[MINUTO :59] Error en ${sCoin}:`, eSnap.message);
+          }
+        }
+      }
+
+      // 4.2 MOTOR MICRO-PING-PONG DE RANGO ESTRECHO (±0.16% ALO -> TP +0.11% Rápido en 5m)
+      if (isV2Armed && allActiveOrResting.length < MAX_CONCURRENT_TOTAL) {
+        const pingPongUniverse = ["HYPE", "SOL", "SUI", "DOGE", "XRP", "DOT", "TRX", "NEAR", "AVAX"].filter(c =>
+          !allActiveOrResting.includes(c) && (!pairCooldowns[c] || pairCooldowns[c] <= nowTs)
+        );
+        for (const ppCoin of pingPongUniverse) {
+          if (allActiveOrResting.length >= MAX_CONCURRENT_TOTAL) break;
+          const hist = rollingMidsHistory[ppCoin] || [];
+          if (hist.length < 2) continue;
+          const oldestPx = hist[0].px;
+          const latestPx = hist[hist.length - 1].px;
+          const delta60sPct = ((latestPx - oldestPx) / oldestPx) * 100;
+
+          // Si hubo un micro-retroceso de -0.14% a -0.80% (compra en rebote) o micro-subida de +0.14% a +0.80% (venta en rebote)
+          if (Math.abs(delta60sPct) >= 0.14) {
+            try {
+              const l2 = await info.l2Book({ coin: ppCoin });
+              const bids = l2.levels?.[0] || [], asks = l2.levels?.[1] || [];
+              if (bids.length < 3 || asks.length < 3) continue;
+              let bVol = 0, aVol = 0;
+              for (let i = 0; i < 5; i++) {
+                bVol += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                aVol += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+              }
+              const tot = bVol + aVol;
+              if (tot <= 0) continue;
+              const bullP = (bVol / tot) * 100;
+              const bearP = (aVol / tot) * 100;
+
+              // Rebote Long tras caída rápida o Rebote Short tras subida rápida con confirmación L2 >= 55%
+              const goLongPP = (delta60sPct <= -0.14 && bullP >= 55.0);
+              const goShortPP = (delta60sPct >= 0.14 && bearP >= 55.0);
+              if (goLongPP || goShortPP) {
+                const isWick = Math.abs(delta60sPct) >= 0.85;
+                const ppNotional = isWick ? 180.0 : 115.0;
+                const entryBookPx = goLongPP ? parseFloat(bids[0].px) : parseFloat(asks[0].px);
+                const ppSz = formatHlSize(ppNotional / entryBookPx, ASSET_DECIMALS[ppCoin].sz);
+                if (parseFloat(ppSz) <= 0) continue;
+                const ppPxStr = formatHlPrice(entryBookPx, ppCoin);
+                const targetPctPP = isWick ? 0.35 : 0.11;
+                const ppTpNum = goLongPP ? entryBookPx * (1 + targetPctPP / 100) : entryBookPx * (1 - targetPctPP / 100);
+                const ppTpStr = formatHlPrice(ppTpNum, ppCoin);
+
+                console.log(`🏓⚡ [${isWick ? "WICK SNIPER ±0.85%" : "MICRO-PING-PONG ±0.16%"}] Disparo en ${ppCoin} (${goLongPP ? "LONG" : "SHORT"}) | Δ60s: ${delta60sPct.toFixed(2)}% | L2: ${(goLongPP ? bullP : bearP).toFixed(1)}% -> TP $${ppTpStr} (+${targetPctPP}%)`);
+                let ppRes = await client.order({
+                  orders: [{ a: ASSET_INDICES[ppCoin], b: goLongPP, p: ppPxStr, s: ppSz, r: false, t: { limit: { tif: "Alo" } } }],
+                  grouping: "na"
+                });
+                let ppSt = ppRes.response?.data?.statuses?.[0] || {};
+                if (ppSt.resting || ppSt.filled) {
+                  pingPongMetaByCoin[ppCoin] = { openedAt: Date.now(), mode: isWick ? "WICK_SNIPER" : "PING_PONG" };
+                  allActiveOrResting.push(ppCoin);
+                  if (ppSt.filled) {
+                    recentOrderSentCoins[ppCoin] = Date.now();
+                    await client.order({
+                      orders: [{ a: ASSET_INDICES[ppCoin], b: !goLongPP, p: ppTpStr, s: ppSz, r: true, t: { limit: { tif: "Alo" } } }],
+                      grouping: "na"
+                    }).catch(() => {});
+                  }
+                  break; // 1 disparo Ping-Pong por ciclo para máxima precisión
+                }
+              }
+            } catch (_) {}
+          }
+        }
+      }
 
       const block1Pairs = [...SQUADS_CONFIG.ALFA.pairs, ...SQUADS_CONFIG.BRAVO.pairs, ...SQUADS_CONFIG.CHARLIE.pairs];
       const block2Pairs = [...SQUADS_CONFIG.GOLF.pairs, ...SQUADS_CONFIG.HOTEL.pairs, ...SQUADS_CONFIG.INDIA.pairs];

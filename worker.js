@@ -3270,8 +3270,9 @@ export default {
               }
             }
 
-            // Regla de Independencia en Cloud: Si hay < 3 posiciones abiertas, los escuadrones libres siguen escaneando y operando en paralelo
-            if (openPositions.length < 3 && env.HL_AGENT_PRIVATE_KEY) {
+            // Regla de Independencia en Cloud 24/7 (Computadora Apagada):
+            // 6 Escuadrones (#01 ALFA a #06 INDIA) + Micro-Ping-Pong (±0.16%) + Francotirador Minuto :59 Pre-Funding
+            if (env.HL_AGENT_PRIVATE_KEY) {
               const { ExchangeClient, InfoClient, HttpTransport } = await import("@nktkas/hyperliquid");
               const { ethers } = await import("ethers");
               const transport = new HttpTransport({ isTestnet: false });
@@ -3280,21 +3281,28 @@ export default {
               const client = new ExchangeClient({ wallet, transport, isTestnet: false });
               const openOrders = await info.openOrders({ user: "0xD4D12077a61118372f7a367319fb11922Beb3743" });
 
-              const ASSET_INDICES = { BTC: 0, ETH: 1, SOL: 5, AVAX: 6, BNB: 7, SUI: 14, LINK: 18, AAVE: 28, PAXG: 187 };
-              const ASSET_DEC = { BTC: 5, ETH: 4, SOL: 2, AVAX: 2, BNB: 3, SUI: 1, LINK: 1, AAVE: 2, PAXG: 3 };
-              const fmtPx = (px, c) => c === "BTC" ? Math.round(px).toFixed(0) : (c === "ETH" || c === "PAXG") ? px.toFixed(1) : c === "LINK" ? px.toFixed(3) : c === "SUI" ? px.toFixed(4) : px.toFixed(2);
+              const ASSET_INDICES = {
+                BTC: 0, ETH: 1, SOL: 5, AVAX: 6, BNB: 7, SUI: 14, LINK: 18, AAVE: 28, PAXG: 187,
+                XRP: 25, DOGE: 12, ADA: 65, HYPE: 159, TRX: 43, UNI: 27, DOT: 39, NEAR: 74, LTC: 10
+              };
+              const ASSET_DEC = {
+                BTC: 5, ETH: 4, SOL: 2, AVAX: 2, BNB: 3, SUI: 1, LINK: 1, AAVE: 2, PAXG: 3,
+                XRP: 0, DOGE: 0, ADA: 0, HYPE: 2, TRX: 0, UNI: 1, DOT: 1, NEAR: 1, LTC: 2
+              };
+              const fmtPx = (px, c) => c === "BTC" ? Math.round(px).toFixed(0) : (c === "ETH" || c === "PAXG") ? px.toFixed(1) : (c === "LINK" || c === "HYPE") ? px.toFixed(3) : (c === "SUI" || c === "XRP" || c === "ADA" || c === "DOGE" || c === "TRX" || c === "DOT") ? px.toFixed(4) : px.toFixed(2);
               const fmtSz = (sz, dec) => (Math.floor(sz * Math.pow(10, dec)) / Math.pow(10, dec)).toFixed(dec);
 
-              // Asegurar que toda posición abierta tenga su Reduce-Only TP puesto en L1
+              // 1. Asegurar que toda posición abierta tenga su Reduce-Only TP puesto en L1 (o cierre en verde si supera +$0.14 USDC)
               for (const pos of openPositions) {
                 const p = pos.position || pos;
                 const coin = p.coin;
                 const szNum = parseFloat(p.szi || "0");
                 const entryPx = parseFloat(p.entryPx || "0");
+                const uPnl = parseFloat(p.unrealizedPnl || "0");
                 const hasTp = openOrders.some(o => o.coin === coin && o.reduceOnly === true);
                 if (!hasTp && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
                   const isShort = szNum < 0;
-                  const targetPct = Math.abs(szNum) * entryPx > 600 ? 0.12 : 0.15;
+                  const targetPct = Math.abs(szNum) * entryPx > 600 ? 0.12 : 0.14;
                   const tpPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
                   await client.order({
                     orders: [{
@@ -3307,16 +3315,37 @@ export default {
                     }],
                     grouping: "na"
                   }).catch(() => {});
+                } else if (uPnl >= 0.18 && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
+                  // Cierre rápido Cero-Holder en modo Cloud cuando acumula +$0.18 USDC limpios
+                  const isShort = szNum < 0;
+                  const closePx = isShort ? entryPx * 0.9995 : entryPx * 1.0005;
+                  await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isShort,
+                      p: fmtPx(closePx, coin),
+                      s: fmtSz(Math.abs(szNum), ASSET_DEC[coin]),
+                      r: true,
+                      t: { limit: { tif: "Ioc" } }
+                    }],
+                    grouping: "na"
+                  }).catch(() => {});
                 }
               }
 
-              // Escaneo paralelo de escuadrones libres (#01 ALFA 2, #02 BRAVO, #03 CHARLIE)
+              // 2. Francotirador del Minuto :59 Pre-Funding + Micro-Ping-Pong + 6 Escuadrones en Cloud (hasta 6 cupos)
+              const utcMinsCloud = new Date().getUTCMinutes();
+              const isPreFundingMinute = (utcMinsCloud === 58 || utcMinsCloud === 59);
               const cloudUnits = [
-                { name: "#02 BRAVO", pairs: ["BTC", "PAXG", "LINK"] },
-                { name: "#03 CHARLIE", pairs: ["ETH", "BNB", "AAVE"] },
-                { name: "#01 ALFA 2", pairs: ["SUI", "AVAX"] }
+                { name: "#04 GOLF (Bloque 2)", pairs: ["XRP", "DOGE", "ADA"], notional: 110, minImb: isPreFundingMinute ? 55.5 : 58.0, tpPct: 0.12 },
+                { name: "#05 HOTEL (Bloque 2)", pairs: ["HYPE", "TRX", "UNI"], notional: 110, minImb: isPreFundingMinute ? 55.5 : 58.0, tpPct: 0.12 },
+                { name: "#06 INDIA (Bloque 2)", pairs: ["DOT", "NEAR", "LTC"], notional: 110, minImb: isPreFundingMinute ? 55.5 : 58.0, tpPct: 0.12 },
+                { name: "#01 ALFA (Bloque 1)", pairs: ["SOL", "SUI", "AVAX"], notional: 180, minImb: isPreFundingMinute ? 56.0 : 61.0, tpPct: 0.14 },
+                { name: "#02 BRAVO (Bloque 1)", pairs: ["BTC", "PAXG", "LINK"], notional: 180, minImb: 62.0, tpPct: 0.15 },
+                { name: "#03 CHARLIE (Bloque 1)", pairs: ["ETH", "BNB", "AAVE"], notional: 180, minImb: 62.0, tpPct: 0.15 }
               ];
-              let slotsLeft = 3 - openPositions.length;
+
+              let slotsLeft = 6 - openPositions.length;
               for (const unit of cloudUnits) {
                 if (slotsLeft <= 0) break;
                 const unitBusy = unit.pairs.some(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly));
@@ -3331,13 +3360,15 @@ export default {
                     av += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
                   }
                   const bullPct = (bv / (bv + av)) * 100;
-                  if (bullPct >= 65.0) {
-                    const px = parseFloat(bids[0].px);
-                    const szStr = fmtSz(250.0 / px, ASSET_DEC[coin]);
+                  const bearPct = (av / (bv + av)) * 100;
+                  if (bullPct >= unit.minImb || bearPct >= unit.minImb) {
+                    const isLong = bullPct >= unit.minImb;
+                    const px = parseFloat(isLong ? bids[0].px : asks[0].px);
+                    const szStr = fmtSz(unit.notional / px, ASSET_DEC[coin]);
                     await client.order({
                       orders: [{
                         a: ASSET_INDICES[coin],
-                        b: true,
+                        b: isLong,
                         p: fmtPx(px, coin),
                         s: szStr,
                         r: false,
