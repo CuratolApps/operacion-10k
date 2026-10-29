@@ -1186,12 +1186,12 @@ async function startAutonomousSquadDaemon() {
                   currentTotalOpen++;
                   if (unit.isBlock2) block2OpenCount++;
                   else block1OpenCount++;
-                  recentOrderSentCoins[coin] = Date.now();
                   const oid = status.resting?.oid || status.filled?.oid || "FILLED";
                   console.log(`   ✔ [${unit.unitKey}] Orden #${oid} activa en Hyperliquid L1 (${status.filled ? "EJECUTADA" : "EN LIBRO"}).`);
 
-                  // Si se llenó de inmediato, colocar de una vez su orden Reduce-Only Take-Profit en el libro L1
+                  // Si se llenó de inmediato, colocar de una vez su orden Reduce-Only Take-Profit y enviar alerta de Apertura Confirmada
                   if (status.filled) {
+                    recentOrderSentCoins[coin] = Date.now();
                     await client.order({
                       orders: [{
                         a: ASSET_INDICES[coin],
@@ -1203,20 +1203,20 @@ async function startAutonomousSquadDaemon() {
                       }],
                       grouping: "na"
                     }).catch(() => {});
-                  }
 
-                  const orderTg = `🟢🎯 <b>ÁREA 501 // OPERACIÓN ABIERTA — BLOQUE ${unit.squadCfg.block} (${bestCandidate.direction})</b>\n` +
-                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                    `🔰 <b>Unidad:</b> <b>${unit.squadCfg.name} — ${unit.botName}</b>\n` +
-                    `📍 <b>Par:</b> <code>${coin}-USDC</code> (${szFormatted} ${coin})\n` +
-                    `📥 <b>PRECIO ENTRADA:</b> <code>$${entryPxStr}</code> ($${notional.toFixed(0)} Nocional)\n` +
-                    `📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$${tpPxStr}</code> (+${unitTargetGainPct}% Reduce-Only)\n` +
-                    `💰 <b>Ganancia Estimada:</b> <b>+$${estNetGain} USDC Limpios</b>\n` +
-                    `📊 <b>Filtros:</b> L2 ${bestCandidate.score.toFixed(1)}% · RSI 5m ${bestCandidate.rsi.toFixed(1)}\n` +
-                    `📌 <b>Estado:</b> <b>${status.filled ? "EJECUTADA EN VIVO (TP COLOCADO)" : "EN LIBRO L1 (POST-ONLY ALO)"}</b>\n` +
-                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                    `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;
-                  await sendSquadTelegram(orderTg);
+                    const orderTg = `🟢🎯 <b>ÁREA 501 // OPERACIÓN ABIERTA — BLOQUE ${unit.squadCfg.block} (${bestCandidate.direction})</b>\n` +
+                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                      `🔰 <b>Unidad:</b> <b>${unit.squadCfg.name} — ${unit.botName}</b>\n` +
+                      `📍 <b>Par:</b> <code>${coin}-USDC</code> (${szFormatted} ${coin})\n` +
+                      `📥 <b>PRECIO ENTRADA:</b> <code>$${entryPxStr}</code> ($${notional.toFixed(0)} Nocional)\n` +
+                      `📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$${tpPxStr}</code> (+${unitTargetGainPct}% Reduce-Only)\n` +
+                      `💰 <b>Ganancia Estimada:</b> <b>+$${estNetGain} USDC Limpios</b>\n` +
+                      `📊 <b>Filtros:</b> L2 ${bestCandidate.score.toFixed(1)}% · RSI 5m ${bestCandidate.rsi.toFixed(1)}\n` +
+                      `📌 <b>Estado:</b> <b>EJECUTADA EN VIVO (TP REDUCE-ONLY ACTIVO)</b>\n` +
+                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                      `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;
+                    await sendSquadTelegram(orderTg);
+                  }
                 }
               } catch (err) {
                 console.error(`[${unit.unitKey}] Error colocando orden en ${coin}:`, err.message);
