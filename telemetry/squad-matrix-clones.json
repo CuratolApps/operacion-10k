@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-28T22:10:00.000Z",
+  "updatedAt": "2026-10-29T07:07:29.529Z",
   "architecture": "Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots)",
   "rules": {
     "radarL2": ">= 62%",
@@ -16,12 +16,16 @@
       "block": 1,
       "titular": "ALFA 1",
       "clon": "ALFA 2",
-      "pairs": ["SOL", "SUI", "AVAX"],
+      "pairs": [
+        "SOL",
+        "SUI",
+        "AVAX"
+      ],
       "relayStatus": "⚡ ALFA 1: ACTIVO ⇄ ALFA 2: RELEVO",
       "activeBot": "ALFA 1",
       "standbyBot": "ALFA 2",
-      "mode": "SCANNING",
-      "pairInAction": null
+      "mode": "ACTIVE_POSITION",
+      "pairInAction": "SOL"
     },
     {
       "id": 2,
@@ -30,13 +34,16 @@
       "block": 1,
       "titular": "BRAVO 1",
       "clon": "BRAVO 2",
-      "pairs": ["BTC", "PAXG", "LINK"],
-      "relayStatus": "🔄 BRAVO 1: ENFRIAMIENTO 12m ⇄ ⚡ BRAVO 2: CAZANDO",
-      "activeBot": "BRAVO 2",
-      "standbyBot": "BRAVO 1",
-      "mode": "HOT_SWAP_RELAY",
-      "cooldownCoin": "BTC",
-      "cooldownRemainingMins": 12
+      "pairs": [
+        "BTC",
+        "PAXG",
+        "LINK"
+      ],
+      "relayStatus": "⚡ BRAVO 1: ACTIVO ⇄ BRAVO 2: RELEVO",
+      "activeBot": "BRAVO 1",
+      "standbyBot": "BRAVO 2",
+      "mode": "ACTIVE_POSITION",
+      "pairInAction": "BTC"
     },
     {
       "id": 3,
@@ -45,12 +52,16 @@
       "block": 1,
       "titular": "CHARLIE 1",
       "clon": "CHARLIE 2",
-      "pairs": ["ETH", "BNB", "AAVE"],
+      "pairs": [
+        "ETH",
+        "BNB",
+        "AAVE"
+      ],
       "relayStatus": "⚡ CHARLIE 1: ACTIVO ⇄ CHARLIE 2: RELEVO",
       "activeBot": "CHARLIE 1",
       "standbyBot": "CHARLIE 2",
-      "mode": "SCANNING",
-      "pairInAction": null
+      "mode": "ACTIVE_POSITION",
+      "pairInAction": "ETH"
     },
     {
       "id": 4,
@@ -59,7 +70,11 @@
       "block": 2,
       "titular": "GOLF 1",
       "clon": "GOLF 2",
-      "pairs": ["XRP", "DOGE", "ADA"],
+      "pairs": [
+        "XRP",
+        "DOGE",
+        "ADA"
+      ],
       "relayStatus": "⏸️ GOLF 1: PRE-ARMADO ⇄ GOLF 2: PRE-ARMADO ($100)",
       "activeBot": "GOLF 1",
       "standbyBot": "GOLF 2",
@@ -73,7 +88,11 @@
       "block": 2,
       "titular": "HOTEL 1",
       "clon": "HOTEL 2",
-      "pairs": ["HYPE", "TRX", "TON"],
+      "pairs": [
+        "HYPE",
+        "TRX",
+        "TON"
+      ],
       "relayStatus": "⏸️ HOTEL 1: PRE-ARMADO ⇄ HOTEL 2: PRE-ARMADO ($100)",
       "activeBot": "HOTEL 1",
       "standbyBot": "HOTEL 2",
@@ -87,7 +106,11 @@
       "block": 2,
       "titular": "INDIA 1",
       "clon": "INDIA 2",
-      "pairs": ["DOT", "NEAR", "LTC"],
+      "pairs": [
+        "DOT",
+        "NEAR",
+        "LTC"
+      ],
       "relayStatus": "⏸️ INDIA 1: PRE-ARMADO ⇄ INDIA 2: PRE-ARMADO ($100)",
       "activeBot": "INDIA 1",
       "standbyBot": "INDIA 2",
@@ -101,7 +124,11 @@
       "block": 3,
       "titular": "JULIET 1",
       "clon": "JULIET 2",
-      "pairs": ["TAO", "RENDER", "FET"],
+      "pairs": [
+        "TAO",
+        "RENDER",
+        "FET"
+      ],
       "relayStatus": "⏸️ JULIET 1: PRE-ARMADO ⇄ JULIET 2: PRE-ARMADO ($100)",
       "activeBot": "JULIET 1",
       "standbyBot": "JULIET 2",
@@ -115,7 +142,11 @@
       "block": 3,
       "titular": "KILO 1",
       "clon": "KILO 2",
-      "pairs": ["ARB", "OP", "UNI"],
+      "pairs": [
+        "ARB",
+        "OP",
+        "UNI"
+      ],
       "relayStatus": "⏸️ KILO 1: PRE-ARMADO ⇄ KILO 2: PRE-ARMADO ($100)",
       "activeBot": "KILO 1",
       "standbyBot": "KILO 2",
@@ -129,7 +160,11 @@
       "block": 3,
       "titular": "LIMA 1",
       "clon": "LIMA 2",
-      "pairs": ["ONDO", "PENDLE", "PEPE"],
+      "pairs": [
+        "ONDO",
+        "PENDLE",
+        "PEPE"
+      ],
       "relayStatus": "⏸️ LIMA 1: PRE-ARMADO ⇄ LIMA 2: PRE-ARMADO ($100)",
       "activeBot": "LIMA 1",
       "standbyBot": "LIMA 2",
@@ -143,7 +178,11 @@
       "block": 4,
       "titular": "DELTA 1",
       "clon": "DELTA 2",
-      "pairs": ["EUR/USD", "GBP/USD", "USD/CHF"],
+      "pairs": [
+        "EUR/USD",
+        "GBP/USD",
+        "USD/CHF"
+      ],
       "relayStatus": "⏸️ DELTA 1: PRE-ARMADO ⇄ DELTA 2: PRE-ARMADO ($100)",
       "activeBot": "DELTA 1",
       "standbyBot": "DELTA 2",
@@ -157,7 +196,11 @@
       "block": 4,
       "titular": "ECHO 1",
       "clon": "ECHO 2",
-      "pairs": ["USD/JPY", "AUD/USD", "USD/CAD"],
+      "pairs": [
+        "USD/JPY",
+        "AUD/USD",
+        "USD/CAD"
+      ],
       "relayStatus": "⏸️ ECHO 1: PRE-ARMADO ⇄ ECHO 2: PRE-ARMADO ($100)",
       "activeBot": "ECHO 1",
       "standbyBot": "ECHO 2",
@@ -171,7 +214,11 @@
       "block": 4,
       "titular": "FOXTROT 1",
       "clon": "FOXTROT 2",
-      "pairs": ["XAU/USD", "XAG/USD", "EUR/JPY"],
+      "pairs": [
+        "XAU/USD",
+        "XAG/USD",
+        "EUR/JPY"
+      ],
       "relayStatus": "⏸️ FOXTROT 1: PRE-ARMADO ⇄ FOXTROT 2: PRE-ARMADO ($100)",
       "activeBot": "FOXTROT 1",
       "standbyBot": "FOXTROT 2",
@@ -185,7 +232,11 @@
       "block": 5,
       "titular": "MIKE 1",
       "clon": "MIKE 2",
-      "pairs": ["GBP/JPY", "EUR/GBP", "WTI/USD"],
+      "pairs": [
+        "GBP/JPY",
+        "EUR/GBP",
+        "WTI/USD"
+      ],
       "relayStatus": "⏸️ MIKE 1: PRE-ARMADO ⇄ MIKE 2: PRE-ARMADO ($100)",
       "activeBot": "MIKE 1",
       "standbyBot": "MIKE 2",
@@ -199,7 +250,11 @@
       "block": 5,
       "titular": "NOVEMBER 1",
       "clon": "NOVEMBER 2",
-      "pairs": ["NAS100", "SPX500", "US30"],
+      "pairs": [
+        "NAS100",
+        "SPX500",
+        "US30"
+      ],
       "relayStatus": "⏸️ NOVEMBER 1: PRE-ARMADO ⇄ NOVEMBER 2: PRE-ARMADO ($100)",
       "activeBot": "NOVEMBER 1",
       "standbyBot": "NOVEMBER 2",
@@ -213,7 +268,11 @@
       "block": 5,
       "titular": "OSCAR 1",
       "clon": "OSCAR 2",
-      "pairs": ["DAX40", "NGAS", "HG/USD"],
+      "pairs": [
+        "DAX40",
+        "NGAS",
+        "HG/USD"
+      ],
       "relayStatus": "⏸️ OSCAR 1: PRE-ARMADO ⇄ OSCAR 2: PRE-ARMADO ($100)",
       "activeBot": "OSCAR 1",
       "standbyBot": "OSCAR 2",
@@ -227,7 +286,11 @@
       "block": 6,
       "titular": "PAPA 1",
       "clon": "PAPA 2",
-      "pairs": ["NVDA", "TSLA", "AAPL"],
+      "pairs": [
+        "NVDA",
+        "TSLA",
+        "AAPL"
+      ],
       "relayStatus": "⏸️ PAPA 1: PRE-ARMADO ⇄ PAPA 2: PRE-ARMADO ($100)",
       "activeBot": "PAPA 1",
       "standbyBot": "PAPA 2",
@@ -241,7 +304,11 @@
       "block": 6,
       "titular": "QUEBEC 1",
       "clon": "QUEBEC 2",
-      "pairs": ["MSFT", "AMZN", "META"],
+      "pairs": [
+        "MSFT",
+        "AMZN",
+        "META"
+      ],
       "relayStatus": "⏸️ QUEBEC 1: PRE-ARMADO ⇄ QUEBEC 2: PRE-ARMADO ($100)",
       "activeBot": "QUEBEC 1",
       "standbyBot": "QUEBEC 2",
@@ -255,12 +322,14 @@
       "block": 6,
       "titular": "ROMEO 1",
       "clon": "ROMEO 2",
-      "pairs": ["GOOGL", "COIN", "MSTR"],
+      "pairs": [
+        "GOOGL",
+        "COIN",
+        "MSTR"
+      ],
       "relayStatus": "⏸️ ROMEO 1: PRE-ARMADO ⇄ ROMEO 2: PRE-ARMADO ($100)",
       "activeBot": "ROMEO 1",
       "standbyBot": "ROMEO 2",
       "mode": "STANDBY_ARMED",
       "pairInAction": null
-    }
-  ]
-}
+   

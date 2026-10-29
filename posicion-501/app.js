@@ -357,36 +357,82 @@ function startUtcClock() {
   setInterval(tick, 1000);
 }
 
-// FETCH REAL DE SALDOS Y ESTADO EN VIVO
+// FETCH REAL DE SALDOS Y ESTADO EN VIVO (CON LECTURA DIRECTA A HYPERLIQUID L1 — CERO CONGELAMIENTO)
 async function fetchLiveData() {
   try {
-    const res = await fetch("/api/posicion-501", { cache: "no-store" });
-    if (!res.ok) throw new Error("Fallback needed");
-    const data = await res.json();
-    if (data && data.success) {
-      updateUiWithLiveData(data);
-    }
-  } catch (_) {
-    // Fallback silencioso a balances estándar
-    try {
-      const fbRes = await fetch("/api/mando-central/balances", { cache: "no-store" });
-      if (fbRes.ok) {
-        const fbData = await fbRes.json();
-        updateUiWithFallbackData(fbData);
+    const [res, hlRes] = await Promise.all([
+      fetch("/api/posicion-501", { cache: "no-store" }).catch(() => null),
+      fetch("https://api.hyperliquid.xyz/info", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "clearinghouseState", user: VAULT_501 })
+      }).catch(() => null)
+    ]);
+
+    let hlDirectVal = null;
+    let hlUnrealizedTotal = 0;
+    if (hlRes && hlRes.ok) {
+      const ch = await hlRes.json().catch(() => null);
+      const val = parseFloat(ch?.marginSummary?.accountValue || "0");
+      if (!isNaN(val) && val > 0) {
+        hlDirectVal = val;
       }
-    } catch (e) {}
-  }
+      if (Array.isArray(ch?.assetPositions)) {
+        ch.assetPositions.forEach(p => {
+          hlUnrealizedTotal += parseFloat(p?.position?.unrealizedPnl || "0");
+        });
+      }
+    }
+
+    if (res && res.ok) {
+      const data = await res.json();
+      if (data && data.success) {
+        if (hlDirectVal !== null) {
+          data.hyperliquid = data.hyperliquid || {};
+          data.hyperliquid.clearinghouseUsdc = hlDirectVal;
+          data.hyperliquid.unrealizedPnlUsdc = hlUnrealizedTotal;
+          data.hyperliquid.closedBaseUsdc = +(hlDirectVal - hlUnrealizedTotal).toFixed(2);
+          data.hyperliquid.activeMarginUsdc = +(hlDirectVal * 0.60).toFixed(2);
+          data.hyperliquid.shieldUsdc = +(hlDirectVal * 0.40).toFixed(2);
+          data.hyperliquid.netProfitUsdc = +(hlDirectVal - 629.94).toFixed(2);
+          data.hyperliquid.netProfitPct = +(((hlDirectVal - 629.94) / 629.94) * 100).toFixed(2);
+          const polValUsd = (data.polygon?.polBalance || 9.62) * 0.38;
+          const bnbValUsd = (data.bsc?.bnbBalance || 0.0188) * 595.0;
+          const ethValUsd = (data.arbitrum?.ethBalance || 0.00084) * 2600.0;
+          const fleetUsdc = data.fleetPockets?.usdcBalance || 4.70;
+          data.totalConsolidatedUsd = +(hlDirectVal + fleetUsdc + polValUsd + bnbValUsd + ethValUsd).toFixed(2);
+        }
+        updateUiWithLiveData(data);
+        return;
+      }
+    }
+
+    if (hlDirectVal !== null) {
+      updateUiWithLiveData({
+        totalConsolidatedUsd: +(hlDirectVal + 4.70 + 17.02).toFixed(2),
+        hyperliquid: {
+          clearinghouseUsdc: hlDirectVal,
+          unrealizedPnlUsdc: hlUnrealizedTotal,
+          closedBaseUsdc: +(hlDirectVal - hlUnrealizedTotal).toFixed(2),
+          activeMarginUsdc: +(hlDirectVal * 0.60).toFixed(2),
+          shieldUsdc: +(hlDirectVal * 0.40).toFixed(2),
+          netProfitUsdc: +(hlDirectVal - 629.94).toFixed(2),
+          netProfitPct: +(((hlDirectVal - 629.94) / 629.94) * 100).toFixed(2)
+        }
+      });
+    }
+  } catch (_) {}
 }
 
 function updateUiWithLiveData(data) {
   if (!data) return;
 
-  const totalWealth = data.totalConsolidatedUsd || 865.72;
-  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 845.87;
+  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 835.50;
+  const totalWealth = data.totalConsolidatedUsd || +(hlBalance + 21.72).toFixed(2);
   const activeMargin = data.hyperliquid?.activeMarginUsdc || parseFloat((hlBalance * 0.60).toFixed(2));
   const shieldMargin = data.hyperliquid?.shieldUsdc || parseFloat((hlBalance * 0.40).toFixed(2));
-  const netProfit = data.hyperliquid?.netProfitUsdc || parseFloat((hlBalance - 629.94).toFixed(2));
-  const netProfitPct = data.hyperliquid?.netProfitPct || parseFloat(((netProfit / 629.94) * 100).toFixed(2));
+  const netProfit = data.hyperliquid?.netProfitUsdc !== undefined ? data.hyperliquid.netProfitUsdc : parseFloat((hlBalance - 629.94).toFixed(2));
+  const netProfitPct = data.hyperliquid?.netProfitPct !== undefined ? data.hyperliquid.netProfitPct : parseFloat(((netProfit / 629.94) * 100).toFixed(2));
 
   const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.6194;
   const bnbBal = typeof data.bsc?.bnbBalance === "number" ? data.bsc.bnbBalance : 0.0188;

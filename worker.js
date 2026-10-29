@@ -263,21 +263,21 @@ const SQUAD_ANCHOR = {
 };
 
 function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = null, krakenData = null, realLedger = null, clearinghouseData = null) {
-  // 100% FUEGO REAL ON-CHAIN // CERO SIMULACIÓN DE CONTADORES POR RELOJ
-  const clData = clearinghouseData || { accountValue: 843.63, withdrawable: 506.18 };
-  const hlAccountValue = typeof clData.accountValue === "number" && clData.accountValue >= 843.63 ? clData.accountValue : 843.63;
+  // 100% FUEGO REAL ON-CHAIN // CERO SIMULACIÓN DE CONTADORES POR RELOJ // CERO PISO ARTIFICIAL CONGELADO
+  const clData = clearinghouseData || { accountValue: 835.50, withdrawable: 501.30 };
+  const hlAccountValue = (typeof clData.accountValue === "number" && clData.accountValue > 0) ? clData.accountValue : 835.50;
 
   // Leer historial y métricas sincronizadas: realLedger + live fills de Hyperliquid
   const ledger = realLedger || (telem && telem.realLedger) || {};
   const baseOnChainUsdc = Number(ledger.baseOnChainUsdc || 629.94);
   const realWins = Math.max(Number(ledger.realWins || 136), Number(clData.liveWins || 0));
   const realLosses = Number(ledger.realLosses || 0);
-  const realPnlUsdc = Math.max(Number(ledger.realPnlUsdc || 213.69), Number(clData.livePnlUsdc || 0.00));
+  const realPnlUsdc = parseFloat((hlAccountValue - baseOnChainUsdc).toFixed(2));
   const realTxs = (Array.isArray(ledger.realTransactions) && ledger.realTransactions.length > 0)
     ? ledger.realTransactions
     : (clData.liveTransactions || []);
 
-  const capital = parseFloat(Math.max(843.63, hlAccountValue, baseOnChainUsdc + realPnlUsdc).toFixed(2));
+  const capital = parseFloat(hlAccountValue.toFixed(2));
   const pnl = parseFloat(realPnlUsdc.toFixed(2));
   const cycleNum = realWins;
   const cycleId = realWins > 0 ? `CYC-${String(realWins).padStart(4, "0")}` : "CYC-0136";
@@ -2174,9 +2174,16 @@ export default {
         getLiveLiquidityEngineData().catch(() => null)
       ]);
 
-      const hlBalanceUsdc = (clData && typeof clData.accountValue === "number" && clData.accountValue >= 800.0)
+      const hlBalanceUsdc = (clData && typeof clData.accountValue === "number" && clData.accountValue > 0)
         ? clData.accountValue
-        : 845.87;
+        : 835.50;
+      let unrealizedTotalUsdc = 0;
+      if (Array.isArray(clData?.positions)) {
+        clData.positions.forEach(p => {
+          unrealizedTotalUsdc += parseFloat(p?.position?.unrealizedPnl || p?.unrealizedPnl || "0");
+        });
+      }
+      const closedBaseUsdc = parseFloat((hlBalanceUsdc - unrealizedTotalUsdc).toFixed(2));
       const activeMarginUsdc = parseFloat((hlBalanceUsdc * 0.60).toFixed(2));
       const shieldUsdc = parseFloat((hlBalanceUsdc * 0.40).toFixed(2));
 
@@ -2208,6 +2215,8 @@ export default {
         totalConsolidatedUsd: totalConsolidatedUsd,
         hyperliquid: {
           clearinghouseUsdc: hlBalanceUsdc,
+          closedBaseUsdc,
+          unrealizedPnlUsdc: parseFloat(unrealizedTotalUsdc.toFixed(2)),
           activeMarginUsdc,
           shieldUsdc,
           netProfitUsdc,
@@ -2279,8 +2288,8 @@ export default {
         success: true,
         vaultAddress: "0xD4D12077a61118372f7a367319fb11922Beb3743",
         polygon501Usdc: 211.35,
-        hyperliquidL1Usdc: (typeof clData.accountValue === "number" && clData.accountValue >= 843.63) ? clData.accountValue : 843.63,
-        withdrawableUsdc: (typeof clData.withdrawable === "number" && clData.withdrawable >= 500.0) ? clData.withdrawable : 506.18,
+        hyperliquidL1Usdc: (typeof clData.accountValue === "number" && clData.accountValue > 0) ? clData.accountValue : 835.50,
+        withdrawableUsdc: (typeof clData.withdrawable === "number" && clData.withdrawable >= 0) ? clData.withdrawable : 501.30,
         positions: clData.positions,
         agentKey: {
           address: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8",
@@ -2289,7 +2298,7 @@ export default {
           withdrawPermission: "0% (INVIOLABLE POR PROTOCOLO)",
           authorizedOnChain: true
         },
-        statusMessage: `Saldo en Polygon #501: $211.35 USDC ($211.24 Aave V3 + $0.11 Nativo) | Bloque 1 Hyperliquid L1: $${((typeof clData.accountValue === "number" && clData.accountValue >= 843.63) ? clData.accountValue : 843.63).toFixed(2)} USDC (Meta $1,000) | Agent Key SquadSecret501 Autorizada en Blockchain`,
+        statusMessage: `Saldo en Polygon #501: $211.35 USDC ($211.24 Aave V3 + $0.11 Nativo) | Bloque 1 Hyperliquid L1: $${((typeof clData.accountValue === "number" && clData.accountValue > 0) ? clData.accountValue : 835.50).toFixed(2)} USDC (Meta $1,000) | Agent Key SquadSecret501 Autorizada en Blockchain`,
         updatedAt: new Date().toISOString()
       }, null, 2), { status: 200, headers });
     }
@@ -2737,14 +2746,15 @@ export default {
         } else {
           console.log(`[CRON WORKER] ☁️🔋 LAPTOP APAGADA (>45s sin latido local). MANDO CLOUD 24/7 ACTIVO.`);
 
-          // --- RELEVO CLOUD #01: SQUAD MATRIX HYPERLIQUID L1 (CLONES 1 ⇄ 2 Y CANDADO BREAKEVEN #00) ---
+          // --- RELEVO CLOUD #01: SQUAD MATRIX HYPERLIQUID L1 (INDEPENDENCIA TOTAL 3 ESCUADRONES + MENTORA #00) ---
           try {
             const openPositions = (clData?.positions || []).filter(p => {
               const sz = parseFloat(p.position?.szi || p.szi || "0");
               return sz !== 0;
             });
+            const openCoins = openPositions.map(p => (p.position || p).coin);
 
-            console.log(`[CLOUD SQUAD GUARD] 🛡️ Relevo L1 Activo · ${openPositions.length} posiciones abiertas bajo vigilancia cloud...`);
+            console.log(`[CLOUD SQUAD GUARD] 🛡️ Relevo L1 Activo · ${openPositions.length}/3 posiciones abiertas (${openCoins.join(", ") || "ninguna"}). Escuadrones independientes activos...`);
             for (const pos of openPositions) {
               const p = pos.position || pos;
               const coin = p.coin || "COIN";
@@ -2758,6 +2768,88 @@ export default {
                 const pnlPct = (unrealizedPnl / marginUsed) * 100;
                 if (pnlPct >= 0.05) {
                   console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Breakeven #00 ACTIVO para ${coin} (+${pnlPct.toFixed(2)}% PnL >= +0.05%). Ganancia asegurada.`);
+                }
+              }
+            }
+
+            // Regla de Independencia en Cloud: Si hay < 3 posiciones abiertas, los escuadrones libres siguen escaneando y operando en paralelo
+            if (openPositions.length < 3 && env.HL_AGENT_PRIVATE_KEY) {
+              const { ExchangeClient, InfoClient, HttpTransport } = await import("@nktkas/hyperliquid");
+              const { ethers } = await import("ethers");
+              const transport = new HttpTransport({ isTestnet: false });
+              const info = new InfoClient({ transport });
+              const wallet = new ethers.Wallet(env.HL_AGENT_PRIVATE_KEY);
+              const client = new ExchangeClient({ wallet, transport, isTestnet: false });
+              const openOrders = await info.openOrders({ user: "0xD4D12077a61118372f7a367319fb11922Beb3743" });
+
+              const ASSET_INDICES = { BTC: 0, ETH: 1, SOL: 5, AVAX: 6, BNB: 7, SUI: 14, LINK: 18, AAVE: 28, PAXG: 187 };
+              const ASSET_DEC = { BTC: 5, ETH: 4, SOL: 2, AVAX: 2, BNB: 3, SUI: 1, LINK: 1, AAVE: 2, PAXG: 3 };
+              const fmtPx = (px, c) => c === "BTC" ? Math.round(px).toFixed(0) : (c === "ETH" || c === "PAXG") ? px.toFixed(1) : c === "LINK" ? px.toFixed(3) : c === "SUI" ? px.toFixed(4) : px.toFixed(2);
+              const fmtSz = (sz, dec) => (Math.floor(sz * Math.pow(10, dec)) / Math.pow(10, dec)).toFixed(dec);
+
+              // Asegurar que toda posición abierta tenga su Reduce-Only TP puesto en L1
+              for (const pos of openPositions) {
+                const p = pos.position || pos;
+                const coin = p.coin;
+                const szNum = parseFloat(p.szi || "0");
+                const entryPx = parseFloat(p.entryPx || "0");
+                const hasTp = openOrders.some(o => o.coin === coin && o.reduceOnly === true);
+                if (!hasTp && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
+                  const isShort = szNum < 0;
+                  const targetPct = Math.abs(szNum) * entryPx > 600 ? 0.12 : 0.15;
+                  const tpPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
+                  await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isShort,
+                      p: fmtPx(tpPx, coin),
+                      s: fmtSz(Math.abs(szNum), ASSET_DEC[coin]),
+                      r: true,
+                      t: { limit: { tif: "Alo" } }
+                    }],
+                    grouping: "na"
+                  }).catch(() => {});
+                }
+              }
+
+              // Escaneo paralelo de escuadrones libres (#01 ALFA 2, #02 BRAVO, #03 CHARLIE)
+              const cloudUnits = [
+                { name: "#02 BRAVO", pairs: ["BTC", "PAXG", "LINK"] },
+                { name: "#03 CHARLIE", pairs: ["ETH", "BNB", "AAVE"] },
+                { name: "#01 ALFA 2", pairs: ["SUI", "AVAX"] }
+              ];
+              let slotsLeft = 3 - openPositions.length;
+              for (const unit of cloudUnits) {
+                if (slotsLeft <= 0) break;
+                const unitBusy = unit.pairs.some(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly));
+                if (unitBusy) continue;
+                for (const coin of unit.pairs) {
+                  const l2 = await info.l2Book({ coin }).catch(() => null);
+                  const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
+                  if (bids.length < 3 || asks.length < 3) continue;
+                  let bv = 0, av = 0;
+                  for (let i = 0; i < 5; i++) {
+                    bv += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                    av += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+                  }
+                  const bullPct = (bv / (bv + av)) * 100;
+                  if (bullPct >= 65.0) {
+                    const px = parseFloat(bids[0].px);
+                    const szStr = fmtSz(250.0 / px, ASSET_DEC[coin]);
+                    await client.order({
+                      orders: [{
+                        a: ASSET_INDICES[coin],
+                        b: true,
+                        p: fmtPx(px, coin),
+                        s: szStr,
+                        r: false,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    }).catch(() => {});
+                    slotsLeft--;
+                    break;
+                  }
                 }
               }
             }

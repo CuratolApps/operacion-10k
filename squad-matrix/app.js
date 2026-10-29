@@ -122,16 +122,16 @@ const SYNTHETIC_DEFAULTS = {
 const ANCHOR_FILL_TIME = 1793223937322;
 const BASE_WINS = 136;
 const BASE_LOSSES = 0;
-const BASE_ACCOUNT_VALUE = 843.63;
+const BASE_ACCOUNT_VALUE = 835.50;
 const BASE_TOTAL_PROFIT_USDC = 213.69;
-const BASE_MARGIN_60 = 506.18;
-const BASE_SHIELD_40 = 337.45;
+const BASE_MARGIN_60 = 501.30;
+const BASE_SHIELD_40 = 334.20;
 const BASE_INJECTED = 629.94;
 
-// ESTADO GLOBAL SINCERIZADO (VALORES REALES EN CADENA)
+// ESTADO GLOBAL SINCERIZADO (100% DIRECT LIVE EQUITY — CERO CONGELAMIENTO)
 let appState = {
-  accountValue: (initialSavedSquad && initialSavedSquad.accountValue && initialSavedSquad.accountValue >= 843.63) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
-  withdrawable: (initialSavedSquad && initialSavedSquad.withdrawable && initialSavedSquad.withdrawable >= 600.0) ? initialSavedSquad.withdrawable : BASE_ACCOUNT_VALUE,
+  accountValue: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.accountValue > 0) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
+  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : BASE_ACCOUNT_VALUE,
   openPositions: (initialSavedSquad && initialSavedSquad.openPositions) || [],
   mids: (initialSavedSquad && initialSavedSquad.mids) || {},
   totalLoanInjected: 629.94,
@@ -953,19 +953,13 @@ async function fetchHyperliquidState() {
       if (valStr !== undefined && valStr !== null) {
         const val = parseFloat(valStr);
         if (!isNaN(val) && val > 0) {
-          const lastVal = (window.__LAST_VALID_STATE__ && window.__LAST_VALID_STATE__.accountValue) || appState.accountValue;
-          // Candado Monotónico Anti-Rollback: Prohibido retroceder a valores viejos (< 843.63)
-          const minConfirmedFloor = 843.63;
-          if (val >= minConfirmedFloor && (val >= lastVal || (ch.assetPositions && ch.assetPositions.length > 0))) {
-            appState.accountValue = val;
-          } else if (appState.accountValue < minConfirmedFloor) {
-            appState.accountValue = minConfirmedFloor;
-          }
+          // 100% Direct Live Equity (Cero piso artificial Math.max(845.90, ...))
+          appState.accountValue = val;
         }
       }
       if (ch.withdrawable) {
         const w = parseFloat(ch.withdrawable);
-        if (!isNaN(w) && w > 0) appState.withdrawable = Math.max(843.63, w);
+        if (!isNaN(w) && w >= 0) appState.withdrawable = w;
       }
       if (Array.isArray(ch.assetPositions)) {
         appState.openPositions = ch.assetPositions.filter(p => parseFloat(p.position.szi) !== 0);
@@ -1029,8 +1023,9 @@ async function fetchHyperliquidState() {
       }
     }
 
-    // Persistir Snapshot Monotónico Válido
+    // Persistir Snapshot Válido (Direct Live Equity V2)
     const validSnapshot = {
+      directLiveEquityV2: true,
       accountValue: appState.accountValue,
       withdrawable: appState.withdrawable,
       realWins: appState.realWins,
@@ -1061,12 +1056,6 @@ function updateTopBarCards() {
   const activeMargin = val * 0.60;
   const mentoraShield = val * 0.40;
 
-  // 1. Capital Operativo
-  setTextIfChanged(document.getElementById("topAccountValue"), val.toFixed(2));
-  setTextIfChanged(document.getElementById("topActiveMarginPill"), `Margen 60%: $${activeMargin.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
-
-  // 2. Profit General & Escuadrones Sincronizados
   let unrealizedTotal = 0;
   let unrealizedSq1 = 0, unrealizedSq2 = 0, unrealizedSq3 = 0;
   appState.openPositions.forEach(p => {
@@ -1078,8 +1067,23 @@ function updateTopBarCards() {
     else if (["ETH", "BNB", "AAVE"].includes(coin)) unrealizedSq3 += u;
   });
 
-  const netTotalPnl = +(appState.totalProfitUsdc + unrealizedTotal).toFixed(2);
-  const pnlPct = (netTotalPnl / 629.94) * 100;
+  const closedBase = +(val - unrealizedTotal).toFixed(2);
+  const floatSign = unrealizedTotal >= 0 ? "+" : "-";
+  const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
+
+  // 1. Capital Operativo (100% Direct Live Equity)
+  setTextIfChanged(document.getElementById("topActiveCapValue"), val.toFixed(2));
+  setTextIfChanged(document.getElementById("topAccountValue"), val.toFixed(2));
+  setTextIfChanged(document.getElementById("topActiveMarginPill"), `Margen 60%: $${activeMargin.toFixed(2)}`);
+  setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
+  setTextIfChanged(
+    document.getElementById("topEquityBreakdownPill"),
+    `Balance Cerrado Base: $${closedBase.toFixed(2)} USDC | Flotante Abierto: ${floatSign}$${floatAbs} USDC ➔ Equity Real: $${val.toFixed(2)} USDC`
+  );
+
+  // 2. Profit General & Escuadrones Sincronizados al centavo con Equity Real
+  const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
+  const pnlPct = (netTotalPnl / appState.totalLoanInjected) * 100;
   setTextIfChanged(document.getElementById("topTotalProfit"), `${netTotalPnl >= 0 ? "+" : ""}$${netTotalPnl.toFixed(2)}`);
   setTextIfChanged(document.getElementById("topTotalProfitPct"), `${pnlPct >= 0 ? "+" : ""}${pnlPct.toFixed(2)}%`);
 

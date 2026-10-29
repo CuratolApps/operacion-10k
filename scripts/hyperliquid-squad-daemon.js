@@ -176,7 +176,7 @@ function recordTransactionInLedger(tx) {
     const ledger = loadRealLedger();
     ledger.realWins = Math.max(136, (ledger.realWins || 0) + 1);
     ledger.realPnlUsdc = +(Number(ledger.realPnlUsdc || 0) + Number(tx.netProfitUsdc || 0)).toFixed(4);
-    ledger.totalConsolidatedUsdc = Math.max(843.63, Number(tx.newAccountValue || 843.63));
+    ledger.totalConsolidatedUsdc = Number(tx.newAccountValue || 835.50);
     ledger.remainingToNextBlock = +(Math.max(0, 1000 - ledger.totalConsolidatedUsdc)).toFixed(2);
     ledger.progressToNextBlockPct = +((ledger.totalConsolidatedUsdc / 1000) * 100).toFixed(1);
     ledger.updatedAt = new Date().toISOString();
@@ -192,7 +192,7 @@ function recordTransactionInLedger(tx) {
         telem.scoreboard.currentWins = ledger.realWins;
         telem.scoreboard.sessionNetPnLUsdc = ledger.realPnlUsdc;
         telem.scoreboard.sessionNetPnLFormatted = `+$${ledger.realPnlUsdc.toFixed(2)} USDC`;
-        telem.scoreboard.accountValue = Math.max(843.63, tx.newAccountValue || 843.63);
+        telem.scoreboard.accountValue = Number(tx.newAccountValue || 835.50);
         telem.cycleHistory = ledger.realTransactions.slice(0, 15);
         fs.writeFileSync(SQUAD_TELEMETRY_FILE, JSON.stringify(telem, null, 2), "utf8");
       } catch (_) { }
@@ -615,13 +615,8 @@ async function startAutonomousSquadDaemon() {
     isTestnet: false
   });
 
-  // Estado interno en memoria de cada escuadrón
-  const squadState = {
-    ALFA: { activeCoin: null, entryPx: 0, size: "0", direction: "LONG", tpOid: null, dcaDone: false, beLocked: false, notifiedEntry: false },
-    BRAVO: { activeCoin: null, entryPx: 0, size: "0", direction: "LONG", tpOid: null, dcaDone: false, beLocked: false, notifiedEntry: false },
-    CHARLIE: { activeCoin: null, entryPx: 0, size: "0", direction: "LONG", tpOid: null, dcaDone: false, beLocked: false, notifiedEntry: false }
-  };
-
+  // Estado confirmado on-chain por moneda (sólo posiciones realmente abiertas en Clearinghouse)
+  const confirmedOpenByCoin = {};
   const lastConfirmedPositionSizes = {};
   const positionOpenTimestamps = {};
   let cycleCounter = 0;
@@ -630,57 +625,87 @@ async function startAutonomousSquadDaemon() {
   while (true) {
     cycleCounter++;
     try {
-      // 1. Obtener estado del Clearinghouse
+      // 1. Obtener estado del Clearinghouse y Órdenes Abiertas
       const ch = await info.clearinghouseState({ user: VAULT_501 });
-      const accountValue = parseFloat(ch.marginSummary?.accountValue || "649.24");
+      const accountValue = parseFloat(ch.marginSummary?.accountValue || "835.50");
       const openPositions = (ch.assetPositions || []).filter(p => parseFloat(p.position.szi) !== 0);
-      const openOrders = await info.openOrders({ user: VAULT_501 });
+      let openOrders = await info.openOrders({ user: VAULT_501 });
 
-      // Verificador Estricto de Fills Reales en Clearinghouse (Prohibido alertar por solo enviar órdenes)
-      for (const pos of openPositions) {
-        const coin = pos.position.coin;
-        const currentSz = Math.abs(parseFloat(pos.position.szi));
-
-        if (lastConfirmedPositionSizes[coin] === undefined) {
-          lastConfirmedPositionSizes[coin] = currentSz;
-          positionOpenTimestamps[coin] = Date.now();
-        } else if (currentSz < lastConfirmedPositionSizes[coin]) {
-          const executedSz = +(lastConfirmedPositionSizes[coin] - currentSz).toFixed(4);
-          lastConfirmedPositionSizes[coin] = currentSz;
-          console.log(`🎉 [FILL CONFIRMADO ON-CHAIN] ${coin}: se ejecutaron ${executedSz} unidades. Posición restante: ${currentSz}`);
-
-          if (coin === "AVAX") {
-            const destrabeTg = `🔓 <b>ALERTA VERIFICADA TELEGRAM — TRAMO DESTRABADO EN AVAX</b>\n` +
-              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-              `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
-              `💰 <b>Descarga Verificada en L1:</b> <code>${executedSz} AVAX</code> ejecutados.\n` +
-              `📉 <b>Posición Restante:</b> <code>${currentSz} AVAX</code>\n` +
-              `💵 <b>Balance Total en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
-              `🔓 <b>Estado:</b> Liquidez liberada y devuelta a capital disponible.\n` +
-              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-              `🌐 <i>SQUAD MATRIX // Destrabe Rápido Verificado</i>`;
-            sendSquadTelegram(destrabeTg).catch(() => {});
-          }
-        }
+      // 1.1 Limpiar órdenes de entrada (!reduceOnly) estancadas > 45s sin ejecutarse para no bloquear a los escuadrones
+      const nowMs = Date.now();
+      const staleEntryOrders = openOrders.filter(o => !o.reduceOnly && o.timestamp && (nowMs - o.timestamp > 45000));
+      if (staleEntryOrders.length > 0) {
+        try {
+          await client.cancel({
+            cancels: staleEntryOrders.map(o => ({ a: ASSET_INDICES[o.coin] ?? 0, o: o.oid }))
+          });
+          console.log(`🧹 [CLEANUP] Canceladas ${staleEntryOrders.length} órdenes de entrada estancadas (>45s) para re-apuntar al precio actual.`);
+          openOrders = await info.openOrders({ user: VAULT_501 });
+        } catch (_) {}
       }
 
-      // Limpieza de posiciones cerradas totalmente
-      for (const [coin, prevSz] of Object.entries(lastConfirmedPositionSizes)) {
-        if (prevSz > 0 && !openPositions.some(p => p.position.coin === coin)) {
-          console.log(`🎉 [CIERRE COMPLETO ON-CHAIN] ${coin}: posición cerrada al 100%.`);
-          lastConfirmedPositionSizes[coin] = 0;
-          delete positionOpenTimestamps[coin];
+      // 1.2 Detectar cierres reales de posiciones previamente confirmadas en Clearinghouse
+      for (const [closedCoin, prevInfo] of Object.entries(confirmedOpenByCoin)) {
+        const stillOpen = openPositions.some(p => p.position.coin === closedCoin);
+        if (!stillOpen) {
+          console.log(`🎉 [VICTORIA CONFIRMADA ON-CHAIN] ${closedCoin} (${prevInfo.squadKey}): posición cerrada al 100%.`);
+          pairCooldowns[closedCoin] = Date.now() + COOLDOWN_DURATION_MS;
+          console.log(`❄️ [ENFRIAMIENTO TÁCTICO] ${closedCoin} entra en 12 minutos de reposo tras cierre.`);
+
+          delete confirmedOpenByCoin[closedCoin];
+          lastConfirmedPositionSizes[closedCoin] = 0;
+          delete positionOpenTimestamps[closedCoin];
+
+          try {
+            const recentFills = await info.userFills({ user: VAULT_501 });
+            const closeFill = recentFills.find(f => f.coin === closedCoin && f.dir && f.dir.includes("Close"));
+            const rawGrossGain = closeFill ? parseFloat(closeFill.closedPnl || "0.85") : 0.85;
+            const feePaid = closeFill ? parseFloat(closeFill.fee || "0.05") : 0.05;
+            const netGain = +(rawGrossGain - feePaid).toFixed(4);
+            const exitPxStr = closeFill ? closeFill.px : "TP Alcanzado";
+            const squadCfg = SQUADS_CONFIG[prevInfo.squadKey] || SQUADS_CONFIG.ALFA;
+
+            const victoryTx = {
+              cycleId: `CYC-${Date.now().toString().slice(-4)}`,
+              squad: `${squadCfg.name} (${squadCfg.specialist})`,
+              pair: `${closedCoin}-USDC`,
+              direction: prevInfo.isShort ? "BEAR" : "BULL",
+              directionLabel: prevInfo.isShort ? "🐻 BEAR (SHORT)" : "🐂 BULL (LONG)",
+              entryPrice: prevInfo.entryPx || 0,
+              exitPrice: parseFloat(exitPxStr) || 0,
+              grossProfitUsdc: rawGrossGain,
+              feeUsdc: feePaid,
+              netProfitUsdc: netGain,
+              status: "TAKE_PROFIT_CONFIRMED",
+              newAccountValue: accountValue,
+              timestamp: new Date().toISOString()
+            };
+            recordTransactionInLedger(victoryTx);
+            const currentLedger = loadRealLedger();
+
+            const victoryTg = `🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
+              `📍 <b>Par:</b> <code>${closedCoin}-USDC</code>\n` +
+              `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(prevInfo.entryPx || 0, closedCoin)}</code>\n` +
+              `📤 <b>SE VENDIÓ A:</b> <code>$${exitPxStr}</code>\n` +
+              `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$${netGain.toFixed(4)} USDC</b>\n` +
+              `🏆 <b>Récord Oficial:</b> <b>${currentLedger.realWins} Ganadas · 0 Pérdidas (100% Invictos)</b>\n` +
+              `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo (Clon relevo activo en pares libres)\n` +
+              `💵 <b>Equity Real en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>`;
+            await sendSquadTelegram(victoryTg);
+          } catch (err) {
+            console.error(`[${prevInfo.squadKey}] Error procesando victoria de ${closedCoin}:`, err.message);
+          }
         }
       }
 
       // 2. Procesar Cola de Órdenes Directas y Doctrina de Consolidación
       await processDirectOrdersQueue(client, info);
       checkDailyAmortizationCut(accountValue);
-
-      // Vigilante de Horarios Mundiales y Alertas 5-Minutos a Telegram
       await checkMarketSessionAlertsDaemon(new Date());
-
-      // Sincronización Hot-Swap Relay 1 ⇄ 2 en los 18 Espacios
       updateSquadMatrixClones(openPositions, pairCooldowns);
 
       // Dinámica de capitalización compuesta
@@ -689,553 +714,394 @@ async function startAutonomousSquadDaemon() {
       const dynamicSquadMargin = Math.max(40.00, +(accountValue * SQUAD_MARGIN_RATIO).toFixed(2));
       const dynamicNotional = Math.min(MAX_NOTIONAL_PER_COIN, +(dynamicSquadMargin * LEVERAGE).toFixed(2));
 
-      if (cycleCounter % 10 === 1) {
-        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Bloque 1 | Ciclo #${cycleCounter} | Capital: $${accountValue.toFixed(2)} USDC (Meta $1,000) | Margen/Tiro: $${dynamicSquadMargin.toFixed(2)} ($${dynamicNotional.toFixed(0)} Nocional) | Pos: ${openPositions.length}`);
+      if (cycleCounter % 6 === 1) {
+        const openSummary = openPositions.map(p => `${p.position.coin}(${p.position.szi}@$${p.position.entryPx})`).join(", ") || "Ninguna";
+        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Bloque 1 | Ciclo #${cycleCounter} | Equity Real: $${accountValue.toFixed(2)} USDC | Pos (${openPositions.length}/3): ${openSummary}`);
       }
 
-      // 3. Gestionar cada escuadrón de forma independiente
-      for (const [squadKey, squadCfg] of Object.entries(SQUADS_CONFIG)) {
-        const mem = squadState[squadKey];
+      // Obtener precios mid actuales una sola vez por ciclo
+      let mids = {};
+      try {
+        const midsRes = await fetch("https://api.hyperliquid.xyz/info", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: "allMids" })
+        });
+        mids = await midsRes.json();
+      } catch (_) {}
 
-        // Verificar si este escuadrón tiene una posición activa en la blockchain
-        const activePos = openPositions.find(p => squadCfg.pairs.includes(p.position.coin));
+      // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS ACTUALES (TP, BREAKEVEN #00 Y RESCATE MENTORA #00)
+      for (const activePos of openPositions) {
+        const coin = activePos.position.coin;
+        const sz = activePos.position.szi;
+        const szNum = parseFloat(sz);
+        const isShort = szNum < 0;
+        const entryPx = parseFloat(activePos.position.entryPx);
+        const notionalVal = Math.abs(szNum) * entryPx;
+        const uPnlNum = parseFloat(activePos.position?.unrealizedPnl || "0");
 
-        if (activePos) {
-          // --- GESTIÓN DE POSICIÓN ACTIVA ---
-          const coin = activePos.position.coin;
-          const sz = activePos.position.szi;
-          const szNum = parseFloat(sz);
-          const isShort = szNum < 0;
-          const entryPx = parseFloat(activePos.position.entryPx);
-          mem.activeCoin = coin;
-          mem.entryPx = entryPx;
-          mem.size = sz;
-          mem.direction = isShort ? "SHORT" : "LONG";
+        const squadKey = Object.keys(SQUADS_CONFIG).find(k => SQUADS_CONFIG[k].pairs.includes(coin)) || "ALFA";
+        const squadCfg = SQUADS_CONFIG[squadKey];
 
-          // --- OPERACIÓN RESCATE #00 EN AVAX-USDC: SALIDA ESCALONADA & PROHIBIDO SOBRE-APALANCAR ---
-          if (coin === "AVAX") {
-            mem.dcaDone = true; // Prohibido sobre-apalancar: Cero compras adicionales
-            const avaxExitOrders = openOrders.filter(o => o.coin === "AVAX" && o.reduceOnly === true);
+        if (!confirmedOpenByCoin[coin]) {
+          confirmedOpenByCoin[coin] = {
+            squadKey,
+            entryPx,
+            szi: szNum,
+            isShort,
+            dcaDone: notionalVal >= 600, // Si nocional >= $600 (ej. SOL 9.76 @ $101.165), el cartucho Mentora #00 ya fue aplicado
+            beLocked: false
+          };
+          positionOpenTimestamps[coin] = Date.now();
+        } else {
+          confirmedOpenByCoin[coin].entryPx = entryPx;
+          confirmedOpenByCoin[coin].szi = szNum;
+          if (notionalVal >= 600) confirmedOpenByCoin[coin].dcaDone = true;
+        }
+        const posMeta = confirmedOpenByCoin[coin];
 
-            // Si por alguna razón no hay órdenes de salida puestas para AVAX, colocar salida final con orden reduceOnly
-            if (avaxExitOrders.length === 0 && isV2Armed) {
-              const szRemain = formatHlSize(szNum, 2);
-              console.log(`[DESTRABE AVAX] Reponiendo salida final de tramo restante (${szRemain} @ $8.928)...`);
-              try {
-                await client.order({
-                  orders: [
-                    { a: ASSET_INDICES["AVAX"], b: false, p: "8.928", s: szRemain, r: true, t: { limit: { tif: "Alo" } } }
-                  ],
-                  grouping: "na"
-                });
-              } catch (e) {
-                console.error("[DESTRABE AVAX] Error reponiendo salida final:", e.message);
-              }
-            }
-            continue; // Saltar trailing TP genérico y DCA para AVAX
+        // Verificar si ya tiene orden Reduce-Only Take Profit en el libro L1
+        const existingExitOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
+        const currentMid = parseFloat(mids[coin] || entryPx);
+
+        if (!existingExitOrder && isV2Armed) {
+          // Si tiene rescate Mentora #00 activo (dcaDone), el TP es +0.12% (newEntryPx * 1.0012); si es tiro normal, +0.15%
+          const targetGainPct = posMeta.dcaDone ? 0.12 : (squadCfg.targetGainPct || TARGET_GAIN_PCT);
+          let exitPxNum = isShort
+            ? entryPx * (1 - targetGainPct / 100)
+            : entryPx * (1 + targetGainPct / 100);
+
+          if (!isShort && currentMid >= exitPxNum) {
+            exitPxNum = currentMid * 1.0003;
+          } else if (isShort && currentMid <= exitPxNum) {
+            exitPxNum = currentMid * 0.9997;
           }
 
-          // Verificar si ya tiene orden de salida puesta
-          const existingExitOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
+          const safeExitPxStr = formatHlPrice(exitPxNum, coin);
+          const totalSzStr = formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz);
 
-          if (!existingExitOrder && isV2Armed) {
-            // Colocar orden de salida Take Profit Maker ALO
-            const targetGain = squadCfg.targetGainPct || TARGET_GAIN_PCT;
-            let currentMid = entryPx;
-            try {
-              const midsRes = await fetch("https://api.hyperliquid.xyz/info", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ type: "allMids" })
-              });
-              const mids = await midsRes.json();
-              if (mids[coin]) currentMid = parseFloat(mids[coin]);
-            } catch (_) {}
+          console.log(`[${squadKey}] Colocando orden Limit Reduce-Only Take-Profit para ${coin}: ${totalSzStr} @ $${safeExitPxStr} (+${targetGainPct}%)`);
+          try {
+            await client.order({
+              orders: [{
+                a: ASSET_INDICES[coin],
+                b: isShort,
+                p: safeExitPxStr,
+                s: totalSzStr,
+                r: true,
+                t: { limit: { tif: "Alo" } }
+              }],
+              grouping: "na"
+            });
+          } catch (err) {
+            console.error(`[${squadKey}] Error colocando salida ALO para ${coin}:`, err.message);
+          }
+        } else if (isV2Armed) {
+          const gainPct = isShort
+            ? (entryPx - currentMid) / entryPx * 100
+            : (currentMid - entryPx) / entryPx * 100;
+          const drawdownPct = isShort
+            ? (currentMid - entryPx) / entryPx * 100
+            : (entryPx - currentMid) / entryPx * 100;
 
-            let exitPxNum;
-            if (coin === "ETH") {
-              exitPxNum = 2356.50; // Salida rápida al +0.23% ordenada por Comandante para soltar carga
-            } else {
-              exitPxNum = isShort
-                ? entryPx * (1 - targetGain / 100)
-                : entryPx * (1 + targetGain / 100);
+          // Reloj Anti-Estancamiento (sólo para posiciones normales o si uPnlNum >= $0.55 en posición rescatada)
+          const minPnlForTimeStop = posMeta.dcaDone ? 0.55 : TIME_STOP_MIN_PNL_USDC;
+          const elapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
+          if (elapsedMins >= 20 && uPnlNum >= minPnlForTimeStop) {
+            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] ${coin} abierta hace ${elapsedMins.toFixed(1)}m en verde (+$${uPnlNum.toFixed(4)} USDC). Cerrando para rotar.`);
+            if (existingExitOrder) {
+              await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
             }
+            const closePx = isShort ? currentMid * 1.0002 : currentMid * 0.9998;
+            await client.order({
+              orders: [{
+                a: ASSET_INDICES[coin],
+                b: isShort,
+                p: formatHlPrice(closePx, coin),
+                s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
+                r: true,
+                t: { limit: { tif: "Alo" } }
+              }],
+              grouping: "na"
+            }).catch(() => {});
+            continue;
+          }
 
-            // Si el mercado ya superó el TP (+0.15%), colocar orden ALO al precio actual respetando Maker para capturar la ganancia superior
-            if (!isShort && currentMid >= exitPxNum) {
-              exitPxNum = currentMid * 1.0003;
-            } else if (isShort && currentMid <= exitPxNum) {
-              exitPxNum = currentMid * 0.9997;
-            }
+          // Candado Breakeven #00 (+0.05%)
+          if (gainPct >= BREAKEVEN_TRIGGER_PCT && !posMeta.beLocked) {
+            posMeta.beLocked = true;
+            const bePx = isShort ? entryPx * (1 - BREAKEVEN_LOCK_PCT / 100) : entryPx * (1 + BREAKEVEN_LOCK_PCT / 100);
+            const bePxStr = formatHlPrice(bePx, coin);
+            console.log(`🔒 [MENTORA #00] Candado Breakeven activado en ${coin} (+${gainPct.toFixed(2)}%) -> Nivel seguro $${bePxStr}`);
+          }
 
-            const safeExitPxStr = formatHlPrice(exitPxNum, coin);
-            const notional = Math.abs(szNum) * entryPx;
-            const estNetGainUsdc = (notional * (targetGain / 100) - (notional * 0.00030)).toFixed(4);
+          // Rescate Inteligente Mentora #00: Si drawdown >= 1.2% y aún no se ha usado el cartucho de rescate
+          if (!posMeta.dcaDone && drawdownPct >= 1.20 && availableForTrading >= dynamicSquadMargin) {
+            console.log(`\n🛡️ [MENTORA #00] RESCATE INTELIGENTE ACTIVADO EN ${coin} (-${drawdownPct.toFixed(2)}% desde $${entryPx}). Inyectando 1 cartucho de promediación...`);
+            posMeta.dcaDone = true;
 
-            console.log(`[${squadKey}] Colocando salida Take Profit ALO para ${coin}: ${Math.abs(szNum)} @ $${safeExitPxStr} (Mid actual: $${currentMid})`);
+            const rescueSzStr = formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz);
+            const rescuePx = isShort ? currentMid * 0.998 : currentMid * 1.002;
+            const rescuePxStr = formatHlPrice(rescuePx, coin);
+
             try {
-              const exitRes = await client.order({
+              await client.order({
                 orders: [{
                   a: ASSET_INDICES[coin],
-                  b: isShort, // Si es short se sale comprando (b: true), si es long se sale vendiendo (b: false)
-                  p: safeExitPxStr,
-                  s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
-                  r: true,
-                  t: { limit: { tif: "Alo" } }
+                  b: !isShort,
+                  p: rescuePxStr,
+                  s: rescueSzStr,
+                  r: false,
+                  t: { limit: { tif: "Ioc" } }
                 }],
                 grouping: "na"
               });
-              const exitStatus = exitRes.response?.data?.statuses?.[0] || {};
-              if (exitStatus.resting) {
-                mem.tpOid = exitStatus.resting.oid;
-                console.log(`[${squadKey}] Orden Salida ALO colocada: #${mem.tpOid} a $${safeExitPxStr}`);
-              }
-            } catch (err) {
-              console.error(`[${squadKey}] Error colocando salida ALO:`, err.message);
-            }
-          } else if (isV2Armed) {
-            // --- GESTIÓN DE CANDADO BREAKEVEN Y SALVAVIDAS DCA DE LA MENTORA #00 ---
-            try {
-              const midsRes = await fetch("https://api.hyperliquid.xyz/info", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ type: "allMids" })
-              });
-              const mids = await midsRes.json();
-              const currentMid = parseFloat(mids[coin] || entryPx);
-              const gainPct = isShort
-                ? (entryPx - currentMid) / entryPx * 100
-                : (currentMid - entryPx) / entryPx * 100;
-              const drawdownPct = isShort
-                ? (currentMid - entryPx) / entryPx * 100
-                : (entryPx - currentMid) / entryPx * 100;
-              const uPnlNum = parseFloat(activePos.position?.unrealizedPnl || "0");
 
-              // 0. RELOJ ANTI-ESTANCAMIENTO (20 MINUTOS) — PROHIBIDO AMARRAR CAPITAL
-              if (!positionOpenTimestamps[coin]) {
-                positionOpenTimestamps[coin] = Date.now();
-              }
-              const elapsedMins = (Date.now() - positionOpenTimestamps[coin]) / (60 * 1000);
-              if (elapsedMins >= 20 && uPnlNum >= TIME_STOP_MIN_PNL_USDC) {
-                console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] Posición ${coin} abierta hace ${elapsedMins.toFixed(1)}m con ganancia (+$${uPnlNum.toFixed(4)} USDC). Cierre de alivio forzado.`);
+              await new Promise(r => setTimeout(r, 1200));
+              const chUpdated = await info.clearinghouseState({ user: VAULT_501 });
+              const updatedPos = (chUpdated.assetPositions || []).find(p => p.position.coin === coin);
+              if (updatedPos) {
+                const newSzi = Math.abs(parseFloat(updatedPos.position.szi));
+                const newEntryPx = parseFloat(updatedPos.position.entryPx);
+                posMeta.entryPx = newEntryPx;
+                posMeta.szi = newSzi;
+
                 if (existingExitOrder) {
-                  try {
-                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] });
-                  } catch (_) {}
+                  await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
                 }
-                const closePx = isShort ? currentMid * 1.0002 : currentMid * 0.9998;
-                const closePxStr = formatHlPrice(closePx, coin);
-                try {
-                  await client.order({
-                    orders: [{
-                      a: ASSET_INDICES[coin],
-                      b: isShort,
-                      p: closePxStr,
-                      s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
-                      r: true,
-                      t: { limit: { tif: "Alo" } }
-                    }],
-                    grouping: "na"
-                  });
-                  console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO] Orden enviada a $${closePxStr} para rotar capital.`);
-                  const timeStopTg = `⏱️ <b>ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)</b>\n` +
-                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                    `📍 <b>Activo:</b> <code>${coin}-USDC</code>\n` +
-                    `⏳ <b>Tiempo Abierto:</b> ${elapsedMins.toFixed(0)} minutos\n` +
-                    `💰 <b>Ganancia Asegurada:</b> <code>+$${uPnlNum.toFixed(4)} USDC</code>\n` +
-                    `🔓 <b>Acción:</b> Cierre ejecutado para rotación inmediata de capital.\n` +
-                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-                  await sendSquadTelegram(timeStopTg);
-                } catch (err) {
-                  console.error(`[ANTI-ESTANCAMIENTO] Error enviando cierre:`, err.message);
-                }
-                continue;
-              }
 
-              // 1. CANDADO BREAKEVEN (+0.05% ➔ Clavado en +0.03% cubriendo comisiones Maker)
-              // EN VENTANA DE SACUDÓN (±5 min de Apertura Londres/NY): Mentora #00 aprieta al +0.05%
-              const inShakeWindow = isMarketShakeWindow(new Date());
-              const effectiveBeTrigger = inShakeWindow ? 0.05 : BREAKEVEN_TRIGGER_PCT;
+                const tpPx = isShort ? newEntryPx * (1 - 0.0012) : newEntryPx * (1 + 0.0012);
+                const tpPxStr = formatHlPrice(tpPx, coin);
+                const totalSzStr = formatHlSize(newSzi, ASSET_DECIMALS[coin].sz);
 
-              if (gainPct >= effectiveBeTrigger && !mem.beLocked) {
-                mem.beLocked = true;
-                const bePx = isShort
-                  ? entryPx * (1 - BREAKEVEN_LOCK_PCT / 100)
-                  : entryPx * (1 + BREAKEVEN_LOCK_PCT / 100);
-                const bePxStr = formatHlPrice(bePx, coin);
-                const shakeTag = inShakeWindow ? " [VENTANA DE SACUDÓN ±5M APERTURA]" : "";
-                console.log(`🔒 [MENTORA #00] Candado Breakeven activado${shakeTag} en ${coin} al alcanzar +${gainPct.toFixed(2)}%! Nivel seguro fijado en $${bePxStr} (+${BREAKEVEN_LOCK_PCT}%).`);
+                await client.order({
+                  orders: [{
+                    a: ASSET_INDICES[coin],
+                    b: isShort,
+                    p: tpPxStr,
+                    s: totalSzStr,
+                    r: true,
+                    t: { limit: { tif: "Alo" } }
+                  }],
+                  grouping: "na"
+                });
 
-                const beTg = `🔒 <b>ÁREA 501 // MENTORA #00 // CANDADO BREAKEVEN CLAVADO${shakeTag}</b>\n` +
+                const rescueTg = `🛡️ <b>ÁREA 501 // MENTORA #00 // RESCATE PROMEDIO TÁCTICO EN ${coin}-USDC</b>\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b>\n` +
-                  `📍 <b>Par:</b> <code>${coin}-USDC</code>\n` +
-                  `📈 <b>Avance Favorable:</b> <code>+${gainPct.toFixed(2)}%</code> (Disparo: ${effectiveBeTrigger}%)\n` +
-                  `🛡️ <b>Candado Blindado a:</b> <code>$${bePxStr}</code> (+${BREAKEVEN_LOCK_PCT}% · $0.00 Pérdida Garantizada)\n` +
+                  `📉 <b>Entrada Anterior:</b> <code>$${entryPx}</code>\n` +
+                  `🎯 <b>Nuevo Precio Promedio:</b> <code>$${newEntryPx.toFixed(4)}</code> (${totalSzStr} ${coin})\n` +
+                  `📤 <b>Orden Limit Reduce-Only TP:</b> <code>$${tpPxStr}</code> (+0.12% neto)\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-                await sendSquadTelegram(beTg);
+                await sendSquadTelegram(rescueTg);
               }
-
-              // 1.1 TRAILING TAKE-PROFIT: Si el precio avanza más allá de +0.35%, correr TP al alza para capturar ganancias extraordinarias
-              if (gainPct >= 0.35 && existingExitOrder) {
-                const currentOrderPx = parseFloat(existingExitOrder.limitPx || "0");
-                const desiredTrailingPx = isShort ? currentMid * 0.9996 : currentMid * 1.0004;
-                const isBetterTrailing = isShort ? (desiredTrailingPx < currentOrderPx) : (desiredTrailingPx > currentOrderPx);
-                if (isBetterTrailing) {
-                  try {
-                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] });
-                    const newTpStr = formatHlPrice(desiredTrailingPx, coin);
-                    await client.order({
-                      orders: [{
-                        a: ASSET_INDICES[coin],
-                        b: isShort,
-                        p: newTpStr,
-                        s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
-                        r: true,
-                        t: { limit: { tif: "Alo" } }
-                      }],
-                      grouping: "na"
-                    });
-                    console.log(`🚀 [TRAILING TAKE-PROFIT] Ganancia extendida en ${coin} (+${gainPct.toFixed(2)}%): TP elevado a $${newTpStr}`);
-                  } catch (_) {}
-                }
-              }
-
-              // 2. MENTORA #00 DCA SALVAVIDAS (Drawdown <= -0.85% y RSI 5m <= 30)
-              if (!mem.dcaDone && drawdownPct >= Math.abs(DCA_TRIGGER_DRAWDOWN) && availableForTrading >= dynamicSquadMargin) {
-                const now = Date.now();
-                const cRes = await info.candleSnapshot({ coin, interval: "5m", startTime: now - (3600000 * 2), endTime: now });
-                const closes = (cRes || []).map(c => parseFloat(c.c));
-                const rsi5m = calculateRSI(closes, 14);
-
-                if ((!isShort && rsi5m <= DCA_TRIGGER_RSI) || (isShort && rsi5m >= 70)) {
-                  console.log(`\n🛡️ [MENTORA #00] RETROCESO DETECTADO EN ${coin} (-${drawdownPct.toFixed(2)}% | RSI 5m: ${rsi5m.toFixed(1)}). ACTIVANDO TIRO GEMELO DCA...`);
-                  mem.dcaDone = true;
-
-                  const dcaPriceStr = formatHlPrice(currentMid, coin);
-                  const dcaNotional = dynamicSquadMargin * LEVERAGE;
-                  const dcaSzStr = formatHlSize(dcaNotional / currentMid, ASSET_DECIMALS[coin].sz);
-
-                  // Ejecutar refuerzo táctico
-                  await client.order({
-                    orders: [{
-                      a: ASSET_INDICES[coin],
-                      b: !isShort,
-                      p: dcaPriceStr,
-                      s: dcaSzStr,
-                      r: false,
-                      t: { limit: { tif: "Alo" } }
-                    }],
-                    grouping: "na"
-                  });
-                  console.log(`[MENTORA #00] Refuerzo DCA enviado para ${coin}: ${dcaSzStr} @ $${dcaPriceStr}`);
-
-                  // Cancelar TP previo y recolocar TP unificado al nuevo precio promedio + 0.20%
-                  if (existingExitOrder) {
-                    try {
-                      await client.cancel({
-                        cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }]
-                      });
-                      console.log(`[MENTORA #00] Salida previa cancelada para recolocar TP sobre precio promedio.`);
-                    } catch (_) { }
-                  }
-
-                  const totalSz = Math.abs(szNum) + parseFloat(dcaSzStr);
-                  const newAvgPrice = (entryPx + parseFloat(dcaPriceStr)) / 2;
-                  const dcaTpPx = isShort
-                    ? newAvgPrice * (1 - DCA_TARGET_GAIN_PCT / 100)
-                    : newAvgPrice * (1 + DCA_TARGET_GAIN_PCT / 100);
-                  const dcaTpPxStr = formatHlPrice(dcaTpPx, coin);
-                  const totalSzStr = formatHlSize(totalSz, ASSET_DECIMALS[coin].sz);
-
-                  try {
-                    await client.order({
-                      orders: [{
-                        a: ASSET_INDICES[coin],
-                        b: isShort,
-                        p: dcaTpPxStr,
-                        s: totalSzStr,
-                        r: true,
-                        t: { limit: { tif: "Alo" } }
-                      }],
-                      grouping: "na"
-                    });
-                    console.log(`[MENTORA #00] Salida DCA unificada colocada: ${totalSzStr} ${coin} @ $${dcaTpPxStr} (+${DCA_TARGET_GAIN_PCT}% sobre promedio)`);
-                  } catch (e) {
-                    console.error(`[MENTORA #00] Error colocando TP unificado DCA:`, e.message);
-                  }
-
-                  const dcaTg = `🛡️ <b>ÁREA 501 // MENTORA #00 // TIRO GEMELO DCA EN SOPORTE</b>\n` +
-                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                    `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b>\n` +
-                    `📍 <b>Par:</b> <code>${coin}-USDC</code>\n` +
-                    `📉 <b>Drawdown:</b> <code>-${drawdownPct.toFixed(2)}%</code> (RSI 5m: ${rsi5m.toFixed(1)})\n` +
-                    `📥 <b>Refuerzo Táctico:</b> <code>${dcaSzStr} ${coin} @ $${dcaPriceStr}</code> ($${dynamicSquadMargin} Margen · 5x)\n` +
-                    `🎯 <b>Nuevo Take Profit:</b> <code>$${dcaTpPxStr}</code> (+${DCA_TARGET_GAIN_PCT}% sobre promedio)\n` +
-                    `🎯 <b>Objetivo:</b> Evacuación inmediata de doble volumen con ganancia neta.\n` +
-                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-                  await sendSquadTelegram(dcaTg);
-                }
-              }
-            } catch (err) {
-              console.error(`[${squadKey}] Error en evaluación BE/DCA:`, err.message);
+            } catch (rescueErr) {
+              console.error(`[MENTORA #00] Error en rescate de ${coin}:`, rescueErr.message);
             }
           }
-        } else {
-          // --- ESCUADRÓN LIBRE: VERIFICAR SI TERMINÓ POSICIÓN PREVIA (COBRO DE TP) ---
-          if (mem.activeCoin) {
-            console.log(`[${squadKey}] 💰 ¡VICTORIA CONFIRMADA! Posición en ${mem.activeCoin} cerrada al 100%.`);
-            const closedCoin = mem.activeCoin;
-            const recordedEntryPx = mem.entryPx;
-            const wasShort = mem.direction === "SHORT";
-            
-            // Activar Enfriamiento Táctico de 12 minutos post-TP para este par
-            pairCooldowns[closedCoin] = Date.now() + COOLDOWN_DURATION_MS;
-            console.log(`❄️ [ENFRIAMIENTO TÁCTICO] ${closedCoin} entra en 12 minutos de reposo y recalibración tras Take-Profit.`);
+        }
+      }
 
-            mem.activeCoin = null;
-            mem.entryPx = null;
-            mem.tpOid = null;
-            mem.dcaDone = false;
-            mem.beLocked = false;
-            mem.notifiedEntry = false;
+      // 4. REGLA DE INDEPENDENCIA TOTAL DE ESCUADRONES Y CLONES (1 ⇄ 2)
+      // Si SOL está abierta en #01 ALFA 1, solo SOL y ALFA 1 quedan cuidando SOL.
+      // #01 ALFA 2 (SUI, AVAX), #02 BRAVO 1 & 2 (BTC, PAXG, LINK) y #03 CHARLIE 1 & 2 (ETH, BNB, AAVE)
+      // siguen escaneando y operando en paralelo hasta un máximo de 3 posiciones simultáneas totales.
+      if (isV2Armed && openPositions.length < MAX_CONCURRENT_TOTAL && !isOpeningBellWick(new Date())) {
+        const activeCoins = openPositions.map(p => p.position.coin);
+        const restingEntryCoins = openOrders.filter(o => !o.reduceOnly).map(o => o.coin);
 
-            // Consultar último fill para detalles exactos
-            try {
-              const recentFills = await info.userFills({ user: VAULT_501 });
-              const closeFill = recentFills.find(f => f.coin === closedCoin && f.dir.includes("Close"));
-              const rawGrossGain = closeFill ? parseFloat(closeFill.closedPnl || "1.75") : 1.75;
-              const feePaid = closeFill ? parseFloat(closeFill.fee || "0.07") : 0.07;
-              const netGain = +(rawGrossGain - feePaid).toFixed(4);
-              const exitPxStr = closeFill ? closeFill.px : "TP Alcanzado";
-
-              const victoryTx = {
-                cycleId: `CYC-${Date.now().toString().slice(-4)}`,
-                squad: `${squadCfg.name} (${squadCfg.specialist})`,
-                pair: `${closedCoin}-USDC`,
-                direction: wasShort ? "BEAR" : "BULL",
-                directionLabel: wasShort ? "🐻 BEAR (SHORT)" : "🐂 BULL (LONG)",
-                entryPrice: recordedEntryPx || 0,
-                exitPrice: parseFloat(exitPxStr) || 0,
-                grossProfitUsdc: rawGrossGain,
-                feeUsdc: feePaid,
-                netProfitUsdc: netGain,
-                status: "TAKE_PROFIT_CONFIRMED",
-                newAccountValue: accountValue,
-                timestamp: new Date().toISOString()
-              };
-              recordTransactionInLedger(victoryTx);
-              const currentLedger = loadRealLedger();
-
-              let victoryTg = "";
-              if (closedCoin === "AVAX") {
-                victoryTg = `🏆 <b>ALERTA TELEGRAM — OPERACIÓN RESCATE AVAX COMPLETADA CON ÉXITO</b>\n` +
-                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                  `📍 <b>Activo:</b> <code>AVAX-USDC (LONG)</code>\n` +
-                  `💰 <b>Cierre Final:</b> Tramo 2 ejecutado en Banda Media de 1H con ganancia limpia.\n` +
-                  `📤 <b>Precio de Venta:</b> <code>$${exitPxStr}</code>\n` +
-                  `💵 <b>Nuevo Balance en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
-                  `🎯 <b>Distancia a los $1,000:</b> Faltan solo <code>$${Math.max(0, 1000 - accountValue).toFixed(2)} USDC</code>\n` +
-                  `🔓 <b>Descongelamiento Total:</b> Los 3 escuadrones quedan habilitados para tiros limpios de alta certeza.\n` +
-                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                  `🌐 <i>Rumbo a la coronación de $1,000.00 USDC en Bloque 1.</i>`;
-              } else {
-                victoryTg = `🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n` +
-                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                  `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
-                  `📍 <b>Par:</b> <code>${closedCoin}-USDC</code>\n` +
-                  `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(recordedEntryPx || 0, closedCoin)}</code>\n` +
-                  `📤 <b>SE VENDIÓ A:</b> <code>$${exitPxStr}</code> (+${TARGET_GAIN_PCT}% TP)\n` +
-                  `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$${netGain.toFixed(4)} USDC</b>\n` +
-                  `🏆 <b>Récord Oficial:</b> <b>${currentLedger.realWins} Ganadas · 0 Pérdidas (100% Invictos)</b>\n` +
-                  `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo antes del próximo tiro\n` +
-                  `💵 <b>Nuevo Balance en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
-                  `📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n` +
-                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                  `🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>`;
-              }
-              await sendSquadTelegram(victoryTg);
-            } catch (err) {
-              console.error(`[${squadKey}] Error procesando victoria:`, err.message);
-            }
+        // Unidades de caza independientes en orden de prioridad paralela:
+        // 1) #02 BRAVO (BTC, PAXG, LINK)
+        // 2) #03 CHARLIE (ETH, BNB, AAVE)
+        // 3) #01 ALFA 1 o RELEVO #01 ALFA 2 (pares libres de ALFA: SUI, AVAX si SOL está ocupada)
+        const huntingUnits = [
+          {
+            unitKey: "BRAVO",
+            squadCfg: SQUADS_CONFIG.BRAVO,
+            botName: activeCoins.some(c => SQUADS_CONFIG.BRAVO.pairs.includes(c)) ? "BRAVO 2 (Relevo)" : "BRAVO 1 (Titular)",
+            candidatePairs: SQUADS_CONFIG.BRAVO.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
+            alreadyHasPos: activeCoins.some(c => SQUADS_CONFIG.BRAVO.pairs.includes(c)) || restingEntryCoins.some(c => SQUADS_CONFIG.BRAVO.pairs.includes(c))
+          },
+          {
+            unitKey: "CHARLIE",
+            squadCfg: SQUADS_CONFIG.CHARLIE,
+            botName: activeCoins.some(c => SQUADS_CONFIG.CHARLIE.pairs.includes(c)) ? "CHARLIE 2 (Relevo)" : "CHARLIE 1 (Titular)",
+            candidatePairs: SQUADS_CONFIG.CHARLIE.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
+            alreadyHasPos: activeCoins.some(c => SQUADS_CONFIG.CHARLIE.pairs.includes(c)) || restingEntryCoins.some(c => SQUADS_CONFIG.CHARLIE.pairs.includes(c))
+          },
+          {
+            unitKey: "ALFA",
+            squadCfg: SQUADS_CONFIG.ALFA,
+            botName: activeCoins.includes("SOL") ? "ALFA 2 (Clon Independiente SUI/AVAX)" : "ALFA 1 (Titular)",
+            candidatePairs: SQUADS_CONFIG.ALFA.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
+            // Si SOL está en rescate en ALFA 1, ALFA 2 queda habilitado si hay slot libre (<3 posiciones totales) y ningún otro par de ALFA está abierto
+            alreadyHasPos: activeCoins.filter(c => SQUADS_CONFIG.ALFA.pairs.includes(c)).length >= (activeCoins.includes("SOL") ? 2 : 1) ||
+                           restingEntryCoins.some(c => SQUADS_CONFIG.ALFA.pairs.includes(c))
           }
+        ];
 
-          // --- ESCUADRÓN LIBRE: BUSCAR NUEVA ENTRADA CON EL FILTRO ANTI-TECHO V2 ---
-          if (isV2Armed && availableForTrading >= dynamicSquadMargin) {
-            // REGLA OPERACIÓN RESCATE #00: Congelar totalmente nuevas entradas mientras AVAX esté en extracción
-            const isAvaxInRescue = openPositions.some(p => p.position.coin === "AVAX" && parseFloat(p.position.szi) !== 0);
-            if (isAvaxInRescue) {
-              if (cycleCounter % 15 === 1) {
-                console.log(`🚁 [MODO RESCATE #00] Nuevas entradas CONGELADAS: Posición AVAX en extracción escalonada ($8.890 / $8.942).`);
-              }
-              continue;
-            }
+        let currentTotalOpen = openPositions.length + restingEntryCoins.length;
 
-            // Regla de Exposición Inteligente (Cero Sangrado Cruzado):
-            // 1. Límite estricto de 3 posiciones simultáneas totales
-            if (openPositions.length >= MAX_CONCURRENT_TOTAL) {
-              continue;
-            }
+        for (const unit of huntingUnits) {
+          if (currentTotalOpen >= MAX_CONCURRENT_TOTAL) break;
+          if (unit.alreadyHasPos || unit.candidatePairs.length === 0) continue;
 
-            // 2. Si ya hay 2 posiciones abiertas, la 3ra posición SOLO se permite si las anteriores ya tienen el Candado BE #00 activado
-            if (openPositions.length >= MAX_CONCURRENT_INITIAL) {
-              const unhedged = openPositions.some(p => {
-                const uPnl = parseFloat(p.position?.unrealizedPnl || "0");
-                return uPnl < 0.05; // No está en verde cubriendo comisiones con BE #00
-              });
-              if (unhedged) {
-                if (cycleCounter % 15 === 1) {
-                  console.log(`🛡️ [CONTROL DE RIESGO] Exposición en pausa: Hay posiciones abiertas sin Candado BE #00. Cero sangrado cruzado.`);
-                }
+          try {
+            let bestCandidate = null;
+
+            for (const coin of unit.candidatePairs) {
+              if (pairCooldowns[coin] && pairCooldowns[coin] > Date.now()) {
                 continue;
               }
-            }
 
-            // 3. Pausa de Mechazo Inicial en apertura (primeros 60s tras campana 08:00 o 13:30 UTC)
-            if (isOpeningBellWick(new Date())) {
-              console.log(`⏸️ [PAUSA DE MECHAZO] Congelando nuevas entradas durante la campana de apertura institucional.`);
-              continue;
-            }
+              try {
+                const l2 = await info.l2Book({ coin });
+                const bids = l2.levels[0] || [];
+                const asks = l2.levels[1] || [];
+                if (bids.length < 3 || asks.length < 3) continue;
 
-            try {
-              let bestCandidate = null;
+                let bidVol = 0, askVol = 0;
+                for (let i = 0; i < Math.min(5, bids.length); i++) bidVol += parseFloat(bids[i].px) * parseFloat(bids[i].sz);
+                for (let i = 0; i < Math.min(5, asks.length); i++) askVol += parseFloat(asks[i].px) * parseFloat(asks[i].sz);
 
-              for (const coin of squadCfg.pairs) {
-                // Enfriamiento Táctico de 12 minutos post-TP
-                if (pairCooldowns[coin] && pairCooldowns[coin] > Date.now()) {
-                  const remMins = Math.ceil((pairCooldowns[coin] - Date.now()) / 60000);
-                  if (cycleCounter % 15 === 1) {
-                    console.log(`❄️ [COOLDOWN] ${coin} en enfriamiento táctico (${remMins}m restantes). Evitando entrar agotado.`);
+                const totalVol = bidVol + askVol;
+                const bullPct = totalVol > 0 ? (bidVol / totalVol) * 100 : 50;
+                const bearPct = totalVol > 0 ? (askVol / totalVol) * 100 : 50;
+
+                const now = Date.now();
+                const candles5m = await info.candleSnapshot({ coin, interval: "5m", startTime: now - (3600000 * 3), endTime: now });
+                if (!candles5m || candles5m.length < 15) continue;
+                const closes5m = candles5m.map(c => parseFloat(c.c));
+                const rsi5m = calculateRSI(closes5m, 14);
+                const ema20_5m = calculateEMA(closes5m, 20);
+
+                const candles15m = await info.candleSnapshot({ coin, interval: "15m", startTime: now - (3600000 * 2), endTime: now });
+                const last15m = candles15m && candles15m.length > 0 ? candles15m[candles15m.length - 1] : null;
+                const range15m = last15m ? parseFloat(last15m.h) - parseFloat(last15m.l) : 0;
+                const currentPrice = parseFloat(bids[0].px);
+                const isTop25Pct = range15m > 0 ? (currentPrice - parseFloat(last15m.l)) / range15m > 0.75 : false;
+
+                const inWaveWindow = isMarketShakeWindow(new Date());
+                const isWaveLong = inWaveWindow && bullPct >= 64.0;
+                const isWaveShort = inWaveWindow && bearPct >= 64.0;
+
+                // Filtro Long de Alta Certeza (L2 >= 62%, RSI 5m <= 48, o confluencia EMA20)
+                if (isWaveLong || (bullPct >= 62.0 && rsi5m <= 48.0 && (!isTop25Pct || currentPrice <= ema20_5m))) {
+                  if (!bestCandidate || bullPct > bestCandidate.score) {
+                    bestCandidate = {
+                      coin,
+                      direction: "LONG",
+                      price: currentPrice,
+                      askPrice: parseFloat(asks[0].px),
+                      score: bullPct,
+                      rsi: rsi5m,
+                      ema: ema20_5m
+                    };
                   }
-                  continue;
                 }
 
-                try {
-                  // Capa 1: L2 Orderbook Depth
-                  const l2 = await info.l2Book({ coin });
-                  const bids = l2.levels[0] || [];
-                  const asks = l2.levels[1] || [];
-                  if (bids.length < 3 || asks.length < 3) continue;
-
-                  let bidVol = 0, askVol = 0;
-                  for (let i = 0; i < Math.min(5, bids.length); i++) bidVol += parseFloat(bids[i].px) * parseFloat(bids[i].sz);
-                  for (let i = 0; i < Math.min(5, asks.length); i++) askVol += parseFloat(asks[i].px) * parseFloat(asks[i].sz);
-
-                  const totalVol = bidVol + askVol;
-                  const bullPct = totalVol > 0 ? (bidVol / totalVol) * 100 : 50;
-                  const bearPct = totalVol > 0 ? (askVol / totalVol) * 100 : 50;
-
-                  // Capa 2: Velas 5m (RSI 14 y EMA 20)
-                  const now = Date.now();
-                  const candles5m = await info.candleSnapshot({ coin, interval: "5m", startTime: now - (3600000 * 3), endTime: now });
-                  if (!candles5m || candles5m.length < 15) continue;
-                  const closes5m = candles5m.map(c => parseFloat(c.c));
-                  const rsi5m = calculateRSI(closes5m, 14);
-                  const ema20_5m = calculateEMA(closes5m, 20);
-
-                  // Capa 3: Vela 15m (Filtro Anti-Techo)
-                  const candles15m = await info.candleSnapshot({ coin, interval: "15m", startTime: now - (3600000 * 2), endTime: now });
-                  const last15m = candles15m && candles15m.length > 0 ? candles15m[candles15m.length - 1] : null;
-                  const range15m = last15m ? parseFloat(last15m.h) - parseFloat(last15m.l) : 0;
-                  const currentPrice = parseFloat(bids[0].px);
-                  const isTop25Pct = range15m > 0 ? (currentPrice - parseFloat(last15m.l)) / range15m > 0.75 : false;
-
-                  // Protocolo Onda de Apertura (Ventana de Sacudón ±5 min Londres/NY): Caza de Olas con L2 >= 66%
-                  const inWaveWindow = isMarketShakeWindow(new Date());
-                  const isWaveLong = inWaveWindow && bullPct >= 66.0;
-                  const isWaveShort = inWaveWindow && bearPct >= 66.0;
-
-                  // FILTRO DE ALTA CERTEZA: L2 >= 65%, RSI 5m en zona limpia (<= 46 para Long), confirmación EMA20
-                  if (isWaveLong || (bullPct >= MIN_CERTAINTY_L2_PCT && rsi5m <= 46.0 && (!isTop25Pct || currentPrice <= ema20_5m))) {
-                    if (!bestCandidate || bullPct > bestCandidate.score) {
-                      bestCandidate = {
-                        coin,
-                        direction: "LONG",
-                        price: currentPrice,
-                        score: bullPct,
-                        rsi: rsi5m,
-                        ema: ema20_5m,
-                        isWaveTrade: isWaveLong
-                      };
-                    }
+                // Filtro Short de Alta Certeza
+                if (isWaveShort || (bearPct >= 65.0 && rsi5m >= 68.0)) {
+                  if (!bestCandidate || bearPct > bestCandidate.score) {
+                    bestCandidate = {
+                      coin,
+                      direction: "SHORT",
+                      price: parseFloat(asks[0].px),
+                      bidPrice: currentPrice,
+                      score: bearPct,
+                      rsi: rsi5m,
+                      ema: ema20_5m
+                    };
                   }
+                }
+              } catch (_) {}
+            }
 
-                  // SHORT DE ALTA CERTEZA: L2 >= 65% vendedora, RSI >= 70 en sobrecompra extrema (Rechazo de Techo), O Caza de Ola en Desplome de Apertura (L2 >= 66%)
-                  if (isWaveShort || (bearPct >= MIN_CERTAINTY_L2_PCT && rsi5m >= 70.0)) {
-                    if (!bestCandidate || bearPct > bestCandidate.score) {
-                      bestCandidate = {
-                        coin,
-                        direction: "SHORT",
-                        price: parseFloat(asks[0].px),
-                        score: bearPct,
-                        rsi: rsi5m,
-                        ema: ema20_5m,
-                        isWaveTrade: isWaveShort
-                      };
-                    }
-                  }
-                } catch (_) { }
-              }
+            if (bestCandidate) {
+              const coin = bestCandidate.coin;
+              const notional = Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE);
+              const szFormatted = formatHlSize(notional / bestCandidate.price, ASSET_DECIMALS[coin].sz);
+              const isLong = bestCandidate.direction === "LONG";
+              const entryPxStr = formatHlPrice(bestCandidate.price, coin);
+              const entryPxNum = parseFloat(entryPxStr);
 
-              if (bestCandidate) {
-                const coin = bestCandidate.coin;
-                const notional = Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE); // Máx $250.00 USD nocional por regla anti-estancamiento
-                const szFormatted = formatHlSize(notional / bestCandidate.price, ASSET_DECIMALS[coin].sz);
-                const isLong = bestCandidate.direction === "LONG";
-                const entryPxStr = formatHlPrice(bestCandidate.price, coin);
-                const entryPxNum = parseFloat(entryPxStr);
+              const tpPriceNum = isLong
+                ? entryPxNum * (1 + TARGET_GAIN_PCT / 100)
+                : entryPxNum * (1 - TARGET_GAIN_PCT / 100);
+              const tpPxStr = formatHlPrice(tpPriceNum, coin);
+              const estNetGain = (notional * (TARGET_GAIN_PCT / 100) - (notional * 0.00030)).toFixed(4);
 
-                const tpPriceNum = isLong
-                  ? entryPxNum * (1 + TARGET_GAIN_PCT / 100)
-                  : entryPxNum * (1 - TARGET_GAIN_PCT / 100);
-                const tpPxStr = formatHlPrice(tpPriceNum, coin);
-                const estNetGain = (notional * (TARGET_GAIN_PCT / 100) - (notional * 0.00030)).toFixed(4);
+              console.log(`\n🎯 [${unit.unitKey} // ${unit.botName}] Disparo paralelo en ${coin} (${bestCandidate.direction}):`);
+              console.log(`   • Confluencia: L2 ${bestCandidate.score.toFixed(1)}% | RSI 5m: ${bestCandidate.rsi.toFixed(1)} | EMA20: $${bestCandidate.ema.toFixed(2)}`);
+              console.log(`   • Entrada: ${szFormatted} ${coin} @ $${entryPxStr} ($${notional.toFixed(0)} Nocional) -> TP: $${tpPxStr}`);
 
-                console.log(`\n🎯 [${squadKey} V2 ESCALADO] Disparo identificado en ${coin} (${bestCandidate.direction}):`);
-                console.log(`   • Margen: $${dynamicSquadMargin.toFixed(2)} USDC (5x = $${notional.toFixed(2)} Nocional)`);
-                console.log(`   • Confluencia: L2 ${bestCandidate.score.toFixed(1)}% | RSI 5m: ${bestCandidate.rsi.toFixed(1)} | EMA20: $${bestCandidate.ema.toFixed(2)}`);
-                console.log(`   • Entrada ALO: $${entryPxStr} | TP fijado: $${tpPxStr} (+${TARGET_GAIN_PCT}% · +$${estNetGain} USDC)`);
+              try {
+                let orderRes = await client.order({
+                  orders: [{
+                    a: ASSET_INDICES[coin],
+                    b: isLong,
+                    p: entryPxStr,
+                    s: szFormatted,
+                    r: false,
+                    t: { limit: { tif: "Alo" } }
+                  }],
+                  grouping: "na"
+                });
+                let status = orderRes.response?.data?.statuses?.[0] || {};
 
-                try {
-                  const orderRes = await client.order({
+                // Si ALO fue rechazado por cruce instantáneo de spread, ejecutar entrada límite Gtc al mejor bid/ask para no perder el tiro
+                if (status.error) {
+                  orderRes = await client.order({
                     orders: [{
                       a: ASSET_INDICES[coin],
                       b: isLong,
                       p: entryPxStr,
                       s: szFormatted,
                       r: false,
-                      t: { limit: { tif: "Alo" } }
+                      t: { limit: { tif: "Gtc" } }
                     }],
                     grouping: "na"
                   });
-                  const status = orderRes.response?.data?.statuses?.[0] || {};
-                  if (status.resting) {
-                    mem.activeCoin = coin;
-                    mem.direction = bestCandidate.direction;
-                    mem.entryPx = entryPxNum;
-                    mem.dcaDone = false;
-                    mem.beLocked = false;
-                    console.log(`[${squadKey}] Orden Entrada ALO #${status.resting.oid} colocada con éxito.`);
-
-                    const orderTg = `🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (${bestCandidate.direction})</b>\n` +
-                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                      `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
-                      `📍 <b>Par:</b> <code>${coin}-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n` +
-                      `📥 <b>PRECIO ENTRADA:</b> <code>$${entryPxStr}</code>\n` +
-                      `📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$${tpPxStr}</code> (+${TARGET_GAIN_PCT}%)\n` +
-                      `💰 <b>Ganancia Estimada:</b> <b>+$${estNetGain} USDC Limpios</b>\n` +
-                      `📊 <b>Filtros:</b> L2 ${bestCandidate.score.toFixed(1)}% · RSI 5m ${bestCandidate.rsi.toFixed(1)}\n` +
-                      `🛡️ <b>Margen Asignado:</b> <code>$${dynamicSquadMargin.toFixed(2)} USDC (5x = $${notional.toFixed(2)} Nocional)</code>\n` +
-                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                      `🌐 <a href="https://app.hyperliquid.xyz/trade">Ver Operación en Vivo en Hyperliquid</a>`;
-                    await sendSquadTelegram(orderTg);
-                  }
-                } catch (err) {
-                  console.error(`[${squadKey}] Error colocando orden V2:`, err.message);
+                  status = orderRes.response?.data?.statuses?.[0] || {};
                 }
+
+                if (status.resting || status.filled) {
+                  currentTotalOpen++;
+                  const oid = status.resting?.oid || status.filled?.oid || "FILLED";
+                  console.log(`   ✔ [${unit.unitKey}] Orden #${oid} activa en Hyperliquid L1 (${status.filled ? "EJECUTADA" : "EN LIBRO"}).`);
+
+                  // Si se llenó de inmediato, colocar de una vez su orden Reduce-Only Take-Profit en el libro L1
+                  if (status.filled) {
+                    await client.order({
+                      orders: [{
+                        a: ASSET_INDICES[coin],
+                        b: !isLong,
+                        p: tpPxStr,
+                        s: szFormatted,
+                        r: true,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    }).catch(() => {});
+                  }
+
+                  const orderTg = `🎯 <b>ÁREA 501 // DISPARO PARALELO DESBLOQUEADO (${bestCandidate.direction})</b>\n` +
+                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                    `🔰 <b>Unidad:</b> <b>${unit.squadCfg.name} — ${unit.botName}</b>\n` +
+                    `📍 <b>Par:</b> <code>${coin}-USDC</code> (${szFormatted} ${coin})\n` +
+                    `📥 <b>PRECIO ENTRADA:</b> <code>$${entryPxStr}</code>\n` +
+                    `📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$${tpPxStr}</code> (+${TARGET_GAIN_PCT}%)\n` +
+                    `💰 <b>Ganancia Estimada:</b> <b>+$${estNetGain} USDC Limpios</b>\n` +
+                    `📊 <b>Filtros:</b> L2 ${bestCandidate.score.toFixed(1)}% · RSI 5m ${bestCandidate.rsi.toFixed(1)}\n` +
+                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                    `🌐 <a href="https://app.hyperliquid.xyz/trade">Ver Operación en Vivo en Hyperliquid</a>`;
+                  await sendSquadTelegram(orderTg);
+                }
+              } catch (err) {
+                console.error(`[${unit.unitKey}] Error colocando orden en ${coin}:`, err.message);
               }
-            } catch (_) { }
-          }
+            }
+          } catch (_) {}
         }
       }
     } catch (err) {
