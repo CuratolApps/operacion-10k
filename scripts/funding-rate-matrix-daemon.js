@@ -106,9 +106,50 @@ async function scanFundingMatrix() {
       ? `🛡️ ESCUDO #00 EN MISIÓN DE RESCATE (${rescuePosition.coin} · ${rescuePosition.szi} @ $${rescuePosition.entryPx}) · COBRO PASIVO DE POSICIONES ACTUALES ACTIVO`
       : `🟢 ESCUDO #00 100% LIBRE ($${shield40PctClosedUsdc.toFixed(2)} USDC) · CAZADOR ALO MAKER DELTA-SAFE ACTIVO`;
 
-    // 2. Procesar metaAndAssetCtxs -> Top 18 Pares con Mayor Tasa de Funding Activa en Vivo
+    // 2. Procesar metaAndAssetCtxs -> Posiciones Abiertas + Top 3 Escudo #00 Seguro (OI >= $15M)
     const universe = metaCtx?.[0]?.universe || [];
     const ctxs = metaCtx?.[1] || [];
+    const ctxByCoin = {};
+    for (let i = 0; i < universe.length; i++) {
+      if (universe[i] && ctxs[i]) {
+        ctxByCoin[universe[i].name] = ctxs[i];
+      }
+    }
+
+    const openPositionsFunding = openPositionsList.map(op => {
+      const c = ctxByCoin[op.coin] || {};
+      const rawFunding = parseFloat(c.funding || "0");
+      const hourlyPct = +(rawFunding * 100).toFixed(4);
+      const aprPct = +(hourlyPct * 24 * 365).toFixed(1);
+      const markPx = parseFloat(c.markPx || op.entryPx || "0");
+      const notionalUsdc = +(Math.abs(op.szi) * markPx).toFixed(2);
+      const hourlyCashflowUsdc = +(-1 * op.szi * markPx * rawFunding).toFixed(4);
+      const isSolRescue = op.coin === "SOL" || op.posVal > 600;
+      const tpPx = isSolRescue ? 100.62 : +(op.entryPx * 1.0022).toFixed(2);
+      const squadLabel = isSolRescue
+        ? "ESCUDO #00 RESCATE ACTIVO"
+        : (op.coin === "BTC" ? "#02 BRAVO · SCALPER" : "#03 CHARLIE · SCALPER");
+      return {
+        coin: op.coin,
+        pair: `${op.coin}-USDC`,
+        szi: op.szi,
+        side: op.szi >= 0 ? "LONG" : "SHORT",
+        entryPx: op.entryPx,
+        markPx,
+        tpPx,
+        notionalUsdc,
+        unrealizedPnl: op.unrealizedPnl,
+        rawFunding,
+        hourlyPct,
+        aprPct,
+        hourlyCashflowUsdc,
+        isReceiving: hourlyCashflowUsdc >= 0,
+        squadLabel
+      };
+    });
+
+    const nextHourNetFlowUsdc = +(openPositionsFunding.reduce((acc, p) => acc + p.hourlyCashflowUsdc, 0)).toFixed(4);
+
     const allAssets = [];
 
     for (let i = 0; i < universe.length; i++) {
@@ -135,8 +176,8 @@ async function scanFundingMatrix() {
       const passesDeltaSafeFilter = oiUsd >= MIN_SAFE_OI_USD;
       const isCurrentlyHeld = openPositionsList.some(op => op.coin === u.name);
 
-      // Renta estimada por hora y por día con el Escudo #00 a 2x conservador (~$720 nocional)
-      const estHourlyUsdcOnShield = +((shield40PctClosedUsdc * 2 * absHourlyPct) / 100).toFixed(3);
+      // Renta estimada por hora y por día con el Escudo #00 Post-SOL a 2x conservador (~$719.56 nocional)
+      const estHourlyUsdcOnShield = +((shield40PctPostSolUsdc * 2 * absHourlyPct) / 100).toFixed(4);
       const estDailyUsdcOnShield = +(estHourlyUsdcOnShield * 24).toFixed(2);
 
       allAssets.push({
@@ -160,7 +201,7 @@ async function scanFundingMatrix() {
       });
     }
 
-    // Ordenar por mayor tasa absoluta horaria (Top 18 Pagadores en Vivo)
+    // Ordenar por mayor tasa absoluta horaria
     allAssets.sort((a, b) => b.absHourlyPct - a.absHourlyPct);
     const top18Payers = allAssets.slice(0, 18).map((item, idx) => ({
       rank: idx + 1,
@@ -169,19 +210,22 @@ async function scanFundingMatrix() {
         ? "POSICIÓN ABIERTA EN #501"
         : (item.passesDeltaSafeFilter ? "OI >= $5M · APTO ALO" : "ALTO APR · VIGILANDO OI")
     }));
+    const safeShieldQueue3 = allAssets
+      .filter(a => a.oiUsd >= 15000000 && !a.isCurrentlyHeld && !["SOL", "BTC", "ETH"].includes(a.coin))
+      .slice(0, 3);
 
-    // Mejor pagador global y mejor pagador con OI >= $5M USD
+    // Mejor pagador global y mejor pagador con OI >= $15M USD
     const topPayerGlobal = top18Payers[0] || {
-      coin: "BLUR",
-      pair: "BLUR-USDC",
-      hourlyPct: -0.3435,
-      absHourlyPct: 0.3435,
-      aprPct: -3008.7,
-      absAprPct: 3008.7,
-      receiverSide: "LONG COBRA",
-      oiFormatted: "$1.8M"
+      coin: "XMR",
+      pair: "XMR-USDC",
+      hourlyPct: 0.0034,
+      absHourlyPct: 0.0034,
+      aprPct: 30.2,
+      absAprPct: 30.2,
+      receiverSide: "SHORT COBRA",
+      oiFormatted: "$120.7M"
     };
-    const topPayerDeltaSafe = allAssets.find(a => a.passesDeltaSafeFilter) || topPayerGlobal;
+    const topPayerDeltaSafe = safeShieldQueue3[0] || allAssets.find(a => a.passesDeltaSafeFilter) || topPayerGlobal;
 
     // 3. Procesar userFunding (Libro Mayor Oficial de Hyperliquid L1 para #501)
     const fundingArray = Array.isArray(userFundingRaw) ? userFundingRaw : [];
@@ -216,7 +260,7 @@ async function scanFundingMatrix() {
         todayNetUsdc += usdcVal;
       }
 
-      if (ledgerRows.length < 24) {
+      if (ledgerRows.length < 60 || usdcVal > 0) {
         const iso = new Date(ts).toISOString();
         ledgerRows.push({
           timeMs: ts,
@@ -269,19 +313,23 @@ async function scanFundingMatrix() {
         positiveEventsCount,
         totalPositiveCollectedUsdc: +totalPositiveCollectedUsdc.toFixed(4),
         totalNetFundingUsdc: +totalNetFundingUsdc.toFixed(4),
+        paidInLongsUsdc: +(totalNetFundingUsdc - totalPositiveCollectedUsdc).toFixed(4),
+        nextHourNetFlowUsdc,
         todayEventsCount,
         todayNetUsdc: +todayNetUsdc.toFixed(4),
-        avgTopAprPct: topPayerGlobal.absAprPct,
-        estDailyYieldWhenFreeUsdc: topPayerDeltaSafe.estDailyUsdcOnShield || 2.85
+        avgTopAprPct: topPayerDeltaSafe.absAprPct,
+        estDailyYieldWhenFreeUsdc: topPayerDeltaSafe.estDailyUsdcOnShield || 0.60
       },
       nextSettlement: countdown,
       deltaSafeRules: {
-        minOpenInterestUsd: MIN_SAFE_OI_USD,
-        minOpenInterestFormatted: "OI >= $5.0M USD",
+        minOpenInterestUsd: 15000000,
+        minOpenInterestFormatted: "OI >= $15.0M USD",
         executionMode: "POST-ONLY ALO MAKER (0% Taker Fee)",
         leverageCap: "1x – 2x Conservador",
         rescueLockState: isRescueActive ? "RESCATE SOL ACTIVO" : "LIBRE PARA DISPARO"
       },
+      openPositionsFunding,
+      safeShieldQueue3,
       topPayerGlobal,
       topPayerDeltaSafe,
       top18Payers,

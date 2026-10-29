@@ -3,46 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FUNDING RATE MATRIX // Cobro Horario 24/7 en Hyperliquid L1 · Escudo Mentora #00 (40%)</title>
+  <title>FUNDING RATE MATRIX // Monitoreo Real de Funding en Cartera #501 · Hyperliquid L1</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
   <link rel="stylesheet" href="style.css">
-  <!-- Hidratación síncrona en 0ms desde localStorage (__AREA501_FUNDING_STATE__) -->
+  <!-- Hidratación síncrona en 0ms desde localStorage (__AREA501_FUNDING_V2__) -->
   <script>
     (function () {
       try {
-        var raw = localStorage.getItem("__AREA501_FUNDING_STATE__");
+        var raw = localStorage.getItem("__AREA501_FUNDING_V2__");
         if (raw) {
-          var s = JSON.parse(raw);
-          window.__LAST_FUNDING_STATE__ = s;
-          document.addEventListener("DOMContentLoaded", function () {
-            if (s.shieldCapital) {
-              var elCap = document.getElementById("topShieldCapitalVal");
-              if (elCap && s.shieldCapital.shieldClosedUsdc !== undefined) {
-                elCap.textContent = Number(s.shieldCapital.shieldClosedUsdc).toFixed(2);
-              }
-              var elPost = document.getElementById("topShieldPostSolPill");
-              if (elPost && s.shieldCapital.shieldProjectedPostSolUsdc !== undefined) {
-                elPost.textContent = "Post-SOL: $" + Number(s.shieldCapital.shieldProjectedPostSolUsdc).toFixed(2);
-              }
-            }
-            if (s.fundingAccounting) {
-              var fa = s.fundingAccounting;
-              var elPos = document.getElementById("topPositiveFundingVal");
-              if (elPos && fa.totalPositiveCollectedUsdc !== undefined) {
-                elPos.textContent = Number(fa.totalPositiveCollectedUsdc).toFixed(4);
-              }
-            }
-            if (s.topPayerGlobal) {
-              var tp = s.topPayerGlobal;
-              var elTpCoin = document.getElementById("topPayerCoinVal");
-              if (elTpCoin && tp.pair) elTpCoin.textContent = tp.pair;
-              var elTpApr = document.getElementById("topPayerAprBadge");
-              if (elTpApr && tp.absAprPct !== undefined) elTpApr.textContent = Number(tp.absAprPct).toFixed(1) + "% APR";
-            }
-          });
+          window.__LAST_FUNDING_STATE__ = JSON.parse(raw);
         }
       } catch (_) {}
     })();
@@ -51,84 +24,85 @@
 <body>
   <div class="funding-viewport">
 
-    <!-- 5 TARJETAS SUPERIORES EN BLANCO SATINADO -->
+    <!-- 5 TARJETAS SUPERIORES EN BLANCO SATINADO (100% DATOS ÚTILES DE #501) -->
     <header class="top-cards-grid">
 
-      <!-- Tarjeta 1: CAPITAL ASIGNADO ESCUDO #00 (40%) -->
+      <!-- Tarjeta 1: 🛡️ CAPITAL ESCUDO #00 (40%) -->
       <div class="biz-card">
         <div class="card-tag">
-          <span class="material-symbols-rounded">shield</span> CAPITAL ASIGNADO ESCUDO #00 (40%)
+          <span class="material-symbols-rounded">shield</span> 🛡️ CAPITAL ESCUDO #00 (40%)
         </div>
         <div class="card-main-val">
-          <span class="currency-symbol">$</span><span id="topShieldCapitalVal">338.16</span>
-          <span class="unit-tag">USDC (40% HL)</span>
-          <span class="pct-badge" id="topShieldLiveBadge">En Vivo: $332.46</span>
+          <span class="currency-symbol">$</span><span id="topShieldCapitalVal">338.14</span>
+          <span class="unit-tag">USDC</span>
+          <span class="pct-badge" id="topShieldLiveBadge">40% Cuenta #501</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-amber" id="topShieldPriorityPill">Rescate SOL Activo</span>
-          <span class="pill-emerald" id="topShieldPostSolPill">Post-SOL: $359.80 USDC</span>
+          <span class="pill-amber" id="topShieldPriorityPill">Estado: ASISTIENDO RESCATE SOL</span>
+          <span class="pill-emerald" id="topShieldPostSolPill">Post-SOL: $359.78 USDC Libres</span>
         </div>
       </div>
 
-      <!-- Tarjeta 2: RENTA FUNDING ACUMULADA EN #501 -->
+      <!-- Tarjeta 2: 💵 BALANCE REAL DE FUNDING EN #501 -->
       <div class="biz-card">
         <div class="card-tag">
-          <span class="material-symbols-rounded">payments</span> RENTA FUNDING ACUMULADA EN #501
+          <span class="material-symbols-rounded">payments</span> 💵 BALANCE REAL DE FUNDING EN #501
         </div>
         <div class="card-main-val">
-          <span class="currency-symbol">+$</span><span id="topPositiveFundingVal">0.1292</span>
-          <span class="unit-tag">USDC COBRADOS</span>
-          <span class="pct-badge" id="topEventsCountBadge">96 Cortes L1</span>
+          <span class="currency-symbol">+$</span><span id="topPositiveFundingVal">0.1127</span>
+          <span class="unit-tag">USDC</span>
+          <span class="pct-badge" id="topEventsCountBadge">31 Cobros Positivos</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-emerald" id="topPositiveEventsPill">29 Cobros Positivos</span>
-          <span class="pill-cobalt" id="topEstDailyYieldPill">Meta Libre: +$2.85/día</span>
+          <span class="pill-slate" id="topPaidInLongsPill">Pagado en Longs: -$0.4649 USDC</span>
+          <span class="pill-amber" id="topNextHourFlowPill">Flujo Próx. Hora: -$0.0306 USDC</span>
         </div>
       </div>
 
-      <!-- Tarjeta 3: PRÓXIMO CORTE HORARIO L1 (24 PAGOS/DÍA) -->
+      <!-- Tarjeta 3: ⏱️ PRÓXIMO CORTE HORARIO L1 (24 PAGOS/DÍA) -->
       <div class="biz-card">
         <div class="card-tag">
-          <span class="material-symbols-rounded">schedule</span> PRÓXIMO CORTE HORARIO L1 (24 PAGOS/DÍA)
+          <span class="material-symbols-rounded">schedule</span> ⏱️ PRÓXIMO CORTE HORARIO L1 (24 PAGOS/DÍA)
         </div>
         <div class="card-main-val">
-          <span id="topNextCutCountdown">10m 00s</span>
+          <span id="topNextCutCountdown">48m 00s</span>
           <span class="unit-tag" id="topNextCutHourTag">➔ 09:00:00 UTC</span>
-          <span class="pct-badge">CADA 60 MIN</span>
+          <span class="pct-badge">24 CORTES/DÍA</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-emerald">Liquidación :00:00 UTC</span>
-          <span class="pill-cobalt" id="topHlLatencyPill">Hyperliquid L1 · 135ms</span>
+          <span class="pill-emerald">Liquidación: Cada 60 min en USDC</span>
+          <span class="pill-cobalt" id="topRecentCutPill">Corte 09:00h (08:00 UTC) Verificado</span>
         </div>
       </div>
 
-      <!-- Tarjeta 4: CANDADO DE SEGURIDAD DELTA-SAFE -->
+      <!-- Tarjeta 4: 📊 IMPACTO HORARIO DE TUS POSICIONES ABIERTAS -->
       <div class="biz-card">
         <div class="card-tag">
-          <span class="material-symbols-rounded">verified_user</span> CANDADO DE SEGURIDAD DELTA-SAFE
-        </div>
-        <div class="card-main-val" style="font-size: 0.98rem;">
-          <span>OI &ge; $5.0M USD</span>
-          <span class="pct-badge">0% TAKER FEE</span>
-        </div>
-        <div class="card-sub-pills">
-          <span class="pill-emerald">Post-Only ALO Maker</span>
-          <span class="pill-amber" id="topRescueLockPill">RESCUE_PRIORITY_LOCK = ON</span>
-        </div>
-      </div>
-
-      <!-- Tarjeta 5: TOP PAGADOR FUNDING EN VIVO -->
-      <div class="biz-card">
-        <div class="card-tag">
-          <span class="material-symbols-rounded">trending_up</span> TOP PAGADOR FUNDING EN VIVO
+          <span class="material-symbols-rounded">analytics</span> 📊 IMPACTO HORARIO DE TUS POSICIONES ABIERTAS
         </div>
         <div class="card-main-val">
-          <span id="topPayerCoinVal">BLUR-USDC</span>
-          <span class="pct-badge" id="topPayerAprBadge">3227.7% APR</span>
+          <span id="topOpenImpactVal">-$0.0306</span>
+          <span class="unit-tag">USDC / HORA</span>
+          <span class="pct-badge amber" id="topOpenCountBadge">3 Posiciones en Squad</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-emerald" id="topPayerHourlyPill">-0.3685% / hora</span>
-          <span class="pill-cobalt" id="topPayerReceiverPill">LONG COBRA · OI $1.8M</span>
+          <span class="pill-slate" id="topOpenImpactSub1">SOL: -$0.0244/h · BTC: -$0.0031/h</span>
+          <span class="pill-emerald" id="topOpenImpactSub2">ETH: +$0.0009 Cobrado en Corte</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 5: 🎯 PRÓXIMO OBJETIVO ESCUDO #00 (AL CERRAR SOL) -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">ads_click</span> 🎯 PRÓXIMO OBJETIVO ESCUDO #00 (AL CERRAR SOL)
+        </div>
+        <div class="card-main-val">
+          <span id="topSafeTargetCoin">XMR-USDC</span>
+          <span class="pct-badge" id="topSafeTargetApr">30.2% APR</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-cobalt" id="topSafeTargetOiPill">OI: $120.7M USD · SHORT COBRA</span>
+          <span class="pill-emerald" id="topSafeTargetYieldPill">Escudo #00: +$0.025/h (+$0.60/día)</span>
         </div>
       </div>
 
@@ -142,50 +116,225 @@
         <span id="rescueBannerText">🛡️ ESCUDO #00 EN MISIÓN DE RESCATE (SOL-USDC · 19.52 SOL @ $100.538) · COBRO PASIVO DE POSICIONES ACTUALES ACTIVO</span>
       </div>
       <div class="rescue-right">
-        <span id="rescueSubInfo">TP Armado: $100.62 (oid: 589129601350) ➔ Al cerrar libera $359.80 USDC para Funding ALO Maker</span>
+        <span id="rescueSubInfo">TP Armado: $100.62 (oid: 589129601350) ➔ Al cerrar libera $359.78 USDC para entrar en XMR-USDC (OI $120.7M)</span>
       </div>
     </div>
 
     <!-- CONTENEDOR CENTRAL: 2 BLOQUES TÁCTICOS SIN SCROLL -->
     <main class="funding-main">
 
-      <!-- PESTAÑA 1: MATRIZ EN VIVO (TOP 18 PAGADORES + LIBRO MAYOR 24 PAGOS) -->
+      <!-- PESTAÑA 1: MONITOREO REAL DE FUNDING EN CARTERA #501 + LIBRO MAYOR userFunding -->
       <section class="tab-pane active" id="paneFundingMain">
         <div class="central-split-layout">
 
-          <!-- BLOQUE IZQUIERDO: REJILLA 6x3 = 18 CELDAS ESMERALDA/MENTA -->
+          <!-- PANEL IZQUIERDO: 2 SECCIONES ESTRICTAMENTE NECESARIAS (CERO RELLENO) -->
           <div class="tactical-block">
             <div class="block-header">
               <div class="block-title">
-                <span class="material-symbols-rounded">radar</span>
-                📊 RADAR TOP 18 PAGADORES DE FUNDING EN VIVO — HYPERLIQUID L1
+                <span class="material-symbols-rounded">account_balance_wallet</span>
+                🎯 MONITOREO REAL DE FUNDING EN TU CARTERA #501 (0xD4D1...3743)
               </div>
-              <span class="block-meta" id="leftBlockMeta">metaAndAssetCtxs · 229 Pares Escaneados</span>
+              <span class="block-meta" id="leftBlockMeta">Sincronizado con clearinghouseState + metaAndAssetCtxs</span>
             </div>
-            <div class="funding-grid-18" id="fundingTop18Grid">
-              <!-- Renderizado en vivo desde app.js -->
+
+            <div class="left-sections-stack">
+
+              <!-- SECCIÓN A (Arriba): TUS POSICIONES ABIERTAS AHORA MISMO EN HYPERLIQUID L1 -->
+              <div class="sub-section-box">
+                <div class="sub-section-header">
+                  <span>⚡ SECCIÓN A: TUS POSICIONES ABIERTAS AHORA MISMO EN HYPERLIQUID L1</span>
+                  <span class="sub-tag" id="secAHeaderTag">3 Posiciones Activas · Efecto en Corte :00 UTC</span>
+                </div>
+                <div class="cards-row-3" id="openPositionsCardsRow">
+                  <!-- Tarjeta 1: SOL-USDC -->
+                  <div class="focus-card card-paying" id="openPosCard_SOL">
+                    <div class="fc-top">
+                      <span class="fc-pair-title">SOL-USDC · LONG (19.52 SOL)</span>
+                      <span class="fc-side-badge long">#01 ALFA + ESCUDO #00</span>
+                    </div>
+                    <div class="fc-metrics">
+                      <div class="fc-metric-line">
+                        <span>Entrada ➔ Salida TP:</span>
+                        <b>$100.538 ➔ $100.62</b>
+                      </div>
+                      <div class="fc-metric-line">
+                        <span>Valor Posición (Nocional):</span>
+                        <b>$1,951.40 USDC</b>
+                      </div>
+                    </div>
+                    <div class="fc-rate-big">
+                      <span>Tasa: +0.0013% / hora</span>
+                      <span class="apr-tag">10.9% APR</span>
+                    </div>
+                    <div class="fc-bottom-banner cost">
+                      🟡 COSTO DE MANTENIMIENTO: -$0.0244 USDC / HORA
+                    </div>
+                  </div>
+
+                  <!-- Tarjeta 2: BTC-USDC -->
+                  <div class="focus-card card-paying" id="openPosCard_BTC">
+                    <div class="fc-top">
+                      <span class="fc-pair-title">BTC-USDC · LONG (0.00312 BTC)</span>
+                      <span class="fc-side-badge long">#02 BRAVO</span>
+                    </div>
+                    <div class="fc-metrics">
+                      <div class="fc-metric-line">
+                        <span>Entrada ➔ Salida TP:</span>
+                        <b>$79,912.0 ➔ $80,032.0</b>
+                      </div>
+                      <div class="fc-metric-line">
+                        <span>Valor Posición (Nocional):</span>
+                        <b>$249.50 USDC</b>
+                      </div>
+                    </div>
+                    <div class="fc-rate-big">
+                      <span>Tasa: +0.0013% / hora</span>
+                      <span class="apr-tag">10.9% APR</span>
+                    </div>
+                    <div class="fc-bottom-banner cost">
+                      🟡 COSTO DE MANTENIMIENTO: -$0.0031 USDC / HORA
+                    </div>
+                  </div>
+
+                  <!-- Tarjeta 3: ETH-USDC -->
+                  <div class="focus-card card-receiving" id="openPosCard_ETH">
+                    <div class="fc-top">
+                      <span class="fc-pair-title">ETH-USDC · LONG (0.1081 ETH)</span>
+                      <span class="fc-side-badge long">#03 CHARLIE</span>
+                    </div>
+                    <div class="fc-metrics">
+                      <div class="fc-metric-line">
+                        <span>Entrada ➔ Salida TP:</span>
+                        <b>$2,311.1 ➔ $2,314.6</b>
+                      </div>
+                      <div class="fc-metric-line">
+                        <span>Valor Posición (Nocional):</span>
+                        <b>$250.28 USDC</b>
+                      </div>
+                    </div>
+                    <div class="fc-rate-big">
+                      <span>Último Corte 09:00h: -0.0004%/h</span>
+                      <span class="apr-tag">+0.0009 Cobrado</span>
+                    </div>
+                    <div class="fc-bottom-banner receive">
+                      🟢 COBRADO EN CORTE 09:00H: +$0.0009 USDC
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECCIÓN B (Abajo): COLA DE TRABAJO DEL ESCUDO #00 (SOLO 3 PARES SEGUROS CON LIQUIDEZ INSTITUCIONAL) -->
+              <div class="sub-section-box">
+                <div class="sub-section-header">
+                  <span>🛡️ SECCIÓN B: COLA DE TRABAJO DEL ESCUDO #00 (SOLO 3 PARES SEGUROS · OI &ge; $15M USD)</span>
+                  <span class="sub-tag" id="secBHeaderTag">Capital Listo Post-SOL: $359.78 USDC (2x ALO Maker = $719.56)</span>
+                </div>
+                <div class="cards-row-3" id="shieldQueueCardsRow">
+                  <!-- Tarjeta Cola 1: XMR-USDC -->
+                  <div class="focus-card card-shield-queue">
+                    <div class="fc-top">
+                      <span class="fc-pair-title">#01 XMR-USDC</span>
+                      <span class="fc-side-badge short">SHORT COBRA</span>
+                    </div>
+                    <div class="fc-metrics">
+                      <div class="fc-metric-line">
+                        <span>Liquidez Institucional (OI):</span>
+                        <b>$120.7M USD ✔</b>
+                      </div>
+                      <div class="fc-metric-line">
+                        <span>Estado Cola Escudo #00:</span>
+                        <b>#1 LISTO AL CERRAR SOL</b>
+                      </div>
+                    </div>
+                    <div class="fc-rate-big">
+                      <span>+0.0034% / hora</span>
+                      <span class="apr-tag">30.2% APR</span>
+                    </div>
+                    <div class="fc-bottom-banner queue-yield">
+                      🟢 PAGA AL ESCUDO #00: +$0.0248/H (+$0.60 USDC/DÍA)
+                    </div>
+                  </div>
+
+                  <!-- Tarjeta Cola 2: MON-USDC -->
+                  <div class="focus-card card-shield-queue">
+                    <div class="fc-top">
+                      <span class="fc-pair-title">#02 MON-USDC</span>
+                      <span class="fc-side-badge long">LONG COBRA</span>
+                    </div>
+                    <div class="fc-metrics">
+                      <div class="fc-metric-line">
+                        <span>Liquidez Institucional (OI):</span>
+                        <b>$31.0M USD ✔</b>
+                      </div>
+                      <div class="fc-metric-line">
+                        <span>Estado Cola Escudo #00:</span>
+                        <b>#2 RESERVA DELTA-SAFE</b>
+                      </div>
+                    </div>
+                    <div class="fc-rate-big">
+                      <span>-0.0022% / hora</span>
+                      <span class="apr-tag">19.2% APR</span>
+                    </div>
+                    <div class="fc-bottom-banner queue-yield">
+                      🟢 PAGA AL ESCUDO #00: +$0.0158/H (+$0.38 USDC/DÍA)
+                    </div>
+                  </div>
+
+                  <!-- Tarjeta Cola 3: LTC-USDC -->
+                  <div class="focus-card card-shield-queue">
+                    <div class="fc-top">
+                      <span class="fc-pair-title">#03 LTC-USDC</span>
+                      <span class="fc-side-badge short">SHORT COBRA</span>
+                    </div>
+                    <div class="fc-metrics">
+                      <div class="fc-metric-line">
+                        <span>Liquidez Institucional (OI):</span>
+                        <b>$22.6M USD ✔</b>
+                      </div>
+                      <div class="fc-metric-line">
+                        <span>Estado Cola Escudo #00:</span>
+                        <b>#3 RESERVA DELTA-SAFE</b>
+                      </div>
+                    </div>
+                    <div class="fc-rate-big">
+                      <span>+0.0013% / hora</span>
+                      <span class="apr-tag">10.9% APR</span>
+                    </div>
+                    <div class="fc-bottom-banner queue-yield">
+                      🟢 PAGA AL ESCUDO #00: +$0.0090/H (+$0.22 USDC/DÍA)
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          <!-- BLOQUE DERECHO: TABLA AUDITADA DE LOS 24 PAGOS HORARIOS DEL DÍA (userFunding) -->
+          <!-- PANEL DERECHO: LIBRO MAYOR OFICIAL DE CORTES HORARIOS — userFunding -->
           <div class="tactical-block">
             <div class="block-header">
               <div class="block-title">
                 <span class="material-symbols-rounded">receipt_long</span>
-                🧾 LIBRO MAYOR DE LOS 24 PAGOS HORARIOS DEL DÍA — ENDPOINT OFICIAL userFunding
+                🧾 LIBRO MAYOR OFICIAL DE CORTES HORARIOS — userFunding
               </div>
-              <span class="block-meta" id="rightBlockMeta">Bóveda #501: 0xD4D1...3743</span>
+              <div class="filter-pills-group">
+                <button class="filter-btn active" id="btnFilterAllCuts" data-filter="ALL">
+                  📋 TODOS LOS CORTES (24H)
+                </button>
+                <button class="filter-btn" id="btnFilterPosCuts" data-filter="POSITIVE">
+                  🟢 SOLO COBROS POSITIVOS (+USDC)
+                </button>
+              </div>
             </div>
             <div class="ledger-table-wrap">
               <table class="funding-table">
                 <thead>
                   <tr>
-                    <th>HORA UTC (:00)</th>
+                    <th>HORA CORTE (:00)</th>
                     <th>PAR L1</th>
-                    <th>LADO / SZI</th>
+                    <th>POSICIÓN (SZI)</th>
                     <th>TASA HORA</th>
-                    <th>APR EQUIV.</th>
-                    <th>PAGO REAL USDC</th>
+                    <th>PAGO REAL USDC (BÓVEDA #501)</th>
                   </tr>
                 </thead>
                 <tbody id="fundingLedgerBody">
@@ -237,7 +386,7 @@
               <div>
                 <span class="pill-emerald">ESTACIÓN #03 · RENTA HORARIA</span>
                 <h3>FUNDING RATE MATRIX</h3>
-                <p>Cobro horario 24/7 (24 pagos/día) en Hyperliquid L1 con el 40% del Escudo Mentora #00. Radar Top 18 Pagadores y Libro Mayor userFunding.</p>
+                <p>Monitoreo sincero 100% real del impacto de Funding en tus posiciones abiertas (#501), Cola Institucional del Escudo #00 y Libro Mayor userFunding.</p>
               </div>
               <div class="station-cta">ESTACIÓN ACTIVA ➔</div>
             </a>
@@ -259,13 +408,13 @@
     <footer class="funding-bottombar">
       <div class="bottom-identity">
         <span class="material-symbols-rounded">currency_exchange</span>
-        <span>FUNDING RATE MATRIX // COBRO HORARIO 24/7 L1</span>
+        <span>FUNDING RATE MATRIX // CARTERA #501 EN VIVO</span>
         <span class="live-dot"></span>
       </div>
 
       <nav class="bottom-nav">
         <button class="nav-btn active" data-tab="paneFundingMain">
-          <span class="material-symbols-rounded">grid_view</span> TOP 18 FUNDING &amp; LIBRO 24H
+          <span class="material-symbols-rounded">analytics</span> POSICIONES ABIERTAS &amp; LIBRO 24H
         </button>
         <a href="/posicion-501/" class="nav-btn">
           <span class="material-symbols-rounded">account_balance</span> POSICIÓN #501
@@ -297,4 +446,3 @@
   <script src="app.js"></script>
 </body>
 </html>
-

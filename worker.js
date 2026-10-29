@@ -2263,6 +2263,15 @@ export default {
           }
         }
 
+        const universe = metaRes?.[0]?.universe || [];
+        const ctxs = metaRes?.[1] || [];
+        const ctxByCoin = {};
+        for (let i = 0; i < universe.length; i++) {
+          if (universe[i] && ctxs[i]) {
+            ctxByCoin[universe[i].name] = ctxs[i];
+          }
+        }
+
         const closedBaseUsdc = +(accountValueUsdc - unrealizedPnlTotal).toFixed(2);
         const shield40PctLiveUsdc = +(accountValueUsdc * 0.40).toFixed(2);
         const shield40PctClosedUsdc = +(closedBaseUsdc * 0.40).toFixed(2);
@@ -2272,8 +2281,42 @@ export default {
           ? `🛡️ ESCUDO #00 EN MISIÓN DE RESCATE (${rescuePosition.coin} · ${rescuePosition.szi} @ $${rescuePosition.entryPx}) · COBRO PASIVO DE POSICIONES ACTUALES ACTIVO`
           : `🟢 ESCUDO #00 100% LIBRE ($${shield40PctClosedUsdc.toFixed(2)} USDC) · CAZADOR ALO MAKER DELTA-SAFE ACTIVO`;
 
-        const universe = metaRes?.[0]?.universe || [];
-        const ctxs = metaRes?.[1] || [];
+        // Calcular impacto horario real de las posiciones abiertas ahora mismo en Hyperliquid L1
+        const openPositionsFunding = openPositionsList.map(op => {
+          const c = ctxByCoin[op.coin] || {};
+          const rawFunding = parseFloat(c.funding || "0");
+          const hourlyPct = +(rawFunding * 100).toFixed(4);
+          const aprPct = +(hourlyPct * 24 * 365).toFixed(1);
+          const markPx = parseFloat(c.markPx || op.entryPx || "0");
+          const notionalUsdc = +(Math.abs(op.szi) * markPx).toFixed(2);
+          // En Hyperliquid: rawFunding > 0 => Longs pagan a Shorts => flujo = -szi * markPx * rawFunding
+          const hourlyCashflowUsdc = +(-1 * op.szi * markPx * rawFunding).toFixed(4);
+          const isSolRescue = op.coin === "SOL" || op.posVal > 600;
+          const tpPx = isSolRescue ? 100.62 : +(op.entryPx * 1.0022).toFixed(2);
+          const squadLabel = isSolRescue
+            ? "ESCUDO #00 RESCATE ACTIVO"
+            : (op.coin === "BTC" ? "#02 BRAVO · SCALPER" : "#03 CHARLIE · SCALPER");
+          return {
+            coin: op.coin,
+            pair: `${op.coin}-USDC`,
+            szi: op.szi,
+            side: op.szi >= 0 ? "LONG" : "SHORT",
+            entryPx: op.entryPx,
+            markPx,
+            tpPx,
+            notionalUsdc,
+            unrealizedPnl: op.unrealizedPnl,
+            rawFunding,
+            hourlyPct,
+            aprPct,
+            hourlyCashflowUsdc,
+            isReceiving: hourlyCashflowUsdc >= 0,
+            squadLabel
+          };
+        });
+
+        const nextHourNetFlowUsdc = +(openPositionsFunding.reduce((acc, p) => acc + p.hourlyCashflowUsdc, 0)).toFixed(4);
+
         const allAssets = [];
         for (let i = 0; i < universe.length; i++) {
           const u = universe[i];
@@ -2290,9 +2333,9 @@ export default {
           if (markPx <= 0 || oiUsd < 250000) continue;
 
           const receiverSide = rawFunding >= 0 ? "SHORT COBRA" : "LONG COBRA";
-          const passesDeltaSafeFilter = oiUsd >= 5000000;
+          const passesDeltaSafeFilter = oiUsd >= 10000000;
           const isCurrentlyHeld = openPositionsList.some(op => op.coin === u.name);
-          const estHourlyUsdcOnShield = +((shield40PctClosedUsdc * 2 * absHourlyPct) / 100).toFixed(3);
+          const estHourlyUsdcOnShield = +((shield40PctPostSolUsdc * 2 * absHourlyPct) / 100).toFixed(4);
           const estDailyUsdcOnShield = +(estHourlyUsdcOnShield * 24).toFixed(2);
 
           allAssets.push({
@@ -2316,8 +2359,11 @@ export default {
         }
         allAssets.sort((a, b) => b.absHourlyPct - a.absHourlyPct);
         const top18Payers = allAssets.slice(0, 18).map((item, idx) => ({ rank: idx + 1, ...item }));
+        const safeShieldQueue3 = allAssets
+          .filter(a => a.oiUsd >= 15000000 && !a.isCurrentlyHeld && !["SOL", "BTC", "ETH"].includes(a.coin))
+          .slice(0, 3);
         const topPayerGlobal = top18Payers[0] || baseFunding.topPayerGlobal;
-        const topPayerDeltaSafe = allAssets.find(a => a.passesDeltaSafeFilter) || topPayerGlobal;
+        const topPayerDeltaSafe = safeShieldQueue3[0] || allAssets.find(a => a.passesDeltaSafeFilter) || topPayerGlobal;
 
         let hourlyLedger24 = baseFunding.hourlyLedger24 || [];
         let fundingAccounting = baseFunding.fundingAccounting || {};
@@ -2334,7 +2380,7 @@ export default {
             const ts = item.time || Date.now();
             totalNet += usdcVal;
             if (usdcVal > 0) { totalPos += usdcVal; posCount++; }
-            if (rows.length < 24) {
+            if (rows.length < 60 || usdcVal > 0) {
               const iso = new Date(ts).toISOString();
               rows.push({
                 timeMs: ts,
@@ -2359,8 +2405,10 @@ export default {
             positiveEventsCount: posCount,
             totalPositiveCollectedUsdc: +totalPos.toFixed(4),
             totalNetFundingUsdc: +totalNet.toFixed(4),
-            avgTopAprPct: topPayerGlobal?.absAprPct || 3000,
-            estDailyYieldWhenFreeUsdc: topPayerDeltaSafe?.estDailyUsdcOnShield || 2.85
+            paidInLongsUsdc: +(totalNet - totalPos).toFixed(4),
+            nextHourNetFlowUsdc,
+            avgTopAprPct: topPayerDeltaSafe?.absAprPct || 30.2,
+            estDailyYieldWhenFreeUsdc: topPayerDeltaSafe?.estDailyUsdcOnShield || 0.60
           };
         }
 
@@ -2389,6 +2437,8 @@ export default {
             postSolInjectionUsdc: 54.10
           },
           fundingAccounting,
+          openPositionsFunding,
+          safeShieldQueue3,
           topPayerGlobal,
           topPayerDeltaSafe,
           top18Payers,

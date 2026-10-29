@@ -1,14 +1,12 @@
 /**
- * funding-matrix/style.css — ÁREA 501 // FUNDING RATE MATRIX (24 PAGOS/DÍA L1)
+ * funding-matrix/style.css — ÁREA 501 // FUNDING RATE MATRIX (SINCERADO 100% REAL)
  * ==============================================================================
- * ARQUITECTURA VISUAL DE ÉLITE 100vh CERO SCROLL:
- * 1) FONDO GRIS ESMERILADO (#D5DDE8)
- * 2) 5 TARJETAS SUPERIORES EN BLANCO SATINADO CON HIDRATACIÓN 0ms
- * 3) BANNER DE PRIORIDAD RESCUE_PRIORITY_LOCK (ESCUDO MENTORA #00 - 40%)
- * 4) 2 BLOQUES CENTRALES TÁCTICOS SIN SCROLL DE PÁGINA:
- *    - IZQUIERDA (6x3 = 18 CELDAS ESMERALDA/MENTA): TOP 18 PAGADORES DE FUNDING
- *    - DERECHA (TABLA OFICIAL): LIBRO MAYOR DE LOS 24 PAGOS HORARIOS (userFunding)
- * 5) DOCK INFERIOR EN 1 SOLA LÍNEA HORIZONTAL CON ICONOGRAFÍA MATERIAL SYMBOLS ROUNDED
+ * ARQUITECTURA VISUAL 100vh CERO SCROLL — FOCO EXCLUSIVO EN BÓVEDA #501:
+ * 1) 5 TARJETAS SUPERIORES BLANCO SATINADO CON MÉTRICAS SINCERAS AL CENTAVO
+ * 2) PANEL IZQUIERDO DIVIDIDO EN 2 SECCIONES GRANDES Y LEGIBLES EN 3 SEGUNDOS:
+ *    - SECCIÓN A: TUS 3 POSICIONES ABIERTAS AHORA MISMO EN HYPERLIQUID L1
+ *    - SECCIÓN B: COLA DE TRABAJO DEL ESCUDO #00 (3 PARES INSTITUCIONALES OI >= $15M)
+ * 3) PANEL DERECHO: LIBRO MAYOR OFICIAL userFunding CON FILTRO INSTANTÁNEO
  * ==============================================================================
  */
 
@@ -32,8 +30,8 @@ html, body {
   height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.65) 0%, transparent 45%),
-    radial-gradient(circle at 80% 85%, rgba(241, 245, 249, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.68) 0%, transparent 45%),
+    radial-gradient(circle at 80% 85%, rgba(241, 245, 249, 0.55) 0%, transparent 50%),
     linear-gradient(135deg, #D5DDE8 0%, #B8C4D4 50%, #9AA8BC 100%) !important;
   color: #0F172A;
   font-family: var(--font-main);
@@ -75,10 +73,10 @@ html, body {
 }
 
 .biz-card {
-  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
   border: 1.5px solid #FFFFFF;
   border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.14);
   padding: 7px 10px;
   display: flex;
   flex-direction: column;
@@ -87,9 +85,9 @@ html, body {
 }
 
 .card-tag {
-  font-size: 0.61rem;
+  font-size: 0.60rem;
   font-weight: 800;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   color: #334155;
   text-transform: uppercase;
   display: flex;
@@ -107,7 +105,7 @@ html, body {
 
 .card-main-val {
   font-family: var(--font-mono);
-  font-size: 1.22rem;
+  font-size: 1.18rem;
   font-weight: 800;
   color: #0F172A;
   display: flex;
@@ -119,18 +117,18 @@ html, body {
 
 .currency-symbol {
   color: #059669;
-  font-size: 1.02rem;
+  font-size: 1.0rem;
   font-weight: 800;
 }
 
 .unit-tag {
-  font-size: 0.62rem;
+  font-size: 0.60rem;
   color: #64748B;
   font-weight: 700;
 }
 
 .pct-badge {
-  font-size: 0.56rem;
+  font-size: 0.55rem;
   background: #ECFDF5;
   color: #047857;
   border: 1px solid #A7F3D0;
@@ -138,6 +136,12 @@ html, body {
   border-radius: 4px;
   font-weight: 800;
   margin-left: auto;
+}
+
+.pct-badge.amber {
+  background: #FEF3C7;
+  color: #92400E;
+  border-color: #FDE68A;
 }
 
 .card-sub-pills {
@@ -152,7 +156,7 @@ html, body {
 .pill-amber,
 .pill-slate {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 700;
   padding: 3px 6px;
   border-radius: 5px;
@@ -186,7 +190,7 @@ html, body {
 
 .pill-slate {
   background: #F1F5F9;
-  color: #334155;
+  color: #475569;
   border: 1px solid #CBD5E1;
 }
 
@@ -203,7 +207,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   color: #F8FAFC;
-  font-size: 0.66rem;
+  font-size: 0.65rem;
   font-weight: 700;
   box-shadow: 0 3px 10px rgba(15, 23, 42, 0.14);
 }
@@ -211,7 +215,7 @@ html, body {
 .rescue-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -236,13 +240,13 @@ html, body {
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.61rem;
   color: #A7F3D0;
   white-space: nowrap;
 }
 
 /* ==============================================================================
-   MAIN CONTENT AREA (2 CENTRAL BLOCKS OR STATIONS HUB)
+   MAIN CONTENT AREA (2 CENTRAL BLOCKS)
    ============================================================================== */
 .funding-main {
   flex: 1 1 auto;
@@ -266,7 +270,7 @@ html, body {
 
 .central-split-layout {
   display: grid;
-  grid-template-columns: 1.32fr 1fr;
+  grid-template-columns: 1.28fr 1fr;
   gap: 10px;
   width: 100%;
   height: 100%;
@@ -274,15 +278,15 @@ html, body {
 }
 
 .tactical-block {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
   border: 1.5px solid #FFFFFF;
   border-radius: 10px;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
-  padding: 7px 10px;
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   min-height: 0;
   overflow: hidden;
 }
@@ -291,8 +295,8 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
-  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+  padding-bottom: 5px;
   flex: 0 0 auto;
 }
 
@@ -319,124 +323,220 @@ html, body {
   color: #047857;
   background: #ECFDF5;
   border: 1px solid #A7F3D0;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ==============================================================================
+   LEFT PANEL: 2 SECCIONES GRANDES Y LEGIBLES EN 3 SEGUNDOS (CERO RELLENO)
+   ============================================================================== */
+.left-sections-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.sub-section-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 50%;
+  min-height: 0;
+}
+
+.sub-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0F172A;
+  color: #F8FAFC;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  flex: 0 0 auto;
+}
+
+.sub-section-header span.sub-tag {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  color: #A7F3D0;
+}
+
+.cards-row-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Tarjeta Grande de Posición Abierta / Cola Escudo #00 */
+.focus-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  border: 2px solid #CBD5E1;
+  border-radius: 9px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.focus-card.card-receiving {
+  border-color: #10B981;
+  background: linear-gradient(180deg, #FFFFFF 0%, #ECFDF5 100%);
+}
+
+.focus-card.card-paying {
+  border-color: #F59E0B;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFBEB 100%);
+}
+
+.focus-card.card-shield-queue {
+  border-color: #059669;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+}
+
+.fc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  padding-bottom: 4px;
+}
+
+.fc-pair-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #0F172A;
+  white-space: nowrap;
+}
+
+.fc-side-badge {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 800;
   padding: 2px 6px;
   border-radius: 4px;
   white-space: nowrap;
 }
 
-/* ==============================================================================
-   LEFT BLOCK: REJILLA 6x3 = 18 CELDAS ESMERALDA / MENTA
-   ============================================================================== */
-.funding-grid-18 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: repeat(6, minmax(0, 1fr));
-  gap: 6px;
-  flex: 1 1 auto;
-  min-height: 0;
-  width: 100%;
+.fc-side-badge.long {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #BFDBFE;
 }
 
-.funding-cell {
-  background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%);
-  border: 1px solid rgba(167, 243, 208, 0.72);
-  box-shadow: 0 3px 8px rgba(4, 120, 87, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.32);
-  border-radius: 8px;
-  padding: 5px 8px;
+.fc-side-badge.short {
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+}
+
+.fc-metrics {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  color: #FFFFFF;
-  overflow: hidden;
+  gap: 3px;
+  font-size: 0.62rem;
+  color: #334155;
+  margin: 2px 0;
 }
 
-.funding-cell.delta-safe-highlight {
-  background: linear-gradient(145deg, #047857 0%, #065F46 60%, #064E3B 100%);
-  border: 1.5px solid #6EE7B7;
-}
-
-.f-row-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 4px;
-  line-height: 1;
-}
-
-.f-coin {
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-
-.f-rank {
-  font-family: var(--font-mono);
-  font-size: 0.54rem;
-  background: rgba(255, 255, 255, 0.18);
-  padding: 1px 4px;
-  border-radius: 3px;
-  color: #E2E8F0;
-}
-
-.f-side-pill {
-  font-family: var(--font-mono);
-  font-size: 0.52rem;
-  font-weight: 800;
-  padding: 2px 5px;
-  border-radius: 4px;
-  background: rgba(15, 23, 42, 0.42);
-  color: #A7F3D0;
-  border: 1px solid rgba(167, 243, 208, 0.45);
-  white-space: nowrap;
-}
-
-.f-row-mid {
+.fc-metric-line {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 4px;
-  line-height: 1.1;
-}
-
-.f-hourly {
-  font-family: var(--font-mono);
-  font-size: 0.86rem;
-  font-weight: 800;
-  color: #FFFFFF;
-}
-
-.f-apr {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 800;
-  color: #FEF08A;
   white-space: nowrap;
 }
 
-.f-row-bot {
+.fc-metric-line b {
+  font-family: var(--font-mono);
+  color: #0F172A;
+  font-weight: 800;
+}
+
+.fc-rate-big {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #0F172A;
+  background: rgba(15, 23, 42, 0.05);
+  padding: 3px 6px;
+  border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.53rem;
-  color: #D1FAE5;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-  padding-top: 2px;
-  white-space: nowrap;
 }
 
-.f-status-tag {
+.fc-rate-big .apr-tag {
+  color: #047857;
+  font-size: 0.64rem;
+}
+
+.fc-bottom-banner {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
   font-weight: 800;
+  padding: 5px 6px;
+  border-radius: 6px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fc-bottom-banner.receive {
+  background: #059669;
+  color: #FFFFFF;
+}
+
+.fc-bottom-banner.cost {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #F59E0B;
+}
+
+.fc-bottom-banner.queue-yield {
+  background: #047857;
   color: #FFFFFF;
 }
 
 /* ==============================================================================
-   RIGHT BLOCK: LIBRO MAYOR DE LOS 24 PAGOS HORARIOS (userFunding)
+   RIGHT BLOCK: LIBRO MAYOR OFICIAL userFunding + BOTONES DE FILTRO
    ============================================================================== */
+.filter-pills-group {
+  display: flex;
+  gap: 5px;
+}
+
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid #CBD5E1;
+  background: #F1F5F9;
+  color: #334155;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  background: #059669;
+  color: #FFFFFF;
+  border-color: #047857;
+}
+
 .ledger-table-wrap {
   flex: 1 1 auto;
   min-height: 0;
@@ -478,20 +578,25 @@ html, body {
   background: #F8FAFC;
 }
 
-.amt-pos {
+.amt-pos-pill {
+  background: #ECFDF5;
   color: #059669;
+  border: 1px solid #A7F3D0;
+  padding: 1px 6px;
+  border-radius: 4px;
   font-weight: 800;
+  display: inline-block;
 }
 
-.amt-neg {
-  color: #D97706;
-  font-weight: 700;
+.amt-neg-neutral {
+  color: #64748B;
+  font-weight: 600;
 }
 
 .badge-side-long {
-  background: #ECFDF5;
-  color: #065F46;
-  border: 1px solid #A7F3D0;
+  background: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #BFDBFE;
   padding: 1px 4px;
   border-radius: 3px;
   font-size: 0.54rem;
@@ -499,9 +604,9 @@ html, body {
 }
 
 .badge-side-short {
-  background: #EFF6FF;
-  color: #1E40AF;
-  border: 1px solid #BFDBFE;
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
   padding: 1px 4px;
   border-radius: 3px;
   font-size: 0.54rem;
@@ -530,12 +635,6 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
-  transition: transform 0.15s ease;
-}
-
-.station-card:hover {
-  transform: translateY(-2px);
-  border-color: #059669;
 }
 
 .station-card h3 {
@@ -640,4 +739,3 @@ html, body {
   align-items: center;
   gap: 4px;
 }
-
