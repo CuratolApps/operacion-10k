@@ -259,8 +259,8 @@ html, body {
   grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
   gap: 8px !important;
   width: 100% !important;
-  min-height: 98px !important;
-  height: 98px !important;
+  min-height: 106px !important;
+  height: auto !important;
   z-index: 50;
   box-sizing: border-box;
 }
@@ -270,10 +270,11 @@ html, body {
   border: 1.5px solid #FFFFFF !important;
   border-radius: 10px !important;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16) !important;
-  padding: 6px 10px !important;
+  padding: 6px 8px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
+  gap: 3px !important;
   position: relative !important;
   overflow: hidden !important;
   transition: transform 0.15s ease, box-shadow 0.15s ease !important;
@@ -334,26 +335,55 @@ html, body {
 }
 
 .card-pills-row-1line {
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr)) !important;
   align-items: center !important;
-  gap: 4px !important;
+  gap: 3px !important;
   width: 100% !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  box-sizing: border-box !important;
 }
 
 .pill-cap {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.52rem;
   font-weight: 700;
-  padding: 2px 6px;
+  padding: 2.5px 4px;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  justify-content: center;
+  text-align: center;
+  gap: 2px;
   line-height: 1.1;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hl-breakdown-banner {
+  font-family: var(--font-mono);
+  font-size: 0.50rem;
+  font-weight: 700;
+  color: #1E40AF;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 4px;
+  padding: 2px 5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.15;
+}
+
+.hl-breakdown-banner.green-tint {
+  color: #065F46;
+  background: #ECFDF5;
+  border-color: #A7F3D0;
 }
 
 .pill-cap.blue {
@@ -455,12 +485,13 @@ html, body {
 /* 1. NIVEL SUPERIOR: 4 TARJETAS GRANDES EN 1 SOLA FILA */
 .vaults-summary-grid {
   display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 10px !important;
   width: 100% !important;
   flex-shrink: 0 !important;
-  min-height: 142px !important;
-  max-height: 154px !important;
+  min-height: 156px !important;
+  max-height: none !important;
+  height: auto !important;
 }
 
 .vault-hero-card {
@@ -468,10 +499,11 @@ html, body {
   border: 1.5px solid rgba(16, 185, 129, 0.3);
   border-radius: 9px;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-  padding: 8px 12px;
+  padding: 7px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 3px;
   position: relative;
   overflow: hidden;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -600,23 +632,30 @@ html, body {
 }
 
 .vh-pills-row {
-  display: flex;
-  gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
   align-items: center;
   width: 100%;
-  overflow: hidden;
-  margin-bottom: 4px;
+  box-sizing: border-box;
+  margin-bottom: 2px;
 }
 
 .vh-pill {
   font-family: var(--font-mono);
-  font-size: 0.56rem;
-  padding: 2px 5px;
+  font-size: 0.51rem;
+  padding: 2.5px 4px;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  justify-content: center;
+  text-align: center;
+  gap: 2px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  box-sizing: border-box;
   line-height: 1.1;
 }
 
@@ -720,21 +759,31 @@ html, body {
 }
 
 .vh-contract-tags {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 4px;
   align-items: center;
-  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .vh-mini-tag {
-  font-size: 0.51rem;
+  font-size: 0.50rem;
   font-weight: 700;
   background: #F1F5F9;
   color: #475569;
-  padding: 1px 4px;
+  padding: 2px 4px;
   border-radius: 3px;
   border: 1px solid #E2E8F0;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .vh-opsec-ok {

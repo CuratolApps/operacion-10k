@@ -464,13 +464,9 @@ async function fetchLiveData() {
 function updateUiWithLiveData(data) {
   if (!data) return;
 
-  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 835.50;
-  const totalWealth = data.totalConsolidatedUsd || +(hlBalance + 21.72).toFixed(2);
-  const activeMargin = data.hyperliquid?.activeMarginUsdc || parseFloat((hlBalance * 0.60).toFixed(2));
-  const shieldMargin = data.hyperliquid?.shieldUsdc || parseFloat((hlBalance * 0.40).toFixed(2));
-  const netProfit = data.hyperliquid?.netProfitUsdc !== undefined ? data.hyperliquid.netProfitUsdc : parseFloat((hlBalance - 629.94).toFixed(2));
-  const netProfitPct = data.hyperliquid?.netProfitPct !== undefined ? data.hyperliquid.netProfitPct : parseFloat(((netProfit / 629.94) * 100).toFixed(2));
-
+  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 829.16;
+  const unrealizedPnl = typeof data.hyperliquid?.unrealizedPnlUsdc === "number" ? data.hyperliquid.unrealizedPnlUsdc : -16.71;
+  const closedBase = typeof data.hyperliquid?.closedBaseUsdc === "number" ? data.hyperliquid.closedBaseUsdc : +(hlBalance - unrealizedPnl).toFixed(2);
   const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.9358;
   const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 54.10;
   const bnbBal = typeof data.bsc?.bnbBalance === "number" ? data.bsc.bnbBalance : 0.0188;
@@ -479,38 +475,78 @@ function updateUiWithLiveData(data) {
   const fleetPol = typeof data.fleetPockets?.gasPol === "number" ? data.fleetPockets.gasPol : 20.47;
   const baseInj = data.hyperliquid?.baseInjectedUsdc || 629.94;
 
+  const totalWealth = data.totalConsolidatedUsd || +(hlBalance + polyUsdc + fleetUsdc + 14.28).toFixed(2);
+  const activeMargin = data.hyperliquid?.activeMarginUsdc || parseFloat((hlBalance * 0.60).toFixed(2));
+  const shieldMargin = data.hyperliquid?.shieldUsdc || parseFloat((hlBalance * 0.40).toFixed(2));
+
+  // Separación contable estricta: Profit Cerrado Realizado vs Flotante en Curso
+  const closedProfit = parseFloat((closedBase - baseInj).toFixed(2));
+  const closedProfitPct = parseFloat(((closedProfit / baseInj) * 100).toFixed(2));
+  const netLiveProfit = parseFloat((hlBalance - baseInj).toFixed(2));
+  const floatSign = unrealizedPnl >= 0 ? "+" : "-";
+  const floatAbs = Math.abs(unrealizedPnl).toFixed(2);
+
+  const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto (SOL/BTC/ETH): ${floatSign}$${floatAbs} USDC`;
+  const flowBreakdownText = `Cerrado: +$${closedProfit.toFixed(2)} | Flotante: ${floatSign}$${floatAbs} ➔ Neto Vivo: +$${netLiveProfit.toFixed(2)} USDC`;
+
   // 1. ACTUALIZAR 5 TARJETAS SUPERIORES (SATINADAS)
   setTextIfChanged(document.getElementById("topTotalWealthUsd"), totalWealth.toFixed(2));
-  setTextIfChanged(document.getElementById("pillHlShare"), `HL L1: $${hlBalance.toFixed(2)} USDC`);
-  setTextIfChanged(document.getElementById("pillPolyShare"), `Pol #501: $${polyUsdc.toFixed(2)} USDC + ${polBal.toFixed(2)} POL`);
-  setTextIfChanged(document.getElementById("pillBscShare"), `BNB+ETH: ~$11.50`);
-  setTextIfChanged(document.getElementById("pillFleetShare"), `Flota: $${fleetUsdc.toFixed(2)} USDC`);
+  setTextIfChanged(document.getElementById("pillHlShare"), `HL: $${hlBalance.toFixed(2)}`);
+  setTextIfChanged(document.getElementById("pillPolyShare"), `#501: $${polyUsdc.toFixed(2)} + ${polBal.toFixed(2)} POL`);
+  setTextIfChanged(document.getElementById("pillBscShare"), `Gas: ~$11.50`);
+  setTextIfChanged(document.getElementById("pillFleetShare"), `Flota: $${fleetUsdc.toFixed(2)}`);
 
   setTextIfChanged(document.getElementById("topHlBalanceUsdc"), hlBalance.toFixed(2));
+  setTextIfChanged(document.getElementById("topHlBreakdownLine"), breakdownText);
   setTextIfChanged(document.getElementById("topHlActiveMargin"), `60% Margen ($${activeMargin.toFixed(2)})`);
-  setTextIfChanged(document.getElementById("topHlShieldMargin"), `40% Escudo #00 ($${shieldMargin.toFixed(2)})`);
+  setTextIfChanged(document.getElementById("topHlShieldMargin"), `40% Escudo ($${shieldMargin.toFixed(2)})`);
   const projectedHlWithLoan = hlBalance + polyUsdc;
   const pct1000 = Math.min(100, (projectedHlWithLoan / 1000.00) * 100);
-  setTextIfChanged(document.getElementById("topHlRepaymentStatus"), `Meta (+$${polyUsdc.toFixed(0)}): ${pct1000.toFixed(1)}%`);
+  setTextIfChanged(document.getElementById("topHlRepaymentStatus"), `Meta: ${pct1000.toFixed(1)}%`);
 
   setTextIfChanged(document.getElementById("topEvmPolBal"), typeof polBal === "number" ? polBal.toFixed(4) : polBal);
   setTextIfChanged(document.getElementById("topEvmBnbBal"), typeof bnbBal === "number" ? bnbBal.toFixed(4) : bnbBal);
-  setTextIfChanged(document.getElementById("pillPolyUsdc"), polyUsdc > 1 ? `USDC Pol: $${polyUsdc.toFixed(2)} (Gatillo Post-SOL)` : "USDC Pol: $0.00 Migrado a L1");
-  setTextIfChanged(document.getElementById("pillInjectedBase"), `Base: $${baseInj.toFixed(2)} al 0%`);
+  setTextIfChanged(document.getElementById("pillPolyUsdc"), polyUsdc > 1 ? `Pol: $${polyUsdc.toFixed(2)} USDC` : "Pol: $0.00 Migrado");
+  setTextIfChanged(document.getElementById("pillInjectedBase"), `Base: $${baseInj.toFixed(2)} (0%)`);
 
-  setTextIfChanged(document.getElementById("topProfitAccumUsdc"), netProfit >= 0 ? `${netProfit.toFixed(2)}` : `${netProfit.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topProfitPctBadge"), `+${netProfitPct.toFixed(2)}%`);
+  setTextIfChanged(document.getElementById("topProfitAccumUsdc"), `${closedProfit.toFixed(2)}`);
+  setTextIfChanged(document.getElementById("topProfitPctBadge"), `+${closedProfitPct.toFixed(2)}% CERRADO`);
+  setTextIfChanged(document.getElementById("topFlowBreakdownLine"), flowBreakdownText);
 
   // 2. ACTUALIZAR NIVEL SUPERIOR CENTRAL (4 TARJETAS GRANDES)
   // Caja 1: Hyperliquid L1
+  const metaTargetText = `$${hlBalance.toFixed(2)} (+$${polyUsdc.toFixed(2)} #501 = $${projectedHlWithLoan.toFixed(2)}) / $1,000 (${pct1000.toFixed(1)}%)`;
   setTextIfChanged(document.getElementById("heroHlBalance"), hlBalance.toFixed(2));
+  setTextIfChanged(document.getElementById("heroHlBreakdownLine"), breakdownText);
   setTextIfChanged(document.getElementById("heroHlMarginVal"), `$${activeMargin.toFixed(2)} USDC`);
   setTextIfChanged(document.getElementById("heroHlShieldVal"), `$${shieldMargin.toFixed(2)} USDC`);
-  setTextIfChanged(document.getElementById("heroHlMetaTarget"), `$${hlBalance.toFixed(2)} (+$${polyUsdc.toFixed(2)} #501 = $${projectedHlWithLoan.toFixed(2)}) / $1,000 (${pct1000.toFixed(1)}%)`);
+  setTextIfChanged(document.getElementById("heroHlMetaTarget"), metaTargetText);
   const heroProgress = document.getElementById("heroHlProgressFill");
   if (heroProgress) {
     heroProgress.style.width = `${pct1000}%`;
   }
+
+  // Guardar snapshot en localStorage para hidratación en 0ms al pulsar F5
+  try {
+    localStorage.setItem("area501_live_snapshot_v3", JSON.stringify({
+      totalWealth,
+      hlBalance,
+      closedBase,
+      unrealizedPnl,
+      activeMargin,
+      shieldMargin,
+      polBal,
+      polyUsdc,
+      pct1000,
+      closedProfit,
+      closedProfitPct,
+      netLiveProfit,
+      breakdownText,
+      flowBreakdownText,
+      metaTargetText,
+      updatedAt: Date.now()
+    }));
+  } catch (_) {}
 
   // Caja 2: Polygon PoS
   setTextIfChanged(document.getElementById("heroPolyUsdc"), polyUsdc.toFixed(2));
@@ -528,7 +564,7 @@ function updateUiWithLiveData(data) {
 
   // 3. ACTUALIZAR PESTAÑA AMORTIZACIÓN (VISTA 2)
   setTextIfChanged(document.getElementById("amortCurrentHlVal"), `$${hlBalance.toFixed(2)} USDC`);
-  setTextIfChanged(document.getElementById("amortNetProfitVal"), `+$${netProfit.toFixed(2)} USDC (+${netProfitPct.toFixed(2)}%)`);
+  setTextIfChanged(document.getElementById("amortNetProfitVal"), `+$${closedProfit.toFixed(2)} CERRADO (Neto Vivo: +$${netLiveProfit.toFixed(2)})`);
   const distTo1000 = Math.max(0, 1000.00 - hlBalance);
   setTextIfChanged(document.getElementById("amortRemainingToTrigger"), `Faltan $${distTo1000.toFixed(2)} USDC`);
   setTextIfChanged(document.getElementById("amortProgressPctLabel"), `${pct1000.toFixed(2)}% DE LA META`);

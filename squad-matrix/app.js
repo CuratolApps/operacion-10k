@@ -1071,34 +1071,39 @@ function updateTopBarCards() {
   const floatSign = unrealizedTotal >= 0 ? "+" : "-";
   const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
   const postSolBridged = closedBase >= 880.0;
+  const polyUsdcReady = postSolBridged ? 0.00 : 54.10;
   appState.totalLoanInjected = postSolBridged ? 684.04 : 629.94;
+
+  const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto (SOL/BTC/ETH): ${floatSign}$${floatAbs} USDC`;
 
   // 1. Capital Operativo (100% Direct Live Equity)
   setTextIfChanged(document.getElementById("topActiveCapValue"), val.toFixed(2));
   setTextIfChanged(document.getElementById("topAccountValue"), val.toFixed(2));
   setTextIfChanged(document.getElementById("topActiveMarginPill"), `Margen 60%: $${activeMargin.toFixed(2)}`);
   setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
-  setTextIfChanged(
-    document.getElementById("topEquityBreakdownPill"),
-    `Balance Cerrado Base: $${closedBase.toFixed(2)} USDC | Flotante Abierto: ${floatSign}$${floatAbs} USDC ➔ Equity Real: $${val.toFixed(2)} USDC`
-  );
+  setTextIfChanged(document.getElementById("topEquityBreakdownPill"), breakdownText);
 
-  // 2. Profit General & Escuadrones Sincronizados al centavo con Equity Real
+  // 2. Profit Cerrado Realizado vs Flotante en Curso (Claridad Contable Total)
+  const closedProfit = +(closedBase - appState.totalLoanInjected).toFixed(2);
+  const closedProfitPct = (closedProfit / appState.totalLoanInjected) * 100;
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
   const pnlPct = (netTotalPnl / appState.totalLoanInjected) * 100;
-  setTextIfChanged(document.getElementById("topTotalProfit"), `${netTotalPnl >= 0 ? "+" : ""}$${netTotalPnl.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topTotalProfitPct"), `${pnlPct >= 0 ? "+" : ""}${pnlPct.toFixed(2)}%`);
+  const flowBreakdownText = `Cerrado: +$${closedProfit.toFixed(2)} | Flotante: ${floatSign}$${floatAbs} ➔ Neto Vivo: +$${netTotalPnl.toFixed(2)} USDC`;
 
-  // Sincronización matemática exacta de los 3 escuadrones
-  const closed = appState.closedPnlBySquad || { 1: 76.40, 2: 71.20, 3: 66.09, total: 213.69 };
-  const raw1 = Math.max(0.01, (closed[1] || 76.40) + unrealizedSq1);
-  const raw2 = Math.max(0.01, (closed[2] || 71.20) + unrealizedSq2);
-  const raw3 = Math.max(0.01, (closed[3] || 66.09) + unrealizedSq3);
+  setTextIfChanged(document.getElementById("topTotalProfit"), `${closedProfit >= 0 ? "+" : ""}$${closedProfit.toFixed(2)}`);
+  setTextIfChanged(document.getElementById("topTotalProfitPct"), `${closedProfitPct >= 0 ? "+" : ""}${closedProfitPct.toFixed(2)}% CERRADO`);
+  setTextIfChanged(document.getElementById("topProfitFloatingPill"), flowBreakdownText);
+
+  // Sincronización matemática exacta de los 3 escuadrones (mostrando el profit cerrado firme de cada escuadrón)
+  const closed = appState.closedPnlBySquad || { 1: 76.40, 2: 71.20, 3: 68.33, total: 215.93 };
+  const raw1 = Math.max(0.01, (closed[1] || 76.40));
+  const raw2 = Math.max(0.01, (closed[2] || 71.20));
+  const raw3 = Math.max(0.01, (closed[3] || 68.33));
   const rawSum = raw1 + raw2 + raw3;
 
-  let pnl1 = Number(((raw1 / rawSum) * netTotalPnl).toFixed(1));
-  let pnl2 = Number(((raw2 / rawSum) * netTotalPnl).toFixed(1));
-  let pnl3 = Number((Number(netTotalPnl.toFixed(1)) - pnl1 - pnl2).toFixed(1));
+  let pnl1 = Number(((raw1 / rawSum) * closedProfit).toFixed(1));
+  let pnl2 = Number(((raw2 / rawSum) * closedProfit).toFixed(1));
+  let pnl3 = Number((Number(closedProfit.toFixed(1)) - pnl1 - pnl2).toFixed(1));
 
   // Renderizar etiquetas de Card 2 con textContent
   const winStreakEl = document.getElementById("winStreakText");
@@ -1133,9 +1138,13 @@ function updateTopBarCards() {
     if (elRelay) setTextIfChanged(elRelay, getSquadRelayText(sq));
   });
 
-  // 3. Progreso Bloque 1 ($1,000 Goal)
-  const progressPct = Math.min(100, (val / appState.block1Goal) * 100).toFixed(1);
-  setTextIfChanged(document.getElementById("topBlock1ProgressLabel"), `$${val.toFixed(2)} / $1,000.00 USDC`);
+  // 3. Progreso Bloque 1 ($1,000 Goal con los +$54.10 listos en #501)
+  const projectedWithPostSol = val + polyUsdcReady;
+  const progressPct = Math.min(100, (projectedWithPostSol / appState.block1Goal) * 100).toFixed(1);
+  setTextIfChanged(
+    document.getElementById("topBlock1ProgressLabel"),
+    polyUsdcReady > 0 ? `$${val.toFixed(2)} (+$${polyUsdcReady.toFixed(2)}) / $1,000` : `$${val.toFixed(2)} / $1,000.00 USDC`
+  );
   setTextIfChanged(document.getElementById("topBlock1ProgressPct"), `${progressPct}%`);
   const elProgBar = document.getElementById("topBlock1ProgressBar");
   if (elProgBar && elProgBar.style.width !== `${progressPct}%`) {
@@ -1156,8 +1165,30 @@ function updateTopBarCards() {
 
   // 4. Control Capital Inyectado (0% Interés)
   setTextIfChanged(document.getElementById("topLoanInjected"), `$${appState.totalLoanInjected.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanRepaid"), `$${appState.totalLoanRepaid.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
+  setTextIfChanged(document.getElementById("topLoanRepaid"), polyUsdcReady > 0 ? `+$${polyUsdcReady.toFixed(2)}` : `$${appState.totalLoanRepaid.toFixed(2)}`);
+  setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected + polyUsdcReady - appState.totalLoanRepaid).toFixed(2)}`);
+
+  // Guardar snapshot compartido area501_live_snapshot_v3 para 0ms de salto al pulsar F5
+  try {
+    localStorage.setItem("area501_live_snapshot_v3", JSON.stringify({
+      totalWealth: +(val + polyUsdcReady + 4.70 + 14.28).toFixed(2),
+      hlBalance: val,
+      closedBase,
+      unrealizedPnl: unrealizedTotal,
+      activeMargin,
+      shieldMargin: mentoraShield,
+      polBal: 9.9358,
+      polyUsdc: polyUsdcReady,
+      pct1000: parseFloat(progressPct),
+      closedProfit,
+      closedProfitPct,
+      netLiveProfit: netTotalPnl,
+      breakdownText,
+      flowBreakdownText,
+      metaTargetText: `$${val.toFixed(2)} (+$${polyUsdcReady.toFixed(2)} #501 = $${projectedWithPostSol.toFixed(2)}) / $1,000 (${progressPct}%)`,
+      updatedAt: Date.now()
+    }));
+  } catch (_) {}
 
   // 5. Radar Matrix 18x54 Pills
   const activeCoins = new Set(appState.openPositions.map(p => p.position.coin));

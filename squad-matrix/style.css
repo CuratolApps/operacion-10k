@@ -164,7 +164,7 @@ html, body {
   gap: 8px !important;
   width: 100% !important;
   height: auto !important;
-  min-height: 96px !important;
+  min-height: 106px !important;
   padding: 0 0 6px 0 !important;
   background: transparent !important;
   border-bottom: 1px solid rgba(148, 163, 184, 0.25) !important;
@@ -178,10 +178,11 @@ html, body {
   border: 1.5px solid #FFFFFF !important;
   border-radius: 10px !important;
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16) !important;
-  padding: 7px 10px !important;
+  padding: 6px 8px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
+  gap: 2px !important;
   position: relative !important;
   overflow: hidden !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease !important;
@@ -408,27 +409,38 @@ html, body {
 /* Tarjeta 4: Control Capital Inyectado */
 #cardLoanControl .loan-stats-row {
   display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 4px !important;
   margin-top: 2px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 #cardLoanControl .loan-stat-col {
   display: flex !important;
   flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  border-radius: 4px !important;
+  padding: 2px 3px !important;
+  overflow: hidden !important;
 }
 
 #cardLoanControl .l-lbl {
-  font-size: 0.58rem !important;
+  font-size: 0.52rem !important;
   color: #64748B !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
 }
 
 #cardLoanControl .l-val {
-  font-size: 0.74rem !important;
+  font-size: 0.68rem !important;
   font-weight: 800 !important;
   font-family: 'JetBrains Mono', monospace !important;
   color: #0F172A !important;
+  white-space: nowrap !important;
 }
 
 #cardLoanControl .l-val.text-cyan {
@@ -1040,8 +1052,9 @@ html, body {
   display: grid !important;
   grid-template-columns: 1.25fr 0.75fr !important;
   gap: 8px !important;
-  min-height: 122px !important;
-  max-height: 134px !important;
+  min-height: 126px !important;
+  max-height: none !important;
+  height: auto !important;
   flex: 0 0 auto !important;
   box-sizing: border-box !important;
 }

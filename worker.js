@@ -2218,6 +2218,8 @@ export default {
       // Si los $54.10 USDC ya cruzaron a Hyperliquid L1 (polygonUsdc < 5 y closedBaseUsdc >= 880), el capital inyectado sube a $684.04 USDC
       const postSolLoanBridged = polygonUsdc < 5.0 && closedBaseUsdc >= 880.0;
       const baseInjectedUsdc = postSolLoanBridged ? 684.04 : 629.94;
+      const closedProfitUsdc = parseFloat((closedBaseUsdc - baseInjectedUsdc).toFixed(2));
+      const closedProfitPct = parseFloat(((closedProfitUsdc / baseInjectedUsdc) * 100).toFixed(2));
       const netProfitUsdc = parseFloat((hlBalanceUsdc - baseInjectedUsdc).toFixed(2));
       const netProfitPct = parseFloat(((netProfitUsdc / baseInjectedUsdc) * 100).toFixed(2));
 
@@ -2240,6 +2242,8 @@ export default {
           unrealizedPnlUsdc: parseFloat(unrealizedTotalUsdc.toFixed(2)),
           activeMarginUsdc,
           shieldUsdc,
+          closedProfitUsdc,
+          closedProfitPct,
           netProfitUsdc,
           netProfitPct,
           baseInjectedUsdc,

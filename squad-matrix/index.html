@@ -38,14 +38,14 @@
           <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO (EN FUEGO)
         </div>
         <div class="card-main-val">
-          <span class="currency-symbol">$</span><span id="topActiveCapValue">835.50</span><span id="topAccountValue" style="display:none;">835.50</span>
-          <span class="unit-tag">USDC L1 (EQUITY REAL)</span>
+          <span class="currency-symbol">$</span><span id="topActiveCapValue">829.16</span><span id="topAccountValue" style="display:none;">829.16</span>
+          <span class="unit-tag">USDC L1 (EQUITY VIVA)</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $501.30</span>
-          <span class="pill-shield" id="topShieldPill">Mentora 40%: $334.20</span>
-          <div id="topEquityBreakdownPill" style="grid-column: 1 / -1; font-size: 0.53rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            Balance Cerrado Base: $845.80 USDC | Flotante Abierto: -$10.30 USDC ➔ Equity Real: $835.50 USDC
+          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $497.50</span>
+          <span class="pill-shield" id="topShieldPill">Mentora 40%: $331.66</span>
+          <div id="topEquityBreakdownPill" style="grid-column: 1 / -1; font-size: 0.50rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            Saldo Cerrado Firme: $845.87 USDC | Flotante Abierto (SOL/BTC/ETH): -$16.71 USDC
           </div>
         </div>
       </div>
@@ -53,17 +53,20 @@
       <!-- Card 2: Profit General & Por Escuadrón -->
       <div class="biz-card" id="cardProfit">
         <div class="card-tag">
-          <span class="material-symbols-rounded">trending_up</span> PROFIT GENERAL &amp; ESCUADRONES
+          <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; ESCUADRONES
         </div>
         <div class="card-main-val text-green">
-          <span id="topTotalProfit">+$213.69</span>
-          <span class="pct-badge" id="topTotalProfitPct">+33.92%</span>
+          <span id="topTotalProfit">+$215.93</span>
+          <span class="pct-badge" id="topTotalProfitPct">+34.28% CERRADO</span>
+        </div>
+        <div id="topProfitFloatingPill" style="font-size: 0.50rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0;">
+          Cerrado: +$215.93 | Flotante: -$16.71 ➔ Neto Vivo: +$199.22 USDC
         </div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
           <span class="sq-badge streak"><b id="winStreakText">136G-0P</b></span>
           <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$76.4</span></span>
           <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$71.2</span></span>
-          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$66.1</span></span>
+          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$68.3</span></span>
         </div>
       </div>
 
@@ -74,11 +77,11 @@
         </div>
         <div class="progress-wrap">
           <div class="progress-info">
-            <span class="progress-label" id="topBlock1ProgressLabel">$843.63 / $1,000.00 USDC</span>
-            <span class="progress-pct" id="topBlock1ProgressPct">84.4%</span>
+            <span class="progress-label" id="topBlock1ProgressLabel">$829.16 (+$54.10) / $1,000</span>
+            <span class="progress-pct" id="topBlock1ProgressPct">88.3%</span>
           </div>
           <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 84.4%;"></div>
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 88.3%;"></div>
           </div>
         </div>
         <div class="rule-badge-glow">100% Capitalización pura ($0 envíos hasta $1,000)</div>
@@ -95,15 +98,15 @@
             <span class="l-val" id="topLoanInjected">$629.94</span>
           </div>
           <div class="loan-stat-col">
-            <span class="l-lbl">Devuelto:</span>
-            <span class="l-val text-cyan" id="topLoanRepaid">$0.00</span>
+            <span class="l-lbl">Gatillo #501:</span>
+            <span class="l-val text-cyan" id="topLoanRepaid">+$54.10</span>
           </div>
           <div class="loan-stat-col">
-            <span class="l-lbl">Pendiente:</span>
-            <span class="l-val text-amber" id="topLoanRemaining">$629.94</span>
+            <span class="l-lbl">Total Meta:</span>
+            <span class="l-val text-amber" id="topLoanRemaining">$684.04</span>
           </div>
         </div>
-        <div class="rule-badge-sub">Crédito #501: $511.44 | Total c/ POL: $629.94</div>
+        <div class="rule-badge-sub">Crédito #501: $511.44 (+$54.10 Post-SOL) | 0% Interés</div>
       </div>
 
       <!-- Card 5: Radar Matrix 18x54 -->
@@ -118,6 +121,33 @@
         <div class="sub-label-matrix">54 Pares Ultra-Líquidos · $0.00 Gas L1</div>
       </div>
     </header>
+    <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v3) para CERO salto al pulsar F5 -->
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem("area501_live_snapshot_v3");
+          if (!raw) return;
+          var s = JSON.parse(raw);
+          if (!s || typeof s.hlBalance !== "number") return;
+          var set = function (id, val) {
+            var el = document.getElementById(id);
+            if (el && val !== undefined && val !== null) el.textContent = String(val);
+          };
+          set("topActiveCapValue", s.hlBalance.toFixed(2));
+          set("topAccountValue", s.hlBalance.toFixed(2));
+          set("topActiveMarginPill", "Margen 60%: $" + s.activeMargin.toFixed(2));
+          set("topShieldPill", "Mentora 40%: $" + s.shieldMargin.toFixed(2));
+          set("topEquityBreakdownPill", s.breakdownText);
+          set("topTotalProfit", "+$" + s.closedProfit.toFixed(2));
+          set("topTotalProfitPct", "+" + s.closedProfitPct.toFixed(2) + "% CERRADO");
+          set("topProfitFloatingPill", s.flowBreakdownText);
+          set("topBlock1ProgressLabel", "$" + s.hlBalance.toFixed(2) + " (+$" + s.polyUsdc.toFixed(2) + ") / $1,000");
+          set("topBlock1ProgressPct", s.pct1000.toFixed(1) + "%");
+          var bar = document.getElementById("topBlock1ProgressBar");
+          if (bar) bar.style.width = s.pct1000.toFixed(1) + "%";
+        } catch (_) {}
+      })();
+    </script>
 
     <!-- MAIN VIEW CONTAINER (SWITCHES BETWEEN 5 TABS) -->
     <main class="matrix-content">
