@@ -1,13 +1,11 @@
 {
-  "status": "ARMED_WAITING_SOL_CLOSE",
-  "armedAt": "2026-10-29T07:14:06.149Z",
-  "polygonSwapTxHash": "0x28fe38e7ac2fffeb65cbc1df2af28111db62361ef52bdc3b1510bad9a76ab34d",
-  "polygonUsdcReady": 54.101317,
-  "polygonGasRemainingPol": 9.9358,
-  "solTargetPosition": {
-    "szi": 19.52,
-    "entryPx": 100.538,
-    "tpPx": 100.62,
-    "tpOid": 589114285430
-  }
+  "status": "COMPLETED_ON_CHAIN",
+  "executedAt": "2026-10-29T09:12:17.247Z",
+  "polygonUsdcSent": 54.101317,
+  "arbitrumHlDeposited": 54.073159,
+  "polygonBridgeTxHash": "0x410dadd14ac2749799f71ffd0df4b2d16fd99ca881626053192712980834018d",
+  "arbitrumHlTxHash": "0x0594e16442a4aa998d21da3c6cf160737dbaf295654398363f9531c105c6f227",
+  "newAccountValue": 900.784656,
+  "newLoanPrincipalUsdc": 565.51,
+  "newTotalInjectedUsdc": 684.01
 }

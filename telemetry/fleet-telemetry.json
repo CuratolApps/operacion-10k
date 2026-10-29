@@ -5,13 +5,13 @@
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
-  "fleetPocketsUsdc": 4.70,
+  "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
   "satellitesPocketsUsdc": 2.95,
-  "sweptTo501Usdc": 0.00,
-  "dailyCapturedUsdc": 4.70,
-  "totalHistoricalUsdc": 4.70,
-  "totalOnChainFleetUsdc": 4.70,
+  "sweptTo501Usdc": 0,
+  "dailyCapturedUsdc": 4.7,
+  "totalHistoricalUsdc": 4.7,
+  "totalOnChainFleetUsdc": 4.7,
   "atomicSniperExecution": {
     "mode": "ATOMIC_ONLY_RISK_ZERO",
     "atomicOnlyMode": true,
@@ -47293,6 +47293,55 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1793265137249-924",
+      "timestamp": "2026-10-29T09:12:17.249Z",
+      "timeFormatted": "9:12:17 UTC",
+      "rawHtml": "🏦🚀 <b>ÁREA 501 // GATILLO POST-SOL EJECUTADO: +$54.07 USDC ACREDITED EN HYPERLIQUID L1</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ <b>Condición Cumplida:</b> Cierre limpio de <code>SOL-USDC</code> en ganancia.\n📥 <b>Préstamo #501 (0% Interés):</b> <code>+$54.07 USDC</code> (Proveniente de <code>596.89 POL</code>)\n💵 <b>NUEVO EQUITY HYPERLIQUID L1:</b> <code>$900.78 USDC</code> (<b>&gt;90% de la Meta de $1,000 USDC</b>)\n🏛️ <b>Total Inyectado Acumulado:</b> <code>$684.01 USDC</code>\n• <b>Puente Relay:</b> <a href=\"https://polygonscan.com/tx/0x410dadd14ac2749799f71ffd0df4b2d16fd99ca881626053192712980834018d\">PolygonScan</a>\n• <b>Depósito HL Bridge2:</b> <a href=\"https://arbiscan.io/tx/0x0594e16442a4aa998d21da3c6cf160737dbaf295654398363f9531c105c6f227\">Arbiscan</a>",
+      "textPlain": "🏦🚀 ÁREA 501 // GATILLO POST-SOL EJECUTADO: +$54.07 USDC ACREDITED EN HYPERLIQUID L1\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ Condición Cumplida: Cierre limpio de SOL-USDC en ganancia.\n📥 Préstamo #501 (0% Interés): +$54.07 USDC (Proveniente de 596.89 POL)\n💵 NUEVO EQUITY HYPERLIQUID L1: $900.78 USDC (&gt;90% de la Meta de $1,000 USDC)\n🏛️ Total Inyectado Acumulado: $684.01 USDC\n• Puente Relay: PolygonScan\n• Depósito HL Bridge2: Arbiscan"
+    },
+    {
+      "id": "tg-1793265122566-236",
+      "timestamp": "2026-10-29T09:12:02.566Z",
+      "timeFormatted": "9:12:02 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SOL-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$100.54</code>\n📤 <b>SE VENDIÓ A:</b> <code>$100.56</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.1350 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>144 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>SOL</code> en 12m de reposo (Clon relevo activo en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$846.65 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Alfa (#601 Titan-Scalper)\n📍 Par: SOL-USDC\n📥 Precio Entrada: $100.54\n📤 SE VENDIÓ A: $100.56\n💰 GANANCIA NETA EN CAJA: +$0.1350 USDC\n🏆 Récord Oficial: 144 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: SOL en 12m de reposo (Clon relevo activo en pares libres)\n💵 Equity Real en L1: $846.65 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
+    },
+    {
+      "id": "tg-1793264953832-20",
+      "timestamp": "2026-10-29T09:09:13.832Z",
+      "timeFormatted": "9:09:13 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$2320.2</code>\n📤 <b>SE VENDIÓ A:</b> <code>$2323.7</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.3394 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>143 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>ETH</code> en 12m de reposo (Clon relevo activo en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$847.02 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC\n📥 Precio Entrada: $2320.2\n📤 SE VENDIÓ A: $2323.7\n💰 GANANCIA NETA EN CAJA: +$0.3394 USDC\n🏆 Récord Oficial: 143 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: ETH en 12m de reposo (Clon relevo activo en pares libres)\n💵 Equity Real en L1: $847.02 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
+    },
+    {
+      "id": "tg-1793264925854-972",
+      "timestamp": "2026-10-29T09:08:45.854Z",
+      "timeFormatted": "9:08:45 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>PAXG-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$4031.5</code>\n📤 <b>SE VENDIÓ A:</b> <code>$4037.5</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.0162 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>142 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>PAXG</code> en 12m de reposo (Clon relevo activo en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$845.63 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: PAXG-USDC\n📥 Precio Entrada: $4031.5\n📤 SE VENDIÓ A: $4037.5\n💰 GANANCIA NETA EN CAJA: +$0.0162 USDC\n🏆 Récord Oficial: 142 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: PAXG en 12m de reposo (Clon relevo activo en pares libres)\n💵 Equity Real en L1: $845.63 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
+    },
+    {
+      "id": "tg-1793264508717-772",
+      "timestamp": "2026-10-29T09:01:48.717Z",
+      "timeFormatted": "9:01:48 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>ETH-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$2318.4</code>\n📤 <b>SE VENDIÓ A:</b> <code>$2319.2</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$0.0975 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>141 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>ETH</code> en 12m de reposo (Clon relevo activo en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$840.57 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: ETH-USDC\n📥 Precio Entrada: $2318.4\n📤 SE VENDIÓ A: $2319.2\n💰 GANANCIA NETA EN CAJA: +$0.0975 USDC\n🏆 Récord Oficial: 141 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: ETH en 12m de reposo (Clon relevo activo en pares libres)\n💵 Equity Real en L1: $840.57 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
+    },
+    {
+      "id": "tg-1793264429703-530",
+      "timestamp": "2026-10-29T09:00:29.703Z",
+      "timeFormatted": "9:00:29 UTC",
+      "rawHtml": "🎯 <b>ÁREA 501 // DISPARO PARALELO DESBLOQUEADO (LONG)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Unidad:</b> <b>Escuadrón Bravo — BRAVO 1 (Titular)</b>\n📍 <b>Par:</b> <code>PAXG-USDC</code> (0.062 PAXG)\n📥 <b>PRECIO ENTRADA:</b> <code>$4027.5</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$4033.5</code> (+0.15%)\n💰 <b>Ganancia Estimada:</b> <b>+$0.3000 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 78.6% · RSI 5m 43.8\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
+      "textPlain": "🎯 ÁREA 501 // DISPARO PARALELO DESBLOQUEADO (LONG)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Unidad: Escuadrón Bravo — BRAVO 1 (Titular)\n📍 Par: PAXG-USDC (0.062 PAXG)\n📥 PRECIO ENTRADA: $4027.5\n📤 OBJETIVO TAKE PROFIT: $4033.5 (+0.15%)\n💰 Ganancia Estimada: +$0.3000 USDC Limpios\n📊 Filtros: L2 78.6% · RSI 5m 43.8\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
+    },
+    {
+      "id": "tg-1793264280288-178",
+      "timestamp": "2026-10-29T08:58:00.288Z",
+      "timeFormatted": "8:58:00 UTC",
+      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Bravo</b> (#701 Oracle-Global)\n📍 <b>Par:</b> <code>BTC-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$80027</code>\n📤 <b>SE VENDIÓ A:</b> <code>$80026.0</code>\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$-0.0019 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>140 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>BTC</code> en 12m de reposo (Clon relevo activo en pares libres)\n💵 <b>Equity Real en L1:</b> <code>$839.90 USDC</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
+      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Bravo (#701 Oracle-Global)\n📍 Par: BTC-USDC\n📥 Precio Entrada: $80027\n📤 SE VENDIÓ A: $80026.0\n💰 GANANCIA NETA EN CAJA: +$-0.0019 USDC\n🏆 Récord Oficial: 140 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: BTC en 12m de reposo (Clon relevo activo en pares libres)\n💵 Equity Real en L1: $839.90 USDC\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
+    },
+    {
       "id": "tg-1793263014572-466",
       "timestamp": "2026-10-29T08:36:54.572Z",
       "timeFormatted": "8:36:54 UTC",
@@ -47452,55 +47501,6 @@
       "timeFormatted": "23:55:10 UTC",
       "rawHtml": "🚨🕒 <b>AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>Mercado:</b> BOLSA DE TOKIO (SESIÓN ASIÁTICA — TSE & YEN)\n⏰ <b>Hora de Apertura:</b> 00:00 UTC (En exactamente 5 minutos)\n📊 <b>Estado:</b> 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n🔰 <b>Escuadrones Asignados:</b> #01 ALFA (#601 Titan-Scalper) · #11 ECHO (FX Pacific)\n💎 <b>Pares Vigilados:</b> <code>SOL, AVAX, SUI, USD/JPY, EUR/JPY</code>\n\n🛡️ <b>MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:</b>\n1. 🔒 <b>Candado BE #00 (+0.045%):</b> Asegurado en todas las posiciones abiertas en verde. Cero devolución de ganancias.\n2. ⏸️ <b>Pausa de Mechazo Inicial:</b> Congelación de nuevas entradas durante el mechazo inicial de la campana (primeros 60s) para evitar spreads falsos.\n3. 🎯 <b>Disparo de Alta Certeza:</b> Entrada selectiva únicamente al confirmar dirección real del flujo institucional (L2 >= 65% + RSI 5m + EMA20) para sumar a la meta diaria sin retrocesos.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Rumbo a la coronación de $1,000.00 USDC en 4-5 días.</i>",
       "textPlain": "🚨🕒 AVISO DE MERCADO SQUAD MATRIX: FALTAN 5 MINUTOS PARA ABRIR\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ Mercado: BOLSA DE TOKIO (SESIÓN ASIÁTICA — TSE & YEN)\n⏰ Hora de Apertura: 00:00 UTC (En exactamente 5 minutos)\n📊 Estado: 🔴 CERRADO ➔ Pasando a 🟢 ABIERTO\n🔰 Escuadrones Asignados: #01 ALFA (#601 Titan-Scalper) · #11 ECHO (FX Pacific)\n💎 Pares Vigilados: SOL, AVAX, SUI, USD/JPY, EUR/JPY\n\n🛡️ MEDIDAS ACTIVADAS POR MITIGACIÓN DE RIESGO:\n1. 🔒 Candado BE #00 (+0.045%): Asegurado en todas las posiciones abiertas en verde. Cero devolución de ganancias.\n2. ⏸️ Pausa de Mechazo Inicial: Congelación de nuevas entradas durante el mechazo inicial de la campana (primeros 60s) para evitar spreads falsos.\n3. 🎯 Disparo de Alta Certeza: Entrada selectiva únicamente al confirmar dirección real del flujo institucional (L2 >= 65% + RSI 5m + EMA20) para sumar a la meta diaria sin retrocesos.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Rumbo a la coronación de $1,000.00 USDC en 4-5 días."
-    },
-    {
-      "id": "tg-1793231203238-93",
-      "timestamp": "2026-10-28T23:46:43.238Z",
-      "timeFormatted": "23:46:43 UTC",
-      "rawHtml": "⏱️ <b>ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AAVE-USDC</code>\n⏳ <b>Tiempo Abierto:</b> 266 minutos\n💰 <b>Ganancia Asegurada:</b> <code>+$0.0798 USDC</code>\n🔓 <b>Acción:</b> Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "⏱️ ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AAVE-USDC\n⏳ Tiempo Abierto: 266 minutos\n💰 Ganancia Asegurada: +$0.0798 USDC\n🔓 Acción: Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793231203236-913",
-      "timestamp": "2026-10-28T23:46:43.236Z",
-      "timeFormatted": "23:46:43 UTC",
-      "rawHtml": "⏱️ <b>ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AAVE-USDC</code>\n⏳ <b>Tiempo Abierto:</b> 265 minutos\n💰 <b>Ganancia Asegurada:</b> <code>+$0.0798 USDC</code>\n🔓 <b>Acción:</b> Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "⏱️ ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AAVE-USDC\n⏳ Tiempo Abierto: 265 minutos\n💰 Ganancia Asegurada: +$0.0798 USDC\n🔓 Acción: Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793231202515-572",
-      "timestamp": "2026-10-28T23:46:42.515Z",
-      "timeFormatted": "23:46:42 UTC",
-      "rawHtml": "⏱️ <b>ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>AAVE-USDC</code>\n⏳ <b>Tiempo Abierto:</b> 266 minutos\n💰 <b>Ganancia Asegurada:</b> <code>+$0.0798 USDC</code>\n🔓 <b>Acción:</b> Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-      "textPlain": "⏱️ ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: AAVE-USDC\n⏳ Tiempo Abierto: 266 minutos\n💰 Ganancia Asegurada: +$0.0798 USDC\n🔓 Acción: Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    },
-    {
-      "id": "tg-1793231033182-706",
-      "timestamp": "2026-10-28T23:43:53.182Z",
-      "timeFormatted": "23:43:53 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$134.04</code>\n📤 <b>SE VENDIÓ A:</b> <code>$134.53</code> (+0.15% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$-0.1302 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>25 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>AAVE</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$845.85 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC\n📥 Precio Entrada: $134.04\n📤 SE VENDIÓ A: $134.53 (+0.15% TP)\n💰 GANANCIA NETA EN CAJA: +$-0.1302 USDC\n🏆 Récord Oficial: 25 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: AAVE en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $845.85 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-    },
-    {
-      "id": "tg-1793231027545-356",
-      "timestamp": "2026-10-28T23:43:47.545Z",
-      "timeFormatted": "23:43:47 UTC",
-      "rawHtml": "🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code>\n📥 <b>Precio Entrada:</b> <code>$134.04</code>\n📤 <b>SE VENDIÓ A:</b> <code>$134.53</code> (+0.15% TP)\n💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$-0.1302 USDC</b>\n🏆 <b>Récord Oficial:</b> <b>24 Ganadas · 0 Pérdidas (100% Invictos)</b>\n❄️ <b>Enfriamiento:</b> <code>AAVE</code> en 12m de reposo antes del próximo tiro\n💵 <b>Nuevo Balance en L1:</b> <code>$845.85 USDC</code>\n📈 <b>Capitalización Compuesta:</b> Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>",
-      "textPlain": "🔴 ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC\n📥 Precio Entrada: $134.04\n📤 SE VENDIÓ A: $134.53 (+0.15% TP)\n💰 GANANCIA NETA EN CAJA: +$-0.1302 USDC\n🏆 Récord Oficial: 24 Ganadas · 0 Pérdidas (100% Invictos)\n❄️ Enfriamiento: AAVE en 12m de reposo antes del próximo tiro\n💵 Nuevo Balance en L1: $845.85 USDC\n📈 Capitalización Compuesta: Ganancias sumadas al margen del próximo tiro\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Capital inmediatamente protegido en USDC nativo."
-    },
-    {
-      "id": "tg-1793231014361-785",
-      "timestamp": "2026-10-28T23:43:34.361Z",
-      "timeFormatted": "23:43:34 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$134.04</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$134.24</code> (+0.15%)\n💰 <b>Ganancia Estimada:</b> <b>+$0.3000 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 79.8% · RSI 5m 38.9\n🛡️ <b>Margen Asignado:</b> <code>$169.17 USDC (5x = $250.00 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
-      "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $134.04\n📤 OBJETIVO TAKE PROFIT: $134.24 (+0.15%)\n💰 Ganancia Estimada: +$0.3000 USDC Limpios\n📊 Filtros: L2 79.8% · RSI 5m 38.9\n🛡️ Margen Asignado: $169.17 USDC (5x = $250.00 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
-    },
-    {
-      "id": "tg-1793231013092-354",
-      "timestamp": "2026-10-28T23:43:33.092Z",
-      "timeFormatted": "23:43:33 UTC",
-      "rawHtml": "🎯 <b>ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>AAVE-USDC</code> (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 <b>PRECIO ENTRADA:</b> <code>$134.04</code>\n📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$134.24</code> (+0.15%)\n💰 <b>Ganancia Estimada:</b> <b>+$0.3000 USDC Limpios</b>\n📊 <b>Filtros:</b> L2 79.2% · RSI 5m 38.9\n🛡️ <b>Margen Asignado:</b> <code>$169.17 USDC (5x = $250.00 Nocional)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://app.hyperliquid.xyz/trade\">Ver Operación en Vivo en Hyperliquid</a>",
-      "textPlain": "🎯 ÁREA 501 // DISPARO V2 ESCALADO COLOCADO (LONG)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón Charlie (#801 Nexus-Boss)\n📍 Par: AAVE-USDC (POST-ONLY ALO MAKER · $0.00 Gas)\n📥 PRECIO ENTRADA: $134.04\n📤 OBJETIVO TAKE PROFIT: $134.24 (+0.15%)\n💰 Ganancia Estimada: +$0.3000 USDC Limpios\n📊 Filtros: L2 79.2% · RSI 5m 38.9\n🛡️ Margen Asignado: $169.17 USDC (5x = $250.00 Nocional)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Operación en Vivo en Hyperliquid"
     }
   ],
   "lomo6SocialX": {
