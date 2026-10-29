@@ -2248,13 +2248,16 @@ export default {
         }
 
         const closedBaseUsdc = +(accountValueUsdc - unrealizedPnlTotal).toFixed(2);
+        const postSolBridged = closedBaseUsdc >= 880.0;
         const shield40PctLiveUsdc = +(accountValueUsdc * 0.40).toFixed(2);
         const shield40PctClosedUsdc = +(closedBaseUsdc * 0.40).toFixed(2);
-        const shield40PctPostSolUsdc = +((closedBaseUsdc + 54.10) * 0.40).toFixed(2);
+        const shield40PctPostSolUsdc = postSolBridged
+          ? shield40PctClosedUsdc
+          : +((closedBaseUsdc + 54.10) * 0.40).toFixed(2);
         const isRescueActive = rescuePosition !== null;
         const priorityStatusBanner = isRescueActive
           ? `🛡️ ESCUDO #00 EN MISIÓN DE RESCATE (${rescuePosition.coin} · ${rescuePosition.szi} @ $${rescuePosition.entryPx}) · COBRO PASIVO DE POSICIONES ACTUALES ACTIVO`
-          : `🟢 ESCUDO #00 100% LIBRE ($${shield40PctClosedUsdc.toFixed(2)} USDC) · CAZADOR ALO MAKER DELTA-SAFE ACTIVO`;
+          : `🟢 ESCUDO #00 LIBRE Y EN PRODUCCIÓN ACTIVA ($${shield40PctClosedUsdc.toFixed(2)} USDC DISPONIBLES · 0 RESCATES ACTIVOS) · CAZANDO CORTE HORARIO :00 UTC`;
 
         // Calcular impacto horario real de las posiciones abiertas ahora mismo en Hyperliquid L1
         const openPositionsFunding = openPositionsList.map(op => {
@@ -2266,11 +2269,20 @@ export default {
           const notionalUsdc = +(Math.abs(op.szi) * markPx).toFixed(2);
           // En Hyperliquid: rawFunding > 0 => Longs pagan a Shorts => flujo = -szi * markPx * rawFunding
           const hourlyCashflowUsdc = +(-1 * op.szi * markPx * rawFunding).toFixed(4);
-          const isSolRescue = op.coin === "SOL" || op.posVal > 600;
-          const tpPx = isSolRescue ? 100.62 : +(op.entryPx * 1.0022).toFixed(2);
-          const squadLabel = isSolRescue
-            ? "ESCUDO #00 RESCATE ACTIVO"
-            : (op.coin === "BTC" ? "#02 BRAVO · SCALPER" : "#03 CHARLIE · SCALPER");
+          const isSolRescue = op.posVal > 600;
+          const tpPx = isSolRescue ? +(op.entryPx * 1.0008).toFixed(2) : +(op.entryPx * 1.0015).toFixed(op.entryPx < 10 ? 3 : 2);
+          let squadLabel = "#03 CHARLIE · SCALPER";
+          if (isSolRescue) {
+            squadLabel = "ESCUDO #00 RESCATE ACTIVO";
+          } else if (op.coin === "BNB" && hourlyCashflowUsdc >= 0) {
+            squadLabel = "🛡️ ESCUDO #00 · RENTA HORARIA";
+          } else if (["SOL", "SUI", "AVAX"].includes(op.coin)) {
+            squadLabel = hourlyCashflowUsdc >= 0 ? "#01 ALFA · COBRANDO" : "#01 ALFA · SCALPER";
+          } else if (["BTC", "PAXG", "LINK"].includes(op.coin)) {
+            squadLabel = hourlyCashflowUsdc >= 0 ? "#02 BRAVO · COBRANDO" : "#02 BRAVO · SCALPER";
+          } else if (["ETH", "BNB", "AAVE"].includes(op.coin)) {
+            squadLabel = hourlyCashflowUsdc >= 0 ? "#03 CHARLIE · COBRANDO" : "#03 CHARLIE · SCALPER";
+          }
           return {
             coin: op.coin,
             pair: `${op.coin}-USDC`,
@@ -2288,6 +2300,11 @@ export default {
             isReceiving: hourlyCashflowUsdc >= 0,
             squadLabel
           };
+        });
+
+        openPositionsFunding.sort((a, b) => {
+          if (a.isReceiving !== b.isReceiving) return a.isReceiving ? -1 : 1;
+          return b.hourlyCashflowUsdc - a.hourlyCashflowUsdc;
         });
 
         const nextHourNetFlowUsdc = +(openPositionsFunding.reduce((acc, p) => acc + p.hourlyCashflowUsdc, 0)).toFixed(4);
@@ -2310,7 +2327,7 @@ export default {
           const receiverSide = rawFunding >= 0 ? "SHORT COBRA" : "LONG COBRA";
           const passesDeltaSafeFilter = oiUsd >= 10000000;
           const isCurrentlyHeld = openPositionsList.some(op => op.coin === u.name);
-          const estHourlyUsdcOnShield = +((shield40PctPostSolUsdc * 2 * absHourlyPct) / 100).toFixed(4);
+          const estHourlyUsdcOnShield = +((shield40PctClosedUsdc * 2 * absHourlyPct) / 100).toFixed(4);
           const estDailyUsdcOnShield = +(estHourlyUsdcOnShield * 24).toFixed(2);
 
           allAssets.push({
@@ -2335,10 +2352,13 @@ export default {
         allAssets.sort((a, b) => b.absHourlyPct - a.absHourlyPct);
         const top18Payers = allAssets.slice(0, 18).map((item, idx) => ({ rank: idx + 1, ...item }));
         const safeShieldQueue3 = allAssets
-          .filter(a => a.oiUsd >= 15000000 && !a.isCurrentlyHeld && !["SOL", "BTC", "ETH"].includes(a.coin))
+          .filter(a => a.oiUsd >= 15000000 && (!a.isCurrentlyHeld || a.coin === "BNB") && !["SOL", "BTC", "ETH"].includes(a.coin))
           .slice(0, 3);
         const topPayerGlobal = top18Payers[0] || baseFunding.topPayerGlobal;
         const topPayerDeltaSafe = safeShieldQueue3[0] || allAssets.find(a => a.passesDeltaSafeFilter) || topPayerGlobal;
+        const prioritySubInfo = isRescueActive
+          ? `Rescate Mentora #00 Activo en ${rescuePosition.coin} ➔ Prioridad Absoluta de Liquidez`
+          : `SOL-USDC Cerrado en TP ($100.62) ✔ · Préstamo +$54.10 en L1 ($${closedBaseUsdc.toFixed(2)} Base) · Cazando ${topPayerDeltaSafe?.pair || "BNB-USDC"} (${topPayerDeltaSafe?.receiverSide || "LONG COBRA"})`;
 
         let hourlyLedger24 = baseFunding.hourlyLedger24 || [];
         let fundingAccounting = baseFunding.fundingAccounting || {};
@@ -2398,6 +2418,7 @@ export default {
             enabled: true,
             isRescueActive,
             statusBanner: priorityStatusBanner,
+            subInfo: prioritySubInfo,
             rescuePosition,
             openPositions: openPositionsList
           },
@@ -2550,7 +2571,7 @@ export default {
 
       const hlBalanceUsdc = (clData && typeof clData.accountValue === "number" && clData.accountValue > 0)
         ? clData.accountValue
-        : 835.50;
+        : 897.38;
       let unrealizedTotalUsdc = 0;
       if (Array.isArray(clData?.positions)) {
         clData.positions.forEach(p => {
@@ -2562,7 +2583,7 @@ export default {
       const shieldUsdc = parseFloat((hlBalanceUsdc * 0.40).toFixed(2));
 
       // Polygon PoS: Consultar USDC Nativo en vivo (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359) + POL de disparo
-      let polygonUsdc = 54.10;
+      let polygonUsdc = 0.00;
       try {
         const polyUsdcRes = await fetch("https://polygon.drpc.org", {
           method: "POST",
@@ -2589,9 +2610,9 @@ export default {
       const arbUsdc = 0.00;
       const fleetPocketsUsdc = 4.70;
 
-      // Si los $54.10 USDC ya cruzaron a Hyperliquid L1 (polygonUsdc < 5 y closedBaseUsdc >= 880), el capital inyectado sube a $684.04 USDC
-      const postSolLoanBridged = polygonUsdc < 5.0 && closedBaseUsdc >= 880.0;
-      const baseInjectedUsdc = postSolLoanBridged ? 684.04 : 629.94;
+      // Los $54.10 USDC ya cruzaron a Hyperliquid L1 (Tx 0x0594e164...6f227), por lo que el préstamo 0% inyectado es oficialmente $684.04 USDC
+      const postSolLoanBridged = polygonUsdc < 5.0;
+      const baseInjectedUsdc = 684.04;
       const closedProfitUsdc = parseFloat((closedBaseUsdc - baseInjectedUsdc).toFixed(2));
       const closedProfitPct = parseFloat(((closedProfitUsdc / baseInjectedUsdc) * 100).toFixed(2));
       const netProfitUsdc = parseFloat((hlBalanceUsdc - baseInjectedUsdc).toFixed(2));

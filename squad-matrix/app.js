@@ -118,15 +118,15 @@ const SYNTHETIC_DEFAULTS = {
   "GOOGL": 168.30, "COIN": 218.40, "MSTR": 248.50
 };
 
-// CONSTANTES BASE DEL ANCLA HISTÓRICA (CIERRE BTC-USDC @ $81,251.0)
+// CONSTANTES BASE DEL ANCLA HISTÓRICA (CIERRE SOL-USDC @ $100.62 + PUENTE +$54.10 USDC)
 const ANCHOR_FILL_TIME = 1793223937322;
-const BASE_WINS = 136;
+const BASE_WINS = 138;
 const BASE_LOSSES = 0;
-const BASE_ACCOUNT_VALUE = 835.50;
-const BASE_TOTAL_PROFIT_USDC = 213.69;
-const BASE_MARGIN_60 = 501.30;
-const BASE_SHIELD_40 = 334.20;
-const BASE_INJECTED = 629.94;
+const BASE_ACCOUNT_VALUE = 899.23;
+const BASE_TOTAL_PROFIT_USDC = 216.88;
+const BASE_MARGIN_60 = 540.55;
+const BASE_SHIELD_40 = 360.37;
+const BASE_INJECTED = 684.04;
 
 // ESTADO GLOBAL SINCERIZADO (100% DIRECT LIVE EQUITY — CERO CONGELAMIENTO)
 let appState = {
@@ -134,18 +134,18 @@ let appState = {
   withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : BASE_ACCOUNT_VALUE,
   openPositions: (initialSavedSquad && initialSavedSquad.openPositions) || [],
   mids: (initialSavedSquad && initialSavedSquad.mids) || {},
-  totalLoanInjected: 629.94,
-  credit501Loan: 511.44,
+  totalLoanInjected: 684.04,
+  credit501Loan: 565.54,
   totalLoanRepaid: 0.00,
   block1Goal: 1000.00,
-  totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 136) ? initialSavedSquad.realWins : BASE_WINS,
+  totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 138) ? initialSavedSquad.realWins : BASE_WINS,
   totalLosses: (initialSavedSquad && initialSavedSquad.realLosses !== undefined) ? initialSavedSquad.realLosses : 0,
-  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 213.69) ? initialSavedSquad.totalProfitUsdc : BASE_TOTAL_PROFIT_USDC,
-  realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 136) ? initialSavedSquad.realWins : BASE_WINS,
+  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 216.88) ? initialSavedSquad.totalProfitUsdc : BASE_TOTAL_PROFIT_USDC,
+  realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 138) ? initialSavedSquad.realWins : BASE_WINS,
   realLosses: (initialSavedSquad && initialSavedSquad.realLosses !== undefined) ? initialSavedSquad.realLosses : 0,
   realBe: (initialSavedSquad && initialSavedSquad.realBe) || 9,
   realWinRate: 100,
-  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 76.40, 2: 71.20, 3: 66.09, total: 213.69 }
+  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 78.00, 2: 70.58, 3: 68.30, total: 216.88 }
 };
 
 // DEFINICIÓN DE LOS 8 MERCADOS MUNDIALES CLAVE
@@ -1072,9 +1072,9 @@ function updateTopBarCards() {
   const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
   const postSolBridged = closedBase >= 880.0;
   const polyUsdcReady = postSolBridged ? 0.00 : 54.10;
-  appState.totalLoanInjected = postSolBridged ? 684.04 : 629.94;
+  appState.totalLoanInjected = 684.04;
 
-  const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto (SOL/BTC/ETH): ${floatSign}$${floatAbs} USDC`;
+  const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto: ${floatSign}$${floatAbs} USDC`;
 
   // 1. Capital Operativo (100% Direct Live Equity)
   setTextIfChanged(document.getElementById("topActiveCapValue"), val.toFixed(2));
@@ -1138,12 +1138,12 @@ function updateTopBarCards() {
     if (elRelay) setTextIfChanged(elRelay, getSquadRelayText(sq));
   });
 
-  // 3. Progreso Bloque 1 ($1,000 Goal con los +$54.10 listos en #501)
-  const projectedWithPostSol = val + polyUsdcReady;
+  // 3. Progreso Bloque 1 ($1,000 Goal con los +$54.10 acreditados en L1)
+  const projectedWithPostSol = Math.max(closedBase, val) + polyUsdcReady;
   const progressPct = Math.min(100, (projectedWithPostSol / appState.block1Goal) * 100).toFixed(1);
   setTextIfChanged(
     document.getElementById("topBlock1ProgressLabel"),
-    polyUsdcReady > 0 ? `$${val.toFixed(2)} (+$${polyUsdcReady.toFixed(2)}) / $1,000` : `$${val.toFixed(2)} / $1,000.00 USDC`
+    polyUsdcReady > 0 ? `$${closedBase.toFixed(2)} (+$${polyUsdcReady.toFixed(2)}) / $1,000` : `$${closedBase.toFixed(2)} Cerrado / $1,000.00 USDC`
   );
   setTextIfChanged(document.getElementById("topBlock1ProgressPct"), `${progressPct}%`);
   const elProgBar = document.getElementById("topBlock1ProgressBar");
@@ -1165,12 +1165,12 @@ function updateTopBarCards() {
 
   // 4. Control Capital Inyectado (0% Interés)
   setTextIfChanged(document.getElementById("topLoanInjected"), `$${appState.totalLoanInjected.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanRepaid"), polyUsdcReady > 0 ? `+$${polyUsdcReady.toFixed(2)}` : `$${appState.totalLoanRepaid.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected + polyUsdcReady - appState.totalLoanRepaid).toFixed(2)}`);
+  setTextIfChanged(document.getElementById("topLoanRepaid"), polyUsdcReady > 0 ? `+$${polyUsdcReady.toFixed(2)}` : "+$54.10 ✔");
+  setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
 
-  // Guardar snapshot compartido area501_live_snapshot_v3 para 0ms de salto al pulsar F5
+  // Guardar snapshot compartido area501_live_snapshot_v4 para 0ms de salto al pulsar F5
   try {
-    localStorage.setItem("area501_live_snapshot_v3", JSON.stringify({
+    localStorage.setItem("area501_live_snapshot_v4", JSON.stringify({
       totalWealth: +(val + polyUsdcReady + 4.70 + 14.28).toFixed(2),
       hlBalance: val,
       closedBase,
@@ -1185,7 +1185,7 @@ function updateTopBarCards() {
       netLiveProfit: netTotalPnl,
       breakdownText,
       flowBreakdownText,
-      metaTargetText: `$${val.toFixed(2)} (+$${polyUsdcReady.toFixed(2)} #501 = $${projectedWithPostSol.toFixed(2)}) / $1,000 (${progressPct}%)`,
+      metaTargetText: `$${closedBase.toFixed(2)} Cerrado (+$54.10 #501 Cruzado ✔) / $1,000 (${progressPct}%)`,
       updatedAt: Date.now()
     }));
   } catch (_) {}

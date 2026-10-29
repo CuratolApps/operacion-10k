@@ -27,6 +27,28 @@ function setTextIfChanged(el, newText) {
 // ESTADO DE CUENTA ON-CHAIN: LISTA DE MOVIMIENTOS REALES EN VIVO
 const LIVE_TRANSACTIONS_EXPLORER = [
   {
+    time: "29 Oct 08:38 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Puente Post-SOL 0% #501 ➔ Clearinghouse L1 ($684.04 Base)",
+    target: "0x0594...f227 (Bridge2)",
+    result: "+$54.07 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: true,
+    url: "https://arbiscan.io/tx/0x0594e16442a4aa998d21da3c6cf160737dbaf295654398363f9531c105c6f227"
+  },
+  {
+    time: "29 Oct 08:37 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Take Profit Rescate Mentora #00 SOL-USDC + BTC-USDC",
+    target: "19.52 SOL @ $100.62",
+    result: "+$1.60 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
     time: "29 Oct 07:12 UTC",
     net: "Hyperliquid L1",
     netCode: "HL",
@@ -421,15 +443,15 @@ async function fetchLiveData() {
       const data = await res.json();
       if (data && data.success) {
         if (hlDirectVal !== null) {
-          const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 54.10;
+          const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 0.00;
           const closedBase = +(hlDirectVal - hlUnrealizedTotal).toFixed(2);
-          const baseInj = (polyUsdc < 5.0 && closedBase >= 880.0) ? 684.04 : 629.94;
+          const baseInj = 684.04;
           data.hyperliquid = data.hyperliquid || {};
           data.hyperliquid.clearinghouseUsdc = hlDirectVal;
           data.hyperliquid.unrealizedPnlUsdc = hlUnrealizedTotal;
           data.hyperliquid.closedBaseUsdc = closedBase;
-          data.hyperliquid.activeMarginUsdc = +(hlDirectVal * 0.60).toFixed(2);
-          data.hyperliquid.shieldUsdc = +(hlDirectVal * 0.40).toFixed(2);
+          data.hyperliquid.activeMarginUsdc = +(closedBase * 0.60).toFixed(2);
+          data.hyperliquid.shieldUsdc = +(closedBase * 0.40).toFixed(2);
           data.hyperliquid.baseInjectedUsdc = baseInj;
           data.hyperliquid.netProfitUsdc = +(hlDirectVal - baseInj).toFixed(2);
           data.hyperliquid.netProfitPct = +(((hlDirectVal - baseInj) / baseInj) * 100).toFixed(2);
@@ -445,16 +467,18 @@ async function fetchLiveData() {
     }
 
     if (hlDirectVal !== null) {
+      const closedBase = +(hlDirectVal - hlUnrealizedTotal).toFixed(2);
       updateUiWithLiveData({
-        totalConsolidatedUsd: +(hlDirectVal + 4.70 + 17.02).toFixed(2),
+        totalConsolidatedUsd: +(hlDirectVal + 4.70 + 14.28).toFixed(2),
         hyperliquid: {
           clearinghouseUsdc: hlDirectVal,
           unrealizedPnlUsdc: hlUnrealizedTotal,
-          closedBaseUsdc: +(hlDirectVal - hlUnrealizedTotal).toFixed(2),
-          activeMarginUsdc: +(hlDirectVal * 0.60).toFixed(2),
-          shieldUsdc: +(hlDirectVal * 0.40).toFixed(2),
-          netProfitUsdc: +(hlDirectVal - 629.94).toFixed(2),
-          netProfitPct: +(((hlDirectVal - 629.94) / 629.94) * 100).toFixed(2)
+          closedBaseUsdc: closedBase,
+          activeMarginUsdc: +(closedBase * 0.60).toFixed(2),
+          shieldUsdc: +(closedBase * 0.40).toFixed(2),
+          baseInjectedUsdc: 684.04,
+          netProfitUsdc: +(hlDirectVal - 684.04).toFixed(2),
+          netProfitPct: +(((hlDirectVal - 684.04) / 684.04) * 100).toFixed(2)
         }
       });
     }
@@ -464,20 +488,20 @@ async function fetchLiveData() {
 function updateUiWithLiveData(data) {
   if (!data) return;
 
-  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 829.16;
-  const unrealizedPnl = typeof data.hyperliquid?.unrealizedPnlUsdc === "number" ? data.hyperliquid.unrealizedPnlUsdc : -16.71;
+  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 899.23;
+  const unrealizedPnl = typeof data.hyperliquid?.unrealizedPnlUsdc === "number" ? data.hyperliquid.unrealizedPnlUsdc : -1.69;
   const closedBase = typeof data.hyperliquid?.closedBaseUsdc === "number" ? data.hyperliquid.closedBaseUsdc : +(hlBalance - unrealizedPnl).toFixed(2);
   const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.9358;
-  const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 54.10;
+  const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 0.00;
   const bnbBal = typeof data.bsc?.bnbBalance === "number" ? data.bsc.bnbBalance : 0.0188;
   const ethBal = typeof data.arbitrum?.ethBalance === "number" ? data.arbitrum.ethBalance : 0.00084;
   const fleetUsdc = typeof data.fleetPockets?.usdcBalance === "number" ? data.fleetPockets.usdcBalance : 4.70;
   const fleetPol = typeof data.fleetPockets?.gasPol === "number" ? data.fleetPockets.gasPol : 20.47;
-  const baseInj = data.hyperliquid?.baseInjectedUsdc || 629.94;
+  const baseInj = data.hyperliquid?.baseInjectedUsdc || 684.04;
 
   const totalWealth = data.totalConsolidatedUsd || +(hlBalance + polyUsdc + fleetUsdc + 14.28).toFixed(2);
-  const activeMargin = data.hyperliquid?.activeMarginUsdc || parseFloat((hlBalance * 0.60).toFixed(2));
-  const shieldMargin = data.hyperliquid?.shieldUsdc || parseFloat((hlBalance * 0.40).toFixed(2));
+  const activeMargin = data.hyperliquid?.activeMarginUsdc || parseFloat((closedBase * 0.60).toFixed(2));
+  const shieldMargin = data.hyperliquid?.shieldUsdc || parseFloat((closedBase * 0.40).toFixed(2));
 
   // Separación contable estricta: Profit Cerrado Realizado vs Flotante en Curso
   const closedProfit = parseFloat((closedBase - baseInj).toFixed(2));
@@ -486,21 +510,21 @@ function updateUiWithLiveData(data) {
   const floatSign = unrealizedPnl >= 0 ? "+" : "-";
   const floatAbs = Math.abs(unrealizedPnl).toFixed(2);
 
-  const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto (SOL/BTC/ETH): ${floatSign}$${floatAbs} USDC`;
+  const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto: ${floatSign}$${floatAbs} USDC`;
   const flowBreakdownText = `Cerrado: +$${closedProfit.toFixed(2)} | Flotante: ${floatSign}$${floatAbs} ➔ Neto Vivo: +$${netLiveProfit.toFixed(2)} USDC`;
 
   // 1. ACTUALIZAR 5 TARJETAS SUPERIORES (SATINADAS)
   setTextIfChanged(document.getElementById("topTotalWealthUsd"), totalWealth.toFixed(2));
   setTextIfChanged(document.getElementById("pillHlShare"), `HL: $${hlBalance.toFixed(2)}`);
   setTextIfChanged(document.getElementById("pillPolyShare"), `#501: $${polyUsdc.toFixed(2)} + ${polBal.toFixed(2)} POL`);
-  setTextIfChanged(document.getElementById("pillBscShare"), `Gas: ~$11.50`);
+  setTextIfChanged(document.getElementById("pillBscShare"), `Gas: ~$14.28`);
   setTextIfChanged(document.getElementById("pillFleetShare"), `Flota: $${fleetUsdc.toFixed(2)}`);
 
   setTextIfChanged(document.getElementById("topHlBalanceUsdc"), hlBalance.toFixed(2));
   setTextIfChanged(document.getElementById("topHlBreakdownLine"), breakdownText);
   setTextIfChanged(document.getElementById("topHlActiveMargin"), `60% Margen ($${activeMargin.toFixed(2)})`);
   setTextIfChanged(document.getElementById("topHlShieldMargin"), `40% Escudo ($${shieldMargin.toFixed(2)})`);
-  const projectedHlWithLoan = hlBalance + polyUsdc;
+  const projectedHlWithLoan = Math.max(closedBase, hlBalance) + polyUsdc;
   const pct1000 = Math.min(100, (projectedHlWithLoan / 1000.00) * 100);
   setTextIfChanged(document.getElementById("topHlRepaymentStatus"), `Meta: ${pct1000.toFixed(1)}%`);
 
@@ -515,7 +539,9 @@ function updateUiWithLiveData(data) {
 
   // 2. ACTUALIZAR NIVEL SUPERIOR CENTRAL (4 TARJETAS GRANDES)
   // Caja 1: Hyperliquid L1
-  const metaTargetText = `$${hlBalance.toFixed(2)} (+$${polyUsdc.toFixed(2)} #501 = $${projectedHlWithLoan.toFixed(2)}) / $1,000 (${pct1000.toFixed(1)}%)`;
+  const metaTargetText = polyUsdc > 1
+    ? `$${closedBase.toFixed(2)} (+$${polyUsdc.toFixed(2)} #501 = $${projectedHlWithLoan.toFixed(2)}) / $1,000 (${pct1000.toFixed(1)}%)`
+    : `$${closedBase.toFixed(2)} Cerrado (+$54.10 #501 Cruzado ✔) / $1,000 (${pct1000.toFixed(1)}%)`;
   setTextIfChanged(document.getElementById("heroHlBalance"), hlBalance.toFixed(2));
   setTextIfChanged(document.getElementById("heroHlBreakdownLine"), breakdownText);
   setTextIfChanged(document.getElementById("heroHlMarginVal"), `$${activeMargin.toFixed(2)} USDC`);
@@ -528,7 +554,7 @@ function updateUiWithLiveData(data) {
 
   // Guardar snapshot en localStorage para hidratación en 0ms al pulsar F5
   try {
-    localStorage.setItem("area501_live_snapshot_v3", JSON.stringify({
+    localStorage.setItem("area501_live_snapshot_v4", JSON.stringify({
       totalWealth,
       hlBalance,
       closedBase,
@@ -552,7 +578,7 @@ function updateUiWithLiveData(data) {
   setTextIfChanged(document.getElementById("heroPolyUsdc"), polyUsdc.toFixed(2));
   setTextIfChanged(document.getElementById("heroPolyPol"), polBal.toFixed(2));
   setTextIfChanged(document.getElementById("heroPolyPolUsd"), `${polBal.toFixed(2)} POL (Tanque Gas V2)`);
-  setTextIfChanged(document.getElementById("heroPolyUsdcStatus"), polyUsdc > 1 ? `$${polyUsdc.toFixed(2)} USDC ➔ HL L1 al cerrar SOL` : "$0.00 USDC (Acreditado en L1)");
+  setTextIfChanged(document.getElementById("heroPolyUsdcStatus"), polyUsdc > 1 ? `$${polyUsdc.toFixed(2)} USDC ➔ HL L1 al cerrar SOL` : "+$54.10 USDC Acreditado en L1 ✔");
 
   // Caja 3: BNB Chain & Arbitrum One
   setTextIfChanged(document.getElementById("heroBscBnb"), typeof bnbBal === "number" ? bnbBal.toFixed(4) : bnbBal);
@@ -563,9 +589,9 @@ function updateUiWithLiveData(data) {
   setTextIfChanged(document.getElementById("heroFleetPol"), fleetPol.toFixed(2));
 
   // 3. ACTUALIZAR PESTAÑA AMORTIZACIÓN (VISTA 2)
-  setTextIfChanged(document.getElementById("amortCurrentHlVal"), `$${hlBalance.toFixed(2)} USDC`);
+  setTextIfChanged(document.getElementById("amortCurrentHlVal"), `$${closedBase.toFixed(2)} USDC`);
   setTextIfChanged(document.getElementById("amortNetProfitVal"), `+$${closedProfit.toFixed(2)} CERRADO (Neto Vivo: +$${netLiveProfit.toFixed(2)})`);
-  const distTo1000 = Math.max(0, 1000.00 - hlBalance);
+  const distTo1000 = Math.max(0, 1000.00 - closedBase);
   setTextIfChanged(document.getElementById("amortRemainingToTrigger"), `Faltan $${distTo1000.toFixed(2)} USDC`);
   setTextIfChanged(document.getElementById("amortProgressPctLabel"), `${pct1000.toFixed(2)}% DE LA META`);
   const fillBar = document.getElementById("progressFillBar");

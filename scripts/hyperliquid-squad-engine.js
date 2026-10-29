@@ -92,6 +92,120 @@ const SQUADS = {
 const BREAKEVEN_TRIGGER_PCT = 0.04;
 const TAKE_PROFIT_TRIGGER_PCT = 0.08;
 
+const HL_ASSET_META = {
+  BTC: { index: 0, szDec: 5, pxDec: 0 },
+  ETH: { index: 1, szDec: 4, pxDec: 1 },
+  SOL: { index: 5, szDec: 2, pxDec: 2 },
+  AVAX: { index: 6, szDec: 2, pxDec: 3 },
+  BNB: { index: 7, szDec: 3, pxDec: 2 },
+  SUI: { index: 14, szDec: 1, pxDec: 4 },
+  LINK: { index: 18, szDec: 1, pxDec: 3 },
+  AAVE: { index: 28, szDec: 2, pxDec: 2 },
+  POL: { index: 142, szDec: 0, pxDec: 5 },
+  PAXG: { index: 187, szDec: 3, pxDec: 1 }
+};
+
+function formatShieldPrice(px, coin) {
+  const meta = HL_ASSET_META[coin];
+  const dec = meta ? meta.pxDec : (px >= 1000 ? 0 : px >= 10 ? 2 : px >= 1 ? 3 : 4);
+  return dec === 0 ? Math.round(px).toFixed(0) : Number(px).toFixed(dec);
+}
+
+function formatShieldSize(sz, coin) {
+  const meta = HL_ASSET_META[coin];
+  const dec = meta ? meta.szDec : 2;
+  const factor = Math.pow(10, dec);
+  return (Math.floor(sz * factor) / factor).toFixed(dec);
+}
+
+/**
+ * Ejecuta una orden Post-Only ALO Maker del Escudo #00 para Captura Horaria de Funding
+ * del lado que COBRA la tasa (LONG cuando rawFunding < 0, SHORT cuando rawFunding > 0),
+ * respetando siempre RESCUE_PRIORITY_LOCK.
+ */
+async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0 }) {
+  if (!process.env.HL_AGENT_PRIVATE_KEY) {
+    return { ordered: false, reason: "MISSING_AGENT_KEY" };
+  }
+  const meta = HL_ASSET_META[coin];
+  if (!meta) {
+    return { ordered: false, reason: `UNSUPPORTED_ASSET_META_${coin}` };
+  }
+
+  try {
+    const { ExchangeClient, InfoClient, HttpTransport } = require("@nktkas/hyperliquid");
+    const { ethers } = require("ethers");
+
+    const transport = new HttpTransport({ isTestnet: false });
+    const info = new InfoClient({ transport });
+    const wallet = new ethers.Wallet(process.env.HL_AGENT_PRIVATE_KEY);
+    const client = new ExchangeClient({ wallet, transport, isTestnet: false });
+
+    const [ch, openOrders, levels] = await Promise.all([
+      info.clearinghouseState({ user: VAULT_501_ADDRESS }),
+      info.openOrders({ user: VAULT_501_ADDRESS }),
+      fetchL2Book(coin)
+    ]);
+
+    const openPositions = (ch.assetPositions || []).filter(p => parseFloat(p?.position?.szi || "0") !== 0);
+    // Verificar RESCUE_PRIORITY_LOCK: si hay cualquier rescate activo (nocional > $600), abortar inmediatamente
+    const hasRescueActive = openPositions.some(p => {
+      const pos = p.position || p;
+      return Math.abs(parseFloat(pos.szi || "0") * parseFloat(pos.entryPx || "0")) > 600;
+    });
+    if (hasRescueActive) {
+      return { ordered: false, reason: "RESCUE_PRIORITY_LOCK_ACTIVE" };
+    }
+
+    // Verificar si ya tenemos posición o orden de entrada abierta en esta moneda
+    const alreadyOpen = openPositions.some(p => (p.position || p).coin === coin);
+    if (alreadyOpen) {
+      return { ordered: false, reason: "POSITION_ALREADY_OPEN", coin };
+    }
+    const existingEntryOrder = (openOrders || []).find(o => o.coin === coin && !o.reduceOnly);
+    if (existingEntryOrder) {
+      return { ordered: false, reason: "ENTRY_ORDER_ALREADY_RESTING", coin, oid: existingEntryOrder.oid };
+    }
+
+    const l2 = analyzeL2Layers(levels);
+    const targetPx = isBuy ? l2.bestBid : l2.bestAsk;
+    if (!targetPx || targetPx <= 0) {
+      return { ordered: false, reason: "INVALID_L2_BOOK" };
+    }
+
+    const pxStr = formatShieldPrice(targetPx, coin);
+    const szStr = formatShieldSize(notionalUsdc / targetPx, coin);
+    if (parseFloat(szStr) <= 0) {
+      return { ordered: false, reason: "ZERO_SIZE" };
+    }
+
+    const orderRes = await client.order({
+      orders: [{
+        a: meta.index,
+        b: Boolean(isBuy),
+        p: pxStr,
+        s: szStr,
+        r: false,
+        t: { limit: { tif: "Alo" } }
+      }],
+      grouping: "na"
+    });
+
+    return {
+      ordered: true,
+      coin,
+      pair: `${coin}-USDC`,
+      side: isBuy ? "LONG" : "SHORT",
+      price: pxStr,
+      size: szStr,
+      notionalUsdc: +(parseFloat(szStr) * parseFloat(pxStr)).toFixed(2),
+      response: orderRes
+    };
+  } catch (err) {
+    return { ordered: false, reason: err.message };
+  }
+}
+
 async function fetchAllMids() {
   const t0 = Date.now();
   try {
@@ -273,6 +387,8 @@ module.exports = {
   fetchAllMids,
   analyzeL2Layers,
   sendTelegramSquadReport,
+  executeShieldFundingOrder,
+  HL_ASSET_META,
   SQUADS,
   UNTOUCHABLE_RESERVE_USDC,
   SQUAD_MARGIN_USDC

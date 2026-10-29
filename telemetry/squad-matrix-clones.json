@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T09:13:59.335Z",
+  "updatedAt": "2026-10-29T09:54:25.092Z",
   "architecture": "Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots)",
   "rules": {
     "radarL2": ">= 62%",
@@ -21,12 +21,11 @@
         "SUI",
         "AVAX"
       ],
-      "relayStatus": "🔄 ALFA 1: ENFRIAMIENTO 11m ⇄ ⚡ ALFA 2: CAZANDO",
-      "activeBot": "ALFA 2",
-      "standbyBot": "ALFA 1",
-      "mode": "HOT_SWAP_RELAY",
-      "cooldownCoin": "SOL",
-      "cooldownRemainingMins": 11
+      "relayStatus": "⚡ ALFA 1: ACTIVO ⇄ ALFA 2: RELEVO",
+      "activeBot": "ALFA 1",
+      "standbyBot": "ALFA 2",
+      "mode": "ACTIVE_POSITION",
+      "pairInAction": "AVAX"
     },
     {
       "id": 2,

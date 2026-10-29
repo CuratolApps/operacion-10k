@@ -17,7 +17,7 @@ function setTextIfChanged(el, text) {
   }
 }
 
-const STORAGE_KEY_FUNDING_V3 = "__AREA501_FUNDING_V3__";
+const STORAGE_KEY_FUNDING_V3 = "__AREA501_FUNDING_V4__";
 let currentLedgerFilter = "ALL"; // "ALL" | "POSITIVE"
 
 // Filas iniciales verificadas en userFunding de 0xD4D12077a61118372f7a367319fb11922Beb3743 (0ms Zero-Blank)
@@ -50,18 +50,19 @@ function saveFundingSnapshot(state) {
 }
 
 function getSquadLabelForCoin(coin, notionalUsdc) {
-  if (coin === "SOL") return notionalUsdc > 600 ? "#01 ALFA + ESCUDO #00" : "#01 ALFA";
+  if (notionalUsdc > 600) return `#00 ESCUDO RESCATE (${coin})`;
+  if (coin === "SOL" || coin === "AVAX" || coin === "SUI" || coin === "POL") return "#01 ALFA";
   if (coin === "BTC" || coin === "PAXG" || coin === "LINK") return "#02 BRAVO";
   if (coin === "ETH" || coin === "BNB" || coin === "AAVE") return "#03 CHARLIE";
   return "SQUAD MATRIX L1";
 }
 
-function getTpTargetForCoin(coin, entryPx, notionalUsdc) {
+function getTpTargetForCoin(coin, entryPx, notionalUsdc, szi) {
   const px = Number(entryPx || 0);
-  if (coin === "SOL" && notionalUsdc > 600) return "$100.62";
-  if (coin === "BTC") return `$${Math.round(px * 1.0015).toLocaleString("en-US")}.0`;
-  if (coin === "ETH") return `$${(px * 1.0015).toFixed(1)}`;
-  return `$${(px * 1.0015).toFixed(2)}`;
+  const mult = Number(szi || 1) >= 0 ? 1.0015 : 0.9985;
+  if (coin === "BTC") return `$${Math.round(px * mult).toLocaleString("en-US")}.0`;
+  if (coin === "ETH") return `$${(px * mult).toFixed(1)}`;
+  return `$${(px * mult).toFixed(2)}`;
 }
 
 function renderOpenPositionsSection(openPositionsDetailed) {
@@ -90,7 +91,7 @@ function renderOpenPositionsSection(openPositionsDetailed) {
     const entryStr = pos.coin === "BTC"
       ? `$${entryPxNum.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`
       : `$${entryPxNum}`;
-    const tpStr = pos.tpFormatted || (pos.tpPx ? `$${pos.tpPx}` : getTpTargetForCoin(pos.coin, entryPxNum, notionalNum));
+    const tpStr = pos.tpFormatted || (pos.tpPx ? `$${pos.tpPx}` : getTpTargetForCoin(pos.coin, entryPxNum, notionalNum, pos.szi));
     const squadTag = pos.squadLabel || getSquadLabelForCoin(pos.coin, notionalNum);
 
     return `
@@ -123,11 +124,11 @@ function renderOpenPositionsSection(openPositionsDetailed) {
   container.innerHTML = html;
 }
 
-function renderShieldQueueSection(queueItems, shieldCapitalPostSol) {
+function renderShieldQueueSection(queueItems, shieldCapitalPostSol, isRescueActive) {
   const container = document.getElementById("shieldQueueCardsRow");
   if (!container || !Array.isArray(queueItems) || queueItems.length === 0) return;
 
-  const shieldBase = Number(shieldCapitalPostSol || 359.78);
+  const shieldBase = Number(shieldCapitalPostSol || 360.37);
   const notional2x = shieldBase * 2; // 2x conservador Post-Only ALO Maker
 
   const html = queueItems.slice(0, 3).map((item, idx) => {
@@ -137,7 +138,9 @@ function renderShieldQueueSection(queueItems, shieldCapitalPostSol) {
     const sideBadgeClass = item.receiverSide === "LONG COBRA" ? "fc-side-badge long" : "fc-side-badge short";
     const hourlyUsd = +((notional2x * Math.abs(hPct)) / 100).toFixed(4);
     const dailyUsd = +(hourlyUsd * 24).toFixed(2);
-    const statusRole = rankNum === 1 ? "#1 LISTO AL CERRAR SOL" : `#${rankNum} RESERVA DELTA-SAFE`;
+    const statusRole = rankNum === 1
+      ? (isRescueActive ? "#1 LISTO AL CERRAR RESCATE" : "#1 CAPTURA ACTIVA :00 UTC")
+      : `#${rankNum} RESERVA DELTA-SAFE`;
 
     return `
       <div class="focus-card card-shield-queue">
@@ -232,26 +235,49 @@ function enrichAndApplyTelemetry(data) {
     }
   } catch (_) {}
 
-  // 2. Tarjeta 1: Capital Escudo #00 (40%)
+  // 2. Tarjeta 1 + Banner de Estado Dinámico del Escudo #00 (40%)
   const sc = data.shieldCapital || {};
-  const shieldClosed = Number(sc.shieldClosedUsdc || 338.51);
-  const shieldPostSol = Number(sc.shieldProjectedPostSolUsdc || 360.15);
+  const closedBaseUsdc = Number(sc.closedBaseUsdc || 900.92);
+  const shieldClosed = Number(sc.shieldClosedUsdc || 360.37);
+  const shieldPostSol = Number(sc.shieldProjectedPostSolUsdc || shieldClosed);
 
   setTextIfChanged(document.getElementById("topShieldCapitalVal"), shieldClosed.toFixed(2));
-  setTextIfChanged(document.getElementById("topShieldPostSolPill"), `Post-SOL: $${shieldPostSol.toFixed(2)} USDC Libres`);
+  const postSolPill = document.getElementById("topShieldPostSolPill");
+  if (postSolPill) {
+    if (closedBaseUsdc >= 880) {
+      setTextIfChanged(postSolPill, "Puente Post-SOL: +$54.10 Completado ✔");
+      postSolPill.className = "pill-cobalt";
+    } else {
+      setTextIfChanged(postSolPill, `Post-SOL: $${shieldPostSol.toFixed(2)} USDC Libres`);
+      postSolPill.className = "pill-emerald";
+    }
+  }
 
   const rpl = data.rescuePriorityLock || {};
-  const isRescue = rpl.isRescueActive !== false;
+  const isRescue = Boolean(rpl.isRescueActive);
   const prioPill = document.getElementById("topShieldPriorityPill");
   if (prioPill) {
-    setTextIfChanged(prioPill, isRescue ? "Estado: ASISTIENDO RESCATE SOL" : "Estado: ESCUDO 100% LIBRE");
+    setTextIfChanged(prioPill, isRescue ? "Estado: ASISTIENDO RESCATE" : "Estado: ESCUDO 100% LIBRE");
     prioPill.className = isRescue ? "pill-amber" : "pill-emerald";
   }
 
+  const bannerDot = document.getElementById("rescueStatusDot");
+  if (bannerDot) {
+    bannerDot.className = isRescue ? "rescue-dot" : "rescue-dot free";
+  }
+  const bannerText = rpl.bannerText || rpl.statusBanner || (isRescue
+    ? `🛡️ ESCUDO #00 EN MISIÓN DE RESCATE (${rpl.rescueCoin || "SOL"}-USDC) · CAPTURA DE FUNDING EN ESPERA DE TP`
+    : `🟢 ESCUDO #00 LIBRE Y EN PRODUCCIÓN ACTIVA ($${shieldClosed.toFixed(2)} USDC DISPONIBLES · 0 RESCATES ACTIVOS) · CAZANDO CORTE HORARIO :00 UTC`);
+  const bannerSub = rpl.subInfo || (isRescue
+    ? `RESCUE_PRIORITY_LOCK: ACTIVO · Liberación automática al cerrar rescate`
+    : `SOL-USDC TP Completado ($100.62) · Puente +$54.10 USDC Cruzado a L1 ($${closedBaseUsdc.toFixed(2)} Total)`);
+  setTextIfChanged(document.getElementById("rescueBannerText"), bannerText);
+  setTextIfChanged(document.getElementById("rescueSubInfo"), bannerSub);
+
   // 3. Sección A + Tarjeta 4: Tus Posiciones Abiertas Ahora Mismo en Hyperliquid L1
   const rawOpen = rpl.openPositions || [
-    { coin: "SOL", szi: 19.52, entryPx: 100.538, posVal: 1951.40 },
-    { coin: "BTC", szi: 0.00312, entryPx: 80027.0, posVal: 249.68 },
+    { coin: "AVAX", szi: 26.86, entryPx: 9.3, posVal: 249.80 },
+    { coin: "LINK", szi: -28.0, entryPx: 8.9197, posVal: 249.75 },
     { coin: "ETH", szi: 0.2156, entryPx: 2317.3, posVal: 499.60 }
   ];
   const top18 = Array.isArray(data.top18Payers) ? data.top18Payers : [];
@@ -261,9 +287,7 @@ function enrichAndApplyTelemetry(data) {
     : null;
 
   if (!openPositionsDetailed) {
-    const orderPriority = { SOL: 1, BTC: 2, ETH: 3 };
-    const sortedOpen = [...rawOpen].sort((a, b) => (orderPriority[a.coin] || 9) - (orderPriority[b.coin] || 9));
-    openPositionsDetailed = sortedOpen.map(op => {
+    openPositionsDetailed = rawOpen.map(op => {
       const match = top18.find(x => x.coin === op.coin);
       const rawFunding = match ? Number(match.rawFunding) : 0.0000125;
       const hourlyPct = +(rawFunding * 100).toFixed(4);
@@ -283,18 +307,24 @@ function enrichAndApplyTelemetry(data) {
         hourlyRatePct: hourlyPct,
         aprPct,
         hourlyCashflowUsdc,
+        isReceiving: hourlyCashflowUsdc >= 0,
         squadLabel: getSquadLabelForCoin(op.coin, notionalUsdc),
-        tpFormatted: getTpTargetForCoin(op.coin, op.entryPx, notionalUsdc)
+        tpFormatted: getTpTargetForCoin(op.coin, op.entryPx, notionalUsdc, op.szi)
       };
     });
-  } else {
-    const orderPriority = { SOL: 1, BTC: 2, ETH: 3 };
-    openPositionsDetailed = [...openPositionsDetailed].sort((a, b) => (orderPriority[a.coin] || 9) - (orderPriority[b.coin] || 9));
   }
+
+  openPositionsDetailed = [...openPositionsDetailed].sort((a, b) => {
+    const aRec = Number(a.hourlyCashflowUsdc || 0) >= 0 ? 0 : 1;
+    const bRec = Number(b.hourlyCashflowUsdc || 0) >= 0 ? 0 : 1;
+    if (aRec !== bRec) return aRec - bRec;
+    return Number(b.notionalUsdc || 0) - Number(a.notionalUsdc || 0);
+  });
 
   const nextHourNetFlowUsdc = +(openPositionsDetailed.reduce((acc, item) => acc + Number(item.hourlyCashflowUsdc || 0), 0)).toFixed(4);
   try {
     renderOpenPositionsSection(openPositionsDetailed);
+    setTextIfChanged(document.getElementById("secAHeaderTag"), `${openPositionsDetailed.length} Posiciones Activas · Efecto en Corte :00 UTC`);
   } catch (_) {}
 
   // 4. Tarjeta 2: Balance Real de Funding en #501
@@ -314,23 +344,31 @@ function enrichAndApplyTelemetry(data) {
   setTextIfChanged(document.getElementById("topOpenImpactVal"), `${flowSign}$${Math.abs(nextHourNetFlowUsdc).toFixed(4)}`);
   setTextIfChanged(document.getElementById("topOpenCountBadge"), `${openPositionsDetailed.length} Posiciones en Squad`);
 
-  const solItem = openPositionsDetailed.find(x => x.coin === "SOL");
-  const btcItem = openPositionsDetailed.find(x => x.coin === "BTC");
-  const ethItem = openPositionsDetailed.find(x => x.coin === "ETH");
-  if (solItem && btcItem) {
-    const sSign = solItem.hourlyCashflowUsdc >= 0 ? "+" : "-";
-    const bSign = btcItem.hourlyCashflowUsdc >= 0 ? "+" : "-";
+  if (openPositionsDetailed.length >= 2) {
+    const p1 = openPositionsDetailed[0];
+    const p2 = openPositionsDetailed[1];
+    const s1 = Number(p1.hourlyCashflowUsdc || 0) >= 0 ? "+" : "-";
+    const s2 = Number(p2.hourlyCashflowUsdc || 0) >= 0 ? "+" : "-";
     setTextIfChanged(
       document.getElementById("topOpenImpactSub1"),
-      `SOL: ${sSign}$${Math.abs(solItem.hourlyCashflowUsdc).toFixed(4)}/h · BTC: ${bSign}$${Math.abs(btcItem.hourlyCashflowUsdc).toFixed(4)}/h`
+      `${p1.coin} (${p1.side}): ${s1}$${Math.abs(Number(p1.hourlyCashflowUsdc || 0)).toFixed(4)}/h · ${p2.coin}: ${s2}$${Math.abs(Number(p2.hourlyCashflowUsdc || 0)).toFixed(4)}/h`
     );
   }
-  if (ethItem) {
-    const eSign = ethItem.hourlyCashflowUsdc >= 0 ? "+" : "-";
+  if (openPositionsDetailed.length >= 3) {
+    const p3 = openPositionsDetailed[2];
+    const s3 = Number(p3.hourlyCashflowUsdc || 0) >= 0 ? "+" : "-";
     setTextIfChanged(
       document.getElementById("topOpenImpactSub2"),
-      `ETH: ${eSign}$${Math.abs(ethItem.hourlyCashflowUsdc).toFixed(4)}/h (Corte 08h: +$0.0009)`
+      `${p3.coin} (${p3.side}): ${s3}$${Math.abs(Number(p3.hourlyCashflowUsdc || 0)).toFixed(4)}/h · SOL TP Cerrado ✔`
     );
+  } else if (openPositionsDetailed.length === 1) {
+    const p1 = openPositionsDetailed[0];
+    const s1 = Number(p1.hourlyCashflowUsdc || 0) >= 0 ? "+" : "-";
+    setTextIfChanged(
+      document.getElementById("topOpenImpactSub1"),
+      `${p1.coin} (${p1.side}): ${s1}$${Math.abs(Number(p1.hourlyCashflowUsdc || 0)).toFixed(4)}/h`
+    );
+    setTextIfChanged(document.getElementById("topOpenImpactSub2"), "SOL-USDC TP Cerrado ✔ · Escudo #00 Libre");
   }
 
   // 6. Sección B + Tarjeta 5: Cola de Trabajo del Escudo #00 (Solo 3 Pares Seguros OI >= $15M USD)
@@ -340,19 +378,23 @@ function enrichAndApplyTelemetry(data) {
 
   if (!safeQueue3 || safeQueue3.length === 0) {
     safeQueue3 = [
-      { coin: "XMR", pair: "XMR-USDC", hourlyPct: 0.0034, absAprPct: 30.2, oiUsd: 120662538, oiFormatted: "$120.7M", receiverSide: "SHORT COBRA" },
-      { coin: "MON", pair: "MON-USDC", hourlyPct: -0.0022, absAprPct: 19.2, oiUsd: 31047168, oiFormatted: "$31.0M", receiverSide: "LONG COBRA" },
-      { coin: "LTC", pair: "LTC-USDC", hourlyPct: 0.0013, absAprPct: 10.9, oiUsd: 22572258, oiFormatted: "$22.6M", receiverSide: "SHORT COBRA" }
+      { coin: "BNB", pair: "BNB-USDC", hourlyPct: -0.0049, absAprPct: 43.0, oiUsd: 46848297, oiFormatted: "$46.8M", receiverSide: "LONG COBRA" },
+      { coin: "ADA", pair: "ADA-USDC", hourlyPct: -0.0029, absAprPct: 25.0, oiUsd: 16210000, oiFormatted: "$16.2M", receiverSide: "LONG COBRA" },
+      { coin: "MON", pair: "MON-USDC", hourlyPct: -0.0019, absAprPct: 16.5, oiUsd: 31047168, oiFormatted: "$31.0M", receiverSide: "LONG COBRA" }
     ];
   }
 
   try {
-    renderShieldQueueSection(safeQueue3, shieldPostSol);
+    renderShieldQueueSection(safeQueue3, shieldClosed, isRescue);
+    setTextIfChanged(
+      document.getElementById("secBHeaderTag"),
+      `Escudo #00 Activo: $${shieldClosed.toFixed(2)} USDC (2x ALO Maker = $${(shieldClosed * 2).toFixed(2)})`
+    );
   } catch (_) {}
 
   const topSafe1 = safeQueue3[0];
   if (topSafe1) {
-    const notional2x = shieldPostSol * 2;
+    const notional2x = shieldClosed * 2;
     const hYield = +((notional2x * Math.abs(topSafe1.hourlyPct)) / 100).toFixed(4);
     const dYield = +(hYield * 24).toFixed(2);
     setTextIfChanged(document.getElementById("topSafeTargetCoin"), topSafe1.pair || `${topSafe1.coin}-USDC`);

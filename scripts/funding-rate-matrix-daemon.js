@@ -19,6 +19,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const fs = require("fs");
 const path = require("path");
+const { executeShieldFundingOrder, HL_ASSET_META } = require("./hyperliquid-squad-engine");
 
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 const HL_INFO_URL = "https://api.hyperliquid.xyz/info";
@@ -26,6 +27,9 @@ const TELEMETRY_PATH = path.join(__dirname, "..", "telemetry", "funding-rate-mat
 const MIN_SAFE_OI_USD = 5000000; // Filtro estricto OI >= $5,000,000 USD
 
 let tickCount = 0;
+let lastShieldOrderAttemptMs = 0;
+let lastShieldOrderResult = null;
+let activeShieldFundingCoin = "BNB";
 
 async function hlPost(payload) {
   const res = await fetch(HL_INFO_URL, {
@@ -97,14 +101,18 @@ async function scanFundingMatrix() {
     }
 
     const closedBaseUsdc = +(accountValueUsdc - unrealizedPnlTotal).toFixed(2);
+    const postSolBridged = closedBaseUsdc >= 880.0;
     const shield40PctLiveUsdc = +(accountValueUsdc * 0.40).toFixed(2);
     const shield40PctClosedUsdc = +(closedBaseUsdc * 0.40).toFixed(2);
-    const shield40PctPostSolUsdc = +((closedBaseUsdc + 54.10) * 0.40).toFixed(2); // ~$360.00 USDC post-SOL
+    // Ya cruzaron los $54.10 USDC post-SOL cuando closedBaseUsdc >= 880, prohibido sumarlos dos veces
+    const shield40PctPostSolUsdc = postSolBridged
+      ? shield40PctClosedUsdc
+      : +((closedBaseUsdc + 54.10) * 0.40).toFixed(2);
 
     const isRescueActive = rescuePosition !== null;
     const priorityStatusBanner = isRescueActive
       ? `🛡️ ESCUDO #00 EN MISIÓN DE RESCATE (${rescuePosition.coin} · ${rescuePosition.szi} @ $${rescuePosition.entryPx}) · COBRO PASIVO DE POSICIONES ACTUALES ACTIVO`
-      : `🟢 ESCUDO #00 100% LIBRE ($${shield40PctClosedUsdc.toFixed(2)} USDC) · CAZADOR ALO MAKER DELTA-SAFE ACTIVO`;
+      : `🟢 ESCUDO #00 LIBRE Y EN PRODUCCIÓN ACTIVA ($${shield40PctClosedUsdc.toFixed(2)} USDC DISPONIBLES · 0 RESCATES ACTIVOS) · CAZANDO CORTE HORARIO :00 UTC`;
 
     // 2. Procesar metaAndAssetCtxs -> Posiciones Abiertas + Top 3 Escudo #00 Seguro (OI >= $15M)
     const universe = metaCtx?.[0]?.universe || [];
@@ -124,11 +132,20 @@ async function scanFundingMatrix() {
       const markPx = parseFloat(c.markPx || op.entryPx || "0");
       const notionalUsdc = +(Math.abs(op.szi) * markPx).toFixed(2);
       const hourlyCashflowUsdc = +(-1 * op.szi * markPx * rawFunding).toFixed(4);
-      const isSolRescue = op.coin === "SOL" || op.posVal > 600;
-      const tpPx = isSolRescue ? 100.62 : +(op.entryPx * 1.0022).toFixed(2);
-      const squadLabel = isSolRescue
-        ? "ESCUDO #00 RESCATE ACTIVO"
-        : (op.coin === "BTC" ? "#02 BRAVO · SCALPER" : "#03 CHARLIE · SCALPER");
+      const isSolRescue = op.posVal > 600;
+      const tpPx = isSolRescue ? +(op.entryPx * 1.0008).toFixed(2) : +(op.entryPx * 1.0015).toFixed(op.entryPx < 10 ? 3 : 2);
+      let squadLabel = "#03 CHARLIE · SCALPER";
+      if (isSolRescue) {
+        squadLabel = "ESCUDO #00 RESCATE ACTIVO";
+      } else if (op.coin === activeShieldFundingCoin || (op.coin === "BNB" && hourlyCashflowUsdc > 0)) {
+        squadLabel = "🛡️ ESCUDO #00 · RENTA HORARIA";
+      } else if (["SOL", "SUI", "AVAX"].includes(op.coin)) {
+        squadLabel = hourlyCashflowUsdc >= 0 ? "#01 ALFA · COBRANDO" : "#01 ALFA · SCALPER";
+      } else if (["BTC", "PAXG", "LINK"].includes(op.coin)) {
+        squadLabel = hourlyCashflowUsdc >= 0 ? "#02 BRAVO · COBRANDO" : "#02 BRAVO · SCALPER";
+      } else if (["ETH", "BNB", "AAVE"].includes(op.coin)) {
+        squadLabel = hourlyCashflowUsdc >= 0 ? "#03 CHARLIE · COBRANDO" : "#03 CHARLIE · SCALPER";
+      }
       return {
         coin: op.coin,
         pair: `${op.coin}-USDC`,
@@ -146,6 +163,12 @@ async function scanFundingMatrix() {
         isReceiving: hourlyCashflowUsdc >= 0,
         squadLabel
       };
+    });
+
+    // Priorizar en visualización las posiciones que COBRAN funding horario positivo primero
+    openPositionsFunding.sort((a, b) => {
+      if (a.isReceiving !== b.isReceiving) return a.isReceiving ? -1 : 1;
+      return b.hourlyCashflowUsdc - a.hourlyCashflowUsdc;
     });
 
     const nextHourNetFlowUsdc = +(openPositionsFunding.reduce((acc, p) => acc + p.hourlyCashflowUsdc, 0)).toFixed(4);
@@ -176,8 +199,8 @@ async function scanFundingMatrix() {
       const passesDeltaSafeFilter = oiUsd >= MIN_SAFE_OI_USD;
       const isCurrentlyHeld = openPositionsList.some(op => op.coin === u.name);
 
-      // Renta estimada por hora y por día con el Escudo #00 Post-SOL a 2x conservador (~$719.56 nocional)
-      const estHourlyUsdcOnShield = +((shield40PctPostSolUsdc * 2 * absHourlyPct) / 100).toFixed(4);
+      // Renta estimada por hora y por día con el Escudo #00 a 2x conservador (~$720.74 nocional)
+      const estHourlyUsdcOnShield = +((shield40PctClosedUsdc * 2 * absHourlyPct) / 100).toFixed(4);
       const estDailyUsdcOnShield = +(estHourlyUsdcOnShield * 24).toFixed(2);
 
       allAssets.push({
@@ -211,21 +234,61 @@ async function scanFundingMatrix() {
         : (item.passesDeltaSafeFilter ? "OI >= $5M · APTO ALO" : "ALTO APR · VIGILANDO OI")
     }));
     const safeShieldQueue3 = allAssets
-      .filter(a => a.oiUsd >= 15000000 && !a.isCurrentlyHeld && !["SOL", "BTC", "ETH"].includes(a.coin))
+      .filter(a => a.oiUsd >= 15000000 && (!a.isCurrentlyHeld || a.coin === activeShieldFundingCoin) && !["SOL", "BTC", "ETH"].includes(a.coin))
       .slice(0, 3);
+
+    // ==============================================================================
+    // MOTOR DE CAPTURA HORARIA ACTIVA DEL ESCUDO #00 (POST-ONLY ALO MAKER)
+    // Con RESCUE_PRIORITY_LOCK = false (0 rescates activos) y $360.37 USDC libres,
+    // apunta al candidato #1 institucional compatible (ej. BNB-USDC LONG COBRA)
+    // ==============================================================================
+    if (!isRescueActive && shield40PctClosedUsdc >= 300) {
+      const execCandidate = allAssets.find(
+        a => a.oiUsd >= 15000000 && HL_ASSET_META[a.coin] && a.absHourlyPct >= 0.0010 && !["SOL", "BTC", "ETH"].includes(a.coin)
+      );
+      if (execCandidate) {
+        activeShieldFundingCoin = execCandidate.coin;
+        if (!execCandidate.isCurrentlyHeld && (Date.now() - lastShieldOrderAttemptMs >= 45000)) {
+          lastShieldOrderAttemptMs = Date.now();
+          const isBuyToReceive = execCandidate.rawFunding < 0; // Tasa negativa => Shorts pagan a Longs => LONG COBRA
+          const orderResult = await executeShieldFundingOrder({
+            coin: execCandidate.coin,
+            isBuy: isBuyToReceive,
+            notionalUsdc: 248.0
+          });
+          lastShieldOrderResult = {
+            timestamp: new Date().toISOString(),
+            targetPair: execCandidate.pair,
+            receiverSide: execCandidate.receiverSide,
+            hourlyPct: execCandidate.hourlyPct,
+            aprPct: execCandidate.absAprPct,
+            ...orderResult
+          };
+          if (orderResult.ordered) {
+            console.log(`🟢⚡ [ESCUDO #00 CAPTURA HORARIA] Orden Post-Only ALO Maker enviada en ${execCandidate.pair} (${execCandidate.receiverSide}): ${orderResult.size} @ $${orderResult.price} (${execCandidate.hourlyPct}%/h | ${execCandidate.absAprPct}% APR)`);
+          } else {
+            console.log(`🛡️ [ESCUDO #00 VIGILANCIA] ${execCandidate.pair} (${execCandidate.receiverSide}): ${orderResult.reason}`);
+          }
+        }
+      }
+    }
 
     // Mejor pagador global y mejor pagador con OI >= $15M USD
     const topPayerGlobal = top18Payers[0] || {
-      coin: "XMR",
-      pair: "XMR-USDC",
-      hourlyPct: 0.0034,
-      absHourlyPct: 0.0034,
-      aprPct: 30.2,
-      absAprPct: 30.2,
-      receiverSide: "SHORT COBRA",
-      oiFormatted: "$120.7M"
+      coin: "BNB",
+      pair: "BNB-USDC",
+      hourlyPct: -0.0049,
+      absHourlyPct: 0.0049,
+      aprPct: -43.0,
+      absAprPct: 43.0,
+      receiverSide: "LONG COBRA",
+      oiFormatted: "$46.8M"
     };
     const topPayerDeltaSafe = safeShieldQueue3[0] || allAssets.find(a => a.passesDeltaSafeFilter) || topPayerGlobal;
+
+    const prioritySubInfo = isRescueActive
+      ? `Rescate Mentora #00 Activo en ${rescuePosition.coin} ➔ Prioridad Absoluta de Liquidez`
+      : `SOL-USDC Cerrado en TP ($100.62) ✔ · Préstamo +$54.10 en L1 ($${closedBaseUsdc.toFixed(2)} Base) · Cazando ${topPayerDeltaSafe.pair} (${topPayerDeltaSafe.receiverSide})`;
 
     // 3. Procesar userFunding (Libro Mayor Oficial de Hyperliquid L1 para #501)
     const fundingArray = Array.isArray(userFundingRaw) ? userFundingRaw : [];
@@ -295,6 +358,8 @@ async function scanFundingMatrix() {
         enabled: true,
         isRescueActive,
         statusBanner: priorityStatusBanner,
+        subInfo: prioritySubInfo,
+        lastShieldOrderResult,
         rescuePosition,
         openPositions: openPositionsList
       },
