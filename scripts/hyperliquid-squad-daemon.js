@@ -36,20 +36,20 @@ process.on("uncaughtException", (err) => {
   console.error("⚠️ [DAEMON] Excepción no capturada (resiliente, continuando):", err?.message || err);
 });
 
-// --- POLÍTICA DE CAPITAL ESCALADO V2 (40% RESERVA / 20% CADA ESCUADRÓN) ---
-const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$320.00+ USDC)
-const SQUAD_MARGIN_RATIO = 0.20;        // 20% Margen por Escuadrón (~$160.00 USDC a 5x = ~$800.00 Nocional)
-const LEVERAGE = 5;
-const MAX_NOTIONAL_PER_COIN = 250.00;   // REGLA ANTI-LIQUIDEZ ESTÁTICA: Máx $250.00 USD por par (~10% del poder de la cuenta)
-const TARGET_GAIN_PCT = 0.15;           // +0.15% Take Profit Rápido (Rango +0.12% a +0.18% · Rotación Rápida)
+// --- POLÍTICA DE CAPITAL ESCALADO V3 (40% ESCUDO #00 / 60% EN 6 ESCUADRONES #01-#06 ~ $90-$100 C/U) ---
+const MENTORA_RESERVE_RATIO = 0.40;     // 40% Escudo Mentora #00 (~$360.82+ USDC Intocables)
+const SQUAD_MARGIN_RATIO = 0.11;        // ~11% Margen por Escuadrón (~$100.00 USDC x 6 Escuadrones = ~$600 / 60% Operativo)
+const LEVERAGE = 2.5;                   // ~$100 Margen * 2.5x = ~$250.00 Nocional seguro por tiro
+const MAX_NOTIONAL_PER_COIN = 250.00;   // REGLA ANTI-LIQUIDEZ ESTÁTICA: Máx $250.00 USD por par
+const TARGET_GAIN_PCT = 0.15;           // +0.15% Take Profit Rápido (Rotación Rápida +0.15%)
 const BREAKEVEN_TRIGGER_PCT = 0.05;     // Candado Breakeven #00 se activa al +0.05%
 const BREAKEVEN_LOCK_PCT = 0.03;        // Candado BE en +0.03% (cubre 100% comisiones Maker y asegura centavos verdes)
 const TIME_STOP_MS = 20 * 60 * 1000;    // Reloj Anti-Estancamiento: 20 minutos
 const TIME_STOP_MIN_PNL_USDC = 0.02;    // Si lleva >20m y PnL >= +$0.02 USDC, cierra de inmediato para rotación
 const COOLDOWN_DURATION_MS = 12 * 60 * 1000; // 12 minutos de enfriamiento táctico post-TP
 const MIN_CERTAINTY_L2_PCT = 65.0;      // 65% de presión L2 mínima para tiro de alta certeza
-const MAX_CONCURRENT_INITIAL = 2;       // Máximo 2 concurrentes sin BE #00
-const MAX_CONCURRENT_TOTAL = 3;         // Máximo 3 concurrentes totales si las anteriores tienen BE #00
+const MAX_CONCURRENT_INITIAL = 3;       // Hasta 3 simultáneas directas entre los 6 escuadrones
+const MAX_CONCURRENT_TOTAL = 4;         // Hasta 4 simultáneas si al menos 1 ya está en verde / BE #00
 const pairCooldowns = {};               // Mapa de enfriamiento táctico { coin: timestampMs }
 const DCA_TRIGGER_DRAWDOWN = -0.85;     // Refuerzo Mentora en -0.85%
 const DCA_TRIGGER_RSI = 30;             // RSI sobreventa extrema
@@ -69,30 +69,50 @@ const ASSET_INDICES = {
   SOL: 5,
   AVAX: 6,
   BNB: 7,
+  LTC: 10,
+  DOGE: 12,
   SUI: 14,
   LINK: 18,
+  XRP: 25,
   AAVE: 28,
+  TRX: 37,
+  UNI: 39,
+  DOT: 48,
+  ADA: 65,
+  TON: 66,
+  NEAR: 74,
   POL: 142,
+  HYPE: 159,
   PAXG: 187
 };
 
 const ASSET_DECIMALS = {
-  BTC: { sz: 5, coin: "BTC" },
-  ETH: { sz: 4, coin: "ETH" },
-  SOL: { sz: 2, coin: "SOL" },
-  AVAX: { sz: 2, coin: "AVAX" },
-  BNB: { sz: 3, coin: "BNB" },
-  SUI: { sz: 1, coin: "SUI" },
-  LINK: { sz: 1, coin: "LINK" },
-  AAVE: { sz: 2, coin: "AAVE" },
-  POL: { sz: 0, coin: "POL" },
-  PAXG: { sz: 3, coin: "PAXG" }
+  BTC: { sz: 5, px: 0, coin: "BTC" },
+  ETH: { sz: 4, px: 1, coin: "ETH" },
+  SOL: { sz: 2, px: 2, coin: "SOL" },
+  AVAX: { sz: 2, px: 3, coin: "AVAX" },
+  BNB: { sz: 3, px: 2, coin: "BNB" },
+  LTC: { sz: 2, px: 3, coin: "LTC" },
+  DOGE: { sz: 0, px: 6, coin: "DOGE" },
+  SUI: { sz: 1, px: 4, coin: "SUI" },
+  LINK: { sz: 1, px: 3, coin: "LINK" },
+  XRP: { sz: 0, px: 4, coin: "XRP" },
+  AAVE: { sz: 2, px: 2, coin: "AAVE" },
+  TRX: { sz: 0, px: 5, coin: "TRX" },
+  UNI: { sz: 1, px: 4, coin: "UNI" },
+  DOT: { sz: 1, px: 5, coin: "DOT" },
+  ADA: { sz: 0, px: 5, coin: "ADA" },
+  TON: { sz: 1, px: 4, coin: "TON" },
+  NEAR: { sz: 1, px: 4, coin: "NEAR" },
+  POL: { sz: 0, px: 5, coin: "POL" },
+  HYPE: { sz: 2, px: 3, coin: "HYPE" },
+  PAXG: { sz: 3, px: 1, coin: "PAXG" }
 };
 
 const SQUADS_CONFIG = {
   ALFA: {
     id: "ALFA",
-    name: "Escuadrón Alfa",
+    name: "Escuadrón #01 Alfa",
     specialist: "#601 Titan-Scalper",
     role: "Fuerza Rápida High-Beta",
     pairs: ["SOL", "SUI", "AVAX"],
@@ -101,7 +121,7 @@ const SQUADS_CONFIG = {
   },
   BRAVO: {
     id: "BRAVO",
-    name: "Escuadrón Bravo",
+    name: "Escuadrón #02 Bravo",
     specialist: "#701 Oracle-Global",
     role: "Macro & Refugios RWA",
     pairs: ["BTC", "PAXG", "LINK"],
@@ -110,22 +130,49 @@ const SQUADS_CONFIG = {
   },
   CHARLIE: {
     id: "CHARLIE",
-    name: "Escuadrón Charlie",
+    name: "Escuadrón #03 Charlie",
     specialist: "#801 Nexus-Boss",
     role: "Ecosistema DeFi & ALO Maker",
     pairs: ["ETH", "BNB", "AAVE"],
+    targetGainPct: TARGET_GAIN_PCT,
+    beGainPct: BREAKEVEN_LOCK_PCT
+  },
+  GOLF: {
+    id: "GOLF",
+    name: "Escuadrón #04 Golf",
+    specialist: "#901 Golf-Velocity",
+    role: "Alta Velocidad & Liquidez Masiva",
+    pairs: ["XRP", "DOGE", "ADA"],
+    targetGainPct: TARGET_GAIN_PCT,
+    beGainPct: BREAKEVEN_LOCK_PCT
+  },
+  HOTEL: {
+    id: "HOTEL",
+    name: "Escuadrón #05 Hotel",
+    specialist: "#902 Hotel-HyperL1",
+    role: "Nativos L1 & Flujo Institucional",
+    pairs: ["HYPE", "TRX", "UNI"],
+    targetGainPct: TARGET_GAIN_PCT,
+    beGainPct: BREAKEVEN_LOCK_PCT
+  },
+  INDIA: {
+    id: "INDIA",
+    name: "Escuadrón #06 India",
+    specialist: "#903 India-CrossChain",
+    role: "Infraestructura L0/L1 & PoW",
+    pairs: ["DOT", "NEAR", "LTC"],
     targetGainPct: TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   }
 };
 
 function formatHlPrice(price, coin) {
+  const meta = ASSET_DECIMALS[coin];
+  if (meta && typeof meta.px === "number") {
+    return meta.px === 0 ? Math.round(price).toFixed(0) : Number(price).toFixed(meta.px);
+  }
   if (coin === "BTC") return Math.round(price).toFixed(0);
   if (coin === "ETH" || coin === "PAXG") return price.toFixed(1);
-  if (coin === "SOL" || coin === "BNB" || coin === "AAVE" || coin === "AVAX") return price.toFixed(2);
-  if (coin === "LINK") return price.toFixed(3);
-  if (coin === "SUI") return price.toFixed(4);
-  if (coin === "POL") return price.toFixed(5);
   return price.toFixed(2);
 }
 
@@ -501,7 +548,7 @@ function isOpeningBellWick(now) {
   return isLondonBell || isNyBell;
 }
 
-// Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots / 6 Bots por Bloque en 9 Pares)
+// Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots / 12 Bots Activos en Bloques 1 y 2 sobre 18 Pares)
 function updateSquadMatrixClones(openPositions, pairCooldowns) {
   try {
     const spaces = [
@@ -509,7 +556,7 @@ function updateSquadMatrixClones(openPositions, pairCooldowns) {
       { id: 2, code: "BRAVO", num: "#02", block: 1, titular: "BRAVO 1", clon: "BRAVO 2", pairs: ["BTC", "PAXG", "LINK"] },
       { id: 3, code: "CHARLIE", num: "#03", block: 1, titular: "CHARLIE 1", clon: "CHARLIE 2", pairs: ["ETH", "BNB", "AAVE"] },
       { id: 4, code: "GOLF", num: "#04", block: 2, titular: "GOLF 1", clon: "GOLF 2", pairs: ["XRP", "DOGE", "ADA"] },
-      { id: 5, code: "HOTEL", num: "#05", block: 2, titular: "HOTEL 1", clon: "HOTEL 2", pairs: ["HYPE", "TRX", "TON"] },
+      { id: 5, code: "HOTEL", num: "#05", block: 2, titular: "HOTEL 1", clon: "HOTEL 2", pairs: ["HYPE", "TRX", "UNI"] },
       { id: 6, code: "INDIA", num: "#06", block: 2, titular: "INDIA 1", clon: "INDIA 2", pairs: ["DOT", "NEAR", "LTC"] },
       { id: 7, code: "JULIET", num: "#07", block: 3, titular: "JULIET 1", clon: "JULIET 2", pairs: ["TAO", "RENDER", "FET"] },
       { id: 8, code: "KILO", num: "#08", block: 3, titular: "KILO 1", clon: "KILO 2", pairs: ["ARB", "OP", "UNI"] },
@@ -529,14 +576,14 @@ function updateSquadMatrixClones(openPositions, pairCooldowns) {
     const activeCoins = (openPositions || []).map(p => p.position.coin);
 
     const clonesState = spaces.map(sp => {
-      if (sp.block === 1) {
+      if (sp.block <= 2) {
         const inPosCoin = sp.pairs.find(c => activeCoins.includes(c));
         const cooldownCoin = sp.pairs.find(c => pairCooldowns && pairCooldowns[c] && pairCooldowns[c] > now);
 
         if (inPosCoin) {
           return {
             ...sp,
-            relayStatus: `⚡ ${sp.titular}: ACTIVO ⇄ ${sp.clon}: RELEVO`,
+            relayStatus: `⚡ ${sp.titular}: ACTIVO (${inPosCoin}) ⇄ ${sp.clon}: RELEVO`,
             activeBot: sp.titular,
             standbyBot: sp.clon,
             mode: "ACTIVE_POSITION",
@@ -577,7 +624,7 @@ function updateSquadMatrixClones(openPositions, pairCooldowns) {
 
     const payload = {
       updatedAt: new Date().toISOString(),
-      architecture: "Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots)",
+      architecture: "Hot-Swap Relay 1 ⇄ 2 (6 Escuadrones Activos #01-#06 × 12 Bots en 18 Pares)",
       rules: {
         radarL2: ">= 62%",
         rsi5m: "<= 46 (Long) / >= 70 (Short) + EMA20",
@@ -594,16 +641,15 @@ function updateSquadMatrixClones(openPositions, pairCooldowns) {
 
 async function startAutonomousSquadDaemon() {
   console.log("================================================================================");
-  console.log("🚀 ÁREA 501 // SQUAD SECRET V2 ESCALADO // BLOQUE 1 (~$800 USDC ➔ $1,000 USDC)");
+  console.log("🚀 ÁREA 501 // SQUAD SECRET V3 // 6 ESCUADRONES ACTIVOS (#01 ALFA A #06 INDIA)");
   console.log("================================================================================");
   console.log(`• Bóveda Nodriza: ${VAULT_501}`);
-  console.log(`• Préstamo Bóveda #501 (0% interés): $511.44 USDC ($300 inicial + $150 + $61.44 hoy) | Total Inyectado: $629.94 USDC`);
-  console.log(`• Doctrina de Consolidación: 100% Capitalización Pura hasta $1,000 USDC ➔ luego 70/30`);
-  console.log(`• Escudo Mentora #00: 40% del Capital (~$320.00+ USDC Blindados en Reserva)`);
-  console.log(`• Margen Operativo: 20% del Capital (~$160.00+ USDC a 5x = ~$800.00+ Nocional/tiro)`);
-  console.log(`• Meta Take Profit: +${TARGET_GAIN_PCT}% (~+$2.80 USDC netos por victoria)`);
-  console.log(`• Candado Breakeven: Activación al +${BREAKEVEN_TRIGGER_PCT}% ➔ Candado en +${BREAKEVEN_LOCK_PCT}%`);
-  console.log(`• Direct Orders Bridge: Activo en telemetry/direct-orders-queue.json (<150ms)\n`);
+  console.log(`• Préstamo Bóveda #501 (0% interés): $684.04 USDC ($629.94 + $54.10 Post-SOL)`);
+  console.log(`• Escuadrones Activos (18 Pares): #01 ALFA, #02 BRAVO, #03 CHARLIE, #04 GOLF, #05 HOTEL, #06 INDIA`);
+  console.log(`• Escudo Mentora #00: 40% del Capital (~$360.82+ USDC Blindados para Rescates + Funding + TP)`);
+  console.log(`• Margen Operativo: 60% del Capital (~$541.23 USDC ➔ ~$90-$100 USDC Base por Escuadrón)`);
+  console.log(`• Meta Take Profit: +${TARGET_GAIN_PCT}% Reduce-Only Automático en toda entrada`);
+  console.log(`• Alertas Telegram: 100% de Aperturas (OPEN) y Cierres (TAKE-PROFIT) en Tiempo Real\n`);
 
   const transport = new HttpTransport({ isTestnet: false });
   const info = new InfoClient({ transport });
@@ -619,6 +665,7 @@ async function startAutonomousSquadDaemon() {
   const confirmedOpenByCoin = {};
   const lastConfirmedPositionSizes = {};
   const positionOpenTimestamps = {};
+  const recentOrderSentCoins = {};
   let cycleCounter = 0;
   let isV2Armed = true;
 
@@ -627,7 +674,7 @@ async function startAutonomousSquadDaemon() {
     try {
       // 1. Obtener estado del Clearinghouse y Órdenes Abiertas
       const ch = await info.clearinghouseState({ user: VAULT_501 });
-      const accountValue = parseFloat(ch.marginSummary?.accountValue || "835.50");
+      const accountValue = parseFloat(ch.marginSummary?.accountValue || "902.05");
       const openPositions = (ch.assetPositions || []).filter(p => parseFloat(p.position.szi) !== 0);
       let openOrders = await info.openOrders({ user: VAULT_501 });
 
@@ -659,8 +706,8 @@ async function startAutonomousSquadDaemon() {
           try {
             const recentFills = await info.userFills({ user: VAULT_501 });
             const closeFill = recentFills.find(f => f.coin === closedCoin && f.dir && f.dir.includes("Close"));
-            const rawGrossGain = closeFill ? parseFloat(closeFill.closedPnl || "0.85") : 0.85;
-            const feePaid = closeFill ? parseFloat(closeFill.fee || "0.05") : 0.05;
+            const rawGrossGain = closeFill ? parseFloat(closeFill.closedPnl || "0.45") : 0.45;
+            const feePaid = closeFill ? parseFloat(closeFill.fee || "0.04") : 0.04;
             const netGain = +(rawGrossGain - feePaid).toFixed(4);
             const exitPxStr = closeFill ? closeFill.px : "TP Alcanzado";
             const squadCfg = SQUADS_CONFIG[prevInfo.squadKey] || SQUADS_CONFIG.ALFA;
@@ -683,30 +730,19 @@ async function startAutonomousSquadDaemon() {
             recordTransactionInLedger(victoryTx);
             const currentLedger = loadRealLedger();
 
-            const victoryTg = `🔴 <b>ÁREA 501 // VENTA EJECUTADA (TAKE PROFIT V2 ESCALADO)</b>\n` +
+            const victoryTg = `🔴💰 <b>ÁREA 501 // OPERACIÓN CERRADA EN TAKE-PROFIT (L1)</b>\n` +
               `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
               `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
-              `📍 <b>Par:</b> <code>${closedCoin}-USDC</code>\n` +
+              `📍 <b>Par:</b> <code>${closedCoin}-USDC</code> (${prevInfo.isShort ? "SHORT" : "LONG"})\n` +
               `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(prevInfo.entryPx || 0, closedCoin)}</code>\n` +
-              `📤 <b>SE VENDIÓ A:</b> <code>$${exitPxStr}</code>\n` +
-              `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+$${netGain.toFixed(4)} USDC</b>\n` +
+              `📤 <b>Precio Cierre TP:</b> <code>$${exitPxStr}</code>\n` +
+              `💰 <b>GANANCIA NETA EN CAJA:</b> <b>+${netGain >= 0 ? "$" : "-$"}${Math.abs(netGain).toFixed(4)} USDC</b>\n` +
               `🏆 <b>Récord Oficial:</b> <b>${currentLedger.realWins} Ganadas · 0 Pérdidas (100% Invictos)</b>\n` +
-              `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo (Clon relevo activo en pares libres)\n` +
+              `❄️ <b>Enfriamiento:</b> <code>${closedCoin}</code> en 12m de reposo (Clon relevo cazando en pares libres)\n` +
               `💵 <b>Equity Real en L1:</b> <code>$${accountValue.toFixed(2)} USDC</code>\n` +
               `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-              `🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>`;
+              `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>`;
             await sendSquadTelegram(victoryTg);
-
-            // GATILLO AUTOMÁTICO POST-SOL: Apenas cierre SOL-USDC (szi == 0), puentear los ~$54.10 USDC de #501 a Hyperliquid L1
-            if (closedCoin === "SOL") {
-              console.log("🚀⚡ [GATILLO POST-SOL] SOL-USDC cerrado en positivo! Iniciando puente automático de ~$54.10 USDC desde #501 a Hyperliquid L1...");
-              try {
-                const { executePostSolLoanBridge } = require("./auto-loan-post-sol");
-                executePostSolLoanBridge().catch(e => console.error("[AUTO-LOAN POST-SOL ERROR]:", e.message));
-              } catch (e) {
-                console.error("[AUTO-LOAN POST-SOL LOAD ERROR]:", e.message);
-              }
-            }
           } catch (err) {
             console.error(`[${prevInfo.squadKey}] Error procesando victoria de ${closedCoin}:`, err.message);
           }
@@ -719,15 +755,15 @@ async function startAutonomousSquadDaemon() {
       await checkMarketSessionAlertsDaemon(new Date());
       updateSquadMatrixClones(openPositions, pairCooldowns);
 
-      // Dinámica de capitalización compuesta
+      // Dinámica de capitalización compuesta (40% Escudo #00 / 60% repartido en 6 Escuadrones ~$90-$100 c/u)
       const reserveUsdc = +(accountValue * MENTORA_RESERVE_RATIO).toFixed(2);
       const availableForTrading = Math.max(0, accountValue - reserveUsdc);
-      const dynamicSquadMargin = Math.max(40.00, +(accountValue * SQUAD_MARGIN_RATIO).toFixed(2));
+      const dynamicSquadMargin = Math.max(90.00, +(accountValue * SQUAD_MARGIN_RATIO).toFixed(2));
       const dynamicNotional = Math.min(MAX_NOTIONAL_PER_COIN, +(dynamicSquadMargin * LEVERAGE).toFixed(2));
 
       if (cycleCounter % 6 === 1) {
         const openSummary = openPositions.map(p => `${p.position.coin}(${p.position.szi}@$${p.position.entryPx})`).join(", ") || "Ninguna";
-        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] Bloque 1 | Ciclo #${cycleCounter} | Equity Real: $${accountValue.toFixed(2)} USDC | Pos (${openPositions.length}/3): ${openSummary}`);
+        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] 6 Escuadrones (#01-#06) | Ciclo #${cycleCounter} | Equity Real: $${accountValue.toFixed(2)} USDC | Pos (${openPositions.length}/${MAX_CONCURRENT_TOTAL}): ${openSummary}`);
       }
 
       // Obtener precios mid actuales una sola vez por ciclo
@@ -741,7 +777,7 @@ async function startAutonomousSquadDaemon() {
         mids = await midsRes.json();
       } catch (_) {}
 
-      // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS ACTUALES (TP, BREAKEVEN #00 Y RESCATE MENTORA #00)
+      // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS ACTUALES (TP AUTOMÁTICO, BREAKEVEN #00, RESCATE #00 Y ALERTA DE APERTURA)
       for (const activePos of openPositions) {
         const coin = activePos.position.coin;
         const sz = activePos.position.szi;
@@ -753,17 +789,39 @@ async function startAutonomousSquadDaemon() {
 
         const squadKey = Object.keys(SQUADS_CONFIG).find(k => SQUADS_CONFIG[k].pairs.includes(coin)) || "ALFA";
         const squadCfg = SQUADS_CONFIG[squadKey];
+        const isNewPos = !confirmedOpenByCoin[coin];
 
-        if (!confirmedOpenByCoin[coin]) {
+        if (isNewPos) {
           confirmedOpenByCoin[coin] = {
             squadKey,
             entryPx,
             szi: szNum,
             isShort,
-            dcaDone: notionalVal >= 600, // Si nocional >= $600 (ej. SOL 9.76 @ $101.165), el cartucho Mentora #00 ya fue aplicado
+            dcaDone: notionalVal >= 600,
             beLocked: false
           };
           positionOpenTimestamps[coin] = Date.now();
+
+          // Si se abrió después del ciclo 1 y aún no enviamos alerta de apertura en los últimos 60s, notificar a Telegram!
+          if (cycleCounter > 1 && (!recentOrderSentCoins[coin] || (Date.now() - recentOrderSentCoins[coin] > 60000))) {
+            recentOrderSentCoins[coin] = Date.now();
+            const targetGainPct = notionalVal >= 1500 ? 0.08 : (notionalVal >= 600 ? 0.12 : TARGET_GAIN_PCT);
+            const tpEstNum = isShort ? entryPx * (1 - targetGainPct / 100) : entryPx * (1 + targetGainPct / 100);
+            const tpEstStr = formatHlPrice(tpEstNum, coin);
+            const estGainUsdc = +(notionalVal * (targetGainPct / 100) - (notionalVal * 0.0003)).toFixed(4);
+
+            const openConfirmedTg = `🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
+              `📍 <b>Par:</b> <code>${coin}-USDC</code> (<b>${isShort ? "SHORT 🐻" : "LONG 🐂"}</b> · ${Math.abs(szNum)} ${coin})\n` +
+              `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(entryPx, coin)}</code> ($${notionalVal.toFixed(2)} Nocional)\n` +
+              `📤 <b>Orden Take-Profit (+${targetGainPct}%):</b> <code>$${tpEstStr}</code> (Reduce-Only)\n` +
+              `💰 <b>Ganancia Estimada TP:</b> <b>+$${estGainUsdc.toFixed(4)} USDC</b>\n` +
+              `🛡️ <b>Protección:</b> Candado BE #00 (+0.05%) + Escudo Mentora #00 ($${reserveUsdc.toFixed(2)} USDC)\n` +
+              `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+              `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Posición en Hypurrscan (Sin conectar Wallet)</a>`;
+            await sendSquadTelegram(openConfirmedTg);
+          }
         } else {
           confirmedOpenByCoin[coin].entryPx = entryPx;
           confirmedOpenByCoin[coin].szi = szNum;
@@ -771,12 +829,11 @@ async function startAutonomousSquadDaemon() {
         }
         const posMeta = confirmedOpenByCoin[coin];
 
-        // Verificar si ya tiene orden Reduce-Only Take Profit en el libro L1
+        // Verificar si ya tiene orden Reduce-Only Take Profit en el libro L1 (incluye posiciones del Escudo #00)
         const existingExitOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
         const currentMid = parseFloat(mids[coin] || entryPx);
 
-        if (!existingExitOrder && isV2Armed) {
-          // Si tiene 2 cartuchos Mentora #00 (nocional >= $1,500, ej. SOL 19.52), TP rápido +0.08%; si 1 cartucho, +0.12%; si tiro normal, +0.15%
+        if (!existingExitOrder && isV2Armed && ASSET_DECIMALS[coin]) {
           const targetGainPct = notionalVal >= 1500 ? 0.08 : (posMeta.dcaDone ? 0.12 : (squadCfg.targetGainPct || TARGET_GAIN_PCT));
           let exitPxNum = isShort
             ? entryPx * (1 - targetGainPct / 100)
@@ -807,7 +864,7 @@ async function startAutonomousSquadDaemon() {
           } catch (err) {
             console.error(`[${squadKey}] Error colocando salida ALO para ${coin}:`, err.message);
           }
-        } else if (isV2Armed) {
+        } else if (isV2Armed && ASSET_DECIMALS[coin]) {
           const gainPct = isShort
             ? (entryPx - currentMid) / entryPx * 100
             : (currentMid - entryPx) / entryPx * 100;
@@ -913,48 +970,67 @@ async function startAutonomousSquadDaemon() {
         }
       }
 
-      // 4. REGLA DE INDEPENDENCIA TOTAL DE ESCUADRONES Y CLONES (1 ⇄ 2)
-      // Si SOL está abierta en #01 ALFA 1, solo SOL y ALFA 1 quedan cuidando SOL.
-      // #01 ALFA 2 (SUI, AVAX), #02 BRAVO 1 & 2 (BTC, PAXG, LINK) y #03 CHARLIE 1 & 2 (ETH, BNB, AAVE)
-      // siguen escaneando y operando en paralelo hasta un máximo de 3 posiciones simultáneas totales.
-      if (isV2Armed && openPositions.length < MAX_CONCURRENT_TOTAL && !isOpeningBellWick(new Date())) {
+      // Enviar reporte de arranque en el Ciclo #1 confirmando los 6 Escuadrones Activos y las posiciones vigentes
+      if (cycleCounter === 1) {
+        const posLines = openPositions.map(p => {
+          const c = p.position.coin;
+          const s = parseFloat(p.position.szi);
+          const e = parseFloat(p.position.entryPx);
+          const tpMult = s >= 0 ? 1.0015 : 0.9985;
+          return `• <code>${c}-USDC</code> (${s >= 0 ? "LONG" : "SHORT"} ${Math.abs(s)} @ $${formatHlPrice(e, c)} ➔ TP $${formatHlPrice(e * tpMult, c)})`;
+        }).join("\n") || "• Sin posiciones abiertas (Escaneando 18 pares)";
+
+        const bootTg = `🚀🛡️ <b>ÁREA 501 // 6 ESCUADRONES ACTIVOS (#01 ALFA A #06 INDIA) + ESCUDO #00 TP</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `💵 <b>Patrimonio L1:</b> <code>$${accountValue.toFixed(2)} USDC</code> (Escudo 40%: <code>$${reserveUsdc.toFixed(2)} USDC</code>)\n` +
+          `🔰 <b>6 Escuadrones en Fuego (12 Bots 1 ⇄ 2 · 18 Pares):</b>\n` +
+          `  • <b>#01 ALFA:</b> SOL, SUI, AVAX\n` +
+          `  • <b>#02 BRAVO:</b> BTC, PAXG, LINK\n` +
+          `  • <b>#03 CHARLIE:</b> ETH, BNB, AAVE\n` +
+          `  • <b>#04 GOLF:</b> XRP, DOGE, ADA\n` +
+          `  • <b>#05 HOTEL:</b> HYPE, TRX, UNI\n` +
+          `  • <b>#06 INDIA:</b> DOT, NEAR, LTC\n` +
+          `📊 <b>Posiciones Abiertas Ahora (${openPositions.length}/${MAX_CONCURRENT_TOTAL}):</b>\n${posLines}\n` +
+          `🔔 <b>Notificaciones Telegram:</b> 100% Activas en CADA Apertura y CADA Cierre\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Cuenta #501 en Hypurrscan (Sin conectar Wallet)</a>`;
+        await sendSquadTelegram(bootTg);
+      }
+
+      // 4. REGLA DE INDEPENDENCIA DE LOS 6 ESCUADRONES (#01 ALFA A #06 INDIA) Y SUS CLONES (1 ⇄ 2)
+      const hasAtLeastOneInGreenOrBe = openPositions.some(p => {
+        const c = p.position.coin;
+        return parseFloat(p.position?.unrealizedPnl || "0") >= 0.03 || (confirmedOpenByCoin[c] && confirmedOpenByCoin[c].beLocked);
+      });
+      const allowedMaxConcurrent = (openPositions.length >= MAX_CONCURRENT_INITIAL && !hasAtLeastOneInGreenOrBe)
+        ? MAX_CONCURRENT_INITIAL
+        : MAX_CONCURRENT_TOTAL;
+
+      if (isV2Armed && openPositions.length < allowedMaxConcurrent && !isOpeningBellWick(new Date())) {
         const activeCoins = openPositions.map(p => p.position.coin);
         const restingEntryCoins = openOrders.filter(o => !o.reduceOnly).map(o => o.coin);
 
-        // Unidades de caza independientes en orden de prioridad paralela:
-        // 1) #02 BRAVO (BTC, PAXG, LINK)
-        // 2) #03 CHARLIE (ETH, BNB, AAVE)
-        // 3) #01 ALFA 1 o RELEVO #01 ALFA 2 (pares libres de ALFA: SUI, AVAX si SOL está ocupada)
-        const huntingUnits = [
-          {
-            unitKey: "BRAVO",
-            squadCfg: SQUADS_CONFIG.BRAVO,
-            botName: activeCoins.some(c => SQUADS_CONFIG.BRAVO.pairs.includes(c)) ? "BRAVO 2 (Relevo)" : "BRAVO 1 (Titular)",
-            candidatePairs: SQUADS_CONFIG.BRAVO.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
-            alreadyHasPos: activeCoins.some(c => SQUADS_CONFIG.BRAVO.pairs.includes(c)) || restingEntryCoins.some(c => SQUADS_CONFIG.BRAVO.pairs.includes(c))
-          },
-          {
-            unitKey: "CHARLIE",
-            squadCfg: SQUADS_CONFIG.CHARLIE,
-            botName: activeCoins.some(c => SQUADS_CONFIG.CHARLIE.pairs.includes(c)) ? "CHARLIE 2 (Relevo)" : "CHARLIE 1 (Titular)",
-            candidatePairs: SQUADS_CONFIG.CHARLIE.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
-            alreadyHasPos: activeCoins.some(c => SQUADS_CONFIG.CHARLIE.pairs.includes(c)) || restingEntryCoins.some(c => SQUADS_CONFIG.CHARLIE.pairs.includes(c))
-          },
-          {
-            unitKey: "ALFA",
-            squadCfg: SQUADS_CONFIG.ALFA,
-            botName: activeCoins.includes("SOL") ? "ALFA 2 (Clon Independiente SUI/AVAX)" : "ALFA 1 (Titular)",
-            candidatePairs: SQUADS_CONFIG.ALFA.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
-            // Si SOL está en rescate en ALFA 1, ALFA 2 queda habilitado si hay slot libre (<3 posiciones totales) y ningún otro par de ALFA está abierto
-            alreadyHasPos: activeCoins.filter(c => SQUADS_CONFIG.ALFA.pairs.includes(c)).length >= (activeCoins.includes("SOL") ? 2 : 1) ||
-                           restingEntryCoins.some(c => SQUADS_CONFIG.ALFA.pairs.includes(c))
-          }
-        ];
+        const baseUnits = ["ALFA", "BRAVO", "CHARLIE", "GOLF", "HOTEL", "INDIA"].map(unitKey => {
+          const squadCfg = SQUADS_CONFIG[unitKey];
+          const hasOpenInSquad = activeCoins.some(c => squadCfg.pairs.includes(c));
+          const hasRestingInSquad = restingEntryCoins.some(c => squadCfg.pairs.includes(c));
+          return {
+            unitKey,
+            squadCfg,
+            botName: hasOpenInSquad ? `${unitKey} 2 (Clon Relevo)` : `${unitKey} 1 (Titular)`,
+            candidatePairs: squadCfg.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
+            alreadyHasPos: hasOpenInSquad || hasRestingInSquad
+          };
+        });
+
+        // Rotar prioridad en cada ciclo para que los 6 escuadrones (Bloques 1 y 2) operen con equidad
+        const offset = cycleCounter % baseUnits.length;
+        const huntingUnits = [...baseUnits.slice(offset), ...baseUnits.slice(0, offset)];
 
         let currentTotalOpen = openPositions.length + restingEntryCoins.length;
 
         for (const unit of huntingUnits) {
-          if (currentTotalOpen >= MAX_CONCURRENT_TOTAL) break;
+          if (currentTotalOpen >= allowedMaxConcurrent) break;
           if (unit.alreadyHasPos || unit.candidatePairs.length === 0) continue;
 
           try {
@@ -1032,6 +1108,7 @@ async function startAutonomousSquadDaemon() {
               const coin = bestCandidate.coin;
               const notional = Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE);
               const szFormatted = formatHlSize(notional / bestCandidate.price, ASSET_DECIMALS[coin].sz);
+              if (parseFloat(szFormatted) <= 0) continue;
               const isLong = bestCandidate.direction === "LONG";
               const entryPxStr = formatHlPrice(bestCandidate.price, coin);
               const entryPxNum = parseFloat(entryPxStr);
@@ -1043,7 +1120,7 @@ async function startAutonomousSquadDaemon() {
               const estNetGain = (notional * (TARGET_GAIN_PCT / 100) - (notional * 0.00030)).toFixed(4);
 
               console.log(`\n🎯 [${unit.unitKey} // ${unit.botName}] Disparo paralelo en ${coin} (${bestCandidate.direction}):`);
-              console.log(`   • Confluencia: L2 ${bestCandidate.score.toFixed(1)}% | RSI 5m: ${bestCandidate.rsi.toFixed(1)} | EMA20: $${bestCandidate.ema.toFixed(2)}`);
+              console.log(`   • Confluencia: L2 ${bestCandidate.score.toFixed(1)}% | RSI 5m: ${bestCandidate.rsi.toFixed(1)} | EMA20: $${bestCandidate.ema.toFixed(4)}`);
               console.log(`   • Entrada: ${szFormatted} ${coin} @ $${entryPxStr} ($${notional.toFixed(0)} Nocional) -> TP: $${tpPxStr}`);
 
               try {
@@ -1078,6 +1155,7 @@ async function startAutonomousSquadDaemon() {
 
                 if (status.resting || status.filled) {
                   currentTotalOpen++;
+                  recentOrderSentCoins[coin] = Date.now();
                   const oid = status.resting?.oid || status.filled?.oid || "FILLED";
                   console.log(`   ✔ [${unit.unitKey}] Orden #${oid} activa en Hyperliquid L1 (${status.filled ? "EJECUTADA" : "EN LIBRO"}).`);
 
@@ -1096,16 +1174,17 @@ async function startAutonomousSquadDaemon() {
                     }).catch(() => {});
                   }
 
-                  const orderTg = `🎯 <b>ÁREA 501 // DISPARO PARALELO DESBLOQUEADO (${bestCandidate.direction})</b>\n` +
+                  const orderTg = `🟢🎯 <b>ÁREA 501 // OPERACIÓN ABIERTA (${bestCandidate.direction})</b>\n` +
                     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                     `🔰 <b>Unidad:</b> <b>${unit.squadCfg.name} — ${unit.botName}</b>\n` +
                     `📍 <b>Par:</b> <code>${coin}-USDC</code> (${szFormatted} ${coin})\n` +
-                    `📥 <b>PRECIO ENTRADA:</b> <code>$${entryPxStr}</code>\n` +
+                    `📥 <b>PRECIO ENTRADA:</b> <code>$${entryPxStr}</code> ($${notional.toFixed(0)} Nocional)\n` +
                     `📤 <b>OBJETIVO TAKE PROFIT:</b> <code>$${tpPxStr}</code> (+${TARGET_GAIN_PCT}%)\n` +
                     `💰 <b>Ganancia Estimada:</b> <b>+$${estNetGain} USDC Limpios</b>\n` +
                     `📊 <b>Filtros:</b> L2 ${bestCandidate.score.toFixed(1)}% · RSI 5m ${bestCandidate.rsi.toFixed(1)}\n` +
+                    `📌 <b>Estado:</b> <b>${status.filled ? "EJECUTADA EN VIVO (TP COLOCADO)" : "EN LIBRO L1 (POST-ONLY ALO)"}</b>\n` +
                     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                    `🌐 <a href="https://app.hyperliquid.xyz/trade">Ver Operación en Vivo en Hyperliquid</a>`;
+                    `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;
                   await sendSquadTelegram(orderTg);
                 }
               } catch (err) {

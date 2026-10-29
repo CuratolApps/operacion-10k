@@ -133,18 +133,25 @@ async function scanFundingMatrix() {
       const notionalUsdc = +(Math.abs(op.szi) * markPx).toFixed(2);
       const hourlyCashflowUsdc = +(-1 * op.szi * markPx * rawFunding).toFixed(4);
       const isSolRescue = op.posVal > 600;
-      const tpPx = isSolRescue ? +(op.entryPx * 1.0008).toFixed(2) : +(op.entryPx * 1.0015).toFixed(op.entryPx < 10 ? 3 : 2);
+      const tpMult = op.szi >= 0 ? (isSolRescue ? 1.0008 : 1.0015) : (isSolRescue ? 0.9992 : 0.9985);
+      const tpPx = +(op.entryPx * tpMult).toFixed(op.entryPx < 1 ? 5 : op.entryPx < 10 ? 3 : 2);
       let squadLabel = "#03 CHARLIE · SCALPER";
       if (isSolRescue) {
         squadLabel = "ESCUDO #00 RESCATE ACTIVO";
       } else if (op.coin === activeShieldFundingCoin || (op.coin === "BNB" && hourlyCashflowUsdc > 0)) {
-        squadLabel = "🛡️ ESCUDO #00 · RENTA HORARIA";
+        squadLabel = "🛡️ ESCUDO #00 · RENTA + TP";
       } else if (["SOL", "SUI", "AVAX"].includes(op.coin)) {
         squadLabel = hourlyCashflowUsdc >= 0 ? "#01 ALFA · COBRANDO" : "#01 ALFA · SCALPER";
       } else if (["BTC", "PAXG", "LINK"].includes(op.coin)) {
         squadLabel = hourlyCashflowUsdc >= 0 ? "#02 BRAVO · COBRANDO" : "#02 BRAVO · SCALPER";
       } else if (["ETH", "BNB", "AAVE"].includes(op.coin)) {
         squadLabel = hourlyCashflowUsdc >= 0 ? "#03 CHARLIE · COBRANDO" : "#03 CHARLIE · SCALPER";
+      } else if (["XRP", "DOGE", "ADA"].includes(op.coin)) {
+        squadLabel = hourlyCashflowUsdc >= 0 ? "#04 GOLF · COBRANDO" : "#04 GOLF · SCALPER";
+      } else if (["HYPE", "TRX", "UNI", "TON"].includes(op.coin)) {
+        squadLabel = hourlyCashflowUsdc >= 0 ? "#05 HOTEL · COBRANDO" : "#05 HOTEL · SCALPER";
+      } else if (["DOT", "NEAR", "LTC"].includes(op.coin)) {
+        squadLabel = hourlyCashflowUsdc >= 0 ? "#06 INDIA · COBRANDO" : "#06 INDIA · SCALPER";
       }
       return {
         coin: op.coin,
@@ -254,7 +261,9 @@ async function scanFundingMatrix() {
           const orderResult = await executeShieldFundingOrder({
             coin: execCandidate.coin,
             isBuy: isBuyToReceive,
-            notionalUsdc: 248.0
+            notionalUsdc: 248.0,
+            hourlyPct: execCandidate.hourlyPct,
+            aprPct: execCandidate.absAprPct
           });
           lastShieldOrderResult = {
             timestamp: new Date().toISOString(),

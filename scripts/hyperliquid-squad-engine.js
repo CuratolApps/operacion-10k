@@ -98,10 +98,19 @@ const HL_ASSET_META = {
   SOL: { index: 5, szDec: 2, pxDec: 2 },
   AVAX: { index: 6, szDec: 2, pxDec: 3 },
   BNB: { index: 7, szDec: 3, pxDec: 2 },
+  LTC: { index: 10, szDec: 2, pxDec: 3 },
+  DOGE: { index: 12, szDec: 0, pxDec: 6 },
   SUI: { index: 14, szDec: 1, pxDec: 4 },
   LINK: { index: 18, szDec: 1, pxDec: 3 },
+  XRP: { index: 25, szDec: 0, pxDec: 4 },
   AAVE: { index: 28, szDec: 2, pxDec: 2 },
+  TRX: { index: 37, szDec: 0, pxDec: 5 },
+  UNI: { index: 39, szDec: 1, pxDec: 4 },
+  DOT: { index: 48, szDec: 1, pxDec: 5 },
+  ADA: { index: 65, szDec: 0, pxDec: 5 },
+  NEAR: { index: 74, szDec: 1, pxDec: 4 },
   POL: { index: 142, szDec: 0, pxDec: 5 },
+  HYPE: { index: 159, szDec: 2, pxDec: 3 },
   PAXG: { index: 187, szDec: 3, pxDec: 1 }
 };
 
@@ -121,9 +130,9 @@ function formatShieldSize(sz, coin) {
 /**
  * Ejecuta una orden Post-Only ALO Maker del Escudo #00 para Captura Horaria de Funding
  * del lado que COBRA la tasa (LONG cuando rawFunding < 0, SHORT cuando rawFunding > 0),
- * respetando siempre RESCUE_PRIORITY_LOCK.
+ * colocando automáticamente su Take-Profit (+0.15%) Reduce-Only y notificando a Telegram.
  */
-async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0 }) {
+async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0, hourlyPct = 0, aprPct = 0 }) {
   if (!process.env.HL_AGENT_PRIVATE_KEY) {
     return { ordered: false, reason: "MISSING_AGENT_KEY" };
   }
@@ -135,6 +144,7 @@ async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0 }) 
   try {
     const { ExchangeClient, InfoClient, HttpTransport } = require("@nktkas/hyperliquid");
     const { ethers } = require("ethers");
+    const { sendTelegramAlert } = require("../telegram-notifier");
 
     const transport = new HttpTransport({ isTestnet: false });
     const info = new InfoClient({ transport });
@@ -157,6 +167,11 @@ async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0 }) 
       return { ordered: false, reason: "RESCUE_PRIORITY_LOCK_ACTIVE" };
     }
 
+    // Candado de Exposición Inteligente: máximo 4 posiciones abiertas simultáneas en total
+    if (openPositions.length >= 4) {
+      return { ordered: false, reason: "MAX_4_OPEN_POSITIONS_REACHED" };
+    }
+
     // Verificar si ya tenemos posición o orden de entrada abierta en esta moneda
     const alreadyOpen = openPositions.some(p => (p.position || p).coin === coin);
     if (alreadyOpen) {
@@ -174,10 +189,14 @@ async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0 }) 
     }
 
     const pxStr = formatShieldPrice(targetPx, coin);
-    const szStr = formatShieldSize(notionalUsdc / targetPx, coin);
+    const pxNum = parseFloat(pxStr);
+    const szStr = formatShieldSize(notionalUsdc / pxNum, coin);
     if (parseFloat(szStr) <= 0) {
       return { ordered: false, reason: "ZERO_SIZE" };
     }
+
+    const tpPxNum = isBuy ? pxNum * 1.0015 : pxNum * 0.9985;
+    const tpPxStr = formatShieldPrice(tpPxNum, coin);
 
     const orderRes = await client.order({
       orders: [{
@@ -191,14 +210,45 @@ async function executeShieldFundingOrder({ coin, isBuy, notionalUsdc = 248.0 }) 
       grouping: "na"
     });
 
+    const st = orderRes?.response?.data?.statuses?.[0] || {};
+    if (st.filled) {
+      await client.order({
+        orders: [{
+          a: meta.index,
+          b: !Boolean(isBuy),
+          p: tpPxStr,
+          s: szStr,
+          r: true,
+          t: { limit: { tif: "Alo" } }
+        }],
+        grouping: "na"
+      }).catch(() => {});
+    }
+
+    if (st.resting || st.filled) {
+      const sideLabel = isBuy ? "LONG COBRA" : "SHORT COBRA";
+      const actualNotional = +(parseFloat(szStr) * pxNum).toFixed(2);
+      const tgMsg = `🛡️🎯 <b>ÁREA 501 // ESCUDO #00 // ORDEN DE DOBLE COBRO (FUNDING + TP)</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `🔰 <b>Unidad:</b> <b>Escudo Mentora #00 (40% L1)</b>\n` +
+        `📍 <b>Par:</b> <code>${coin}-USDC</code> (${szStr} ${coin} · <b>${sideLabel}</b>)\n` +
+        `📥 <b>Entrada ALO Maker:</b> <code>$${pxStr}</code> ($${actualNotional.toFixed(2)} Nocional)\n` +
+        `📤 <b>Take-Profit Reduce-Only (+0.15%):</b> <code>$${tpPxStr}</code>\n` +
+        `💸 <b>Tasa Funding a Cobrar:</b> <code>${hourlyPct >= 0 ? "+" : ""}${hourlyPct}%/h (${aprPct}% APR)</code>\n` +
+        `📊 <b>Estado Orden:</b> <b>${st.filled ? "EJECUTADA EN VIVO (TP ACTIVO)" : "EN LIBRO L1 (POST-ONLY ALO)"}</b>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+      await sendTelegramAlert(tgMsg, process.env.TELEGRAM_CHAT_ID || "-1004342131598", { skipHeader: true }).catch(() => {});
+    }
+
     return {
-      ordered: true,
+      ordered: Boolean(st.resting || st.filled),
       coin,
       pair: `${coin}-USDC`,
       side: isBuy ? "LONG" : "SHORT",
       price: pxStr,
+      tpPrice: tpPxStr,
       size: szStr,
-      notionalUsdc: +(parseFloat(szStr) * parseFloat(pxStr)).toFixed(2),
+      notionalUsdc: +(parseFloat(szStr) * pxNum).toFixed(2),
       response: orderRes
     };
   } catch (err) {

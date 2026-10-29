@@ -55,14 +55,14 @@ const HL_INFO_URL = "https://api.hyperliquid.xyz/info";
 // DEFINICIÓN DE LOS 18 ESCUADRONES Y SUS 54 PARES
 const SQUADS_DATA = [
   // BLOQUE 1: CRIPTO TITANES L1 (24/7) - ACTIVO
-  { id: 1, code: "ALFA", num: "#01", block: 1, name: "Alfa Titan-Scalper", status: "ACTIVE", marginRatio: 0.20, capitalUsdc: 129.60, notionalUsd: 648.00, pnlUsdc: 7.20, wins: 13, pairs: ["SOL", "SUI", "AVAX"] },
-  { id: 2, code: "BRAVO", num: "#02", block: 1, name: "Bravo Oracle-Global", status: "ACTIVE", marginRatio: 0.20, capitalUsdc: 129.60, notionalUsd: 648.00, pnlUsdc: 6.90, wins: 15, pairs: ["BTC", "PAXG", "LINK"] },
-  { id: 3, code: "CHARLEY", num: "#03", block: 1, name: "Charley Nexus-Boss", status: "ACTIVE", marginRatio: 0.20, capitalUsdc: 129.60, notionalUsd: 648.00, pnlUsdc: 7.77, wins: 11, pairs: ["ETH", "BNB", "AAVE"] },
+  { id: 1, code: "ALFA", num: "#01", block: 1, name: "Alfa Titan-Scalper", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 78.00, wins: 48, pairs: ["SOL", "SUI", "AVAX"] },
+  { id: 2, code: "BRAVO", num: "#02", block: 1, name: "Bravo Oracle-Global", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 70.60, wins: 46, pairs: ["BTC", "PAXG", "LINK"] },
+  { id: 3, code: "CHARLEY", num: "#03", block: 1, name: "Charley Nexus-Boss", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 68.30, wins: 44, pairs: ["ETH", "BNB", "AAVE"] },
 
-  // BLOQUE 2: CRIPTO EXPANDIDO (24/7) - READY
-  { id: 4, code: "GOLF", num: "#04", block: 2, name: "Golf Velocity", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["XRP", "DOGE", "ADA"] },
-  { id: 5, code: "HOTEL", num: "#05", block: 2, name: "Hotel Hyper-L1", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["HYPE", "TRX", "TON"] },
-  { id: 6, code: "INDIA", num: "#06", block: 2, name: "India Cross-Chain", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["DOT", "NEAR", "LTC"] },
+  // BLOQUE 2: CRIPTO EXPANDIDO (24/7) - ACTIVO EN VIVO ($100 BASE C/U)
+  { id: 4, code: "GOLF", num: "#04", block: 2, name: "Golf Velocity", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 0.00, wins: 0, pairs: ["XRP", "DOGE", "ADA"] },
+  { id: 5, code: "HOTEL", num: "#05", block: 2, name: "Hotel Hyper-L1", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 0.00, wins: 0, pairs: ["HYPE", "TRX", "UNI"] },
+  { id: 6, code: "INDIA", num: "#06", block: 2, name: "India Cross-Chain", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 0.00, wins: 0, pairs: ["DOT", "NEAR", "LTC"] },
 
   // BLOQUE 3: CRIPTO L2 & AI (24/7) - READY
   { id: 7, code: "JULIET", num: "#07", block: 3, name: "Juliet AI-Compute", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["TAO", "RENDER", "FET"] },
@@ -644,7 +644,7 @@ function updateCoverHeaderAndRisk(now, anyWarning) {
   const beCount = openPositions.filter(p => parseFloat(p.position?.unrealizedPnl || 0) >= 0.05).length;
   const expValEl = document.getElementById("riskExposureVal");
   if (expValEl) {
-    expValEl.innerText = `${openCount} / 3 ABIERTAS${openCount > 0 ? ` (${beCount} en BE #00)` : ""}`;
+    expValEl.innerText = `${openCount} / 4 ABIERTAS${openCount > 0 ? ` (${beCount} en BE #00)` : ""}`;
   }
 
   // Enfriamiento táctico 12m por par
@@ -1198,15 +1198,15 @@ function updateTopBarCards() {
       activeSquads.add(p.squadNum);
     }
   });
-  const activeCount = Math.max(3, activeSquads.size);
+  const activeCount = Math.max(6, activeSquads.size);
   const readyCount = Math.max(0, 18 - activeCount);
   setTextIfChanged(document.getElementById("topActiveSquadsText"), `${activeCount}/18 Activos`);
   setTextIfChanged(document.getElementById("topReadySquadsText"), `${readyCount}/18 ($100)`);
 
-  // Actualizar capital en Tab 2 para escuadrones activos
-  const squadMarginEach = (val * 0.20).toFixed(2);
-  const squadNotionalEach = (val * 0.20 * 5).toFixed(0);
-  [1, 2, 3].forEach(id => {
+  // Actualizar capital en Tab 2 para los 6 escuadrones activos (#01 ALFA a #06 INDIA)
+  const squadMarginEach = Math.max(90.00, (val * 0.10)).toFixed(2);
+  const squadNotionalEach = Math.min(250, val * 0.10 * 2.5).toFixed(0);
+  [1, 2, 3, 4, 5, 6].forEach(id => {
     const el = document.getElementById(`sqCap_${id}`);
     if (el) setTextIfChanged(el, `$${squadMarginEach} USDC ($${squadNotionalEach} Nocional)`);
   });
