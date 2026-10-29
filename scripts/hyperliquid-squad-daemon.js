@@ -104,7 +104,9 @@ function loadRecoveryControlConfig() {
     POST_00_UTC_MAX_CONCURRENT_POSITIONS: 2,
     REQUIRE_BE_LOCK_FOR_3RD_POSITION: true,
     POST_TRADE_COOLDOWN_MS: 900000,
-    RECOVERY_CASCADE_ORDER: ["PAXG", "ETH", "XRP", "SOL", "BTC", "NEAR"]
+    CASCADE_PLAN_B_ENABLED: true,
+    CASCADE_STAGE_LABEL: "🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR",
+    RECOVERY_CASCADE_ORDER: ["PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]
   };
   try {
     if (fs.existsSync(RECOVERY_CONTROL_FILE)) {
@@ -919,19 +921,28 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
             };
           }
           if (inPosCoin) {
+            const stageTag = ["PAXG", "ETH", "BTC"].includes(inPosCoin)
+              ? "1º BLOQUE CERCANO (BE +$0.02)"
+              : inPosCoin === "XRP"
+                ? "2º PINZA #00 XRP (+$0.03)"
+                : inPosCoin === "SOL"
+                  ? "3º PINZA #00 SOL (+$0.05)"
+                  : inPosCoin === "NEAR"
+                    ? "4º PINZA #00 NEAR (70% BE + 30% TRINQUETE)"
+                    : ratchetBadge;
             return {
               ...sp,
-              relayStatus: `${ratchetBadge} · 🛡️ ${sp.titular} (${inPosCoins.join("+")}) ⇄ ❄️ ${sp.clon}`,
-              ratchetStatus: ratchetBadge,
+              relayStatus: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR · [${stageTag}]`,
+              ratchetStatus: stageTag,
               activeBot: sp.titular,
               standbyBot: sp.clon,
-              mode: "RECOVERY_ACTIVE",
+              mode: "RECOVERY_CASCADE_PLAN_B",
               pairInAction: inPosCoin
             };
           }
           return {
             ...sp,
-            relayStatus: `❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅)`,
+            relayStatus: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR (RECUPERADA ✅)`,
             ratchetStatus: "❄️ RECUPERADA ✅",
             activeBot: "RECUPERADA",
             standbyBot: sp.clon,
@@ -1358,12 +1369,22 @@ async function startAutonomousSquadDaemon() {
         }, null, 2), "utf8");
       } catch (_) {}
 
-      // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS CON ARQUITECTURA NEXUS APEX-36:
-      // - LEY 1: CERO TAKE PROFIT FIJO + ESCALERA DE CANDADOS NETOS (FEE-AWARE RATCHET #00: Nivel 1 +$0.02 USDC 🟢 LIGERO / Nivel 2: 75% / 83% / 90% High-Water Mark)
-      // - LEY 2: CERO RASGUÑOS EN ROJO (NO_RED_EXIT = true) + EVACUACIÓN BREAKEVEN NETO (+$0.01 USDC Post-Only Maker) A LOS 180 SEGUNDOS
-      // - RECUPERACIÓN PREVIA 1 A 1 (ETH, PAXG, XRP, SOL, BTC, NEAR): Clava Candado #00 en entryPx + comisión + $0.02 USDC y cobra en verde hasta 0 abiertas.
-      const tier1Set = new Set(["ETH", "PAXG", "SUI", "DOGE"]);
-      const tier2Set = new Set(["SOL", "HYPE", "BTC", "XRP"]);
+      // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS CON PLAN B DE EXTRACCIÓN EN CASCADA ("EFECTO DOMINÓ DE LIQUIDEZ #00") + MOTOR NEXUS APEX-36:
+      // - FASE 1: DESBLOQUEO DE LIQUIDEZ EN BLOQUE CERCANO (PAXG, ETH, BTC) -> Breakeven Neto Real (entryPx + comisión + $0.02 USDC)
+      // - FASE 2: OPERACIÓN PINZA SECUENCIAL 1 A 1 SOBRE LAS 3 CRÍTICAS (1º XRP -> 2º SOL -> 3º NEAR en 2 escalones 70% + 30%)
+      // - FASE 3: ARRANQUE FRESCO NEXUS APEX-36 (Cero TP Fijo + Candado Elástico 75%/83%/90% + Giro Brusco <50ms)
+      const tier1Set = new Set(["PAXG", "ETH", "BTC"]);
+      const tier2Set = new Set(["XRP", "SOL"]);
+      const openCoinsSet = new Set(openPositions.map(p => p.position.coin));
+
+      const totalNotionalOpenForCascade = openPositions.reduce((sum, p) => {
+        const sz = Math.abs(parseFloat(p.position.szi || "0"));
+        const px = parseFloat(p.position.entryPx || "0");
+        return sum + (sz * px);
+      }, 0);
+      const marginUsedCascade = totalNotionalOpenForCascade / 5.0;
+      const freeMarginUsdcCascade = Math.max(0, accountValue - marginUsedCascade);
+      const freeMarginRatioPct = accountValue > 0 ? (freeMarginUsdcCascade / accountValue) * 100 : 0;
 
       for (const activePos of openPositions) {
         const coin = activePos.position.coin;
@@ -1386,6 +1407,8 @@ async function startAutonomousSquadDaemon() {
             szi: szNum,
             isShort,
             dcaDone: isRescuedSize,
+            pinzaInjected: isRescuedSize,
+            nearStepADone: false,
             beLocked: false,
             isLight: false,
             ratchetLevel: 0,
@@ -1399,7 +1422,10 @@ async function startAutonomousSquadDaemon() {
         } else {
           confirmedOpenByCoin[coin].entryPx = entryPx;
           confirmedOpenByCoin[coin].szi = szNum;
-          if (isRescuedSize) confirmedOpenByCoin[coin].dcaDone = true;
+          if (isRescuedSize) {
+            confirmedOpenByCoin[coin].dcaDone = true;
+            confirmedOpenByCoin[coin].pinzaInjected = true;
+          }
         }
         const posMeta = confirmedOpenByCoin[coin];
         const openTs = positionOpenTimestamps[coin] || Date.now();
@@ -1421,48 +1447,354 @@ async function startAutonomousSquadDaemon() {
 
         if (!isV2Armed || !ASSET_DECIMALS[coin]) continue;
 
-        const totalSzStr = formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz);
+        const absSz = Math.abs(szNum);
+        const totalSzStr = formatHlSize(absSz, ASSET_DECIMALS[coin].sz);
 
-        // A) RECUPERACIÓN PREVIA 1 A 1 (isPre00UtcOrRecovering):
-        // Apenas cruce entryPx + comisión + $0.02 USDC, clava el Candado #00 y la cobra en verde (o mantiene orden Post-Only en su equilibrio neto +$0.02 USDC)
+        // =========================================================================
+        // PLAN B DE EXTRACCIÓN EN CASCADA ("EFECTO DOMINÓ DE LIQUIDEZ #00")
+        // =========================================================================
         if (isPre00UtcOrRecovering) {
-          if (ratchet.beLocked && ratchet.netAfterFeesUsd >= LEVEL1_NET_LOCK_USDC && (ratchet.hitRatchetStop || ratchet.netAfterFeesUsd >= 0.04)) {
-            console.log(`💰🔒 [RECUPERACIÓN 1 A 1 // CANDADO #00] ${coin} cruzó equilibrio neto (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC) -> Cobrando en verde hacia 100% Liquidez USDC!`);
-            if (existingExitOrder) {
-              await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+          // FASE 1: DESBLOQUEO DE LIQUIDEZ EN EL BLOQUE CERCANO (PAXG, ETH, BTC)
+          // Salida en Breakeven Neto Real (entryPx + comisión + $0.02 USDC)
+          if (tier1Set.has(coin)) {
+            posMeta.ratchetStatusLabel = `1º BLOQUE CERCANO (${coin}) · BE NETO +$0.02`;
+            if (ratchet.beLocked && ratchet.netAfterFeesUsd >= LEVEL1_NET_LOCK_USDC && (ratchet.hitRatchetStop || ratchet.netAfterFeesUsd >= 0.03)) {
+              console.log(`💰🔒 [FASE 1 // DESBLOQUEO BLOQUE CERCANO] ${coin} alcanzó Breakeven Neto (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC) -> Cobrando a USDC para alimentar Tanque #00!`);
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES[coin],
+                  b: isShort,
+                  p: formatHlPrice(closePx, coin),
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Ioc" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+              continue;
             }
-            const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
-            await client.order({
-              orders: [{
-                a: ASSET_INDICES[coin],
-                b: isShort,
-                p: formatHlPrice(closePx, coin),
-                s: totalSzStr,
-                r: true,
-                t: { limit: { tif: "Ioc" } }
-              }],
-              grouping: "na"
-            }).catch(() => {});
+
+            const targetLockPxStr = formatHlPrice(ratchet.level1LockPx, coin);
+            if (!existingExitOrder || posMeta.evacOrderPlacedPx !== targetLockPxStr) {
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              console.log(`🛡️ [FASE 1 // BLOQUE CERCANO] ${coin}: Objetivo Breakeven Neto Real (+$0.02 USDC) armado en $${targetLockPxStr}`);
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES[coin],
+                  b: isShort,
+                  p: targetLockPxStr,
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Alo" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+              posMeta.evacOrderPlacedPx = targetLockPxStr;
+            }
             continue;
           }
 
-          // Asegurar que la orden Reduce-Only Post-Only Maker apunte exactamente a Entrada + Comisión + $0.02 USDC
-          const targetLockPxStr = formatHlPrice(ratchet.level1LockPx, coin);
-          if (!existingExitOrder) {
-            console.log(`🛡️ [${squadKey} // RECUPERACIÓN #00] Colocando Candado Neto +$0.02 USDC para ${coin}: ${totalSzStr} @ $${targetLockPxStr}`);
-            await client.order({
-              orders: [{
-                a: ASSET_INDICES[coin],
-                b: isShort,
-                p: targetLockPxStr,
-                s: totalSzStr,
-                r: true,
-                t: { limit: { tif: "Alo" } }
-              }],
-              grouping: "na"
-            }).catch(() => {});
+          // FASE 2.1: OBJETIVO CRÍTICO #1 — RESCATE DE XRP (2º EN LA COLA)
+          // Condición: Margen libre >= 65% (o tras salir PAXG o ETH) + Soporte L2 Bid >= 60% -> 1 cartucho Mentora #00 -> Salida en nuevoEntryPx + comisión + $0.03 USDC
+          if (coin === "XRP") {
+            const xrpPinzaUnlocked = (freeMarginRatioPct >= 65.0) || !openCoinsSet.has("PAXG") || !openCoinsSet.has("ETH");
+            posMeta.ratchetStatusLabel = posMeta.pinzaInjected
+              ? `2º PINZA #00 ACTIVA (XRP) · SALIDA +$0.03`
+              : (xrpPinzaUnlocked ? `2º PINZA #00 XRP ARMADA (ESPERANDO SOPORTE L2>=60%)` : `2º COLA #00: XRP (ESPERANDO SALIDA PAXG/ETH)`);
+
+            if (xrpPinzaUnlocked && !posMeta.pinzaInjected && freeMarginUsdcCascade >= 65.0) {
+              try {
+                const l2 = await info.l2Book({ coin: "XRP" });
+                const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
+                let bVol = 0, aVol = 0;
+                for (let i = 0; i < 5; i++) {
+                  bVol += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                  aVol += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+                }
+                const supportPct = (bVol + aVol) > 0 ? ((isShort ? aVol : bVol) / (bVol + aVol)) * 100 : 50;
+                if (supportPct >= 60.0 && bids.length > 0 && asks.length > 0) {
+                  const cartridgeNotional = Math.min(200.0, notionalVal);
+                  const bookPx = isShort ? parseFloat(asks[0].px) : parseFloat(bids[0].px);
+                  const cartridgeSzStr = formatHlSize(cartridgeNotional / bookPx, ASSET_DECIMALS.XRP.sz);
+                  if (parseFloat(cartridgeSzStr) > 0) {
+                    console.log(`🚁🛡️ [FASE 2.1 // PINZA #00 XRP] Inyectando 1 cartucho táctico en XRP (${cartridgeSzStr} @ $${formatHlPrice(bookPx, "XRP")} | L2 Soporte: ${supportPct.toFixed(1)}%) para bajar entryPx a mitad de distancia!`);
+                    const pRes = await client.order({
+                      orders: [{
+                        a: ASSET_INDICES.XRP,
+                        b: !isShort,
+                        p: formatHlPrice(bookPx, "XRP"),
+                        s: cartridgeSzStr,
+                        r: false,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    });
+                    const pSt = pRes?.response?.data?.statuses?.[0] || {};
+                    if (pSt.filled || pSt.resting) {
+                      posMeta.pinzaInjected = true;
+                      posMeta.dcaDone = true;
+                    }
+                  }
+                }
+              } catch (_) {}
+            }
+
+            // Salida reduceOnly de XRP en nuevoEntryPx + comisión + $0.03 USDC
+            const xrpTargetNetUsd = 0.03;
+            const xrpDeltaPx = absSz > 0 ? ((ratchet.realRoundTripFeeUsd + xrpTargetNetUsd) / absSz) : 0;
+            const xrpExitPx = isShort ? (entryPx - xrpDeltaPx) : (entryPx + xrpDeltaPx);
+            const xrpExitPxStr = formatHlPrice(xrpExitPx, "XRP");
+
+            if (ratchet.netAfterFeesUsd >= xrpTargetNetUsd) {
+              console.log(`💰🔒 [FASE 2.1 // RESCATE XRP COMPLETADO] XRP en verde (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC >= +$0.03) -> Liquidando 100% hacia SOL!`);
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES.XRP, o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES.XRP,
+                  b: isShort,
+                  p: formatHlPrice(closePx, "XRP"),
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Ioc" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+              continue;
+            }
+
+            if (!existingExitOrder || posMeta.evacOrderPlacedPx !== xrpExitPxStr) {
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES.XRP, o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES.XRP,
+                  b: isShort,
+                  p: xrpExitPxStr,
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Alo" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+              posMeta.evacOrderPlacedPx = xrpExitPxStr;
+            }
+            continue;
           }
-          continue;
+
+          // FASE 2.2: OBJETIVO CRÍTICO #2 — RESCATE DE SOL (3º EN LA COLA)
+          // Condición estricta: Solo se ejecuta una vez que XRP haya cerrado y devuelto su liquidez a USDC (!openCoinsSet.has("XRP"))
+          if (coin === "SOL") {
+            const solPinzaUnlocked = !openCoinsSet.has("XRP");
+            posMeta.ratchetStatusLabel = posMeta.pinzaInjected
+              ? `3º PINZA #00 ACTIVA (SOL) · SALIDA +$0.05`
+              : (solPinzaUnlocked ? `3º PINZA #00 SOL ARMADA (LIQUIDEZ XRP LISTA)` : `3º COLA #00: SOL (ESPERANDO CIERRE DE XRP)`);
+
+            if (solPinzaUnlocked && !posMeta.pinzaInjected && freeMarginUsdcCascade >= 80.0) {
+              try {
+                const l2 = await info.l2Book({ coin: "SOL" });
+                const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
+                let bVol = 0, aVol = 0;
+                for (let i = 0; i < 5; i++) {
+                  bVol += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                  aVol += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+                }
+                const supportPct = (bVol + aVol) > 0 ? ((isShort ? aVol : bVol) / (bVol + aVol)) * 100 : 50;
+                if (supportPct >= 60.0 && bids.length > 0 && asks.length > 0) {
+                  const cartridgeNotional = Math.min(220.0, notionalVal);
+                  const bookPx = isShort ? parseFloat(asks[0].px) : parseFloat(bids[0].px);
+                  const cartridgeSzStr = formatHlSize(cartridgeNotional / bookPx, ASSET_DECIMALS.SOL.sz);
+                  if (parseFloat(cartridgeSzStr) > 0) {
+                    console.log(`🚁🛡️ [FASE 2.2 // PINZA #00 SOL] XRP cerrada -> Aplicando Pinza #00 sobre SOL (${cartridgeSzStr} @ $${formatHlPrice(bookPx, "SOL")} | L2 Soporte: ${supportPct.toFixed(1)}%)!`);
+                    const pRes = await client.order({
+                      orders: [{
+                        a: ASSET_INDICES.SOL,
+                        b: !isShort,
+                        p: formatHlPrice(bookPx, "SOL"),
+                        s: cartridgeSzStr,
+                        r: false,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    });
+                    const pSt = pRes?.response?.data?.statuses?.[0] || {};
+                    if (pSt.filled || pSt.resting) {
+                      posMeta.pinzaInjected = true;
+                      posMeta.dcaDone = true;
+                    }
+                  }
+                }
+              } catch (_) {}
+            }
+
+            // Salida reduceOnly de SOL en nuevoEntryPx + comisión + $0.05 USDC
+            const solTargetNetUsd = 0.05;
+            const solDeltaPx = absSz > 0 ? ((ratchet.realRoundTripFeeUsd + solTargetNetUsd) / absSz) : 0;
+            const solExitPx = isShort ? (entryPx - solDeltaPx) : (entryPx + solDeltaPx);
+            const solExitPxStr = formatHlPrice(solExitPx, "SOL");
+
+            if (ratchet.netAfterFeesUsd >= solTargetNetUsd) {
+              console.log(`💰🔒 [FASE 2.2 // RESCATE SOL COMPLETADO] SOL en verde (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC >= +$0.05) -> Evacuando 100% para liberar tanque hacia NEAR!`);
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES.SOL, o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES.SOL,
+                  b: isShort,
+                  p: formatHlPrice(closePx, "SOL"),
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Ioc" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+              continue;
+            }
+
+            if (!existingExitOrder || posMeta.evacOrderPlacedPx !== solExitPxStr) {
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES.SOL, o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES.SOL,
+                  b: isShort,
+                  p: solExitPxStr,
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Alo" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+              posMeta.evacOrderPlacedPx = solExitPxStr;
+            }
+            continue;
+          }
+
+          // FASE 2.3: OBJETIVO CRÍTICO #3 — EXTRACCIÓN EN 2 ESCALONES DE NEAR (4º EN LA COLA)
+          // Condición: Con PAXG, ETH, BTC, XRP y SOL ya cobradas y el margen libre al máximo (>$750+ USDC respaldando a NEAR):
+          // - Escalón A: Al tocar nuevoEntryPx + comisión + $0.02, descarga el 70% del tamaño (reduceOnly: true)
+          // - Escalón B: Al 30% restante le clava inmediatamente el Candado #00 y lo acompaña con trinquete hacia la Banda Media
+          if (coin === "NEAR") {
+            const allFiveCleared = !openCoinsSet.has("PAXG") && !openCoinsSet.has("ETH") && !openCoinsSet.has("BTC") && !openCoinsSet.has("XRP") && !openCoinsSet.has("SOL");
+            posMeta.ratchetStatusLabel = posMeta.nearStepADone
+              ? `4º NEAR ESCALÓN B (30% CON CANDADO #00 🌊)`
+              : (allFiveCleared ? `4º PINZA #00 NEAR ACTIVA (ESCALÓN A 70% + ESCALÓN B 30%)` : `4º COLA #00: NEAR (ESPERANDO SALIDA XRP+SOL)`);
+
+            if (allFiveCleared && !posMeta.pinzaInjected && freeMarginUsdcCascade >= 120.0) {
+              try {
+                const l2 = await info.l2Book({ coin: "NEAR" });
+                const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
+                let bVol = 0, aVol = 0;
+                for (let i = 0; i < 5; i++) {
+                  bVol += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                  aVol += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+                }
+                const supportPct = (bVol + aVol) > 0 ? ((isShort ? aVol : bVol) / (bVol + aVol)) * 100 : 50;
+                if (supportPct >= 60.0 && bids.length > 0 && asks.length > 0) {
+                  const cartridgeNotional = Math.min(250.0, notionalVal);
+                  const bookPx = isShort ? parseFloat(asks[0].px) : parseFloat(bids[0].px);
+                  const cartridgeSzStr = formatHlSize(cartridgeNotional / bookPx, ASSET_DECIMALS.NEAR.sz);
+                  if (parseFloat(cartridgeSzStr) > 0) {
+                    console.log(`🚁🛡️ [FASE 2.3 // PINZA #00 NEAR] 5 previas cobradas -> Ejecutando Pinza de Promedio #00 en piso de NEAR (${cartridgeSzStr} @ $${formatHlPrice(bookPx, "NEAR")})!`);
+                    const pRes = await client.order({
+                      orders: [{
+                        a: ASSET_INDICES.NEAR,
+                        b: !isShort,
+                        p: formatHlPrice(bookPx, "NEAR"),
+                        s: cartridgeSzStr,
+                        r: false,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    });
+                    const pSt = pRes?.response?.data?.statuses?.[0] || {};
+                    if (pSt.filled || pSt.resting) {
+                      posMeta.pinzaInjected = true;
+                      posMeta.dcaDone = true;
+                    }
+                  }
+                }
+              } catch (_) {}
+            }
+
+            // Escalón A (Alivio del 70% en nuevoEntryPx + comisión + $0.02 USDC)
+            if (!posMeta.nearStepADone) {
+              const stepASzStr = formatHlSize(absSz * 0.70, ASSET_DECIMALS.NEAR.sz);
+              const nearBePxStr = formatHlPrice(ratchet.level1LockPx, "NEAR");
+
+              if (ratchet.netAfterFeesUsd >= LEVEL1_NET_LOCK_USDC && parseFloat(stepASzStr) > 0) {
+                console.log(`🎯🔓 [FASE 2.3 // NEAR ESCALÓN A 70%] NEAR tocó equilibrio neto (+$0.02) -> Descargando 70% (${stepASzStr} NEAR) y clavando Candado #00 al 30% restante!`);
+                if (existingExitOrder) {
+                  await client.cancel({ cancels: [{ a: ASSET_INDICES.NEAR, o: existingExitOrder.oid }] }).catch(() => {});
+                }
+                const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
+                await client.order({
+                  orders: [{
+                    a: ASSET_INDICES.NEAR,
+                    b: isShort,
+                    p: formatHlPrice(closePx, "NEAR"),
+                    s: stepASzStr,
+                    r: true,
+                    t: { limit: { tif: "Ioc" } }
+                  }],
+                  grouping: "na"
+                }).catch(() => {});
+                posMeta.nearStepADone = true;
+                posMeta.beLocked = true;
+                posMeta.isLight = true;
+                continue;
+              }
+
+              if (!existingExitOrder || posMeta.evacOrderPlacedPx !== nearBePxStr) {
+                if (existingExitOrder) {
+                  await client.cancel({ cancels: [{ a: ASSET_INDICES.NEAR, o: existingExitOrder.oid }] }).catch(() => {});
+                }
+                await client.order({
+                  orders: [{
+                    a: ASSET_INDICES.NEAR,
+                    b: isShort,
+                    p: nearBePxStr,
+                    s: parseFloat(stepASzStr) > 0 ? stepASzStr : totalSzStr,
+                    r: true,
+                    t: { limit: { tif: "Alo" } }
+                  }],
+                  grouping: "na"
+                }).catch(() => {});
+                posMeta.evacOrderPlacedPx = nearBePxStr;
+              }
+              continue;
+            } else {
+              // Escalón B (30% restante con Candado #00 y trinquete elástico hacia la Banda Media)
+              if (ratchet.beLocked && ratchet.hitRatchetStop && ratchet.netAfterFeesUsd >= CLEAN_EVAC_NET_USDC) {
+                console.log(`💰🌊 [FASE 2.3 // NEAR ESCALÓN B 30%] Trinquete #00 completado en NEAR (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC) -> Cobrando 30% final!`);
+                const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
+                await client.order({
+                  orders: [{
+                    a: ASSET_INDICES.NEAR,
+                    b: isShort,
+                    p: formatHlPrice(closePx, "NEAR"),
+                    s: totalSzStr,
+                    r: true,
+                    t: { limit: { tif: "Ioc" } }
+                  }],
+                  grouping: "na"
+                }).catch(() => {});
+              }
+              continue;
+            }
+          }
         }
 
         // B) OPERACIÓN NORMAL POST-00:00 UTC (NEXUS APEX-36 // CERO TAKE PROFIT FIJO):
@@ -1523,7 +1855,7 @@ async function startAutonomousSquadDaemon() {
 
       // Escribir telemetría en vivo para /squad-matrix/ (telemetry/squad-matrix-telemetry.json)
       try {
-        const cascadeOrder = recoveryCtrl.RECOVERY_CASCADE_ORDER || ["PAXG", "ETH", "XRP", "SOL", "BTC", "NEAR"];
+        const cascadeOrder = recoveryCtrl.RECOVERY_CASCADE_ORDER || ["PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"];
         const sortedOpen = [...openPositions].sort((a, b) => {
           const cA = a.position.coin;
           const cB = b.position.coin;
@@ -1570,7 +1902,7 @@ async function startAutonomousSquadDaemon() {
             ratchetLevel: rInfo.ratchetLevel,
             lockedNetUsd: +rInfo.lockedNetUsd.toFixed(2),
             cleanEvacActive: rInfo.cleanEvacActive,
-            ratchetStatusLabel: rInfo.ratchetStatusLabel,
+            ratchetStatusLabel: pMeta.ratchetStatusLabel || rInfo.ratchetStatusLabel,
             status: rInfo.beLocked ? "CANDADO_00_ACTIVO" : (rInfo.cleanEvacActive ? "EVACUACION_LIMPIA_001" : `FILA_${idx + 1}_RECUPERANDO`)
           };
         });
@@ -1580,7 +1912,7 @@ async function startAutonomousSquadDaemon() {
         const unfencedCount = openPositions.filter(p => !confirmedOpenByCoin[p.position.coin]?.beLocked).length;
         const topBannerText = isPre00UtcOrRecovering
           ? (remainingCount > 0
-            ? `❄️ RECUPERANDO ${remainingCount}/${totalRef} (CERO NUEVAS ENTRADAS · CANDADO NETO +$0.02)`
+            ? `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR (${remainingCount}/${totalRef})`
             : `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO HASTA LAS 00:00:00 UTC`)
           : `🟢 NEXUS APEX-36 ACTIVO (0 TP FIJO · RATCHET #00 · ${unfencedCount}/${MAX_UNFENCED_POSITIONS} SIN CANDADO)`;
 

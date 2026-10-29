@@ -879,6 +879,44 @@ function computeClientRatchetStatus(activePos, currentPrice) {
     };
   }
 
+  // Plan B de Extracción en Cascada ("Efecto Dominó de Liquidez #00") mientras siga la recuperación previa
+  const isBefore00Utc = Date.now() < new Date("2026-10-30T00:00:00.000Z").getTime();
+  const activeCoinsList = (appState.openPositions || []).map(p => p.position.coin);
+  if (isBefore00Utc || activeCoinsList.length > 0) {
+    if (["PAXG", "ETH", "BTC"].includes(coin)) {
+      return {
+        isLocked: false,
+        lockedNetUsd: 0.02,
+        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [1º BE NETO +$0.02]`,
+        lockClass: "active-lock-tag shield"
+      };
+    }
+    if (coin === "XRP") {
+      return {
+        isLocked: false,
+        lockedNetUsd: 0.03,
+        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [2º PINZA XRP +$0.03]`,
+        lockClass: "active-lock-tag shield"
+      };
+    }
+    if (coin === "SOL") {
+      return {
+        isLocked: false,
+        lockedNetUsd: 0.05,
+        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [3º PINZA SOL +$0.05]`,
+        lockClass: "active-lock-tag shield"
+      };
+    }
+    if (coin === "NEAR") {
+      return {
+        isLocked: false,
+        lockedNetUsd: 0.02,
+        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [4º NEAR 70% BE + 30% #00]`,
+        lockClass: "active-lock-tag shield"
+      };
+    }
+  }
+
   // Ley 2: Protocolo de Evacuación Limpia a los 180 Segundos (+$0.01 USDC Post-Only Maker)
   const elapsedMs = Date.now() - mem.openedAt;
   if (elapsedMs >= 180000 && mem.peakGainPct < 0.10) {
@@ -898,7 +936,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   };
 }
 
-// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / ARQUITECTURA NEXUS APEX-36)
+// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / ARQUITECTURA NEXUS APEX-36 + PLAN B CASCADA)
 function getSquadRelayText(sq) {
   if (appState.clonesMap && appState.clonesMap[sq.id] && appState.clonesMap[sq.id].relayStatus) {
     return appState.clonesMap[sq.id].relayStatus;
@@ -907,18 +945,21 @@ function getSquadRelayText(sq) {
   if (sq.block <= 2) {
     const activeCoins = (appState.openPositions || []).map(p => p.position.coin);
     const inPosCoins = sq.pairs.filter(c => activeCoins.includes(c));
+    if (isBefore00Utc || activeCoins.length > 0) {
+      if (activeCoins.length === 0) {
+        return `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
+      }
+      if (inPosCoins.length > 0) {
+        return `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR · [${sq.code} 1: ${inPosCoins.join("+")}]`;
+      }
+      return `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR (RECUPERADA ✅)`;
+    }
     if (inPosCoins.length > 0) {
       const firstCoin = inPosCoins[0];
       const posObj = (appState.openPositions || []).find(p => p.position.coin === firstCoin);
       const px = appState.mids && appState.mids[firstCoin] ? parseFloat(appState.mids[firstCoin]) : 0;
       const rInfo = computeClientRatchetStatus(posObj, px);
       return `${sq.code} 1 (${inPosCoins.join("+")}): ${rInfo.statusLabel} ⇄ ${sq.code} 2: GIRO BRUSCO <50ms`;
-    }
-    if (isBefore00Utc || activeCoins.length > 0) {
-      if (activeCoins.length === 0) {
-        return `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
-      }
-      return `❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅ · 0 PÉRDIDAS)`;
     }
     return `⚡ ${sq.code} 1: ACTIVO (CUPOS LIGEREZA MÁX 2) ⇄ ${sq.code} 2: STOP-AND-REVERSE`;
   }
@@ -1304,9 +1345,9 @@ function updateTopBarCards() {
       subLabelText = `6/6 RECUPERADAS EN VERDE · ARRANQUE FRESCO 00:00 UTC`;
       bottomBannerText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO HASTA LAS 00:00:00 UTC`;
     } else {
-      topPillText = `❄️ RECUPERANDO ${openCount}/${totalRecoveryRef} (CERO NUEVAS ENTRADAS)`;
-      subLabelText = `➔ ARRANQUE FRESCO 00:00 UTC (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)`;
-      bottomBannerText = `❄️ RECUPERANDO ${openCount}/${totalRecoveryRef} (CERO NUEVAS ENTRADAS) ➔ ENFRIAMIENTO HASTA 00:00:00 UTC`;
+      topPillText = `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR`;
+      subLabelText = `RECUPERANDO ${openCount}/${totalRecoveryRef} (PINZA SECUENCIAL 1 A 1 · CERO NUEVAS)`;
+      bottomBannerText = `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR`;
     }
   } else {
     topPillText = `🟢 ARRANQUE FRESCO 00:00 UTC: ${openCount}/2 ABIERTAS`;
@@ -1342,9 +1383,9 @@ function updateTopBarCards() {
   }
 }
 
-// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON ORDEN DE FILA Y DISTANCIA A #00)
+// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON ORDEN DE COLA DE RESCATE #00)
 function updatePricesAndSignals() {
-  const cascadePriority = ["ETH", "PAXG", "SUI", "DOGE", "SOL", "HYPE", "BTC", "XRP", "NEAR"];
+  const cascadePriority = ["PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR", "SUI", "DOGE", "HYPE"];
   const sortedOpenCoins = [...appState.openPositions]
     .sort((a, b) => {
       const cA = a.position.coin;
