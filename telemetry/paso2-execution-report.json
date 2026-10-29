@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-10-29T07:12:08.125Z",
+  "bloque1": {
+    "polSwapped": 596.8862,
+    "wrapTxHash": "0x83fc77b56ea85a3e253639b464fb7c3a5333bfaaba75dbcc28e810d6eda11cbe",
+    "swapTxHash": "0x28fe38e7ac2fffeb65cbc1df2af28111db62361ef52bdc3b1510bad9a76ab34d",
+    "usdcReceived": 54.101317,
+    "finalUsdcPolygon": 54.101317,
+    "finalPolGas": 9.9358
+  },
+  "bloque2": {
+    "oldSolSzi": 9.76,
+    "oldSolEntry": 101.165,
+    "newSolSzi": 19.52,
+    "newSolEntry": 100.538,
+    "newTpPx": "100.62",
+    "rescueBuyResult": {
+      "status": "ok",
+      "response": {
+        "type": "order",
+        "data": {
+          "statuses": [
+            {
+              "filled": {
+                "totalSz": "9.76",
+                "avgPx": "99.911",
+                "oid": 589114259065
+              }
+            }
+          ]
+        }
+      }
+    },
+    "newTpOrderResult": {
+      "status": "ok",
+      "response": {
+        "type": "order",
+        "data": {
+          "statuses": [
+            {
+              "resting": {
+                "oid": 589114285430
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

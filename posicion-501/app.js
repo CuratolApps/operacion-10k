@@ -27,6 +27,39 @@ function setTextIfChanged(el, newText) {
 // ESTADO DE CUENTA ON-CHAIN: LISTA DE MOVIMIENTOS REALES EN VIVO
 const LIVE_TRANSACTIONS_EXPLORER = [
   {
+    time: "29 Oct 07:12 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Rescate Mentora #00 SOL (+9.76 SOL) ➔ TP $100.62",
+    target: "19.52 SOL @ $100.538",
+    result: "TP +0.08% ($100.62)",
+    resultClass: "pos",
+    isRetiroOrLoan: false,
+    url: "https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
+    time: "29 Oct 07:11 UTC",
+    net: "Polygon PoS",
+    netCode: "POLYGON",
+    action: "Swap 596.89 POL ➔ USDC Nativo (Uniswap V3 0.05%)",
+    target: "0x28fe...ab34d (#501)",
+    result: "+$54.10 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: true,
+    url: "https://polygonscan.com/tx/0x28fe38e7ac2fffeb65cbc1df2af28111db62361ef52bdc3b1510bad9a76ab34d"
+  },
+  {
+    time: "29 Oct 07:00 UTC",
+    net: "Polygon PoS",
+    netCode: "POLYGON",
+    action: "Inyección Comandante a Bóveda #501",
+    target: "0x7a08c...65ce8 (#501)",
+    result: "+597.27 POL",
+    resultClass: "pos",
+    isRetiroOrLoan: true,
+    url: "https://polygonscan.com/address/0xD4D12077a61118372f7a367319fb11922Beb3743"
+  },
+  {
     time: "28 Oct 23:45 UTC",
     net: "Hyperliquid L1",
     netCode: "HL",
@@ -388,19 +421,23 @@ async function fetchLiveData() {
       const data = await res.json();
       if (data && data.success) {
         if (hlDirectVal !== null) {
+          const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 54.10;
+          const closedBase = +(hlDirectVal - hlUnrealizedTotal).toFixed(2);
+          const baseInj = (polyUsdc < 5.0 && closedBase >= 880.0) ? 684.04 : 629.94;
           data.hyperliquid = data.hyperliquid || {};
           data.hyperliquid.clearinghouseUsdc = hlDirectVal;
           data.hyperliquid.unrealizedPnlUsdc = hlUnrealizedTotal;
-          data.hyperliquid.closedBaseUsdc = +(hlDirectVal - hlUnrealizedTotal).toFixed(2);
+          data.hyperliquid.closedBaseUsdc = closedBase;
           data.hyperliquid.activeMarginUsdc = +(hlDirectVal * 0.60).toFixed(2);
           data.hyperliquid.shieldUsdc = +(hlDirectVal * 0.40).toFixed(2);
-          data.hyperliquid.netProfitUsdc = +(hlDirectVal - 629.94).toFixed(2);
-          data.hyperliquid.netProfitPct = +(((hlDirectVal - 629.94) / 629.94) * 100).toFixed(2);
-          const polValUsd = (data.polygon?.polBalance || 9.62) * 0.38;
+          data.hyperliquid.baseInjectedUsdc = baseInj;
+          data.hyperliquid.netProfitUsdc = +(hlDirectVal - baseInj).toFixed(2);
+          data.hyperliquid.netProfitPct = +(((hlDirectVal - baseInj) / baseInj) * 100).toFixed(2);
+          const polValUsd = (data.polygon?.polBalance || 9.94) * 0.091;
           const bnbValUsd = (data.bsc?.bnbBalance || 0.0188) * 595.0;
           const ethValUsd = (data.arbitrum?.ethBalance || 0.00084) * 2600.0;
           const fleetUsdc = data.fleetPockets?.usdcBalance || 4.70;
-          data.totalConsolidatedUsd = +(hlDirectVal + fleetUsdc + polValUsd + bnbValUsd + ethValUsd).toFixed(2);
+          data.totalConsolidatedUsd = +(hlDirectVal + polyUsdc + fleetUsdc + polValUsd + bnbValUsd + ethValUsd).toFixed(2);
         }
         updateUiWithLiveData(data);
         return;
@@ -434,28 +471,32 @@ function updateUiWithLiveData(data) {
   const netProfit = data.hyperliquid?.netProfitUsdc !== undefined ? data.hyperliquid.netProfitUsdc : parseFloat((hlBalance - 629.94).toFixed(2));
   const netProfitPct = data.hyperliquid?.netProfitPct !== undefined ? data.hyperliquid.netProfitPct : parseFloat(((netProfit / 629.94) * 100).toFixed(2));
 
-  const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.6194;
+  const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.9358;
+  const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 54.10;
   const bnbBal = typeof data.bsc?.bnbBalance === "number" ? data.bsc.bnbBalance : 0.0188;
   const ethBal = typeof data.arbitrum?.ethBalance === "number" ? data.arbitrum.ethBalance : 0.00084;
   const fleetUsdc = typeof data.fleetPockets?.usdcBalance === "number" ? data.fleetPockets.usdcBalance : 4.70;
   const fleetPol = typeof data.fleetPockets?.gasPol === "number" ? data.fleetPockets.gasPol : 20.47;
+  const baseInj = data.hyperliquid?.baseInjectedUsdc || 629.94;
 
   // 1. ACTUALIZAR 5 TARJETAS SUPERIORES (SATINADAS)
   setTextIfChanged(document.getElementById("topTotalWealthUsd"), totalWealth.toFixed(2));
   setTextIfChanged(document.getElementById("pillHlShare"), `HL L1: $${hlBalance.toFixed(2)} USDC`);
-  setTextIfChanged(document.getElementById("pillPolyShare"), `POL: ${polBal.toFixed(2)} (~$${(polBal * 0.38).toFixed(2)})`);
+  setTextIfChanged(document.getElementById("pillPolyShare"), `Pol #501: $${polyUsdc.toFixed(2)} USDC + ${polBal.toFixed(2)} POL`);
   setTextIfChanged(document.getElementById("pillBscShare"), `BNB+ETH: ~$11.50`);
   setTextIfChanged(document.getElementById("pillFleetShare"), `Flota: $${fleetUsdc.toFixed(2)} USDC`);
 
   setTextIfChanged(document.getElementById("topHlBalanceUsdc"), hlBalance.toFixed(2));
   setTextIfChanged(document.getElementById("topHlActiveMargin"), `60% Margen ($${activeMargin.toFixed(2)})`);
   setTextIfChanged(document.getElementById("topHlShieldMargin"), `40% Escudo #00 ($${shieldMargin.toFixed(2)})`);
-  const pct1000 = Math.min(100, (hlBalance / 1000.00) * 100);
-  setTextIfChanged(document.getElementById("topHlRepaymentStatus"), `Meta: ${pct1000.toFixed(1)}%`);
+  const projectedHlWithLoan = hlBalance + polyUsdc;
+  const pct1000 = Math.min(100, (projectedHlWithLoan / 1000.00) * 100);
+  setTextIfChanged(document.getElementById("topHlRepaymentStatus"), `Meta (+$${polyUsdc.toFixed(0)}): ${pct1000.toFixed(1)}%`);
 
   setTextIfChanged(document.getElementById("topEvmPolBal"), typeof polBal === "number" ? polBal.toFixed(4) : polBal);
   setTextIfChanged(document.getElementById("topEvmBnbBal"), typeof bnbBal === "number" ? bnbBal.toFixed(4) : bnbBal);
-  setTextIfChanged(document.getElementById("pillPolyUsdc"), "USDC Pol: $0.00 Migrado");
+  setTextIfChanged(document.getElementById("pillPolyUsdc"), polyUsdc > 1 ? `USDC Pol: $${polyUsdc.toFixed(2)} (Gatillo Post-SOL)` : "USDC Pol: $0.00 Migrado a L1");
+  setTextIfChanged(document.getElementById("pillInjectedBase"), `Base: $${baseInj.toFixed(2)} al 0%`);
 
   setTextIfChanged(document.getElementById("topProfitAccumUsdc"), netProfit >= 0 ? `${netProfit.toFixed(2)}` : `${netProfit.toFixed(2)}`);
   setTextIfChanged(document.getElementById("topProfitPctBadge"), `+${netProfitPct.toFixed(2)}%`);
@@ -465,16 +506,17 @@ function updateUiWithLiveData(data) {
   setTextIfChanged(document.getElementById("heroHlBalance"), hlBalance.toFixed(2));
   setTextIfChanged(document.getElementById("heroHlMarginVal"), `$${activeMargin.toFixed(2)} USDC`);
   setTextIfChanged(document.getElementById("heroHlShieldVal"), `$${shieldMargin.toFixed(2)} USDC`);
-  setTextIfChanged(document.getElementById("heroHlMetaTarget"), `$${hlBalance.toFixed(2)} / $1,000.00 USDC (${pct1000.toFixed(1)}%)`);
+  setTextIfChanged(document.getElementById("heroHlMetaTarget"), `$${hlBalance.toFixed(2)} (+$${polyUsdc.toFixed(2)} #501 = $${projectedHlWithLoan.toFixed(2)}) / $1,000 (${pct1000.toFixed(1)}%)`);
   const heroProgress = document.getElementById("heroHlProgressFill");
   if (heroProgress) {
     heroProgress.style.width = `${pct1000}%`;
   }
 
   // Caja 2: Polygon PoS
-  setTextIfChanged(document.getElementById("heroPolyUsdc"), "0.00");
+  setTextIfChanged(document.getElementById("heroPolyUsdc"), polyUsdc.toFixed(2));
   setTextIfChanged(document.getElementById("heroPolyPol"), polBal.toFixed(2));
-  setTextIfChanged(document.getElementById("heroPolyPolUsd"), `${polBal.toFixed(2)} POL (~$${(polBal * 0.38).toFixed(2)} USD)`);
+  setTextIfChanged(document.getElementById("heroPolyPolUsd"), `${polBal.toFixed(2)} POL (Tanque Gas V2)`);
+  setTextIfChanged(document.getElementById("heroPolyUsdcStatus"), polyUsdc > 1 ? `$${polyUsdc.toFixed(2)} USDC ➔ HL L1 al cerrar SOL` : "$0.00 USDC (Acreditado en L1)");
 
   // Caja 3: BNB Chain & Arbitrum One
   setTextIfChanged(document.getElementById("heroBscBnb"), typeof bnbBal === "number" ? bnbBal.toFixed(4) : bnbBal);

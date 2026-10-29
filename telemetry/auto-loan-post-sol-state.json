@@ -1,0 +1,13 @@
+{
+  "status": "ARMED_WAITING_SOL_CLOSE",
+  "armedAt": "2026-10-29T07:14:06.149Z",
+  "polygonSwapTxHash": "0x28fe38e7ac2fffeb65cbc1df2af28111db62361ef52bdc3b1510bad9a76ab34d",
+  "polygonUsdcReady": 54.101317,
+  "polygonGasRemainingPol": 9.9358,
+  "solTargetPosition": {
+    "szi": 19.52,
+    "entryPx": 100.538,
+    "tpPx": 100.62,
+    "tpOid": 589114285430
+  }
+}

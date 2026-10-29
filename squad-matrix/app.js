@@ -1070,6 +1070,8 @@ function updateTopBarCards() {
   const closedBase = +(val - unrealizedTotal).toFixed(2);
   const floatSign = unrealizedTotal >= 0 ? "+" : "-";
   const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
+  const postSolBridged = closedBase >= 880.0;
+  appState.totalLoanInjected = postSolBridged ? 684.04 : 629.94;
 
   // 1. Capital Operativo (100% Direct Live Equity)
   setTextIfChanged(document.getElementById("topActiveCapValue"), val.toFixed(2));

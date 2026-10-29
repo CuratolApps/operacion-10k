@@ -696,6 +696,17 @@ async function startAutonomousSquadDaemon() {
               `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
               `🌐 <i>Capital inmediatamente protegido en USDC nativo.</i>`;
             await sendSquadTelegram(victoryTg);
+
+            // GATILLO AUTOMÁTICO POST-SOL: Apenas cierre SOL-USDC (szi == 0), puentear los ~$54.10 USDC de #501 a Hyperliquid L1
+            if (closedCoin === "SOL") {
+              console.log("🚀⚡ [GATILLO POST-SOL] SOL-USDC cerrado en positivo! Iniciando puente automático de ~$54.10 USDC desde #501 a Hyperliquid L1...");
+              try {
+                const { executePostSolLoanBridge } = require("./auto-loan-post-sol");
+                executePostSolLoanBridge().catch(e => console.error("[AUTO-LOAN POST-SOL ERROR]:", e.message));
+              } catch (e) {
+                console.error("[AUTO-LOAN POST-SOL LOAD ERROR]:", e.message);
+              }
+            }
           } catch (err) {
             console.error(`[${prevInfo.squadKey}] Error procesando victoria de ${closedCoin}:`, err.message);
           }
@@ -765,8 +776,8 @@ async function startAutonomousSquadDaemon() {
         const currentMid = parseFloat(mids[coin] || entryPx);
 
         if (!existingExitOrder && isV2Armed) {
-          // Si tiene rescate Mentora #00 activo (dcaDone), el TP es +0.12% (newEntryPx * 1.0012); si es tiro normal, +0.15%
-          const targetGainPct = posMeta.dcaDone ? 0.12 : (squadCfg.targetGainPct || TARGET_GAIN_PCT);
+          // Si tiene 2 cartuchos Mentora #00 (nocional >= $1,500, ej. SOL 19.52), TP rápido +0.08%; si 1 cartucho, +0.12%; si tiro normal, +0.15%
+          const targetGainPct = notionalVal >= 1500 ? 0.08 : (posMeta.dcaDone ? 0.12 : (squadCfg.targetGainPct || TARGET_GAIN_PCT));
           let exitPxNum = isShort
             ? entryPx * (1 - targetGainPct / 100)
             : entryPx * (1 + targetGainPct / 100);

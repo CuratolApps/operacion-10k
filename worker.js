@@ -2187,8 +2187,27 @@ export default {
       const activeMarginUsdc = parseFloat((hlBalanceUsdc * 0.60).toFixed(2));
       const shieldUsdc = parseFloat((hlBalanceUsdc * 0.40).toFixed(2));
 
-      // Polygon PoS: 0.00 USDC (capital ya migrado a L1) + 9.62 POL de disparo
-      const polygonUsdc = 0.00;
+      // Polygon PoS: Consultar USDC Nativo en vivo (0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359) + POL de disparo
+      let polygonUsdc = 54.10;
+      try {
+        const polyUsdcRes = await fetch("https://polygon.drpc.org", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            jsonrpc: "2.0",
+            id: 1,
+            method: "eth_call",
+            params: [{
+              to: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+              data: "0x70a08231000000000000000000000000d4d12077a61118372f7a367319fb11922beb3743"
+            }, "latest"]
+          })
+        });
+        const polyUsdcJson = await polyUsdcRes.json();
+        if (polyUsdcJson && polyUsdcJson.result) {
+          polygonUsdc = parseFloat((Number(BigInt(polyUsdcJson.result)) / 1e6).toFixed(2));
+        }
+      } catch (_) {}
       const polygonPol = await getLivePolBalance("0xD4D12077a61118372f7a367319fb11922Beb3743");
       const bscUsdc = 0.00;
       const bscBnb = 0.0188;
@@ -2196,16 +2215,18 @@ export default {
       const arbUsdc = 0.00;
       const fleetPocketsUsdc = 4.70;
 
-      const baseInjectedUsdc = 629.94;
+      // Si los $54.10 USDC ya cruzaron a Hyperliquid L1 (polygonUsdc < 5 y closedBaseUsdc >= 880), el capital inyectado sube a $684.04 USDC
+      const postSolLoanBridged = polygonUsdc < 5.0 && closedBaseUsdc >= 880.0;
+      const baseInjectedUsdc = postSolLoanBridged ? 684.04 : 629.94;
       const netProfitUsdc = parseFloat((hlBalanceUsdc - baseInjectedUsdc).toFixed(2));
       const netProfitPct = parseFloat(((netProfitUsdc / baseInjectedUsdc) * 100).toFixed(2));
 
-      // Valoración combinada en USD (Gas nativo real + Capitanes)
-      const polValUsd = polygonPol * 0.38; // ~3.65 USD
+      // Valoración combinada en USD (HL L1 + USDC Nativo Polygon #501 + Gas nativo real + Capitanes)
+      const polValUsd = polygonPol * 0.091; // ~0.90 USD
       const bnbValUsd = bscBnb * 595.0; // ~11.19 USD
       const ethValUsd = arbEth * 2600.0; // ~2.18 USD
       const gasUsd = parseFloat((polValUsd + bnbValUsd + ethValUsd).toFixed(2));
-      const totalConsolidatedUsd = parseFloat((hlBalanceUsdc + fleetPocketsUsdc + gasUsd).toFixed(2));
+      const totalConsolidatedUsd = parseFloat((hlBalanceUsdc + polygonUsdc + fleetPocketsUsdc + gasUsd).toFixed(2));
 
       const responsePayload = {
         success: true,
@@ -2222,7 +2243,9 @@ export default {
           netProfitUsdc,
           netProfitPct,
           baseInjectedUsdc,
-          remainingToTarget1000: Math.max(0, parseFloat((1000.00 - hlBalanceUsdc).toFixed(2))),
+          postSolLoanBridged,
+          projectedWithPostSolLoanUsdc: parseFloat((hlBalanceUsdc + polygonUsdc).toFixed(2)),
+          remainingToTarget1000: Math.max(0, parseFloat((1000.00 - (hlBalanceUsdc + polygonUsdc)).toFixed(2))),
           positions: clData?.positions || [],
           liveWins: clData?.liveWins || 136,
           agentKey: "0xccb384286cCE024A318Ff98197E6c89e0f02F7f8 (SquadSecret501)",
@@ -2230,9 +2253,11 @@ export default {
         },
         polygon: {
           polBalance: polygonPol,
-          usdcNative: 0.00,
+          usdcNative: polygonUsdc,
           aPolUsdcAaveV3: 0.00,
-          totalUsdc: 0.00,
+          totalUsdc: polygonUsdc,
+          swapTxHash: "0x28fe38e7ac2fffeb65cbc1df2af28111db62361ef52bdc3b1510bad9a76ab34d",
+          autoLoanStatus: postSolLoanBridged ? "ACREDITADO EN HYPERLIQUID L1" : "ARMADO POST-SOL (szi == 0 ➔ HL L1)",
           allowanceToExecutor: 2500.00,
           executorAddress: "0x3e8b1d7f23560215eFD61A77a97d675cc92509f7",
           gasFloorStatus: "100% BLINDADO"

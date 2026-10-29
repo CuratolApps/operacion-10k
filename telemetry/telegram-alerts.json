@@ -1,5 +1,12 @@
 [
   {
+    "id": "tg-1793257928129-721",
+    "timestamp": "2026-10-29T07:12:08.129Z",
+    "timeFormatted": "7:12:08 UTC",
+    "rawHtml": "🏦🛡️⚡ <b>ÁREA 501 // PASO 2 EJECUTADO EN CADENA</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n1️⃣ <b>SWAP 597.2668 POL ➔ USDC NATIVO (#501):</b>\n• <b>POL Convertido:</b> <code>596.8862 POL</code> (Gas intacto: <code>9.94 POL</code>)\n• <b>USDC Recibido:</b> <code>+$54.10 USDC</code>\n• <b>Saldo Líquido #501:</b> <code>$54.10 USDC Nativo</code>\n• <b>Tx Swap Uniswap V3 (0.05%):</b> <a href=\"https://polygonscan.com/tx/0x28fe38e7ac2fffeb65cbc1df2af28111db62361ef52bdc3b1510bad9a76ab34d\">PolygonScan</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n2️⃣ <b>RESCATE MENTORA #00 EN SOL-USDC:</b>\n• <b>Posición Total:</b> <code>19.52 SOL</code> (antes <code>9.76 SOL</code>)\n• <b>Nuevo Precio Promedio:</b> <code>$100.538</code> (antes <code>$101.165</code>)\n• <b>Orden TP Reduce-Only (+0.08%):</b> <code>19.52 SOL @ $100.62</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n3️⃣ <b>GATILLO AUTO-PUENTE ARMADO:</b>\n• Apenas cierre <code>SOL-USDC</code> (<code>szi == 0</code>), los <code>$54.10 USDC</code> cruzarán automáticamente a Hyperliquid L1 (~$901+ USDC, >90% de la meta de $1,000).",
+    "textPlain": "🏦🛡️⚡ ÁREA 501 // PASO 2 EJECUTADO EN CADENA\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n1️⃣ SWAP 597.2668 POL ➔ USDC NATIVO (#501):\n• POL Convertido: 596.8862 POL (Gas intacto: 9.94 POL)\n• USDC Recibido: +$54.10 USDC\n• Saldo Líquido #501: $54.10 USDC Nativo\n• Tx Swap Uniswap V3 (0.05%): PolygonScan\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n2️⃣ RESCATE MENTORA #00 EN SOL-USDC:\n• Posición Total: 19.52 SOL (antes 9.76 SOL)\n• Nuevo Precio Promedio: $100.538 (antes $101.165)\n• Orden TP Reduce-Only (+0.08%): 19.52 SOL @ $100.62\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n3️⃣ GATILLO AUTO-PUENTE ARMADO:\n• Apenas cierre SOL-USDC (szi == 0), los $54.10 USDC cruzarán automáticamente a Hyperliquid L1 (~$901+ USDC, >90% de la meta de $1,000)."
+  },
+  {
     "id": "tg-1793257638597-968",
     "timestamp": "2026-10-29T07:07:18.597Z",
     "timeFormatted": "7:07:18 UTC",
@@ -199,13 +206,6 @@
     "id": "tg-1793230562339-455",
     "timestamp": "2026-10-28T23:36:02.339Z",
     "timeFormatted": "23:36:02 UTC",
-    "rawHtml": "⏱️ <b>ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>SUI-USDC</code>\n⏳ <b>Tiempo Abierto:</b> 54 minutos\n💰 <b>Ganancia Asegurada:</b> <code>+$0.4961 USDC</code>\n🔓 <b>Acción:</b> Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-    "textPlain": "⏱️ ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: SUI-USDC\n⏳ Tiempo Abierto: 54 minutos\n💰 Ganancia Asegurada: +$0.4961 USDC\n🔓 Acción: Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  },
-  {
-    "id": "tg-1793230561419-463",
-    "timestamp": "2026-10-28T23:36:01.419Z",
-    "timeFormatted": "23:36:01 UTC",
     "rawHtml": "⏱️ <b>ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 <b>Activo:</b> <code>SUI-USDC</code>\n⏳ <b>Tiempo Abierto:</b> 54 minutos\n💰 <b>Ganancia Asegurada:</b> <code>+$0.4961 USDC</code>\n🔓 <b>Acción:</b> Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
     "textPlain": "⏱️ ÁREA 501 // RELOJ ANTI-ESTANCAMIENTO ACTIVADO (20 MINUTOS)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📍 Activo: SUI-USDC\n⏳ Tiempo Abierto: 54 minutos\n💰 Ganancia Asegurada: +$0.4961 USDC\n🔓 Acción: Cierre ejecutado para rotación inmediata de capital.\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   }
