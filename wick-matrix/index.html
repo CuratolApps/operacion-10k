@@ -2,302 +2,313 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ÁREA 501 // ESTACIÓN #06 · WICK SNIPER & PAIRS ARBITRAGE L1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ÁREA 501 // ESTACIÓN #06 · WICK SNIPER &amp; PAIRS ARBITRAGE L1</title>
+
+  <!-- Tipografías Oficiales: JetBrains Mono & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/shared/core-os-nav.css" />
-  <style>
-    :root {
-      --bg-dark: #050911;
-      --bg-card: #0b1220;
-      --bg-panel: #080e1a;
-      --border: rgba(56, 189, 248, 0.22);
-      --emerald: #00ff88;
-      --cyan: #38bdf8;
-      --gold: #f59e0b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-dark);
-      color: var(--text);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .station-shell {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 10px 14px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .station-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-    }
-    .station-title {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: var(--emerald);
-      letter-spacing: 0.03em;
-    }
-    .station-sub {
-      font-size: 0.72rem;
-      color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .kpi-grid-5 {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 1100px) {
-      .kpi-grid-5 { grid-template-columns: repeat(2, 1fr); }
-    }
-    .kpi-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .kpi-label {
-      font-size: 0.63rem;
-      font-weight: 800;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .kpi-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.08rem;
-      font-weight: 800;
-      color: var(--emerald);
-    }
-    .kpi-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 2px;
-    }
-    .kpi-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.60rem;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      color: #cbd5e1;
-    }
-    .main-grid-2 {
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width: 1100px) {
-      .main-grid-2 { grid-template-columns: 1fr; }
-    }
-    .panel-box {
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
-      padding-bottom: 6px;
-    }
-    .panel-title {
-      font-size: 0.78rem;
-      font-weight: 900;
-      color: var(--cyan);
-      letter-spacing: 0.04em;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-    }
-    th, td {
-      padding: 6px 8px;
-      text-align: left;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-    }
-    th {
-      color: var(--muted);
-      font-size: 0.62rem;
-      text-transform: uppercase;
-    }
-    .badge-green {
-      background: rgba(16, 185, 129, 0.18);
-      color: #00ff88;
-      border: 1px solid rgba(0, 255, 136, 0.4);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.60rem;
-      font-weight: 700;
-    }
-    .badge-gold {
-      background: rgba(245, 158, 11, 0.18);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.60rem;
-      font-weight: 700;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Iconografía Oficial: Google Material Symbols Rounded (100% Cero Emojis en Chasis) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Estilos Híbridos Estándar 100vh Cero Scroll -->
+  <link rel="stylesheet" href="/wick-matrix/style.css?v=20261029v8" />
+  <!-- Sistema Unificado de Navegación y Resumen Ejecutivo de 10 Minutos -->
+  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261029v8" />
+  <script src="/shared/core-os-nav.js?v=20261029v8" defer></script>
 </head>
 <body>
-  <div class="station-shell">
-    <header class="station-header">
-      <div>
-        <div class="station-title">🎯 ESTACIÓN #06 // WICK SNIPER & DELTA-NEUTRAL PAIRS ARBITRAGE (HYPERLIQUID L1)</div>
-        <div class="station-sub">Caza-Mechas de Liquidación Ajena (Post-Only ALO ±0.85%) + Arbitraje de Pares Gemelos · $0 Capital Inmovilizado · 100% Cero Holder</div>
+  <div class="matrix-viewport">
+
+    <!-- 1. HEADER COMPACTO DE IDENTIDAD -->
+    <header class="matrix-header-bar">
+      <div class="header-left">
+        <div class="brand-badge">
+          <span class="material-symbols-rounded">ads_click</span>
+          <span>ÁREA 501 · ESTACIÓN 06 · WICK SNIPER &amp; PAIRS L1</span>
+        </div>
+        <div class="header-vault-address">
+          <span>BÓVEDA #501:</span>
+          <code>0xD4D1...3743</code>
+        </div>
       </div>
-      <div style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">
-        <div style="color: #00ff88; font-weight: 800;" id="wickClockUtc">13:20:00 UTC</div>
-        <div style="color: #94a3b8; font-size: 0.62rem;">Bóveda L1: 0xD4D1...3743</div>
+
+      <div class="header-right">
+        <div class="net-pill">
+          <span class="dot"></span>
+          <span>HYPERLIQUID L1 · POST-ONLY ALO (±0.85%)</span>
+        </div>
+        <div class="net-pill">
+          <span class="dot"></span>
+          <span>CAPITAL INMOVILIZADO: $0.00 USDC</span>
+        </div>
       </div>
     </header>
 
-    <!-- 5 TARJETAS KPI ARMONIZADAS -->
-    <section class="kpi-grid-5" id="spaceRebates">
-      <div class="kpi-card">
-        <div class="kpi-label">1. REDES CAZA-MECHAS (ALO)</div>
-        <div class="kpi-value" id="kpiWickTraps">12 PARES L1</div>
-        <div class="kpi-pills">
-          <span class="kpi-pill">Costo en Espera: $0.00</span>
-          <span class="kpi-pill">Rango Aguja: ±0.85%</span>
+    <!-- 2. 5 TARJETAS SUPERIORES BLANCO SATINADO (.biz-card) -->
+    <section class="matrix-topbar">
+      <!-- Tarjeta 1 -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">radar</span>
+          <span>1. REDES CAZA-MECHAS (ALO)</span>
+        </div>
+        <div class="card-main-val emerald">
+          <span id="kpiWickTraps">12 PARES L1</span>
+          <span class="pct-badge">±0.85% AGUJA</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-cap green">Costo Espera: $0.00</span>
+          <span class="pill-cap blue">Orden: Post-Only Maker</span>
         </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">2. ARBITRAJE PARES GEMELOS</div>
-        <div class="kpi-value" style="color: #38bdf8;" id="kpiTwinPairs">6 BINOMIOS</div>
-        <div class="kpi-pills">
-          <span class="kpi-pill">Riesgo Mercado: 0% Neutral</span>
-          <span class="kpi-pill">Meta Spread: +0.20%</span>
+
+      <!-- Tarjeta 2 -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">balance</span>
+          <span>2. ARBITRAJE PARES GEMELOS</span>
+        </div>
+        <div class="card-main-val cobalt">
+          <span id="kpiTwinPairs">6 BINOMIOS</span>
+          <span class="pct-badge">DELTA NEUTRAL</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-cap blue">Riesgo Mercado: 0.0%</span>
+          <span class="pill-cap green">Meta Spread: +0.20%</span>
         </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">3. MARGEN RESPALDO (#00)</div>
-        <div class="kpi-value" id="kpiShieldFree">$360.82 USDC</div>
-        <div class="kpi-pills">
-          <span class="kpi-pill" id="kpiEquityTotal">Patrimonio L1: $902.05</span>
-          <span class="kpi-pill">0% Afectación a Bloques 1 y 2</span>
+
+      <!-- Tarjeta 3 -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">shield</span>
+          <span>3. MARGEN RESPALDO (#00)</span>
+        </div>
+        <div class="card-main-val">
+          <span id="kpiShieldFree">$360.86 USDC</span>
+          <span class="pct-badge">100% INTACTO</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-cap green" id="kpiEquityTotal">Patrimonio L1: $902.15</span>
+          <span class="pill-cap purple">0% Bloqueo a Bloques 1-2</span>
         </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">4. REBATES MAKER + REBOTE</div>
-        <div class="kpi-value" style="color: #f59e0b;">+0.40% / TIRO</div>
-        <div class="kpi-pills">
-          <span class="kpi-pill">Maker Rebate: +0.003%</span>
-          <span class="kpi-pill">Salida Rápida: 5s - 20s</span>
+
+      <!-- Tarjeta 4 -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">payments</span>
+          <span>4. GANANCIA POR CAPTURA</span>
+        </div>
+        <div class="card-main-val amber">
+          <span>+$0.78 USDC</span>
+          <span class="unit-tag">/ AGUJA</span>
+          <span class="pct-badge">+0.40% TP</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-cap amber">Maker Rebate: +0.003%</span>
+          <span class="pill-cap green">Cierre Rebote: 5s–20s</span>
         </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">5. PROYECCIÓN DIARIA EXTRA</div>
-        <div class="kpi-value">+$3.50 – $12.00</div>
-        <div class="kpi-pills">
-          <span class="kpi-pill">Días Volátiles: +$15-$25</span>
-          <span class="kpi-pill">Alertas Telegram: 100% ON</span>
+
+      <!-- Tarjeta 5 -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">trending_up</span>
+          <span>5. QUÉ GENERA ESTACIÓN #06</span>
+        </div>
+        <div class="card-main-val emerald">
+          <span>+$3.50 – $12</span>
+          <span class="unit-tag">USDC / DÍA</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-cap green">Días Volátiles: +$15–$25</span>
+          <span class="pill-cap blue">Telegram: Alertas ON</span>
         </div>
       </div>
     </section>
 
-    <div class="main-grid-2">
-      <!-- ESPACIO 1: REDES CAZA-MECHAS ALO -->
-      <section class="panel-box" id="spaceWickTraps">
-        <div class="panel-header">
-          <span class="panel-title">⚡ ESPACIO 1 · REDES TRAMPA CAZA-MECHAS DE LIQUIDACIÓN (POST-ONLY ALO ±0.85%)</span>
-          <span class="badge-green">12 REDES ACTIVAS · $0 INMOVILIZADO</span>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Par L1</th>
-              <th>Precio Mid</th>
-              <th>Red Compra (-0.85%)</th>
-              <th>TP Rebote Long</th>
-              <th>Red Venta (+0.85%)</th>
-              <th>Ganancia Est.</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody id="wickTrapsTableBody">
-            <tr><td>HYPE-USDC</td><td>$24.150</td><td>$23.945</td><td>$24.041</td><td>$24.355</td><td style="color:#00ff88;">+$0.78 USDC</td><td><span class="badge-green">TRAMPA ALO ACTIVA</span></td></tr>
-            <tr><td>SOL-USDC</td><td>$100.85</td><td>$99.99</td><td>$100.40</td><td>$101.71</td><td style="color:#00ff88;">+$0.78 USDC</td><td><span class="badge-green">TRAMPA ALO ACTIVA</span></td></tr>
-            <tr><td>SUI-USDC</td><td>$0.9250</td><td>$0.9171</td><td>$0.9208</td><td>$0.9329</td><td style="color:#00ff88;">+$0.78 USDC</td><td><span class="badge-green">TRAMPA ALO ACTIVA</span></td></tr>
-            <tr><td>XRP-USDC</td><td>$1.2885</td><td>$1.2775</td><td>$1.2827</td><td>$1.2995</td><td style="color:#00ff88;">+$0.78 USDC</td><td><span class="badge-green">TRAMPA ALO ACTIVA</span></td></tr>
-            <tr><td>DOGE-USDC</td><td>$0.07865</td><td>$0.07798</td><td>$0.07830</td><td>$0.07932</td><td style="color:#00ff88;">+$0.78 USDC</td><td><span class="badge-green">TRAMPA ALO ACTIVA</span></td></tr>
-            <tr><td>AVAX-USDC</td><td>$8.765</td><td>$8.690</td><td>$8.726</td><td>$8.840</td><td style="color:#00ff88;">+$0.78 USDC</td><td><span class="badge-green">TRAMPA ALO ACTIVA</span></td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- ESPACIO 2 & 3: ARBITRAJE DE PARES GEMELOS + RADAR LIQUIDACIONES -->
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <section class="panel-box" id="spaceTwinPairs">
-          <div class="panel-header">
-            <span class="panel-title">⚖️ ESPACIO 2 · ARBITRAJE DE PARES GEMELOS (100% DELTA-NEUTRAL)</span>
-            <span class="badge-gold">RIESGO DIRECCIONAL CERO</span>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Binomio</th>
-                <th>Correlación</th>
-                <th>Precios L1</th>
-                <th>Ratio Vivo</th>
-                <th>Exposición Neta</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody id="twinPairsTableBody">
-              <tr><td><b>BTC / ETH</b></td><td>0.94</td><td>$68,420 / $1,842.0</td><td>37.144</td><td>$0.00 (Neutral)</td><td><span class="badge-green">VIGILANDO Z-SCORE</span></td></tr>
-              <tr><td><b>SOL / SUI</b></td><td>0.91</td><td>$100.85 / $0.9250</td><td>109.027</td><td>$0.00 (Neutral)</td><td><span class="badge-green">VIGILANDO Z-SCORE</span></td></tr>
-              <tr><td><b>XRP / ADA</b></td><td>0.89</td><td>$1.2885 / $0.2007</td><td>6.419</td><td>$0.00 (Neutral)</td><td><span class="badge-green">VIGILANDO Z-SCORE</span></td></tr>
-              <tr><td><b>DOGE / LTC</b></td><td>0.87</td><td>$0.0786 / $57.930</td><td>0.0014</td><td>$0.00 (Neutral)</td><td><span class="badge-green">VIGILANDO Z-SCORE</span></td></tr>
-              <tr><td><b>AVAX / NEAR</b></td><td>0.90</td><td>$8.765 / $2.4150</td><td>3.629</td><td>$0.00 (Neutral)</td><td><span class="badge-green">VIGILANDO Z-SCORE</span></td></tr>
-              <tr><td><b>BNB / AAVE</b></td><td>0.86</td><td>$744.50 / $132.40</td><td>5.623</td><td>$0.00 (Neutral)</td><td><span class="badge-green">VIGILANDO Z-SCORE</span></td></tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section class="panel-box" id="spaceLiqRadar">
-          <div class="panel-header">
-            <span class="panel-title">📡 ESPACIO 3 & 5 · RADAR DE LIQUIDACIONES & CAPTURAS RÁPIDAS EN L1</span>
-            <span class="badge-green" id="spaceWickLedger">CONECTADO A TELEGRAM</span>
-          </div>
-          <div style="font-size: 0.70rem; color: #cbd5e1; line-height: 1.5; font-family: 'JetBrains Mono', monospace;">
-            • <b>Doctrina Cero-Holder:</b> Las redes ALO solo se activan cuando una liquidación forzada ajena provoca una aguja instantánea de ±0.85%, cerrando en el rebote automático segundos después (+0.40% + Maker Rebate).<br/>
-            • <b>Blindaje de Capital #501:</b> Utiliza $0.00 de margen mientras espera en la periferia, respetando al 100% los 6 Escuadrones Activos (#01 ALFA a #06 INDIA) y el Escudo #00.
-          </div>
-        </section>
+    <!-- 3. BANDA DE DOCTRINA Y SINCRONIZACIÓN EN VIVO -->
+    <div class="doctrine-strip">
+      <div class="doctrine-left">
+        <span class="material-symbols-rounded">verified_user</span>
+        <span>MOTOR #06 ACTIVO EN DEMONIO L1: Cazando mechas de liquidación forzada ajena (±0.85%) y divergencias entre pares gemelos con $0 capital bloqueado.</span>
+      </div>
+      <div class="doctrine-right">
+        <span class="doctrine-pill" id="wickSyncBadge">Sincronizado con Hyperliquid L1</span>
+        <span class="doctrine-pill">Doctrina: 100% Cero-Holder</span>
       </div>
     </div>
+
+    <!-- 4. CONTENIDO CENTRAL POR PESTAÑAS (100vh CERO SCROLL) -->
+    <main class="matrix-content">
+
+      <!-- PESTAÑA 1: PANEL PRINCIPAL (REDES CAZA-MECHAS + PARES GEMELOS) -->
+      <section class="tab-pane active" id="paneWickMain">
+        <div class="split-grid-2">
+
+          <!-- Columna Izquierda: Redes Caza-Mechas -->
+          <div class="satin-panel">
+            <div class="panel-head">
+              <div class="panel-title-group">
+                <span class="material-symbols-rounded">bolt</span>
+                <span>1. REDES TRAMPA CAZA-MECHAS EN PERIFERIA (±0.85% POST-ONLY ALO)</span>
+              </div>
+              <span class="panel-badge">12 PARES VIGILADOS · $0 INMOVILIZADO</span>
+            </div>
+            <div class="table-scroll-wrap">
+              <table class="hybrid-table">
+                <thead>
+                  <tr>
+                    <th>PAR L1</th>
+                    <th>PRECIO ACTUAL</th>
+                    <th>TRAMPA COMPRA (-0.85%)</th>
+                    <th>SALIDA REBOTE (+0.40%)</th>
+                    <th>TRAMPA VENTA (+0.85%)</th>
+                    <th>PROFIT / TIRO</th>
+                    <th>ESTADO</th>
+                  </tr>
+                </thead>
+                <tbody id="wickTrapsTableBody">
+                  <!-- Hidratado en vivo por app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Pares Gemelos Delta-Neutrales -->
+          <div class="satin-panel">
+            <div class="panel-head">
+              <div class="panel-title-group">
+                <span class="material-symbols-rounded">balance</span>
+                <span>2. ARBITRAJE DE PARES GEMELOS (100% DELTA-NEUTRAL)</span>
+              </div>
+              <span class="panel-badge blue">6 BINOMIOS · RIESGO MERCADO 0%</span>
+            </div>
+            <div class="table-scroll-wrap">
+              <table class="hybrid-table">
+                <thead>
+                  <tr>
+                    <th>BINOMIO GEMELO</th>
+                    <th>CORRELACIÓN</th>
+                    <th>PRECIOS EN VIVO L1</th>
+                    <th>RATIO ACTUAL</th>
+                    <th>META CONVERGENCIA</th>
+                    <th>ESTADO Z-SCORE</th>
+                  </tr>
+                </thead>
+                <tbody id="twinPairsTableBody">
+                  <!-- Hidratado en vivo por app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PESTAÑA 2: TABLA COMPLETA DE LOS 12 PARES CAZA-MECHAS -->
+      <section class="tab-pane" id="paneWickFullRadar">
+        <div class="satin-panel">
+          <div class="panel-head">
+            <div class="panel-title-group">
+              <span class="material-symbols-rounded">radar</span>
+              <span>RADAR COMPLETO DE LAS 12 REDES CAZA-MECHAS DE LIQUIDACIÓN EN HYPERLIQUID L1</span>
+            </div>
+            <span class="panel-badge">ACTUALIZACIÓN CONTINUA C/4S DESDE HYPERLIQUID L1</span>
+          </div>
+          <div class="table-scroll-wrap">
+            <table class="hybrid-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>PAR HYPERLIQUID</th>
+                  <th>PRECIO MID L1</th>
+                  <th>RED COMPRA (-0.85% ALO)</th>
+                  <th>TP REBOTE LONG (+0.40%)</th>
+                  <th>RED VENTA (+0.85% ALO)</th>
+                  <th>TP REBOTE SHORT (-0.40%)</th>
+                  <th>GANANCIA NETA</th>
+                  <th>ESTADO DE LA RED</th>
+                </tr>
+              </thead>
+              <tbody id="wickFullRadarTableBody">
+                <!-- Hidratado en vivo por app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PESTAÑA 3: CÓMO GENERA DINERO LA ESTACIÓN #06 SIN TOCAR TU CAPITAL -->
+      <section class="tab-pane" id="paneWickRules">
+        <div class="satin-panel">
+          <div class="panel-head">
+            <div class="panel-title-group">
+              <span class="material-symbols-rounded">menu_book</span>
+              <span>ARQUITECTURA DE FLUJO DE CAJA DE LA ESTACIÓN #06 (CERO CAPITAL INMOVILIZADO)</span>
+            </div>
+            <span class="panel-badge">100% COMPATIBLE CON BLOQUES 1 Y 2</span>
+          </div>
+          <div class="cards-grid-3">
+            <div class="rule-box">
+              <h4><span class="material-symbols-rounded" style="color:#059669;">ads_click</span> 1. ¿Cómo funciona el Caza-Mechas (Wick Sniper)?</h4>
+              <p>Cuando otros traders apalancados a 20x–50x son liquidados en Hyperliquid L1, el motor de liquidaciones lanza una orden a mercado que crea una "aguja" de precio de ±0.85% durante 2 a 5 segundos antes de regresar a su precio normal.</p>
+              <p>Nuestras redes <b>Post-Only ALO</b> esperan en la punta de esa aguja. Si la aguja nos toca, compramos en el fondo exacto (cobrando además <b>+0.003% de Maker Rebate</b>) y vendemos automáticamente segundos después en el rebote (<b>+0.40% neto = +$0.78 USDC por tiro</b>).</p>
+            </div>
+            <div class="rule-box">
+              <h4><span class="material-symbols-rounded" style="color:#1D4ED8;">balance</span> 2. ¿Cómo funciona el Arbitraje de Pares Gemelos?</h4>
+              <p>Monitoreamos 6 parejas de monedas que se mueven juntas históricamente: <b>BTC/ETH, SOL/SUI, XRP/ADA, DOGE/LTC, AVAX/NEAR y BNB/AAVE</b>.</p>
+              <p>Cuando una moneda sube artificialmente +1.5% más rápido que su gemela sin razón fundamental (Z-Score &ge; 2.1), abrimos simultáneamente <b>SHORT en la cara y LONG en la rezagada</b> por el mismo monto. Si el mercado sube o baja, estamos 100% cubiertos (Riesgo 0%) y cobramos cuando las dos vuelven a juntarse (+0.20% neto).</p>
+            </div>
+            <div class="rule-box">
+              <h4><span class="material-symbols-rounded" style="color:#D97706;">shield_lock</span> 3. Blindaje Absoluto de la Bóveda #501</h4>
+              <p>• <b>$0.00 Inmovilizado en espera:</b> No bloquea ni un centavo de los <b>7 Escuadrones Activos</b> (Bloque 1 Titanes + Bloque 2 $300).</p>
+              <p>• <b>Cero-Holder Estricto:</b> Toda captura de mecha tiene un reloj máximo de salida rápida (5 a 45 segundos). Entramos, cobramos la mecha y salimos a USDC líquido.</p>
+              <p>• <b>Aporte al Imperio:</b> Suma entre <b>+$3.50 y +$12.00 USDC diarios</b> adicionales para acelerar la meta de $1,000 USDC y el retorno 70/30.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 5. BARRA INFERIOR UNIFICADA (.matrix-bottombar) -->
+    <footer class="matrix-bottombar">
+      <div class="bottom-identity">
+        <span class="material-symbols-rounded brand-icon">ads_click</span>
+        <b class="brand-title">ESTACIÓN 06 · WICK &amp; PAIRS L1</b>
+        <span class="live-dot-green" title="En Vivo On-Chain"></span>
+      </div>
+
+      <nav class="matrix-nav-tabs">
+        <button class="nav-tab active" data-tab="paneWickMain">
+          <span class="material-symbols-rounded tab-icon">dashboard</span> 1. REDES CAZA-MECHAS &amp; GEMELOS
+        </button>
+        <button class="nav-tab" data-tab="paneWickFullRadar">
+          <span class="material-symbols-rounded tab-icon">radar</span> 2. RADAR COMPLETO 12 PARES L1
+        </button>
+        <button class="nav-tab" data-tab="paneWickRules">
+          <span class="material-symbols-rounded tab-icon">verified_user</span> 3. REGLAS &amp; QUÉ GENERA (#06)
+        </button>
+      </nav>
+
+      <div class="bottom-system">
+        <button class="btn-stations-master" id="btnMasterStationsHub" title="Abrir Resumen Ejecutivo de 10 Minutos y las 6 Estaciones">
+          <span class="material-symbols-rounded">hub</span> RESUMEN 10 MIN · 6 ESTACIONES
+        </button>
+        <div class="utc-clock">
+          <span class="material-symbols-rounded" style="font-size:14px; color:#64748B;">schedule</span>
+          <span id="liveUtcClock">00:00:00 UTC</span>
+        </div>
+      </div>
+    </footer>
+
   </div>
 
-  <script src="/shared/core-os-nav.js"></script>
   <script src="/wick-matrix/app.js"></script>
 </body>
 </html>

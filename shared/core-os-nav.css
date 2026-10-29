@@ -1,306 +1,449 @@
-/* shared/core-os-nav.css — ÁREA 501 // CORE MATRIX OS UNIFIED SHELL */
-:root {
-  --os-bg-primary: #050911;
-  --os-bg-secondary: #0a101d;
-  --os-border-emerald: rgba(16, 185, 129, 0.35);
-  --os-border-cyan: rgba(56, 189, 248, 0.28);
-  --os-emerald: #10b981;
-  --os-emerald-bright: #00ff88;
-  --os-cyan: #38bdf8;
-  --os-gold: #f59e0b;
-  --os-text: #f8fafc;
-  --os-muted: #94a3b8;
-}
+/**
+ * shared/core-os-nav.css — ÁREA 501 // UNIFIED HYBRID-MODE NAVIGATION & 10-MIN EXECUTIVE HUB
+ * ==============================================================================
+ * 100% HÍBRIDO ESTÁNDAR ÁREA 501:
+ * - Cero barras negras superiores intrusivas (respeta el 100vh Cero Scroll).
+ * - Unifica la Barra Inferior (.matrix-bottombar / .funding-bottombar) en las 6 estaciones.
+ * - Selector Rápido 01–06 en la barra inferior + Botón Maestro "RESUMEN 10 MIN · 6 ESTACIONES".
+ * - Modal Ejecutivo en Blanco Satinado + Gris Esmerilado + Esmeralda/Cobalto mostrando
+ *   exactamente qué pertenece a cada estación y cuánto dinero genera cada una en tiempo real.
+ * ==============================================================================
+ */
 
-#coreMatrixOsWrapper {
-  width: 100%;
-  background: var(--os-bg-primary);
-  border-bottom: 1px solid var(--os-border-emerald);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65);
-  font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace, sans-serif;
-  z-index: 9999;
-  position: relative;
-  user-select: none;
-}
-
-.core-os-top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 12px;
-  gap: 8px;
-  background: linear-gradient(90deg, #050911 0%, #091326 50%, #050911 100%);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
-}
-
-.core-os-brand-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.core-os-launcher-btn {
+/* 1. SELECTOR RÁPIDO 01-06 INTEGRADO EN LA BARRA INFERIOR */
+.hybrid-quick-stations {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(16, 185, 129, 0.14);
-  border: 1px solid var(--os-emerald);
-  color: var(--os-emerald-bright);
+  gap: 3px;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+.hq-station-pill {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  letter-spacing: 0.04em;
-  transition: all 0.18s ease;
-}
-
-.core-os-launcher-btn:hover {
-  background: rgba(16, 185, 129, 0.28);
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
-}
-
-.core-os-stations-tabs {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.core-os-stations-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.core-os-station-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  border-radius: 5px;
-  font-size: 0.66rem;
-  font-weight: 700;
-  color: #cbd5e1;
-  text-decoration: none;
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  white-space: nowrap;
-  transition: all 0.15s ease;
-}
-
-.core-os-station-tab:hover {
-  color: #ffffff;
-  border-color: var(--os-cyan);
-  background: rgba(56, 189, 248, 0.14);
-}
-
-.core-os-station-tab.active {
-  color: #04130d;
-  background: linear-gradient(90deg, #00ff88 0%, #10b981 100%);
-  border-color: #00ff88;
-  font-weight: 900;
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.35);
-}
-
-.core-os-station-tab .st-num {
-  font-size: 0.60rem;
-  opacity: 0.85;
-  padding: 1px 4px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.25);
-}
-
-.core-os-right-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.core-os-cloud-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: #a7f3d0;
-  background: rgba(6, 78, 59, 0.55);
-  border: 1px solid rgba(16, 185, 129, 0.45);
-  padding: 3px 8px;
-  border-radius: 999px;
-}
-
-.core-os-pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #00ff88;
-  box-shadow: 0 0 8px #00ff88;
-  animation: coreOsPulse 1.6s infinite ease-in-out;
-}
-
-@keyframes coreOsPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.25); opacity: 0.55; }
-}
-
-/* SUB-BARRA DE LOS 5 ESPACIOS DE CADA ESTACIÓN */
-.core-os-subspaces-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 12px;
-  background: rgba(10, 16, 29, 0.95);
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.core-os-subspaces-bar::-webkit-scrollbar {
-  display: none;
-}
-
-.core-os-subspaces-list {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.core-os-subspace-label {
-  font-size: 0.62rem;
-  font-weight: 800;
-  color: var(--os-gold);
-  letter-spacing: 0.05em;
-  margin-right: 4px;
-  white-space: nowrap;
-}
-
-.core-os-space-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(30, 41, 59, 0.65);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  color: #e2e8f0;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  font-weight: 700;
-  padding: 2px 8px;
+  color: #334155;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
   border-radius: 4px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s ease;
-}
-
-.core-os-space-btn:hover,
-.core-os-space-btn.active {
-  border-color: var(--os-cyan);
-  color: var(--os-cyan);
-  background: rgba(56, 189, 248, 0.14);
-}
-
-.core-os-quick-links {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.60rem;
-}
-
-.core-os-ext-link {
-  color: var(--os-cyan);
+  padding: 3px 6px;
   text-decoration: none;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.28);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
   white-space: nowrap;
 }
 
-.core-os-ext-link:hover {
-  background: rgba(56, 189, 248, 0.22);
+.hq-station-pill:hover {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border-color: #93C5FD;
+  transform: translateY(-1px);
 }
 
-/* DRAWER / MODAL DEL MAPA MAESTRO DE 6 ESTACIONES × 5 ESPACIOS */
-#coreOsMasterDrawer {
+.hq-station-pill.active {
+  background: linear-gradient(135deg, #059669 0%, #0D9488 100%);
+  color: #FFFFFF;
+  border-color: #047857;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+
+/* Botón Maestro Resumen 10 Minutos en la Barra Inferior */
+.btn-executive-10min {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
+  padding: 5px 11px !important;
+  border-radius: 6px !important;
+  border: 1.5px solid #059669 !important;
+  background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%) !important;
+  color: #065F46 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.18) !important;
+  transition: all 0.18s ease !important;
+  white-space: nowrap !important;
+}
+
+.btn-executive-10min:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35) !important;
+}
+
+.btn-executive-10min .material-symbols-rounded {
+  font-size: 16px !important;
+}
+
+/* 2. MODAL EJECUTIVO HÍBRIDO "PANORAMA DIARIO DE 10 MINUTOS · 6 ESTACIONES" */
+#area501HybridExecutiveModal {
   display: none;
   position: fixed;
-  top: 76px;
-  left: 12px;
-  right: 12px;
-  max-width: 1280px;
-  margin: 0 auto;
-  background: rgba(7, 12, 22, 0.98);
-  border: 1px solid var(--os-emerald);
-  border-radius: 10px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-  padding: 14px;
-  z-index: 100000;
-  backdrop-filter: blur(12px);
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.68);
+  backdrop-filter: blur(6px);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-#coreOsMasterDrawer.open {
-  display: block;
+#area501HybridExecutiveModal.open {
+  display: flex;
 }
 
-.core-os-drawer-header {
+.exec-modal-chassis {
+  width: 100%;
+  max-width: 1520px;
+  max-height: 95vh;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.75) 0%, transparent 45%),
+    linear-gradient(135deg, #D5DDE8 0%, #B8C4D4 50%, #9AA8BC 100%);
+  border: 2px solid #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.48);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  color: #0F172A;
+}
+
+/* Cabecera del Modal Ejecutivo */
+.exec-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 10px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+  border: 1.5px solid #FFFFFF;
+  border-radius: 10px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.10);
 }
 
-.core-os-drawer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+.exec-header-left {
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-.core-os-drawer-card {
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+.exec-brand-icon {
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
-  padding: 10px;
-  transition: all 0.15s ease;
+  background: linear-gradient(135deg, #059669 0%, #062B25 100%);
+  color: #2DD4BF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.core-os-drawer-card:hover {
-  border-color: var(--os-emerald);
-}
-
-.core-os-drawer-card-title {
-  display: block;
-  font-size: 0.72rem;
+.exec-header-title {
+  font-size: 0.90rem;
   font-weight: 900;
-  color: var(--os-emerald-bright);
-  text-decoration: none;
-  margin-bottom: 6px;
+  color: #0F172A;
+  letter-spacing: 0.02em;
 }
 
-.core-os-drawer-spaces {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.exec-header-sub {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #475569;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.exec-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exec-cloud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ECFDF5;
+  border: 1px solid #10B981;
+  color: #065F46;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.60rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.exec-close-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #0F172A;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.exec-close-btn:hover {
+  background: #DC2626;
+}
+
+/* Fila Superior: 4 Tarjetas Satinadas de Resumen Global */
+.exec-kpi-strip-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .exec-kpi-strip-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.exec-satin-kpi {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+  border: 1.5px solid #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.12);
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
+  gap: 3px;
+}
+
+.exec-kpi-lbl {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+.exec-kpi-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.16rem;
+  font-weight: 800;
+  color: #0F172A;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.exec-kpi-val.green { color: #059669; }
+.exec-kpi-val.blue { color: #1D4ED8; }
+.exec-kpi-val.amber { color: #D97706; }
+
+.exec-kpi-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #334155;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* Cuadrícula Central: Las 6 Estaciones en Tarjetas Blancas Satinadas (3 × 2) */
+.exec-stations-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 1150px) {
+  .exec-stations-grid-6 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.exec-station-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  border: 2px solid #FFFFFF;
+  border-radius: 11px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 7px;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.exec-station-card:hover {
+  transform: translateY(-2px);
+  border-color: #0284C7;
+}
+
+.exec-station-card.active-current {
+  border-color: #059669;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25), 0 8px 20px rgba(15, 23, 42, 0.18);
+}
+
+.esc-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.esc-num-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.esc-num-badge.emerald { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+.esc-num-badge.cobalt { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+.esc-num-badge.amber { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+.esc-num-badge.purple { background: #F3E8FF; color: #6B21A8; border: 1px solid #E9D5FF; }
+
+.esc-status-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.54rem;
+  font-weight: 800;
+  color: #059669;
+}
+
+.esc-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.esc-title-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.esc-title-left .material-symbols-rounded {
+  font-size: 20px;
+  color: #0F172A;
+}
+
+.esc-title-left h4 {
+  font-size: 0.80rem;
+  font-weight: 900;
+  color: #0F172A;
+  margin: 0;
+}
+
+.esc-enter-btn {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: #0F172A;
+  color: #FFFFFF;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: background 0.15s ease;
+}
+
+.esc-enter-btn:hover {
+  background: #059669;
+}
+
+.esc-desc {
+  font-size: 0.61rem;
+  color: #475569;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* CAJA DE PRODUCCIÓN REAL: "¿QUÉ GENERA ESTA ESTACIÓN?" */
+.esc-yield-box {
+  background: linear-gradient(135deg, #ECFDF5 0%, #F0FDFA 100%);
+  border: 1px solid #6EE7B7;
+  border-radius: 7px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.esc-yield-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.58rem;
+}
+
+.esc-yield-lbl {
+  font-weight: 700;
+  color: #065F46;
+}
+
+.esc-yield-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  color: #047857;
+}
+
+/* PESTAÑAS INTERNAS DE LA ESTACIÓN (BOTONES DIRECTOS) */
+.esc-tabs-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.esc-tabs-label {
+  font-size: 0.53rem;
+  font-weight: 800;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+.esc-tabs-pills {
+  display: flex;
+  flex-wrap: wrap;
   gap: 4px;
 }
 
-.core-os-drawer-spaces li a {
-  display: block;
-  font-size: 0.63rem;
-  color: #cbd5e1;
-  text-decoration: none;
-  padding: 3px 6px;
+.esc-tab-link {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2.5px 6px;
   border-radius: 4px;
-  background: rgba(30, 41, 59, 0.5);
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  color: #1E293B;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.core-os-drawer-spaces li a:hover {
-  color: #ffffff;
-  background: rgba(16, 185, 129, 0.22);
+.esc-tab-link:hover {
+  background: #1D4ED8;
+  color: #FFFFFF;
+  border-color: #1D4ED8;
 }
