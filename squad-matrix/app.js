@@ -1203,9 +1203,9 @@ function updateTopBarCards() {
     }));
   } catch (_) {}
 
-  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador MODO RECUPERACIÓN (CERO APERTURAS)
+  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador ❄️ RECUPERANDO X/6 (CERO NUEVAS ENTRADAS)
   const openCount = appState.openPositions.length;
-  const totalRecoveryRef = 7;
+  const totalRecoveryRef = 6;
   const isBefore00Utc = Date.now() < new Date("2026-10-30T00:00:00.000Z").getTime();
 
   let topPillText = "";
@@ -1214,13 +1214,13 @@ function updateTopBarCards() {
 
   if (isBefore00Utc || openCount > 0) {
     if (openCount === 0) {
-      topPillText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
-      subLabelText = `7/7 RECUPERADAS EN VERDE · ARRANQUE FRESCO 00:00 UTC`;
-      bottomBannerText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
+      topPillText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO HASTA LAS 00:00:00 UTC`;
+      subLabelText = `6/6 RECUPERADAS EN VERDE · ARRANQUE FRESCO 00:00 UTC`;
+      bottomBannerText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO HASTA LAS 00:00:00 UTC`;
     } else {
-      topPillText = `❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN ${openCount}/${totalRecoveryRef} POR CERRAR`;
+      topPillText = `❄️ RECUPERANDO ${openCount}/${totalRecoveryRef} (CERO NUEVAS ENTRADAS)`;
       subLabelText = `➔ ARRANQUE FRESCO 00:00 UTC (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)`;
-      bottomBannerText = `❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN ${openCount}/${totalRecoveryRef} POR CERRAR ➔ ARRANQUE FRESCO 00:00 UTC`;
+      bottomBannerText = `❄️ RECUPERANDO ${openCount}/${totalRecoveryRef} (CERO NUEVAS ENTRADAS) ➔ ENFRIAMIENTO HASTA 00:00:00 UTC`;
     }
   } else {
     topPillText = `🟢 ARRANQUE FRESCO 00:00 UTC: ${openCount}/2 ABIERTAS`;
@@ -1318,7 +1318,7 @@ function updatePricesAndSignals() {
       const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
 
-      const targetPct = tier1Set.has(p.symbol) ? 0.060 : (tier2Set.has(p.symbol) ? 0.055 : 0.035);
+      const targetPct = p.symbol === "NEAR" ? 0.035 : 0.050;
       const targetPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
       const distPct = isShort
         ? Math.max(0, ((midPx - targetPx) / midPx) * 100)

@@ -895,7 +895,7 @@ async function startAutonomousSquadDaemon() {
 
       if (cycleCounter % 6 === 1) {
         const openSummary = openPositions.map(p => `${p.position.coin}(${p.position.szi}@$${p.position.entryPx})`).join(", ") || "Ninguna (100% Liquidez USDC)";
-        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] ❄️ MODO RECUPERACIÓN (CERO APERTURAS) | Ciclo #${cycleCounter} | Equity Real: $${accountValue.toFixed(2)} USDC | Faltan ${openPositions.length}/7: ${openSummary}`);
+        console.log(`[${new Date().toISOString().slice(11, 19)} UTC] ❄️ RECUPERANDO ${openPositions.length}/6 (CERO NUEVAS ENTRADAS) | Ciclo #${cycleCounter} | Equity Real: $${accountValue.toFixed(2)} USDC | Activas: ${openSummary}`);
       }
 
       // Obtener precios mid actuales una sola vez por ciclo
@@ -1095,8 +1095,8 @@ async function startAutonomousSquadDaemon() {
         const existingExitOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
         const currentMid = parseFloat(mids[coin] || entryPx);
 
-        // Determinar meta de salida por Escalón (Escalón 1: +0.06%, Escalón 2: +0.055%, Escalón 3 NEAR: +0.035%)
-        const recoveryTargetPct = tier1Set.has(coin) ? 0.060 : (tier2Set.has(coin) ? 0.055 : 0.035);
+        // Determinar meta de salida por Escalón (Paso 1 ETH/PAXG: +0.05% [entryPx * 1.0005], Paso 2 HYPE/SOL/XRP: +0.05%, Paso 3 BTC: +0.05% / NEAR: +0.035%)
+        const recoveryTargetPct = coin === "NEAR" ? 0.035 : 0.050;
 
         if (!existingExitOrder && isV2Armed && ASSET_DECIMALS[coin]) {
           const targetGainPct = posMeta.inRecoveryLane ? recoveryTargetPct : 0.48;
@@ -1167,15 +1167,15 @@ async function startAutonomousSquadDaemon() {
 
           posMeta.peakGainPct = Math.max(posMeta.peakGainPct || 0, gainPct);
 
-          // ESCALÓN 1 (ETH, PAXG, SUI, DOGE): Candado Breakeven #00 (+$0.05 USDC netos) en el instante en que toquen +0.035%
+          // PASO 1 (ETH, PAXG, SUI, DOGE): Candado Breakeven #00 (+$0.05 USDC netos) apenas toque +0.03%
           if (tier1Set.has(coin)) {
-            if (posMeta.peakGainPct >= 0.035 && !posMeta.beLocked) {
+            if (posMeta.peakGainPct >= 0.030 && !posMeta.beLocked) {
               posMeta.beLocked = true;
               posMeta.trailingFloorPct = 0.025;
-              console.log(`🔒 [ESCALÓN 1 // CANDADO #00] ${coin} tocó +${posMeta.peakGainPct.toFixed(3)}% -> Candado Breakeven #00 (+$0.05 USDC) ARMADO.`);
+              console.log(`🔒 [PASO 1 // CANDADO #00] ${coin} tocó +${posMeta.peakGainPct.toFixed(3)}% -> Candado Breakeven #00 (+$0.05 USDC) ARMADO.`);
             }
-            if (posMeta.beLocked && gainPct <= 0.030 && uPnlNum >= 0.05) {
-              console.log(`💰🔓 [ESCALÓN 1 // DESBLOQUEO RÁPIDO] ${coin} cobrada en Candado #00 (+$${uPnlNum.toFixed(4)} USDC)!`);
+            if (posMeta.beLocked && gainPct <= 0.025 && uPnlNum >= 0.05) {
+              console.log(`💰🔓 [PASO 1 // DESBLOQUEO RÁPIDO] ${coin} cobrada en Candado #00 (+$${uPnlNum.toFixed(4)} USDC)!`);
               if (existingExitOrder) {
                 await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
               }
@@ -1309,7 +1309,7 @@ async function startAutonomousSquadDaemon() {
           const entryPx = parseFloat(p.entryPx);
           const midPx = parseFloat(mids[c] || entryPx);
           const uPnl = parseFloat(p.unrealizedPnl || "0");
-          const targetPct = tier1Set.has(c) ? 0.060 : (tier2Set.has(c) ? 0.055 : 0.035);
+          const targetPct = c === "NEAR" ? 0.035 : 0.050;
           const targetPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
           const distPct = isShort
             ? Math.max(0, ((midPx - targetPx) / midPx) * 100)
@@ -1335,11 +1335,11 @@ async function startAutonomousSquadDaemon() {
         });
 
         const remainingCount = openPositions.length;
-        const totalRef = 7;
+        const totalRef = 6;
         const topBannerText = isPre00UtcOrRecovering
           ? (remainingCount > 0
-            ? `❄️ MODO RECUPERACIÓN (CERO APERTURAS): FALTAN ${remainingCount}/${totalRef} POR CERRAR ➔ ARRANQUE FRESCO 00:00 UTC`
-            : `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`)
+            ? `❄️ RECUPERANDO ${remainingCount}/${totalRef} (CERO NUEVAS ENTRADAS)`
+            : `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO HASTA LAS 00:00:00 UTC`)
           : `🟢 ARRANQUE FRESCO 00:00 UTC ACTIVO (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)`;
 
         fs.writeFileSync(SQUAD_MATRIX_TELEMETRY_FILE, JSON.stringify({

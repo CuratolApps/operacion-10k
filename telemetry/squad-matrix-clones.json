@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T20:42:14.713Z",
+  "updatedAt": "2026-10-29T21:02:46.133Z",
   "architecture": "MODO RECUPERACIÓN TOTAL 1 A 1 + CERO NUEVAS ENTRADAS + ENFRIAMIENTO HASTA 00:00:00 UTC",
   "rules": {
     "lockNewOpenings": true,
@@ -93,11 +93,11 @@
         "TRX",
         "UNI"
       ],
-      "relayStatus": "🛡️ HOTEL 1: RECUPERANDO (HYPE) ⇄ ❄️ HOTEL 2: CERO APERTURAS",
-      "activeBot": "HOTEL 1",
+      "relayStatus": "❄️ EN ENFRIAMIENTO HASTA 00:00 UTC (RECUPERADA ✅)",
+      "activeBot": "RECUPERADA",
       "standbyBot": "HOTEL 2",
-      "mode": "RECOVERY_ACTIVE",
-      "pairInAction": "HYPE"
+      "mode": "COOLDOWN_UNTIL_00_UTC",
+      "pairInAction": null
     },
     {
       "id": 6,

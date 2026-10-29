@@ -3302,7 +3302,7 @@ export default {
                 const hasTp = openOrders.some(o => o.coin === coin && o.reduceOnly === true);
                 if (!hasTp && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
                   const isShort = szNum < 0;
-                  const targetPct = coin === "NEAR" ? 0.035 : (["SOL", "HYPE", "BTC", "XRP"].includes(coin) ? 0.055 : 0.060);
+                  const targetPct = coin === "NEAR" ? 0.035 : 0.050;
                   const tpPx = isShort ? entryPx * (1 - targetPct / 100) : entryPx * (1 + targetPct / 100);
                   await client.order({
                     orders: [{
@@ -3333,8 +3333,8 @@ export default {
                 }
               }
 
-              // 2. MODO RECUPERACIÓN TOTAL 1 A 1 + CERO NUEVAS ENTRADAS HASTA 00:00:00 UTC
-              // Y Freno de Velocidad Post-00:00 UTC (MAX_CONCURRENT_POSITIONS = 2)
+              // 2. CERROJO TOTAL A NUEVAS ENTRADAS (STRICT_RECOVERY_LOCK = true)
+              // Mientras openPositions.length > 0 o antes de las 00:00:00 UTC: CERO NUEVAS ENTRADAS
               const utcMinsCloud = new Date().getUTCMinutes();
               const isPreFundingMinute = (utcMinsCloud === 58 || utcMinsCloud === 59);
               const cloudUnits = [
@@ -3346,14 +3346,17 @@ export default {
                 { name: "#03 CHARLIE (Bloque 1)", pairs: ["ETH", "BNB", "AAVE"], notional: 180, minImb: 62.0, tpPct: 0.15 }
               ];
 
+              const STRICT_RECOVERY_LOCK = true;
               const isBeforeMidnightUtc = Date.now() < Date.parse("2026-10-30T00:00:00.000Z");
-              // BLOQUEO ABSOLUTO DE NUEVAS OPERACIONES HASTA 00:00:00 UTC Y 0 POSICIONES PENDIENTES
-              // Post-00:00 UTC: Máximo 2 posiciones concurrentes en toda la matriz
-              let slotsLeft = isBeforeMidnightUtc ? 0 : Math.max(0, 2 - openPositions.length);
+              // El contador de posiciones abiertas solo puede BAJAR (6 -> 5 -> 4 -> 3 -> 2 -> 1 -> 0)
+              // Post-00:00 UTC (solo cuando ya haya llegado a 0): Máximo 2 posiciones concurrentes
+              let slotsLeft = (STRICT_RECOVERY_LOCK && (isBeforeMidnightUtc || openPositions.length > 0))
+                ? 0
+                : Math.max(0, 2 - openPositions.length);
               for (const unit of cloudUnits) {
                 if (slotsLeft <= 0) break;
                 const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly)).length;
-                if (openInUnit >= (shieldIntactCloud ? 2 : 1)) continue;
+                if (openInUnit >= 1) continue;
                 for (const coin of unit.pairs) {
                   if (openCoins.includes(c => c === coin) || openCoins.includes(coin)) continue;
                   const l2 = await info.l2Book({ coin }).catch(() => null);
