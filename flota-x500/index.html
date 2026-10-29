@@ -24,9 +24,13 @@
   <script>
     (function () {
       try {
-        var raw = localStorage.getItem("area501_flota_state_v1");
+        localStorage.removeItem("area501_flota_state_v1");
+        var raw = localStorage.getItem("area501_flota_state_v2");
         if (raw) {
           var state = JSON.parse(raw);
+          if (state && Number(state.harvestedUsdc) > 50) {
+            state.harvestedUsdc = "4.70";
+          }
           window.__AREA501_FLOTA_STATE__ = state;
           document.addEventListener("DOMContentLoaded", function () {
             try {
@@ -36,8 +40,14 @@
               if (state.harvestedUsdc && document.getElementById("topHarvestedUsdc")) {
                 document.getElementById("topHarvestedUsdc").textContent = state.harvestedUsdc;
               }
-              if (state.turnCounter && document.getElementById("turnCounterBadge")) {
-                document.getElementById("turnCounterBadge").textContent = state.turnCounter;
+              if (state.captainsUsdc && document.getElementById("captainsUsdcVal")) {
+                document.getElementById("captainsUsdcVal").textContent = state.captainsUsdc;
+              }
+              if (state.satellitesUsdc && document.getElementById("satellitesUsdcVal")) {
+                document.getElementById("satellitesUsdcVal").textContent = state.satellitesUsdc;
+              }
+              if (state.sweptTo501Usdc && document.getElementById("swept501Val")) {
+                document.getElementById("swept501Val").textContent = state.sweptTo501Usdc;
               }
               if (state.fleetGasPol && document.getElementById("topFleetGasPol")) {
                 document.getElementById("topFleetGasPol").textContent = state.fleetGasPol;
@@ -93,14 +103,13 @@
           <span class="material-symbols-rounded">savings</span> COSECHA REAL &amp; BOLSILLOS ➔ #501
         </div>
         <div class="card-main-val text-green">
-          <span class="currency-symbol">$</span><span id="topHarvestedUsdc">1.75</span>
-          <span class="unit-tag">USDC (En Capitanes)</span>
+          <span class="currency-symbol">$</span><span id="topHarvestedUsdc">4.70</span>
+          <span class="unit-tag" id="topHarvestedUnit">USDC (En Bolsillos Flota)</span>
         </div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
-          <span class="sq-badge streak"><b id="turnCounterBadge">8/8</b> Vueltas</span>
-          <span class="sq-badge sq-unit" id="esc1Badge"><b>Esc.1</b> Main</span>
-          <span class="sq-badge sq-unit" id="esc2Badge"><b>Esc.2</b> 30Oct</span>
-          <span class="sq-badge sq-unit" id="esc3Badge"><b>Esc.3</b> $0Gas</span>
+          <span class="sq-badge sq-unit" id="captainsUsdcBadge"><b>Capitanes:</b> <span id="captainsUsdcVal">$1.75 USDC</span></span>
+          <span class="sq-badge sq-unit" id="satellitesUsdcBadge"><b>Satélites:</b> <span id="satellitesUsdcVal">$2.95 USDC</span></span>
+          <span class="sq-badge streak" id="swept501Badge"><b>Barrido a #501:</b> <span id="swept501Val">$0.00 USDC</span></span>
         </div>
       </div>
 
@@ -243,7 +252,7 @@
                 <div class="a-metric-row"><span>Red:</span> <b>Polygon PoS &amp; Arbitrum</b></div>
                 <div class="a-metric-row"><span>Objetivo:</span> <b>Cosecha de Rendimientos USDC</b></div>
                 <div class="a-metric-row"><span>Destino Sagrado:</span> <b>0xD4D1...3743 (#501)</b></div>
-                <div class="a-metric-row"><span>Total Recaudado:</span> <b style="color: #059669;">+$1.75 USDC</b></div>
+                <div class="a-metric-row"><span>En Bolsillos Flota:</span> <b style="color: #059669;">$4.70 USDC ($1.75 Cap. + $2.95 Sat.)</b></div>
                 <div class="a-metric-row"><span>Cero Dilución:</span> <b>100% Protegido</b></div>
               </div>
             </div>

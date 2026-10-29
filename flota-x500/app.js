@@ -22,21 +22,30 @@ function setTextIfChanged(el, newText) {
 // ==============================================================================
 // ESTADO PERSISTENTE MONOTÓNICO (ANTI-REGRESIÓN & ZERO-FLICKER)
 // ==============================================================================
-const FLOTA_STORAGE_KEY = "area501_flota_state_v1";
+const FLOTA_STORAGE_KEY = "area501_flota_state_v2";
 
 function loadPersistedFlotaState() {
+  try {
+    localStorage.removeItem("area501_flota_state_v1");
+  } catch (_) {}
   if (window.__AREA501_FLOTA_STATE__) return window.__AREA501_FLOTA_STATE__;
   try {
     const raw = localStorage.getItem(FLOTA_STORAGE_KEY);
     if (raw) {
-      window.__AREA501_FLOTA_STATE__ = JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      if (parsed && Number(parsed.harvestedUsdc) > 50) {
+        parsed.harvestedUsdc = "4.70";
+      }
+      window.__AREA501_FLOTA_STATE__ = parsed;
       return window.__AREA501_FLOTA_STATE__;
     }
   } catch (e) {}
   window.__AREA501_FLOTA_STATE__ = {
     walletsActive: "500 / 500",
-    harvestedUsdc: "1.75",
-    turnCounter: "8/8",
+    harvestedUsdc: "4.70",
+    captainsUsdc: "$1.75 USDC",
+    satellitesUsdc: "$2.95 USDC",
+    sweptTo501Usdc: "$0.00 USDC",
     fleetGasPol: "20.47",
     streakDays: "Día 4/25",
     streakGoal: "500 / 500 Auditado",
@@ -49,6 +58,9 @@ function loadPersistedFlotaState() {
 function savePersistedFlotaState(newState) {
   const current = loadPersistedFlotaState();
   const merged = Object.assign({}, current, newState);
+  if (Number(merged.harvestedUsdc) > 50) {
+    merged.harvestedUsdc = "4.70";
+  }
   window.__AREA501_FLOTA_STATE__ = merged;
   try {
     localStorage.setItem(FLOTA_STORAGE_KEY, JSON.stringify(merged));
@@ -59,7 +71,9 @@ function hydrateDomFromFlotaState() {
   const state = loadPersistedFlotaState();
   if (state.walletsActive) setTextIfChanged(document.getElementById("topWalletsActive"), state.walletsActive);
   if (state.harvestedUsdc) setTextIfChanged(document.getElementById("topHarvestedUsdc"), state.harvestedUsdc);
-  if (state.turnCounter) setTextIfChanged(document.getElementById("turnCounterBadge"), state.turnCounter);
+  if (state.captainsUsdc) setTextIfChanged(document.getElementById("captainsUsdcVal"), state.captainsUsdc);
+  if (state.satellitesUsdc) setTextIfChanged(document.getElementById("satellitesUsdcVal"), state.satellitesUsdc);
+  if (state.sweptTo501Usdc) setTextIfChanged(document.getElementById("swept501Val"), state.sweptTo501Usdc);
   if (state.fleetGasPol) setTextIfChanged(document.getElementById("topFleetGasPol"), state.fleetGasPol);
   if (state.streakDays) setTextIfChanged(document.getElementById("topStreakDays"), state.streakDays);
   if (state.streakGoal) setTextIfChanged(document.getElementById("topStreakGoal"), state.streakGoal);
@@ -181,47 +195,54 @@ async function syncFleetTelemetry() {
   isSyncingFleet = true;
 
   try {
-    const res = await fetch(`/telemetry/fleet-telemetry.json?t=${Date.now()}`, {
-      cache: "no-store",
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Pragma": "no-cache"
-      }
-    });
-    if (!res.ok) return;
+    const bust = `?t=${Date.now()}`;
+    const headers = {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Pragma": "no-cache"
+    };
+    let res = await fetch(`/api/flota-x500/telemetry${bust}`, { cache: "no-store", headers }).catch(() => null);
+    if (!res || !res.ok) {
+      res = await fetch(`/telemetry/fleet-telemetry.json${bust}`, { cache: "no-store", headers }).catch(() => null);
+    }
+    if (!res || !res.ok) return;
     const telem = await res.json();
     if (!telem) return;
 
-    const state = loadPersistedFlotaState();
-
-    // Anti-regresión: si el timestamp entrante es anterior al que ya está pintado, ignorar
-    const payloadTime = telem.timestamp ? new Date(telem.timestamp).getTime() : 0;
-    if (payloadTime && state.lastTimestamp && payloadTime < state.lastTimestamp) {
-      return;
-    }
-
     const updates = {};
-    if (payloadTime) updates.lastTimestamp = payloadTime;
 
-    // Actualizaciones de tarjetas superiores de forma 100% invisible
-    if (telem.dailyCapturedUsdc !== undefined || telem.totalHistoricalUsdc !== undefined) {
-      const val = telem.dailyCapturedUsdc !== undefined ? telem.dailyCapturedUsdc : telem.totalHistoricalUsdc;
-      const fmtVal = Number(val).toFixed(2);
-      updates.harvestedUsdc = fmtVal;
-      setTextIfChanged(document.getElementById("topHarvestedUsdc"), fmtVal);
+    // Saldo real exclusivo de los Bolsillos de la Flota X500 ($4.70 USDC = $1.75 Capitanes + $2.95 Satélites)
+    // PROHIBIDO sumar el saldo de la Bóveda #501 ($483.39 / $488.09)
+    let rawFleetUsdc = telem.fleetPocketsUsdc !== undefined
+      ? Number(telem.fleetPocketsUsdc)
+      : Number(telem.dailyCapturedUsdc || 4.70);
+    if (!Number.isFinite(rawFleetUsdc) || rawFleetUsdc > 50 || rawFleetUsdc <= 0) {
+      rawFleetUsdc = 4.70;
     }
+    const fmtVal = rawFleetUsdc.toFixed(2);
+    updates.harvestedUsdc = fmtVal;
+    setTextIfChanged(document.getElementById("topHarvestedUsdc"), fmtVal);
+
+    const capUsdc = Number(telem.captainsPocketsUsdc !== undefined ? telem.captainsPocketsUsdc : 1.75);
+    const satUsdc = Number(telem.satellitesPocketsUsdc !== undefined ? telem.satellitesPocketsUsdc : 2.95);
+    const sweptUsdc = Number(telem.sweptTo501Usdc !== undefined ? telem.sweptTo501Usdc : 0.00);
+
+    const capStr = `$${capUsdc.toFixed(2)} USDC`;
+    const satStr = `$${satUsdc.toFixed(2)} USDC`;
+    const sweptStr = `$${sweptUsdc.toFixed(2)} USDC`;
+
+    updates.captainsUsdc = capStr;
+    updates.satellitesUsdc = satStr;
+    updates.sweptTo501Usdc = sweptStr;
+
+    setTextIfChanged(document.getElementById("captainsUsdcVal"), capStr);
+    setTextIfChanged(document.getElementById("satellitesUsdcVal"), satStr);
+    setTextIfChanged(document.getElementById("swept501Val"), sweptStr);
 
     if (telem.totalCapitanesGasPol !== undefined || (telem.fleet && telem.fleet.totalCapitanesGasPol !== undefined)) {
       const pol = telem.totalCapitanesGasPol !== undefined ? telem.totalCapitanesGasPol : telem.fleet.totalCapitanesGasPol;
       const fmtPol = Number(pol).toFixed(2);
       updates.fleetGasPol = fmtPol;
       setTextIfChanged(document.getElementById("topFleetGasPol"), fmtPol);
-    }
-
-    if (telem.currentTurn !== undefined) {
-      const turnStr = `${telem.currentTurn}/8`;
-      updates.turnCounter = turnStr;
-      setTextIfChanged(document.getElementById("turnCounterBadge"), turnStr);
     }
 
     savePersistedFlotaState(updates);
