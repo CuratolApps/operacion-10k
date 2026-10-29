@@ -38,7 +38,19 @@
               }
               if (s.gasTank && s.gasTank.vault501Pol !== undefined) {
                 var elG = document.getElementById("topGasPol");
-                if (elG) elG.textContent = Number(s.gasTank.vault501Pol).toFixed(2);
+                if (elG) elG.textContent = Number(s.gasTank.vault501Pol).toFixed(4);
+                var elGF = document.getElementById("topGasFloorPill");
+                var shots = s.gasTank.availableShots || Math.floor(Number(s.gasTank.vault501Pol) / 0.0084);
+                if (elGF) elGF.textContent = "Piso: 9.00 POL (" + shots.toLocaleString("en-US") + " Tiros)";
+              }
+              if (s.radarSummary) {
+                var r = s.radarSummary;
+                var elBlk = document.getElementById("topActiveTargetsPill");
+                if (elBlk && r.lastScanBlock) elBlk.textContent = "🟢 Bloque #" + r.lastScanBlock;
+                var elSwp = document.getElementById("topSweepIntervalPill");
+                if (elSwp && r.sweepCount !== undefined) elSwp.textContent = "⚡ Barrido #" + r.sweepCount + " · " + (r.rpcLatencyMs || 64) + "ms";
+                var elSub = document.getElementById("topRadarSubLabel");
+                if (elSub && r.lastScanUtc) elSub.textContent = "Polygon PoS · Escaneo: " + r.lastScanUtc + " · Balancer 0%";
               }
             });
           }
@@ -63,8 +75,8 @@
           <span class="unit-tag">USDC</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-active" id="topBalancerFeePill">Balancer Fee: 0.00%</span>
-          <span class="pill-shield" id="topAaveFeePill">Aave V3 Fee: 0.05%</span>
+          <span class="pill-active" id="topBalancerFeePill">Balancer V2: 0.00% Fee</span>
+          <span class="pill-shield" id="topAaveFeePill">Aave V3: 0.05% Fee</span>
         </div>
       </div>
 
@@ -92,11 +104,11 @@
           <span class="material-symbols-rounded">local_gas_station</span> TANQUE DE GAS #501 &amp; ESCUDO ATÓMICO
         </div>
         <div class="card-main-val">
-          <span id="topGasPol">160.85</span>
+          <span id="topGasPol">9.9358</span>
           <span class="unit-tag">POL (Polygon)</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-gas-orange" id="topGasFloorPill">Piso Sagrado: 150.00 POL</span>
+          <span class="pill-gas-orange" id="topGasFloorPill">Piso: 9.00 POL (1,182 Tiros)</span>
           <span class="pill-gas-blue" id="topExecutorPill">Ejecutor V2: 0x3e8b...09f7</span>
         </div>
       </div>
@@ -116,11 +128,11 @@
             <span class="l-val text-green">NO_PROFIT_REVERT</span>
           </div>
           <div class="loan-stat-col">
-            <span class="l-lbl">Retención:</span>
-            <span class="l-val text-amber">0 Segundos</span>
+            <span class="l-lbl">Gatillo Neto:</span>
+            <span class="l-val text-amber">&ge; Gas + $0.02</span>
           </div>
         </div>
-        <div class="rule-badge-sub">Garantía Exigida: $0.00 · Reversión en 1 Bloque</div>
+        <div class="rule-badge-sub">Garantía Exigida: $0.00 · Reversión en 1 Bloque (0s)</div>
       </div>
 
       <!-- Tarjeta 5: Radar Atómico 3 Motores x 54 Objetivos -->
@@ -129,10 +141,10 @@
           <span class="material-symbols-rounded">radar</span> RADAR ATÓMICO: 3 MOTORES × 54 OBJETIVOS
         </div>
         <div class="squad-counter-row">
-          <span class="status-pill active-pill" id="topActiveTargetsPill">🟢 54 Contratos Vigilados</span>
-          <span class="status-pill ready-pill" id="topSweepIntervalPill">⚡ Multicall3 c/4s</span>
+          <span class="status-pill active-pill" id="topActiveTargetsPill">🟢 Bloque #96369420</span>
+          <span class="status-pill ready-pill" id="topSweepIntervalPill">⚡ Barrido #1 · 64ms</span>
         </div>
-        <div class="sub-label-matrix">Polygon PoS · Balancer V2 · Aave V3 · Beefy Finance</div>
+        <div class="sub-label-matrix" id="topRadarSubLabel">Polygon PoS · Multicall3 c/3s · Balancer V2 0%</div>
       </div>
 
     </header>
@@ -143,7 +155,7 @@
       <!-- TAB 1: 54 OBJETIVOS ATÓMICOS EN VIVO (GRID 9x6 COMPACTO - CERO SCROLL) -->
       <section class="tab-pane active" id="paneTargetsGrid">
         <div class="atomic-grid-54" id="atomic54Grid">
-          <!-- Inyectado dinámicamente desde app.js (54 tarjetas en Azul Cobalto / Esmeralda) -->
+          <!-- Inyectado dinámicamente desde app.js (54 tarjetas en Verde Esmeralda / Menta) -->
         </div>
       </section>
 
@@ -159,7 +171,7 @@
               </div>
             </div>
             <div class="p-hero-right">
-              <div class="rule-badge-glow">Condición Inviolable: Reversión Total (Gas Refund) si Profit &lt; Gas × 1.5</div>
+              <div class="rule-badge-glow">Condición Inviolable: Reversión Total (Gas Refund) si Profit &lt; Gas + $0.02 USDC</div>
             </div>
           </div>
 
@@ -173,7 +185,7 @@
                 <div class="t-row"><span>Costo del Préstamo:</span> <b class="text-green">$0.00 USDC</b></div>
                 <div class="t-row"><span>Opción Alternativa:</span> <b>Aave V3 ($2.50 Fee)</b></div>
                 <div class="t-row"><span>Ruta Frecuente:</span> <b>USDC ➔ GHST ➔ WPOL</b></div>
-                <div class="t-row"><span>Spread Requerido:</span> <b>+0.08% Neto</b></div>
+                <div class="t-row"><span>Spread Requerido:</span> <b>+0.025% Neto (&ge; $0.02)</b></div>
                 <div class="t-row"><span>Tiempo de Ejecución:</span> <b>1 Segundo (Mismo Bloque)</b></div>
               </div>
               <div class="tier-foot">
@@ -191,7 +203,7 @@
                 <div class="t-row"><span>Costo del Préstamo:</span> <b class="text-green">$0.00 USDC</b></div>
                 <div class="t-row"><span>Opción Alternativa:</span> <b>Aave V3 ($5.00 Fee)</b></div>
                 <div class="t-row"><span>Ruta Frecuente:</span> <b>USDC ➔ WPOL ➔ QUICK</b></div>
-                <div class="t-row"><span>Spread Requerido:</span> <b>+0.05% Neto</b></div>
+                <div class="t-row"><span>Spread Requerido:</span> <b>+0.025% Neto (&ge; $0.02)</b></div>
                 <div class="t-row"><span>Tiempo de Ejecución:</span> <b>1 Segundo (Mismo Bloque)</b></div>
               </div>
               <div class="tier-foot">
@@ -209,7 +221,7 @@
                 <div class="t-row"><span>Costo del Préstamo:</span> <b class="text-green">$0.00 USDC</b></div>
                 <div class="t-row"><span>Opción Alternativa:</span> <b>Aave V3 ($12.50 Fee)</b></div>
                 <div class="t-row"><span>Ruta Frecuente:</span> <b>USDC ➔ WETH ➔ LINK</b></div>
-                <div class="t-row"><span>Spread Requerido:</span> <b>+0.03% Neto</b></div>
+                <div class="t-row"><span>Spread Requerido:</span> <b>+0.025% Neto (&ge; $0.02)</b></div>
                 <div class="t-row"><span>Tiempo de Ejecución:</span> <b>1 Segundo (Mismo Bloque)</b></div>
               </div>
               <div class="tier-foot">
@@ -239,17 +251,17 @@
         </div>
       </section>
 
-      <!-- TAB 3: BITÁCORA REAL ON-CHAIN & RECIBOS 0x -->
+      <!-- TAB 3: BITÁCORA REAL ON-CHAIN & FEED DE BARRIDOS CADA 3S -->
       <section class="tab-pane" id="paneLedger">
         <div class="ledger-view-container">
           <div class="ledger-hero-bar">
             <div class="l-hero-title">
               <span class="material-symbols-rounded">receipt_long</span>
-              <h3>BITÁCORA REAL ON-CHAIN &amp; RECIBOS DE DISPARO</h3>
+              <h3>BITÁCORA REAL ON-CHAIN &amp; FEED DE EVALUACIONES EN VIVO (CADA 3S)</h3>
             </div>
             <div class="l-hero-stats">
-              <span class="l-stat-tag"><span class="material-symbols-rounded">verified</span> Auditoría 100% Pública en PolygonScan</span>
-              <span class="l-stat-tag text-green"><span class="material-symbols-rounded">attach_money</span> Todos los Dividendos depositados en Bóveda #501</span>
+              <span class="l-stat-tag" id="ledgerLiveBlockBadge"><span class="material-symbols-rounded">radar</span> Escaneo Multicall3 Activo c/3s</span>
+              <span class="l-stat-tag text-green"><span class="material-symbols-rounded">verified</span> Ejecutor V2: 0x3e8b...09f7 (NO_PROFIT_REVERT)</span>
             </div>
           </div>
 
@@ -259,31 +271,31 @@
                 <tr>
                   <th>HORA UTC / BLOQUE</th>
                   <th>MOTOR ATÓMICO</th>
-                  <th>OBJETIVO DE TIRO</th>
+                  <th>OBJETIVO EVALUADO</th>
                   <th>CALIBRE FLASH</th>
                   <th>COSTO GAS (POL)</th>
-                  <th>DIVIDENDO LIMPIO</th>
-                  <th>ESTADO ON-CHAIN</th>
-                  <th>RECIBO POLYGONSCAN</th>
+                  <th>SPREAD / BOUNTY / HF</th>
+                  <th>ESTADO CALLSTATIC</th>
+                  <th>VERIFICACIÓN POLYGONSCAN</th>
                 </tr>
               </thead>
               <tbody id="receiptsTableBody">
-                <!-- Se inyecta dinámicamente desde app.js (vacio sincero si 0 disparos) -->
+                <!-- Se inyecta dinámicamente desde app.js (Recibos 0x + Feed de evaluaciones c/3s) -->
               </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- TAB 4: 3 ESTACIONES OFICIALES ÁREA 501 -->
+      <!-- TAB 4: ESTACIONES OFICIALES ÁREA 501 -->
       <section class="tab-pane" id="paneStationsHub">
         <div class="stations-hub-container">
           <div class="panel-hero-card">
             <div class="p-hero-left">
               <span class="material-symbols-rounded p-icon">account_balance</span>
               <div>
-                <h2>NODRIZA MATRIZ ÁREA 501 · 4 ESTACIONES OPERATIVAS</h2>
-                <p>Infraestructura cuántica omnichain: Bóveda #501, Hyperliquid L1, Polygon PoS y Enjambre Gasless EIP-712.</p>
+                <h2>NODRIZA MATRIZ ÁREA 501 · 5 ESTACIONES OPERATIVAS</h2>
+                <p>Infraestructura cuántica omnichain: Bóveda #501, Hyperliquid L1, Funding Rate Matrix, Polygon PoS y Enjambre Gasless EIP-712.</p>
               </div>
             </div>
             <div class="p-hero-right">
@@ -291,20 +303,20 @@
             </div>
           </div>
 
-          <div class="stations-cards-grid">
+          <div class="stations-cards-grid" style="grid-template-columns: repeat(5, 1fr) !important;">
             <!-- Tarjeta Matriz: POSICIÓN MATRIX 501 -->
             <a href="/posicion-501/" class="station-hub-card active-border-matriz">
               <div class="s-card-top">
-                <div class="s-card-badge matriz-badge">ESTACIÓN MATRIZ · PATRIMONIAL &amp; EXPLORADOR</div>
+                <div class="s-card-badge matriz-badge">ESTACIÓN MATRIZ · BÓVEDA #501</div>
                 <span class="live-dot-station"></span>
               </div>
               <div class="s-card-head">
                 <span class="material-symbols-rounded s-card-icon text-green">account_balance</span>
-                <h3>POSICIÓN MATRIX 501 (BÓVEDA #501)</h3>
+                <h3>POSICIÓN MATRIX 501</h3>
               </div>
-              <p class="s-card-desc">Explorador multicadena en vivo de la Bóveda Matriz #501 (<code>0xD4D1...3743</code>), 54 celdas anatómicas, balance consolidado $848.35+ USD y bitácora unificada.</p>
+              <p class="s-card-desc">Explorador multicadena en vivo de la Bóveda Matriz #501 (<code>0xD4D1...3743</code>), 54 celdas anatómicas, balance consolidado y préstamo Post-SOL.</p>
               <div class="s-card-cta matriz-cta">
-                <span>INGRESAR A POSICIÓN MATRIX 501 ➔</span>
+                <span>INGRESAR A POSICIÓN 501 ➔</span>
               </div>
             </a>
 
@@ -316,7 +328,7 @@
               </div>
               <div class="s-card-head">
                 <span class="material-symbols-rounded s-card-icon text-cyan">shield</span>
-                <h3>SQUAD MATRIX (HYPERLIQUID L1)</h3>
+                <h3>SQUAD MATRIX (HL L1)</h3>
               </div>
               <p class="s-card-desc">18 Escuadrones Iguales × 54 Pares Ultra-Líquidos operando en Hyperliquid L1. Meta Bloque 1: $1,000 USDC y control de inyección 0% Bóveda #501.</p>
               <div class="s-card-cta hl-cta">
@@ -332,25 +344,41 @@
               </div>
               <div class="s-card-head">
                 <span class="material-symbols-rounded s-card-icon text-amber">bolt</span>
-                <h3>ATOMIC FLASH MATRIX ($5K - $50K EN 1 SEGUNDO)</h3>
+                <h3>ATOMIC FLASH MATRIX</h3>
               </div>
-              <p class="s-card-desc">3 Motores Atómicos × 54 Contratos en Polygon PoS: Cobro de Bóvedas (Keeper Harvest), Flash Loans 0% Fee ($5k-$50k) y Liquidaciones Aave V3 con $0.00 riesgo de capital.</p>
+              <p class="s-card-desc">3 Motores Atómicos × 54 Contratos en Polygon PoS: Keeper Harvest, Flash Loans 0% Fee ($5k-$50k) y Liquidaciones Aave V3 con $0.00 riesgo.</p>
               <div class="s-card-cta poly-cta">
-                <span>INGRESAR A ATOMIC FLASH MATRIX ➔</span>
+                <span>ESTACIÓN ACTIVA ➔</span>
               </div>
             </a>
 
-            <!-- Tarjeta 3: SWARM 500 MATRIX -->
+            <!-- Tarjeta 3: FUNDING RATE MATRIX -->
+            <a href="/funding-matrix/" class="station-hub-card active-border-hl">
+              <div class="s-card-top">
+                <div class="s-card-badge hl-badge">ESTACIÓN #03 · FUNDING 24/7</div>
+                <span class="live-dot-station"></span>
+              </div>
+              <div class="s-card-head">
+                <span class="material-symbols-rounded s-card-icon text-green">currency_exchange</span>
+                <h3>FUNDING RATE MATRIX</h3>
+              </div>
+              <p class="s-card-desc">Cobro horario 24/7 (24 pagos/día) en Hyperliquid L1 con el 40% del Escudo Mentora #00. Radar Top 18 Pagadores y Libro Mayor userFunding.</p>
+              <div class="s-card-cta hl-cta">
+                <span>INGRESAR A FUNDING MATRIX ➔</span>
+              </div>
+            </a>
+
+            <!-- Tarjeta 4: SWARM 500 MATRIX -->
             <a href="/flota-x500/" class="station-hub-card active-border-x500">
               <div class="s-card-top">
-                <div class="s-card-badge x500-badge">ESTACIÓN #03 · ENJAMBRE GASLESS</div>
+                <div class="s-card-badge x500-badge">ESTACIÓN #04 · ENJAMBRE GASLESS</div>
                 <span class="live-dot-station"></span>
               </div>
               <div class="s-card-head">
                 <span class="material-symbols-rounded s-card-icon text-green">hive</span>
-                <h3>SWARM 500 MATRIX (500 CARTERAS)</h3>
+                <h3>SWARM 500 MATRIX</h3>
               </div>
-              <p class="s-card-desc">El enjambre de 500 satélites organizado en 5 Boxes tácticos (#001 a #500). Racha Gasless EIP-712, cortes de Airdrops (30 Oct) y barrido hacia Bóveda #501.</p>
+              <p class="s-card-desc">El enjambre de 500 satélites organizado en 5 Boxes tácticos (#001 a #500). Racha Gasless EIP-712, cortes de Airdrops (30 Oct) y barrido a #501.</p>
               <div class="s-card-cta x500-cta">
                 <span>INGRESAR A SWARM 500 ➔</span>
               </div>
@@ -379,14 +407,17 @@
           <span class="material-symbols-rounded tab-icon">account_balance</span> CALIBRES FLASH ($5K-$50K)
         </button>
         <button class="nav-tab" data-tab="paneLedger" id="tabBtnLedger">
-          <span class="material-symbols-rounded tab-icon">receipt_long</span> BITÁCORA ON-CHAIN (0)
+          <span class="material-symbols-rounded tab-icon">receipt_long</span> <span id="tabLedgerText">BITÁCORA ON-CHAIN (LIVE)</span>
         </button>
+        <a href="/funding-matrix/" class="nav-tab" style="text-decoration:none;">
+          <span class="material-symbols-rounded tab-icon">currency_exchange</span> FUNDING 24/7
+        </a>
       </nav>
 
       <!-- 3. ZONA DERECHA: BOTÓN MAESTRO DE ESTACIONES + RELOJ UTC -->
       <div class="bottom-system">
-        <button class="btn-stations-master" id="btnMasterStationsHub" data-tab="paneStationsHub" title="Abrir las 4 Estaciones de Área 501">
-          <span class="material-symbols-rounded master-hub-icon">hub</span> 4 ESTACIONES ÁREA 501
+        <button class="btn-stations-master" id="btnMasterStationsHub" data-tab="paneStationsHub" title="Abrir las 5 Estaciones de Área 501">
+          <span class="material-symbols-rounded master-hub-icon">hub</span> 5 ESTACIONES ÁREA 501
         </button>
         <div class="utc-clock">
           <span class="material-symbols-rounded clock-icon">schedule</span>

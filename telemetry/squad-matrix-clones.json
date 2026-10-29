@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T07:36:55.452Z",
+  "updatedAt": "2026-10-29T07:54:38.271Z",
   "architecture": "Hot-Swap Relay 1 ⇄ 2 (18 Espacios × 36 Bots)",
   "rules": {
     "radarL2": ">= 62%",

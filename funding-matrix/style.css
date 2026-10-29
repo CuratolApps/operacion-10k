@@ -1,0 +1,643 @@
+/**
+ * funding-matrix/style.css — ÁREA 501 // FUNDING RATE MATRIX (24 PAGOS/DÍA L1)
+ * ==============================================================================
+ * ARQUITECTURA VISUAL DE ÉLITE 100vh CERO SCROLL:
+ * 1) FONDO GRIS ESMERILADO (#D5DDE8)
+ * 2) 5 TARJETAS SUPERIORES EN BLANCO SATINADO CON HIDRATACIÓN 0ms
+ * 3) BANNER DE PRIORIDAD RESCUE_PRIORITY_LOCK (ESCUDO MENTORA #00 - 40%)
+ * 4) 2 BLOQUES CENTRALES TÁCTICOS SIN SCROLL DE PÁGINA:
+ *    - IZQUIERDA (6x3 = 18 CELDAS ESMERALDA/MENTA): TOP 18 PAGADORES DE FUNDING
+ *    - DERECHA (TABLA OFICIAL): LIBRO MAYOR DE LOS 24 PAGOS HORARIOS (userFunding)
+ * 5) DOCK INFERIOR EN 1 SOLA LÍNEA HORIZONTAL CON ICONOGRAFÍA MATERIAL SYMBOLS ROUNDED
+ * ==============================================================================
+ */
+
+:root {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.65) 0%, transparent 45%),
+    radial-gradient(circle at 80% 85%, rgba(241, 245, 249, 0.5) 0%, transparent 50%),
+    linear-gradient(135deg, #D5DDE8 0%, #B8C4D4 50%, #9AA8BC 100%) !important;
+  color: #0F172A;
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded' !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  font-size: 15px;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+}
+
+.funding-viewport {
+  width: 100vw;
+  height: 100vh;
+  padding: 8px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  overflow: hidden;
+}
+
+/* ==============================================================================
+   TOP 5 BUSINESS CARDS (BLANCO SATINADO)
+   ============================================================================== */
+.top-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  min-height: 92px;
+  flex: 0 0 auto;
+}
+
+.biz-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+  border: 1.5px solid #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+  padding: 7px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.card-tag {
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #334155;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-tag .material-symbols-rounded {
+  font-size: 14px;
+  color: #059669;
+}
+
+.card-main-val {
+  font-family: var(--font-mono);
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #0F172A;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.currency-symbol {
+  color: #059669;
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.unit-tag {
+  font-size: 0.62rem;
+  color: #64748B;
+  font-weight: 700;
+}
+
+.pct-badge {
+  font-size: 0.56rem;
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-weight: 800;
+  margin-left: auto;
+}
+
+.card-sub-pills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  width: 100%;
+}
+
+.pill-emerald,
+.pill-cobalt,
+.pill-amber,
+.pill-slate {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.pill-emerald {
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+.pill-cobalt {
+  background: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #BFDBFE;
+}
+
+.pill-amber {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.pill-slate {
+  background: #F1F5F9;
+  color: #334155;
+  border: 1px solid #CBD5E1;
+}
+
+/* ==============================================================================
+   BANNER TÁCTICO RESCUE_PRIORITY_LOCK
+   ============================================================================== */
+.rescue-priority-bar {
+  flex: 0 0 auto;
+  background: linear-gradient(90deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  border-radius: 8px;
+  padding: 5px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #F8FAFC;
+  font-size: 0.66rem;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.14);
+}
+
+.rescue-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rescue-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F59E0B;
+  box-shadow: 0 0 8px #F59E0B;
+  display: inline-block;
+}
+
+.rescue-dot.free {
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.rescue-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #A7F3D0;
+  white-space: nowrap;
+}
+
+/* ==============================================================================
+   MAIN CONTENT AREA (2 CENTRAL BLOCKS OR STATIONS HUB)
+   ============================================================================== */
+.funding-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.tab-pane {
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tab-pane.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.central-split-layout {
+  display: grid;
+  grid-template-columns: 1.32fr 1fr;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.tactical-block {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  padding: 7px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  padding-bottom: 4px;
+  flex: 0 0 auto;
+}
+
+.block-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #0F172A;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.block-title .material-symbols-rounded {
+  font-size: 16px;
+  color: #059669;
+}
+
+.block-meta {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #047857;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ==============================================================================
+   LEFT BLOCK: REJILLA 6x3 = 18 CELDAS ESMERALDA / MENTA
+   ============================================================================== */
+.funding-grid-18 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+.funding-cell {
+  background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%);
+  border: 1px solid rgba(167, 243, 208, 0.72);
+  box-shadow: 0 3px 8px rgba(4, 120, 87, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.32);
+  border-radius: 8px;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.funding-cell.delta-safe-highlight {
+  background: linear-gradient(145deg, #047857 0%, #065F46 60%, #064E3B 100%);
+  border: 1.5px solid #6EE7B7;
+}
+
+.f-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
+.f-coin {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.f-rank {
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #E2E8F0;
+}
+
+.f-side-pill {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.42);
+  color: #A7F3D0;
+  border: 1px solid rgba(167, 243, 208, 0.45);
+  white-space: nowrap;
+}
+
+.f-row-mid {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px;
+  line-height: 1.1;
+}
+
+.f-hourly {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.f-apr {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #FEF08A;
+  white-space: nowrap;
+}
+
+.f-row-bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.53rem;
+  color: #D1FAE5;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-top: 2px;
+  white-space: nowrap;
+}
+
+.f-status-tag {
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+/* ==============================================================================
+   RIGHT BLOCK: LIBRO MAYOR DE LOS 24 PAGOS HORARIOS (userFunding)
+   ============================================================================== */
+.ledger-table-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  border-radius: 7px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+}
+
+.funding-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.62rem;
+}
+
+.funding-table thead th {
+  position: sticky;
+  top: 0;
+  background: #0F172A;
+  color: #F8FAFC;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 800;
+  text-align: left;
+  padding: 6px 7px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.funding-table tbody td {
+  padding: 4px 7px;
+  border-bottom: 1px solid #F1F5F9;
+  font-family: var(--font-mono);
+  color: #1E293B;
+  white-space: nowrap;
+}
+
+.funding-table tbody tr:hover {
+  background: #F8FAFC;
+}
+
+.amt-pos {
+  color: #059669;
+  font-weight: 800;
+}
+
+.amt-neg {
+  color: #D97706;
+  font-weight: 700;
+}
+
+.badge-side-long {
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.54rem;
+  font-weight: 800;
+}
+
+.badge-side-short {
+  background: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #BFDBFE;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.54rem;
+  font-weight: 800;
+}
+
+/* ==============================================================================
+   STATIONS HUB TAB
+   ============================================================================== */
+.stations-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  flex: 1 1 auto;
+  margin-top: 8px;
+}
+
+.station-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  border: 2px solid #CBD5E1;
+  border-radius: 10px;
+  padding: 14px;
+  text-decoration: none;
+  color: #0F172A;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  transition: transform 0.15s ease;
+}
+
+.station-card:hover {
+  transform: translateY(-2px);
+  border-color: #059669;
+}
+
+.station-card h3 {
+  font-size: 0.86rem;
+  font-weight: 800;
+  margin: 6px 0;
+}
+
+.station-card p {
+  font-size: 0.66rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.station-cta {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #059669;
+  margin-top: 10px;
+}
+
+/* ==============================================================================
+   BOTTOM FIXED BAR (1 SOLA LÍNEA HORIZONTAL EN AZUL OSCURO NOCTURNO)
+   ============================================================================== */
+.funding-bottombar {
+  flex: 0 0 auto;
+  height: 38px;
+  background: linear-gradient(90deg, #060D1E 0%, #0B1736 50%, #060D1E 100%);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 9px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #F8FAFC;
+  white-space: nowrap;
+}
+
+.bottom-identity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.bottom-identity .material-symbols-rounded {
+  color: #10B981;
+  font-size: 17px;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.bottom-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.07);
+  color: #CBD5E1;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-main);
+  font-size: 0.62rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
+.nav-btn.active,
+.nav-btn:hover {
+  background: #059669;
+  color: #FFFFFF;
+  border-color: #34D399;
+}
+
+.bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.utc-pill {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  color: #A7F3D0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+

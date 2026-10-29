@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FUNDING RATE MATRIX // Cobro Horario 24/7 en Hyperliquid L1 · Escudo Mentora #00 (40%)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="style.css">
+  <!-- Hidratación síncrona en 0ms desde localStorage (__AREA501_FUNDING_STATE__) -->
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem("__AREA501_FUNDING_STATE__");
+        if (raw) {
+          var s = JSON.parse(raw);
+          window.__LAST_FUNDING_STATE__ = s;
+          document.addEventListener("DOMContentLoaded", function () {
+            if (s.shieldCapital) {
+              var elCap = document.getElementById("topShieldCapitalVal");
+              if (elCap && s.shieldCapital.shieldClosedUsdc !== undefined) {
+                elCap.textContent = Number(s.shieldCapital.shieldClosedUsdc).toFixed(2);
+              }
+              var elPost = document.getElementById("topShieldPostSolPill");
+              if (elPost && s.shieldCapital.shieldProjectedPostSolUsdc !== undefined) {
+                elPost.textContent = "Post-SOL: $" + Number(s.shieldCapital.shieldProjectedPostSolUsdc).toFixed(2);
+              }
+            }
+            if (s.fundingAccounting) {
+              var fa = s.fundingAccounting;
+              var elPos = document.getElementById("topPositiveFundingVal");
+              if (elPos && fa.totalPositiveCollectedUsdc !== undefined) {
+                elPos.textContent = Number(fa.totalPositiveCollectedUsdc).toFixed(4);
+              }
+            }
+            if (s.topPayerGlobal) {
+              var tp = s.topPayerGlobal;
+              var elTpCoin = document.getElementById("topPayerCoinVal");
+              if (elTpCoin && tp.pair) elTpCoin.textContent = tp.pair;
+              var elTpApr = document.getElementById("topPayerAprBadge");
+              if (elTpApr && tp.absAprPct !== undefined) elTpApr.textContent = Number(tp.absAprPct).toFixed(1) + "% APR";
+            }
+          });
+        }
+      } catch (_) {}
+    })();
+  </script>
+</head>
+<body>
+  <div class="funding-viewport">
+
+    <!-- 5 TARJETAS SUPERIORES EN BLANCO SATINADO -->
+    <header class="top-cards-grid">
+
+      <!-- Tarjeta 1: CAPITAL ASIGNADO ESCUDO #00 (40%) -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">shield</span> CAPITAL ASIGNADO ESCUDO #00 (40%)
+        </div>
+        <div class="card-main-val">
+          <span class="currency-symbol">$</span><span id="topShieldCapitalVal">338.16</span>
+          <span class="unit-tag">USDC (40% HL)</span>
+          <span class="pct-badge" id="topShieldLiveBadge">En Vivo: $332.46</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-amber" id="topShieldPriorityPill">Rescate SOL Activo</span>
+          <span class="pill-emerald" id="topShieldPostSolPill">Post-SOL: $359.80 USDC</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: RENTA FUNDING ACUMULADA EN #501 -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">payments</span> RENTA FUNDING ACUMULADA EN #501
+        </div>
+        <div class="card-main-val">
+          <span class="currency-symbol">+$</span><span id="topPositiveFundingVal">0.1292</span>
+          <span class="unit-tag">USDC COBRADOS</span>
+          <span class="pct-badge" id="topEventsCountBadge">96 Cortes L1</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-emerald" id="topPositiveEventsPill">29 Cobros Positivos</span>
+          <span class="pill-cobalt" id="topEstDailyYieldPill">Meta Libre: +$2.85/día</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3: PRÓXIMO CORTE HORARIO L1 (24 PAGOS/DÍA) -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">schedule</span> PRÓXIMO CORTE HORARIO L1 (24 PAGOS/DÍA)
+        </div>
+        <div class="card-main-val">
+          <span id="topNextCutCountdown">10m 00s</span>
+          <span class="unit-tag" id="topNextCutHourTag">➔ 09:00:00 UTC</span>
+          <span class="pct-badge">CADA 60 MIN</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-emerald">Liquidación :00:00 UTC</span>
+          <span class="pill-cobalt" id="topHlLatencyPill">Hyperliquid L1 · 135ms</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 4: CANDADO DE SEGURIDAD DELTA-SAFE -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">verified_user</span> CANDADO DE SEGURIDAD DELTA-SAFE
+        </div>
+        <div class="card-main-val" style="font-size: 0.98rem;">
+          <span>OI &ge; $5.0M USD</span>
+          <span class="pct-badge">0% TAKER FEE</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-emerald">Post-Only ALO Maker</span>
+          <span class="pill-amber" id="topRescueLockPill">RESCUE_PRIORITY_LOCK = ON</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 5: TOP PAGADOR FUNDING EN VIVO -->
+      <div class="biz-card">
+        <div class="card-tag">
+          <span class="material-symbols-rounded">trending_up</span> TOP PAGADOR FUNDING EN VIVO
+        </div>
+        <div class="card-main-val">
+          <span id="topPayerCoinVal">BLUR-USDC</span>
+          <span class="pct-badge" id="topPayerAprBadge">3227.7% APR</span>
+        </div>
+        <div class="card-sub-pills">
+          <span class="pill-emerald" id="topPayerHourlyPill">-0.3685% / hora</span>
+          <span class="pill-cobalt" id="topPayerReceiverPill">LONG COBRA · OI $1.8M</span>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- BANNER DE PRIORIDAD RESCUE_PRIORITY_LOCK -->
+    <div class="rescue-priority-bar" id="rescuePriorityBar">
+      <div class="rescue-left">
+        <span class="rescue-dot" id="rescueStatusDot"></span>
+        <span class="material-symbols-rounded" style="font-size: 15px; color: #34D399;">security</span>
+        <span id="rescueBannerText">🛡️ ESCUDO #00 EN MISIÓN DE RESCATE (SOL-USDC · 19.52 SOL @ $100.538) · COBRO PASIVO DE POSICIONES ACTUALES ACTIVO</span>
+      </div>
+      <div class="rescue-right">
+        <span id="rescueSubInfo">TP Armado: $100.62 (oid: 589129601350) ➔ Al cerrar libera $359.80 USDC para Funding ALO Maker</span>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR CENTRAL: 2 BLOQUES TÁCTICOS SIN SCROLL -->
+    <main class="funding-main">
+
+      <!-- PESTAÑA 1: MATRIZ EN VIVO (TOP 18 PAGADORES + LIBRO MAYOR 24 PAGOS) -->
+      <section class="tab-pane active" id="paneFundingMain">
+        <div class="central-split-layout">
+
+          <!-- BLOQUE IZQUIERDO: REJILLA 6x3 = 18 CELDAS ESMERALDA/MENTA -->
+          <div class="tactical-block">
+            <div class="block-header">
+              <div class="block-title">
+                <span class="material-symbols-rounded">radar</span>
+                📊 RADAR TOP 18 PAGADORES DE FUNDING EN VIVO — HYPERLIQUID L1
+              </div>
+              <span class="block-meta" id="leftBlockMeta">metaAndAssetCtxs · 229 Pares Escaneados</span>
+            </div>
+            <div class="funding-grid-18" id="fundingTop18Grid">
+              <!-- Renderizado en vivo desde app.js -->
+            </div>
+          </div>
+
+          <!-- BLOQUE DERECHO: TABLA AUDITADA DE LOS 24 PAGOS HORARIOS DEL DÍA (userFunding) -->
+          <div class="tactical-block">
+            <div class="block-header">
+              <div class="block-title">
+                <span class="material-symbols-rounded">receipt_long</span>
+                🧾 LIBRO MAYOR DE LOS 24 PAGOS HORARIOS DEL DÍA — ENDPOINT OFICIAL userFunding
+              </div>
+              <span class="block-meta" id="rightBlockMeta">Bóveda #501: 0xD4D1...3743</span>
+            </div>
+            <div class="ledger-table-wrap">
+              <table class="funding-table">
+                <thead>
+                  <tr>
+                    <th>HORA UTC (:00)</th>
+                    <th>PAR L1</th>
+                    <th>LADO / SZI</th>
+                    <th>TASA HORA</th>
+                    <th>APR EQUIV.</th>
+                    <th>PAGO REAL USDC</th>
+                  </tr>
+                </thead>
+                <tbody id="fundingLedgerBody">
+                  <!-- Renderizado en vivo desde app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PESTAÑA 2: 5 ESTACIONES ÁREA 501 -->
+      <section class="tab-pane" id="paneFundingStations">
+        <div class="tactical-block" style="height: 100%;">
+          <div class="block-header">
+            <div class="block-title">
+              <span class="material-symbols-rounded">hub</span>
+              NODRIZA MATRIZ ÁREA 501 · 5 ESTACIONES OPERATIVAS CONECTADAS EN VIVO
+            </div>
+            <span class="block-meta">Verdad Absoluta On-Chain · 0% Humo</span>
+          </div>
+          <div class="stations-grid-5">
+            <a href="/posicion-501/" class="station-card">
+              <div>
+                <span class="pill-emerald">ESTACIÓN MATRIZ · #501</span>
+                <h3>POSICIÓN MATRIX 501</h3>
+                <p>Patrimonio consolidado multicadena en vivo, 54 celdas anatómicas, saldo cerrado firme vs equidad en vivo y gatillo Post-SOL ($54.10 USDC).</p>
+              </div>
+              <div class="station-cta">INGRESAR A POSICIÓN 501 ➔</div>
+            </a>
+            <a href="/squad-matrix/" class="station-card">
+              <div>
+                <span class="pill-cobalt">ESTACIÓN #01 · HYPERLIQUID L1</span>
+                <h3>SQUAD MATRIX (HL L1)</h3>
+                <p>18 Escuadrones × 54 Pares operando en paralelo con órdenes Post-Only ALO Maker, Candado Breakeven #00 y Escudo Mentora 40%.</p>
+              </div>
+              <div class="station-cta">INGRESAR A SQUAD MATRIX ➔</div>
+            </a>
+            <a href="/sniping/" class="station-card">
+              <div>
+                <span class="pill-amber">ESTACIÓN #02 · POLYGON POS</span>
+                <h3>ATOMIC FLASH MATRIX</h3>
+                <p>Sniping atómico cada 3 segundos en Polygon PoS con Ejecutor V2 (0x3e8b...09f7), Balancer V2 0% Fee ($5k-$50k) y callStatic gratuito.</p>
+              </div>
+              <div class="station-cta">INGRESAR A ATOMIC FLASH ➔</div>
+            </a>
+            <a href="/funding-matrix/" class="station-card" style="border-color: #059669;">
+              <div>
+                <span class="pill-emerald">ESTACIÓN #03 · RENTA HORARIA</span>
+                <h3>FUNDING RATE MATRIX</h3>
+                <p>Cobro horario 24/7 (24 pagos/día) en Hyperliquid L1 con el 40% del Escudo Mentora #00. Radar Top 18 Pagadores y Libro Mayor userFunding.</p>
+              </div>
+              <div class="station-cta">ESTACIÓN ACTIVA ➔</div>
+            </a>
+            <a href="/flota-x500/" class="station-card">
+              <div>
+                <span class="pill-slate">ESTACIÓN #04 · ENJAMBRE 500</span>
+                <h3>SWARM 500 MATRIX</h3>
+                <p>500 carteras satélites en 5 Boxes tácticos (#001 a #500). Racha Gasless EIP-712, corte 30 de Octubre y barrido automático hacia #501.</p>
+              </div>
+              <div class="station-cta">INGRESAR A SWARM 500 ➔</div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- DOCK INFERIOR FIJO EN 1 SOLA LÍNEA -->
+    <footer class="funding-bottombar">
+      <div class="bottom-identity">
+        <span class="material-symbols-rounded">currency_exchange</span>
+        <span>FUNDING RATE MATRIX // COBRO HORARIO 24/7 L1</span>
+        <span class="live-dot"></span>
+      </div>
+
+      <nav class="bottom-nav">
+        <button class="nav-btn active" data-tab="paneFundingMain">
+          <span class="material-symbols-rounded">grid_view</span> TOP 18 FUNDING &amp; LIBRO 24H
+        </button>
+        <a href="/posicion-501/" class="nav-btn">
+          <span class="material-symbols-rounded">account_balance</span> POSICIÓN #501
+        </a>
+        <a href="/squad-matrix/" class="nav-btn">
+          <span class="material-symbols-rounded">shield</span> SQUAD MATRIX
+        </a>
+        <a href="/sniping/" class="nav-btn">
+          <span class="material-symbols-rounded">bolt</span> ATOMIC FLASH
+        </a>
+        <a href="/flota-x500/" class="nav-btn">
+          <span class="material-symbols-rounded">hive</span> SWARM 500
+        </a>
+      </nav>
+
+      <div class="bottom-right">
+        <button class="nav-btn" data-tab="paneFundingStations">
+          <span class="material-symbols-rounded">hub</span> 5 ESTACIONES ÁREA 501
+        </button>
+        <div class="utc-pill">
+          <span class="material-symbols-rounded" style="font-size: 14px;">schedule</span>
+          <span id="liveUtcClock">00:00:00 UTC</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
