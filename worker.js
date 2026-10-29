@@ -2096,74 +2096,49 @@ export default {
 
       const baseTargets = Array.isArray(baseData.targets) ? baseData.targets : [];
       const liveTargets = baseTargets.map(t => {
-        const delta = Math.sin(seed + t.id * 7.3) * 0.008 + Math.cos(seed * 0.7 + t.id * 3.1) * 0.004;
         if (t.engine === 1) {
-          const baseB = Number(t.currentBounty || 0.025);
-          const currentBounty = +(Math.max(0.004, baseB + delta * 0.4)).toFixed(3);
-          const isProfitable = currentBounty >= 0.080;
+          const currentBounty = +(Number(t.currentBounty || 0)).toFixed(4);
+          const gasCostUsdc = Number(t.gasCostUsdc || 0.002);
+          const netBounty = +(currentBounty - gasCostUsdc).toFixed(4);
+          const isProfitable = netBounty >= 0.020 && t.callStaticOk === true;
           return {
             ...t,
             currentBounty,
+            threshold: 0.020,
             isProfitable,
-            actionLabel: isProfitable ? `COSECHAR +$${currentBounty.toFixed(3)}` : `⏳ +$${currentBounty.toFixed(3)} ($0 GAS)`
+            actionLabel: isProfitable
+              ? `🟢 COSECHAR +$${netBounty.toFixed(3)}`
+              : `⏳ $${currentBounty.toFixed(4)} < $0.020`
           };
         } else if (t.engine === 2) {
-          const baseSp = Number(t.currentSpread !== undefined ? t.currentSpread : -0.014);
-          const currentSpread = +(baseSp + delta * 0.6).toFixed(3);
+          const currentSpread = +(Number(t.currentSpread !== undefined ? t.currentSpread : -0.014)).toFixed(3);
           const loan = t.loanTier || 10000;
-          const estNetUsdc = +(((loan * currentSpread) / 100) - 0.0008).toFixed(3);
-          const isProfitable = currentSpread >= 0.025 && estNetUsdc >= 0.02;
+          const estNetUsdc = +(Number(t.estNetUsdc !== undefined ? t.estNetUsdc : ((loan * currentSpread) / 100) - 0.002)).toFixed(3);
+          const isProfitable = estNetUsdc >= 0.020 && t.callStaticOk === true;
           return {
             ...t,
             currentSpread,
             estNetUsdc,
             isProfitable,
-            actionLabel: isProfitable ? `DISPARAR +$${estNetUsdc.toFixed(2)}` : `📡 Sp ${currentSpread >= 0 ? "+" : ""}${currentSpread.toFixed(3)}%`
+            actionLabel: isProfitable
+              ? `🟢 DISPARAR +$${estNetUsdc.toFixed(3)}`
+              : `📡 Sp ${currentSpread >= 0 ? "+" : ""}${currentSpread.toFixed(3)}%`
           };
         } else {
-          const baseH = Number(t.currentHf || 1.035);
-          const currentHf = +(Math.max(1.004, baseH + delta * 0.35)).toFixed(3);
+          const currentHf = +(Number(t.currentHf || 1.035)).toFixed(3);
           const isLiquidatable = currentHf < 1.000;
           return {
             ...t,
             currentHf,
             isLiquidatable,
-            actionLabel: isLiquidatable ? `LIQUIDAR EN 1s` : `🛡️ HF ${currentHf.toFixed(3)}`
+            actionLabel: isLiquidatable ? `🟢 LIQUIDAR EN 1s` : `🛡️ HF ${currentHf.toFixed(3)}`
           };
         }
       });
 
-      // Actualizar feed en vivo de evaluaciones cada 3s
-      if (!Array.isArray(globalThis.__ATOMIC_EVAL_FEED__)) {
-        globalThis.__ATOMIC_EVAL_FEED__ = Array.isArray(baseData.liveEvaluationsFeed) ? baseData.liveEvaluationsFeed.slice(0, 18) : [];
-      }
-      if (liveTargets.length > 0) {
-        const idxPick = sweepCount % liveTargets.length;
-        const chosen = liveTargets[idxPick] || liveTargets[0];
-        const evalEntry = {
-          evalId: `SCAN-${String(sweepCount).padStart(5, "0")}`,
-          timestamp: nowIso,
-          timeUtc: lastScanUtc,
-          blockNumber: liveBlock,
-          latencyMs: rpcLatencyMs,
-          engine: chosen.engine === 1 ? "#01 HARVEST" : (chosen.engine === 2 ? "#02 FLASH" : "#03 LIQUIDATOR"),
-          target: chosen.full || chosen.name,
-          loanUsdc: chosen.loanTier || (chosen.debtAmount ? Math.round(chosen.debtAmount) : 0),
-          gasCostPol: "0.0000 (callStatic)",
-          metricLabel: chosen.engine === 1
-            ? `Bounty: +$${chosen.currentBounty.toFixed(3)} USDC`
-            : (chosen.engine === 2
-              ? `Spread: ${chosen.currentSpread >= 0 ? "+" : ""}${chosen.currentSpread.toFixed(3)}%`
-              : `HF: ${chosen.currentHf.toFixed(3)}`),
-          netProfitUsdc: 0,
-          status: (chosen.isProfitable || chosen.isLiquidatable) ? "READY_TO_FIRE" : "PROTEGIDO (NO_PROFIT_REVERT)",
-          executorContract: "0x3e8b1d7f23560215eFD61A77a97d675cc92509f7"
-        };
-        globalThis.__ATOMIC_EVAL_FEED__.unshift(evalEntry);
-        if (globalThis.__ATOMIC_EVAL_FEED__.length > 18) {
-          globalThis.__ATOMIC_EVAL_FEED__ = globalThis.__ATOMIC_EVAL_FEED__.slice(0, 18);
-        }
-      }
+      const liveEvaluationsFeed = Array.isArray(baseData.liveEvaluationsFeed) && baseData.liveEvaluationsFeed.length > 0
+        ? baseData.liveEvaluationsFeed
+        : [];
 
       const polNum = Number(livePol || 9.9358);
       const livePayload = {
@@ -2189,7 +2164,7 @@ export default {
           lastScanUtc
         },
         targets: liveTargets,
-        liveEvaluationsFeed: globalThis.__ATOMIC_EVAL_FEED__
+        liveEvaluationsFeed
       };
 
       const headers = new Headers();

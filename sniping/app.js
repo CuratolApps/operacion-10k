@@ -109,19 +109,24 @@ function computeCellDisplay(t) {
   let tagLabel = "", mainVal = "", subVal = "", statusLabel = "", isProfitable = false;
   if (t.engine === 1) {
     tagLabel = "#01 HARV";
-    const bounty = Number(t.currentBounty !== undefined ? t.currentBounty : (t.bounty || 0.025));
-    mainVal = `$${bounty.toFixed(3)}`;
-    subVal = "Meta >$0.080";
-    isProfitable = t.isProfitable === true;
-    statusLabel = isProfitable ? `COSECHAR +$${bounty.toFixed(3)}` : `⏳ +$${bounty.toFixed(3)} ($0 GAS)`;
+    const bounty = Number(t.currentBounty !== undefined ? t.currentBounty : (t.bounty || 0.000));
+    mainVal = `$${bounty.toFixed(4)}`;
+    subVal = t.strategyShort || "Meta >=$0.020";
+    isProfitable = t.isProfitable === true && bounty >= 0.020;
+    statusLabel = isProfitable
+      ? `🟢 COSECHAR +$${bounty.toFixed(3)}`
+      : (t.actionLabel || `⏳ $${bounty.toFixed(4)} < $0.020`);
   } else if (t.engine === 2) {
     tagLabel = "#02 FLASH";
     const loan = t.loanTier || 10000;
     const sp = Number(t.currentSpread !== undefined ? t.currentSpread : (t.spreadPct || -0.014));
+    const estNet = Number(t.estNetUsdc !== undefined ? t.estNetUsdc : ((loan * sp) / 100) - 0.002);
     mainVal = `$${loan.toLocaleString("en-US")}`;
     subVal = `Sp: ${sp >= 0 ? "+" : ""}${sp.toFixed(3)}%`;
-    isProfitable = t.isProfitable === true;
-    statusLabel = isProfitable ? `DISPARAR +$${((loan * sp) / 100).toFixed(2)}` : `📡 Sp ${sp >= 0 ? "+" : ""}${sp.toFixed(3)}%`;
+    isProfitable = t.isProfitable === true && estNet >= 0.020;
+    statusLabel = isProfitable
+      ? `🟢 DISPARAR +$${estNet.toFixed(3)}`
+      : (t.actionLabel || `📡 Sp ${sp >= 0 ? "+" : ""}${sp.toFixed(3)}%`);
   } else {
     tagLabel = "#03 LIQ";
     const hfVal = Number(t.currentHf !== undefined ? t.currentHf : (t.hf || 1.037));
@@ -129,8 +134,8 @@ function computeCellDisplay(t) {
     const debtK = debt >= 1000 ? `$${(debt / 1000).toFixed(1)}k` : `$${debt.toFixed(0)}`;
     mainVal = `HF ${hfVal.toFixed(3)}`;
     subVal = debtK;
-    isProfitable = t.isLiquidatable === true;
-    statusLabel = isProfitable ? `LIQUIDAR EN 1s` : `🛡️ HF ${hfVal.toFixed(3)}`;
+    isProfitable = t.isLiquidatable === true && hfVal < 1.000;
+    statusLabel = isProfitable ? `🟢 LIQUIDAR EN 1s` : `🛡️ HF ${hfVal.toFixed(3)}`;
   }
   return { tagLabel, mainVal, subVal, statusLabel, isProfitable };
 }
