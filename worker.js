@@ -3345,12 +3345,19 @@ export default {
                 { name: "#03 CHARLIE (Bloque 1)", pairs: ["ETH", "BNB", "AAVE"], notional: 180, minImb: 62.0, tpPct: 0.15 }
               ];
 
-              let slotsLeft = 6 - openPositions.length;
+              const totalNotionalCloud = openPositions.reduce((s, p) => {
+                const posObj = p.position || p;
+                return s + Math.abs(parseFloat(posObj.szi || "0")) * parseFloat(posObj.entryPx || "0");
+              }, 0);
+              const acctValCloud = typeof clData.accountValue === "number" ? clData.accountValue : 900.0;
+              const shieldIntactCloud = (acctValCloud - (totalNotionalCloud / 5.0) - 25.0) >= (acctValCloud * 0.40);
+              let slotsLeft = (shieldIntactCloud ? 10 : 6) - openPositions.length;
               for (const unit of cloudUnits) {
                 if (slotsLeft <= 0) break;
-                const unitBusy = unit.pairs.some(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly));
-                if (unitBusy) continue;
+                const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly)).length;
+                if (openInUnit >= (shieldIntactCloud ? 2 : 1)) continue;
                 for (const coin of unit.pairs) {
+                  if (openCoins.includes(c => c === coin) || openCoins.includes(coin)) continue;
                   const l2 = await info.l2Book({ coin }).catch(() => null);
                   const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
                   if (bids.length < 3 || asks.length < 3) continue;

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T14:28:55.734Z",
+  "updatedAt": "2026-10-29T14:54:33.304Z",
   "architecture": "Hot-Swap Relay 1 ⇄ 2 (6 Escuadrones Activos #01-#06 × 12 Bots en 18 Pares)",
   "rules": {
     "radarL2": ">= 62%",
@@ -21,11 +21,11 @@
         "SUI",
         "AVAX"
       ],
-      "relayStatus": "⚡ ALFA 1: ACTIVO ⇄ ALFA 2: RELEVO",
+      "relayStatus": "⚡ ALFA 1: ACTIVO (SOL) ⇄ ALFA 2: RELEVO",
       "activeBot": "ALFA 1",
       "standbyBot": "ALFA 2",
-      "mode": "SCANNING",
-      "pairInAction": null
+      "mode": "ACTIVE_POSITION",
+      "pairInAction": "SOL"
     },
     {
       "id": 2,
@@ -75,11 +75,11 @@
         "DOGE",
         "ADA"
       ],
-      "relayStatus": "⚡ GOLF 1: ACTIVO (DOGE) ⇄ GOLF 2: RELEVO",
+      "relayStatus": "⚡ GOLF 1: ACTIVO (XRP) ⇄ GOLF 2: RELEVO",
       "activeBot": "GOLF 1",
       "standbyBot": "GOLF 2",
       "mode": "ACTIVE_POSITION",
-      "pairInAction": "DOGE"
+      "pairInAction": "XRP"
     },
     {
       "id": 5,
@@ -93,11 +93,11 @@
         "TRX",
         "UNI"
       ],
-      "relayStatus": "⚡ HOTEL 1: ACTIVO (HYPE) ⇄ HOTEL 2: RELEVO",
+      "relayStatus": "⚡ HOTEL 1: ACTIVO ⇄ HOTEL 2: RELEVO",
       "activeBot": "HOTEL 1",
       "standbyBot": "HOTEL 2",
-      "mode": "ACTIVE_POSITION",
-      "pairInAction": "HYPE"
+      "mode": "SCANNING",
+      "pairInAction": null
     },
     {
       "id": 6,
@@ -111,11 +111,12 @@
         "NEAR",
         "LTC"
       ],
-      "relayStatus": "⚡ INDIA 1: ACTIVO (LTC) ⇄ INDIA 2: RELEVO",
-      "activeBot": "INDIA 1",
-      "standbyBot": "INDIA 2",
-      "mode": "ACTIVE_POSITION",
-      "pairInAction": "LTC"
+      "relayStatus": "🔄 INDIA 1: ENFRIAMIENTO 8m ⇄ ⚡ INDIA 2: CAZANDO",
+      "activeBot": "INDIA 2",
+      "standbyBot": "INDIA 1",
+      "mode": "HOT_SWAP_RELAY",
+      "cooldownCoin": "LTC",
+      "cooldownRemainingMins": 8
     },
     {
       "id": 7,

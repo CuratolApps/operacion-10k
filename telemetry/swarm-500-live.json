@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-29T14:28:35.520Z",
-  "lastScanUtc": "14:28:35 UTC",
+  "updatedAt": "2026-10-29T14:54:35.914Z",
+  "lastScanUtc": "14:54:35 UTC",
   "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-  "cycleCount": 144,
+  "cycleCount": 196,
   "walletsActive": "500 / 500",
   "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
@@ -16,41 +16,41 @@
   "streakGoal": "500 / 500 Firmado EIP-712",
   "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
   "currentPlatoonScanned": {
-    "platoonId": 44,
-    "walletRange": "#431 ➔ #440",
+    "platoonId": 46,
+    "walletRange": "#451 ➔ #460",
     "attestationsCount": 10,
     "polyDetectedUsdc": 0,
     "baseDetectedUsdc": 0,
     "sampleAttestations": [
       {
-        "index": 431,
-        "address": "0x19553F134E1D396ae6e932d495010eE5B7E37eB4",
-        "platoonId": 44,
+        "index": 451,
+        "address": "0x36742938dd009051f94873cCE38Eaa07c80e80FB",
+        "platoonId": 46,
         "campaign": "Free-Mint & Odos Arb",
-        "signatureHash": "0xefb39fc4029a6ab9...c3d0c3",
+        "signatureHash": "0x25e2ca2100fd11ab...5b4721",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T14:28:31.761Z"
+        "timestamp": "2026-10-29T14:54:32.174Z"
       },
       {
-        "index": 432,
-        "address": "0x35F310Fe6E9180C244fFB80185Ccc1BA6423F696",
-        "platoonId": 44,
+        "index": 452,
+        "address": "0x957Fb4b9787992bF87A96B9364FeADb1Cf4E9e08",
+        "platoonId": 46,
         "campaign": "Free-Mint & Odos Arb",
-        "signatureHash": "0xa8f0756b56584634...7cae95",
+        "signatureHash": "0xc3f2fedbf779019d...f7880a",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T14:28:31.761Z"
+        "timestamp": "2026-10-29T14:54:32.174Z"
       },
       {
-        "index": 433,
-        "address": "0x66DA15a31a1b5fB9CB914f4F26F4C29Fe6dC8E50",
-        "platoonId": 44,
+        "index": 453,
+        "address": "0xaD00e62B5A6175CE68DFEc68b678424Cb9e9f96c",
+        "platoonId": 46,
         "campaign": "Free-Mint & Odos Arb",
-        "signatureHash": "0x7e347b0087a48260...dfa1ac",
+        "signatureHash": "0xaa3bfe47949e7973...51a219",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T14:28:31.761Z"
+        "timestamp": "2026-10-29T14:54:32.174Z"
       }
     ]
   },

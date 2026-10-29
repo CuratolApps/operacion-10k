@@ -181,13 +181,17 @@ const SQUADS_CONFIG = {
 };
 
 function formatHlPrice(price, coin) {
+  const num = Number(price);
+  if (!Number.isFinite(num) || num <= 0) return "0";
+  if (coin === "BTC") return Math.round(num).toFixed(0);
   const meta = ASSET_DECIMALS[coin];
-  if (meta && typeof meta.px === "number") {
-    return meta.px === 0 ? Math.round(price).toFixed(0) : Number(price).toFixed(meta.px);
-  }
-  if (coin === "BTC") return Math.round(price).toFixed(0);
-  if (coin === "ETH" || coin === "PAXG") return price.toFixed(1);
-  return price.toFixed(2);
+  const maxDec = (meta && typeof meta.px === "number") ? meta.px : 2;
+  if (maxDec === 0) return Math.round(num).toFixed(0);
+  // Regla oficial Hyperliquid L1: máximo 5 cifras significativas y máximo maxDec decimales
+  const sig5 = Number(num.toPrecision(5));
+  const intDigits = num >= 1 ? Math.floor(Math.log10(num)) + 1 : 0;
+  const allowedDec = num >= 1 ? Math.max(0, Math.min(maxDec, 5 - intDigits)) : maxDec;
+  return Number(sig5.toFixed(allowedDec)).toString();
 }
 
 function formatHlSize(sz, szDecimals) {
@@ -871,16 +875,20 @@ async function startAutonomousSquadDaemon() {
         const squadCfg = SQUADS_CONFIG[squadKey];
         const isNewPos = !confirmedOpenByCoin[coin];
 
+        const isRescuedSize = notionalVal >= (squadCfg.block === 2 ? 285 : 360);
         if (isNewPos) {
           confirmedOpenByCoin[coin] = {
             squadKey,
             entryPx,
             szi: szNum,
             isShort,
-            dcaDone: notionalVal >= 600,
-            beLocked: false
+            dcaDone: isRescuedSize,
+            beLocked: false,
+            evacAloPlaced: false,
+            halfUnloaded: false
           };
-          positionOpenTimestamps[coin] = Date.now();
+          // Si ya viene promediada de antes, marcarla con antigüedad >= 8m para activar el Carril de Recuperación y Evacuación Rápida
+          positionOpenTimestamps[coin] = isRescuedSize ? (Date.now() - 9 * 60000) : Date.now();
 
           // Si se abrió después del ciclo 1 y aún no enviamos alerta de apertura en los últimos 60s, notificar a Telegram!
           if (cycleCounter > 1 && (!recentOrderSentCoins[coin] || (Date.now() - recentOrderSentCoins[coin] > 60000))) {
@@ -905,16 +913,19 @@ async function startAutonomousSquadDaemon() {
         } else {
           confirmedOpenByCoin[coin].entryPx = entryPx;
           confirmedOpenByCoin[coin].szi = szNum;
-          if (notionalVal >= 600) confirmedOpenByCoin[coin].dcaDone = true;
+          if (isRescuedSize) confirmedOpenByCoin[coin].dcaDone = true;
         }
         const posMeta = confirmedOpenByCoin[coin];
+        const posElapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
+        posMeta.inRecoveryLane = Boolean(posMeta.dcaDone || posElapsedMins >= 8.0);
 
         // Verificar si ya tiene orden Reduce-Only Take Profit en el libro L1 (incluye posiciones del Escudo #00)
         const existingExitOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
         const currentMid = parseFloat(mids[coin] || entryPx);
 
         if (!existingExitOrder && isV2Armed && ASSET_DECIMALS[coin]) {
-          const targetGainPct = notionalVal >= 1500 ? 0.08 : (posMeta.dcaDone ? 0.12 : (squadCfg.targetGainPct || TARGET_GAIN_PCT));
+          // ARMA #2: Si está en Carril de Recuperación (promediada o >=8m), meta sin codicia (+0.045% salida rápida en verde)
+          const targetGainPct = posMeta.inRecoveryLane ? 0.045 : (notionalVal >= 1500 ? 0.08 : (squadCfg.targetGainPct || TARGET_GAIN_PCT));
           let exitPxNum = isShort
             ? entryPx * (1 - targetGainPct / 100)
             : entryPx * (1 + targetGainPct / 100);
@@ -952,19 +963,21 @@ async function startAutonomousSquadDaemon() {
             ? (currentMid - entryPx) / entryPx * 100
             : (entryPx - currentMid) / entryPx * 100;
 
-          // Reloj Anti-Estancamiento Cero-Holder (cierra en ganancia neta >= $0.08 USDC a partir de 10m, o >= $0.05 en 5m para Ping-Pong / 90s para Minuto :59)
+          // Reloj Anti-Estancamiento Cero-Holder (Garantiza 100% ganancia neta positiva después de comisiones)
+          // Si supera el tiempo y ya cubre comisión Taker + ganancia limpia (>= $0.26 USDC), cierra IOC inmediato;
+          // o si está en verde moderado (>= $0.10 USDC), acerca el Reduce-Only ALO Maker (+0.07% sobre entrada) para cobrar 0% comisión Taker.
           const specialMeta = pingPongMetaByCoin[coin];
           const isHourlySnapPos = specialMeta && specialMeta.mode === "HOURLY_SNAP";
           const isPingPongPos = specialMeta && specialMeta.mode === "PING_PONG";
           const minMinsForStop = isHourlySnapPos ? 1.5 : (isPingPongPos ? 5.0 : 10.0);
-          const minPnlForTimeStop = posMeta.dcaDone ? 0.45 : (isHourlySnapPos ? 0.04 : (isPingPongPos ? 0.05 : Math.max(0.08, TIME_STOP_MIN_PNL_USDC)));
+          const minPnlForIocNet = posMeta.dcaDone ? 0.55 : (isHourlySnapPos ? 0.22 : (isPingPongPos ? 0.22 : 0.26));
           const elapsedMins = (Date.now() - (positionOpenTimestamps[coin] || Date.now())) / 60000;
-          if (elapsedMins >= minMinsForStop && uPnlNum >= minPnlForTimeStop) {
-            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO // ${specialMeta ? specialMeta.mode : "SQUAD"}] ${coin} abierta hace ${elapsedMins.toFixed(1)}m en verde (+$${uPnlNum.toFixed(4)} USDC). Cerrando IOC para rotar liquidez.`);
+          if (elapsedMins >= minMinsForStop && uPnlNum >= minPnlForIocNet) {
+            console.log(`⏱️ [RELOJ ANTI-ESTANCAMIENTO // ${specialMeta ? specialMeta.mode : "SQUAD"}] ${coin} abierta hace ${elapsedMins.toFixed(1)}m con +$${uPnlNum.toFixed(4)} USDC. Cerrando en ganancia neta asegurada.`);
             if (existingExitOrder) {
               await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
             }
-            const closePx = isShort ? currentMid * 1.001 : currentMid * 0.999;
+            const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
             await client.order({
               orders: [{
                 a: ASSET_INDICES[coin],
@@ -978,6 +991,48 @@ async function startAutonomousSquadDaemon() {
             }).catch(() => {});
             delete pingPongMetaByCoin[coin];
             continue;
+          } else if ((elapsedMins >= 8.0 || posMeta.dcaDone) && !posMeta.evacAloPlaced) {
+            // ARMA #2 + ARMA #3: EVACUACIÓN RELÁMPAGO SIN CODICIA (+0.045% Maker ALO 0% Fee) Y DESARME POR MITADES
+            const evacTargetPct = 0.045;
+            const evacMakerTp = isShort ? entryPx * (1 - evacTargetPct / 100) : entryPx * (1 + evacTargetPct / 100);
+            const canPlaceEvacAlo = (isShort && currentMid > evacMakerTp) || (!isShort && currentMid < evacMakerTp);
+            if (canPlaceEvacAlo) {
+              posMeta.evacAloPlaced = true;
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES[coin],
+                  b: isShort,
+                  p: formatHlPrice(evacMakerTp, coin),
+                  s: formatHlSize(Math.abs(szNum), ASSET_DECIMALS[coin].sz),
+                  r: true,
+                  t: { limit: { tif: "Alo" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+              console.log(`⚡🔓 [ARMA #2 // EVACUACIÓN RÁPIDA EN VERDE] ${coin} (${posMeta.dcaDone ? "Rescatada" : elapsedMins.toFixed(1) + "m"}): TP acercado a $${formatHlPrice(evacMakerTp, coin)} (+0.045% 0% Fee) para liberar cupo al primer rebote.`);
+            } else if (posMeta.dcaDone && !posMeta.halfUnloaded && uPnlNum >= 0.06 && Math.abs(szNum) * currentMid >= 260) {
+              // ARMA #3: Si ya está en verde (+$0.06 USDC) y tiene doble cartucho, descargar el 50% de inmediato para liberar liquidez
+              posMeta.halfUnloaded = true;
+              const halfSzStr = formatHlSize(Math.abs(szNum) * 0.5, ASSET_DECIMALS[coin].sz);
+              if (parseFloat(halfSzStr) > 0) {
+                const halfClosePx = isShort ? currentMid * 1.0003 : currentMid * 0.9997;
+                await client.order({
+                  orders: [{
+                    a: ASSET_INDICES[coin],
+                    b: isShort,
+                    p: formatHlPrice(halfClosePx, coin),
+                    s: halfSzStr,
+                    r: true,
+                    t: { limit: { tif: "Ioc" } }
+                  }],
+                  grouping: "na"
+                }).catch(() => {});
+                console.log(`✂️💵 [ARMA #3 // DESARME POR MITADES] ${coin}: 50% (${halfSzStr}) liberado en verde (+$${uPnlNum.toFixed(3)}). Liquidez devuelta a caja.`);
+              }
+            }
           }
 
           // Candado Breakeven #00 (+0.05%)
@@ -1081,11 +1136,26 @@ async function startAutonomousSquadDaemon() {
         await sendSquadTelegram(bootTg);
       }
 
-      // 4. REGLA DE INDEPENDENCIA DE BLOQUES + MICRO-PING-PONG (±0.16%) + FRANCOTIRADOR MINUTO :59 PRE-FUNDING
-      // El Bloque 2 tiene sus propios 3 cupos independientes ($100 c/u) y NUNCA es bloqueado por las posiciones abiertas del Bloque 1
+      // 4. REGLA DE INDEPENDENCIA DE BLOQUES + ARMA #1 (AISLAMIENTO EN UCI Y DESBLOQUEO DE CLONES #2) + MICRO-PING-PONG + MINUTO :59
+      // Protección Sagrada del Capital: Calculamos el margen real usado (a 5x en Hyperliquid L1) y verificamos que el Escudo Mentora 40% esté 100% blindado
       const activeCoins = openPositions.map(p => p.position.coin);
       const restingEntryCoins = openOrders.filter(o => !o.reduceOnly).map(o => o.coin);
       const allActiveOrResting = [...new Set([...activeCoins, ...restingEntryCoins])];
+
+      const totalNotionalOpen = openPositions.reduce((sum, p) => {
+        const sz = Math.abs(parseFloat(p.position.szi || "0"));
+        const px = parseFloat(p.position.entryPx || "0");
+        return sum + (sz * px);
+      }, 0);
+      const actualMarginUsedL1 = totalNotionalOpen / 5.0; // Hyperliquid 5x cross margin
+      const freeShieldableMarginUsdc = accountValue - actualMarginUsedL1;
+      // Condición Estricta de Protección 501: Solo se permite usar el Carril Rápido de Clones #2 si sobra el 40% del Escudo Mentora #00 ($360+ USDC) + $30 de colchón
+      const isCapitalShieldIntact = (freeShieldableMarginUsdc - 25.0) >= reserveUsdc;
+      const MAX_SAFE_TOTAL_WITH_RECOVERY = isCapitalShieldIntact ? 10 : MAX_CONCURRENT_TOTAL;
+
+      // Monedas en el Carril Rápido (excluyendo las que ya pasaron a la Sala de Recuperación Mentora #00 tras >=8m o rescate)
+      const fastLaneActiveCoins = activeCoins.filter(c => !(confirmedOpenByCoin[c] && confirmedOpenByCoin[c].inRecoveryLane));
+      const fastLaneTotalCount = fastLaneActiveCoins.length + restingEntryCoins.length;
 
       // 4.0 Actualizar historial móvil de 60s para Micro-Ping-Pong (±0.16%) y Wick Sniper (±0.85%)
       const nowTs = Date.now();
@@ -1101,7 +1171,7 @@ async function startAutonomousSquadDaemon() {
       const nowUtcDate = new Date();
       const utcMins = nowUtcDate.getUTCMinutes();
       const currentHourKey = `${nowUtcDate.getUTCFullYear()}-${nowUtcDate.getUTCMonth()}-${nowUtcDate.getUTCDate()}-${nowUtcDate.getUTCHours()}`;
-      if (isV2Armed && (utcMins === 58 || utcMins === 59) && lastHourlySnapHourKey !== currentHourKey && allActiveOrResting.length < MAX_CONCURRENT_TOTAL) {
+      if (isV2Armed && isCapitalShieldIntact && (utcMins === 58 || utcMins === 59) && lastHourlySnapHourKey !== currentHourKey && allActiveOrResting.length < MAX_SAFE_TOTAL_WITH_RECOVERY) {
         const snapUniverse = ["HYPE", "SOL", "SUI", "DOGE", "XRP", "ETH", "AVAX"].filter(c =>
           !allActiveOrResting.includes(c) && (!pairCooldowns[c] || pairCooldowns[c] <= nowTs)
         );
@@ -1169,12 +1239,12 @@ async function startAutonomousSquadDaemon() {
       }
 
       // 4.2 MOTOR MICRO-PING-PONG DE RANGO ESTRECHO (±0.16% ALO -> TP +0.11% Rápido en 5m)
-      if (isV2Armed && allActiveOrResting.length < MAX_CONCURRENT_TOTAL) {
-        const pingPongUniverse = ["HYPE", "SOL", "SUI", "DOGE", "XRP", "DOT", "TRX", "NEAR", "AVAX"].filter(c =>
+      if (isV2Armed && isCapitalShieldIntact && allActiveOrResting.length < MAX_SAFE_TOTAL_WITH_RECOVERY && fastLaneTotalCount < MAX_CONCURRENT_TOTAL) {
+        const pingPongUniverse = ["HYPE", "SOL", "SUI", "DOGE", "XRP", "DOT", "TRX", "NEAR", "AVAX", "LTC", "UNI", "ADA"].filter(c =>
           !allActiveOrResting.includes(c) && (!pairCooldowns[c] || pairCooldowns[c] <= nowTs)
         );
         for (const ppCoin of pingPongUniverse) {
-          if (allActiveOrResting.length >= MAX_CONCURRENT_TOTAL) break;
+          if (allActiveOrResting.length >= MAX_SAFE_TOTAL_WITH_RECOVERY) break;
           const hist = rollingMidsHistory[ppCoin] || [];
           if (hist.length < 2) continue;
           const oldestPx = hist[0].px;
@@ -1238,10 +1308,12 @@ async function startAutonomousSquadDaemon() {
       const block1Pairs = [...SQUADS_CONFIG.ALFA.pairs, ...SQUADS_CONFIG.BRAVO.pairs, ...SQUADS_CONFIG.CHARLIE.pairs];
       const block2Pairs = [...SQUADS_CONFIG.GOLF.pairs, ...SQUADS_CONFIG.HOTEL.pairs, ...SQUADS_CONFIG.INDIA.pairs];
 
-      let block1OpenCount = allActiveOrResting.filter(c => block1Pairs.includes(c)).length;
-      let block2OpenCount = allActiveOrResting.filter(c => block2Pairs.includes(c)).length;
+      // ARMA #1: Contabilizar en el Carril Rápido solo las posiciones frescas (<8m y no en UCI), liberando a los Clones #2 siempre que el Escudo 40% esté intacto
+      const activeFastOrResting = [...new Set([...fastLaneActiveCoins, ...restingEntryCoins])];
+      let block1OpenCount = activeFastOrResting.filter(c => block1Pairs.includes(c)).length;
+      let block2OpenCount = activeFastOrResting.filter(c => block2Pairs.includes(c)).length;
 
-      if (isV2Armed && (block1OpenCount < MAX_CONCURRENT_BLOCK_1 || block2OpenCount < MAX_CONCURRENT_BLOCK_2) && !isOpeningBellWick(new Date())) {
+      if (isV2Armed && isCapitalShieldIntact && allActiveOrResting.length < MAX_SAFE_TOTAL_WITH_RECOVERY && (block1OpenCount < MAX_CONCURRENT_BLOCK_1 || block2OpenCount < MAX_CONCURRENT_BLOCK_2) && !isOpeningBellWick(new Date())) {
         // Priorizar a los escuadrones del Bloque 2 (#04 GOLF, #05 HOTEL, #06 INDIA) cuando tienen su cupo libre (block2OpenCount < 3)
         const orderedKeys = block2OpenCount < MAX_CONCURRENT_BLOCK_2
           ? ["GOLF", "HOTEL", "INDIA", "ALFA", "BRAVO", "CHARLIE"]
@@ -1249,22 +1321,26 @@ async function startAutonomousSquadDaemon() {
 
         const baseUnits = orderedKeys.map(unitKey => {
           const squadCfg = SQUADS_CONFIG[unitKey];
-          const hasOpenInSquad = activeCoins.some(c => squadCfg.pairs.includes(c));
+          const hasAnyOpenInSquad = activeCoins.some(c => squadCfg.pairs.includes(c));
+          const hasFastOpenInSquad = fastLaneActiveCoins.some(c => squadCfg.pairs.includes(c));
           const hasRestingInSquad = restingEntryCoins.some(c => squadCfg.pairs.includes(c));
+          const openInSquadCount = activeCoins.filter(c => squadCfg.pairs.includes(c)).length;
           return {
             unitKey,
             squadCfg,
             isBlock2: squadCfg.block === 2,
-            botName: hasOpenInSquad ? `${unitKey} 2 (Clon Relevo)` : `${unitKey} 1 (Titular)`,
+            isCloneRelayShot: hasAnyOpenInSquad,
+            botName: hasAnyOpenInSquad ? `${unitKey} 2 (Clon Relevo Desbloqueado)` : `${unitKey} 1 (Titular)`,
             candidatePairs: squadCfg.pairs.filter(c => !activeCoins.includes(c) && !restingEntryCoins.includes(c)),
-            alreadyHasPos: hasOpenInSquad || hasRestingInSquad
+            // ARMA #1: Si el Titular #1 pasó a Sala de Recuperación (!hasFastOpenInSquad), el Clon #2 queda DESBLOQUEADO (máx 2 pares por escuadrón)
+            alreadyHasPos: hasFastOpenInSquad || hasRestingInSquad || (openInSquadCount >= 2)
           };
         });
 
         let currentTotalOpen = allActiveOrResting.length;
 
         for (const unit of baseUnits) {
-          if (currentTotalOpen >= MAX_CONCURRENT_TOTAL) break;
+          if (currentTotalOpen >= MAX_SAFE_TOTAL_WITH_RECOVERY) break;
           if (unit.alreadyHasPos || unit.candidatePairs.length === 0) continue;
 
           // Verificar cupo independiente del bloque correspondiente
@@ -1351,10 +1427,13 @@ async function startAutonomousSquadDaemon() {
 
             if (bestCandidate) {
               const coin = bestCandidate.coin;
-              const unitTargetGainPct = unit.squadCfg.targetGainPct || TARGET_GAIN_PCT;
-              const notional = unit.isBlock2
-                ? Math.min(MAX_NOTIONAL_PER_COIN, BLOCK2_DEDICATED_MARGIN * BLOCK2_LEVERAGE)
-                : Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE);
+              const unitTargetGainPct = unit.isCloneRelayShot ? 0.11 : (unit.squadCfg.targetGainPct || TARGET_GAIN_PCT);
+              // Si es un tiro de Clon Relevo #2 (mientras el Titular #1 está en recuperación), usa calibre compacto de $115 USDC ($23 margen) para cuidar el Escudo 40%
+              const notional = unit.isCloneRelayShot
+                ? 115.0
+                : (unit.isBlock2
+                  ? Math.min(MAX_NOTIONAL_PER_COIN, BLOCK2_DEDICATED_MARGIN * BLOCK2_LEVERAGE)
+                  : Math.min(MAX_NOTIONAL_PER_COIN, dynamicSquadMargin * LEVERAGE));
               const szFormatted = formatHlSize(notional / bestCandidate.price, ASSET_DECIMALS[coin].sz);
               if (parseFloat(szFormatted) <= 0) continue;
               const isLong = bestCandidate.direction === "LONG";
