@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-29T14:54:35.914Z",
-  "lastScanUtc": "14:54:35 UTC",
+  "updatedAt": "2026-10-29T16:11:23.554Z",
+  "lastScanUtc": "16:11:23 UTC",
   "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-  "cycleCount": 196,
+  "cycleCount": 22,
   "walletsActive": "500 / 500",
   "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
@@ -16,41 +16,41 @@
   "streakGoal": "500 / 500 Firmado EIP-712",
   "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
   "currentPlatoonScanned": {
-    "platoonId": 46,
-    "walletRange": "#451 ➔ #460",
+    "platoonId": 22,
+    "walletRange": "#211 ➔ #220",
     "attestationsCount": 10,
     "polyDetectedUsdc": 0,
     "baseDetectedUsdc": 0,
     "sampleAttestations": [
       {
-        "index": 451,
-        "address": "0x36742938dd009051f94873cCE38Eaa07c80e80FB",
-        "platoonId": 46,
-        "campaign": "Free-Mint & Odos Arb",
-        "signatureHash": "0x25e2ca2100fd11ab...5b4721",
+        "index": 211,
+        "address": "0x029EF113924FdcEAdd185628F57d03DA33E24ed0",
+        "platoonId": 22,
+        "campaign": "Base Avantis S3 (30 Oct)",
+        "signatureHash": "0x17bbb97483285bf0...9fe4b4",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T14:54:32.174Z"
+        "timestamp": "2026-10-29T16:11:19.824Z"
       },
       {
-        "index": 452,
-        "address": "0x957Fb4b9787992bF87A96B9364FeADb1Cf4E9e08",
-        "platoonId": 46,
-        "campaign": "Free-Mint & Odos Arb",
-        "signatureHash": "0xc3f2fedbf779019d...f7880a",
+        "index": 212,
+        "address": "0xD38574ef61096Bc7069179CF498018FCcBf5F4B7",
+        "platoonId": 22,
+        "campaign": "Base Avantis S3 (30 Oct)",
+        "signatureHash": "0x2339b7fbea7727f8...262368",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T14:54:32.174Z"
+        "timestamp": "2026-10-29T16:11:19.824Z"
       },
       {
-        "index": 453,
-        "address": "0xaD00e62B5A6175CE68DFEc68b678424Cb9e9f96c",
-        "platoonId": 46,
-        "campaign": "Free-Mint & Odos Arb",
-        "signatureHash": "0xaa3bfe47949e7973...51a219",
+        "index": 213,
+        "address": "0x8D3c8a0EE12acB018c59Fc850a1D6cAD49f45f5a",
+        "platoonId": 22,
+        "campaign": "Base Avantis S3 (30 Oct)",
+        "signatureHash": "0x012767bb3afc22f2...b49b4d",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T14:54:32.174Z"
+        "timestamp": "2026-10-29T16:11:19.824Z"
       }
     ]
   },
@@ -123,5 +123,95 @@
       "box": "BOX 5 (#401-#500)",
       "mission": "Embudo Odos ➔ Bóveda #501"
     }
+  },
+  "torchRelay500": {
+    "completedAt": "2026-10-29T16:10:22.105Z",
+    "torchUsdc": 25,
+    "walletsActivated": 500,
+    "totalOnChainVolumeUsdc": 12500,
+    "totalGasSpentPol": 8.7374,
+    "returnToHyperliquidTx": "0x284930fcafbcc12397f743e4eab40d1162fbc78851f475fb28b32cca2d53a56c",
+    "batches": [
+      {
+        "batch": 1,
+        "range": "#001 ➔ #050",
+        "txHash": "0x482b1d44ec66db6f0e539d57a1f42963645eee68eca9c785042b93f0fad4dd5a",
+        "blockNumber": 96389860,
+        "gasPol": 0.8726,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 2,
+        "range": "#051 ➔ #100",
+        "txHash": "0x26dd8013f39266a2b771fd462e96eb1162dc475ae0d23f411ca509a9c6204fb9",
+        "blockNumber": 96389864,
+        "gasPol": 0.8728,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 3,
+        "range": "#101 ➔ #150",
+        "txHash": "0x8622c8401cd86aa32db62651e19984d12ab0c489aba6c64f9f14f1d98475312a",
+        "blockNumber": 96389866,
+        "gasPol": 0.8729,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 4,
+        "range": "#151 ➔ #200",
+        "txHash": "0x74e588974980d8bb891d7f23914dd071965ebccc9b76b2290406ec31069338a9",
+        "blockNumber": 96389869,
+        "gasPol": 0.8718,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 5,
+        "range": "#201 ➔ #250",
+        "txHash": "0x43b364b617f6bf023264827b90a5d907a16d16dcc19d00db2744a4419db5306d",
+        "blockNumber": 96389873,
+        "gasPol": 0.8721,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 6,
+        "range": "#251 ➔ #300",
+        "txHash": "0x969d3dd5c1035cf91084c7f34749a788f5f4718e205b4aba008edf9efd7ff372",
+        "blockNumber": 96389875,
+        "gasPol": 0.8771,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 7,
+        "range": "#301 ➔ #350",
+        "txHash": "0xd40073321cd7195ead33a5b67916e1fe3c919f225da09a89a8e656e746d5d377",
+        "blockNumber": 96389877,
+        "gasPol": 0.8639,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 8,
+        "range": "#351 ➔ #400",
+        "txHash": "0xd45daa150682d7b1e7b20d2821636e3bc7c049a8dab4ea098aa3d8e8d6bf354c",
+        "blockNumber": 96389880,
+        "gasPol": 0.872,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 9,
+        "range": "#401 ➔ #450",
+        "txHash": "0xa7a6eabd31ef3f01a0886f0b27514a1628289b74ff04d9c5f4bb928e4386ee3e",
+        "blockNumber": 96389884,
+        "gasPol": 0.8726,
+        "volumeUsdc": 1250
+      },
+      {
+        "batch": 10,
+        "range": "#451 ➔ #500",
+        "txHash": "0x18a05a6c0d899d5aa4510f0f131511563422ba3521366d839a0df49a492fb09a",
+        "blockNumber": 96389886,
+        "gasPol": 0.8895,
+        "volumeUsdc": 1250
+      }
+    ]
   }
 }

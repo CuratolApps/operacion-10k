@@ -163,7 +163,7 @@ const SQUADS_CONFIG = {
     name: "Escuadrón #05 Hotel",
     specialist: "#902 Hotel-HyperL1",
     role: "Nativos L1 & Flujo Institucional ($100 Bloque 2)",
-    pairs: ["HYPE", "TRX", "UNI"],
+    pairs: ["TON", "TRX", "UNI"],
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
@@ -685,7 +685,10 @@ async function startAutonomousSquadDaemon() {
   const positionOpenTimestamps = {};
   const recentOrderSentCoins = {};
   const rollingMidsHistory = {}; // { [coin]: Array<{ ts, px }> } ventana móvil 60s
-  const pingPongMetaByCoin = {}; // { [coin]: { openedAt, mode: 'PING_PONG' | 'HOURLY_SNAP' | 'WICK_SNIPER' } }
+  const pingPongMetaByCoin = {}; // { [coin]: { openedAt, mode: 'PING_PONG' | 'HOURLY_SNAP' | 'WICK_SNIPER' | 'NEW_LISTING_SNIPER' } }
+  const knownUniverseCoins = new Set();
+  let latestNewListingsFeed = [];
+  let totalActivePerpsL1 = 229;
   let lastHourlySnapHourKey = "";
   let cycleCounter = 0;
   let isV2Armed = true;
@@ -798,7 +801,81 @@ async function startAutonomousSquadDaemon() {
         mids = await midsRes.json();
       } catch (_) {}
 
-      // Actualizar Telemetría en Vivo del Departamento #06 (Wick Sniper & Pairs Arbitrage L1)
+      // Escanear Universo Hyperliquid L1 (New Listing Sniper — Cazador de Nuevos Listados en Segundo 0) cada 3 ciclos (~30s)
+      if (cycleCounter === 1 || cycleCounter % 3 === 0) {
+        try {
+          const metaRes = await fetch("https://api.hyperliquid.xyz/info", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "metaAndAssetCtxs" })
+          });
+          const [metaObj, assetCtxs] = await metaRes.json();
+          const universe = metaObj?.universe || [];
+          const activeUniv = [];
+
+          for (let idx = 0; idx < universe.length; idx++) {
+            const u = universe[idx];
+            if (!u || !u.name || u.isDelisted) continue;
+            const cName = u.name;
+            if (ASSET_INDICES[cName] === undefined) ASSET_INDICES[cName] = idx;
+            if (!ASSET_DECIMALS[cName]) {
+              const szDec = typeof u.szDecimals === "number" ? u.szDecimals : 1;
+              ASSET_DECIMALS[cName] = { sz: szDec, px: Math.max(0, 6 - szDec), coin: cName };
+            }
+            const ctx = assetCtxs?.[idx] || {};
+            const markPx = parseFloat(ctx.markPx || mids[cName] || "0");
+            const vol24h = parseFloat(ctx.dayNtlVlm || "0");
+            const fundingHr = parseFloat(ctx.funding || "0");
+            const aprPct = +(fundingHr * 24 * 365 * 100).toFixed(1);
+            activeUniv.push({
+              assetIndex: idx,
+              coin: cName,
+              markPx,
+              vol24hUsd: Math.round(vol24h),
+              fundingHrPct: +(fundingHr * 100).toFixed(4),
+              fundingAprPct: aprPct
+            });
+
+            if (cycleCounter > 1 && knownUniverseCoins.size > 0 && !knownUniverseCoins.has(cName)) {
+              knownUniverseCoins.add(cName);
+              console.log(`🚨🚀 [NEW LISTING SNIPER #06] ¡NUEVO PAR DETECTADO EN HYPERLIQUID L1 EN SEGUNDO 0!: ${cName}-USDC (Asset #${idx} @ $${markPx})`);
+              const newListingTg = `🚨🚀 <b>ÁREA 501 // NEW LISTING SNIPER (ESTACIÓN #06) — SEGUNDO 0</b>\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `🆕 <b>Nuevo Par Detectado en L1:</b> <code>${cName}-USDC</code> (Asset #${idx})\n` +
+                `💵 <b>Precio Inaugural:</b> <code>$${formatHlPrice(markPx || 1, cName)}</code>\n` +
+                `📈 <b>Funding Rate Inicial:</b> <code>${aprPct >= 0 ? "+" : ""}${aprPct}% APR</code>\n` +
+                `🎯 <b>Trampa ALO Armada:</b> <code>±1.50% Wick Trap (+0.003% Maker Rebate)</code>\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan</a>`;
+              await sendSquadTelegram(newListingTg);
+            } else {
+              knownUniverseCoins.add(cName);
+            }
+          }
+
+          totalActivePerpsL1 = activeUniv.length;
+          // Los últimos 6 perpetuos activos con liquidez en la cola de meta.universe son los listados más recientes de Hyperliquid L1
+          const recentListings = activeUniv
+            .filter(item => item.vol24hUsd >= 25000 && item.markPx > 0)
+            .slice(-6)
+            .reverse()
+            .map((item, i) => ({
+              rank: i + 1,
+              coin: `${item.coin}-USDC`,
+              rawCoin: item.coin,
+              assetIndex: item.assetIndex,
+              markPx: formatHlPrice(item.markPx, item.coin),
+              buyTrap150Pct: formatHlPrice(item.markPx * 0.985, item.coin),
+              sellTrap150Pct: formatHlPrice(item.markPx * 1.015, item.coin),
+              vol24hUsd: item.vol24hUsd,
+              fundingAprPct: `${item.fundingAprPct >= 0 ? "+" : ""}${item.fundingAprPct}% APR`,
+              status: "SECOND_ZERO_ARMED"
+            }));
+          if (recentListings.length > 0) latestNewListingsFeed = recentListings;
+        } catch (_) {}
+      }
+
+      // Actualizar Telemetría en Vivo del Departamento #06 (Wick Sniper, New Listing Sniper & Pairs Arbitrage L1)
       try {
         const wickPairsList = ["HYPE", "SOL", "SUI", "XRP", "DOGE", "AVAX", "BNB", "LTC", "NEAR", "ADA", "TRX", "UNI"];
         const wickTraps = wickPairsList.map((c, idx) => {
@@ -849,13 +926,20 @@ async function startAutonomousSquadDaemon() {
         const wickTelemFile = path.join(TELEMETRY_DIR, "wick-sniper-telemetry.json");
         fs.writeFileSync(wickTelemFile, JSON.stringify({
           updatedAt: new Date().toISOString(),
-          station: "ESTACIÓN #06 // WICK SNIPER & PAIRS ARBITRAGE L1",
+          station: "ESTACIÓN #06 // WICK SNIPER, NEW LISTING SNIPER & PAIRS ARBITRAGE L1",
           accountValue: +accountValue.toFixed(2),
           shieldFreeMarginUsdc: +reserveUsdc.toFixed(2),
           capitalCommittedIdle: 0.00,
           makerRebateRate: "+0.003% Maker Rebate",
           wickTrapsCount: wickTraps.length,
           twinPairsCount: twinPairsLive.length,
+          newListingSniper: {
+            enabled: true,
+            monitoredUniverseCount: totalActivePerpsL1,
+            trapDepthPct: "±1.50%",
+            reboundTargetPct: "+0.45% + Maker Rebate",
+            recentListings: latestNewListingsFeed
+          },
           wickTraps,
           twinPairsLive
         }, null, 2), "utf8");
@@ -898,9 +982,23 @@ async function startAutonomousSquadDaemon() {
             const tpEstStr = formatHlPrice(tpEstNum, coin);
             const estGainUsdc = +(notionalVal * (targetGainPct / 100) - (notionalVal * 0.0003)).toFixed(4);
 
-            const openConfirmedTg = `🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>\n` +
+            const specialMode = pingPongMetaByCoin[coin]?.mode || null;
+            const modeHeader = specialMode === "HOURLY_SNAP"
+              ? "⚡⏱️ <b>ÁREA 501 // FRANCOTIRADOR MINUTO :59 (24 VECES/DÍA) — ABIERTO</b>"
+              : specialMode === "PING_PONG"
+                ? "🏓⚡ <b>ÁREA 501 // MICRO-PING-PONG (±0.16%) — ABIERTO</b>"
+                : specialMode === "WICK_SNIPER"
+                  ? "🎯⚡ <b>ÁREA 501 // WICK SNIPER L1 (±0.85%) — ABIERTO</b>"
+                  : "🟢⚡ <b>ÁREA 501 // OPERACIÓN ABIERTA EN VIVO (HYPERLIQUID L1)</b>";
+            const unitLabel = specialMode === "HOURLY_SNAP"
+              ? "Francotirador Minuto :59 Pre-Funding (24 Tiros/Día)"
+              : specialMode === "PING_PONG"
+                ? "Motor Micro-Ping-Pong (±0.16% Rango Estrecho)"
+                : `${squadCfg.name} (${squadCfg.specialist})`;
+
+            const openConfirmedTg = `${modeHeader}\n` +
               `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-              `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
+              `🔰 <b>Motor / Unidad:</b> <b>${unitLabel}</b>\n` +
               `📍 <b>Par:</b> <code>${coin}-USDC</code> (<b>${isShort ? "SHORT 🐻" : "LONG 🐂"}</b> · ${Math.abs(szNum)} ${coin})\n` +
               `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(entryPx, coin)}</code> ($${notionalVal.toFixed(2)} Nocional)\n` +
               `📤 <b>Orden Take-Profit (+${targetGainPct}%):</b> <code>$${tpEstStr}</code> (Reduce-Only)\n` +
@@ -941,7 +1039,7 @@ async function startAutonomousSquadDaemon() {
 
           console.log(`[${squadKey}] Colocando orden Limit Reduce-Only Take-Profit para ${coin}: ${totalSzStr} @ $${safeExitPxStr} (+${targetGainPct}%)`);
           try {
-            await client.order({
+            const tpRes = await client.order({
               orders: [{
                 a: ASSET_INDICES[coin],
                 b: isShort,
@@ -952,8 +1050,36 @@ async function startAutonomousSquadDaemon() {
               }],
               grouping: "na"
             });
+            const tpSt = tpRes?.response?.data?.statuses?.[0] || {};
+            if (tpSt.error && String(tpSt.error).includes("immediately matched")) {
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES[coin],
+                  b: isShort,
+                  p: safeExitPxStr,
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Gtc" } }
+                }],
+                grouping: "na"
+              });
+            }
           } catch (err) {
-            console.error(`[${squadKey}] Error colocando salida ALO para ${coin}:`, err.message);
+            if (String(err.message || "").includes("immediately matched")) {
+              await client.order({
+                orders: [{
+                  a: ASSET_INDICES[coin],
+                  b: isShort,
+                  p: safeExitPxStr,
+                  s: totalSzStr,
+                  r: true,
+                  t: { limit: { tif: "Gtc" } }
+                }],
+                grouping: "na"
+              }).catch(() => {});
+            } else {
+              console.error(`[${squadKey}] Error colocando salida ALO para ${coin}:`, err.message);
+            }
           }
         } else if (isV2Armed && ASSET_DECIMALS[coin]) {
           const gainPct = isShort
@@ -1172,7 +1298,7 @@ async function startAutonomousSquadDaemon() {
       const utcMins = nowUtcDate.getUTCMinutes();
       const currentHourKey = `${nowUtcDate.getUTCFullYear()}-${nowUtcDate.getUTCMonth()}-${nowUtcDate.getUTCDate()}-${nowUtcDate.getUTCHours()}`;
       if (isV2Armed && isCapitalShieldIntact && (utcMins === 58 || utcMins === 59) && lastHourlySnapHourKey !== currentHourKey && allActiveOrResting.length < MAX_SAFE_TOTAL_WITH_RECOVERY) {
-        const snapUniverse = ["HYPE", "SOL", "SUI", "DOGE", "XRP", "ETH", "AVAX"].filter(c =>
+        const snapUniverse = ["SOL", "SUI", "DOGE", "XRP", "ETH", "AVAX", "TON"].filter(c =>
           !allActiveOrResting.includes(c) && (!pairCooldowns[c] || pairCooldowns[c] <= nowTs)
         );
         let bestSnap = null;
@@ -1224,13 +1350,24 @@ async function startAutonomousSquadDaemon() {
             if (snapSt.resting || snapSt.filled) {
               pingPongMetaByCoin[sCoin] = { openedAt: Date.now(), mode: "HOURLY_SNAP" };
               allActiveOrResting.push(sCoin);
+              recentOrderSentCoins[sCoin] = Date.now();
               if (snapSt.filled) {
-                recentOrderSentCoins[sCoin] = Date.now();
                 await client.order({
                   orders: [{ a: ASSET_INDICES[sCoin], b: !bestSnap.isLong, p: snapTpStr, s: snapSz, r: true, t: { limit: { tif: "Alo" } } }],
                   grouping: "na"
                 }).catch(() => {});
               }
+              const snapTg = `⚡⏱️ <b>ÁREA 501 // FRANCOTIRADOR MINUTO :59 (24 VECES/DÍA)</b>\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `🎯 <b>Motor:</b> <b>Hourly Snap Scalp (Corte Horario :00 UTC)</b>\n` +
+                `📍 <b>Par:</b> <code>${sCoin}-USDC</code> (<b>${bestSnap.isLong ? "LONG 🐂" : "SHORT 🐻"}</b> · ${snapSz} ${sCoin})\n` +
+                `📥 <b>Precio Entrada:</b> <code>$${snapPxStr}</code> ($${snapNotional.toFixed(0)} Nocional)\n` +
+                `📤 <b>Objetivo Salida Rápida:</b> <code>$${snapTpStr}</code> (+0.12% / Salida 90s)\n` +
+                `📊 <b>Presión Libro L2:</b> <code>${bestSnap.score.toFixed(1)}%</code>\n` +
+                `📌 <b>Estado:</b> <b>${snapSt.filled ? "EJECUTADA EN VIVO" : "ORDEN ALO EN LIBRO L1"}</b>\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan</a>`;
+              await sendSquadTelegram(snapTg);
             }
           } catch (eSnap) {
             console.error(`[MINUTO :59] Error en ${sCoin}:`, eSnap.message);
@@ -1240,7 +1377,7 @@ async function startAutonomousSquadDaemon() {
 
       // 4.2 MOTOR MICRO-PING-PONG DE RANGO ESTRECHO (±0.16% ALO -> TP +0.11% Rápido en 5m)
       if (isV2Armed && isCapitalShieldIntact && allActiveOrResting.length < MAX_SAFE_TOTAL_WITH_RECOVERY && fastLaneTotalCount < MAX_CONCURRENT_TOTAL) {
-        const pingPongUniverse = ["HYPE", "SOL", "SUI", "DOGE", "XRP", "DOT", "TRX", "NEAR", "AVAX", "LTC", "UNI", "ADA"].filter(c =>
+        const pingPongUniverse = ["SOL", "SUI", "DOGE", "XRP", "DOT", "TRX", "NEAR", "AVAX", "LTC", "UNI", "ADA", "TON"].filter(c =>
           !allActiveOrResting.includes(c) && (!pairCooldowns[c] || pairCooldowns[c] <= nowTs)
         );
         for (const ppCoin of pingPongUniverse) {
@@ -1298,6 +1435,72 @@ async function startAutonomousSquadDaemon() {
                     }).catch(() => {});
                   }
                   break; // 1 disparo Ping-Pong por ciclo para máxima precisión
+                }
+              }
+            } catch (_) {}
+          }
+        }
+      }
+
+      // 4.3 MOTOR NEW LISTING SNIPER (CAZADOR DE NUEVOS LISTADOS EN SEGUNDO 0 · ±1.50% WICK TRAP -> TP +0.45%)
+      if (isV2Armed && isCapitalShieldIntact && allActiveOrResting.length < MAX_SAFE_TOTAL_WITH_RECOVERY && latestNewListingsFeed.length > 0) {
+        const newListingCandidates = latestNewListingsFeed
+          .map(nl => nl.rawCoin)
+          .filter(c => c && c !== "HYPE" && !allActiveOrResting.includes(c) && (!pairCooldowns[c] || pairCooldowns[c] <= nowTs) && ASSET_INDICES[c] !== undefined && ASSET_DECIMALS[c]);
+
+        for (const nlCoin of newListingCandidates) {
+          if (allActiveOrResting.length >= MAX_SAFE_TOTAL_WITH_RECOVERY) break;
+          const hist = rollingMidsHistory[nlCoin] || [];
+          if (hist.length < 2) continue;
+          const oldestPx = hist[0].px;
+          const latestPx = hist[hist.length - 1].px;
+          const delta60sPct = ((latestPx - oldestPx) / oldestPx) * 100;
+
+          // En nuevos listados de alta volatilidad, cazamos mechas de ±1.50% con orden ALO Maker (+0.003% Rebate)
+          if (Math.abs(delta60sPct) >= 1.50) {
+            try {
+              const l2 = await info.l2Book({ coin: nlCoin });
+              const bids = l2.levels?.[0] || [], asks = l2.levels?.[1] || [];
+              if (bids.length < 3 || asks.length < 3) continue;
+              let bVol = 0, aVol = 0;
+              for (let i = 0; i < 5; i++) {
+                bVol += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                aVol += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+              }
+              const tot = bVol + aVol;
+              if (tot <= 0) continue;
+              const bullP = (bVol / tot) * 100;
+              const bearP = (aVol / tot) * 100;
+
+              const goLongNL = (delta60sPct <= -1.50 && bullP >= 58.0);
+              const goShortNL = (delta60sPct >= 1.50 && bearP >= 58.0);
+              if (goLongNL || goShortNL) {
+                const nlNotional = 150.0;
+                const entryBookPx = goLongNL ? parseFloat(bids[0].px) : parseFloat(asks[0].px);
+                const nlSz = formatHlSize(nlNotional / entryBookPx, ASSET_DECIMALS[nlCoin].sz);
+                if (parseFloat(nlSz) <= 0) continue;
+                const nlPxStr = formatHlPrice(entryBookPx, nlCoin);
+                const targetPctNL = 0.45;
+                const nlTpNum = goLongNL ? entryBookPx * (1 + targetPctNL / 100) : entryBookPx * (1 - targetPctNL / 100);
+                const nlTpStr = formatHlPrice(nlTpNum, nlCoin);
+
+                console.log(`🚨🚀 [NEW LISTING SNIPER #06] Disparo en listado reciente ${nlCoin} (${goLongNL ? "LONG" : "SHORT"}) | Δ60s: ${delta60sPct.toFixed(2)}% | L2: ${(goLongNL ? bullP : bearP).toFixed(1)}% -> TP $${nlTpStr} (+${targetPctNL}%)`);
+                const nlRes = await client.order({
+                  orders: [{ a: ASSET_INDICES[nlCoin], b: goLongNL, p: nlPxStr, s: nlSz, r: false, t: { limit: { tif: "Alo" } } }],
+                  grouping: "na"
+                });
+                const nlSt = nlRes.response?.data?.statuses?.[0] || {};
+                if (nlSt.resting || nlSt.filled) {
+                  pingPongMetaByCoin[nlCoin] = { openedAt: Date.now(), mode: "NEW_LISTING_SNIPER" };
+                  allActiveOrResting.push(nlCoin);
+                  if (nlSt.filled) {
+                    recentOrderSentCoins[nlCoin] = Date.now();
+                    await client.order({
+                      orders: [{ a: ASSET_INDICES[nlCoin], b: !goLongNL, p: nlTpStr, s: nlSz, r: true, t: { limit: { tif: "Alo" } } }],
+                      grouping: "na"
+                    }).catch(() => {});
+                  }
+                  break;
                 }
               }
             } catch (_) {}

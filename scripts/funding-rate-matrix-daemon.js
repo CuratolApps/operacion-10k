@@ -20,6 +20,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const fs = require("fs");
 const path = require("path");
 const { executeShieldFundingOrder, HL_ASSET_META } = require("./hyperliquid-squad-engine");
+const { sendTelegramAlert } = require("../telegram-notifier");
 
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 const HL_INFO_URL = "https://api.hyperliquid.xyz/info";
@@ -30,6 +31,7 @@ let tickCount = 0;
 let lastShieldOrderAttemptMs = 0;
 let lastShieldOrderResult = null;
 let activeShieldFundingCoin = "BNB";
+let lastNotifiedFundingHourSlot = "";
 
 async function hlPost(payload) {
   const res = await fetch(HL_INFO_URL, {
@@ -241,17 +243,17 @@ async function scanFundingMatrix() {
         : (item.passesDeltaSafeFilter ? "OI >= $5M · APTO ALO" : "ALTO APR · VIGILANDO OI")
     }));
     const safeShieldQueue3 = allAssets
-      .filter(a => a.oiUsd >= 15000000 && (!a.isCurrentlyHeld || a.coin === activeShieldFundingCoin) && !["SOL", "BTC", "ETH"].includes(a.coin))
+      .filter(a => a.oiUsd >= 15000000 && (!a.isCurrentlyHeld || a.coin === activeShieldFundingCoin) && !["SOL", "BTC", "ETH", "HYPE"].includes(a.coin))
       .slice(0, 3);
 
     // ==============================================================================
     // MOTOR DE CAPTURA HORARIA ACTIVA DEL ESCUDO #00 (POST-ONLY ALO MAKER)
     // Con RESCUE_PRIORITY_LOCK = false (0 rescates activos) y $360.37 USDC libres,
-    // apunta al candidato #1 institucional compatible (ej. BNB-USDC LONG COBRA)
+    // apunta al candidato #1 institucional compatible (excluyendo HYPE por volatilidad parabólica)
     // ==============================================================================
     if (!isRescueActive && shield40PctClosedUsdc >= 300) {
       const execCandidate = allAssets.find(
-        a => a.oiUsd >= 15000000 && HL_ASSET_META[a.coin] && a.absHourlyPct >= 0.0010 && !["SOL", "BTC", "ETH"].includes(a.coin)
+        a => a.oiUsd >= 15000000 && HL_ASSET_META[a.coin] && a.absHourlyPct >= 0.0010 && !["SOL", "BTC", "ETH", "HYPE"].includes(a.coin)
       );
       if (execCandidate) {
         activeShieldFundingCoin = execCandidate.coin;
@@ -411,6 +413,38 @@ async function scanFundingMatrix() {
     };
 
     fs.writeFileSync(TELEMETRY_PATH, JSON.stringify(telemetry, null, 2), "utf8");
+
+    // 4. Notificar a Telegram el Recibo Oficial de cada Corte Horario (:00 UTC — 24 Veces al Día)
+    if (ledgerRows.length > 0) {
+      const latestSlot = ledgerRows[0].hourSlot;
+      const latestSlotDate = ledgerRows[0].timeUtc.slice(0, 16); // YYYY-MM-DD HH:MM
+      const slotAgeMs = Date.now() - ledgerRows[0].timeMs;
+      if (lastNotifiedFundingHourSlot !== latestSlotDate && slotAgeMs <= 20 * 60 * 1000) {
+        lastNotifiedFundingHourSlot = latestSlotDate;
+        const slotItems = ledgerRows.filter(r => r.timeUtc.slice(0, 16) === latestSlotDate);
+        const posItems = slotItems.filter(r => r.usdcAmount > 0);
+        const grossPosUsdc = posItems.reduce((s, r) => s + r.usdcAmount, 0);
+        const netSlotUsdc = slotItems.reduce((s, r) => s + r.usdcAmount, 0);
+        const linesStr = slotItems.map(r =>
+          `  • <code>${r.pair}</code> (${r.side}): <b>${r.usdcFormatted}</b> (${r.fundingRatePct})`
+        ).join("\n");
+
+        const fundingTgMsg = `💸🕒 <b>ÁREA 501 // CORTE HORARIO FUNDING RATE (24 VECES/DÍA)</b>\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `⏰ <b>Corte Liquidado:</b> <code>${latestSlot}</code> (${slotItems.length} posiciones en L1)\n` +
+          `🟢 <b>Cobros Positivos (Shorts):</b> <b>+$${grossPosUsdc.toFixed(4)} USDC</b> (${posItems.length} pares cobrando)\n` +
+          `📊 <b>Balance Neto del Corte:</b> <b>${netSlotUsdc >= 0 ? "+" : "-"}$${Math.abs(netSlotUsdc).toFixed(4)} USDC</b>\n` +
+          `🧾 <b>Desglose Oficial On-Chain (userFunding):</b>\n${linesStr}\n` +
+          `💵 <b>Acumulado Positivo Cobrado:</b> <code>+$${totalPositiveCollectedUsdc.toFixed(4)} USDC</code> (${positiveEventsCount} cobros)\n` +
+          `🛡️ <b>Patrimonio Bóveda #501 (HL L1):</b> <code>$${accountValueUsdc.toFixed(2)} USDC</code>\n` +
+          `⏳ <b>Próximo Corte (24/Día):</b> <code>${countdown.nextSettlementUtc}</code> (en ${countdown.countdownFormatted})\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <a href="https://area-501.curatolapps.workers.dev/funding-matrix/">Ver Estación #03 · Funding Rate 24/7</a>`;
+        await sendTelegramAlert(fundingTgMsg).catch(() => {});
+      } else if (!lastNotifiedFundingHourSlot) {
+        lastNotifiedFundingHourSlot = latestSlotDate;
+      }
+    }
 
     if (tickCount % 3 === 1) {
       console.log(`[FUNDING MATRIX DAEMON] Ciclo #${tickCount} (${latencyMs}ms) · Escudo 40%: $${shield40PctClosedUsdc} USDC · Top #1: ${topPayerGlobal.pair} (${topPayerGlobal.hourlyPct}%/h | ${topPayerGlobal.absAprPct}% APR) · Pagos leídos: ${fundingArray.length}`);

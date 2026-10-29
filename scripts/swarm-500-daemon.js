@@ -284,6 +284,12 @@ async function runSwarmCycle() {
 
   try {
     if (!fs.existsSync(TELEMETRY_DIR)) fs.mkdirSync(TELEMETRY_DIR, { recursive: true });
+    if (fs.existsSync(SWARM_LIVE_FILE)) {
+      try {
+        const prev = JSON.parse(fs.readFileSync(SWARM_LIVE_FILE, "utf8"));
+        if (prev && prev.torchRelay500) livePayload.torchRelay500 = prev.torchRelay500;
+      } catch (_) {}
+    }
     fs.writeFileSync(SWARM_LIVE_FILE, JSON.stringify(livePayload, null, 2), "utf8");
 
     if (fs.existsSync(FLEET_TELEMETRY_FILE)) {

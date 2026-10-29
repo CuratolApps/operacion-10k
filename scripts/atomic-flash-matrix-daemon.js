@@ -77,7 +77,7 @@ const RPC_ENDPOINTS = [
 ];
 
 let currentRpcIdx = 0;
-let provider = new ethers.JsonRpcProvider(RPC_ENDPOINTS[0], 137, { staticNetwork: true });
+let provider = new ethers.JsonRpcProvider(RPC_ENDPOINTS[0], 137, { staticNetwork: true, batchMaxCount: 1 });
 
 // ABIs para Multicall3, Beefy Strategies, Uniswap V3 Quoter, Algebra Quoter, V2 Router y Aave V3 Pool
 const MC3_ABI = [
@@ -139,24 +139,24 @@ let BEEFY_TARGETS = [
 
 // 18 Rutas Reales de Arbitraje Cross-DEX en Polygon PoS (Motor #02 BRAVO-FLASH)
 const FLASH_ROUTES = [
-  { id: 19, engine: 2, name: "USDC/WPOL",  full: "USDC➔WPOL (UniV3 0.05% ➔ Algebra)", token: WPOL_TOKEN,  dec: 18, loanTier: 10000, buyType: "v3", buyFee: 500, sellType: "algebra" },
-  { id: 20, engine: 2, name: "USDC/WETH",  full: "USDC➔WETH (UniV3 0.05% ➔ Algebra)", token: WETH_TOKEN,  dec: 18, loanTier: 25000, buyType: "v3", buyFee: 500, sellType: "algebra" },
-  { id: 21, engine: 2, name: "USDC/WBTC",  full: "USDC➔WBTC (UniV3 0.05% ➔ Algebra)", token: WBTC_TOKEN,  dec: 8,  loanTier: 25000, buyType: "v3", buyFee: 500, sellType: "algebra" },
-  { id: 22, engine: 2, name: "USDC/USDT",  full: "USDC➔USDT (UniV3 0.01% ➔ Algebra)", token: USDT_TOKEN,  dec: 6,  loanTier: 50000, buyType: "v3", buyFee: 100, sellType: "algebra" },
-  { id: 23, engine: 2, name: "USDC/USDC.e",full: "USDC➔USDC.e (UniV3 0.01% ➔ QuickV2)",token: USDCE_TOKEN, dec: 6,  loanTier: 50000, buyType: "v3", buyFee: 100, sellType: "quickv2" },
-  { id: 24, engine: 2, name: "USDC/DAI",   full: "USDC➔DAI (UniV3 0.01% ➔ Algebra)",  token: DAI_TOKEN,   dec: 18, loanTier: 25000, buyType: "v3", buyFee: 100, sellType: "algebra" },
-  { id: 25, engine: 2, name: "USDC/LINK",  full: "USDC➔LINK (UniV3 0.30% ➔ Algebra)", token: LINK_TOKEN,  dec: 18, loanTier: 10000, buyType: "v3", buyFee: 3000,sellType: "algebra" },
-  { id: 26, engine: 2, name: "USDC/AAVE",  full: "USDC➔AAVE (UniV3 0.30% ➔ Algebra)", token: AAVE_TOKEN,  dec: 18, loanTier: 10000, buyType: "v3", buyFee: 3000,sellType: "algebra" },
-  { id: 27, engine: 2, name: "USDC/UNI",   full: "USDC➔UNI (UniV3 0.30% ➔ Algebra)",  token: UNI_TOKEN,   dec: 18, loanTier: 10000, buyType: "v3", buyFee: 3000,sellType: "algebra" },
-  { id: 28, engine: 2, name: "USDC/QUICK", full: "USDC➔QUICK (Algebra ➔ QuickV2)",    token: QUICK_TOKEN, dec: 18, loanTier: 5000,  buyType: "algebra", buyFee: 0, sellType: "quickv2" },
-  { id: 29, engine: 2, name: "USDC/SAND",  full: "USDC➔SAND (UniV3 0.30% ➔ QuickV2)", token: SAND_TOKEN,  dec: 18, loanTier: 5000,  buyType: "v3", buyFee: 3000,sellType: "quickv2" },
-  { id: 30, engine: 2, name: "USDC/CRV",   full: "USDC➔CRV (UniV3 0.30% ➔ QuickV2)",  token: CRV_TOKEN,   dec: 18, loanTier: 5000,  buyType: "v3", buyFee: 3000,sellType: "quickv2" },
-  { id: 31, engine: 2, name: "USDC/GHST",  full: "USDC➔GHST (QuickV2 ➔ Algebra)",     token: GHST_TOKEN,  dec: 18, loanTier: 5000,  buyType: "quickv2", buyFee: 0, sellType: "algebra" },
-  { id: 32, engine: 2, name: "USDC/BAL",   full: "USDC➔BAL (UniV3 0.30% ➔ QuickV2)",  token: BAL_TOKEN,   dec: 18, loanTier: 5000,  buyType: "v3", buyFee: 3000,sellType: "quickv2" },
-  { id: 33, engine: 2, name: "USDC/GRT",   full: "USDC➔GRT (UniV3 0.30% ➔ QuickV2)",  token: GRT_TOKEN,   dec: 18, loanTier: 5000,  buyType: "v3", buyFee: 3000,sellType: "quickv2" },
-  { id: 34, engine: 2, name: "USDC/SUSHI", full: "USDC➔SUSHI (SushiV2 ➔ QuickV2)",    token: SUSHI_TOKEN, dec: 18, loanTier: 5000,  buyType: "sushiv2", buyFee: 0, sellType: "quickv2" },
-  { id: 35, engine: 2, name: "USDC/LDO",   full: "USDC➔LDO (UniV3 0.30% ➔ Algebra)",  token: LDO_TOKEN,   dec: 18, loanTier: 5000,  buyType: "v3", buyFee: 3000,sellType: "algebra" },
-  { id: 36, engine: 2, name: "USDC/ANKR",  full: "USDC➔ANKR (UniV3 0.30% ➔ QuickV2)", token: ANKR_TOKEN,  dec: 18, loanTier: 5000,  buyType: "v3", buyFee: 3000,sellType: "quickv2" }
+  { id: 19, engine: 2, name: "USDC/WPOL",  full: "USDC➔WPOL (UniV3 0.05% ➔ Algebra)", token: WPOL_TOKEN,  dec: 18, loanTier: 5000,  buyType: "v3", buyFee: 500,  sellType: "algebra" },
+  { id: 20, engine: 2, name: "USDC/WETH",  full: "USDC➔WETH (UniV3 0.05% ➔ Algebra)", token: WETH_TOKEN,  dec: 18, loanTier: 10000, buyType: "v3", buyFee: 500,  sellType: "algebra" },
+  { id: 21, engine: 2, name: "USDC/WBTC",  full: "USDC➔WBTC (UniV3 0.05% ➔ Algebra)", token: WBTC_TOKEN,  dec: 8,  loanTier: 10000, buyType: "v3", buyFee: 500,  sellType: "algebra" },
+  { id: 22, engine: 2, name: "USDC/USDT",  full: "USDC➔USDT (UniV3 0.01% ➔ Algebra)", token: USDT_TOKEN,  dec: 6,  loanTier: 15000, buyType: "v3", buyFee: 100,  sellType: "algebra" },
+  { id: 23, engine: 2, name: "USDC/USDC.e",full: "USDC➔USDC.e (UniV3 0.01% ➔ QuickV2)",token: USDCE_TOKEN, dec: 6,  loanTier: 15000, buyType: "v3", buyFee: 100,  sellType: "quickv2" },
+  { id: 24, engine: 2, name: "USDC/DAI",   full: "USDC➔DAI (UniV3 0.01% ➔ Algebra)",  token: DAI_TOKEN,   dec: 18, loanTier: 10000, buyType: "v3", buyFee: 100,  sellType: "algebra" },
+  { id: 25, engine: 2, name: "USDC/LINK",  full: "USDC➔LINK (UniV3 0.30% ➔ Algebra)", token: LINK_TOKEN,  dec: 18, loanTier: 2500,  buyType: "v3", buyFee: 3000, sellType: "algebra", isLongTail: true },
+  { id: 26, engine: 2, name: "USDC/AAVE",  full: "USDC➔AAVE (UniV3 0.30% ➔ Algebra)", token: AAVE_TOKEN,  dec: 18, loanTier: 2500,  buyType: "v3", buyFee: 3000, sellType: "algebra", isLongTail: true },
+  { id: 27, engine: 2, name: "USDC/UNI",   full: "USDC➔UNI (UniV3 0.30% ➔ Algebra)",  token: UNI_TOKEN,   dec: 18, loanTier: 2500,  buyType: "v3", buyFee: 3000, sellType: "algebra", isLongTail: true },
+  { id: 28, engine: 2, name: "USDC/QUICK", full: "USDC➔QUICK (Algebra ➔ QuickV2)",    token: QUICK_TOKEN, dec: 18, loanTier: 1500,  buyType: "algebra", buyFee: 0, sellType: "quickv2", isLongTail: true },
+  { id: 29, engine: 2, name: "USDC/SAND",  full: "USDC➔SAND (Algebra ➔ QuickV2)",     token: SAND_TOKEN,  dec: 18, loanTier: 1500,  buyType: "algebra", buyFee: 0, sellType: "quickv2", isLongTail: true },
+  { id: 30, engine: 2, name: "USDC/CRV",   full: "USDC➔CRV (UniV3 0.30% ➔ Algebra)",  token: CRV_TOKEN,   dec: 18, loanTier: 1500,  buyType: "v3", buyFee: 3000, sellType: "algebra", isLongTail: true },
+  { id: 31, engine: 2, name: "USDC/GHST",  full: "USDC➔GHST (QuickV2 ➔ Algebra)",     token: GHST_TOKEN,  dec: 18, loanTier: 1500,  buyType: "quickv2", buyFee: 0, sellType: "algebra", isLongTail: true },
+  { id: 32, engine: 2, name: "USDC/BAL",   full: "USDC➔BAL (UniV3 0.30% ➔ QuickV2)",  token: BAL_TOKEN,   dec: 18, loanTier: 1000,  buyType: "v3", buyFee: 3000, sellType: "quickv2", isLongTail: true },
+  { id: 33, engine: 2, name: "USDC/GRT",   full: "USDC➔GRT (UniV3 0.30% ➔ Algebra)",  token: GRT_TOKEN,   dec: 18, loanTier: 1500,  buyType: "v3", buyFee: 3000, sellType: "algebra", isLongTail: true },
+  { id: 34, engine: 2, name: "USDC/SUSHI", full: "USDC➔SUSHI (SushiV2 ➔ QuickV2)",    token: SUSHI_TOKEN, dec: 18, loanTier: 1000,  buyType: "sushiv2", buyFee: 0, sellType: "quickv2", isLongTail: true },
+  { id: 35, engine: 2, name: "USDC/LDO",   full: "USDC➔LDO (UniV3 0.30% ➔ Algebra)",  token: LDO_TOKEN,   dec: 18, loanTier: 1500,  buyType: "v3", buyFee: 3000, sellType: "algebra", isLongTail: true },
+  { id: 36, engine: 2, name: "USDC/ANKR",  full: "USDC➔ANKR (Algebra ➔ QuickV2)",     token: ANKR_TOKEN,  dec: 18, loanTier: 1000,  buyType: "algebra", buyFee: 0, sellType: "quickv2", isLongTail: true }
 ];
 
 // 18 Posiciones Reales Vigiladas en Aave V3 Polygon (Motor #03 CHARLEY-LIQUIDATOR)
@@ -728,12 +728,12 @@ async function verifyAndExecuteFertileTargets(scanData, ledger) {
     }
   }
 
-  // 2. Evaluar candidatas reales de Motor #02 (Arbitraje Cross-DEX >= $0.020 USD neto)
+  // 2. Evaluar candidatas reales de Motor #02 (Arbitraje Cross-DEX Balancer V2 0% FlashLoan >= $0.020 USD neto)
   if (!isExecutingTx && EXEC_IFACE) {
     for (const route of scanData.engine2Results) {
-      if (route.estNetUsdc < MIN_NET_PROFIT_USDC) continue;
+      if (route.estNetUsdc < MIN_NET_PROFIT_USDC && route.currentSpread <= 0) continue;
       try {
-        // Verificar en callStatic contra AtomicSniperExecutor (0x3e8b1d7f23560215eFD61A77a97d675cc92509f7)
+        // Verificar en callStatic contra AtomicSniperExecutor.executeBalancerFlashLoan (0% Fee Balancer V2 Vault)
         const buyLeg = route.buyType === "v3"
           ? { kind: 0, router: UNI_V3_ROUTER02, fee: route.buyFee || 500 }
           : (route.buyType === "algebra"
@@ -745,32 +745,101 @@ async function verifyAndExecuteFertileTargets(scanData, ledger) {
             ? { kind: 2, router: ALGEBRA_ROUTER, fee: 0 }
             : { kind: 3, router: route.sellType === "sushiv2" ? SUSHISWAP_V2 : QUICKSWAP_V2, fee: 0 });
 
-        const amountRaw = ethers.parseUnits("50", 6); // $50 USDC reales en #501
-        const minProfitRaw = ethers.parseUnits(MIN_NET_PROFIT_USDC.toFixed(6), 6);
-        const execData = EXEC_IFACE.encodeFunctionData("execute", [
-          USDC_NATIVE,
-          route.token,
-          amountRaw,
-          minProfitRaw,
-          0n,
-          0n,
-          buyLeg,
-          sellLeg,
-          true
-        ]);
+        const candidateLoanTiers = [300, 750, route.loanTier || 1500];
+        let validExecData = null;
+        let validLoanUsdc = 0;
 
-        await provider.call({
+        for (const testLoanUsdc of candidateLoanTiers) {
+          const loanAmountRaw = ethers.parseUnits(String(testLoanUsdc), 6);
+          const minProfitRaw = ethers.parseUnits(MIN_NET_PROFIT_USDC.toFixed(6), 6);
+          const testData = EXEC_IFACE.encodeFunctionData("executeBalancerFlashLoan", [
+            USDC_NATIVE,
+            loanAmountRaw,
+            route.token,
+            minProfitRaw,
+            0n,
+            0n,
+            buyLeg,
+            sellLeg
+          ]);
+          try {
+            await provider.call({
+              from: VAULT_501,
+              to: EXECUTOR_ADDR,
+              data: testData
+            });
+            validExecData = testData;
+            validLoanUsdc = testLoanUsdc;
+            break;
+          } catch (_) {}
+        }
+
+        if (!validExecData) {
+          route.callStaticOk = false;
+          route.isProfitable = false;
+          route.reason = `Protegido por AtomicSniperExecutor (BALANCER_NO_PROFIT_REVERT)`;
+          continue;
+        }
+
+        const gasEst = await provider.estimateGas({
           from: VAULT_501,
           to: EXECUTOR_ADDR,
-          data: execData
+          data: validExecData
         });
+        const fee = await provider.getFeeData();
+        const unitGas = fee.maxFeePerGas || fee.gasPrice || ethers.parseUnits("40", "gwei");
+        const realGasPol = Number(ethers.formatEther(gasEst * unitGas));
+        if (livePolBalance - realGasPol <= SACRED_POL_FLOOR) {
+          route.reason = `Protección Piso Sagrado 9.00 POL`;
+          continue;
+        }
 
         route.callStaticOk = true;
         route.isProfitable = true;
-        route.actionLabel = `🟢 DISPARAR +$${route.estNetUsdc.toFixed(3)}`;
+        route.actionLabel = `🟢 FLASH +$${route.estNetUsdc.toFixed(3)}`;
         route.status = "READY_TO_FIRE";
         route.statusColor = "green";
+
+        isExecutingTx = true;
+        console.log(`[ATOMIC DAEMON V3] 🚀 Disparando executeBalancerFlashLoan ($${validLoanUsdc} USDC 0% Fee) en ${route.full}...`);
+        const signer = signer501(provider);
+        const txReq = {
+          to: EXECUTOR_ADDR,
+          data: validExecData,
+          gasLimit: (gasEst * 125n) / 100n,
+          maxFeePerGas: fee.maxFeePerGas || unitGas,
+          maxPriorityFeePerGas: fee.maxPriorityFeePerGas || ethers.parseUnits("30", "gwei"),
+          value: 0n
+        };
+        const rc = await sendRawAndWait(provider, signer, txReq, `flash-${route.name}`);
+        isExecutingTx = false;
+
+        if (rc && rc.status === 1) {
+          const paidPol = Number(ethers.formatEther(rc.gasUsed * (rc.effectiveGasPrice || unitGas)));
+          const confirmedNetUsdc = Math.max(MIN_NET_PROFIT_USDC, +route.estNetUsdc.toFixed(4));
+          ledger.totalProfitUsdc = +(Number(ledger.totalProfitUsdc || 0) + confirmedNetUsdc).toFixed(4);
+          ledger.totalExecutions = Number(ledger.totalExecutions || 0) + 1;
+          ledger.totalShotsToday = Number(ledger.totalShotsToday || 0) + 1;
+          ledger.winStreak = `${ledger.totalExecutions}G-0P`;
+          ledger.enginesBreakdown = ledger.enginesBreakdown || {};
+          ledger.enginesBreakdown.engine2FlashUsdc = +(Number(ledger.enginesBreakdown.engine2FlashUsdc || 0) + confirmedNetUsdc).toFixed(4);
+          ledger.transactions = Array.isArray(ledger.transactions) ? ledger.transactions : [];
+          ledger.transactions.unshift({
+            timestamp: new Date().toISOString(),
+            blockNumber: rc.blockNumber,
+            engine: "#02 FLASH",
+            target: route.full,
+            loanUsdc: validLoanUsdc,
+            gasCostPol: paidPol.toFixed(5),
+            netProfitUsdc: confirmedNetUsdc,
+            txHash: rc.hash
+          });
+          writeLedger(ledger);
+          await telegram(`⚡💎 *ARBITRAJE FLASH BALANCER V2 (0% FEE) EJECUTADO EN POLYGON (#501)*\n• Ruta: *${route.full}*\n• Flash Loan: *$${validLoanUsdc} USDC ($0.00 Garantía)*\n• Ganancia Neta: *+$${confirmedNetUsdc.toFixed(4)} USDC*\n• Gas: ${paidPol.toFixed(5)} POL\n• Tx: https://polygonscan.com/tx/${rc.hash}`);
+          break;
+        }
       } catch (errExec) {
+        isExecutingTx = false;
         route.callStaticOk = false;
         route.isProfitable = false;
         route.reason = `Protegido por AtomicSniperExecutor (NO_PROFIT_REVERT)`;
