@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20261030v23">
+  <link rel="stylesheet" href="style.css?v=20261030v24">
   <!-- Sistema Operativo Unificado CORE MATRIX 501 (Modo Híbrido 6 Estaciones) -->
-  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261030v23">
-  <script src="/shared/core-os-nav.js?v=20261030v23" defer></script>
+  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261030v24">
+  <script src="/shared/core-os-nav.js?v=20261030v24" defer></script>
   <!-- Micro-script síncrono de hidratación en milisegundo 0 (100% Direct Live Equity - Cero Congelamiento) -->
   <script>
     (function () {
@@ -43,66 +43,66 @@
     <header class="matrix-topbar top-matrix-grid">
       <!-- Card 1: Capital Operativo (Hyperliquid L1) -->
       <div class="biz-card" id="cardCapitalTotal">
-        <div class="card-tag">
+        <div class="card-tag" style="font-size: 0.60rem !important;">
           <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO (HYPERLIQUID L1)
         </div>
-        <div class="card-main-val" style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: nowrap; white-space: nowrap;">
-          <span style="white-space: nowrap; display: inline-flex; align-items: baseline; gap: 2px;">
-            <span class="currency-symbol">$</span><span id="topActiveCapValue">913.31</span><span id="topAccountValue" style="display:none;">913.31</span>
+        <div class="card-main-val" style="display: flex; align-items: baseline; justify-content: space-between; gap: 4px; flex-wrap: nowrap; white-space: nowrap;">
+          <span style="white-space: nowrap; display: inline-flex; align-items: baseline; gap: 2px; font-size: 1.05rem; font-weight: 900;">
+            <span class="currency-symbol">$</span><span id="topActiveCapValue">906.69</span><span id="topAccountValue" style="display:none;">906.69</span>
             <span class="unit-tag">USDC</span>
           </span>
-          <span class="unit-tag" id="topFloatingOpenTag" style="color: #B45309; background: #FFFBEB; border: 1px solid #FDE68A; padding: 2px 5px; border-radius: 4px; font-size: 0.56rem; font-weight: 800; white-space: nowrap;">Flotante (6 pos): -$95.36</span>
+          <span class="unit-tag" id="topFloatingOpenTag" style="color: #B45309; background: #FFFBEB; border: 1px solid #FDE68A; padding: 2px 5px; border-radius: 4px; font-size: 0.66rem !important; font-weight: 700 !important; white-space: nowrap;">Flotante (8 pos): -$79.93</span>
         </div>
-        <div class="card-sub-pills">
-          <span class="pill-active" id="topActiveMarginPill">Cerrado L1: $1,008.93</span>
-          <span class="pill-shield" id="topShieldPill">Mentora 40%: $365.32</span>
+        <div class="card-sub-pills" style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 4px !important;">
+          <span class="pill-active" id="topActiveMarginPill" style="font-size: 0.58rem !important;">Cerrado L1: $1,009.05</span>
+          <span class="pill-shield" id="topShieldPill" style="font-size: 0.58rem !important;">Mentora 40%: $362.68</span>
           <div id="topEquityBreakdownPill" style="display: none;"></div>
         </div>
       </div>
 
       <!-- Card 2: Profit Cerrado & Corte 00:00 UTC -->
       <div class="biz-card" id="cardProfit">
-        <div class="card-tag">
+        <div class="card-tag" style="font-size: 0.60rem !important;">
           <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; CORTE 00:00 UTC
         </div>
-        <div class="card-main-val text-green" style="font-size: 0.72rem; display: flex; align-items: center; justify-content: flex-start; gap: 4px; flex-wrap: nowrap; white-space: nowrap; overflow: hidden;">
-          <span id="topTotalProfit" style="font-size: 0.68rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">HOY (00:00 UTC): +$0.44 USDC · 3G - 0P</span>
-          <span class="pct-badge" id="topTotalProfitPct" style="display: none;">3G - 0P</span>
+        <div class="card-main-val text-green" style="font-size: 0.68rem; display: flex; align-items: center; justify-content: flex-start; gap: 4px; flex-wrap: nowrap; white-space: nowrap; overflow: visible;">
+          <span id="topTotalProfit" style="font-size: 0.68rem; font-weight: 800; white-space: nowrap;">HOY (00:00 UTC): +$0.44 USDC · 4G - 0P</span>
+          <span class="pct-badge" id="topTotalProfitPct" style="display: none;">4G - 0P</span>
         </div>
-        <div id="topProfitFloatingPill" style="font-size: 0.55rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 2px 5px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-          Profit Bloque: +$252.41 (+33.36%) · Al cerrar: $1,008.93+
+        <div id="topProfitFloatingPill" style="font-size: 0.58rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap;">
+          Bloque: +$252.53 (+33.4%) · Cierre: $1,009.05
         </div>
         <div id="topProfitLadderPill" style="display: none;"></div>
-        <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
-          <span class="sq-badge streak"><b id="winStreakText">HOY: 3G-0P</b></span>
-          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$97.2</span></span>
-          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$75.8</span></span>
-          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$79.4</span></span>
+        <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills" style="display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 3px !important; font-size: 0.55rem !important;">
+          <span class="sq-badge streak" style="font-size: 0.55rem !important; padding: 2px 2px !important;"><b id="winStreakText">HOY 4G-0P</b></span>
+          <span class="sq-badge sq-unit" id="sq1Badge" style="font-size: 0.55rem !important; padding: 2px 2px !important;"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$97.3</span></span>
+          <span class="sq-badge sq-unit" id="sq2Badge" style="font-size: 0.55rem !important; padding: 2px 2px !important;"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$75.6</span></span>
+          <span class="sq-badge sq-unit" id="sq3Badge" style="font-size: 0.55rem !important; padding: 2px 2px !important;"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$79.6</span></span>
         </div>
       </div>
 
-      <!-- Card 3: Meta por Bloques (100% Hyperliquid) -->
+      <!-- Card 3: Meta por Bloques — 100% Hyperliquid -->
       <div class="biz-card" id="cardCapitalization">
-        <div class="card-tag">
-          <span class="material-symbols-rounded">workspace_premium</span> META POR BLOQUES (100% HYPERLIQUID)
+        <div class="card-tag" style="font-size: 0.60rem !important;">
+          <span class="material-symbols-rounded">workspace_premium</span> META POR BLOQUES — 100% HYPERLIQUID
         </div>
         <div class="progress-wrap">
           <div class="progress-info" style="display: flex; align-items: center; justify-content: space-between;">
-            <span class="progress-label" id="topBlock1ProgressLabel" style="font-size: 0.74rem; font-weight: 800; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">BLOQUE 2: $1,008.93 / $2,000.00 USDC (50.4%)</span>
-            <span class="progress-pct" id="topBlock1ProgressPct" style="display: none;">50.4%</span>
+            <span class="progress-label" id="topBlock1ProgressLabel" style="font-size: 0.64rem !important; font-weight: 800; color: #0F172A; white-space: nowrap;">BLOQUE 2: $1,009.05 / $2,000 USDC (50.5%)</span>
+            <span class="progress-pct" id="topBlock1ProgressPct" style="display: none;">50.5%</span>
           </div>
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 50.4%;"></div>
+          <div class="progress-bar-bg" style="height: 6px !important;">
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 50.5%;"></div>
           </div>
         </div>
-        <div class="rule-badge-glow" id="topBlock1RuleBadge" style="font-size: 0.58rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-          $1,000 ✅ | Base #501: $756.52 + Profit: $252.41
+        <div class="rule-badge-glow" id="topBlock1RuleBadge" style="font-size: 0.56rem !important; white-space: nowrap; padding: 2px 4px !important;">
+          B1 $1,000 ✅ | Base #501: $756.52 + Profit: +$252.53
         </div>
       </div>
 
-      <!-- Card 4: Control de Capital Inyectado (0% Interés) -->
+      <!-- Card 4: Control Capital Inyectado 0% Interés -->
       <div class="biz-card" id="cardLoanControl">
-        <div class="card-tag">
+        <div class="card-tag" style="font-size: 0.60rem !important;">
           <span class="material-symbols-rounded">account_balance</span> CONTROL CAPITAL INYECTADO 0% INTERÉS
         </div>
         <div class="loan-stats-row">
@@ -111,30 +111,31 @@
             <span class="l-val" id="topLoanInjected">$756.52</span>
           </div>
           <div class="loan-stat-col">
-            <span class="l-lbl">Depósito Hoy:</span>
-            <span class="l-val text-cyan" id="topLoanRepaid">+$72.48 ✔</span>
+            <span class="l-lbl">Devuelto Hoy:</span>
+            <span class="l-val text-cyan" id="topLoanRepaid">+$72.48 ✓</span>
           </div>
           <div class="loan-stat-col">
             <span class="l-lbl">Por Amortizar:</span>
             <span class="l-val text-amber" id="topLoanRemaining">$756.52</span>
           </div>
         </div>
-        <div class="rule-badge-sub" id="topLoanBreakdownSub">Base #501: $756.52 ($629.94 + $54.10 + $72.48) | 0% Interés</div>
+        <div class="rule-badge-sub" id="topLoanBreakdownSub" style="font-size: 0.55rem !important; white-space: nowrap; padding: 2px 4px !important;">Base #501: $629.94 + $54.10 + $72.48 = $756.52 (0% Int.)</div>
       </div>
 
       <!-- Card 5: Radar Matrix 18x54 -->
       <div class="biz-card" id="cardRadarMatrix">
-        <div class="card-tag">
+        <div class="card-tag" style="font-size: 0.60rem !important;">
           <span class="material-symbols-rounded">radar</span> RADAR MATRIX: 18 ESCUADRONES × 54 PARES
         </div>
-        <div class="squad-counter-row" style="grid-template-columns: 1fr !important;">
-          <span class="status-pill active-pill" id="topActiveSquadsPill" style="background: #ECFDF5; color: #065F46; border-color: #6EE7B7; width: 100%; justify-content: center;">
-            <span class="material-symbols-rounded">bolt</span>
-            <span id="topActiveSquadsText">⚡ PLAN C ACTIVO: CAZANDO EN FOREX/PEPE/ORO (+$0.10 CANDADO)</span>
+        <div class="squad-counter-row" style="display: flex !important; flex-direction: column !important; gap: 3px !important;">
+          <span class="status-pill active-pill" id="topActiveSquadsPill" style="background: #EFF6FF !important; color: #1E40AF !important; border: 1px solid #BFDBFE !important; width: 100%; justify-content: center; font-size: 0.55rem !important; padding: 2px 4px !important; white-space: nowrap !important;">
+            <span id="topActiveSquadsText">4 PISTAS · CALIBRE $50.45 (5% A 5X) · CANDADO +$0.10</span>
           </span>
-          <span class="status-pill ready-pill" id="topReadySquadsPill" style="display: none;"><span class="material-symbols-rounded">schedule</span> <span id="topReadySquadsText">15/18 ($70)</span></span>
+          <span class="status-pill ready-pill" id="topReadySquadsPill" style="display: inline-flex !important; background: #FEF3C7 !important; color: #92400E !important; border: 1px solid #FCD34D !important; width: 100%; justify-content: center; font-size: 0.58rem !important; font-weight: 800 !important; padding: 2px 4px !important; white-space: nowrap !important;">
+            <span id="topReadySquadsText">🟢 8/8 EN FUEGO (TOPE SEGURIDAD) · 10 EN COLA</span>
+          </span>
         </div>
-        <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #047857; font-weight: 800; font-size: 0.54rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">QUEMA-LASTRE 50% ACTIVO (+$0.10 CANDADO · MÁX 2 CAZADORES)</div>
+        <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #047857 !important; font-weight: 800 !important; font-size: 0.54rem !important; white-space: nowrap !important; text-align: center !important;">FONDO FUNDADOR: +$8.93 / +$52.00 (DÍA 1 · 30-31 OCT)</div>
       </div>
     </header>
     <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v7) para CERO salto al pulsar F5 -->
@@ -160,11 +161,11 @@
           if (s.blockProgressLabel) set("topBlock1ProgressLabel", s.blockProgressLabel);
           if (s.blockRuleBadgeText) set("topBlock1RuleBadge", s.blockRuleBadgeText);
           set("topLoanInjected", "$" + (s.totalLoanInjected || 756.52).toFixed(2));
-          set("topLoanRepaid", "+$72.48 ✔");
+          set("topLoanRepaid", "+$72.48 ✓");
           set("topLoanRemaining", "$" + (s.totalLoanRemaining || 756.52).toFixed(2));
-          set("topLoanBreakdownSub", "Base #501: $756.52 ($629.94 + $54.10 + $72.48) | 0% Interés");
+          set("topLoanBreakdownSub", "Base #501: $629.94 + $54.10 + $72.48 = $756.52 (0% Int.)");
           var bar = document.getElementById("topBlock1ProgressBar");
-          if (bar) bar.style.width = (s.pctBlock2 || 50.4).toFixed(1) + "%";
+          if (bar) bar.style.width = (s.pctBlock2 || 50.5).toFixed(1) + "%";
         } catch (_) {}
       })();
     </script>
@@ -1263,52 +1264,49 @@
 
     </main>
 
-    <!-- BOTTOM FIXED BAR: BRAND, TABS, SEPARATED 5-STATIONS MASTER BUTTON, CLOCK -->
+    <!-- BOTTOM FIXED BAR: BRAND, 7 COMPACT TABS, CALIBRE PILL, STATIONS BUTTON, CLOCK -->
     <footer class="matrix-bottombar bottom-bar">
       <!-- 1. ZONA IZQUIERDA: IDENTIDAD DEL MÓDULO ACTIVO -->
       <div class="bottom-identity">
         <span class="material-symbols-rounded brand-icon">shield</span>
-        <b class="brand-title">SQUAD MATRIX</b>
+        <b class="brand-title">ESTACIÓN 02 · SQUAD MATRIX</b>
         <span class="live-dot" title="Online"></span>
       </div>
 
-      <!-- 2. ZONA CENTRAL: PESTAÑAS OPERATIVAS EXCLUSIVAS DEL MÓDULO -->
-      <nav class="matrix-nav-tabs">
+      <!-- 2. ZONA CENTRAL: 7 PESTAÑAS COMPACTAS (FONT-SIZE: 0.56REM; PADDING: 4PX 6PX; GAP: 4PX) -->
+      <nav class="matrix-nav-tabs" style="gap: 4px !important;">
         <button class="nav-tab active" data-tab="paneCover" id="tabBtnCover">
-          <span class="material-symbols-rounded tab-icon">schedule</span> PORTADA &amp; RELOJES
+          <span class="material-symbols-rounded tab-icon">schedule</span> 1. PORTADA
         </button>
         <button class="nav-tab" data-tab="panePairs" id="tabBtnPairs">
-          <span class="material-symbols-rounded tab-icon">grid_view</span> 54 PARES EN VIVO
+          <span class="material-symbols-rounded tab-icon">grid_view</span> 2. 54 PARES EN VIVO
         </button>
         <button class="nav-tab" data-tab="paneSquads" id="tabBtnSquads">
-          <span class="material-symbols-rounded tab-icon">groups</span> 18 ESCUADRONES
+          <span class="material-symbols-rounded tab-icon">groups</span> 3. 18 ESCUADRONES
         </button>
         <button class="nav-tab" data-tab="paneCapitalization" id="tabBtnCapitalization">
-          <span class="material-symbols-rounded tab-icon">account_balance</span> CAPITALIZACIÓN 70/30
+          <span class="material-symbols-rounded tab-icon">account_balance</span> 4. CAPITALIZACIÓN 70/30
         </button>
         <button class="nav-tab" data-tab="paneProjections" id="tabBtnProjections">
-          <span class="material-symbols-rounded tab-icon">trending_up</span> PROYECCIONES
+          <span class="material-symbols-rounded tab-icon">trending_up</span> 5. PROYECCIONES
         </button>
         <button class="nav-tab" data-tab="paneWaveIntel" id="tabBtnWaveIntel">
-          <span class="material-symbols-rounded tab-icon">newspaper</span> 6. MATRIX WAVE INTELLIGENCE
+          <span class="material-symbols-rounded tab-icon">newspaper</span> 6. WAVE INTELLIGENCE
         </button>
         <button class="nav-tab" data-tab="paneLifeEngine" id="tabBtnLifeEngine">
-          <span class="material-symbols-rounded tab-icon">rocket_launch</span> 🚀 7. MOTOR DE VIDA &amp; PROYECTOS
+          <span class="material-symbols-rounded tab-icon">rocket_launch</span> 7. 🚀 MOTOR DE VIDA ($1,250)
         </button>
-        <a href="/funding-matrix/" class="nav-tab" style="text-decoration:none;">
-          <span class="material-symbols-rounded tab-icon">currency_exchange</span> FUNDING 24/7
-        </a>
       </nav>
 
-      <!-- 3. ZONA DERECHA: INDICADOR MODO RECUPERACIÓN + BOTÓN MAESTRO DE ESTACIONES + RELOJ UTC -->
-      <div class="bottom-system">
-        <span id="bottomRecoveryBannerPill" style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; background: #ECFDF5; border: 1px solid #6EE7B7; color: #065F46; font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; font-weight: 800; white-space: nowrap;">
-          ⚡ PLAN C ACTIVO: CAZANDO EN FOREX/PEPE/ORO (+$0.10 CANDADO) + DESARMANDO COLA #00
+      <!-- 3. ZONA DERECHA: CALIBRE 5% A 5X ($50.45) + BOTÓN DE ESTACIONES + RELOJ UTC -->
+      <div class="bottom-system" style="gap: 6px !important;">
+        <span id="bottomRecoveryBannerPill" style="display: inline-flex; align-items: center; gap: 3px; padding: 3px 6px; border-radius: 6px; background: #ECFDF5; border: 1px solid #6EE7B7; color: #065F46; font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 800; white-space: nowrap;">
+          ⚡ 5% A 5X ($50.45)
         </span>
-        <button class="btn-stations-master" id="btnMasterStationsHub" data-tab="paneStationsHub" title="Abrir las 5 Estaciones de Área 501">
-          <span class="material-symbols-rounded master-hub-icon">hub</span> 5 ESTACIONES ÁREA 501
+        <button class="btn-stations-master" id="btnMasterStationsHub" data-tab="paneStationsHub" title="Abrir las 6 Estaciones de Área 501">
+          <span class="material-symbols-rounded master-hub-icon">hub</span> 6 ESTACIONES
         </button>
-        <div class="utc-clock">
+        <div class="utc-clock" style="font-size: 0.58rem !important;">
           <span class="material-symbols-rounded clock-icon">schedule</span>
           <span id="liveUtcClock">00:00:00 UTC</span>
         </div>
@@ -1317,6 +1315,6 @@
 
   </div>
 
-  <script src="app.js?v=20261030v23"></script>
+  <script src="app.js?v=20261030v24"></script>
 </body>
 </html>

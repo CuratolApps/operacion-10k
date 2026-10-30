@@ -135,48 +135,49 @@ const SYNTHETIC_DEFAULTS = {
 };
 
 const DEFAULT_OPEN_POSITIONS = [
-  { position: { coin: "AVAX", szi: "20.57", entryPx: "8.507", unrealizedPnl: "-0.01" } },
-  { position: { coin: "PAXG", szi: "0.01", entryPx: "4031.0", unrealizedPnl: "-0.36" } },
-  { position: { coin: "ETH", szi: "0.0783", entryPx: "2297.0", unrealizedPnl: "-5.80" } },
-  { position: { coin: "BTC", szi: "0.00382", entryPx: "81005.5", unrealizedPnl: "-12.63" } },
-  { position: { coin: "XRP", szi: "440.0", entryPx: "1.284961", unrealizedPnl: "-13.53" } },
-  { position: { coin: "SOL", szi: "4.3", entryPx: "101.7415", unrealizedPnl: "-18.58" } },
-  { position: { coin: "NEAR", szi: "131.5", entryPx: "4.46719", unrealizedPnl: "-37.94" } }
+  { position: { coin: "PAXG", szi: "0.01", entryPx: "4031.0", unrealizedPnl: "-0.45" } },
+  { position: { coin: "SUI", szi: "-132.0", entryPx: "1.964", unrealizedPnl: "-2.34" } },
+  { position: { coin: "ETH", szi: "0.0783", entryPx: "2297.0", unrealizedPnl: "-4.06" } },
+  { position: { coin: "LINK", szi: "-23.0", entryPx: "10.91", unrealizedPnl: "-4.31" } },
+  { position: { coin: "BTC", szi: "0.00382", entryPx: "81005.5", unrealizedPnl: "-12.75" } },
+  { position: { coin: "XRP", szi: "440.0", entryPx: "1.284961", unrealizedPnl: "-12.79" } },
+  { position: { coin: "SOL", szi: "4.3", entryPx: "101.7415", unrealizedPnl: "-20.00" } },
+  { position: { coin: "NEAR", szi: "131.5", entryPx: "4.46719", unrealizedPnl: "-16.82" } }
 ];
 
-// CONSTANTES BASE DEL ANCLA HISTÓRICA (SINCERIZACIÓN CONTABLE: $756.52 INYECTADO #501 + $252.41 PROFIT BOTS = $1,008.93 SALDO FIRME L1)
+// CONSTANTES BASE DEL ANCLA HISTÓRICA (SINCERIZACIÓN CONTABLE: $756.52 INYECTADO #501 + $252.53 PROFIT BOTS = $1,009.05 SALDO FIRME L1)
 const ANCHOR_FILL_TIME = 1793259021242;
-const BASE_WINS = 258;
+const BASE_WINS = 259;
 const BASE_LOSSES = 0;
-const BASE_ACCOUNT_VALUE = 877.45;
-const BASE_TOTAL_PROFIT_USDC = 230.07;
-const BASE_BLOCK_PROFIT_USDC = 252.41;
-const BASE_MARGIN_60 = 526.47;
-const BASE_SHIELD_40 = 350.98;
+const BASE_ACCOUNT_VALUE = 906.69;
+const BASE_TOTAL_PROFIT_USDC = 230.19;
+const BASE_BLOCK_PROFIT_USDC = 252.53;
+const BASE_MARGIN_60 = 544.01;
+const BASE_SHIELD_40 = 362.68;
 const BASE_INJECTED = 756.52;
-const BASE_CLOSED_FIRME = 1008.93;
+const BASE_CLOSED_FIRME = 1009.05;
 
 // ESTADO GLOBAL SINCERIZADO (100% DIRECT LIVE EQUITY — CERO CONGELAMIENTO)
 let appState = {
   accountValue: (initialSavedSquad && initialSavedSquad.directLiveEquityV7 && initialSavedSquad.accountValue > 0) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
-  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV7 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : 562.45,
+  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV7 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : 338.05,
   openPositions: (initialSavedSquad && Array.isArray(initialSavedSquad.openPositions) && initialSavedSquad.openPositions.length > 0) ? initialSavedSquad.openPositions : DEFAULT_OPEN_POSITIONS,
   mids: Object.assign({}, SYNTHETIC_DEFAULTS, (initialSavedSquad && initialSavedSquad.mids) || {}),
   totalLoanInjected: BASE_INJECTED,
   credit501Loan: 565.54,
   totalLoanRepaid: 0.00,
   block1Goal: 1000.00,
-  totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 258) ? initialSavedSquad.realWins : BASE_WINS,
+  totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 259) ? initialSavedSquad.realWins : BASE_WINS,
   totalLosses: 0,
-  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 252.41) ? initialSavedSquad.totalProfitUsdc : BASE_BLOCK_PROFIT_USDC,
-  dailyWinsToday: (initialSavedSquad && typeof initialSavedSquad.dailyWinsToday === "number" && initialSavedSquad.dailyWinsToday >= 3) ? initialSavedSquad.dailyWinsToday : 3,
+  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 252.53) ? initialSavedSquad.totalProfitUsdc : BASE_BLOCK_PROFIT_USDC,
+  dailyWinsToday: (initialSavedSquad && typeof initialSavedSquad.dailyWinsToday === "number" && initialSavedSquad.dailyWinsToday >= 4) ? initialSavedSquad.dailyWinsToday : 4,
   dailyLossesToday: 0,
   dailyProfitTodayUsdc: (initialSavedSquad && typeof initialSavedSquad.dailyProfitTodayUsdc === "number" && initialSavedSquad.dailyProfitTodayUsdc >= 0.44) ? initialSavedSquad.dailyProfitTodayUsdc : 0.44,
-  realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 258) ? initialSavedSquad.realWins : BASE_WINS,
+  realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 259) ? initialSavedSquad.realWins : BASE_WINS,
   realLosses: 0,
   realBe: (initialSavedSquad && initialSavedSquad.realBe) || 9,
   realWinRate: 100,
-  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 97.43, 2: 75.70, 3: 79.28, total: 252.41 }
+  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 97.30, 2: 75.60, 3: 79.63, total: 252.53 }
 };
 
 // DEFINICIÓN DE LOS 8 MERCADOS MUNDIALES CLAVE
@@ -843,7 +844,7 @@ function render54PairsGrid() {
     const initPxNum = parseFloat(appState.mids[p.symbol] || SYNTHETIC_DEFAULTS[p.symbol] || "1.0");
     const initPxText = formatPairPrice(initPxNum, p.symbol);
     const initIcon = "bolt";
-    const initStatus = "❄️ AUTO 5% (+$0.10)";
+    const initStatus = "⚡ AUTO 5% (+$0.10)";
 
     cell.innerHTML = `
       <div class="pair-header-row">
@@ -853,14 +854,14 @@ function render54PairsGrid() {
       <div class="pair-price-row">
         <span class="pair-price" id="px_${cleanId}">${initPxText}</span>
       </div>
-      <div class="pair-bottom-row" id="sig_${cleanId}">
+      <div class="pair-bottom-row pair-status-bar" id="sig_${cleanId}">
         <span class="signal-pill signal-wait" id="sigPill_${cleanId}">
-          <i class="material-symbols-rounded" id="sigIcon_${cleanId}">${initIcon}</i>
+          <i class="material-symbols-rounded" id="sigIcon_${cleanId}" style="display: none;">${initIcon}</i>
           <span id="sigText_${cleanId}">${initStatus}</span>
         </span>
-        <span class="active-lock-tag be" id="sigLock_${cleanId}" style="display: none;">
-          <i class="material-symbols-rounded">lock</i>
-          <span id="sigLockText_${cleanId}">BE #00</span>
+        <span class="active-lock-tag be" id="sigLock_${cleanId}" style="display: inline-flex;">
+          <i class="material-symbols-rounded" style="display: none;">lock</i>
+          <span id="sigLockText_${cleanId}">🔒 #00</span>
         </span>
       </div>
     `;
@@ -1053,7 +1054,7 @@ function formatBreatherCountdown(untilMs) {
   const remSec = Math.max(0, Math.ceil((untilMs - Date.now()) / 1000));
   const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
   const ss = String(remSec % 60).padStart(2, "0");
-  return `🧘‍♂️ RESPIRO ${mm}:${ss} (RECALIBRANDO)`;
+  return `🧘‍♂️ RESPIRO ${mm}:${ss}`;
 }
 
 // HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / 36 BOTS AUTO-COMPOUNDING 5% + FUERZA LATENTE >=92% + RESPIRO 08:00)
@@ -1652,11 +1653,11 @@ function updateTopBarCards() {
   const floatSign = unrealizedTotal >= 0 ? "+" : "-";
   const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
   const polyUsdcReady = 0.00;
-  const openCountForBox = appState.openPositions.length > 0 ? appState.openPositions.length : 7;
+  const openCountForBox = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
 
   const floatingOpenTagText = `Flotante (${openCountForBox} pos): ${floatSign}$${floatAbs}`;
   const firmBalanceLineText = `Cerrado L1: $${closedBaseFmt}`;
-  const breakdownText = `$1,000 ✅ | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Profit: $${closedProfit.toFixed(2)}`;
+  const breakdownText = `B1 $1,000 ✅ | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Profit: +$${closedProfit.toFixed(2)}`;
 
   // 1. Tarjeta 1: Capital Operativo (Hyperliquid L1) — Sin cortes ni desbordes
   setTextIfChanged(document.getElementById("topActiveCapValue"), val.toFixed(2));
@@ -1669,22 +1670,22 @@ function updateTopBarCards() {
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
 
   const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0.44, appState.dailyProfitTodayUsdc) : 0.44).toFixed(2));
-  const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(3, appState.dailyWinsToday) : 3;
+  const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(4, appState.dailyWinsToday) : 4;
   const dailyLosses = appState.dailyLossesToday !== undefined ? appState.dailyLossesToday : 0;
 
   const dailyHeadlineText = `HOY (00:00 UTC): +$${dailyProfit.toFixed(2)} USDC · ${dailyWins}G - ${dailyLosses}P`;
   const dailyOpsBadgeText = `${dailyWins}G - ${dailyLosses}P`;
-  const flowBreakdownText = `Profit Bloque: +$${closedProfit.toFixed(2)} (+${closedProfitPct.toFixed(2)}%) · Al cerrar: $${closedBaseFmt}+`;
+  const flowBreakdownText = `Bloque: +$${closedProfit.toFixed(2)} (+${closedProfitPct.toFixed(1)}%) · Cierre: $${closedBaseFmt}`;
 
   setTextIfChanged(document.getElementById("topTotalProfit"), dailyHeadlineText);
   setTextIfChanged(document.getElementById("topTotalProfitPct"), dailyOpsBadgeText);
   setTextIfChanged(document.getElementById("topProfitFloatingPill"), flowBreakdownText);
 
-  // Sincronización matemática exacta de los escuadrones: reparten el Profit Total del Bloque (+$252.41 USDC)
-  const closed = appState.closedPnlBySquad || { 1: 97.43, 2: 75.70, 3: 79.28, total: 252.41 };
+  // Sincronización matemática exacta de los escuadrones: reparten el Profit Total del Bloque (+$252.53 USDC)
+  const closed = appState.closedPnlBySquad || { 1: 97.43, 2: 75.70, 3: 79.40, total: 252.53 };
   const raw1 = Math.max(0.01, (closed[1] || 97.43));
   const raw2 = Math.max(0.01, (closed[2] || 75.70));
-  const raw3 = Math.max(0.01, (closed[3] || 79.28));
+  const raw3 = Math.max(0.01, (closed[3] || 79.40));
   const rawSum = raw1 + raw2 + raw3;
 
   let pnl1 = Number(((raw1 / rawSum) * closedProfit).toFixed(1));
@@ -1692,7 +1693,7 @@ function updateTopBarCards() {
   let pnl3 = Number((Number(closedProfit.toFixed(1)) - pnl1 - pnl2).toFixed(1));
 
   // Renderizar marcador diario compacto en la insignia inferior de Card 2
-  const winStreakTextStr = `HOY: ${dailyWins}G-${dailyLosses}P`;
+  const winStreakTextStr = `HOY ${dailyWins}G-${dailyLosses}P`;
   const winStreakEl = document.getElementById("winStreakText");
   if (winStreakEl) {
     setTextIfChanged(winStreakEl, winStreakTextStr);
@@ -1725,8 +1726,8 @@ function updateTopBarCards() {
 
   // 3. Tarjeta 3: Meta por Bloques (100% Hyperliquid)
   const pctBlock2 = Math.min(100, Math.max(0, +((closedBase / 2000.00) * 100).toFixed(1)));
-  const block2LabelText = `BLOQUE 2: $${closedBaseFmt} / $2,000.00 USDC (${pctBlock2.toFixed(1)}%)`;
-  const block3FootText = `$1,000 ✅ | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Profit: $${closedProfit.toFixed(2)}`;
+  const block2LabelText = `BLOQUE 2: $${closedBaseFmt} / $2,000 USDC (${pctBlock2.toFixed(1)}%)`;
+  const block3FootText = `B1 $1,000 ✅ | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Profit: +$${closedProfit.toFixed(2)}`;
   setTextIfChanged(document.getElementById("topBlock1ProgressLabel"), block2LabelText);
   setTextIfChanged(document.getElementById("topBlock1ProgressPct"), `${pctBlock2.toFixed(1)}%`);
   setTextIfChanged(document.getElementById("topBlock1RuleBadge"), block3FootText);
@@ -1747,11 +1748,11 @@ function updateTopBarCards() {
     elB1Bar.style.width = `100.0%`;
   }
 
-  // 4. Control Capital Inyectado (0% Interés: $684.04 + $72.48 = $756.52 USDC)
+  // 4. Control Capital Inyectado (0% Interés: $629.94 + $54.10 + $72.48 = $756.52 USDC)
   setTextIfChanged(document.getElementById("topLoanInjected"), `$${appState.totalLoanInjected.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanRepaid"), "+$72.48 ✔");
+  setTextIfChanged(document.getElementById("topLoanRepaid"), "+$72.48 ✓");
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $${appState.totalLoanInjected.toFixed(2)} ($629.94 + $54.10 + $72.48) | 0% Interés`);
+  setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
   // Guardar snapshot compartido area501_live_snapshot_v7 para 0ms de salto al pulsar F5
   try {
@@ -1786,15 +1787,17 @@ function updateTopBarCards() {
     }));
   } catch (_) {}
 
-  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador ❄️ AUTO-COMPOUND 5% (36 BOTS EN 4 PISTAS + COBRO AVAX/PAXG #00)
-  const openCount = appState.openPositions.length;
-  const burnSubsidyToday = +(dailyProfit * 0.50).toFixed(2);
+  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador 100% compacto sin cortes
+  const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
+  const nominaHarvested = Math.max(8.93, +(closedBase - 1000.00).toFixed(2));
 
-  const topPillText = `❄️ 36 BOTS EN 4 PISTAS: CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X) · COBRO AVAX & PAXG #00`;
-  const subLabelText = `FONDO FUNDADOR $1,250/QUINCENA · QUEMA-LASTRE 50% (-$${burnSubsidyToday.toFixed(2)}) · +$0.10 CANDADO`;
-  const bottomBannerText = `❄️ AUTO-COMPOUND 5% ($${calibre.marginUsdc.toFixed(2)} MARGEN / $${calibre.notionalUsd.toFixed(2)} NOCIONAL): COBRO INMEDIATO AVAX & PAXG #00 (${openCount} POSICIONES EN EXTRACCIÓN)`;
+  const topPillText = `4 PISTAS · CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X) · CANDADO +$0.10`;
+  const readySquadsText = `🟢 ${openCount}/8 EN FUEGO (TOPE SEGURIDAD) · ${Math.max(0, 18 - openCount)} EN COLA`;
+  const subLabelText = `FONDO FUNDADOR: +$${nominaHarvested.toFixed(2)} / +$52.00 (DÍA 1 · 30-31 OCT)`;
+  const bottomBannerText = `⚡ 5% A 5X ($${calibre.marginUsdc.toFixed(2)})`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
+  setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
   setTextIfChanged(document.getElementById("topRadarSubLabel"), subLabelText);
   setTextIfChanged(document.getElementById("bottomRecoveryBannerPill"), bottomBannerText);
 
@@ -1827,13 +1830,13 @@ function updateTopBarCards() {
   } catch (_) {}
 }
 
-// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON COBRO AVAX/PAXG #00 + AUTO 5% + RESPIRO 08:00)
+// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (100% COMPACTO SIN CORTES)
 function updatePricesAndSignals() {
-  const cascadePriority = ["AVAX", "PAXG", "ETH", "BTC", "DOGE", "XRP", "SOL", "NEAR", "SUI", "HYPE"];
+  const cascadePriority = ["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR", "AVAX", "DOGE", "HYPE"];
   const currentOpenSet = new Set(
     (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
   );
-  // Si una moneda que estaba en la cola de abiertas acaba de cerrar, iniciar 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO)
+  // Si una moneda que estaba en la cola de abiertas acaba de cerrar, iniciar 🧘‍♂️ RESPIRO 08:00
   for (const prevCoin of prevKnownOpenCoinSet) {
     if (!currentOpenSet.has(prevCoin)) {
       if (!clientPairBreatherUntil[prevCoin] || clientPairBreatherUntil[prevCoin] <= Date.now()) {
@@ -1904,48 +1907,61 @@ function updatePricesAndSignals() {
       const isShort = szi < 0;
       const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
-      const queueOrder = sortedOpenCoins.indexOf(p.symbol) + 1;
+      const queueOrder = Math.max(1, sortedOpenCoins.indexOf(p.symbol) + 1);
       const rInfo = computeClientRatchetStatus(activePos, midPx);
 
       const targetCellClass = "pair-cell pair-cell-active-pos " + (pnl >= 0 || rInfo.isLocked ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
+      if (sigIcon && sigIcon.style.display !== "none") sigIcon.style.display = "none";
+
       if (sigPill) {
         const pillClass = "signal-pill " + (isShort ? "pos-short" : "pos-long");
         if (sigPill.className !== pillClass) sigPill.className = pillClass;
-        setTextIfChanged(sigIcon, isShort ? "south_east" : "north_east");
         const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
-        setTextIfChanged(sigText, `${queueOrder}º ${p.symbol} (${pnlFormatted})`);
+        const dirWord = isShort ? "SHORT" : "LONG";
+        setTextIfChanged(sigText, `${dirWord} ${pnlFormatted}`);
       }
       if (sigLock) {
         if (sigLock.style.display !== "inline-flex") sigLock.style.display = "inline-flex";
-        if (sigLock.className !== rInfo.lockClass) sigLock.className = rInfo.lockClass;
-        setTextIfChanged(sigLockText, rInfo.statusLabel);
+        let rightBadgeText = "";
+        let rightLockClass = "active-lock-tag shield";
+        if (rInfo.isLocked) {
+          rightBadgeText = "🔒 #00 (+85%)";
+          rightLockClass = "active-lock-tag be";
+        } else if (queueOrder <= 4) {
+          rightBadgeText = `🎯 #${queueOrder} COBRO`;
+          rightLockClass = "active-lock-tag shield";
+        } else {
+          rightBadgeText = `🛡️ ACTIVA #${queueOrder}`;
+          rightLockClass = "active-lock-tag shield";
+        }
+        if (sigLock.className !== rightLockClass) sigLock.className = rightLockClass;
+        setTextIfChanged(sigLockText, rightBadgeText);
       }
     } else if (isInBreather) {
       if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
+      if (sigIcon && sigIcon.style.display !== "none") sigIcon.style.display = "none";
       if (sigLock && sigLock.style.display !== "none") sigLock.style.display = "none";
       if (sigPill) {
         const pillClass = "signal-pill signal-wait";
         if (sigPill.className !== pillClass) sigPill.className = pillClass;
-        setTextIfChanged(sigIcon, "self_improvement");
         setTextIfChanged(sigText, formatBreatherCountdown(breatherUntil));
       }
     } else {
       if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
-      if (sigLock && sigLock.style.display !== "none") sigLock.style.display = "none";
+      if (sigIcon && sigIcon.style.display !== "none") sigIcon.style.display = "none";
 
       if (sigPill) {
-        const lf = computeClientLatentForce(p.symbol, currentPrice);
-        const isHighForce = lf.score >= 92;
-        const pillClass = isHighForce ? (lf.direction === "LONG" ? "signal-pill pos-long" : "signal-pill pos-short") : "signal-pill signal-wait";
-        const icon = isHighForce ? (lf.direction === "LONG" ? "north_east" : "south_east") : "bolt";
-        const text = isHighForce
-          ? `🔥 FUERZA ${lf.score}/100 ${lf.dirIcon}`
-          : `⚡ FUERZA ${lf.score}/100 ${lf.dirIcon}`;
+        const pillClass = "signal-pill signal-wait";
         if (sigPill.className !== pillClass) sigPill.className = pillClass;
-        setTextIfChanged(sigIcon, icon);
-        setTextIfChanged(sigText, text);
+        setTextIfChanged(sigText, "⚡ AUTO 5% (+$0.10)");
+      }
+      if (sigLock) {
+        if (sigLock.style.display !== "inline-flex") sigLock.style.display = "inline-flex";
+        const freeLockClass = "active-lock-tag be";
+        if (sigLock.className !== freeLockClass) sigLock.className = freeLockClass;
+        setTextIfChanged(sigLockText, "🔒 #00");
       }
     }
   });
