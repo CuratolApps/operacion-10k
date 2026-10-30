@@ -2925,7 +2925,7 @@ footer,
 }
 
 /* ==============================================================================
-   TAB 6: 6. MATRIX WAVE INTELLIGENCE (MURO TIPO X / TWITTER EN ESPAÑOL)
+   TAB 6: 6. MATRIX WAVE INTELLIGENCE (TIMELINE VIVO TIPO X / TWITTER CON SCROLL INTERNO)
    ============================================================================== */
 .wave-intel-layout {
   display: flex !important;
@@ -2974,7 +2974,7 @@ footer,
 
 .wave-intel-sub-banner {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.62rem !important;
+  font-size: 0.60rem !important;
   font-weight: 700 !important;
   color: #047857 !important;
   background: #ECFDF5 !important;
@@ -2993,7 +2993,7 @@ footer,
 
 .wave-stat-pill {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.60rem !important;
+  font-size: 0.58rem !important;
   font-weight: 800 !important;
   padding: 4px 9px !important;
   border-radius: 6px !important;
@@ -3024,27 +3024,72 @@ footer,
   border: 1px solid #CBD5E1 !important;
 }
 
-.wave-intel-feed-grid {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: 8px !important;
+/* Contenedor de Scroll Interno Vertical (Internal Timeline Scroll) */
+.matrix-wave-feed-container {
   flex: 1 1 auto !important;
+  max-height: calc(100vh - 210px) !important;
   overflow-y: auto !important;
-  padding-right: 2px !important;
-  align-content: start !important;
+  overflow-x: hidden !important;
+  scroll-behavior: smooth !important;
+  padding-right: 6px !important;
+  padding-bottom: 14px !important;
+  box-sizing: border-box !important;
+}
+
+.matrix-wave-feed-container::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.matrix-wave-feed-container::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.06) !important;
+  border-radius: 999px !important;
+}
+
+.matrix-wave-feed-container::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.48) !important;
+  border-radius: 999px !important;
+}
+
+.matrix-wave-feed-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(37, 99, 235, 0.80) !important;
+}
+
+.wave-intel-timeline {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+@keyframes waveTweetSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  }
 }
 
 .wave-tweet-card {
   background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
   border: 1.5px solid #CBD5E1 !important;
   border-radius: 10px !important;
-  padding: 10px 12px !important;
+  padding: 9px 14px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  gap: 6px !important;
+  gap: 5px !important;
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05) !important;
   box-sizing: border-box !important;
+  transition: border-color 0.2s ease, background 0.2s ease !important;
+}
+
+.wave-tweet-new-flash {
+  animation: waveTweetSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
 .wave-tweet-card.impact-pos {
@@ -3060,12 +3105,24 @@ footer,
   border-left: 5px solid #0284C7 !important;
 }
 
-.wave-tweet-header {
+.wave-tweet-top {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 6px !important;
+  gap: 8px !important;
   flex-wrap: wrap !important;
+}
+
+.wave-new-pill {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.56rem !important;
+  font-weight: 800 !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  background: #FEF3C7 !important;
+  color: #B45309 !important;
+  border: 1px solid #FCD34D !important;
+  letter-spacing: 0.02em !important;
 }
 
 .wave-impact-badge {
@@ -3076,36 +3133,28 @@ footer,
   border-radius: 4px !important;
 }
 
+.wave-impact-badge.badge-pos,
 .wave-impact-badge.pos {
   background: #D1FAE5 !important;
   color: #065F46 !important;
   border: 1px solid #6EE7B7 !important;
 }
 
+.wave-impact-badge.badge-neg,
 .wave-impact-badge.neg {
   background: #FEE2E2 !important;
   color: #991B1B !important;
   border: 1px solid #FCA5A5 !important;
 }
 
+.wave-impact-badge.badge-std,
 .wave-impact-badge.std {
   background: #E0F2FE !important;
   color: #075985 !important;
   border: 1px solid #7DD3FC !important;
 }
 
-.wave-source-tag {
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.62rem !important;
-  font-weight: 800 !important;
-  color: #0F172A !important;
-  background: #F1F5F9 !important;
-  border: 1px solid #CBD5E1 !important;
-  padding: 2px 7px !important;
-  border-radius: 4px !important;
-}
-
-.wave-time-tag {
+.wave-tweet-time {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 0.58rem !important;
   font-weight: 700 !important;
@@ -3113,12 +3162,20 @@ footer,
   margin-left: auto !important;
 }
 
+.wave-tweet-headline {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.76rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  line-height: 1.32 !important;
+}
+
 .wave-tweet-body {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.70rem !important;
+  font-size: 0.68rem !important;
   font-weight: 600 !important;
-  color: #1E293B !important;
-  line-height: 1.42 !important;
+  color: #334155 !important;
+  line-height: 1.38 !important;
   margin: 0 !important;
 }
 
@@ -3132,25 +3189,56 @@ footer,
   flex-wrap: wrap !important;
 }
 
-.wave-bot-reaction {
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.56rem !important;
-  font-weight: 700 !important;
-  color: #047857 !important;
+.wave-assets-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-wrap: wrap !important;
 }
 
-.wave-assets-Row {
+.wave-meta-label {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.56rem !important;
+  font-size: 0.54rem !important;
+  font-weight: 800 !important;
+  color: #64748B !important;
+}
+
+.wave-asset-chip {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.55rem !important;
   font-weight: 800 !important;
   color: #0369A1 !important;
   background: #E0F2FE !important;
+  border: 1px solid #BAE6FD !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+}
+
+.wave-source-reaction {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.wave-source-pill {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.58rem !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  background: #F1F5F9 !important;
+  border: 1px solid #CBD5E1 !important;
   padding: 1.5px 6px !important;
   border-radius: 4px !important;
 }
 
-@media (max-width: 960px) {
-  .wave-intel-feed-grid {
-    grid-template-columns: 1fr !important;
-  }
+.wave-reaction-pill {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.56rem !important;
+  font-weight: 700 !important;
+  color: #047857 !important;
+  background: #ECFDF5 !important;
+  border: 1px solid #A7F3D0 !important;
+  padding: 1.5px 6px !important;
+  border-radius: 4px !important;
 }

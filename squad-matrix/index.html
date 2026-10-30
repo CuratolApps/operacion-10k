@@ -8,23 +8,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20261030v17">
+  <link rel="stylesheet" href="style.css?v=20261030v18">
   <!-- Sistema Operativo Unificado CORE MATRIX 501 (Modo Híbrido 6 Estaciones) -->
-  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261030v17">
-  <script src="/shared/core-os-nav.js?v=20261030v17" defer></script>
+  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261030v18">
+  <script src="/shared/core-os-nav.js?v=20261030v18" defer></script>
   <!-- Micro-script síncrono de hidratación en milisegundo 0 (100% Direct Live Equity - Cero Congelamiento) -->
   <script>
     (function () {
       try {
         localStorage.removeItem("__AREA501_SQUAD_VALID_STATE__");
         localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE__");
+        localStorage.removeItem("__AREA501_SQUAD_VALID_STATE_V6__");
+        localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE_V6__");
         localStorage.removeItem("area501_live_snapshot_v4");
         localStorage.removeItem("area501_live_snapshot_v5");
-        var raw = localStorage.getItem("__AREA501_SQUAD_VALID_STATE_V6__");
+        localStorage.removeItem("area501_live_snapshot_v6");
+        var raw = localStorage.getItem("__AREA501_SQUAD_VALID_STATE_V7__");
         if (raw) {
           var s = JSON.parse(raw);
-          if (!s || !s.directLiveEquityV6) {
-            localStorage.removeItem("__AREA501_SQUAD_VALID_STATE_V6__");
+          if (!s || !s.directLiveEquityV7) {
+            localStorage.removeItem("__AREA501_SQUAD_VALID_STATE_V7__");
             return;
           }
           window.__LAST_VALID_STATE__ = s;
@@ -38,62 +41,64 @@
     
     <!-- TOP FIXED BAR: 5 BUSINESS CARDS (HYBRID LIGHT/DARK YOZAPATA - ZERO CLIPPING) -->
     <header class="matrix-topbar top-matrix-grid">
-      <!-- Card 1: Capital Operativo Total -->
+      <!-- Card 1: Capital Operativo en Juego (Solo Hyperliquid L1) -->
       <div class="biz-card" id="cardCapitalTotal">
         <div class="card-tag">
-          <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO (EN FUEGO)
+          <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO EN JUEGO (SOLO HYPERLIQUID L1)
         </div>
-        <div class="card-main-val">
-          <span class="currency-symbol">$</span><span id="topActiveCapValue">931.25</span><span id="topAccountValue" style="display:none;">931.25</span>
-          <span class="unit-tag">USDC L1 (EQUITY VIVA)</span>
+        <div class="card-main-val" style="display: flex; align-items: baseline; justify-content: space-between; gap: 4px; flex-wrap: nowrap;">
+          <span><span style="font-size: 0.56rem; font-weight: 800; color: #0F172A; margin-right: 2px;">Equidad Viva L1:</span><span class="currency-symbol">$</span><span id="topActiveCapValue">921.71</span><span id="topAccountValue" style="display:none;">921.71</span> <span class="unit-tag">USDC</span></span>
+          <span class="unit-tag" id="topFloatingOpenTag" style="color: #B45309; background: #FFFBEB; border: 1px solid #FDE68A; padding: 1px 4px; border-radius: 4px; font-size: 0.47rem; font-weight: 800;">Flotante Abierto (7 pos): -$86.89 USDC</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-active" id="topActiveMarginPill">Margen 60%: $558.75</span>
-          <span class="pill-shield" id="topShieldPill">Mentora 40%: $372.50</span>
-          <div id="topEquityBreakdownPill" style="grid-column: 1 / -1; font-size: 0.50rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            Saldo Cerrado Firme: $986.59 USDC | Flotante Abierto: -$55.34 USDC
+          <span class="pill-active" id="topActiveMarginPill" style="grid-column: 1 / -1; text-align: center; font-size: 0.50rem; font-weight: 800; background: #ECFDF5; color: #065F46; border-color: #A7F3D0;">Saldo Cerrado Firme (100% Hyperliquid L1): $1,008.60 USDC</span>
+          <span class="pill-shield" id="topShieldPill" style="display: none;">Mentora 40%: $368.68</span>
+          <div id="topEquityBreakdownPill" style="grid-column: 1 / -1; font-size: 0.45rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)">
+            Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)
           </div>
         </div>
       </div>
 
-      <!-- Card 2: Profit General & Por Escuadrón (100% Puro Trading) -->
+      <!-- Card 2: Profit Cerrado & Escuadrones (Estadística Diaria Reiniciable 00:00:00 UTC + Acumulado Bloque) -->
       <div class="biz-card" id="cardProfit">
         <div class="card-tag">
-          <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; ESCUADRONES (SOLO TRADING PURO)
+          <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; ESCUADRONES (REINICIO 00:00 UTC)
         </div>
-        <div class="card-main-val text-green">
-          <span id="topTotalProfit">+$230.07</span>
-          <span class="pct-badge" id="topTotalProfitPct">+30.41% CERRADO</span>
+        <div class="card-main-val text-green" style="font-size: 0.72rem; display: flex; align-items: center; justify-content: space-between; gap: 4px; flex-wrap: nowrap;">
+          <span id="topTotalProfit" style="font-size: 0.62rem; font-weight: 800; white-space: nowrap;">HOY (DESDE 00:00 UTC): +$0.10 USDC</span>
+          <span class="pct-badge" id="topTotalProfitPct" style="font-size: 0.50rem; white-space: nowrap;">OPERACIONES HOY: 2G - 0P</span>
         </div>
-        <div id="topProfitFloatingPill" style="font-size: 0.49rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 1.5px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0;">
-          Al cerrar las 6 posiciones abiertas tendrás: $986.59+ USDC firmes
+        <div id="topProfitFloatingPill" style="font-size: 0.46rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 1.5px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0;">
+          Profit Total Bloque: +$252.08 USDC (+33.32% sobre $756.52) · Saldo Firme L1: $1,008.60 USDC
         </div>
-        <div id="topProfitLadderPill" style="font-size: 0.46rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 1px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px;">
-          🏅 Escalones: [$1K 98.7%] ➔ $2K ➔ $3K ... ➔ $20K ➔ $100K
+        <div id="topProfitLadderPill" style="font-size: 0.45rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 1px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px;">
+          Agrupado por Operación Completa (00:00 UTC) · Cero Micro-Fragmentos
         </div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
-          <span class="sq-badge streak"><b id="winStreakText">257G-0P</b></span>
-          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$82.8</span></span>
-          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$74.9</span></span>
-          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$72.4</span></span>
+          <span class="sq-badge streak"><b id="winStreakText">HOY: 2G - 0P</b></span>
+          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$90.7</span></span>
+          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$82.1</span></span>
+          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$79.3</span></span>
         </div>
       </div>
 
-      <!-- Card 3: Capitalización por Bloques de $1,000 -->
+      <!-- Card 3: Capitalización por Bloques (100% Hyperliquid L1) -->
       <div class="biz-card" id="cardCapitalization">
         <div class="card-tag">
-          <span class="material-symbols-rounded">workspace_premium</span> 🏆 CAPITALIZACIÓN POR BLOQUES DE $1,000
+          <span class="material-symbols-rounded">workspace_premium</span> 🏆 CAPITALIZACIÓN POR BLOQUES (100% HYPERLIQUID L1)
         </div>
         <div class="progress-wrap">
           <div class="progress-info">
-            <span class="progress-label" id="topBlock1ProgressLabel">$986.59 / $1,000.00 USDC</span>
-            <span class="progress-pct" id="topBlock1ProgressPct">98.7%</span>
+            <span class="progress-label" id="topBlock1ProgressLabel" style="font-size: 0.49rem; font-weight: 800;">Saldo Cerrado Firme (100% Hyperliquid L1): $1,008.60 USDC</span>
+            <span class="progress-pct" id="topBlock1ProgressPct" style="font-size: 0.47rem;">Equidad Viva L1: $921.71 | Flotante: -$86.89</span>
           </div>
           <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 98.7%;"></div>
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 100%;"></div>
           </div>
         </div>
-        <div class="rule-badge-glow" id="topBlock1RuleBadge">🏅 Insignias: $1K ➔ $2K ➔ $3K ... ➔ $20K ➔ $100K</div>
+        <div class="rule-badge-glow" id="topBlock1RuleBadge" style="font-size: 0.45rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)">
+          Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)
+        </div>
       </div>
 
       <!-- Card 4: Control de Capital Inyectado (0% Interés) -->
@@ -133,11 +138,11 @@
         <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #0369A1; font-weight: 800;">RECUPERANDO 6/6 (PINZA SECUENCIAL 1 A 1 · CERO NUEVAS)</div>
       </div>
     </header>
-    <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v6) para CERO salto al pulsar F5 -->
+    <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v7) para CERO salto al pulsar F5 -->
     <script>
       (function () {
         try {
-          var raw = localStorage.getItem("area501_live_snapshot_v6");
+          var raw = localStorage.getItem("area501_live_snapshot_v7");
           if (!raw) return;
           var s = JSON.parse(raw);
           if (!s || typeof s.hlBalance !== "number") return;
@@ -147,22 +152,24 @@
           };
           set("topActiveCapValue", s.hlBalance.toFixed(2));
           set("topAccountValue", s.hlBalance.toFixed(2));
-          set("topActiveMarginPill", "Margen 60%: $" + s.activeMargin.toFixed(2));
+          if (s.floatingOpenTagText) set("topFloatingOpenTag", s.floatingOpenTagText);
+          if (s.firmBalanceLineText) set("topActiveMarginPill", s.firmBalanceLineText);
           set("topShieldPill", "Mentora 40%: $" + s.shieldMargin.toFixed(2));
           set("topEquityBreakdownPill", s.breakdownText);
-          set("topTotalProfit", "+$" + s.closedProfit.toFixed(2));
-          set("topTotalProfitPct", "+" + s.closedProfitPct.toFixed(2) + "% · " + (s.currentStepSub || "Rumbo a $1,000"));
+          if (s.dailyHeadlineText) set("topTotalProfit", s.dailyHeadlineText);
+          if (s.dailyOpsBadgeText) set("topTotalProfitPct", s.dailyOpsBadgeText);
           set("topProfitFloatingPill", s.flowBreakdownText);
           if (s.ladderPillText) set("topProfitLadderPill", s.ladderPillText);
-          set("topBlock1ProgressLabel", s.blockProgressLabel || ("BLOQUE 1: $" + s.closedBase.toFixed(2) + " / $1,000.00 USDC"));
-          set("topBlock1ProgressPct", s.blockProgressPctText || (s.pct1000.toFixed(1) + "%"));
+          if (s.winStreakText) set("winStreakText", s.winStreakText);
+          set("topBlock1ProgressLabel", s.blockProgressLabel);
+          set("topBlock1ProgressPct", s.blockProgressPctText);
           if (s.blockRuleBadgeText) set("topBlock1RuleBadge", s.blockRuleBadgeText);
           set("topLoanInjected", "$" + (s.totalLoanInjected || 756.52).toFixed(2));
           set("topLoanRepaid", "+$72.48 ✔");
           set("topLoanRemaining", "$" + (s.totalLoanRemaining || 756.52).toFixed(2));
           set("topLoanBreakdownSub", "Base #501: $756.52 ($629.94 + $54.10 + $72.48) | 0% Interés");
           var bar = document.getElementById("topBlock1ProgressBar");
-          if (bar) bar.style.width = s.pct1000.toFixed(1) + "%";
+          if (bar) bar.style.width = (s.pct1000 || 100).toFixed(1) + "%";
         } catch (_) {}
       })();
     </script>
@@ -695,7 +702,7 @@
         </div>
       </section>
 
-      <!-- TAB 6: 6. MATRIX WAVE INTELLIGENCE (MURO TIPO X / TWITTER EN ESPAÑOL — 100% SOLO LECTURA, CERO BOTONES) -->
+      <!-- TAB 6: 6. MATRIX WAVE INTELLIGENCE (TIMELINE CRONOLÓGICO VIVO TIPO X / TWITTER CON SCROLL INTERNO) -->
       <section class="tab-pane" id="paneWaveIntel">
         <div class="wave-intel-layout">
           <!-- Encabezado Limpio y Ejecutivo (100% Pasivo, Cero Inputs, Cero Botones) -->
@@ -706,114 +713,50 @@
                 <span>📡 MATRIX WAVE INTELLIGENCE // FLUJO MUNDIAL EN TIEMPO REAL (ESPAÑOL)</span>
               </div>
               <div class="wave-intel-sub-banner">
-                ⚡ Leído por los Bots en &lt;150ms | Mostrando solo eventos que mueven o estabilizan el mercado
+                ⚡ Leído por los Bots en &lt;150ms | Timeline en vivo cada 45s (Prepend &amp; Scroll Interno · Máx 50 Noticias &lt;24h)
               </div>
             </div>
             <div class="wave-intel-counters-row">
-              <span class="wave-stat-pill pos" id="waveCountPos">🟢 POSITIVO: 3</span>
-              <span class="wave-stat-pill neg" id="waveCountNeg">🔴 NEGATIVO: 1</span>
-              <span class="wave-stat-pill std" id="waveCountStd">⚖️ ESTÁNDAR: 3</span>
-              <span class="wave-stat-pill sync" id="waveLastSync">⏱️ Refresco 60s · Activo</span>
+              <span class="wave-stat-pill pos" id="waveCountPos">🟢 ALCISTAS: 14</span>
+              <span class="wave-stat-pill neg" id="waveCountNeg">🔴 ALERTAS OSO/HACK: 9</span>
+              <span class="wave-stat-pill std" id="waveCountStd">⚖️ ESTABILIDAD: 21</span>
+              <span class="wave-stat-pill sync" id="waveLastSync">⏱️ Timeline Vivo (45s) · Scroll Activo</span>
             </div>
           </div>
 
-          <!-- Muro Tipo X / Twitter de Eventos Mundiales Filtrados (Ordenados de Más Reciente a Más Antiguo) -->
-          <div class="wave-intel-feed-grid" id="waveIntelFeedList">
-            <!-- Card 1 -->
-            <article class="wave-tweet-card impact-pos">
-              <div class="wave-tweet-header">
-                <span class="wave-impact-badge pos">🟢 IMPACTO POSITIVO (ALCISTA)</span>
-                <span class="wave-source-tag">Fuente: Hyperliquid L1 Clearinghouse &amp; Bóveda #501</span>
-                <span class="wave-time-tag">07:01 UTC / 08:01 Local</span>
-              </div>
-              <p class="wave-tweet-body">
-                Refuerzo de liquidez on-chain acreditado al 100% (+$72.48 USDC desde 819.28 POL · Préstamo 0% #501 en $756.52 USDC). Saldo Cerrado Firme sube a $986.59 USDC (98.7% del Bloque 1 de $1,000) con Profit Puro de Trading en +$230.07 USDC sobre BTC, PAXG, ETH, XRP, SOL y NEAR.
-              </p>
-              <div class="wave-tweet-footer">
-                <span class="wave-bot-reaction">🤖 Reacción Squad Matrix: Detectado hace 40s (82ms) ➔ Candado #00 armado en BTC ($81,059), PAXG ($4,035.4) y ETH ($2,298.6) para cascada 1 a 1</span>
-                <span class="wave-assets-Row">BTC · PAXG · ETH · XRP · SOL · NEAR</span>
-              </div>
-            </article>
-
-            <!-- Card 2 -->
-            <article class="wave-tweet-card impact-std">
-              <div class="wave-tweet-header">
-                <span class="wave-impact-badge std">⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)</span>
-                <span class="wave-source-tag">Fuente: Bolsa de Londres (LSE) &amp; Frankfurt (DAX40)</span>
-                <span class="wave-time-tag">07:15 UTC / 08:15 Local</span>
-              </div>
-              <p class="wave-tweet-body">
-                Sesión bancaria europea operando con liquidez institucional estable y spreads comprimidos en libros L2. Flujo equilibrado en BTC, ETH, PAXG (Oro) y USD sin sacudidas macroeconómicas adversas.
-              </p>
-              <div class="wave-tweet-footer">
-                <span class="wave-bot-reaction">🤖 Reacción Squad Matrix: Leído en 94ms ➔ Filtro Anti-Techo activo y órdenes Post-Only Maker manteniendo 0% de pérdidas cerradas</span>
-                <span class="wave-assets-Row">BTC · ETH · PAXG · USD</span>
-              </div>
-            </article>
-
-            <!-- Card 3 -->
-            <article class="wave-tweet-card impact-pos">
-              <div class="wave-tweet-header">
-                <span class="wave-impact-badge pos">🟢 IMPACTO POSITIVO (ALCISTA)</span>
-                <span class="wave-source-tag">Fuente: Whale Alert On-Chain / Arbitrum Bridge2</span>
-                <span class="wave-time-tag">07:10 UTC / 08:10 Local</span>
-              </div>
-              <p class="wave-tweet-body">
-                Entrada neta de liquidez institucional en derivados perpetuos L1 con absorción compradora en niveles de soporte de BTC, XRP, SOL y ETH. Muros de demanda Bid superan el 61% en profundidad de 5 niveles.
-              </p>
-              <div class="wave-tweet-footer">
-                <span class="wave-bot-reaction">🤖 Reacción Squad Matrix: Detectado en 88ms ➔ Pinza Secuencial #00 lista para inyectarse en soporte L2 &gt;= 60% sin techo de Take Profit</span>
-                <span class="wave-assets-Row">BTC · XRP · SOL · ETH</span>
-              </div>
-            </article>
-
-            <!-- Card 4 -->
-            <article class="wave-tweet-card impact-std">
-              <div class="wave-tweet-header">
-                <span class="wave-impact-badge std">⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)</span>
-                <span class="wave-source-tag">Fuente: PeckShield &amp; CertiK Security Radar</span>
-                <span class="wave-time-tag">07:00 UTC / 08:00 Local</span>
-              </div>
-              <p class="wave-tweet-body">
-                Barrido de seguridad en tiempo real sobre protocolos DeFi, puentes cross-chain y exchanges principales: 0 exploits ni drenajes de liquidez en la última hora. Red Hyperliquid L1, Arbitrum One y Polygon PoS al 100% de integridad.
-              </p>
-              <div class="wave-tweet-footer">
-                <span class="wave-bot-reaction">🤖 Reacción Squad Matrix: Verificado en 74ms ➔ Escudo Anti-Hack en verde · Gatillo de Giro a Oso (🐻 SHORT) en guardia pasiva &lt;50ms</span>
-                <span class="wave-assets-Row">BTC · ETH · SOL · BNB · NEAR</span>
-              </div>
-            </article>
-
-            <!-- Card 5 -->
-            <article class="wave-tweet-card impact-pos">
-              <div class="wave-tweet-header">
-                <span class="wave-impact-badge pos">🟢 IMPACTO POSITIVO (ALCISTA)</span>
-                <span class="wave-source-tag">Fuente: Reserva Federal FED / CME Globex Bullion</span>
-                <span class="wave-time-tag">06:50 UTC / 07:50 Local</span>
-              </div>
-              <p class="wave-tweet-body">
-                Demanda sostenida en refugios tokenizados y oro físico en CME Globex mantiene soporte firme sobre PAXG y BTC. Rendimientos de bonos del Tesoro de EE.UU. estables antes de la apertura de Wall Street (13:30 UTC).
-              </p>
-              <div class="wave-tweet-footer">
-                <span class="wave-bot-reaction">🤖 Reacción Squad Matrix: Detectado en 91ms ➔ Escuadrón #02 Bravo mantiene orden de salida en verde en PAXG ($4,035.40) y BTC ($81,059)</span>
-                <span class="wave-assets-Row">PAXG · BTC · USD · NASDAQ</span>
-              </div>
-            </article>
-
-            <!-- Card 6 -->
-            <article class="wave-tweet-card impact-neg">
-              <div class="wave-tweet-header">
-                <span class="wave-impact-badge neg">🔴 IMPACTO NEGATIVO (ALERTA / MODO OSO)</span>
-                <span class="wave-source-tag">Fuente: Coinglass / Monitor de Liquidaciones L1</span>
-                <span class="wave-time-tag">06:40 UTC / 07:40 Local</span>
-              </div>
-              <p class="wave-tweet-body">
-                Barrido previo de posiciones apalancadas ajenas en perpetuos de alta beta provocó retroceso temporal en NEAR, SOL y XRP. Presión vendedora absorbida en banda inferior de Bollinger con estabilización de flujo.
-              </p>
-              <div class="wave-tweet-footer">
-                <span class="wave-bot-reaction">🤖 Reacción Squad Matrix: Detectado en 65ms ➔ Cerrojo STRICT_RECOVERY_LOCK activo (0 cierres en rojo) y Pinza #00 reduciendo precio promedio</span>
-                <span class="wave-assets-Row">NEAR · SOL · XRP · ETH</span>
-              </div>
-            </article>
+          <!-- Contenedor con Scroll Interno Vertical (max-height: calc(100vh - 210px); overflow-y: auto; scroll-behavior: smooth;) -->
+          <div class="matrix-wave-feed-container" id="matrixWaveFeedContainer">
+            <div class="wave-intel-timeline" id="waveIntelFeedList">
+              <!-- Card 1 (Tope del Timeline) -->
+              <article class="wave-tweet-card impact-pos wave-tweet-new-flash" data-wave-id="WAVE-INIT-1">
+                <div class="wave-tweet-top">
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="wave-new-pill">⚡ NUEVO · HACE 5 SEG</span>
+                    <span class="wave-impact-badge badge-pos">🟢 IMPACTO POSITIVO (ALCISTA)</span>
+                  </div>
+                  <span class="wave-tweet-time">🕒 En Vivo · Hyperliquid L1</span>
+                </div>
+                <div class="wave-tweet-headline">Pulso L1 en Vivo: DOGE y HYPE rescatadas en verde hoy · Saldo Cerrado Firme alcanza $1,008.60 USDC (100% Hyperliquid L1)</div>
+                <p class="wave-tweet-body">
+                  Hyperliquid L1 registra cierres limpios en verde sobre DOGE (+$0.085) y HYPE (+$0.043) desde las 00:00 UTC. Saldo Cerrado Firme se consolida en $1,008.60 USDC ($756.52 Inyectado #501 + $252.08 Profit Bots).
+                </p>
+                <div class="wave-tweet-footer">
+                  <div class="wave-assets-group">
+                    <span class="wave-meta-label">ACTIVOS:</span>
+                    <span class="wave-asset-chip">DOGE</span>
+                    <span class="wave-asset-chip">HYPE</span>
+                    <span class="wave-asset-chip">PAXG</span>
+                    <span class="wave-asset-chip">BTC</span>
+                    <span class="wave-asset-chip">ETH</span>
+                    <span class="wave-asset-chip">XRP</span>
+                  </div>
+                  <div class="wave-source-reaction">
+                    <span class="wave-source-pill">📡 Fuente: <b>Hyperliquid L1 Clearinghouse · Bóveda #501</b></span>
+                    <span class="wave-reaction-pill">🤖 Acción Bot: <b>Marcador 00:00 UTC en 2G-0P · Fase 1 vigilando PAXG, ETH y BTC</b></span>
+                  </div>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -971,6 +914,6 @@
 
   </div>
 
-  <script src="app.js?v=20261030v17"></script>
+  <script src="app.js?v=20261030v18"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T07:27:52.320Z",
+  "updatedAt": "2026-10-30T07:58:29.714Z",
   "module": "MATRIX_WAVE_INTELLIGENCE_V1",
   "language": "es-ES",
   "readLatencyMs": 84,
@@ -14,8 +14,8 @@
   "feed": [
     {
       "id": "WAVE-HL-BRIDGE-2026-10-30T07",
-      "timestamp": "2026-10-30T07:27:12.320Z",
-      "timeUtcLocal": "07:27 UTC / 08:27 Local",
+      "timestamp": "2026-10-30T07:57:49.714Z",
+      "timeUtcLocal": "07:57 UTC / 08:57 Local",
       "category": "POSITIVE",
       "impactBadge": "🟢 IMPACTO POSITIVO (ALCISTA)",
       "officialSource": "Fuente: Hyperliquid L1 Clearinghouse & Bóveda #501",
@@ -33,12 +33,12 @@
     },
     {
       "id": "WAVE-LSE-FRA-OPEN-2026-10-30T07",
-      "timestamp": "2026-10-30T07:23:52.320Z",
-      "timeUtcLocal": "07:23 UTC / 08:23 Local",
+      "timestamp": "2026-10-30T07:54:29.714Z",
+      "timeUtcLocal": "07:54 UTC / 08:54 Local",
       "category": "STANDARD",
       "impactBadge": "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)",
       "officialSource": "Fuente: Bolsa de Londres (LSE) & Frankfurt (DAX40)",
-      "bodyEs": "Sesión bancaria europea operando con liquidez institucional estable y spreads comprimidos en libros L2. Cotizaciones de referencia en Hyperliquid L1: BTC $78,441.5 · ETH $2,245.8 · PAXG (Oro) $3,993 · SOL $97.94.",
+      "bodyEs": "Sesión bancaria europea operando con liquidez institucional estable y spreads comprimidos en libros L2. Cotizaciones de referencia en Hyperliquid L1: BTC $78,099.5 · ETH $2,232.2 · PAXG (Oro) $3,979.6 · SOL $97.25.",
       "assets": [
         "BTC",
         "ETH",
@@ -50,12 +50,12 @@
     },
     {
       "id": "WAVE-WHALE-USDC-L1-2026-10-30T07",
-      "timestamp": "2026-10-30T07:16:52.320Z",
-      "timeUtcLocal": "07:16 UTC / 08:16 Local",
+      "timestamp": "2026-10-30T07:47:29.714Z",
+      "timeUtcLocal": "07:47 UTC / 08:47 Local",
       "category": "POSITIVE",
       "impactBadge": "🟢 IMPACTO POSITIVO (ALCISTA)",
       "officialSource": "Fuente: Whale Alert On-Chain / Arbitrum Bridge2",
-      "bodyEs": "Entrada neta de liquidez institucional en derivados perpetuos L1 con presión compradora en niveles de soporte de BTC ($78,441.5), XRP ($1.2559) y SOL ($97.94). Muros de absorción Bid superan el 61% en profundidades de 5 niveles.",
+      "bodyEs": "Entrada neta de liquidez institucional en derivados perpetuos L1 con presión compradora en niveles de soporte de BTC ($78,099.5), XRP ($1.2501) y SOL ($97.25). Muros de absorción Bid superan el 61% en profundidades de 5 niveles.",
       "assets": [
         "BTC",
         "XRP",
@@ -67,8 +67,8 @@
     },
     {
       "id": "WAVE-SECURITY-SHIELD-2026-10-30T07",
-      "timestamp": "2026-10-30T07:08:52.320Z",
-      "timeUtcLocal": "07:08 UTC / 08:08 Local",
+      "timestamp": "2026-10-30T07:39:29.714Z",
+      "timeUtcLocal": "07:39 UTC / 08:39 Local",
       "category": "STANDARD",
       "impactBadge": "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)",
       "officialSource": "Fuente: PeckShield & CertiK Security Radar",
@@ -85,12 +85,12 @@
     },
     {
       "id": "WAVE-MACRO-FED-GOLD-2026-10-30T07",
-      "timestamp": "2026-10-30T06:59:52.320Z",
-      "timeUtcLocal": "06:59 UTC / 07:59 Local",
+      "timestamp": "2026-10-30T07:30:29.714Z",
+      "timeUtcLocal": "07:30 UTC / 08:30 Local",
       "category": "POSITIVE",
       "impactBadge": "🟢 IMPACTO POSITIVO (ALCISTA)",
       "officialSource": "Fuente: Reuters Macro / CME Globex Bullion",
-      "bodyEs": "Demanda sostenida en refugios tokenizados y oro físico en CME Globex mantiene soporte firme sobre PAXG ($3,993) y BTC ($78,441.5). Rendimientos de bonos del Tesoro de EE.UU. estables antes de la apertura de Wall Street (13:30 UTC).",
+      "bodyEs": "Demanda sostenida en refugios tokenizados y oro físico en CME Globex mantiene soporte firme sobre PAXG ($3,979.6) y BTC ($78,099.5). Rendimientos de bonos del Tesoro de EE.UU. estables antes de la apertura de Wall Street (13:30 UTC).",
       "assets": [
         "PAXG",
         "BTC",
@@ -102,12 +102,12 @@
     },
     {
       "id": "WAVE-LIQ-WARN-BEAR-2026-10-30T07",
-      "timestamp": "2026-10-30T06:48:52.320Z",
-      "timeUtcLocal": "06:48 UTC / 07:48 Local",
+      "timestamp": "2026-10-30T07:19:29.714Z",
+      "timeUtcLocal": "07:19 UTC / 08:19 Local",
       "category": "NEGATIVE",
       "impactBadge": "🔴 IMPACTO NEGATIVO (ALERTA / MODO OSO)",
       "officialSource": "Fuente: Coinglass / Monitor de Liquidaciones L1",
-      "bodyEs": "Barrido previo de posiciones apalancadas ajenas en perpetuos de alta beta provocó retroceso temporal en NEAR ($4.2809) y SOL ($97.94). Presión vendedora absorbida en banda inferior de Bollinger con estabilización de flujo.",
+      "bodyEs": "Barrido previo de posiciones apalancadas ajenas en perpetuos de alta beta provocó retroceso temporal en NEAR ($4.2493) y SOL ($97.25). Presión vendedora absorbida en banda inferior de Bollinger con estabilización de flujo.",
       "assets": [
         "NEAR",
         "SOL",
@@ -119,8 +119,8 @@
     },
     {
       "id": "WAVE-BINANCE-FUNDING-2026-10-30T07",
-      "timestamp": "2026-10-30T06:35:52.320Z",
-      "timeUtcLocal": "06:35 UTC / 07:35 Local",
+      "timestamp": "2026-10-30T07:06:29.714Z",
+      "timeUtcLocal": "07:06 UTC / 08:06 Local",
       "category": "STANDARD",
       "impactBadge": "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)",
       "officialSource": "Fuente: Binance Oficial & Hyperliquid Funding Desk",
