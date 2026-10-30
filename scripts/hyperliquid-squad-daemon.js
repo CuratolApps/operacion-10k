@@ -3310,7 +3310,7 @@ async function startAutonomousSquadDaemon() {
             });
 
             const liveUnrealizedSum = openPositions.reduce((s, p) => s + parseFloat(p.position.unrealizedPnl || "0"), 0);
-            const closedFirmNow = +(accountValue - liveUnrealizedSum).toFixed(2);
+            const closedFirmNow = +(970.95 + dailyClosedProfitTodayUsdc).toFixed(2);
             const step1GoalUsdc = 52.00;
             const step1ProgressUsdc = Math.min(step1GoalUsdc, Math.max(0, dailyClosedProfitTodayUsdc));
             const step1RemainingUsdc = Math.max(0, +(step1GoalUsdc - step1ProgressUsdc).toFixed(2));
@@ -4108,8 +4108,8 @@ async function startAutonomousSquadDaemon() {
       // Actualizar archivo de clones con las etiquetas frescas del Plan C, Quema-Lastre y Fuerza Latente Real
       updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl, confirmedOpenByCoin, burnBallastSubsidyUsdc, latentForceByCoin);
 
-      // Escribir telemetría en vivo para /squad-matrix/ (telemetry/squad-matrix-telemetry.json)
-      const closedFirmLiveUsdc = +(accountValue - openPositions.reduce((s, p) => s + parseFloat(p.position.unrealizedPnl || "0"), 0)).toFixed(2);
+      // Escribir telemetría en vivo para /squad-matrix/ (telemetry/squad-matrix-telemetry.json) — Saldo Principal L1 = Base $970.95 + Ganancia Neta Cerrada Hoy
+      const closedFirmLiveUsdc = +(970.95 + dailyClosedProfitTodayUsdc).toFixed(2);
       const autoLot = computeAutoCompoundLotSize(Math.max(970.95, closedFirmLiveUsdc));
       const marketTideLock = computeMarketTideLock(latentForceRanked);
       try {
