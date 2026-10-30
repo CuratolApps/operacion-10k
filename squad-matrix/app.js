@@ -194,9 +194,9 @@ let appState = {
   totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 259) ? initialSavedSquad.realWins : BASE_WINS,
   totalLosses: 0,
   totalProfitUsdc: (initialSavedSquad && typeof initialSavedSquad.totalProfitUsdc === "number") ? initialSavedSquad.totalProfitUsdc : BASE_BLOCK_PROFIT_USDC,
-  dailyWinsToday: (initialSavedSquad && typeof initialSavedSquad.dailyWinsToday === "number" && initialSavedSquad.dailyWinsToday >= 35) ? initialSavedSquad.dailyWinsToday : 35,
+  dailyWinsToday: (initialSavedSquad && typeof initialSavedSquad.dailyWinsToday === "number" && initialSavedSquad.dailyWinsToday >= 1) ? initialSavedSquad.dailyWinsToday : 2,
   dailyLossesToday: 0,
-  dailyProfitTodayUsdc: (initialSavedSquad && typeof initialSavedSquad.dailyProfitTodayUsdc === "number") ? initialSavedSquad.dailyProfitTodayUsdc : 2.09,
+  dailyProfitTodayUsdc: (initialSavedSquad && typeof initialSavedSquad.dailyProfitTodayUsdc === "number") ? initialSavedSquad.dailyProfitTodayUsdc : 0.55,
   realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 259) ? initialSavedSquad.realWins : BASE_WINS,
   realLosses: 0,
   realBe: (initialSavedSquad && initialSavedSquad.realBe) || 9,
@@ -319,8 +319,8 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const closedBase = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
       const closedProfit = Number((closedBase - Number(appState.totalLoanInjected || BASE_INJECTED)).toFixed(2));
-      const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? appState.dailyProfitTodayUsdc : 2.09).toFixed(2));
-      const dailyWins = Number(appState.dailyWinsToday || 35);
+      const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? appState.dailyProfitTodayUsdc : 0.55).toFixed(2));
+      const dailyWins = Number(appState.dailyWinsToday || 2);
       const dailyLosses = Number(appState.dailyLossesToday || 0);
       updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, dailyLosses);
       updatePricesAndSignals();
@@ -940,7 +940,7 @@ let opsBaselineAtLast100ResetClient = 0;
 
 function computeDaily1000PacemakerClient(realNetTodayUsdc = 0, now = new Date(), totalOpsToday = appState.dailyWinsToday) {
   const netToday = Math.max(0, Number(realNetTodayUsdc || 0));
-  const rawOps = Math.max(0, Number(totalOpsToday !== undefined ? totalOpsToday : (appState.dailyWinsToday || 35)));
+  const rawOps = Math.max(0, Number(totalOpsToday !== undefined ? totalOpsToday : (appState.dailyWinsToday || 2)));
   const completed100BlocksCount = Math.floor(netToday / 100.00);
   if (completed100BlocksCount > lastCompleted100BlockIdxClient) {
     lastCompleted100BlockIdxClient = completed100BlocksCount;
@@ -1897,9 +1897,9 @@ function updateTopBarCards() {
   const cycle24h = computeDaily1000PacemakerClient(dailyProfit, new Date(), dailyWins);
 
   const dailyHeadlineText = `HOY NETO: +$${cycle24h.cycleNetUsdc.toFixed(2)} / $100.00 USDC (${cycle24h.pctDone.toFixed(1)}% · Faltan $${cycle24h.remainingUsdc24h.toFixed(2)})`;
-  const dailyOpsBadgeText = `⚡ ${cycle24h.effectiveOpsCount} Ops · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
+  const dailyOpsBadgeText = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
   const flowBreakdownText = `🕒 ${cycle24h.utcClockStr} · ⏳ Corte 24h (00:00 UTC): Faltan ${cycle24h.remainingTimeStr}`;
-  const card2CycleFootText = `⚡ ${cycle24h.effectiveOpsCount} Ops · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro · Cerrado L1: $${realClosedBalanceFmt}`;
+  const card2CycleFootText = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
 
   setTextIfChanged(document.getElementById("topTotalProfit"), dailyHeadlineText);
   setTextIfChanged(document.getElementById("topTotalProfitPct"), dailyOpsBadgeText);
@@ -1919,7 +1919,7 @@ function updateTopBarCards() {
   let pnl3 = Number((Number(closedProfit.toFixed(1)) - pnl1 - pnl2).toFixed(1));
 
   // Renderizar marcador diario compacto en la insignia inferior de Card 2
-  const winStreakTextStr = `⚡ ${cycle24h.effectiveOpsCount} Ops · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
+  const winStreakTextStr = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
   const winStreakEl = document.getElementById("winStreakText");
   if (winStreakEl) {
     setTextIfChanged(winStreakEl, winStreakTextStr);
@@ -2292,15 +2292,14 @@ function startUtcClock() {
   function tick() {
     const now = new Date();
     if (clockEl) setTextIfChanged(clockEl, `${now.toISOString().slice(11, 19)} UTC`);
-    const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 4.67).toFixed(2));
-    const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 35;
-    const accumNet = Number((appState.totalProfitUsdc || 214.43).toFixed(2));
+    const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 0.55).toFixed(2));
+    const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 2;
     const cycle24h = computeDaily1000PacemakerClient(dailyProfit, now, dailyWins);
     setTextIfChanged(
       document.getElementById("topProfitFloatingPill"),
       `🕒 ${cycle24h.utcClockStr} · ⏳ Corte 24h (00:00 UTC): Faltan ${cycle24h.remainingTimeStr}`
     );
-    const footText = `⚡ ${cycle24h.effectiveOpsCount} Ops Efectivas · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro · Neto L1: +$${accumNet.toFixed(2)}`;
+    const footText = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
     setTextIfChanged(document.getElementById("topProfitLadderPill"), footText);
     setTextIfChanged(document.getElementById("card2CycleFooter"), footText);
     setTextIfChanged(

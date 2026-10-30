@@ -76,11 +76,11 @@
           🕒 21:18:00 UTC · ⏳ Corte 24h (00:00 UTC): Faltan 02h 42m 00s
         </div>
         <div id="card2CycleFooter" style="width: 100% !important; box-sizing: border-box !important; font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.45rem, 0.53vw, 0.51rem) !important; font-weight: 800 !important; letter-spacing: -0.02em !important; line-height: 1.15 !important; color: #1E3A8A !important; background: #EFF6FF !important; border: 1px solid #BFDBFE !important; border-radius: 4px !important; padding: 2px 3px !important; text-align: center !important; white-space: nowrap !important; overflow: hidden !important;">
-          ⚡ 2 Ops · Prom: +$0.28/tiro · Cerrado L1: $968.19
+          ⚡ 2 Ops Ganadas · Promedio: +$0.28/tiro
         </div>
         <div id="topProfitLadderPill" style="display: none;"></div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills" style="display: none !important;">
-          <span class="sq-badge streak"><b id="winStreakText">⚡ 2 Ops · Prom: +$0.28/tiro</b></span>
+          <span class="sq-badge streak"><b id="winStreakText">⚡ 2 Ops Ganadas · Promedio: +$0.28/tiro</b></span>
           <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b><span class="sq-val profit-green" id="sq1Val">+$82.6</span></span>
           <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b><span class="sq-val profit-green" id="sq2Val">+$64.2</span></span>
           <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b><span class="sq-val profit-green" id="sq3Val">+$67.6</span></span>
@@ -163,7 +163,10 @@
           set("topShieldPill", "Mentora 40%: $" + s.shieldMargin.toFixed(2));
           if (s.dailyHeadlineText) set("topTotalProfit", s.dailyHeadlineText);
           if (s.flowBreakdownText) set("topProfitFloatingPill", s.flowBreakdownText);
-          if (s.winStreakText) set("winStreakText", s.winStreakText);
+          if (s.winStreakText) {
+            set("winStreakText", s.winStreakText);
+            set("card2CycleFooter", s.winStreakText);
+          }
           if (s.blockProgressLabel) set("topBlock1ProgressLabel", s.blockProgressLabel);
           if (s.blockRuleBadgeText) set("topBlock1RuleBadge", s.blockRuleBadgeText);
           if (s.radarSubLabelText) set("topRadarSubLabel", s.radarSubLabelText);
