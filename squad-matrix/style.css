@@ -1339,7 +1339,8 @@ html, body {
   border: 1px solid rgba(167, 243, 208, 0.65) !important;
   box-shadow: 0 4px 10px rgba(4, 120, 87, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
   border-radius: 9px !important;
-  padding: 5px 7px !important;
+  padding: 4px 6px !important;
+  gap: 2px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
   display: flex !important;
@@ -1361,18 +1362,19 @@ html, body {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
+  line-height: 1.05 !important;
 }
 
 .pair-title {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.74rem !important;
+  font-size: 0.72rem !important;
   font-weight: 800 !important;
   color: #F8FAFC !important;
 }
 
 .pair-squad-badge {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.54rem !important;
+  font-size: 0.52rem !important;
   font-weight: 700 !important;
   color: #94A3B8 !important;
   background: rgba(255, 255, 255, 0.06) !important;
@@ -1384,14 +1386,16 @@ html, body {
   display: flex !important;
   justify-content: space-between !important;
   align-items: baseline !important;
-  margin: 1px 0 !important;
+  margin: 0 !important;
+  line-height: 1.05 !important;
 }
 
 .pair-price {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.82rem !important;
+  font-size: 0.78rem !important;
   font-weight: 800 !important;
   color: #FFFFFF !important;
+  line-height: 1.05 !important;
 }
 
 .pair-price-flash-up {
@@ -1506,36 +1510,75 @@ html, body {
   font-weight: 800 !important;
 }
 
-/* Barra inferior activa en 1 SOLA LÍNEA HORIZONTAL (CERO DESBORDE) */
+/* Barra inferior de 2 LÍNEAS APILADAS (2 PISOS · CERO TEXTOS CORTADOS EN NINGÚN ESTADO) */
 .pair-bottom-row,
 .pair-signal-row,
 .pair-card .pair-footer,
 .pair-card .status-pill,
 .pair-status-bar {
   display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 4px !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 1px !important;
   width: 100% !important;
+  min-height: 26px !important;
   padding: 2px 5px !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.53rem !important;
-  font-weight: 800 !important;
-  white-space: nowrap !important;
+  border-radius: 5px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
-  border-radius: 4px !important;
+  background: rgba(6, 78, 59, 0.45) !important;
+  border: 1px solid rgba(167, 243, 208, 0.42) !important;
 }
 
 .pair-bottom-row.active-pos-row,
 .pair-signal-row.active-pos-row {
   display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 4px !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 1px !important;
   width: 100% !important;
+  min-height: 26px !important;
+  padding: 2px 5px !important;
+  border-radius: 5px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
+}
+
+.status-line-1, .status-line-2 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.50rem !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  color: #FFFFFF !important;
+}
+
+.status-line-1 span, .status-line-2 span {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.50rem !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+}
+
+.pair-cell.pair-cell-active-pos.pair-cell-amber .pair-status-bar {
+  background: linear-gradient(90deg, #D97706 0%, #B45309 100%) !important;
+  border: 1px solid #FDE68A !important;
+  color: #FFFFFF !important;
+}
+
+.pair-cell.pair-cell-active-pos.pair-cell-green .pair-status-bar {
+  background: linear-gradient(90deg, #059669 0%, #047857 100%) !important;
+  border: 1px solid #6EE7B7 !important;
+  color: #FFFFFF !important;
 }
 
 .active-pos-tag,
@@ -2793,6 +2836,8 @@ footer,
     0 4px 10px rgba(4, 120, 87, 0.18),
     inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
   border-radius: 9px !important;
+  padding: 4px 6px !important;
+  gap: 2px !important;
   color: #FFFFFF !important;
   transform: none !important;
   transition: background 0.15s ease, border-color 0.15s ease !important;
@@ -2849,8 +2894,9 @@ footer,
 .pair-cell .pair-price,
 .pair-cell.pair-cell-active-pos .pair-price {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.86rem !important;
+  font-size: 0.78rem !important;
   font-weight: 800 !important;
+  line-height: 1.05 !important;
   color: #FFFFFF !important;
 }
 

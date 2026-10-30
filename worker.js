@@ -3755,9 +3755,13 @@ export default {
             const STRICT_RECOVERY_LOCK = false;
             const IMMEDIATE_SNOWBALL_START = true;
             const NO_RED_EXIT = true;
-            const MAX_OPEN_POSITIONS = 8;
-            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 6;
-            const MAX_UNFENCED_POSITIONS = 2;
+            const MAX_OPEN_POSITIONS = 10;
+            const FAST_SCALP_LANES = 2;
+            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 10;
+            const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
+            const FAST_LANE_LOCK_NET_USDC = 0.08;
+            const EXPRESS_EVAC_DELTA_RATIO = 0.00035;
+            const EXPRESS_EVAC_NET_USDC = 0.02;
             const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
             const priorityEvacSet = new Set(["PAXG", "SUI", "ETH", "LINK"]);
@@ -3849,8 +3853,8 @@ export default {
                   }
                 }
 
-                // Evacuación Prioritaria Inmediata para PAXG, SUI, ETH y LINK cuando netAfterFee >= +$0.10 USDC y L2 < 72%
-                if (priorityEvacSet.has(coin) && netAfterFee >= 0.10 && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                // Evacuación Ultra-Rápida para PAXG, SUI, ETH y LINK en Breakeven Neto Exacto (entryPx ± 0.035% = +$0.02 USDC libres de comisión)
+                if (priorityEvacSet.has(coin) && netAfterFee >= EXPRESS_EVAC_NET_USDC && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   let favorRatio = 0.50;
                   let currentBookPx = entryPx;
                   try {
@@ -3894,7 +3898,7 @@ export default {
                         `📍 <b>Par Evacuado:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
                         `📥 <b>Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code> ➔ 📤 <b>Salida:</b> <code>$${fmtPx(currentBookPx, coin)}</code>\n` +
                         `💰 <b>Ganancia Neta Realizada:</b> <b>+$${netAfterFee.toFixed(4)} USDC</b> (Libre de comisión · L2 ${(favorRatio * 100).toFixed(1)}% &lt; 72%)\n` +
-                        `🔓 <b>Margen Liberado:</b> <code>Listo para descomprimir cola #00 (Tope MAX_RECOVERY=${MAX_CONCURRENT_POSITIONS_DURING_RECOVERY})</code>\n` +
+                        `🔓 <b>Margen Liberado:</b> <code>Listo para descomprimir cola #00 (8 en Guardia + 2 Carriles Rápidos)</code>\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                         `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
                       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -3907,36 +3911,30 @@ export default {
                   }
                 }
 
-                if (!hasReduceOrder && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
-                  // Evacuación Breakeven Neto (Entrada + Comisión + $0.10 USDC) Post-Only Maker
-                  const evacUsd = rtFeeUsd + 0.10;
-                  const deltaPx = evacUsd / absSz;
+                if (ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                  // Para PAXG, SUI, ETH y LINK: Breakeven Neto Exacto (entryPx ± 0.035%, +$0.02 USDC libres de comisión)
+                  const isPriorityCoin = priorityEvacSet.has(coin);
+                  const evacUsd = rtFeeUsd + FAST_LANE_LOCK_NET_USDC;
+                  const deltaPx = isPriorityCoin ? (entryPx * EXPRESS_EVAC_DELTA_RATIO) : (evacUsd / absSz);
                   const evacPx = isShort ? entryPx - deltaPx : entryPx + deltaPx;
-                  await client.order({
-                    orders: [{
-                      a: ASSET_INDICES[coin],
-                      b: isShort,
-                      p: fmtPx(evacPx, coin),
-                      s: fmtSz(absSz, ASSET_DEC[coin]),
-                      r: true,
-                      t: { limit: { tif: "Alo" } }
-                    }],
-                    grouping: "na"
-                  }).catch(() => {});
-                } else if (STRICT_RECOVERY_LOCK && netAfterFee >= 0.10 && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
-                  const lockUsd = rtFeeUsd + Math.max(0.10, netAfterFee * (gainPct > 0.80 ? 0.90 : gainPct >= 0.25 ? 0.83 : gainPct >= 0.10 ? 0.75 : 0.80));
-                  const closePx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
-                  await client.order({
-                    orders: [{
-                      a: ASSET_INDICES[coin],
-                      b: isShort,
-                      p: fmtPx(closePx, coin),
-                      s: fmtSz(absSz, ASSET_DEC[coin]),
-                      r: true,
-                      t: { limit: { tif: "Ioc" } }
-                    }],
-                    grouping: "na"
-                  }).catch(() => {});
+                  const evacPxStr = fmtPx(evacPx, coin);
+                  const currentReducePxStr = existingReduceOrder ? fmtPx(parseFloat(existingReduceOrder.limitPx || "0"), coin) : null;
+                  if (!hasReduceOrder || (isPriorityCoin && currentReducePxStr !== evacPxStr)) {
+                    if (existingReduceOrder) {
+                      await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
+                    }
+                    await client.order({
+                      orders: [{
+                        a: ASSET_INDICES[coin],
+                        b: isShort,
+                        p: evacPxStr,
+                        s: fmtSz(absSz, ASSET_DEC[coin]),
+                        r: true,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    }).catch(() => {});
+                  }
                 }
               }
 

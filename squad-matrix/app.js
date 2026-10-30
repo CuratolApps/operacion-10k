@@ -843,8 +843,6 @@ function render54PairsGrid() {
 
     const initPxNum = parseFloat(appState.mids[p.symbol] || SYNTHETIC_DEFAULTS[p.symbol] || "1.0");
     const initPxText = formatPairPrice(initPxNum, p.symbol);
-    const initIcon = "bolt";
-    const initStatus = "⚡ AUTO 5% (+$0.10)";
 
     cell.innerHTML = `
       <div class="pair-header-row">
@@ -855,14 +853,13 @@ function render54PairsGrid() {
         <span class="pair-price" id="px_${cleanId}">${initPxText}</span>
       </div>
       <div class="pair-bottom-row pair-status-bar" id="sig_${cleanId}">
-        <span class="signal-pill signal-wait" id="sigPill_${cleanId}">
-          <i class="material-symbols-rounded" id="sigIcon_${cleanId}" style="display: none;">${initIcon}</i>
-          <span id="sigText_${cleanId}">${initStatus}</span>
-        </span>
-        <span class="active-lock-tag be" id="sigLock_${cleanId}" style="display: inline-flex;">
-          <i class="material-symbols-rounded" style="display: none;">lock</i>
-          <span id="sigLockText_${cleanId}">🔒 #00</span>
-        </span>
+        <div class="status-line-1" id="sigLine1_${cleanId}">
+          <span id="sigText_${cleanId}">⚡ AUTO 5% ($50.45 A 5X)</span>
+          <span id="sigRight1_${cleanId}"></span>
+        </div>
+        <div class="status-line-2" id="sigLine2_${cleanId}">
+          <span id="sigLockText_${cleanId}">🔒 CANDADO #00 (+$0.10)</span>
+        </div>
       </div>
     `;
     container.appendChild(cell);
@@ -1054,7 +1051,7 @@ function formatBreatherCountdown(untilMs) {
   const remSec = Math.max(0, Math.ceil((untilMs - Date.now()) / 1000));
   const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
   const ss = String(remSec % 60).padStart(2, "0");
-  return `🧘‍♂️ RESPIRO ${mm}:${ss}`;
+  return `⏳ RECALIBRANDO ${mm}:${ss}`;
 }
 
 // HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / 36 BOTS AUTO-COMPOUNDING 5% + FUERZA LATENTE >=92% + RESPIRO 08:00)
@@ -1789,10 +1786,10 @@ function updateTopBarCards() {
 
   // 5. Radar Matrix 18x54 & Barra Inferior: Indicador 100% compacto sin cortes
   const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
-  const nominaHarvested = Math.max(8.93, +(closedBase - 1000.00).toFixed(2));
+  const nominaHarvested = Math.max(9.17, +(closedBase - 1000.00).toFixed(2));
 
   const topPillText = `4 PISTAS · CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X) · CANDADO +$0.10`;
-  const readySquadsText = `🟢 ${openCount}/8 EN FUEGO (TOPE SEGURIDAD) · ${Math.max(0, 18 - openCount)} EN COLA`;
+  const readySquadsText = `🟢 8 EN GUARDIA + 2 CARRILES RÁPIDOS ACTIVOS`;
   const subLabelText = `FONDO FUNDADOR: +$${nominaHarvested.toFixed(2)} / +$52.00 (DÍA 1 · 30-31 OCT)`;
   const bottomBannerText = `⚡ 5% A 5X ($${calibre.marginUsdc.toFixed(2)})`;
 
@@ -1830,9 +1827,23 @@ function updateTopBarCards() {
   } catch (_) {}
 }
 
-// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (100% COMPACTO SIN CORTES)
+// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (PIE DE 2 LÍNEAS APILADAS · CERO TEXTOS CORTADOS)
 function updatePricesAndSignals() {
   const cascadePriority = ["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR", "AVAX", "DOGE", "HYPE"];
+  const closedProfit = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
+  const closedBase = +(Number(appState.totalLoanInjected || BASE_INJECTED) + closedProfit).toFixed(2);
+  const calibre = computeAutoCompoundCalibre(closedBase);
+  const autoLine1Text = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
+
+  const nowD = new Date();
+  const utcDay = nowD.getUTCDay();
+  const utcMins = nowD.getUTCHours() * 60 + nowD.getUTCMinutes();
+  const isWeekday = utcDay >= 1 && utcDay <= 5;
+  const isWallStreetOpen = isWeekday && utcMins >= (13 * 60 + 30) && utcMins < (20 * 60);
+  const isFxCommoditiesOpen = (utcDay >= 1 && utcDay <= 4 && !(utcMins >= 21 * 60 && utcMins < 22 * 60)) ||
+    (utcDay === 5 && utcMins < 21 * 60) ||
+    (utcDay === 0 && utcMins >= 22 * 60);
+
   const currentOpenSet = new Set(
     (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
   );
@@ -1864,10 +1875,8 @@ function updatePricesAndSignals() {
     const cell = document.getElementById(`pairCell_${cleanId}`);
     const pxEl = document.getElementById(`px_${cleanId}`);
     const sqPxEl = document.getElementById(`sqPx_${cleanId}`);
-    const sigPill = document.getElementById(`sigPill_${cleanId}`);
-    const sigIcon = document.getElementById(`sigIcon_${cleanId}`);
     const sigText = document.getElementById(`sigText_${cleanId}`);
-    const sigLock = document.getElementById(`sigLock_${cleanId}`);
+    const sigRight1 = document.getElementById(`sigRight1_${cleanId}`);
     const sigLockText = document.getElementById(`sigLockText_${cleanId}`);
 
     let currentPrice = 0;
@@ -1902,6 +1911,7 @@ function updatePricesAndSignals() {
     const isInBreather = !activePos && breatherUntil > Date.now();
 
     if (activePos) {
+      // ESTADO A — Posición Abierta (2 pisos apilados)
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
       const isShort = szi < 0;
@@ -1913,56 +1923,39 @@ function updatePricesAndSignals() {
       const targetCellClass = "pair-cell pair-cell-active-pos " + (pnl >= 0 || rInfo.isLocked ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
-      if (sigIcon && sigIcon.style.display !== "none") sigIcon.style.display = "none";
+      const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
+      const dirWord = isShort ? "SHORT" : "LONG";
+      setTextIfChanged(sigText, dirWord);
+      setTextIfChanged(sigRight1, pnlFormatted);
 
-      if (sigPill) {
-        const pillClass = "signal-pill " + (isShort ? "pos-short" : "pos-long");
-        if (sigPill.className !== pillClass) sigPill.className = pillClass;
-        const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
-        const dirWord = isShort ? "SHORT" : "LONG";
-        setTextIfChanged(sigText, `${dirWord} ${pnlFormatted}`);
+      let line2Text = "";
+      if (pnl >= 0.10 || rInfo.isLocked) {
+        line2Text = "🔒 CANDADO #00 ACTIVO";
+      } else if (queueOrder <= 4) {
+        line2Text = `🎯 SALIDA #${queueOrder} LISTA`;
+      } else {
+        line2Text = `🛡️ ESCUDO #00 · COLA #${queueOrder}`;
       }
-      if (sigLock) {
-        if (sigLock.style.display !== "inline-flex") sigLock.style.display = "inline-flex";
-        let rightBadgeText = "";
-        let rightLockClass = "active-lock-tag shield";
-        if (rInfo.isLocked) {
-          rightBadgeText = "🔒 #00 (+85%)";
-          rightLockClass = "active-lock-tag be";
-        } else if (queueOrder <= 4) {
-          rightBadgeText = `🎯 #${queueOrder} COBRO`;
-          rightLockClass = "active-lock-tag shield";
-        } else {
-          rightBadgeText = `🛡️ ACTIVA #${queueOrder}`;
-          rightLockClass = "active-lock-tag shield";
-        }
-        if (sigLock.className !== rightLockClass) sigLock.className = rightLockClass;
-        setTextIfChanged(sigLockText, rightBadgeText);
-      }
+      setTextIfChanged(sigLockText, line2Text);
     } else if (isInBreather) {
+      // ESTADO B — Bot en Respiro de 8 Minutos (2 pisos apilados)
       if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
-      if (sigIcon && sigIcon.style.display !== "none") sigIcon.style.display = "none";
-      if (sigLock && sigLock.style.display !== "none") sigLock.style.display = "none";
-      if (sigPill) {
-        const pillClass = "signal-pill signal-wait";
-        if (sigPill.className !== pillClass) sigPill.className = pillClass;
-        setTextIfChanged(sigText, formatBreatherCountdown(breatherUntil));
-      }
+      setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");
+      setTextIfChanged(sigRight1, "");
+      setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
     } else {
+      // ESTADO C — En Auto / Standby vigilando Fuerza Latente (2 pisos apilados)
       if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
-      if (sigIcon && sigIcon.style.display !== "none") sigIcon.style.display = "none";
+      setTextIfChanged(sigText, autoLine1Text);
+      setTextIfChanged(sigRight1, "");
 
-      if (sigPill) {
-        const pillClass = "signal-pill signal-wait";
-        if (sigPill.className !== pillClass) sigPill.className = pillClass;
-        setTextIfChanged(sigText, "⚡ AUTO 5% (+$0.10)");
+      let isMarketOpenForPair = true;
+      if (p.block === 6 || p.squadNum === "#14") {
+        isMarketOpenForPair = isWallStreetOpen;
+      } else if (p.block === 4 || p.block === 5) {
+        isMarketOpenForPair = isFxCommoditiesOpen;
       }
-      if (sigLock) {
-        if (sigLock.style.display !== "inline-flex") sigLock.style.display = "inline-flex";
-        const freeLockClass = "active-lock-tag be";
-        if (sigLock.className !== freeLockClass) sigLock.className = freeLockClass;
-        setTextIfChanged(sigLockText, "🔒 #00");
-      }
+      setTextIfChanged(sigLockText, isMarketOpenForPair ? "🔒 CANDADO #00 (+$0.10)" : "⏸️ STANDBY · FUERZA L2");
     }
   });
 }
