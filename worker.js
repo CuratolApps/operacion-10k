@@ -3752,12 +3752,14 @@ export default {
             });
             const openCoins = openPositions.map(p => (p.position || p).coin);
 
-            const STRICT_RECOVERY_LOCK = true;
+            const STRICT_RECOVERY_LOCK = false;
+            const IMMEDIATE_SNOWBALL_START = true;
             const NO_RED_EXIT = true;
             const MAX_UNFENCED_POSITIONS = 2;
+            const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
 
-            console.log(`[CLOUD SQUAD GUARD] 🛡️ NEXUS APEX-36 Activo · ${openPositions.length} posiciones abiertas (${openCoins.join(", ") || "ninguna"}) · NO_RED_EXIT=${NO_RED_EXIT} · STRICT_RECOVERY_LOCK=${STRICT_RECOVERY_LOCK}`);
+            console.log(`[CLOUD SQUAD GUARD] 🛡️ NEXUS APEX-36 Activo · ${openPositions.length} posiciones abiertas (${openCoins.join(", ") || "ninguna"}) · NO_RED_EXIT=${NO_RED_EXIT} · IMMEDIATE_SNOWBALL_START=${IMMEDIATE_SNOWBALL_START} · RESPIRO=${POST_TRADE_COOLDOWN_MS / 60000}m`);
             let unfencedCount = 0;
             for (const pos of openPositions) {
               const p = pos.position || pos;
@@ -3851,24 +3853,29 @@ export default {
                 }
               }
 
-              // 2. CERROJO TOTAL A NUEVAS ENTRADAS (STRICT_RECOVERY_LOCK = true + MAX_UNFENCED_POSITIONS = 2)
-              // Prohibido abrir cualquier operación nueva mientras queden posiciones abiertas por recuperar o antes de las 00:00:00 UTC
+              // 2. ARRANQUE BOLA DE NIEVE CON PARES LIBRES (IMMEDIATE_SNOWBALL_START = true + CALIBRE 5% A 5X = $252.25 NOCIONAL)
+              // Las 7 de la cola (AVAX, PAXG, ETH, BTC, XRP, SOL, NEAR) cobran en +$0.10 USDC netos y entran en 8m de respiro antes de reincorporarse
+              const stuckSetCloud = new Set(["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]);
               const utcMinsCloud = new Date().getUTCMinutes();
               const isPreFundingMinute = (utcMinsCloud === 58 || utcMinsCloud === 59);
               const cloudUnits = [
-                { name: "#04 GOLF (Bloque 2)", pairs: ["XRP", "DOGE", "ADA"], notional: 110, minImb: isPreFundingMinute ? 55.5 : 58.0 },
-                { name: "#05 HOTEL (Bloque 2)", pairs: ["HYPE", "TRX", "UNI"], notional: 110, minImb: isPreFundingMinute ? 55.5 : 58.0 },
-                { name: "#06 INDIA (Bloque 2)", pairs: ["DOT", "NEAR", "LTC"], notional: 110, minImb: isPreFundingMinute ? 55.5 : 58.0 },
-                { name: "#01 ALFA (Bloque 1)", pairs: ["SOL", "SUI", "AVAX"], notional: 180, minImb: isPreFundingMinute ? 56.0 : 61.0 },
-                { name: "#02 BRAVO (Bloque 1)", pairs: ["BTC", "PAXG", "LINK"], notional: 180, minImb: 62.0 },
-                { name: "#03 CHARLIE (Bloque 1)", pairs: ["ETH", "BNB", "AAVE"], notional: 180, minImb: 62.0 }
+                { name: "#01 ALFA (Auto 5%)", pairs: ["SUI"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.5 },
+                { name: "#02 BRAVO (Auto 5%)", pairs: ["LINK"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.5 },
+                { name: "#03 CHARLIE (Auto 5%)", pairs: ["BNB", "AAVE"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.5 },
+                { name: "#04 GOLF (Auto 5%)", pairs: ["DOGE", "ADA"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.0 },
+                { name: "#05 HOTEL (Auto 5%)", pairs: ["HYPE", "TRX", "UNI"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.0 },
+                { name: "#06 INDIA (Auto 5%)", pairs: ["DOT", "LTC"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.0 }
               ];
 
-              const isBeforeMidnightUtc = Date.now() < Date.parse("2026-10-30T00:00:00.000Z");
-              // Cupo estricto de ligereza: máximo 2 posiciones sin Candado #00 simultáneamente (y 0 durante STRICT_RECOVERY_LOCK)
-              let slotsLeft = (STRICT_RECOVERY_LOCK && (isBeforeMidnightUtc || openPositions.length > 0))
-                ? 0
-                : Math.max(0, MAX_UNFENCED_POSITIONS - unfencedCount);
+              const unfencedHuntersCloud = openPositions.filter(pos => {
+                const p = pos.position || pos;
+                if (stuckSetCloud.has(p.coin)) return false;
+                const positionVal = Math.abs(parseFloat(p.positionValue || "0"));
+                const unrealizedPnl = parseFloat(p.unrealizedPnl || "0");
+                return (unrealizedPnl - positionVal * HL_ROUNDTRIP_FEE_RATE) < 0.10;
+              }).length;
+
+              let slotsLeft = Math.max(0, MAX_UNFENCED_POSITIONS - unfencedHuntersCloud);
               for (const unit of cloudUnits) {
                 if (slotsLeft <= 0) break;
                 const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly)).length;

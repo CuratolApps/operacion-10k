@@ -285,7 +285,18 @@ document.addEventListener("DOMContentLoaded", () => {
   try { updateTopBarCards(); } catch (e) {}
   startUtcClock();
   fetchHyperliquidState();
-  setInterval(fetchHyperliquidState, 3000);
+  setInterval(fetchHyperliquidState, 2000);
+  setInterval(() => {
+    try {
+      const closedProfit = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
+      const closedBase = +(Number(appState.totalLoanInjected || BASE_INJECTED) + closedProfit).toFixed(2);
+      const dailyProfit = Number((appState.dailyProfitTodayUsdc || 0.44).toFixed(2));
+      const dailyWins = Number(appState.dailyWinsToday || 3);
+      const dailyLosses = Number(appState.dailyLossesToday || 0);
+      updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, dailyLosses);
+      updatePricesAndSignals();
+    } catch (_) {}
+  }, 1000);
   try { fetchMatrixWaveIntelligence(); } catch (e) {}
   setInterval(() => { try { fetchMatrixWaveIntelligence(); } catch (e) {} }, 45000);
   setInterval(() => { try { updateWaveRelativeTimestamps(); } catch (e) {} }, 15000);
@@ -997,8 +1008,25 @@ function computeAutoCompoundCalibre(closedBase) {
   };
 }
 
-// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / 36 BOTS AUTO-COMPOUNDING 5% + QUEMA-LASTRE)
+// MEMORIA DE RESPIRO DE 8 MINUTOS (480,000 MS) AL SALIR DE COLA #00
+const POST_TRADE_BREATHER_MS = 8 * 60 * 1000;
+const clientPairBreatherUntil = {};
+let prevKnownOpenCoinSet = new Set(["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]);
+
+function formatBreatherCountdown(untilMs) {
+  const remSec = Math.max(0, Math.ceil((untilMs - Date.now()) / 1000));
+  const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
+  const ss = String(remSec % 60).padStart(2, "0");
+  return `🧘‍♂️ RESPIRO ${mm}:${ss} (RECALIBRANDO)`;
+}
+
+// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / 36 BOTS AUTO-COMPOUNDING 5% + RESPIRO 08:00)
 function getSquadRelayText(sq) {
+  const nowMs = Date.now();
+  const breatherCoin = sq.pairs.find(c => clientPairBreatherUntil[c] && clientPairBreatherUntil[c] > nowMs);
+  if (breatherCoin) {
+    return `${sq.code} 1 (${breatherCoin}): ${formatBreatherCountdown(clientPairBreatherUntil[breatherCoin])} ⇄ ${sq.code} 2: AUTO 5% ACTIVO`;
+  }
   if (appState.clonesMap && appState.clonesMap[sq.id] && appState.clonesMap[sq.id].relayStatus) {
     return appState.clonesMap[sq.id].relayStatus;
   }
@@ -1369,6 +1397,36 @@ function computeQuincenalCutLabel() {
   return `${lastDay} de ${monthsEs[m]} ${y}`;
 }
 
+function formatStepWindowCountdown(cutIso, cutShort) {
+  if (!cutIso) return `🕒 Corte: ${cutShort || "23:59 UTC"}`;
+  const targetMs = Date.parse(cutIso);
+  if (isNaN(targetMs)) return `🕒 Corte: ${cutShort || "23:59 UTC"}`;
+  const diffSec = Math.max(0, Math.floor((targetMs - Date.now()) / 1000));
+  const h = Math.floor(diffSec / 3600);
+  const m = Math.floor((diffSec % 3600) / 60);
+  const s = diffSec % 60;
+  return `⏳ Cierre ventana: ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m ${String(s).padStart(2, "0")}s`;
+}
+
+function computeFlightLockedUsdc() {
+  const openPositions = appState.openPositions || [];
+  let sumFlight = 0;
+  for (const pObj of openPositions) {
+    const pos = pObj?.position;
+    if (!pos) continue;
+    const coin = pos.coin === "kPEPE" ? "PEPE" : pos.coin;
+    const px = parseFloat(appState.mids?.[pos.coin] || appState.mids?.[coin] || pos.entryPx || "0");
+    const rInfo = computeClientRatchetStatus(pObj, px);
+    const rawPnl = parseFloat(pos.unrealizedPnl || "0");
+    if (rawPnl > 0) {
+      sumFlight += rawPnl;
+    } else if (rInfo && rInfo.isLocked && rInfo.lockedNetUsd > 0) {
+      sumFlight += rInfo.lockedNetUsd;
+    }
+  }
+  return +sumFlight.toFixed(2);
+}
+
 function updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, dailyLosses) {
   const safeClosed = Math.max(1008.93, Number(closedBase || BASE_CLOSED_FIRME));
   const closedBaseFmt = safeClosed.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -1377,6 +1435,7 @@ function updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, d
   const cyclePct = Math.min(100, Math.max(0, +((safeClosed / cycleGoal) * 100).toFixed(1)));
   const nominaHarvested = Math.max(0, +(safeClosed - 1000.00).toFixed(2));
   const cutLabel = computeQuincenalCutLabel();
+  const flightLockedUsdc = computeFlightLockedUsdc();
 
   // Encabezado
   setTextIfChanged(
@@ -1411,34 +1470,108 @@ function updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, d
   );
   setTextIfChanged(
     document.getElementById("lifeCard4PitStopText"),
-    `Pit-Stop 30m: LISTO TRAS BLOQUE (+$52.00) · COSECHA 24H ACTIVA`
+    `🧘‍♂️ Respiro 08:00 al salir de Cola · Pit-Stop 30m listo tras Bloque (+$52.00)`
   );
 
-  // Escalera de los 16 Escalones (4x4)
+  // Escalera de los 16 Escalones (4x4) con Doble Indicador en Vivo (Meta + Extra Post-Meta hasta 23:59:59 UTC)
   let foundInFire = false;
   let activeStepDay = 1;
   for (let i = 1; i <= 16; i++) {
     const cardEl = document.getElementById(`lifeStepCard_${i}`);
     if (!cardEl) continue;
     const targetVal = parseFloat(cardEl.getAttribute("data-target") || "2250");
-    const badgeEl = cardEl.querySelector(".step-state-badge");
+    const floorVal = parseFloat(cardEl.getAttribute("data-floor") || "1000");
+    const quotaVal = parseFloat(cardEl.getAttribute("data-quota") || String(+(targetVal - floorVal).toFixed(2)));
+    const cutIso = cardEl.getAttribute("data-cut") || "";
+    const cutShort = cardEl.getAttribute("data-cut-short") || "23:59 UTC";
+
+    const badgeEl = document.getElementById(`lifeStepBadge_${i}`) || cardEl.querySelector(".l-step-status");
+    const timerEl = document.getElementById(`lifeStepTimer_${i}`);
+    const ind1El = document.getElementById(`lifeStepInd1_${i}`);
+    const ind2El = document.getElementById(`lifeStepInd2_${i}`);
+    const barFillEl = document.getElementById(`lifeStepBarFill_${i}`);
+    const barFlightEl = document.getElementById(`lifeStepBarFlight_${i}`);
+
     const isPayday = i === 16;
+    const isMidCycle = i === 8;
+    const stepClosedRaw = Math.max(0, +(safeClosed - floorVal).toFixed(2));
+    const stepClosedCapped = Math.min(quotaVal, stepClosedRaw);
+    const missingStep = Math.max(0, +(quotaVal - stepClosedCapped).toFixed(2));
+    const extraHarvested = safeClosed > targetVal ? +(safeClosed - targetVal).toFixed(2) : 0.00;
+
+    let isStepCompleted = false;
+    let isStepActive = false;
 
     if (safeClosed >= targetVal) {
+      isStepCompleted = true;
       const targetCls = `life-step-card step-completed${isPayday ? " step-payday-gold" : ""}`;
       if (cardEl.className !== targetCls) cardEl.className = targetCls;
       if (badgeEl) setTextIfChanged(badgeEl, "✅ COMPLETADO");
       if (i === 16) activeStepDay = 16;
     } else if (!foundInFire) {
       foundInFire = true;
+      isStepActive = true;
       activeStepDay = i;
-      const targetCls = `life-step-card step-in-fire${isPayday ? " step-payday-gold" : ""}`;
+      const targetCls = `life-step-card step-in-fire${isMidCycle ? " step-mid-cycle" : ""}${isPayday ? " step-payday-gold" : ""}`;
       if (cardEl.className !== targetCls) cardEl.className = targetCls;
       if (badgeEl) setTextIfChanged(badgeEl, "⚡ EN FUEGO");
     } else {
-      const targetCls = `life-step-card${isPayday ? " step-payday-gold" : ""}`;
+      const targetCls = `life-step-card${isMidCycle ? " step-mid-cycle" : ""}${isPayday ? " step-payday-gold" : ""}`;
       if (cardEl.className !== targetCls) cardEl.className = targetCls;
       if (badgeEl) setTextIfChanged(badgeEl, isPayday ? "🏛️ META CICLO" : "⏳ EN RUTA");
+    }
+
+    // Reloj de Corte Oficial 23:59:59 UTC
+    if (timerEl) {
+      if (isStepActive) {
+        setTextIfChanged(timerEl, formatStepWindowCountdown(cutIso, cutShort));
+      } else if (isStepCompleted) {
+        setTextIfChanged(timerEl, `✅ Meta <23:59 UTC`);
+      } else {
+        setTextIfChanged(timerEl, `🕒 Corte: ${cutShort}`);
+      }
+    }
+
+    // Indicador 1: Progreso de la Meta del Escalón (En Vivo)
+    const flightForCard = isStepActive ? flightLockedUsdc : 0.00;
+    if (ind1El) {
+      if (isStepCompleted) {
+        if (ind1El.className !== "l-step-ind1 ind1-done") ind1El.className = "l-step-ind1 ind1-done";
+        setTextIfChanged(ind1El, `✅ META CUMPLIDA: +$${quotaVal.toFixed(2)} / +$${quotaVal.toFixed(2)} USDC`);
+      } else {
+        if (ind1El.className !== "l-step-ind1") ind1El.className = "l-step-ind1";
+        setTextIfChanged(
+          ind1El,
+          `Profit Cerrado: +$${stepClosedCapped.toFixed(2)} / +$${quotaVal.toFixed(2)} USDC (Faltan $${missingStep.toFixed(2)}) · En Vuelo / Candado #00: +$${flightForCard.toFixed(2)} USDC`
+        );
+      }
+    }
+
+    // Barra de Progreso Viva (Cerrado + En Vuelo / Candado #00)
+    const fillPct = quotaVal > 0 ? Math.min(100, Math.max(0, +((stepClosedCapped / quotaVal) * 100).toFixed(1))) : 0;
+    const flightPct = (isStepActive && quotaVal > 0)
+      ? Math.min(+(100 - fillPct).toFixed(1), Math.max(0, +((flightForCard / quotaVal) * 100).toFixed(1)))
+      : 0;
+    if (barFillEl && barFillEl.style.width !== `${fillPct}%`) {
+      barFillEl.style.width = `${fillPct}%`;
+    }
+    if (barFlightEl && barFlightEl.style.width !== `${flightPct}%`) {
+      barFlightEl.style.width = `${flightPct}%`;
+    }
+
+    // Indicador 2: Renglón de Superávit / Extra Post-Meta (Antes de las 23:59:59 UTC)
+    if (ind2El) {
+      if (isStepCompleted) {
+        if (ind2El.className !== "l-step-ind2 ind2-extra-active") ind2El.className = "l-step-ind2 ind2-extra-active";
+        const nextDayLabel = i < 16 ? `Adelantando Día ${i + 1}` : "Bolsón Fondo Fundador";
+        setTextIfChanged(ind2El, `🔥 EXTRA COSECHADO: +$${extraHarvested.toFixed(2)} USDC ➔ ${nextDayLabel}`);
+      } else {
+        if (ind2El.className !== "l-step-ind2") ind2El.className = "l-step-ind2";
+        setTextIfChanged(
+          ind2El,
+          `➕ Extra Post-Meta (<23:59 UTC): +$0.00 USDC (Se activa al cruzar +$${quotaVal.toFixed(2)})`
+        );
+      }
     }
   }
 
@@ -1652,9 +1785,22 @@ function updateTopBarCards() {
   } catch (_) {}
 }
 
-// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON COBRO AVAX/PAXG #00 + AUTO 5%)
+// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON COBRO AVAX/PAXG #00 + AUTO 5% + RESPIRO 08:00)
 function updatePricesAndSignals() {
   const cascadePriority = ["AVAX", "PAXG", "ETH", "BTC", "DOGE", "XRP", "SOL", "NEAR", "SUI", "HYPE"];
+  const currentOpenSet = new Set(
+    (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
+  );
+  // Si una moneda que estaba en la cola de abiertas acaba de cerrar, iniciar 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO)
+  for (const prevCoin of prevKnownOpenCoinSet) {
+    if (!currentOpenSet.has(prevCoin)) {
+      if (!clientPairBreatherUntil[prevCoin] || clientPairBreatherUntil[prevCoin] <= Date.now()) {
+        clientPairBreatherUntil[prevCoin] = Date.now() + POST_TRADE_BREATHER_MS;
+      }
+    }
+  }
+  prevKnownOpenCoinSet = currentOpenSet;
+
   const sortedOpenCoins = [...appState.openPositions]
     .sort((a, b) => {
       const cA = a.position.coin === "kPEPE" ? "PEPE" : a.position.coin;
@@ -1707,6 +1853,9 @@ function updatePricesAndSignals() {
     const activePos = appState.openPositions.find(
       pos => pos.position.coin === p.symbol || (p.symbol === "PEPE" && pos.position.coin === "kPEPE")
     );
+    const breatherUntil = clientPairBreatherUntil[p.symbol] || 0;
+    const isInBreather = !activePos && breatherUntil > Date.now();
+
     if (activePos) {
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
@@ -1730,6 +1879,15 @@ function updatePricesAndSignals() {
         if (sigLock.style.display !== "inline-flex") sigLock.style.display = "inline-flex";
         if (sigLock.className !== rInfo.lockClass) sigLock.className = rInfo.lockClass;
         setTextIfChanged(sigLockText, rInfo.statusLabel);
+      }
+    } else if (isInBreather) {
+      if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
+      if (sigLock && sigLock.style.display !== "none") sigLock.style.display = "none";
+      if (sigPill) {
+        const pillClass = "signal-pill signal-wait";
+        if (sigPill.className !== pillClass) sigPill.className = pillClass;
+        setTextIfChanged(sigIcon, "self_improvement");
+        setTextIfChanged(sigText, formatBreatherCountdown(breatherUntil));
       }
     } else {
       if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";

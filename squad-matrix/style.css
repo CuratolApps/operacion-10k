@@ -3621,12 +3621,14 @@ footer,
   background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
   border: 1.5px solid #CBD5E1 !important;
   border-radius: 8px !important;
-  padding: 4px 8px !important;
+  padding: 3px 7px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
+  gap: 1.5px !important;
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
   min-width: 0 !important;
+  min-height: 0 !important;
   overflow: hidden !important;
   transition: all 0.2s ease !important;
 }
@@ -3668,7 +3670,7 @@ footer,
 
 .l-step-day {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.54rem !important;
+  font-size: 0.52rem !important;
   font-weight: 800 !important;
   color: #0F172A !important;
   white-space: nowrap !important;
@@ -3676,12 +3678,45 @@ footer,
   text-overflow: ellipsis !important;
 }
 
+.l-step-top-badges {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  flex-shrink: 0 !important;
+  min-width: 0 !important;
+}
+
+.l-step-timer {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.43rem !important;
+  font-weight: 700 !important;
+  padding: 1px 4px !important;
+  border-radius: 3px !important;
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  white-space: nowrap !important;
+}
+
+.life-step-card.step-in-fire .l-step-timer {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  border-color: #FCD34D !important;
+  font-weight: 800 !important;
+}
+
+.life-step-card.step-completed .l-step-timer {
+  background: rgba(6, 78, 59, 0.45) !important;
+  color: #ECFDF5 !important;
+  border-color: rgba(167, 243, 208, 0.5) !important;
+}
+
 .l-step-status {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.48rem !important;
+  font-size: 0.45rem !important;
   font-weight: 800 !important;
-  padding: 1.5px 5px !important;
-  border-radius: 4px !important;
+  padding: 1px 4px !important;
+  border-radius: 3px !important;
   background: #F1F5F9 !important;
   color: #475569 !important;
   border: 1px solid #CBD5E1 !important;
@@ -3709,7 +3744,7 @@ footer,
 
 .l-step-goal {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.64rem !important;
+  font-size: 0.52rem !important;
   font-weight: 700 !important;
   color: #0F172A !important;
   white-space: nowrap !important;
@@ -3731,26 +3766,95 @@ footer,
 }
 
 .l-step-gain {
-  font-size: 0.54rem !important;
+  font-size: 0.49rem !important;
   font-weight: 800 !important;
   color: #059669 !important;
 }
 
-.l-step-meta {
+.l-step-ind1 {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.51rem !important;
-  font-weight: 700 !important;
-  color: #475569 !important;
-  background: rgba(15, 23, 42, 0.04) !important;
-  border: 1px solid rgba(148, 163, 184, 0.25) !important;
-  border-radius: 4px !important;
-  padding: 2px 5px !important;
+  font-size: 0.45rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 3px !important;
+  padding: 1px 4px !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
 
-.life-step-card.step-payday-gold .l-step-meta {
+.life-step-card.step-in-fire .l-step-ind1 {
+  background: #FFFFFF !important;
+  border-color: #60A5FA !important;
+  color: #1E3A8A !important;
+}
+
+.l-step-ind1.ind1-done {
+  background: #D1FAE5 !important;
+  border-color: #34D399 !important;
+  color: #065F46 !important;
+}
+
+.life-step-card.step-completed .l-step-ind1 {
+  background: rgba(6, 78, 59, 0.45) !important;
+  border-color: rgba(167, 243, 208, 0.5) !important;
+  color: #FFFFFF !important;
+}
+
+.l-step-bar-track {
+  width: 100% !important;
+  height: 4px !important;
+  background: rgba(148, 163, 184, 0.25) !important;
+  border-radius: 99px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: stretch !important;
+  flex-shrink: 0 !important;
+}
+
+.l-step-bar-fill {
+  height: 100% !important;
+  background: linear-gradient(90deg, #10B981, #059669) !important;
+  border-radius: 99px 0 0 99px !important;
+  transition: width 0.25s ease !important;
+}
+
+.l-step-bar-flight {
+  height: 100% !important;
+  background: linear-gradient(90deg, #3B82F6, #60A5FA) !important;
+  transition: width 0.25s ease !important;
+}
+
+.l-step-ind2 {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.44rem !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+  border: 1px dashed rgba(148, 163, 184, 0.45) !important;
+  border-radius: 3px !important;
+  padding: 1px 4px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.l-step-ind2.ind2-extra-active {
+  background: #ECFDF5 !important;
+  border: 1px solid #34D399 !important;
+  color: #047857 !important;
+  font-weight: 800 !important;
+}
+
+.life-step-card.step-completed .l-step-ind2 {
+  background: rgba(6, 78, 59, 0.55) !important;
+  border: 1px solid rgba(167, 243, 208, 0.6) !important;
+  color: #ECFDF5 !important;
+}
+
+.life-step-card.step-payday-gold .l-step-ind2 {
   background: #FEF3C7 !important;
   border-color: #FCD34D !important;
   color: #92400E !important;

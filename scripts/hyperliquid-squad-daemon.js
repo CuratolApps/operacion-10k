@@ -40,6 +40,7 @@ process.on("uncaughtException", (err) => {
 // --- ARQUITECTURA DEFINITIVA "NEXUS APEX-36 // FONDO FUNDADOR + AUTO-COMPOUNDING 5% (5X) + PLAN C COSECHA ACTIVA" ---
 const STRICT_RECOVERY_LOCK = false;     // Desbloqueado por orden del Comandante para activar PLAN_C_ACTIVE_HARVEST
 const PLAN_C_ACTIVE_HARVEST = true;     // 1) PLAN C ACTIVO: Escuadrones libres cazan (+$0.10 Candado #00) mientras las atascadas siguen en Extracción #00
+const IMMEDIATE_SNOWBALL_START = true;  // Arranque inmediato con los 47 pares libres en las 4 pistas (Forex, Oro, Índices, Cripto)
 const NO_RED_EXIT = true;               // 2) Prohibido cerrar en pérdida (100% salidas en verde o Candado #00 +$0.10 USDC)
 const MAX_ACTIVE_HUNTERS = 2;           // 3) Cupo Seguro Plan C: Máx 2-3 operaciones cazadoras simultáneas sin Candado #00
 const MAX_UNFENCED_POSITIONS = MAX_ACTIVE_HUNTERS;
@@ -94,7 +95,7 @@ const BREAKEVEN_TRIGGER_PCT = 0.06;     // Candado Breakeven #00 se activa en En
 const BREAKEVEN_LOCK_PCT = 0.05;        // Candado BE cubre 100% comisiones reales y asegura +$0.10 USDC netos
 const TIME_STOP_MS = CLEAN_EVAC_TIMEOUT_MS; // 180s Protocolo de Evacuación Limpia en +$0.10 USDC Neto
 const TIME_STOP_MIN_PNL_USDC = 0.10;    // Salida limpia en +$0.10 USDC neto ($0.00 pérdida)
-const POST_TRADE_COOLDOWN_MS = 15 * 60 * 1000; // 15 minutos (900,000 ms) de enfriamiento del Titular (1) tras cobro
+const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000; // 8 minutos (480,000 ms) de respiro táctico (🧘‍♂️ RESPIRO 08:00 RECALIBRANDO) antes de incorporarse al carrusel
 const COOLDOWN_DURATION_MS = POST_TRADE_COOLDOWN_MS;
 let globalPostRecoveryCooldownUntil = 0;
 const MIN_CERTAINTY_L2_PCT = 57.0;      // 57% de presión L2 mínima para tiro cazador con confluencia real
@@ -140,9 +141,10 @@ function loadRecoveryControlConfig() {
     TARGET_RESET_UTC: "2026-10-30T00:00:00.000Z",
     POST_00_UTC_MAX_CONCURRENT_POSITIONS: 2,
     REQUIRE_BE_LOCK_FOR_3RD_POSITION: true,
-    POST_TRADE_COOLDOWN_MS: 900000,
+    IMMEDIATE_SNOWBALL_START: true,
+    POST_TRADE_COOLDOWN_MS: 480000,
     CASCADE_PLAN_B_ENABLED: true,
-    CASCADE_STAGE_LABEL: "❄️ 36 BOTS AUTO-COMPOUND 5% (5X): COBRO INMEDIATO AVAX & PAXG #00 + PINZA QUEMA-LASTRE",
+    CASCADE_STAGE_LABEL: "❄️ 36 BOTS AUTO-COMPOUND 5% (5X): COBRO INMEDIATO AVAX & PAXG #00 + RESPIRO 08:00",
     RECOVERY_CASCADE_ORDER: ["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]
   };
   try {
@@ -1029,14 +1031,17 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
           pairInAction: dispCoin
         };
       } else if (cooldownCoin) {
-        const remMins = Math.ceil((pairCooldowns[cooldownCoin] - now) / 60000);
+        const remSecs = Math.max(0, Math.ceil((pairCooldowns[cooldownCoin] - now) / 1000));
+        const remMins = Math.ceil(remSecs / 60);
+        const mm = String(Math.floor(remSecs / 60)).padStart(2, "0");
+        const ss = String(remSecs % 60).padStart(2, "0");
         return {
           ...sp,
-          relayStatus: `❄️ ${sp.titular}: ENFRIAMIENTO ${remMins}m (15M POST-COBRO) ⇄ ⚡ ${sp.clon}: GIRO SÍSMICO LISTO`,
-          ratchetStatus: `❄️ COOLDOWN ${remMins}M`,
+          relayStatus: `🧘‍♂️ RESPIRO ${mm}:${ss} (RECALIBRANDO ${cooldownCoin}) ⇄ ⚡ ${sp.clon}: AUTO 5% ACTIVO`,
+          ratchetStatus: `🧘‍♂️ RESPIRO ${mm}:${ss} (RECALIBRANDO)`,
           activeBot: sp.clon,
           standbyBot: sp.titular,
-          mode: "COOLDOWN_15M",
+          mode: "BREATHER_8M_RECALIBRATING",
           cooldownCoin,
           cooldownRemainingMins: remMins
         };
@@ -1070,7 +1075,7 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
         cleanEvacTimeoutSec: 180,
         ratchetTiers: "Candado Base #00: Entrada + Comisión + $0.10 USDC ($0.00 riesgo) | Trailing Ratchet: 80% a 90% del High-Water Mark sin techo",
         stopAndReverseClones: "Caso A: Vel >= 18 bps/s + Vol >= 2.5x + L2 >= 74% | Caso B: RSI(6) <= 8 o >= 92 fuera Bollinger | Caso C: Ruido ignorado",
-        cooldownPostTp: "15 minutos (900,000 ms) para Titular (1) tras cobro"
+        cooldownPostTp: "8 minutos (480,000 ms) de respiro (🧘‍♂️ RESPIRO 08:00 RECALIBRANDO) antes de incorporarse al carrusel activo"
       },
       spaces: clonesState
     };
@@ -1179,7 +1184,7 @@ async function startAutonomousSquadDaemon() {
           pairCooldowns[closedCoin] = Date.now() + POST_TRADE_COOLDOWN_MS;
 
           const remainingStuck = openPositions.filter(p => stuckRecoveryCoinsSet.has(p.position.coin)).length;
-          console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${closedCoin}-USDC) — Quedan ${remainingStuck} en Cola #00 | Titular (1) en enfriamiento 15m.`);
+          console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${closedCoin}-USDC) — Quedan ${remainingStuck} en Cola #00 | Entra en 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO) y luego se incorpora al carrusel.`);
 
           delete confirmedOpenByCoin[closedCoin];
           lastConfirmedPositionSizes[closedCoin] = 0;
