@@ -860,9 +860,9 @@ function buildPairQuartetSnapshot(coin, openPositions = [], now = Date.now()) {
 }
 
 // =========================================================================
-// 🧬⚡ MOTOR KINEMATIC_PRECISION_STRIKE_V1: VENTANA 5,000ms (MUESTRAS CADA 200ms)
+// 🧬⚡ MOTOR KINEMATIC_PRECISION_STRIKE_V1: VENTANA 15,000ms (v_fast 3.5s vs v_med 10s)
 // =========================================================================
-const kinematicWindow5sByCoin = {}; // { [coin]: Array<{ ts, px }> } últimos 5,000ms a 200ms de resolución
+const kinematicWindow5sByCoin = {}; // { [coin]: Array<{ ts, px }> } últimos 15,000ms de alta resolución
 let lastMeasuredHlLatencyMs = 145;  // Latencia real medida de ida a Hyperliquid L1 (ms)
 
 function recordKinematicSample(coin, px, ts = Date.now()) {
@@ -870,26 +870,26 @@ function recordKinematicSample(coin, px, ts = Date.now()) {
   if (!kinematicWindow5sByCoin[coin]) kinematicWindow5sByCoin[coin] = [];
   const arr = kinematicWindow5sByCoin[coin];
   const last = arr[arr.length - 1];
-  if (!last || (ts - last.ts) >= 150 || last.px !== px) {
+  if (!last || (ts - last.ts) >= 250 || last.px !== px) {
     arr.push({ ts, px });
   }
-  // Conservar muestras de los últimos 6,000ms para calcular v_fast (1,000ms) y v_med (3,000ms previos)
-  while (arr.length > 2 && (ts - arr[0].ts) > 6500) {
+  // Conservar muestras de los últimos 15,500ms (15s) para comparar v_fast (3.5s) contra v_med (10s previos)
+  while (arr.length > 2 && (ts - arr[0].ts) > 15500) {
     arr.shift();
   }
 }
 
 /**
- * 1. ECUACIÓN FÍSICA DE POSICIÓN, VELOCIDAD (v) Y ACELERACIÓN (a = dv/dt) EN TIEMPO REAL
+ * 1. ECUACIÓN FÍSICA DE POSICIÓN, VELOCIDAD (v) Y ACELERACIÓN (a = dv/dt) EN TIEMPO REAL (VENTANA 15s)
  * + 2. COMPENSACIÓN DE LATENCIA (P_{t + dt} = P_actual + v_fast * dt + 0.5 * a * dt^2)
  */
 function computeKinematicPhysics(coin, currentMidPx, histFallback = [], latencyMs = lastMeasuredHlLatencyMs, now = Date.now()) {
-  const kSamples = (kinematicWindow5sByCoin[coin] && kinematicWindow5sByCoin[coin].length >= 3)
-    ? kinematicWindow5sByCoin[coin]
-    : (Array.isArray(histFallback) ? histFallback : []);
+  const rawKSamples = Array.isArray(kinematicWindow5sByCoin[coin]) ? kinematicWindow5sByCoin[coin] : [];
+  const rawHist = Array.isArray(histFallback) ? histFallback.filter(h => h && h.px > 0 && (now - h.ts) <= 18000) : [];
+  const kSamples = rawKSamples.length >= rawHist.length ? rawKSamples : rawHist;
 
   let pxNow = currentMidPx > 0 ? currentMidPx : (kSamples[kSamples.length - 1]?.px || 0);
-  let tsNow = kSamples[kSamples.length - 1]?.ts || now;
+  let tsNow = now;
   if (pxNow <= 0) {
     return {
       vFastPctPerSec: 0,
@@ -903,51 +903,84 @@ function computeKinematicPhysics(coin, currentMidPx, histFallback = [], latencyM
     };
   }
 
-  // Buscar muestra hace ~1,000ms (para v_fast) y hace ~4,000ms (para v_med = 3,000ms anteriores)
-  let sample1s = kSamples[0];
-  let sample4s = kSamples[0];
+  // Buscar muestra hace ~3,500ms (para v_fast = últimos 3.5s) y hace ~13,500ms (para v_med = 10s previos)
+  let sampleFast = kSamples[0] || { ts: tsNow - 3500, px: pxNow };
+  let sampleMed = kSamples[0] || { ts: tsNow - 13500, px: pxNow };
+  let foundFast = false;
   for (let i = kSamples.length - 1; i >= 0; i--) {
-    const age = tsNow - kSamples[i].ts;
-    if (age >= 850 && sample1s === kSamples[0]) {
-      sample1s = kSamples[i];
+    const s = kSamples[i];
+    if (!s || !(s.px > 0)) continue;
+    const age = tsNow - s.ts;
+    if (!foundFast && age >= 2800) {
+      sampleFast = s;
+      foundFast = true;
     }
-    if (age >= 3800) {
-      sample4s = kSamples[i];
+    if (age >= 12000) {
+      sampleMed = s;
       break;
     }
   }
+  // Si el buffer recién arranca y ninguna muestra tiene >= 2.8s pero hay un cambio de precio reciente, tomar la muestra previa distinta
+  if (!foundFast && kSamples.length >= 2) {
+    for (let i = kSamples.length - 2; i >= 0; i--) {
+      if (kSamples[i].px !== pxNow) {
+        sampleFast = kSamples[i];
+        break;
+      }
+    }
+  }
 
-  const dtFastSec = Math.max(0.25, Math.min(2.5, (tsNow - (sample1s?.ts || (tsNow - 1000))) / 1000));
-  const px1s = (sample1s && sample1s.px > 0) ? sample1s.px : pxNow;
-  // v_fast: cambio porcentual del midPx en los últimos 1,000ms (% / s)
-  const vFastPctPerSec = px1s > 0 ? (((pxNow - px1s) / px1s) * 100) / dtFastSec : 0;
+  const dtFastSec = Math.max(0.8, Math.min(5.5, (tsNow - (sampleFast?.ts || (tsNow - 3500))) / 1000));
+  const pxFast = (sampleFast && sampleFast.px > 0) ? sampleFast.px : pxNow;
+  // v_fast: cambio porcentual del midPx en los últimos ~3.5s (% / s)
+  const vFastPctPerSec = pxFast > 0 ? (((pxNow - pxFast) / pxFast) * 100) / dtFastSec : 0;
 
-  const dtMedSec = Math.max(0.8, Math.min(5.0, ((sample1s?.ts || tsNow) - (sample4s?.ts || (tsNow - 4000))) / 1000));
-  const px4s = (sample4s && sample4s.px > 0) ? sample4s.px : px1s;
-  // v_med: cambio porcentual por segundo durante los 3,000ms anteriores (% / s)
-  let vMedPctPerSec = (px4s > 0 && sample4s !== sample1s)
-    ? (((px1s - px4s) / px4s) * 100) / dtMedSec
-    : (vFastPctPerSec * 0.75);
+  const pxMed = (sampleMed && sampleMed.px > 0) ? sampleMed.px : pxFast;
+  const dtPre10sSec = Math.max(2.5, Math.min(12.5, ((sampleFast?.ts || tsNow) - (sampleMed?.ts || (tsNow - 13500))) / 1000));
+  const dtTotal15sSec = Math.max(3.5, Math.min(16.0, (tsNow - (sampleMed?.ts || (tsNow - 13500))) / 1000));
 
-  // Vector de Aceleración Real: a = dv / dt (CERO piso artificial 0.0001 y CERO giro de signo opuesto que meta operaciones en contra del impulso)
+  const vPre10s = (pxMed > 0 && Math.abs(pxFast - pxMed) > 1e-12)
+    ? ((((pxFast - pxMed) / pxMed) * 100) / dtPre10sSec)
+    : 0;
+  const vTotal15s = (pxMed > 0 && Math.abs(pxNow - pxMed) > 1e-12)
+    ? ((((pxNow - pxMed) / pxMed) * 100) / dtTotal15sSec)
+    : 0;
+
+  // v_med: velocidad de referencia en la ventana de 10s previos (o media de 15s cuando el activo rompe tras consolidar)
+  let vMedPctPerSec = 0;
+  const preSameSign = (vFastPctPerSec > 0 && vPre10s > 0) || (vFastPctPerSec < 0 && vPre10s < 0);
+  const totSameSign = (vFastPctPerSec > 0 && vTotal15s > 0) || (vFastPctPerSec < 0 && vTotal15s < 0);
+  if (preSameSign && Math.abs(vPre10s) >= 0.0002) {
+    vMedPctPerSec = vPre10s;
+  } else if (totSameSign && Math.abs(vTotal15s) >= 0.0002) {
+    vMedPctPerSec = vTotal15s;
+  } else if (Math.abs(vPre10s) >= 0.0002) {
+    vMedPctPerSec = vPre10s;
+  } else if (kSamples.length < 4 && Math.abs(vFastPctPerSec) >= 0.0005) {
+    vMedPctPerSec = vFastPctPerSec * 0.78;
+  } else {
+    vMedPctPerSec = vTotal15s;
+  }
+
+  // Vector de Aceleración Real: a = dv / dt (CERO giro de signo opuesto que meta operaciones en contra del impulso)
   const accelPctPerSec2 = vFastPctPerSec - vMedPctPerSec;
   const sameSignVelocity = (vFastPctPerSec > 0 && vMedPctPerSec > 0) || (vFastPctPerSec < 0 && vMedPctPerSec < 0);
-  const accelRatio = (sameSignVelocity && Math.abs(vMedPctPerSec) >= 0.0004)
+  const accelRatio = (sameSignVelocity && Math.abs(vMedPctPerSec) >= 0.0002)
     ? Math.min(9.99, Math.abs(vFastPctPerSec) / Math.abs(vMedPctPerSec))
     : 0;
 
-  // Regla Física 1 (Impulso Sostenido Real en 1s y 3s con Aceleración >= 1.15x):
-  // - LONG: tanto v_fast (1s) como v_med (3s) deben ser estrictamente alcistas y acelerando (v_fast >= 0.0018%/s, v_med >= 0.0008%/s, ratio >= 1.15x)
-  // - SHORT: tanto v_fast (1s) como v_med (3s) deben ser estrictamente bajistas y acelerando (v_fast <= -0.0018%/s, v_med <= -0.0008%/s, ratio >= 1.15x)
+  // Regla Física 1 (Impulso Sostenido Real en 3.5s vs 10s con Aceleración >= 1.15x):
+  // - LONG: tanto v_fast (3.5s) como v_med (10s) deben ser estrictamente alcistas y acelerando (v_fast >= 0.0012%/s, v_med >= 0.0004%/s, ratio >= 1.15x)
+  // - SHORT: tanto v_fast (3.5s) como v_med (10s) deben ser estrictamente bajistas y acelerando (v_fast <= -0.0012%/s, v_med <= -0.0004%/s, ratio >= 1.15x)
   const kinematicLongOk = Boolean(
-    vFastPctPerSec >= 0.0018 &&
-    vMedPctPerSec >= 0.0008 &&
-    vFastPctPerSec >= (vMedPctPerSec * 1.15)
+    vFastPctPerSec >= 0.0012 &&
+    vMedPctPerSec >= 0.0004 &&
+    accelRatio >= 1.15
   );
   const kinematicShortOk = Boolean(
-    vFastPctPerSec <= -0.0018 &&
-    vMedPctPerSec <= -0.0008 &&
-    Math.abs(vFastPctPerSec) >= (Math.abs(vMedPctPerSec) * 1.15)
+    vFastPctPerSec <= -0.0012 &&
+    vMedPctPerSec <= -0.0004 &&
+    accelRatio >= 1.15
   );
 
   // Regla Física 2: Precio Proyectado al Impacto tras descontar latencia real (dt = latencyMs / 1000)
@@ -1087,7 +1120,10 @@ async function evaluateLatentForceForPair({
     }
     prevTopOfBookMemory[coin] = { bestBid, bestAsk, midPx, ts: now };
 
-    const hist = rollingMidsHistory[coin] || [];
+    const rawHist = rollingMidsHistory[coin] || [];
+    const hist = rawHist.length > 0 && rawHist[rawHist.length - 1].px === midPx
+      ? rawHist
+      : [...rawHist, { ts: now, px: midPx }];
     const histPrices = hist.map(h => h.px).filter(p => p > 0);
     const closes1m = Array.isArray(candles1m) && candles1m.length >= 6
       ? candles1m.map(c => parseFloat(c.c))
@@ -1120,17 +1156,17 @@ async function evaluateLatentForceForPair({
     const absDistFromEma9Pct = Math.abs(distFromEma9Pct);
     const absRoc20sPct = Math.abs(roc20sPct);
 
-    // Determinar dirección estrictamente alineada con EMA-9, ROC-15s y v_fast (CERO entrar en contra de la tendencia real)
-    const bullBias = (distFromEma9Pct >= 0 && roc15sPct >= 0 && kinematic.vFastPctPerSec >= 0)
+    // Determinar dirección estrictamente alineada con EMA-9 y v_fast (CERO entrar en contra de la tendencia real)
+    const bullBias = (distFromEma9Pct >= 0 && kinematic.vFastPctPerSec >= 0)
       ? true
-      : ((distFromEma9Pct <= 0 && roc15sPct <= 0 && kinematic.vFastPctPerSec <= 0)
+      : ((distFromEma9Pct <= 0 && kinematic.vFastPctPerSec <= 0)
           ? false
-          : (distFromEma9Pct >= 0 && bidRatio >= 0.50));
+          : (distFromEma9Pct >= 0));
     const direction = bullBias ? "LONG" : "SHORT";
     const isLong = direction === "LONG";
 
     // =========================================================================
-    // COMPENSACIÓN DE LATENCIA (P_{t + dt}) Y ESPACIO LIMPIO (>= 0.14% RUNWAY PARA CUBRIR $0.227 TAKER IDA/VUELTA + GANANCIA NETA):
+    // COMPENSACIÓN DE LATENCIA (P_{t + dt}) Y ESPACIO LIMPIO (>= 0.145% RUNWAY PARA CUBRIR $0.227 TAKER IDA/VUELTA + GANANCIA NETA):
     // =========================================================================
     const atr1mPct = (Array.isArray(candles1m) && candles1m.length >= 5)
       ? (candles1m.slice(-5).reduce((s, c) => {
@@ -1141,16 +1177,18 @@ async function evaluateLatentForceForPair({
         }, 0) / 5)
       : 0.25;
     const bandMultPct = Math.max(0.22, atr1mPct * 1.35);
+    const anchorRunwayPx = isLong ? Math.max(midPx, ema9) : Math.min(midPx, ema9);
     let opposingWallPx = isLong
-      ? ema9 * (1 + (bandMultPct / 100))
-      : ema9 * (1 - (bandMultPct / 100));
+      ? anchorRunwayPx * (1 + (bandMultPct / 100))
+      : anchorRunwayPx * (1 - (bandMultPct / 100));
 
-    // Inspeccionar niveles 2..10 del libro L2 opuesto por si existe un muro pesado (> 75% del volumen Top-5) antes de la banda ATR-1m
+    // Inspeccionar niveles 2..10 del libro L2 opuesto SOLO si existe una muralla institucional real (> 3x el volumen del libro Top-5) a >= 0.06% de distancia
     const oppLevels = isLong ? asks : bids;
     for (let i = 1; i < Math.min(10, oppLevels.length); i++) {
       const lvlPx = parseFloat(oppLevels[i]?.px || 0);
       const lvlVolUsd = lvlPx * parseFloat(oppLevels[i]?.sz || 0);
-      if (lvlPx > 0 && lvlVolUsd > (totalBookVol * 0.75)) {
+      const distLvlPct = midPx > 0 ? (Math.abs(lvlPx - midPx) / midPx) * 100 : 0;
+      if (lvlPx > 0 && distLvlPct >= 0.06 && lvlVolUsd > (totalBookVol * 3.0)) {
         if (isLong && lvlPx > kinematic.projectedImpactPx && lvlPx < opposingWallPx) {
           opposingWallPx = lvlPx;
         } else if (!isLong && lvlPx < kinematic.projectedImpactPx && lvlPx > opposingWallPx) {
@@ -2964,7 +3002,7 @@ async function startAutonomousSquadDaemon() {
     if (trackedCoins.length === 0) return;
     fastGuardInFlight = true;
     try {
-      const fastCh = await getSharedClearinghouseState(650).catch(() => null);
+      const fastCh = await getSharedClearinghouseState(850).catch(() => null);
       if (!fastCh || !Array.isArray(fastCh.assetPositions)) return;
 
       for (const pObj of fastCh.assetPositions) {
@@ -3043,14 +3081,15 @@ async function startAutonomousSquadDaemon() {
     } finally {
       fastGuardInFlight = false;
     }
-  }, 320);
+  }, 600);
   if (typeof fastGuardTimer.unref === "function") fastGuardTimer.unref();
 
   // =========================================================================
-  // 🧬⚡ MUESTREADOR CINEMÁTICO DE ALTA RESOLUCIÓN (5,000ms @ 420ms CERO 429) + MEDICIÓN DE LATENCIA L1
+  // 🧬⚡ MUESTREADOR CINEMÁTICO DE ALTA RESOLUCIÓN (15,000ms @ 800ms CERO 429) + MEDICIÓN DE LATENCIA L1
   // =========================================================================
   let kinematicSamplerInFlight = false;
   let sharedMidsCache = { ts: 0, data: {} };
+  let sharedOpenOrdersCache = { ts: 0, data: [] };
   const kinematicTrackedCoins = new Set([
     "BTC", "ETH", "SOL", "SUI", "AVAX", "PAXG", "LINK", "BNB", "AAVE",
     "XRP", "DOGE", "ADA", "TRX", "TON", "DOT", "LTC", "RENDER", "TAO",
@@ -3090,7 +3129,7 @@ async function startAutonomousSquadDaemon() {
     } finally {
       kinematicSamplerInFlight = false;
     }
-  }, 420);
+  }, 800);
   if (typeof kinematicSamplerTimer.unref === "function") kinematicSamplerTimer.unref();
 
   while (true) {
@@ -3110,11 +3149,21 @@ async function startAutonomousSquadDaemon() {
       const recoveryCtrl = loadRecoveryControlConfig();
       const target00UtcMs = recoveryCtrl.TARGET_RESET_UTC ? new Date(recoveryCtrl.TARGET_RESET_UTC).getTime() : 0;
 
-      // 1. Obtener estado del Clearinghouse y Órdenes Abiertas
+      // 1. Obtener estado del Clearinghouse y Órdenes Abiertas (con caché 2,500ms para CERO 429)
       const ch = await getSharedClearinghouseState(1100);
       const accountValue = parseFloat(ch.marginSummary?.accountValue || "890.59");
       const openPositions = (ch.assetPositions || []).filter(p => parseFloat(p.position.szi) !== 0);
-      let openOrders = await info.openOrders({ user: VAULT_501 });
+      let openOrders = [];
+      if (sharedOpenOrdersCache.ts > 0 && (Date.now() - sharedOpenOrdersCache.ts) < 2500) {
+        openOrders = sharedOpenOrdersCache.data;
+      } else {
+        try {
+          openOrders = await info.openOrders({ user: VAULT_501 });
+          sharedOpenOrdersCache = { ts: Date.now(), data: openOrders || [] };
+        } catch (_) {
+          openOrders = sharedOpenOrdersCache.data || [];
+        }
+      }
 
       // Sincronizar vínculos proxy de Forex/Oro/WallStreet con las posiciones realmente abiertas en L1
       const forexBindingsBeforeCloses = loadForexProxyBindingsState();
