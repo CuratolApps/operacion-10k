@@ -38,33 +38,36 @@
     },
     {
       "id": "INJECTION_05_819_POL",
-      "origin": "Inyección 819.2788 POL (65,09 €) en Bóveda #501 -> Bridge2 Hyperliquid L1",
-      "amountUsdc": 72.51,
+      "origin": "Inyección 819.2788 POL (65,09 € · Tx 0x105cc...f1b3c) en Bóveda #501 -> Bridge2 Hyperliquid L1",
+      "amountUsdc": 72.48,
       "date": "2026-10-30T07:01:00.000Z",
       "polygonTx": "0x5f491c23da2e7ab672fbec528914b8a3b32a6035ef4cb5816c77b9f0656d3148",
       "arbitrumTx": "0xdc74bc9ebe3aa4884fa6bbe8430888768aa968406d76fdd2bfb6d620226cae18"
     }
   ],
   "credit501BorrowedUsdc": 565.54,
-  "externalInjectedUsdc": 191.01,
-  "principalBorrowedUsdc": 756.55,
+  "externalInjectedUsdc": 190.98,
+  "principalBorrowedUsdc": 756.52,
   "interestRate": "0%",
   "repaidSoFarUsdc": 0,
-  "remainingBalanceUsdc": 756.55,
-  "doctrine": "100% Capitalización Pura hasta $1,000 USDC. Al cruzar $1,000: 70% Compuesto / 30% Devolución Bóveda #501",
+  "remainingBalanceUsdc": 756.52,
+  "breakdownFormula": "Base #501: $756.52 ($629.94 + $54.10 + $72.48) | 0% Interés",
+  "milestoneLadderUsdc": [1000, 2000, 3000, 4000, 5000, 10000, 20000, 100000],
+  "doctrine": "100% Capitalización Pura hasta $1,000 USDC. Al cruzar $1,000: 70% Compuesto / 30% Devolución Bóveda #501 (Escalones Insignia de $1,000 en $1,000 rumbo a $20,000 y $100,000)",
   "consolidationRule": {
     "targetAccountValueUsdc": 1000,
+    "stepSizeUsdc": 1000,
     "currentPhase": "PHASE_1_PURE_COMPOUNDING",
     "phase1WithdrawalsUsdc": 0,
     "phase1Description": "100% de las ganancias diarias se reinvierten automáticamente en Hyperliquid L1 hasta alcanzar $1,000.00 USDC. $0.00 retiros diarios.",
-    "phase2Trigger": "accountValue >= 1000.00 USDC",
-    "phase2Rule": "Regla 70/30: 70% capitalización continua / 30% asignado a devolución a Bóveda #501 (o activación de Bloque 2 desde $100.00 USDC)"
+    "phase2Trigger": "closedBase >= 1000.00 USDC",
+    "phase2Rule": "Regla 70/30: 70% capitalización continua / 30% asignado a devolución a Bóveda #501 y salto automático de insignia ($1,000 -> $2,000 -> $3,000 ... -> $20,000 -> $100,000)"
   },
   "status": "CAPITALIZING_TO_1000",
-  "updatedAt": "2026-10-30T07:01:20.000Z",
+  "updatedAt": "2026-10-30T07:10:00.000Z",
   "lastLogDate": "2026-10-30",
-  "totalInjectedUsdc": 756.55,
+  "totalInjectedUsdc": 756.52,
   "credit501Usdc": 565.54,
-  "remainingDebtUsdc": 756.55,
-  "lastUpdated": "2026-10-30T07:01:20.000Z"
+  "remainingDebtUsdc": 756.52,
+  "lastUpdated": "2026-10-30T07:10:00.000Z"
 }

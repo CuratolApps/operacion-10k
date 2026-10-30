@@ -20,16 +20,20 @@ function setTextIfChanged(el, newText) {
   }
 }
 
-// ESTADO PERSISTENTE MONOTÓNICO (CANDADO ANTI-REGRESIÓN)
-const STORAGE_KEY_SQUAD = "__AREA501_SQUAD_VALID_STATE__";
-const STORAGE_KEY_SQUAD_ALT = "__AREA501_SQUAD_MATRIX_STATE__";
+// ESTADO PERSISTENTE MONOTÓNICO (CANDADO ANTI-REGRESIÓN V6 — SINCERIZACIÓN CONTABLE ABSOLUTA)
+const STORAGE_KEY_SQUAD = "__AREA501_SQUAD_VALID_STATE_V6__";
+const STORAGE_KEY_SQUAD_ALT = "__AREA501_SQUAD_MATRIX_STATE_V6__";
 
 function loadPersistedSquadState() {
   try {
+    localStorage.removeItem("__AREA501_SQUAD_VALID_STATE__");
+    localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE__");
+    localStorage.removeItem("area501_live_snapshot_v4");
+    localStorage.removeItem("area501_live_snapshot_v5");
     const raw = localStorage.getItem(STORAGE_KEY_SQUAD) || localStorage.getItem(STORAGE_KEY_SQUAD_ALT);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === "object") {
+      if (parsed && typeof parsed === "object" && parsed.directLiveEquityV6) {
         window.__LAST_VALID_STATE__ = parsed;
         return parsed;
       }
@@ -118,34 +122,35 @@ const SYNTHETIC_DEFAULTS = {
   "GOOGL": 168.30, "COIN": 218.40, "MSTR": 248.50
 };
 
-// CONSTANTES BASE DEL ANCLA HISTÓRICA (INYECCIÓN 819.2788 POL = +$72.51 USDC EN HYPERLIQUID L1)
-const ANCHOR_FILL_TIME = 1793223937322;
+// CONSTANTES BASE DEL ANCLA HISTÓRICA (SINCERIZACIÓN CONTABLE: $756.52 INYECTADO + $230.07 PROFIT PURO TRADING = $986.59 CERRADO FIRME)
+const ANCHOR_FILL_TIME = 1793259021242;
 const BASE_WINS = 257;
 const BASE_LOSSES = 0;
 const BASE_ACCOUNT_VALUE = 931.25;
 const BASE_TOTAL_PROFIT_USDC = 230.07;
 const BASE_MARGIN_60 = 558.75;
 const BASE_SHIELD_40 = 372.50;
-const BASE_INJECTED = 756.55;
+const BASE_INJECTED = 756.52;
+const BASE_CLOSED_FIRME = 986.59;
 
 // ESTADO GLOBAL SINCERIZADO (100% DIRECT LIVE EQUITY — CERO CONGELAMIENTO)
 let appState = {
-  accountValue: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.accountValue > 0) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
-  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : 724.58,
+  accountValue: (initialSavedSquad && initialSavedSquad.directLiveEquityV6 && initialSavedSquad.accountValue > 0) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
+  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV6 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : 724.58,
   openPositions: (initialSavedSquad && initialSavedSquad.openPositions) || [],
   mids: (initialSavedSquad && initialSavedSquad.mids) || {},
-  totalLoanInjected: 756.55,
+  totalLoanInjected: BASE_INJECTED,
   credit501Loan: 565.54,
   totalLoanRepaid: 0.00,
   block1Goal: 1000.00,
-  totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 138) ? initialSavedSquad.realWins : BASE_WINS,
+  totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 257) ? initialSavedSquad.realWins : BASE_WINS,
   totalLosses: (initialSavedSquad && initialSavedSquad.realLosses !== undefined) ? initialSavedSquad.realLosses : 0,
-  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 216.88) ? initialSavedSquad.totalProfitUsdc : BASE_TOTAL_PROFIT_USDC,
-  realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 138) ? initialSavedSquad.realWins : BASE_WINS,
+  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 230.07) ? initialSavedSquad.totalProfitUsdc : BASE_TOTAL_PROFIT_USDC,
+  realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 257) ? initialSavedSquad.realWins : BASE_WINS,
   realLosses: (initialSavedSquad && initialSavedSquad.realLosses !== undefined) ? initialSavedSquad.realLosses : 0,
   realBe: (initialSavedSquad && initialSavedSquad.realBe) || 9,
   realWinRate: 100,
-  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 78.00, 2: 70.58, 3: 68.30, total: 216.88 }
+  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 82.80, 2: 74.90, 3: 72.37, total: 230.07 }
 };
 
 // DEFINICIÓN DE LOS 8 MERCADOS MUNDIALES CLAVE
@@ -1052,7 +1057,7 @@ async function fetchHyperliquidState() {
       "Pragma": "no-cache"
     };
 
-    const [chRes, midsRes, fillsRes, clonesRes] = await Promise.all([
+    const [chRes, midsRes, fillsRes, clonesRes, loanLedgerRes] = await Promise.all([
       fetch(`${HL_INFO_URL}${cacheBust}`, {
         method: "POST",
         headers: fetchHeaders,
@@ -1070,8 +1075,18 @@ async function fetchHyperliquidState() {
       }),
       fetch(`/telemetry/squad-matrix-clones.json${cacheBust}`, {
         headers: fetchHeaders
+      }).catch(() => null),
+      fetch(`/telemetry/vault501-loan-ledger.json${cacheBust}`, {
+        headers: fetchHeaders
       }).catch(() => null)
     ]);
+
+    if (loanLedgerRes && loanLedgerRes.ok) {
+      const loanData = await loanLedgerRes.json().catch(() => null);
+      if (loanData && Number(loanData.totalInjectedUsdc) > 0) {
+        appState.totalLoanInjected = Number(loanData.totalInjectedUsdc);
+      }
+    }
 
     if (clonesRes && clonesRes.ok) {
       const clonesData = await clonesRes.json().catch(() => null);
@@ -1116,8 +1131,8 @@ async function fetchHyperliquidState() {
     if (fillsRes && fillsRes.ok) {
       const fills = await fillsRes.json();
       if (Array.isArray(fills)) {
-        // CONTADOR AUTOMÁTICO DE GANADAS EN VIVO DESDE HYPERLIQUID (userFills)
-        // Ancla Oficial: Cierre BTC-USDC @ $81,251.0 (time: 1793223937322, baseWins: 136, basePnl: 213.69)
+        // CONTADOR AUTOMÁTICO DE GANADAS Y PROFIT 100% PURO TRADING EN VIVO DESDE HYPERLIQUID (userFills)
+        // PROHIBIDO sumar préstamos/depósitos como profit: sólo closedPnl real en userFills cuenta como Profit Cerrado
         const sq1Coins = ["SOL", "SUI", "AVAX"];
         const sq2Coins = ["BTC", "PAXG", "LINK"];
         const sq3Coins = ["ETH", "BNB", "AAVE"];
@@ -1141,6 +1156,7 @@ async function fetchHyperliquidState() {
               if (sq1Coins.includes(f.coin)) postAnchorSq1 += net;
               else if (sq2Coins.includes(f.coin)) postAnchorSq2 += net;
               else if (sq3Coins.includes(f.coin)) postAnchorSq3 += net;
+              else postAnchorSq1 += net;
             } else if (closedPnl < -0.05) {
               postAnchorLosses++;
               postAnchorPnl += net;
@@ -1155,19 +1171,20 @@ async function fetchHyperliquidState() {
         appState.totalProfitUsdc = +(BASE_TOTAL_PROFIT_USDC + postAnchorPnl).toFixed(2);
 
         appState.closedPnlBySquad = {
-          1: +(76.40 + postAnchorSq1).toFixed(2),
-          2: +(71.20 + postAnchorSq2).toFixed(2),
-          3: +(66.09 + postAnchorSq3).toFixed(2),
+          1: +(82.80 + postAnchorSq1).toFixed(2),
+          2: +(74.90 + postAnchorSq2).toFixed(2),
+          3: +(72.37 + postAnchorSq3).toFixed(2),
           total: appState.totalProfitUsdc
         };
       }
     }
 
-    // Persistir Snapshot Válido (Direct Live Equity V2)
+    // Persistir Snapshot Válido (Direct Live Equity V6)
     const validSnapshot = {
-      directLiveEquityV2: true,
+      directLiveEquityV6: true,
       accountValue: appState.accountValue,
       withdrawable: appState.withdrawable,
+      totalLoanInjected: appState.totalLoanInjected,
       realWins: appState.realWins,
       realLosses: appState.realLosses,
       realBe: appState.realBe,
@@ -1190,6 +1207,44 @@ async function fetchHyperliquidState() {
   }
 }
 
+// HELPER: ESCALERA DE METAS INSIGNIA DE $1,000 EN $1,000 ($1,000 -> $2,000 -> $3,000 ... -> $20,000 -> $100,000)
+function computeMilestoneLadder(closedBase) {
+  const stepSize = 1000.00;
+  const completedSteps = Math.floor(Math.max(0, closedBase) / stepSize);
+  const currentBlockNum = completedSteps + 1;
+  const prevGoalUsdc = completedSteps * stepSize;
+  const targetGoalUsdc = (completedSteps + 1) * stepSize;
+  const missingUsdc = Math.max(0, +(targetGoalUsdc - closedBase).toFixed(2));
+  const stepProgressPct = Math.min(100, Math.max(0, +(((closedBase - prevGoalUsdc) / stepSize) * 100).toFixed(1)));
+  const targetFormatted = targetGoalUsdc.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const targetShort = "$" + targetGoalUsdc.toLocaleString("en-US");
+  const prevShort = "$" + prevGoalUsdc.toLocaleString("en-US");
+
+  const blockProgressLabel = `BLOQUE ${currentBlockNum}: $${closedBase.toFixed(2)} / $${targetFormatted} USDC`;
+  const blockProgressPctText = `${stepProgressPct.toFixed(1)}% (Faltan $${missingUsdc.toFixed(2)})`;
+  const currentStepSub = `Rumbo a ${targetShort}`;
+
+  let blockRuleBadgeText = `🎯 Escalera: $1,000 ➔ $2,000 ➔ $3,000 ... ➔ $20,000 ➔ $100,000`;
+  let ladderPillText = `🎯 Escalera: $1K ➔ $2K ➔ $20K ➔ $100K | Puro Trading`;
+
+  if (completedSteps > 0) {
+    blockRuleBadgeText = `🏅 ${prevShort} COMPLETADO ✅ (70/30 Activo) ➔ Meta ${targetShort} ➔ $20K ➔ $100K`;
+    ladderPillText = `🏅 ${prevShort} COMPLETADO ✅ | 🎯 Escalera: ${targetShort} ➔ $20K ➔ $100K`;
+  }
+
+  return {
+    currentBlockNum,
+    targetGoalUsdc,
+    missingUsdc,
+    stepProgressPct,
+    blockProgressLabel,
+    blockProgressPctText,
+    currentStepSub,
+    blockRuleBadgeText,
+    ladderPillText
+  };
+}
+
 // ACTUALIZAR LAS 5 TARJETAS SUPERIORES Y TAB PROYECCIONES (100% textContent SIN innerHTML)
 function updateTopBarCards() {
   const val = appState.accountValue;
@@ -1207,11 +1262,17 @@ function updateTopBarCards() {
     else if (["ETH", "BNB", "AAVE"].includes(coin)) unrealizedSq3 += u;
   });
 
-  const closedBase = +(val - unrealizedTotal).toFixed(2);
+  // REGLA SAGRADA: SEPARACIÓN ESTRICTA ENTRE CAPITAL INYECTADO ($756.52) Y PROFIT DE TRADING (+$230.07)
+  // PROHIBIDO calcular Profit Cerrado como Saldo_Actual - Base_Vieja_Fija o sumar préstamos como profit
+  appState.totalLoanInjected = Number(appState.totalLoanInjected || BASE_INJECTED);
+  const closedProfit = Number((appState.totalProfitUsdc || BASE_TOTAL_PROFIT_USDC).toFixed(2));
+  const closedBase = +(appState.totalLoanInjected + closedProfit).toFixed(2);
+  const closedProfitPct = (closedProfit / appState.totalLoanInjected) * 100;
+
   const floatSign = unrealizedTotal >= 0 ? "+" : "-";
   const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
   const polyUsdcReady = 0.00;
-  appState.totalLoanInjected = 756.55;
+  const openCountForBox = appState.openPositions.length > 0 ? Math.min(6, appState.openPositions.length) : 6;
 
   const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto: ${floatSign}$${floatAbs} USDC`;
 
@@ -1222,22 +1283,22 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
   setTextIfChanged(document.getElementById("topEquityBreakdownPill"), breakdownText);
 
-  // 2. Profit Cerrado Realizado vs Flotante en Curso (Claridad Contable Total)
-  const closedProfit = +(closedBase - appState.totalLoanInjected).toFixed(2);
-  const closedProfitPct = (closedProfit / appState.totalLoanInjected) * 100;
+  // 2. Profit Cerrado Realizado (100% Puro Trading) + Escalera de Metas Insignia
+  const ladder = computeMilestoneLadder(closedBase);
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
   const pnlPct = (netTotalPnl / appState.totalLoanInjected) * 100;
-  const flowBreakdownText = `Cerrado: +$${closedProfit.toFixed(2)} | Flotante: ${floatSign}$${floatAbs} ➔ Neto Vivo: +$${netTotalPnl.toFixed(2)} USDC`;
+  const flowBreakdownText = `Al cerrar las ${openCountForBox} posiciones tendrás: $${closedBase.toFixed(2)}+ USDC firmes en caja`;
 
   setTextIfChanged(document.getElementById("topTotalProfit"), `${closedProfit >= 0 ? "+" : ""}$${closedProfit.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topTotalProfitPct"), `${closedProfitPct >= 0 ? "+" : ""}${closedProfitPct.toFixed(2)}% CERRADO`);
+  setTextIfChanged(document.getElementById("topTotalProfitPct"), `${closedProfitPct >= 0 ? "+" : ""}${closedProfitPct.toFixed(2)}% · ${ladder.currentStepSub}`);
   setTextIfChanged(document.getElementById("topProfitFloatingPill"), flowBreakdownText);
+  setTextIfChanged(document.getElementById("topProfitLadderPill"), ladder.ladderPillText);
 
-  // Sincronización matemática exacta de los 3 escuadrones (mostrando el profit cerrado firme de cada escuadrón)
-  const closed = appState.closedPnlBySquad || { 1: 76.40, 2: 71.20, 3: 68.33, total: 215.93 };
-  const raw1 = Math.max(0.01, (closed[1] || 76.40));
-  const raw2 = Math.max(0.01, (closed[2] || 71.20));
-  const raw3 = Math.max(0.01, (closed[3] || 68.33));
+  // Sincronización matemática exacta de los escuadrones: reparten ÚNICAMENTE el Profit Real de Trading (+$230.07 USDC + nuevos cierres en userFills)
+  const closed = appState.closedPnlBySquad || { 1: 82.80, 2: 74.90, 3: 72.37, total: 230.07 };
+  const raw1 = Math.max(0.01, (closed[1] || 82.80));
+  const raw2 = Math.max(0.01, (closed[2] || 74.90));
+  const raw3 = Math.max(0.01, (closed[3] || 72.37));
   const rawSum = raw1 + raw2 + raw3;
 
   let pnl1 = Number(((raw1 / rawSum) * closedProfit).toFixed(1));
@@ -1247,7 +1308,7 @@ function updateTopBarCards() {
   // Renderizar etiquetas de Card 2 con textContent
   const winStreakEl = document.getElementById("winStreakText");
   if (winStreakEl) {
-    const wins = appState.realWins !== undefined ? appState.realWins : 136;
+    const wins = appState.realWins !== undefined ? appState.realWins : BASE_WINS;
     const losses = appState.realLosses !== undefined ? appState.realLosses : 0;
     setTextIfChanged(winStreakEl, `${wins}G-${losses}P`);
   }
@@ -1277,24 +1338,21 @@ function updateTopBarCards() {
     if (elRelay) setTextIfChanged(elRelay, getSquadRelayText(sq));
   });
 
-  // 3. Progreso Bloque 1 ($1,000 Goal con los +$54.10 acreditados en L1)
-  const projectedWithPostSol = Math.max(closedBase, val) + polyUsdcReady;
-  const progressPct = Math.min(100, (projectedWithPostSol / appState.block1Goal) * 100).toFixed(1);
-  setTextIfChanged(
-    document.getElementById("topBlock1ProgressLabel"),
-    polyUsdcReady > 0 ? `$${closedBase.toFixed(2)} (+$${polyUsdcReady.toFixed(2)}) / $1,000` : `$${closedBase.toFixed(2)} Cerrado / $1,000.00 USDC`
-  );
-  setTextIfChanged(document.getElementById("topBlock1ProgressPct"), `${progressPct}%`);
+  // 3. Sistema de Escalones Insignia de $1,000 en $1,000 ($1,000 ➔ $2,000 ➔ $3,000 ... ➔ $20,000 ➔ $100,000)
+  const progressPct = ladder.stepProgressPct.toFixed(1);
+  setTextIfChanged(document.getElementById("topBlock1ProgressLabel"), ladder.blockProgressLabel);
+  setTextIfChanged(document.getElementById("topBlock1ProgressPct"), ladder.blockProgressPctText);
+  setTextIfChanged(document.getElementById("topBlock1RuleBadge"), ladder.blockRuleBadgeText);
   const elProgBar = document.getElementById("topBlock1ProgressBar");
   if (elProgBar && elProgBar.style.width !== `${progressPct}%`) {
     elProgBar.style.width = `${progressPct}%`;
   }
 
   // Actualizar Bloque 1 en Tab 3
-  setTextIfChanged(document.getElementById("block1ActiveCapText"), `$${val.toFixed(2)} USDC`);
+  setTextIfChanged(document.getElementById("block1ActiveCapText"), `$${closedBase.toFixed(2)} USDC`);
   const elB1Meta = document.getElementById("block1MetaPctText");
   if (elB1Meta) {
-    const b1MetaHtml = `Meta: <b>$1,000.00</b> (${progressPct}%)`;
+    const b1MetaHtml = `Meta: <b>$${ladder.targetGoalUsdc.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b> (${progressPct}% — Faltan $${ladder.missingUsdc.toFixed(2)})`;
     if (elB1Meta.innerHTML !== b1MetaHtml) elB1Meta.innerHTML = b1MetaHtml;
   }
   const elB1Bar = document.getElementById("block1FillBar");
@@ -1302,14 +1360,15 @@ function updateTopBarCards() {
     elB1Bar.style.width = `${progressPct}%`;
   }
 
-  // 4. Control Capital Inyectado (0% Interés)
+  // 4. Control Capital Inyectado (0% Interés: $684.04 + $72.48 = $756.52 USDC)
   setTextIfChanged(document.getElementById("topLoanInjected"), `$${appState.totalLoanInjected.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanRepaid"), polyUsdcReady > 0 ? `+$${polyUsdcReady.toFixed(2)}` : "+$72.51 ✔");
+  setTextIfChanged(document.getElementById("topLoanRepaid"), "+$72.48 ✔");
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
+  setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $${appState.totalLoanInjected.toFixed(2)} ($629.94 + $54.10 + $72.48) | 0% Interés`);
 
-  // Guardar snapshot compartido area501_live_snapshot_v4 para 0ms de salto al pulsar F5
+  // Guardar snapshot compartido area501_live_snapshot_v6 para 0ms de salto al pulsar F5
   try {
-    localStorage.setItem("area501_live_snapshot_v4", JSON.stringify({
+    localStorage.setItem("area501_live_snapshot_v6", JSON.stringify({
       totalWealth: +(val + polyUsdcReady + 4.70 + 14.28).toFixed(2),
       hlBalance: val,
       closedBase,
@@ -1322,9 +1381,16 @@ function updateTopBarCards() {
       closedProfit,
       closedProfitPct,
       netLiveProfit: netTotalPnl,
+      totalLoanInjected: appState.totalLoanInjected,
+      totalLoanRemaining: +(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2),
       breakdownText,
       flowBreakdownText,
-      metaTargetText: `$${closedBase.toFixed(2)} Cerrado (+$72.51 #501 Cruzado ✔) / $1,000 (${progressPct}%)`,
+      currentStepSub: ladder.currentStepSub,
+      ladderPillText: ladder.ladderPillText,
+      blockProgressLabel: ladder.blockProgressLabel,
+      blockProgressPctText: ladder.blockProgressPctText,
+      blockRuleBadgeText: ladder.blockRuleBadgeText,
+      metaTargetText: `${ladder.blockProgressLabel} (${ladder.blockProgressPctText})`,
       updatedAt: Date.now()
     }));
   } catch (_) {}

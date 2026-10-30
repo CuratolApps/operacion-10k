@@ -8,20 +8,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20261029v9">
+  <link rel="stylesheet" href="style.css?v=20261030v16">
   <!-- Sistema Operativo Unificado CORE MATRIX 501 (Modo Híbrido 6 Estaciones) -->
-  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261029v9">
-  <script src="/shared/core-os-nav.js?v=20261029v9" defer></script>
+  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261030v16">
+  <script src="/shared/core-os-nav.js?v=20261030v16" defer></script>
   <!-- Micro-script síncrono de hidratación en milisegundo 0 (100% Direct Live Equity - Cero Congelamiento) -->
   <script>
     (function () {
       try {
-        var raw = localStorage.getItem("__AREA501_SQUAD_VALID_STATE__") || localStorage.getItem("__AREA501_SQUAD_MATRIX_STATE__");
+        localStorage.removeItem("__AREA501_SQUAD_VALID_STATE__");
+        localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE__");
+        localStorage.removeItem("area501_live_snapshot_v4");
+        localStorage.removeItem("area501_live_snapshot_v5");
+        var raw = localStorage.getItem("__AREA501_SQUAD_VALID_STATE_V6__");
         if (raw) {
           var s = JSON.parse(raw);
-          if (!s || !s.directLiveEquityV2) {
-            localStorage.removeItem("__AREA501_SQUAD_VALID_STATE__");
-            localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE__");
+          if (!s || !s.directLiveEquityV6) {
+            localStorage.removeItem("__AREA501_SQUAD_VALID_STATE_V6__");
             return;
           }
           window.__LAST_VALID_STATE__ = s;
@@ -48,22 +51,25 @@
           <span class="pill-active" id="topActiveMarginPill">Margen 60%: $558.75</span>
           <span class="pill-shield" id="topShieldPill">Mentora 40%: $372.50</span>
           <div id="topEquityBreakdownPill" style="grid-column: 1 / -1; font-size: 0.50rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            Saldo Cerrado Firme: $986.62 USDC | Flotante Abierto: -$55.37 USDC
+            Saldo Cerrado Firme: $986.59 USDC | Flotante Abierto: -$55.34 USDC
           </div>
         </div>
       </div>
 
-      <!-- Card 2: Profit General & Por Escuadrón -->
+      <!-- Card 2: Profit General & Por Escuadrón (100% Puro Trading) -->
       <div class="biz-card" id="cardProfit">
         <div class="card-tag">
-          <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; ESCUADRONES
+          <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; ESCUADRONES (PURO TRADING)
         </div>
         <div class="card-main-val text-green">
           <span id="topTotalProfit">+$230.07</span>
-          <span class="pct-badge" id="topTotalProfitPct">+30.41% CERRADO</span>
+          <span class="pct-badge" id="topTotalProfitPct">+30.41% · Rumbo a $1,000</span>
         </div>
-        <div id="topProfitFloatingPill" style="font-size: 0.50rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0;">
-          Cerrado: +$230.07 | Flotante: -$55.37 ➔ Neto Vivo: +$174.70 USDC
+        <div id="topProfitFloatingPill" style="font-size: 0.49rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 1.5px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0;">
+          Al cerrar las 6 posiciones tendrás: $986.59+ USDC firmes en caja
+        </div>
+        <div id="topProfitLadderPill" style="font-size: 0.46rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 1px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px;">
+          🎯 Escalera: $1K ➔ $2K ➔ $20K ➔ $100K | Puro Trading
         </div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
           <span class="sq-badge streak"><b id="winStreakText">257G-0P</b></span>
@@ -73,43 +79,43 @@
         </div>
       </div>
 
-      <!-- Card 3: Capitalización Diaria (Meta $1,000) -->
+      <!-- Card 3: Capitalización por Bloques de $1,000 -->
       <div class="biz-card" id="cardCapitalization">
         <div class="card-tag">
-          <span class="material-symbols-rounded">stacked_line_chart</span> CAPITALIZACIÓN BLOQUE 1 (META $1,000)
+          <span class="material-symbols-rounded">workspace_premium</span> 🏆 CAPITALIZACIÓN POR BLOQUES DE $1,000
         </div>
         <div class="progress-wrap">
           <div class="progress-info">
-            <span class="progress-label" id="topBlock1ProgressLabel">$986.62 Cerrado / $1,000.00 USDC</span>
-            <span class="progress-pct" id="topBlock1ProgressPct">98.7%</span>
+            <span class="progress-label" id="topBlock1ProgressLabel">BLOQUE 1: $986.59 / $1,000.00 USDC</span>
+            <span class="progress-pct" id="topBlock1ProgressPct">98.7% (Faltan $13.41)</span>
           </div>
           <div class="progress-bar-bg">
             <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 98.7%;"></div>
           </div>
         </div>
-        <div class="rule-badge-glow">100% Capitalización pura ($0 envíos hasta $1,000)</div>
+        <div class="rule-badge-glow" id="topBlock1RuleBadge">🎯 Escalera: $1,000 ➔ $2,000 ➔ $3,000 ... ➔ $20,000 ➔ $100,000</div>
       </div>
 
-      <!-- Card 4: Control de Capital Inyectado (70/30) -->
+      <!-- Card 4: Control de Capital Inyectado (0% Interés) -->
       <div class="biz-card" id="cardLoanControl">
         <div class="card-tag">
-          <span class="material-symbols-rounded">account_balance</span> CONTROL CAPITAL INYECTADO (0% INTERÉS)
+          <span class="material-symbols-rounded">account_balance</span> 🏦 CONTROL CAPITAL INYECTADO 0% INTERÉS
         </div>
         <div class="loan-stats-row">
           <div class="loan-stat-col">
             <span class="l-lbl">Inyectado:</span>
-            <span class="l-val" id="topLoanInjected">$756.55</span>
+            <span class="l-val" id="topLoanInjected">$756.52</span>
           </div>
           <div class="loan-stat-col">
-            <span class="l-lbl">Puente #501:</span>
-            <span class="l-val text-cyan" id="topLoanRepaid">+$72.51 ✔</span>
+            <span class="l-lbl">Depósito Hoy:</span>
+            <span class="l-val text-cyan" id="topLoanRepaid">+$72.48 ✔</span>
           </div>
           <div class="loan-stat-col">
             <span class="l-lbl">Por Amortizar:</span>
-            <span class="l-val text-amber" id="topLoanRemaining">$756.55</span>
+            <span class="l-val text-amber" id="topLoanRemaining">$756.52</span>
           </div>
         </div>
-        <div class="rule-badge-sub">Crédito #501: $756.55 ($684.04 + $72.51 de 819 POL) | 0% Interés</div>
+        <div class="rule-badge-sub" id="topLoanBreakdownSub">Base #501: $756.52 ($629.94 + $54.10 + $72.48) | 0% Interés</div>
       </div>
 
       <!-- Card 5: Radar Matrix 18x54 -->
@@ -127,11 +133,11 @@
         <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #0369A1; font-weight: 800;">RECUPERANDO 6/6 (PINZA SECUENCIAL 1 A 1 · CERO NUEVAS)</div>
       </div>
     </header>
-    <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v4) para CERO salto al pulsar F5 -->
+    <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v6) para CERO salto al pulsar F5 -->
     <script>
       (function () {
         try {
-          var raw = localStorage.getItem("area501_live_snapshot_v4");
+          var raw = localStorage.getItem("area501_live_snapshot_v6");
           if (!raw) return;
           var s = JSON.parse(raw);
           if (!s || typeof s.hlBalance !== "number") return;
@@ -145,10 +151,16 @@
           set("topShieldPill", "Mentora 40%: $" + s.shieldMargin.toFixed(2));
           set("topEquityBreakdownPill", s.breakdownText);
           set("topTotalProfit", "+$" + s.closedProfit.toFixed(2));
-          set("topTotalProfitPct", "+" + s.closedProfitPct.toFixed(2) + "% CERRADO");
+          set("topTotalProfitPct", "+" + s.closedProfitPct.toFixed(2) + "% · " + (s.currentStepSub || "Rumbo a $1,000"));
           set("topProfitFloatingPill", s.flowBreakdownText);
-          set("topBlock1ProgressLabel", "$" + s.closedBase.toFixed(2) + " Cerrado / $1,000.00 USDC");
-          set("topBlock1ProgressPct", s.pct1000.toFixed(1) + "%");
+          if (s.ladderPillText) set("topProfitLadderPill", s.ladderPillText);
+          set("topBlock1ProgressLabel", s.blockProgressLabel || ("BLOQUE 1: $" + s.closedBase.toFixed(2) + " / $1,000.00 USDC"));
+          set("topBlock1ProgressPct", s.blockProgressPctText || (s.pct1000.toFixed(1) + "%"));
+          if (s.blockRuleBadgeText) set("topBlock1RuleBadge", s.blockRuleBadgeText);
+          set("topLoanInjected", "$" + (s.totalLoanInjected || 756.52).toFixed(2));
+          set("topLoanRepaid", "+$72.48 ✔");
+          set("topLoanRemaining", "$" + (s.totalLoanRemaining || 756.52).toFixed(2));
+          set("topLoanBreakdownSub", "Base #501: $756.52 ($629.94 + $54.10 + $72.48) | 0% Interés");
           var bar = document.getElementById("topBlock1ProgressBar");
           if (bar) bar.style.width = s.pct1000.toFixed(1) + "%";
         } catch (_) {}
@@ -833,6 +845,6 @@
 
   </div>
 
-  <script src="app.js?v=20261029v12"></script>
+  <script src="app.js?v=20261030v16"></script>
 </body>
 </html>

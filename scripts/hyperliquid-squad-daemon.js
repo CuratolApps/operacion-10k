@@ -1022,7 +1022,7 @@ async function startAutonomousSquadDaemon() {
   console.log("🚀 ÁREA 501 // SQUAD SECRET V3 // 6 ESCUADRONES ACTIVOS (#01 ALFA A #06 INDIA)");
   console.log("================================================================================");
   console.log(`• Bóveda Nodriza: ${VAULT_501}`);
-  console.log(`• Préstamo Bóveda #501 (0% interés): $684.04 USDC ($629.94 + $54.10 Post-SOL)`);
+  console.log(`• Préstamo Bóveda #501 (0% interés): $756.52 USDC ($629.94 + $54.10 + $72.48 de 819.28 POL)`);
   console.log(`• Escuadrones Activos (18 Pares): #01 ALFA, #02 BRAVO, #03 CHARLIE, #04 GOLF, #05 HOTEL, #06 INDIA`);
   console.log(`• Escudo Mentora #00: 40% del Capital (~$360.82+ USDC Blindados para Rescates + Funding + TP)`);
   console.log(`• Margen Operativo: 60% del Capital (~$541.23 USDC ➔ ~$90-$100 USDC Base por Escuadrón)`);
@@ -1370,10 +1370,10 @@ async function startAutonomousSquadDaemon() {
       } catch (_) {}
 
       // 3. GESTIONAR TODAS LAS POSICIONES ABIERTAS CON PLAN B DE EXTRACCIÓN EN CASCADA ("EFECTO DOMINÓ DE LIQUIDEZ #00") + MOTOR NEXUS APEX-36:
-      // - FASE 1: DESBLOQUEO DE LIQUIDEZ EN BLOQUE CERCANO (PAXG, ETH, BTC) -> Breakeven Neto Real (entryPx + comisión + $0.02 USDC)
-      // - FASE 2: OPERACIÓN PINZA SECUENCIAL 1 A 1 SOBRE LAS 3 CRÍTICAS (1º XRP -> 2º SOL -> 3º NEAR en 2 escalones 70% + 30%)
+      // - FASE 1: DESBLOQUEO DE LIQUIDEZ EN BLOQUE CERCANO (BTC, PAXG, DOGE, ETH) -> Breakeven Neto Real (entryPx + comisión + $0.02 USDC)
+      // - FASE 2: OPERACIÓN PINZA SECUENCIAL 1 A 1 SOBRE LAS CRÍTICAS (ETH -> XRP -> SOL -> NEAR en 2 escalones 70% + 30%)
       // - FASE 3: ARRANQUE FRESCO NEXUS APEX-36 (Cero TP Fijo + Candado Elástico 75%/83%/90% + Giro Brusco <50ms)
-      const tier1Set = new Set(["PAXG", "ETH", "BTC"]);
+      const tier1Set = new Set(["PAXG", "BTC", "DOGE", "ETH"]);
       const tier2Set = new Set(["XRP", "SOL"]);
       const openCoinsSet = new Set(openPositions.map(p => p.position.coin));
 
@@ -1454,10 +1454,49 @@ async function startAutonomousSquadDaemon() {
         // PLAN B DE EXTRACCIÓN EN CASCADA ("EFECTO DOMINÓ DE LIQUIDEZ #00")
         // =========================================================================
         if (isPre00UtcOrRecovering) {
-          // FASE 1: DESBLOQUEO DE LIQUIDEZ EN EL BLOQUE CERCANO (PAXG, ETH, BTC)
+          // FASE 1: DESBLOQUEO DE LIQUIDEZ EN EL BLOQUE CERCANO (BTC, PAXG, DOGE, ETH)
           // Salida en Breakeven Neto Real (entryPx + comisión + $0.02 USDC)
           if (tier1Set.has(coin)) {
             posMeta.ratchetStatusLabel = `1º BLOQUE CERCANO (${coin}) · BE NETO +$0.02`;
+
+            // Si ETH está en soporte (L2 Bid >= 60%) y hay margen libre tras el refuerzo de +$72.48 USDC o salida de BTC/PAXG, aplica Pinza #00 en ETH
+            if (coin === "ETH" && !posMeta.pinzaInjected && freeMarginUsdcCascade >= 80.0 && (!openCoinsSet.has("PAXG") || !openCoinsSet.has("BTC") || freeMarginRatioPct >= 65.0)) {
+              try {
+                const l2Eth = await info.l2Book({ coin: "ETH" });
+                const bidsE = l2Eth?.levels?.[0] || [], asksE = l2Eth?.levels?.[1] || [];
+                let bVolE = 0, aVolE = 0;
+                for (let i = 0; i < 5; i++) {
+                  bVolE += parseFloat(bidsE[i]?.px || 0) * parseFloat(bidsE[i]?.sz || 0);
+                  aVolE += parseFloat(asksE[i]?.px || 0) * parseFloat(asksE[i]?.sz || 0);
+                }
+                const supportEthPct = (bVolE + aVolE) > 0 ? ((isShort ? aVolE : bVolE) / (bVolE + aVolE)) * 100 : 50;
+                if (supportEthPct >= 60.0 && bidsE.length > 0 && asksE.length > 0) {
+                  const ethCartridgeNotional = Math.min(180.0, notionalVal);
+                  const ethBookPx = isShort ? parseFloat(asksE[0].px) : parseFloat(bidsE[0].px);
+                  const ethCartridgeSzStr = formatHlSize(ethCartridgeNotional / ethBookPx, ASSET_DECIMALS.ETH.sz);
+                  if (parseFloat(ethCartridgeSzStr) > 0) {
+                    console.log(`🚁🛡️ [FASE 1 // PINZA #00 ETH] Aplicando Pinza #00 en ETH (${ethCartridgeSzStr} @ $${formatHlPrice(ethBookPx, "ETH")} | L2 Soporte: ${supportEthPct.toFixed(1)}%) para acelerar cascada hacia XRP -> SOL -> NEAR!`);
+                    const pEthRes = await client.order({
+                      orders: [{
+                        a: ASSET_INDICES.ETH,
+                        b: !isShort,
+                        p: formatHlPrice(ethBookPx, "ETH"),
+                        s: ethCartridgeSzStr,
+                        r: false,
+                        t: { limit: { tif: "Alo" } }
+                      }],
+                      grouping: "na"
+                    });
+                    const pEthSt = pEthRes?.response?.data?.statuses?.[0] || {};
+                    if (pEthSt.filled || pEthSt.resting) {
+                      posMeta.pinzaInjected = true;
+                      posMeta.dcaDone = true;
+                    }
+                  }
+                }
+              } catch (_) {}
+            }
+
             if (ratchet.beLocked && ratchet.netAfterFeesUsd >= LEVEL1_NET_LOCK_USDC && (ratchet.hitRatchetStop || ratchet.netAfterFeesUsd >= 0.03)) {
               console.log(`💰🔒 [FASE 1 // DESBLOQUEO BLOQUE CERCANO] ${coin} alcanzó Breakeven Neto (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC) -> Cobrando a USDC para alimentar Tanque #00!`);
               if (existingExitOrder) {
@@ -1539,6 +1578,13 @@ async function startAutonomousSquadDaemon() {
                     if (pSt.filled || pSt.resting) {
                       posMeta.pinzaInjected = true;
                       posMeta.dcaDone = true;
+                      await sendSquadTelegram(
+                        `🚁🛡️ <b>PLAN B CASCADA #00 // PINZA ACTIVADA EN XRP (2º EN COLA)</b>\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `📍 <b>Par:</b> <code>XRP-USDC</code> (+${cartridgeSzStr} XRP @ <code>$${formatHlPrice(bookPx, "XRP")}</code>)\n` +
+                        `📊 <b>Soporte L2:</b> <code>${supportPct.toFixed(1)}%</code> | <b>Margen Libre:</b> <code>$${freeMarginUsdcCascade.toFixed(2)} USDC</code>\n` +
+                        `🎯 <b>Objetivo Salida 100% en Verde:</b> <code>nuevoEntryPx + comisión + $0.03 USDC</code>`
+                      );
                     }
                   }
                 }
@@ -1630,6 +1676,13 @@ async function startAutonomousSquadDaemon() {
                     if (pSt.filled || pSt.resting) {
                       posMeta.pinzaInjected = true;
                       posMeta.dcaDone = true;
+                      await sendSquadTelegram(
+                        `🚁🛡️ <b>PLAN B CASCADA #00 // PINZA ACTIVADA EN SOL (3º EN COLA)</b>\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `📍 <b>Par:</b> <code>SOL-USDC</code> (+${cartridgeSzStr} SOL @ <code>$${formatHlPrice(bookPx, "SOL")}</code>)\n` +
+                        `📊 <b>Soporte L2:</b> <code>${supportPct.toFixed(1)}%</code> | <b>Liquidez XRP reciclada</b>\n` +
+                        `🎯 <b>Objetivo Salida 100% en Verde:</b> <code>nuevoEntryPx + comisión + $0.05 USDC</code>`
+                      );
                     }
                   }
                 }
@@ -1723,6 +1776,13 @@ async function startAutonomousSquadDaemon() {
                     if (pSt.filled || pSt.resting) {
                       posMeta.pinzaInjected = true;
                       posMeta.dcaDone = true;
+                      await sendSquadTelegram(
+                        `🚁🛡️ <b>PLAN B CASCADA #00 // PINZA ACTIVADA EN NEAR (4º EN COLA)</b>\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `📍 <b>Par:</b> <code>NEAR-USDC</code> (+${cartridgeSzStr} NEAR @ <code>$${formatHlPrice(bookPx, "NEAR")}</code>)\n` +
+                        `📊 <b>Soporte L2:</b> <code>${supportPct.toFixed(1)}%</code> | <b>Margen Libre Máximo:</b> <code>$${freeMarginUsdcCascade.toFixed(2)} USDC</code>\n` +
+                        `🎯 <b>Extracción 2 Escalones:</b> <code>70% en BE Neto (+$0.02) + 30% con Candado #00</code>`
+                      );
                     }
                   }
                 }
@@ -1754,6 +1814,12 @@ async function startAutonomousSquadDaemon() {
                 posMeta.nearStepADone = true;
                 posMeta.beLocked = true;
                 posMeta.isLight = true;
+                await sendSquadTelegram(
+                  `🎯🔓 <b>PLAN B CASCADA #00 // NEAR ESCALÓN A (70% LIBERADO EN VERDE)</b>\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                  `📍 <b>Descarga 70%:</b> <code>${stepASzStr} NEAR</code> cobrados en Breakeven Neto (<code>+$0.02 USDC</code>)\n` +
+                  `🔒 <b>Escalón B (30% Restante):</b> Candado #00 clavado y trinquete elástico activo hacia Banda Media.`
+                );
                 continue;
               }
 
@@ -1933,6 +1999,10 @@ async function startAutonomousSquadDaemon() {
           postTradeCooldownMs: POST_TRADE_COOLDOWN_MS,
           accountValueUsdc: +accountValue.toFixed(2),
           withdrawableUsdc: parseFloat(ch.withdrawable || "0"),
+          totalLoanInjectedUsdc: 756.52,
+          closedProfitPureTradingUsdc: 230.07,
+          closedBaseFirmeUsdc: 986.59,
+          milestoneLadderUsdc: [1000, 2000, 3000, 4000, 5000, 10000, 20000, 100000],
           openPositionsCount: remainingCount,
           totalInitialPositions: totalRef,
           recoveredCount: Math.max(0, totalRef - remainingCount),
@@ -1941,27 +2011,35 @@ async function startAutonomousSquadDaemon() {
         }, null, 2), "utf8");
       } catch (_) {}
 
-      // Enviar reporte de arranque en el Ciclo #1 confirmando la arquitectura NEXUS APEX-36
-      if (cycleCounter === 1) {
-        const posLines = openPositions.map((p, idx) => {
+      // Enviar reporte de Guardia Nocturna en el Ciclo #1 y cada 180 ciclos (~30 min) durante el rescate
+      if (cycleCounter === 1 || (isPre00UtcOrRecovering && openPositions.length > 0 && cycleCounter % 180 === 0)) {
+        const cascadeOrderTg = ["PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"];
+        const sortedForTg = [...openPositions].sort((a, b) => {
+          const iA = cascadeOrderTg.indexOf(a.position.coin);
+          const iB = cascadeOrderTg.indexOf(b.position.coin);
+          return (iA === -1 ? 99 : iA) - (iB === -1 ? 99 : iB);
+        });
+        const posLines = sortedForTg.map((p, idx) => {
           const c = p.position.coin;
           const s = parseFloat(p.position.szi);
           const e = parseFloat(p.position.entryPx);
+          const m = parseFloat(mids[c] || e);
           const u = parseFloat(p.position.unrealizedPnl || "0");
           const pMeta = confirmedOpenByCoin[c] || {};
-          return `• <b>${idx + 1}º</b> <code>${c}-USDC</code> (${s >= 0 ? "LONG" : "SHORT"} ${Math.abs(s)} @ $${formatHlPrice(e, c)} | Flotante: ${u >= 0 ? "+" : "-"}$${Math.abs(u).toFixed(2)} | ${pMeta.ratchetStatusLabel || "🎯 EVACUACIÓN LIMPIA +$0.01"})`;
-        }).join("\n") || "• 🧘‍♀️ 100% Liquidez USDC (0 posiciones abiertas)";
+          return `• <b>${idx + 1}º</b> <code>${c}-USDC</code> (${s >= 0 ? "LONG" : "SHORT"} ${Math.abs(s)} | Ent: $${formatHlPrice(e, c)} | Actual: $${formatHlPrice(m, c)} | PnL: ${u >= 0 ? "+" : "-"}$${Math.abs(u).toFixed(2)})\n   ↳ <i>${pMeta.ratchetStatusLabel || "🎯 COLA DE RESCATE #00"}</i>`;
+        }).join("\n") || "• 🧘‍♀️ 100% Liquidez USDC (6/6 posiciones rescatadas en verde)";
 
-        const bootTg = `🏆⚡🔒 <b>ÁREA 501 // ARQUITECTURA "NEXUS APEX-36" ACTIVADA EN HYPERLIQUID L1</b>\n` +
+        const bootTg = `🌙🚁🛡️ <b>ÁREA 501 // MANDO NOCTURNO AUTÓNOMO ACTIVO (PLAN B CASCADA #00 + NEXUS APEX-36)</b>\n` +
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-          `🔒 <b>STRICT_RECOVERY_LOCK:</b> <code>true (Cero entradas hasta recuperar 6/6 y 00:00 UTC)</code>\n` +
-          `🛡️ <b>NO_RED_EXIT:</b> <code>true (Prohibido cerrar en rojo — Breakeven Neto +$0.01)</code>\n` +
-          `🌊 <b>FEE-AWARE RATCHET #00:</b> <code>Cero TP Fijo · Nivel 1 +$0.02 (🟢 LIGERO) · Nivel 2: 75% / 83% / 90%</code>\n` +
-          `🔄 <b>STOP-AND-REVERSE (36 BOTS):</b> <code>Titular (1) 15m Cooldown ⇄ Clon (2) Giro Sísmico &lt;50ms</code>\n` +
-          `💵 <b>Patrimonio L1:</b> <code>$${accountValue.toFixed(2)} USDC</code> (Escudo 40%: <code>$${reserveUsdc.toFixed(2)} USDC</code>)\n` +
-          `📊 <b>Posiciones en Recuperación (${openPositions.length} abiertas ➔ 0 antes de 00:00 UTC):</b>\n${posLines}\n` +
+          `🎯 <b>Prioridad Nº1:</b> <code>Rescate en Cascada 1 a 1 (0 Pérdidas Cerradas)</code>\n` +
+          `🔗 <b>Orden Dominó #00:</b> <code>1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR (70%/30%)</code>\n` +
+          `🔒 <b>Cerrojo Nuevas Entradas:</b> <code>ACTIVO (0 aperturas hasta liberar las atascadas)</code>\n` +
+          `🌊 <b>Motor NEXUS APEX-36:</b> <code>36 Bots listos (0 TP Fijo · Ratchet 75/83/90% · Giro &lt;50ms)</code>\n` +
+          `💵 <b>Equity Viva L1:</b> <code>$${accountValue.toFixed(2)} USDC</code> | <b>Margen Libre:</b> <code>$${freeMarginUsdcCascade.toFixed(2)} USDC</code> | <b>Escudo #00:</b> <code>$${reserveUsdc.toFixed(2)} USDC</code>\n` +
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-          `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Cuenta #501 en Hypurrscan (Sin conectar Wallet)</a>`;
+          `📊 <b>COLA DE EXTRACCIÓN EN VIVO (${openPositions.length}/6 abiertas):</b>\n${posLines}\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Bóveda #501 en Vivo (Sin conectar Wallet)</a>`;
         await sendSquadTelegram(bootTg);
       }
 
