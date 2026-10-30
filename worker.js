@@ -2050,7 +2050,7 @@ export default {
             triggerBearShort: isHack,
             botReactionEs: isHack
               ? "Escudo Anti-Hack activado (<50ms) · Compras LONG bloqueadas y cobertura 🐻 SHORT armada"
-              : "Cerrojo STRICT_RECOVERY_LOCK activo (0 cierres en rojo) · Pinza #00 esperando soporte L2 >= 60%"
+              : "Plan C Activo (0 cierres en rojo) · Quema-Lastre 50% + Pinza #00 esperando soporte L2 >= 60%"
           };
         }
         if (/surge|rally|inflow|bull|adoption|record|aprob|sube|repunta|alcista|acumulaci|compra|soporte firme|recupera|verde/.test(low)) {
@@ -2058,14 +2058,14 @@ export default {
             category: "POSITIVE",
             categoryLabel: "🟢 IMPACTO POSITIVO (ALCISTA)",
             triggerBearShort: false,
-            botReactionEs: "Flujo comprador confirmado en <110ms · Escalera de Candados Netos #00 lista sin techo de Take Profit"
+            botReactionEs: "Plan C cazando en Forex/PEPE/Oro (<110ms) · Candado Base +$0.10 USDC + Ratchet 80-90% sin techo"
           };
         }
         return {
           category: "STANDARD",
           categoryLabel: "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)",
           triggerBearShort: false,
-          botReactionEs: "Liquidez L2 estable (<120ms) · Órdenes Post-Only Maker manteniendo 0% de pérdidas cerradas"
+          botReactionEs: "Liquidez L2 estable (<120ms) · Plan C activo (+$0.10 Candado #00) con 0% de pérdidas cerradas"
         };
       };
 
@@ -2076,29 +2076,29 @@ export default {
         {
           category: "POSITIVE",
           categoryLabel: "🟢 IMPACTO POSITIVO (ALCISTA)",
-          headlineEs: `Pulso L1 en Vivo: DOGE y HYPE rescatadas en verde hoy · Quedan ${openPosCount} posiciones en Cascada #00`,
-          summaryEs: `Hyperliquid L1 registra cierres limpios en verde sobre DOGE (+$0.085) y HYPE (+$0.043) desde las 00:00 UTC. Saldo Cerrado Firme se consolida en $1,008.60 USDC ($756.52 Inyectado #501 + $252.08 Profit Bots) con Equidad Viva en $${liveEq} USDC.`,
-          assets: ["DOGE", "HYPE", "PAXG", "BTC", "ETH", "XRP"],
-          source: "Hyperliquid L1 Clearinghouse · Bóveda #501",
-          botReactionEs: `Marcador Diario 00:00 UTC en 2G-0P · Fase 1 vigilando PAXG ($${paxgPx}), ETH ($${ethPx}) y BTC ($${btcPx})`
+          headlineEs: `Plan C Activo en Hyperliquid L1: Cazando en Forex/PEPE/Oro (+$0.10 Candado) + Motor Quema-Lastre 50%`,
+          summaryEs: `Escuadrones libres (#01 a #15) desbloqueados con balas ágiles ($70 margen · $175 nocional · máx 2 cazadores simultáneos) bajo blindaje +$0.10 USDC neto o Ratchet 80-90%. El 50% de cada ganancia fresca subsidia y acerca el cierre en verde de XRP ($${xrpPx}), SOL ($${solPx}) y NEAR ($${nearPx}).`,
+          assets: ["PEPE", "PAXG", "SUI", "AVAX", "XRP", "SOL", "NEAR"],
+          source: "Hyperliquid L1 Clearinghouse · Motor Plan C #501",
+          botReactionEs: `Plan C Activo (Máx 2 Cazadores >$400 Libre) · 50% Quema-Lastre acelerando salida de XRP/SOL/NEAR`
         },
         {
           category: "STANDARD",
           categoryLabel: "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)",
           headlineEs: `Radar de Libro L2 Hyperliquid: BTC en $${btcPx} · ETH en $${ethPx} · PAXG (Oro) en $${paxgPx}`,
-          summaryEs: `Profundidad institucional L2 estable en los 54 pares monitoreados. Muros de absorción compradora sostienen a XRP ($${xrpPx}), SOL ($${solPx}) y NEAR ($${nearPx}) mientras el Escudo Mentora #00 respalda el 100% del margen.`,
+          summaryEs: `Profundidad institucional L2 estable en los 54 pares monitoreados. Saldo Cerrado Firme consolidado en $1,008.60 USDC ($756.52 Inyectado #501 + $252.08 Profit Bots) y Equidad Viva en $${liveEq} USDC mientras el Escudo Mentora #00 respalda las ${openPosCount} posiciones abiertas.`,
           assets: ["BTC", "ETH", "PAXG", "XRP", "SOL", "NEAR"],
           source: "Hyperliquid L1 Orderbook L2 (150ms)",
-          botReactionEs: "Escudo Mentora #00 activo al 40% · Prohibido cerrar en rojo (Ley Breakeven Neto +$0.02 USDC)"
+          botReactionEs: "Candado Base #00 en +$0.10 USDC Neto · Prohibido cerrar en rojo (0 Pérdidas)"
         },
         {
           category: "POSITIVE",
           categoryLabel: "🟢 IMPACTO POSITIVO (ALCISTA)",
-          headlineEs: `Pinza Secuencial #00 en Guardia: Objetivo #1 PAXG ($${paxgPx} vs $4,035.4) a solo -$0.41 de salida en verde`,
-          summaryEs: `PAXG-USDC opera a menos de 0.10% de su punto de equilibrio neto real ($4,035.40). Al cruzar ese nivel, la Mentora #00 clava el Candado Nivel 1 y libera liquidez hacia el rescate de XRP ($${xrpPx}) y SOL ($${solPx}).`,
-          assets: ["PAXG", "BTC", "ETH", "XRP", "SOL"],
-          source: "Motor NEXUS APEX-36 · Escuadrón #02 Bravo",
-          botReactionEs: "Candado Nivel 1 pre-armado en PAXG ($4,035.40) y BTC ($81,059) · Cero Take Profit Fijo"
+          headlineEs: `Sinergia Quema-Lastre #00: PAXG ($${paxgPx}), BTC ($${btcPx}) y ETH ($${ethPx}) listos para cobro +$0.10`,
+          summaryEs: `Las posiciones cercanas (PAXG, BTC, ETH) mantienen orden de cobro inmediato en +$0.10 USDC neto, mientras los cazadores libres en PEPE, SUI, AVAX y Oro inyectan el 50% de su profit diario directo al descuento de salida de XRP ($${xrpPx}) y SOL ($${solPx}).`,
+          assets: ["PAXG", "BTC", "ETH", "PEPE", "XRP", "SOL"],
+          source: "Motor NEXUS APEX-36 · Sinergia Quema-Lastre",
+          botReactionEs: "Candado Nivel 1 (+$0.10 USDC) + Trailing Ratchet 80-90% · Cero Take Profit Fijo"
         }
       ];
       const activePulse = pulseModes[bucket45s % pulseModes.length];

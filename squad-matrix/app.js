@@ -59,37 +59,37 @@ const initialSavedSquad = window.__LAST_VALID_STATE__ || loadPersistedSquadState
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 const HL_INFO_URL = "https://api.hyperliquid.xyz/info";
 
-// DEFINICIÓN DE LOS 18 ESCUADRONES Y SUS 54 PARES
+// DEFINICIÓN DE LOS 18 ESCUADRONES Y SUS 54 PARES (PLAN C ACTIVO: ESCUADRONES LIBRES DESPIERTOS + EXTRACCIÓN #00)
 const SQUADS_DATA = [
   // BLOQUE 1: CRIPTO TITANES L1 (24/7) - ACTIVO
-  { id: 1, code: "ALFA", num: "#01", block: 1, name: "Alfa Titan-Scalper", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 78.00, wins: 48, pairs: ["SOL", "SUI", "AVAX"] },
-  { id: 2, code: "BRAVO", num: "#02", block: 1, name: "Bravo Oracle-Global", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 70.60, wins: 46, pairs: ["BTC", "PAXG", "LINK"] },
-  { id: 3, code: "CHARLEY", num: "#03", block: 1, name: "Charley Nexus-Boss", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 68.30, wins: 44, pairs: ["ETH", "BNB", "AAVE"] },
+  { id: 1, code: "ALFA", num: "#01", block: 1, name: "Alfa Titan-Scalper", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 90.70, wins: 92, pairs: ["SOL", "SUI", "AVAX"] },
+  { id: 2, code: "BRAVO", num: "#02", block: 1, name: "Bravo Oracle-Global", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 82.10, wins: 85, pairs: ["BTC", "PAXG", "LINK"] },
+  { id: 3, code: "CHARLEY", num: "#03", block: 1, name: "Charley Nexus-Boss", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 79.28, wins: 80, pairs: ["ETH", "BNB", "AAVE"] },
 
-  // BLOQUE 2: CRIPTO EXPANDIDO (24/7) - ACTIVO EN VIVO ($100 BASE C/U)
-  { id: 4, code: "GOLF", num: "#04", block: 2, name: "Golf Velocity", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 0.00, wins: 0, pairs: ["XRP", "DOGE", "ADA"] },
-  { id: 5, code: "HOTEL", num: "#05", block: 2, name: "Hotel Hyper-L1", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 0.00, wins: 0, pairs: ["HYPE", "TRX", "UNI"] },
-  { id: 6, code: "INDIA", num: "#06", block: 2, name: "India Cross-Chain", status: "ACTIVE", marginRatio: 0.10, capitalUsdc: 100.00, notionalUsd: 250.00, pnlUsdc: 0.00, wins: 0, pairs: ["DOT", "NEAR", "LTC"] },
+  // BLOQUE 2: CRIPTO EXPANDIDO (24/7) - ACTIVO EN PLAN C ($70 MARGEN / $175 NOCIONAL)
+  { id: 4, code: "GOLF", num: "#04", block: 2, name: "Golf Velocity", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["XRP", "DOGE", "ADA"] },
+  { id: 5, code: "HOTEL", num: "#05", block: 2, name: "Hotel Hyper-L1", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["HYPE", "TRX", "UNI"] },
+  { id: 6, code: "INDIA", num: "#06", block: 2, name: "India Cross-Chain", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["DOT", "NEAR", "LTC"] },
 
-  // BLOQUE 3: CRIPTO L2 & AI (24/7) - READY
-  { id: 7, code: "JULIET", num: "#07", block: 3, name: "Juliet AI-Compute", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["TAO", "RENDER", "FET"] },
-  { id: 8, code: "KILO", num: "#08", block: 3, name: "Kilo Rollup-Sniper", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["ARB", "OP", "UNI"] },
-  { id: 9, code: "LIMA", num: "#09", block: 3, name: "Lima Yield-RWA", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["ONDO", "PENDLE", "PEPE"] },
+  // BLOQUE 3: CRIPTO L2, AI & PEPE (24/7) - DESPERTADO EN PLAN C ($70 MARGEN / +$0.10 CANDADO #00)
+  { id: 7, code: "JULIET", num: "#07", block: 3, name: "Juliet AI-Compute", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["TAO", "RENDER", "FET"] },
+  { id: 8, code: "KILO", num: "#08", block: 3, name: "Kilo Rollup-Sniper", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["ARB", "OP", "UNI"] },
+  { id: 9, code: "LIMA", num: "#09", block: 3, name: "Lima Yield-RWA-PEPE", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["ONDO", "PENDLE", "PEPE"] },
 
-  // BLOQUE 4: FOREX & METALES PRECIOSOS (LUN-VIE) - STANDBY
-  { id: 10, code: "DELTA", num: "#10", block: 4, name: "Delta FX-Majors", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["EUR/USD", "GBP/USD", "USD/CHF"] },
-  { id: 11, code: "ECHO", num: "#11", block: 4, name: "Echo FX-Pacific", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["USD/JPY", "AUD/USD", "USD/CAD"] },
-  { id: 12, code: "FOXTROT", num: "#12", block: 4, name: "Foxtrot Bullion", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["XAU/USD", "XAG/USD", "EUR/JPY"] },
+  // BLOQUE 4: FOREX & METALES PRECIOSOS (SESIÓN LONDRES/NY) - DESPERTADO EN PLAN C (+$0.10 CANDADO #00)
+  { id: 10, code: "DELTA", num: "#10", block: 4, name: "Delta FX-Majors", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["EUR/USD", "GBP/USD", "USD/CHF"] },
+  { id: 11, code: "ECHO", num: "#11", block: 4, name: "Echo FX-Pacific", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["USD/JPY", "AUD/USD", "USD/CAD"] },
+  { id: 12, code: "FOXTROT", num: "#12", block: 4, name: "Foxtrot Bullion", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["XAU/USD", "XAG/USD", "EUR/JPY"] },
 
-  // BLOQUE 5: ENERGÍA & ÍNDICES GLOBALES (LUN-VIE) - STANDBY
-  { id: 13, code: "MIKE", num: "#13", block: 5, name: "Mike FX-Commodity", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["GBP/JPY", "EUR/GBP", "WTI/USD"] },
-  { id: 14, code: "NOVEMBER", num: "#14", block: 5, name: "November Wall-Indices", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["NAS100", "SPX500", "US30"] },
-  { id: 15, code: "OSCAR", num: "#15", block: 5, name: "Oscar Global-Power", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["DAX40", "NGAS", "HG/USD"] },
+  // BLOQUE 5: ENERGÍA & ÍNDICES GLOBALES (SESIÓN LONDRES/NY) - DESPERTADO EN PLAN C (+$0.10 CANDADO #00)
+  { id: 13, code: "MIKE", num: "#13", block: 5, name: "Mike FX-Commodity", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["GBP/JPY", "EUR/GBP", "WTI/USD"] },
+  { id: 14, code: "NOVEMBER", num: "#14", block: 5, name: "November Wall-Indices", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["NAS100", "SPX500", "US30"] },
+  { id: 15, code: "OSCAR", num: "#15", block: 5, name: "Oscar Global-Power", status: "ACTIVE", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["DAX40", "NGAS", "HG/USD"] },
 
-  // BLOQUE 6: WALL STREET GIANTS (LUN-VIE) - STANDBY
-  { id: 16, code: "PAPA", num: "#16", block: 6, name: "Papa Tech-Leaders", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["NVDA", "TSLA", "AAPL"] },
-  { id: 17, code: "QUEBEC", num: "#17", block: 6, name: "Quebec Mega-Cap", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["MSFT", "AMZN", "META"] },
-  { id: 18, code: "ROMEO", num: "#18", block: 6, name: "Romeo Fintech-Alpha", status: "STANDBY", marginRatio: 0.20, capitalUsdc: 0.00, notionalUsd: 0.00, pnlUsdc: 0.00, wins: 0, pairs: ["GOOGL", "COIN", "MSTR"] }
+  // BLOQUE 6: WALL STREET GIANTS (LUN-VIE 13:30 UTC) - PRE-ARMADO NY
+  { id: 16, code: "PAPA", num: "#16", block: 6, name: "Papa Tech-Leaders", status: "STANDBY", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["NVDA", "TSLA", "AAPL"] },
+  { id: 17, code: "QUEBEC", num: "#17", block: 6, name: "Quebec Mega-Cap", status: "STANDBY", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["MSFT", "AMZN", "META"] },
+  { id: 18, code: "ROMEO", num: "#18", block: 6, name: "Romeo Fintech-Alpha", status: "STANDBY", marginRatio: 0.07, capitalUsdc: 70.00, notionalUsd: 175.00, pnlUsdc: 0.00, wins: 0, pairs: ["GOOGL", "COIN", "MSTR"] }
 ];
 
 // LISTADO DE LOS 54 PARES CON METADATOS
@@ -831,14 +831,14 @@ function render54PairsGrid() {
   });
 }
 
-// HELPER: FEE-AWARE RATCHET #00 (ARQUITECTURA NEXUS APEX-36) EN CLIENTE
+// HELPER: FEE-AWARE RATCHET #00 + PLAN C (+$0.10 CANDADO BASE + RATCHET 80%-90% + QUEMA-LASTRE 50%) EN CLIENTE
 const clientRatchetMemory = {};
 function computeClientRatchetStatus(activePos, currentPrice) {
   if (!activePos || !activePos.position) {
     return {
       isLocked: false,
       lockedNetUsd: 0,
-      statusLabel: "🔓 BUSCANDO CANDADO NETO +$0.02",
+      statusLabel: "🔓 BUSCANDO CANDADO NETO +$0.10",
       lockClass: "active-lock-tag shield"
     };
   }
@@ -861,8 +861,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const gainPct = entryPx > 0 ? (priceDiff / entryPx) * 100 : 0;
 
   if (!clientRatchetMemory[coin] || clientRatchetMemory[coin].entryPx !== entryPx) {
-    // Las 6 posiciones en recuperación previa llevan > 180s abiertas
-    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR"]);
+    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR", "DOGE"]);
     clientRatchetMemory[coin] = {
       entryPx,
       openedAt: initialRecoveryCoins.has(coin) ? (Date.now() - 240000) : Date.now(),
@@ -875,108 +874,98 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   if (netAfterFee > mem.peakNetAfterFee) mem.peakNetAfterFee = netAfterFee;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Candado Nivel 1 (+$0.02 USDC neto real) y Nivel 2 (Exprimido Elástico Sin Techo: 75% / 83% / 90%)
-  if (mem.peakNetAfterFee >= 0.02) {
-    let lockNet = 0.02;
+  // Candado Base #00 en +$0.10 USDC Netos y Escalera de Candados (80% / 85% / 90% del High-Water Mark)
+  if (mem.peakNetAfterFee >= 0.10) {
+    let lockNet = 0.10;
     if (mem.peakGainPct > 0.80) {
-      lockNet = Math.max(0.02, mem.peakNetAfterFee * 0.90);
+      lockNet = Math.max(0.10, mem.peakNetAfterFee * 0.90);
     } else if (mem.peakGainPct >= 0.25) {
-      lockNet = Math.max(0.02, mem.peakNetAfterFee * 0.83);
+      lockNet = Math.max(0.10, mem.peakNetAfterFee * 0.85);
     } else if (mem.peakGainPct >= 0.10) {
-      lockNet = Math.max(0.02, mem.peakNetAfterFee * 0.75);
+      lockNet = Math.max(0.10, mem.peakNetAfterFee * 0.80);
     }
     if (lockNet > mem.lockedNetUsd) mem.lockedNetUsd = lockNet;
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
-      statusLabel: `🔒 CANDADO ACTIVO +$${mem.lockedNetUsd.toFixed(2)} | EXPRIMIENDO OLA 🌊`,
+      statusLabel: `🔒 CANDADO #00 +$${mem.lockedNetUsd.toFixed(2)} | RATCHET 80-90% 🌊`,
       lockClass: "active-lock-tag be"
     };
   }
 
-  // Plan B de Extracción en Cascada ("Efecto Dominó de Liquidez #00") mientras siga la recuperación previa
-  const isBefore00Utc = Date.now() < new Date("2026-10-30T00:00:00.000Z").getTime();
-  const activeCoinsList = (appState.openPositions || []).map(p => p.position.coin);
-  if (isBefore00Utc || activeCoinsList.length > 0) {
-    if (["PAXG", "ETH", "BTC"].includes(coin)) {
-      return {
-        isLocked: false,
-        lockedNetUsd: 0.02,
-        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [1º BE NETO +$0.02]`,
-        lockClass: "active-lock-tag shield"
-      };
-    }
-    if (coin === "XRP") {
-      return {
-        isLocked: false,
-        lockedNetUsd: 0.03,
-        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [2º PINZA XRP +$0.03]`,
-        lockClass: "active-lock-tag shield"
-      };
-    }
-    if (coin === "SOL") {
-      return {
-        isLocked: false,
-        lockedNetUsd: 0.05,
-        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [3º PINZA SOL +$0.05]`,
-        lockClass: "active-lock-tag shield"
-      };
-    }
-    if (coin === "NEAR") {
-      return {
-        isLocked: false,
-        lockedNetUsd: 0.02,
-        statusLabel: `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR [4º NEAR 70% BE + 30% #00]`,
-        lockClass: "active-lock-tag shield"
-      };
-    }
+  // Motor "Sinergia Quema-Lastre" (50% Ganancia Diaria subsidia XRP -> SOL -> NEAR)
+  const dailyProfit = Number((appState.dailyProfitTodayUsdc || 0.13).toFixed(2));
+  const burnSubsidy = +(dailyProfit * 0.50).toFixed(2);
+  if (["PAXG", "ETH", "BTC", "DOGE"].includes(coin)) {
+    return {
+      isLocked: false,
+      lockedNetUsd: 0.10,
+      statusLabel: `🎯 EXTRACCIÓN #00: SALIDA EN VERDE +$0.10 USDC [1º CERCANAS]`,
+      lockClass: "active-lock-tag shield"
+    };
+  }
+  if (coin === "XRP") {
+    return {
+      isLocked: false,
+      lockedNetUsd: 0.10,
+      statusLabel: `🔥 QUEMA-LASTRE #00 (-$${burnSubsidy.toFixed(2)} SUBSIDIO 50%) + PINZA XRP`,
+      lockClass: "active-lock-tag shield"
+    };
+  }
+  if (coin === "SOL") {
+    return {
+      isLocked: false,
+      lockedNetUsd: 0.10,
+      statusLabel: `🔥 QUEMA-LASTRE #00 (-$${burnSubsidy.toFixed(2)} SUBSIDIO 50%) + PINZA SOL`,
+      lockClass: "active-lock-tag shield"
+    };
+  }
+  if (coin === "NEAR") {
+    return {
+      isLocked: false,
+      lockedNetUsd: 0.10,
+      statusLabel: `🔥 QUEMA-LASTRE #00 (-$${burnSubsidy.toFixed(2)} SUBSIDIO 50%) + PINZA NEAR`,
+      lockClass: "active-lock-tag shield"
+    };
   }
 
-  // Ley 2: Protocolo de Evacuación Limpia a los 180 Segundos (+$0.01 USDC Post-Only Maker)
+  // Evacuación a los 180 Segundos (+$0.10 USDC Post-Only Maker)
   const elapsedMs = Date.now() - mem.openedAt;
   if (elapsedMs >= 180000 && mem.peakGainPct < 0.10) {
     return {
       isLocked: false,
-      lockedNetUsd: 0.01,
-      statusLabel: `🎯 EVACUACIÓN LIMPIA +$0.01`,
+      lockedNetUsd: 0.10,
+      statusLabel: `🎯 EVACUACIÓN 180s +$0.10 MAKER`,
       lockClass: "active-lock-tag shield"
     };
   }
 
   return {
     isLocked: false,
-    lockedNetUsd: 0,
-    statusLabel: `🔓 BUSCANDO CANDADO NETO +$0.02`,
+    lockedNetUsd: 0.10,
+    statusLabel: `🔓 BUSCANDO CANDADO NETO +$0.10`,
     lockClass: "active-lock-tag shield"
   };
 }
 
-// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / ARQUITECTURA NEXUS APEX-36 + PLAN B CASCADA)
+// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / PLAN C CAZA ACTIVA + QUEMA-LASTRE)
 function getSquadRelayText(sq) {
   if (appState.clonesMap && appState.clonesMap[sq.id] && appState.clonesMap[sq.id].relayStatus) {
     return appState.clonesMap[sq.id].relayStatus;
   }
-  const isBefore00Utc = Date.now() < new Date("2026-10-30T00:00:00.000Z").getTime();
-  if (sq.block <= 2) {
-    const activeCoins = (appState.openPositions || []).map(p => p.position.coin);
+  if (sq.status === "ACTIVE") {
+    const activeCoins = (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin);
     const inPosCoins = sq.pairs.filter(c => activeCoins.includes(c));
-    if (isBefore00Utc || activeCoins.length > 0) {
-      if (activeCoins.length === 0) {
-        return `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO TÁCTICO HASTA 00:00:00 UTC`;
-      }
-      if (inPosCoins.length > 0) {
-        return `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR · [${sq.code} 1: ${inPosCoins.join("+")}]`;
-      }
-      return `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR (RECUPERADA ✅)`;
-    }
     if (inPosCoins.length > 0) {
       const firstCoin = inPosCoins[0];
-      const posObj = (appState.openPositions || []).find(p => p.position.coin === firstCoin);
-      const px = appState.mids && appState.mids[firstCoin] ? parseFloat(appState.mids[firstCoin]) : 0;
+      const posObj = (appState.openPositions || []).find(p => p.position.coin === firstCoin || (firstCoin === "PEPE" && p.position.coin === "kPEPE"));
+      const px = appState.mids && (appState.mids[firstCoin] || (firstCoin === "PEPE" ? appState.mids["kPEPE"] : 0))
+        ? parseFloat(appState.mids[firstCoin] || appState.mids["kPEPE"])
+        : 0;
       const rInfo = computeClientRatchetStatus(posObj, px);
       return `${sq.code} 1 (${inPosCoins.join("+")}): ${rInfo.statusLabel} ⇄ ${sq.code} 2: GIRO BRUSCO <50ms`;
     }
-    return `⚡ ${sq.code} 1: ACTIVO (CUPOS LIGEREZA MÁX 2) ⇄ ${sq.code} 2: STOP-AND-REVERSE`;
+    return `⚡ PLAN C CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ ${sq.code} 2: STOP&REV <50ms`;
   }
   return `⏸️ ${sq.code} 1: PRE-ARMADO ⇄ ${sq.code} 2: PRE-ARMADO ($100)`;
 }
@@ -986,13 +975,11 @@ function render18SquadsGrid() {
   const container = document.getElementById("squadsGrid");
   if (!container) return;
   if (container.children.length === SQUADS_DATA.length) {
-    const squadMarginEach = (appState.accountValue * 0.20).toFixed(2);
-    const squadNotionalEach = (appState.accountValue * 0.20 * 5).toFixed(0);
-    [1, 2, 3].forEach(id => {
-      const el = document.getElementById(`sqCap_${id}`);
-      if (el) setTextIfChanged(el, `$${squadMarginEach} USDC ($${squadNotionalEach} Nocional)`);
-    });
     SQUADS_DATA.forEach(sq => {
+      const elCap = document.getElementById(`sqCap_${sq.id}`);
+      if (elCap && sq.status === "ACTIVE") {
+        setTextIfChanged(elCap, `$70.00 USDC ($175 Nocional · 2.5x)`);
+      }
       const elRelay = document.getElementById(`sqRelay_${sq.id}`);
       if (elRelay) setTextIfChanged(elRelay, getSquadRelayText(sq));
     });
@@ -1006,11 +993,11 @@ function render18SquadsGrid() {
     card.id = `squadCard_${sq.id}`;
 
     const statusBadge = sq.status === "ACTIVE"
-      ? `<span class="squad-status-badge badge-on"><span class="material-symbols-rounded">check_circle</span> ACTIVO (5x)</span>`
+      ? `<span class="squad-status-badge badge-on"><span class="material-symbols-rounded">bolt</span> PLAN C (2.5x)</span>`
       : `<span class="squad-status-badge badge-standby"><span class="material-symbols-rounded">schedule</span> ESPERA $100</span>`;
 
     const capitalDisplay = sq.status === "ACTIVE"
-      ? `$${(appState.accountValue * 0.20).toFixed(2)} USDC ($${(appState.accountValue * 0.20 * 5).toFixed(0)} Nocional)`
+      ? `$70.00 USDC ($175 Nocional · 2.5x)`
       : `$0.00 USDC ($0 Nocional)`;
 
     const profitDisplay = sq.status === "ACTIVE"
@@ -1038,8 +1025,8 @@ function render18SquadsGrid() {
 
       <div class="squad-blocks-info">
         <div class="s-block-item"><span class="material-symbols-rounded">visibility</span> Radar L2 150ms + Giro Brusco &lt;50ms</div>
-        <div class="s-block-item"><span class="material-symbols-rounded">hub</span> 32 Nebulosas + Evacuación Limpia 180s (+$0.01)</div>
-        <div class="s-block-item"><span class="material-symbols-rounded">lock</span> Mentora #00 (Candado Elástico 75%/83%/90% · 0 TP Fijo)</div>
+        <div class="s-block-item"><span class="material-symbols-rounded">hub</span> 32 Nebulosas + Evacuación 180s (+$0.10 Maker)</div>
+        <div class="s-block-item"><span class="material-symbols-rounded">lock</span> Mentora #00 (Candado Base +$0.10 · Ratchet 80-90%)</div>
       </div>
 
       <div class="squad-footer-stats">
@@ -1472,46 +1459,29 @@ function updateTopBarCards() {
     }));
   } catch (_) {}
 
-  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador ❄️ RECUPERANDO X/6 (CERO NUEVAS ENTRADAS)
+  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador ⚡ PLAN C ACTIVO (CAZANDO EN FOREX/PEPE/ORO + DESARMANDO COLA #00)
   const openCount = appState.openPositions.length;
-  const totalRecoveryRef = 6;
-  const isBefore00Utc = Date.now() < new Date("2026-10-30T00:00:00.000Z").getTime();
+  const burnSubsidyToday = +(dailyProfit * 0.50).toFixed(2);
 
-  let topPillText = "";
-  let subLabelText = "";
-  let bottomBannerText = "";
-
-  if (isBefore00Utc || openCount > 0) {
-    if (openCount === 0) {
-      topPillText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO HASTA LAS 00:00:00 UTC`;
-      subLabelText = `6/6 RECUPERADAS EN VERDE · ARRANQUE FRESCO 00:00 UTC`;
-      bottomBannerText = `🧘‍♀️ 100% LIQUIDEZ USDC — ENFRIAMIENTO HASTA LAS 00:00:00 UTC`;
-    } else {
-      topPillText = `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR`;
-      subLabelText = `RECUPERANDO ${openCount}/${totalRecoveryRef} (PINZA SECUENCIAL 1 A 1 · CERO NUEVAS)`;
-      bottomBannerText = `🎯 COLA DE RESCATE #00: 1º PAXG/ETH/BTC ➔ 2º XRP ➔ 3º SOL ➔ 4º NEAR`;
-    }
-  } else {
-    topPillText = `🟢 ARRANQUE FRESCO 00:00 UTC: ${openCount}/2 ABIERTAS`;
-    subLabelText = `Freno Anti-Aceleración Activo (Máx 2 Simultáneas + 15m Cooldown)`;
-    bottomBannerText = `🟢 ARRANQUE FRESCO 00:00 UTC ACTIVO (MÁX 2 SIMULTÁNEAS · 15M COOLDOWN)`;
-  }
+  const topPillText = `⚡ PLAN C ACTIVO: CAZANDO EN FOREX/PEPE/ORO (+$0.10 CANDADO) + DESARMANDO COLA #00`;
+  const subLabelText = `QUEMA-LASTRE 50% (-$${burnSubsidyToday.toFixed(2)} USDC) · +$0.10 CANDADO · MÁX 2 CAZADORES`;
+  const bottomBannerText = `⚡ PLAN C ACTIVO: CAZANDO EN FOREX/PEPE/ORO (+$0.10 CANDADO) + DESARMANDO COLA #00 (${openCount} POSICIONES EN EXTRACCIÓN)`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
   setTextIfChanged(document.getElementById("topRadarSubLabel"), subLabelText);
   setTextIfChanged(document.getElementById("bottomRecoveryBannerPill"), bottomBannerText);
 
-  // Actualizar capital en Tab 2 para los 6 escuadrones activos (#01 ALFA a #06 INDIA)
-  const squadMarginEach = Math.max(90.00, (val * 0.10)).toFixed(2);
-  const squadNotionalEach = Math.min(250, val * 0.10 * 2.5).toFixed(0);
-  [1, 2, 3, 4, 5, 6].forEach(id => {
-    const el = document.getElementById(`sqCap_${id}`);
-    if (el) setTextIfChanged(el, `$${squadMarginEach} USDC ($${squadNotionalEach} Nocional)`);
+  // Actualizar capital en Tab 2 para los 15 escuadrones activos en Plan C (#01 ALFA a #15 SIERRA)
+  SQUADS_DATA.forEach(sq => {
+    if (sq.status === "ACTIVE") {
+      const el = document.getElementById(`sqCap_${sq.id}`);
+      if (el) setTextIfChanged(el, `$70.00 USDC ($175 Nocional · 2.5x)`);
+    }
   });
 
   // Actualizar métricas dinámicas de Tab 4: Proyecciones & Patrimonio
   setTextIfChanged(document.getElementById("projCurrentCap"), `$${val.toFixed(2)} USDC`);
-  setTextIfChanged(document.getElementById("projProfitToday"), `+${netTotalPnl.toFixed(2)} USDC (+${pnlPct.toFixed(2)}%)`);
+  setTextIfChanged(document.getElementById("projProfitToday"), `+$${closedProfit.toFixed(2)} USDC (+${closedProfitPct.toFixed(2)}%)`);
   const elProjClosing = document.getElementById("projClosingToday");
   if (elProjClosing) {
     const lowClose = val + 16.50;
@@ -1525,13 +1495,13 @@ function updateTopBarCards() {
   }
 }
 
-// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON ORDEN DE COLA DE RESCATE #00)
+// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (CON PLAN C + QUEMA-LASTRE #00)
 function updatePricesAndSignals() {
-  const cascadePriority = ["PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR", "SUI", "DOGE", "HYPE"];
+  const cascadePriority = ["PAXG", "ETH", "BTC", "DOGE", "XRP", "SOL", "NEAR", "SUI", "HYPE"];
   const sortedOpenCoins = [...appState.openPositions]
     .sort((a, b) => {
-      const cA = a.position.coin;
-      const cB = b.position.coin;
+      const cA = a.position.coin === "kPEPE" ? "PEPE" : a.position.coin;
+      const cB = b.position.coin === "kPEPE" ? "PEPE" : b.position.coin;
       const iA = cascadePriority.indexOf(cA);
       const iB = cascadePriority.indexOf(cB);
       if (iA !== -1 && iB !== -1) return iA - iB;
@@ -1539,10 +1509,7 @@ function updatePricesAndSignals() {
       if (iB !== -1) return 1;
       return Math.abs(parseFloat(a.position.unrealizedPnl || 0)) - Math.abs(parseFloat(b.position.unrealizedPnl || 0));
     })
-    .map(p => p.position.coin);
-
-  const tier1Set = new Set(["ETH", "PAXG", "SUI", "DOGE"]);
-  const tier2Set = new Set(["SOL", "HYPE", "BTC", "XRP"]);
+    .map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin);
 
   PAIRS_54.forEach(p => {
     const cleanId = p.symbol.replace(/[\/\s]/g, "_");
@@ -1556,8 +1523,9 @@ function updatePricesAndSignals() {
     const sigLockText = document.getElementById(`sigLockText_${cleanId}`);
 
     let currentPrice = 0;
-    if (appState.mids[p.symbol]) {
-      currentPrice = parseFloat(appState.mids[p.symbol]);
+    if (appState.mids[p.symbol] || (p.symbol === "PEPE" && appState.mids["kPEPE"])) {
+      const rawMid = parseFloat(appState.mids[p.symbol] || appState.mids["kPEPE"]);
+      currentPrice = (p.symbol === "PEPE" && !appState.mids["PEPE"] && rawMid > 0.0001) ? +(rawMid / 1000).toFixed(8) : rawMid;
     } else if (SYNTHETIC_DEFAULTS[p.symbol]) {
       const delta = (Math.random() - 0.5) * (SYNTHETIC_DEFAULTS[p.symbol] * 0.0003);
       currentPrice = +(SYNTHETIC_DEFAULTS[p.symbol] + delta).toFixed(4);
@@ -1579,7 +1547,9 @@ function updatePricesAndSignals() {
     }
 
     // Verificar si tiene posición abierta en Hyperliquid L1
-    const activePos = appState.openPositions.find(pos => pos.position.coin === p.symbol);
+    const activePos = appState.openPositions.find(
+      pos => pos.position.coin === p.symbol || (p.symbol === "PEPE" && pos.position.coin === "kPEPE")
+    );
     if (activePos) {
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
@@ -1610,8 +1580,8 @@ function updatePricesAndSignals() {
 
       if (sigPill) {
         let pillClass = "signal-pill signal-wait";
-        let icon = "ac_unit";
-        let text = p.block <= 2 ? "❄️ ENFRIAMIENTO 00:00" : "STANDBY $100";
+        let icon = p.block <= 5 ? "bolt" : "schedule";
+        let text = p.block <= 5 ? "⚡ PLAN C (+$0.10)" : "STANDBY $100";
         if (sigPill.className !== pillClass) sigPill.className = pillClass;
         setTextIfChanged(sigIcon, icon);
         setTextIfChanged(sigText, text);
@@ -1624,6 +1594,8 @@ function formatPairPrice(px, symbol) {
   if (px >= 1000) return `$${px.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
   if (px >= 1) return `$${px.toFixed(2)}`;
   if (symbol.includes("/")) return px.toFixed(4);
+  if (px > 0 && px < 0.001) return `$${px.toFixed(8)}`;
+  if (px > 0 && px < 0.01) return `$${px.toFixed(6)}`;
   return `$${px.toFixed(4)}`;
 }
 
