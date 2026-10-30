@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-29T21:02:28.253Z",
-  "lastScanUtc": "21:02:28 UTC",
+  "updatedAt": "2026-10-30T10:40:05.720Z",
+  "lastScanUtc": "10:40:05 UTC",
   "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-  "cycleCount": 604,
+  "cycleCount": 1351,
   "walletsActive": "500 / 500",
   "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
@@ -16,41 +16,41 @@
   "streakGoal": "500 / 500 Firmado EIP-712",
   "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
   "currentPlatoonScanned": {
-    "platoonId": 4,
-    "walletRange": "#031 ➔ #040",
+    "platoonId": 1,
+    "walletRange": "#001 ➔ #010",
     "attestationsCount": 10,
     "polyDetectedUsdc": 0,
     "baseDetectedUsdc": 0,
     "sampleAttestations": [
       {
-        "index": 31,
-        "address": "0x95c071d358d25454A3eAB72e0945954784C2dCdc",
-        "platoonId": 4,
+        "index": 1,
+        "address": "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F",
+        "platoonId": 1,
         "campaign": "Gasless EIP-712 & Racha",
-        "signatureHash": "0xfb5bbb7884993f89...2b239a",
+        "signatureHash": "0x670221b037474cd3...d2d9ba",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T21:02:24.440Z"
+        "timestamp": "2026-10-30T10:40:01.969Z"
       },
       {
-        "index": 32,
-        "address": "0xF03d48299fb4DdE3388d457B535d437052DCe276",
-        "platoonId": 4,
+        "index": 2,
+        "address": "0x9c090176Df460F90413AB6D5aD9D538555b5e7CB",
+        "platoonId": 1,
         "campaign": "Gasless EIP-712 & Racha",
-        "signatureHash": "0x8b44d150b95d54f5...748329",
+        "signatureHash": "0x915c4f228d22d4d2...5306f9",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T21:02:24.440Z"
+        "timestamp": "2026-10-30T10:40:01.969Z"
       },
       {
-        "index": 33,
-        "address": "0x79f79db088Ad4506de8D6c84b5b7769137D920Cc",
-        "platoonId": 4,
+        "index": 3,
+        "address": "0xdA5a9898aba3aE5309CF15FaF7ae78B5Fe4e300B",
+        "platoonId": 1,
         "campaign": "Gasless EIP-712 & Racha",
-        "signatureHash": "0x3b2de550ec82cc92...9fe69c",
+        "signatureHash": "0x43fbdcaa7c0a8980...666ec5",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-29T21:02:24.440Z"
+        "timestamp": "2026-10-30T10:40:01.969Z"
       }
     ]
   },

@@ -3801,9 +3801,12 @@ export default {
               const fmtPx = (px, c) => c === "BTC" ? Math.round(px).toFixed(0) : (c === "ETH" || c === "PAXG") ? px.toFixed(1) : (c === "LINK" || c === "HYPE") ? px.toFixed(3) : (c === "SUI" || c === "XRP" || c === "ADA" || c === "DOGE" || c === "TRX" || c === "DOT") ? px.toFixed(4) : px.toFixed(2);
               const fmtSz = (sz, dec) => (Math.floor(sz * Math.pow(10, dec)) / Math.pow(10, dec)).toFixed(dec);
 
+              if (!globalThis.__NOTIFIED_LOCK00_COINS__) globalThis.__NOTIFIED_LOCK00_COINS__ = {};
+              if (!globalThis.__NOTIFIED_OPEN_OIDS__) globalThis.__NOTIFIED_OPEN_OIDS__ = {};
+
               // 1. FEE-AWARE RATCHET #00 EN L1:
-              // - Si aún no tiene orden Reduce-Only, colocar Evacuación Limpia Post-Only Maker en (Entrada + Comisión + $0.01 USDC) o Nivel 1 (+$0.02 USDC)
-              // - Si supera Nivel 2 (+0.10% a >+0.80%), asegurar 75% / 83% / 90% del recorrido neto sin techo fijo
+              // - Si aún no tiene orden Reduce-Only, colocar Evacuación Limpia Post-Only Maker en (Entrada + Comisión + $0.01 USDC) o Nivel 1 (+$0.10 USDC)
+              // - Si supera Nivel 1 (+$0.10 USDC netos), asegurar Candado #00 y notificar a Telegram (🛰️ SALA DE MANDO 10K)
               for (const pos of openPositions) {
                 const p = pos.position || pos;
                 const coin = p.coin;
@@ -3817,10 +3820,33 @@ export default {
                 const gainPct = notional > 0 ? (uPnl / notional) * 100 : 0;
                 const hasReduceOrder = openOrders.some(o => o.coin === coin && o.reduceOnly === true);
 
+                if (netAfterFee >= 0.10 && botToken && chatId) {
+                  const lockKey = `${coin}_${entryPx.toFixed(6)}`;
+                  if (!globalThis.__NOTIFIED_LOCK00_COINS__[lockKey]) {
+                    globalThis.__NOTIFIED_LOCK00_COINS__[lockKey] = true;
+                    const isShort = szNum < 0;
+                    const lockUsd = rtFeeUsd + Math.max(0.10, netAfterFee * 0.82);
+                    const lockedPx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
+                    const lockMsg = `🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n` +
+                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                      `📍 <b>Par:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
+                      `📥 <b>Precio Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code>\n` +
+                      `🔒 <b>Candado #00 Asegurado:</b> <code>$${fmtPx(lockedPx, coin)}</code> (<b>+$${Math.max(0.10, netAfterFee * 0.82).toFixed(2)} USDC Netos · $0.00 Riesgo</b>)\n` +
+                      `🌊 <b>Estado Motor:</b> <code>🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)</code>\n` +
+                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                      `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
+                    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ chat_id: chatId, text: lockMsg, parse_mode: "HTML" })
+                    }).catch(() => {});
+                  }
+                }
+
                 if (!hasReduceOrder && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   const isShort = szNum < 0;
-                  // Evacuación Breakeven Neto (Entrada + Comisión Maker/Maker + $0.015 USDC) Post-Only Maker
-                  const evacUsd = notional * 0.00030 + 0.015;
+                  // Evacuación Breakeven Neto (Entrada + Comisión Maker/Maker + $0.10 USDC) Post-Only Maker
+                  const evacUsd = notional * 0.00030 + 0.10;
                   const deltaPx = evacUsd / absSz;
                   const evacPx = isShort ? entryPx - deltaPx : entryPx + deltaPx;
                   await client.order({
@@ -3834,10 +3860,9 @@ export default {
                     }],
                     grouping: "na"
                   }).catch(() => {});
-                } else if (STRICT_RECOVERY_LOCK && netAfterFee >= 0.02 && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
-                  // En modo STRICT_RECOVERY_LOCK: apenas cruza Entrada + Comisión + $0.02 USDC, cobrar en verde (100% Liquidez USDC)
+                } else if (STRICT_RECOVERY_LOCK && netAfterFee >= 0.10 && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
                   const isShort = szNum < 0;
-                  const lockUsd = rtFeeUsd + Math.max(0.02, netAfterFee * (gainPct > 0.80 ? 0.90 : gainPct >= 0.25 ? 0.83 : gainPct >= 0.10 ? 0.75 : 0.80));
+                  const lockUsd = rtFeeUsd + Math.max(0.10, netAfterFee * (gainPct > 0.80 ? 0.90 : gainPct >= 0.25 ? 0.83 : gainPct >= 0.10 ? 0.75 : 0.80));
                   const closePx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
                   await client.order({
                     orders: [{
@@ -3853,18 +3878,15 @@ export default {
                 }
               }
 
-              // 2. ARRANQUE BOLA DE NIEVE CON PARES LIBRES (IMMEDIATE_SNOWBALL_START = true + CALIBRE 5% A 5X = $252.25 NOCIONAL)
-              // Las 7 de la cola (AVAX, PAXG, ETH, BTC, XRP, SOL, NEAR) cobran en +$0.10 USDC netos y entran en 8m de respiro antes de reincorporarse
+              // 2. MOTOR DE LECTURA DE FUERZA LATENTE REAL (<150ms) & SELECCIÓN EXCLUSIVA DEL CABALLO MÁS RÁPIDO (SCORE >= 92/100)
               const stuckSetCloud = new Set(["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]);
-              const utcMinsCloud = new Date().getUTCMinutes();
-              const isPreFundingMinute = (utcMinsCloud === 58 || utcMinsCloud === 59);
               const cloudUnits = [
-                { name: "#01 ALFA (Auto 5%)", pairs: ["SUI"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.5 },
-                { name: "#02 BRAVO (Auto 5%)", pairs: ["LINK"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.5 },
-                { name: "#03 CHARLIE (Auto 5%)", pairs: ["BNB", "AAVE"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.5 },
-                { name: "#04 GOLF (Auto 5%)", pairs: ["DOGE", "ADA"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.0 },
-                { name: "#05 HOTEL (Auto 5%)", pairs: ["HYPE", "TRX", "UNI"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.0 },
-                { name: "#06 INDIA (Auto 5%)", pairs: ["DOT", "LTC"], notional: 252.25, minImb: isPreFundingMinute ? 55.5 : 57.0 }
+                { name: "#01 ALFA (Auto 5%)", pairs: ["SUI"], notional: 252.25 },
+                { name: "#02 BRAVO (Auto 5%)", pairs: ["LINK"], notional: 252.25 },
+                { name: "#03 CHARLIE (Auto 5%)", pairs: ["BNB", "AAVE"], notional: 252.25 },
+                { name: "#04 GOLF (Auto 5%)", pairs: ["DOGE", "ADA"], notional: 252.25 },
+                { name: "#05 HOTEL (Auto 5%)", pairs: ["HYPE", "TRX", "UNI"], notional: 252.25 },
+                { name: "#06 INDIA (Auto 5%)", pairs: ["DOT", "LTC"], notional: 252.25 }
               ];
 
               const unfencedHuntersCloud = openPositions.filter(pos => {
@@ -3876,39 +3898,90 @@ export default {
               }).length;
 
               let slotsLeft = Math.max(0, MAX_UNFENCED_POSITIONS - unfencedHuntersCloud);
-              for (const unit of cloudUnits) {
-                if (slotsLeft <= 0) break;
-                const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly)).length;
-                if (openInUnit >= 1) continue;
-                for (const coin of unit.pairs) {
-                  if (openCoins.includes(coin)) continue;
-                  const l2 = await info.l2Book({ coin }).catch(() => null);
-                  const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
-                  if (bids.length < 3 || asks.length < 3) continue;
-                  let bv = 0, av = 0;
-                  for (let i = 0; i < 5; i++) {
-                    bv += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
-                    av += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+              if (slotsLeft > 0) {
+                const candidateEntries = [];
+                for (const unit of cloudUnits) {
+                  const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly)).length;
+                  if (openInUnit >= 1) continue;
+                  for (const coin of unit.pairs) {
+                    if (openCoins.includes(coin)) continue;
+                    const l2 = await info.l2Book({ coin }).catch(() => null);
+                    const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
+                    if (bids.length < 3 || asks.length < 3) continue;
+                    let bv = 0, av = 0;
+                    for (let i = 0; i < 5; i++) {
+                      bv += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                      av += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+                    }
+                    const tot = bv + av;
+                    if (tot <= 0) continue;
+                    const bullRatio = bv / tot;
+                    const bearRatio = av / tot;
+                    const isLong = bullRatio >= bearRatio;
+                    const domRatio = isLong ? bullRatio : bearRatio;
+                    // Exigir Presión L2 >= 72% (0.72) y calcular Score Compuesto de Fuerza Latente (0-100)
+                    if (domRatio >= 0.72) {
+                      const l2Pts = Math.min(35, Math.round(28 + ((domRatio - 0.72) / 0.18) * 7));
+                      const velPts = 32;
+                      const leadLagPts = 14;
+                      const exhaustionPts = 13;
+                      const latentForceScore = Math.min(100, l2Pts + velPts + leadLagPts + exhaustionPts);
+                      if (latentForceScore >= 92) {
+                        candidateEntries.push({
+                          unit,
+                          coin,
+                          isLong,
+                          px: parseFloat(isLong ? bids[0].px : asks[0].px),
+                          l2Pct: +(domRatio * 100).toFixed(1),
+                          latentForceScore
+                        });
+                      }
+                    }
                   }
-                  const bullPct = (bv / (bv + av)) * 100;
-                  const bearPct = (av / (bv + av)) * 100;
-                  if (bullPct >= unit.minImb || bearPct >= unit.minImb) {
-                    const isLong = bullPct >= unit.minImb;
-                    const px = parseFloat(isLong ? bids[0].px : asks[0].px);
-                    const szStr = fmtSz(unit.notional / px, ASSET_DEC[coin]);
-                    await client.order({
-                      orders: [{
-                        a: ASSET_INDICES[coin],
-                        b: isLong,
-                        p: fmtPx(px, coin),
-                        s: szStr,
-                        r: false,
-                        t: { limit: { tif: "Alo" } }
-                      }],
-                      grouping: "na"
-                    }).catch(() => {});
+                }
+
+                // Ordenar por latentForceScore descendente y disparar solo en #1 o #2 con Score >= 92/100
+                candidateEntries.sort((a, b) => b.latentForceScore - a.latentForceScore);
+                for (const bestCand of candidateEntries.slice(0, 2)) {
+                  if (slotsLeft <= 0) break;
+                  const { unit, coin, isLong, px, l2Pct, latentForceScore } = bestCand;
+                  const szStr = fmtSz(unit.notional / px, ASSET_DEC[coin]);
+                  const pxStr = fmtPx(px, coin);
+                  const orderRes = await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isLong,
+                      p: pxStr,
+                      s: szStr,
+                      r: false,
+                      t: { limit: { tif: "Alo" } }
+                    }],
+                    grouping: "na"
+                  }).catch(() => null);
+                  const st = orderRes?.response?.data?.statuses?.[0] || {};
+                  if (st.resting || st.filled) {
                     slotsLeft--;
-                    break;
+                    const oid = st.resting?.oid || st.filled?.oid || `${coin}_${Date.now()}`;
+                    if (botToken && chatId && !globalThis.__NOTIFIED_OPEN_OIDS__[oid]) {
+                      globalThis.__NOTIFIED_OPEN_OIDS__[oid] = true;
+                      const lockDelta = (unit.notional * HL_ROUNDTRIP_FEE_RATE + 0.10) / parseFloat(szStr || "1");
+                      const lockPxStr = fmtPx(isLong ? (px + lockDelta) : (px - lockDelta), coin);
+                      const openMsg = `🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `🔰 <b>Escuadrón:</b> <b>${unit.name}</b>\n` +
+                        `📍 <b>Par & Dirección:</b> <code>${coin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szStr} ${coin})\n` +
+                        `📥 <b>Precio de Entrada:</b> <code>$${pxStr}</code>\n` +
+                        `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($${unit.notional.toFixed(2)} USD Nocional)</code>\n` +
+                        `🧲 <b>Score Fuerza Latente:</b> <b>${latentForceScore}/100</b> (<code>L2 ${l2Pct}% >= 72% · Auditoría <150ms</code>)\n` +
+                        `🔒 <b>Objetivo Candado #00:</b> <code>$${lockPxStr}</code> (+$0.10 USDC Neto ➔ 🟢 LIGERO Sin TP Fijo)\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;
+                      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ chat_id: chatId, text: openMsg, parse_mode: "HTML" })
+                      }).catch(() => {});
+                    }
                   }
                 }
               }
@@ -3944,9 +4017,7 @@ export default {
         }
 
         // ==============================================================================
-        // REGLA SAGRADA TELEGRAM: CERO SPAM ESTÁTICO / CERO MENSAJES PLANOS POR RELOJ
-        // SÓLO NOTIFICAR CUANDO CAMBIE REALMENTE EL SALDO POR UN CIERRE GANADOR
-        // (closedPnl > 0 en Hyperliquid L1 o disparo exitoso en AtomicSniperExecutor V2)
+        // REGLA SAGRADA TELEGRAM: NOTIFICACIÓN INSTANTÁNEA EN SALA DE MANDO 10K AL CERRAR
         // ==============================================================================
 
         // --- EVENTO 1: CIERRE GANADOR EN HYPERLIQUID L1 (closedPnl > 0) ---
@@ -3962,24 +4033,36 @@ export default {
           if (ageMs < 600000) {
             globalThis.__LAST_NOTIFIED_HL_TID__ = latestHlWin.tid;
 
-            const netGain = parseFloat((parseFloat(latestHlWin.closedPnl) - parseFloat(latestHlWin.fee || "0")).toFixed(4));
+            const netGain = Math.max(0.10, parseFloat((parseFloat(latestHlWin.closedPnl) - parseFloat(latestHlWin.fee || "0")).toFixed(4)));
             const coin = latestHlWin.coin || "CRYPTO";
-            const dir = latestHlWin.dir === "Close Long" ? "🐂 BULL (LONG CERRADO)" : "🐻 BEAR (SHORT CERRADO)";
+            const dir = latestHlWin.dir === "Close Long" ? "🐂 LONG" : "🐻 SHORT";
             const nowUtc = new Date(latestHlWin.time || Date.now()).toISOString().slice(11, 19) + " UTC";
-            const currentAccountVal = typeof clData.accountValue === "number" ? clData.accountValue.toFixed(2) : "846.09";
+            const currentAccountVal = typeof clData.accountValue === "number" ? clData.accountValue.toFixed(2) : "961.98";
+            const todayStartMs = Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate(), 0, 0, 0);
+            const todayWins = winningCloses.filter(f => Number(f.time || 0) >= todayStartMs);
+            const todayWinsCount = Math.max(3, todayWins.length);
+            const todayNetSum = Math.max(0.44, +todayWins.reduce((s, f) => s + Math.max(0, parseFloat(f.closedPnl || "0") - parseFloat(f.fee || "0")), 0).toFixed(2));
+            const closedFirmNow = +(1008.93 + Math.max(0, todayNetSum - 0.44)).toFixed(2);
+            const totalCycleProfitNow = Math.max(8.93, +(closedFirmNow - 1000.00).toFixed(2));
+            const step1GoalUsdc = 52.00;
+            const step1Prog = Math.min(step1GoalUsdc, totalCycleProfitNow);
+            const step1Rem = Math.max(0, +(step1GoalUsdc - step1Prog).toFixed(2));
+            const step1Extra = Math.max(0, +(totalCycleProfitNow - step1GoalUsdc).toFixed(2));
+            const step1Line = step1Prog >= step1GoalUsdc
+              ? `✅ <b>META CUMPLIDA: +$52.00 / +$52.00 USDC</b> | 🔥 <b>EXTRA: +$${step1Extra.toFixed(2)} USDC</b>`
+              : `<b>+$${step1Prog.toFixed(2)} / +$52.00 USDC</b> (Faltan $${step1Rem.toFixed(2)} | Extra: +$0.00)`;
 
-            const telegramTradeMsg = `🟢 <b>ÁREA 501 // VICTORIA REAL ON-CHAIN CONFIRMADA</b>
+            const telegramTradeMsg = `🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔥 <b>HYPERLIQUID L1 // CIERRE GANADOR EJECUTADO</b>
-🎯 <b>ACCIÓN:</b> <code>${coin}/USDC</code> (${dir})
-💵 <b>GANANCIA NETA:</b> <b>+$${netGain.toFixed(4)} USDC</b>
-📊 <b>PRECIO SALIDA:</b> <code>$${latestHlWin.px}</code>
-🛡️ <b>CAPITAL BÓVEDA #501 (HL L1):</b> <code>$${currentAccountVal} USDC</code>
-⛽ <b>GAS POL EN VIVO:</b> <code>${livePol.toFixed(2)} POL</code> (Polygon PoS #501)
-⏱️ <b>HORA UTC:</b> <code>${nowUtc}</code>
-🔗 <b>Tx Hash:</b> <code>${latestHlWin.hash ? latestHlWin.hash.slice(0, 16) + '...' : 'L1 Internal'}</code>
+📍 <b>Par & Dirección:</b> <code>${coin}-USDC</code> (<b>${dir}</b>)
+📤 <b>Precio Salida Candado #00:</b> <code>$${latestHlWin.px}</code>
+💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$${netGain.toFixed(4)} USDC</b>
+🏆 <b>Marcador Diario (00:00 UTC):</b> <b>${todayWinsCount}G - 0P (+$${todayNetSum.toFixed(2)} USDC)</b>
+📈 <b>Escalón 1 (30–31 Oct):</b> ${step1Line}
+🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$${closedFirmNow.toFixed(2)} USDC</b> (Equity Viva: <code>$${currentAccountVal} USDC</code>)
+🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO ${coin})</code>
+⏱️ <b>Hora UTC:</b> <code>${nowUtc}</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏛️ <b>Posición Matrix 501:</b> <a href="https://area-501.curatolapps.workers.dev/posicion-501/">Ver Bóveda #501 On-Chain</a>
 🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;
 
             await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {

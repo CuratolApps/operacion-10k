@@ -1,17 +1,13 @@
 {
-  "updatedAt": "2026-10-30T08:24:07.820Z",
-  "architecture": "NEXUS APEX-36 // PLAN C COSECHA ACTIVA (+$0.10 CANDADO #00) + MOTOR QUEMA-LASTRE 50% (36 BOTS)",
+  "updatedAt": "2026-10-30T10:40:25.213Z",
+  "architecture": "NEXUS APEX-36 // CERO PÉRDIDAS ACEPTADAS + CANDADO ELÁSTICO FEE-AWARE #00 + GIRO BRUSCO FILTRADO (36 BOTS)",
   "rules": {
     "strictRecoveryLock": false,
-    "planCActiveHarvest": true,
     "noRedExit": true,
     "zeroFixedTakeProfit": true,
-    "maxActiveHunters": 2,
     "maxUnfencedPositions": 2,
-    "minLockNetUsdc": 0.1,
-    "burnBallastSubsidyRatio": 0.5,
     "cleanEvacTimeoutSec": 180,
-    "ratchetTiers": "Candado Base #00: Entrada + Comisión + $0.10 USDC ($0.00 riesgo) | Trailing Ratchet: 80% a 90% del High-Water Mark sin techo",
+    "ratchetTiers": "Nivel 1: Entrada + Comisión + $0.02 (🟢 LIGERO) | Nivel 2: 75% (+0.10-0.25%), 83% (+0.25-0.80%), 90% (>+0.80% High-Water Mark)",
     "stopAndReverseClones": "Caso A: Vel >= 18 bps/s + Vol >= 2.5x + L2 >= 74% | Caso B: RSI(6) <= 8 o >= 92 fuera Bollinger | Caso C: Ruido ignorado",
     "cooldownPostTp": "15 minutos (900,000 ms) para Titular (1) tras cobro"
   },
@@ -28,11 +24,11 @@
         "SUI",
         "AVAX"
       ],
-      "relayStatus": "🎯 EXTRACCIÓN #00 (SOL: 3º COLA #00 SOL (+QUEMA-LASTRE 50%)) ⇄ ⚡ ALFA 2: CAZANDO EN SUI/AVAX (+$0.10 CANDADO)",
-      "ratchetStatus": "3º COLA #00 SOL (+QUEMA-LASTRE 50%)",
+      "relayStatus": "🎯 EVACUACIÓN LIMPIA +$0.01 · ⚡ ALFA 1 (SOL) ⇄ ALFA 2: STOP&REV ARMADO",
+      "ratchetStatus": "🎯 EVACUACIÓN LIMPIA +$0.01",
       "activeBot": "ALFA 1",
       "standbyBot": "ALFA 2",
-      "mode": "PLAN_C_RESCUE_AND_HUNT",
+      "mode": "ACTIVE_POSITION",
       "pairInAction": "SOL"
     },
     {
@@ -47,11 +43,11 @@
         "PAXG",
         "LINK"
       ],
-      "relayStatus": "🎯 EXTRACCIÓN #00 (BTC: 1º BLOQUE CERCANO (BTC · BE +$0.10)) ⇄ ⚡ BRAVO 2: CAZANDO EN LINK (+$0.10 CANDADO)",
-      "ratchetStatus": "1º BLOQUE CERCANO (BTC · BE +$0.10)",
+      "relayStatus": "🎯 EVACUACIÓN LIMPIA +$0.01 · ⚡ BRAVO 1 (BTC) ⇄ BRAVO 2: STOP&REV ARMADO",
+      "ratchetStatus": "🎯 EVACUACIÓN LIMPIA +$0.01",
       "activeBot": "BRAVO 1",
       "standbyBot": "BRAVO 2",
-      "mode": "PLAN_C_RESCUE_AND_HUNT",
+      "mode": "ACTIVE_POSITION",
       "pairInAction": "BTC"
     },
     {
@@ -66,11 +62,11 @@
         "BNB",
         "AAVE"
       ],
-      "relayStatus": "🎯 EXTRACCIÓN #00 (ETH: 1º BLOQUE CERCANO (ETH · BE +$0.10)) ⇄ ⚡ CHARLIE 2: CAZANDO EN BNB/AAVE (+$0.10 CANDADO)",
-      "ratchetStatus": "1º BLOQUE CERCANO (ETH · BE +$0.10)",
+      "relayStatus": "🎯 EVACUACIÓN LIMPIA +$0.01 · ⚡ CHARLIE 1 (ETH) ⇄ CHARLIE 2: STOP&REV ARMADO",
+      "ratchetStatus": "🎯 EVACUACIÓN LIMPIA +$0.01",
       "activeBot": "CHARLIE 1",
       "standbyBot": "CHARLIE 2",
-      "mode": "PLAN_C_RESCUE_AND_HUNT",
+      "mode": "ACTIVE_POSITION",
       "pairInAction": "ETH"
     },
     {
@@ -85,11 +81,11 @@
         "DOGE",
         "ADA"
       ],
-      "relayStatus": "🎯 EXTRACCIÓN #00 (XRP: 2º PINZA #00 + QUEMA-LASTRE (-$0.10)) ⇄ ⚡ GOLF 2: CAZANDO EN DOGE/ADA (+$0.10 CANDADO)",
-      "ratchetStatus": "2º PINZA #00 + QUEMA-LASTRE (-$0.10)",
+      "relayStatus": "🎯 EVACUACIÓN LIMPIA +$0.01 · ⚡ GOLF 1 (XRP) ⇄ GOLF 2: STOP&REV ARMADO",
+      "ratchetStatus": "🎯 EVACUACIÓN LIMPIA +$0.01",
       "activeBot": "GOLF 1",
       "standbyBot": "GOLF 2",
-      "mode": "PLAN_C_RESCUE_AND_HUNT",
+      "mode": "ACTIVE_POSITION",
       "pairInAction": "XRP"
     },
     {
@@ -102,13 +98,13 @@
       "pairs": [
         "HYPE",
         "TRX",
-        "TON"
+        "UNI"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · HOTEL 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ HOTEL 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⚡ HOTEL 1: ESCANEANDO (0 TP FIJO · RATCHET #00) ⇄ HOTEL 2: STOP&REV <50ms",
+      "ratchetStatus": "🟢 LIGERO / ESCANEANDO",
       "activeBot": "HOTEL 1",
       "standbyBot": "HOTEL 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "SCANNING",
       "pairInAction": null
     },
     {
@@ -123,11 +119,11 @@
         "NEAR",
         "LTC"
       ],
-      "relayStatus": "🎯 EXTRACCIÓN #00 (NEAR: 4º COLA #00 NEAR (70% BE + 30% RATCHET)) ⇄ ⚡ INDIA 2: CAZANDO EN DOT/LTC (+$0.10 CANDADO)",
-      "ratchetStatus": "4º COLA #00 NEAR (70% BE + 30% RATCHET)",
+      "relayStatus": "🎯 EVACUACIÓN LIMPIA +$0.01 · ⚡ INDIA 1 (NEAR) ⇄ INDIA 2: STOP&REV ARMADO",
+      "ratchetStatus": "🎯 EVACUACIÓN LIMPIA +$0.01",
       "activeBot": "INDIA 1",
       "standbyBot": "INDIA 2",
-      "mode": "PLAN_C_RESCUE_AND_HUNT",
+      "mode": "ACTIVE_POSITION",
       "pairInAction": "NEAR"
     },
     {
@@ -142,11 +138,11 @@
         "RENDER",
         "FET"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · JULIET 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ JULIET 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ JULIET 1: PRE-ARMADO ⇄ JULIET 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "JULIET 1",
       "standbyBot": "JULIET 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -161,11 +157,11 @@
         "OP",
         "UNI"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · KILO 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ KILO 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ KILO 1: PRE-ARMADO ⇄ KILO 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "KILO 1",
       "standbyBot": "KILO 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -178,14 +174,13 @@
       "pairs": [
         "ONDO",
         "PENDLE",
-        "PEPE",
-        "kPEPE"
+        "PEPE"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · LIMA 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ LIMA 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ LIMA 1: PRE-ARMADO ⇄ LIMA 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "LIMA 1",
       "standbyBot": "LIMA 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -200,11 +195,11 @@
         "GBP/USD",
         "USD/CHF"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · DELTA 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ DELTA 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ DELTA 1: PRE-ARMADO ⇄ DELTA 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "DELTA 1",
       "standbyBot": "DELTA 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -219,11 +214,11 @@
         "AUD/USD",
         "USD/CAD"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · ECHO 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ ECHO 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ ECHO 1: PRE-ARMADO ⇄ ECHO 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "ECHO 1",
       "standbyBot": "ECHO 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -238,11 +233,11 @@
         "XAG/USD",
         "EUR/JPY"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · FOXTROT 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ FOXTROT 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ FOXTROT 1: PRE-ARMADO ⇄ FOXTROT 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "FOXTROT 1",
       "standbyBot": "FOXTROT 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -257,11 +252,11 @@
         "EUR/GBP",
         "WTI/USD"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · MIKE 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ MIKE 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ MIKE 1: PRE-ARMADO ⇄ MIKE 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "MIKE 1",
       "standbyBot": "MIKE 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -276,11 +271,11 @@
         "SPX500",
         "US30"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · NOVEMBER 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ NOVEMBER 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ NOVEMBER 1: PRE-ARMADO ⇄ NOVEMBER 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "NOVEMBER 1",
       "standbyBot": "NOVEMBER 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -295,11 +290,11 @@
         "NGAS",
         "HG/USD"
       ],
-      "relayStatus": "⚡ PLAN C ACTIVO · OSCAR 1: CAZANDO (+$0.10 CANDADO #00 · RATCHET 80-90%) ⇄ OSCAR 2: STOP&REV <50ms",
-      "ratchetStatus": "⚡ PLAN C CAZANDO (+$0.10)",
+      "relayStatus": "⏸️ OSCAR 1: PRE-ARMADO ⇄ OSCAR 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "OSCAR 1",
       "standbyBot": "OSCAR 2",
-      "mode": "PLAN_C_HUNTING",
+      "mode": "STANDBY_ARMED",
       "pairInAction": null
     },
     {
@@ -314,8 +309,8 @@
         "TSLA",
         "AAPL"
       ],
-      "relayStatus": "⏸️ PAPA 1: PRE-ARMADO NY ⇄ PAPA 2: PRE-ARMADO ($70 · PLAN C +$0.10 CANDADO)",
-      "ratchetStatus": "⏸️ STANDBY NY",
+      "relayStatus": "⏸️ PAPA 1: PRE-ARMADO ⇄ PAPA 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "PAPA 1",
       "standbyBot": "PAPA 2",
       "mode": "STANDBY_ARMED",
@@ -333,8 +328,8 @@
         "AMZN",
         "META"
       ],
-      "relayStatus": "⏸️ QUEBEC 1: PRE-ARMADO NY ⇄ QUEBEC 2: PRE-ARMADO ($70 · PLAN C +$0.10 CANDADO)",
-      "ratchetStatus": "⏸️ STANDBY NY",
+      "relayStatus": "⏸️ QUEBEC 1: PRE-ARMADO ⇄ QUEBEC 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "QUEBEC 1",
       "standbyBot": "QUEBEC 2",
       "mode": "STANDBY_ARMED",
@@ -352,8 +347,8 @@
         "COIN",
         "MSTR"
       ],
-      "relayStatus": "⏸️ ROMEO 1: PRE-ARMADO NY ⇄ ROMEO 2: PRE-ARMADO ($70 · PLAN C +$0.10 CANDADO)",
-      "ratchetStatus": "⏸️ STANDBY NY",
+      "relayStatus": "⏸️ ROMEO 1: PRE-ARMADO ⇄ ROMEO 2: PRE-ARMADO ($100 · NEXUS APEX-36)",
+      "ratchetStatus": "⏸️ STANDBY $100",
       "activeBot": "ROMEO 1",
       "standbyBot": "ROMEO 2",
       "mode": "STANDBY_ARMED",
