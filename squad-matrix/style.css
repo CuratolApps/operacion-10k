@@ -1333,28 +1333,32 @@ html, body {
   box-sizing: border-box !important;
 }
 
-/* Pares en Vigilancia (Verde Esmeralda / Menta Satinado) */
-.pair-cell {
-  background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%) !important;
-  border: 1px solid rgba(167, 243, 208, 0.65) !important;
-  box-shadow: 0 4px 10px rgba(4, 120, 87, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.35) !important;
-  border-radius: 9px !important;
+/* ==============================================================================
+   NUEVA ESTÉTICA DE LAS 54 TARJETAS DE PARES (BLANCO SATINADO IGUAL A PESTAÑA #7 + ZONA INFERIOR DINÁMICA DE 2 LÍNEAS)
+   ============================================================================== */
+.pair-cell,
+.pair-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08), inset 0 1px 0 #FFFFFF !important;
   padding: 4px 6px !important;
   gap: 2px !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
   transition: background 0.15s ease, border-color 0.15s ease !important;
   position: relative !important;
   transform: none !important;
-  color: #FFFFFF !important;
+  color: #0F172A !important;
 }
 
-.pair-cell:hover {
-  background: linear-gradient(145deg, #0F766E 0%, #047857 55%, #065F46 100%) !important;
-  border-color: #A7F3D0 !important;
+.pair-cell:hover,
+.pair-card:hover {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 100%) !important;
+  border-color: #94A3B8 !important;
   transform: none !important;
 }
 
@@ -1365,21 +1369,28 @@ html, body {
   line-height: 1.05 !important;
 }
 
-.pair-title {
+/* Nombre del Par (SOL, BTC, EUR/USD) y Precio en Negro/Azul Noche Nítido */
+.pair-cell .pair-title,
+.pair-card .pair-symbol,
+.pair-card .pair-name {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 0.72rem !important;
+  color: #0F172A !important;
   font-weight: 800 !important;
-  color: #F8FAFC !important;
 }
 
-.pair-squad-badge {
+/* Badge del Escuadrón (#01 ALFA, #02 BRAVO) igual al badge de corte de la Pestaña #7 */
+.pair-cell .pair-squad-badge,
+.pair-card .squad-tag,
+.pair-card .squad-badge {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.52rem !important;
-  font-weight: 700 !important;
-  color: #94A3B8 !important;
-  background: rgba(255, 255, 255, 0.06) !important;
+  background: #E2E8F0 !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 4px !important;
   padding: 1px 4px !important;
-  border-radius: 3px !important;
+  font-size: 0.48rem !important;
+  font-weight: 700 !important;
 }
 
 .pair-price-row {
@@ -1390,127 +1401,39 @@ html, body {
   line-height: 1.05 !important;
 }
 
-.pair-price {
+.pair-cell .pair-price,
+.pair-card .pair-price {
+  color: #0F172A !important;
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 0.78rem !important;
-  font-weight: 800 !important;
-  color: #FFFFFF !important;
+  font-weight: 900 !important;
   line-height: 1.05 !important;
 }
 
 .pair-price-flash-up {
-  color: #34D399 !important;
+  color: #059669 !important;
   animation: flashGreen 0.6s ease;
 }
 
 .pair-price-flash-down {
-  color: #FB7185 !important;
+  color: #E11D48 !important;
   animation: flashRed 0.6s ease;
 }
 
 @keyframes flashGreen {
-  0% { color: #10B981; }
-  100% { color: #FFFFFF; }
+  0% { color: #059669; }
+  100% { color: #0F172A; }
 }
 
 @keyframes flashRed {
-  0% { color: #F43F5E; }
-  100% { color: #FFFFFF; }
-}
-
-.pair-signal-row {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  width: 100% !important;
-  white-space: nowrap !important;
-}
-
-.signal-pill {
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.56rem !important;
-  font-weight: 700 !important;
-  padding: 1px 5px !important;
-  border-radius: 4px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 3px !important;
-  line-height: 1 !important;
-}
-
-.signal-pill .material-symbols-rounded {
-  font-size: 11px !important;
-  line-height: 1 !important;
-}
-
-.signal-bull {
-  background: rgba(16, 185, 129, 0.18) !important;
-  color: #10B981 !important;
-  border: 1px solid rgba(16, 185, 129, 0.35) !important;
-}
-
-.signal-bear {
-  background: rgba(244, 63, 94, 0.18) !important;
-  color: #FB7185 !important;
-  border: 1px solid rgba(244, 63, 94, 0.35) !important;
-}
-
-.signal-wait {
-  background: rgba(71, 85, 105, 0.22) !important;
-  color: #94A3B8 !important;
-  border: 1px solid rgba(71, 85, 105, 0.35) !important;
+  0% { color: #E11D48; }
+  100% { color: #0F172A; }
 }
 
 /* ==============================================================================
-   PARES CON OPERACIÓN ACTIVA EN VIVO (TARJETAS CLARAS HÍBRIDAS LUMINOSAS)
+   ZONA INFERIOR DE 2 LÍNEAS (.pair-status-bar / .pair-footer) — 4 ESTADOS DINÁMICOS
    ============================================================================== */
-.pair-cell-active-pos.pair-cell-green {
-  background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%) !important;
-  border: 2px solid #10B981 !important;
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35) !important;
-  animation: pulseGreenBorder 3s infinite alternate !important;
-}
-
-.pair-cell-active-pos.pair-cell-amber {
-  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%) !important;
-  border: 2px solid #F59E0B !important;
-  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35) !important;
-  animation: pulseAmberBorder 3s infinite alternate !important;
-}
-
-@keyframes pulseGreenBorder {
-  0% { border-color: #10B981; }
-  100% { border-color: #34D399; }
-}
-
-@keyframes pulseAmberBorder {
-  0% { border-color: #F59E0B; }
-  100% { border-color: #D97706; }
-}
-
-/* Texto oscuro de máximo contraste sobre tarjetas activas */
-.pair-cell-active-pos .pair-title {
-  color: #0F172A !important;
-  font-weight: 800 !important;
-}
-
-.pair-cell-active-pos .pair-squad-badge {
-  color: #0F172A !important;
-  background: rgba(0, 0, 0, 0.08) !important;
-  font-weight: 800 !important;
-}
-
-.pair-cell-active-pos.pair-cell-green .pair-price {
-  color: #064E3B !important;
-  font-weight: 800 !important;
-}
-
-.pair-cell-active-pos.pair-cell-amber .pair-price {
-  color: #78350F !important;
-  font-weight: 800 !important;
-}
-
-/* Barra inferior de 2 LÍNEAS APILADAS (2 PISOS · CERO TEXTOS CORTADOS EN NINGÚN ESTADO) */
+/* ⚡ CASO 4 (BASE DEFAULT) — En AUTO / STANDBY (Pizarra Satinado Claro igual a Pestaña #7) */
 .pair-bottom-row,
 .pair-signal-row,
 .pair-card .pair-footer,
@@ -1527,23 +1450,9 @@ html, body {
   border-radius: 5px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
-  background: rgba(6, 78, 59, 0.45) !important;
-  border: 1px solid rgba(167, 243, 208, 0.42) !important;
-}
-
-.pair-bottom-row.active-pos-row,
-.pair-signal-row.active-pos-row {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: stretch !important;
-  gap: 1px !important;
-  width: 100% !important;
-  min-height: 26px !important;
-  padding: 2px 5px !important;
-  border-radius: 5px !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
+  background: #E2E8F0 !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
 }
 
 .status-line-1, .status-line-2 {
@@ -1558,91 +1467,91 @@ html, body {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  color: #FFFFFF !important;
 }
 
-.status-line-1 span, .status-line-2 span {
+.status-line-1,
+.status-line-1 span {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 0.50rem !important;
   font-weight: 800 !important;
   line-height: 1.15 !important;
   white-space: nowrap !important;
+  color: #0F172A !important;
 }
 
-.pair-cell.pair-cell-active-pos.pair-cell-amber .pair-status-bar {
-  background: linear-gradient(90deg, #D97706 0%, #B45309 100%) !important;
-  border: 1px solid #FDE68A !important;
-  color: #FFFFFF !important;
-}
-
-.pair-cell.pair-cell-active-pos.pair-cell-green .pair-status-bar {
-  background: linear-gradient(90deg, #059669 0%, #047857 100%) !important;
-  border: 1px solid #6EE7B7 !important;
-  color: #FFFFFF !important;
-}
-
-.active-pos-tag,
-.pos-pill {
+.status-line-2,
+.status-line-2 span {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.53rem !important;
+  font-size: 0.50rem !important;
   font-weight: 800 !important;
-  padding: 1.5px 4px !important;
-  border-radius: 4px !important;
+  line-height: 1.15 !important;
   white-space: nowrap !important;
-  flex-shrink: 0 !important;
-  overflow: visible !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 2px !important;
-  line-height: 1 !important;
+  color: #475569 !important;
 }
 
-.active-pos-tag.pos-long,
-.pos-pill.pos-long {
-  background: rgba(16, 185, 129, 0.22) !important;
-  color: #064E3B !important;
+/* 🟧 CASO 1 — Operación Abierta y ABAJO (unrealizedPnl < 0) */
+.pair-cell.pair-cell-active-pos.pair-cell-amber,
+.pair-card.pair-cell-active-pos.pair-cell-amber {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+  border: 1.5px solid #F97316 !important;
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.18), inset 0 1px 0 #FFFFFF !important;
 }
 
-.active-pos-tag.pos-short,
-.pos-pill.pos-short {
-  background: rgba(244, 63, 94, 0.22) !important;
-  color: #881337 !important;
+.pair-cell.pair-cell-active-pos.pair-cell-amber .pair-status-bar,
+.pair-card.pair-cell-active-pos.pair-cell-amber .pair-footer {
+  background: linear-gradient(135deg, #EA580C 0%, #D97706 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid #F97316 !important;
 }
 
-.active-pos-tag .material-symbols-rounded,
-.pos-pill .material-symbols-rounded {
-  font-size: 10px !important;
-  line-height: 1 !important;
-}
-
-.active-lock-tag,
-.lock-pill {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 2px !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.52rem !important;
-  font-weight: 800 !important;
-  padding: 1.5px 4px !important;
-  border-radius: 4px !important;
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-  line-height: 1 !important;
-  background: #059669 !important;
+.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-1,
+.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-1 span,
+.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-2,
+.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-2 span {
   color: #FFFFFF !important;
 }
 
-.active-lock-tag.shield,
-.lock-pill.shield {
-  background: #D97706 !important;
+/* 🟩 CASO 2 — Operación Abierta y ARRIBA (unrealizedPnl >= 0 o Candado #00 ya clavado) */
+.pair-cell.pair-cell-active-pos.pair-cell-green,
+.pair-card.pair-cell-active-pos.pair-cell-green {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+  border: 1.5px solid #059669 !important;
+  box-shadow: 0 0 10px rgba(5, 150, 105, 0.25), inset 0 1px 0 #FFFFFF !important;
+}
+
+.pair-cell.pair-cell-active-pos.pair-cell-green .pair-status-bar,
+.pair-card.pair-cell-active-pos.pair-cell-green .pair-footer {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid #10B981 !important;
+}
+
+.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-1,
+.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-1 span,
+.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-2,
+.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-2 span {
   color: #FFFFFF !important;
 }
 
-.active-lock-tag .material-symbols-rounded,
-.lock-pill .material-symbols-rounded {
-  font-size: 10px !important;
-  line-height: 1 !important;
+/* 🧘‍♂️ CASO 3 — En Respiro Táctico de 8 Minutos (recién cerrada en verde) */
+.pair-cell.pair-cell-breather,
+.pair-card.pair-cell-breather {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+  border: 1.5px solid #60A5FA !important;
+}
+
+.pair-cell.pair-cell-breather .pair-status-bar,
+.pair-card.pair-cell-breather .pair-footer {
+  background: #EFF6FF !important;
+  color: #1D4ED8 !important;
+  border: 1px solid #BFDBFE !important;
+}
+
+.pair-cell.pair-cell-breather .status-line-1,
+.pair-cell.pair-cell-breather .status-line-1 span,
+.pair-cell.pair-cell-breather .status-line-2,
+.pair-cell.pair-cell-breather .status-line-2 span {
+  color: #1D4ED8 !important;
 }
 
 /* ==============================================================================
@@ -2822,10 +2731,8 @@ footer,
 }
 
 /* ==============================================================================
-   REGLAS SAGRADAS: 54 TARJETAS VERDE ESMERALDA / MENTA + TEXTO BLANCO
+   CELDAS SECUNDARIAS (ATOMIC / SWARM / PLATOON) — SIN AFECTAR A LAS 54 TARJETAS BLANCAS
    ============================================================================== */
-.pair-card,
-.pair-cell,
 .atomic-cell,
 .swarm-cell,
 .platoon-card,
@@ -2843,8 +2750,6 @@ footer,
   transition: background 0.15s ease, border-color 0.15s ease !important;
 }
 
-.pair-card:hover,
-.pair-cell:hover,
 .atomic-cell:hover,
 .swarm-cell:hover,
 .platoon-card:hover,
@@ -2854,8 +2759,6 @@ footer,
   background: linear-gradient(145deg, #0F766E 0%, #047857 55%, #065F46 100%) !important;
 }
 
-.pair-card *,
-.pair-cell *,
 .atomic-cell *,
 .swarm-cell *,
 .platoon-card *,
@@ -2863,15 +2766,9 @@ footer,
   color: #FFFFFF !important;
 }
 
-.pair-card .cell-badge,
-.pair-cell .cell-badge,
 .atomic-cell .cell-badge,
 .swarm-cell .cell-badge,
 .platoon-card .cell-badge,
-.pair-card .pair-squad-badge,
-.pair-cell .pair-squad-badge,
-.pair-card .cell-tag,
-.pair-cell .cell-tag,
 .atomic-cell .cell-tag,
 .swarm-cell .cell-tag,
 .platoon-card .cell-tag {
@@ -2881,65 +2778,12 @@ footer,
   font-weight: 700 !important;
 }
 
-.pair-card.active-trade,
-.pair-cell.pair-cell-active-pos,
 .atomic-cell.active-shot,
 .swarm-cell.active-turn {
   background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%) !important;
   border: 2px solid #FBBF24 !important;
   box-shadow: 0 0 14px rgba(245, 158, 11, 0.45) !important;
   transform: none !important;
-}
-
-.pair-cell .pair-price,
-.pair-cell.pair-cell-active-pos .pair-price {
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.78rem !important;
-  font-weight: 800 !important;
-  line-height: 1.05 !important;
-  color: #FFFFFF !important;
-}
-
-.pair-cell .signal-pill {
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.53rem !important;
-  font-weight: 800 !important;
-  padding: 1.5px 4px !important;
-  white-space: nowrap !important;
-  flex-shrink: 0 !important;
-}
-
-.pair-cell.pair-cell-active-pos .signal-pill {
-  background: linear-gradient(90deg, #D97706 0%, #B45309 100%) !important;
-  border: 1px solid #FDE68A !important;
-  color: #FFFFFF !important;
-  font-weight: 800 !important;
-  font-size: 0.53rem !important;
-  padding: 1.5px 4px !important;
-  white-space: nowrap !important;
-  flex-shrink: 0 !important;
-}
-
-.pair-cell.pair-cell-active-pos.pair-cell-green .signal-pill {
-  background: linear-gradient(90deg, #059669 0%, #047857 100%) !important;
-  border: 1px solid #6EE7B7 !important;
-  color: #FFFFFF !important;
-}
-
-.pair-cell .active-lock-tag {
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.52rem !important;
-  font-weight: 800 !important;
-  padding: 1.5px 4px !important;
-  border-radius: 4px !important;
-  background: rgba(15, 23, 42, 0.78) !important;
-  border: 1px solid rgba(253, 230, 138, 0.72) !important;
-  color: #FEF3C7 !important;
-  max-width: none !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
 }
 
 /* ==============================================================================

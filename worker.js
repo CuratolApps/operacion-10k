@@ -3755,9 +3755,9 @@ export default {
             const STRICT_RECOVERY_LOCK = false;
             const IMMEDIATE_SNOWBALL_START = true;
             const NO_RED_EXIT = true;
-            const MAX_OPEN_POSITIONS = 10;
+            const MAX_OPEN_POSITIONS = 12;
             const FAST_SCALP_LANES = 2;
-            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 10;
+            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 12;
             const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
             const FAST_LANE_LOCK_NET_USDC = 0.10;
             const CORNERING_HALF_DOLLAR_USDC = 0.50;
@@ -3766,7 +3766,7 @@ export default {
             const EXPRESS_EVAC_NET_USDC = 0.05;
             const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
-            const priorityEvacSet = new Set(["PAXG", "SUI", "ETH", "LINK"]);
+            const priorityEvacSet = new Set(["PAXG", "SUI", "kPEPE", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"]);
             const computeCorneringStepCloud = (peakPnl) => {
               const p = Number(peakPnl || 0);
               if (p >= CORNERING_HALF_DOLLAR_USDC) return +(Math.floor((p + 1e-9) * 10) / 10).toFixed(2);
@@ -3915,7 +3915,7 @@ export default {
                   (peakPnl < CORNERING_HALF_DOLLAR_USDC && uPnl <= lockedProfitUsdc)
                 );
 
-                if ((hitCorneredStop || (priorityEvacSet.has(coin) && netAfterFee >= 0.10 && lockedProfitUsdc < CORNERING_HALF_DOLLAR_USDC)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                if ((hitCorneredStop || (priorityEvacSet.has(coin) && netAfterFee >= EXPRESS_EVAC_NET_USDC && lockedProfitUsdc < CORNERING_HALF_DOLLAR_USDC)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   let favorRatio = 0.50;
                   let currentBookPx = entryPx;
                   try {

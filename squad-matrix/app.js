@@ -838,7 +838,7 @@ function render54PairsGrid() {
   PAIRS_54.forEach((p) => {
     const cleanId = p.symbol.replace(/[\/\s]/g, "_");
     const cell = document.createElement("div");
-    cell.className = "pair-cell";
+    cell.className = "pair-cell pair-card pair-cell-auto";
     cell.id = `pairCell_${cleanId}`;
 
     const initPxNum = parseFloat(appState.mids[p.symbol] || SYNTHETIC_DEFAULTS[p.symbol] || "1.0");
@@ -846,13 +846,13 @@ function render54PairsGrid() {
 
     cell.innerHTML = `
       <div class="pair-header-row">
-        <span class="pair-title">${p.symbol}</span>
-        <span class="pair-squad-badge">${p.squadNum} ${p.squadCode}</span>
+        <span class="pair-title pair-symbol pair-name">${p.symbol}</span>
+        <span class="pair-squad-badge squad-tag squad-badge">${p.squadNum} ${p.squadCode}</span>
       </div>
       <div class="pair-price-row">
         <span class="pair-price" id="px_${cleanId}">${initPxText}</span>
       </div>
-      <div class="pair-bottom-row pair-status-bar" id="sig_${cleanId}">
+      <div class="pair-bottom-row pair-status-bar pair-footer" id="sig_${cleanId}">
         <div class="status-line-1" id="sigLine1_${cleanId}">
           <span id="sigText_${cleanId}">⚡ AUTO 5% ($50.45 A 5X)</span>
           <span id="sigRight1_${cleanId}"></span>
@@ -1917,7 +1917,7 @@ function updatePricesAndSignals() {
     const isInBreather = !activePos && breatherUntil > Date.now();
 
     if (activePos) {
-      // ESTADO A — Posición Abierta (2 pisos apilados)
+      // ESTADO A — Posición Abierta (CASO 1 Naranja si abajo / CASO 2 Verde Esmeralda si arriba o Candado #00)
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
       const isShort = szi < 0;
@@ -1925,21 +1925,22 @@ function updatePricesAndSignals() {
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
       const queueOrder = Math.max(1, sortedOpenCoins.indexOf(p.symbol) + 1);
       const rInfo = computeClientRatchetStatus(activePos, midPx);
+      const isUpOrLocked = pnl >= 0 || rInfo.isLocked;
 
-      const targetCellClass = "pair-cell pair-cell-active-pos " + (pnl >= 0 || rInfo.isLocked ? "pair-cell-green" : "pair-cell-amber");
+      const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isUpOrLocked ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
       const dirWord = isShort ? "SHORT" : "LONG";
       setTextIfChanged(sigText, dirWord);
-      setTextIfChanged(sigRight1, pnlFormatted);
+      setTextIfChanged(sigRight1, `| ${pnlFormatted}`);
 
       let line2Text = "";
-      if (rInfo.isLocked || pnl >= 0.10) {
+      if (isUpOrLocked) {
         const lockedStep = rInfo.lockedNetUsd >= 0.10
           ? rInfo.lockedNetUsd
-          : computeCorneringRatchetStepClient(Math.max(0.10, pnl));
-        line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)}`;
+          : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(0.15, pnl)));
+        line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
       } else if (queueOrder <= 4) {
         line2Text = `🎯 SALIDA #${queueOrder} LISTA`;
       } else {
@@ -1947,14 +1948,16 @@ function updatePricesAndSignals() {
       }
       setTextIfChanged(sigLockText, line2Text);
     } else if (isInBreather) {
-      // ESTADO B — Bot en Respiro de 8 Minutos (2 pisos apilados)
-      if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
+      // ESTADO B (CASO 3) — En Respiro Táctico de 8 Minutos (Azul Cielo / Índigo Suave)
+      const targetCellClass = "pair-cell pair-card pair-cell-breather";
+      if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
       setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");
       setTextIfChanged(sigRight1, "");
       setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
     } else {
-      // ESTADO C — En Auto / Standby vigilando Fuerza Latente (2 pisos apilados)
-      if (cell && cell.className !== "pair-cell") cell.className = "pair-cell";
+      // ESTADO C (CASO 4) — En AUTO / STANDBY (Pizarra Satinado Claro)
+      const targetCellClass = "pair-cell pair-card pair-cell-auto";
+      if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
       setTextIfChanged(sigText, autoLine1Text);
       setTextIfChanged(sigRight1, "");
 

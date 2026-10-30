@@ -42,14 +42,14 @@ const STRICT_RECOVERY_LOCK = false;     // Operación bajo Motor Unificado LATEN
 const PLAN_C_ACTIVE_HARVEST = true;     // Subordinado 100% a LATENT_FORCE_ENGINE (Score >= 92/100 + Market Tide Lock + 2 Carriles Rápidos)
 const IMMEDIATE_SNOWBALL_START = true;  // Arranque con pares libres en los 2 Carriles Rápidos (#9 y #10) mientras freeMargin >= $320 USDC
 const NO_RED_EXIT = true;               // Prohibido cerrar en pérdida (100% salidas en verde con Candado de Acorralamiento #00)
-const MAX_OPEN_POSITIONS = 10;          // Tope real = 10 (8 en guardia de recuperación + 2 Carriles Rápidos #9 y #10)
-const FAST_SCALP_LANES = 2;             // 2 Carriles Rápidos Dinámicos (#9 y #10) con Score >= 92/100 + Candado Acorralamiento 10c
-const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 10; // Habilitados los Carriles #9 y #10 mientras freeMargin >= $320 USDC
-const PRIORITY_EVAC_TARGETS = ["PAXG", "SUI", "ETH", "LINK"]; // Evacuación Rápida en empate positivo limpio (+$0.05 a +$0.10 USDC netos) o Candado #00
-const EXPRESS_EVAC_DELTA_RATIO = 0.00040; // Empate positivo limpio (+$0.05 a +$0.10 USDC libres de comisión)
-const EXPRESS_EVAC_NET_USDC = 0.05;     // +$0.05 USDC netos libres de comisión para Reduce-Only ALO en PAXG, SUI, ETH y LINK
+const MAX_OPEN_POSITIONS = 12;          // Tope Wall Street = 12 (Posiciones en recuperación + 2 Carriles Exclusivos de Wall Street)
+const FAST_SCALP_LANES = 2;             // 2 Carriles Exclusivos de Wall Street con Score >= 92/100 + Candado Acorralamiento 10c
+const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 12; // Habilitados 2 Carriles Exclusivos de Wall Street mientras freeMargin >= $280 USDC
+const PRIORITY_EVAC_TARGETS = ["PAXG", "SUI", "kPEPE", "PEPE", "LINK", "ETH", "AAVE", "PENDLE"]; // Evacuación Express en empate positivo (+$0.05 USDC netos) a mercado IOC
+const EXPRESS_EVAC_DELTA_RATIO = 0.00040; // Empate positivo limpio (+$0.05 USDC libres de comisión)
+const EXPRESS_EVAC_NET_USDC = 0.05;     // +$0.05 USDC netos libres de comisión para desalojo en empate positivo
 const MARKET_TIDE_LOCK_ENABLED = true;  // Filtro de Marea Global: Prohibido disparar SHORT si Top 3 es LONG (y viceversa)
-const MAX_ACTIVE_HUNTERS = FAST_SCALP_LANES; // 2 Carriles Rápidos simultáneos (#9 y #10)
+const MAX_ACTIVE_HUNTERS = FAST_SCALP_LANES; // 2 Carriles Exclusivos de Wall Street simultáneos
 const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
 const FAST_LANE_LOCK_NET_USDC = 0.10;   // Candado Base #00 inicial en +$0.10 USDC netos (Fase 1 -> Fase 2 en +$0.50 USDC)
 const PLAN_C_MIN_LOCK_NET_USDC = 0.10;  // Candado Base #00 en +$0.10 USDC Netos ($0.00 riesgo tras clavar)
@@ -60,7 +60,7 @@ const AUTO_COMPOUND_MARGIN_RATIO = 0.05; // Calibre Compuesto Automático = 5% d
 const AUTO_COMPOUND_LEVERAGE = 5.0;     // 5x Apalancamiento -> $50.45 Margen = $252.25 USD Nocional en $1,009.05 USDC
 const PLAN_C_HUNTER_MARGIN_USDC = 50.45; // 5% de $1,009.05 USDC = $50.45 USDC Margen por Bot
 const PLAN_C_HUNTER_NOTIONAL_USDC = 252.25; // $50.45 USDC Margen x 5x = $252.25 USD Nocional por disparo
-const MIN_FREE_MARGIN_RESERVE_USDC = 320.00; // Permite abrir los Carriles #9 y #10 mientras freeMargin >= $320 USDC
+const MIN_FREE_MARGIN_RESERVE_USDC = 280.00; // Permite abrir los 2 Carriles de Wall Street mientras freeMargin >= $280 USDC
 const BURN_BALLAST_SUBSIDY_RATIO = 0.50; // 50% de las ganancias netas diarias subsidian y acercan la salida de XRP -> SOL -> NEAR
 
 // HELPER: MOTOR AUTO-COMPOUNDING LOT SIZE (5% DEL SALDO CERRADO FIRME L1 A 5X, RECALCULADO CADA +$25 USDC)
@@ -1605,8 +1605,8 @@ async function startAutonomousSquadDaemon() {
   const rollingMidsHistory = {}; // { [coin]: Array<{ ts, px }> } ventana móvil 60s
   const pingPongMetaByCoin = {}; // { [coin]: { openedAt, mode: 'PING_PONG' | 'HOURLY_SNAP' | 'WICK_SNIPER' | 'NEW_LISTING_SNIPER' } }
   const knownUniverseCoins = new Set();
-  // Conjunto de monedas en la Cola de Extracción #00 (AVAX ya cobró en verde +$0.1440 a las 10:24:05 UTC; SUI y LINK blindadas en Cola #00)
-  const stuckRecoveryCoinsSet = new Set(["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR"]);
+  // Conjunto de monedas en la Cola de Extracción #00 (deja 2 Carriles Exclusivos de Wall Street libres hasta MAX_OPEN_POSITIONS = 12)
+  const stuckRecoveryCoinsSet = new Set(["PAXG", "SUI", "kPEPE", "ETH", "LINK", "AAVE", "PENDLE", "BTC", "XRP", "SOL", "NEAR"]);
   let latestNewListingsFeed = [];
   let totalActivePerpsL1 = 229;
   let lastHourlySnapHourKey = "";
@@ -1682,11 +1682,15 @@ async function startAutonomousSquadDaemon() {
           );
         }
 
-        // Si tocó el piso del Candado #00 (fireCloseNow / hitRatchetStop), disparo IOC inmediato (3% slippage + reintento 200ms)
-        if (rFast.beLocked && rFast.hitRatchetStop) {
+        // Si tocó el piso del Candado #00 (fireCloseNow / hitRatchetStop) O si es objetivo de desalojo rápido Wall Street en +$0.05 USDC netos:
+        const isWallStreetExpressEvac = PRIORITY_EVAC_TARGETS.includes(coin) && rFast.netAfterFeesUsd >= EXPRESS_EVAC_NET_USDC && rFast.lockedNetUsd < CORNERING_HALF_DOLLAR_USDC;
+        if ((rFast.beLocked && rFast.hitRatchetStop) || isWallStreetExpressEvac) {
           closingInProgressCoins.add(coin);
           try {
-            console.log(`🚨⚡ [FAST-GUARD 300ms // ANTI-ESCAPE #00] ${coin} retrocedió al candado acorralado (+$${rFast.lockedNetUsd.toFixed(2)} USDC | Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)}) -> Disparo IOC 3% Inmediato!`);
+            const closeReason = isWallStreetExpressEvac && !(rFast.beLocked && rFast.hitRatchetStop)
+              ? `WALL_STREET_EXPRESS_EVAC_+$${rFast.netAfterFeesUsd.toFixed(2)}_NET`
+              : `FAST_300MS_CANDADO_00_+$${rFast.lockedNetUsd.toFixed(2)}`;
+            console.log(`🚨⚡ [FAST-GUARD 300ms // ${closeReason}] ${coin} (Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)} | Neto: +$${rFast.netAfterFeesUsd.toFixed(2)}) -> Disparo IOC 3% Inmediato!`);
             if (posMeta.nativeSlTriggerOid) {
               await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: posMeta.nativeSlTriggerOid }] }).catch(() => {});
               posMeta.nativeSlTriggerOid = null;
@@ -1697,7 +1701,7 @@ async function startAutonomousSquadDaemon() {
               coin,
               szi,
               currentMid,
-              `FAST_300MS_CANDADO_00_+$${rFast.lockedNetUsd.toFixed(2)}`
+              closeReason
             );
           } finally {
             closingInProgressCoins.delete(coin);
@@ -2078,7 +2082,7 @@ async function startAutonomousSquadDaemon() {
       // A) EVACUACIÓN PRIORITARIA DE PAXG (-$0.44), SUI (-$2.34), ETH (-$4.06) Y LINK (-$4.31) EN +$0.10 USDC NETOS (CANDADO #00 | COBRO INMEDIATO SI L2 < 72%)
       // B) MOTOR "SINERGIA QUEMA-LASTRE" EN LAS ATASCADAS (BTC/XRP/SOL/NEAR + 50% Ganancias acercando salida)
       // C) LEY DE HIERRO EN LOS CAZADORES LIBRES ("O +$0.10 USDC Neto o Exprimido con Candado Sin Techo 80%-90% + Evacuación 180s en +$0.10 USDC")
-      const tier1Set = new Set(["PAXG", "SUI", "ETH", "LINK", "BTC", "AVAX", "DOGE"]);
+      const tier1Set = new Set(["PAXG", "SUI", "kPEPE", "PEPE", "ETH", "LINK", "AAVE", "PENDLE", "BTC", "AVAX", "DOGE"]);
       const tier2Set = new Set(["XRP", "SOL"]);
       const openCoinsSet = new Set(openPositions.map(p => p.position.coin));
       const firstCriticalInQueue = openCoinsSet.has("XRP")
@@ -2213,6 +2217,22 @@ async function startAutonomousSquadDaemon() {
               : (isExpressEvacCoin
                   ? `🎯 SALIDA LISTA (${coin} · +$0.05 A +$0.10 NETO)`
                   : `1º BLOQUE CERCANO (${coin}) · SALIDA NETA +$0.10`);
+
+            if (isExpressEvacCoin && ratchet.netAfterFeesUsd >= EXPRESS_EVAC_NET_USDC && ratchet.lockedNetUsd < CORNERING_HALF_DOLLAR_USDC) {
+              console.log(`💰🗽 [APERTURA WALL STREET // EVACUACIÓN EXPRESS +$0.05 NETO] ${coin} alcanzó +$${ratchet.netAfterFeesUsd.toFixed(4)} USDC netos -> Cerrando a mercado (IOC 3%) para liberar margen y enviar a 8m de respiro!`);
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              await closePositionGuaranteedMarket(
+                client,
+                info,
+                coin,
+                szNum,
+                currentMid,
+                "WALL_STREET_EXPRESS_EVAC_005_NET"
+              );
+              continue;
+            }
 
             if (ratchet.beLocked) {
               // Apenas cruza +$0.10 USDC netos queda enganchada al Candado de Acorralamiento #00:

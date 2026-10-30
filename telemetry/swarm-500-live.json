@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-30T13:00:37.873Z",
-  "lastScanUtc": "13:00:37 UTC",
+  "updatedAt": "2026-10-30T13:11:38.126Z",
+  "lastScanUtc": "13:11:38 UTC",
   "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-  "cycleCount": 1632,
+  "cycleCount": 1654,
   "walletsActive": "500 / 500",
   "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
@@ -16,41 +16,41 @@
   "streakGoal": "500 / 500 Firmado EIP-712",
   "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
   "currentPlatoonScanned": {
-    "platoonId": 32,
-    "walletRange": "#311 ➔ #320",
+    "platoonId": 4,
+    "walletRange": "#031 ➔ #040",
     "attestationsCount": 10,
     "polyDetectedUsdc": 0,
     "baseDetectedUsdc": 0,
     "sampleAttestations": [
       {
-        "index": 311,
-        "address": "0xF3d19755705FdBE34f2930d9bABB51fE379E865d",
-        "platoonId": 32,
-        "campaign": "Citrea & GOAT BTC L2",
-        "signatureHash": "0x5e1f6ea5829ec152...40eabd",
+        "index": 31,
+        "address": "0x95c071d358d25454A3eAB72e0945954784C2dCdc",
+        "platoonId": 4,
+        "campaign": "Gasless EIP-712 & Racha",
+        "signatureHash": "0x7507f172a7d45c33...726cb8",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-30T13:00:34.129Z"
+        "timestamp": "2026-10-30T13:11:34.347Z"
       },
       {
-        "index": 312,
-        "address": "0x6fb4A056252aEB1624fD7df69295BBC98bC5DEdA",
-        "platoonId": 32,
-        "campaign": "Citrea & GOAT BTC L2",
-        "signatureHash": "0x5a92e5a0ee81b96f...d7d703",
+        "index": 32,
+        "address": "0xF03d48299fb4DdE3388d457B535d437052DCe276",
+        "platoonId": 4,
+        "campaign": "Gasless EIP-712 & Racha",
+        "signatureHash": "0xa2bf11ccbd0dbf6f...cfe9ec",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-30T13:00:34.129Z"
+        "timestamp": "2026-10-30T13:11:34.347Z"
       },
       {
-        "index": 313,
-        "address": "0x515F5aC09B88A56b52d358186Cf3cf50E74d5f26",
-        "platoonId": 32,
-        "campaign": "Citrea & GOAT BTC L2",
-        "signatureHash": "0xec73b8ae78d90213...4747d0",
+        "index": 33,
+        "address": "0x79f79db088Ad4506de8D6c84b5b7769137D920Cc",
+        "platoonId": 4,
+        "campaign": "Gasless EIP-712 & Racha",
+        "signatureHash": "0x3b9a9030c5675d0b...a07ec9",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-30T13:00:34.129Z"
+        "timestamp": "2026-10-30T13:11:34.347Z"
       }
     ]
   },
