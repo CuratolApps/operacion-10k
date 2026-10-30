@@ -392,25 +392,49 @@ html, body {
   font-weight: 800 !important;
 }
 
-/* Tarjeta 3: Capitalización Bloque 1 */
+/* Tarjeta 3: Capitalización Bloque 1 (ZERO OVERFLOW - 100% VISIBLE) */
+#cardCapitalization {
+  overflow: hidden !important;
+  min-width: 0 !important;
+  padding: 5px 6px !important;
+  gap: 3px !important;
+}
+
 #cardCapitalization .progress-wrap {
   display: flex !important;
   flex-direction: column !important;
   gap: 3px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
 }
 
 #cardCapitalization .progress-info {
   display: flex !important;
-  justify-content: space-between !important;
-  font-size: 0.64rem !important;
-  font-family: 'JetBrains Mono', monospace !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  font-size: clamp(0.48rem, 0.58vw, 0.56rem) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-variant-numeric: tabular-nums !important;
 }
 
-#cardCapitalization .progress-label {
-  font-size: 0.64rem !important;
+#cardCapitalization .progress-label,
+#topBlock1ProgressLabel {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-variant-numeric: tabular-nums !important;
+  font-size: clamp(0.48rem, 0.58vw, 0.56rem) !important;
   font-weight: 800 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.15 !important;
   color: #0F172A !important;
   white-space: nowrap !important;
+  display: block !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
 }
 
 #cardCapitalization .progress-pct {
@@ -434,17 +458,25 @@ html, body {
   transition: width 0.4s ease !important;
 }
 
-#cardCapitalization .rule-badge-glow {
-  font-size: 0.56rem !important;
-  font-weight: 700 !important;
+#cardCapitalization .rule-badge-glow,
+#topBlock1RuleBadge {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-variant-numeric: tabular-nums !important;
+  font-size: clamp(0.46rem, 0.55vw, 0.52rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.15 !important;
   background: #EFF6FF !important;
   color: #1E40AF !important;
   border: 1px solid #BFDBFE !important;
-  padding: 2px 4px !important;
+  padding: 2px 3px !important;
   border-radius: 4px !important;
   text-align: center !important;
   white-space: nowrap !important;
   overflow: hidden !important;
+  text-overflow: clip !important;
   margin-top: 2px !important;
 }
 

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T15:11:43.972Z",
+  "updatedAt": "2026-10-30T15:23:52.188Z",
   "architecture": "FOREX_AND_MACRO_L1_PROXY_BRIDGE_V1",
   "proxyMap": {
     "EUR/USD": {
@@ -354,7 +354,7 @@
       "direction": "LONG",
       "szi": 743,
       "entryPx": 0.33923,
-      "unrealizedPnlUsdc": -1.76834,
+      "unrealizedPnlUsdc": -1.85007,
       "openedAt": "2026-10-30T15:05:16.994Z"
     },
     "PAXG": {
@@ -368,7 +368,7 @@
       "direction": "LONG",
       "szi": 0.01,
       "entryPx": 4031,
-      "unrealizedPnlUsdc": -1.09268,
+      "unrealizedPnlUsdc": -1.08762,
       "openedAt": "2026-10-30T15:05:16.994Z"
     }
   },
@@ -384,7 +384,7 @@
       "direction": "LONG",
       "szi": 743,
       "entryPx": 0.33923,
-      "unrealizedPnlUsdc": -1.76834,
+      "unrealizedPnlUsdc": -1.85007,
       "openedAt": "2026-10-30T15:05:16.994Z"
     },
     "XAU/USD": {
@@ -398,7 +398,7 @@
       "direction": "LONG",
       "szi": 0.01,
       "entryPx": 4031,
-      "unrealizedPnlUsdc": -1.09268,
+      "unrealizedPnlUsdc": -1.08762,
       "openedAt": "2026-10-30T15:05:16.994Z"
     }
   },
@@ -719,7 +719,7 @@
       "direction": "LONG",
       "szi": 743,
       "entryPx": 0.33923,
-      "unrealizedPnlUsdc": -1.76834,
+      "unrealizedPnlUsdc": -1.85007,
       "openedAt": "2026-10-30T15:05:16.994Z"
     },
     "PAXG": {
@@ -733,7 +733,7 @@
       "direction": "LONG",
       "szi": 0.01,
       "entryPx": 4031,
-      "unrealizedPnlUsdc": -1.09268,
+      "unrealizedPnlUsdc": -1.08762,
       "openedAt": "2026-10-30T15:05:16.994Z"
     }
   }

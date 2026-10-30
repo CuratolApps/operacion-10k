@@ -4076,15 +4076,15 @@ export default {
                 }
               }
 
-              // 2. MOTOR ÚNICO DE FUERZA LATENTE REAL (<150ms) + MARKET TIDE LOCK (SCORE >= 92/100) + TOPE ESTRICTO MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 6
-              // CONGELAR NUEVAS APERTURAS EN 8 POSICIONES HASTA EVACUAR AL MENOS 3 DE LAS MÁS CERCANAS (PAXG, SUI, ETH, LINK) DEJANDO < 6 ABIERTAS
-              const stuckSetCloud = new Set(["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR"]);
+              // 2. MOTOR ÚNICO DE PUNTERÍA DE ENTRADA `FIRST_WAVE_IGNITION` (ESTILO OP-USDC) + RESPIRO 120s
+              const stuckSetCloud = new Set(["ETH", "BTC", "SOL", "NEAR", "XRP"]);
               const cloudUnits = [
-                { name: "#01 ALFA (Auto 5%)", pairs: ["AVAX"], notional: 252.25 },
+                { name: "#01 ALFA (Auto 5%)", pairs: ["AVAX", "SUI"], notional: 252.25 },
+                { name: "#02 BRAVO / #12 FOXTROT (Auto 5%)", pairs: ["PAXG", "LINK"], notional: 252.25 },
                 { name: "#03 CHARLIE (Auto 5%)", pairs: ["BNB", "AAVE"], notional: 252.25 },
-                { name: "#04 GOLF (Auto 5%)", pairs: ["DOGE", "ADA"], notional: 252.25 },
-                { name: "#05 HOTEL (Auto 5%)", pairs: ["HYPE", "TRX", "UNI"], notional: 252.25 },
-                { name: "#06 INDIA (Auto 5%)", pairs: ["DOT", "LTC"], notional: 252.25 }
+                { name: "#04 GOLF / #10 DELTA (Auto 5%)", pairs: ["DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
+                { name: "#06 INDIA / #11 ECHO / #08 KILO (Auto 5%)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 252.25 },
+                { name: "#07 JULIET / #09 LIMA / #14 NOV (Auto 5%)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE"], notional: 252.25 }
               ];
 
               const unfencedHuntersCloud = openPositions.filter(pos => {
@@ -4111,6 +4111,12 @@ export default {
                     ]);
                     const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
                     if (bids.length < 3 || asks.length < 3 || !Array.isArray(candles1m) || candles1m.length < 10) continue;
+                    const bestBid = parseFloat(bids[0]?.px || 0);
+                    const bestAsk = parseFloat(asks[0]?.px || 0);
+                    const midPx = (bestBid > 0 && bestAsk > 0) ? (bestBid + bestAsk) / 2 : (bestBid || bestAsk);
+                    const spreadPct = (midPx > 0 && bestAsk >= bestBid) ? ((bestAsk - bestBid) / midPx) * 100 : 0.05;
+                    if (spreadPct >= 0.03) continue; // Veto de Spread >= 0.03%
+
                     let bv = 0, av = 0;
                     for (let i = 0; i < 5; i++) {
                       bv += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
@@ -4127,30 +4133,37 @@ export default {
                     const lastC = candles1m[candles1m.length - 1];
                     const open1m = parseFloat(lastC.o || closes[closes.length - 1]);
                     const close1m = parseFloat(lastC.c || closes[closes.length - 1]);
-                    const prevClose = closes[Math.max(0, closes.length - 3)];
+                    const prevClose = closes[Math.max(0, closes.length - 2)];
                     const rocPct = prevClose > 0 ? ((close1m - prevClose) / prevClose) * 100 : 0;
-                    const alignedRoc = isLong ? rocPct >= 0.025 : rocPct <= -0.025;
-                    const candle1mAligned = isLong ? (close1m >= open1m * 0.9998) : (close1m <= open1m * 1.0002);
 
                     const ema9 = closes.slice(-9).reduce((a, b) => a + b, 0) / Math.min(9, closes.length);
-                    const ema20 = closes.slice(-20).reduce((a, b) => a + b, 0) / Math.min(20, closes.length);
-                    const structOk = isLong ? (close1m >= ema9 && ema9 >= ema20 * 0.9995) : (close1m <= ema9 && ema9 <= ema20 * 1.0005);
+                    const distFromEma9Pct = ema9 > 0 ? ((midPx - ema9) / ema9) * 100 : 0;
+                    const signedDistEma9 = isLong ? distFromEma9Pct : -distFromEma9Pct;
+                    // Condición 1: Anti-Persecución (0.015% a 0.085% de EMA9, prohibido >0.10% o |roc| > 0.14%)
+                    const cond1AntiChaseOk = signedDistEma9 >= 0.015 && signedDistEma9 <= 0.085 && Math.abs(distFromEma9Pct) <= 0.10 && Math.abs(rocPct) <= 0.14;
+                    // Condición 2 y 3: arranque fresco (sin agotamiento)
+                    const candle1mAligned = isLong ? (close1m > open1m && close1m >= prevClose) : (close1m < open1m && close1m <= prevClose);
+                    const structOk = cond1AntiChaseOk && candle1mAligned && domRatio >= 0.72;
 
-                    const l2Pts = domRatio >= 0.72 ? Math.min(35, Math.round(31 + ((domRatio - 0.72) / 0.15) * 4)) : Math.round((domRatio / 0.72) * 28);
-                    const velPts = alignedRoc ? Math.min(35, Math.round(31 + Math.min(1, (Math.abs(rocPct) - 0.025) / 0.06) * 4)) : 12;
-                    const leadLagPts = candle1mAligned ? 14 : 6;
+                    const l2Pts = domRatio >= 0.72 ? 35 : Math.round((domRatio / 0.72) * 28);
+                    const velPts = cond1AntiChaseOk ? 35 : 14;
+                    const leadLagPts = candle1mAligned ? 15 : 6;
                     const exhaustionPts = structOk ? 15 : 6;
                     const latentForceScore = Math.min(100, l2Pts + velPts + leadLagPts + exhaustionPts);
+
+                    const preciseIocPx = isLong ? (bestAsk * 1.0002) : (bestBid * 0.9998);
 
                     allScoredCandidates.push({
                       unit,
                       coin,
                       isLong,
                       domRatio,
-                      alignedRoc,
+                      alignedRoc: cond1AntiChaseOk,
                       candle1mAligned,
                       structOk,
-                      px: parseFloat(isLong ? bids[0].px : asks[0].px),
+                      spreadPct: +spreadPct.toFixed(4),
+                      distFromEma9Pct: +distFromEma9Pct.toFixed(4),
+                      px: preciseIocPx,
                       l2Pct: +(domRatio * 100).toFixed(1),
                       latentForceScore
                     });
@@ -4163,10 +4176,11 @@ export default {
                 const longTop3Count = top3Cloud.filter(c => c.isLong).length;
                 const dominantIsLong = longTop3Count >= 2;
 
-                // Filtrar únicamente candidatos con Score >= 92/100, L2 >= 72%, estructura 1m válida y ALINEADOS CON LA MAREA DEL TOP 3
+                // Filtrar únicamente candidatos FIRST_WAVE_IGNITION con Score >= 92/100, L2 >= 72%, Spread < 0.03% y alineados con la Marea
                 const qualifiedCandidates = allScoredCandidates.filter(c =>
                   c.latentForceScore >= 92 &&
                   c.domRatio >= 0.72 &&
+                  c.spreadPct < 0.03 &&
                   c.alignedRoc &&
                   c.candle1mAligned &&
                   c.structOk &&
@@ -4175,7 +4189,7 @@ export default {
 
                 for (const bestCand of qualifiedCandidates.slice(0, 2)) {
                   if (slotsLeft <= 0) break;
-                  const { unit, coin, isLong, px, l2Pct, latentForceScore } = bestCand;
+                  const { unit, coin, isLong, px, l2Pct, latentForceScore, spreadPct, distFromEma9Pct } = bestCand;
                   const szStr = fmtSz(unit.notional / px, ASSET_DEC[coin]);
                   const pxStr = fmtPx(px, coin);
                   const orderRes = await client.order({
@@ -4185,7 +4199,7 @@ export default {
                       p: pxStr,
                       s: szStr,
                       r: false,
-                      t: { limit: { tif: "Alo" } }
+                      t: { limit: { tif: "Ioc" } }
                     }],
                     grouping: "na"
                   }).catch(() => null);
@@ -4197,14 +4211,14 @@ export default {
                       globalThis.__NOTIFIED_OPEN_OIDS__[oid] = true;
                       const lockDelta = (unit.notional * HL_ROUNDTRIP_FEE_RATE + 0.10) / parseFloat(szStr || "1");
                       const lockPxStr = fmtPx(isLong ? (px + lockDelta) : (px - lockDelta), coin);
-                      const openMsg = `🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n` +
+                      const openMsg = `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA // ESTILO OP]</b>\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                         `🔰 <b>Escuadrón:</b> <b>${unit.name}</b>\n` +
                         `📍 <b>Par & Dirección:</b> <code>${coin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szStr} ${coin})\n` +
-                        `📥 <b>Precio de Entrada:</b> <code>$${pxStr}</code>\n` +
+                        `📥 <b>Entrada IOC Borde Libro (Spread ${spreadPct}% &lt; 0.03%):</b> <code>$${pxStr}</code>\n` +
                         `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($${unit.notional.toFixed(2)} USD Nocional)</code>\n` +
-                        `🧲 <b>Score Fuerza Latente:</b> <b>${latentForceScore}/100</b> (<code>L2 ${l2Pct}% >= 72% · Marea Top 3 Alineada</code>)\n` +
-                        `🔒 <b>Objetivo Candado #00:</b> <code>$${lockPxStr}</code> (+$0.10 USDC Neto ➔ 🟢 LIGERO Sin TP Fijo)\n` +
+                        `🎯 <b>FIRST_WAVE_IGNITION (${latentForceScore}/100):</b> <code>Dist EMA9 ${distFromEma9Pct}% [0.015%-0.085%] · L2 ${l2Pct}% >= 72% · Marea Alineada</code>\n` +
+                        `🔒 <b>Escalera Candado #00:</b> <code>$${lockPxStr}</code> (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... IOC + Respiro 02:00)\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                         `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;
                       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -4298,7 +4312,7 @@ export default {
 🏆 <b>HOY NETO (00:00 UTC):</b> <b>+$${todayNetSum.toFixed(2)} USDC · ${todayWinsCount}G - 0P</b>
 📈 <b>Escalón 1 (30–31 Oct):</b> ${step1Line}
 🏛️ <b>Cerrado L1:</b> <b>$${closedFirmNow.toFixed(2)} USDC</b> (Base #501: $756.52 + Neto L1: +$${(closedFirmNow - 756.52).toFixed(2)} | Equity Viva: <code>$${currentAccountVal} USDC</code>)
-🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO ${coin})</code>
+🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 02:00 (120s RECALIBRANDO ${coin})</code>
 ⏱️ <b>Hora UTC:</b> <code>${nowUtc}</code>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;

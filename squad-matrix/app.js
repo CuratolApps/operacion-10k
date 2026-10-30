@@ -1054,8 +1054,8 @@ function computeAutoCompoundCalibre(closedBase) {
   };
 }
 
-// MEMORIA DE RESPIRO DE 8 MINUTOS (480,000 MS) AL SALIR DE COLA #00 + HISTORIAL DE FUERZA LATENTE REAL (<150ms)
-const POST_TRADE_BREATHER_MS = 8 * 60 * 1000;
+// MEMORIA DE RESPIRO DE 2 MINUTOS EXACTOS (120,000 MS / 02:00) AL COBRAR OPERACIÓN + HISTORIAL FIRST_WAVE_IGNITION (<150ms)
+const POST_TRADE_BREATHER_MS = 2 * 60 * 1000;
 const clientPairBreatherUntil = {};
 let prevKnownOpenCoinSet = new Set(["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]);
 const clientRollingTicks = {};
@@ -1075,7 +1075,7 @@ function computeClientLatentForce(symbol, currentPrice) {
     const last = hist[hist.length - 1];
     if (first.px > 0) roc15sPct = ((last.px - first.px) / first.px) * 100;
   }
-  // Semilla determinista + variación por velocidad real del tick
+  // Semilla determinista + variación por velocidad real del tick (FIRST_WAVE_IGNITION)
   let hash = 0;
   for (let i = 0; i < symbol.length; i++) hash = ((hash << 5) - hash) + symbol.charCodeAt(i);
   const absRoc = Math.abs(roc15sPct);
@@ -1096,7 +1096,8 @@ function computeClientLatentForce(symbol, currentPrice) {
 }
 
 function formatBreatherCountdown(untilMs) {
-  const remSec = Math.max(0, Math.ceil((untilMs - Date.now()) / 1000));
+  const rawRemSec = Math.max(0, Math.ceil((untilMs - Date.now()) / 1000));
+  const remSec = Math.min(120, rawRemSec);
   const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
   const ss = String(remSec % 60).padStart(2, "0");
   return `⏳ RECALIBRANDO ${mm}:${ss}`;
@@ -2022,12 +2023,19 @@ function updatePricesAndSignals() {
   const currentOpenSet = new Set(
     (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
   );
-  // Si una moneda que estaba en la cola de abiertas acaba de cerrar, iniciar 🧘‍♂️ RESPIRO 08:00
+  // Si una moneda que estaba en la cola de abiertas acaba de cerrar, iniciar 🧘‍♂️ RESPIRO 02:00 (120s)
   for (const prevCoin of prevKnownOpenCoinSet) {
     if (!currentOpenSet.has(prevCoin)) {
       if (!clientPairBreatherUntil[prevCoin] || clientPairBreatherUntil[prevCoin] <= Date.now()) {
         clientPairBreatherUntil[prevCoin] = Date.now() + POST_TRADE_BREATHER_MS;
       }
+    }
+  }
+  // Recortar cualquier temporizador de respiro previo > 120s para que jamás supere 02:00
+  const maxAllowedBreatherUntil = Date.now() + POST_TRADE_BREATHER_MS;
+  for (const symKey of Object.keys(clientPairBreatherUntil)) {
+    if (clientPairBreatherUntil[symKey] > maxAllowedBreatherUntil) {
+      clientPairBreatherUntil[symKey] = maxAllowedBreatherUntil;
     }
   }
   prevKnownOpenCoinSet = currentOpenSet;
@@ -2141,7 +2149,7 @@ function updatePricesAndSignals() {
         if (p.symbol === "PEPE") delete clientRatchetMemory["kPEPE"];
         persistClientRatchetMemory();
       }
-      // ESTADO B (CASO 3) — En Respiro Táctico de 8 Minutos (Azul Cielo / Índigo Suave)
+      // ESTADO B (CASO 3) — En Respiro Táctico de 2 Minutos (120s / 02:00 · Azul Cielo / Índigo Suave)
       const targetCellClass = "pair-cell pair-card pair-cell-breather";
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
       setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");

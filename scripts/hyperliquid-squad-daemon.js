@@ -109,7 +109,7 @@ const BREAKEVEN_TRIGGER_PCT = 0.06;     // Candado Breakeven #00 se activa en En
 const BREAKEVEN_LOCK_PCT = 0.05;        // Candado BE cubre 100% comisiones reales y asegura +$0.10 USDC netos
 const TIME_STOP_MS = CLEAN_EVAC_TIMEOUT_MS; // 180s Protocolo de Evacuación Limpia en +$0.10 USDC Neto
 const TIME_STOP_MIN_PNL_USDC = 0.10;    // Salida limpia en +$0.10 USDC neto ($0.00 pérdida)
-const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000; // 8 minutos (480,000 ms) de respiro táctico (🧘‍♂️ RESPIRO 08:00 RECALIBRANDO) antes de incorporarse al carrusel
+const POST_TRADE_COOLDOWN_MS = 2 * 60 * 1000; // 2 minutos exactos (120,000 ms = 120s = 02:00) de respiro táctico (🧘‍♂️ RESPIRO 02:00 RECALIBRANDO) antes de incorporarse al carrusel
 const COOLDOWN_DURATION_MS = POST_TRADE_COOLDOWN_MS;
 let globalPostRecoveryCooldownUntil = 0;
 const MIN_CERTAINTY_L2_PCT = 57.0;      // 57% de presión L2 mínima para tiro cazador con confluencia real
@@ -772,17 +772,27 @@ function calculateBollingerBands(closes, period = 20, mult = 2.0) {
 }
 
 // ==============================================================================
-// ⚡🧲 MOTOR DE LECTURA DE "FUERZA LATENTE REAL & LATENCIA 150ms" (LATENT_FORCE_ENGINE)
+// 🎯⚡ MOTOR MAESTRO DE PUNTERÍA: "IGNICIÓN DE PRIMERA OLA" (FIRST_WAVE_IGNITION)
+//     ESTILO OP-USDC (CERO PERSEGUIR VELAS ESTIRADAS + 5 CONDICIONES SIMULTÁNEAS)
 // ==============================================================================
-// Audita en <150ms:
-// 1) Velocity 5s / 15s / 60s (Peso 35%) — descarta laterales con |ROC_15s| < 0.025%
-// 2) Order Book Imbalance & Wall Shift L2 Top-5 (Peso 35%) — exige >= 72% y escalón avanzando
-// 3) Lead-Lag BTC/ETH Guía 3s-15s (Peso 15%) — rezago 0.04% a 0.12% con libro alineado
-// 4) Momentum Exhaustion Guard (Peso 15%) — LONG: Px>EMA9>EMA20 & RSI6 [48..72]; SHORT: Px<EMA9<EMA20 & RSI6 [28..52]
-const prevTopOfBookMemory = {}; // { [coin]: { bestBid, bestAsk, ts } }
+// Exige obligatoriamente las 5 Condiciones Simultáneas de Nacimiento de Ola:
+// 1) Filtro Anti-Persecución (Anti-Chase Extension Cap):
+//    - Distancia respecto a EMA-9 entre 0.015% y 0.085% a favor de la ruptura (PROHIBIDO si > 0.10%)
+//    - Movimiento en los últimos 20s <= 0.14% (PROHIBIDO si ya corrió > 0.14% en 20s)
+// 2) Confirmación de 3 Micro-Ticks Consecutivos (3-Tick Micro-Ignition en t-2, t-1, t0):
+//    - LONG: mid(t0) > mid(t-1) >= mid(t-2) Y bestBid subiendo de escalón sin que bestAsk baje
+//    - SHORT: mid(t0) < mid(t-1) <= mid(t-2) Y bestAsk bajando presionando al bestBid
+// 3) Tanque de Gasolina Fresco (RSI-6 en Zona de Arranque, NO en Agotamiento):
+//    - LONG: RSI(6) entre 46 y 61 y subiendo (rsiNow > rsiPrev). Prohibido si RSI(6) > 62.
+//    - SHORT: RSI(6) entre 39 y 54 y bajando (rsiNow < rsiPrev). Prohibido si RSI(6) < 38.
+// 4) Presión Real del Libro L2 (imbalance >= 72% en primeros 5 niveles) + Aceleración en par guía.
+// 5) Veto Instantáneo del Director BTC-USDC (3 Segundos en Vivo):
+//    - Prohibido LONG si btcDelta3s < -0.005% | Prohibido SHORT si btcDelta3s > +0.005%.
+// + Spread Estricto < 0.03% (aborta tiro si el spread está abierto o sucio).
+const prevTopOfBookMemory = {}; // { [coin]: { bestBid, bestAsk, midPx, ts } }
+const topOfBookHistoryByCoin = {}; // { [coin]: Array<{ midPx, bestBid, bestAsk, ts }> } (últimas 3 lecturas t-2, t-1, t0)
 
 function computeWindowRocPct(hist, windowMs, fallbackCloses = []) {
-  const now = Date.now();
   if (Array.isArray(hist) && hist.length >= 2) {
     const latest = hist[hist.length - 1];
     let ref = hist[0];
@@ -818,7 +828,7 @@ async function evaluateLatentForceForPair({
   info,
   mids = {},
   rollingMidsHistory,
-  leaderPulse = { btcRoc15s: 0, ethRoc15s: 0 },
+  leaderPulse = { btcDelta3s: 0, btcRoc15s: 0, ethRoc15s: 0 },
   bindingsState = null,
   pairCooldowns = {}
 }) {
@@ -827,9 +837,9 @@ async function evaluateLatentForceForPair({
     const now = Date.now();
     const cachedL2 = l2BookCacheByCoin[coin];
     const cachedCandles = candles1mCacheByCoin[coin];
-    const allowL2Fetch = (!cachedL2 || (now - cachedL2.ts) >= 12000) && cycleL2FetchCount < 4;
+    const allowL2Fetch = (!cachedL2 || (now - cachedL2.ts) >= 8000) && cycleL2FetchCount < 5;
     if (allowL2Fetch) cycleL2FetchCount++;
-    const allowCandleFetch = (!cachedCandles || (now - cachedCandles.ts) >= 65000) && cycleCandleFetchCount < 1;
+    const allowCandleFetch = (!cachedCandles || (now - cachedCandles.ts) >= 60000) && cycleCandleFetchCount < 2;
     if (allowCandleFetch) cycleCandleFetchCount++;
 
     const l2Promise = !allowL2Fetch
@@ -851,7 +861,7 @@ async function evaluateLatentForceForPair({
     let asks = l2?.levels?.[1] || [];
     const fallbackMid = parseFloat(mids?.[coin] || (rollingMidsHistory?.[coin]?.[rollingMidsHistory[coin].length - 1]?.px) || "0");
     if ((bids.length < 3 || asks.length < 3) && fallbackMid > 0) {
-      const sp = fallbackMid * 0.0002;
+      const sp = fallbackMid * 0.0001;
       bids = [
         { px: String(fallbackMid - sp), sz: "15" },
         { px: String(fallbackMid - sp * 2), sz: "20" },
@@ -868,6 +878,11 @@ async function evaluateLatentForceForPair({
     const bestBid = parseFloat(bids[0].px);
     const bestAsk = parseFloat(asks[0].px);
     const midPx = (bestBid + bestAsk) / 2;
+    if (midPx <= 0 || bestBid <= 0 || bestAsk <= 0) return null;
+
+    // 0) Verificación de Spread Limpio (< 0.03%): prohibido entrar con spread abierto o sucio
+    const spreadPct = ((bestAsk - bestBid) / midPx) * 100;
+    const isSpreadClean = spreadPct >= 0 && spreadPct < 0.03;
 
     let bidVol = 0, askVol = 0;
     for (let i = 0; i < Math.min(5, bids.length); i++) {
@@ -882,49 +897,139 @@ async function evaluateLatentForceForPair({
     const bidRatio = bidVol / totalBookVol; // 0..1
     const askRatio = askVol / totalBookVol; // 0..1
 
-    const prevBook = prevTopOfBookMemory[coin] || { bestBid, bestAsk, ts: now - 1000 };
-    const bidSteppingUp = bestBid >= prevBook.bestBid;
-    const askPressingDown = bestAsk <= prevBook.bestAsk;
-    prevTopOfBookMemory[coin] = { bestBid, bestAsk, ts: now };
+    // Actualizar memoria de 3 Micro-Ticks Consecutivos (t-2, t-1, t0) de tope de libro y midPx
+    if (!topOfBookHistoryByCoin[coin]) topOfBookHistoryByCoin[coin] = [];
+    const bookTicks = topOfBookHistoryByCoin[coin];
+    const lastBookTick = bookTicks[bookTicks.length - 1];
+    if (!lastBookTick || lastBookTick.midPx !== midPx || lastBookTick.bestBid !== bestBid || lastBookTick.bestAsk !== bestAsk || (now - lastBookTick.ts) >= 900) {
+      bookTicks.push({ midPx, bestBid, bestAsk, ts: now });
+      if (bookTicks.length > 5) bookTicks.shift();
+    }
+    prevTopOfBookMemory[coin] = { bestBid, bestAsk, midPx, ts: now };
 
     const hist = rollingMidsHistory[coin] || [];
     const histPrices = hist.map(h => h.px).filter(p => p > 0);
     const closes1m = Array.isArray(candles1m) && candles1m.length >= 6
       ? candles1m.map(c => parseFloat(c.c))
       : (histPrices.length >= 4 ? histPrices : [midPx]);
-    const lastCandle1m = Array.isArray(candles1m) && candles1m.length > 0
-      ? candles1m[candles1m.length - 1]
-      : { o: histPrices[0] || midPx, c: midPx };
-    const lastOpen1m = parseFloat(lastCandle1m.o || midPx);
-    const lastClose1m = parseFloat(lastCandle1m.c || midPx);
+
+    // Serie combinada (cierres 1m + últimos ticks en vivo) para medir EMA-9 y RSI-6 en el segundo exacto
+    const combinedSeries = closes1m.length >= 6
+      ? [...closes1m.slice(0, -1), ...(histPrices.slice(-3).length > 0 ? histPrices.slice(-3) : [midPx])]
+      : (histPrices.length >= 4 ? histPrices : [...closes1m, midPx]);
+
+    const ema9 = calculateEMA(combinedSeries, Math.min(9, combinedSeries.length));
+    const ema20 = calculateEMA(combinedSeries, Math.min(20, combinedSeries.length));
+    const rsiNow = calculateRSI(combinedSeries, Math.min(6, Math.max(2, combinedSeries.length - 1)));
+    const prevSeries = combinedSeries.length > 2 ? combinedSeries.slice(0, -1) : combinedSeries;
+    const rsiPrev = calculateRSI(prevSeries, Math.min(6, Math.max(2, prevSeries.length - 1)));
 
     const roc5sPct = computeWindowRocPct(hist, 5000, closes1m);
     const roc15sPct = computeWindowRocPct(hist, 15000, closes1m);
+    const roc20sPct = computeWindowRocPct(hist, 20000, closes1m);
     const roc60sPct = computeWindowRocPct(hist, 60000, closes1m);
     const velocityPctPerSec = +(roc15sPct / 15).toFixed(5);
 
-    // Determinar dirección dominante de la Fuerza Latente Real
-    const bullBias = (bidRatio >= 0.50 && roc15sPct >= 0) || bidRatio >= 0.65;
+    // Distancia porcentual actual respecto a EMA-9 (+ si está por encima, - si está por debajo)
+    const distFromEma9Pct = ema9 > 0 ? ((midPx - ema9) / ema9) * 100 : 0;
+    const absDistFromEma9Pct = Math.abs(distFromEma9Pct);
+    const absRoc20sPct = Math.abs(roc20sPct);
+
+    // Determinar dirección tentativa por libro L2 y arranque respecto a EMA-9
+    const bullBias = (bidRatio >= 0.50 && distFromEma9Pct >= 0) || bidRatio >= 0.65;
     const direction = bullBias ? "LONG" : "SHORT";
     const isLong = direction === "LONG";
 
-    // 1) COMPONENTE 1: Aceleración de Precio en Micro-Ventana (Velocity 5s / 15s / 60s — Peso 35%, máx 35 pts)
-    const absRoc15s = Math.abs(roc15sPct);
-    const isLateralStagnant = absRoc15s < MIN_ROC_15S_PCT;
-    const alignedRoc15s = isLong ? roc15sPct >= MIN_ROC_15S_PCT : roc15sPct <= -MIN_ROC_15S_PCT;
-    const alignedRoc5s = isLong ? roc5sPct >= 0.005 : roc5sPct <= -0.005;
+    // =========================================================================
+    // CONDICIÓN 1: FILTRO ANTI-PERSECUCIÓN (`Anti-Chase Extension Cap`)
+    // - PROHIBIDO entrar si el precio ya se alejó > 0.10% de EMA-9 o si ya corrió > 0.14% en los últimos 20s.
+    // - SOLO es válida cuando despega desde cerca de la EMA-9 (distancia entre 0.015% y 0.085% a favor de la ruptura).
+    // =========================================================================
+    const isOverExtended = absDistFromEma9Pct > 0.10 || absRoc20sPct > 0.14;
+    const antiChaseValidLong = !isOverExtended && distFromEma9Pct >= 0.015 && distFromEma9Pct <= 0.085 && roc20sPct > 0 && roc20sPct <= 0.14;
+    const antiChaseValidShort = !isOverExtended && distFromEma9Pct <= -0.015 && distFromEma9Pct >= -0.085 && roc20sPct < 0 && roc20sPct >= -0.14;
+    const cond1AntiChaseOk = isLong ? antiChaseValidLong : antiChaseValidShort;
+
+    // =========================================================================
+    // CONDICIÓN 2: CONFIRMACIÓN DE 3 MICRO-TICKS CONSECUTIVOS (`3-Tick Micro-Ignition`)
+    // - Muestrea t-2, t-1, t0:
+    //   * LONG: mid(t0) > mid(t-1) >= mid(t-2) Y bestBid subiendo de escalón sin que bestAsk baje
+    //   * SHORT: mid(t0) < mid(t-1) <= mid(t-2) Y bestAsk bajando presionando al bestBid
+    // =========================================================================
+    const t0Tick = bookTicks[bookTicks.length - 1] || { midPx, bestBid, bestAsk };
+    const t1Tick = bookTicks.length >= 2 ? bookTicks[bookTicks.length - 2] : {
+      midPx: histPrices.length >= 2 ? histPrices[histPrices.length - 2] : midPx,
+      bestBid,
+      bestAsk
+    };
+    const t2Tick = bookTicks.length >= 3 ? bookTicks[bookTicks.length - 3] : {
+      midPx: histPrices.length >= 3 ? histPrices[histPrices.length - 3] : t1Tick.midPx,
+      bestBid: t1Tick.bestBid,
+      bestAsk: t1Tick.bestAsk
+    };
+
+    const threeTicksLongOk = (
+      t0Tick.midPx > t1Tick.midPx &&
+      t1Tick.midPx >= t2Tick.midPx &&
+      t0Tick.bestBid >= t1Tick.bestBid &&
+      t0Tick.bestBid > t2Tick.bestBid &&
+      t0Tick.bestAsk >= t1Tick.bestAsk
+    );
+    const threeTicksShortOk = (
+      t0Tick.midPx < t1Tick.midPx &&
+      t1Tick.midPx <= t2Tick.midPx &&
+      t0Tick.bestAsk <= t1Tick.bestAsk &&
+      t0Tick.bestAsk < t2Tick.bestAsk &&
+      t0Tick.bestBid <= t1Tick.bestBid
+    );
+    const cond2ThreeTicksOk = isLong ? threeTicksLongOk : threeTicksShortOk;
+
+    // =========================================================================
+    // CONDICIÓN 3: TANQUE DE GASOLINA FRESCO (`RSI-6` EN ZONA DE ARRANQUE, NO AGOTAMIENTO)
+    // - LONG: RSI(6) entre 46 y 61 y subiendo (rsiNow > rsiPrev). Prohibido si RSI(6) > 62.
+    // - SHORT: RSI(6) entre 39 y 54 y bajando (rsiNow < rsiPrev). Prohibido si RSI(6) < 38.
+    // =========================================================================
+    const rsiFreshLongOk = rsiNow >= 46.0 && rsiNow <= 61.0 && rsiNow > rsiPrev && rsiNow <= 62.0;
+    const rsiFreshShortOk = rsiNow >= 39.0 && rsiNow <= 54.0 && rsiNow < rsiPrev && rsiNow >= 38.0;
+    const cond3FreshRsiOk = isLong ? rsiFreshLongOk : rsiFreshShortOk;
+
+    // =========================================================================
+    // CONDICIÓN 4: PRESIÓN REAL DEL LIBRO L2 (>= 72% TOP-5) + LEAD-LAG CEX
+    // =========================================================================
+    const favRatio = isLong ? bidRatio : askRatio;
+    const leaderRoc = Math.abs(leaderPulse.btcRoc15s) >= Math.abs(leaderPulse.ethRoc15s)
+      ? leaderPulse.btcRoc15s
+      : leaderPulse.ethRoc15s;
+    const leaderAligned = isLong ? leaderRoc > 0 : leaderRoc < 0;
+    const cond4L2AndLeadLagOk = favRatio >= MIN_L2_FORCE_RATIO && leaderAligned;
+
+    // =========================================================================
+    // CONDICIÓN 5: VETO INSTANTÁNEO DEL DIRECTOR `BTC-USDC` (3 SEGUNDOS EN VIVO)
+    // - Prohibido LONG si btcDelta3s < -0.005% | Prohibido SHORT si btcDelta3s > +0.005%
+    // =========================================================================
+    const btcDelta3sPct = Number(leaderPulse.btcDelta3s || 0);
+    const btcDirectorVetoed = isLong ? (btcDelta3sPct < -0.005) : (btcDelta3sPct > 0.005);
+    const cond5BtcDirectorOk = !btcDirectorVetoed;
+
+    // =========================================================================
+    // PUNTUACIÓN COMPUESTA DE IGNICIÓN DE PRIMERA OLA (FIRST_WAVE_IGNITION_SCORE 0..100)
+    // =========================================================================
+    // 1) Puntos por Arranque Comprimido EMA-9 + 3 Micro-Ticks (máx 35 pts)
     let velocityScore35 = 0;
-    if (!isLateralStagnant && alignedRoc15s) {
-      const accelNorm = Math.min(1, (absRoc15s - MIN_ROC_15S_PCT) / 0.060);
-      velocityScore35 = 30 + (accelNorm * 3) + (alignedRoc5s ? 2 : 0);
-    } else if (absRoc15s > 0.010) {
-      velocityScore35 = Math.min(20, (absRoc15s / MIN_ROC_15S_PCT) * 18);
+    if (cond1AntiChaseOk && cond2ThreeTicksOk) {
+      // Premia estar en el punto dulce de ignición (0.02% a 0.06% de EMA-9) con 3 ticks consecutivos
+      const sweetSpotBonus = (absDistFromEma9Pct >= 0.018 && absDistFromEma9Pct <= 0.065) ? 5 : 3;
+      velocityScore35 = 30 + sweetSpotBonus;
+    } else if (cond1AntiChaseOk || cond2ThreeTicksOk) {
+      velocityScore35 = 22;
+    } else if (!isOverExtended) {
+      velocityScore35 = 14;
+    } else {
+      velocityScore35 = 5; // Penalización severa si la vela ya se estiró (>0.10% EMA9 o >0.14% en 20s)
     }
 
-    // 2) COMPONENTE 2: Presión Real en Libro de Órdenes L2 (Imbalance >= 72% & Wall Shift — Peso 35%, máx 35 pts)
-    const favRatio = isLong ? bidRatio : askRatio;
-    const wallShiftOk = isLong ? bidSteppingUp : askPressingDown;
-    const l2Passes72 = favRatio >= MIN_L2_FORCE_RATIO && wallShiftOk;
+    // 2) Puntos por Presión L2 Top-5 >= 72% (máx 35 pts)
+    const wallShiftOk = cond2ThreeTicksOk;
     let l2Score35 = 0;
     if (favRatio >= MIN_L2_FORCE_RATIO) {
       const l2Norm = Math.min(1, (favRatio - MIN_L2_FORCE_RATIO) / 0.15);
@@ -933,49 +1038,48 @@ async function evaluateLatentForceForPair({
       l2Score35 = Math.max(0, ((favRatio - 0.50) / 0.22) * 26);
     }
 
-    // 3) COMPONENTE 3: Desfase de Latencia Guía (Lead-Lag BTC/ETH — Peso 15%, máx 15 pts)
-    const leaderRoc = Math.abs(leaderPulse.btcRoc15s) >= Math.abs(leaderPulse.ethRoc15s)
-      ? leaderPulse.btcRoc15s
-      : leaderPulse.ethRoc15s;
-    const leaderAligned = isLong ? leaderRoc >= -0.005 : leaderRoc <= 0.005;
+    // 3) Puntos por Director BTC 3s + Lead-Lag (máx 15 pts)
     const lagDiffPct = Math.abs(leaderRoc - roc15sPct);
-    let leadLagScore15 = 10;
-    if (leaderAligned && lagDiffPct >= 0.03 && lagDiffPct <= 0.14 && favRatio >= 0.65) {
-      leadLagScore15 = 15; // Inercia latente máxima: líder alineado y el par tiene impulso latente con L2 >= 65%
-    } else if (leaderAligned && favRatio >= MIN_L2_FORCE_RATIO) {
-      leadLagScore15 = 14;
-    } else if (favRatio >= MIN_L2_FORCE_RATIO) {
-      leadLagScore15 = 13;
+    let leadLagScore15 = 0;
+    if (cond5BtcDirectorOk && cond4L2AndLeadLagOk) {
+      leadLagScore15 = 15;
+    } else if (cond5BtcDirectorOk && leaderAligned) {
+      leadLagScore15 = 12;
+    } else {
+      leadLagScore15 = 4;
     }
 
-    // 4) COMPONENTE 4: Filtro Anti-Techo / Anti-Piso + Blindaje Anti-Trampa Vela 1m (Momentum Exhaustion Guard — Peso 15%, máx 15 pts)
-    const ema9 = calculateEMA(closes1m, Math.min(9, closes1m.length));
-    const ema20 = calculateEMA(closes1m, Math.min(20, closes1m.length));
-    const rsi6 = calculateRSI(closes1m, Math.min(6, Math.max(2, closes1m.length - 1)));
-
-    // Anti-Trampa: la vela actual de 1m no puede ir en contra de la entrada (evita vender en rebote verde como ocurrió en SUI)
-    const candle1mAligned = isLong ? (lastClose1m >= lastOpen1m * 0.9998) : (lastClose1m <= lastOpen1m * 1.0002);
-    const longStructureOk = candle1mAligned && (bestBid >= ema9 && ema9 >= ema20 * 0.9995) && (rsi6 >= 48 && rsi6 <= 72);
-    const shortStructureOk = candle1mAligned && (bestAsk <= ema9 && ema9 <= ema20 * 1.0005) && (rsi6 >= 28 && rsi6 <= 52);
-    const exhaustionBlocked = (isLong && rsi6 > 75) || (!isLong && rsi6 < 25) || !candle1mAligned;
-    const exhaustionGuardPassed = !exhaustionBlocked && (isLong ? longStructureOk : shortStructureOk);
-
+    // 4) Puntos por Tanque RSI-6 Fresco (46-61 subiendo / 39-54 bajando) + Spread < 0.03% (máx 15 pts)
     let exhaustionScore15 = 0;
-    if (exhaustionGuardPassed) {
+    if (cond3FreshRsiOk && isSpreadClean) {
       exhaustionScore15 = 15;
-    } else if (!exhaustionBlocked && ((isLong && rsi6 >= 45 && rsi6 <= 74) || (!isLong && rsi6 >= 26 && rsi6 <= 55))) {
-      exhaustionScore15 = 10;
+    } else if (cond3FreshRsiOk) {
+      exhaustionScore15 = 9;
+    } else {
+      exhaustionScore15 = 4;
     }
+
+    const allFiveFirstWaveConditionsMet = Boolean(
+      cond1AntiChaseOk &&
+      cond2ThreeTicksOk &&
+      cond3FreshRsiOk &&
+      cond4L2AndLeadLagOk &&
+      cond5BtcDirectorOk &&
+      isSpreadClean
+    );
 
     let rawTotalScore = Math.round(velocityScore35 + l2Score35 + leadLagScore15 + exhaustionScore15);
-    if (exhaustionBlocked || isLateralStagnant || !l2Passes72 || !exhaustionGuardPassed) {
-      rawTotalScore = Math.min(rawTotalScore, 89); // Solo supera >=92 si cumple estrictamente las 4 leyes de Fuerza Latente
+    if (!allFiveFirstWaveConditionsMet) {
+      rawTotalScore = Math.min(rawTotalScore, 89); // NUNCA alcanza >=92 si falta cualquiera de las 5 condiciones de Ignición de Primera Ola
     }
     const latentForceScore = Math.max(0, Math.min(100, rawTotalScore));
     const auditLatencyMs = Math.max(12, Math.min(145, Date.now() - t0));
     const displayCoin = coin === "kPEPE" ? "PEPE" : coin;
-    const qualifiesTopForce = latentForceScore >= MIN_LATENT_FORCE_SCORE && !isLateralStagnant && l2Passes72 && exhaustionGuardPassed;
+    const qualifiesTopForce = Boolean(latentForceScore >= MIN_LATENT_FORCE_SCORE && allFiveFirstWaveConditionsMet);
     const l2ImbalancePct = +(favRatio * 100).toFixed(1);
+
+    // Precio preciso al borde real del libro (bestAsk * 1.0002 en LONG / bestBid * 0.9998 en SHORT para ejecución IOC sin regalar spread)
+    const preciseIocEntryPx = isLong ? +(bestAsk * 1.0002).toFixed(8) : +(bestBid * 0.9998).toFixed(8);
 
     // Mapeo Proxy Directo para Escuadrones #10 DELTA a #18 ROMEO (Forex, Oro e Índices Wall Street)
     const virtualPair = resolveForexVirtualPairForProxyCoin(coin, bindingsState, pairCooldowns);
@@ -986,6 +1090,7 @@ async function evaluateLatentForceForPair({
       dispCoin: displayCoin,
       displayCoin,
       virtualPair: virtualPair || null,
+      isForexProxy: Boolean(virtualPair && virtualPair !== displayCoin),
       forexSquadKey: forexMeta ? forexMeta.squadKey : null,
       forexSquadName: forexMeta ? forexMeta.squadName : null,
       forexSpecialist: forexMeta ? forexMeta.specialist : null,
@@ -993,11 +1098,25 @@ async function evaluateLatentForceForPair({
       nativeSquadKey: squadKey,
       direction,
       isLong,
-      entryPx: isLong ? bestBid : bestAsk,
-      entryPrice: isLong ? bestBid : bestAsk,
+      entryPx: preciseIocEntryPx,
+      entryPrice: preciseIocEntryPx,
       bestBid,
       bestAsk,
       midPx,
+      spreadPct: +spreadPct.toFixed(4),
+      isSpreadClean,
+      distFromEma9Pct: +distFromEma9Pct.toFixed(4),
+      roc20sPct: +roc20sPct.toFixed(4),
+      btcDelta3sPct: +btcDelta3sPct.toFixed(4),
+      rsiPrev: +rsiPrev.toFixed(1),
+      firstWaveConditions: {
+        cond1AntiChaseOk,
+        cond2ThreeTicksOk,
+        cond3FreshRsiOk,
+        cond4L2AndLeadLagOk,
+        cond5BtcDirectorOk,
+        isSpreadClean
+      },
       latentForceScore,
       qualifiesTopForce,
       QualifiedForFire: qualifiesTopForce,
@@ -1015,9 +1134,9 @@ async function evaluateLatentForceForPair({
       leadLagDiffPct: +lagDiffPct.toFixed(4),
       ema9: +ema9.toFixed(6),
       ema20: +ema20.toFixed(6),
-      rsi6: +rsi6.toFixed(1),
-      exhaustionGuardPassed,
-      isLateralStagnant,
+      rsi6: +rsiNow.toFixed(1),
+      exhaustionGuardPassed: cond3FreshRsiOk && cond1AntiChaseOk,
+      isLateralStagnant: !cond2ThreeTicksOk,
       auditLatencyMs,
       evalLatencyMs: auditLatencyMs
     };
@@ -1075,6 +1194,12 @@ async function rankFreePairsByLatentForce({
   bindingsState = null
 }) {
   const now = Date.now();
+  // Recortar inmediatamente cualquier temporizador de respiro mayor a 120s (02:00)
+  for (const [cdCoin, untilTs] of Object.entries(pairCooldowns || {})) {
+    if (untilTs > now + POST_TRADE_COOLDOWN_MS) {
+      pairCooldowns[cdCoin] = now + POST_TRADE_COOLDOWN_MS;
+    }
+  }
   cycleL2FetchCount = 0;
   cycleCandleFetchCount = 0;
   const activeBindingsState = bindingsState || loadForexProxyBindingsState();
@@ -1085,18 +1210,21 @@ async function rankFreePairsByLatentForce({
         squadKey: Object.keys(SQUADS_CONFIG).find(k => SQUADS_CONFIG[k].pairs.includes(c)) || "ALFA"
       }));
 
-  // Ordenar candidatos priorizando los que tienen mayor velocidad instantánea |ROC15s| en rollingMidsHistory para gastar el presupuesto L2 en los más calientes
+  // Priorizar pares en nacimiento de primera ola (movimiento 20s moderado entre 0.015% y 0.12%, descartando los ya estirados >0.14%)
   const eligibleItems = normalizedItems
     .filter(item => item && item.coin && (!pairCooldowns[item.coin] || pairCooldowns[item.coin] <= now))
     .sort((a, b) => {
-      const rocA = Math.abs(computeWindowRocPct(rollingMidsHistory[a.coin] || [], 15000, []));
-      const rocB = Math.abs(computeWindowRocPct(rollingMidsHistory[b.coin] || [], 15000, []));
-      return rocB - rocA;
+      const rocA = Math.abs(computeWindowRocPct(rollingMidsHistory[a.coin] || [], 20000, []));
+      const rocB = Math.abs(computeWindowRocPct(rollingMidsHistory[b.coin] || [], 20000, []));
+      const scoreA = (rocA >= 0.015 && rocA <= 0.12) ? (100 - Math.abs(rocA - 0.045) * 500) : (rocA > 0.14 ? -50 : rocA * 100);
+      const scoreB = (rocB >= 0.015 && rocB <= 0.12) ? (100 - Math.abs(rocB - 0.045) * 500) : (rocB > 0.14 ? -50 : rocB * 100);
+      return scoreB - scoreA;
     });
 
   const btcHist = rollingMidsHistory["BTC"] || [];
   const ethHist = rollingMidsHistory["ETH"] || [];
   const leaderPulse = {
+    btcDelta3s: computeWindowRocPct(btcHist, 3000, []),
     btcRoc15s: computeWindowRocPct(btcHist, 15000, []),
     ethRoc15s: computeWindowRocPct(ethHist, 15000, [])
   };
@@ -2093,7 +2221,7 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
           latentForcePair: bestForceObj ? bestForceObj.displayCoin : null,
           activeBot: sp.clon,
           standbyBot: sp.titular,
-          mode: "BREATHER_8M_RECALIBRATING",
+          mode: "BREATHER_2M_RECALIBRATING",
           cooldownCoin,
           cooldownRemainingMins: remMins
         };
@@ -2122,9 +2250,9 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
 
     const payload = {
       updatedAt: new Date().toISOString(),
-      architecture: "NEXUS APEX-36 // MOTOR UNIFICADO FUERZA LATENTE (<150ms SCORE >=92% + MARKET TIDE LOCK + TOPE 8 POSICIONES)",
+      architecture: "NEXUS APEX-54 // MOTOR FIRST_WAVE_IGNITION (ESTILO OP-USDC: EMA9 + 3-TICKS + RSI6 FRESCO + L2>=72% + BTC 3s + RESPIRO 120s)",
       rules: {
-        unifiedEntryEngine: "LATENT_FORCE_ENGINE_ONLY",
+        unifiedEntryEngine: "FIRST_WAVE_IGNITION_ENGINE",
         marketTideLockEnabled: MARKET_TIDE_LOCK_ENABLED,
         maxOpenPositions: MAX_OPEN_POSITIONS,
         maxConcurrentPositionsDuringRecovery: MAX_CONCURRENT_POSITIONS_DURING_RECOVERY,
@@ -2143,9 +2271,9 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
         minLockNetUsdc: PLAN_C_MIN_LOCK_NET_USDC,
         burnBallastSubsidyRatio: BURN_BALLAST_SUBSIDY_RATIO,
         cleanEvacTimeoutSec: 180,
-        ratchetTiers: "Candado Base #00: Entrada + Comisión + $0.10 USDC ($0.00 riesgo) | L2 < 72% cobra inmediato a USDC | L2 >= 72% Trailing Ratchet 80%-90%",
-        stopAndReverseClones: "Unificado 100% con LATENT_FORCE_ENGINE (Score >= 92/100 + Market Tide Lock + Open < 6)",
-        cooldownPostTp: "8 minutos (480,000 ms) de respiro (🧘‍♂️ RESPIRO 08:00 RECALIBRANDO) antes de incorporarse al carrusel activo"
+        ratchetTiers: "Candado Base #00: Escalera de 10 en 10 centavos (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... con IOC garantizado)",
+        stopAndReverseClones: "Unificado 100% con FIRST_WAVE_IGNITION (Score >= 92/100 + 5 Condiciones Nacimiento de Ola)",
+        cooldownPostTp: "2 minutos (120,000 ms) de respiro (🧘‍♂️ RESPIRO 02:00 RECALIBRANDO) antes de incorporarse al carrusel activo"
       },
       latentForceByCoin,
       spaces: clonesState
@@ -2409,7 +2537,7 @@ async function startAutonomousSquadDaemon() {
           }
 
           const remainingStuck = openPositions.filter(p => stuckRecoveryCoinsSet.has(p.position.coin)).length;
-          console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${boundVirtualPair ? `${boundVirtualPair} vía ${closedCoin}-L1` : `${closedCoin}-USDC`}) — Quedan ${remainingStuck} en Cola #00 | Entra en 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO) y luego se incorpora al carrusel.`);
+          console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${boundVirtualPair ? `${boundVirtualPair} vía ${closedCoin}-L1` : `${closedCoin}-USDC`}) — Quedan ${remainingStuck} en Cola #00 | Entra en 🧘‍♂️ RESPIRO 02:00 (RECALIBRANDO 120s) y luego se incorpora al carrusel.`);
 
           delete confirmedOpenByCoin[closedCoin];
           delete positionPeakPnlMap[closedCoin];
@@ -2524,7 +2652,7 @@ async function startAutonomousSquadDaemon() {
                 `🏆 <b>HOY NETO (00:00 UTC):</b> <b>+$${dailyClosedProfitTodayUsdc.toFixed(2)} USDC · ${todayWinsCount}G - 0P</b>\n` +
                 `📈 <b>Escalón 1 (30–31 Oct):</b> ${step1Line}\n` +
                 `🏛️ <b>Cerrado L1:</b> <b>$${closedFirmNow.toFixed(2)} USDC</b> (Equity Viva: <code>$${accountValue.toFixed(2)} USDC</code>)\n` +
-                `🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO ${boundVirtualPair || dispClosedCoin})</code>\n` +
+                `🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 02:00 (120s RECALIBRANDO ${boundVirtualPair || dispClosedCoin})</code>\n` +
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                 `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>`;
               await sendSquadTelegram(victoryTg);
@@ -3383,9 +3511,22 @@ async function startAutonomousSquadDaemon() {
 
         fs.writeFileSync(SQUAD_MATRIX_TELEMETRY_FILE, JSON.stringify({
           updatedAt: new Date().toISOString(),
-          architecture: "NEXUS_APEX_54_FOREX_PROXY_L1_AND_PROFIT_OFFSET_PRUNER",
-          unifiedEntryEngine: "LATENT_FORCE_ENGINE_FOREX_AND_CRYPTO_L1",
-          mode: "FOREX_PROXY_L1_ACTIVE_AND_PROFIT_OFFSET_PRUNER_40PCT",
+          architecture: "NEXUS_APEX_54_FIRST_WAVE_IGNITION_AND_FOREX_PROXY_L1",
+          unifiedEntryEngine: "FIRST_WAVE_IGNITION_ENGINE_OP_STYLE",
+          mode: "FIRST_WAVE_IGNITION_120S_BREATHER_AND_PRUNER_40PCT",
+          firstWaveIgnitionSpec: {
+            antiChaseEma9WindowPct: [0.015, 0.085],
+            maxEma9ExtensionCapPct: 0.10,
+            maxRoc20sCapPct: 0.14,
+            threeTickMicroIgnitionRequired: true,
+            freshRsi6LongRange: [46, 61],
+            freshRsi6ShortRange: [39, 54],
+            minL2Top5ImbalancePct: 72,
+            btc3sDirectorVetoThresholdPct: 0.005,
+            maxEntrySpreadPct: 0.03,
+            entryOrderType: "IOC_BOOK_EDGE_0.02PCT",
+            postTradeBreatherSec: 120
+          },
           marketTideLock,
           forexAndMacroL1ProxyMap: FOREX_AND_MACRO_L1_PROXY_MAP,
           forexProxyBindings: forexBindingsState?.bindings || {},
@@ -3433,8 +3574,8 @@ async function startAutonomousSquadDaemon() {
         }, null, 2), "utf8");
       } catch (_) {}
 
-      // 4. MOTOR ÚNICO DE ENTRADA CRIPTO + PUENTE DE EJECUCIÓN PROXY EN HYPERLIQUID L1 PARA FOREX, ORO Y WALL STREET (#10 DELTA A #18 ROMEO):
-      // - Mantiene siempre 3 a 4 carriles libres (FAST_SCALP_LANES = 4) operando Forex + Cripto en rotación continua.
+      // 4. MOTOR ÚNICO DE ENTRADA `FIRST_WAVE_IGNITION` (ESTILO OP-USDC) + PUENTE DE EJECUCIÓN PROXY EN HYPERLIQUID L1 (#10 DELTA A #18 ROMEO):
+      // - Cero perseguir velas estiradas: exige las 5 condiciones simultáneas de Nacimiento de Primera Ola + Spread < 0.03% + IOC al borde del libro L2.
       const unfencedHuntersCount = openPositions.filter(p =>
         !stuckRecoveryCoinsSet.has(p.position.coin) && !confirmedOpenByCoin[p.position.coin]?.beLocked
       ).length + restingEntryCoins.filter(c => !stuckRecoveryCoinsSet.has(c)).length;
@@ -3461,11 +3602,14 @@ async function startAutonomousSquadDaemon() {
       let currentTotalOpenAndResting = totalOpenAndRestingPositions;
       let currentFastLaneHunters = totalActiveHuntersCount;
       if (canOpenPlanCHunter && currentFastLaneHunters < FAST_SCALP_LANES && !isOpeningBellWick(new Date())) {
-        // Tomar los pares #1 o #2 del ranking con latentForceScore >= 92/100 Y alineados con Market Tide Lock
+        // Tomar los pares #1 o #2 del ranking que cumplan FIRST_WAVE_IGNITION (las 5 condiciones simultáneas + Spread < 0.03% + Marea)
         const topForceCandidates = latentForceRanked
           .slice(0, 2)
           .filter(cand =>
             cand.QualifiedForFire &&
+            cand.firstWaveIgnition &&
+            cand.isSpreadClean !== false &&
+            (cand.spreadPct === undefined || cand.spreadPct < 0.03) &&
             cand.tideAligned &&
             cand.direction === marketTideLock.dominantDirection &&
             cand.latentForceScore >= MIN_LATENT_FORCE_SCORE
@@ -3486,13 +3630,25 @@ async function startAutonomousSquadDaemon() {
           const laneNumber = Math.min(MAX_OPEN_POSITIONS, currentTotalOpenAndResting + 1);
           const botName = `${squadKey} 1 (Carril Rápido #${laneNumber})`;
 
-          const notional = autoLot.notionalUsd;
-          const szFormatted = formatHlSize(notional / bestCand.entryPrice, ASSET_DECIMALS[coin].sz);
-          if (parseFloat(szFormatted) <= 0) continue;
+          // 2. ENTRADA CON PRECIO PRECISO (CERO COMERSE UN SPREAD CARO AL ENTRAR):
+          // Verificar que el spread entre bestBid y bestAsk sea < 0.03% (si el spread está abierto >= 0.03%, abortar el disparo)
+          if (bestCand.spreadPct !== undefined && bestCand.spreadPct >= 0.03) {
+            console.log(`⚠️ [ANTI-SPREAD VETO] ${virtualPair} (${dispCoin}) abortado: Spread actual ${bestCand.spreadPct}% >= 0.03% máximo permitido.`);
+            continue;
+          }
 
           const isLong = bestCand.direction === "LONG";
-          const entryPxStr = formatHlPrice(bestCand.entryPrice, coin);
+          const bestBidPx = bestCand.bestBid > 0 ? bestCand.bestBid : bestCand.entryPrice;
+          const bestAskPx = bestCand.bestAsk > 0 ? bestCand.bestAsk : bestCand.entryPrice;
+          // Límite ajustado al borde del libro (bestAsk * 1.0002 en LONG / bestBid * 0.9998 en SHORT con tif: "Ioc")
+          const rawIocBookEdgePx = isLong ? (bestAskPx * 1.0002) : (bestBidPx * 0.9998);
+          const entryPxStr = formatHlPrice(rawIocBookEdgePx, coin);
           const entryPxNum = parseFloat(entryPxStr);
+
+          const notional = autoLot.notionalUsd;
+          const szFormatted = formatHlSize(notional / (entryPxNum > 0 ? entryPxNum : bestCand.entryPrice), ASSET_DECIMALS[coin].sz);
+          if (parseFloat(szFormatted) <= 0) continue;
+
           const absSzNum = parseFloat(szFormatted);
           const roundTripFeeUsd = +(notional * (HL_MAKER_FEE_RATE + HL_TAKER_FEE_RATE)).toFixed(4);
           const level1DeltaPx = absSzNum > 0 ? ((roundTripFeeUsd + FAST_LANE_LOCK_NET_USDC) / absSzNum) : 0;
@@ -3500,11 +3656,11 @@ async function startAutonomousSquadDaemon() {
           const level1LockPxStr = formatHlPrice(level1LockPxNum, coin);
 
           const openLogPrefix = isForexProxy
-            ? `🟢⚡ [ABRIENDO OPERACIÓN FOREX-L1] ${virtualPair} (vía ${dispCoin}-L1)`
-            : `🟢⚡ [CARRIL RÁPIDO #${laneNumber} // ${squadKey}] ${dispCoin}`;
+            ? `🟢⚡ [FIRST-WAVE IGNITION // FOREX-L1] ${virtualPair} (vía ${dispCoin}-L1)`
+            : `🟢⚡ [FIRST-WAVE IGNITION // CARRIL #${laneNumber} // ${squadKey}] ${dispCoin}`;
           console.log(`\n${openLogPrefix} // SCORE ${bestCand.latentForceScore}/100 // MAREA ${marketTideLock.dominantDirection} (${bestCand.direction}):`);
-          console.log(`   • Auditoría <150ms (${bestCand.evalLatencyMs}ms): Vel ${bestCand.velocityPts}/35 (ROC15s ${bestCand.roc15sPct}%) | L2 ${bestCand.l2Pts}/35 (${bestCand.l2RatioPct}%) | Lead-Lag ${bestCand.leadLagPts}/15 | Anti-Techo/Piso ${bestCand.exhaustionPts}/15 (RSI6 ${bestCand.rsi6})`);
-          console.log(`   • Entrada: ${szFormatted} ${dispCoin} @ $${entryPxStr} ($${notional.toFixed(2)} Nocional / $${autoLot.marginUsdc.toFixed(2)} Margen) -> Candado #00 +$0.10 @ $${level1LockPxStr} | Time-Stop Empate 180s`);
+          console.log(`   • Ignición 1ª Ola <150ms (${bestCand.evalLatencyMs}ms): Dist EMA9 ${bestCand.distFromEma9Pct ?? 0}% [0.015%-0.085%] | ROC20s ${bestCand.roc20sPct ?? bestCand.roc15sPct}% (<=0.14%) | 3-Ticks OK | RSI6 ${bestCand.rsi6} | L2 ${bestCand.l2RatioPct}% (>=72%) | BTC 3s ${bestCand.btcDelta3sPct ?? 0}% | Spread ${bestCand.spreadPct ?? 0.01}% (<0.03%)`);
+          console.log(`   • Entrada IOC Borde Libro: ${szFormatted} ${dispCoin} @ $${entryPxStr} ($${notional.toFixed(2)} Nocional / $${autoLot.marginUsdc.toFixed(2)} Margen) -> Candado #00 +$0.10 @ $${level1LockPxStr} | Respiro Post-Cierre 120s`);
 
           try {
             let orderRes = await client.order({
@@ -3514,26 +3670,11 @@ async function startAutonomousSquadDaemon() {
                 p: entryPxStr,
                 s: szFormatted,
                 r: false,
-                t: { limit: { tif: "Alo" } }
+                t: { limit: { tif: "Ioc" } }
               }],
               grouping: "na"
             });
             let status = orderRes.response?.data?.statuses?.[0] || {};
-
-            if (status.error) {
-              orderRes = await client.order({
-                orders: [{
-                  a: ASSET_INDICES[coin],
-                  b: isLong,
-                  p: entryPxStr,
-                  s: szFormatted,
-                  r: false,
-                  t: { limit: { tif: "Gtc" } }
-                }],
-                grouping: "na"
-              });
-              status = orderRes.response?.data?.statuses?.[0] || {};
-            }
 
             if (status.resting || status.filled) {
               currentUnfencedHunters++;
@@ -3541,7 +3682,7 @@ async function startAutonomousSquadDaemon() {
               currentTotalOpenAndResting++;
               const oid = status.resting?.oid || status.filled?.oid || `${coin}_${Date.now()}`;
               const openKey = `oid_${oid}`;
-              console.log(`   ✔ [${squadKey}] Orden #${oid} activa en Hyperliquid L1 (${status.filled ? "EJECUTADA" : "EN LIBRO"}) -> ${isForexProxy ? `${virtualPair} (vía ${dispCoin}-L1)` : dispCoin}.`);
+              console.log(`   ✔ [${squadKey}] Orden IOC #${oid} ejecutada en Hyperliquid L1 (${status.filled ? "EJECUTADA EN NACIMIENTO DE OLA" : "ACTIVA"}) -> ${isForexProxy ? `${virtualPair} (vía ${dispCoin}-L1)` : dispCoin}.`);
 
               recentOrderSentCoins[coin] = Date.now();
               positionOpenTimestamps[coin] = Date.now();
@@ -3580,8 +3721,8 @@ async function startAutonomousSquadDaemon() {
                 saveTelegramTradeAlertsState(tgState);
 
                 const tgHeader = isForexProxy
-                  ? `🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN FOREX-L1] ${virtualPair} (vía ${dispCoin}-L1)</b>`
-                  : `🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>`;
+                  ? `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA FOREX-L1] ${virtualPair} (vía ${dispCoin}-L1)</b>`
+                  : `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA // ESTILO OP]</b>`;
                 const pairLine = isForexProxy
                   ? `📍 <b>Par Forex/Macro & Proxy L1:</b> <code>${virtualPair}</code> (ejecutado vía <code>${dispCoin}-L1</code> · <b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`
                   : `📍 <b>Par & Dirección:</b> <code>${dispCoin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`;
@@ -3590,18 +3731,18 @@ async function startAutonomousSquadDaemon() {
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🔰 <b>Escuadrón:</b> <b>${squadCfg.name} — ${botName}</b>\n` +
                   `${pairLine}\n` +
-                  `📥 <b>Precio de Entrada L1:</b> <code>$${entryPxStr}</code>\n` +
+                  `📥 <b>Entrada IOC Borde Libro (Spread ${bestCand.spreadPct ?? 0.01}% &lt; 0.03%):</b> <code>$${entryPxStr}</code>\n` +
                   `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$${autoLot.marginUsdc.toFixed(2)} USDC Margen ($${notional.toFixed(2)} USD Nocional)</code>\n` +
-                  `🧲 <b>Score Fuerza Latente:</b> <b>${bestCand.latentForceScore}/100</b> (<code>Vel ${bestCand.velocityPts}/35 · L2 ${bestCand.l2Pts}/35 [${bestCand.l2RatioPct}%] · Lead-Lag ${bestCand.leadLagPts}/15 · RSI6 ${bestCand.rsi6}</code>)\n` +
+                  `🎯 <b>Puntería FIRST_WAVE_IGNITION (${bestCand.latentForceScore}/100):</b> <code>Dist EMA9: ${bestCand.distFromEma9Pct ?? 0}% [0.015%-0.085%] · 3-Ticks OK · RSI6: ${bestCand.rsi6} · L2: ${bestCand.l2RatioPct}% · BTC 3s: ${bestCand.btcDelta3sPct ?? 0}%</code>\n` +
                   `🌊 <b>Filtro de Marea Global:</b> <code>${marketTideLock.dominantLabel}</code>\n` +
-                  `🔒 <b>Escalera de Candado:</b> <code>10 en 10 centavos (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... IOC) + 40% al Pool Quema-Lastre</code>\n` +
+                  `🔒 <b>Escalera de Candado:</b> <code>10 en 10 centavos (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... IOC) + Respiro 02:00 (120s)</code>\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;
                 await sendSquadTelegram(orderTg);
               }
             }
           } catch (err) {
-            console.error(`[${squadKey}] Error colocando orden por Fuerza Latente en ${coin}:`, err.message);
+            console.error(`[${squadKey}] Error colocando orden FIRST_WAVE_IGNITION en ${coin}:`, err.message);
           }
         }
       }
