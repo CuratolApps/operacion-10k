@@ -875,7 +875,7 @@ function render54PairsGrid() {
     const initPxText = formatPairPrice(initPxNum, p.symbol);
     const initLine1Left = "⚡ AUTO 5% ($50.45 · 5X)";
     const initLine1Right = "";
-    const initLine2 = "🔒 ESCALERA +$0.10 ➔ +$0.50+";
+    const initLine2 = "🔒 CANDADO +$0.10 ➔ +$0.50+";
 
     cell.innerHTML = `
       <div class="pair-header-row">
@@ -921,12 +921,12 @@ function persistClientRatchetMemory() {
     localStorage.setItem("area501_ratchet_peaks_v2", JSON.stringify(clientRatchetMemory));
   } catch (_) {}
 }
-function computeCorneringRatchetStepClient(peakPnlUsdc) {
-  const peak = Number(peakPnlUsdc || 0);
-  if (peak >= 0.20) {
-    return +(Math.floor((peak + 1e-9) * 10) / 10).toFixed(2);
+function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
+  const peakNet = Number(peakNetPnlUsdc || 0);
+  if (peakNet >= 0.20) {
+    return +(Math.floor((peakNet + 1e-9) * 10) / 10).toFixed(2);
   }
-  if (peak >= 0.12) return 0.10;
+  if (peakNet >= 0.10) return 0.10;
   return 0;
 }
 
@@ -936,7 +936,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
       isLocked: false,
       lockedNetUsd: 0,
       peakPnlUsdc: 0,
-      statusLabel: "🔒 ESCALERA +$0.10 ➔ +$0.50+",
+      statusLabel: "🔒 CANDADO +$0.10 ➔ +$0.50+",
       lockClass: "active-lock-tag shield"
     };
   }
@@ -949,18 +949,18 @@ function computeClientRatchetStatus(activePos, currentPrice) {
 
   // Comisión real Hyperliquid L1: 0.015% Maker + 0.045% Taker = 0.060% ida y vuelta
   const rtFeeUsd = notional * 0.00060;
-  // REGLA 1.2: Leer currentPnlUsdc ÚNICA Y EXCLUSIVAMENTE de parseFloat(pos.unrealizedPnl) de clearinghouseState (Cero cálculo manual que divida kPEPE/1000)
+  // REGLA 1.2: Leer unrealizedPnl de clearinghouseState y descontar comisión de ida y vuelta (netAfterFee = displayPnl - rtFeeUsd)
   const rawPnl = parseFloat(pos.unrealizedPnl || "0");
   const displayPnl = rawPnl;
   const netAfterFee = displayPnl - rtFeeUsd;
   const gainPct = notional > 0 ? (displayPnl / notional) * 100 : 0;
 
   if (!clientRatchetMemory[coin] || Math.abs((clientRatchetMemory[coin].entryPx || 0) - entryPx) > 1e-8) {
-    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR", "DOGE", "SUI", "LINK", "kPEPE"]);
+    const initialRecoveryCoins = new Set(["ETH", "SOL", "BTC", "NEAR"]);
     clientRatchetMemory[coin] = {
       entryPx,
       openedAt: initialRecoveryCoins.has(coin) ? (Date.now() - 240000) : Date.now(),
-      peakPnlUsdc: displayPnl,
+      peakPnlUsdc: netAfterFee,
       peakNetAfterFee: netAfterFee,
       peakGainPct: gainPct,
       lockedNetUsd: 0
@@ -970,33 +970,34 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const mem = clientRatchetMemory[coin];
   let memChanged = false;
 
-  // REGLA 1.1 y 1.3: Purgar cualquier pico corrupto (> $25.0) o si la posición está en negativo (< $0.00)
-  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < 0) {
-    mem.peakPnlUsdc = displayPnl;
+  // REGLA 1.1 y 1.3: Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< -$0.25)
+  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || netAfterFee < -0.25) {
+    mem.peakPnlUsdc = netAfterFee;
+    mem.peakNetAfterFee = netAfterFee;
     mem.lockedNetUsd = 0;
     memChanged = true;
   }
 
-  if (displayPnl > mem.peakPnlUsdc && displayPnl <= 25.0) {
-    mem.peakPnlUsdc = displayPnl;
+  if (netAfterFee > mem.peakPnlUsdc && netAfterFee <= 25.0) {
+    mem.peakPnlUsdc = netAfterFee;
     memChanged = true;
   }
   if (netAfterFee > mem.peakNetAfterFee) mem.peakNetAfterFee = netAfterFee;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Escalera Continua de +$0.10 en +$0.10 por PnL Visible (`>=0.12 -> +$0.10` | `>=0.20 -> +$0.20` | `>=0.30 -> +$0.30` | `>=0.40 -> +$0.40` | `>=0.50 -> +$0.50+`)
-  const corneredStep = displayPnl >= 0 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
-  if (displayPnl >= 0 && corneredStep > (mem.lockedNetUsd || 0)) {
+  // Escalera Continua 100% Neta después de tasas de +$0.10 en +$0.10 (`>=0.10 -> +$0.10` | `>=0.20 -> +$0.20` | `>=0.30 -> +$0.30` | `>=0.50 -> +$0.50+`)
+  const corneredStep = netAfterFee >= -0.05 ? computeCorneringRatchetStepClient(mem.peakNetAfterFee) : 0;
+  if (netAfterFee >= -0.05 && corneredStep > (mem.lockedNetUsd || 0)) {
     mem.lockedNetUsd = corneredStep;
     memChanged = true;
   }
   if (memChanged) persistClientRatchetMemory();
 
-  if (displayPnl >= 0 && mem.lockedNetUsd >= 0.10) {
+  if (netAfterFee >= -0.05 && mem.lockedNetUsd >= 0.10) {
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
-      peakPnlUsdc: mem.peakPnlUsdc,
+      peakPnlUsdc: mem.peakNetAfterFee,
       statusLabel: `🔒 CANDADO +$${mem.lockedNetUsd.toFixed(2)} ACTIVO`,
       lockClass: "active-lock-tag be"
     };
@@ -1080,12 +1081,13 @@ function computeAutoCompoundCalibre(closedBase) {
   };
 }
 
-// MEMORIA DE RESPIRO INDIVIDUAL DE 2 MINUTOS EXACTOS (120,000 MS / 02:00) POR SUB-BOT DEL CUARTETO 4X (`T1`, `T2`, `O1`, `O2`)
+// MEMORIA DE RESPIRO INDIVIDUAL DE 2 MINUTOS EXACTOS (120,000 MS / 02:00) AL SUB-BOT QUE COBRÓ (TRAS 5S DE ASENTAMIENTO L2 LOS OTROS 3 QUEDAN EN LUZ VERDE)
 const POST_TRADE_BREATHER_MS = 2 * 60 * 1000;
+const PAIR_SETTLE_BREATHER_MS = 5 * 1000; // 5 segundos de asentamiento de libro L2
 const clientPairBreatherUntil = {};
 const clientSubBotBreatherByCoin = {}; // { [symbol]: { T1: number, T2: number, O1: number, O2: number } }
 const clientActiveSubBotByCoin = {};   // { [symbol]: 'T1'|'T2'|'O1'|'O2' }
-let prevKnownOpenCoinSet = new Set(["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]);
+let prevKnownOpenCoinSet = null;
 const clientRollingTicks = {};
 const clientLatentForceCache = {};
 
@@ -1814,11 +1816,12 @@ function updateTopBarCards() {
   // 2. Tarjeta 2: Profit Cerrado & Corte 00:00 UTC — 100% Real Neto Diario libre de comisiones de Hyperliquid
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
 
-  const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 2.09).toFixed(2));
+  const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 4.67).toFixed(2));
   const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 35;
   const dailyLosses = appState.dailyLossesToday !== undefined ? appState.dailyLossesToday : 0;
+  const net010UnitsCount = Math.max(dailyWins, Math.floor((dailyProfit + 1e-9) / 0.10));
 
-  const dailyHeadlineText = `HOY NETO (00:00 UTC): +$${dailyProfit.toFixed(2)} USDC · ${dailyWins}G - ${dailyLosses}P`;
+  const dailyHeadlineText = `HOY NETO (00:00 UTC): +$${dailyProfit.toFixed(2)} USDC · Meta 0.10 Neto: ${net010UnitsCount} / 1,000 Uds`;
   const dailyOpsBadgeText = `${dailyWins}G - ${dailyLosses}P`;
   const flowBreakdownText = `Acumulado Neto (en L1): +$${realNetAccumulatedProfit.toFixed(2)} (+${closedProfitPct.toFixed(1)}%) · Cierre: $${closedBaseFmt}`;
 
@@ -1902,12 +1905,12 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: FONDO FUNDADOR sincronizado con HOY NETO (libre de comisiones de Hyperliquid)
+  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: 15 Canales Activos + FONDO FUNDADOR sincronizado con HOY NETO
   const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
   const nominaHarvested = Math.max(0, Number(dailyProfit.toFixed(2)));
 
   const topPillText = `27 PARES L1 · CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X)`;
-  const readySquadsText = `🟢 ${openCount} ACTIVAS · CANDADO +$0.10 ➔ +$0.50+`;
+  const readySquadsText = `🟢 ${openCount} / 15 CANALES ACTIVOS · CANDADO NETO +$0.10 ➔ +$0.50+`;
   const subLabelText = `FONDO FUNDADOR: +$${nominaHarvested.toFixed(2)} / +$52.00 (DÍA 1 · 30-31 OCT)`;
   const bottomBannerText = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} · 5X)`;
 
@@ -1992,24 +1995,26 @@ function updatePricesAndSignals() {
   const currentOpenSet = new Set(
     (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
   );
-  // Si una moneda que tenía posición abierta acaba de cerrar, iniciar ⏳ 02:00 (120s) de Respiro Táctico
-  for (const prevCoin of prevKnownOpenCoinSet) {
-    if (!currentOpenSet.has(prevCoin)) {
-      if (!clientPairBreatherUntil[prevCoin] || clientPairBreatherUntil[prevCoin] <= nowMs) {
-        clientPairBreatherUntil[prevCoin] = nowMs + POST_TRADE_BREATHER_MS;
+  // Si una moneda que tenía posición abierta acaba de cerrar:
+  // - El enfriamiento de 120s (02:00) se aplica SOLO al sub-bot individual que acaba de cobrar (`T1`, `T2`, `O1` u `O2`).
+  // - Tras 5 segundos de asentamiento del libro L2, los otros 3 especialistas quedan en LUZ VERDE inmediata.
+  if (prevKnownOpenCoinSet !== null) {
+    for (const prevCoin of prevKnownOpenCoinSet) {
+      if (!currentOpenSet.has(prevCoin)) {
+        clientPairBreatherUntil[prevCoin] = nowMs + PAIR_SETTLE_BREATHER_MS;
+        const closedSubBot = clientActiveSubBotByCoin[prevCoin] || "T1";
+        if (!clientSubBotBreatherByCoin[prevCoin]) {
+          clientSubBotBreatherByCoin[prevCoin] = { T1: 0, T2: 0, O1: 0, O2: 0 };
+        }
+        clientSubBotBreatherByCoin[prevCoin][closedSubBot] = nowMs + POST_TRADE_BREATHER_MS;
+        delete clientActiveSubBotByCoin[prevCoin];
       }
-      const closedSubBot = clientActiveSubBotByCoin[prevCoin] || "T1";
-      if (!clientSubBotBreatherByCoin[prevCoin]) {
-        clientSubBotBreatherByCoin[prevCoin] = { T1: 0, T2: 0, O1: 0, O2: 0 };
-      }
-      clientSubBotBreatherByCoin[prevCoin][closedSubBot] = nowMs + POST_TRADE_BREATHER_MS;
-      delete clientActiveSubBotByCoin[prevCoin];
     }
   }
-  // Recortar cualquier temporizador de respiro previo > 120s para que jamás supere 02:00
+  // Liberar cualquier bloqueo general sobre AVAX, XRP o demás pares libres tras los 5s de asentamiento L2
   for (const symKey of Object.keys(clientPairBreatherUntil)) {
-    if (clientPairBreatherUntil[symKey] > maxAllowedBreatherUntil) {
-      clientPairBreatherUntil[symKey] = maxAllowedBreatherUntil;
+    if (clientPairBreatherUntil[symKey] > nowMs + PAIR_SETTLE_BREATHER_MS) {
+      clientPairBreatherUntil[symKey] = 0;
     }
   }
   for (const symKey of Object.keys(clientSubBotBreatherByCoin)) {
@@ -2142,27 +2147,25 @@ function updatePricesAndSignals() {
         if (p.symbol === "PEPE") delete clientRatchetMemory["kPEPE"];
         persistClientRatchetMemory();
       }
-      const breatherUntil = Math.max(
-        clientPairBreatherUntil[p.symbol] || 0,
-        cdMap.T1 || 0,
-        cdMap.T2 || 0,
-        cdMap.O1 || 0,
-        cdMap.O2 || 0
-      );
+      const allFourCooling = (cdMap.T1 > nowMs) && (cdMap.T2 > nowMs) && (cdMap.O1 > nowMs) && (cdMap.O2 > nowMs);
+      const settleUntil = clientPairBreatherUntil[p.symbol] || 0;
+      const breatherUntil = allFourCooling
+        ? Math.min(cdMap.T1, cdMap.T2, cdMap.O1, cdMap.O2)
+        : settleUntil;
       if (breatherUntil > nowMs) {
-        // 🟦 ESTADO 3 — En Respiro Táctico de 2 Minutos
+        // 🟦 ESTADO 3 — En Respiro Táctico
         const targetCellClass = "pair-cell pair-card pair-cell-breather";
         if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
         setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");
         setTextIfChanged(sigRight1, "");
         setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
       } else {
-        // ⬜ ESTADO 4 — En Guardia / Auto (Las tarjetas libres vigilando la primera ola)
+        // ⬜ ESTADO 4 — En Guardia / Auto (LUZ VERDE a los especialistas libres de la moneda)
         const targetCellClass = "pair-cell pair-card pair-cell-auto";
         if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
         setTextIfChanged(sigText, autoLine1Text);
         setTextIfChanged(sigRight1, "");
-        setTextIfChanged(sigLockText, "🔒 ESCALERA +$0.10 ➔ +$0.50+");
+        setTextIfChanged(sigLockText, "🔒 CANDADO +$0.10 ➔ +$0.50+");
       }
     }
   });

@@ -3811,22 +3811,22 @@ export default {
             const STRICT_RECOVERY_LOCK = false;
             const IMMEDIATE_SNOWBALL_START = true;
             const NO_RED_EXIT = true;
-            const MAX_OPEN_POSITIONS = 12;
-            const FAST_SCALP_LANES = 2;
-            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 12;
+            const MAX_OPEN_POSITIONS = 15;
+            const FAST_SCALP_LANES = 11;
+            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 15;
             const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
             const FAST_LANE_LOCK_NET_USDC = 0.10;
             const CORNERING_HALF_DOLLAR_USDC = 0.50;
             const CORNERING_BREATH_BUFFER_USDC = 0.02;
             const EXPRESS_EVAC_DELTA_RATIO = 0.00040;
             const EXPRESS_EVAC_NET_USDC = 0.05;
-            const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000;
+            const POST_TRADE_COOLDOWN_MS = 2 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
             const priorityEvacSet = new Set(["PAXG", "SUI", "kPEPE", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"]);
-            const computeCorneringStepCloud = (peakPnl) => {
-              const p = Number(peakPnl || 0);
+            const computeCorneringStepCloud = (peakNetPnl) => {
+              const p = Number(peakNetPnl || 0);
               if (p >= 0.20) return +(Math.floor((p + 1e-9) * 10) / 10).toFixed(2);
-              if (p >= 0.12) return 0.10;
+              if (p >= 0.10) return 0.10;
               return 0;
             };
 
@@ -3842,9 +3842,9 @@ export default {
               const netAfterFee = unrealizedPnl - rtFeeUsd;
 
               if (entryPx > 0 && positionVal > 0) {
-                if (unrealizedPnl >= 0.12) {
-                  const stepUsd = Math.max(0.10, computeCorneringStepCloud(unrealizedPnl));
-                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Universal 10c ACTIVO para ${coin} (Escalón +$${stepUsd.toFixed(2)} | Visible +$${unrealizedPnl.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
+                if (netAfterFee >= 0.10) {
+                  const stepUsd = Math.max(0.10, computeCorneringStepCloud(netAfterFee));
+                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Universal 10c NETO ACTIVO para ${coin} (Escalón Neto +$${stepUsd.toFixed(2)} | Neto +$${netAfterFee.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
                 } else {
                   unfencedCount++;
                 }
@@ -3897,14 +3897,14 @@ export default {
                 const memKey = `${coin}_${entryPx.toFixed(6)}`;
                 let prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakPnl ?? -999;
                 let prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedFloor ?? 0;
-                if (prevPeak > 25.0 || prevLocked > 25.0 || uPnl < -0.15) {
-                  prevPeak = uPnl;
+                if (prevPeak > 25.0 || prevLocked > 25.0 || netAfterFee < -0.25) {
+                  prevPeak = netAfterFee;
                   prevLocked = 0;
                 }
                 const prevTriggerOid = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerOid || null;
                 const prevTriggerFloor = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerFloor || 0;
-                const peakPnl = Math.max(prevPeak, uPnl);
-                const lockedProfitUsdc = uPnl < -0.15 ? 0 : Math.max(prevLocked, computeCorneringStepCloud(peakPnl));
+                const peakPnl = Math.max(prevPeak, netAfterFee);
+                const lockedProfitUsdc = netAfterFee < -0.25 ? 0 : Math.max(prevLocked, computeCorneringStepCloud(peakPnl));
                 globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = {
                   peakPnl,
                   lockedFloor: lockedProfitUsdc,
@@ -3912,10 +3912,10 @@ export default {
                   triggerFloor: prevTriggerFloor
                 };
 
-                // Si alcanzó >= +$0.50 visibles, colocar/actualizar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1
+                // Si alcanzó >= +$0.50 netos, colocar/actualizar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1
                 if (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   if ((lockedProfitUsdc - prevTriggerFloor) >= 0.09) {
-                    const deltaStopPx = lockedProfitUsdc / absSz;
+                    const deltaStopPx = (rtFeeUsd + lockedProfitUsdc) / absSz;
                     const stopTriggerPx = isShort ? (entryPx - deltaStopPx) : (entryPx + deltaStopPx);
                     const stopTriggerPxStr = fmtPx(stopTriggerPx, coin);
                     if (prevTriggerOid) {
@@ -3968,9 +3968,9 @@ export default {
                   }
                 }
 
-                // Gatillo Anti-Escape: se activa en el instante en que currentPnlUsdc <= lockedFloorUsdc
+                // Gatillo Anti-Escape: se activa en el instante en que netAfterFee <= lockedFloorUsdc
                 const hitCorneredStop = lockedProfitUsdc >= 0.10 && (
-                  (uPnl < lockedProfitUsdc) || (peakPnl > lockedProfitUsdc + 0.001 && uPnl <= lockedProfitUsdc)
+                  (netAfterFee < lockedProfitUsdc) || (peakPnl > lockedProfitUsdc + 0.001 && netAfterFee <= lockedProfitUsdc)
                 );
 
                 if ((hitCorneredStop || (priorityEvacSet.has(coin) && uPnl >= EXPRESS_EVAC_NET_USDC && lockedProfitUsdc < 0.20)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
@@ -4061,13 +4061,13 @@ export default {
                 }
               }
 
-              // 2. ARQUITECTURA CUARTETO TÁCTICO 4X POR PAR (`2 TOROS 🐂 + 2 OSOS 🐻` × 27 PARES L1 = 108 UNIDADES) + MUTEX SIN CHOQUES
-              const stuckSetCloud = new Set(["ETH", "BTC", "SOL", "NEAR", "XRP"]);
+              // 2. ARQUITECTURA CUARTETO TÁCTICO 4X POR PAR (`2 TOROS 🐂 + 2 OSOS 🐻` × 27 PARES L1 = 108 UNIDADES) + MUTEX SIN CHOQUES (TOPE 15 CANALES)
+              const stuckSetCloud = new Set(["ETH", "BTC", "SOL", "NEAR"]);
               const cloudUnits = [
                 { name: "#01 ALFA (Auto 5% · 4X)", pairs: ["AVAX", "SUI"], notional: 252.25 },
                 { name: "#02 BRAVO (Auto 5% · 4X)", pairs: ["PAXG", "LINK"], notional: 252.25 },
                 { name: "#03 CHARLIE (Auto 5% · 4X)", pairs: ["BNB", "AAVE"], notional: 252.25 },
-                { name: "#04 GOLF / #05 HOTEL (Auto 5% · 4X)", pairs: ["DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
+                { name: "#04 GOLF / #05 HOTEL (Auto 5% · 4X)", pairs: ["XRP", "DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
                 { name: "#06 INDIA / #08 KILO (Auto 5% · 4X)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 252.25 },
                 { name: "#07 JULIET / #09 LIMA (Auto 5% · 4X)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE", "PENDLE", "kPEPE"], notional: 252.25 }
               ];
