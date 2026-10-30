@@ -1718,11 +1718,8 @@ async function startAutonomousSquadDaemon() {
     if (trackedCoins.length === 0) return;
     fastGuardInFlight = true;
     try {
-      const [fastCh, fastMids] = await Promise.all([
-        info.clearinghouseState({ user: VAULT_501 }).catch(() => null),
-        info.allMids().catch(() => null)
-      ]);
-      if (!fastCh || !Array.isArray(fastCh.assetPositions) || !fastMids || typeof fastMids !== "object") return;
+      const fastCh = await info.clearinghouseState({ user: VAULT_501 }).catch(() => null);
+      if (!fastCh || !Array.isArray(fastCh.assetPositions)) return;
 
       for (const pObj of fastCh.assetPositions) {
         const pos = pObj?.position;
@@ -1734,14 +1731,13 @@ async function startAutonomousSquadDaemon() {
         const posMeta = confirmedOpenByCoin[rawCoin];
         if (!posMeta || posMeta.closedByFastGuard) continue;
 
-        const currentMid = parseFloat(fastMids[rawCoin] || pos.entryPx || "0");
-        if (!currentMid || currentMid <= 0) continue;
-
         const absSz = Math.abs(szi);
         const isShort = szi < 0;
         const entryPx = parseFloat(pos.entryPx || "0");
         // REGLA 1.2: Leer currentPnlUsdc ÚNICA Y EXCLUSIVAMENTE de parseFloat(pos.unrealizedPnl) de clearinghouseState
         const liveUnrealizedPnl = parseFloat(pos.unrealizedPnl || "0");
+        const derivedMid = szi !== 0 ? (entryPx + (liveUnrealizedPnl / szi)) : entryPx;
+        const currentMid = derivedMid > 0 ? derivedMid : entryPx;
 
         const rFast = computeFeeAwareRatchet(
           rawCoin,
@@ -1775,8 +1771,8 @@ async function startAutonomousSquadDaemon() {
           try {
             const closeReason = isWallStreetExpressEvac && !(rFast.beLocked && rFast.hitRatchetStop)
               ? `WALL_STREET_EXPRESS_EVAC_+$${rFast.currentPnlUsdc.toFixed(2)}_NET`
-              : `FAST_250MS_CANDADO_10C_+$${rFast.lockedNetUsd.toFixed(2)}`;
-            console.log(`🚨⚡ [FAST-GUARD 250ms // ${closeReason}] ${rawCoin} (Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)} | Escalón: +$${rFast.lockedNetUsd.toFixed(2)}) -> Disparo IOC 5% Inmediato!`);
+              : `FAST_CANDADO_10C_+$${rFast.lockedNetUsd.toFixed(2)}`;
+            console.log(`🚨⚡ [FAST-GUARD // ${closeReason}] ${rawCoin} (Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)} | Escalón: +$${rFast.lockedNetUsd.toFixed(2)}) -> Disparo IOC 5% Inmediato!`);
             if (posMeta.nativeSlOid || posMeta.nativeSlTriggerOid) {
               const slOid = posMeta.nativeSlOid || posMeta.nativeSlTriggerOid;
               await client.cancel({ cancels: [{ a: ASSET_INDICES[rawCoin], o: slOid }] }).catch(() => {});
@@ -1803,7 +1799,7 @@ async function startAutonomousSquadDaemon() {
     } finally {
       fastGuardInFlight = false;
     }
-  }, 250);
+  }, 600);
   if (typeof fastGuardTimer.unref === "function") fastGuardTimer.unref();
 
   while (true) {
@@ -2061,21 +2057,7 @@ async function startAutonomousSquadDaemon() {
               fundingAprPct: aprPct
             });
 
-            if (cycleCounter > 1 && knownUniverseCoins.size > 0 && !knownUniverseCoins.has(cName)) {
-              knownUniverseCoins.add(cName);
-              console.log(`🚨🚀 [NEW LISTING SNIPER #06] ¡NUEVO PAR DETECTADO EN HYPERLIQUID L1 EN SEGUNDO 0!: ${cName}-USDC (Asset #${idx} @ $${markPx})`);
-              const newListingTg = `🚨🚀 <b>ÁREA 501 // NEW LISTING SNIPER (ESTACIÓN #06) — SEGUNDO 0</b>\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `🆕 <b>Nuevo Par Detectado en L1:</b> <code>${cName}-USDC</code> (Asset #${idx})\n` +
-                `💵 <b>Precio Inaugural:</b> <code>$${formatHlPrice(markPx || 1, cName)}</code>\n` +
-                `📈 <b>Funding Rate Inicial:</b> <code>${aprPct >= 0 ? "+" : ""}${aprPct}% APR</code>\n` +
-                `🎯 <b>Trampa ALO Armada:</b> <code>±1.50% Wick Trap (+0.003% Maker Rebate)</code>\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan</a>`;
-              await sendSquadTelegram(newListingTg);
-            } else {
-              knownUniverseCoins.add(cName);
-            }
+            knownUniverseCoins.add(cName);
           }
 
           totalActivePerpsL1 = activeUniv.length;
