@@ -247,40 +247,15 @@ async function scanFundingMatrix() {
       .slice(0, 3);
 
     // ==============================================================================
-    // MOTOR DE CAPTURA HORARIA ACTIVA DEL ESCUDO #00 (POST-ONLY ALO MAKER)
-    // Con RESCUE_PRIORITY_LOCK = false (0 rescates activos) y $360.37 USDC libres,
-    // apunta al candidato #1 institucional compatible (excluyendo HYPE por volatilidad parabólica)
+    // REGLA DE ORO: 1 SOLO MOTOR DE ENTRADA UNIFICADO (LATENT_FORCE_ENGINE EN SQUAD DAEMON)
+    // El daemon de Funding opera en modo 100% telemetría y cobro pasivo sin abrir posiciones paralelas.
     // ==============================================================================
-    if (!isRescueActive && shield40PctClosedUsdc >= 300) {
+    if (false && !isRescueActive && shield40PctClosedUsdc >= 300 && openPositionsList.length < 6) {
       const execCandidate = allAssets.find(
         a => a.oiUsd >= 15000000 && HL_ASSET_META[a.coin] && a.absHourlyPct >= 0.0010 && !["SOL", "BTC", "ETH", "HYPE"].includes(a.coin)
       );
       if (execCandidate) {
         activeShieldFundingCoin = execCandidate.coin;
-        if (!execCandidate.isCurrentlyHeld && (Date.now() - lastShieldOrderAttemptMs >= 45000)) {
-          lastShieldOrderAttemptMs = Date.now();
-          const isBuyToReceive = execCandidate.rawFunding < 0; // Tasa negativa => Shorts pagan a Longs => LONG COBRA
-          const orderResult = await executeShieldFundingOrder({
-            coin: execCandidate.coin,
-            isBuy: isBuyToReceive,
-            notionalUsdc: 248.0,
-            hourlyPct: execCandidate.hourlyPct,
-            aprPct: execCandidate.absAprPct
-          });
-          lastShieldOrderResult = {
-            timestamp: new Date().toISOString(),
-            targetPair: execCandidate.pair,
-            receiverSide: execCandidate.receiverSide,
-            hourlyPct: execCandidate.hourlyPct,
-            aprPct: execCandidate.absAprPct,
-            ...orderResult
-          };
-          if (orderResult.ordered) {
-            console.log(`🟢⚡ [ESCUDO #00 CAPTURA HORARIA] Orden Post-Only ALO Maker enviada en ${execCandidate.pair} (${execCandidate.receiverSide}): ${orderResult.size} @ $${orderResult.price} (${execCandidate.hourlyPct}%/h | ${execCandidate.absAprPct}% APR)`);
-          } else {
-            console.log(`🛡️ [ESCUDO #00 VIGILANCIA] ${execCandidate.pair} (${execCandidate.receiverSide}): ${orderResult.reason}`);
-          }
-        }
       }
     }
 

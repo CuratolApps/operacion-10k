@@ -2076,17 +2076,17 @@ export default {
         {
           category: "POSITIVE",
           categoryLabel: "🟢 IMPACTO POSITIVO (ALCISTA)",
-          headlineEs: `Plan C Activo en Hyperliquid L1: Cazando en Forex/PEPE/Oro (+$0.10 Candado) + Motor Quema-Lastre 50%`,
-          summaryEs: `Escuadrones libres (#01 a #15) desbloqueados con balas ágiles ($70 margen · $175 nocional · máx 2 cazadores simultáneos) bajo blindaje +$0.10 USDC neto o Ratchet 80-90%. El 50% de cada ganancia fresca subsidia y acerca el cierre en verde de XRP ($${xrpPx}), SOL ($${solPx}) y NEAR ($${nearPx}).`,
-          assets: ["PEPE", "PAXG", "SUI", "AVAX", "XRP", "SOL", "NEAR"],
-          source: "Hyperliquid L1 Clearinghouse · Motor Plan C #501",
-          botReactionEs: `Plan C Activo (Máx 2 Cazadores >$400 Libre) · 50% Quema-Lastre acelerando salida de XRP/SOL/NEAR`
+          headlineEs: `Motor Único de Fuerza Latente (Score >= 92/100) + Filtro de Marea Global (Tope ${openPosCount}/8 Posiciones)`,
+          summaryEs: `Gatillo paralelo desactivado: 100% de aperturas unificadas bajo LATENT_FORCE_ENGINE (Score >= 92/100 + Market Tide Lock alineado al Top 3). Tope estricto MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 6 activo hasta evacuar en verde (+$0.10 USDC netos con Candado #00) al menos 3 de las más cercanas: PAXG ($${paxgPx}), SUI, ETH ($${ethPx}) y LINK.`,
+          assets: ["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL"],
+          source: "Hyperliquid L1 Clearinghouse · LATENT_FORCE_ENGINE #501",
+          botReactionEs: `Market Tide Lock Activo (Prohibido Short contra Marea Alcista Top 3) · Tope 8 Posiciones (Congelado hasta <6)`
         },
         {
           category: "STANDARD",
           categoryLabel: "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)",
           headlineEs: `Radar de Libro L2 Hyperliquid: BTC en $${btcPx} · ETH en $${ethPx} · PAXG (Oro) en $${paxgPx}`,
-          summaryEs: `Profundidad institucional L2 estable en los 54 pares monitoreados. Saldo Cerrado Firme consolidado en $1,008.60 USDC ($756.52 Inyectado #501 + $252.08 Profit Bots) y Equidad Viva en $${liveEq} USDC mientras el Escudo Mentora #00 respalda las ${openPosCount} posiciones abiertas.`,
+          summaryEs: `Profundidad institucional L2 estable en los 54 pares monitoreados. Saldo Cerrado Firme consolidado en $1,008.93 USDC ($756.52 Inyectado #501 + $252.41 Profit Bots) y Equidad Viva en $${liveEq} USDC mientras el Escudo Mentora #00 respalda las ${openPosCount} posiciones abiertas.`,
           assets: ["BTC", "ETH", "PAXG", "XRP", "SOL", "NEAR"],
           source: "Hyperliquid L1 Orderbook L2 (150ms)",
           botReactionEs: "Candado Base #00 en +$0.10 USDC Neto · Prohibido cerrar en rojo (0 Pérdidas)"
@@ -2094,11 +2094,11 @@ export default {
         {
           category: "POSITIVE",
           categoryLabel: "🟢 IMPACTO POSITIVO (ALCISTA)",
-          headlineEs: `Sinergia Quema-Lastre #00: PAXG ($${paxgPx}), BTC ($${btcPx}) y ETH ($${ethPx}) listos para cobro +$0.10`,
-          summaryEs: `Las posiciones cercanas (PAXG, BTC, ETH) mantienen orden de cobro inmediato en +$0.10 USDC neto, mientras los cazadores libres en PEPE, SUI, AVAX y Oro inyectan el 50% de su profit diario directo al descuento de salida de XRP ($${xrpPx}) y SOL ($${solPx}).`,
-          assets: ["PAXG", "BTC", "ETH", "PEPE", "XRP", "SOL"],
-          source: "Motor NEXUS APEX-36 · Sinergia Quema-Lastre",
-          botReactionEs: "Candado Nivel 1 (+$0.10 USDC) + Trailing Ratchet 80-90% · Cero Take Profit Fijo"
+          headlineEs: `Evacuación Prioritaria #00: PAXG ($${paxgPx}), SUI, ETH ($${ethPx}) y LINK listos para cobro +$0.10 USDC`,
+          summaryEs: `Las 4 posiciones más cercanas (1º PAXG, 2º SUI, 3º ETH, 4º LINK) mantienen orden de cobro inmediato en +$0.10 USDC neto libre de comisión. Al tocar +$0.10 USDC netos se clava el Candado #00 y si la presión L2 a favor es < 72% se cobra de inmediato a USDC liberando margen.`,
+          assets: ["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL"],
+          source: "Motor NEXUS APEX-36 · Evacuación Prioritaria #00",
+          botReactionEs: "Candado Nivel 1 (+$0.10 USDC) + Cobro Inmediato si L2 < 72% · Cero Aperturas hasta < 6 Posiciones"
         }
       ];
       const activePulse = pulseModes[bucket45s % pulseModes.length];
@@ -3744,7 +3744,7 @@ export default {
         } else {
           console.log(`[CRON WORKER] ☁️🔋 LAPTOP APAGADA (>45s sin latido local). MANDO CLOUD 24/7 ACTIVO.`);
 
-          // --- RELEVO CLOUD #01: SQUAD MATRIX HYPERLIQUID L1 (ARQUITECTURA NEXUS APEX-36 + FEE-AWARE RATCHET #00) ---
+          // --- RELEVO CLOUD #01: SQUAD MATRIX HYPERLIQUID L1 (ARQUITECTURA NEXUS APEX-36 + FEE-AWARE RATCHET #00 + MARKET TIDE LOCK) ---
           try {
             const openPositions = (clData?.positions || []).filter(p => {
               const sz = parseFloat(p.position?.szi || p.szi || "0");
@@ -3755,11 +3755,14 @@ export default {
             const STRICT_RECOVERY_LOCK = false;
             const IMMEDIATE_SNOWBALL_START = true;
             const NO_RED_EXIT = true;
+            const MAX_OPEN_POSITIONS = 8;
+            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 6;
             const MAX_UNFENCED_POSITIONS = 2;
             const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
+            const priorityEvacSet = new Set(["PAXG", "SUI", "ETH", "LINK"]);
 
-            console.log(`[CLOUD SQUAD GUARD] 🛡️ NEXUS APEX-36 Activo · ${openPositions.length} posiciones abiertas (${openCoins.join(", ") || "ninguna"}) · NO_RED_EXIT=${NO_RED_EXIT} · IMMEDIATE_SNOWBALL_START=${IMMEDIATE_SNOWBALL_START} · RESPIRO=${POST_TRADE_COOLDOWN_MS / 60000}m`);
+            console.log(`[CLOUD SQUAD GUARD] 🛡️ NEXUS APEX-36 Activo · ${openPositions.length}/${MAX_OPEN_POSITIONS} posiciones abiertas (MAX_RECOVERY=${MAX_CONCURRENT_POSITIONS_DURING_RECOVERY} · ${openCoins.join(", ") || "ninguna"}) · NO_RED_EXIT=${NO_RED_EXIT}`);
             let unfencedCount = 0;
             for (const pos of openPositions) {
               const p = pos.position || pos;
@@ -3771,8 +3774,8 @@ export default {
               const netAfterFee = unrealizedPnl - rtFeeUsd;
 
               if (entryPx > 0 && positionVal > 0) {
-                if (netAfterFee >= 0.02) {
-                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Nivel 1/2 #00 ACTIVO para ${coin} (Neto +$${netAfterFee.toFixed(3)} USDC >= +$0.02). Bot 🟢 LIGERO.`);
+                if (netAfterFee >= 0.10) {
+                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Nivel 1/2 #00 ACTIVO para ${coin} (Neto +$${netAfterFee.toFixed(3)} USDC >= +$0.10). Bot 🟢 LIGERO.`);
                 } else {
                   unfencedCount++;
                 }
@@ -3780,7 +3783,7 @@ export default {
             }
 
             // Regla de Independencia en Cloud 24/7 (Computadora Apagada):
-            // NEXUS APEX-36: Cero Pérdidas (NO_RED_EXIT = true) + Escalera de Candados Netos (75% / 83% / 90%) + Evacuación Limpia +$0.01 USDC
+            // NEXUS APEX-36: Cero Pérdidas (NO_RED_EXIT = true) + Evacuación Prioritaria PAXG/SUI/ETH/LINK en +$0.10 USDC + Market Tide Lock
             if (env.HL_AGENT_PRIVATE_KEY) {
               const { ExchangeClient, InfoClient, HttpTransport } = await import("@nktkas/hyperliquid");
               const { ethers } = await import("ethers");
@@ -3803,28 +3806,31 @@ export default {
 
               if (!globalThis.__NOTIFIED_LOCK00_COINS__) globalThis.__NOTIFIED_LOCK00_COINS__ = {};
               if (!globalThis.__NOTIFIED_OPEN_OIDS__) globalThis.__NOTIFIED_OPEN_OIDS__ = {};
+              if (!globalThis.__NOTIFIED_GREEN_CLOSE_COINS__) globalThis.__NOTIFIED_GREEN_CLOSE_COINS__ = {};
 
-              // 1. FEE-AWARE RATCHET #00 EN L1:
-              // - Si aún no tiene orden Reduce-Only, colocar Evacuación Limpia Post-Only Maker en (Entrada + Comisión + $0.01 USDC) o Nivel 1 (+$0.10 USDC)
+              // 1. FEE-AWARE RATCHET #00 EN L1 + EVACUACIÓN PRIORITARIA PAXG, SUI, ETH & LINK:
+              // - Si aún no tiene orden Reduce-Only, colocar Evacuación Limpia Post-Only Maker en (Entrada + Comisión + $0.10 USDC)
               // - Si supera Nivel 1 (+$0.10 USDC netos), asegurar Candado #00 y notificar a Telegram (🛰️ SALA DE MANDO 10K)
+              // - Si es PAXG, SUI, ETH o LINK y toca +$0.10 USDC netos con presión L2 a favor < 72%, cobrar de inmediato a USDC y enviar 🏁💵 [OPERACIÓN CERRADA EN VERDE]
               for (const pos of openPositions) {
                 const p = pos.position || pos;
                 const coin = p.coin;
                 const szNum = parseFloat(p.szi || "0");
                 const absSz = Math.abs(szNum);
+                const isShort = szNum < 0;
                 const entryPx = parseFloat(p.entryPx || "0");
                 const uPnl = parseFloat(p.unrealizedPnl || "0");
                 const notional = absSz * entryPx;
                 const rtFeeUsd = notional * HL_ROUNDTRIP_FEE_RATE;
                 const netAfterFee = uPnl - rtFeeUsd;
                 const gainPct = notional > 0 ? (uPnl / notional) * 100 : 0;
-                const hasReduceOrder = openOrders.some(o => o.coin === coin && o.reduceOnly === true);
+                const existingReduceOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
+                const hasReduceOrder = !!existingReduceOrder;
 
                 if (netAfterFee >= 0.10 && botToken && chatId) {
                   const lockKey = `${coin}_${entryPx.toFixed(6)}`;
                   if (!globalThis.__NOTIFIED_LOCK00_COINS__[lockKey]) {
                     globalThis.__NOTIFIED_LOCK00_COINS__[lockKey] = true;
-                    const isShort = szNum < 0;
                     const lockUsd = rtFeeUsd + Math.max(0.10, netAfterFee * 0.82);
                     const lockedPx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
                     const lockMsg = `🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n` +
@@ -3843,10 +3849,67 @@ export default {
                   }
                 }
 
+                // Evacuación Prioritaria Inmediata para PAXG, SUI, ETH y LINK cuando netAfterFee >= +$0.10 USDC y L2 < 72%
+                if (priorityEvacSet.has(coin) && netAfterFee >= 0.10 && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                  let favorRatio = 0.50;
+                  let currentBookPx = entryPx;
+                  try {
+                    const l2 = await info.l2Book({ coin });
+                    const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
+                    let bv = 0, av = 0;
+                    for (let i = 0; i < 5; i++) {
+                      bv += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
+                      av += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
+                    }
+                    if ((bv + av) > 0) {
+                      favorRatio = isShort ? (av / (bv + av)) : (bv / (bv + av));
+                    }
+                    if (bids.length > 0 && asks.length > 0) {
+                      currentBookPx = (parseFloat(bids[0].px) + parseFloat(asks[0].px)) / 2;
+                    }
+                  } catch (_) {}
+
+                  if (favorRatio < 0.72) {
+                    if (existingReduceOrder) {
+                      await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
+                    }
+                    const closePx = isShort ? currentBookPx * 1.0004 : currentBookPx * 0.9996;
+                    const closeRes = await client.order({
+                      orders: [{
+                        a: ASSET_INDICES[coin],
+                        b: isShort,
+                        p: fmtPx(closePx, coin),
+                        s: fmtSz(absSz, ASSET_DEC[coin]),
+                        r: true,
+                        t: { limit: { tif: "Ioc" } }
+                      }],
+                      grouping: "na"
+                    }).catch(() => null);
+                    const cSt = closeRes?.response?.data?.statuses?.[0] || {};
+                    const closeKey = `${coin}_${entryPx.toFixed(6)}_CLOSED`;
+                    if ((cSt.filled || cSt.resting) && botToken && chatId && !globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey]) {
+                      globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey] = true;
+                      const closeMsg = `🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `📍 <b>Par Evacuado:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
+                        `📥 <b>Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code> ➔ 📤 <b>Salida:</b> <code>$${fmtPx(currentBookPx, coin)}</code>\n` +
+                        `💰 <b>Ganancia Neta Realizada:</b> <b>+$${netAfterFee.toFixed(4)} USDC</b> (Libre de comisión · L2 ${(favorRatio * 100).toFixed(1)}% &lt; 72%)\n` +
+                        `🔓 <b>Margen Liberado:</b> <code>Listo para descomprimir cola #00 (Tope MAX_RECOVERY=${MAX_CONCURRENT_POSITIONS_DURING_RECOVERY})</code>\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                        `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
+                      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ chat_id: chatId, text: closeMsg, parse_mode: "HTML" })
+                      }).catch(() => {});
+                    }
+                    continue;
+                  }
+                }
+
                 if (!hasReduceOrder && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
-                  const isShort = szNum < 0;
-                  // Evacuación Breakeven Neto (Entrada + Comisión Maker/Maker + $0.10 USDC) Post-Only Maker
-                  const evacUsd = notional * 0.00030 + 0.10;
+                  // Evacuación Breakeven Neto (Entrada + Comisión + $0.10 USDC) Post-Only Maker
+                  const evacUsd = rtFeeUsd + 0.10;
                   const deltaPx = evacUsd / absSz;
                   const evacPx = isShort ? entryPx - deltaPx : entryPx + deltaPx;
                   await client.order({
@@ -3861,7 +3924,6 @@ export default {
                     grouping: "na"
                   }).catch(() => {});
                 } else if (STRICT_RECOVERY_LOCK && netAfterFee >= 0.10 && ASSET_INDICES[coin] !== undefined && entryPx > 0) {
-                  const isShort = szNum < 0;
                   const lockUsd = rtFeeUsd + Math.max(0.10, netAfterFee * (gainPct > 0.80 ? 0.90 : gainPct >= 0.25 ? 0.83 : gainPct >= 0.10 ? 0.75 : 0.80));
                   const closePx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
                   await client.order({
@@ -3878,11 +3940,11 @@ export default {
                 }
               }
 
-              // 2. MOTOR DE LECTURA DE FUERZA LATENTE REAL (<150ms) & SELECCIÓN EXCLUSIVA DEL CABALLO MÁS RÁPIDO (SCORE >= 92/100)
-              const stuckSetCloud = new Set(["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]);
+              // 2. MOTOR ÚNICO DE FUERZA LATENTE REAL (<150ms) + MARKET TIDE LOCK (SCORE >= 92/100) + TOPE ESTRICTO MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 6
+              // CONGELAR NUEVAS APERTURAS EN 8 POSICIONES HASTA EVACUAR AL MENOS 3 DE LAS MÁS CERCANAS (PAXG, SUI, ETH, LINK) DEJANDO < 6 ABIERTAS
+              const stuckSetCloud = new Set(["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR"]);
               const cloudUnits = [
-                { name: "#01 ALFA (Auto 5%)", pairs: ["SUI"], notional: 252.25 },
-                { name: "#02 BRAVO (Auto 5%)", pairs: ["LINK"], notional: 252.25 },
+                { name: "#01 ALFA (Auto 5%)", pairs: ["AVAX"], notional: 252.25 },
                 { name: "#03 CHARLIE (Auto 5%)", pairs: ["BNB", "AAVE"], notional: 252.25 },
                 { name: "#04 GOLF (Auto 5%)", pairs: ["DOGE", "ADA"], notional: 252.25 },
                 { name: "#05 HOTEL (Auto 5%)", pairs: ["HYPE", "TRX", "UNI"], notional: 252.25 },
@@ -3897,17 +3959,22 @@ export default {
                 return (unrealizedPnl - positionVal * HL_ROUNDTRIP_FEE_RATE) < 0.10;
               }).length;
 
-              let slotsLeft = Math.max(0, MAX_UNFENCED_POSITIONS - unfencedHuntersCloud);
+              const isUnderRecoveryCapCloud = (openPositions.length < MAX_CONCURRENT_POSITIONS_DURING_RECOVERY) && (openPositions.length < MAX_OPEN_POSITIONS);
+              let slotsLeft = isUnderRecoveryCapCloud ? Math.max(0, MAX_UNFENCED_POSITIONS - unfencedHuntersCloud) : 0;
               if (slotsLeft > 0) {
-                const candidateEntries = [];
+                const nowMsCloud = Date.now();
+                const allScoredCandidates = [];
                 for (const unit of cloudUnits) {
-                  const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c && !o.reduceOnly)).length;
+                  const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c)).length;
                   if (openInUnit >= 1) continue;
                   for (const coin of unit.pairs) {
-                    if (openCoins.includes(coin)) continue;
-                    const l2 = await info.l2Book({ coin }).catch(() => null);
+                    if (openCoins.includes(coin) || openOrders.some(o => o.coin === coin)) continue;
+                    const [l2, candles1m] = await Promise.all([
+                      info.l2Book({ coin }).catch(() => null),
+                      info.candleSnapshot({ coin, interval: "1m", startTime: nowMsCloud - (22 * 60000), endTime: nowMsCloud }).catch(() => null)
+                    ]);
                     const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
-                    if (bids.length < 3 || asks.length < 3) continue;
+                    if (bids.length < 3 || asks.length < 3 || !Array.isArray(candles1m) || candles1m.length < 10) continue;
                     let bv = 0, av = 0;
                     for (let i = 0; i < 5; i++) {
                       bv += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
@@ -3919,30 +3986,58 @@ export default {
                     const bearRatio = av / tot;
                     const isLong = bullRatio >= bearRatio;
                     const domRatio = isLong ? bullRatio : bearRatio;
-                    // Exigir Presión L2 >= 72% (0.72) y calcular Score Compuesto de Fuerza Latente (0-100)
-                    if (domRatio >= 0.72) {
-                      const l2Pts = Math.min(35, Math.round(28 + ((domRatio - 0.72) / 0.18) * 7));
-                      const velPts = 32;
-                      const leadLagPts = 14;
-                      const exhaustionPts = 13;
-                      const latentForceScore = Math.min(100, l2Pts + velPts + leadLagPts + exhaustionPts);
-                      if (latentForceScore >= 92) {
-                        candidateEntries.push({
-                          unit,
-                          coin,
-                          isLong,
-                          px: parseFloat(isLong ? bids[0].px : asks[0].px),
-                          l2Pct: +(domRatio * 100).toFixed(1),
-                          latentForceScore
-                        });
-                      }
-                    }
+
+                    const closes = candles1m.map(c => parseFloat(c.c));
+                    const lastC = candles1m[candles1m.length - 1];
+                    const open1m = parseFloat(lastC.o || closes[closes.length - 1]);
+                    const close1m = parseFloat(lastC.c || closes[closes.length - 1]);
+                    const prevClose = closes[Math.max(0, closes.length - 3)];
+                    const rocPct = prevClose > 0 ? ((close1m - prevClose) / prevClose) * 100 : 0;
+                    const alignedRoc = isLong ? rocPct >= 0.025 : rocPct <= -0.025;
+                    const candle1mAligned = isLong ? (close1m >= open1m * 0.9998) : (close1m <= open1m * 1.0002);
+
+                    const ema9 = closes.slice(-9).reduce((a, b) => a + b, 0) / Math.min(9, closes.length);
+                    const ema20 = closes.slice(-20).reduce((a, b) => a + b, 0) / Math.min(20, closes.length);
+                    const structOk = isLong ? (close1m >= ema9 && ema9 >= ema20 * 0.9995) : (close1m <= ema9 && ema9 <= ema20 * 1.0005);
+
+                    const l2Pts = domRatio >= 0.72 ? Math.min(35, Math.round(31 + ((domRatio - 0.72) / 0.15) * 4)) : Math.round((domRatio / 0.72) * 28);
+                    const velPts = alignedRoc ? Math.min(35, Math.round(31 + Math.min(1, (Math.abs(rocPct) - 0.025) / 0.06) * 4)) : 12;
+                    const leadLagPts = candle1mAligned ? 14 : 6;
+                    const exhaustionPts = structOk ? 15 : 6;
+                    const latentForceScore = Math.min(100, l2Pts + velPts + leadLagPts + exhaustionPts);
+
+                    allScoredCandidates.push({
+                      unit,
+                      coin,
+                      isLong,
+                      domRatio,
+                      alignedRoc,
+                      candle1mAligned,
+                      structOk,
+                      px: parseFloat(isLong ? bids[0].px : asks[0].px),
+                      l2Pct: +(domRatio * 100).toFixed(1),
+                      latentForceScore
+                    });
                   }
                 }
 
-                // Ordenar por latentForceScore descendente y disparar solo en #1 o #2 con Score >= 92/100
-                candidateEntries.sort((a, b) => b.latentForceScore - a.latentForceScore);
-                for (const bestCand of candidateEntries.slice(0, 2)) {
+                // Ordenar por latentForceScore descendente y calcular Market Tide Lock del Top 3
+                allScoredCandidates.sort((a, b) => b.latentForceScore - a.latentForceScore);
+                const top3Cloud = allScoredCandidates.slice(0, 3);
+                const longTop3Count = top3Cloud.filter(c => c.isLong).length;
+                const dominantIsLong = longTop3Count >= 2;
+
+                // Filtrar únicamente candidatos con Score >= 92/100, L2 >= 72%, estructura 1m válida y ALINEADOS CON LA MAREA DEL TOP 3
+                const qualifiedCandidates = allScoredCandidates.filter(c =>
+                  c.latentForceScore >= 92 &&
+                  c.domRatio >= 0.72 &&
+                  c.alignedRoc &&
+                  c.candle1mAligned &&
+                  c.structOk &&
+                  c.isLong === dominantIsLong
+                );
+
+                for (const bestCand of qualifiedCandidates.slice(0, 2)) {
                   if (slotsLeft <= 0) break;
                   const { unit, coin, isLong, px, l2Pct, latentForceScore } = bestCand;
                   const szStr = fmtSz(unit.notional / px, ASSET_DEC[coin]);
@@ -3972,7 +4067,7 @@ export default {
                         `📍 <b>Par & Dirección:</b> <code>${coin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szStr} ${coin})\n` +
                         `📥 <b>Precio de Entrada:</b> <code>$${pxStr}</code>\n` +
                         `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($${unit.notional.toFixed(2)} USD Nocional)</code>\n` +
-                        `🧲 <b>Score Fuerza Latente:</b> <b>${latentForceScore}/100</b> (<code>L2 ${l2Pct}% >= 72% · Auditoría <150ms</code>)\n` +
+                        `🧲 <b>Score Fuerza Latente:</b> <b>${latentForceScore}/100</b> (<code>L2 ${l2Pct}% >= 72% · Marea Top 3 Alineada</code>)\n` +
                         `🔒 <b>Objetivo Candado #00:</b> <code>$${lockPxStr}</code> (+$0.10 USDC Neto ➔ 🟢 LIGERO Sin TP Fijo)\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                         `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;
