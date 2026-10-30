@@ -405,12 +405,13 @@ function formatHlPrice(price, coin) {
   if (!Number.isFinite(num) || num <= 0) return "0";
   if (coin === "BTC") return Math.round(num).toFixed(0);
   const meta = ASSET_DECIMALS[coin];
-  const maxDec = (meta && typeof meta.px === "number") ? meta.px : 2;
+  const szDec = (meta && typeof meta.sz === "number") ? meta.sz : 1;
+  const maxDec = Math.max(0, 6 - szDec);
   if (maxDec === 0) return Math.round(num).toFixed(0);
-  // Regla oficial Hyperliquid L1: máximo 5 cifras significativas y máximo maxDec decimales
+  // Regla oficial Hyperliquid L1: máximo 5 cifras significativas y máximo (6 - szDecimals) decimales
   const sig5 = Number(num.toPrecision(5));
-  const intDigits = num >= 1 ? Math.floor(Math.log10(num)) + 1 : 0;
-  const allowedDec = num >= 1 ? Math.max(0, Math.min(maxDec, 5 - intDigits)) : maxDec;
+  const intDigits = sig5 >= 1 ? Math.floor(Math.log10(sig5)) + 1 : 0;
+  const allowedDec = sig5 >= 1 ? Math.max(0, Math.min(maxDec, 5 - intDigits)) : maxDec;
   return Number(sig5.toFixed(allowedDec)).toString();
 }
 
@@ -496,6 +497,9 @@ function computeWindowRocPct(hist, windowMs, fallbackCloses = []) {
   return 0;
 }
 
+const l2BookCacheByCoin = {};     // { [coin]: { ts, data } }
+const candles1mCacheByCoin = {};  // { [coin]: { ts, data } }
+
 async function evaluateLatentForceForPair({
   coin,
   squadKey = "ALFA",
@@ -506,10 +510,22 @@ async function evaluateLatentForceForPair({
   const t0 = Date.now();
   try {
     const now = Date.now();
-    const [l2, candles1m] = await Promise.all([
-      info.l2Book({ coin }).catch(() => null),
-      info.candleSnapshot({ coin, interval: "1m", startTime: now - (30 * 60000), endTime: now }).catch(() => null)
-    ]);
+    const cachedL2 = l2BookCacheByCoin[coin];
+    const cachedCandles = candles1mCacheByCoin[coin];
+    const l2Promise = (cachedL2 && (now - cachedL2.ts) < 5500)
+      ? Promise.resolve(cachedL2.data)
+      : info.l2Book({ coin }).then(res => {
+          if (res) l2BookCacheByCoin[coin] = { ts: Date.now(), data: res };
+          return res;
+        }).catch(() => cachedL2?.data || null);
+    const candlesPromise = (cachedCandles && (now - cachedCandles.ts) < 12000)
+      ? Promise.resolve(cachedCandles.data)
+      : info.candleSnapshot({ coin, interval: "1m", startTime: now - (30 * 60000), endTime: now }).then(res => {
+          if (res) candles1mCacheByCoin[coin] = { ts: Date.now(), data: res };
+          return res;
+        }).catch(() => cachedCandles?.data || null);
+
+    const [l2, candles1m] = await Promise.all([l2Promise, candlesPromise]);
 
     const bids = l2?.levels?.[0] || [];
     const asks = l2?.levels?.[1] || [];
@@ -765,35 +781,34 @@ async function rankFreePairsByLatentForce({
 }
 
 /**
- * BLINDAJE ANTI-ESCAPE DEL CANDADO #00 (`CORNERING_RATCHET_00` POR PNL VISIBLE + MEMORIA DE PICO INBORRABLE):
- * - Escalera inicial (por PnL real visible `displayPnl`):
- *   * `+$0.15` ➔ candado en `+$0.10`
- *   * `+$0.30` ➔ candado en `+$0.20`
- *   * `+$0.40` ➔ candado en `+$0.30`
- * - Desde `+$0.50` en adelante (De 10 en 10 centavos):
- *   * Toca `+$0.50` ➔ Candado estricto clavado en `+$0.50`
- *   * Toca `+$0.60` ➔ Candado sube a `+$0.60`
- *   * Toca `+$0.70` ➔ Candado sube a `+$0.70`
- *   * Fórmula general para `peakPnlUsdc >= 0.50`:
- *     `lockedFloorUsdc = Math.floor(peakPnlUsdc * 10) / 10`
+ * ESCALERA UNIVERSAL DE CANDADO DE 10 EN 10 CENTAVOS SIN HUECOS (USANDO `displayPnl` / `currentPnlUsdc` REAL):
+ * - Si `peakPnlUsdc >= 0.20`:
+ *   `lockedFloorUsdc = +(Math.floor((peakPnlUsdc + 1e-9) * 10) / 10).toFixed(2)`
+ *   (Ejemplos: `+$0.26` ➔ `+$0.20` | `+$0.34` ➔ `+$0.30` | `+$0.42` ➔ `+$0.40` | `+$0.51` ➔ `+$0.50` | `+$0.75` ➔ `+$0.70`... sin techo)
+ * - Si `peakPnlUsdc >= 0.12` y `< 0.20`:
+ *   `lockedFloorUsdc = 0.10` (se arma en `+$0.10` apenas supera `+$0.12`)
  */
+const positionPeakPnlMap = {}; // { [coin]: { peakPnlUsdc, lockedFloorUsdc } }
+
 function computeCorneringRatchetStep(peakPnlUsdc) {
   const peak = Number(peakPnlUsdc || 0);
-  if (peak >= CORNERING_HALF_DOLLAR_USDC) {
+  if (peak >= 0.20) {
     return +(Math.floor((peak + 1e-9) * 10) / 10).toFixed(2);
   }
-  if (peak >= 0.40) return 0.30;
-  if (peak >= 0.30) return 0.20;
-  if (peak >= 0.15) return 0.10;
+  if (peak >= 0.12) return 0.10;
   return 0;
 }
 
 const activeClosingMutex = {};
 /**
- * REGLA 2 — PROHIBIDO USAR `ALO` AL COBRAR CANDADO:
- * CIERRE AGRESIVO `IOC` GARANTIZADO CON 3% SLIPPAGE + RETRY INSTANTÁNEO A LOS 200ms HASTA DEJAR `szi === 0`
+ * REGLA 2 — CIERRE A MERCADO (`IOC`) INMEDIATO Y GARANTIZADO EN `< 250ms`:
+ * - PROHIBIDO usar `tif: "Alo"` en cierres de candado.
+ * - Usar siempre `t: { limit: { tif: "Ioc" } }`, `r: true`.
+ * - Precio límite con regla oficial de Hyperliquid L1: máx 5 cifras significativas y máx `(6 - szDecimals)` decimales,
+ *   con margen de cruce de `5%` en el intento #1 (`midPx * 0.95` LONG / `midPx * 1.05` SHORT).
+ * - Si tras `150ms` la posición sigue con `szi !== 0`, reintentar inmediatamente con `8%` de margen de cruce hasta confirmar `szi === 0`.
  */
-async function closePositionGuaranteedMarket(client, info, coin, szi, currentMid, reasonLabel = "CANDADO_00") {
+async function executeGuaranteedMarketClose(client, info, coin, szi, currentMid, reasonLabel = "CANDADO_00") {
   if (activeClosingMutex[coin]) return false;
   activeClosingMutex[coin] = true;
   try {
@@ -802,7 +817,7 @@ async function closePositionGuaranteedMarket(client, info, coin, szi, currentMid
     if (remSz <= 0 || ASSET_INDICES[coin] === undefined || !ASSET_DECIMALS[coin]) return false;
 
     for (let attempt = 1; attempt <= 3; attempt++) {
-      const slipMult = attempt === 1 ? 0.03 : (attempt === 2 ? 0.05 : 0.08);
+      const slipMult = attempt === 1 ? 0.05 : 0.08;
       const refPx = currentMid > 0 ? currentMid : 1;
       const crossPx = isShort ? (refPx * (1 + slipMult)) : (refPx * (1 - slipMult));
       const crossPxStr = formatHlPrice(crossPx, coin);
@@ -829,8 +844,8 @@ async function closePositionGuaranteedMarket(client, info, coin, szi, currentMid
         console.log(`   ✅ [CIERRE 100% EJECUTADO EN L1] ${coin} cerrado en intento #${attempt} (avgPx: $${st.filled.avgPx || crossPxStr})`);
       }
 
-      // Verificar tras 200ms si queda saldo abierto en Clearinghouse
-      await new Promise(r => setTimeout(r, 200));
+      // Verificar tras 150ms si queda saldo abierto en Clearinghouse
+      await new Promise(r => setTimeout(r, 150));
       const chCheck = await info.clearinghouseState({ user: VAULT_501 }).catch(() => null);
       if (!chCheck || !Array.isArray(chCheck.assetPositions)) break;
       const stillPos = chCheck.assetPositions.find(p => p.position?.coin === coin && parseFloat(p.position?.szi || "0") !== 0);
@@ -838,36 +853,40 @@ async function closePositionGuaranteedMarket(client, info, coin, szi, currentMid
         return true; // szi === 0 confirmado en L1!
       }
       remSz = Math.abs(parseFloat(stillPos.position.szi));
-      console.log(`   🔄 [RETRY 200ms] Queda szi=${remSz} en ${coin}, re-disparando cierre inmediato a mercado...`);
+      console.log(`   🔄 [RETRY 150ms // 8% CROSSING] Queda szi=${remSz} en ${coin}, re-disparando cierre inmediato a mercado...`);
     }
-    return true;
+    return false;
   } finally {
     activeClosingMutex[coin] = false;
   }
 }
 
+const closePositionGuaranteedMarket = executeGuaranteedMarketClose;
+
 /**
  * REGLA 3 — ORDEN `STOP-MARKET` NATIVA EN EL LIBRO DE HYPERLIQUID L1 (PROTECCIÓN CONTRA MECHAZOS DE 50ms):
- * En cuanto una posición alcance `peakPnlUsdc >= 0.50`, coloca/actualiza en Hyperliquid L1 una orden
- * `trigger: { isMarket: true, triggerPx, tpsl: "sl" }, r: true` en el escalón exacto `lockedFloorUsdc` (+$0.50, +$0.60, +$0.70...).
+ * En cuanto una posición alcance `lockedFloorUsdc >= 0.20` (y nocional >= $10.5), coloca/actualiza en Hyperliquid L1 una orden
+ * `trigger: { isMarket: true, triggerPx, tpsl: "sl" }, r: true` en el escalón exacto `lockedFloorUsdc` (+$0.20, +$0.30, +$0.40, +$0.50...).
  */
 async function placeOrUpdateNativeStopMarketL1(client, coin, isShort, absSz, entryPx, lockedFloorUsdc, posMeta = {}) {
-  if (!client || lockedFloorUsdc < CORNERING_HALF_DOLLAR_USDC || absSz <= 0 || ASSET_INDICES[coin] === undefined || !ASSET_DECIMALS[coin]) {
+  const notionalVal = absSz * entryPx;
+  if (!client || lockedFloorUsdc < 0.20 || notionalVal < 10.5 || absSz <= 0 || ASSET_INDICES[coin] === undefined || !ASSET_DECIMALS[coin]) {
     return;
   }
   const deltaPx = lockedFloorUsdc / absSz;
   const triggerPxNum = isShort ? (entryPx - deltaPx) : (entryPx + deltaPx);
   const triggerPxStr = formatHlPrice(triggerPxNum, coin);
-  if (posMeta.nativeSlTriggerPx === triggerPxStr && posMeta.nativeSlLockedFloor === lockedFloorUsdc) {
+  if ((posMeta.nativeSlTriggerPx === triggerPxStr && posMeta.nativeSlLockedFloor === lockedFloorUsdc) || posMeta.nativeSlAttemptedFloor === lockedFloorUsdc) {
     return;
   }
+  posMeta.nativeSlAttemptedFloor = lockedFloorUsdc;
 
-  // Cancelar Stop-Market previo si subió de escalón (+$0.50 -> +$0.60 -> +$0.70...)
+  // Cancelar Stop-Market previo si subió de escalón (+$0.20 -> +$0.30 -> +$0.40 -> +$0.50...)
   if (posMeta.nativeSlOid) {
     await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: posMeta.nativeSlOid }] }).catch(() => {});
   }
 
-  const limitSlippagePx = isShort ? (triggerPxNum * 1.03) : (triggerPxNum * 0.97);
+  const limitSlippagePx = isShort ? (triggerPxNum * 1.05) : (triggerPxNum * 0.95);
   const limitSlippagePxStr = formatHlPrice(limitSlippagePx, coin);
   const szStr = formatHlSize(absSz, ASSET_DECIMALS[coin].sz);
 
@@ -894,7 +913,7 @@ async function placeOrUpdateNativeStopMarketL1(client, coin, isShort, absSz, ent
     posMeta.nativeSlOid = slStatus.resting?.oid || null;
     posMeta.nativeSlTriggerPx = triggerPxStr;
     posMeta.nativeSlLockedFloor = lockedFloorUsdc;
-    console.log(`🛡️⚡ [STOP-MARKET NATIVO L1 ARMADO // ${coin}] Escalón +$${lockedFloorUsdc.toFixed(2)} USDC blindado en servidor L1 @ triggerPx $${triggerPxStr} (3% slippage market)`);
+    console.log(`🛡️⚡ [STOP-MARKET NATIVO L1 ARMADO // ${coin}] Escalón +$${lockedFloorUsdc.toFixed(2)} USDC blindado en servidor L1 @ triggerPx $${triggerPxStr} (5% slippage market)`);
   }
 }
 
@@ -903,9 +922,8 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
   const isShort = szNum < 0;
   const notional = absSz * entryPx;
   const isExpressPriorityCoin = PRIORITY_EVAC_TARGETS.includes(coin);
-  const targetLevel1NetUsd = LEVEL1_NET_LOCK_USDC; // +$0.10 USDC
 
-  // Comisiones reales Hyperliquid L1: 0.015% Maker / 0.045% Taker
+  // Comisiones reales Hyperliquid L1: 0.015% Maker / 0.045% Taker (solo informativas; la escalera 10c usa el PnL visible)
   const makerRoundTripFeeUsd = +(notional * (HL_MAKER_FEE_RATE * 2)).toFixed(4);
   const realRoundTripFeeUsd = +(notional * (HL_MAKER_FEE_RATE + HL_TAKER_FEE_RATE)).toFixed(4);
 
@@ -913,20 +931,27 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     ? (isShort ? ((entryPx - currentMid) / entryPx) * 100 : ((currentMid - entryPx) / entryPx) * 100)
     : 0;
 
-  // PnL en vivo por precio mid actual (300ms) + PnL visible de Clearinghouse
+  // PnL en vivo por precio mid actual (250ms) + PnL visible de Clearinghouse (SIN restar comisiones teóricas que impidan subir el candado)
   const hasValidLiveMid = currentMid > 0 && !(Math.abs(currentMid - entryPx) < 1e-12 && uPnlNum !== undefined && Math.abs(Number(uPnlNum)) > 0.01);
   const rawMidPnlUsdc = +(absSz * (isShort ? (entryPx - currentMid) : (currentMid - entryPx))).toFixed(4);
   const visiblePnlUsdc = (uPnlNum !== undefined && uPnlNum !== null) ? Number(uPnlNum) : rawMidPnlUsdc;
   const instantPnlUsdc = hasValidLiveMid ? rawMidPnlUsdc : visiblePnlUsdc;
   const currentPnlUsdc = instantPnlUsdc;
   const candidatePeakPnl = hasValidLiveMid ? Math.max(instantPnlUsdc, visiblePnlUsdc) : visiblePnlUsdc;
-  const netAfterFeesUsd = +(currentPnlUsdc - realRoundTripFeeUsd).toFixed(4);
 
-  // Memoria de pico inborrable en disco (`telemetry/ratchet-peaks-state.json`)
+  // Memoria de pico inborrable en RAM (`positionPeakPnlMap`) y en disco (`telemetry/ratchet-peaks-state.json`)
   const peaksState = loadRatchetPeaksState();
   const posKey = `${coin}_${entryPx.toFixed(6)}`;
-  const persistedPeak = peaksState[posKey]?.peakPnlUsdc ?? -999;
-  const persistedFloor = peaksState[posKey]?.lockedFloorUsdc ?? 0;
+  const persistedPeak = Math.max(
+    peaksState[posKey]?.peakPnlUsdc ?? -999,
+    peaksState[coin]?.peakPnlUsdc ?? -999,
+    positionPeakPnlMap[coin]?.peakPnlUsdc ?? -999
+  );
+  const persistedFloor = Math.max(
+    peaksState[posKey]?.lockedFloorUsdc ?? 0,
+    peaksState[coin]?.lockedFloorUsdc ?? 0,
+    positionPeakPnlMap[coin]?.lockedFloorUsdc ?? 0
+  );
 
   const peakPnlUsdc = Math.max(posMeta.peakPnlUsdc ?? -999, persistedPeak, candidatePeakPnl);
   posMeta.peakPnlUsdc = peakPnlUsdc;
@@ -944,16 +969,18 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     : (entryPx * EXPRESS_EVAC_DELTA_RATIO);
   const cleanEvacMakerPx = isShort ? (entryPx - deltaPxEvac) : (entryPx + deltaPxEvac);
 
-  // ESCALERA EXACTA POR PNL VISIBLE (`+$0.15`->`+$0.10` | `+$0.30`->`+$0.20` | `+$0.40`->`+$0.30` | `>=+$0.50` -> `Math.floor(peakPnlUsdc * 10) / 10`)
+  // ESCALERA CONTINUA DE +$0.10 EN +$0.10 SIN HUECOS:
+  // `>= +$0.12` -> `+$0.10` | `>= +$0.20` -> `Math.floor(peakPnlUsdc * 10) / 10` (`+$0.20`, `+$0.30`, `+$0.40`, `+$0.50`...)
   const corneredStepUsd = computeCorneringRatchetStep(peakPnlUsdc);
   const lockedFloorUsdc = Math.max(posMeta.lockedNetUsd || 0, persistedFloor, corneredStepUsd);
+  positionPeakPnlMap[coin] = { peakPnlUsdc, lockedFloorUsdc };
 
   if (lockedFloorUsdc >= 0.10) {
     const prevLockedFloor = Math.max(posMeta.lockedNetUsd || 0, persistedFloor);
     posMeta.beLocked = true;
     posMeta.isLight = true;
     posMeta.cleanEvacActive = false;
-    posMeta.ratchetLevel = peakPnlUsdc >= CORNERING_HALF_DOLLAR_USDC ? 2 : 1;
+    posMeta.ratchetLevel = peakPnlUsdc >= 0.20 ? Math.round(lockedFloorUsdc * 10) : 1;
     posMeta.lockedNetUsd = lockedFloorUsdc;
 
     const deltaLockedPx = absSz > 0 ? (lockedFloorUsdc / absSz) : 0;
@@ -961,7 +988,7 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     posMeta.ratchetTriggerPx = posMeta.lockedPx;
 
     if (lockedFloorUsdc > prevLockedFloor || peakPnlUsdc > persistedPeak + 0.01) {
-      peaksState[posKey] = {
+      const record = {
         coin,
         entryPx,
         peakPnlUsdc: +peakPnlUsdc.toFixed(4),
@@ -969,11 +996,13 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
         lockedPx: posMeta.lockedPx,
         updatedAt: new Date().toISOString()
       };
+      peaksState[posKey] = record;
+      peaksState[coin] = record;
       saveRatchetPeaksState(peaksState);
     }
 
     if (lockedFloorUsdc > prevLockedFloor) {
-      console.log(`🔒⚡ [CANDADO ANTI-ESCAPE #00 // ${coin}] Escalón clavado en +$${lockedFloorUsdc.toFixed(2)} USDC (Pico: +$${peakPnlUsdc.toFixed(2)} USDC | TriggerPx: $${formatHlPrice(posMeta.lockedPx, coin)})`);
+      console.log(`🔒⚡ [CANDADO UNIVERSAL 10c // ${coin}] Escalón clavado en +$${lockedFloorUsdc.toFixed(2)} USDC (Pico: +$${peakPnlUsdc.toFixed(2)} USDC | TriggerPx: $${formatHlPrice(posMeta.lockedPx, coin)})`);
     }
   }
 
@@ -984,27 +1013,21 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
   }
 
   // GATILLO INMEDIATO DE COBRO (`fireCloseNow` / `hitRatchetStop`):
-  // Se activa en el instante en que `currentPnlUsdc <= lockedFloorUsdc` (o si `peakPnlUsdc >= 0.50` y `currentPnlUsdc < 0.48`):
+  // Una vez que `lockedFloorUsdc >= 0.10` está armado, el candado es INBORRABLE.
+  // En el instante exacto en que `currentPnlUsdc <= lockedFloorUsdc` (ej: subió a +$0.26 armando +$0.20 y retrocede a <= +$0.20;
+  // o subió a +$0.14 armando +$0.10 y retrocede a <= +$0.10), dispara cierre IOC garantizado en < 250ms:
   let hitRatchetStop = false;
   if (posMeta.beLocked && lockedFloorUsdc >= 0.10) {
-    if (peakPnlUsdc >= CORNERING_HALF_DOLLAR_USDC) {
-      // Desde +$0.50 en adelante: si subió por encima del escalón (+$0.51..+$0.75) y toca `<= lockedFloorUsdc`, o si cae `< 0.48` / `< lockedFloorUsdc`, dispara IOC 3% inmediato!
-      if ((peakPnlUsdc > lockedFloorUsdc + 0.005 && currentPnlUsdc <= lockedFloorUsdc) || currentPnlUsdc < lockedFloorUsdc || currentPnlUsdc < 0.48) {
-        hitRatchetStop = true;
-      }
-    } else {
-      // Escalera inicial (+$0.15 -> +$0.10 | +$0.30 -> +$0.20 | +$0.40 -> +$0.30):
-      if (currentPnlUsdc <= lockedFloorUsdc) {
-        hitRatchetStop = true;
-      }
+    if ((currentPnlUsdc < lockedFloorUsdc) || (peakPnlUsdc > lockedFloorUsdc + 0.001 && currentPnlUsdc <= lockedFloorUsdc)) {
+      hitRatchetStop = true;
     }
   }
 
-  // Etiqueta oficial de telemetría para /squad-matrix/
+  // Etiqueta oficial de telemetría sincronizada en tiempo real con /squad-matrix/
   let ratchetStatusLabel = `🔓 ESCALERA +$0.10 ➔ +$0.50+`;
   if (posMeta.beLocked) {
     const lockedDisp = Math.max(0.10, posMeta.lockedNetUsd || 0.10).toFixed(2);
-    ratchetStatusLabel = `🔒 CANDADO +$${lockedDisp}`;
+    ratchetStatusLabel = `🔒 CANDADO +$${lockedDisp} ACTIVO`;
   } else if (posMeta.cleanEvacActive) {
     ratchetStatusLabel = isExpressPriorityCoin
       ? `🎯 SALIDA LISTA (+$${EXPRESS_EVAC_NET_USDC.toFixed(2)} NETO)`
@@ -1624,11 +1647,11 @@ async function startAutonomousSquadDaemon() {
   } catch (_) {}
 
   // =========================================================================
-  // ⚡🛡️ VIGILANTE ANTI-ESCAPE DE 300ms (FAST-LOOP SOBRE LAS POSICIONES ABIERTAS)
-  // - Lee precios mid cada 300ms para registrar peakPnlUsdc inborrable.
-  // - Al tocar +$0.50 (+$0.60, +$0.70, $1.00...) coloca Stop-Market Reduce-Only nativo en L1.
+  // ⚡🛡️ VIGILANTE ANTI-ESCAPE DE 250ms (FAST-LOOP SOBRE LAS POSICIONES ABIERTAS)
+  // - Lee precios mid cada 250ms para registrar peakPnlUsdc inborrable.
+  // - Una vez que lockedFloorUsdc >= 0.10 está armado, el candado es INBORRABLE.
   // - Al retroceder al escalón acorralado (currentPnlUsdc <= lockedFloorUsdc), dispara
-  //   cierre IOC agresivo con 3% de slippage + verificación en 200ms hasta szi === 0.
+  //   executeGuaranteedMarketClose (IOC 5% -> retry 150ms 8%) hasta confirmar szi === 0.
   // =========================================================================
   const closingInProgressCoins = new Set();
   let fastGuardInFlight = false;
@@ -1644,7 +1667,7 @@ async function startAutonomousSquadDaemon() {
       for (const coin of trackedCoins) {
         if (closingInProgressCoins.has(coin)) continue;
         const posMeta = confirmedOpenByCoin[coin];
-        if (!posMeta || !posMeta.szi || !posMeta.entryPx) continue;
+        if (!posMeta || posMeta.closedByFastGuard || !posMeta.szi || !posMeta.entryPx) continue;
 
         const currentMid = parseFloat(fastMids[coin] || "0");
         if (!currentMid || currentMid <= 0) continue;
@@ -1669,8 +1692,8 @@ async function startAutonomousSquadDaemon() {
         );
         posMeta.ratchetStatusLabel = rFast.ratchetStatusLabel;
 
-        // Si alcanzó >= +$0.50 visibles, asegurar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1
-        if (rFast.beLocked && rFast.lockedNetUsd >= CORNERING_HALF_DOLLAR_USDC && !rFast.hitRatchetStop) {
+        // Si alcanzó >= +$0.20 visibles, asegurar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1
+        if (rFast.beLocked && rFast.lockedNetUsd >= 0.20 && !rFast.hitRatchetStop) {
           await placeOrUpdateNativeStopMarketL1(
             client,
             coin,
@@ -1682,20 +1705,22 @@ async function startAutonomousSquadDaemon() {
           );
         }
 
-        // Si tocó el piso del Candado #00 (fireCloseNow / hitRatchetStop) O si es objetivo de desalojo rápido Wall Street en +$0.05 USDC netos:
-        const isWallStreetExpressEvac = PRIORITY_EVAC_TARGETS.includes(coin) && rFast.netAfterFeesUsd >= EXPRESS_EVAC_NET_USDC && rFast.lockedNetUsd < CORNERING_HALF_DOLLAR_USDC;
+        // Si tocó el piso del Candado Universal de 10 en 10 centavos (hitRatchetStop) O si es objetivo de desalojo rápido Wall Street en +$0.05 USDC:
+        const isWallStreetExpressEvac = PRIORITY_EVAC_TARGETS.includes(coin) && rFast.currentPnlUsdc >= EXPRESS_EVAC_NET_USDC && rFast.lockedNetUsd < 0.20;
         if ((rFast.beLocked && rFast.hitRatchetStop) || isWallStreetExpressEvac) {
           closingInProgressCoins.add(coin);
           try {
             const closeReason = isWallStreetExpressEvac && !(rFast.beLocked && rFast.hitRatchetStop)
-              ? `WALL_STREET_EXPRESS_EVAC_+$${rFast.netAfterFeesUsd.toFixed(2)}_NET`
-              : `FAST_300MS_CANDADO_00_+$${rFast.lockedNetUsd.toFixed(2)}`;
-            console.log(`🚨⚡ [FAST-GUARD 300ms // ${closeReason}] ${coin} (Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)} | Neto: +$${rFast.netAfterFeesUsd.toFixed(2)}) -> Disparo IOC 3% Inmediato!`);
-            if (posMeta.nativeSlTriggerOid) {
-              await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: posMeta.nativeSlTriggerOid }] }).catch(() => {});
+              ? `WALL_STREET_EXPRESS_EVAC_+$${rFast.currentPnlUsdc.toFixed(2)}_NET`
+              : `FAST_250MS_CANDADO_10C_+$${rFast.lockedNetUsd.toFixed(2)}`;
+            console.log(`🚨⚡ [FAST-GUARD 250ms // ${closeReason}] ${coin} (Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)} | Escalón: +$${rFast.lockedNetUsd.toFixed(2)}) -> Disparo IOC 5% Inmediato!`);
+            if (posMeta.nativeSlOid || posMeta.nativeSlTriggerOid) {
+              const slOid = posMeta.nativeSlOid || posMeta.nativeSlTriggerOid;
+              await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: slOid }] }).catch(() => {});
+              posMeta.nativeSlOid = null;
               posMeta.nativeSlTriggerOid = null;
             }
-            await closePositionGuaranteedMarket(
+            const closedOk = await executeGuaranteedMarketClose(
               client,
               info,
               coin,
@@ -1703,6 +1728,9 @@ async function startAutonomousSquadDaemon() {
               currentMid,
               closeReason
             );
+            if (closedOk) {
+              posMeta.closedByFastGuard = true;
+            }
           } finally {
             closingInProgressCoins.delete(coin);
           }
@@ -1712,7 +1740,7 @@ async function startAutonomousSquadDaemon() {
     } finally {
       fastGuardInFlight = false;
     }
-  }, 300);
+  }, 250);
   if (typeof fastGuardTimer.unref === "function") fastGuardTimer.unref();
 
   while (true) {
@@ -1787,6 +1815,7 @@ async function startAutonomousSquadDaemon() {
           console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${closedCoin}-USDC) — Quedan ${remainingStuck} en Cola #00 | Entra en 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO) y luego se incorpora al carrusel.`);
 
           delete confirmedOpenByCoin[closedCoin];
+          delete positionPeakPnlMap[closedCoin];
           lastConfirmedPositionSizes[closedCoin] = 0;
           delete positionOpenTimestamps[closedCoin];
           try {
@@ -2213,17 +2242,17 @@ async function startAutonomousSquadDaemon() {
           if (tier1Set.has(coin)) {
             const isExpressEvacCoin = PRIORITY_EVAC_TARGETS.includes(coin);
             posMeta.ratchetStatusLabel = ratchet.beLocked
-              ? `🔒 CANDADO +$${ratchet.lockedNetUsd.toFixed(2)}`
+              ? `🔒 CANDADO +$${ratchet.lockedNetUsd.toFixed(2)} ACTIVO`
               : (isExpressEvacCoin
                   ? `🎯 SALIDA LISTA (${coin} · +$0.05 A +$0.10 NETO)`
                   : `1º BLOQUE CERCANO (${coin}) · SALIDA NETA +$0.10`);
 
-            if (isExpressEvacCoin && ratchet.netAfterFeesUsd >= EXPRESS_EVAC_NET_USDC && ratchet.lockedNetUsd < CORNERING_HALF_DOLLAR_USDC) {
-              console.log(`💰🗽 [APERTURA WALL STREET // EVACUACIÓN EXPRESS +$0.05 NETO] ${coin} alcanzó +$${ratchet.netAfterFeesUsd.toFixed(4)} USDC netos -> Cerrando a mercado (IOC 3%) para liberar margen y enviar a 8m de respiro!`);
+            if (isExpressEvacCoin && ratchet.currentPnlUsdc >= EXPRESS_EVAC_NET_USDC && ratchet.lockedNetUsd < 0.20) {
+              console.log(`💰🗽 [APERTURA WALL STREET // EVACUACIÓN EXPRESS +$0.05 NETO] ${coin} alcanzó +$${ratchet.currentPnlUsdc.toFixed(4)} USDC -> Cerrando a mercado (IOC 5%) para liberar margen y enviar a 8m de respiro!`);
               if (existingExitOrder) {
                 await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
               }
-              await closePositionGuaranteedMarket(
+              await executeGuaranteedMarketClose(
                 client,
                 info,
                 coin,
@@ -2235,72 +2264,43 @@ async function startAutonomousSquadDaemon() {
             }
 
             if (ratchet.beLocked) {
-              // Apenas cruza +$0.10 USDC netos queda enganchada al Candado de Acorralamiento #00:
+              // Apenas cruza +$0.12 USDC queda enganchada a la Escalera Universal de 10 en 10 centavos:
               // Si toca el candado acorralado (hitRatchetStop), cobra de inmediato a USDC!
               if (ratchet.hitRatchetStop) {
-                console.log(`💰🔒 [CANDADO ACORRALAMIENTO #00 // EVACUACIÓN] ${coin} tocó candado acorralado (+$${ratchet.lockedNetUsd.toFixed(2)} USDC | Neto: +$${ratchet.netAfterFeesUsd.toFixed(4)}) -> Cobrando inmediato a USDC (IOC 3% Garantizado)!`);
+                console.log(`💰🔒 [CANDADO UNIVERSAL 10c // EVACUACIÓN] ${coin} tocó candado (+$${ratchet.lockedNetUsd.toFixed(2)} USDC | Actual: +$${ratchet.currentPnlUsdc.toFixed(4)}) -> Cobrando inmediato a USDC (IOC 5% Garantizado)!`);
                 if (existingExitOrder) {
                   await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
                 }
-                if (posMeta.nativeSlTriggerOid) {
-                  await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: posMeta.nativeSlTriggerOid }] }).catch(() => {});
+                if (posMeta.nativeSlOid || posMeta.nativeSlTriggerOid) {
+                  const slOid = posMeta.nativeSlOid || posMeta.nativeSlTriggerOid;
+                  await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: slOid }] }).catch(() => {});
+                  posMeta.nativeSlOid = null;
                   posMeta.nativeSlTriggerOid = null;
                 }
-                await closePositionGuaranteedMarket(
+                await executeGuaranteedMarketClose(
                   client,
                   info,
                   coin,
                   szNum,
                   currentMid,
-                  `CANDADO_00_EVAC_+$${ratchet.lockedNetUsd.toFixed(2)}`
+                  `CANDADO_10C_EVAC_+$${ratchet.lockedNetUsd.toFixed(2)}`
                 );
                 continue;
               }
 
-              // Si está en Fase 1 (+$0.10 a +$0.49) y L2 < 72%, evacuar en verde de inmediato para liberar margen rápido
-              if (isExpressEvacCoin && ratchet.lockedNetUsd < CORNERING_HALF_DOLLAR_USDC) {
-                let favPressPct = 50;
-                try {
-                  const l2Check = await info.l2Book({ coin });
-                  const bLv = l2Check?.levels?.[0] || [], aLv = l2Check?.levels?.[1] || [];
-                  let bV = 0, aV = 0;
-                  for (let i = 0; i < 5; i++) {
-                    bV += parseFloat(bLv[i]?.px || 0) * parseFloat(bLv[i]?.sz || 0);
-                    aV += parseFloat(aLv[i]?.px || 0) * parseFloat(aLv[i]?.sz || 0);
-                  }
-                  favPressPct = (bV + aV) > 0 ? ((isShort ? aV : bV) / (bV + aV)) * 100 : 50;
-                } catch (_) {}
-
-                if (favPressPct < 72.0) {
-                  console.log(`💰🔒 [EVACUACIÓN RÁPIDA EN VERDE] ${coin} cruzó +$0.10 (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC | L2 ${favPressPct.toFixed(1)}% < 72%) -> Cobrando inmediato a USDC (IOC 3%) para liberar margen!`);
-                  if (existingExitOrder) {
-                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
-                  }
-                  await closePositionGuaranteedMarket(
-                    client,
-                    info,
-                    coin,
-                    szNum,
-                    currentMid,
-                    "EXPRESS_EVAC_L2_UNDER_72"
-                  );
-                  continue;
-                }
-              }
-
-              // Si la vela sigue empujando con fuerza hacia arriba, quitar límite fijo inferior para que escale de +$0.10 en +$0.10 (+$0.50, +$0.60, +$0.70, $1, $2, $3+)
+              // Si la vela sigue empujando con fuerza hacia arriba, quitar límite fijo inferior para que escale de +$0.10 en +$0.10 (+$0.20, +$0.30, +$0.40, +$0.50, $1, $2, $3+)
               if (existingExitOrder) {
                 await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
               }
               continue;
             }
 
-            // Antes de cruzar +$0.10: mantener Reduce-Only ALO en empate positivo limpio (+$0.05 a +$0.10 USDC netos)
+            // Antes de cruzar +$0.10: mantener Reduce-Only ALO en empate positivo limpio (+$0.05 a +$0.10 USDC netos) solo si notional >= $10.5
             const expressBePx = isExpressEvacCoin ? ratchet.cleanEvacMakerPx : ratchet.level1LockPx;
             const targetLockPxStr = formatHlPrice(expressBePx, coin);
             const existingOrderPxStr = existingExitOrder ? formatHlPrice(parseFloat(existingExitOrder.limitPx || "0"), coin) : null;
 
-            if (!existingExitOrder || existingOrderPxStr !== targetLockPxStr) {
+            if (notionalVal >= 10.5 && (!existingExitOrder || existingOrderPxStr !== targetLockPxStr) && posMeta.evacOrderPlacedPx !== targetLockPxStr) {
               if (existingExitOrder) {
                 await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
               }

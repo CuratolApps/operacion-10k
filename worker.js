@@ -3769,10 +3769,8 @@ export default {
             const priorityEvacSet = new Set(["PAXG", "SUI", "kPEPE", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"]);
             const computeCorneringStepCloud = (peakPnl) => {
               const p = Number(peakPnl || 0);
-              if (p >= CORNERING_HALF_DOLLAR_USDC) return +(Math.floor((p + 1e-9) * 10) / 10).toFixed(2);
-              if (p >= 0.40) return 0.30;
-              if (p >= 0.30) return 0.20;
-              if (p >= 0.15) return 0.10;
+              if (p >= 0.20) return +(Math.floor((p + 1e-9) * 10) / 10).toFixed(2);
+              if (p >= 0.12) return 0.10;
               return 0;
             };
 
@@ -3788,9 +3786,9 @@ export default {
               const netAfterFee = unrealizedPnl - rtFeeUsd;
 
               if (entryPx > 0 && positionVal > 0) {
-                if (unrealizedPnl >= 0.15 || netAfterFee >= 0.10) {
+                if (unrealizedPnl >= 0.12) {
                   const stepUsd = Math.max(0.10, computeCorneringStepCloud(unrealizedPnl));
-                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Acorralamiento #00 ACTIVO para ${coin} (Escalón +$${stepUsd.toFixed(2)} | Visible +$${unrealizedPnl.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
+                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Universal 10c ACTIVO para ${coin} (Escalón +$${stepUsd.toFixed(2)} | Visible +$${unrealizedPnl.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
                 } else {
                   unfencedCount++;
                 }
@@ -3909,13 +3907,12 @@ export default {
                   }
                 }
 
-                // Gatillo Anti-Escape: se activa en el instante en que currentPnlUsdc <= lockedFloorUsdc (o si peakPnl >= 0.50 y currentPnl < 0.48)
+                // Gatillo Anti-Escape: se activa en el instante en que currentPnlUsdc <= lockedFloorUsdc
                 const hitCorneredStop = lockedProfitUsdc >= 0.10 && (
-                  (peakPnl >= CORNERING_HALF_DOLLAR_USDC && (uPnl <= lockedProfitUsdc || uPnl < 0.48)) ||
-                  (peakPnl < CORNERING_HALF_DOLLAR_USDC && uPnl <= lockedProfitUsdc)
+                  (uPnl < lockedProfitUsdc) || (peakPnl > lockedProfitUsdc + 0.001 && uPnl <= lockedProfitUsdc)
                 );
 
-                if ((hitCorneredStop || (priorityEvacSet.has(coin) && netAfterFee >= EXPRESS_EVAC_NET_USDC && lockedProfitUsdc < CORNERING_HALF_DOLLAR_USDC)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                if ((hitCorneredStop || (priorityEvacSet.has(coin) && uPnl >= EXPRESS_EVAC_NET_USDC && lockedProfitUsdc < 0.20)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   let favorRatio = 0.50;
                   let currentBookPx = entryPx;
                   try {
@@ -3938,8 +3935,8 @@ export default {
                     if (existingReduceOrder) {
                       await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
                     }
-                    // PROHIBIDO ALO AL COBRAR CANDADO: IOC agresivo con 3% de margen de cruce (1.03 / 0.97)
-                    const closePx = isShort ? currentBookPx * 1.03 : currentBookPx * 0.97;
+                    // PROHIBIDO ALO AL COBRAR CANDADO: IOC agresivo con 5% de margen de cruce (1.05 / 0.95)
+                    const closePx = isShort ? currentBookPx * 1.05 : currentBookPx * 0.95;
                     const closeRes = await client.order({
                       orders: [{
                         a: ASSET_INDICES[coin],

@@ -866,16 +866,26 @@ function render54PairsGrid() {
   });
 }
 
-// HELPER: BLINDAJE ANTI-ESCAPE DEL CANDADO #00 (`displayPnl >= $0.50` ESTRICTO + ESCALONES DE +$0.10) EN CLIENTE
-const clientRatchetMemory = {};
+// HELPER: ESCALERA UNIVERSAL CONTINUA DE +$0.10 EN +$0.10 (`peakPnl >= 0.12 -> +$0.10`, `>= 0.20 -> +$0.20`, `+$0.30`, `+$0.40`, `+$0.50`...)
+const clientRatchetMemory = (() => {
+  try {
+    const raw = localStorage.getItem("area501_ratchet_peaks_v1");
+    return raw ? JSON.parse(raw) : {};
+  } catch (_) {
+    return {};
+  }
+})();
+function persistClientRatchetMemory() {
+  try {
+    localStorage.setItem("area501_ratchet_peaks_v1", JSON.stringify(clientRatchetMemory));
+  } catch (_) {}
+}
 function computeCorneringRatchetStepClient(peakPnlUsdc) {
   const peak = Number(peakPnlUsdc || 0);
-  if (peak >= 0.50) {
+  if (peak >= 0.20) {
     return +(Math.floor((peak + 1e-9) * 10) / 10).toFixed(2);
   }
-  if (peak >= 0.40) return 0.30;
-  if (peak >= 0.30) return 0.20;
-  if (peak >= 0.15) return 0.10;
+  if (peak >= 0.12) return 0.10;
   return 0;
 }
 
@@ -884,6 +894,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
     return {
       isLocked: false,
       lockedNetUsd: 0,
+      peakPnlUsdc: 0,
       statusLabel: "🔒 ESCALERA +$0.10 ➔ +$0.50+",
       lockClass: "active-lock-tag shield"
     };
@@ -906,7 +917,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const netAfterFee = displayPnl - rtFeeUsd;
   const gainPct = entryPx > 0 ? (priceDiff / entryPx) * 100 : 0;
 
-  if (!clientRatchetMemory[coin] || clientRatchetMemory[coin].entryPx !== entryPx) {
+  if (!clientRatchetMemory[coin] || Math.abs((clientRatchetMemory[coin].entryPx || 0) - entryPx) > 1e-8) {
     const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR", "DOGE", "SUI", "LINK"]);
     clientRatchetMemory[coin] = {
       entryPx,
@@ -916,20 +927,31 @@ function computeClientRatchetStatus(activePos, currentPrice) {
       peakGainPct: gainPct,
       lockedNetUsd: 0
     };
+    persistClientRatchetMemory();
   }
   const mem = clientRatchetMemory[coin];
-  if (displayPnl > mem.peakPnlUsdc) mem.peakPnlUsdc = displayPnl;
+  let memChanged = false;
+  if (displayPnl > mem.peakPnlUsdc) {
+    mem.peakPnlUsdc = displayPnl;
+    memChanged = true;
+  }
   if (netAfterFee > mem.peakNetAfterFee) mem.peakNetAfterFee = netAfterFee;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Escalera Exacta por PnL Visible (`displayPnl >= $0.50` Estricto: +$0.15->+$0.10 | +$0.30->+$0.20 | +$0.40->+$0.30 | >=+$0.50 -> Math.floor(peak*10)/10)
+  // Escalera Continua de +$0.10 en +$0.10 por PnL Visible (`>=0.12 -> +$0.10` | `>=0.20 -> +$0.20` | `>=0.30 -> +$0.30` | `>=0.40 -> +$0.40` | `>=0.50 -> +$0.50+`)
   const corneredStep = computeCorneringRatchetStepClient(mem.peakPnlUsdc);
-  if (corneredStep >= 0.10) {
-    if (corneredStep > mem.lockedNetUsd) mem.lockedNetUsd = corneredStep;
+  if (corneredStep > (mem.lockedNetUsd || 0)) {
+    mem.lockedNetUsd = corneredStep;
+    memChanged = true;
+  }
+  if (memChanged) persistClientRatchetMemory();
+
+  if (mem.lockedNetUsd >= 0.10) {
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
-      statusLabel: `🔒 CANDADO +$${mem.lockedNetUsd.toFixed(2)}`,
+      peakPnlUsdc: mem.peakPnlUsdc,
+      statusLabel: `🔒 CANDADO +$${mem.lockedNetUsd.toFixed(2)} ACTIVO`,
       lockClass: "active-lock-tag be"
     };
   }
@@ -1939,7 +1961,7 @@ function updatePricesAndSignals() {
       if (isUpOrLocked) {
         const lockedStep = rInfo.lockedNetUsd >= 0.10
           ? rInfo.lockedNetUsd
-          : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(0.15, pnl)));
+          : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(0.12, pnl, rInfo.peakPnlUsdc || 0)));
         line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
       } else if (queueOrder <= 4) {
         line2Text = `🎯 SALIDA #${queueOrder} LISTA`;
@@ -1948,6 +1970,10 @@ function updatePricesAndSignals() {
       }
       setTextIfChanged(sigLockText, line2Text);
     } else if (isInBreather) {
+      if (clientRatchetMemory[p.symbol]) {
+        delete clientRatchetMemory[p.symbol];
+        persistClientRatchetMemory();
+      }
       // ESTADO B (CASO 3) — En Respiro Táctico de 8 Minutos (Azul Cielo / Índigo Suave)
       const targetCellClass = "pair-cell pair-card pair-cell-breather";
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
@@ -1955,6 +1981,10 @@ function updatePricesAndSignals() {
       setTextIfChanged(sigRight1, "");
       setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
     } else {
+      if (clientRatchetMemory[p.symbol]) {
+        delete clientRatchetMemory[p.symbol];
+        persistClientRatchetMemory();
+      }
       // ESTADO C (CASO 4) — En AUTO / STANDBY (Pizarra Satinado Claro)
       const targetCellClass = "pair-cell pair-card pair-cell-auto";
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
