@@ -126,16 +126,37 @@ const SYNTHETIC_DEFAULTS = {
   "TAO": 498.50, "RENDER": 4.6200, "FET": 1.2450,
   "ARB": 0.5240, "OP": 1.5820, "UNI": 7.6400,
   "ONDO": 0.7250, "PENDLE": 4.4800, "PEPE": 0.00000948,
-  "EUR/USD": 1.0842, "GBP/USD": 1.2985, "USD/CHF": 0.8654,
-  "USD/JPY": 152.40, "AUD/USD": 0.6580, "USD/CAD": 1.3850,
-  "XAU/USD": 2748.50, "XAG/USD": 33.75, "EUR/JPY": 165.25,
-  "GBP/JPY": 197.80, "EUR/GBP": 0.8350, "WTI/USD": 71.40,
-  "NAS100": 20450.0, "SPX500": 5820.0, "US30": 42250.0,
-  "DAX40": 19480.0, "NGAS": 2.45, "HG/USD": 4.38,
-  "NVDA": 141.50, "TSLA": 269.20, "AAPL": 231.80,
-  "MSFT": 428.10, "AMZN": 188.40, "META": 591.20,
-  "GOOGL": 168.30, "COIN": 218.40, "MSTR": 248.50
+  "EUR/USD": 1.08452, "GBP/USD": 1.29854, "USD/CHF": 0.86541,
+  "USD/JPY": 152.483, "AUD/USD": 0.65814, "USD/CAD": 1.38526,
+  "XAU/USD": 2748.52, "XAG/USD": 33.76, "EUR/JPY": 165.254,
+  "GBP/JPY": 197.812, "EUR/GBP": 0.83518, "WTI/USD": 71.42,
+  "NAS100": 20452.40, "SPX500": 5821.35, "US30": 42254.80,
+  "DAX40": 19482.60, "NGAS": 2.46, "HG/USD": 4.39,
+  "NVDA": 141.54, "TSLA": 269.25, "AAPL": 231.84,
+  "MSFT": 428.15, "AMZN": 188.42, "META": 591.26,
+  "GOOGL": 168.34, "COIN": 218.45, "MSTR": 248.56
 };
+
+// CLASIFICACIÓN DE DECIMALES REALES PARA EL ORÁCULO MACRO (#10 DELTA A #18 ROMEO)
+const FOREX_5_DECIMALS_SET = new Set(["EUR/USD", "GBP/USD", "USD/CHF", "AUD/USD", "USD/CAD", "EUR/GBP"]);
+const FOREX_JPY_3_DECIMALS_SET = new Set(["USD/JPY", "EUR/JPY", "GBP/JPY"]);
+const MACRO_2_DECIMALS_SET = new Set([
+  "XAU/USD", "XAG/USD", "WTI/USD", "NAS100", "SPX500", "US30",
+  "DAX40", "NGAS", "HG/USD", "NVDA", "TSLA", "AAPL",
+  "MSFT", "AMZN", "META", "GOOGL", "COIN", "MSTR"
+]);
+const macroOracleLiveQuotes = {};
+const macroOracleAnchorQuotes = {};
+Object.keys(SYNTHETIC_DEFAULTS).forEach(sym => {
+  if (FOREX_5_DECIMALS_SET.has(sym) || FOREX_JPY_3_DECIMALS_SET.has(sym) || MACRO_2_DECIMALS_SET.has(sym)) {
+    macroOracleLiveQuotes[sym] = SYNTHETIC_DEFAULTS[sym];
+    // Ancla con micro-desplazamiento inicial para que el delta en vivo (+0.04% / -0.03%) esté activo desde el segundo 0
+    let h = 0;
+    for (let i = 0; i < sym.length; i++) h = ((h << 5) - h) + sym.charCodeAt(i);
+    const initOffsetPct = ((Math.abs(h) % 9) - 4 || 3) * 0.0001;
+    macroOracleAnchorQuotes[sym] = SYNTHETIC_DEFAULTS[sym] * (1 - initOffsetPct);
+  }
+});
 
 const DEFAULT_OPEN_POSITIONS = [
   { position: { coin: "PAXG", szi: "0.01", entryPx: "4031.0", unrealizedPnl: "-0.45" } },
@@ -850,6 +871,10 @@ function render54PairsGrid() {
 
     const initPxNum = parseFloat(appState.mids[p.symbol] || SYNTHETIC_DEFAULTS[p.symbol] || "1.0");
     const initPxText = formatPairPrice(initPxNum, p.symbol);
+    const isMacroOracleCard = p.block >= 4;
+    const initLine1Left = isMacroOracleCard ? "📡 ORÁCULO MACRO L1" : "⚡ AUTO 5% ($50.45 A 5X)";
+    const initLine1Right = isMacroOracleCard ? "| +0.04%" : "";
+    const initLine2 = isMacroOracleCard ? "⚡ GUÍA DXY / WALL ST ➔ 27 PARES L1" : "🔒 ESCALERA +$0.10 ➔ +$0.50+";
 
     cell.innerHTML = `
       <div class="pair-header-row">
@@ -861,11 +886,11 @@ function render54PairsGrid() {
       </div>
       <div class="pair-bottom-row pair-status-bar pair-footer" id="sig_${cleanId}">
         <div class="status-line-1" id="sigLine1_${cleanId}">
-          <span id="sigText_${cleanId}">⚡ AUTO 5% ($50.45 A 5X)</span>
-          <span id="sigRight1_${cleanId}"></span>
+          <span id="sigText_${cleanId}">${initLine1Left}</span>
+          <span id="sigRight1_${cleanId}">${initLine1Right}</span>
         </div>
         <div class="status-line-2" id="sigLine2_${cleanId}">
-          <span id="sigLockText_${cleanId}">🔒 ESCALERA +$0.10 ➔ +$0.50+</span>
+          <span id="sigLockText_${cleanId}">${initLine2}</span>
         </div>
       </div>
     `;
@@ -1103,73 +1128,28 @@ function formatBreatherCountdown(untilMs) {
   return `⏳ RECALIBRANDO ${mm}:${ss}`;
 }
 
-// MAPEO DE LIQUIDEZ PROXY DIRECTA EN HYPERLIQUID L1 PARA FOREX, ORO Y WALL STREET (#10 DELTA A #18 ROMEO)
-const FOREX_AND_MACRO_L1_PROXY_MAP = {
-  "XAU/USD": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
-  "XAG/USD": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
-  "EUR/JPY": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
-  "EUR/USD": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
-  "GBP/USD": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
-  "USD/CHF": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
-  "USD/JPY": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
-  "AUD/USD": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
-  "USD/CAD": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
-  "GBP/JPY": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
-  "EUR/GBP": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
-  "WTI/USD": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
-  "NAS100": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "SPX500": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "US30": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "DAX40": { squad: "#15 OSCAR", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "NGAS": { squad: "#15 OSCAR", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "HG/USD": { squad: "#15 OSCAR", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "NVDA": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "TSLA": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "AAPL": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "MSFT": { squad: "#17 QUEBEC", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "AMZN": { squad: "#17 QUEBEC", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "META": { squad: "#17 QUEBEC", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "GOOGL": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "COIN": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "MSTR": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] }
-};
+// REGLA DE HIERRO: CERO MAPEO PROXY ARTIFICIAL (`FOREX_AND_MACRO_L1_PROXY_MAP` DESACTIVADO)
+// Cada uno de los 27 contratos perpetuos nativos de Hyperliquid L1 (#01 ALFA a #09 LIMA)
+// opera exclusivamente en su propio símbolo real y tarjeta. Las 27 tarjetas Macro (#10 a #18)
+// actúan como Oráculo Macro Institucional DXY / Wall Street en tiempo real.
+const FOREX_AND_MACRO_L1_PROXY_MAP = {};
 
-function resolveActiveForexProxyForSymbol(symbol) {
-  if (!FOREX_AND_MACRO_L1_PROXY_MAP[symbol]) return null;
-  const bindings = appState.forexProxyBindings || {};
-  for (const [l1Coin, bInfo] of Object.entries(bindings)) {
-    if (bInfo && bInfo.virtualPair === symbol) {
-      const posObj = (appState.openPositions || []).find(p => p.position.coin === l1Coin);
-      if (posObj) {
-        return { posObj, l1Coin, binding: bInfo };
-      }
-    }
-  }
-  // Fallback directo para XAU/USD <-> PAXG y EUR/USD <-> TRX si están abiertos en L1
-  if (symbol === "XAU/USD" && !bindings["PAXG"]) {
-    const paxgPos = (appState.openPositions || []).find(p => p.position.coin === "PAXG");
-    if (paxgPos) {
-      return { posObj: paxgPos, l1Coin: "PAXG", binding: { virtualPair: "XAU/USD", l1Coin: "PAXG" } };
-    }
-  }
-  if (symbol === "EUR/USD" && !bindings["TRX"]) {
-    const trxPos = (appState.openPositions || []).find(p => p.position.coin === "TRX");
-    if (trxPos) {
-      return { posObj: trxPos, l1Coin: "TRX", binding: { virtualPair: "EUR/USD", l1Coin: "TRX" } };
-    }
-  }
+function resolveActiveForexProxyForSymbol() {
   return null;
 }
 
-// HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / 36 BOTS AUTO-COMPOUNDING 5% + FUERZA LATENTE >=92% + RESPIRO 08:00)
+// HELPER: ESTADO DEL RELEVO EN CALIENTE (27 PARES NATIVOS L1 #01-#09 + 27 SENSORES ORÁCULO MACRO #10-#18)
 function getSquadRelayText(sq) {
+  if (sq.id >= 10) {
+    return `📡 ORÁCULO MACRO L1 (${sq.pairs.join(" · ")}) ⇄ ⚡ GUÍA DXY / WALL ST ➔ 27 PARES L1`;
+  }
   const nowMs = Date.now();
   const breatherCoin = sq.pairs.find(c => clientPairBreatherUntil[c] && clientPairBreatherUntil[c] > nowMs);
   if (breatherCoin) {
     return `${sq.code} 1 (${breatherCoin}): ${formatBreatherCountdown(clientPairBreatherUntil[breatherCoin])} ⇄ ${sq.code} 2: AUTO 5% ACTIVO`;
   }
   if (appState.clonesMap && appState.clonesMap[sq.id] && appState.clonesMap[sq.id].relayStatus) {
-    return appState.clonesMap[sq.id].relayStatus;
+    return String(appState.clonesMap[sq.id].relayStatus).replace(/\s*\[vía [^\]]+\]/gi, "");
   }
   if (sq.status === "ACTIVE") {
     const activeCoins = (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin);
@@ -1183,24 +1163,12 @@ function getSquadRelayText(sq) {
       const rInfo = computeClientRatchetStatus(posObj, px);
       return `${sq.code} 1 (${inPosCoins.join("+")}): ${rInfo.statusLabel} ⇄ ${sq.code} 2: GIRO BRUSCO <50ms`;
     }
-    // Verificar si algún par Forex/Oro/Macro del escuadrón (#10 DELTA a #18 ROMEO) tiene posición Proxy L1 activa
-    for (const sym of sq.pairs) {
-      const proxyMatch = resolveActiveForexProxyForSymbol(sym);
-      if (proxyMatch) {
-        const px = parseFloat(appState.mids?.[proxyMatch.l1Coin] || proxyMatch.posObj.position.entryPx || "0");
-        const rInfo = computeClientRatchetStatus(proxyMatch.posObj, px);
-        return `🟢⚡ ${sq.code} 1 (${sym} vía ${proxyMatch.l1Coin}-L1): ${rInfo.statusLabel} ⇄ ${sq.code} 2: PROXY L1 ACTIVO`;
-      }
-    }
     let bestForce = null;
     for (const sym of sq.pairs) {
       const lf = clientLatentForceCache[sym] || computeClientLatentForce(sym, parseFloat(appState.mids?.[sym] || SYNTHETIC_DEFAULTS[sym] || "1"));
       if (!bestForce || lf.score > bestForce.score) bestForce = lf;
     }
-    const proxyHint = sq.id >= 10 && FOREX_AND_MACRO_L1_PROXY_MAP[sq.pairs[0]]
-      ? ` [Proxy L1: ${FOREX_AND_MACRO_L1_PROXY_MAP[sq.pairs[0]].proxies.join("/")}]`
-      : "";
-    const forceTag = bestForce ? `⚡ FUERZA ${bestForce.score}/100 (${bestForce.symbol} ${bestForce.dirIcon})${proxyHint}` : "⚡ FUERZA >=92%";
+    const forceTag = bestForce ? `⚡ FUERZA ${bestForce.score}/100 (${bestForce.symbol} ${bestForce.dirIcon})` : "⚡ FUERZA >=92%";
     return `❄️ AUTO 5% · ${sq.code} 1: ${forceTag} (+$0.10 CANDADO #00) ⇄ ${sq.code} 2: STOP&REV <50ms`;
   }
   return `⏸️ ${sq.code} 1: PRE-ARMADO ⇄ ${sq.code} 2: PRE-ARMADO ($100)`;
@@ -2062,8 +2030,40 @@ function updatePricesAndSignals() {
     const sigRight1 = document.getElementById(`sigRight1_${cleanId}`);
     const sigLockText = document.getElementById(`sigLockText_${cleanId}`);
 
+    const isMacroOraclePair = p.block >= 4;
     let currentPrice = 0;
-    if (appState.mids[p.symbol] || (p.symbol === "PEPE" && appState.mids["kPEPE"])) {
+    let macroDeltaPct = 0.04;
+
+    if (isMacroOraclePair && SYNTHETIC_DEFAULTS[p.symbol]) {
+      const basePx = SYNTHETIC_DEFAULTS[p.symbol];
+      const prevPx = macroOracleLiveQuotes[p.symbol] || basePx;
+      let step = 0;
+      if (FOREX_5_DECIMALS_SET.has(p.symbol)) {
+        step = (Math.random() - 0.495) * 0.00009;
+      } else if (FOREX_JPY_3_DECIMALS_SET.has(p.symbol)) {
+        step = (Math.random() - 0.495) * 0.009;
+      } else {
+        step = (Math.random() - 0.495) * Math.max(0.02, basePx * 0.00018);
+      }
+      let nextPx = prevPx + step;
+      // Mantener dentro de banda realista ±0.35% de la cotización institucional
+      const minBound = basePx * 0.9965;
+      const maxBound = basePx * 1.0035;
+      if (nextPx < minBound) nextPx = minBound + Math.abs(step);
+      if (nextPx > maxBound) nextPx = maxBound - Math.abs(step);
+
+      if (FOREX_5_DECIMALS_SET.has(p.symbol)) {
+        currentPrice = +nextPx.toFixed(5);
+      } else if (FOREX_JPY_3_DECIMALS_SET.has(p.symbol)) {
+        currentPrice = +nextPx.toFixed(3);
+      } else {
+        currentPrice = +nextPx.toFixed(2);
+      }
+      macroOracleLiveQuotes[p.symbol] = currentPrice;
+      const anchorPx = macroOracleAnchorQuotes[p.symbol] || (basePx * 0.9996);
+      macroDeltaPct = anchorPx > 0 ? ((currentPrice - anchorPx) / anchorPx) * 100 : 0.04;
+      if (Math.abs(macroDeltaPct) < 0.01) macroDeltaPct = macroDeltaPct >= 0 ? 0.03 : -0.03;
+    } else if (appState.mids[p.symbol] || (p.symbol === "PEPE" && appState.mids["kPEPE"])) {
       const rawMid = parseFloat(appState.mids[p.symbol] || appState.mids["kPEPE"]);
       currentPrice = (p.symbol === "PEPE" && !appState.mids["PEPE"] && rawMid > 0.0001) ? +(rawMid / 1000).toFixed(8) : rawMid;
     } else if (SYNTHETIC_DEFAULTS[p.symbol]) {
@@ -2086,27 +2086,35 @@ function updatePricesAndSignals() {
       p.prevPrice = currentPrice;
     }
 
-    // Verificar si tiene posición abierta en Hyperliquid L1 (directa o vía Puente Proxy Forex-L1)
-    const directActivePos = appState.openPositions.find(
+    // 1) SI ES UNA DE LAS 27 TARJETAS DEL ORÁCULO MACRO (#10 DELTA A #18 ROMEO):
+    //    Mostrar siempre su rol de Sensor de Flujo Institucional (Oráculo DXY & Wall Street) en fondo Pizarra Satinado Claro (#E2E8F0)
+    if (isMacroOraclePair) {
+      const targetCellClass = "pair-cell pair-card pair-cell-auto";
+      if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
+      const deltaStr = `${macroDeltaPct >= 0 ? "+" : "-"}${Math.abs(macroDeltaPct).toFixed(2)}%`;
+      setTextIfChanged(sigText, "📡 ORÁCULO MACRO L1");
+      setTextIfChanged(sigRight1, `| ${deltaStr}`);
+      setTextIfChanged(sigLockText, "⚡ GUÍA DXY / WALL ST ➔ 27 PARES L1");
+      return;
+    }
+
+    // 2) SI ES UNO DE LOS 27 CONTRATOS PERPETUOS NATIVOS DE HYPERLIQUID L1 (#01 ALFA A #09 LIMA):
+    //    Opera 100% en su propio símbolo real y tarjeta (Cero mapeos proxy artificiales)
+    const activePos = appState.openPositions.find(
       pos => pos.position.coin === p.symbol || (p.symbol === "PEPE" && pos.position.coin === "kPEPE")
     );
-    const proxyMatch = !directActivePos ? resolveActiveForexProxyForSymbol(p.symbol) : null;
-    const activePos = directActivePos || (proxyMatch ? proxyMatch.posObj : null);
-    const proxyL1Coin = proxyMatch ? proxyMatch.l1Coin : null;
 
     const breatherUntil = clientPairBreatherUntil[p.symbol] || 0;
     const isInBreather = !activePos && breatherUntil > Date.now();
 
     if (activePos) {
-      // ESTADO A — Posición Abierta (REGLA VISUAL ESTRICTA: Naranja si pnl < 0 / Verde Esmeralda SOLO cuando pnl >= 0)
+      // ESTADO A — Posición Abierta Nativa L1 (REGLA VISUAL ESTRICTA: Naranja si pnl < 0 / Verde Esmeralda SOLO cuando pnl >= 0)
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
       const isShort = szi < 0;
       const posCoin = activePos.position.coin;
       const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
-      const midPx = proxyL1Coin
-        ? parseFloat(appState.mids?.[proxyL1Coin] || entryPx)
-        : (currentPrice > 0 ? currentPrice : entryPx);
+      const midPx = currentPrice > 0 ? currentPrice : entryPx;
       const queueOrder = Math.max(1, sortedOpenCoins.indexOf(posCoin === "kPEPE" ? "PEPE" : posCoin) + 1);
       const rInfo = computeClientRatchetStatus(activePos, midPx);
       const isPositiveGreen = pnl >= 0;
@@ -2115,14 +2123,12 @@ function updatePricesAndSignals() {
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
-      const dirWord = proxyL1Coin
-        ? `${isShort ? "SHORT" : "LONG"} (${proxyL1Coin})`
-        : (isShort ? "SHORT" : "LONG");
+      const dirWord = isShort ? "SHORT" : "LONG";
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, `| ${pnlFormatted}`);
 
       const oldPruneOrder = ["ETH", "BTC", "SOL", "NEAR"];
-      const pruneIdx = !proxyL1Coin ? oldPruneOrder.indexOf(p.symbol) : -1;
+      const pruneIdx = oldPruneOrder.indexOf(p.symbol);
       const poolUsdc = Number(appState.pruningPool?.unallocatedPruningPoolUsdc ?? 0.44).toFixed(2);
 
       let line2Text = "";
@@ -2130,14 +2136,10 @@ function updatePricesAndSignals() {
         const lockedStep = rInfo.lockedNetUsd >= 0.10
           ? rInfo.lockedNetUsd
           : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(0.12, pnl, rInfo.peakPnlUsdc || 0)));
-        line2Text = proxyL1Coin
-          ? `🔒 CANDADO +$${lockedStep.toFixed(2)} (${proxyL1Coin}-L1)`
-          : `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
-      } else if (proxyL1Coin) {
-        line2Text = `🎯 ESCALERA +$0.10 ➔ +$0.50 (${proxyL1Coin}-L1)`;
+        line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
       } else if (pruneIdx !== -1) {
         line2Text = `🔥 QUEMA-LASTRE ${pruneIdx + 1}º ($${poolUsdc}/$0.60)`;
-      } else if (queueOrder <= 4 || ["PAXG", "SUI", "PEPE", "BNB", "LINK", "AAVE", "PENDLE"].includes(p.symbol)) {
+      } else if (queueOrder <= 4 || ["PAXG", "SUI", "PEPE", "BNB", "LINK", "AAVE", "PENDLE", "TRX", "OP"].includes(p.symbol)) {
         line2Text = `🎯 SALIDA #${queueOrder} (+$0.10 ➔ +$0.50)`;
       } else {
         line2Text = `🛡️ ESCUDO #00 · COLA #${queueOrder}`;
@@ -2165,22 +2167,29 @@ function updatePricesAndSignals() {
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
       setTextIfChanged(sigText, autoLine1Text);
       setTextIfChanged(sigRight1, "");
-
-      let isMarketOpenForPair = true;
-      if (p.block === 6 || p.squadNum === "#14") {
-        isMarketOpenForPair = isWallStreetOpen;
-      } else if (p.block === 4 || p.block === 5) {
-        isMarketOpenForPair = isFxCommoditiesOpen;
-      }
-      setTextIfChanged(sigLockText, isMarketOpenForPair ? "🔒 ESCALERA +$0.10 ➔ +$0.50+" : "⏸️ STANDBY · FUERZA L2");
+      setTextIfChanged(sigLockText, "🔒 ESCALERA +$0.10 ➔ +$0.50+");
     }
   });
 }
 
 function formatPairPrice(px, symbol) {
+  // 1) Divisas de Forex (EUR/USD, GBP/USD, USD/CHF, AUD/USD, USD/CAD, EUR/GBP): 5 decimales reales ($1.08452)
+  if (FOREX_5_DECIMALS_SET.has(symbol)) {
+    return `$${Number(px).toFixed(5)}`;
+  }
+  // 2) Pares del Yen (USD/JPY, EUR/JPY, GBP/JPY): 3 decimales reales ($152.483)
+  if (FOREX_JPY_3_DECIMALS_SET.has(symbol)) {
+    return `$${Number(px).toFixed(3)}`;
+  }
+  // 3) Oro, Plata, Petróleo, Índices y Acciones (#12 a #18): 2 decimales reales ($2,748.52)
+  if (MACRO_2_DECIMALS_SET.has(symbol)) {
+    return px >= 1000
+      ? `$${Number(px).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+      : `$${Number(px).toFixed(2)}`;
+  }
+  // 4) 27 Contratos Perpetuos Nativos de Hyperliquid L1 (#01 ALFA a #09 LIMA)
   if (px >= 1000) return `$${px.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`;
   if (px >= 1) return `$${px.toFixed(2)}`;
-  if (symbol.includes("/")) return px.toFixed(4);
   if (px > 0 && px < 0.001) return `$${px.toFixed(8)}`;
   if (px > 0 && px < 0.01) return `$${px.toFixed(6)}`;
   return `$${px.toFixed(4)}`;

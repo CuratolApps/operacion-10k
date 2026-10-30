@@ -415,177 +415,129 @@ const SQUADS_CONFIG = {
   DELTA: {
     id: "DELTA",
     block: 4,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #10 Delta",
     specialist: "#1001 FX-Euro-Atlantic",
-    role: "Forex Atlántico Majors (vía Proxy L1 TRX/TON/ADA)",
+    role: "Oráculo Macro Institucional DXY / Atlántico ➔ Guía 27 Pares L1",
     pairs: ["EUR/USD", "GBP/USD", "USD/CHF"],
-    proxyL1Coins: ["TRX", "TON", "ADA"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   ECHO: {
     id: "ECHO",
     block: 4,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #11 Echo",
     specialist: "#1101 FX-Tokyo-Pacific",
-    role: "Forex Pacífico & Yen (vía Proxy L1 DOT/ARB/OP)",
+    role: "Oráculo Macro Institucional Pacífico & Yen ➔ Guía 27 Pares L1",
     pairs: ["USD/JPY", "AUD/USD", "USD/CAD"],
-    proxyL1Coins: ["DOT", "ARB", "OP"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   FOXTROT: {
     id: "FOXTROT",
     block: 4,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #12 Foxtrot",
     specialist: "#1201 Bullion-Gold-Macro",
-    role: "Oro, Plata & Cruce Yen (vía Proxy L1 PAXG/LTC/LINK)",
+    role: "Oráculo Macro Institucional Oro & Plata ➔ Guía 27 Pares L1",
     pairs: ["XAU/USD", "XAG/USD", "EUR/JPY"],
-    proxyL1Coins: ["PAXG", "LTC", "LINK"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   MIKE: {
     id: "MIKE",
     block: 5,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #13 Mike",
     specialist: "#1301 London-Cross-Crude",
-    role: "Cruces Europeos & Petróleo WTI (vía Proxy L1 ONDO/UNI/FET)",
+    role: "Oráculo Macro Institucional Londres & WTI ➔ Guía 27 Pares L1",
     pairs: ["GBP/JPY", "EUR/GBP", "WTI/USD"],
-    proxyL1Coins: ["ONDO", "UNI", "FET"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   NOVEMBER: {
     id: "NOVEMBER",
     block: 5,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #14 November",
     specialist: "#1401 WallStreet-Index",
-    role: "Índices Wall Street NAS100/SPX500/US30 (vía Proxy L1 RENDER/TAO/HYPE/DOGE)",
+    role: "Oráculo Macro Institucional Wall Street NAS100/SPX500/US30 ➔ Guía 27 Pares L1",
     pairs: ["NAS100", "SPX500", "US30"],
-    proxyL1Coins: ["RENDER", "TAO", "HYPE", "DOGE"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   OSCAR: {
     id: "OSCAR",
     block: 5,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #15 Oscar",
     specialist: "#1501 Frankfurt-Commodities",
-    role: "DAX40, Gas Natural & Cobre (vía Proxy L1 RENDER/TAO/HYPE/DOGE)",
+    role: "Oráculo Macro Institucional DAX40 & Materias Primas ➔ Guía 27 Pares L1",
     pairs: ["DAX40", "NGAS", "HG/USD"],
-    proxyL1Coins: ["RENDER", "TAO", "HYPE", "DOGE"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   PAPA: {
     id: "PAPA",
     block: 6,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #16 Papa",
     specialist: "#1601 Silicon-AI-Titans",
-    role: "Wall Street Tech Leaders NVDA/TSLA/AAPL (vía Proxy L1 RENDER/TAO/HYPE/DOGE)",
+    role: "Oráculo Macro Institucional NVDA/TSLA/AAPL ➔ Guía 27 Pares L1",
     pairs: ["NVDA", "TSLA", "AAPL"],
-    proxyL1Coins: ["RENDER", "TAO", "HYPE", "DOGE"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   QUEBEC: {
     id: "QUEBEC",
     block: 6,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #17 Quebec",
     specialist: "#1701 Cloud-Hyperscalers",
-    role: "Mega-Cap Cloud MSFT/AMZN/META (vía Proxy L1 RENDER/TAO/HYPE/DOGE)",
+    role: "Oráculo Macro Institucional MSFT/AMZN/META ➔ Guía 27 Pares L1",
     pairs: ["MSFT", "AMZN", "META"],
-    proxyL1Coins: ["TAO", "RENDER", "HYPE", "DOGE"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   },
   ROMEO: {
     id: "ROMEO",
     block: 6,
-    dedicatedMargin: BLOCK2_DEDICATED_MARGIN,
+    dedicatedMargin: 0,
     name: "Escuadrón #18 Romeo",
     specialist: "#1801 Institutional-Equities",
-    role: "Fintech & Crypto Equities GOOGL/COIN/MSTR (vía Proxy L1 RENDER/TAO/HYPE/DOGE)",
+    role: "Oráculo Macro Institucional GOOGL/COIN/MSTR ➔ Guía 27 Pares L1",
     pairs: ["GOOGL", "COIN", "MSTR"],
-    proxyL1Coins: ["HYPE", "TAO", "RENDER", "DOGE"],
+    isMacroOracleOnly: true,
     targetGainPct: BLOCK2_TARGET_GAIN_PCT,
     beGainPct: BREAKEVEN_LOCK_PCT
   }
 };
 
 // ==============================================================================
-// 🌍⚡ PUENTE DE EJECUCIÓN PROXY EN HYPERLIQUID L1 PARA FOREX, ORO Y WALL STREET
-//     (#10 DELTA A #18 ROMEO -> FOREX_AND_MACRO_L1_PROXY_MAP)
+// 🏛️🎯 REGLA DE HIERRO: CERO MAPEO PROXY ARTIFICIAL (`FOREX_AND_MACRO_L1_PROXY_MAP` DESACTIVADO)
+// - Los 27 contratos perpetuos nativos de Hyperliquid L1 (#01 ALFA a #09 LIMA) operan
+//   100% en su propio símbolo real (TRX en TRX, PAXG en PAXG, OP en OP).
+// - Las 27 tarjetas Macro (#10 DELTA a #18 ROMEO) operan como Oráculo Macro Institucional.
 // ==============================================================================
-const FOREX_AND_MACRO_L1_PROXY_MAP = {
-  // #10 DELTA (Forex Atlántico) -> Ejecuta en TRX, TON o ADA en Hyperliquid L1
-  "EUR/USD": { squadKey: "DELTA", squadId: 10, squadNum: "#10", squadName: "Escuadrón #10 Delta", specialist: "#1001 FX-Euro-Atlantic", proxyCoins: ["TRX", "TON", "ADA"] },
-  "GBP/USD": { squadKey: "DELTA", squadId: 10, squadNum: "#10", squadName: "Escuadrón #10 Delta", specialist: "#1001 FX-Euro-Atlantic", proxyCoins: ["TON", "ADA", "TRX"] },
-  "USD/CHF": { squadKey: "DELTA", squadId: 10, squadNum: "#10", squadName: "Escuadrón #10 Delta", specialist: "#1001 FX-Euro-Atlantic", proxyCoins: ["ADA", "TRX", "TON"] },
-  // #11 ECHO (Forex Pacífico & Yen) -> Ejecuta en DOT, ARB u OP en Hyperliquid L1
-  "USD/JPY": { squadKey: "ECHO", squadId: 11, squadNum: "#11", squadName: "Escuadrón #11 Echo", specialist: "#1101 FX-Tokyo-Pacific", proxyCoins: ["DOT", "ARB", "OP"] },
-  "AUD/USD": { squadKey: "ECHO", squadId: 11, squadNum: "#11", squadName: "Escuadrón #11 Echo", specialist: "#1101 FX-Tokyo-Pacific", proxyCoins: ["ARB", "OP", "DOT"] },
-  "USD/CAD": { squadKey: "ECHO", squadId: 11, squadNum: "#11", squadName: "Escuadrón #11 Echo", specialist: "#1101 FX-Tokyo-Pacific", proxyCoins: ["OP", "DOT", "ARB"] },
-  // #12 FOXTROT (Metales Preciosos & Cruce Yen) -> Ejecuta en PAXG, LTC o LINK en Hyperliquid L1
-  "XAU/USD": { squadKey: "FOXTROT", squadId: 12, squadNum: "#12", squadName: "Escuadrón #12 Foxtrot", specialist: "#1201 Bullion-Gold-Macro", proxyCoins: ["PAXG", "LTC", "LINK"] },
-  "XAG/USD": { squadKey: "FOXTROT", squadId: 12, squadNum: "#12", squadName: "Escuadrón #12 Foxtrot", specialist: "#1201 Bullion-Gold-Macro", proxyCoins: ["LTC", "LINK", "PAXG"] },
-  "EUR/JPY": { squadKey: "FOXTROT", squadId: 12, squadNum: "#12", squadName: "Escuadrón #12 Foxtrot", specialist: "#1201 Bullion-Gold-Macro", proxyCoins: ["LINK", "LTC", "PAXG"] },
-  // #13 MIKE (Cruces Europeos & Petróleo WTI) -> Ejecuta en ONDO, UNI o FET en Hyperliquid L1
-  "GBP/JPY": { squadKey: "MIKE", squadId: 13, squadNum: "#13", squadName: "Escuadrón #13 Mike", specialist: "#1301 London-Cross-Crude", proxyCoins: ["ONDO", "UNI", "FET"] },
-  "EUR/GBP": { squadKey: "MIKE", squadId: 13, squadNum: "#13", squadName: "Escuadrón #13 Mike", specialist: "#1301 London-Cross-Crude", proxyCoins: ["UNI", "FET", "ONDO"] },
-  "WTI/USD": { squadKey: "MIKE", squadId: 13, squadNum: "#13", squadName: "Escuadrón #13 Mike", specialist: "#1301 London-Cross-Crude", proxyCoins: ["FET", "ONDO", "UNI"] },
-  // #14 NOVEMBER a #18 ROMEO (Wall Street Índices & Acciones) -> Ejecuta en RENDER, TAO, HYPE o DOGE en Hyperliquid L1
-  "NAS100":  { squadKey: "NOVEMBER", squadId: 14, squadNum: "#14", squadName: "Escuadrón #14 November", specialist: "#1401 WallStreet-Index", proxyCoins: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "SPX500":  { squadKey: "NOVEMBER", squadId: 14, squadNum: "#14", squadName: "Escuadrón #14 November", specialist: "#1401 WallStreet-Index", proxyCoins: ["TAO", "HYPE", "RENDER", "DOGE"] },
-  "US30":    { squadKey: "NOVEMBER", squadId: 14, squadNum: "#14", squadName: "Escuadrón #14 November", specialist: "#1401 WallStreet-Index", proxyCoins: ["HYPE", "DOGE", "RENDER", "TAO"] },
-  "DAX40":   { squadKey: "OSCAR",    squadId: 15, squadNum: "#15", squadName: "Escuadrón #15 Oscar",    specialist: "#1501 Frankfurt-Commodities", proxyCoins: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "NGAS":    { squadKey: "OSCAR",    squadId: 15, squadNum: "#15", squadName: "Escuadrón #15 Oscar",    specialist: "#1501 Frankfurt-Commodities", proxyCoins: ["DOGE", "RENDER", "TAO", "HYPE"] },
-  "HG/USD":  { squadKey: "OSCAR",    squadId: 15, squadNum: "#15", squadName: "Escuadrón #15 Oscar",    specialist: "#1501 Frankfurt-Commodities", proxyCoins: ["TAO", "RENDER", "HYPE", "DOGE"] },
-  "NVDA":    { squadKey: "PAPA",     squadId: 16, squadNum: "#16", squadName: "Escuadrón #16 Papa",     specialist: "#1601 Silicon-AI-Titans", proxyCoins: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "TSLA":    { squadKey: "PAPA",     squadId: 16, squadNum: "#16", squadName: "Escuadrón #16 Papa",     specialist: "#1601 Silicon-AI-Titans", proxyCoins: ["DOGE", "HYPE", "RENDER", "TAO"] },
-  "AAPL":    { squadKey: "PAPA",     squadId: 16, squadNum: "#16", squadName: "Escuadrón #16 Papa",     specialist: "#1601 Silicon-AI-Titans", proxyCoins: ["HYPE", "RENDER", "TAO", "DOGE"] },
-  "MSFT":    { squadKey: "QUEBEC",   squadId: 17, squadNum: "#17", squadName: "Escuadrón #17 Quebec",   specialist: "#1701 Cloud-Hyperscalers", proxyCoins: ["TAO", "RENDER", "HYPE", "DOGE"] },
-  "AMZN":    { squadKey: "QUEBEC",   squadId: 17, squadNum: "#17", squadName: "Escuadrón #17 Quebec",   specialist: "#1701 Cloud-Hyperscalers", proxyCoins: ["RENDER", "HYPE", "TAO", "DOGE"] },
-  "META":    { squadKey: "QUEBEC",   squadId: 17, squadNum: "#17", squadName: "Escuadrón #17 Quebec",   specialist: "#1701 Cloud-Hyperscalers", proxyCoins: ["HYPE", "TAO", "RENDER", "DOGE"] },
-  "GOOGL":   { squadKey: "ROMEO",    squadId: 18, squadNum: "#18", squadName: "Escuadrón #18 Romeo",    specialist: "#1801 Institutional-Equities", proxyCoins: ["RENDER", "TAO", "HYPE", "DOGE"] },
-  "COIN":    { squadKey: "ROMEO",    squadId: 18, squadNum: "#18", squadName: "Escuadrón #18 Romeo",    specialist: "#1801 Institutional-Equities", proxyCoins: ["HYPE", "DOGE", "RENDER", "TAO"] },
-  "MSTR":    { squadKey: "ROMEO",    squadId: 18, squadNum: "#18", squadName: "Escuadrón #18 Romeo",    specialist: "#1801 Institutional-Equities", proxyCoins: ["TAO", "HYPE", "DOGE", "RENDER"] }
-};
-
-// Mapeo primario directo L1 -> VirtualPair (y rotación si ya está en uso/cooldown)
-const PRIMARY_L1_TO_FOREX_CANDIDATES = {
-  PAXG:   ["XAU/USD", "XAG/USD", "EUR/JPY"],
-  LTC:    ["XAG/USD", "EUR/JPY", "XAU/USD"],
-  LINK:   ["EUR/JPY", "XAU/USD", "XAG/USD"],
-  TRX:    ["EUR/USD", "GBP/USD", "USD/CHF"],
-  TON:    ["GBP/USD", "USD/CHF", "EUR/USD"],
-  ADA:    ["USD/CHF", "EUR/USD", "GBP/USD"],
-  DOT:    ["USD/JPY", "AUD/USD", "USD/CAD"],
-  ARB:    ["AUD/USD", "USD/CAD", "USD/JPY"],
-  OP:     ["USD/CAD", "USD/JPY", "AUD/USD"],
-  ONDO:   ["GBP/JPY", "EUR/GBP", "WTI/USD"],
-  UNI:    ["EUR/GBP", "WTI/USD", "GBP/JPY"],
-  FET:    ["WTI/USD", "GBP/JPY", "EUR/GBP"],
-  RENDER: ["NAS100", "NVDA", "DAX40", "AMZN", "GOOGL"],
-  TAO:    ["SPX500", "MSFT", "MSTR", "HG/USD"],
-  HYPE:   ["US30", "COIN", "AAPL", "META"],
-  DOGE:   ["TSLA", "NGAS", "NAS100", "SPX500"]
-};
+const FOREX_AND_MACRO_L1_PROXY_MAP = {};
+const PRIMARY_L1_TO_FOREX_CANDIDATES = {};
 
 function loadForexProxyBindingsState() {
   const defaults = {
     updatedAt: new Date().toISOString(),
-    architecture: "FOREX_AND_MACRO_L1_PROXY_BRIDGE_V1",
-    proxyMap: FOREX_AND_MACRO_L1_PROXY_MAP,
+    architecture: "NATIVE_27_L1_PERPS_AND_27_MACRO_ORACLE_SENSORS",
+    proxyBridgeEnabled: false,
+    proxyMap: {},
+    bindings: {},
     activeBindingsByL1Coin: {},
     activeBindingsByVirtualPair: {},
     recentClosedBindings: [],
@@ -607,9 +559,11 @@ function loadForexProxyBindingsState() {
       const parsed = JSON.parse(fs.readFileSync(FOREX_PROXY_BINDINGS_FILE, "utf8"));
       if (parsed && typeof parsed === "object") {
         const merged = Object.assign({}, defaults, parsed);
-        merged.activeBindingsByL1Coin = merged.activeBindingsByL1Coin || {};
-        merged.activeBindingsByVirtualPair = merged.activeBindingsByVirtualPair || {};
-        merged.recentClosedBindings = Array.isArray(merged.recentClosedBindings) ? merged.recentClosedBindings : [];
+        merged.proxyBridgeEnabled = false;
+        merged.proxyMap = {};
+        merged.bindings = {};
+        merged.activeBindingsByL1Coin = {};
+        merged.activeBindingsByVirtualPair = {};
         merged.pruningPool = Object.assign({}, defaults.pruningPool, parsed.pruningPool || {});
         merged.pruningPool.processedCloseFillTids = merged.pruningPool.processedCloseFillTids || {};
         merged.pruningPool.pruneHistory = Array.isArray(merged.pruningPool.pruneHistory) ? merged.pruningPool.pruneHistory : [];
@@ -623,89 +577,24 @@ function loadForexProxyBindingsState() {
 function saveForexProxyBindingsState(state) {
   try {
     state.updatedAt = new Date().toISOString();
-    state.proxyMap = FOREX_AND_MACRO_L1_PROXY_MAP;
+    state.proxyBridgeEnabled = false;
+    state.proxyMap = {};
+    state.bindings = {};
+    state.activeBindingsByL1Coin = {};
+    state.activeBindingsByVirtualPair = {};
     fs.writeFileSync(FOREX_PROXY_BINDINGS_FILE, JSON.stringify(state, null, 2), "utf8");
   } catch (_) {}
 }
 
-function resolveForexVirtualPairForProxyCoin(l1Coin, bindingsState, pairCooldowns = {}) {
-  const candidates = PRIMARY_L1_TO_FOREX_CANDIDATES[l1Coin];
-  if (!Array.isArray(candidates) || candidates.length === 0) return null;
-  const now = Date.now();
-  const activeVirtual = bindingsState?.activeBindingsByVirtualPair || {};
-  for (const vp of candidates) {
-    if (activeVirtual[vp] && activeVirtual[vp].l1Coin !== l1Coin) continue;
-    if (pairCooldowns[vp] && pairCooldowns[vp] > now) continue;
-    return vp;
-  }
-  return candidates[0];
+function resolveForexVirtualPairForProxyCoin() {
+  return null;
 }
 
-function syncForexProxyBindingsWithOpenPositions(openPositions = [], pairCooldowns = {}) {
+function syncForexProxyBindingsWithOpenPositions() {
   const state = loadForexProxyBindingsState();
-  const openMap = {};
-  for (const pObj of (openPositions || [])) {
-    const pos = pObj?.position;
-    if (!pos) continue;
-    const szi = parseFloat(pos.szi || "0");
-    if (szi !== 0) openMap[pos.coin] = pos;
-  }
-
-  // 1) Limpiar bindings de monedas L1 que ya cerraron
-  for (const [l1Coin, bindInfo] of Object.entries({ ...state.activeBindingsByL1Coin })) {
-    if (!openMap[l1Coin]) {
-      const vp = bindInfo.virtualPair;
-      delete state.activeBindingsByL1Coin[l1Coin];
-      if (vp && state.activeBindingsByVirtualPair[vp]) {
-        delete state.activeBindingsByVirtualPair[vp];
-      }
-      state.recentClosedBindings.unshift({
-        ...bindInfo,
-        closedAt: new Date().toISOString()
-      });
-      state.recentClosedBindings = state.recentClosedBindings.slice(0, 25);
-    }
-  }
-
-  // 2) Asegurar que toda posición abierta en un activo proxy de Forex/Oro/WallStreet tenga su vínculo visual activo
-  for (const [l1Coin, pos] of Object.entries(openMap)) {
-    if (OLD_STUCK_PRUNE_TARGETS.includes(l1Coin) || l1Coin === "XRP") continue;
-    if (!PRIMARY_L1_TO_FOREX_CANDIDATES[l1Coin]) continue;
-    let existing = state.activeBindingsByL1Coin[l1Coin];
-    if (!existing) {
-      const vp = resolveForexVirtualPairForProxyCoin(l1Coin, state, pairCooldowns);
-      if (vp && FOREX_AND_MACRO_L1_PROXY_MAP[vp]) {
-        const meta = FOREX_AND_MACRO_L1_PROXY_MAP[vp];
-        const sziNum = parseFloat(pos.szi || "0");
-        existing = {
-          virtualPair: vp,
-          l1Coin,
-          squadKey: meta.squadKey,
-          squadId: meta.squadId,
-          squadNum: meta.squadNum,
-          squadName: meta.squadName,
-          specialist: meta.specialist,
-          direction: sziNum >= 0 ? "LONG" : "SHORT",
-          szi: sziNum,
-          entryPx: parseFloat(pos.entryPx || "0"),
-          unrealizedPnlUsdc: parseFloat(pos.unrealizedPnl || "0"),
-          openedAt: new Date().toISOString()
-        };
-        state.activeBindingsByL1Coin[l1Coin] = existing;
-      }
-    } else {
-      const sziNum = parseFloat(pos.szi || "0");
-      existing.direction = sziNum >= 0 ? "LONG" : "SHORT";
-      existing.szi = sziNum;
-      existing.entryPx = parseFloat(pos.entryPx || existing.entryPx || "0");
-      existing.unrealizedPnlUsdc = parseFloat(pos.unrealizedPnl || "0");
-    }
-    if (existing && existing.virtualPair) {
-      state.activeBindingsByVirtualPair[existing.virtualPair] = existing;
-    }
-  }
-  state.bindings = state.activeBindingsByL1Coin;
-
+  state.bindings = {};
+  state.activeBindingsByL1Coin = {};
+  state.activeBindingsByVirtualPair = {};
   saveForexProxyBindingsState(state);
   return state;
 }
@@ -2154,22 +2043,36 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
     const activeByL1 = fxState.activeBindingsByL1Coin || {};
 
     const clonesState = spaces.map(sp => {
-      // Soportar tanto monedas L1 directas (#01-#09) como pares Forex/Oro/WallStreet vía Proxy L1 (#10-#18)
-      const inPosCoins = sp.pairs.filter(c => activeCoins.includes(c) || (activeByVirtual[c] && activeCoins.includes(activeByVirtual[c].l1Coin)));
+      // Las 27 tarjetas Macro (#10 DELTA a #18 ROMEO) operan como Oráculo Macro Institucional DXY / Wall Street
+      if (sp.id >= 10) {
+        return {
+          ...sp,
+          relayStatus: `📡 ORÁCULO MACRO L1 (${sp.pairs.join(" · ")}) ⇄ ⚡ GUÍA DXY / WALL ST ➔ 27 PARES L1`,
+          ratchetStatus: "⚡ GUÍA DXY / WALL ST ➔ 27 PARES L1",
+          latentForceScore: 95,
+          latentForcePair: sp.pairs[0],
+          activeBot: sp.titular,
+          standbyBot: sp.clon,
+          mode: "MACRO_ORACLE_SENSOR_ACTIVE",
+          pairInAction: null
+        };
+      }
+
+      // Los 9 Escuadrones Nativos (#01 ALFA a #09 LIMA -> 27 Contratos Perpetuos Nativos de Hyperliquid L1)
+      const inPosCoins = sp.pairs.filter(c => activeCoins.includes(c));
       const inPosCoin = inPosCoins[0] || null;
-      const boundL1Coin = (inPosCoin && activeByVirtual[inPosCoin]) ? activeByVirtual[inPosCoin].l1Coin : inPosCoin;
+      const boundL1Coin = inPosCoin;
       const cooldownCoin = sp.pairs.find(c => pairCooldowns && pairCooldowns[c] && pairCooldowns[c] > now);
       const posMeta = boundL1Coin ? (confirmedOpenByCoin[boundL1Coin] || {}) : {};
       const ratchetBadge = posMeta.ratchetStatusLabel || "🔓 CANDADO 10c (+$0.10 ➔ +$0.50+)";
 
-      // Buscar mejor score de fuerza latente en los pares libres del escuadrón (o sus proxies L1)
+      // Buscar mejor score de fuerza latente en los pares libres del escuadrón
       let bestForceObj = null;
       for (const pCoin of sp.pairs) {
-        const proxyList = FOREX_AND_MACRO_L1_PROXY_MAP[pCoin]?.proxyCoins || [];
         const lookupKey = pCoin === "PEPE" ? "kPEPE" : pCoin;
-        const lf = latentForceByCoin[lookupKey] || latentForceByCoin[pCoin] || (proxyList[0] ? latentForceByCoin[proxyList[0]] : null);
+        const lf = latentForceByCoin[lookupKey] || latentForceByCoin[pCoin] || null;
         if (lf && (!bestForceObj || lf.latentForceScore > bestForceObj.latentForceScore)) {
-          bestForceObj = { ...lf, displayCoin: pCoin };
+          bestForceObj = { ...lf, displayCoin: pCoin === "kPEPE" ? "PEPE" : pCoin };
         }
       }
       const forceBadge = bestForceObj
@@ -2195,18 +2098,17 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
 
       if (inPosCoin) {
         const dispCoin = inPosCoin === "kPEPE" ? "PEPE" : inPosCoin;
-        const proxySuffix = (boundL1Coin && boundL1Coin !== dispCoin) ? ` [vía ${boundL1Coin}-L1]` : "";
         return {
           ...sp,
-          relayStatus: `🟢 EN FUEGO: ${dispCoin}${proxySuffix} · ${ratchetBadge} ⇄ ${sp.clon}: GIRO <50ms`,
+          relayStatus: `🟢 EN FUEGO: ${dispCoin} · ${ratchetBadge} ⇄ ${sp.clon}: GIRO <50ms`,
           ratchetStatus: ratchetBadge,
           latentForceScore: bestForceObj ? bestForceObj.latentForceScore : 94,
           latentForcePair: dispCoin,
           activeBot: sp.titular,
           standbyBot: sp.clon,
-          mode: boundL1Coin !== dispCoin ? "FOREX_MACRO_PROXY_L1_ACTIVE" : "PLAN_C_ACTIVE_HUNTER",
+          mode: "PLAN_C_ACTIVE_HUNTER",
           pairInAction: dispCoin,
-          proxyL1Coin: boundL1Coin
+          proxyL1Coin: null
         };
       } else if (cooldownCoin) {
         const remSecs = Math.max(0, Math.ceil((pairCooldowns[cooldownCoin] - now) / 1000));
@@ -2531,13 +2433,10 @@ async function startAutonomousSquadDaemon() {
           recoveredInSessionCount++;
           stuckRecoveryCoinsSet.delete(closedCoin);
           pairCooldowns[closedCoin] = Date.now() + POST_TRADE_COOLDOWN_MS;
-          const boundVirtualPair = prevInfo.virtualPair || preCloseVirtualByL1[closedCoin]?.virtualPair || null;
-          if (boundVirtualPair) {
-            pairCooldowns[boundVirtualPair] = Date.now() + POST_TRADE_COOLDOWN_MS;
-          }
+          const boundVirtualPair = null;
 
           const remainingStuck = openPositions.filter(p => stuckRecoveryCoinsSet.has(p.position.coin)).length;
-          console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${boundVirtualPair ? `${boundVirtualPair} vía ${closedCoin}-L1` : `${closedCoin}-USDC`}) — Quedan ${remainingStuck} en Cola #00 | Entra en 🧘‍♂️ RESPIRO 02:00 (RECALIBRANDO 120s) y luego se incorpora al carrusel.`);
+          console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${closedCoin}-USDC) — Quedan ${remainingStuck} en Cola #00 | Entra en 🧘‍♂️ RESPIRO 02:00 (RECALIBRANDO 120s) y luego se incorpora al carrusel.`);
 
           delete confirmedOpenByCoin[closedCoin];
           delete positionPeakPnlMap[closedCoin];
@@ -3620,11 +3519,8 @@ async function startAutonomousSquadDaemon() {
           if (currentTotalOpenAndResting >= MAX_OPEN_POSITIONS) break;
           const coin = bestCand.coin;
           const dispCoin = bestCand.displayCoin;
-          const virtualPair = bestCand.virtualPair || dispCoin;
-          const isForexProxy = Boolean(bestCand.isForexProxy && virtualPair !== dispCoin);
           const squadKey = Object.keys(SQUADS_CONFIG).find(k =>
-            (SQUADS_CONFIG[k].virtualPairs && SQUADS_CONFIG[k].virtualPairs.includes(virtualPair)) ||
-            SQUADS_CONFIG[k].pairs.includes(coin)
+            !SQUADS_CONFIG[k].isMacroOracleOnly && SQUADS_CONFIG[k].pairs.includes(coin)
           ) || "ALFA";
           const squadCfg = SQUADS_CONFIG[squadKey] || SQUADS_CONFIG.ALFA;
           const laneNumber = Math.min(MAX_OPEN_POSITIONS, currentTotalOpenAndResting + 1);
@@ -3633,7 +3529,7 @@ async function startAutonomousSquadDaemon() {
           // 2. ENTRADA CON PRECIO PRECISO (CERO COMERSE UN SPREAD CARO AL ENTRAR):
           // Verificar que el spread entre bestBid y bestAsk sea < 0.03% (si el spread está abierto >= 0.03%, abortar el disparo)
           if (bestCand.spreadPct !== undefined && bestCand.spreadPct >= 0.03) {
-            console.log(`⚠️ [ANTI-SPREAD VETO] ${virtualPair} (${dispCoin}) abortado: Spread actual ${bestCand.spreadPct}% >= 0.03% máximo permitido.`);
+            console.log(`⚠️ [ANTI-SPREAD VETO] ${dispCoin} abortado: Spread actual ${bestCand.spreadPct}% >= 0.03% máximo permitido.`);
             continue;
           }
 
@@ -3655,9 +3551,7 @@ async function startAutonomousSquadDaemon() {
           const level1LockPxNum = isLong ? (entryPxNum + level1DeltaPx) : (entryPxNum - level1DeltaPx);
           const level1LockPxStr = formatHlPrice(level1LockPxNum, coin);
 
-          const openLogPrefix = isForexProxy
-            ? `🟢⚡ [FIRST-WAVE IGNITION // FOREX-L1] ${virtualPair} (vía ${dispCoin}-L1)`
-            : `🟢⚡ [FIRST-WAVE IGNITION // CARRIL #${laneNumber} // ${squadKey}] ${dispCoin}`;
+          const openLogPrefix = `🟢⚡ [FIRST-WAVE IGNITION // CARRIL #${laneNumber} // ${squadKey}] ${dispCoin}-USDC`;
           console.log(`\n${openLogPrefix} // SCORE ${bestCand.latentForceScore}/100 // MAREA ${marketTideLock.dominantDirection} (${bestCand.direction}):`);
           console.log(`   • Ignición 1ª Ola <150ms (${bestCand.evalLatencyMs}ms): Dist EMA9 ${bestCand.distFromEma9Pct ?? 0}% [0.015%-0.085%] | ROC20s ${bestCand.roc20sPct ?? bestCand.roc15sPct}% (<=0.14%) | 3-Ticks OK | RSI6 ${bestCand.rsi6} | L2 ${bestCand.l2RatioPct}% (>=72%) | BTC 3s ${bestCand.btcDelta3sPct ?? 0}% | Spread ${bestCand.spreadPct ?? 0.01}% (<0.03%)`);
           console.log(`   • Entrada IOC Borde Libro: ${szFormatted} ${dispCoin} @ $${entryPxStr} ($${notional.toFixed(2)} Nocional / $${autoLot.marginUsdc.toFixed(2)} Margen) -> Candado #00 +$0.10 @ $${level1LockPxStr} | Respiro Post-Cierre 120s`);
@@ -3682,37 +3576,18 @@ async function startAutonomousSquadDaemon() {
               currentTotalOpenAndResting++;
               const oid = status.resting?.oid || status.filled?.oid || `${coin}_${Date.now()}`;
               const openKey = `oid_${oid}`;
-              console.log(`   ✔ [${squadKey}] Orden IOC #${oid} ejecutada en Hyperliquid L1 (${status.filled ? "EJECUTADA EN NACIMIENTO DE OLA" : "ACTIVA"}) -> ${isForexProxy ? `${virtualPair} (vía ${dispCoin}-L1)` : dispCoin}.`);
+              console.log(`   ✔ [${squadKey}] Orden IOC #${oid} ejecutada en Hyperliquid L1 (${status.filled ? "EJECUTADA EN NACIMIENTO DE OLA" : "ACTIVA"}) -> ${dispCoin}-USDC.`);
 
               recentOrderSentCoins[coin] = Date.now();
               positionOpenTimestamps[coin] = Date.now();
 
-              // Guardar binding en telemetry/forex-proxy-bindings.json si es un par de Forex/Oro/Macro
-              if (isForexProxy) {
-                const fState = loadForexProxyBindingsState();
-                fState.bindings[coin] = {
-                  virtualPair,
-                  l1Coin: coin,
-                  squad: squadCfg.name,
-                  side: bestCand.direction,
-                  szi: absSzNum,
-                  entryPx: entryPxNum,
-                  unrealizedPnlUsdc: 0,
-                  latentForceScore: bestCand.latentForceScore,
-                  ratchetStatusLabel: "ESCALERA CANDADO 10 EN 10 CENTAVOS (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50...)",
-                  boundAt: new Date().toISOString(),
-                  updatedAt: new Date().toISOString()
-                };
-                saveForexProxyBindingsState(fState);
-              }
-
-              // 1) Al Abrir Operación: notificación inmediata deduplicada
+              // 1) Al Abrir Operación: notificación inmediata deduplicada (100% Verdad On-Chain en su propio símbolo nativo L1)
               const tgState = loadTelegramTradeAlertsState();
               if (!tgState.notifiedOpenOids[openKey]) {
                 tgState.notifiedOpenOids[openKey] = {
                   coin,
-                  virtualPair,
-                  isForexProxy,
+                  virtualPair: null,
+                  isForexProxy: false,
                   direction: bestCand.direction,
                   score: bestCand.latentForceScore,
                   entryPx: entryPxStr,
@@ -3720,12 +3595,8 @@ async function startAutonomousSquadDaemon() {
                 };
                 saveTelegramTradeAlertsState(tgState);
 
-                const tgHeader = isForexProxy
-                  ? `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA FOREX-L1] ${virtualPair} (vía ${dispCoin}-L1)</b>`
-                  : `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA // ESTILO OP]</b>`;
-                const pairLine = isForexProxy
-                  ? `📍 <b>Par Forex/Macro & Proxy L1:</b> <code>${virtualPair}</code> (ejecutado vía <code>${dispCoin}-L1</code> · <b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`
-                  : `📍 <b>Par & Dirección:</b> <code>${dispCoin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`;
+                const tgHeader = `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA // NATIVO L1] ${dispCoin}-USDC</b>`;
+                const pairLine = `📍 <b>Par Nativo L1 & Dirección:</b> <code>${dispCoin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`;
 
                 const orderTg = `${tgHeader}\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
@@ -3734,7 +3605,7 @@ async function startAutonomousSquadDaemon() {
                   `📥 <b>Entrada IOC Borde Libro (Spread ${bestCand.spreadPct ?? 0.01}% &lt; 0.03%):</b> <code>$${entryPxStr}</code>\n` +
                   `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$${autoLot.marginUsdc.toFixed(2)} USDC Margen ($${notional.toFixed(2)} USD Nocional)</code>\n` +
                   `🎯 <b>Puntería FIRST_WAVE_IGNITION (${bestCand.latentForceScore}/100):</b> <code>Dist EMA9: ${bestCand.distFromEma9Pct ?? 0}% [0.015%-0.085%] · 3-Ticks OK · RSI6: ${bestCand.rsi6} · L2: ${bestCand.l2RatioPct}% · BTC 3s: ${bestCand.btcDelta3sPct ?? 0}%</code>\n` +
-                  `🌊 <b>Filtro de Marea Global:</b> <code>${marketTideLock.dominantLabel}</code>\n` +
+                  `🌊 <b>Filtro de Marea &amp; Oráculo Macro:</b> <code>${marketTideLock.dominantLabel}</code>\n` +
                   `🔒 <b>Escalera de Candado:</b> <code>10 en 10 centavos (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... IOC) + Respiro 02:00 (120s)</code>\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;

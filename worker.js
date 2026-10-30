@@ -1768,7 +1768,7 @@ export default {
     }
 
     // ==============================================================================
-    // ENDPOINT: PUENTE PROXY FOREX-L1 (#10 DELTA A #18 ROMEO) + MOTOR QUEMA-LASTRE
+    // ENDPOINT: EJECUCIÓN 100% NATIVA L1 (#01 ALFA A #09 LIMA) + ORÁCULO MACRO (#10 A #18) + QUEMA-LASTRE
     // ==============================================================================
     if (url.pathname === "/api/squad-matrix/forex-proxy-bindings") {
       const headers = new Headers({
@@ -1778,28 +1778,13 @@ export default {
       });
       return new Response(JSON.stringify({
         updatedAt: new Date().toISOString(),
-        engine: "FOREX_AND_MACRO_L1_PROXY_MAP_AND_PROFIT_OFFSET_PRUNER",
-        proxyMap: {
-          "XAU/USD": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
-          "XAG/USD": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
-          "EUR/JPY": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
-          "EUR/USD": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
-          "GBP/USD": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
-          "USD/CHF": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
-          "USD/JPY": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
-          "AUD/USD": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
-          "USD/CAD": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
-          "GBP/JPY": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
-          "EUR/GBP": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
-          "WTI/USD": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
-          "NAS100": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-          "SPX500": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-          "US30": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-          "NVDA": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-          "TSLA": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-          "COIN": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
-          "MSTR": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] }
-        },
+        architecture: "NATIVE_27_L1_CONTRACTS_AND_MACRO_ORACLE_V2",
+        engine: "NATIVE_27_L1_FIRST_WAVE_IGNITION_AND_PROFIT_OFFSET_PRUNER",
+        proxyBridgeEnabled: false,
+        proxyMap: {},
+        activeBindingsByL1Coin: {},
+        activeBindingsByVirtualPair: {},
+        bindings: {},
         pruningPool: {
           pruningPoolRatio: 0.40,
           minPruneThresholdUsdc: 0.60,
@@ -4076,15 +4061,15 @@ export default {
                 }
               }
 
-              // 2. MOTOR ÚNICO DE PUNTERÍA DE ENTRADA `FIRST_WAVE_IGNITION` (ESTILO OP-USDC) + RESPIRO 120s
+              // 2. MOTOR ÚNICO DE PUNTERÍA DE ENTRADA `FIRST_WAVE_IGNITION` (ESTILO OP-USDC) + RESPIRO 120s (27 PARES NATIVOS L1 #01 ALFA A #09 LIMA)
               const stuckSetCloud = new Set(["ETH", "BTC", "SOL", "NEAR", "XRP"]);
               const cloudUnits = [
                 { name: "#01 ALFA (Auto 5%)", pairs: ["AVAX", "SUI"], notional: 252.25 },
-                { name: "#02 BRAVO / #12 FOXTROT (Auto 5%)", pairs: ["PAXG", "LINK"], notional: 252.25 },
+                { name: "#02 BRAVO (Auto 5%)", pairs: ["PAXG", "LINK"], notional: 252.25 },
                 { name: "#03 CHARLIE (Auto 5%)", pairs: ["BNB", "AAVE"], notional: 252.25 },
-                { name: "#04 GOLF / #10 DELTA (Auto 5%)", pairs: ["DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
-                { name: "#06 INDIA / #11 ECHO / #08 KILO (Auto 5%)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 252.25 },
-                { name: "#07 JULIET / #09 LIMA / #14 NOV (Auto 5%)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE"], notional: 252.25 }
+                { name: "#04 GOLF / #05 HOTEL (Auto 5%)", pairs: ["DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
+                { name: "#06 INDIA / #08 KILO (Auto 5%)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 252.25 },
+                { name: "#07 JULIET / #09 LIMA (Auto 5%)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE"], notional: 252.25 }
               ];
 
               const unfencedHuntersCloud = openPositions.filter(pos => {
