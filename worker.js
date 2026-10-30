@@ -1975,13 +1975,18 @@ export default {
       const xrpPx = xrpNum.toFixed(4);
       const nearPx = nearNum.toFixed(4);
 
-      const liveEq = chState?.marginSummary?.accountValue
-        ? parseFloat(chState.marginSummary.accountValue).toFixed(2)
-        : "921.71";
+      const liveEqNum = chState?.marginSummary?.accountValue
+        ? Number(parseFloat(chState.marginSummary.accountValue).toFixed(2))
+        : 891.39;
+      const liveEq = liveEqNum.toFixed(2);
       const openPosArr = Array.isArray(chState?.assetPositions)
         ? chState.assetPositions.filter(p => parseFloat(p?.position?.szi || "0") !== 0)
         : [];
-      const openPosCount = openPosArr.length || 6;
+      const openPosCount = openPosArr.length;
+      const liveUnrealizedPnl = Number(
+        openPosArr.reduce((acc, p) => acc + parseFloat(p?.position?.unrealizedPnl || "0"), 0).toFixed(2)
+      );
+      const realClosedBalanceL1 = Number((liveEqNum - liveUnrealizedPnl).toFixed(2));
 
       // Helper traductor rápido Inglés -> Español Ejecutivo Financiero
       const translateEnToEs = (text) => {
@@ -2086,7 +2091,7 @@ export default {
           category: "STANDARD",
           categoryLabel: "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)",
           headlineEs: `Radar de Libro L2 Hyperliquid: BTC en $${btcPx} · ETH en $${ethPx} · PAXG (Oro) en $${paxgPx}`,
-          summaryEs: `Profundidad institucional L2 estable en los 54 pares monitoreados. Saldo Cerrado Firme consolidado en $1,008.93 USDC ($756.52 Inyectado #501 + $252.41 Profit Bots) y Equidad Viva en $${liveEq} USDC mientras el Escudo Mentora #00 respalda las ${openPosCount} posiciones abiertas.`,
+          summaryEs: `Profundidad institucional L2 estable en los 54 pares monitoreados. Saldo Cerrado Real L1 en $${realClosedBalanceL1.toFixed(2)} USDC, Flotante (${openPosCount} pos) en ${liveUnrealizedPnl >= 0 ? "+" : "-"}$${Math.abs(liveUnrealizedPnl).toFixed(2)} y Equidad Viva exacta en $${liveEq} USDC (${realClosedBalanceL1.toFixed(2)} ${liveUnrealizedPnl >= 0 ? "+" : "-"} ${Math.abs(liveUnrealizedPnl).toFixed(2)} = $${liveEq}).`,
           assets: ["BTC", "ETH", "PAXG", "XRP", "SOL", "NEAR"],
           source: "Hyperliquid L1 Orderbook L2 (150ms)",
           botReactionEs: "Candado Base #00 en +$0.10 USDC Neto · Prohibido cerrar en rojo (0 Pérdidas)"

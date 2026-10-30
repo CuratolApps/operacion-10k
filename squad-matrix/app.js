@@ -1651,44 +1651,65 @@ function updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, d
 
 // ACTUALIZAR LAS 5 TARJETAS SUPERIORES, TAB PROYECCIONES Y TAB #7 MOTOR DE VIDA (100% textContent SIN innerHTML)
 function updateTopBarCards() {
-  const val = appState.accountValue;
-  const activeMargin = val * 0.60;
-  const mentoraShield = val * 0.40;
+  // 1) IDENTIDAD CONTABLE ESTRICTA DIRECTA DE clearinghouseState (HYPERLIQUID L1):
+  //    liveAccountValue = Realized Cash Balance (realClosedBalanceL1) + liveUnrealizedPnl
+  //    Por tanto: realClosedBalanceL1 + liveUnrealizedPnl === liveAccountValue AL CENTAVO EXACTO
+  const liveAccountValue = Number(parseFloat(appState.accountValue || 0).toFixed(2));
+  const val = liveAccountValue;
+  const activeMargin = +(liveAccountValue * 0.60).toFixed(2);
+  const mentoraShield = +(liveAccountValue * 0.40).toFixed(2);
 
-  let unrealizedTotal = 0;
+  let rawUnrealizedTotal = 0;
   let unrealizedSq1 = 0, unrealizedSq2 = 0, unrealizedSq3 = 0;
-  appState.openPositions.forEach(p => {
+  const validOpenPositions = Array.isArray(appState.openPositions)
+    ? appState.openPositions.filter(p => parseFloat(p?.position?.szi || "0") !== 0)
+    : [];
+
+  validOpenPositions.forEach(p => {
     const u = parseFloat(p.position.unrealizedPnl || "0");
     const coin = p.position.coin;
-    unrealizedTotal += u;
+    rawUnrealizedTotal += u;
     if (["SOL", "SUI", "AVAX"].includes(coin)) unrealizedSq1 += u;
     else if (["BTC", "PAXG", "LINK"].includes(coin)) unrealizedSq2 += u;
     else if (["ETH", "BNB", "AAVE"].includes(coin)) unrealizedSq3 += u;
   });
 
-  // REGLA SAGRADA: TRANSPARENCIA ABSOLUTA DEL SALDO $1,008.93 USDC (100% HYPERLIQUID L1)
-  // $756.52 Inyectado #501 + $252.41 Profit Cerrado Bots = $1,008.93 USDC Saldo Cerrado Firme L1
+  const liveUnrealizedPnl = Number(rawUnrealizedTotal.toFixed(2));
+  const unrealizedTotal = liveUnrealizedPnl;
+  const openCountForBox = validOpenPositions.length;
+
+  // Saldo Cerrado Real en Caja L1 (después de comisiones Taker/Maker y funding cobrado por Hyperliquid L1):
+  // Garantiza matemáticamente que: realClosedBalanceL1 + liveUnrealizedPnl === liveAccountValue
+  const realClosedBalanceL1 = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
+  const realClosedBalanceFmt = realClosedBalanceL1.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   appState.totalLoanInjected = Number(appState.totalLoanInjected || BASE_INJECTED);
   const closedProfit = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
-  const closedBase = +(appState.totalLoanInjected + closedProfit).toFixed(2);
+  const grossTheoreticalBase = +(appState.totalLoanInjected + closedProfit).toFixed(2);
+  const cumulativeFeesAndFunding = Number((grossTheoreticalBase - realClosedBalanceL1).toFixed(2));
+  const closedBase = realClosedBalanceL1;
   const closedProfitPct = (closedProfit / appState.totalLoanInjected) * 100;
-  const closedBaseFmt = closedBase.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const calibre = computeAutoCompoundCalibre(closedBase);
+  const closedBaseFmt = realClosedBalanceFmt;
+  const calibre = computeAutoCompoundCalibre(Math.max(1008.93, grossTheoreticalBase));
 
-  const floatSign = unrealizedTotal >= 0 ? "+" : "-";
-  const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
+  const floatSign = liveUnrealizedPnl >= 0 ? "+" : "-";
+  const floatAbs = Math.abs(liveUnrealizedPnl).toFixed(2);
   const polyUsdcReady = 0.00;
-  const openCountForBox = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
 
   const floatingOpenTagText = `Flotante (${openCountForBox} pos): ${floatSign}$${floatAbs}`;
-  const firmBalanceLineText = `Cerrado L1: $${closedBaseFmt}`;
+  const firmBalanceLineText = `Cerrado L1: $${realClosedBalanceFmt}`;
   const breakdownText = `B1 $1,000 ✅ | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Profit: +$${closedProfit.toFixed(2)}`;
 
-  // 1. Tarjeta 1: Capital Operativo (Hyperliquid L1) — Sin cortes ni desbordes
-  setTextIfChanged(document.getElementById("topActiveCapValue"), val.toFixed(2));
-  setTextIfChanged(document.getElementById("topAccountValue"), val.toFixed(2));
+  // 1. Tarjeta 1: Capital Operativo (Hyperliquid L1) — Cuadre matemático exacto al centavo:
+  //    Cerrado L1 ($realClosedBalanceL1) + Flotante ($liveUnrealizedPnl) === Capital Operativo ($liveAccountValue)
+  setTextIfChanged(document.getElementById("topActiveCapValue"), liveAccountValue.toFixed(2));
+  setTextIfChanged(document.getElementById("topAccountValue"), liveAccountValue.toFixed(2));
   setTextIfChanged(document.getElementById("topFloatingOpenTag"), floatingOpenTagText);
-  setTextIfChanged(document.getElementById("topActiveMarginPill"), firmBalanceLineText);
+  const elFirmMarginPill = document.getElementById("topActiveMarginPill");
+  setTextIfChanged(elFirmMarginPill, firmBalanceLineText);
+  if (elFirmMarginPill) {
+    elFirmMarginPill.title = `Cuadre L1 Exacto: Cerrado L1 ($${realClosedBalanceFmt}) ${floatSign} Flotante ($${floatAbs}) = Capital Operativo ($${liveAccountValue.toFixed(2)} USDC) | Bruto antes de Fees/Funding L1: $${grossTheoreticalBase.toFixed(2)} (Fees/Funding acumulados: -$${Math.max(0, cumulativeFeesAndFunding).toFixed(2)})`;
+  }
   setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
 
   // 2. Tarjeta 2: Profit Cerrado & Corte 00:00 UTC — Compacto y encuadrado
