@@ -20,9 +20,9 @@ function setTextIfChanged(el, newText) {
   }
 }
 
-// ESTADO PERSISTENTE MONOTÓNICO (CANDADO ANTI-REGRESIÓN V7 — SINCERIZACIÓN CONTABLE ABSOLUTA L1 + REINICIO DIARIO 00:00 UTC)
-const STORAGE_KEY_SQUAD = "__AREA501_SQUAD_VALID_STATE_V7__";
-const STORAGE_KEY_SQUAD_ALT = "__AREA501_SQUAD_MATRIX_STATE_V7__";
+// ESTADO PERSISTENTE MONOTÓNICO (CANDADO ANTI-REGRESIÓN V8 — SINCERIZACIÓN 100% NETA L1 + HOY NETO 00:00 UTC SIN COMISIONES)
+const STORAGE_KEY_SQUAD = "__AREA501_SQUAD_VALID_STATE_V8__";
+const STORAGE_KEY_SQUAD_ALT = "__AREA501_SQUAD_MATRIX_STATE_V8__";
 
 function loadPersistedSquadState() {
   try {
@@ -30,13 +30,16 @@ function loadPersistedSquadState() {
     localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE__");
     localStorage.removeItem("__AREA501_SQUAD_VALID_STATE_V6__");
     localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE_V6__");
+    localStorage.removeItem("__AREA501_SQUAD_VALID_STATE_V7__");
+    localStorage.removeItem("__AREA501_SQUAD_MATRIX_STATE_V7__");
     localStorage.removeItem("area501_live_snapshot_v4");
     localStorage.removeItem("area501_live_snapshot_v5");
     localStorage.removeItem("area501_live_snapshot_v6");
+    localStorage.removeItem("area501_live_snapshot_v7");
     const raw = localStorage.getItem(STORAGE_KEY_SQUAD) || localStorage.getItem(STORAGE_KEY_SQUAD_ALT);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === "object" && parsed.directLiveEquityV7) {
+      if (parsed && typeof parsed === "object" && parsed.directLiveEquityV8) {
         window.__LAST_VALID_STATE__ = parsed;
         return parsed;
       }
@@ -145,22 +148,22 @@ const DEFAULT_OPEN_POSITIONS = [
   { position: { coin: "NEAR", szi: "131.5", entryPx: "4.46719", unrealizedPnl: "-16.82" } }
 ];
 
-// CONSTANTES BASE DEL ANCLA HISTÓRICA (SINCERIZACIÓN CONTABLE: $756.52 INYECTADO #501 + $252.53 PROFIT BOTS = $1,009.05 SALDO FIRME L1)
+// CONSTANTES BASE DEL ANCLA HISTÓRICA (SINCERIZACIÓN 100% NETA EN CARTERA: $756.52 INYECTADO #501 + $214.43 NETO L1 = $970.95 CERRADO L1)
 const ANCHOR_FILL_TIME = 1793259021242;
 const BASE_WINS = 259;
 const BASE_LOSSES = 0;
-const BASE_ACCOUNT_VALUE = 906.69;
-const BASE_TOTAL_PROFIT_USDC = 230.19;
-const BASE_BLOCK_PROFIT_USDC = 252.53;
-const BASE_MARGIN_60 = 544.01;
-const BASE_SHIELD_40 = 362.68;
+const BASE_ACCOUNT_VALUE = 890.59;
+const BASE_TOTAL_PROFIT_USDC = 214.43;
+const BASE_BLOCK_PROFIT_USDC = 214.43;
+const BASE_MARGIN_60 = 534.35;
+const BASE_SHIELD_40 = 356.24;
 const BASE_INJECTED = 756.52;
-const BASE_CLOSED_FIRME = 1009.05;
+const BASE_CLOSED_FIRME = 970.95;
 
 // ESTADO GLOBAL SINCERIZADO (100% DIRECT LIVE EQUITY — CERO CONGELAMIENTO)
 let appState = {
-  accountValue: (initialSavedSquad && initialSavedSquad.directLiveEquityV7 && initialSavedSquad.accountValue > 0) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
-  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV7 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : 338.05,
+  accountValue: (initialSavedSquad && initialSavedSquad.directLiveEquityV8 && initialSavedSquad.accountValue > 0) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
+  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV8 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : 338.05,
   openPositions: (initialSavedSquad && Array.isArray(initialSavedSquad.openPositions) && initialSavedSquad.openPositions.length > 0) ? initialSavedSquad.openPositions : DEFAULT_OPEN_POSITIONS,
   mids: Object.assign({}, SYNTHETIC_DEFAULTS, (initialSavedSquad && initialSavedSquad.mids) || {}),
   totalLoanInjected: BASE_INJECTED,
@@ -169,15 +172,15 @@ let appState = {
   block1Goal: 1000.00,
   totalWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 259) ? initialSavedSquad.realWins : BASE_WINS,
   totalLosses: 0,
-  totalProfitUsdc: (initialSavedSquad && initialSavedSquad.totalProfitUsdc && initialSavedSquad.totalProfitUsdc >= 252.53) ? initialSavedSquad.totalProfitUsdc : BASE_BLOCK_PROFIT_USDC,
-  dailyWinsToday: (initialSavedSquad && typeof initialSavedSquad.dailyWinsToday === "number" && initialSavedSquad.dailyWinsToday >= 4) ? initialSavedSquad.dailyWinsToday : 4,
+  totalProfitUsdc: (initialSavedSquad && typeof initialSavedSquad.totalProfitUsdc === "number") ? initialSavedSquad.totalProfitUsdc : BASE_BLOCK_PROFIT_USDC,
+  dailyWinsToday: (initialSavedSquad && typeof initialSavedSquad.dailyWinsToday === "number" && initialSavedSquad.dailyWinsToday >= 35) ? initialSavedSquad.dailyWinsToday : 35,
   dailyLossesToday: 0,
-  dailyProfitTodayUsdc: (initialSavedSquad && typeof initialSavedSquad.dailyProfitTodayUsdc === "number" && initialSavedSquad.dailyProfitTodayUsdc >= 0.44) ? initialSavedSquad.dailyProfitTodayUsdc : 0.44,
+  dailyProfitTodayUsdc: (initialSavedSquad && typeof initialSavedSquad.dailyProfitTodayUsdc === "number") ? initialSavedSquad.dailyProfitTodayUsdc : 2.09,
   realWins: (initialSavedSquad && initialSavedSquad.realWins && initialSavedSquad.realWins >= 259) ? initialSavedSquad.realWins : BASE_WINS,
   realLosses: 0,
   realBe: (initialSavedSquad && initialSavedSquad.realBe) || 9,
   realWinRate: 100,
-  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 97.30, 2: 75.60, 3: 79.63, total: 252.53 }
+  closedPnlBySquad: (initialSavedSquad && initialSavedSquad.closedPnlBySquad) || { 1: 82.6, 2: 64.2, 3: 67.6, total: 214.43 }
 };
 
 // DEFINICIÓN DE LOS 8 MERCADOS MUNDIALES CLAVE
@@ -289,10 +292,14 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(fetchHyperliquidState, 2000);
   setInterval(() => {
     try {
-      const closedProfit = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
-      const closedBase = +(Number(appState.totalLoanInjected || BASE_INJECTED) + closedProfit).toFixed(2);
-      const dailyProfit = Number((appState.dailyProfitTodayUsdc || 0.44).toFixed(2));
-      const dailyWins = Number(appState.dailyWinsToday || 3);
+      const liveAccountValue = Number(parseFloat(appState.accountValue || BASE_ACCOUNT_VALUE).toFixed(2));
+      const liveUnrealizedPnl = Number(
+        (appState.openPositions || []).reduce((acc, p) => acc + parseFloat(p?.position?.unrealizedPnl || "0"), 0).toFixed(2)
+      );
+      const closedBase = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
+      const closedProfit = Number((closedBase - Number(appState.totalLoanInjected || BASE_INJECTED)).toFixed(2));
+      const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? appState.dailyProfitTodayUsdc : 2.09).toFixed(2));
+      const dailyWins = Number(appState.dailyWinsToday || 35);
       const dailyLosses = Number(appState.dailyLossesToday || 0);
       updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, dailyLosses);
       updatePricesAndSignals();
@@ -668,7 +675,7 @@ function updateMarketClocks() {
 // ACTUALIZACIÓN DE CABECERA DE PORTADA, META DIARIA Y DEPARTAMENTO DE RIESGO
 function updateCoverHeaderAndRisk(now, anyWarning) {
   // 1. BLOQUE 1: META DIARIA DE RENTABILIDAD (+$40 a +$50 USDC)
-  const achieved = (appState.totalProfitUsdc && appState.totalProfitUsdc >= 213.69) ? appState.totalProfitUsdc : 213.69;
+  const achieved = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
   const coverAchievedEl = document.getElementById("coverAchievedToday");
   if (coverAchievedEl) {
     coverAchievedEl.innerText = `+$${achieved.toFixed(2)} USDC`;
@@ -1291,9 +1298,9 @@ async function fetchHyperliquidState() {
       const fills = await fillsRes.json();
       if (Array.isArray(fills)) {
         // =========================================================================
-        // 1) PROFIT ACUMULADO DEL BLOQUE + 2) ESTADÍSTICA DIARIA REINICIABLE A LAS 00:00:00 UTC
-        // Agrupando por OPERACIÓN COMPLETA (oid / ventana 120s por par), NO por fragmentos partial fills,
-        // e ignorando micro-ajustes de comisión menores a $0.01 USDC (0 pérdidas falsas).
+        // 1) HOY NETO (00:00 UTC) 100% LIBRE DE COMISIONES DE HYPERLIQUID
+        //    realNetTodayUsdc = Number((sumClosedPnlToday - sumAllFeesToday).toFixed(2))
+        // 2) ACUMULADO NETO EN CARTERA L1 (realClosedBalanceL1 - 756.52 = +$214.43)
         // =========================================================================
         const sq1Coins = ["SOL", "SUI", "AVAX"];
         const sq2Coins = ["BTC", "PAXG", "LINK"];
@@ -1309,6 +1316,7 @@ async function fetchHyperliquidState() {
 
         let postAnchorPnl = 0;
         let postAnchorSq1 = 0, postAnchorSq2 = 0, postAnchorSq3 = 0;
+        let sumAllFeesToday = 0;
 
         // Agrupadores por operación completa (oid / ventana de cierre de 120s del par)
         const blockOpsMap = new Map();
@@ -1319,6 +1327,11 @@ async function fetchHyperliquidState() {
           const isClose = f.dir && f.dir.includes("Close");
           const closedPnl = parseFloat(f.closedPnl || "0");
           const fee = parseFloat(f.fee || "0");
+
+          // Descontar el 100% de las comisiones (fee de entrada + salida) cobradas por Hyperliquid hoy desde las 00:00:00 UTC
+          if (fillTime >= startOfTodayUtcMs && !isNaN(fee)) {
+            sumAllFeesToday += fee;
+          }
 
           if (!isClose || closedPnl === 0) return;
 
@@ -1359,22 +1372,31 @@ async function fetchHyperliquidState() {
 
         let dailyWinsToday = 0;
         let dailyLossesToday = 0;
-        let dailyProfitTodayUsdc = 0;
+        let sumClosedPnlToday = 0;
         todayOpsMap.forEach(op => {
           if (op.grossPnl >= 0.01) {
             dailyWinsToday++;
-            dailyProfitTodayUsdc += Math.max(0.01, op.grossPnl);
+            sumClosedPnlToday += op.grossPnl;
           }
         });
 
-        appState.dailyWinsToday = Math.max(3, dailyWinsToday);
+        const realNetTodayUsdc = Number((sumClosedPnlToday - sumAllFeesToday).toFixed(2));
+
+        appState.dailyWinsToday = Math.max(1, dailyWinsToday);
         appState.dailyLossesToday = dailyLossesToday;
-        appState.dailyProfitTodayUsdc = Math.max(0.44, +dailyProfitTodayUsdc.toFixed(2));
+        appState.dailyProfitTodayUsdc = Math.max(0, realNetTodayUsdc);
+
+        const liveAccountValue = Number(parseFloat(appState.accountValue || BASE_ACCOUNT_VALUE).toFixed(2));
+        const liveUnrealizedPnl = Number(
+          (appState.openPositions || []).reduce((acc, p) => acc + parseFloat(p?.position?.unrealizedPnl || "0"), 0).toFixed(2)
+        );
+        const realClosedBalanceL1 = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
+        const realNetAccumulatedProfit = Number((realClosedBalanceL1 - Number(appState.totalLoanInjected || BASE_INJECTED)).toFixed(2));
 
         appState.realWins = Math.max(BASE_WINS, BASE_WINS + groupedPostAnchorWins);
         appState.realLosses = 0;
         appState.realWinRate = 100;
-        appState.totalProfitUsdc = Math.max(BASE_BLOCK_PROFIT_USDC, +(BASE_TOTAL_PROFIT_USDC + postAnchorPnl).toFixed(2));
+        appState.totalProfitUsdc = realNetAccumulatedProfit;
 
         appState.closedPnlBySquad = {
           1: +(83.13 + postAnchorSq1).toFixed(2),
@@ -1385,9 +1407,9 @@ async function fetchHyperliquidState() {
       }
     }
 
-    // Persistir Snapshot Válido (Direct Live Equity V7)
+    // Persistir Snapshot Válido (Direct Live Equity V8)
     const validSnapshot = {
-      directLiveEquityV7: true,
+      directLiveEquityV8: true,
       accountValue: appState.accountValue,
       withdrawable: appState.withdrawable,
       totalLoanInjected: appState.totalLoanInjected,
@@ -1509,12 +1531,13 @@ function computeFlightLockedUsdc() {
 }
 
 function updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, dailyLosses) {
-  const safeClosed = Math.max(1008.93, Number(closedBase || BASE_CLOSED_FIRME));
+  const safeClosed = Number((closedBase || BASE_CLOSED_FIRME).toFixed(2));
   const closedBaseFmt = safeClosed.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const calibre = computeAutoCompoundCalibre(safeClosed);
   const cycleGoal = 2250.00;
   const cyclePct = Math.min(100, Math.max(0, +((safeClosed / cycleGoal) * 100).toFixed(1)));
-  const nominaHarvested = Math.max(0, +(safeClosed - 1000.00).toFixed(2));
+  // Sincronización exacta con HOY NETO (libre de comisiones de Hyperliquid) para el Día 1 (30-31 OCT)
+  const nominaHarvested = Math.max(0, Number((dailyProfit !== undefined ? dailyProfit : 2.09).toFixed(2)));
   const cutLabel = computeQuincenalCutLabel();
   const flightLockedUsdc = computeFlightLockedUsdc();
 
@@ -1575,7 +1598,9 @@ function updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, d
 
     const isPayday = i === 16;
     const isMidCycle = i === 8;
-    const stepClosedRaw = Math.max(0, +(safeClosed - floorVal).toFixed(2));
+    const stepClosedRaw = i === 1
+      ? Math.max(nominaHarvested, +(safeClosed - floorVal).toFixed(2))
+      : Math.max(0, +(safeClosed - floorVal).toFixed(2));
     const stepClosedCapped = Math.min(quotaVal, stepClosedRaw);
     const missingStep = Math.max(0, +(quotaVal - stepClosedCapped).toFixed(2));
     const extraHarvested = safeClosed > targetVal ? +(safeClosed - targetVal).toFixed(2) : 0.00;
@@ -1696,14 +1721,15 @@ function updateTopBarCards() {
   const realClosedBalanceL1 = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
   const realClosedBalanceFmt = realClosedBalanceL1.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+  // Profit Neto Acumulado Real en Cartera: Base $756.52 + realNetAccumulatedProfit === realClosedBalanceL1 AL CENTAVO EXACTO
   appState.totalLoanInjected = Number(appState.totalLoanInjected || BASE_INJECTED);
-  const closedProfit = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
-  const grossTheoreticalBase = +(appState.totalLoanInjected + closedProfit).toFixed(2);
-  const cumulativeFeesAndFunding = Number((grossTheoreticalBase - realClosedBalanceL1).toFixed(2));
+  const realNetAccumulatedProfit = Number((realClosedBalanceL1 - appState.totalLoanInjected).toFixed(2));
+  appState.totalProfitUsdc = realNetAccumulatedProfit;
+  const closedProfit = realNetAccumulatedProfit;
   const closedBase = realClosedBalanceL1;
-  const closedProfitPct = (closedProfit / appState.totalLoanInjected) * 100;
+  const closedProfitPct = (realNetAccumulatedProfit / appState.totalLoanInjected) * 100;
   const closedBaseFmt = realClosedBalanceFmt;
-  const calibre = computeAutoCompoundCalibre(Math.max(1008.93, grossTheoreticalBase));
+  const calibre = computeAutoCompoundCalibre(closedBase);
 
   const floatSign = liveUnrealizedPnl >= 0 ? "+" : "-";
   const floatAbs = Math.abs(liveUnrealizedPnl).toFixed(2);
@@ -1711,7 +1737,7 @@ function updateTopBarCards() {
 
   const floatingOpenTagText = `Flotante (${openCountForBox} pos): ${floatSign}$${floatAbs}`;
   const firmBalanceLineText = `Cerrado L1: $${realClosedBalanceFmt}`;
-  const breakdownText = `B1 $1,000 ✅ | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Profit: +$${closedProfit.toFixed(2)}`;
+  const breakdownText = `B1 $1,000 | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Neto L1: +$${realNetAccumulatedProfit.toFixed(2)} = $${closedBaseFmt}`;
 
   // 1. Tarjeta 1: Capital Operativo (Hyperliquid L1) — Cuadre matemático exacto al centavo:
   //    Cerrado L1 ($realClosedBalanceL1) + Flotante ($liveUnrealizedPnl) === Capital Operativo ($liveAccountValue)
@@ -1721,30 +1747,30 @@ function updateTopBarCards() {
   const elFirmMarginPill = document.getElementById("topActiveMarginPill");
   setTextIfChanged(elFirmMarginPill, firmBalanceLineText);
   if (elFirmMarginPill) {
-    elFirmMarginPill.title = `Cuadre L1 Exacto: Cerrado L1 ($${realClosedBalanceFmt}) ${floatSign} Flotante ($${floatAbs}) = Capital Operativo ($${liveAccountValue.toFixed(2)} USDC) | Bruto antes de Fees/Funding L1: $${grossTheoreticalBase.toFixed(2)} (Fees/Funding acumulados: -$${Math.max(0, cumulativeFeesAndFunding).toFixed(2)})`;
+    elFirmMarginPill.title = `Cuadre L1 Exacto: Cerrado L1 ($${realClosedBalanceFmt}) ${floatSign} Flotante ($${floatAbs}) = Capital Operativo ($${liveAccountValue.toFixed(2)} USDC) | Base #501 ($${appState.totalLoanInjected.toFixed(2)}) + Neto L1 (+$${realNetAccumulatedProfit.toFixed(2)}) = $${realClosedBalanceFmt}`;
   }
   setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
 
-  // 2. Tarjeta 2: Profit Cerrado & Corte 00:00 UTC — Compacto y encuadrado
+  // 2. Tarjeta 2: Profit Cerrado & Corte 00:00 UTC — 100% Real Neto Diario libre de comisiones de Hyperliquid
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
 
-  const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0.44, appState.dailyProfitTodayUsdc) : 0.44).toFixed(2));
-  const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(4, appState.dailyWinsToday) : 4;
+  const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 2.09).toFixed(2));
+  const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 35;
   const dailyLosses = appState.dailyLossesToday !== undefined ? appState.dailyLossesToday : 0;
 
-  const dailyHeadlineText = `HOY (00:00 UTC): +$${dailyProfit.toFixed(2)} USDC · ${dailyWins}G - ${dailyLosses}P`;
+  const dailyHeadlineText = `HOY NETO (00:00 UTC): +$${dailyProfit.toFixed(2)} USDC · ${dailyWins}G - ${dailyLosses}P`;
   const dailyOpsBadgeText = `${dailyWins}G - ${dailyLosses}P`;
-  const flowBreakdownText = `Bloque: +$${closedProfit.toFixed(2)} (+${closedProfitPct.toFixed(1)}%) · Cierre: $${closedBaseFmt}`;
+  const flowBreakdownText = `Acumulado Neto (en L1): +$${realNetAccumulatedProfit.toFixed(2)} (+${closedProfitPct.toFixed(1)}%) · Cierre: $${closedBaseFmt}`;
 
   setTextIfChanged(document.getElementById("topTotalProfit"), dailyHeadlineText);
   setTextIfChanged(document.getElementById("topTotalProfitPct"), dailyOpsBadgeText);
   setTextIfChanged(document.getElementById("topProfitFloatingPill"), flowBreakdownText);
 
-  // Sincronización matemática exacta de los escuadrones: reparten el Profit Total del Bloque (+$252.53 USDC)
-  const closed = appState.closedPnlBySquad || { 1: 97.43, 2: 75.70, 3: 79.40, total: 252.53 };
-  const raw1 = Math.max(0.01, (closed[1] || 97.43));
-  const raw2 = Math.max(0.01, (closed[2] || 75.70));
-  const raw3 = Math.max(0.01, (closed[3] || 79.40));
+  // Sincronización matemática exacta de los escuadrones: reparten el Profit Neto Acumulado en L1 (+$214.43 USDC)
+  const closed = appState.closedPnlBySquad || { 1: 82.6, 2: 64.2, 3: 67.6, total: 214.43 };
+  const raw1 = Math.max(0.01, (closed[1] || 82.6));
+  const raw2 = Math.max(0.01, (closed[2] || 64.2));
+  const raw3 = Math.max(0.01, (closed[3] || 67.6));
   const rawSum = raw1 + raw2 + raw3;
 
   let pnl1 = Number(((raw1 / rawSum) * closedProfit).toFixed(1));
@@ -1783,28 +1809,31 @@ function updateTopBarCards() {
     if (elRelay) setTextIfChanged(elRelay, getSquadRelayText(sq));
   });
 
-  // 3. Tarjeta 3: Meta por Bloques (100% Hyperliquid)
-  const pctBlock2 = Math.min(100, Math.max(0, +((closedBase / 2000.00) * 100).toFixed(1)));
-  const block2LabelText = `BLOQUE 2: $${closedBaseFmt} / $2,000 USDC (${pctBlock2.toFixed(1)}%)`;
-  const block3FootText = `B1 $1,000 ✅ | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Profit: +$${closedProfit.toFixed(2)}`;
-  setTextIfChanged(document.getElementById("topBlock1ProgressLabel"), block2LabelText);
-  setTextIfChanged(document.getElementById("topBlock1ProgressPct"), `${pctBlock2.toFixed(1)}%`);
+  // 3. Tarjeta 3: Meta por Bloques (100% Hyperliquid) — Cuadre exacto al centavo ($756.52 + $214.43 = $970.95)
+  const pctBlock1 = Math.min(100, Math.max(0, +((closedBase / 1000.00) * 100).toFixed(1)));
+  const missingBlock1 = Math.max(0, +(1000.00 - closedBase).toFixed(2));
+  const blockProgressText = closedBase >= 1000.00
+    ? `BLOQUE 2: $${closedBaseFmt} / $2,000 USDC (${((closedBase / 2000.00) * 100).toFixed(1)}%)`
+    : `BLOQUE 1: $${closedBaseFmt} / $1,000 USDC (${pctBlock1.toFixed(1)}% · Faltan $${missingBlock1.toFixed(2)})`;
+  const block3FootText = `B1 $1,000 | Base #501: $${appState.totalLoanInjected.toFixed(2)} + Neto L1: +$${realNetAccumulatedProfit.toFixed(2)} = $${closedBaseFmt}`;
+  setTextIfChanged(document.getElementById("topBlock1ProgressLabel"), blockProgressText);
+  setTextIfChanged(document.getElementById("topBlock1ProgressPct"), `${pctBlock1.toFixed(1)}%`);
   setTextIfChanged(document.getElementById("topBlock1RuleBadge"), block3FootText);
   const elProgBar = document.getElementById("topBlock1ProgressBar");
-  if (elProgBar && elProgBar.style.width !== `${pctBlock2.toFixed(1)}%`) {
-    elProgBar.style.width = `${pctBlock2.toFixed(1)}%`;
+  if (elProgBar && elProgBar.style.width !== `${pctBlock1.toFixed(1)}%`) {
+    elProgBar.style.width = `${pctBlock1.toFixed(1)}%`;
   }
 
   // Actualizar Bloque 1 en Tab 3
   setTextIfChanged(document.getElementById("block1ActiveCapText"), `$${closedBaseFmt} USDC`);
   const elB1Meta = document.getElementById("block1MetaPctText");
   if (elB1Meta) {
-    const b1MetaHtml = `Saldo Firme L1: <b>$${closedBaseFmt} USDC</b> ($756.52 Inyectado + $${closedProfit.toFixed(2)} Profit Bots)`;
+    const b1MetaHtml = `Saldo Firme L1: <b>$${closedBaseFmt} USDC</b> ($756.52 Base #501 + $${realNetAccumulatedProfit.toFixed(2)} Neto L1)`;
     if (elB1Meta.innerHTML !== b1MetaHtml) elB1Meta.innerHTML = b1MetaHtml;
   }
   const elB1Bar = document.getElementById("block1FillBar");
-  if (elB1Bar && elB1Bar.style.width !== `100.0%`) {
-    elB1Bar.style.width = `100.0%`;
+  if (elB1Bar && elB1Bar.style.width !== `${pctBlock1.toFixed(1)}%`) {
+    elB1Bar.style.width = `${pctBlock1.toFixed(1)}%`;
   }
 
   // 4. Control Capital Inyectado (0% Interés: $629.94 + $54.10 + $72.48 = $756.52 USDC)
@@ -1813,9 +1842,23 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // Guardar snapshot compartido area501_live_snapshot_v7 para 0ms de salto al pulsar F5
+  // 5. Radar Matrix 18x54 & Barra Inferior: FONDO FUNDADOR sincronizado con HOY NETO (libre de comisiones de Hyperliquid)
+  const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
+  const nominaHarvested = Math.max(0, Number(dailyProfit.toFixed(2)));
+
+  const topPillText = `4 PISTAS · CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X) · CANDADO +$0.10`;
+  const readySquadsText = `🟢 8 EN GUARDIA + 2 CARRILES RÁPIDOS ACTIVOS`;
+  const subLabelText = `FONDO FUNDADOR: +$${nominaHarvested.toFixed(2)} / +$52.00 (DÍA 1 · 30-31 OCT)`;
+  const bottomBannerText = `⚡ 5% A 5X ($${calibre.marginUsdc.toFixed(2)})`;
+
+  setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
+  setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
+  setTextIfChanged(document.getElementById("topRadarSubLabel"), subLabelText);
+  setTextIfChanged(document.getElementById("bottomRecoveryBannerPill"), bottomBannerText);
+
+  // Guardar snapshot compartido area501_live_snapshot_v8 para 0ms de salto al pulsar F5
   try {
-    localStorage.setItem("area501_live_snapshot_v7", JSON.stringify({
+    localStorage.setItem("area501_live_snapshot_v8", JSON.stringify({
       totalWealth: +(val + polyUsdcReady + 4.70 + 14.28).toFixed(2),
       hlBalance: val,
       closedBase,
@@ -1824,8 +1867,8 @@ function updateTopBarCards() {
       shieldMargin: mentoraShield,
       polBal: 9.8383,
       polyUsdc: polyUsdcReady,
-      pct1000: 100,
-      pctBlock2,
+      pct1000: pctBlock1,
+      pctBlock2: pctBlock1,
       closedProfit,
       closedProfitPct,
       netLiveProfit: netTotalPnl,
@@ -1838,27 +1881,14 @@ function updateTopBarCards() {
       dailyOpsBadgeText,
       flowBreakdownText,
       winStreakText: winStreakTextStr,
-      blockProgressLabel: block2LabelText,
-      blockProgressPctText: `${pctBlock2.toFixed(1)}%`,
+      blockProgressLabel: blockProgressText,
+      blockProgressPctText: `${pctBlock1.toFixed(1)}%`,
       blockRuleBadgeText: block3FootText,
-      metaTargetText: `${block2LabelText} (${block3FootText})`,
+      radarSubLabelText: subLabelText,
+      metaTargetText: `${blockProgressText} (${block3FootText})`,
       updatedAt: Date.now()
     }));
   } catch (_) {}
-
-  // 5. Radar Matrix 18x54 & Barra Inferior: Indicador 100% compacto sin cortes
-  const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
-  const nominaHarvested = Math.max(9.17, +(closedBase - 1000.00).toFixed(2));
-
-  const topPillText = `4 PISTAS · CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X) · CANDADO +$0.10`;
-  const readySquadsText = `🟢 8 EN GUARDIA + 2 CARRILES RÁPIDOS ACTIVOS`;
-  const subLabelText = `FONDO FUNDADOR: +$${nominaHarvested.toFixed(2)} / +$52.00 (DÍA 1 · 30-31 OCT)`;
-  const bottomBannerText = `⚡ 5% A 5X ($${calibre.marginUsdc.toFixed(2)})`;
-
-  setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
-  setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
-  setTextIfChanged(document.getElementById("topRadarSubLabel"), subLabelText);
-  setTextIfChanged(document.getElementById("bottomRecoveryBannerPill"), bottomBannerText);
 
   // Actualizar capital en Tab 2 para los 18 escuadrones activos (36 bots: 18 Titulares + 18 Clones)
   SQUADS_DATA.forEach(sq => {
@@ -1879,7 +1909,7 @@ function updateTopBarCards() {
   }
   const elProjDist = document.getElementById("projDistance1000");
   if (elProjDist) {
-    const missing = Math.max(0, 1000.00 - val);
+    const missing = Math.max(0, 1000.00 - closedBase);
     setTextIfChanged(elProjDist, `Faltan solo $${missing.toFixed(2)} USDC`);
   }
 
