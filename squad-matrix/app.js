@@ -866,17 +866,16 @@ function render54PairsGrid() {
   });
 }
 
-// HELPER: NUEVA LEY DE CANDADO DE ACORRALAMIENTO (`CORNERING_RATCHET_00`: +$0.10..+$0.35 ➔ +$0.50 ESTRICTO + ESCALONES DE +$0.10) EN CLIENTE
+// HELPER: BLINDAJE ANTI-ESCAPE DEL CANDADO #00 (`displayPnl >= $0.50` ESTRICTO + ESCALONES DE +$0.10) EN CLIENTE
 const clientRatchetMemory = {};
-function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
-  const peak = Number(peakNetPnlUsdc || 0);
+function computeCorneringRatchetStepClient(peakPnlUsdc) {
+  const peak = Number(peakPnlUsdc || 0);
   if (peak >= 0.50) {
     return +(Math.floor((peak + 1e-9) * 10) / 10).toFixed(2);
   }
-  if (peak >= 0.40) return 0.35;
-  if (peak >= 0.30) return 0.25;
-  if (peak >= 0.20) return 0.15;
-  if (peak >= 0.10) return 0.10;
+  if (peak >= 0.40) return 0.30;
+  if (peak >= 0.30) return 0.20;
+  if (peak >= 0.15) return 0.10;
   return 0;
 }
 
@@ -903,8 +902,8 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const rawPnl = parseFloat(pos.unrealizedPnl || "0");
   const priceDiff = isShort ? (entryPx - midPx) : (midPx - entryPx);
   const grossPnl = entryPx > 0 ? priceDiff * absSz : rawPnl;
-  const effectiveGross = Math.max(rawPnl, grossPnl);
-  const netAfterFee = effectiveGross - rtFeeUsd;
+  const displayPnl = Math.max(rawPnl, grossPnl);
+  const netAfterFee = displayPnl - rtFeeUsd;
   const gainPct = entryPx > 0 ? (priceDiff / entryPx) * 100 : 0;
 
   if (!clientRatchetMemory[coin] || clientRatchetMemory[coin].entryPx !== entryPx) {
@@ -912,17 +911,19 @@ function computeClientRatchetStatus(activePos, currentPrice) {
     clientRatchetMemory[coin] = {
       entryPx,
       openedAt: initialRecoveryCoins.has(coin) ? (Date.now() - 240000) : Date.now(),
+      peakPnlUsdc: displayPnl,
       peakNetAfterFee: netAfterFee,
       peakGainPct: gainPct,
       lockedNetUsd: 0
     };
   }
   const mem = clientRatchetMemory[coin];
+  if (displayPnl > mem.peakPnlUsdc) mem.peakPnlUsdc = displayPnl;
   if (netAfterFee > mem.peakNetAfterFee) mem.peakNetAfterFee = netAfterFee;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Escalera Exacta en Dólares Netos (`CORNERING_RATCHET_00`: +$0.10 -> +$0.15 -> +$0.25 -> +$0.35 -> +$0.50 -> +$0.60, +$0.70, $1, $2, $3+)
-  const corneredStep = computeCorneringRatchetStepClient(mem.peakNetAfterFee);
+  // Escalera Exacta por PnL Visible (`displayPnl >= $0.50` Estricto: +$0.15->+$0.10 | +$0.30->+$0.20 | +$0.40->+$0.30 | >=+$0.50 -> Math.floor(peak*10)/10)
+  const corneredStep = computeCorneringRatchetStepClient(mem.peakPnlUsdc);
   if (corneredStep >= 0.10) {
     if (corneredStep > mem.lockedNetUsd) mem.lockedNetUsd = corneredStep;
     return {

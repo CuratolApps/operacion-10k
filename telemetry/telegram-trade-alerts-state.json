@@ -1,9 +1,179 @@
 {
-  "updatedAt": "2026-10-30T10:39:45.377Z",
+  "updatedAt": "2026-10-30T12:59:09.741Z",
   "initialBootReportSentAt": null,
   "notifiedOpenKeys": {},
-  "notifiedLock00Keys": {},
-  "notifiedCloseTids": {},
+  "notifiedOpenOids": {
+    "oid_590620870307": {
+      "coin": "ONDO",
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.391",
+      "ts": "2026-10-30T11:48:37.134Z"
+    },
+    "oid_590623610806": {
+      "coin": "TRX",
+      "direction": "SHORT",
+      "score": 100,
+      "entryPx": "0.34179",
+      "ts": "2026-10-30T11:52:37.519Z"
+    },
+    "oid_590623617627": {
+      "coin": "TAO",
+      "direction": "SHORT",
+      "score": 95,
+      "entryPx": "233.33",
+      "ts": "2026-10-30T11:52:38.321Z"
+    },
+    "oid_590630317923": {
+      "coin": "ARB",
+      "direction": "LONG",
+      "score": 99,
+      "entryPx": "0.1646",
+      "ts": "2026-10-30T12:01:23.922Z"
+    },
+    "oid_590638264748": {
+      "coin": "AAVE",
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "125.54",
+      "ts": "2026-10-30T12:09:17.065Z"
+    },
+    "oid_590643406659": {
+      "coin": "HYPE",
+      "direction": "SHORT",
+      "score": 100,
+      "entryPx": "91.915",
+      "ts": "2026-10-30T12:16:06.837Z"
+    },
+    "oid_590645486877": {
+      "coin": "kPEPE",
+      "direction": "LONG",
+      "score": 99,
+      "entryPx": "0.005277",
+      "ts": "2026-10-30T12:18:45.398Z"
+    },
+    "oid_590670277369": {
+      "coin": "DOT",
+      "direction": "LONG",
+      "score": 95,
+      "entryPx": "0.94654",
+      "ts": "2026-10-30T12:51:22.205Z"
+    },
+    "oid_590671186420": {
+      "coin": "OP",
+      "direction": "LONG",
+      "score": 96,
+      "entryPx": "0.1061",
+      "ts": "2026-10-30T12:52:32.851Z"
+    },
+    "oid_590671852726": {
+      "coin": "PENDLE",
+      "direction": "LONG",
+      "score": 100,
+      "entryPx": "1.7065",
+      "ts": "2026-10-30T12:53:31.253Z"
+    }
+  },
+  "notifiedLock00Keys": {
+    "TAO_233.330000": {
+      "coin": "TAO",
+      "lockedNetUsd": 0.0822,
+      "lockedPx": 233.1139962997225,
+      "ts": "2026-10-30T11:54:27.096Z"
+    },
+    "AVAX_8.480000": {
+      "coin": "AVAX",
+      "lockedNetUsd": 0.4123,
+      "lockedPx": 8.461049092131809,
+      "ts": "2026-10-30T11:56:53.655Z"
+    },
+    "ARB_0.164600": {
+      "coin": "ARB",
+      "lockedNetUsd": 0.2346,
+      "lockedPx": 0.16485177744439372,
+      "ts": "2026-10-30T12:03:41.093Z"
+    },
+    "AVAX_8.420000": {
+      "coin": "AVAX",
+      "lockedNetUsd": 0.2026,
+      "lockedPx": 8.408188188188188,
+      "ts": "2026-10-30T12:07:07.086Z"
+    },
+    "AAVE_125.540000": {
+      "coin": "AAVE",
+      "lockedNetUsd": 0.1281,
+      "lockedPx": 125.67905472636816,
+      "ts": "2026-10-30T12:09:40.636Z"
+    },
+    "kPEPE_0.005277": {
+      "coin": "kPEPE",
+      "lockedNetUsd": 0.1086,
+      "lockedPx": 0.00528243260397528,
+      "ts": "2026-10-30T12:20:10.751Z"
+    }
+  },
+  "notifiedCloseTids": {
+    "tid_1045245586766779": {
+      "coin": "ONDO",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T11:52:20.995Z"
+    },
+    "tid_645893839953831": {
+      "coin": "TAO",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T11:54:40.547Z"
+    },
+    "tid_61907555648255": {
+      "coin": "AVAX",
+      "netGain": 0.1,
+      "closedFirmNow": 1009,
+      "ts": "2026-10-30T11:58:23.246Z"
+    },
+    "tid_730236576207184": {
+      "coin": "HYPE",
+      "netGain": 0.1,
+      "closedFirmNow": 1009.54,
+      "ts": "2026-10-30T12:01:06.968Z"
+    },
+    "tid_254497946623855": {
+      "coin": "AVAX",
+      "netGain": 0.4561,
+      "closedFirmNow": 1010.06,
+      "ts": "2026-10-30T12:07:46.077Z"
+    },
+    "tid_902103901115216": {
+      "coin": "ARB",
+      "netGain": 0.1433,
+      "closedFirmNow": 1010.69,
+      "ts": "2026-10-30T12:10:43.135Z"
+    },
+    "tid_915508173289803": {
+      "coin": "LTC",
+      "netGain": 0.1,
+      "closedFirmNow": 1010.79,
+      "ts": "2026-10-30T12:15:47.161Z"
+    },
+    "tid_923376573706281": {
+      "coin": "HYPE",
+      "netGain": 0.1924,
+      "closedFirmNow": 1010.93,
+      "ts": "2026-10-30T12:18:03.475Z"
+    },
+    "tid_1109868638564691": {
+      "coin": "kPEPE",
+      "netGain": 0.1,
+      "closedFirmNow": 1011.03,
+      "ts": "2026-10-30T12:50:26.277Z"
+    },
+    "tid_977903275647793": {
+      "coin": "XRP",
+      "netGain": 0.1,
+      "closedFirmNow": 1009.15,
+      "ts": "2026-10-30T12:59:09.741Z"
+    }
+  },
   "bootReportSentAt": "2026-10-30T10:39:45.377Z",
   "top3LatentForceAtBoot": [
     {

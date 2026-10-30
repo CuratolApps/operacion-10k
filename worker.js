@@ -3767,13 +3767,12 @@ export default {
             const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
             const priorityEvacSet = new Set(["PAXG", "SUI", "ETH", "LINK"]);
-            const computeCorneringStepCloud = (peakNet) => {
-              const p = Number(peakNet || 0);
+            const computeCorneringStepCloud = (peakPnl) => {
+              const p = Number(peakPnl || 0);
               if (p >= CORNERING_HALF_DOLLAR_USDC) return +(Math.floor((p + 1e-9) * 10) / 10).toFixed(2);
-              if (p >= 0.40) return 0.35;
-              if (p >= 0.30) return 0.25;
-              if (p >= 0.20) return 0.15;
-              if (p >= 0.10) return 0.10;
+              if (p >= 0.40) return 0.30;
+              if (p >= 0.30) return 0.20;
+              if (p >= 0.15) return 0.10;
               return 0;
             };
 
@@ -3789,9 +3788,9 @@ export default {
               const netAfterFee = unrealizedPnl - rtFeeUsd;
 
               if (entryPx > 0 && positionVal > 0) {
-                if (netAfterFee >= 0.10) {
-                  const stepUsd = computeCorneringStepCloud(netAfterFee);
-                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Acorralamiento #00 ACTIVO para ${coin} (Escalón +$${stepUsd.toFixed(2)} | Neto +$${netAfterFee.toFixed(3)} USDC). Bot 🟢 LIGERO.`);
+                if (unrealizedPnl >= 0.15 || netAfterFee >= 0.10) {
+                  const stepUsd = Math.max(0.10, computeCorneringStepCloud(unrealizedPnl));
+                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Acorralamiento #00 ACTIVO para ${coin} (Escalón +$${stepUsd.toFixed(2)} | Visible +$${unrealizedPnl.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
                 } else {
                   unfencedCount++;
                 }
@@ -3811,13 +3810,13 @@ export default {
 
               const ASSET_INDICES = {
                 BTC: 0, ETH: 1, SOL: 5, AVAX: 6, BNB: 7, SUI: 14, LINK: 18, AAVE: 28, PAXG: 187,
-                XRP: 25, DOGE: 12, ADA: 65, HYPE: 159, TRX: 43, UNI: 27, DOT: 39, NEAR: 74, LTC: 10
+                XRP: 25, DOGE: 12, ADA: 65, HYPE: 159, TRX: 43, UNI: 27, DOT: 39, NEAR: 74, LTC: 10, kPEPE: 15
               };
               const ASSET_DEC = {
                 BTC: 5, ETH: 4, SOL: 2, AVAX: 2, BNB: 3, SUI: 1, LINK: 1, AAVE: 2, PAXG: 3,
-                XRP: 0, DOGE: 0, ADA: 0, HYPE: 2, TRX: 0, UNI: 1, DOT: 1, NEAR: 1, LTC: 2
+                XRP: 0, DOGE: 0, ADA: 0, HYPE: 2, TRX: 0, UNI: 1, DOT: 1, NEAR: 1, LTC: 2, kPEPE: 0
               };
-              const fmtPx = (px, c) => c === "BTC" ? Math.round(px).toFixed(0) : (c === "ETH" || c === "PAXG") ? px.toFixed(1) : (c === "LINK" || c === "HYPE") ? px.toFixed(3) : (c === "SUI" || c === "XRP" || c === "ADA" || c === "DOGE" || c === "TRX" || c === "DOT") ? px.toFixed(4) : px.toFixed(2);
+              const fmtPx = (px, c) => c === "BTC" ? Math.round(px).toFixed(0) : (c === "ETH" || c === "PAXG") ? px.toFixed(1) : (c === "LINK" || c === "HYPE") ? px.toFixed(3) : (c === "SUI" || c === "XRP" || c === "ADA" || c === "DOGE" || c === "TRX" || c === "DOT") ? px.toFixed(4) : (c === "kPEPE" ? px.toFixed(6) : px.toFixed(2));
               const fmtSz = (sz, dec) => (Math.floor(sz * Math.pow(10, dec)) / Math.pow(10, dec)).toFixed(dec);
 
               if (!globalThis.__NOTIFIED_LOCK00_COINS__) globalThis.__NOTIFIED_LOCK00_COINS__ = {};
@@ -3825,7 +3824,7 @@ export default {
               if (!globalThis.__NOTIFIED_GREEN_CLOSE_COINS__) globalThis.__NOTIFIED_GREEN_CLOSE_COINS__ = {};
               if (!globalThis.__CLOUD_RATCHET_PEAKS__) globalThis.__CLOUD_RATCHET_PEAKS__ = {};
 
-              // 1. NUEVA LEY DE CANDADO DE ACORRALAMIENTO (`CORNERING_RATCHET_00`: +$0.10 -> +$0.50 Estricto -> 10c en 10c):
+              // 1. BLINDAJE ANTI-ESCAPE DEL CANDADO #00 (`displayPnl >= $0.50` Estricto + Stop-Market L1 + IOC 3% Slippage):
               for (const pos of openPositions) {
                 const p = pos.position || pos;
                 const coin = p.coin;
@@ -3837,26 +3836,68 @@ export default {
                 const notional = absSz * entryPx;
                 const rtFeeUsd = notional * HL_ROUNDTRIP_FEE_RATE;
                 const netAfterFee = uPnl - rtFeeUsd;
-                const existingReduceOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
+                const existingReduceOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true && !o.isTrigger);
                 const hasReduceOrder = !!existingReduceOrder;
 
                 const memKey = `${coin}_${entryPx.toFixed(6)}`;
-                const prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakNet || -999;
-                const prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedNet || 0;
-                const peakNet = Math.max(prevPeak, netAfterFee);
-                const lockedProfitUsdc = Math.max(prevLocked, computeCorneringStepCloud(peakNet));
-                globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = { peakNet, lockedNet: lockedProfitUsdc };
+                const prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakPnl || -999;
+                const prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedFloor || 0;
+                const prevTriggerOid = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerOid || null;
+                const prevTriggerFloor = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerFloor || 0;
+                const peakPnl = Math.max(prevPeak, uPnl);
+                const lockedProfitUsdc = Math.max(prevLocked, computeCorneringStepCloud(peakPnl));
+                globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = {
+                  peakPnl,
+                  lockedFloor: lockedProfitUsdc,
+                  triggerOid: prevTriggerOid,
+                  triggerFloor: prevTriggerFloor
+                };
+
+                // Si alcanzó >= +$0.50 visibles, colocar/actualizar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1
+                if (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                  if ((lockedProfitUsdc - prevTriggerFloor) >= 0.09) {
+                    const deltaStopPx = lockedProfitUsdc / absSz;
+                    const stopTriggerPx = isShort ? (entryPx - deltaStopPx) : (entryPx + deltaStopPx);
+                    const stopTriggerPxStr = fmtPx(stopTriggerPx, coin);
+                    if (prevTriggerOid) {
+                      await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: prevTriggerOid }] }).catch(() => {});
+                    }
+                    const slRes = await client.order({
+                      orders: [{
+                        a: ASSET_INDICES[coin],
+                        b: isShort,
+                        p: stopTriggerPxStr,
+                        s: fmtSz(absSz, ASSET_DEC[coin] ?? 1),
+                        r: true,
+                        t: {
+                          trigger: {
+                            isMarket: true,
+                            triggerPx: stopTriggerPxStr,
+                            tpsl: "sl"
+                          }
+                        }
+                      }],
+                      grouping: "na"
+                    }).catch(() => null);
+                    const slSt = slRes?.response?.data?.statuses?.[0] || {};
+                    const newOid = slSt?.resting?.oid || slSt?.filled?.oid || null;
+                    if (newOid) {
+                      globalThis.__CLOUD_RATCHET_PEAKS__[memKey].triggerOid = newOid;
+                      globalThis.__CLOUD_RATCHET_PEAKS__[memKey].triggerFloor = lockedProfitUsdc;
+                    }
+                  }
+                }
 
                 if (lockedProfitUsdc >= 0.10 && botToken && chatId) {
                   if (!globalThis.__NOTIFIED_LOCK00_COINS__[memKey]) {
                     globalThis.__NOTIFIED_LOCK00_COINS__[memKey] = true;
-                    const lockUsd = rtFeeUsd + lockedProfitUsdc;
+                    const lockUsd = lockedProfitUsdc;
                     const lockedPx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
                     const lockMsg = `🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n` +
                       `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                       `📍 <b>Par:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
                       `📥 <b>Precio Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code>\n` +
-                      `🔒 <b>Candado #00 Asegurado:</b> <code>$${fmtPx(lockedPx, coin)}</code> (<b>+$${lockedProfitUsdc.toFixed(2)} USDC Netos · $0.00 Riesgo</b>)\n` +
+                      `🔒 <b>Candado #00 Asegurado:</b> <code>$${fmtPx(lockedPx, coin)}</code> (<b>+$${lockedProfitUsdc.toFixed(2)} USDC · $0.00 Riesgo</b>)\n` +
                       `🌊 <b>Escalera Acorralamiento #00:</b> <code>+$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)</code>\n` +
                       `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                       `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
@@ -3868,12 +3909,10 @@ export default {
                   }
                 }
 
-                // Verificar si el precio retrocedió y tocó el escalón acorralado (con $0.02 USDC de respiro sobre el último escalón)
+                // Gatillo Anti-Escape: se activa en el instante en que currentPnlUsdc <= lockedFloorUsdc (o si peakPnl >= 0.50 y currentPnl < 0.48)
                 const hitCorneredStop = lockedProfitUsdc >= 0.10 && (
-                  (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC && peakNet >= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC) && netAfterFee <= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC)) ||
-                  (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC && netAfterFee <= lockedProfitUsdc && peakNet > netAfterFee) ||
-                  (lockedProfitUsdc >= 0.15 && netAfterFee <= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC)) ||
-                  (lockedProfitUsdc >= 0.10 && peakNet >= 0.12 && netAfterFee <= 0.10)
+                  (peakPnl >= CORNERING_HALF_DOLLAR_USDC && (uPnl <= lockedProfitUsdc || uPnl < 0.48)) ||
+                  (peakPnl < CORNERING_HALF_DOLLAR_USDC && uPnl <= lockedProfitUsdc)
                 );
 
                 if ((hitCorneredStop || (priorityEvacSet.has(coin) && netAfterFee >= 0.10 && lockedProfitUsdc < CORNERING_HALF_DOLLAR_USDC)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
@@ -3899,13 +3938,14 @@ export default {
                     if (existingReduceOrder) {
                       await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
                     }
-                    const closePx = isShort ? currentBookPx * 1.0004 : currentBookPx * 0.9996;
+                    // PROHIBIDO ALO AL COBRAR CANDADO: IOC agresivo con 3% de margen de cruce (1.03 / 0.97)
+                    const closePx = isShort ? currentBookPx * 1.03 : currentBookPx * 0.97;
                     const closeRes = await client.order({
                       orders: [{
                         a: ASSET_INDICES[coin],
                         b: isShort,
                         p: fmtPx(closePx, coin),
-                        s: fmtSz(absSz, ASSET_DEC[coin]),
+                        s: fmtSz(absSz, ASSET_DEC[coin] ?? 1),
                         r: true,
                         t: { limit: { tif: "Ioc" } }
                       }],
