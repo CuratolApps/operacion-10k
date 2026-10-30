@@ -1722,8 +1722,9 @@ async function executeProfitOffsetPruner({
       }
     }
 
-    // 2. Si el acumulado unallocatedPruningPoolUsdc >= $0.60 USDC, podar la primera vieja disponible (1º ETH -> 2º BTC -> 3º SOL -> 4º NEAR)
-    if (Number(pool.unallocatedPruningPoolUsdc || 0) >= MIN_PRUNE_THRESHOLD_USDC) {
+    // 2. DESACTIVADO EL CORTE EN NEGATIVO (CERO QUEMA DE SALDO EN LA WALLET):
+    //    El 100% de cada ganancia neta cerrada se conserva íntegro en la cartera L1 sin ejecutar cierres parciales en pérdida.
+    if (false && Number(pool.unallocatedPruningPoolUsdc || 0) >= MIN_PRUNE_THRESHOLD_USDC) {
       for (const targetCoin of OLD_STUCK_PRUNE_TARGETS) {
         const posObj = (openPositions || []).find(p => p?.position?.coin === targetCoin && parseFloat(p.position.szi || "0") !== 0);
         if (!posObj) continue;
@@ -3128,17 +3129,17 @@ async function startAutonomousSquadDaemon() {
         }
       }
 
-      // Calcular Ganancia Neta Cerrada Hoy (100% libre de comisiones sobre operaciones cerradas hoy desde las 00:00:00 UTC, sin restar fees de posiciones aún abiertas)
+      // Calcular Ganancia Neta Cerrada Real desde la calibración V2 (2026-10-30T20:52:07Z = 1793393527000) — 100% libre de comisiones y sin gastos de poda
       if (cycleCounter === 1 || cycleCounter % 3 === 0) {
         try {
           const fills = await info.userFills({ user: VAULT_501 });
           const nowD = new Date();
-          const utcMidnightMs = Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth(), nowD.getUTCDate(), 0, 0, 0, 0);
+          const CALIBRATION_V2_ANCHOR_MS = Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth(), nowD.getUTCDate(), 20, 52, 7, 0);
           let sumClosedNetToday = 0;
           const todayOpsSet = new Set();
           for (const f of (fills || [])) {
             const fTime = Number(f.time || 0);
-            if (fTime < utcMidnightMs) continue;
+            if (fTime < CALIBRATION_V2_ANCHOR_MS) continue;
             const fee = Math.max(0, parseFloat(f.fee || "0"));
             const cPnl = parseFloat(f.closedPnl || "0");
             const isClose = f.dir && f.dir.includes("Close");
@@ -3150,17 +3151,9 @@ async function startAutonomousSquadDaemon() {
             }
           }
           dailyClosedProfitTodayUsdc = Math.max(0, +sumClosedNetToday.toFixed(2));
-          dailyOpsTodayCount = Math.max(35, todayOpsSet.size);
+          dailyOpsTodayCount = Math.max(1, todayOpsSet.size);
           latestEffectiveOpsTodayCount = dailyOpsTodayCount;
-          burnBallastSubsidyUsdc = +(dailyClosedProfitTodayUsdc * PRUNING_POOL_RATIO).toFixed(4);
-
-          await executeProfitOffsetPruner({
-            client,
-            info,
-            openPositions,
-            mids: {},
-            recentFills: fills
-          });
+          burnBallastSubsidyUsdc = 0;
         } catch (_) {}
       }
 
@@ -3310,7 +3303,7 @@ async function startAutonomousSquadDaemon() {
             });
 
             const liveUnrealizedSum = openPositions.reduce((s, p) => s + parseFloat(p.position.unrealizedPnl || "0"), 0);
-            const closedFirmNow = +(970.95 + dailyClosedProfitTodayUsdc).toFixed(2);
+            const closedFirmNow = +(accountValue - liveUnrealizedSum).toFixed(2);
             const step1GoalUsdc = 52.00;
             const step1ProgressUsdc = Math.min(step1GoalUsdc, Math.max(0, dailyClosedProfitTodayUsdc));
             const step1RemainingUsdc = Math.max(0, +(step1GoalUsdc - step1ProgressUsdc).toFixed(2));
@@ -4108,8 +4101,8 @@ async function startAutonomousSquadDaemon() {
       // Actualizar archivo de clones con las etiquetas frescas del Plan C, Quema-Lastre y Fuerza Latente Real
       updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl, confirmedOpenByCoin, burnBallastSubsidyUsdc, latentForceByCoin);
 
-      // Escribir telemetría en vivo para /squad-matrix/ (telemetry/squad-matrix-telemetry.json) — Saldo Principal L1 = Base $970.95 + Ganancia Neta Cerrada Hoy
-      const closedFirmLiveUsdc = +(970.95 + dailyClosedProfitTodayUsdc).toFixed(2);
+      // Escribir telemetría en vivo para /squad-matrix/ (telemetry/squad-matrix-telemetry.json) — 100% Saldo Real de la Wallet Hyperliquid L1
+      const closedFirmLiveUsdc = +(accountValue - openPositions.reduce((s, p) => s + parseFloat(p.position.unrealizedPnl || "0"), 0)).toFixed(2);
       const autoLot = computeAutoCompoundLotSize(Math.max(970.95, closedFirmLiveUsdc));
       const marketTideLock = computeMarketTideLock(latentForceRanked);
       try {
