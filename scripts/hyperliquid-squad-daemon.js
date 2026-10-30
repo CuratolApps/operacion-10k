@@ -1014,9 +1014,9 @@ async function evaluateLatentForceForPair({
     const now = Date.now();
     const cachedL2 = l2BookCacheByCoin[coin];
     const cachedCandles = candles1mCacheByCoin[coin];
-    const allowL2Fetch = (!cachedL2 || (now - cachedL2.ts) >= 3500) && cycleL2FetchCount < 16;
+    const allowL2Fetch = (!cachedL2 || (now - cachedL2.ts) >= 5000) && cycleL2FetchCount < 3;
     if (allowL2Fetch) cycleL2FetchCount++;
-    const allowCandleFetch = (!cachedCandles || (now - cachedCandles.ts) >= 45000) && cycleCandleFetchCount < 10;
+    const allowCandleFetch = (!cachedCandles || (now - cachedCandles.ts) >= 90000) && cycleCandleFetchCount < 2;
     if (allowCandleFetch) cycleCandleFetchCount++;
 
     const l2Promise = !allowL2Fetch
@@ -1037,7 +1037,7 @@ async function evaluateLatentForceForPair({
     let bids = l2?.levels?.[0] || [];
     let asks = l2?.levels?.[1] || [];
     const hasRealL2Book = Boolean(bids.length >= 3 && asks.length >= 3);
-    const hasRealCandles1m = Boolean(Array.isArray(candles1m) && candles1m.length >= 9);
+    const hasRealCandles1m = Boolean((Array.isArray(candles1m) && candles1m.length >= 6) || (rollingMidsHistory?.[coin]?.length >= 6));
     const fallbackMid = parseFloat(mids?.[coin] || (rollingMidsHistory?.[coin]?.[rollingMidsHistory[coin].length - 1]?.px) || "0");
     if (!hasRealL2Book && fallbackMid > 0) {
       // CERO LIBRO L2 SINTÉTICO 68.8%: Si no hay libro L2 real en caché, usar libro 50%/50% neutral para telemetría y bloquear disparo
@@ -4037,9 +4037,10 @@ async function startAutonomousSquadDaemon() {
           continue;
         }
 
-        // 3.A Si es un micro-residuo de polvo (< $15.00 USD nocional, como 0.01 AAVE = $1.28) y ya está en verde (>= $0.00), cerrarlo inmediato para liberar a los 4 bots de esa tarjeta:
-        if (notionalVal > 0 && notionalVal < 15.0 && uPnlNum >= 0.00) {
-          console.log(`🧹💚 [LIMPIEZA DE POLVO EN VERDE] ${coin} (${totalSzStr} = $${notionalVal.toFixed(2)} nocional | +$${uPnlNum.toFixed(2)} USDC) -> Cerrando micro-residuo en verde para liberar a los 4 especialistas de ${coin}-USDC!`);
+        // 3.A Si es un micro-residuo de polvo (< $15.00 USD nocional, como 0.01 AAVE o -0.017 BNB = $11.86) y está >= -$0.25, cerrarlo inmediato para liberar a los 4 bots de esa tarjeta:
+        if (notionalVal > 0 && notionalVal < 15.0 && uPnlNum >= -0.25) {
+          console.log(`🧹💚 [LIMPIEZA DE RESIDUO EN ESTANTE] ${coin} (${totalSzStr} = $${notionalVal.toFixed(2)} nocional | $${uPnlNum.toFixed(2)} USDC) -> Cerrando micro-residuo para liberar a los 4 especialistas de ${coin}-USDC!`);
+          if (uPnlNum < 0.01) posMeta.wasDeadInertiaScratch = true;
           if (existingExitOrder) {
             await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
           }
