@@ -870,22 +870,22 @@ function recordKinematicSample(coin, px, ts = Date.now()) {
   if (!kinematicWindow5sByCoin[coin]) kinematicWindow5sByCoin[coin] = [];
   const arr = kinematicWindow5sByCoin[coin];
   const last = arr[arr.length - 1];
-  if (!last || (ts - last.ts) >= 250 || last.px !== px) {
+  if (!last || last.px !== px || (ts - last.ts) >= 2000) {
     arr.push({ ts, px });
   }
-  // Conservar muestras de los últimos 15,500ms (15s) para comparar v_fast (3.5s) contra v_med (10s previos)
-  while (arr.length > 2 && (ts - arr[0].ts) > 15500) {
+  // Conservar muestras de los últimos 22,000ms (22s) para comparar v_fast (ciclo 5.5s-8s) contra v_med (15s-20s previos)
+  while (arr.length > 2 && (ts - arr[0].ts) > 22000) {
     arr.shift();
   }
 }
 
 /**
- * 1. ECUACIÓN FÍSICA DE POSICIÓN, VELOCIDAD (v) Y ACELERACIÓN (a = dv/dt) EN TIEMPO REAL (VENTANA 15s)
+ * 1. ECUACIÓN FÍSICA DE POSICIÓN, VELOCIDAD (v) Y ACELERACIÓN (a = dv/dt) EN TIEMPO REAL (VENTANA 15s-20s)
  * + 2. COMPENSACIÓN DE LATENCIA (P_{t + dt} = P_actual + v_fast * dt + 0.5 * a * dt^2)
  */
 function computeKinematicPhysics(coin, currentMidPx, histFallback = [], latencyMs = lastMeasuredHlLatencyMs, now = Date.now()) {
   const rawKSamples = Array.isArray(kinematicWindow5sByCoin[coin]) ? kinematicWindow5sByCoin[coin] : [];
-  const rawHist = Array.isArray(histFallback) ? histFallback.filter(h => h && h.px > 0 && (now - h.ts) <= 18000) : [];
+  const rawHist = Array.isArray(histFallback) ? histFallback.filter(h => h && h.px > 0 && (now - h.ts) <= 24000) : [];
   const kSamples = rawKSamples.length >= rawHist.length ? rawKSamples : rawHist;
 
   let pxNow = currentMidPx > 0 ? currentMidPx : (kSamples[kSamples.length - 1]?.px || 0);
@@ -903,24 +903,26 @@ function computeKinematicPhysics(coin, currentMidPx, histFallback = [], latencyM
     };
   }
 
-  // Buscar muestra hace ~3,500ms (para v_fast = últimos 3.5s) y hace ~13,500ms (para v_med = 10s previos)
-  let sampleFast = kSamples[0] || { ts: tsNow - 3500, px: pxNow };
-  let sampleMed = kSamples[0] || { ts: tsNow - 13500, px: pxNow };
+  // Buscar muestra del ciclo rápido (~5.5s-8.5s) con cambio real de precio y muestra media (~15s-20s)
+  let sampleFast = kSamples[0] || { ts: tsNow - 5500, px: pxNow };
+  let sampleMed = kSamples[0] || { ts: tsNow - 16000, px: pxNow };
   let foundFast = false;
   for (let i = kSamples.length - 1; i >= 0; i--) {
     const s = kSamples[i];
     if (!s || !(s.px > 0)) continue;
     const age = tsNow - s.ts;
-    if (!foundFast && age >= 2800) {
+    if (!foundFast && age >= 4500 && s.px !== pxNow) {
+      sampleFast = s;
+      foundFast = true;
+    } else if (!foundFast && age >= 8500) {
       sampleFast = s;
       foundFast = true;
     }
-    if (age >= 12000) {
+    if (age >= 15000) {
       sampleMed = s;
       break;
     }
   }
-  // Si el buffer recién arranca y ninguna muestra tiene >= 2.8s pero hay un cambio de precio reciente, tomar la muestra previa distinta
   if (!foundFast && kSamples.length >= 2) {
     for (let i = kSamples.length - 2; i >= 0; i--) {
       if (kSamples[i].px !== pxNow) {
@@ -930,14 +932,14 @@ function computeKinematicPhysics(coin, currentMidPx, histFallback = [], latencyM
     }
   }
 
-  const dtFastSec = Math.max(0.8, Math.min(5.5, (tsNow - (sampleFast?.ts || (tsNow - 3500))) / 1000));
+  const dtFastSec = Math.max(1.0, Math.min(8.5, (tsNow - (sampleFast?.ts || (tsNow - 5500))) / 1000));
   const pxFast = (sampleFast && sampleFast.px > 0) ? sampleFast.px : pxNow;
-  // v_fast: cambio porcentual del midPx en los últimos ~3.5s (% / s)
+  // v_fast: cambio porcentual del midPx en el ciclo rápido (% / s)
   const vFastPctPerSec = pxFast > 0 ? (((pxNow - pxFast) / pxFast) * 100) / dtFastSec : 0;
 
   const pxMed = (sampleMed && sampleMed.px > 0) ? sampleMed.px : pxFast;
-  const dtPre10sSec = Math.max(2.5, Math.min(12.5, ((sampleFast?.ts || tsNow) - (sampleMed?.ts || (tsNow - 13500))) / 1000));
-  const dtTotal15sSec = Math.max(3.5, Math.min(16.0, (tsNow - (sampleMed?.ts || (tsNow - 13500))) / 1000));
+  const dtPre10sSec = Math.max(3.0, Math.min(15.0, ((sampleFast?.ts || tsNow) - (sampleMed?.ts || (tsNow - 16000))) / 1000));
+  const dtTotal15sSec = Math.max(5.0, Math.min(22.0, (tsNow - (sampleMed?.ts || (tsNow - 16000))) / 1000));
 
   const vPre10s = (pxMed > 0 && Math.abs(pxFast - pxMed) > 1e-12)
     ? ((((pxFast - pxMed) / pxMed) * 100) / dtPre10sSec)
@@ -1115,11 +1117,11 @@ async function evaluateLatentForceForPair({
     const bidRatio = hasRealL2Book ? (bidVol / totalBookVol) : 0.50; // 0..1
     const askRatio = hasRealL2Book ? (askVol / totalBookVol) : 0.50; // 0..1
 
-    // Actualizar memoria de 3 Micro-Ticks Consecutivos (t-2, t-1, t0) de tope de libro y midPx
+    // Actualizar memoria de 3 Micro-Ticks Consecutivos (t-2, t-1, t0) SOLO cuando cambia realmente el midPx
     if (!topOfBookHistoryByCoin[coin]) topOfBookHistoryByCoin[coin] = [];
     const bookTicks = topOfBookHistoryByCoin[coin];
     const lastBookTick = bookTicks[bookTicks.length - 1];
-    if (!lastBookTick || lastBookTick.midPx !== midPx || lastBookTick.bestBid !== bestBid || lastBookTick.bestAsk !== bestAsk || (now - lastBookTick.ts) >= 700) {
+    if (!lastBookTick || lastBookTick.midPx !== midPx) {
       bookTicks.push({ midPx, bestBid, bestAsk, ts: now });
       if (bookTicks.length > 5) bookTicks.shift();
     }
@@ -1150,7 +1152,7 @@ async function evaluateLatentForceForPair({
     recordKinematicSample(coin, midPx, now);
     const kinematic = computeKinematicPhysics(coin, midPx, hist, lastMeasuredHlLatencyMs, now);
 
-    const roc5sPct = computeWindowRocPct(hist, 5000, closes1m);
+    const roc5sPct = computeWindowRocPct(hist, 8000, closes1m);
     const roc15sPct = computeWindowRocPct(hist, 15000, closes1m);
     const roc20sPct = computeWindowRocPct(hist, 20000, closes1m);
     const roc60sPct = computeWindowRocPct(hist, 60000, closes1m);
