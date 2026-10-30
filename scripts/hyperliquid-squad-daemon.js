@@ -25,6 +25,7 @@ const path = require("path");
 const { ExchangeClient, InfoClient, HttpTransport } = require("@nktkas/hyperliquid");
 const { ethers } = require("ethers");
 const { sendTelegramAlert } = require("../telegram-notifier");
+const { refreshMatrixWaveIntelligence } = require("./matrix-wave-intelligence");
 
 const VAULT_501 = "0xD4D12077a61118372f7a367319fb11922Beb3743";
 
@@ -1224,6 +1225,16 @@ async function startAutonomousSquadDaemon() {
         });
         mids = await midsRes.json();
       } catch (_) {}
+
+      // Actualizar 6. MATRIX WAVE INTELLIGENCE (Flujo Mundial en Español + Detector Anti-Hack / Oso <150ms) cada 6 ciclos (~60s)
+      if (cycleCounter === 1 || cycleCounter % 6 === 0) {
+        try {
+          const waveIntel = await refreshMatrixWaveIntelligence({ mids, openPositions, accountValue });
+          if (waveIntel && waveIntel.hasCriticalBearAlert) {
+            console.log(`🚨🐻 [MATRIX WAVE INTELLIGENCE // ALERTA CRÍTICA DE OSO / ANTI-HACK] Detectado evento bajista severo -> Blindando Candados #00 y pre-armando Giro a Oso (SHORT)!`);
+          }
+        } catch (_) {}
+      }
 
       // Escanear Universo Hyperliquid L1 (New Listing Sniper — Cazador de Nuevos Listados en Segundo 0) cada 3 ciclos (~30s)
       if (cycleCounter === 1 || cycleCounter % 3 === 0) {

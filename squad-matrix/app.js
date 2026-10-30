@@ -258,6 +258,8 @@ document.addEventListener("DOMContentLoaded", () => {
   startUtcClock();
   fetchHyperliquidState();
   setInterval(fetchHyperliquidState, 3000);
+  fetchMatrixWaveIntelligence();
+  setInterval(fetchMatrixWaveIntelligence, 60000);
 });
 
 // CONTROL DE PESTAÑAS Y LANZADOR DE LAS 6 ESTACIONES (PERSISTENTE EN SESSIONSTORAGE)
@@ -1225,7 +1227,7 @@ function computeMilestoneLadder(closedBase) {
   const currentStepSub = `Rumbo a ${targetShort}`;
 
   let blockRuleBadgeText = `🎯 Escalera: $1,000 ➔ $2,000 ➔ $3,000 ... ➔ $20,000 ➔ $100,000`;
-  let ladderPillText = `🎯 Escalera: $1K ➔ $2K ➔ $20K ➔ $100K | Puro Trading`;
+  let ladderPillText = `🎯 Escalera: $1K ➔ $2K ➔ $3K ... ➔ $20K ➔ $100K | Puro Trading`;
 
   if (completedSteps > 0) {
     blockRuleBadgeText = `🏅 ${prevShort} COMPLETADO ✅ (70/30 Activo) ➔ Meta ${targetShort} ➔ $20K ➔ $100K`;
@@ -1287,7 +1289,7 @@ function updateTopBarCards() {
   const ladder = computeMilestoneLadder(closedBase);
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
   const pnlPct = (netTotalPnl / appState.totalLoanInjected) * 100;
-  const flowBreakdownText = `Al cerrar las ${openCountForBox} posiciones tendrás: $${closedBase.toFixed(2)}+ USDC firmes en caja`;
+  const flowBreakdownText = `Al cerrar las ${openCountForBox} posiciones abiertas tendrás: $${closedBase.toFixed(2)}+ USDC firmes`;
 
   setTextIfChanged(document.getElementById("topTotalProfit"), `${closedProfit >= 0 ? "+" : ""}$${closedProfit.toFixed(2)}`);
   setTextIfChanged(document.getElementById("topTotalProfitPct"), `${closedProfitPct >= 0 ? "+" : ""}${closedProfitPct.toFixed(2)}% · ${ladder.currentStepSub}`);
@@ -1628,4 +1630,111 @@ window.triggerTestTelegramAlert = async function() {
     }, 4000);
   }
 };
+
+// ================================================================================
+// 6. MATRIX WAVE INTELLIGENCE — MURO DE NOTICIAS EN TIEMPO REAL (100% EN ESPAÑOL)
+// ================================================================================
+let lastWaveIntelSignature = "";
+
+async function fetchMatrixWaveIntelligence() {
+  try {
+    let data = null;
+    try {
+      const res = await fetch("/api/squad-matrix/wave-intelligence", { cache: "no-store" });
+      if (res.ok) {
+        data = await res.json();
+      }
+    } catch (_) {}
+
+    if (!data || !Array.isArray(data.items) || data.items.length === 0) {
+      const fallbackRes = await fetch("/telemetry/matrix-wave-intelligence.json?t=" + Date.now(), { cache: "no-store" });
+      if (fallbackRes.ok) {
+        data = await fallbackRes.json();
+      }
+    }
+
+    if (data && Array.isArray(data.items) && data.items.length > 0) {
+      renderMatrixWaveIntelligence(data);
+    }
+  } catch (_) {}
+}
+
+function escapeHtmlSafe(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function renderMatrixWaveIntelligence(data) {
+  const feedEl = document.getElementById("waveIntelFeedList");
+  if (!feedEl) return;
+
+  const items = Array.isArray(data.items) ? data.items : [];
+  const counts = data.counts || {
+    positive: items.filter(x => x.category === "POSITIVE").length,
+    negative: items.filter(x => x.category === "NEGATIVE").length,
+    standard: items.filter(x => x.category === "STANDARD").length
+  };
+
+  setTextIfChanged(document.getElementById("waveCountPos"), `${counts.positive || 0} ALCISTAS`);
+  setTextIfChanged(document.getElementById("waveCountNeg"), `${counts.negative || 0} ALERTAS OSO/HACK`);
+  setTextIfChanged(document.getElementById("waveCountStd"), `${counts.standard || 0} ESTABILIDAD`);
+
+  const now = new Date();
+  const utcHM = now.toISOString().slice(11, 16);
+  const localHM = now.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit", hour12: false });
+  setTextIfChanged(document.getElementById("waveLastSync"), `Sync: ${utcHM} UTC / ${localHM} Local (60s)`);
+
+  // Generar firma para evitar recrear el DOM si las noticias no cambiaron
+  const sig = items.map(it => `${it.id}:${it.utcTime || ""}`).join("|");
+  if (sig === lastWaveIntelSignature) return;
+  lastWaveIntelSignature = sig;
+
+  const html = items.map(item => {
+    const cat = String(item.category || "STANDARD").toUpperCase();
+    const cardClass = cat === "POSITIVE" ? "impact-pos" : (cat === "NEGATIVE" ? "impact-neg" : "impact-std");
+    const badgeClass = cat === "POSITIVE" ? "badge-pos" : (cat === "NEGATIVE" ? "badge-neg" : "badge-std");
+    const badgeLabel = escapeHtmlSafe(
+      item.categoryLabel ||
+      (cat === "POSITIVE"
+        ? "🟢 IMPACTO POSITIVO (ALCISTA)"
+        : cat === "NEGATIVE"
+        ? "🔴 IMPACTO NEGATIVO (ALERTA / MODO OSO)"
+        : "⚖️ SITUACIÓN ESTÁNDAR (ESTABILIDAD)")
+    );
+    const timeLabel = escapeHtmlSafe(`${item.utcTime || utcHM + " UTC"} / ${item.localTime || localHM + " Local"}`);
+    const headline = escapeHtmlSafe(item.headlineEs || "");
+    const summary = escapeHtmlSafe(item.summaryEs || "");
+    const assets = Array.isArray(item.assets) ? item.assets : ["BTC", "ETH", "SOL"];
+    const assetsHtml = assets
+      .map(a => `<span class="wave-asset-chip">${escapeHtmlSafe(a)}</span>`)
+      .join("");
+    const source = escapeHtmlSafe(item.source || "Hyperliquid L1 / Oracle");
+    const botReaction = escapeHtmlSafe(item.botReactionEs || "Escudo #00 Activo");
+
+    return `<article class="wave-tweet-card ${cardClass}">
+      <div class="wave-tweet-top">
+        <span class="wave-impact-badge ${badgeClass}">${badgeLabel}</span>
+        <span class="wave-tweet-time">🕒 ${timeLabel}</span>
+      </div>
+      <div class="wave-tweet-headline">${headline}</div>
+      <p class="wave-tweet-body">${summary}</p>
+      <div class="wave-tweet-footer">
+        <div class="wave-assets-group">
+          <span class="wave-meta-label">ACTIVOS:</span>
+          ${assetsHtml}
+        </div>
+        <div class="wave-source-reaction">
+          <span class="wave-source-pill">📡 Fuente: <b>${source}</b></span>
+          <span class="wave-reaction-pill">🤖 Acción Bot: <b>${botReaction}</b></span>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+
+  feedEl.innerHTML = html;
+}
+
 
