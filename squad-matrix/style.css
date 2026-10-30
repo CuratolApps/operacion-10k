@@ -199,14 +199,14 @@ html, body {
 
 .biz-card .card-tag {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.62rem !important;
+  font-size: 0.58rem !important;
   font-weight: 800 !important;
-  letter-spacing: 0.03em !important;
+  letter-spacing: 0.015em !important;
   color: #334155 !important;
   text-transform: uppercase !important;
   display: flex !important;
   align-items: center !important;
-  gap: 4px !important;
+  gap: 3px !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -214,31 +214,34 @@ html, body {
 }
 
 .biz-card .card-tag .material-symbols-rounded {
-  font-size: 14px !important;
+  font-size: 13px !important;
   color: #1D4ED8 !important;
+  flex-shrink: 0 !important;
 }
 
 .biz-card .card-main-val {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 1.25rem !important;
+  font-size: 1.06rem !important;
   font-weight: 800 !important;
   color: #0F172A !important;
   display: flex !important;
-  align-items: baseline !important;
+  align-items: center !important;
   gap: 4px !important;
-  line-height: 1.2 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
 }
 
 .biz-card .currency-symbol {
   color: #1D4ED8 !important;
-  font-size: 1.05rem !important;
+  font-size: 0.96rem !important;
   font-weight: 800 !important;
 }
 
 .biz-card .unit-tag {
-  font-size: 0.64rem !important;
+  font-size: 0.62rem !important;
   color: #64748B !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
 }
 
 /* Tarjeta 1: Capital Operativo */
@@ -253,10 +256,10 @@ html, body {
 
 #cardCapitalTotal .pill-active,
 #cardCapitalTotal .pill-shield {
-  font-size: 0.60rem !important;
+  font-size: 0.58rem !important;
   font-family: 'JetBrains Mono', monospace !important;
-  font-weight: 700 !important;
-  padding: 3px 6px !important;
+  font-weight: 800 !important;
+  padding: 3.5px 5px !important;
   border-radius: 5px !important;
   border: none !important;
   line-height: 1 !important;
@@ -2833,10 +2836,45 @@ footer,
 .pair-cell.pair-cell-active-pos,
 .atomic-cell.active-shot,
 .swarm-cell.active-turn {
-  background: linear-gradient(145deg, #10B981 0%, #059669 100%) !important;
-  border: 2px solid #FEF08A !important;
-  box-shadow: 0 0 14px rgba(16, 185, 129, 0.45) !important;
+  background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%) !important;
+  border: 2px solid #FBBF24 !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.45) !important;
   transform: none !important;
+}
+
+.pair-cell .pair-price,
+.pair-cell.pair-cell-active-pos .pair-price {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.86rem !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+}
+
+.pair-cell.pair-cell-active-pos .signal-pill {
+  background: linear-gradient(90deg, #D97706 0%, #B45309 100%) !important;
+  border: 1px solid #FDE68A !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  font-size: 0.54rem !important;
+  padding: 2px 5px !important;
+}
+
+.pair-cell.pair-cell-active-pos.pair-cell-green .signal-pill {
+  background: linear-gradient(90deg, #059669 0%, #047857 100%) !important;
+  border: 1px solid #6EE7B7 !important;
+  color: #FFFFFF !important;
+}
+
+.pair-cell .active-lock-tag {
+  font-size: 0.50rem !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+  background: rgba(15, 23, 42, 0.72) !important;
+  border: 1px solid rgba(253, 230, 138, 0.65) !important;
+  color: #FEF3C7 !important;
+  max-width: 52% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 /* ==============================================================================

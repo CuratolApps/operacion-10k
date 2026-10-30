@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,1,0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="style.css?v=20261030v18">
+  <link rel="stylesheet" href="style.css?v=20261030v20">
   <!-- Sistema Operativo Unificado CORE MATRIX 501 (Modo Híbrido 6 Estaciones) -->
-  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261030v18">
-  <script src="/shared/core-os-nav.js?v=20261030v18" defer></script>
+  <link rel="stylesheet" href="/shared/core-os-nav.css?v=20261030v20">
+  <script src="/shared/core-os-nav.js?v=20261030v20" defer></script>
   <!-- Micro-script síncrono de hidratación en milisegundo 0 (100% Direct Live Equity - Cero Congelamiento) -->
   <script>
     (function () {
@@ -41,70 +41,69 @@
     
     <!-- TOP FIXED BAR: 5 BUSINESS CARDS (HYBRID LIGHT/DARK YOZAPATA - ZERO CLIPPING) -->
     <header class="matrix-topbar top-matrix-grid">
-      <!-- Card 1: Capital Operativo en Juego (Solo Hyperliquid L1) -->
+      <!-- Card 1: Capital Operativo (Hyperliquid L1) -->
       <div class="biz-card" id="cardCapitalTotal">
         <div class="card-tag">
-          <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO EN JUEGO (SOLO HYPERLIQUID L1)
+          <span class="material-symbols-rounded">local_fire_department</span> CAPITAL OPERATIVO (HYPERLIQUID L1)
         </div>
-        <div class="card-main-val" style="display: flex; align-items: baseline; justify-content: space-between; gap: 4px; flex-wrap: nowrap;">
-          <span><span style="font-size: 0.56rem; font-weight: 800; color: #0F172A; margin-right: 2px;">Equidad Viva L1:</span><span class="currency-symbol">$</span><span id="topActiveCapValue">921.71</span><span id="topAccountValue" style="display:none;">921.71</span> <span class="unit-tag">USDC</span></span>
-          <span class="unit-tag" id="topFloatingOpenTag" style="color: #B45309; background: #FFFBEB; border: 1px solid #FDE68A; padding: 1px 4px; border-radius: 4px; font-size: 0.47rem; font-weight: 800;">Flotante Abierto (7 pos): -$86.89 USDC</span>
+        <div class="card-main-val" style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: nowrap; white-space: nowrap;">
+          <span style="white-space: nowrap; display: inline-flex; align-items: baseline; gap: 2px;">
+            <span class="currency-symbol">$</span><span id="topActiveCapValue">913.31</span><span id="topAccountValue" style="display:none;">913.31</span>
+            <span class="unit-tag">USDC</span>
+          </span>
+          <span class="unit-tag" id="topFloatingOpenTag" style="color: #B45309; background: #FFFBEB; border: 1px solid #FDE68A; padding: 2px 5px; border-radius: 4px; font-size: 0.56rem; font-weight: 800; white-space: nowrap;">Flotante (6 pos): -$95.36</span>
         </div>
         <div class="card-sub-pills">
-          <span class="pill-active" id="topActiveMarginPill" style="grid-column: 1 / -1; text-align: center; font-size: 0.50rem; font-weight: 800; background: #ECFDF5; color: #065F46; border-color: #A7F3D0;">Saldo Cerrado Firme (100% Hyperliquid L1): $1,008.60 USDC</span>
-          <span class="pill-shield" id="topShieldPill" style="display: none;">Mentora 40%: $368.68</span>
-          <div id="topEquityBreakdownPill" style="grid-column: 1 / -1; font-size: 0.45rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)">
-            Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)
-          </div>
+          <span class="pill-active" id="topActiveMarginPill">Cerrado L1: $1,008.60</span>
+          <span class="pill-shield" id="topShieldPill">Mentora 40%: $365.32</span>
+          <div id="topEquityBreakdownPill" style="display: none;"></div>
         </div>
       </div>
 
-      <!-- Card 2: Profit Cerrado & Escuadrones (Estadística Diaria Reiniciable 00:00:00 UTC + Acumulado Bloque) -->
+      <!-- Card 2: Profit Cerrado & Corte 00:00 UTC -->
       <div class="biz-card" id="cardProfit">
         <div class="card-tag">
-          <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; ESCUADRONES (REINICIO 00:00 UTC)
+          <span class="material-symbols-rounded">trending_up</span> PROFIT CERRADO &amp; CORTE 00:00 UTC
         </div>
-        <div class="card-main-val text-green" style="font-size: 0.72rem; display: flex; align-items: center; justify-content: space-between; gap: 4px; flex-wrap: nowrap;">
-          <span id="topTotalProfit" style="font-size: 0.62rem; font-weight: 800; white-space: nowrap;">HOY (DESDE 00:00 UTC): +$0.10 USDC</span>
-          <span class="pct-badge" id="topTotalProfitPct" style="font-size: 0.50rem; white-space: nowrap;">OPERACIONES HOY: 2G - 0P</span>
+        <div class="card-main-val text-green" style="font-size: 0.72rem; display: flex; align-items: center; justify-content: flex-start; gap: 4px; flex-wrap: nowrap; white-space: nowrap; overflow: hidden;">
+          <span id="topTotalProfit" style="font-size: 0.68rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">HOY (00:00 UTC): +$0.11 USDC · 2G - 0P</span>
+          <span class="pct-badge" id="topTotalProfitPct" style="display: none;">2G - 0P</span>
         </div>
-        <div id="topProfitFloatingPill" style="font-size: 0.46rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 1.5px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 1px 0;">
-          Profit Total Bloque: +$252.08 USDC (+33.32% sobre $756.52) · Saldo Firme L1: $1,008.60 USDC
+        <div id="topProfitFloatingPill" style="font-size: 0.55rem; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 4px; padding: 2px 5px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          Profit Bloque: +$252.08 (+33.32%) · Al cerrar: $1,008.60+
         </div>
-        <div id="topProfitLadderPill" style="font-size: 0.45rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1E40AF; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 4px; padding: 1px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px;">
-          Agrupado por Operación Completa (00:00 UTC) · Cero Micro-Fragmentos
-        </div>
+        <div id="topProfitLadderPill" style="display: none;"></div>
         <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills">
-          <span class="sq-badge streak"><b id="winStreakText">HOY: 2G - 0P</b></span>
-          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$90.7</span></span>
-          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$82.1</span></span>
-          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$79.3</span></span>
+          <span class="sq-badge streak"><b id="winStreakText">HOY: 2G-0P</b></span>
+          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b> <span class="sq-val profit-green" id="sq1Val">+$97.1</span></span>
+          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b> <span class="sq-val profit-green" id="sq2Val">+$75.7</span></span>
+          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b> <span class="sq-val profit-green" id="sq3Val">+$79.2</span></span>
         </div>
       </div>
 
-      <!-- Card 3: Capitalización por Bloques (100% Hyperliquid L1) -->
+      <!-- Card 3: Meta por Bloques (100% Hyperliquid) -->
       <div class="biz-card" id="cardCapitalization">
         <div class="card-tag">
-          <span class="material-symbols-rounded">workspace_premium</span> 🏆 CAPITALIZACIÓN POR BLOQUES (100% HYPERLIQUID L1)
+          <span class="material-symbols-rounded">workspace_premium</span> META POR BLOQUES (100% HYPERLIQUID)
         </div>
         <div class="progress-wrap">
-          <div class="progress-info">
-            <span class="progress-label" id="topBlock1ProgressLabel" style="font-size: 0.49rem; font-weight: 800;">Saldo Cerrado Firme (100% Hyperliquid L1): $1,008.60 USDC</span>
-            <span class="progress-pct" id="topBlock1ProgressPct" style="font-size: 0.47rem;">Equidad Viva L1: $921.71 | Flotante: -$86.89</span>
+          <div class="progress-info" style="display: flex; align-items: center; justify-content: space-between;">
+            <span class="progress-label" id="topBlock1ProgressLabel" style="font-size: 0.74rem; font-weight: 800; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">BLOQUE 2: $1,008.60 / $2,000.00 USDC (50.4%)</span>
+            <span class="progress-pct" id="topBlock1ProgressPct" style="display: none;">50.4%</span>
           </div>
           <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 100%;"></div>
+            <div class="progress-bar-fill" id="topBlock1ProgressBar" style="width: 50.4%;"></div>
           </div>
         </div>
-        <div class="rule-badge-glow" id="topBlock1RuleBadge" style="font-size: 0.45rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)">
-          Desglose $1,008.60 L1 = $756.52 Inyectado #501 + $252.08 Profit Cerrado Bots (Al cerrar las 7 posiciones quedan $1,008.60+ líquidos en Hyperliquid)
+        <div class="rule-badge-glow" id="topBlock1RuleBadge" style="font-size: 0.58rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          $1,000 ✅ | Base #501: $756.52 + Profit: $252.08
         </div>
       </div>
 
       <!-- Card 4: Control de Capital Inyectado (0% Interés) -->
       <div class="biz-card" id="cardLoanControl">
         <div class="card-tag">
-          <span class="material-symbols-rounded">account_balance</span> 🏦 CONTROL CAPITAL INYECTADO 0% INTERÉS
+          <span class="material-symbols-rounded">account_balance</span> CONTROL CAPITAL INYECTADO 0% INTERÉS
         </div>
         <div class="loan-stats-row">
           <div class="loan-stat-col">
@@ -128,14 +127,14 @@
         <div class="card-tag">
           <span class="material-symbols-rounded">radar</span> RADAR MATRIX: 18 ESCUADRONES × 54 PARES
         </div>
-        <div class="squad-counter-row">
+        <div class="squad-counter-row" style="grid-template-columns: 1fr !important;">
           <span class="status-pill active-pill" id="topActiveSquadsPill" style="background: #ECFDF5; color: #065F46; border-color: #6EE7B7; width: 100%; justify-content: center;">
             <span class="material-symbols-rounded">bolt</span>
-            <span id="topActiveSquadsText">⚡ PLAN C ACTIVO: CAZANDO EN FOREX/PEPE/ORO (+$0.10 CANDADO) + DESARMANDO COLA #00</span>
+            <span id="topActiveSquadsText">⚡ PLAN C ACTIVO: CAZANDO EN FOREX/PEPE/ORO (+$0.10 CANDADO)</span>
           </span>
           <span class="status-pill ready-pill" id="topReadySquadsPill" style="display: none;"><span class="material-symbols-rounded">schedule</span> <span id="topReadySquadsText">15/18 ($70)</span></span>
         </div>
-        <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #047857; font-weight: 800;">QUEMA-LASTRE 50% ACTIVO (+$0.10 CANDADO SIN TECHO · MÁX 2 CAZADORES)</div>
+        <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #047857; font-weight: 800; font-size: 0.54rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">QUEMA-LASTRE 50% ACTIVO (+$0.10 CANDADO · MÁX 2 CAZADORES)</div>
       </div>
     </header>
     <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v7) para CERO salto al pulsar F5 -->
@@ -155,21 +154,17 @@
           if (s.floatingOpenTagText) set("topFloatingOpenTag", s.floatingOpenTagText);
           if (s.firmBalanceLineText) set("topActiveMarginPill", s.firmBalanceLineText);
           set("topShieldPill", "Mentora 40%: $" + s.shieldMargin.toFixed(2));
-          set("topEquityBreakdownPill", s.breakdownText);
           if (s.dailyHeadlineText) set("topTotalProfit", s.dailyHeadlineText);
-          if (s.dailyOpsBadgeText) set("topTotalProfitPct", s.dailyOpsBadgeText);
-          set("topProfitFloatingPill", s.flowBreakdownText);
-          if (s.ladderPillText) set("topProfitLadderPill", s.ladderPillText);
+          if (s.flowBreakdownText) set("topProfitFloatingPill", s.flowBreakdownText);
           if (s.winStreakText) set("winStreakText", s.winStreakText);
-          set("topBlock1ProgressLabel", s.blockProgressLabel);
-          set("topBlock1ProgressPct", s.blockProgressPctText);
+          if (s.blockProgressLabel) set("topBlock1ProgressLabel", s.blockProgressLabel);
           if (s.blockRuleBadgeText) set("topBlock1RuleBadge", s.blockRuleBadgeText);
           set("topLoanInjected", "$" + (s.totalLoanInjected || 756.52).toFixed(2));
           set("topLoanRepaid", "+$72.48 ✔");
           set("topLoanRemaining", "$" + (s.totalLoanRemaining || 756.52).toFixed(2));
           set("topLoanBreakdownSub", "Base #501: $756.52 ($629.94 + $54.10 + $72.48) | 0% Interés");
           var bar = document.getElementById("topBlock1ProgressBar");
-          if (bar) bar.style.width = (s.pct1000 || 100).toFixed(1) + "%";
+          if (bar) bar.style.width = (s.pctBlock2 || 50.4).toFixed(1) + "%";
         } catch (_) {}
       })();
     </script>
@@ -914,6 +909,6 @@
 
   </div>
 
-  <script src="app.js?v=20261030v19"></script>
+  <script src="app.js?v=20261030v20"></script>
 </body>
 </html>
