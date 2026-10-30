@@ -1047,11 +1047,9 @@ async function evaluateLatentForceForPair({
     const now = Date.now();
     const cachedL2 = l2BookCacheByCoin[coin];
     const cachedCandles = candles1mCacheByCoin[coin];
-    const allowL2Fetch = (!cachedL2 && cycleL2FetchCount < 6) ||
-      ((!cachedL2 || (now - cachedL2.ts) >= 12000) && cycleL2FetchCount < 5);
+    const allowL2Fetch = (!cachedL2 || (now - cachedL2.ts) >= 15000) && cycleL2FetchCount < 3;
     if (allowL2Fetch) cycleL2FetchCount++;
-    const allowCandleFetch = (!cachedCandles && cycleCandleFetchCount < 6) ||
-      ((!cachedCandles || (now - cachedCandles.ts) >= 90000) && cycleCandleFetchCount < 4);
+    const allowCandleFetch = (!cachedCandles || (now - cachedCandles.ts) >= 90000) && cycleCandleFetchCount < 2;
     if (allowCandleFetch) cycleCandleFetchCount++;
 
     const l2Promise = !allowL2Fetch
@@ -1090,9 +1088,14 @@ async function evaluateLatentForceForPair({
     }
     if (bids.length < 3 || asks.length < 3) return null;
 
-    const bestBid = parseFloat(bids[0].px);
-    const bestAsk = parseFloat(asks[0].px);
-    const midPx = (bestBid + bestAsk) / 2;
+    const rawBestBid = parseFloat(bids[0].px);
+    const rawBestAsk = parseFloat(asks[0].px);
+    const l2MidPx = (rawBestBid + rawBestAsk) / 2;
+    const liveMidFromAllMids = parseFloat(mids?.[coin] || "0");
+    const midPx = (!allowL2Fetch && liveMidFromAllMids > 0) ? liveMidFromAllMids : l2MidPx;
+    const midDelta = midPx - l2MidPx;
+    const bestBid = rawBestBid + midDelta;
+    const bestAsk = rawBestAsk + midDelta;
     if (midPx <= 0 || bestBid <= 0 || bestAsk <= 0) return null;
 
     // 0) Verificación de Spread Limpio (< 0.030%) + Libro L2 Real Obligatorio
