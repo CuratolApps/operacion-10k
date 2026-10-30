@@ -1,7 +1,7 @@
 {
   "schemaVersion": "3.0.0",
   "projectName": "ÁREA 501",
-  "timestamp": "2026-10-30T13:11:38.126Z",
+  "timestamp": "2026-10-30T13:24:08.291Z",
   "systemHealthScore": 100,
   "sybilRiskIndex": 0.01,
   "gasReserveViolations": 0,
@@ -45742,12 +45742,10 @@
   },
   "goalMilestone": {
     "targetGoalUsdc": 12000,
-    "currentAccruedUsdc": 486.91382,
-    "remainingUsdc": 11513.09,
-    "progressPct": 4.06,
-    "dailyAverage": 0,
-    "destinationSummary": "Fondo de desarrollo Cura Tools + Estación de trabajo de alta ingeniería",
-    "projectedCompletionDays": "Acumulando historial on-chain (500 bots activos)"
+    "consolidatedBinanceUsdc": 1,
+    "pendingSatellitesUsdc": 0,
+    "remainingUsdc": 11999,
+    "progressPct": 0.01
   },
   "phase1Recovery120Eur": {
     "targetEur": 120,
@@ -45841,35 +45839,43 @@
     }
   ],
   "pendingHarvestUsdc": {
-    "totalPendingUsdc": 485.91382,
-    "totalHistoricalUsdc": 486.91382,
+    "totalPendingUsdc": 0,
     "byBox": {
-      "box1": 471.433422,
-      "box2": 4.399197,
-      "box3": 3.356599,
-      "box4": 3.362535,
-      "box5": 3.362068
+      "box1": 0,
+      "box2": 0,
+      "box3": 0,
+      "box4": 0,
+      "box5": 0
     },
     "byNetwork": {
       "base": 0,
       "arbitrumOne": 0,
       "optimism": 0,
-      "bsc": 21.517604,
-      "polygon": 464.396216
+      "bsc": 0,
+      "polygon": 0
     },
-    "satellitesWithDust": 6,
-    "lastScanTimestamp": "2026-10-25T22:15:21.771Z"
+    "satellitesWithDust": 0,
+    "lastScanTimestamp": "2026-10-30T13:17:04.908Z"
   },
   "totalHarvestedToBinanceUsdc": 1,
   "binanceVaultsVerification": {
     "status": "🟢 5/5 Verificadas (Modo Manual Blindado)",
     "mode": "🔒 MANUAL (Cero Micro-Depósitos)",
-    "autoSweepToBinance": false,
+    "autoSweep": false,
     "masterVaultOnChain": "0xD4D12077a61118372f7a367319fb11922Beb3743",
-    "compoundingPoolActive": true
+    "compoundingPoolActive": true,
+    "compoundingPolicy": "100% USDC Nativo retenido en Bóveda Máster #501 y Cabeceras para Super Snipers",
+    "vaults": {
+      "box1_and_501": "0x48b26dd0f9265573f31f7140cf01e9c48518531b",
+      "box2": "0x33cffda0218122ed4d981dcb1797f4b458191bc4",
+      "box3": "0x409c4695afd6c919ca660cd86c5c24eb54bfca4e",
+      "box4": "0x2734e0a264573056417d12478616107ff5d2ce54",
+      "box5": "0xf746f7da001c48367d76641a2e870db8e509dce7"
+    },
+    "lastAudit": "2026-10-30T13:17:04.911Z"
   },
   "workStats": {
-    "totalRoundsCompleted": 257,
+    "totalRoundsCompleted": 258,
     "totalTxConfirmedAllTime": 12088,
     "todayTxConfirmed": 500,
     "todayDate": "2026-10-26",
@@ -47293,6 +47299,111 @@
   ],
   "recentTelegramAlerts": [
     {
+      "id": "tg-1793366663814-359",
+      "timestamp": "2026-10-30T13:24:23.814Z",
+      "timeFormatted": "13:24:23 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie</b> (#801 Nexus-Boss)\n📍 <b>Par:</b> <code>BNB-USDC</code> (<b>🐻 SHORT</b> · 0.36)\n📥 <b>Precio Entrada:</b> <code>$699.76</code> ➔ <b>Actual:</b> <code>$699.32</code>\n🔒 <b>Candado #00 Asegurado:</b> <code>$699.48</code> (<b>+$0.10 USDC Netos · $0.00 Riesgo</b>)\n🌊 <b>Escalera Acorralamiento #00:</b> <code>+$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie (#801 Nexus-Boss)\n📍 Par: BNB-USDC (🐻 SHORT · 0.36)\n📥 Precio Entrada: $699.76 ➔ Actual: $699.32\n🔒 Candado #00 Asegurado: $699.48 (+$0.10 USDC Netos · $0.00 Riesgo)\n🌊 Escalera Acorralamiento #00: +$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366590846-858",
+      "timestamp": "2026-10-30T13:23:10.846Z",
+      "timeFormatted": "13:23:10 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie — CHARLIE 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>BNB-USDC</code> (<b>🐻 SHORT</b> · 0.360 BNB)\n📥 <b>Precio de Entrada:</b> <code>$699.76</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>96/100</b> (<code>Vel 33/35 · L2 34/35 [80.5%] · Lead-Lag 14/15 · RSI6 48.3</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐻 MAREA BAJISTA (SOLO SHORT)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $699.06) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie — CHARLIE 1 (Carril Rápido #10)\n📍 Par & Dirección: BNB-USDC (🐻 SHORT · 0.360 BNB)\n📥 Precio de Entrada: $699.76\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 96/100 (Vel 33/35 · L2 34/35 [80.5%] · Lead-Lag 14/15 · RSI6 48.3)\n🌊 Filtro de Marea Global: 🐻 MAREA BAJISTA (SOLO SHORT)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $699.06) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366472562-411",
+      "timestamp": "2026-10-30T13:21:12.562Z",
+      "timeFormatted": "13:21:12 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #01 Alfa — ALFA 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>SUI-USDC</code> (<b>🐂 LONG</b> · 285.0 SUI)\n📥 <b>Precio de Entrada:</b> <code>$0.8849</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>97/100</b> (<code>Vel 34/35 · L2 33/35 [74.3%] · Lead-Lag 15/15 · RSI6 61.3</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐂 MAREA ALCISTA (SOLO LONG)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $0.8858) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #01 Alfa — ALFA 1 (Carril Rápido #10)\n📍 Par & Dirección: SUI-USDC (🐂 LONG · 285.0 SUI)\n📥 Precio de Entrada: $0.8849\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 97/100 (Vel 34/35 · L2 33/35 [74.3%] · Lead-Lag 15/15 · RSI6 61.3)\n🌊 Filtro de Marea Global: 🐂 MAREA ALCISTA (SOLO LONG)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $0.8858) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366292222-197",
+      "timestamp": "2026-10-30T13:18:12.222Z",
+      "timeFormatted": "13:18:12 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #08 Kilo</b> (#905 Kilo-L2-Rollups)\n📍 <b>Par:</b> <code>OP-USDC</code> (<b>🐂 LONG</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$0.1059</code> ➔ <code>$0.106</code>\n🔒 <b>Escalón Acorralado #00:</b> <b>+$0.20 USDC</b>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>29G - 0P (+$0.10 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$8.93 / +$52.00 USDC</b> (Faltan $43.07 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1008.93 USDC</b> (Equity Viva: <code>$897.17 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO OP)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #08 Kilo (#905 Kilo-L2-Rollups)\n📍 Par: OP-USDC (🐂 LONG)\n📥 Entrada ➔ Salida: $0.1059 ➔ $0.106\n🔒 Escalón Acorralado #00: +$0.20 USDC\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 29G - 0P (+$0.10 USDC)\n📈 Escalón 1 (30–31 Oct): +$8.93 / +$52.00 USDC (Faltan $43.07 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1008.93 USDC (Equity Viva: $897.17 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO OP)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366225051-96",
+      "timestamp": "2026-10-30T13:17:05.051Z",
+      "timeFormatted": "13:17:05 UTC",
+      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)</b>\n• <b>Cámara 1 (Polygon Piso Blindado):</b> <code>$211.35 / $200.00 USDC</code> (Piso 100% Coronada ✅) · Aave V3 + Arbitraje Atómico\n• <b>Cámara 2 (Hyperliquid L1 Maker V2):</b> <code>$649.24 USDC</code> · Meta Retiro: <b>+$200.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>10.40 POL (#501)</code> + <code>20.47 POL (Flota X500)</code>\n🌐 <b>Posición Matrix 501:</b> <a href=\"https://area-501.curatolapps.workers.dev/posicion-501/\">area-501.curatolapps.workers.dev/posicion-501/</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔒 <b>BÓVEDA MÁSTER ON-CHAIN (#501) & ESTADO DE ACUMULACIÓN:</b>\n   • <b>En Bóveda Máster On-Chain (Compounding):</b> $0.00 USDC\n   • <b>Recibido Previamente en Binance Spot:</b> $1.00 USDC\n   • <b>Modo Retiro Binance:</b> 🔒 MANUAL (Cero Micro-Depósitos)\n   • <b>Supervisión:</b> 12 Nebulosas IA (Gatillo >= 95% Certeza)\n\n🏦 <b>MAPEO DE LAS 5 BÓVEDAS RECEPTORAS (SOLO RETIRO MANUAL CONSOLIDADO):</b>\n   • <b>Box 1 (#001–#100 + Bóveda #501)</b> ➔ <code>0x48b26dd0f9265573f31f7140cf01e9c48518531b</code>\n   • <b>Box 2 (#101–#200)</b> ➔ <code>0x33cffda0218122ed4d981dcb1797f4b458191bc4</code>\n   • <b>Box 3 (#201–#300)</b> ➔ <code>0x409c4695afd6c919ca660cd86c5c24eb54bfca4e</code>\n   • <b>Box 4 (#301–#400)</b> ➔ <code>0x2734e0a264573056417d12478616107ff5d2ce54</code>\n   • <b>Box 5 (#401–#500)</b> ➔ <code>0xf746f7da001c48367d76641a2e870db8e509dce7</code>\n\n📦 <b>FONDO DE INTERÉS COMPUESTO POR BOX (ON-CHAIN):</b>\n   • <b>Box 1 (Matriz #501 + #001):</b> $0.0000 USDC\n   • <b>Box 2 (Capitán #101):</b> $0.0000 USDC\n   • <b>Box 3 (Capitán #201):</b> $0.0000 USDC\n   • <b>Box 4 (Capitán #301):</b> $0.0000 USDC\n   • <b>Box 5 (Capitán #401):</b> $0.0000 USDC\n\n🛡️ <b>REGLAS Y BLINDAJES ACTIVOS:</b>\n   • <b>Micro-Depósitos a Binance:</b> 🚫 BLOQUEADOS TOTALMENTE (Cero spam on-chain al CEX)\n   • <b>Estrategia:</b> Compounding on-chain para escalar a Super Snipers\n   • <b>Bóveda VIP #00:</b> Monitoreada (100% Segura / 0 Tx en Mainnet / Solo Lectura)\n   • <b>Token Exclusivo:</b> 100% USDC Nativo (Prohibido USDT por MiCA)\n   • <b>Aislamiento Anti-Sybil:</b> Intra-bloque estanco verificado (5/5 Boxes)\n\n⏰ <i>13:17:04 UTC</i>",
+      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)\n• Cámara 1 (Polygon Piso Blindado): $211.35 / $200.00 USDC (Piso 100% Coronada ✅) · Aave V3 + Arbitraje Atómico\n• Cámara 2 (Hyperliquid L1 Maker V2): $649.24 USDC · Meta Retiro: +$200.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 10.40 POL (#501) + 20.47 POL (Flota X500)\n🌐 Posición Matrix 501: area-501.curatolapps.workers.dev/posicion-501/\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n🔒 BÓVEDA MÁSTER ON-CHAIN (#501) & ESTADO DE ACUMULACIÓN:\n   • En Bóveda Máster On-Chain (Compounding): $0.00 USDC\n   • Recibido Previamente en Binance Spot: $1.00 USDC\n   • Modo Retiro Binance: 🔒 MANUAL (Cero Micro-Depósitos)\n   • Supervisión: 12 Nebulosas IA (Gatillo >= 95% Certeza)\n\n🏦 MAPEO DE LAS 5 BÓVEDAS RECEPTORAS (SOLO RETIRO MANUAL CONSOLIDADO):\n   • Box 1 (#001–#100 + Bóveda #501) ➔ 0x48b26dd0f9265573f31f7140cf01e9c48518531b\n   • Box 2 (#101–#200) ➔ 0x33cffda0218122ed4d981dcb1797f4b458191bc4\n   • Box 3 (#201–#300) ➔ 0x409c4695afd6c919ca660cd86c5c24eb54bfca4e\n   • Box 4 (#301–#400) ➔ 0x2734e0a264573056417d12478616107ff5d2ce54\n   • Box 5 (#401–#500) ➔ 0xf746f7da001c48367d76641a2e870db8e509dce7\n\n📦 FONDO DE INTERÉS COMPUESTO POR BOX (ON-CHAIN):\n   • Box 1 (Matriz #501 + #001): $0.0000 USDC\n   • Box 2 (Capitán #101): $0.0000 USDC\n   • Box 3 (Capitán #201): $0.0000 USDC\n   • Box 4 (Capitán #301): $0.0000 USDC\n   • Box 5 (Capitán #401): $0.0000 USDC\n\n🛡️ REGLAS Y BLINDAJES ACTIVOS:\n   • Micro-Depósitos a Binance: 🚫 BLOQUEADOS TOTALMENTE (Cero spam on-chain al CEX)\n   • Estrategia: Compounding on-chain para escalar a Super Snipers\n   • Bóveda VIP #00: Monitoreada (100% Segura / 0 Tx en Mainnet / Solo Lectura)\n   • Token Exclusivo: 100% USDC Nativo (Prohibido USDT por MiCA)\n   • Aislamiento Anti-Sybil: Intra-bloque estanco verificado (5/5 Boxes)\n\n⏰ 13:17:04 UTC"
+    },
+    {
+      "id": "tg-1793366189018-868",
+      "timestamp": "2026-10-30T13:16:29.018Z",
+      "timeFormatted": "13:16:29 UTC",
+      "rawHtml": "🛸 <b>ÁREA 501 // 🪖 FLOTA X500 — REPORTE MAESTRO DE VUELTA 5 DE 8</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🕒 <b>Cierre:</b> <code>13:16:16 UTC</code> (27 Oct 2026) | <b>Ventana:</b> <code>[12:00 ➔ 15:00 UTC]</code>\n✅ <b>ESTADO DE LA MANADA:</b> <code>500 / 500 CARTERAS ALINEADAS Y TRABAJADAS (0 Errores)</code>\n\n🗂️ <b>1. AUDITORÍA POR ESCUADRÓN (BOXES 1 AL 5):</b>\n• 🟧 <b>Box 1 (#001-#100):</b> <code>100/100 ✔</code> | Cap #001 Activo\n• 🟦 <b>Box 2 (#101-#200):</b> <code>100/100 ✔</code> | Cap #101 Activo\n• 🟩 <b>Box 3 (#201-#300):</b> <code>100/100 ✔</code> | Cap #201 Activo\n• 🟨 <b>Box 4 (#301-#400):</b> <code>100/100 ✔</code> | Cap #301 Activo\n• 🟪 <b>Box 5 (#401-#500):</b> <code>100/100 ✔</code> | Cap #401 Activo\n\n⛏️ <b>2. QUÉ SE HIZO EN ESTA VUELTA Y TODA LA \"PIEDRA PICADA\" ACUMULADA:</b>\n• 🔥 <b>Racha Diaria Gasless EIP-712:</b> +500 firmas hoy (Día 4/25 Cumplido · 14,588 firmas acumuladas)\n• 🔵 <b>Base Sepolia (Avantis S3 / Jumper):</b> Pulso On-Chain OK (Tx: <code>0xe1e5feff...5a37d9</code>)\n• 🔷 <b>Arbitrum Sepolia (DogeOS / Stylus):</b> Pulso On-Chain OK (Tx: <code>0x8e1f36bb...0684d3</code>)\n• 🟠 <b>Bitcoin L2 (Citrea &amp; GOAT) + Sorteos Gasless:</b> +500 registros verificados\n• 📈 <b>Total Piedra Picada Hoy:</b> <code>2,500 / 4,000 operaciones</code> ([5]/8 Vueltas)\n• 🏛️ <b>Histórico Total Acumulado por la Flota:</b> <code>14,588</code> interacciones verificadas\n\n🔭 <b>3. QUÉ VIENE PRÓXIMO (CALENDARIO DE CORTES Y GUÍA DE LA MANADA EN VIVO):</b>\n• ⏰ <b>PRÓXIMO CORTE #1 (En 3 Días — 30 Oct):</b> DogeOS Cap. 2 &amp; Startale (Snapshot 23:59 UTC · 500/500 en ruta)\n• ⏰ <b>PRÓXIMO CORTE #2 (30 Oct ➔ 15 Nov):</b> Base Ecosystem / Avantis S3 / Jumper (500/500 en ruta)\n• ⏰ <b>PRÓXIMO CORTE #3 (12 Nov 2026):</b> TGE &amp; Reclamo Oficial $DOGEOS (Revisión de elegibilidad 500/500)\n• 🧭 <b>Radar DefiLlama Hoy (Top Protocolos Sin Token Creciendo):</b> 1) Popdex Bridge (+0.58% TVL) | 2) JUSD Finance (+3.96% TVL) | 3) D2 Finance (+4.29% TVL)\n\n🎁 <b>4. COSECHA Y DETECTOR DE PREMIOS / AIRDROPS / MONEDAS (500 BOLSILLOS):</b>\n• 🚨 <b>Premios / Airdrops / Monedas Recibidas Hoy:</b> +$0.00 USDC (0 Tokens nuevos / 0 NFTs nuevos en las 500 carteras)\n• 💰 <b>Cosecha Histórica Acumulada por Airdrops:</b> $0.00 USDC (Esperando cierres del 30 Oct y 12 Nov)\n• 👛 <b>Saldo Real Actual en Bolsillos de Flota (On-Chain):</b> $3.41 USDC ($0.70 Polygon + $2.71 BSC en Cap #001)\n• ⛽ <b>Combustible Real en Flota:</b> 20.47 POL (Polygon) | 0.0088 BNB (BSC) | ETH Testnet Activo\n• 🔒 <b>Destino de Cosecha:</b> 100% Embudo Automático hacia Bóveda Matriz #501 (0xD4D1...3743)\n\n📊 <b>RELOJ DE LAS 8 VUELTAS DE HOY:</b>\n<code>[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 🔄] [V7 ⏳] [V8 ⏳]</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "textPlain": "🛸 ÁREA 501 // 🪖 FLOTA X500 — REPORTE MAESTRO DE VUELTA 5 DE 8\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🕒 Cierre: 13:16:16 UTC (27 Oct 2026) | Ventana: [12:00 ➔ 15:00 UTC]\n✅ ESTADO DE LA MANADA: 500 / 500 CARTERAS ALINEADAS Y TRABAJADAS (0 Errores)\n\n🗂️ 1. AUDITORÍA POR ESCUADRÓN (BOXES 1 AL 5):\n• 🟧 Box 1 (#001-#100): 100/100 ✔ | Cap #001 Activo\n• 🟦 Box 2 (#101-#200): 100/100 ✔ | Cap #101 Activo\n• 🟩 Box 3 (#201-#300): 100/100 ✔ | Cap #201 Activo\n• 🟨 Box 4 (#301-#400): 100/100 ✔ | Cap #301 Activo\n• 🟪 Box 5 (#401-#500): 100/100 ✔ | Cap #401 Activo\n\n⛏️ 2. QUÉ SE HIZO EN ESTA VUELTA Y TODA LA \"PIEDRA PICADA\" ACUMULADA:\n• 🔥 Racha Diaria Gasless EIP-712: +500 firmas hoy (Día 4/25 Cumplido · 14,588 firmas acumuladas)\n• 🔵 Base Sepolia (Avantis S3 / Jumper): Pulso On-Chain OK (Tx: 0xe1e5feff...5a37d9)\n• 🔷 Arbitrum Sepolia (DogeOS / Stylus): Pulso On-Chain OK (Tx: 0x8e1f36bb...0684d3)\n• 🟠 Bitcoin L2 (Citrea &amp; GOAT) + Sorteos Gasless: +500 registros verificados\n• 📈 Total Piedra Picada Hoy: 2,500 / 4,000 operaciones ([5]/8 Vueltas)\n• 🏛️ Histórico Total Acumulado por la Flota: 14,588 interacciones verificadas\n\n🔭 3. QUÉ VIENE PRÓXIMO (CALENDARIO DE CORTES Y GUÍA DE LA MANADA EN VIVO):\n• ⏰ PRÓXIMO CORTE #1 (En 3 Días — 30 Oct): DogeOS Cap. 2 &amp; Startale (Snapshot 23:59 UTC · 500/500 en ruta)\n• ⏰ PRÓXIMO CORTE #2 (30 Oct ➔ 15 Nov): Base Ecosystem / Avantis S3 / Jumper (500/500 en ruta)\n• ⏰ PRÓXIMO CORTE #3 (12 Nov 2026): TGE &amp; Reclamo Oficial $DOGEOS (Revisión de elegibilidad 500/500)\n• 🧭 Radar DefiLlama Hoy (Top Protocolos Sin Token Creciendo): 1) Popdex Bridge (+0.58% TVL) | 2) JUSD Finance (+3.96% TVL) | 3) D2 Finance (+4.29% TVL)\n\n🎁 4. COSECHA Y DETECTOR DE PREMIOS / AIRDROPS / MONEDAS (500 BOLSILLOS):\n• 🚨 Premios / Airdrops / Monedas Recibidas Hoy: +$0.00 USDC (0 Tokens nuevos / 0 NFTs nuevos en las 500 carteras)\n• 💰 Cosecha Histórica Acumulada por Airdrops: $0.00 USDC (Esperando cierres del 30 Oct y 12 Nov)\n• 👛 Saldo Real Actual en Bolsillos de Flota (On-Chain): $3.41 USDC ($0.70 Polygon + $2.71 BSC en Cap #001)\n• ⛽ Combustible Real en Flota: 20.47 POL (Polygon) | 0.0088 BNB (BSC) | ETH Testnet Activo\n• 🔒 Destino de Cosecha: 100% Embudo Automático hacia Bóveda Matriz #501 (0xD4D1...3743)\n\n📊 RELOJ DE LAS 8 VUELTAS DE HOY:\n[V1 ✔] [V2 ✔] [V3 ✔] [V4 ✔] [V5 ✔] [V6 🔄] [V7 ⏳] [V8 ⏳]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+    {
+      "id": "tg-1793366186990-129",
+      "timestamp": "2026-10-30T13:16:26.990Z",
+      "timeFormatted": "13:16:26 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #08 Kilo — KILO 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>OP-USDC</code> (<b>🐂 LONG</b> · 2381.9 OP)\n📥 <b>Precio de Entrada:</b> <code>$0.1059</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>99/100</b> (<code>Vel 35/35 · L2 34/35 [78.4%] · Lead-Lag 15/15 · RSI6 54.5</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐂 MAREA ALCISTA (SOLO LONG)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $0.106) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #08 Kilo — KILO 1 (Carril Rápido #10)\n📍 Par & Dirección: OP-USDC (🐂 LONG · 2381.9 OP)\n📥 Precio de Entrada: $0.1059\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 99/100 (Vel 35/35 · L2 34/35 [78.4%] · Lead-Lag 15/15 · RSI6 54.5)\n🌊 Filtro de Marea Global: 🐂 MAREA ALCISTA (SOLO LONG)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $0.106) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366180011-573",
+      "timestamp": "2026-10-30T13:16:20.011Z",
+      "timeFormatted": "13:16:20 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #07 Juliet</b> (#904 Juliet-AI-Compute)\n📍 <b>Par:</b> <code>TAO-USDC</code> (<b>🐻 SHORT</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$232.46</code> ➔ <code>$232.49</code>\n🔒 <b>Escalón Acorralado #00:</b> <b>+$0.10 USDC</b>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>26G - 0P (+$0.10 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$8.93 / +$52.00 USDC</b> (Faltan $43.07 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1008.93 USDC</b> (Equity Viva: <code>$898.84 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO TAO)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #07 Juliet (#904 Juliet-AI-Compute)\n📍 Par: TAO-USDC (🐻 SHORT)\n📥 Entrada ➔ Salida: $232.46 ➔ $232.49\n🔒 Escalón Acorralado #00: +$0.10 USDC\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 26G - 0P (+$0.10 USDC)\n📈 Escalón 1 (30–31 Oct): +$8.93 / +$52.00 USDC (Faltan $43.07 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1008.93 USDC (Equity Viva: $898.84 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO TAO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366172014-956",
+      "timestamp": "2026-10-30T13:16:12.014Z",
+      "timeFormatted": "13:16:12 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #07 Juliet</b> (#904 Juliet-AI-Compute)\n📍 <b>Par:</b> <code>TAO-USDC</code> (<b>🐻 SHORT</b> · 1.085)\n📥 <b>Precio Entrada:</b> <code>$232.46</code> ➔ <b>Actual:</b> <code>$232.43</code>\n🔒 <b>Candado #00 Asegurado:</b> <code>$232.37</code> (<b>+$0.10 USDC Netos · $0.00 Riesgo</b>)\n🌊 <b>Escalera Acorralamiento #00:</b> <code>+$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #07 Juliet (#904 Juliet-AI-Compute)\n📍 Par: TAO-USDC (🐻 SHORT · 1.085)\n📥 Precio Entrada: $232.46 ➔ Actual: $232.43\n🔒 Candado #00 Asegurado: $232.37 (+$0.10 USDC Netos · $0.00 Riesgo)\n🌊 Escalera Acorralamiento #00: +$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366131511-318",
+      "timestamp": "2026-10-30T13:15:31.511Z",
+      "timeFormatted": "13:15:31 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #07 Juliet — JULIET 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>TAO-USDC</code> (<b>🐻 SHORT</b> · 1.085 TAO)\n📥 <b>Precio de Entrada:</b> <code>$232.46</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>96/100</b> (<code>Vel 33/35 · L2 34/35 [78.9%] · Lead-Lag 14/15 · RSI6 46.2</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐻 MAREA BAJISTA (SOLO SHORT)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $232.23) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #07 Juliet — JULIET 1 (Carril Rápido #10)\n📍 Par & Dirección: TAO-USDC (🐻 SHORT · 1.085 TAO)\n📥 Precio de Entrada: $232.46\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 96/100 (Vel 33/35 · L2 34/35 [78.9%] · Lead-Lag 14/15 · RSI6 46.2)\n🌊 Filtro de Marea Global: 🐻 MAREA BAJISTA (SOLO SHORT)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $232.23) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366119506-788",
+      "timestamp": "2026-10-30T13:15:19.506Z",
+      "timeFormatted": "13:15:19 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #08 Kilo</b> (#905 Kilo-L2-Rollups)\n📍 <b>Par:</b> <code>UNI-USDC</code> (<b>🐻 SHORT</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$6.9098</code> ➔ <code>$6.9085</code>\n🔒 <b>Escalón Acorralado #00:</b> <b>+$0.10 USDC</b>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>26G - 0P (+$0.10 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$8.93 / +$52.00 USDC</b> (Faltan $43.07 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1008.93 USDC</b> (Equity Viva: <code>$899.01 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO UNI)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #08 Kilo (#905 Kilo-L2-Rollups)\n📍 Par: UNI-USDC (🐻 SHORT)\n📥 Entrada ➔ Salida: $6.9098 ➔ $6.9085\n🔒 Escalón Acorralado #00: +$0.10 USDC\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 26G - 0P (+$0.10 USDC)\n📈 Escalón 1 (30–31 Oct): +$8.93 / +$52.00 USDC (Faltan $43.07 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1008.93 USDC (Equity Viva: $899.01 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO UNI)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366107504-568",
+      "timestamp": "2026-10-30T13:15:07.504Z",
+      "timeFormatted": "13:15:07 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #08 Kilo</b> (#905 Kilo-L2-Rollups)\n📍 <b>Par:</b> <code>UNI-USDC</code> (<b>🐻 SHORT</b> · 36.5)\n📥 <b>Precio Entrada:</b> <code>$6.9098</code> ➔ <b>Actual:</b> <code>$6.913</code>\n🔒 <b>Candado #00 Asegurado:</b> <code>$6.9071</code> (<b>+$0.10 USDC Netos · $0.00 Riesgo</b>)\n🌊 <b>Escalera Acorralamiento #00:</b> <code>+$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #08 Kilo (#905 Kilo-L2-Rollups)\n📍 Par: UNI-USDC (🐻 SHORT · 36.5)\n📥 Precio Entrada: $6.9098 ➔ Actual: $6.913\n🔒 Candado #00 Asegurado: $6.9071 (+$0.10 USDC Netos · $0.00 Riesgo)\n🌊 Escalera Acorralamiento #00: +$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366046358-328",
+      "timestamp": "2026-10-30T13:14:06.358Z",
+      "timeFormatted": "13:14:06 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #06 India — INDIA 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>DOT-USDC</code> (<b>🐻 SHORT</b> · 266.9 DOT)\n📥 <b>Precio de Entrada:</b> <code>$0.9448</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>96/100</b> (<code>Vel 35/35 · L2 33/35 [73.9%] · Lead-Lag 13/15 · RSI6 43.3</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐻 MAREA BAJISTA (SOLO SHORT)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $0.94386) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #06 India — INDIA 1 (Carril Rápido #10)\n📍 Par & Dirección: DOT-USDC (🐻 SHORT · 266.9 DOT)\n📥 Precio de Entrada: $0.9448\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 96/100 (Vel 35/35 · L2 33/35 [73.9%] · Lead-Lag 13/15 · RSI6 43.3)\n🌊 Filtro de Marea Global: 🐻 MAREA BAJISTA (SOLO SHORT)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $0.94386) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793366005748-864",
+      "timestamp": "2026-10-30T13:13:25.748Z",
+      "timeFormatted": "13:13:25 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #08 Kilo — KILO 1 (Carril Rápido #9)</b>\n📍 <b>Par & Dirección:</b> <code>UNI-USDC</code> (<b>🐻 SHORT</b> · 36.5 UNI)\n📥 <b>Precio de Entrada:</b> <code>$6.9098</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>96/100</b> (<code>Vel 33/35 · L2 34/35 [78.8%] · Lead-Lag 14/15 · RSI6 36.5</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐻 MAREA BAJISTA (SOLO SHORT)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $6.9029) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #08 Kilo — KILO 1 (Carril Rápido #9)\n📍 Par & Dirección: UNI-USDC (🐻 SHORT · 36.5 UNI)\n📥 Precio de Entrada: $6.9098\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 96/100 (Vel 33/35 · L2 34/35 [78.8%] · Lead-Lag 14/15 · RSI6 36.5)\n🌊 Filtro de Marea Global: 🐻 MAREA BAJISTA (SOLO SHORT)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $6.9029) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
+      "id": "tg-1793365929339-247",
+      "timestamp": "2026-10-30T13:12:09.339Z",
+      "timeFormatted": "13:12:09 UTC",
+      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #01 Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>SUI-USDC</code> (<b>🐻 SHORT</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$0.8821</code> ➔ <code>$0.9094</code>\n🔒 <b>Escalón Acorralado #00:</b> <b>+$0.10 USDC</b>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>23G - 0P (+$0.10 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$8.93 / +$52.00 USDC</b> (Faltan $43.07 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1008.93 USDC</b> (Equity Viva: <code>$896.80 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO SUI)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
+      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #01 Alfa (#601 Titan-Scalper)\n📍 Par: SUI-USDC (🐻 SHORT)\n📥 Entrada ➔ Salida: $0.8821 ➔ $0.9094\n🔒 Escalón Acorralado #00: +$0.10 USDC\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 23G - 0P (+$0.10 USDC)\n📈 Escalón 1 (30–31 Oct): +$8.93 / +$52.00 USDC (Faltan $43.07 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1008.93 USDC (Equity Viva: $896.80 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: 🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO SUI)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
+    },
+    {
       "id": "tg-1793365208809-151",
       "timestamp": "2026-10-30T13:00:08.809Z",
       "timeFormatted": "13:00:08 UTC",
@@ -47396,111 +47507,6 @@
       "timeFormatted": "12:09:17 UTC",
       "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #03 Charlie — CHARLIE 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>AAVE-USDC</code> (<b>🐂 LONG</b> · 2.01 AAVE)\n📥 <b>Precio de Entrada:</b> <code>$125.54</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.50 USDC Margen ($252.50 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>98/100</b> (<code>Vel 33/35 · L2 35/35 [86.5%] · Lead-Lag 15/15 · RSI6 56.1</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐂 MAREA ALCISTA (SOLO LONG)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $125.66) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
       "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #03 Charlie — CHARLIE 1 (Carril Rápido #10)\n📍 Par & Dirección: AAVE-USDC (🐂 LONG · 2.01 AAVE)\n📥 Precio de Entrada: $125.54\n❄️ Calibre Compuesto (5% a 5x): $50.50 USDC Margen ($252.50 USD Nocional)\n🧲 Score Fuerza Latente: 98/100 (Vel 33/35 · L2 35/35 [86.5%] · Lead-Lag 15/15 · RSI6 56.1)\n🌊 Filtro de Marea Global: 🐂 MAREA ALCISTA (SOLO LONG)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $125.66) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793362066081-941",
-      "timestamp": "2026-10-30T12:07:46.081Z",
-      "timeFormatted": "12:07:46 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #01 Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>AVAX-USDC</code> (<b>🐻 SHORT</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$8.42</code> ➔ <code>$8.401</code>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.4561 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>17G - 0P (+$1.57 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$10.06 / +$52.00 USDC</b> (Faltan $41.94 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1010.06 USDC</b> (Equity Viva: <code>$901.94 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO AVAX)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #01 Alfa (#601 Titan-Scalper)\n📍 Par: AVAX-USDC (🐻 SHORT)\n📥 Entrada ➔ Salida: $8.42 ➔ $8.401\n💰 GANANCIA NETA (Libre de Comisión): +$0.4561 USDC\n🏆 Marcador Diario (00:00 UTC): 17G - 0P (+$1.57 USDC)\n📈 Escalón 1 (30–31 Oct): +$10.06 / +$52.00 USDC (Faltan $41.94 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1010.06 USDC (Equity Viva: $901.94 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: RESPIRO 08:00 (RECALIBRANDO AVAX)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793362027092-299",
-      "timestamp": "2026-10-30T12:07:07.092Z",
-      "timeFormatted": "12:07:07 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #01 Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>AVAX-USDC</code> (<b>🐻 SHORT</b> · 29.97)\n📥 <b>Precio Entrada:</b> <code>$8.42</code> ➔ <b>Actual:</b> <code>$8.406</code>\n🔒 <b>Candado #00 Asegurado:</b> <code>$8.408</code> (<b>+$0.20 USDC Netos · $0.00 Riesgo</b>)\n🌊 <b>Estado Motor:</b> <code>🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #01 Alfa (#601 Titan-Scalper)\n📍 Par: AVAX-USDC (🐻 SHORT · 29.97)\n📥 Precio Entrada: $8.42 ➔ Actual: $8.406\n🔒 Candado #00 Asegurado: $8.408 (+$0.20 USDC Netos · $0.00 Riesgo)\n🌊 Estado Motor: 🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361821097-539",
-      "timestamp": "2026-10-30T12:03:41.097Z",
-      "timeFormatted": "12:03:41 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #08 Kilo</b> (#905 Kilo-L2-Rollups)\n📍 <b>Par:</b> <code>ARB-USDC</code> (<b>🐂 LONG</b> · 1533.1)\n📥 <b>Precio Entrada:</b> <code>$0.1646</code> ➔ <b>Actual:</b> <code>$0.1649</code>\n🔒 <b>Candado #00 Asegurado:</b> <code>$0.1648</code> (<b>+$0.23 USDC Netos · $0.00 Riesgo</b>)\n🌊 <b>Estado Motor:</b> <code>🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #08 Kilo (#905 Kilo-L2-Rollups)\n📍 Par: ARB-USDC (🐂 LONG · 1533.1)\n📥 Precio Entrada: $0.1646 ➔ Actual: $0.1649\n🔒 Candado #00 Asegurado: $0.1648 (+$0.23 USDC Netos · $0.00 Riesgo)\n🌊 Estado Motor: 🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361683926-763",
-      "timestamp": "2026-10-30T12:01:23.926Z",
-      "timeFormatted": "12:01:23 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #08 Kilo — KILO 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>ARB-USDC</code> (<b>🐂 LONG</b> · 1533.1 ARB)\n📥 <b>Precio de Entrada:</b> <code>$0.1646</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.48 USDC Margen ($252.40 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>99/100</b> (<code>Vel 35/35 · L2 35/35 [91.6%] · Lead-Lag 14/15 · RSI6 63.9</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐂 MAREA ALCISTA (SOLO LONG)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $0.1648) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #08 Kilo — KILO 1 (Carril Rápido #10)\n📍 Par & Dirección: ARB-USDC (🐂 LONG · 1533.1 ARB)\n📥 Precio de Entrada: $0.1646\n❄️ Calibre Compuesto (5% a 5x): $50.48 USDC Margen ($252.40 USD Nocional)\n🧲 Score Fuerza Latente: 99/100 (Vel 35/35 · L2 35/35 [91.6%] · Lead-Lag 14/15 · RSI6 63.9)\n🌊 Filtro de Marea Global: 🐂 MAREA ALCISTA (SOLO LONG)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $0.1648) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361666972-716",
-      "timestamp": "2026-10-30T12:01:06.972Z",
-      "timeFormatted": "12:01:06 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel</b> (#902 Hotel-HyperL1)\n📍 <b>Par:</b> <code>HYPE-USDC</code> (<b>🐻 SHORT</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$91.527</code> ➔ <code>$91.495</code>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>15G - 0P (+$1.05 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$9.54 / +$52.00 USDC</b> (Faltan $42.46 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1009.54 USDC</b> (Equity Viva: <code>$901.25 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO HYPE)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel (#902 Hotel-HyperL1)\n📍 Par: HYPE-USDC (🐻 SHORT)\n📥 Entrada ➔ Salida: $91.527 ➔ $91.495\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 15G - 0P (+$1.05 USDC)\n📈 Escalón 1 (30–31 Oct): +$9.54 / +$52.00 USDC (Faltan $42.46 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1009.54 USDC (Equity Viva: $901.25 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: RESPIRO 08:00 (RECALIBRANDO HYPE)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361606082-276",
-      "timestamp": "2026-10-30T12:00:06.082Z",
-      "timeFormatted": "12:00:06 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)</b>\n• <b>Cámara 1 (Polygon Piso Blindado):</b> <code>$211.35 / $200.00 USDC</code> (Piso 100% Coronada ✅) · Aave V3 + Arbitraje Atómico\n• <b>Cámara 2 (Hyperliquid L1 Maker V2):</b> <code>$649.24 USDC</code> · Meta Retiro: <b>+$200.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>10.40 POL (#501)</code> + <code>20.47 POL (Flota X500)</code>\n🌐 <b>Posición Matrix 501:</b> <a href=\"https://area-501.curatolapps.workers.dev/posicion-501/\">area-501.curatolapps.workers.dev/posicion-501/</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💸🕒 <b>ÁREA 501 // CORTE HORARIO FUNDING RATE (24 VECES/DÍA)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏰ <b>Corte Liquidado:</b> <code>12:00 UTC</code> (9 posiciones en L1)\n🟢 <b>Cobros Positivos (Shorts):</b> <b>+$0.0127 USDC</b> (3 pares cobrando)\n📊 <b>Balance Neto del Corte:</b> <b>-$0.0129 USDC</b>\n🧾 <b>Desglose Oficial On-Chain (userFunding):</b>\n  • <code>BTC-USDC</code> (LONG): <b>-$0.0037 USDC</b> (+0.0013%/h)\n  • <code>ETH-USDC</code> (LONG): <b>-$0.0022 USDC</b> (+0.0013%/h)\n  • <code>SOL-USDC</code> (LONG): <b>-$0.0052 USDC</b> (+0.0013%/h)\n  • <code>SUI-USDC</code> (SHORT): <b>+$0.0032 USDC</b> (+0.0013%/h)\n  • <code>LINK-USDC</code> (SHORT): <b>+$0.0063 USDC</b> (+0.0013%/h)\n  • <code>XRP-USDC</code> (LONG): <b>-$0.0069 USDC</b> (+0.0013%/h)\n  • <code>NEAR-USDC</code> (LONG): <b>-$0.0071 USDC</b> (+0.0013%/h)\n  • <code>HYPE-USDC</code> (SHORT): <b>+$0.0032 USDC</b> (+0.0013%/h)\n  • <code>PAXG-USDC</code> (LONG): <b>-$0.0005 USDC</b> (+0.0013%/h)\n💵 <b>Acumulado Positivo Cobrado:</b> <code>+$0.4424 USDC</code> (104 cobros)\n🛡️ <b>Patrimonio Bóveda #501 (HL L1):</b> <code>$901.64 USDC</code>\n⏳ <b>Próximo Corte (24/Día):</b> <code>13:00:00 UTC</code> (en 59m 53s)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://area-501.curatolapps.workers.dev/funding-matrix/\">Ver Estación #03 · Funding Rate 24/7</a>",
-      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)\n• Cámara 1 (Polygon Piso Blindado): $211.35 / $200.00 USDC (Piso 100% Coronada ✅) · Aave V3 + Arbitraje Atómico\n• Cámara 2 (Hyperliquid L1 Maker V2): $649.24 USDC · Meta Retiro: +$200.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 10.40 POL (#501) + 20.47 POL (Flota X500)\n🌐 Posición Matrix 501: area-501.curatolapps.workers.dev/posicion-501/\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💸🕒 ÁREA 501 // CORTE HORARIO FUNDING RATE (24 VECES/DÍA)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏰ Corte Liquidado: 12:00 UTC (9 posiciones en L1)\n🟢 Cobros Positivos (Shorts): +$0.0127 USDC (3 pares cobrando)\n📊 Balance Neto del Corte: -$0.0129 USDC\n🧾 Desglose Oficial On-Chain (userFunding):\n  • BTC-USDC (LONG): -$0.0037 USDC (+0.0013%/h)\n  • ETH-USDC (LONG): -$0.0022 USDC (+0.0013%/h)\n  • SOL-USDC (LONG): -$0.0052 USDC (+0.0013%/h)\n  • SUI-USDC (SHORT): +$0.0032 USDC (+0.0013%/h)\n  • LINK-USDC (SHORT): +$0.0063 USDC (+0.0013%/h)\n  • XRP-USDC (LONG): -$0.0069 USDC (+0.0013%/h)\n  • NEAR-USDC (LONG): -$0.0071 USDC (+0.0013%/h)\n  • HYPE-USDC (SHORT): +$0.0032 USDC (+0.0013%/h)\n  • PAXG-USDC (LONG): -$0.0005 USDC (+0.0013%/h)\n💵 Acumulado Positivo Cobrado: +$0.4424 USDC (104 cobros)\n🛡️ Patrimonio Bóveda #501 (HL L1): $901.64 USDC\n⏳ Próximo Corte (24/Día): 13:00:00 UTC (en 59m 53s)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Estación #03 · Funding Rate 24/7"
-    },
-    {
-      "id": "tg-1793361605657-236",
-      "timestamp": "2026-10-30T12:00:05.657Z",
-      "timeFormatted": "12:00:05 UTC",
-      "rawHtml": "🟢 <b>ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ <b>BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)</b>\n• <b>Cámara 1 (Polygon Piso Blindado):</b> <code>$211.35 / $200.00 USDC</code> (Piso 100% Coronada ✅) · Aave V3 + Arbitraje Atómico\n• <b>Cámara 2 (Hyperliquid L1 Maker V2):</b> <code>$649.24 USDC</code> · Meta Retiro: <b>+$200.00 USDC</b> ($0.00 Gas · 0.015% Fee)\n• <b>Gas Blindado Intocable:</b> <code>10.40 POL (#501)</code> + <code>20.47 POL (Flota X500)</code>\n🌐 <b>Posición Matrix 501:</b> <a href=\"https://area-501.curatolapps.workers.dev/posicion-501/\">area-501.curatolapps.workers.dev/posicion-501/</a>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💸🕒 <b>ÁREA 501 // CORTE HORARIO FUNDING RATE (24 VECES/DÍA)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏰ <b>Corte Liquidado:</b> <code>12:00 UTC</code> (9 posiciones en L1)\n🟢 <b>Cobros Positivos (Shorts):</b> <b>+$0.0127 USDC</b> (3 pares cobrando)\n📊 <b>Balance Neto del Corte:</b> <b>-$0.0129 USDC</b>\n🧾 <b>Desglose Oficial On-Chain (userFunding):</b>\n  • <code>BTC-USDC</code> (LONG): <b>-$0.0037 USDC</b> (+0.0013%/h)\n  • <code>ETH-USDC</code> (LONG): <b>-$0.0022 USDC</b> (+0.0013%/h)\n  • <code>SOL-USDC</code> (LONG): <b>-$0.0052 USDC</b> (+0.0013%/h)\n  • <code>SUI-USDC</code> (SHORT): <b>+$0.0032 USDC</b> (+0.0013%/h)\n  • <code>LINK-USDC</code> (SHORT): <b>+$0.0063 USDC</b> (+0.0013%/h)\n  • <code>XRP-USDC</code> (LONG): <b>-$0.0069 USDC</b> (+0.0013%/h)\n  • <code>NEAR-USDC</code> (LONG): <b>-$0.0071 USDC</b> (+0.0013%/h)\n  • <code>HYPE-USDC</code> (SHORT): <b>+$0.0032 USDC</b> (+0.0013%/h)\n  • <code>PAXG-USDC</code> (LONG): <b>-$0.0005 USDC</b> (+0.0013%/h)\n💵 <b>Acumulado Positivo Cobrado:</b> <code>+$0.4424 USDC</code> (104 cobros)\n🛡️ <b>Patrimonio Bóveda #501 (HL L1):</b> <code>$901.97 USDC</code>\n⏳ <b>Próximo Corte (24/Día):</b> <code>13:00:00 UTC</code> (en 59m 54s)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://area-501.curatolapps.workers.dev/funding-matrix/\">Ver Estación #03 · Funding Rate 24/7</a>",
-      "textPlain": "🟢 ÁREA 501 // SISTEMA ENCENDIDO &amp; OPERANDO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏛️ BÓVEDA MATRIZ #501 (MOTOR DUAL ACTIVO V2)\n• Cámara 1 (Polygon Piso Blindado): $211.35 / $200.00 USDC (Piso 100% Coronada ✅) · Aave V3 + Arbitraje Atómico\n• Cámara 2 (Hyperliquid L1 Maker V2): $649.24 USDC · Meta Retiro: +$200.00 USDC ($0.00 Gas · 0.015% Fee)\n• Gas Blindado Intocable: 10.40 POL (#501) + 20.47 POL (Flota X500)\n🌐 Posición Matrix 501: area-501.curatolapps.workers.dev/posicion-501/\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n💸🕒 ÁREA 501 // CORTE HORARIO FUNDING RATE (24 VECES/DÍA)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏰ Corte Liquidado: 12:00 UTC (9 posiciones en L1)\n🟢 Cobros Positivos (Shorts): +$0.0127 USDC (3 pares cobrando)\n📊 Balance Neto del Corte: -$0.0129 USDC\n🧾 Desglose Oficial On-Chain (userFunding):\n  • BTC-USDC (LONG): -$0.0037 USDC (+0.0013%/h)\n  • ETH-USDC (LONG): -$0.0022 USDC (+0.0013%/h)\n  • SOL-USDC (LONG): -$0.0052 USDC (+0.0013%/h)\n  • SUI-USDC (SHORT): +$0.0032 USDC (+0.0013%/h)\n  • LINK-USDC (SHORT): +$0.0063 USDC (+0.0013%/h)\n  • XRP-USDC (LONG): -$0.0069 USDC (+0.0013%/h)\n  • NEAR-USDC (LONG): -$0.0071 USDC (+0.0013%/h)\n  • HYPE-USDC (SHORT): +$0.0032 USDC (+0.0013%/h)\n  • PAXG-USDC (LONG): -$0.0005 USDC (+0.0013%/h)\n💵 Acumulado Positivo Cobrado: +$0.4424 USDC (104 cobros)\n🛡️ Patrimonio Bóveda #501 (HL L1): $901.97 USDC\n⏳ Próximo Corte (24/Día): 13:00:00 UTC (en 59m 54s)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Estación #03 · Funding Rate 24/7"
-    },
-    {
-      "id": "tg-1793361503248-349",
-      "timestamp": "2026-10-30T11:58:23.248Z",
-      "timeFormatted": "11:58:23 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #01 Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>AVAX-USDC</code> (<b>🐻 SHORT</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$8.48</code> ➔ <code>$8.4598</code>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>14G - 0P (+$0.51 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$9.00 / +$52.00 USDC</b> (Faltan $43.00 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1009.00 USDC</b> (Equity Viva: <code>$902.47 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO AVAX)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #01 Alfa (#601 Titan-Scalper)\n📍 Par: AVAX-USDC (🐻 SHORT)\n📥 Entrada ➔ Salida: $8.48 ➔ $8.4598\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 14G - 0P (+$0.51 USDC)\n📈 Escalón 1 (30–31 Oct): +$9.00 / +$52.00 USDC (Faltan $43.00 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1009.00 USDC (Equity Viva: $902.47 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: RESPIRO 08:00 (RECALIBRANDO AVAX)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361413660-315",
-      "timestamp": "2026-10-30T11:56:53.660Z",
-      "timeFormatted": "11:56:53 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #01 Alfa</b> (#601 Titan-Scalper)\n📍 <b>Par:</b> <code>AVAX-USDC</code> (<b>🐻 SHORT</b> · 29.74)\n📥 <b>Precio Entrada:</b> <code>$8.48</code> ➔ <b>Actual:</b> <code>$8.459</code>\n🔒 <b>Candado #00 Asegurado:</b> <code>$8.461</code> (<b>+$0.41 USDC Netos · $0.00 Riesgo</b>)\n🌊 <b>Estado Motor:</b> <code>🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #01 Alfa (#601 Titan-Scalper)\n📍 Par: AVAX-USDC (🐻 SHORT · 29.74)\n📥 Precio Entrada: $8.48 ➔ Actual: $8.459\n🔒 Candado #00 Asegurado: $8.461 (+$0.41 USDC Netos · $0.00 Riesgo)\n🌊 Estado Motor: 🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361280551-120",
-      "timestamp": "2026-10-30T11:54:40.551Z",
-      "timeFormatted": "11:54:40 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #07 Juliet</b> (#904 Juliet-AI-Compute)\n📍 <b>Par:</b> <code>TAO-USDC</code> (<b>🐻 SHORT</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$233.33</code> ➔ <code>$233.16</code>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>10G - 0P (+$0.38 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$8.93 / +$52.00 USDC</b> (Faltan $43.07 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1008.93 USDC</b> (Equity Viva: <code>$902.23 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO TAO)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #07 Juliet (#904 Juliet-AI-Compute)\n📍 Par: TAO-USDC (🐻 SHORT)\n📥 Entrada ➔ Salida: $233.33 ➔ $233.16\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 10G - 0P (+$0.38 USDC)\n📈 Escalón 1 (30–31 Oct): +$8.93 / +$52.00 USDC (Faltan $43.07 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1008.93 USDC (Equity Viva: $902.23 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: RESPIRO 08:00 (RECALIBRANDO TAO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361267100-628",
-      "timestamp": "2026-10-30T11:54:27.100Z",
-      "timeFormatted": "11:54:27 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #07 Juliet</b> (#904 Juliet-AI-Compute)\n📍 <b>Par:</b> <code>TAO-USDC</code> (<b>🐻 SHORT</b> · 1.081)\n📥 <b>Precio Entrada:</b> <code>$233.33</code> ➔ <b>Actual:</b> <code>$233.09</code>\n🔒 <b>Candado #00 Asegurado:</b> <code>$233.11</code> (<b>+$0.10 USDC Netos · $0.00 Riesgo</b>)\n🌊 <b>Estado Motor:</b> <code>🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #07 Juliet (#904 Juliet-AI-Compute)\n📍 Par: TAO-USDC (🐻 SHORT · 1.081)\n📥 Precio Entrada: $233.33 ➔ Actual: $233.09\n🔒 Candado #00 Asegurado: $233.11 (+$0.10 USDC Netos · $0.00 Riesgo)\n🌊 Estado Motor: 🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361158325-588",
-      "timestamp": "2026-10-30T11:52:38.325Z",
-      "timeFormatted": "11:52:38 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #07 Juliet — JULIET 1 (Carril Rápido #10)</b>\n📍 <b>Par & Dirección:</b> <code>TAO-USDC</code> (<b>🐻 SHORT</b> · 1.081 TAO)\n📥 <b>Precio de Entrada:</b> <code>$233.33</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>95/100</b> (<code>Vel 33/35 · L2 33/35 [73.1%] · Lead-Lag 14/15 · RSI6 47.7</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐻 MAREA BAJISTA (SOLO SHORT)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $233.12) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #07 Juliet — JULIET 1 (Carril Rápido #10)\n📍 Par & Dirección: TAO-USDC (🐻 SHORT · 1.081 TAO)\n📥 Precio de Entrada: $233.33\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 95/100 (Vel 33/35 · L2 33/35 [73.1%] · Lead-Lag 14/15 · RSI6 47.7)\n🌊 Filtro de Marea Global: 🐻 MAREA BAJISTA (SOLO SHORT)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $233.12) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361157520-708",
-      "timestamp": "2026-10-30T11:52:37.520Z",
-      "timeFormatted": "11:52:37 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #05 Hotel — HOTEL 1 (Carril Rápido #9)</b>\n📍 <b>Par & Dirección:</b> <code>TRX-USDC</code> (<b>🐻 SHORT</b> · 738 TRX)\n📥 <b>Precio de Entrada:</b> <code>$0.34179</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>100/100</b> (<code>Vel 35/35 · L2 35/35 [90%] · Lead-Lag 15/15 · RSI6 50.4</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐻 MAREA BAJISTA (SOLO SHORT)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $0.34148) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #05 Hotel — HOTEL 1 (Carril Rápido #9)\n📍 Par & Dirección: TRX-USDC (🐻 SHORT · 738 TRX)\n📥 Precio de Entrada: $0.34179\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 100/100 (Vel 35/35 · L2 35/35 [90%] · Lead-Lag 15/15 · RSI6 50.4)\n🌊 Filtro de Marea Global: 🐻 MAREA BAJISTA (SOLO SHORT)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $0.34148) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793361140997-230",
-      "timestamp": "2026-10-30T11:52:20.997Z",
-      "timeFormatted": "11:52:20 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #09 Lima</b> (#906 Lima-RWA-Meme)\n📍 <b>Par:</b> <code>ONDO-USDC</code> (<b>🐂 LONG</b>)\n📥 <b>Entrada ➔ Salida:</b> <code>$0.391</code> ➔ <code>$0.3911</code>\n💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$0.1000 USDC</b>\n🏆 <b>Marcador Diario (00:00 UTC):</b> <b>7G - 0P (+$0.38 USDC)</b>\n📈 <b>Escalón 1 (30–31 Oct):</b> <b>+$8.93 / +$52.00 USDC</b> (Faltan $43.07 | Extra: +$0.00)\n🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$1008.93 USDC</b> (Equity Viva: <code>$903.17 USDC</code>)\n🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO ONDO)</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #09 Lima (#906 Lima-RWA-Meme)\n📍 Par: ONDO-USDC (🐂 LONG)\n📥 Entrada ➔ Salida: $0.391 ➔ $0.3911\n💰 GANANCIA NETA (Libre de Comisión): +$0.1000 USDC\n🏆 Marcador Diario (00:00 UTC): 7G - 0P (+$0.38 USDC)\n📈 Escalón 1 (30–31 Oct): +$8.93 / +$52.00 USDC (Faltan $43.07 | Extra: +$0.00)\n🏛️ Saldo Cerrado Firme L1: $1008.93 USDC (Equity Viva: $903.17 USDC)\n🧘‍♂️ Protocolo Anti-Fatiga: RESPIRO 08:00 (RECALIBRANDO ONDO)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver Recibo en Hypurrscan (Sin conectar Wallet)"
-    },
-    {
-      "id": "tg-1793360917135-566",
-      "timestamp": "2026-10-30T11:48:37.135Z",
-      "timeFormatted": "11:48:37 UTC",
-      "rawHtml": "🛰️ <b>SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 <b>Escuadrón:</b> <b>Escuadrón #09 Lima — LIMA 1 (Carril Rápido #9)</b>\n📍 <b>Par & Dirección:</b> <code>ONDO-USDC</code> (<b>🐂 LONG</b> · 645 ONDO)\n📥 <b>Precio de Entrada:</b> <code>$0.391</code>\n❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($252.25 USD Nocional)</code>\n🧲 <b>Score Fuerza Latente:</b> <b>98/100</b> (<code>Vel 34/35 · L2 34/35 [80.6%] · Lead-Lag 15/15 · RSI6 53.3</code>)\n🌊 <b>Filtro de Marea Global:</b> <code>🐂 MAREA ALCISTA (SOLO LONG)</code>\n🔒 <b>Regla Carril Rápido:</b> <code>Candado #00 en +$0.08 USDC (@ $0.3914) + Time-Stop Empate 180s</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 <a href=\"https://hypurrscan.io/address/0xD4D12077a61118372f7a367319fb11922Beb3743\">Ver en Hypurrscan (Sin conectar Wallet)</a>",
-      "textPlain": "🛰️ SALA DE MANDO 10K // 🟢⚡ [ABRIENDO OPERACIÓN]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔰 Escuadrón: Escuadrón #09 Lima — LIMA 1 (Carril Rápido #9)\n📍 Par & Dirección: ONDO-USDC (🐂 LONG · 645 ONDO)\n📥 Precio de Entrada: $0.391\n❄️ Calibre Compuesto (5% a 5x): $50.45 USDC Margen ($252.25 USD Nocional)\n🧲 Score Fuerza Latente: 98/100 (Vel 34/35 · L2 34/35 [80.6%] · Lead-Lag 15/15 · RSI6 53.3)\n🌊 Filtro de Marea Global: 🐂 MAREA ALCISTA (SOLO LONG)\n🔒 Regla Carril Rápido: Candado #00 en +$0.08 USDC (@ $0.3914) + Time-Stop Empate 180s\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Ver en Hypurrscan (Sin conectar Wallet)"
     }
   ],
   "lomo6SocialX": {
@@ -56794,16 +56800,16 @@
     ]
   },
   "fourDailyRounds": {
-    "date": "2026-10-27",
-    "lastUpdated": "2026-10-27T10:34:40.686Z",
-    "currentRoundId": 4,
+    "date": "2026-10-30",
+    "lastUpdated": "2026-10-30T13:16:28.952Z",
+    "currentRoundId": 5,
     "todayRoundsCompleted": 1,
     "todayTotalOps": 500,
     "dailyGoal": 4000,
     "rounds": {
-      "4": {
-        "roundId": 4,
-        "name": "Vuelta #4",
+      "5": {
+        "roundId": 5,
+        "name": "Vuelta #5",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -56817,26 +56823,26 @@
           "5": 100
         },
         "sampleHashes": {
-          "gaslessCheckIn": "0xcb7f6de626147dee9ebb87dbb21e2b3c1940357d262cb24e4f181a21777c4bdd",
-          "base": "0xa05328925a34baab94c5ecb85e73dac79c10cc2b4f0a7e54ce66e35bb4bbec2e",
-          "arbitrum": "0xf299b5a4429eb0f81ecb08633a3adbca99857e44003ef72811dc8ac0f415c147"
+          "gaslessCheckIn": "0xdae7c6ab9ad45d46e80d6e9082980b12fb998cc8eb6ce3f294610a4372df2648",
+          "base": "0xe1e5feff69a28f81c239e5f75e79ff818bfc2552502e970dcf0bbf13425a37d9",
+          "arbitrum": "0x8e1f36bb0a038de517d19f155db483e5e8b9571462d84d459f7aae5d650684d3"
         },
-        "completedAtUtc": "2026-10-27T10:34:40.686Z"
+        "completedAtUtc": "2026-10-30T13:16:28.951Z"
       }
     },
     "failedWalletsQueue": []
   },
   "eightDailyRounds": {
-    "date": "2026-10-27",
-    "lastUpdated": "2026-10-27T10:34:40.686Z",
-    "currentRoundId": 4,
+    "date": "2026-10-30",
+    "lastUpdated": "2026-10-30T13:16:28.952Z",
+    "currentRoundId": 5,
     "todayRoundsCompleted": 1,
     "todayTotalOps": 500,
     "dailyGoal": 4000,
     "rounds": {
-      "4": {
-        "roundId": 4,
-        "name": "Vuelta #4",
+      "5": {
+        "roundId": 5,
+        "name": "Vuelta #5",
         "status": "DONE",
         "completedWallets": 500,
         "totalWallets": 500,
@@ -56850,11 +56856,11 @@
           "5": 100
         },
         "sampleHashes": {
-          "gaslessCheckIn": "0xcb7f6de626147dee9ebb87dbb21e2b3c1940357d262cb24e4f181a21777c4bdd",
-          "base": "0xa05328925a34baab94c5ecb85e73dac79c10cc2b4f0a7e54ce66e35bb4bbec2e",
-          "arbitrum": "0xf299b5a4429eb0f81ecb08633a3adbca99857e44003ef72811dc8ac0f415c147"
+          "gaslessCheckIn": "0xdae7c6ab9ad45d46e80d6e9082980b12fb998cc8eb6ce3f294610a4372df2648",
+          "base": "0xe1e5feff69a28f81c239e5f75e79ff818bfc2552502e970dcf0bbf13425a37d9",
+          "arbitrum": "0x8e1f36bb0a038de517d19f155db483e5e8b9571462d84d459f7aae5d650684d3"
         },
-        "completedAtUtc": "2026-10-27T10:34:40.686Z"
+        "completedAtUtc": "2026-10-30T13:16:28.951Z"
       }
     },
     "failedWalletsQueue": []
@@ -56864,10 +56870,10 @@
   "atomicExecutorAddressBsc": "0xD935F7B80237aA14B6D8F9D45070800e9E23Db20",
   "totalCapitanesGasPol": 20.47,
   "swarmDaemonLive": {
-    "updatedAt": "2026-10-30T13:11:38.126Z",
-    "lastScanUtc": "13:11:38 UTC",
+    "updatedAt": "2026-10-30T13:24:08.291Z",
+    "lastScanUtc": "13:24:08 UTC",
     "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-    "cycleCount": 1654,
+    "cycleCount": 1679,
     "walletsActive": "500 / 500",
     "fleetPocketsUsdc": 4.7,
     "captainsPocketsUsdc": 1.75,
@@ -56881,41 +56887,41 @@
     "streakGoal": "500 / 500 Firmado EIP-712",
     "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
     "currentPlatoonScanned": {
-      "platoonId": 4,
-      "walletRange": "#031 ➔ #040",
+      "platoonId": 29,
+      "walletRange": "#281 ➔ #290",
       "attestationsCount": 10,
       "polyDetectedUsdc": 0,
       "baseDetectedUsdc": 0,
       "sampleAttestations": [
         {
-          "index": 31,
-          "address": "0x95c071d358d25454A3eAB72e0945954784C2dCdc",
-          "platoonId": 4,
-          "campaign": "Gasless EIP-712 & Racha",
-          "signatureHash": "0x7507f172a7d45c33...726cb8",
+          "index": 281,
+          "address": "0x6028f1a710c52a9465109bc22141d5bD90fb67Ae",
+          "platoonId": 29,
+          "campaign": "Base Avantis S3 (30 Oct)",
+          "signatureHash": "0xe9e9063ad5c4c5a1...0528eb",
           "gasSpentUsd": 0,
           "status": "VERIFIED_EIP712_OK",
-          "timestamp": "2026-10-30T13:11:34.347Z"
+          "timestamp": "2026-10-30T13:24:04.558Z"
         },
         {
-          "index": 32,
-          "address": "0xF03d48299fb4DdE3388d457B535d437052DCe276",
-          "platoonId": 4,
-          "campaign": "Gasless EIP-712 & Racha",
-          "signatureHash": "0xa2bf11ccbd0dbf6f...cfe9ec",
+          "index": 282,
+          "address": "0xD116DDbD72aCA4Db6Ab40b22C68F50C095c13228",
+          "platoonId": 29,
+          "campaign": "Base Avantis S3 (30 Oct)",
+          "signatureHash": "0xdf62a170fc53f8ba...72af32",
           "gasSpentUsd": 0,
           "status": "VERIFIED_EIP712_OK",
-          "timestamp": "2026-10-30T13:11:34.347Z"
+          "timestamp": "2026-10-30T13:24:04.558Z"
         },
         {
-          "index": 33,
-          "address": "0x79f79db088Ad4506de8D6c84b5b7769137D920Cc",
-          "platoonId": 4,
-          "campaign": "Gasless EIP-712 & Racha",
-          "signatureHash": "0x3b9a9030c5675d0b...a07ec9",
+          "index": 283,
+          "address": "0x8bFEEB616F60f2C9547D4035BDd9eA44D3Bf7521",
+          "platoonId": 29,
+          "campaign": "Base Avantis S3 (30 Oct)",
+          "signatureHash": "0x99805e1e79c68454...02aee8",
           "gasSpentUsd": 0,
           "status": "VERIFIED_EIP712_OK",
-          "timestamp": "2026-10-30T13:11:34.347Z"
+          "timestamp": "2026-10-30T13:24:04.558Z"
         }
       ]
     },

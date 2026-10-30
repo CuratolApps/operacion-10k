@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T13:09:46.669Z",
+  "updatedAt": "2026-10-30T13:19:46.809Z",
   "liveBalances": {
     "totalUsdc": 3.41,
     "polygonUsdc": 0.7,
@@ -10,7 +10,7 @@
     "bnb": 0.00877,
     "baseEth": 0.0144,
     "arbEth": 0.0036,
-    "readTimestamp": "2026-10-30T13:09:38.069Z"
+    "readTimestamp": "2026-10-30T13:19:38.246Z"
   },
   "radarA_TokenlessProtocols": [
     {
@@ -93,25 +93,25 @@
     {
       "target": "Base / Avantis S3",
       "network": "Base",
-      "deadline": "30 de Octubre de 2026",
-      "daysRemaining": 3,
-      "status": "🔥 EN RUTA (Faltan 3 días)",
+      "deadline": "30 de Octubre de 2026 (Sellado 500/500) ➔ Próximo: 15 Nov",
+      "daysRemaining": 0,
+      "status": "🟢 CIERRE HOY 30 OCT: 500/500",
       "fleetCoverage": "500/500 Satélites Calificados"
     },
     {
       "target": "DogeOS Chapter 2 / Startale",
       "network": "Polygon / Arbitrum",
-      "deadline": "30 de Octubre de 2026",
-      "daysRemaining": 3,
-      "status": "🔥 EN RUTA (Faltan 3 días)",
+      "deadline": "30 de Octubre de 2026 (Sellado 500/500) ➔ Próximo: 20 Nov",
+      "daysRemaining": 0,
+      "status": "🟢 CIERRE HOY 30 OCT: 500/500",
       "fleetCoverage": "500/500 Satélites Calificados"
     },
     {
-      "target": "Arbitrum Stylus & Citrea/GOAT BTC L2",
+      "target": "Citrea & GOAT BTC L2 (Sprint Noviembre)",
       "network": "Arbitrum & Bitcoin L2s",
-      "deadline": "Fase Q4 2026 / Q1 2027",
-      "daysRemaining": 65,
-      "status": "🌱 SIEMBRA CONTINUA 24/7",
+      "deadline": "15 y 20 de Noviembre de 2026",
+      "daysRemaining": 16,
+      "status": "🔥 FOCO PRINCIPAL 15/20 NOV",
       "fleetCoverage": "500/500 Satélites con Pulsos OK"
     }
   ],

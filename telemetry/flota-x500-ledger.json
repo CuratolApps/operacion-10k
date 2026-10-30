@@ -1,37 +1,37 @@
 {
   "protocol": "ÁREA 501 // FLOTA X500 PERSISTENT LEDGER",
   "version": "2.0.0",
-  "streakDaysCompleted": 3,
+  "streakDaysCompleted": 5,
   "streakGoalDays": 25,
   "streakStartDate": "2026-10-25",
-  "currentEpochDate": "2026-10-27",
-  "todayRoundsCompleted": 4,
-  "todayEip712Signatures": 2000,
-  "totalEip712SignaturesAllTime": 14088,
+  "currentEpochDate": "2026-10-30",
+  "todayRoundsCompleted": 5,
+  "todayEip712Signatures": 2500,
+  "totalEip712SignaturesAllTime": 14588,
   "onChainTransactions": {
     "baseSepolia": {
-      "today": 4,
-      "allTime": 248,
-      "lastTxHash": "0xa05328925a34baab94c5ecb85e73dac79c10cc2b4f0a7e54ce66e35bb4bbec2e"
+      "today": 5,
+      "allTime": 249,
+      "lastTxHash": "0xe1e5feff69a28f81c239e5f75e79ff818bfc2552502e970dcf0bbf13425a37d9"
     },
     "arbitrumSepolia": {
-      "today": 4,
-      "allTime": 242,
-      "lastTxHash": "0xf299b5a4429eb0f81ecb08633a3adbca99857e44003ef72811dc8ac0f415c147"
+      "today": 5,
+      "allTime": 243,
+      "lastTxHash": "0x8e1f36bb0a038de517d19f155db483e5e8b9571462d84d459f7aae5d650684d3"
     },
     "polygon": {
-      "today": 4,
-      "allTime": 156,
+      "today": 5,
+      "allTime": 157,
       "lastTxHash": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
     },
     "citreaGoat": {
-      "today": 4,
-      "allTime": 180,
+      "today": 5,
+      "allTime": 181,
       "lastAttestation": "EIP-712-BTC-L2-SEED-VERIFIED"
     }
   },
-  "todayTotalOps": 2000,
-  "totalHistoricalOps": 14088,
+  "todayTotalOps": 2500,
+  "totalHistoricalOps": 14588,
   "rewardsScanner": {
     "todayUsdc": 0,
     "newTokensCount": 0,
@@ -45,13 +45,13 @@
     "usdcTotal": 3.41,
     "polygonUsdc": 0.7,
     "bscUsdc": 2.71,
-    "polTotal": 20.51,
+    "polTotal": 20.47,
     "polCap001": 18.07,
-    "polSatellites": 2.44,
+    "polSatellites": 2.4,
     "bnbTotal": 0.00877,
     "baseSepoliaEth": 0.0144,
     "arbitrumSepoliaEth": 0.0036
   },
-  "lastRoundUpdated": 4,
-  "lastUpdated": "2026-10-27T10:34:40.672Z"
+  "lastRoundUpdated": 5,
+  "lastUpdated": "2026-10-30T13:16:28.898Z"
 }

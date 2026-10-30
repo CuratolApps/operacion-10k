@@ -22,11 +22,12 @@ function setTextIfChanged(el, newText) {
 // ==============================================================================
 // ESTADO PERSISTENTE MONOTÓNICO (ANTI-REGRESIÓN & ZERO-FLICKER)
 // ==============================================================================
-const FLOTA_STORAGE_KEY = "area501_flota_state_v2";
+const FLOTA_STORAGE_KEY = "area501_flota_state_v3";
 
 function loadPersistedFlotaState() {
   try {
     localStorage.removeItem("area501_flota_state_v1");
+    localStorage.removeItem("area501_flota_state_v2");
   } catch (_) {}
   if (window.__AREA501_FLOTA_STATE__) return window.__AREA501_FLOTA_STATE__;
   try {
@@ -47,9 +48,9 @@ function loadPersistedFlotaState() {
     satellitesUsdc: "$2.95 USDC",
     sweptTo501Usdc: "$0.00 USDC",
     fleetGasPol: "20.47",
-    streakDays: "Día 4/25",
-    streakGoal: "500 / 500 Auditado",
-    countdownPill: "🟢 Cierre 30 Oct (48h)",
+    streakDays: "Día 5/25",
+    streakGoal: "500 / 500 Firmado (30 Oct)",
+    countdownPill: "🟢 CIERRE HOY 30 OCT: 500/500",
     lastTimestamp: 0
   };
   return window.__AREA501_FLOTA_STATE__;
@@ -90,9 +91,9 @@ let isSyncingFleet = false;
 // Configuración de los 5 Boxes
 const BOXES_CONFIG = {
   1: { name: "BOX 1", range: "001 - 100", captain: "0xb7505DD7FCC31A71D033F8a495D6B562420AD40F", mission: "Gasless EIP-712 & Racha", tagClass: "box-1-tag", chain: "Polygon" },
-  2: { name: "BOX 2", range: "101 - 200", captain: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA", mission: "DogeOS Cap. 2 (30 Oct)", tagClass: "box-2-tag", chain: "Base" },
-  3: { name: "BOX 3", range: "201 - 300", captain: "0x2810aa0DabCA4511846194229d2c004B14016A7C", mission: "Base Avantis S3 (30 Oct)", tagClass: "box-3-tag", chain: "Base" },
-  4: { name: "BOX 4", range: "301 - 400", captain: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f", mission: "Citrea & GOAT BTC L2", tagClass: "box-4-tag", chain: "Citrea" },
+  2: { name: "BOX 2", range: "101 - 200", captain: "0x568227fc15ef4713F1d51bd6520F384FE1F4adBA", mission: "DogeOS Cap. 2 (30 Oct ✔ ➔ 20 Nov)", tagClass: "box-2-tag", chain: "Base" },
+  3: { name: "BOX 3", range: "201 - 300", captain: "0x2810aa0DabCA4511846194229d2c004B14016A7C", mission: "Base Avantis S3 (30 Oct ✔ ➔ 15 Nov)", tagClass: "box-3-tag", chain: "Base" },
+  4: { name: "BOX 4", range: "301 - 400", captain: "0xEb6a667C9c0F5Bb1eCb6f19f20e9f25D8B54Ca0f", mission: "Citrea & GOAT (Corte 15/20 Nov)", tagClass: "box-4-tag", chain: "Citrea" },
   5: { name: "BOX 5", range: "401 - 500", captain: "0x4C713c5984B033d63061aDc936DfDb8C4Bc6d070", mission: "Free-Mint & Odos Arb", tagClass: "box-5-tag", chain: "Polygon" }
 };
 
@@ -103,9 +104,9 @@ const MASTER_RADARS = [
     tag: "RADAR #01",
     title: "BASE / AVANTIS S3",
     meta: "Trading & LP Vol.",
-    deadline: "Cierre: 30 Oct (48h)",
+    deadline: "🟢 Hoy 30 Oct: 500/500 ➔ 15 Nov",
     chain: "Base L2",
-    badge: "URGENTE",
+    badge: "SELLADO",
     hrefTab: "paneAirdrops"
   },
   {
@@ -113,9 +114,9 @@ const MASTER_RADARS = [
     tag: "RADAR #02",
     title: "DOGEOS CAPÍTULO 2",
     meta: "Check-ins Diarios",
-    deadline: "Cierre: 30 Oct (48h)",
+    deadline: "🟢 Hoy 30 Oct: 500/500 ➔ 20 Nov",
     chain: "Base / Soneium",
-    badge: "URGENTE",
+    badge: "SELLADO",
     hrefTab: "paneAirdrops"
   },
   {
@@ -123,9 +124,9 @@ const MASTER_RADARS = [
     tag: "RADAR #03",
     title: "CITREA & GOAT BTC L2",
     meta: "Bridge Swaps & Faucet",
-    deadline: "Testnet Incentivada",
+    deadline: "Próximo Corte: 15 y 20 Nov",
     chain: "Citrea / GOAT",
-    badge: "ACTIVO",
+    badge: "FOCO NOV",
     hrefTab: "paneAirdrops"
   },
   {
