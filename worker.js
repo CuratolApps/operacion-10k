@@ -3814,7 +3814,7 @@ export default {
             const MAX_OPEN_POSITIONS = 15;
             const FAST_SCALP_LANES = 11;
             const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 15;
-            const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
+            const MAX_UNFENCED_POSITIONS = 3;
             const FAST_LANE_LOCK_NET_USDC = 0.10;
             const CORNERING_HALF_DOLLAR_USDC = 0.50;
             const CORNERING_BREATH_BUFFER_USDC = 0.02;
@@ -4091,11 +4091,17 @@ export default {
               if (slotsLeft > 0) {
                 const nowMsCloud = Date.now();
                 const allScoredCandidates = [];
-                for (const unit of cloudUnits) {
+                let cloudScannedCount = 0;
+                const minuteBucket = Math.floor(nowMsCloud / 60000);
+                const rotatedUnits = [...cloudUnits.slice(minuteBucket % cloudUnits.length), ...cloudUnits.slice(0, minuteBucket % cloudUnits.length)];
+                for (const unit of rotatedUnits) {
+                  if (cloudScannedCount >= 7) break; // Respetar límite estricto de 50 subrequests de Cloudflare Workers
                   const openInUnit = unit.pairs.filter(c => openCoins.includes(c) || openOrders.some(o => o.coin === c)).length;
                   if (openInUnit >= 1) continue;
                   for (const coin of unit.pairs) {
+                    if (cloudScannedCount >= 7) break;
                     if (openCoins.includes(coin) || openOrders.some(o => o.coin === coin)) continue;
+                    cloudScannedCount++;
                     const [l2, candles1m] = await Promise.all([
                       info.l2Book({ coin }).catch(() => null),
                       info.candleSnapshot({ coin, interval: "1m", startTime: nowMsCloud - (22 * 60000), endTime: nowMsCloud }).catch(() => null)
@@ -4129,27 +4135,27 @@ export default {
                     const rocPct = prevClose > 0 ? ((close1m - prevClose) / prevClose) * 100 : 0;
                     const prevRocPct = prev2Close > 0 ? ((prevClose - prev2Close) / prev2Close) * 100 : (rocPct * 0.7);
                     const accelOk = isLong
-                      ? (rocPct > 0 && prevRocPct >= 0 && rocPct > prevRocPct * 1.25)
-                      : (rocPct < 0 && prevRocPct <= 0 && Math.abs(rocPct) > Math.abs(prevRocPct) * 1.25);
+                      ? (rocPct > 0 && prevRocPct >= -0.02 && rocPct >= prevRocPct * 1.15)
+                      : (rocPct < 0 && prevRocPct <= 0.02 && Math.abs(rocPct) >= Math.abs(prevRocPct) * 1.15);
 
                     const ema9 = closes.slice(-9).reduce((a, b) => a + b, 0) / Math.min(9, closes.length);
                     const ema21 = closes.slice(-21).reduce((a, b) => a + b, 0) / Math.min(21, closes.length);
-                    const emaAligned = isLong ? (ema9 > ema21) : (ema9 < ema21);
+                    const emaAligned = isLong ? (ema9 >= ema21 * 0.9995) : (ema9 <= ema21 * 1.0005);
                     const distFromEma9Pct = ema9 > 0 ? ((midPx - ema9) / ema9) * 100 : 0;
                     const signedDistEma9 = isLong ? distFromEma9Pct : -distFromEma9Pct;
-                    // Condición 1: KINEMATIC_PRECISION_STRIKE_V1 (< 0.06% de EMA9, EMA9 > EMA21, aceleración > 1.25x, L2 >= 0.76)
-                    const cond1AntiChaseOk = emaAligned && accelOk && signedDistEma9 >= 0.008 && signedDistEma9 <= 0.060 && Math.abs(distFromEma9Pct) <= 0.060 && Math.abs(rocPct) <= 0.14;
+                    // Condición 1 Calibrada V2: (< 0.12% de EMA9, aceleración >= 1.15x, L2 >= 0.68)
+                    const cond1AntiChaseOk = emaAligned && accelOk && signedDistEma9 >= -0.02 && signedDistEma9 <= 0.120 && Math.abs(distFromEma9Pct) <= 0.120 && Math.abs(rocPct) <= 0.22;
                     // Condición 2 y 3: arranque fresco (sin agotamiento)
-                    const candle1mAligned = isLong ? (close1m > open1m && close1m >= prevClose) : (close1m < open1m && close1m <= prevClose);
-                    const structOk = cond1AntiChaseOk && candle1mAligned && domRatio >= 0.76;
+                    const candle1mAligned = isLong ? (close1m >= open1m && close1m >= prevClose) : (close1m <= open1m && close1m <= prevClose);
+                    const structOk = cond1AntiChaseOk && candle1mAligned && domRatio >= 0.68;
 
-                    const l2Pts = domRatio >= 0.76 ? 35 : Math.round((domRatio / 0.76) * 28);
+                    const l2Pts = domRatio >= 0.68 ? 35 : Math.round((domRatio / 0.68) * 28);
                     const velPts = cond1AntiChaseOk ? 35 : 14;
                     const leadLagPts = candle1mAligned ? 15 : 6;
                     const exhaustionPts = structOk ? 15 : 6;
                     const latentForceScore = Math.min(100, l2Pts + velPts + leadLagPts + exhaustionPts);
 
-                    const preciseIocPx = isLong ? (bestAsk * 1.00015) : (bestBid * 0.99985);
+                    const preciseIocPx = isLong ? (bestAsk * 1.00012) : (bestBid * 0.99988);
 
                     allScoredCandidates.push({
                       unit,
@@ -4168,21 +4174,17 @@ export default {
                   }
                 }
 
-                // Ordenar por latentForceScore descendente y calcular Market Tide Lock del Top 3
+                // Ordenar por latentForceScore descendente
                 allScoredCandidates.sort((a, b) => b.latentForceScore - a.latentForceScore);
-                const top3Cloud = allScoredCandidates.slice(0, 3);
-                const longTop3Count = top3Cloud.filter(c => c.isLong).length;
-                const dominantIsLong = longTop3Count >= 2;
 
-                // Filtrar únicamente candidatos KINEMATIC_PRECISION_STRIKE_V1 con Score >= 92/100, L2 >= 76%, Spread < 0.03% y alineados con la Marea
+                // Filtrar candidatos KINEMATIC_PENDULUM_V2 con Score >= 85/100, L2 >= 68%, Spread < 0.03%
                 const qualifiedCandidates = allScoredCandidates.filter(c =>
-                  c.latentForceScore >= 92 &&
-                  c.domRatio >= 0.76 &&
+                  c.latentForceScore >= 85 &&
+                  c.domRatio >= 0.68 &&
                   c.spreadPct < 0.03 &&
                   c.alignedRoc &&
                   c.candle1mAligned &&
-                  c.structOk &&
-                  c.isLong === dominantIsLong
+                  c.structOk
                 );
 
                 for (const bestCand of qualifiedCandidates.slice(0, 2)) {
@@ -4269,9 +4271,9 @@ export default {
         const winningCloses = rawFills.filter(f => (f.dir === "Close Long" || f.dir === "Close Short") && parseFloat(f.closedPnl || "0") > 0);
         const latestHlWin = winningCloses[0];
 
-        if (globalThis.__LAST_NOTIFIED_HL_TID__ === undefined) {
+        if (globalThis.__LAST_NOTIFIED_HL_TID__ === undefined || isLaptopOnline) {
           globalThis.__LAST_NOTIFIED_HL_TID__ = latestHlWin ? latestHlWin.tid : null;
-          console.log(`[TELEGRAM GUARD] Cold start inicializado con TID: ${globalThis.__LAST_NOTIFIED_HL_TID__}. Cero spam.`);
+          if (!isLaptopOnline) console.log(`[TELEGRAM GUARD] Cold start inicializado con TID: ${globalThis.__LAST_NOTIFIED_HL_TID__}. Cero spam.`);
         } else if (latestHlWin && latestHlWin.tid && latestHlWin.tid !== globalThis.__LAST_NOTIFIED_HL_TID__ && botToken) {
           const ageMs = Date.now() - latestHlWin.time;
           if (ageMs < 600000) {

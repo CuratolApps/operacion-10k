@@ -3165,6 +3165,18 @@ async function startAutonomousSquadDaemon() {
   }, 800);
   if (typeof kinematicSamplerTimer.unref === "function") kinematicSamplerTimer.unref();
 
+  // Puente Anti-Colisión PC Local ⇄ Nube Cloudflare Worker (Latido cada 20s; si se apaga la PC >45s, Cloudflare toma el relevo 24/7)
+  const sendCloudHeartbeat = () => {
+    fetch("https://area-501.curatolapps.workers.dev/api/heartbeat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source: "HYPERLIQUID_SQUAD_DAEMON_V2", pid: process.pid, ts: Date.now() })
+    }).catch(() => {});
+  };
+  sendCloudHeartbeat();
+  const cloudHeartbeatTimer = setInterval(sendCloudHeartbeat, 20000);
+  if (typeof cloudHeartbeatTimer.unref === "function") cloudHeartbeatTimer.unref();
+
   while (true) {
     cycleCounter++;
     try {
