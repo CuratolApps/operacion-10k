@@ -625,7 +625,7 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
     reserveShieldPct: 40.0,
     maxCommittedUsdc: 120.00,
     sniperRules: {
-      architecture: "KINEMATIC_PENDULUM_3M_AND_DEAD_INERTIA_V2",
+      architecture: "KINEMATIC_PENDULUM_3M_PIN_PERFECTO_V2",
       maxShotsPerSquad: 1,
       holdingAllowed: false,
       noRedExit: true,
@@ -636,9 +636,9 @@ function computeDynamicSquadState(nowMs = Date.now(), telem = null, hlData = nul
       makerFeePct: 0.015,
       takerFeePct: 0.045,
       ratchetLevel1: "Punto Cero (Precio de los Ángeles): 🛡️ EMPATE #00 (+$0.01 USDC NETO, tasas 100% cubiertas)",
-      ratchetLevel2: "Escalera 1:1 Neta Sin Techo: +$0.10 ➔ +$0.20 ➔ +$0.30 ➔ +$0.40 ➔ +$0.50+ Netos (HYPER_MAGNET_EXTENSION)",
-      cleanEvacuation: "DEAD_INERTIA_EJECTOR (4.5s-18s Scratch @ ~$0.00 si fallan >=2 vectores) + Doble Gatillo 400ms ALO + IOC",
-      stopAndReverse: "Péndulo Magnético 4X (🐻O1 ➔ 🐂T1 ➔ 🐻O2 ➔ 🐂T2) en Velas de 3m (Una Vela Sí ➔ Una Vela No con Final Inteligente)"
+      ratchetLevel2: "Escalera 1:1 Neta Micro-Precisa: +$0.10 ➔ +$0.15 ➔ +$0.20 ➔ +$0.25 ➔ +$0.30 ➔ +$0.40 ➔ +$0.50+ Netos (HYPER_MAGNET_EXTENSION)",
+      cleanEvacuation: "Pin Perfecto IOC 0.020% + DEAD_INERTIA_EJECTOR (4.5s-18s Scratch @ ~$0.00 si fallan >=2 vectores) + Doble Gatillo",
+      stopAndReverse: "Péndulo Magnético 4X Bidireccional Libre (🐻O1 ➔ 🐂T1 ➔ 🐻O2 ➔ 🐂T2) en Velas de 3m (Una Vela Sí ➔ Una Vela No)"
     },
     cycleHistory: realTxs,
     recentCycles: realTxs

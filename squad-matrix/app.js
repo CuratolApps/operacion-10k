@@ -923,13 +923,15 @@ function persistClientRatchetMemory() {
 }
 function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
   const peak = Number(peakNetPnlUsdc || 0);
-  if (peak >= 0.52) {
-    return +(Math.floor(((peak - 0.01) + 1e-9) * 10) / 10).toFixed(2);
+  if (peak >= 0.51) {
+    return +(Math.floor(((peak - 0.01) + 1e-9) * 20) / 20).toFixed(2);
   }
-  if (peak >= 0.42) return 0.40;
-  if (peak >= 0.32) return 0.30;
-  if (peak >= 0.22) return 0.20;
-  if (peak >= 0.12) return 0.10;
+  if (peak >= 0.41) return 0.40;
+  if (peak >= 0.31) return 0.30;
+  if (peak >= 0.26) return 0.25;
+  if (peak >= 0.21) return 0.20;
+  if (peak >= 0.16) return 0.15;
+  if (peak >= 0.11) return 0.10;
   if (peak >= 0.02) return 0.01;
   return 0;
 }
