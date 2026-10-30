@@ -1407,7 +1407,7 @@ html, body {
 }
 
 /* ==============================================================================
-   NUEVA ESTÉTICA DE LAS 27 TARJETAS GRANDES (BLANCO SATINADO ESTILO PESTAÑA #7 + TIRA CUARTETO 4X + BASE DE 2 LÍNEAS)
+   NUEVA ESTÉTICA MINIMALISTA DE LAS 27 TARJETAS GRANDES (3 ELEMENTOS LIMPIOS CON AIRE Y ELEGANCIA)
    ============================================================================== */
 .pair-cell,
 .pair-card {
@@ -1415,7 +1415,7 @@ html, body {
   border: 1.5px solid #CBD5E1 !important;
   border-radius: 10px !important;
   box-shadow: 0 3px 10px rgba(15, 23, 42, 0.09), inset 0 1px 0 #FFFFFF !important;
-  padding: 7px 8px !important;
+  padding: 8px 9px !important;
   gap: 4px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -1435,6 +1435,7 @@ html, body {
   transform: none !important;
 }
 
+/* 1. Fila Superior (Cabecera): Símbolo a la izquierda y Escuadrón a la derecha */
 .pair-header-row {
   display: flex !important;
   justify-content: space-between !important;
@@ -1442,18 +1443,16 @@ html, body {
   line-height: 1.1 !important;
 }
 
-/* Nombre del Par Grande (SOL, BTC, OP, PEPE) en Negro/Azul Noche Nítido */
 .pair-cell .pair-title,
 .pair-card .pair-symbol,
 .pair-card .pair-name {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.90rem !important;
+  font-size: 0.88rem !important;
   color: #0F172A !important;
   font-weight: 800 !important;
   letter-spacing: -0.01em !important;
 }
 
-/* Badge del Escuadrón (#01 ALFA a #09 LIMA) */
 .pair-cell .pair-squad-badge,
 .pair-card .squad-tag,
 .pair-card .squad-badge {
@@ -1467,11 +1466,12 @@ html, body {
   font-weight: 800 !important;
 }
 
+/* 2. Centro (Precio en Vivo con Espacio Limpio) */
 .pair-price-row {
   display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  margin: 1px 0 !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  margin: auto 0 !important;
   line-height: 1.1 !important;
 }
 
@@ -1479,8 +1479,9 @@ html, body {
 .pair-card .pair-price {
   color: #0F172A !important;
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 1.00rem !important;
+  font-size: 1.15rem !important;
   font-weight: 900 !important;
+  margin: auto 0 !important;
   line-height: 1.1 !important;
   letter-spacing: -0.02em !important;
 }
@@ -1506,73 +1507,9 @@ html, body {
 }
 
 /* ==============================================================================
-   CENTRO-ABAJO: TIRA DE LOS 4 BOTS DEL PAR (`2 TOROS 🐂 + 2 OSOS 🐻` — CUARTETO 4X)
+   3. BASE INFERIOR (CAJA DE ESTADO DE 2 LÍNEAS AMPLIA Y SIN NINGÚN CORTE)
    ============================================================================== */
-.pair-quartet-row {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  grid-template-rows: repeat(2, auto) !important;
-  gap: 3px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  margin: 1px 0 !important;
-}
-
-.q-bot-pill {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.50rem !important;
-  font-weight: 800 !important;
-  line-height: 1.15 !important;
-  padding: 2.5px 4px !important;
-  border-radius: 4px !important;
-  background: #F8FAFC !important;
-  color: #334155 !important;
-  border: 1px solid #CBD5E1 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  box-sizing: border-box !important;
-}
-
-.q-bot-pill.q-pill-bull-ready {
-  background: #F0FDF4 !important;
-  color: #166534 !important;
-  border-color: #BBF7D0 !important;
-}
-
-.q-bot-pill.q-pill-bear-ready {
-  background: #FFF1F2 !important;
-  color: #9F1239 !important;
-  border-color: #FECDD3 !important;
-}
-
-.q-bot-pill.q-pill-fire-green {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-  color: #FFFFFF !important;
-  border-color: #10B981 !important;
-  box-shadow: 0 1px 5px rgba(5, 150, 105, 0.35) !important;
-}
-
-.q-bot-pill.q-pill-fire-amber {
-  background: linear-gradient(135deg, #EA580C 0%, #D97706 100%) !important;
-  color: #FFFFFF !important;
-  border-color: #F97316 !important;
-  box-shadow: 0 1px 5px rgba(234, 88, 12, 0.35) !important;
-}
-
-.q-bot-pill.q-pill-cooldown {
-  background: #DBEAFE !important;
-  color: #1D4ED8 !important;
-  border-color: #60A5FA !important;
-}
-
-/* ==============================================================================
-   ZONA INFERIOR DE 2 LÍNEAS (.pair-status-bar / .pair-footer) — GRANDE Y CLARA
-   ============================================================================== */
-/* ⚡ CASO 4 (BASE DEFAULT) — En AUTO / STANDBY (Pizarra Satinado Claro igual a Pestaña #7) */
+/* ⬜ ESTADO 4 (BASE DEFAULT) — En Guardia / Auto (Pizarra Satinado Suave #E2E8F0) */
 .pair-bottom-row,
 .pair-signal-row,
 .pair-card .pair-footer,
@@ -1584,8 +1521,8 @@ html, body {
   align-items: stretch !important;
   gap: 2px !important;
   width: 100% !important;
-  min-height: 34px !important;
-  padding: 4px 6px !important;
+  min-height: 36px !important;
+  padding: 5px 8px !important;
   border-radius: 6px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
@@ -1600,8 +1537,6 @@ html, body {
   justify-content: space-between !important;
   width: 100% !important;
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.56rem !important;
-  font-weight: 800 !important;
   line-height: 1.2 !important;
   white-space: nowrap !important;
   overflow: hidden !important;
@@ -1611,7 +1546,7 @@ html, body {
 .status-line-1,
 .status-line-1 span {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.56rem !important;
+  font-size: 0.58rem !important;
   font-weight: 800 !important;
   line-height: 1.2 !important;
   white-space: nowrap !important;
@@ -1622,13 +1557,13 @@ html, body {
 .status-line-2 span {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 0.54rem !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   line-height: 1.2 !important;
   white-space: nowrap !important;
   color: #475569 !important;
 }
 
-/* 🟧 CASO 1 — Operación Abierta y ABAJO (unrealizedPnl < 0) */
+/* 🟧 ESTADO 2 — Posición Abierta y ABAJO (unrealizedPnl < 0) */
 .pair-cell.pair-cell-active-pos.pair-cell-amber,
 .pair-card.pair-cell-active-pos.pair-cell-amber {
   background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
@@ -1644,13 +1579,20 @@ html, body {
 }
 
 .pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-1,
-.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-1 span,
-.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-2,
-.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-2 span {
+.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-1 span {
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
   color: #FFFFFF !important;
 }
 
-/* 🟩 CASO 2 — Operación Abierta y ARRIBA (unrealizedPnl >= 0 o Candado #00 ya clavado) */
+.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-2,
+.pair-cell.pair-cell-active-pos.pair-cell-amber .status-line-2 span {
+  font-size: 0.56rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+}
+
+/* 🟩 ESTADO 1 — Posición Abierta y ARRIBA (unrealizedPnl >= 0 o Candado activo) */
 .pair-cell.pair-cell-active-pos.pair-cell-green,
 .pair-card.pair-cell-active-pos.pair-cell-green {
   background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
@@ -1666,13 +1608,20 @@ html, body {
 }
 
 .pair-cell.pair-cell-active-pos.pair-cell-green .status-line-1,
-.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-1 span,
-.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-2,
-.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-2 span {
+.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-1 span {
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
   color: #FFFFFF !important;
 }
 
-/* 🧘‍♂️ CASO 3 — En Respiro Táctico de 8 Minutos (recién cerrada en verde) */
+.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-2,
+.pair-cell.pair-cell-active-pos.pair-cell-green .status-line-2 span {
+  font-size: 0.56rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+}
+
+/* 🟦 ESTADO 3 — En Respiro Táctico de 2 Minutos */
 .pair-cell.pair-cell-breather,
 .pair-card.pair-cell-breather {
   background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
@@ -1687,9 +1636,16 @@ html, body {
 }
 
 .pair-cell.pair-cell-breather .status-line-1,
-.pair-cell.pair-cell-breather .status-line-1 span,
+.pair-cell.pair-cell-breather .status-line-1 span {
+  font-size: 0.58rem !important;
+  font-weight: 800 !important;
+  color: #1D4ED8 !important;
+}
+
 .pair-cell.pair-cell-breather .status-line-2,
 .pair-cell.pair-cell-breather .status-line-2 span {
+  font-size: 0.56rem !important;
+  font-weight: 700 !important;
   color: #1D4ED8 !important;
 }
 

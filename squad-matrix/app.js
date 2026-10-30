@@ -873,7 +873,7 @@ function render54PairsGrid() {
 
     const initPxNum = parseFloat(appState.mids[p.symbol] || SYNTHETIC_DEFAULTS[p.symbol] || "1.0");
     const initPxText = formatPairPrice(initPxNum, p.symbol);
-    const initLine1Left = "⚡ CUARTETO 4X ACTIVO ($50.45 A 5X)";
+    const initLine1Left = "⚡ AUTO 5% ($50.45 · 5X)";
     const initLine1Right = "";
     const initLine2 = "🔒 ESCALERA +$0.10 ➔ +$0.50+";
 
@@ -884,12 +884,6 @@ function render54PairsGrid() {
       </div>
       <div class="pair-price-row">
         <span class="pair-price" id="px_${cleanId}">${initPxText}</span>
-      </div>
-      <div class="pair-quartet-row" id="quartetRow_${cleanId}">
-        <span class="q-bot-pill q-pill-bull-ready" id="qBot_T1_${cleanId}">🐂T1: LISTO</span>
-        <span class="q-bot-pill q-pill-bull-ready" id="qBot_T2_${cleanId}">🐂T2: RESORTE</span>
-        <span class="q-bot-pill q-pill-bear-ready" id="qBot_O1_${cleanId}">🐻O1: LISTO</span>
-        <span class="q-bot-pill q-pill-bear-ready" id="qBot_O2_${cleanId}">🐻O2: GIRO</span>
       </div>
       <div class="pair-bottom-row pair-status-bar pair-footer" id="sig_${cleanId}">
         <div class="status-line-1" id="sigLine1_${cleanId}">
@@ -1908,14 +1902,14 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // 5. Radar Matrix 27x4 (108 Bots) & Barra Inferior: FONDO FUNDADOR sincronizado con HOY NETO (libre de comisiones de Hyperliquid)
+  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: FONDO FUNDADOR sincronizado con HOY NETO (libre de comisiones de Hyperliquid)
   const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
   const nominaHarvested = Math.max(0, Number(dailyProfit.toFixed(2)));
 
-  const topPillText = `27 PARES L1 × 4 BOTS = 108 UNIDADES · $${calibre.marginUsdc.toFixed(2)} (5X)`;
-  const readySquadsText = `🐂🐂 54 TOROS + 🐻🐻 54 OSOS · MUTEX ANTI-CHOQUE`;
+  const topPillText = `27 PARES L1 · CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X)`;
+  const readySquadsText = `🟢 ${openCount} ACTIVAS · CANDADO +$0.10 ➔ +$0.50+`;
   const subLabelText = `FONDO FUNDADOR: +$${nominaHarvested.toFixed(2)} / +$52.00 (DÍA 1 · 30-31 OCT)`;
-  const bottomBannerText = `⚡ CUARTETO 4X ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
+  const bottomBannerText = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} · 5X)`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
   setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
@@ -1985,20 +1979,20 @@ function updateTopBarCards() {
   } catch (_) {}
 }
 
-// ACTUALIZAR PRECIOS, TIRA DEL CUARTETO 4X (`🐂T1 🐂T2 | 🐻O1 🐻O2`) Y POSICIONES ACTIVAS EN LOS 27 PARES REALES DE HYPERLIQUID L1
+// ACTUALIZAR PRECIOS Y BARRA DE 2 LÍNEAS EN LAS 27 TARJETAS REALES DE HYPERLIQUID L1 (SIN TIRA INTERMEDIA DE 4 CAJITAS)
 function updatePricesAndSignals() {
   const cascadePriority = ["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR", "AVAX", "DOGE", "HYPE"];
   const closedProfit = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
   const closedBase = +(Number(appState.totalLoanInjected || BASE_INJECTED) + closedProfit).toFixed(2);
   const calibre = computeAutoCompoundCalibre(closedBase);
-  const autoLine1Text = `⚡ CUARTETO 4X ACTIVO ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
+  const autoLine1Text = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} · 5X)`;
   const nowMs = Date.now();
   const maxAllowedBreatherUntil = nowMs + POST_TRADE_BREATHER_MS;
 
   const currentOpenSet = new Set(
     (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
   );
-  // Si una moneda que tenía posición abierta acaba de cerrar, iniciar ⏳ 02:00 (120s) SOLO en el sub-bot individual que tenía esa operación
+  // Si una moneda que tenía posición abierta acaba de cerrar, iniciar ⏳ 02:00 (120s) de Respiro Táctico
   for (const prevCoin of prevKnownOpenCoinSet) {
     if (!currentOpenSet.has(prevCoin)) {
       if (!clientPairBreatherUntil[prevCoin] || clientPairBreatherUntil[prevCoin] <= nowMs) {
@@ -2027,19 +2021,6 @@ function updatePricesAndSignals() {
   }
   prevKnownOpenCoinSet = currentOpenSet;
 
-  const sortedOpenCoins = [...appState.openPositions]
-    .sort((a, b) => {
-      const cA = a.position.coin === "kPEPE" ? "PEPE" : a.position.coin;
-      const cB = b.position.coin === "kPEPE" ? "PEPE" : b.position.coin;
-      const iA = cascadePriority.indexOf(cA);
-      const iB = cascadePriority.indexOf(cB);
-      if (iA !== -1 && iB !== -1) return iA - iB;
-      if (iA !== -1) return -1;
-      if (iB !== -1) return 1;
-      return Math.abs(parseFloat(a.position.unrealizedPnl || 0)) - Math.abs(parseFloat(b.position.unrealizedPnl || 0));
-    })
-    .map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin);
-
   PAIRS_54.forEach(p => {
     const cleanId = p.symbol.replace(/[\/\s]/g, "_");
     const cell = document.getElementById(`pairCell_${cleanId}`);
@@ -2048,10 +2029,6 @@ function updatePricesAndSignals() {
     const sigText = document.getElementById(`sigText_${cleanId}`);
     const sigRight1 = document.getElementById(`sigRight1_${cleanId}`);
     const sigLockText = document.getElementById(`sigLockText_${cleanId}`);
-    const qT1El = document.getElementById(`qBot_T1_${cleanId}`);
-    const qT2El = document.getElementById(`qBot_T2_${cleanId}`);
-    const qO1El = document.getElementById(`qBot_O1_${cleanId}`);
-    const qO2El = document.getElementById(`qBot_O2_${cleanId}`);
 
     const isMacroOraclePair = p.block >= 4;
     let currentPrice = 0;
@@ -2104,8 +2081,6 @@ function updatePricesAndSignals() {
       p.prevPrice = currentPrice;
     }
 
-    // Los pares del Oráculo Macro (#10 DELTA a #18 ROMEO) actualizan su cotización en memoria y en la Pestaña #3,
-    // mientras la Grilla Principal está 100% dedicada a las 27 tarjetas grandes de Hyperliquid L1 (#01 ALFA a #09 LIMA).
     if (isMacroOraclePair || !cell) {
       return;
     }
@@ -2128,92 +2103,37 @@ function updatePricesAndSignals() {
       }
     }
 
-    let activeSubBotId = null;
-    let isPositiveGreen = false;
     if (activePos) {
-      const szi = parseFloat(activePos.position.szi);
-      const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
-      isPositiveGreen = pnl >= 0;
-      const isShort = szi < 0;
-      if (srvQuartet && srvQuartet.activeSubBotId && ((isShort && srvQuartet.activeSubBotId.startsWith("O")) || (!isShort && srvQuartet.activeSubBotId.startsWith("T")))) {
-        activeSubBotId = srvQuartet.activeSubBotId;
-      } else if (clientActiveSubBotByCoin[p.symbol] && ((isShort && clientActiveSubBotByCoin[p.symbol].startsWith("O")) || (!isShort && clientActiveSubBotByCoin[p.symbol].startsWith("T")))) {
-        activeSubBotId = clientActiveSubBotByCoin[p.symbol];
-      } else if (!isShort) {
-        activeSubBotId = (cdMap.T1 > nowMs) ? "T2" : "T1";
-      } else {
-        activeSubBotId = (cdMap.O1 > nowMs) ? "O2" : "O1";
-      }
-      clientActiveSubBotByCoin[p.symbol] = activeSubBotId;
-    }
-
-    // Actualizar las 4 micro-cápsulas del Cuarteto 4X (`🐂T1`, `🐂T2`, `🐻O1`, `🐻O2`)
-    const updateSubBotPill = (el, botId, iconPrefix, defaultRole, isBull) => {
-      if (!el) return;
-      if (activeSubBotId === botId) {
-        const cls = "q-bot-pill " + (isPositiveGreen ? "q-pill-fire-green" : "q-pill-fire-amber");
-        if (el.className !== cls) el.className = cls;
-        setTextIfChanged(el, `${iconPrefix}: 🔥 EN FUEGO`);
-        return;
-      }
-      const cdUntil = cdMap[botId] || 0;
-      if (cdUntil > nowMs) {
-        const remSec = Math.min(120, Math.max(1, Math.ceil((cdUntil - nowMs) / 1000)));
-        const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
-        const ss = String(remSec % 60).padStart(2, "0");
-        const cls = "q-bot-pill q-pill-cooldown";
-        if (el.className !== cls) el.className = cls;
-        setTextIfChanged(el, `${iconPrefix}: ⏳ ${mm}:${ss}`);
-        return;
-      }
-      const cls = "q-bot-pill " + (isBull ? "q-pill-bull-ready" : "q-pill-bear-ready");
-      if (el.className !== cls) el.className = cls;
-      setTextIfChanged(el, `${iconPrefix}: ${defaultRole}`);
-    };
-
-    const t2RoleText = (cdMap.T1 > nowMs && !activePos) ? "⚡ RELEVO" : "RESORTE";
-    const o2RoleText = ((cdMap.O1 > nowMs || cdMap.T1 > nowMs || cdMap.T2 > nowMs) && !activePos) ? "⚡ GIRO" : "GIRO";
-    updateSubBotPill(qT1El, "T1", "🐂T1", "LISTO", true);
-    updateSubBotPill(qT2El, "T2", "🐂T2", t2RoleText, true);
-    updateSubBotPill(qO1El, "O1", "🐻O1", "LISTO", false);
-    updateSubBotPill(qO2El, "O2", "🐻O2", o2RoleText, false);
-
-    if (activePos) {
-      // ESTADO A — Posición Abierta Nativa L1 (REGLA VISUAL ESTRICTA: Naranja si pnl < 0 / Verde Esmeralda SOLO cuando pnl >= 0)
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
       const isShort = szi < 0;
-      const posCoin = activePos.position.coin;
       const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
-      const queueOrder = Math.max(1, sortedOpenCoins.indexOf(posCoin === "kPEPE" ? "PEPE" : posCoin) + 1);
       const rInfo = computeClientRatchetStatus(activePos, midPx);
+      const isPositiveGreen = pnl >= 0 || rInfo.isLocked;
 
       const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
-      const botBadge = activeSubBotId === "T2" ? "🐂T2" : (activeSubBotId === "O1" ? "🐻O1" : (activeSubBotId === "O2" ? "🐻O2" : "🐂T1"));
-      const dirWord = isShort ? `${botBadge} SHORT` : `${botBadge} LONG`;
+      const dirWord = isShort ? "SHORT" : "LONG";
       setTextIfChanged(sigText, dirWord);
-      setTextIfChanged(sigRight1, `| ${pnlFormatted}`);
+      setTextIfChanged(sigRight1, pnlFormatted);
 
-      const oldPruneOrder = ["ETH", "BTC", "SOL", "NEAR"];
-      const pruneIdx = oldPruneOrder.indexOf(p.symbol);
-      const poolUsdc = Number(appState.pruningPool?.unallocatedPruningPoolUsdc ?? 0.44).toFixed(2);
-
+      const isBallastBurn = ["ETH", "BTC", "SOL", "NEAR"].includes(p.symbol);
       let line2Text = "";
       if (isPositiveGreen) {
+        // 🟩 ESTADO 1 — Posición Abierta y ARRIBA
         const lockedStep = rInfo.lockedNetUsd >= 0.10
           ? rInfo.lockedNetUsd
           : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(0.12, pnl, rInfo.peakPnlUsdc || 0)));
         line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
-      } else if (pruneIdx !== -1) {
-        line2Text = `🔥 QUEMA-LASTRE ${pruneIdx + 1}º ($${poolUsdc}/$0.60)`;
-      } else if (queueOrder <= 4 || ["PAXG", "SUI", "PEPE", "BNB", "LINK", "AAVE", "PENDLE", "TRX", "OP"].includes(p.symbol)) {
-        line2Text = `🎯 SALIDA #${queueOrder} (+$0.10 ➔ +$0.50)`;
+      } else if (isBallastBurn) {
+        // 🟧 ESTADO 2B — En poda Quema-Lastre
+        line2Text = "🛡️ QUEMA-LASTRE ACTIVO";
       } else {
-        line2Text = `🛡️ ESCUDO #00 · COLA #${queueOrder}`;
+        // 🟧 ESTADO 2A — En salida rápida
+        line2Text = "🎯 META SALIDA: +$0.10";
       }
       setTextIfChanged(sigLockText, line2Text);
     } else {
@@ -2222,13 +2142,28 @@ function updatePricesAndSignals() {
         if (p.symbol === "PEPE") delete clientRatchetMemory["kPEPE"];
         persistClientRatchetMemory();
       }
-      // ESTADO B — Cuarteto 4X en Guardia (Pizarra Satinado Claro #E2E8F0)
-      const anySubBotCooling = (cdMap.T1 > nowMs) || (cdMap.T2 > nowMs) || (cdMap.O1 > nowMs) || (cdMap.O2 > nowMs);
-      const targetCellClass = "pair-cell pair-card pair-cell-auto";
-      if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
-      setTextIfChanged(sigText, anySubBotCooling ? `🔄 RELEVO 4X ACTIVO ($${calibre.marginUsdc.toFixed(2)} A 5X)` : autoLine1Text);
-      setTextIfChanged(sigRight1, "");
-      setTextIfChanged(sigLockText, "🔒 ESCALERA +$0.10 ➔ +$0.50+");
+      const breatherUntil = Math.max(
+        clientPairBreatherUntil[p.symbol] || 0,
+        cdMap.T1 || 0,
+        cdMap.T2 || 0,
+        cdMap.O1 || 0,
+        cdMap.O2 || 0
+      );
+      if (breatherUntil > nowMs) {
+        // 🟦 ESTADO 3 — En Respiro Táctico de 2 Minutos
+        const targetCellClass = "pair-cell pair-card pair-cell-breather";
+        if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
+        setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");
+        setTextIfChanged(sigRight1, "");
+        setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
+      } else {
+        // ⬜ ESTADO 4 — En Guardia / Auto (Las tarjetas libres vigilando la primera ola)
+        const targetCellClass = "pair-cell pair-card pair-cell-auto";
+        if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
+        setTextIfChanged(sigText, autoLine1Text);
+        setTextIfChanged(sigRight1, "");
+        setTextIfChanged(sigLockText, "🔒 ESCALERA +$0.10 ➔ +$0.50+");
+      }
     }
   });
 }
