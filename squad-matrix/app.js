@@ -118,23 +118,23 @@ const SYNTHETIC_DEFAULTS = {
   "GOOGL": 168.30, "COIN": 218.40, "MSTR": 248.50
 };
 
-// CONSTANTES BASE DEL ANCLA HISTÓRICA (CIERRE SOL-USDC @ $100.62 + PUENTE +$54.10 USDC)
+// CONSTANTES BASE DEL ANCLA HISTÓRICA (INYECCIÓN 819.2788 POL = +$72.51 USDC EN HYPERLIQUID L1)
 const ANCHOR_FILL_TIME = 1793223937322;
-const BASE_WINS = 138;
+const BASE_WINS = 257;
 const BASE_LOSSES = 0;
-const BASE_ACCOUNT_VALUE = 899.23;
-const BASE_TOTAL_PROFIT_USDC = 216.88;
-const BASE_MARGIN_60 = 540.55;
-const BASE_SHIELD_40 = 360.37;
-const BASE_INJECTED = 684.04;
+const BASE_ACCOUNT_VALUE = 931.25;
+const BASE_TOTAL_PROFIT_USDC = 230.07;
+const BASE_MARGIN_60 = 558.75;
+const BASE_SHIELD_40 = 372.50;
+const BASE_INJECTED = 756.55;
 
 // ESTADO GLOBAL SINCERIZADO (100% DIRECT LIVE EQUITY — CERO CONGELAMIENTO)
 let appState = {
   accountValue: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.accountValue > 0) ? initialSavedSquad.accountValue : BASE_ACCOUNT_VALUE,
-  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : BASE_ACCOUNT_VALUE,
+  withdrawable: (initialSavedSquad && initialSavedSquad.directLiveEquityV2 && initialSavedSquad.withdrawable >= 0) ? initialSavedSquad.withdrawable : 724.58,
   openPositions: (initialSavedSquad && initialSavedSquad.openPositions) || [],
   mids: (initialSavedSquad && initialSavedSquad.mids) || {},
-  totalLoanInjected: 684.04,
+  totalLoanInjected: 756.55,
   credit501Loan: 565.54,
   totalLoanRepaid: 0.00,
   block1Goal: 1000.00,
@@ -1210,9 +1210,8 @@ function updateTopBarCards() {
   const closedBase = +(val - unrealizedTotal).toFixed(2);
   const floatSign = unrealizedTotal >= 0 ? "+" : "-";
   const floatAbs = Math.abs(unrealizedTotal).toFixed(2);
-  const postSolBridged = closedBase >= 880.0;
-  const polyUsdcReady = postSolBridged ? 0.00 : 54.10;
-  appState.totalLoanInjected = 684.04;
+  const polyUsdcReady = 0.00;
+  appState.totalLoanInjected = 756.55;
 
   const breakdownText = `Saldo Cerrado Firme: $${closedBase.toFixed(2)} USDC | Flotante Abierto: ${floatSign}$${floatAbs} USDC`;
 
@@ -1305,7 +1304,7 @@ function updateTopBarCards() {
 
   // 4. Control Capital Inyectado (0% Interés)
   setTextIfChanged(document.getElementById("topLoanInjected"), `$${appState.totalLoanInjected.toFixed(2)}`);
-  setTextIfChanged(document.getElementById("topLoanRepaid"), polyUsdcReady > 0 ? `+$${polyUsdcReady.toFixed(2)}` : "+$54.10 ✔");
+  setTextIfChanged(document.getElementById("topLoanRepaid"), polyUsdcReady > 0 ? `+$${polyUsdcReady.toFixed(2)}` : "+$72.51 ✔");
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
 
   // Guardar snapshot compartido area501_live_snapshot_v4 para 0ms de salto al pulsar F5
@@ -1317,7 +1316,7 @@ function updateTopBarCards() {
       unrealizedPnl: unrealizedTotal,
       activeMargin,
       shieldMargin: mentoraShield,
-      polBal: 9.9358,
+      polBal: 9.8383,
       polyUsdc: polyUsdcReady,
       pct1000: parseFloat(progressPct),
       closedProfit,
@@ -1325,7 +1324,7 @@ function updateTopBarCards() {
       netLiveProfit: netTotalPnl,
       breakdownText,
       flowBreakdownText,
-      metaTargetText: `$${closedBase.toFixed(2)} Cerrado (+$54.10 #501 Cruzado ✔) / $1,000 (${progressPct}%)`,
+      metaTargetText: `$${closedBase.toFixed(2)} Cerrado (+$72.51 #501 Cruzado ✔) / $1,000 (${progressPct}%)`,
       updatedAt: Date.now()
     }));
   } catch (_) {}

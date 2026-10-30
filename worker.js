@@ -2689,9 +2689,9 @@ export default {
       const arbUsdc = 0.00;
       const fleetPocketsUsdc = 4.70;
 
-      // Los $54.10 USDC ya cruzaron a Hyperliquid L1 (Tx 0x0594e164...6f227), por lo que el préstamo 0% inyectado es oficialmente $684.04 USDC
+      // Los $72.51 USDC (819.2788 POL) ya cruzaron a Hyperliquid L1 (Tx 0xdc74bc9e...cae18), por lo que el préstamo 0% inyectado es oficialmente $756.55 USDC
       const postSolLoanBridged = polygonUsdc < 5.0;
-      const baseInjectedUsdc = 684.04;
+      const baseInjectedUsdc = 756.55;
       const closedProfitUsdc = parseFloat((closedBaseUsdc - baseInjectedUsdc).toFixed(2));
       const closedProfitPct = parseFloat(((closedProfitUsdc / baseInjectedUsdc) * 100).toFixed(2));
       const netProfitUsdc = parseFloat((hlBalanceUsdc - baseInjectedUsdc).toFixed(2));

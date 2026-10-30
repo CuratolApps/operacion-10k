@@ -27,14 +27,30 @@
       "polygonWithdrawTx": "0x987332891e545a0b25f03059ee5da429ca5fb58e23f0a32d256fd002174ee81b",
       "polygonBridgeTx": "0xa41a1bf14768cff374044c2ff5c8e3acf4a794cdcc6942fe991eae88da75a885",
       "arbitrumDepositTx": "0x5c6e9a0f5cbd8b3c884f93d5dafcdfcc4b4ac80f63966bbb6787332dafb94083"
+    },
+    {
+      "id": "INJECTION_04_POST_SOL",
+      "origin": "Inyección 597.27 POL -> Puente Post-SOL #501",
+      "amountUsdc": 54.1,
+      "date": "2026-10-29T08:38:00.000Z",
+      "polygonTx": "0x28fe38e7ac2fffeb65cbc1df2af28111db62361ef52bdc3b1510bad9a76ab34d",
+      "arbitrumTx": "0x0594e16442a4aa998d21da3c6cf160737dbaf295654398363f9531c105c6f227"
+    },
+    {
+      "id": "INJECTION_05_819_POL",
+      "origin": "Inyección 819.2788 POL (65,09 €) en Bóveda #501 -> Bridge2 Hyperliquid L1",
+      "amountUsdc": 72.51,
+      "date": "2026-10-30T07:01:00.000Z",
+      "polygonTx": "0x5f491c23da2e7ab672fbec528914b8a3b32a6035ef4cb5816c77b9f0656d3148",
+      "arbitrumTx": "0xdc74bc9ebe3aa4884fa6bbe8430888768aa968406d76fdd2bfb6d620226cae18"
     }
   ],
-  "credit501BorrowedUsdc": 450,
-  "externalInjectedUsdc": 118.5,
-  "principalBorrowedUsdc": 568.5,
+  "credit501BorrowedUsdc": 565.54,
+  "externalInjectedUsdc": 191.01,
+  "principalBorrowedUsdc": 756.55,
   "interestRate": "0%",
   "repaidSoFarUsdc": 0,
-  "remainingBalanceUsdc": 568.5,
+  "remainingBalanceUsdc": 756.55,
   "doctrine": "100% Capitalización Pura hasta $1,000 USDC. Al cruzar $1,000: 70% Compuesto / 30% Devolución Bóveda #501",
   "consolidationRule": {
     "targetAccountValueUsdc": 1000,
@@ -45,24 +61,10 @@
     "phase2Rule": "Regla 70/30: 70% capitalización continua / 30% asignado a devolución a Bóveda #501 (o activación de Bloque 2 desde $100.00 USDC)"
   },
   "status": "CAPITALIZING_TO_1000",
-  "updatedAt": "2026-10-29T12:00:09.454Z",
-  "lastLogDate": "2026-10-29",
-  "totalInjectedUsdc": 629.94,
-  "credit501Usdc": 511.44,
-  "remainingDebtUsdc": 629.94,
-  "lastUpdated": "2026-10-28T14:46:28.206Z",
-  "transactions": [
-    {
-      "timestamp": "2026-10-28T14:46:28.207Z",
-      "action": "OPERACION_RESCATE_AVAX_501_REMANENTE",
-      "amountUsdc": 61.44,
-      "aaveWithdrawTx": "0xcb749b3fd12614fbd58e37061d81415d7ad4202fce8fa69c0837d10fdb96782a",
-      "polygonBridgeTx": "0xc4d0195842e1d5f47c2767bd616085bf4a9a66a0659b1d26404a81716e5516ba",
-      "arbitrumDepositTx": "0x0fbb47ba4d9c1dfbe3936bd2fc8f1119c6f2e258377dd6d60b8d8e0ac7dbca77",
-      "newAvgPriceAvax": 8.9397,
-      "exitTramo1": "280.52 @ $8.895",
-      "exitTramo2": "120.23 @ $8.942",
-      "totalInjected": 629.94
-    }
-  ]
+  "updatedAt": "2026-10-30T07:01:20.000Z",
+  "lastLogDate": "2026-10-30",
+  "totalInjectedUsdc": 756.55,
+  "credit501Usdc": 565.54,
+  "remainingDebtUsdc": 756.55,
+  "lastUpdated": "2026-10-30T07:01:20.000Z"
 }

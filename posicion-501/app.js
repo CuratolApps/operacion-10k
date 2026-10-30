@@ -27,6 +27,28 @@ function setTextIfChanged(el, newText) {
 // ESTADO DE CUENTA ON-CHAIN: LISTA DE MOVIMIENTOS REALES EN VIVO
 const LIVE_TRANSACTIONS_EXPLORER = [
   {
+    time: "30 Oct 07:01 UTC",
+    net: "Hyperliquid L1",
+    netCode: "HL",
+    action: "Depósito Bridge2 0% #501 ➔ Clearinghouse L1 ($756.55 Base)",
+    target: "0xdc74...cae18 (Bridge2)",
+    result: "+$72.51 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: true,
+    url: "https://arbiscan.io/tx/0xdc74bc9ebe3aa4884fa6bbe8430888768aa968406d76fdd2bfb6d620226cae18"
+  },
+  {
+    time: "30 Oct 07:00 UTC",
+    net: "Polygon PoS",
+    netCode: "POLYGON",
+    action: "Cross-Chain Swap 818.58 POL ➔ USDC Arbitrum (Relay)",
+    target: "0x5f49...d3148 (#501)",
+    result: "+$72.51 USDC",
+    resultClass: "pos",
+    isRetiroOrLoan: true,
+    url: "https://polygonscan.com/tx/0x5f491c23da2e7ab672fbec528914b8a3b32a6035ef4cb5816c77b9f0656d3148"
+  },
+  {
     time: "29 Oct 08:38 UTC",
     net: "Hyperliquid L1",
     netCode: "HL",
@@ -445,7 +467,7 @@ async function fetchLiveData() {
         if (hlDirectVal !== null) {
           const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 0.00;
           const closedBase = +(hlDirectVal - hlUnrealizedTotal).toFixed(2);
-          const baseInj = 684.04;
+          const baseInj = 756.55;
           data.hyperliquid = data.hyperliquid || {};
           data.hyperliquid.clearinghouseUsdc = hlDirectVal;
           data.hyperliquid.unrealizedPnlUsdc = hlUnrealizedTotal;
@@ -455,7 +477,7 @@ async function fetchLiveData() {
           data.hyperliquid.baseInjectedUsdc = baseInj;
           data.hyperliquid.netProfitUsdc = +(hlDirectVal - baseInj).toFixed(2);
           data.hyperliquid.netProfitPct = +(((hlDirectVal - baseInj) / baseInj) * 100).toFixed(2);
-          const polValUsd = (data.polygon?.polBalance || 9.94) * 0.091;
+          const polValUsd = (data.polygon?.polBalance || 9.84) * 0.091;
           const bnbValUsd = (data.bsc?.bnbBalance || 0.0188) * 595.0;
           const ethValUsd = (data.arbitrum?.ethBalance || 0.00084) * 2600.0;
           const fleetUsdc = data.fleetPockets?.usdcBalance || 4.70;
@@ -476,9 +498,9 @@ async function fetchLiveData() {
           closedBaseUsdc: closedBase,
           activeMarginUsdc: +(closedBase * 0.60).toFixed(2),
           shieldUsdc: +(closedBase * 0.40).toFixed(2),
-          baseInjectedUsdc: 684.04,
-          netProfitUsdc: +(hlDirectVal - 684.04).toFixed(2),
-          netProfitPct: +(((hlDirectVal - 684.04) / 684.04) * 100).toFixed(2)
+          baseInjectedUsdc: 756.55,
+          netProfitUsdc: +(hlDirectVal - 756.55).toFixed(2),
+          netProfitPct: +(((hlDirectVal - 756.55) / 756.55) * 100).toFixed(2)
         }
       });
     }
@@ -488,16 +510,16 @@ async function fetchLiveData() {
 function updateUiWithLiveData(data) {
   if (!data) return;
 
-  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 899.23;
-  const unrealizedPnl = typeof data.hyperliquid?.unrealizedPnlUsdc === "number" ? data.hyperliquid.unrealizedPnlUsdc : -1.69;
+  const hlBalance = data.hyperliquid?.clearinghouseUsdc || 931.25;
+  const unrealizedPnl = typeof data.hyperliquid?.unrealizedPnlUsdc === "number" ? data.hyperliquid.unrealizedPnlUsdc : -55.37;
   const closedBase = typeof data.hyperliquid?.closedBaseUsdc === "number" ? data.hyperliquid.closedBaseUsdc : +(hlBalance - unrealizedPnl).toFixed(2);
-  const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.9358;
+  const polBal = typeof data.polygon?.polBalance === "number" ? data.polygon.polBalance : 9.8383;
   const polyUsdc = typeof data.polygon?.usdcNative === "number" ? data.polygon.usdcNative : 0.00;
   const bnbBal = typeof data.bsc?.bnbBalance === "number" ? data.bsc.bnbBalance : 0.0188;
   const ethBal = typeof data.arbitrum?.ethBalance === "number" ? data.arbitrum.ethBalance : 0.00084;
   const fleetUsdc = typeof data.fleetPockets?.usdcBalance === "number" ? data.fleetPockets.usdcBalance : 4.70;
   const fleetPol = typeof data.fleetPockets?.gasPol === "number" ? data.fleetPockets.gasPol : 20.47;
-  const baseInj = data.hyperliquid?.baseInjectedUsdc || 684.04;
+  const baseInj = data.hyperliquid?.baseInjectedUsdc || 756.55;
 
   const totalWealth = data.totalConsolidatedUsd || +(hlBalance + polyUsdc + fleetUsdc + 14.28).toFixed(2);
   const activeMargin = data.hyperliquid?.activeMarginUsdc || parseFloat((closedBase * 0.60).toFixed(2));

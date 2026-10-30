@@ -1,0 +1,413 @@
+{
+  "executedAt": "2026-10-30T07:01:19.667Z",
+  "polConverted": 818.5796212509896,
+  "gasReserveRemainingPol": 9.838276407465319,
+  "polygonSwapOrBridgeTxHash": "0x5f491c23da2e7ab672fbec528914b8a3b32a6035ef4cb5816c77b9f0656d3148",
+  "polygonBridgeStepTxHash": "0x5f491c23da2e7ab672fbec528914b8a3b32a6035ef4cb5816c77b9f0656d3148",
+  "arbitrumHlDepositTxHash": "0xdc74bc9ebe3aa4884fa6bbe8430888768aa968406d76fdd2bfb6d620226cae18",
+  "netUsdcDepositedToHl": 72.51,
+  "hlAccountValBefore": 857.88,
+  "hlAccountValAfter": 931.25,
+  "withdrawableAfter": 724.58,
+  "newMentoraShield40": 372.5,
+  "prevLoanTotal": 684.04,
+  "newLoanTotal": 756.55,
+  "prevClosedBase": 914.11,
+  "newClosedBase": 986.62,
+  "newProgressPct": 98.7,
+  "closedFillsSinceNight": [
+    {
+      "coin": "HYPE",
+      "dir": "Close Long",
+      "px": "92.956",
+      "sz": "1.18",
+      "closedPnl": 0.1534,
+      "fee": 0.016453,
+      "netPnl": 0.1369,
+      "timestamp": "2026-10-29T20:50:21.242Z"
+    },
+    {
+      "coin": "DOGE",
+      "dir": "Close Short",
+      "px": "0.077154",
+      "sz": "1425.0",
+      "closedPnl": 0.06555,
+      "fee": 0.016491,
+      "netPnl": 0.0491,
+      "timestamp": "2026-10-29T20:40:49.361Z"
+    },
+    {
+      "coin": "DOGE",
+      "dir": "Close Short",
+      "px": "0.077453",
+      "sz": "1418.0",
+      "closedPnl": 0.066646,
+      "fee": 0.016474,
+      "netPnl": 0.0502,
+      "timestamp": "2026-10-29T20:37:20.565Z"
+    },
+    {
+      "coin": "AVAX",
+      "dir": "Close Short",
+      "px": "8.647",
+      "sz": "20.8",
+      "closedPnl": 0.0624,
+      "fee": 0.026978,
+      "netPnl": 0.0354,
+      "timestamp": "2026-10-29T20:37:19.378Z"
+    },
+    {
+      "coin": "SUI",
+      "dir": "Close Short",
+      "px": "0.9094",
+      "sz": "197.8",
+      "closedPnl": 0.11868,
+      "fee": 0.026981,
+      "netPnl": 0.0917,
+      "timestamp": "2026-10-29T20:33:50.044Z"
+    },
+    {
+      "coin": "ETH",
+      "dir": "Close Short",
+      "px": "2303.0",
+      "sz": "0.0667",
+      "closedPnl": 0.773053,
+      "fee": 0.023041,
+      "netPnl": 0.75,
+      "timestamp": "2026-10-29T20:33:34.262Z"
+    },
+    {
+      "coin": "ETH",
+      "dir": "Close Short",
+      "px": "2303.0",
+      "sz": "0.011",
+      "closedPnl": 0.12749,
+      "fee": 0.003799,
+      "netPnl": 0.1237,
+      "timestamp": "2026-10-29T20:33:34.262Z"
+    },
+    {
+      "coin": "SUI",
+      "dir": "Close Short",
+      "px": "0.9112",
+      "sz": "197.4",
+      "closedPnl": 0.0987,
+      "fee": 0.02698,
+      "netPnl": 0.0717,
+      "timestamp": "2026-10-29T20:33:04.913Z"
+    },
+    {
+      "coin": "ETH",
+      "dir": "Close Short",
+      "px": "2310.2",
+      "sz": "0.0777",
+      "closedPnl": 0.341103,
+      "fee": 0.026925,
+      "netPnl": 0.3142,
+      "timestamp": "2026-10-29T20:32:57.145Z"
+    },
+    {
+      "coin": "BNB",
+      "dir": "Close Short",
+      "px": "731.22",
+      "sz": "0.245",
+      "closedPnl": 0.25235,
+      "fee": 0.026872,
+      "netPnl": 0.2255,
+      "timestamp": "2026-10-29T20:30:40.250Z"
+    },
+    {
+      "coin": "ADA",
+      "dir": "Close Short",
+      "px": "0.1995",
+      "sz": "79.0",
+      "closedPnl": 0.0237,
+      "fee": 0.002364,
+      "netPnl": 0.0213,
+      "timestamp": "2026-10-29T20:29:07.517Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "92.844",
+      "sz": "0.95",
+      "closedPnl": 0.1235,
+      "fee": 0.01323,
+      "netPnl": 0.1103,
+      "timestamp": "2026-10-29T20:28:52.370Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "92.844",
+      "sz": "0.23",
+      "closedPnl": 0.0299,
+      "fee": 0.003203,
+      "netPnl": 0.0267,
+      "timestamp": "2026-10-29T20:28:52.242Z"
+    },
+    {
+      "coin": "ADA",
+      "dir": "Close Short",
+      "px": "0.1995",
+      "sz": "471.0",
+      "closedPnl": 0.1413,
+      "fee": 0.014094,
+      "netPnl": 0.1272,
+      "timestamp": "2026-10-29T20:27:55.963Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "93.22",
+      "sz": "1.17",
+      "closedPnl": 0.15327,
+      "fee": 0.01636,
+      "netPnl": 0.1369,
+      "timestamp": "2026-10-29T20:25:23.936Z"
+    },
+    {
+      "coin": "DOGE",
+      "dir": "Close Short",
+      "px": "0.078353",
+      "sz": "1403.0",
+      "closedPnl": 0.065941,
+      "fee": 0.016489,
+      "netPnl": 0.0495,
+      "timestamp": "2026-10-29T20:22:26.174Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "93.592",
+      "sz": "1.17",
+      "closedPnl": 0.06084,
+      "fee": 0.016425,
+      "netPnl": 0.0444,
+      "timestamp": "2026-10-29T20:21:55.819Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "93.564",
+      "sz": "1.03",
+      "closedPnl": 0.05253,
+      "fee": 0.014455,
+      "netPnl": 0.0381,
+      "timestamp": "2026-10-29T20:19:45.062Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "93.564",
+      "sz": "0.14",
+      "closedPnl": 0.00714,
+      "fee": 0.001964,
+      "netPnl": 0.0052,
+      "timestamp": "2026-10-29T20:19:45.062Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Long",
+      "px": "93.855",
+      "sz": "1.17",
+      "closedPnl": 0.02106,
+      "fee": 0.049414,
+      "netPnl": -0.0284,
+      "timestamp": "2026-10-29T20:18:01.393Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Long",
+      "px": "93.784",
+      "sz": "1.17",
+      "closedPnl": 0.14859,
+      "fee": 0.049377,
+      "netPnl": 0.0992,
+      "timestamp": "2026-10-29T20:16:25.213Z"
+    },
+    {
+      "coin": "DOGE",
+      "dir": "Close Long",
+      "px": "0.078393",
+      "sz": "1404.0",
+      "closedPnl": 0.130572,
+      "fee": 0.049528,
+      "netPnl": 0.081,
+      "timestamp": "2026-10-29T20:13:01.891Z"
+    },
+    {
+      "coin": "LTC",
+      "dir": "Close Long",
+      "px": "57.31",
+      "sz": "1.92",
+      "closedPnl": 0.1344,
+      "fee": 0.049515,
+      "netPnl": 0.0849,
+      "timestamp": "2026-10-29T20:12:32.132Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "93.142",
+      "sz": "1.18",
+      "closedPnl": 0.08024,
+      "fee": 0.049458,
+      "netPnl": 0.0308,
+      "timestamp": "2026-10-29T20:11:03.847Z"
+    },
+    {
+      "coin": "BNB",
+      "dir": "Close Long",
+      "px": "739.11",
+      "sz": "0.243",
+      "closedPnl": 0.02673,
+      "fee": 0.080821,
+      "netPnl": -0.0541,
+      "timestamp": "2026-10-29T20:09:43.576Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Long",
+      "px": "93.137",
+      "sz": "1.18",
+      "closedPnl": 0.16402,
+      "fee": 0.049455,
+      "netPnl": 0.1146,
+      "timestamp": "2026-10-29T20:09:17.553Z"
+    },
+    {
+      "coin": "PAXG",
+      "dir": "Close Long",
+      "px": "4031.7",
+      "sz": "0.093",
+      "closedPnl": 0.108717,
+      "fee": 0.056242,
+      "netPnl": 0.0525,
+      "timestamp": "2026-10-29T20:08:43.431Z"
+    },
+    {
+      "coin": "LTC",
+      "dir": "Close Long",
+      "px": "57.252",
+      "sz": "1.92",
+      "closedPnl": 0.38784,
+      "fee": 0.049465,
+      "netPnl": 0.3384,
+      "timestamp": "2026-10-29T20:08:38.424Z"
+    },
+    {
+      "coin": "HYPE",
+      "dir": "Close Short",
+      "px": "92.878",
+      "sz": "7.34",
+      "closedPnl": 0.207722,
+      "fee": 0.102258,
+      "netPnl": 0.1055,
+      "timestamp": "2026-10-29T20:03:57.236Z"
+    },
+    {
+      "coin": "ETH",
+      "dir": "Close Short",
+      "px": "2327.2",
+      "sz": "0.077",
+      "closedPnl": 0.6314,
+      "fee": 0.080637,
+      "netPnl": 0.5508,
+      "timestamp": "2026-10-29T20:01:38.863Z"
+    }
+  ],
+  "openPositionsAudit": [
+    {
+      "rank": 1,
+      "coin": "PAXG",
+      "side": "LONG",
+      "szi": 0.01,
+      "entryPx": 4031,
+      "markPx": 3993.05,
+      "uPnl": -0.379,
+      "uPnlPct": -4.701066732820639,
+      "orderPx": 4035.4,
+      "hasOrderInBook": true,
+      "distPct": 1.0605927799551698
+    },
+    {
+      "rank": 2,
+      "coin": "ETH",
+      "side": "LONG",
+      "szi": 0.0783,
+      "entryPx": 2297,
+      "markPx": 2251.85,
+      "uPnl": -3.53133,
+      "uPnlPct": -9.81715280801045,
+      "orderPx": 2298.6,
+      "hasOrderInBook": true,
+      "distPct": 2.076070786242423
+    },
+    {
+      "rank": 3,
+      "coin": "BTC",
+      "side": "LONG",
+      "szi": 0.00382,
+      "entryPx": 81005.5,
+      "markPx": 78597.5,
+      "uPnl": -9.21218,
+      "uPnlPct": -14.885195727612189,
+      "orderPx": 81059,
+      "hasOrderInBook": true,
+      "distPct": 3.131779000604345
+    },
+    {
+      "rank": 4,
+      "coin": "XRP",
+      "side": "LONG",
+      "szi": 353,
+      "entryPx": 1.291926,
+      "markPx": 1.26605,
+      "uPnl": -9.1169,
+      "uPnlPct": -9.995507552794477,
+      "orderPx": 1.2928,
+      "hasOrderInBook": true,
+      "distPct": 2.1128707397022275
+    },
+    {
+      "rank": 5,
+      "coin": "SOL",
+      "side": "LONG",
+      "szi": 4.3,
+      "entryPx": 101.7415,
+      "markPx": 98.2205,
+      "uPnl": -15.121,
+      "uPnlPct": -17.281599091358867,
+      "orderPx": 101.81,
+      "hasOrderInBook": true,
+      "distPct": 3.6545324041315213
+    },
+    {
+      "rank": 6,
+      "coin": "NEAR",
+      "side": "LONG",
+      "szi": 131.5,
+      "entryPx": 4.46719,
+      "markPx": 4.33565,
+      "uPnl": -17.24146,
+      "uPnlPct": -14.675194502422675,
+      "orderPx": 4.47,
+      "hasOrderInBook": true,
+      "distPct": 3.0987279877296254
+    },
+    {
+      "rank": 7,
+      "coin": "DOGE",
+      "side": "SHORT",
+      "szi": 1449,
+      "entryPx": 0.0759,
+      "markPx": 0.076417,
+      "uPnl": -0.744786,
+      "uPnlPct": -3.386034255599473,
+      "orderPx": 0.07587,
+      "hasOrderInBook": true,
+      "distPct": 0.7158093094468403
+    }
+  ]
+}
