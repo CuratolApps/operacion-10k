@@ -856,14 +856,16 @@ window.triggerTestTelegramAlert = async function() {
   }
 };
 
-// RENDERIZAR TAB 2: 54 PARES EN VIVO (UNA SOLA VEZ AL CARGAR + IN-PLACE DIFFING)
+// RENDERIZAR TAB 2: 27 PARES REALES DE HYPERLIQUID L1 (3 FILAS × 9 COLUMNAS · CUARTETO 4X POR PAR = 108 UNIDADES)
+const PAIRS_27_L1 = PAIRS_54.filter(p => p.block <= 3);
+
 function render54PairsGrid() {
   const container = document.getElementById("pairsGrid");
   if (!container) return;
-  if (container.children.length === PAIRS_54.length) return; // Si ya existe, cero recreación de DOM!
+  if (container.children.length === PAIRS_27_L1.length) return; // Si ya existe (27 tarjetas grandes), cero recreación de DOM!
   container.innerHTML = "";
 
-  PAIRS_54.forEach((p) => {
+  PAIRS_27_L1.forEach((p) => {
     const cleanId = p.symbol.replace(/[\/\s]/g, "_");
     const cell = document.createElement("div");
     cell.className = "pair-cell pair-card pair-cell-auto";
@@ -871,10 +873,9 @@ function render54PairsGrid() {
 
     const initPxNum = parseFloat(appState.mids[p.symbol] || SYNTHETIC_DEFAULTS[p.symbol] || "1.0");
     const initPxText = formatPairPrice(initPxNum, p.symbol);
-    const isMacroOracleCard = p.block >= 4;
-    const initLine1Left = isMacroOracleCard ? "📡 ORÁCULO MACRO L1" : "⚡ AUTO 5% ($50.45 A 5X)";
-    const initLine1Right = isMacroOracleCard ? "| +0.04%" : "";
-    const initLine2 = isMacroOracleCard ? "⚡ GUÍA DXY / WALL ST ➔ 27 PARES L1" : "🔒 ESCALERA +$0.10 ➔ +$0.50+";
+    const initLine1Left = "⚡ CUARTETO 4X ACTIVO ($50.45 A 5X)";
+    const initLine1Right = "";
+    const initLine2 = "🔒 ESCALERA +$0.10 ➔ +$0.50+";
 
     cell.innerHTML = `
       <div class="pair-header-row">
@@ -883,6 +884,12 @@ function render54PairsGrid() {
       </div>
       <div class="pair-price-row">
         <span class="pair-price" id="px_${cleanId}">${initPxText}</span>
+      </div>
+      <div class="pair-quartet-row" id="quartetRow_${cleanId}">
+        <span class="q-bot-pill q-pill-bull-ready" id="qBot_T1_${cleanId}">🐂T1: LISTO</span>
+        <span class="q-bot-pill q-pill-bull-ready" id="qBot_T2_${cleanId}">🐂T2: RESORTE</span>
+        <span class="q-bot-pill q-pill-bear-ready" id="qBot_O1_${cleanId}">🐻O1: LISTO</span>
+        <span class="q-bot-pill q-pill-bear-ready" id="qBot_O2_${cleanId}">🐻O2: GIRO</span>
       </div>
       <div class="pair-bottom-row pair-status-bar pair-footer" id="sig_${cleanId}">
         <div class="status-line-1" id="sigLine1_${cleanId}">
@@ -1079,9 +1086,11 @@ function computeAutoCompoundCalibre(closedBase) {
   };
 }
 
-// MEMORIA DE RESPIRO DE 2 MINUTOS EXACTOS (120,000 MS / 02:00) AL COBRAR OPERACIÓN + HISTORIAL FIRST_WAVE_IGNITION (<150ms)
+// MEMORIA DE RESPIRO INDIVIDUAL DE 2 MINUTOS EXACTOS (120,000 MS / 02:00) POR SUB-BOT DEL CUARTETO 4X (`T1`, `T2`, `O1`, `O2`)
 const POST_TRADE_BREATHER_MS = 2 * 60 * 1000;
 const clientPairBreatherUntil = {};
+const clientSubBotBreatherByCoin = {}; // { [symbol]: { T1: number, T2: number, O1: number, O2: number } }
+const clientActiveSubBotByCoin = {};   // { [symbol]: 'T1'|'T2'|'O1'|'O2' }
 let prevKnownOpenCoinSet = new Set(["AVAX", "PAXG", "ETH", "BTC", "XRP", "SOL", "NEAR"]);
 const clientRollingTicks = {};
 const clientLatentForceCache = {};
@@ -1306,11 +1315,16 @@ async function fetchHyperliquidState() {
 
     if (clonesRes && clonesRes.ok) {
       const clonesData = await clonesRes.json().catch(() => null);
-      if (clonesData && Array.isArray(clonesData.spaces)) {
-        appState.clonesMap = {};
-        clonesData.spaces.forEach(s => {
-          appState.clonesMap[s.id] = s;
-        });
+      if (clonesData && typeof clonesData === "object") {
+        if (clonesData.quartetByCoin && typeof clonesData.quartetByCoin === "object") {
+          appState.quartetByCoin = clonesData.quartetByCoin;
+        }
+        if (Array.isArray(clonesData.spaces)) {
+          appState.clonesMap = {};
+          clonesData.spaces.forEach(s => {
+            appState.clonesMap[s.id] = s;
+          });
+        }
       }
     }
 
@@ -1894,14 +1908,14 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // 5. Radar Matrix 18x54 & Barra Inferior: FONDO FUNDADOR sincronizado con HOY NETO (libre de comisiones de Hyperliquid)
+  // 5. Radar Matrix 27x4 (108 Bots) & Barra Inferior: FONDO FUNDADOR sincronizado con HOY NETO (libre de comisiones de Hyperliquid)
   const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
   const nominaHarvested = Math.max(0, Number(dailyProfit.toFixed(2)));
 
-  const topPillText = `4 PISTAS · CALIBRE $${calibre.marginUsdc.toFixed(2)} (5% A 5X) · CANDADO +$0.10`;
-  const readySquadsText = `🟢 8 EN GUARDIA + 2 CARRILES RÁPIDOS ACTIVOS`;
+  const topPillText = `27 PARES L1 × 4 BOTS = 108 UNIDADES · $${calibre.marginUsdc.toFixed(2)} (5X)`;
+  const readySquadsText = `🐂🐂 54 TOROS + 🐻🐻 54 OSOS · MUTEX ANTI-CHOQUE`;
   const subLabelText = `FONDO FUNDADOR: +$${nominaHarvested.toFixed(2)} / +$52.00 (DÍA 1 · 30-31 OCT)`;
-  const bottomBannerText = `⚡ 5% A 5X ($${calibre.marginUsdc.toFixed(2)})`;
+  const bottomBannerText = `⚡ CUARTETO 4X ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
   setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
@@ -1971,39 +1985,44 @@ function updateTopBarCards() {
   } catch (_) {}
 }
 
-// ACTUALIZAR PRECIOS, SEÑALES Y POSICIONES ACTIVAS EN LOS 54 PARES (PIE DE 2 LÍNEAS APILADAS · CERO TEXTOS CORTADOS)
+// ACTUALIZAR PRECIOS, TIRA DEL CUARTETO 4X (`🐂T1 🐂T2 | 🐻O1 🐻O2`) Y POSICIONES ACTIVAS EN LOS 27 PARES REALES DE HYPERLIQUID L1
 function updatePricesAndSignals() {
   const cascadePriority = ["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR", "AVAX", "DOGE", "HYPE"];
   const closedProfit = Number((appState.totalProfitUsdc || BASE_BLOCK_PROFIT_USDC).toFixed(2));
   const closedBase = +(Number(appState.totalLoanInjected || BASE_INJECTED) + closedProfit).toFixed(2);
   const calibre = computeAutoCompoundCalibre(closedBase);
-  const autoLine1Text = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
-
-  const nowD = new Date();
-  const utcDay = nowD.getUTCDay();
-  const utcMins = nowD.getUTCHours() * 60 + nowD.getUTCMinutes();
-  const isWeekday = utcDay >= 1 && utcDay <= 5;
-  const isWallStreetOpen = isWeekday && utcMins >= (13 * 60 + 30) && utcMins < (20 * 60);
-  const isFxCommoditiesOpen = (utcDay >= 1 && utcDay <= 4 && !(utcMins >= 21 * 60 && utcMins < 22 * 60)) ||
-    (utcDay === 5 && utcMins < 21 * 60) ||
-    (utcDay === 0 && utcMins >= 22 * 60);
+  const autoLine1Text = `⚡ CUARTETO 4X ACTIVO ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
+  const nowMs = Date.now();
+  const maxAllowedBreatherUntil = nowMs + POST_TRADE_BREATHER_MS;
 
   const currentOpenSet = new Set(
     (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
   );
-  // Si una moneda que estaba en la cola de abiertas acaba de cerrar, iniciar 🧘‍♂️ RESPIRO 02:00 (120s)
+  // Si una moneda que tenía posición abierta acaba de cerrar, iniciar ⏳ 02:00 (120s) SOLO en el sub-bot individual que tenía esa operación
   for (const prevCoin of prevKnownOpenCoinSet) {
     if (!currentOpenSet.has(prevCoin)) {
-      if (!clientPairBreatherUntil[prevCoin] || clientPairBreatherUntil[prevCoin] <= Date.now()) {
-        clientPairBreatherUntil[prevCoin] = Date.now() + POST_TRADE_BREATHER_MS;
+      if (!clientPairBreatherUntil[prevCoin] || clientPairBreatherUntil[prevCoin] <= nowMs) {
+        clientPairBreatherUntil[prevCoin] = nowMs + POST_TRADE_BREATHER_MS;
       }
+      const closedSubBot = clientActiveSubBotByCoin[prevCoin] || "T1";
+      if (!clientSubBotBreatherByCoin[prevCoin]) {
+        clientSubBotBreatherByCoin[prevCoin] = { T1: 0, T2: 0, O1: 0, O2: 0 };
+      }
+      clientSubBotBreatherByCoin[prevCoin][closedSubBot] = nowMs + POST_TRADE_BREATHER_MS;
+      delete clientActiveSubBotByCoin[prevCoin];
     }
   }
   // Recortar cualquier temporizador de respiro previo > 120s para que jamás supere 02:00
-  const maxAllowedBreatherUntil = Date.now() + POST_TRADE_BREATHER_MS;
   for (const symKey of Object.keys(clientPairBreatherUntil)) {
     if (clientPairBreatherUntil[symKey] > maxAllowedBreatherUntil) {
       clientPairBreatherUntil[symKey] = maxAllowedBreatherUntil;
+    }
+  }
+  for (const symKey of Object.keys(clientSubBotBreatherByCoin)) {
+    for (const bId of ["T1", "T2", "O1", "O2"]) {
+      if ((clientSubBotBreatherByCoin[symKey][bId] || 0) > maxAllowedBreatherUntil) {
+        clientSubBotBreatherByCoin[symKey][bId] = maxAllowedBreatherUntil;
+      }
     }
   }
   prevKnownOpenCoinSet = currentOpenSet;
@@ -2029,10 +2048,13 @@ function updatePricesAndSignals() {
     const sigText = document.getElementById(`sigText_${cleanId}`);
     const sigRight1 = document.getElementById(`sigRight1_${cleanId}`);
     const sigLockText = document.getElementById(`sigLockText_${cleanId}`);
+    const qT1El = document.getElementById(`qBot_T1_${cleanId}`);
+    const qT2El = document.getElementById(`qBot_T2_${cleanId}`);
+    const qO1El = document.getElementById(`qBot_O1_${cleanId}`);
+    const qO2El = document.getElementById(`qBot_O2_${cleanId}`);
 
     const isMacroOraclePair = p.block >= 4;
     let currentPrice = 0;
-    let macroDeltaPct = 0.04;
 
     if (isMacroOraclePair && SYNTHETIC_DEFAULTS[p.symbol]) {
       const basePx = SYNTHETIC_DEFAULTS[p.symbol];
@@ -2046,7 +2068,6 @@ function updatePricesAndSignals() {
         step = (Math.random() - 0.495) * Math.max(0.02, basePx * 0.00018);
       }
       let nextPx = prevPx + step;
-      // Mantener dentro de banda realista ±0.35% de la cotización institucional
       const minBound = basePx * 0.9965;
       const maxBound = basePx * 1.0035;
       if (nextPx < minBound) nextPx = minBound + Math.abs(step);
@@ -2060,9 +2081,6 @@ function updatePricesAndSignals() {
         currentPrice = +nextPx.toFixed(2);
       }
       macroOracleLiveQuotes[p.symbol] = currentPrice;
-      const anchorPx = macroOracleAnchorQuotes[p.symbol] || (basePx * 0.9996);
-      macroDeltaPct = anchorPx > 0 ? ((currentPrice - anchorPx) / anchorPx) * 100 : 0.04;
-      if (Math.abs(macroDeltaPct) < 0.01) macroDeltaPct = macroDeltaPct >= 0 ? 0.03 : -0.03;
     } else if (appState.mids[p.symbol] || (p.symbol === "PEPE" && appState.mids["kPEPE"])) {
       const rawMid = parseFloat(appState.mids[p.symbol] || appState.mids["kPEPE"]);
       currentPrice = (p.symbol === "PEPE" && !appState.mids["PEPE"] && rawMid > 0.0001) ? +(rawMid / 1000).toFixed(8) : rawMid;
@@ -2086,26 +2104,79 @@ function updatePricesAndSignals() {
       p.prevPrice = currentPrice;
     }
 
-    // 1) SI ES UNA DE LAS 27 TARJETAS DEL ORÁCULO MACRO (#10 DELTA A #18 ROMEO):
-    //    Mostrar siempre su rol de Sensor de Flujo Institucional (Oráculo DXY & Wall Street) en fondo Pizarra Satinado Claro (#E2E8F0)
-    if (isMacroOraclePair) {
-      const targetCellClass = "pair-cell pair-card pair-cell-auto";
-      if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
-      const deltaStr = `${macroDeltaPct >= 0 ? "+" : "-"}${Math.abs(macroDeltaPct).toFixed(2)}%`;
-      setTextIfChanged(sigText, "📡 ORÁCULO MACRO L1");
-      setTextIfChanged(sigRight1, `| ${deltaStr}`);
-      setTextIfChanged(sigLockText, "⚡ GUÍA DXY / WALL ST ➔ 27 PARES L1");
+    // Los pares del Oráculo Macro (#10 DELTA a #18 ROMEO) actualizan su cotización en memoria y en la Pestaña #3,
+    // mientras la Grilla Principal está 100% dedicada a las 27 tarjetas grandes de Hyperliquid L1 (#01 ALFA a #09 LIMA).
+    if (isMacroOraclePair || !cell) {
       return;
     }
 
-    // 2) SI ES UNO DE LOS 27 CONTRATOS PERPETUOS NATIVOS DE HYPERLIQUID L1 (#01 ALFA A #09 LIMA):
-    //    Opera 100% en su propio símbolo real y tarjeta (Cero mapeos proxy artificiales)
     const activePos = appState.openPositions.find(
       pos => pos.position.coin === p.symbol || (p.symbol === "PEPE" && pos.position.coin === "kPEPE")
     );
 
-    const breatherUntil = clientPairBreatherUntil[p.symbol] || 0;
-    const isInBreather = !activePos && breatherUntil > Date.now();
+    if (!clientSubBotBreatherByCoin[p.symbol]) {
+      clientSubBotBreatherByCoin[p.symbol] = { T1: 0, T2: 0, O1: 0, O2: 0 };
+    }
+    const cdMap = clientSubBotBreatherByCoin[p.symbol];
+    const srvQuartet = appState.quartetByCoin?.[p.symbol] || appState.quartetByCoin?.[p.symbol === "PEPE" ? "kPEPE" : p.symbol] || null;
+    if (srvQuartet && srvQuartet.bots) {
+      for (const bId of ["T1", "T2", "O1", "O2"]) {
+        const srvBot = srvQuartet.bots[bId];
+        if (srvBot && srvBot.cooldownUntilMs > nowMs) {
+          cdMap[bId] = Math.min(maxAllowedBreatherUntil, srvBot.cooldownUntilMs);
+        }
+      }
+    }
+
+    let activeSubBotId = null;
+    let isPositiveGreen = false;
+    if (activePos) {
+      const szi = parseFloat(activePos.position.szi);
+      const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
+      isPositiveGreen = pnl >= 0;
+      const isShort = szi < 0;
+      if (srvQuartet && srvQuartet.activeSubBotId && ((isShort && srvQuartet.activeSubBotId.startsWith("O")) || (!isShort && srvQuartet.activeSubBotId.startsWith("T")))) {
+        activeSubBotId = srvQuartet.activeSubBotId;
+      } else if (clientActiveSubBotByCoin[p.symbol] && ((isShort && clientActiveSubBotByCoin[p.symbol].startsWith("O")) || (!isShort && clientActiveSubBotByCoin[p.symbol].startsWith("T")))) {
+        activeSubBotId = clientActiveSubBotByCoin[p.symbol];
+      } else if (!isShort) {
+        activeSubBotId = (cdMap.T1 > nowMs) ? "T2" : "T1";
+      } else {
+        activeSubBotId = (cdMap.O1 > nowMs) ? "O2" : "O1";
+      }
+      clientActiveSubBotByCoin[p.symbol] = activeSubBotId;
+    }
+
+    // Actualizar las 4 micro-cápsulas del Cuarteto 4X (`🐂T1`, `🐂T2`, `🐻O1`, `🐻O2`)
+    const updateSubBotPill = (el, botId, iconPrefix, defaultRole, isBull) => {
+      if (!el) return;
+      if (activeSubBotId === botId) {
+        const cls = "q-bot-pill " + (isPositiveGreen ? "q-pill-fire-green" : "q-pill-fire-amber");
+        if (el.className !== cls) el.className = cls;
+        setTextIfChanged(el, `${iconPrefix}: 🔥 EN FUEGO`);
+        return;
+      }
+      const cdUntil = cdMap[botId] || 0;
+      if (cdUntil > nowMs) {
+        const remSec = Math.min(120, Math.max(1, Math.ceil((cdUntil - nowMs) / 1000)));
+        const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
+        const ss = String(remSec % 60).padStart(2, "0");
+        const cls = "q-bot-pill q-pill-cooldown";
+        if (el.className !== cls) el.className = cls;
+        setTextIfChanged(el, `${iconPrefix}: ⏳ ${mm}:${ss}`);
+        return;
+      }
+      const cls = "q-bot-pill " + (isBull ? "q-pill-bull-ready" : "q-pill-bear-ready");
+      if (el.className !== cls) el.className = cls;
+      setTextIfChanged(el, `${iconPrefix}: ${defaultRole}`);
+    };
+
+    const t2RoleText = (cdMap.T1 > nowMs && !activePos) ? "⚡ RELEVO" : "RESORTE";
+    const o2RoleText = ((cdMap.O1 > nowMs || cdMap.T1 > nowMs || cdMap.T2 > nowMs) && !activePos) ? "⚡ GIRO" : "GIRO";
+    updateSubBotPill(qT1El, "T1", "🐂T1", "LISTO", true);
+    updateSubBotPill(qT2El, "T2", "🐂T2", t2RoleText, true);
+    updateSubBotPill(qO1El, "O1", "🐻O1", "LISTO", false);
+    updateSubBotPill(qO2El, "O2", "🐻O2", o2RoleText, false);
 
     if (activePos) {
       // ESTADO A — Posición Abierta Nativa L1 (REGLA VISUAL ESTRICTA: Naranja si pnl < 0 / Verde Esmeralda SOLO cuando pnl >= 0)
@@ -2117,13 +2188,13 @@ function updatePricesAndSignals() {
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
       const queueOrder = Math.max(1, sortedOpenCoins.indexOf(posCoin === "kPEPE" ? "PEPE" : posCoin) + 1);
       const rInfo = computeClientRatchetStatus(activePos, midPx);
-      const isPositiveGreen = pnl >= 0;
 
       const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
-      const dirWord = isShort ? "SHORT" : "LONG";
+      const botBadge = activeSubBotId === "T2" ? "🐂T2" : (activeSubBotId === "O1" ? "🐻O1" : (activeSubBotId === "O2" ? "🐻O2" : "🐂T1"));
+      const dirWord = isShort ? `${botBadge} SHORT` : `${botBadge} LONG`;
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, `| ${pnlFormatted}`);
 
@@ -2145,27 +2216,17 @@ function updatePricesAndSignals() {
         line2Text = `🛡️ ESCUDO #00 · COLA #${queueOrder}`;
       }
       setTextIfChanged(sigLockText, line2Text);
-    } else if (isInBreather) {
-      if (clientRatchetMemory[p.symbol] || clientRatchetMemory["kPEPE"]) {
+    } else {
+      if (clientRatchetMemory[p.symbol] || (p.symbol === "PEPE" && clientRatchetMemory["kPEPE"])) {
         delete clientRatchetMemory[p.symbol];
         if (p.symbol === "PEPE") delete clientRatchetMemory["kPEPE"];
         persistClientRatchetMemory();
       }
-      // ESTADO B (CASO 3) — En Respiro Táctico de 2 Minutos (120s / 02:00 · Azul Cielo / Índigo Suave)
-      const targetCellClass = "pair-cell pair-card pair-cell-breather";
-      if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
-      setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");
-      setTextIfChanged(sigRight1, "");
-      setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
-    } else {
-      if (clientRatchetMemory[p.symbol]) {
-        delete clientRatchetMemory[p.symbol];
-        persistClientRatchetMemory();
-      }
-      // ESTADO C (CASO 4) — En AUTO / STANDBY (Pizarra Satinado Claro)
+      // ESTADO B — Cuarteto 4X en Guardia (Pizarra Satinado Claro #E2E8F0)
+      const anySubBotCooling = (cdMap.T1 > nowMs) || (cdMap.T2 > nowMs) || (cdMap.O1 > nowMs) || (cdMap.O2 > nowMs);
       const targetCellClass = "pair-cell pair-card pair-cell-auto";
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
-      setTextIfChanged(sigText, autoLine1Text);
+      setTextIfChanged(sigText, anySubBotCooling ? `🔄 RELEVO 4X ACTIVO ($${calibre.marginUsdc.toFixed(2)} A 5X)` : autoLine1Text);
       setTextIfChanged(sigRight1, "");
       setTextIfChanged(sigLockText, "🔒 ESCALERA +$0.10 ➔ +$0.50+");
     }

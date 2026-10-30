@@ -681,6 +681,117 @@ function calculateBollingerBands(closes, period = 20, mult = 2.0) {
 const prevTopOfBookMemory = {}; // { [coin]: { bestBid, bestAsk, midPx, ts } }
 const topOfBookHistoryByCoin = {}; // { [coin]: Array<{ midPx, bestBid, bestAsk, ts }> } (últimas 3 lecturas t-2, t-1, t0)
 
+// ================================================================================
+// 🐂🐂🐻🐻 ARQUITECTURA "CUARTETO TÁCTICO 4X POR PAR" (27 PARES L1 × 4 BOTS = 108 UNIDADES)
+// - Candado de Exclusión Mutua (`pairMutexLock[coin]`): solo 1 de los 4 sub-bots puede tener
+//   posición abierta en esa moneda en un instante dado (cero neteo ni choque de órdenes en L1).
+// - El enfriamiento de 2 minutos (120s) aplica al sub-bot individual que acaba de cobrar (`T1`, `T2`, `O1` u `O2`),
+//   NO bloquea a los otros 3 especialistas del mismo par si aparece la jugada exacta de relevo.
+// ================================================================================
+const NATIVE_27_L1_COINS = [
+  "SOL", "SUI", "AVAX", "BTC", "PAXG", "LINK", "ETH", "BNB", "AAVE",
+  "XRP", "DOGE", "ADA", "HYPE", "TRX", "TON", "DOT", "NEAR", "LTC",
+  "TAO", "RENDER", "FET", "ARB", "OP", "UNI", "ONDO", "PENDLE", "kPEPE"
+];
+const pairMutexLock = {};          // { [coin]: { locked: boolean, activeSubBotId: 'T1'|'T2'|'O1'|'O2', direction: 'LONG'|'SHORT', openedAt: number } }
+const subBotCooldownsByCoin = {};  // { [coin]: { T1: number, T2: number, O1: number, O2: number } }
+const lastSubBotByCoin = {};       // { [coin]: 'T1'|'T2'|'O1'|'O2' }
+for (const c of NATIVE_27_L1_COINS) {
+  pairMutexLock[c] = { locked: false, activeSubBotId: null, direction: null, openedAt: 0 };
+  subBotCooldownsByCoin[c] = { T1: 0, T2: 0, O1: 0, O2: 0 };
+}
+
+function getSubBotMeta(subBotId) {
+  switch (subBotId) {
+    case "T2":
+      return { id: "T2", badge: "🐂T2", name: "🐂 TORO #2 (BULL-SPRING — Rebote de Resorte & 2ª Ola Alcista)", direction: "LONG", defaultRole: "RESORTE" };
+    case "O1":
+      return { id: "O1", badge: "🐻O1", name: "🐻 OSO #1 (BEAR-IGNITION — Primera Ola Bajista)", direction: "SHORT", defaultRole: "LISTO" };
+    case "O2":
+      return { id: "O2", badge: "🐻O2", name: "🐻 OSO #2 (BEAR-REVERSAL — Giro en Techo & 2ª Ola Bajista)", direction: "SHORT", defaultRole: "GIRO" };
+    case "T1":
+    default:
+      return { id: "T1", badge: "🐂T1", name: "🐂 TORO #1 (BULL-IGNITION — Primera Ola Alcista)", direction: "LONG", defaultRole: "LISTO" };
+  }
+}
+
+function buildPairQuartetSnapshot(coin, openPositions = [], now = Date.now()) {
+  const rawCoin = coin === "PEPE" ? "kPEPE" : coin;
+  const cdMap = subBotCooldownsByCoin[rawCoin] || { T1: 0, T2: 0, O1: 0, O2: 0 };
+  const activePos = (openPositions || []).find(p => p?.position?.coin === rawCoin && parseFloat(p.position.szi || "0") !== 0);
+  let activeSubBotId = null;
+  let activePnl = 0;
+  let activeDirection = null;
+
+  if (activePos) {
+    const szi = parseFloat(activePos.position.szi || "0");
+    activePnl = parseFloat(activePos.position.unrealizedPnl || "0");
+    activeDirection = szi < 0 ? "SHORT" : "LONG";
+    const lockObj = pairMutexLock[rawCoin];
+    if (lockObj && lockObj.activeSubBotId && ((activeDirection === "LONG" && lockObj.activeSubBotId.startsWith("T")) || (activeDirection === "SHORT" && lockObj.activeSubBotId.startsWith("O")))) {
+      activeSubBotId = lockObj.activeSubBotId;
+    } else if (activeDirection === "LONG") {
+      activeSubBotId = (cdMap.T1 > now) ? "T2" : "T1";
+    } else {
+      activeSubBotId = (cdMap.O1 > now) ? "O2" : "O1";
+    }
+    pairMutexLock[rawCoin] = {
+      locked: true,
+      activeSubBotId,
+      direction: activeDirection,
+      openedAt: lockObj?.openedAt || now
+    };
+  } else {
+    pairMutexLock[rawCoin] = { locked: false, activeSubBotId: null, direction: null, openedAt: 0 };
+  }
+
+  const formatBotState = (botId, defaultText) => {
+    const untilTs = Math.min(now + POST_TRADE_COOLDOWN_MS, Number(cdMap[botId] || 0));
+    if (activeSubBotId === botId) {
+      return {
+        id: botId,
+        state: activePnl >= 0 ? "FIRE_GREEN" : "FIRE_AMBER",
+        label: `🔥 EN FUEGO`,
+        cooldownUntilMs: 0,
+        remainingSec: 0
+      };
+    }
+    if (untilTs > now) {
+      const remSec = Math.min(120, Math.max(1, Math.ceil((untilTs - now) / 1000)));
+      const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
+      const ss = String(remSec % 60).padStart(2, "0");
+      return {
+        id: botId,
+        state: "COOLDOWN",
+        label: `⏳ ${mm}:${ss}`,
+        cooldownUntilMs: untilTs,
+        remainingSec: remSec
+      };
+    }
+    return {
+      id: botId,
+      state: "READY",
+      label: defaultText,
+      cooldownUntilMs: 0,
+      remainingSec: 0
+    };
+  };
+
+  return {
+    coin: rawCoin,
+    displayCoin: rawCoin === "kPEPE" ? "PEPE" : rawCoin,
+    mutexLocked: Boolean(activePos),
+    activeSubBotId,
+    activeDirection,
+    bots: {
+      T1: formatBotState("T1", "LISTO"),
+      T2: formatBotState("T2", (cdMap.T1 > now && !activePos) ? "RELEVO 2ª" : "RESORTE"),
+      O1: formatBotState("O1", "LISTO"),
+      O2: formatBotState("O2", ((cdMap.O1 > now || cdMap.T1 > now || cdMap.T2 > now) && !activePos) ? "GIRO ACT" : "GIRO")
+    }
+  };
+}
+
 function computeWindowRocPct(hist, windowMs, fallbackCloses = []) {
   if (Array.isArray(hist) && hist.length >= 2) {
     const latest = hist[hist.length - 1];
@@ -948,45 +1059,173 @@ async function evaluateLatentForceForPair({
       exhaustionScore15 = 4;
     }
 
-    const allFiveFirstWaveConditionsMet = Boolean(
-      cond1AntiChaseOk &&
-      cond2ThreeTicksOk &&
-      cond3FreshRsiOk &&
-      cond4L2AndLeadLagOk &&
-      cond5BtcDirectorOk &&
+    // =========================================================================
+    // CALIBRACIÓN QUIRÚRGICA DEL CUARTETO POR MONEDA (`2 TOROS 🐂 + 2 OSOS 🐻`):
+    // - Regla Anti-Choque (`pairMutexLock[coin]`): solo 1 de los 4 bots puede tener posición abierta.
+    // - El enfriamiento de 2m (120s) aplica al sub-bot individual (`subBotCooldownsByCoin[coin][botId]`),
+    //   NO bloquea a los otros 3 especialistas del mismo par si aparece la jugada de relevo.
+    // =========================================================================
+    if (!subBotCooldownsByCoin[coin]) {
+      subBotCooldownsByCoin[coin] = { T1: 0, T2: 0, O1: 0, O2: 0 };
+    }
+    const coinCdMap = subBotCooldownsByCoin[coin];
+    const isT1InCooldown = (coinCdMap.T1 || 0) > now;
+    const isT2InCooldown = (coinCdMap.T2 || 0) > now;
+    const isO1InCooldown = (coinCdMap.O1 || 0) > now;
+    const isO2InCooldown = (coinCdMap.O2 || 0) > now;
+    const isMutexLocked = Boolean(pairMutexLock[coin]?.locked);
+
+    // 1. 🐂 TORO #1 (BULL-IGNITION — Primera Ola Alcista)
+    const t1Qualified = Boolean(
+      !isMutexLocked &&
+      !isT1InCooldown &&
+      antiChaseValidLong &&
+      threeTicksLongOk &&
+      rsiFreshLongOk &&
+      bidRatio >= MIN_L2_FORCE_RATIO &&
+      (leaderRoc > 0) &&
+      btcDelta3sPct >= -0.005 &&
       isSpreadClean
     );
 
+    // 2. 🐂 TORO #2 (BULL-SPRING — Rebote de Resorte en Piso & Relevo de Segunda Ola Alcista)
+    const t2ExhaustionDipOk = Boolean(
+      !isMutexLocked &&
+      !isT2InCooldown &&
+      rsiNow <= 20.0 &&
+      bidRatio >= 0.68 &&
+      (t0Tick.midPx > t1Tick.midPx || rsiNow > rsiPrev) &&
+      btcDelta3sPct >= -0.008 &&
+      isSpreadClean
+    );
+    const t2SecondWaveRelayOk = Boolean(
+      !isMutexLocked &&
+      !isT2InCooldown &&
+      isT1InCooldown &&
+      antiChaseValidLong &&
+      threeTicksLongOk &&
+      rsiFreshLongOk &&
+      bidRatio >= MIN_L2_FORCE_RATIO &&
+      btcDelta3sPct >= -0.005 &&
+      isSpreadClean
+    );
+    const t2Qualified = Boolean(t2ExhaustionDipOk || t2SecondWaveRelayOk);
+
+    // 3. 🐻 OSO #1 (BEAR-IGNITION — Primera Ola Bajista)
+    const o1Qualified = Boolean(
+      !isMutexLocked &&
+      !isO1InCooldown &&
+      antiChaseValidShort &&
+      threeTicksShortOk &&
+      rsiFreshShortOk &&
+      askRatio >= MIN_L2_FORCE_RATIO &&
+      (leaderRoc < 0) &&
+      btcDelta3sPct <= 0.005 &&
+      isSpreadClean
+    );
+
+    // 4. 🐻 OSO #2 (BEAR-REVERSAL — Giro Brusco en Techo & Relevo de Segunda Ola Bajista)
+    const o2TopReversalOk = Boolean(
+      !isMutexLocked &&
+      !isO2InCooldown &&
+      (rsiNow >= 76.0 || ((isT1InCooldown || isT2InCooldown) && rsiNow >= 68.0)) &&
+      askRatio >= MIN_L2_FORCE_RATIO &&
+      threeTicksShortOk &&
+      btcDelta3sPct <= 0.008 &&
+      isSpreadClean
+    );
+    const o2SecondWaveRelayOk = Boolean(
+      !isMutexLocked &&
+      !isO2InCooldown &&
+      isO1InCooldown &&
+      antiChaseValidShort &&
+      threeTicksShortOk &&
+      rsiFreshShortOk &&
+      askRatio >= MIN_L2_FORCE_RATIO &&
+      btcDelta3sPct <= 0.005 &&
+      isSpreadClean
+    );
+    const o2Qualified = Boolean(o2TopReversalOk || o2SecondWaveRelayOk);
+
+    let selectedSubBotId = isLong ? (isT1InCooldown ? "T2" : "T1") : (isO1InCooldown ? "O2" : "O1");
+    let selectedSubBotPlay = isLong ? "FIRST_WAVE_BULL_IGNITION" : "FIRST_WAVE_BEAR_IGNITION";
+    let finalDirection = direction;
+    let finalIsLong = isLong;
+
+    if (t1Qualified) {
+      selectedSubBotId = "T1";
+      selectedSubBotPlay = "BULL_IGNITION_WAVE_1";
+      finalDirection = "LONG";
+      finalIsLong = true;
+    } else if (t2Qualified) {
+      selectedSubBotId = "T2";
+      selectedSubBotPlay = t2ExhaustionDipOk ? "BULL_SPRING_EXHAUSTION_DIP" : "BULL_SPRING_WAVE_2_RELAY";
+      finalDirection = "LONG";
+      finalIsLong = true;
+    } else if (o1Qualified) {
+      selectedSubBotId = "O1";
+      selectedSubBotPlay = "BEAR_IGNITION_WAVE_1";
+      finalDirection = "SHORT";
+      finalIsLong = false;
+    } else if (o2Qualified) {
+      selectedSubBotId = "O2";
+      selectedSubBotPlay = o2TopReversalOk ? "BEAR_TOP_REVERSAL" : "BEAR_REVERSAL_WAVE_2_RELAY";
+      finalDirection = "SHORT";
+      finalIsLong = false;
+    }
+
+    const anyQuartetSpecialistQualified = Boolean(t1Qualified || t2Qualified || o1Qualified || o2Qualified);
+    const allFiveFirstWaveConditionsMet = Boolean(
+      anyQuartetSpecialistQualified || (
+        cond1AntiChaseOk &&
+        cond2ThreeTicksOk &&
+        cond3FreshRsiOk &&
+        cond4L2AndLeadLagOk &&
+        cond5BtcDirectorOk &&
+        isSpreadClean
+      )
+    );
+
     let rawTotalScore = Math.round(velocityScore35 + l2Score35 + leadLagScore15 + exhaustionScore15);
-    if (!allFiveFirstWaveConditionsMet) {
-      rawTotalScore = Math.min(rawTotalScore, 89); // NUNCA alcanza >=92 si falta cualquiera de las 5 condiciones de Ignición de Primera Ola
+    if (anyQuartetSpecialistQualified && rawTotalScore < 93) {
+      rawTotalScore = 94;
+    } else if (!allFiveFirstWaveConditionsMet) {
+      rawTotalScore = Math.min(rawTotalScore, 89); // NUNCA alcanza >=92 si ningún especialista del Cuarteto 4X cumple sus condiciones
     }
     const latentForceScore = Math.max(0, Math.min(100, rawTotalScore));
     const auditLatencyMs = Math.max(12, Math.min(145, Date.now() - t0));
     const displayCoin = coin === "kPEPE" ? "PEPE" : coin;
-    const qualifiesTopForce = Boolean(latentForceScore >= MIN_LATENT_FORCE_SCORE && allFiveFirstWaveConditionsMet);
-    const l2ImbalancePct = +(favRatio * 100).toFixed(1);
+    const qualifiesTopForce = Boolean(latentForceScore >= MIN_LATENT_FORCE_SCORE && allFiveFirstWaveConditionsMet && !isMutexLocked);
+    const l2ImbalancePct = +((finalIsLong ? bidRatio : askRatio) * 100).toFixed(1);
+    const subBotMeta = getSubBotMeta(selectedSubBotId);
 
     // Precio preciso al borde real del libro (bestAsk * 1.0002 en LONG / bestBid * 0.9998 en SHORT para ejecución IOC sin regalar spread)
-    const preciseIocEntryPx = isLong ? +(bestAsk * 1.0002).toFixed(8) : +(bestBid * 0.9998).toFixed(8);
-
-    // Mapeo Proxy Directo para Escuadrones #10 DELTA a #18 ROMEO (Forex, Oro e Índices Wall Street)
-    const virtualPair = resolveForexVirtualPairForProxyCoin(coin, bindingsState, pairCooldowns);
-    const forexMeta = virtualPair ? FOREX_AND_MACRO_L1_PROXY_MAP[virtualPair] : null;
+    const preciseIocEntryPx = finalIsLong ? +(bestAsk * 1.0002).toFixed(8) : +(bestBid * 0.9998).toFixed(8);
 
     return {
       coin,
       dispCoin: displayCoin,
       displayCoin,
-      virtualPair: virtualPair || null,
-      isForexProxy: Boolean(virtualPair && virtualPair !== displayCoin),
-      forexSquadKey: forexMeta ? forexMeta.squadKey : null,
-      forexSquadName: forexMeta ? forexMeta.squadName : null,
-      forexSpecialist: forexMeta ? forexMeta.specialist : null,
-      squadKey: forexMeta ? forexMeta.squadKey : squadKey,
+      virtualPair: null,
+      isForexProxy: false,
+      forexSquadKey: null,
+      forexSquadName: null,
+      forexSpecialist: null,
+      squadKey,
       nativeSquadKey: squadKey,
-      direction,
-      isLong,
+      selectedSubBotId,
+      selectedSubBotBadge: subBotMeta.badge,
+      selectedSubBotName: subBotMeta.name,
+      selectedSubBotPlay,
+      quartetEligibility: {
+        T1: t1Qualified,
+        T2: t2Qualified,
+        O1: o1Qualified,
+        O2: o2Qualified,
+        mutexLocked: isMutexLocked
+      },
+      direction: finalDirection,
+      isLong: finalIsLong,
       entryPx: preciseIocEntryPx,
       entryPrice: preciseIocEntryPx,
       bestBid,
@@ -1006,6 +1245,7 @@ async function evaluateLatentForceForPair({
         cond5BtcDirectorOk,
         isSpreadClean
       },
+      firstWaveIgnition: allFiveFirstWaveConditionsMet,
       latentForceScore,
       qualifiesTopForce,
       QualifiedForFire: qualifiesTopForce,
@@ -1083,10 +1323,17 @@ async function rankFreePairsByLatentForce({
   bindingsState = null
 }) {
   const now = Date.now();
-  // Recortar inmediatamente cualquier temporizador de respiro mayor a 120s (02:00)
+  // Recortar inmediatamente cualquier temporizador de respiro mayor a 120s (02:00) tanto en pairCooldowns como en subBotCooldownsByCoin
   for (const [cdCoin, untilTs] of Object.entries(pairCooldowns || {})) {
     if (untilTs > now + POST_TRADE_COOLDOWN_MS) {
       pairCooldowns[cdCoin] = now + POST_TRADE_COOLDOWN_MS;
+    }
+  }
+  for (const cdCoin of Object.keys(subBotCooldownsByCoin)) {
+    for (const bId of ["T1", "T2", "O1", "O2"]) {
+      if ((subBotCooldownsByCoin[cdCoin][bId] || 0) > now + POST_TRADE_COOLDOWN_MS) {
+        subBotCooldownsByCoin[cdCoin][bId] = now + POST_TRADE_COOLDOWN_MS;
+      }
     }
   }
   cycleL2FetchCount = 0;
@@ -1096,12 +1343,17 @@ async function rankFreePairsByLatentForce({
     ? candidateItems
     : (Array.isArray(candidateCoins) ? candidateCoins : []).map(c => ({
         coin: c,
-        squadKey: Object.keys(SQUADS_CONFIG).find(k => SQUADS_CONFIG[k].pairs.includes(c)) || "ALFA"
+        squadKey: Object.keys(SQUADS_CONFIG).find(k => !SQUADS_CONFIG[k].isMacroOracleOnly && SQUADS_CONFIG[k].pairs.includes(c)) || "ALFA"
       }));
 
-  // Priorizar pares en nacimiento de primera ola (movimiento 20s moderado entre 0.015% y 0.12%, descartando los ya estirados >0.14%)
+  // En la arquitectura Cuarteto 4X, si T1 está en respiro 02:00 NO bloquea a T2, O1 ni O2 en el mismo par (solo se excluye si los 4 están en respiro o mutexLocked)
   const eligibleItems = normalizedItems
-    .filter(item => item && item.coin && (!pairCooldowns[item.coin] || pairCooldowns[item.coin] <= now))
+    .filter(item => {
+      if (!item || !item.coin || pairMutexLock[item.coin]?.locked) return false;
+      const cdObj = subBotCooldownsByCoin[item.coin] || { T1: 0, T2: 0, O1: 0, O2: 0 };
+      const hasAtLeastOneSubBotReady = (cdObj.T1 <= now) || (cdObj.T2 <= now) || (cdObj.O1 <= now) || (cdObj.O2 <= now);
+      return hasAtLeastOneSubBotReady;
+    })
     .sort((a, b) => {
       const rocA = Math.abs(computeWindowRocPct(rollingMidsHistory[a.coin] || [], 20000, []));
       const rocB = Math.abs(computeWindowRocPct(rollingMidsHistory[b.coin] || [], 20000, []));
@@ -2150,11 +2402,22 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
       }
     });
 
+    // Construir el estado en vivo del Cuarteto 4X (`🐂T1`, `🐂T2`, `🐻O1`, `🐻O2`) para cada una de las 27 monedas reales de Hyperliquid L1
+    const quartetByCoin = {};
+    for (const c of NATIVE_27_L1_COINS) {
+      const qSnap = buildPairQuartetSnapshot(c, openPositions, now);
+      quartetByCoin[c] = qSnap;
+      if (c === "kPEPE") quartetByCoin["PEPE"] = qSnap;
+    }
+
     const payload = {
       updatedAt: new Date().toISOString(),
-      architecture: "NEXUS APEX-54 // MOTOR FIRST_WAVE_IGNITION (ESTILO OP-USDC: EMA9 + 3-TICKS + RSI6 FRESCO + L2>=72% + BTC 3s + RESPIRO 120s)",
+      architecture: "CUARTETO_TACTICO_4X_POR_PAR_27_L1_108_UNIDADES",
       rules: {
-        unifiedEntryEngine: "FIRST_WAVE_IGNITION_ENGINE",
+        unifiedEntryEngine: "QUARTET_4X_FIRST_WAVE_AND_SPRING_REVERSAL",
+        zeroCollisionMutex: true,
+        subBotsPerPair: 4,
+        totalActiveUnits: 108,
         marketTideLockEnabled: MARKET_TIDE_LOCK_ENABLED,
         maxOpenPositions: MAX_OPEN_POSITIONS,
         maxConcurrentPositionsDuringRecovery: MAX_CONCURRENT_POSITIONS_DURING_RECOVERY,
@@ -2174,9 +2437,10 @@ function updateSquadMatrixClones(openPositions, pairCooldowns, recoveryCtrl = nu
         burnBallastSubsidyRatio: BURN_BALLAST_SUBSIDY_RATIO,
         cleanEvacTimeoutSec: 180,
         ratchetTiers: "Candado Base #00: Escalera de 10 en 10 centavos (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... con IOC garantizado)",
-        stopAndReverseClones: "Unificado 100% con FIRST_WAVE_IGNITION (Score >= 92/100 + 5 Condiciones Nacimiento de Ola)",
-        cooldownPostTp: "2 minutos (120,000 ms) de respiro (🧘‍♂️ RESPIRO 02:00 RECALIBRANDO) antes de incorporarse al carrusel activo"
+        stopAndReverseClones: "Cuarteto 4X por Par: 🐂T1 (Ignición 1ª Ola) + 🐂T2 (Resorte / 2ª Ola) + 🐻O1 (Ignición Bajista) + 🐻O2 (Giro en Techo / 2ª Ola)",
+        cooldownPostTp: "2 minutos (120,000 ms) al sub-bot individual que acaba de cobrar (NO bloquea a los otros 3 especialistas del mismo par)"
       },
+      quartetByCoin,
       latentForceByCoin,
       spaces: clonesState
     };
@@ -2426,17 +2690,24 @@ async function startAutonomousSquadDaemon() {
         } catch (_) {}
       }
 
-      // 1.2 Detectar cierres reales de posiciones previamente confirmadas en Clearinghouse + Ley 3 Stop-And-Reverse en Clones (2)
+      // 1.2 Detectar cierres reales de posiciones previamente confirmadas en Clearinghouse + Relevo Cuarteto 4X (libera pairMutexLock y enfría solo al sub-bot que cobró)
       for (const [closedCoin, prevInfo] of Object.entries(confirmedOpenByCoin)) {
         const stillOpen = openPositions.some(p => p.position.coin === closedCoin);
         if (!stillOpen) {
           recoveredInSessionCount++;
           stuckRecoveryCoinsSet.delete(closedCoin);
-          pairCooldowns[closedCoin] = Date.now() + POST_TRADE_COOLDOWN_MS;
+          const closedSubBotId = prevInfo.activeSubBotId || pairMutexLock[closedCoin]?.activeSubBotId || (prevInfo.isShort ? "O1" : "T1");
+          if (!subBotCooldownsByCoin[closedCoin]) {
+            subBotCooldownsByCoin[closedCoin] = { T1: 0, T2: 0, O1: 0, O2: 0 };
+          }
+          subBotCooldownsByCoin[closedCoin][closedSubBotId] = Date.now() + POST_TRADE_COOLDOWN_MS;
+          pairMutexLock[closedCoin] = { locked: false, activeSubBotId: null, direction: null, openedAt: 0 };
+          lastSubBotByCoin[closedCoin] = closedSubBotId;
           const boundVirtualPair = null;
 
+          const closedBotMeta = getSubBotMeta(closedSubBotId);
           const remainingStuck = openPositions.filter(p => stuckRecoveryCoinsSet.has(p.position.coin)).length;
-          console.log(`🎉 [PLAN C // CANDADO POSITIVO #00 COBRADO] ✅ (${closedCoin}-USDC) — Quedan ${remainingStuck} en Cola #00 | Entra en 🧘‍♂️ RESPIRO 02:00 (RECALIBRANDO 120s) y luego se incorpora al carrusel.`);
+          console.log(`🎉 [CUARTETO 4X // CANDADO #00 COBRADO] ✅ (${closedCoin}-USDC · ${closedBotMeta.badge}) — ${closedBotMeta.badge} entra en ⏳ 02:00 (120s) y libera bastón a los otros 3 especialistas del par.`);
 
           delete confirmedOpenByCoin[closedCoin];
           delete positionPeakPnlMap[closedCoin];
@@ -3524,7 +3795,14 @@ async function startAutonomousSquadDaemon() {
           ) || "ALFA";
           const squadCfg = SQUADS_CONFIG[squadKey] || SQUADS_CONFIG.ALFA;
           const laneNumber = Math.min(MAX_OPEN_POSITIONS, currentTotalOpenAndResting + 1);
-          const botName = `${squadKey} 1 (Carril Rápido #${laneNumber})`;
+          const activeSubBotId = bestCand.selectedSubBotId || (bestCand.direction === "LONG" ? "T1" : "O1");
+          const subBotMeta = getSubBotMeta(activeSubBotId);
+          const botName = `${squadKey} — ${subBotMeta.name} (Carril #${laneNumber})`;
+
+          // 0. CANDADO DE EXCLUSIÓN MUTUA (`Zero-Collision Mutex`): prohibido disparar si la moneda ya tiene posición abierta o orden pendiente
+          if (pairMutexLock[coin]?.locked || activeCoins.includes(coin) || restingEntryCoins.includes(coin)) {
+            continue;
+          }
 
           // 2. ENTRADA CON PRECIO PRECISO (CERO COMERSE UN SPREAD CARO AL ENTRAR):
           // Verificar que el spread entre bestBid y bestAsk sea < 0.03% (si el spread está abierto >= 0.03%, abortar el disparo)
@@ -3551,10 +3829,10 @@ async function startAutonomousSquadDaemon() {
           const level1LockPxNum = isLong ? (entryPxNum + level1DeltaPx) : (entryPxNum - level1DeltaPx);
           const level1LockPxStr = formatHlPrice(level1LockPxNum, coin);
 
-          const openLogPrefix = `🟢⚡ [FIRST-WAVE IGNITION // CARRIL #${laneNumber} // ${squadKey}] ${dispCoin}-USDC`;
-          console.log(`\n${openLogPrefix} // SCORE ${bestCand.latentForceScore}/100 // MAREA ${marketTideLock.dominantDirection} (${bestCand.direction}):`);
-          console.log(`   • Ignición 1ª Ola <150ms (${bestCand.evalLatencyMs}ms): Dist EMA9 ${bestCand.distFromEma9Pct ?? 0}% [0.015%-0.085%] | ROC20s ${bestCand.roc20sPct ?? bestCand.roc15sPct}% (<=0.14%) | 3-Ticks OK | RSI6 ${bestCand.rsi6} | L2 ${bestCand.l2RatioPct}% (>=72%) | BTC 3s ${bestCand.btcDelta3sPct ?? 0}% | Spread ${bestCand.spreadPct ?? 0.01}% (<0.03%)`);
-          console.log(`   • Entrada IOC Borde Libro: ${szFormatted} ${dispCoin} @ $${entryPxStr} ($${notional.toFixed(2)} Nocional / $${autoLot.marginUsdc.toFixed(2)} Margen) -> Candado #00 +$0.10 @ $${level1LockPxStr} | Respiro Post-Cierre 120s`);
+          const openLogPrefix = `🟢⚡ [CUARTETO 4X // ${subBotMeta.badge} // CARRIL #${laneNumber} // ${squadKey}] ${dispCoin}-USDC`;
+          console.log(`\n${openLogPrefix} // SCORE ${bestCand.latentForceScore}/100 // JUGADA ${bestCand.selectedSubBotPlay || "WAVE_IGNITION"} (${bestCand.direction}):`);
+          console.log(`   • Especialista Activo: ${subBotMeta.name} (Mutex Lock Exclusivo en ${dispCoin}) | Dist EMA9 ${bestCand.distFromEma9Pct ?? 0}% | ROC20s ${bestCand.roc20sPct ?? bestCand.roc15sPct}% | RSI6 ${bestCand.rsi6} | L2 ${bestCand.l2RatioPct}% | BTC 3s ${bestCand.btcDelta3sPct ?? 0}% | Spread ${bestCand.spreadPct ?? 0.01}% (<0.03%)`);
+          console.log(`   • Entrada IOC Borde Libro: ${szFormatted} ${dispCoin} @ $${entryPxStr} ($${notional.toFixed(2)} Nocional / $${autoLot.marginUsdc.toFixed(2)} Margen) -> Candado #00 +$0.10 @ $${level1LockPxStr} | Respiro Sub-Bot 120s`);
 
           try {
             let orderRes = await client.order({
@@ -3574,9 +3852,17 @@ async function startAutonomousSquadDaemon() {
               currentUnfencedHunters++;
               currentFastLaneHunters++;
               currentTotalOpenAndResting++;
+              pairMutexLock[coin] = {
+                locked: true,
+                activeSubBotId,
+                direction: bestCand.direction,
+                openedAt: Date.now()
+              };
+              if (!confirmedOpenByCoin[coin]) confirmedOpenByCoin[coin] = {};
+              confirmedOpenByCoin[coin].activeSubBotId = activeSubBotId;
               const oid = status.resting?.oid || status.filled?.oid || `${coin}_${Date.now()}`;
               const openKey = `oid_${oid}`;
-              console.log(`   ✔ [${squadKey}] Orden IOC #${oid} ejecutada en Hyperliquid L1 (${status.filled ? "EJECUTADA EN NACIMIENTO DE OLA" : "ACTIVA"}) -> ${dispCoin}-USDC.`);
+              console.log(`   ✔ [${squadKey} // ${subBotMeta.badge}] Orden IOC #${oid} ejecutada en Hyperliquid L1 (${status.filled ? "EJECUTADA" : "ACTIVA"}) -> ${dispCoin}-USDC.`);
 
               recentOrderSentCoins[coin] = Date.now();
               positionOpenTimestamps[coin] = Date.now();
@@ -3586,6 +3872,7 @@ async function startAutonomousSquadDaemon() {
               if (!tgState.notifiedOpenOids[openKey]) {
                 tgState.notifiedOpenOids[openKey] = {
                   coin,
+                  subBotId: activeSubBotId,
                   virtualPair: null,
                   isForexProxy: false,
                   direction: bestCand.direction,
@@ -3595,18 +3882,17 @@ async function startAutonomousSquadDaemon() {
                 };
                 saveTelegramTradeAlertsState(tgState);
 
-                const tgHeader = `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA // NATIVO L1] ${dispCoin}-USDC</b>`;
-                const pairLine = `📍 <b>Par Nativo L1 & Dirección:</b> <code>${dispCoin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`;
+                const tgHeader = `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [CUARTETO 4X // ${subBotMeta.badge}] ${dispCoin}-USDC</b>`;
+                const pairLine = `📍 <b>Par Nativo L1 &amp; Especialista:</b> <code>${dispCoin}-USDC</code> (<b>${subBotMeta.badge} · ${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`;
 
                 const orderTg = `${tgHeader}\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                  `🔰 <b>Escuadrón:</b> <b>${squadCfg.name} — ${botName}</b>\n` +
+                  `🔰 <b>Escuadrón &amp; Sub-Motor:</b> <b>${squadCfg.name} — ${subBotMeta.name}</b>\n` +
                   `${pairLine}\n` +
                   `📥 <b>Entrada IOC Borde Libro (Spread ${bestCand.spreadPct ?? 0.01}% &lt; 0.03%):</b> <code>$${entryPxStr}</code>\n` +
                   `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$${autoLot.marginUsdc.toFixed(2)} USDC Margen ($${notional.toFixed(2)} USD Nocional)</code>\n` +
-                  `🎯 <b>Puntería FIRST_WAVE_IGNITION (${bestCand.latentForceScore}/100):</b> <code>Dist EMA9: ${bestCand.distFromEma9Pct ?? 0}% [0.015%-0.085%] · 3-Ticks OK · RSI6: ${bestCand.rsi6} · L2: ${bestCand.l2RatioPct}% · BTC 3s: ${bestCand.btcDelta3sPct ?? 0}%</code>\n` +
-                  `🌊 <b>Filtro de Marea &amp; Oráculo Macro:</b> <code>${marketTideLock.dominantLabel}</code>\n` +
-                  `🔒 <b>Escalera de Candado:</b> <code>10 en 10 centavos (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... IOC) + Respiro 02:00 (120s)</code>\n` +
+                  `🎯 <b>Puntería Cuarteto (${bestCand.latentForceScore}/100):</b> <code>Dist EMA9: ${bestCand.distFromEma9Pct ?? 0}% · RSI6: ${bestCand.rsi6} · L2: ${bestCand.l2RatioPct}% · BTC 3s: ${bestCand.btcDelta3sPct ?? 0}%</code>\n` +
+                  `🔒 <b>Exclusión Mutua &amp; Escalera:</b> <code>Mutex 1/4 Activo · Escalera 10c (+$0.10 ➔ +$0.50+ IOC) + Respiro Individual 02:00</code>\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;
                 await sendSquadTelegram(orderTg);

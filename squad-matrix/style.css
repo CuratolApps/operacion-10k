@@ -1392,13 +1392,14 @@ html, body {
 }
 
 /* ==============================================================================
-   TAB 2: 54 PARES EN VIVO (GRID 9x6 COMPACTO - CERO SCROLL)
+   TAB 2: 27 PARES REALES DE HYPERLIQUID L1 (GRID 9x3 TARJETAS GRANDES - CERO SCROLL)
+   27 MONEDAS × 4 BOTS ESPECIALIZADOS (2 TOROS 🐂 + 2 OSOS 🐻) = 108 UNIDADES
    ============================================================================== */
 .pairs-grid-container {
   display: grid !important;
-  grid-template-columns: repeat(9, 1fr) !important;
-  grid-template-rows: repeat(6, 1fr) !important;
-  gap: 5px !important;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(3, minmax(0, 1fr)) !important;
+  gap: 7px !important;
   width: 100% !important;
   height: 100% !important;
   padding: 4px 2px !important;
@@ -1406,16 +1407,16 @@ html, body {
 }
 
 /* ==============================================================================
-   NUEVA ESTÉTICA DE LAS 54 TARJETAS DE PARES (BLANCO SATINADO IGUAL A PESTAÑA #7 + ZONA INFERIOR DINÁMICA DE 2 LÍNEAS)
+   NUEVA ESTÉTICA DE LAS 27 TARJETAS GRANDES (BLANCO SATINADO ESTILO PESTAÑA #7 + TIRA CUARTETO 4X + BASE DE 2 LÍNEAS)
    ============================================================================== */
 .pair-cell,
 .pair-card {
   background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08), inset 0 1px 0 #FFFFFF !important;
-  padding: 4px 6px !important;
-  gap: 2px !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.09), inset 0 1px 0 #FFFFFF !important;
+  padding: 7px 8px !important;
+  gap: 4px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
@@ -1438,48 +1439,50 @@ html, body {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  line-height: 1.05 !important;
+  line-height: 1.1 !important;
 }
 
-/* Nombre del Par (SOL, BTC, EUR/USD) y Precio en Negro/Azul Noche Nítido */
+/* Nombre del Par Grande (SOL, BTC, OP, PEPE) en Negro/Azul Noche Nítido */
 .pair-cell .pair-title,
 .pair-card .pair-symbol,
 .pair-card .pair-name {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.72rem !important;
+  font-size: 0.90rem !important;
   color: #0F172A !important;
   font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
 }
 
-/* Badge del Escuadrón (#01 ALFA, #02 BRAVO) igual al badge de corte de la Pestaña #7 */
+/* Badge del Escuadrón (#01 ALFA a #09 LIMA) */
 .pair-cell .pair-squad-badge,
 .pair-card .squad-tag,
 .pair-card .squad-badge {
   font-family: 'JetBrains Mono', monospace !important;
   background: #E2E8F0 !important;
-  color: #334155 !important;
+  color: #1E293B !important;
   border: 1px solid #CBD5E1 !important;
-  border-radius: 4px !important;
-  padding: 1px 4px !important;
-  font-size: 0.48rem !important;
-  font-weight: 700 !important;
+  border-radius: 5px !important;
+  padding: 2px 5px !important;
+  font-size: 0.54rem !important;
+  font-weight: 800 !important;
 }
 
 .pair-price-row {
   display: flex !important;
   justify-content: space-between !important;
   align-items: baseline !important;
-  margin: 0 !important;
-  line-height: 1.05 !important;
+  margin: 1px 0 !important;
+  line-height: 1.1 !important;
 }
 
 .pair-cell .pair-price,
 .pair-card .pair-price {
   color: #0F172A !important;
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.78rem !important;
+  font-size: 1.00rem !important;
   font-weight: 900 !important;
-  line-height: 1.05 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.02em !important;
 }
 
 .pair-price-flash-up {
@@ -1503,7 +1506,71 @@ html, body {
 }
 
 /* ==============================================================================
-   ZONA INFERIOR DE 2 LÍNEAS (.pair-status-bar / .pair-footer) — 4 ESTADOS DINÁMICOS
+   CENTRO-ABAJO: TIRA DE LOS 4 BOTS DEL PAR (`2 TOROS 🐂 + 2 OSOS 🐻` — CUARTETO 4X)
+   ============================================================================== */
+.pair-quartet-row {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, auto) !important;
+  gap: 3px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 1px 0 !important;
+}
+
+.q-bot-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.50rem !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  padding: 2.5px 4px !important;
+  border-radius: 4px !important;
+  background: #F8FAFC !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  box-sizing: border-box !important;
+}
+
+.q-bot-pill.q-pill-bull-ready {
+  background: #F0FDF4 !important;
+  color: #166534 !important;
+  border-color: #BBF7D0 !important;
+}
+
+.q-bot-pill.q-pill-bear-ready {
+  background: #FFF1F2 !important;
+  color: #9F1239 !important;
+  border-color: #FECDD3 !important;
+}
+
+.q-bot-pill.q-pill-fire-green {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  color: #FFFFFF !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 1px 5px rgba(5, 150, 105, 0.35) !important;
+}
+
+.q-bot-pill.q-pill-fire-amber {
+  background: linear-gradient(135deg, #EA580C 0%, #D97706 100%) !important;
+  color: #FFFFFF !important;
+  border-color: #F97316 !important;
+  box-shadow: 0 1px 5px rgba(234, 88, 12, 0.35) !important;
+}
+
+.q-bot-pill.q-pill-cooldown {
+  background: #DBEAFE !important;
+  color: #1D4ED8 !important;
+  border-color: #60A5FA !important;
+}
+
+/* ==============================================================================
+   ZONA INFERIOR DE 2 LÍNEAS (.pair-status-bar / .pair-footer) — GRANDE Y CLARA
    ============================================================================== */
 /* ⚡ CASO 4 (BASE DEFAULT) — En AUTO / STANDBY (Pizarra Satinado Claro igual a Pestaña #7) */
 .pair-bottom-row,
@@ -1515,11 +1582,11 @@ html, body {
   flex-direction: column !important;
   justify-content: center !important;
   align-items: stretch !important;
-  gap: 1px !important;
+  gap: 2px !important;
   width: 100% !important;
-  min-height: 26px !important;
-  padding: 2px 5px !important;
-  border-radius: 5px !important;
+  min-height: 34px !important;
+  padding: 4px 6px !important;
+  border-radius: 6px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
   background: #E2E8F0 !important;
@@ -1533,9 +1600,9 @@ html, body {
   justify-content: space-between !important;
   width: 100% !important;
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.50rem !important;
+  font-size: 0.56rem !important;
   font-weight: 800 !important;
-  line-height: 1.15 !important;
+  line-height: 1.2 !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -1544,9 +1611,9 @@ html, body {
 .status-line-1,
 .status-line-1 span {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.50rem !important;
+  font-size: 0.56rem !important;
   font-weight: 800 !important;
-  line-height: 1.15 !important;
+  line-height: 1.2 !important;
   white-space: nowrap !important;
   color: #0F172A !important;
 }
@@ -1554,9 +1621,9 @@ html, body {
 .status-line-2,
 .status-line-2 span {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.50rem !important;
+  font-size: 0.54rem !important;
   font-weight: 800 !important;
-  line-height: 1.15 !important;
+  line-height: 1.2 !important;
   white-space: nowrap !important;
   color: #475569 !important;
 }

@@ -4061,15 +4061,15 @@ export default {
                 }
               }
 
-              // 2. MOTOR ÚNICO DE PUNTERÍA DE ENTRADA `FIRST_WAVE_IGNITION` (ESTILO OP-USDC) + RESPIRO 120s (27 PARES NATIVOS L1 #01 ALFA A #09 LIMA)
+              // 2. ARQUITECTURA CUARTETO TÁCTICO 4X POR PAR (`2 TOROS 🐂 + 2 OSOS 🐻` × 27 PARES L1 = 108 UNIDADES) + MUTEX SIN CHOQUES
               const stuckSetCloud = new Set(["ETH", "BTC", "SOL", "NEAR", "XRP"]);
               const cloudUnits = [
-                { name: "#01 ALFA (Auto 5%)", pairs: ["AVAX", "SUI"], notional: 252.25 },
-                { name: "#02 BRAVO (Auto 5%)", pairs: ["PAXG", "LINK"], notional: 252.25 },
-                { name: "#03 CHARLIE (Auto 5%)", pairs: ["BNB", "AAVE"], notional: 252.25 },
-                { name: "#04 GOLF / #05 HOTEL (Auto 5%)", pairs: ["DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
-                { name: "#06 INDIA / #08 KILO (Auto 5%)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 252.25 },
-                { name: "#07 JULIET / #09 LIMA (Auto 5%)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE"], notional: 252.25 }
+                { name: "#01 ALFA (Auto 5% · 4X)", pairs: ["AVAX", "SUI"], notional: 252.25 },
+                { name: "#02 BRAVO (Auto 5% · 4X)", pairs: ["PAXG", "LINK"], notional: 252.25 },
+                { name: "#03 CHARLIE (Auto 5% · 4X)", pairs: ["BNB", "AAVE"], notional: 252.25 },
+                { name: "#04 GOLF / #05 HOTEL (Auto 5% · 4X)", pairs: ["DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
+                { name: "#06 INDIA / #08 KILO (Auto 5% · 4X)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 252.25 },
+                { name: "#07 JULIET / #09 LIMA (Auto 5% · 4X)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE", "PENDLE", "kPEPE"], notional: 252.25 }
               ];
 
               const unfencedHuntersCloud = openPositions.filter(pos => {
@@ -4196,14 +4196,15 @@ export default {
                       globalThis.__NOTIFIED_OPEN_OIDS__[oid] = true;
                       const lockDelta = (unit.notional * HL_ROUNDTRIP_FEE_RATE + 0.10) / parseFloat(szStr || "1");
                       const lockPxStr = fmtPx(isLong ? (px + lockDelta) : (px - lockDelta), coin);
-                      const openMsg = `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [IGNICIÓN 1ª OLA // ESTILO OP]</b>\n` +
+                      const subBotTag = isLong ? "🐂T1 [BULL-IGNITION]" : "🐻O1 [BEAR-IGNITION]";
+                      const openMsg = `🛰️ <b>SALA DE MANDO 10K // 🐂🐻 [CUARTETO 4X // ${subBotTag}]</b>\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                        `🔰 <b>Escuadrón:</b> <b>${unit.name}</b>\n` +
+                        `🔰 <b>Escuadrón:</b> <b>${unit.name}</b> · <b>${subBotTag}</b>\n` +
                         `📍 <b>Par & Dirección:</b> <code>${coin}-USDC</code> (<b>${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szStr} ${coin})\n` +
                         `📥 <b>Entrada IOC Borde Libro (Spread ${spreadPct}% &lt; 0.03%):</b> <code>$${pxStr}</code>\n` +
                         `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$50.45 USDC Margen ($${unit.notional.toFixed(2)} USD Nocional)</code>\n` +
-                        `🎯 <b>FIRST_WAVE_IGNITION (${latentForceScore}/100):</b> <code>Dist EMA9 ${distFromEma9Pct}% [0.015%-0.085%] · L2 ${l2Pct}% >= 72% · Marea Alineada</code>\n` +
-                        `🔒 <b>Escalera Candado #00:</b> <code>$${lockPxStr}</code> (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... IOC + Respiro 02:00)\n` +
+                        `🎯 <b>CUARTETO 4X (${latentForceScore}/100):</b> <code>Dist EMA9 ${distFromEma9Pct}% [0.015%-0.085%] · L2 ${l2Pct}% >= 72% · Mutex 1/4</code>\n` +
+                        `🔒 <b>Escalera Candado #00:</b> <code>$${lockPxStr}</code> (+$0.10 -> +$0.20 -> +$0.30 -> +$0.50... IOC + Respiro Sub-Bot 02:00)\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                         `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Estaciones en Vivo</a>`;
                       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
