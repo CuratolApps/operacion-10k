@@ -1,14 +1,14 @@
 {
-  "date": "2026-10-27",
-  "lastUpdated": "2026-10-27T10:34:40.686Z",
-  "currentRoundId": 4,
+  "date": "2026-10-30",
+  "lastUpdated": "2026-10-30T13:16:28.952Z",
+  "currentRoundId": 5,
   "todayRoundsCompleted": 1,
   "todayTotalOps": 500,
   "dailyGoal": 4000,
   "rounds": {
-    "4": {
-      "roundId": 4,
-      "name": "Vuelta #4",
+    "5": {
+      "roundId": 5,
+      "name": "Vuelta #5",
       "status": "DONE",
       "completedWallets": 500,
       "totalWallets": 500,
@@ -22,11 +22,11 @@
         "5": 100
       },
       "sampleHashes": {
-        "gaslessCheckIn": "0xcb7f6de626147dee9ebb87dbb21e2b3c1940357d262cb24e4f181a21777c4bdd",
-        "base": "0xa05328925a34baab94c5ecb85e73dac79c10cc2b4f0a7e54ce66e35bb4bbec2e",
-        "arbitrum": "0xf299b5a4429eb0f81ecb08633a3adbca99857e44003ef72811dc8ac0f415c147"
+        "gaslessCheckIn": "0xdae7c6ab9ad45d46e80d6e9082980b12fb998cc8eb6ce3f294610a4372df2648",
+        "base": "0xe1e5feff69a28f81c239e5f75e79ff818bfc2552502e970dcf0bbf13425a37d9",
+        "arbitrum": "0x8e1f36bb0a038de517d19f155db483e5e8b9571462d84d459f7aae5d650684d3"
       },
-      "completedAtUtc": "2026-10-27T10:34:40.686Z"
+      "completedAtUtc": "2026-10-30T13:16:28.951Z"
     }
   },
   "failedWalletsQueue": []

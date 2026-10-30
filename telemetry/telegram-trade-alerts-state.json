@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T12:59:09.741Z",
+  "updatedAt": "2026-10-30T17:27:23.398Z",
   "initialBootReportSentAt": null,
   "notifiedOpenKeys": {},
   "notifiedOpenOids": {
@@ -72,6 +72,488 @@
       "score": 100,
       "entryPx": "1.7065",
       "ts": "2026-10-30T12:53:31.253Z"
+    },
+    "oid_590686929923": {
+      "coin": "UNI",
+      "direction": "SHORT",
+      "score": 96,
+      "entryPx": "6.9098",
+      "ts": "2026-10-30T13:13:25.742Z"
+    },
+    "oid_590687515511": {
+      "coin": "DOT",
+      "direction": "SHORT",
+      "score": 96,
+      "entryPx": "0.9448",
+      "ts": "2026-10-30T13:14:06.355Z"
+    },
+    "oid_590688642821": {
+      "coin": "TAO",
+      "direction": "SHORT",
+      "score": 96,
+      "entryPx": "232.46",
+      "ts": "2026-10-30T13:15:31.505Z"
+    },
+    "oid_590689423724": {
+      "coin": "OP",
+      "direction": "LONG",
+      "score": 99,
+      "entryPx": "0.1059",
+      "ts": "2026-10-30T13:16:26.988Z"
+    },
+    "oid_590692913285": {
+      "coin": "SUI",
+      "direction": "LONG",
+      "score": 97,
+      "entryPx": "0.8849",
+      "ts": "2026-10-30T13:21:12.560Z"
+    },
+    "oid_590694749966": {
+      "coin": "BNB",
+      "direction": "SHORT",
+      "score": 96,
+      "entryPx": "699.76",
+      "ts": "2026-10-30T13:23:10.844Z"
+    },
+    "oid_590698435764": {
+      "coin": "TAO",
+      "direction": "SHORT",
+      "score": 97,
+      "entryPx": "231.92",
+      "ts": "2026-10-30T13:27:08.753Z"
+    },
+    "oid_590698579570": {
+      "coin": "XRP",
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "1.2456",
+      "ts": "2026-10-30T13:27:16.326Z"
+    },
+    "oid_590700405955": {
+      "coin": "TAO",
+      "direction": "SHORT",
+      "score": 100,
+      "entryPx": "231.7",
+      "ts": "2026-10-30T13:29:06.652Z"
+    },
+    "oid_590703056247": {
+      "coin": "LTC",
+      "direction": "LONG",
+      "score": 95,
+      "entryPx": "55.361",
+      "ts": "2026-10-30T13:31:14.636Z"
+    },
+    "oid_590703819239": {
+      "coin": "HYPE",
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "90.832",
+      "ts": "2026-10-30T13:32:23.914Z"
+    },
+    "oid_590703840110": {
+      "coin": "SUI",
+      "direction": "SHORT",
+      "score": 95,
+      "entryPx": "0.8826",
+      "ts": "2026-10-30T13:32:25.307Z"
+    },
+    "oid_590704492474": {
+      "coin": "ONDO",
+      "direction": "SHORT",
+      "score": 100,
+      "entryPx": "0.3876",
+      "ts": "2026-10-30T13:33:11.366Z"
+    },
+    "oid_590704599569": {
+      "coin": "TRX",
+      "direction": "SHORT",
+      "score": 97,
+      "entryPx": "0.33511",
+      "ts": "2026-10-30T13:33:18.555Z"
+    },
+    "oid_590705280674": {
+      "coin": "AVAX",
+      "direction": "LONG",
+      "score": 97,
+      "entryPx": "8.245",
+      "ts": "2026-10-30T13:34:09.306Z"
+    },
+    "oid_590705782158": {
+      "coin": "FET",
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.1638",
+      "ts": "2026-10-30T13:34:41.091Z"
+    },
+    "oid_590707092418": {
+      "coin": "ARB",
+      "direction": "SHORT",
+      "score": 95,
+      "entryPx": "0.1624",
+      "ts": "2026-10-30T13:36:13.712Z"
+    },
+    "oid_590712625299": {
+      "coin": "AVAX",
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "8.2492",
+      "ts": "2026-10-30T13:42:35.387Z"
+    },
+    "oid_590715940862": {
+      "coin": "AVAX",
+      "direction": "SHORT",
+      "score": 100,
+      "entryPx": "8.2357",
+      "ts": "2026-10-30T13:46:07.117Z"
+    },
+    "oid_590717962836": {
+      "coin": "FET",
+      "direction": "SHORT",
+      "score": 97,
+      "entryPx": "0.16249",
+      "ts": "2026-10-30T13:48:09.164Z"
+    },
+    "oid_590719304973": {
+      "coin": "DOT",
+      "direction": "SHORT",
+      "score": 96,
+      "entryPx": "0.94046",
+      "ts": "2026-10-30T13:49:30.569Z"
+    },
+    "oid_590719807226": {
+      "coin": "TRX",
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "0.33463",
+      "ts": "2026-10-30T13:50:03.139Z"
+    },
+    "oid_590720936544": {
+      "coin": "HYPE",
+      "direction": "SHORT",
+      "score": 100,
+      "entryPx": "90.966",
+      "ts": "2026-10-30T13:51:09.617Z"
+    },
+    "oid_590723906173": {
+      "coin": "ARB",
+      "direction": "LONG",
+      "score": 99,
+      "entryPx": "0.1628",
+      "ts": "2026-10-30T13:54:04.494Z"
+    },
+    "oid_590725767814": {
+      "coin": "BNB",
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "696.14",
+      "ts": "2026-10-30T13:55:25.075Z"
+    },
+    "oid_590725856913": {
+      "coin": "XRP",
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "1.2373",
+      "ts": "2026-10-30T13:55:30.579Z"
+    },
+    "oid_590726627600": {
+      "coin": "kPEPE",
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "0.005074",
+      "ts": "2026-10-30T13:56:15.326Z"
+    },
+    "oid_590728113568": {
+      "coin": "AVAX",
+      "direction": "SHORT",
+      "score": 99,
+      "entryPx": "8.2243",
+      "ts": "2026-10-30T13:57:25.569Z"
+    },
+    "oid_590739663383": {
+      "coin": "SUI",
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.88273",
+      "ts": "2026-10-30T14:07:00.182Z"
+    },
+    "oid_590745291765": {
+      "coin": "UNI",
+      "direction": "SHORT",
+      "score": 96,
+      "entryPx": "6.8141",
+      "ts": "2026-10-30T14:12:40.043Z"
+    },
+    "oid_590745943065": {
+      "coin": "LINK",
+      "direction": "SHORT",
+      "score": 100,
+      "entryPx": "10.95",
+      "ts": "2026-10-30T14:13:20.443Z"
+    },
+    "oid_590746870180": {
+      "coin": "BNB",
+      "direction": "SHORT",
+      "score": 94,
+      "entryPx": "694.95",
+      "ts": "2026-10-30T14:14:24.423Z"
+    },
+    "oid_590763050552": {
+      "coin": "RENDER",
+      "direction": "LONG",
+      "score": 100,
+      "entryPx": "1.5441",
+      "ts": "2026-10-30T14:29:12.673Z"
+    },
+    "oid_590764230951": {
+      "coin": "ONDO",
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.39155",
+      "ts": "2026-10-30T14:30:20.056Z"
+    },
+    "oid_590765251338": {
+      "coin": "XRP",
+      "direction": "SHORT",
+      "score": 95,
+      "entryPx": "1.2331",
+      "ts": "2026-10-30T14:31:19.705Z"
+    },
+    "oid_590766533445": {
+      "coin": "LINK",
+      "direction": "SHORT",
+      "score": 99,
+      "entryPx": "10.956",
+      "ts": "2026-10-30T14:32:36.624Z"
+    },
+    "oid_590770511204": {
+      "coin": "TAO",
+      "direction": "SHORT",
+      "score": 96,
+      "entryPx": "230.52",
+      "ts": "2026-10-30T14:36:37.252Z"
+    },
+    "oid_590771870414": {
+      "coin": "ARB",
+      "direction": "LONG",
+      "score": 100,
+      "entryPx": "0.16217",
+      "ts": "2026-10-30T14:38:03.998Z"
+    },
+    "oid_590773480503": {
+      "coin": "OP",
+      "direction": "LONG",
+      "score": 99,
+      "entryPx": "0.10621",
+      "ts": "2026-10-30T14:39:24.303Z"
+    },
+    "oid_590774017547": {
+      "coin": "ONDO",
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.39297",
+      "ts": "2026-10-30T14:40:10.966Z"
+    },
+    "oid_590777247000": {
+      "coin": "LTC",
+      "direction": "LONG",
+      "score": 99,
+      "entryPx": "55.319",
+      "ts": "2026-10-30T14:44:07.163Z"
+    },
+    "oid_590778288561": {
+      "coin": "HYPE",
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "92.272",
+      "ts": "2026-10-30T14:45:23.507Z"
+    },
+    "oid_590778888179": {
+      "coin": "RENDER",
+      "direction": "LONG",
+      "score": 95,
+      "entryPx": "1.5513",
+      "ts": "2026-10-30T14:46:02.731Z"
+    },
+    "oid_590780105819": {
+      "coin": "LTC",
+      "direction": "LONG",
+      "score": 95,
+      "entryPx": "55.371",
+      "ts": "2026-10-30T14:47:29.333Z"
+    },
+    "oid_590780870627": {
+      "coin": "OP",
+      "direction": "LONG",
+      "score": 99,
+      "entryPx": "0.10633",
+      "ts": "2026-10-30T14:48:26.103Z"
+    },
+    "oid_590781558160": {
+      "coin": "TRX",
+      "direction": "LONG",
+      "score": 97,
+      "entryPx": "0.33923",
+      "ts": "2026-10-30T14:49:15.568Z"
+    },
+    "oid_590880211125": {
+      "coin": "ADA",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.19216",
+      "ts": "2026-10-30T16:56:14.578Z"
+    },
+    "oid_590880726583": {
+      "coin": "XRP",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 100,
+      "entryPx": "1.2468",
+      "ts": "2026-10-30T16:57:06.559Z"
+    },
+    "oid_590881843454": {
+      "coin": "ADA",
+      "subBotId": "T2",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.19227",
+      "ts": "2026-10-30T16:58:54.377Z"
+    },
+    "oid_590882580379": {
+      "coin": "AVAX",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 100,
+      "entryPx": "8.3502",
+      "ts": "2026-10-30T16:59:46.662Z"
+    },
+    "oid_590882588774": {
+      "coin": "LTC",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 96,
+      "entryPx": "55.528",
+      "ts": "2026-10-30T16:59:47.746Z"
+    },
+    "oid_590888414054": {
+      "coin": "TAO",
+      "subBotId": "O1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "SHORT",
+      "score": 97,
+      "entryPx": "233.98",
+      "ts": "2026-10-30T17:07:27.510Z"
+    },
+    "oid_590888562447": {
+      "coin": "ONDO",
+      "subBotId": "O1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "SHORT",
+      "score": 97,
+      "entryPx": "0.39629",
+      "ts": "2026-10-30T17:07:42.490Z"
+    },
+    "oid_590888888518": {
+      "coin": "XRP",
+      "subBotId": "O1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "SHORT",
+      "score": 99,
+      "entryPx": "1.2459",
+      "ts": "2026-10-30T17:08:14.043Z"
+    },
+    "oid_590888897654": {
+      "coin": "UNI",
+      "subBotId": "O1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "SHORT",
+      "score": 98,
+      "entryPx": "6.9831",
+      "ts": "2026-10-30T17:08:15.399Z"
+    },
+    "oid_590890846640": {
+      "coin": "ADA",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 98,
+      "entryPx": "0.19299",
+      "ts": "2026-10-30T17:11:10.668Z"
+    },
+    "oid_590896543095": {
+      "coin": "AVAX",
+      "subBotId": "O2",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "SHORT",
+      "score": 94,
+      "entryPx": "8.406",
+      "ts": "2026-10-30T17:19:10.255Z"
+    },
+    "oid_590897951391": {
+      "coin": "DOGE",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 97,
+      "entryPx": "0.075804",
+      "ts": "2026-10-30T17:21:17.167Z"
+    },
+    "oid_590899840058": {
+      "coin": "FET",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 100,
+      "entryPx": "0.16667",
+      "ts": "2026-10-30T17:24:12.113Z"
+    },
+    "oid_590901552347": {
+      "coin": "XRP",
+      "subBotId": "O1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "SHORT",
+      "score": 99,
+      "entryPx": "1.2477",
+      "ts": "2026-10-30T17:26:56.525Z"
+    },
+    "oid_590901798983": {
+      "coin": "LTC",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 100,
+      "entryPx": "55.553",
+      "ts": "2026-10-30T17:27:22.252Z"
+    },
+    "oid_590901813911": {
+      "coin": "AVAX",
+      "subBotId": "T1",
+      "virtualPair": null,
+      "isForexProxy": false,
+      "direction": "LONG",
+      "score": 96,
+      "entryPx": "8.4012",
+      "ts": "2026-10-30T17:27:23.398Z"
     }
   },
   "notifiedLock00Keys": {
@@ -110,6 +592,168 @@
       "lockedNetUsd": 0.1086,
       "lockedPx": 0.00528243260397528,
       "ts": "2026-10-30T12:20:10.751Z"
+    },
+    "UNI_6.909800": {
+      "coin": "UNI",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 6.907060273972602,
+      "ts": "2026-10-30T13:15:07.499Z"
+    },
+    "TAO_232.460000": {
+      "coin": "TAO",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 232.3678341013825,
+      "ts": "2026-10-30T13:16:12.010Z"
+    },
+    "BNB_699.760000": {
+      "coin": "BNB",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 699.4822222222222,
+      "ts": "2026-10-30T13:24:23.813Z"
+    },
+    "DOT_0.944800": {
+      "coin": "DOT",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.9444253278381416,
+      "ts": "2026-10-30T13:25:54.058Z"
+    },
+    "XRP_1.245600": {
+      "coin": "XRP",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 1.2449827160493827,
+      "ts": "2026-10-30T13:30:17.154Z"
+    },
+    "TAO_231.700000": {
+      "coin": "TAO",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 231.6080882352941,
+      "ts": "2026-10-30T13:30:17.451Z"
+    },
+    "LTC_55.361000": {
+      "coin": "LTC",
+      "lockedNetUsd": 0.3,
+      "lockedPx": 55.42693406593406,
+      "ts": "2026-10-30T13:31:37.144Z"
+    },
+    "TRX_0.335110": {
+      "coin": "TRX",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.3349770212765958,
+      "ts": "2026-10-30T13:33:34.028Z"
+    },
+    "AVAX_8.245000": {
+      "coin": "AVAX",
+      "lockedNetUsd": 0.3,
+      "lockedPx": 8.254807126511931,
+      "ts": "2026-10-30T13:34:23.916Z"
+    },
+    "FET_0.163800": {
+      "coin": "FET",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.16386493506493507,
+      "ts": "2026-10-30T13:35:26.928Z"
+    },
+    "AVAX_8.235700": {
+      "coin": "AVAX",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 8.232434160679293,
+      "ts": "2026-10-30T13:47:03.055Z"
+    },
+    "ONDO_0.387600": {
+      "coin": "ONDO",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.38744615384615383,
+      "ts": "2026-10-30T13:48:49.307Z"
+    },
+    "DOT_0.940460": {
+      "coin": "DOT",
+      "lockedNetUsd": 0.2,
+      "lockedPx": 0.9397142878448919,
+      "ts": "2026-10-30T13:50:07.644Z"
+    },
+    "HYPE_90.966000": {
+      "coin": "HYPE",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 90.9298989169675,
+      "ts": "2026-10-30T13:51:47.718Z"
+    },
+    "TRX_0.334630": {
+      "coin": "TRX",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.33449719787516596,
+      "ts": "2026-10-30T13:53:03.053Z"
+    },
+    "ARB_0.162800": {
+      "coin": "ARB",
+      "lockedNetUsd": 0.5,
+      "lockedPx": 0.1631227055634439,
+      "ts": "2026-10-30T13:54:30.270Z"
+    },
+    "XRP_1.237300": {
+      "coin": "XRP",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 1.2368073891625617,
+      "ts": "2026-10-30T13:56:19.830Z"
+    },
+    "AVAX_8.224300": {
+      "coin": "AVAX",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 8.221039484838604,
+      "ts": "2026-10-30T14:12:05.127Z"
+    },
+    "UNI_6.814100": {
+      "coin": "UNI",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 6.811397297297297,
+      "ts": "2026-10-30T14:12:49.851Z"
+    },
+    "ONDO_0.391550": {
+      "coin": "ONDO",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.3917052795031056,
+      "ts": "2026-10-30T14:31:02.701Z"
+    },
+    "ARB_0.162170": {
+      "coin": "ARB",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.16223429214350008,
+      "ts": "2026-10-30T14:38:15.699Z"
+    },
+    "ONDO_0.392970": {
+      "coin": "ONDO",
+      "lockedNetUsd": 0.2,
+      "lockedPx": 0.3932820124804992,
+      "ts": "2026-10-30T14:40:33.789Z"
+    },
+    "ADA_0.192230": {
+      "coin": "ADA",
+      "lockedNetUsd": 0.3,
+      "lockedPx": 0.1925741647597254,
+      "ts": "2026-10-30T16:59:42.617Z"
+    },
+    "ADA_0.192940": {
+      "coin": "ADA",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.19313227237949504,
+      "ts": "2026-10-30T17:11:29.776Z"
+    },
+    "AVAX_8.407600": {
+      "coin": "AVAX",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 8.404266666666667,
+      "ts": "2026-10-30T17:19:27.096Z"
+    },
+    "DOGE_0.075795": {
+      "coin": "DOGE",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.07582505710850616,
+      "ts": "2026-10-30T17:24:15.936Z"
+    },
+    "FET_0.166610": {
+      "coin": "FET",
+      "lockedNetUsd": 0.1,
+      "lockedPx": 0.16667609385327165,
+      "ts": "2026-10-30T17:24:41.446Z"
     }
   },
   "notifiedCloseTids": {
@@ -172,6 +816,283 @@
       "netGain": 0.1,
       "closedFirmNow": 1009.15,
       "ts": "2026-10-30T12:59:09.741Z"
+    },
+    "tid_253706870395219": {
+      "coin": "SUI",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:12:09.334Z"
+    },
+    "tid_104631293109846": {
+      "coin": "UNI",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:15:19.505Z"
+    },
+    "tid_39936364672965": {
+      "coin": "TAO",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:16:20.007Z"
+    },
+    "tid_268114958485176": {
+      "coin": "OP",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:18:12.218Z"
+    },
+    "tid_737734173235894": {
+      "coin": "BNB",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:25:35.092Z"
+    },
+    "tid_383507423354395": {
+      "coin": "XRP",
+      "netGain": 0.1642,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:30:22.563Z"
+    },
+    "tid_883101099682555": {
+      "coin": "TAO",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:30:32.904Z"
+    },
+    "tid_707766525656493": {
+      "coin": "HYPE",
+      "netGain": 0.2144,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:33:02.864Z"
+    },
+    "tid_921567794659709": {
+      "coin": "SUI",
+      "netGain": 0.1623,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:33:03.981Z"
+    },
+    "tid_772863893745880": {
+      "coin": "FET",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:35:32.584Z"
+    },
+    "tid_943008917236199": {
+      "coin": "ARB",
+      "netGain": 0.1175,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:42:34.049Z"
+    },
+    "tid_762504164522028": {
+      "coin": "LINK",
+      "netGain": 0.291,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:43:04.727Z"
+    },
+    "tid_282946159854685": {
+      "coin": "AVAX",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:47:12.916Z"
+    },
+    "tid_562569853278799": {
+      "coin": "ONDO",
+      "netGain": 0.1377,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:49:04.044Z"
+    },
+    "tid_1013396108667439": {
+      "coin": "DOT",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:50:13.143Z"
+    },
+    "tid_960708654452685": {
+      "coin": "HYPE",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:52:16.564Z"
+    },
+    "tid_35914972208903": {
+      "coin": "TRX",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:53:08.065Z"
+    },
+    "tid_596366968637462": {
+      "coin": "ARB",
+      "netGain": 0.4285,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:55:03.069Z"
+    },
+    "tid_471453237607116": {
+      "coin": "XRP",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T13:56:25.221Z"
+    },
+    "tid_963597039444862": {
+      "coin": "AVAX",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:12:37.875Z"
+    },
+    "tid_208407832264092": {
+      "coin": "UNI",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:13:08.033Z"
+    },
+    "tid_329427064071078": {
+      "coin": "kPEPE",
+      "netGain": 0.161,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:13:34.888Z"
+    },
+    "tid_372860438995167": {
+      "coin": "LINK",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:14:02.911Z"
+    },
+    "tid_459378916401117": {
+      "coin": "SUI",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:29:11.208Z"
+    },
+    "tid_65496750178438": {
+      "coin": "ONDO",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:31:08.683Z"
+    },
+    "tid_1095870757318559": {
+      "coin": "XRP",
+      "netGain": 0.1459,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:32:34.939Z"
+    },
+    "tid_2955013391194": {
+      "coin": "LINK",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:36:35.113Z"
+    },
+    "tid_251757544189406": {
+      "coin": "PENDLE",
+      "netGain": 0.1,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:39:03.738Z"
+    },
+    "tid_690180934837199": {
+      "coin": "ARB",
+      "netGain": 0.6695,
+      "closedFirmNow": 1009.16,
+      "ts": "2026-10-30T14:39:21.539Z"
+    },
+    "tid_724564416108734": {
+      "coin": "ONDO",
+      "netGain": 1.0463,
+      "closedFirmNow": 1009.54,
+      "ts": "2026-10-30T14:41:09.376Z"
+    },
+    "tid_737378770233524": {
+      "coin": "HYPE",
+      "netGain": 0.2133,
+      "closedFirmNow": 1008.93,
+      "ts": "2026-10-30T14:46:00.803Z"
+    },
+    "tid_266801391219149": {
+      "coin": "ADA",
+      "virtualPair": null,
+      "netGain": 0.159,
+      "closedFirmNow": 969.18,
+      "ts": "2026-10-30T16:57:10.715Z"
+    },
+    "tid_947157837166486": {
+      "coin": "ADA",
+      "virtualPair": null,
+      "netGain": 0.1,
+      "closedFirmNow": 968.9,
+      "ts": "2026-10-30T17:00:00.176Z"
+    },
+    "tid_59582438248829": {
+      "coin": "XRP",
+      "virtualPair": null,
+      "netGain": 0.1278,
+      "closedFirmNow": 969.35,
+      "ts": "2026-10-30T17:00:28.131Z"
+    },
+    "tid_351889478231140": {
+      "coin": "AVAX",
+      "virtualPair": null,
+      "netGain": 0.1373,
+      "closedFirmNow": 969.35,
+      "ts": "2026-10-30T17:00:28.876Z"
+    },
+    "tid_763855924912459": {
+      "coin": "LTC",
+      "virtualPair": null,
+      "netGain": 0.1392,
+      "closedFirmNow": 969.35,
+      "ts": "2026-10-30T17:00:29.949Z"
+    },
+    "tid_393439303596867": {
+      "coin": "ONDO",
+      "virtualPair": null,
+      "netGain": 0.1403,
+      "closedFirmNow": 969.04,
+      "ts": "2026-10-30T17:08:53.055Z"
+    },
+    "tid_1112927997858028": {
+      "coin": "TAO",
+      "virtualPair": null,
+      "netGain": 0.1,
+      "closedFirmNow": 969.31,
+      "ts": "2026-10-30T17:09:40.788Z"
+    },
+    "tid_474882878786605": {
+      "coin": "UNI",
+      "virtualPair": null,
+      "netGain": 0.1391,
+      "closedFirmNow": 969.31,
+      "ts": "2026-10-30T17:09:41.770Z"
+    },
+    "tid_119045400369562": {
+      "coin": "XRP",
+      "virtualPair": null,
+      "netGain": 0.2047,
+      "closedFirmNow": 969.52,
+      "ts": "2026-10-30T17:09:48.243Z"
+    },
+    "tid_425096359369029": {
+      "coin": "ADA",
+      "virtualPair": null,
+      "netGain": 0.1,
+      "closedFirmNow": 969.5,
+      "ts": "2026-10-30T17:11:42.907Z"
+    },
+    "tid_396971822136042": {
+      "coin": "AVAX",
+      "virtualPair": null,
+      "netGain": 0.1,
+      "closedFirmNow": 969.24,
+      "ts": "2026-10-30T17:19:33.985Z"
+    },
+    "tid_661869507965060": {
+      "coin": "DOGE",
+      "virtualPair": null,
+      "netGain": 0.1,
+      "closedFirmNow": 968.97,
+      "ts": "2026-10-30T17:24:29.483Z"
+    },
+    "tid_942721903976852": {
+      "coin": "FET",
+      "virtualPair": null,
+      "netGain": 0.1,
+      "closedFirmNow": 968.88,
+      "ts": "2026-10-30T17:25:21.411Z"
     }
   },
   "bootReportSentAt": "2026-10-30T10:39:45.377Z",

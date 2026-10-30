@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T15:35:19.387Z",
+  "updatedAt": "2026-10-30T17:27:19.237Z",
   "architecture": "FOREX_AND_MACRO_L1_PROXY_BRIDGE_V1",
   "proxyBridgeEnabled": false,
   "proxyMap": {},
@@ -17,8 +17,8 @@
       "SOL",
       "NEAR"
     ],
-    "unallocatedPruningPoolUsdc": 0.0015,
-    "totalCreditedTodayUsdc": 3.3647,
+    "unallocatedPruningPoolUsdc": 0.5357,
+    "totalCreditedTodayUsdc": 3.8989,
     "totalPrunedTodayUsdc": 4.2032,
     "lastResetDateUtc": "2026-10-30",
     "processedCloseFillTids": {
@@ -285,6 +285,72 @@
         "netGain": 0.0264,
         "contribution40Pct": 0.0106,
         "ts": "2026-10-30T07:35:51.295Z"
+      },
+      "266801391219149": {
+        "coin": "ADA",
+        "netGain": 0.159,
+        "contribution40Pct": 0.0636,
+        "ts": "2026-10-30T16:57:03.435Z"
+      },
+      "947157837166486": {
+        "coin": "ADA",
+        "netGain": 0.0569,
+        "contribution40Pct": 0.0228,
+        "ts": "2026-10-30T16:59:50.176Z"
+      },
+      "59582438248829": {
+        "coin": "XRP",
+        "netGain": 0.1278,
+        "contribution40Pct": 0.0511,
+        "ts": "2026-10-30T17:00:24.578Z"
+      },
+      "763855924912459": {
+        "coin": "LTC",
+        "netGain": 0.1392,
+        "contribution40Pct": 0.0557,
+        "ts": "2026-10-30T17:00:21.540Z"
+      },
+      "351889478231140": {
+        "coin": "AVAX",
+        "netGain": 0.1373,
+        "contribution40Pct": 0.0549,
+        "ts": "2026-10-30T17:00:21.316Z"
+      },
+      "393439303596867": {
+        "coin": "ONDO",
+        "netGain": 0.1403,
+        "contribution40Pct": 0.0561,
+        "ts": "2026-10-30T17:08:51.177Z"
+      },
+      "703784997843333": {
+        "coin": "TAO",
+        "netGain": 0.0441,
+        "contribution40Pct": 0.0176,
+        "ts": "2026-10-30T17:09:28.271Z"
+      },
+      "119045400369562": {
+        "coin": "XRP",
+        "netGain": 0.2047,
+        "contribution40Pct": 0.0819,
+        "ts": "2026-10-30T17:09:39.130Z"
+      },
+      "474882878786605": {
+        "coin": "UNI",
+        "netGain": 0.1391,
+        "contribution40Pct": 0.0556,
+        "ts": "2026-10-30T17:09:35.526Z"
+      },
+      "1112927997858028": {
+        "coin": "TAO",
+        "netGain": 0.0917,
+        "contribution40Pct": 0.0367,
+        "ts": "2026-10-30T17:09:34.289Z"
+      },
+      "425096359369029": {
+        "coin": "ADA",
+        "netGain": 0.0955,
+        "contribution40Pct": 0.0382,
+        "ts": "2026-10-30T17:11:37.932Z"
       }
     },
     "pruneHistory": [

@@ -63,24 +63,27 @@
         </div>
       </div>
 
-      <!-- Card 2: Profit Cerrado & Corte 00:00 UTC (ZERO OVERFLOW - 100% VISIBLE) -->
-      <div class="biz-card" id="cardProfit" style="overflow: hidden !important; min-width: 0 !important; padding: 5px 6px !important; gap: 2px !important;">
+      <!-- Card 2: Neto Diario ($100 USDC) & Reloj 24H UTC (ZERO OVERFLOW - 100% VISIBLE) -->
+      <div class="biz-card" id="cardProfit" style="overflow: hidden !important; min-width: 0 !important; padding: 5px 6px !important; gap: 3px !important;">
         <div class="card-tag" style="font-size: 0.56rem !important; letter-spacing: 0.01em !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important;">
-          <span class="material-symbols-rounded" style="font-size: 0.78rem !important;">trending_up</span> PROFIT CERRADO &amp; CORTE 00:00 UTC
+          <span class="material-symbols-rounded" style="font-size: 0.78rem !important;">trending_up</span> 📈 NETO DIARIO ($100 USDC) &amp; RELOJ 24H UTC
         </div>
         <div class="card-main-val text-green" style="width: 100% !important; min-width: 0 !important; display: flex !important; align-items: center !important; justify-content: flex-start !important; overflow: hidden !important;">
-          <span id="topTotalProfit" style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.45rem, 0.54vw, 0.52rem) !important; font-weight: 800 !important; letter-spacing: -0.025em !important; line-height: 1.15 !important; white-space: nowrap !important; display: block !important; width: 100% !important; overflow: hidden !important; text-overflow: clip !important;">HOY NETO (00:00 UTC): +$4.67 USDC · Meta 0.10 Neto: 47 / 1,000 Uds</span>
+          <span id="topTotalProfit" style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.46rem, 0.56vw, 0.54rem) !important; font-weight: 800 !important; letter-spacing: -0.025em !important; line-height: 1.15 !important; white-space: nowrap !important; display: block !important; width: 100% !important; overflow: hidden !important; text-overflow: clip !important;">HOY NETO: +$4.67 / $100.00 USDC (4.7% · Faltan $95.33)</span>
           <span class="pct-badge" id="topTotalProfitPct" style="display: none;">35G - 0P</span>
         </div>
-        <div id="topProfitFloatingPill" style="width: 100% !important; box-sizing: border-box !important; font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.47rem, 0.57vw, 0.54rem) !important; font-weight: 800 !important; letter-spacing: -0.025em !important; line-height: 1.15 !important; color: #065F46 !important; background: #ECFDF5 !important; border: 1px solid #A7F3D0 !important; border-radius: 4px !important; padding: 2px 3px !important; text-align: center !important; white-space: nowrap !important; overflow: hidden !important;">
-          Acumulado Neto (en L1): +$214.43 (+28.3%) · Cierre: $970.95
+        <div id="topProfitFloatingPill" style="width: 100% !important; box-sizing: border-box !important; font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.45rem, 0.54vw, 0.52rem) !important; font-weight: 800 !important; letter-spacing: -0.025em !important; line-height: 1.15 !important; color: #065F46 !important; background: #ECFDF5 !important; border: 1px solid #A7F3D0 !important; border-radius: 4px !important; padding: 2px 3px !important; text-align: center !important; white-space: nowrap !important; overflow: hidden !important;">
+          🕒 17:20:00 UTC · ⏳ Corte 24h (00:00 UTC): Faltan 06h 40m 00s
+        </div>
+        <div id="card2CycleFooter" style="width: 100% !important; box-sizing: border-box !important; font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.45rem, 0.53vw, 0.51rem) !important; font-weight: 800 !important; letter-spacing: -0.02em !important; line-height: 1.15 !important; color: #1E3A8A !important; background: #EFF6FF !important; border: 1px solid #BFDBFE !important; border-radius: 4px !important; padding: 2px 3px !important; text-align: center !important; white-space: nowrap !important; overflow: hidden !important;">
+          Ciclo 24h: 17h 20m / 24h (EN CURSO) · Acumulado Neto L1: +$214.43
         </div>
         <div id="topProfitLadderPill" style="display: none;"></div>
-        <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills" style="display: grid !important; grid-template-columns: 1.25fr 0.92fr 0.92fr 0.92fr !important; gap: 2px !important; width: 100% !important; min-width: 0 !important;">
-          <span class="sq-badge streak" style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.46rem, 0.52vw, 0.52rem) !important; letter-spacing: -0.02em !important; padding: 2px 2px !important;"><b id="winStreakText">HOY 35G-0P</b></span>
-          <span class="sq-badge sq-unit" id="sq1Badge" style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.46rem, 0.52vw, 0.52rem) !important; letter-spacing: -0.02em !important; padding: 2px 1px !important;"><b>#01</b><span class="sq-val profit-green" id="sq1Val">+$82.6</span></span>
-          <span class="sq-badge sq-unit" id="sq2Badge" style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.46rem, 0.52vw, 0.52rem) !important; letter-spacing: -0.02em !important; padding: 2px 1px !important;"><b>#02</b><span class="sq-val profit-green" id="sq2Val">+$64.2</span></span>
-          <span class="sq-badge sq-unit" id="sq3Badge" style="font-family: 'Plus Jakarta Sans', sans-serif !important; font-variant-numeric: tabular-nums !important; font-size: clamp(0.46rem, 0.52vw, 0.52rem) !important; letter-spacing: -0.02em !important; padding: 2px 1px !important;"><b>#03</b><span class="sq-val profit-green" id="sq3Val">+$67.6</span></span>
+        <div class="card-sub-badges-row sq-badges-row card-2-bottom-pills" style="display: none !important;">
+          <span class="sq-badge streak"><b id="winStreakText">HOY 35G-0P</b></span>
+          <span class="sq-badge sq-unit" id="sq1Badge"><b>#01</b><span class="sq-val profit-green" id="sq1Val">+$82.6</span></span>
+          <span class="sq-badge sq-unit" id="sq2Badge"><b>#02</b><span class="sq-val profit-green" id="sq2Val">+$64.2</span></span>
+          <span class="sq-badge sq-unit" id="sq3Badge"><b>#03</b><span class="sq-val profit-green" id="sq3Val">+$67.6</span></span>
         </div>
       </div>
 
@@ -125,20 +128,20 @@
         <div class="rule-badge-sub" id="topLoanBreakdownSub" style="font-size: 0.55rem !important; white-space: nowrap; padding: 2px 4px !important;">Base #501: $629.94 + $54.10 + $72.48 = $756.52 (0% Int.)</div>
       </div>
 
-      <!-- Card 5: Radar Matrix 18x54 -->
+      <!-- Card 5: Radar Matrix — Meta 24H ($100 Netos) -->
       <div class="biz-card" id="cardRadarMatrix">
         <div class="card-tag" style="font-size: 0.60rem !important;">
-          <span class="material-symbols-rounded">radar</span> RADAR MATRIX: 18 ESCUADRONES × 54 PARES
+          <span class="material-symbols-rounded">radar</span> RADAR MATRIX — META 24H ($100 NETOS)
         </div>
         <div class="squad-counter-row" style="display: flex !important; flex-direction: column !important; gap: 3px !important;">
-          <span class="status-pill active-pill" id="topActiveSquadsPill" style="background: #EFF6FF !important; color: #1E40AF !important; border: 1px solid #BFDBFE !important; width: 100%; justify-content: center; font-size: 0.55rem !important; padding: 2px 4px !important; white-space: nowrap !important;">
-            <span id="topActiveSquadsText">27 PARES L1 · CALIBRE $50.45 (5% A 5X)</span>
+          <span class="status-pill active-pill" id="topActiveSquadsPill" style="background: #EFF6FF !important; color: #1E40AF !important; border: 1px solid #BFDBFE !important; width: 100%; justify-content: center; font-size: 0.52rem !important; padding: 2px 4px !important; white-space: nowrap !important;">
+            <span id="topActiveSquadsText">27 PARES L1 · 15 CANALES ($50.45 A 5X)</span>
           </span>
-          <span class="status-pill ready-pill" id="topReadySquadsPill" style="display: inline-flex !important; background: #FEF3C7 !important; color: #92400E !important; border: 1px solid #FCD34D !important; width: 100%; justify-content: center; font-size: 0.50rem !important; font-weight: 800 !important; padding: 2px 4px !important; white-space: nowrap !important;">
-            <span id="topReadySquadsText">🟢 8 / 15 CANALES ACTIVOS · CANDADO NETO +$0.10 ➔ +$0.50+</span>
+          <span class="status-pill ready-pill" id="topReadySquadsPill" style="display: inline-flex !important; background: #FEF3C7 !important; color: #92400E !important; border: 1px solid #FCD34D !important; width: 100%; justify-content: center; font-size: 0.48rem !important; font-weight: 800 !important; padding: 2px 4px !important; white-space: nowrap !important;">
+            <span id="topReadySquadsText">🟢 8 / 15 CANALES ACTIVOS · CANDADO +$0.30 ➔ +$0.40 ➔ +$0.50+</span>
           </span>
         </div>
-        <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #047857 !important; font-weight: 800 !important; font-size: 0.54rem !important; white-space: nowrap !important; text-align: center !important;">FONDO FUNDADOR: +$4.67 / +$52.00 (DÍA 1 · 30-31 OCT)</div>
+        <div class="sub-label-matrix" id="topRadarSubLabel" style="color: #047857 !important; font-weight: 800 !important; font-size: 0.52rem !important; white-space: nowrap !important; text-align: center !important;">META 24H: +$4.67 / $100.00 USDC NETOS · 🕒 17:20 UTC</div>
       </div>
     </header>
     <!-- Hidratación síncrona en 0ms desde localStorage (area501_live_snapshot_v8) para CERO salto al pulsar F5 -->
@@ -1319,6 +1322,6 @@
 
   </div>
 
-  <script src="app.js?v=20261030v44"></script>
+  <script src="app.js?v=20261030v46"></script>
 </body>
 </html>

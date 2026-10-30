@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-30T13:11:38.126Z",
-  "lastScanUtc": "13:11:38 UTC",
+  "updatedAt": "2026-10-30T17:27:12.086Z",
+  "lastScanUtc": "17:27:12 UTC",
   "daemonStatus": "ACTIVE_24_7_GASLESS_AND_KEEPER",
-  "cycleCount": 1654,
+  "cycleCount": 2165,
   "walletsActive": "500 / 500",
   "fleetPocketsUsdc": 4.7,
   "captainsPocketsUsdc": 1.75,
@@ -16,41 +16,41 @@
   "streakGoal": "500 / 500 Firmado EIP-712",
   "countdownPill": "🟢 Cierre 30 Oct (Activo 24/7)",
   "currentPlatoonScanned": {
-    "platoonId": 4,
-    "walletRange": "#031 ➔ #040",
+    "platoonId": 15,
+    "walletRange": "#141 ➔ #150",
     "attestationsCount": 10,
     "polyDetectedUsdc": 0,
     "baseDetectedUsdc": 0,
     "sampleAttestations": [
       {
-        "index": 31,
-        "address": "0x95c071d358d25454A3eAB72e0945954784C2dCdc",
-        "platoonId": 4,
-        "campaign": "Gasless EIP-712 & Racha",
-        "signatureHash": "0x7507f172a7d45c33...726cb8",
+        "index": 141,
+        "address": "0xD5A3ff982C55b9fE1d4DE6E4c9c54161f3aBFD51",
+        "platoonId": 15,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0x2d62161071fbc954...54d7a2",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-30T13:11:34.347Z"
+        "timestamp": "2026-10-30T17:27:08.284Z"
       },
       {
-        "index": 32,
-        "address": "0xF03d48299fb4DdE3388d457B535d437052DCe276",
-        "platoonId": 4,
-        "campaign": "Gasless EIP-712 & Racha",
-        "signatureHash": "0xa2bf11ccbd0dbf6f...cfe9ec",
+        "index": 142,
+        "address": "0x9B9b212685dD3239F3052945cEc68a35F1FdFd5B",
+        "platoonId": 15,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0xbe4c004b61b28727...907c17",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-30T13:11:34.347Z"
+        "timestamp": "2026-10-30T17:27:08.284Z"
       },
       {
-        "index": 33,
-        "address": "0x79f79db088Ad4506de8D6c84b5b7769137D920Cc",
-        "platoonId": 4,
-        "campaign": "Gasless EIP-712 & Racha",
-        "signatureHash": "0x3b9a9030c5675d0b...a07ec9",
+        "index": 143,
+        "address": "0x0f8cc80d4dbc7CC82530C62aCDFC60d1858b6192",
+        "platoonId": 15,
+        "campaign": "DogeOS Cap. 2 (30 Oct)",
+        "signatureHash": "0xbf74a9606a49fddb...79cb6a",
         "gasSpentUsd": 0,
         "status": "VERIFIED_EIP712_OK",
-        "timestamp": "2026-10-30T13:11:34.347Z"
+        "timestamp": "2026-10-30T17:27:08.284Z"
       }
     ]
   },

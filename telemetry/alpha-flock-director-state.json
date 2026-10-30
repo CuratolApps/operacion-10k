@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T13:19:46.809Z",
+  "updatedAt": "2026-10-30T17:24:50.761Z",
   "liveBalances": {
     "totalUsdc": 3.41,
     "polygonUsdc": 0.7,
@@ -10,7 +10,7 @@
     "bnb": 0.00877,
     "baseEth": 0.0144,
     "arbEth": 0.0036,
-    "readTimestamp": "2026-10-30T13:19:38.246Z"
+    "readTimestamp": "2026-10-30T17:24:41.954Z"
   },
   "radarA_TokenlessProtocols": [
     {
@@ -20,9 +20,9 @@
         "Arbitrum"
       ],
       "chainsText": "Arbitrum",
-      "tvlUsd": 76453444.87940118,
+      "tvlUsd": 76466949.14386894,
       "tvlFormatted": "$76.5M",
-      "change1d": "+0.58%",
+      "change1d": "+0.49%",
       "url": "https://popdex.xyz/"
     },
     {
@@ -32,23 +32,23 @@
         "Arbitrum"
       ],
       "chainsText": "Arbitrum",
-      "tvlUsd": 26114785.93492653,
+      "tvlUsd": 26120555.563887525,
       "tvlFormatted": "$26.1M",
-      "change1d": "+3.96%",
+      "change1d": "+3.97%",
       "url": "https://defillama.com/protocol/jusd-finance"
     },
     {
-      "name": "D2 Finance",
-      "category": "Onchain Capital Allocator",
+      "name": "Snuggle",
+      "category": "Liquidity Manager",
       "chains": [
-        "Arbitrum",
-        "Base"
+        "Base",
+        "Arbitrum"
       ],
-      "chainsText": "Arbitrum/Base",
-      "tvlUsd": 24649089.44948565,
-      "tvlFormatted": "$24.6M",
-      "change1d": "+4.29%",
-      "url": "https://d2.finance/strategies"
+      "chainsText": "Base/Arbitrum",
+      "tvlUsd": 11798981.471658323,
+      "tvlFormatted": "$11.8M",
+      "change1d": "+40.68%",
+      "url": "https://snuggle.fi/"
     }
   ],
   "radarB_GaslessRaffles": [
@@ -93,25 +93,25 @@
     {
       "target": "Base / Avantis S3",
       "network": "Base",
-      "deadline": "30 de Octubre de 2026 (Sellado 500/500) ➔ Próximo: 15 Nov",
-      "daysRemaining": 0,
-      "status": "🟢 CIERRE HOY 30 OCT: 500/500",
+      "deadline": "30 de Octubre de 2026",
+      "daysRemaining": 3,
+      "status": "🔥 EN RUTA (Faltan 3 días)",
       "fleetCoverage": "500/500 Satélites Calificados"
     },
     {
       "target": "DogeOS Chapter 2 / Startale",
       "network": "Polygon / Arbitrum",
-      "deadline": "30 de Octubre de 2026 (Sellado 500/500) ➔ Próximo: 20 Nov",
-      "daysRemaining": 0,
-      "status": "🟢 CIERRE HOY 30 OCT: 500/500",
+      "deadline": "30 de Octubre de 2026",
+      "daysRemaining": 3,
+      "status": "🔥 EN RUTA (Faltan 3 días)",
       "fleetCoverage": "500/500 Satélites Calificados"
     },
     {
-      "target": "Citrea & GOAT BTC L2 (Sprint Noviembre)",
+      "target": "Arbitrum Stylus & Citrea/GOAT BTC L2",
       "network": "Arbitrum & Bitcoin L2s",
-      "deadline": "15 y 20 de Noviembre de 2026",
-      "daysRemaining": 16,
-      "status": "🔥 FOCO PRINCIPAL 15/20 NOV",
+      "deadline": "Fase Q4 2026 / Q1 2027",
+      "daysRemaining": 65,
+      "status": "🌱 SIEMBRA CONTINUA 24/7",
       "fleetCoverage": "500/500 Satélites con Pulsos OK"
     }
   ],

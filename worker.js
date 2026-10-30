@@ -3815,18 +3815,19 @@ export default {
             const FAST_SCALP_LANES = 11;
             const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 15;
             const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
-            const FAST_LANE_LOCK_NET_USDC = 0.10;
+            const FAST_LANE_LOCK_NET_USDC = 0.30;
             const CORNERING_HALF_DOLLAR_USDC = 0.50;
             const CORNERING_BREATH_BUFFER_USDC = 0.02;
             const EXPRESS_EVAC_DELTA_RATIO = 0.00040;
-            const EXPRESS_EVAC_NET_USDC = 0.05;
+            const EXPRESS_EVAC_NET_USDC = 0.30;
             const POST_TRADE_COOLDOWN_MS = 2 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
+            const DAILY_TARGET_NET_USDC = 100.00;
             const priorityEvacSet = new Set(["PAXG", "SUI", "kPEPE", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"]);
-            const computeCorneringStepCloud = (peakNetPnl) => {
-              const p = Number(peakNetPnl || 0);
-              if (p >= 0.20) return +(Math.floor((p + 1e-9) * 10) / 10).toFixed(2);
-              if (p >= 0.10) return 0.10;
+            // NUEVA ESCALERA DE CANDADOS DESDE +$0.30 (`+$0.30 ➔ +$0.40 ➔ +$0.50 ➔ +$0.60 ➔ +$1.00+`)
+            const computeCorneringStepCloud = (peakPnlUsdc) => {
+              const peak = Number(peakPnlUsdc || 0);
+              if (peak >= 0.32) return +(Math.floor(((peak - 0.02) + 1e-9) * 10) / 10).toFixed(2);
               return 0;
             };
 
@@ -3838,13 +3839,11 @@ export default {
               const entryPx = parseFloat(p.entryPx || "0");
               const positionVal = Math.abs(parseFloat(p.positionValue || "0"));
               const unrealizedPnl = parseFloat(p.unrealizedPnl || "0");
-              const rtFeeUsd = positionVal * HL_ROUNDTRIP_FEE_RATE;
-              const netAfterFee = unrealizedPnl - rtFeeUsd;
 
               if (entryPx > 0 && positionVal > 0) {
-                if (netAfterFee >= 0.10) {
-                  const stepUsd = Math.max(0.10, computeCorneringStepCloud(netAfterFee));
-                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Universal 10c NETO ACTIVO para ${coin} (Escalón Neto +$${stepUsd.toFixed(2)} | Neto +$${netAfterFee.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
+                if (unrealizedPnl >= 0.32) {
+                  const stepUsd = Math.max(0.30, computeCorneringStepCloud(unrealizedPnl));
+                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado +$0.30+ ACTIVO para ${coin} (Escalón +$${stepUsd.toFixed(2)} | Visible +$${unrealizedPnl.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
                 } else {
                   unfencedCount++;
                 }
@@ -3878,7 +3877,7 @@ export default {
               if (!globalThis.__NOTIFIED_GREEN_CLOSE_COINS__) globalThis.__NOTIFIED_GREEN_CLOSE_COINS__ = {};
               if (!globalThis.__CLOUD_RATCHET_PEAKS__) globalThis.__CLOUD_RATCHET_PEAKS__ = {};
 
-              // 1. BLINDAJE ANTI-ESCAPE DEL CANDADO #00 (`displayPnl >= $0.50` Estricto + Stop-Market L1 + IOC 3% Slippage):
+              // 1. BLINDAJE ANTI-ESCAPE DEL CANDADO #00 (`displayPnl >= $0.12` -> `+$0.10`, `+$0.20`, `+$0.30`, `+$0.40`, `+$0.50` 1:1 con pantalla):
               for (const pos of openPositions) {
                 const p = pos.position || pos;
                 const rawCoin = p.coin === "PEPE" ? "kPEPE" : p.coin;
@@ -3897,14 +3896,15 @@ export default {
                 const memKey = `${coin}_${entryPx.toFixed(6)}`;
                 let prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakPnl ?? -999;
                 let prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedFloor ?? 0;
-                if (prevPeak > 25.0 || prevLocked > 25.0 || netAfterFee < -0.25) {
-                  prevPeak = netAfterFee;
+                if (prevPeak > 25.0 || prevLocked > 25.0 || uPnl < -0.25) {
+                  prevPeak = uPnl;
                   prevLocked = 0;
                 }
                 const prevTriggerOid = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerOid || null;
                 const prevTriggerFloor = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerFloor || 0;
-                const peakPnl = Math.max(prevPeak, netAfterFee);
-                const lockedProfitUsdc = netAfterFee < -0.25 ? 0 : Math.max(prevLocked, computeCorneringStepCloud(peakPnl));
+                const peakPnl = Math.max(prevPeak, uPnl);
+                const validPrevLocked = prevLocked >= 0.30 ? prevLocked : 0;
+                const lockedProfitUsdc = uPnl < -0.25 ? 0 : Math.max(validPrevLocked, computeCorneringStepCloud(peakPnl));
                 globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = {
                   peakPnl,
                   lockedFloor: lockedProfitUsdc,
@@ -3912,10 +3912,10 @@ export default {
                   triggerFloor: prevTriggerFloor
                 };
 
-                // Si alcanzó >= +$0.50 netos, colocar/actualizar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1
-                if (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                // Si alcanzó >= +$0.30 visibles, colocar/actualizar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1 (1:1 exacto)
+                if (lockedProfitUsdc >= 0.30 && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   if ((lockedProfitUsdc - prevTriggerFloor) >= 0.09) {
-                    const deltaStopPx = (rtFeeUsd + lockedProfitUsdc) / absSz;
+                    const deltaStopPx = lockedProfitUsdc / absSz;
                     const stopTriggerPx = isShort ? (entryPx - deltaStopPx) : (entryPx + deltaStopPx);
                     const stopTriggerPxStr = fmtPx(stopTriggerPx, coin);
                     if (prevTriggerOid) {
@@ -3947,17 +3947,17 @@ export default {
                   }
                 }
 
-                if (lockedProfitUsdc >= 0.10 && botToken && chatId) {
+                if (lockedProfitUsdc >= 0.30 && botToken && chatId) {
                   if (!globalThis.__NOTIFIED_LOCK00_COINS__[memKey]) {
                     globalThis.__NOTIFIED_LOCK00_COINS__[memKey] = true;
                     const lockUsd = lockedProfitUsdc;
                     const lockedPx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
-                    const lockMsg = `🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n` +
+                    const lockMsg = `🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO +$0.30+ CLAVADO]</b>\n` +
                       `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                       `📍 <b>Par:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
                       `📥 <b>Precio Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code>\n` +
                       `🔒 <b>Candado #00 Asegurado:</b> <code>$${fmtPx(lockedPx, coin)}</code> (<b>+$${lockedProfitUsdc.toFixed(2)} USDC · $0.00 Riesgo</b>)\n` +
-                      `🌊 <b>Escalera Acorralamiento #00:</b> <code>+$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)</code>\n` +
+                      `🌊 <b>Escalera Desde +$0.30:</b> <code>+$0.30 ➔ +$0.40 ➔ +$0.50 ➔ +$0.60 ➔ +$1.00+ (10c en 10c)</code>\n` +
                       `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                       `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
                     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -3968,12 +3968,12 @@ export default {
                   }
                 }
 
-                // Gatillo Anti-Escape: se activa en el instante en que netAfterFee <= lockedFloorUsdc
-                const hitCorneredStop = lockedProfitUsdc >= 0.10 && (
-                  (netAfterFee < lockedProfitUsdc) || (peakPnl > lockedProfitUsdc + 0.001 && netAfterFee <= lockedProfitUsdc)
+                // Gatillo Anti-Escape desde +$0.30: se activa únicamente cuando lockedProfitUsdc >= 0.30 y uPnl <= lockedProfitUsdc
+                const hitCorneredStop = lockedProfitUsdc >= 0.30 && (
+                  (uPnl < lockedProfitUsdc) || (peakPnl > lockedProfitUsdc + 0.001 && uPnl <= lockedProfitUsdc)
                 );
 
-                if ((hitCorneredStop || (priorityEvacSet.has(coin) && uPnl >= EXPRESS_EVAC_NET_USDC && lockedProfitUsdc < 0.20)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                if (hitCorneredStop && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   let favorRatio = 0.50;
                   let currentBookPx = entryPx;
                   try {
@@ -4289,13 +4289,16 @@ export default {
             const step1Line = step1Prog >= step1GoalUsdc
               ? `✅ <b>META CUMPLIDA: +$52.00 / +$52.00 USDC</b> | 🔥 <b>EXTRA: +$${step1Extra.toFixed(2)} USDC</b>`
               : `<b>+$${step1Prog.toFixed(2)} / +$52.00 USDC</b> (Faltan $${step1Rem.toFixed(2)} | Extra: +$0.00)`;
+            const currentDailyUnitsTg = Number((todayNetSum / 0.10).toFixed(1));
+            const remainingUnitsTg = Number(Math.max(0, 1000 - currentDailyUnitsTg).toFixed(1));
 
             const telegramTradeMsg = `🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📍 <b>Par & Dirección:</b> <code>${coin}-USDC</code> (<b>${dir}</b>)
 📤 <b>Precio Salida Candado #00:</b> <code>$${latestHlWin.px}</code>
 💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$${netGain.toFixed(4)} USDC</b>
-🏆 <b>HOY NETO (00:00 UTC):</b> <b>+$${todayNetSum.toFixed(2)} USDC · ${todayWinsCount}G - 0P</b>
+🎯 <b>Progreso Meta 24H:</b> <b>${currentDailyUnitsTg.toFixed(1)} / 1,000 Disparos (+$0.10 Neto) | Faltan: ${remainingUnitsTg.toFixed(1)} para +$100/día</b>
+🏆 <b>HOY NETO (24H):</b> <b>+$${todayNetSum.toFixed(2)} USDC · ${todayWinsCount}G - 0P</b>
 📈 <b>Escalón 1 (30–31 Oct):</b> ${step1Line}
 🏛️ <b>Cerrado L1:</b> <b>$${closedFirmNow.toFixed(2)} USDC</b> (Base #501: $756.52 + Neto L1: +$${(closedFirmNow - 756.52).toFixed(2)} | Equity Viva: <code>$${currentAccountVal} USDC</code>)
 🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 02:00 (120s RECALIBRANDO ${coin})</code>
