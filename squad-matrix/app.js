@@ -923,16 +923,15 @@ function persistClientRatchetMemory() {
 }
 function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
   const peak = Number(peakNetPnlUsdc || 0);
-  if (peak >= 0.51) {
-    return +(Math.floor(((peak - 0.01) + 1e-9) * 20) / 20).toFixed(2);
+  if (peak >= 0.54) {
+    return +(Math.floor(((peak - 0.04) + 1e-9) * 20) / 20).toFixed(2);
   }
-  if (peak >= 0.41) return 0.40;
-  if (peak >= 0.31) return 0.30;
-  if (peak >= 0.26) return 0.25;
-  if (peak >= 0.21) return 0.20;
-  if (peak >= 0.16) return 0.15;
-  if (peak >= 0.11) return 0.10;
-  if (peak >= 0.02) return 0.01;
+  if (peak >= 0.44) return 0.40;
+  if (peak >= 0.34) return 0.30;
+  if (peak >= 0.29) return 0.25;
+  if (peak >= 0.24) return 0.20;
+  if (peak >= 0.19) return 0.15;
+  if (peak >= 0.14) return 0.10;
   return 0;
 }
 
@@ -1010,8 +1009,8 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const refPx = currentPrice > 0 ? currentPrice : entryPx;
   const notional = absSz * refPx;
 
-  // REGLA DE HIERRO CONTABLE (netPnlUsdc 1:1 en Pantalla y en el Motor de Candados):
-  const realRoundTripFeeUsdc = Number((notional * 0.00045).toFixed(4));
+  // REGLA DE HIERRO CONTABLE (netPnlUsdc 1:1 en Pantalla y en el Motor de Candados, descontando 0.090% ida+vuelta completo):
+  const realRoundTripFeeUsdc = Number((notional * 0.00090).toFixed(4));
   const rawPnl = parseFloat(pos.unrealizedPnl || "0");
   const netPnlUsdc = Number((rawPnl - realRoundTripFeeUsdc).toFixed(4));
   const displayPnl = netPnlUsdc;
@@ -1032,8 +1031,8 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const mem = clientRatchetMemory[coin];
   let memChanged = false;
 
-  // Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< -$0.35 netos)
-  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < -0.35) {
+  // Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< -$0.35 netos) o candado < $0.10
+  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < -0.35 || (mem.lockedNetUsd > 0 && mem.lockedNetUsd < 0.10)) {
     mem.peakPnlUsdc = displayPnl;
     mem.peakNetAfterFee = displayPnl;
     mem.lockedNetUsd = 0;
@@ -1047,9 +1046,9 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   if (displayPnl > mem.peakNetAfterFee) mem.peakNetAfterFee = displayPnl;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Escalera Exacta 1:1 Neta (+$0.02 -> +$0.01 | +$0.12 -> +$0.10 | +$0.22 -> +$0.20 | +$0.32 -> +$0.30 | +$0.42 -> +$0.40 | +$0.52 -> +$0.50+...)
+  // Escalera Exacta 1:1 Neta (+$0.14 -> +$0.10 | +$0.19 -> +$0.15 | +$0.24 -> +$0.20 | +$0.29 -> +$0.25 | +$0.34 -> +$0.30 | +$0.44 -> +$0.40 | +$0.54 -> +$0.50+...)
   const corneredStep = displayPnl >= -0.05 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
-  if (displayPnl >= -0.05 && corneredStep >= 0.01 && corneredStep > (mem.lockedNetUsd || 0)) {
+  if (displayPnl >= -0.05 && corneredStep >= 0.10 && corneredStep > (mem.lockedNetUsd || 0)) {
     mem.lockedNetUsd = corneredStep;
     memChanged = true;
   }
@@ -1067,14 +1066,14 @@ function computeClientRatchetStatus(activePos, currentPrice) {
     };
   }
 
-  if (displayPnl >= 0 || mem.lockedNetUsd >= 0.01) {
+  if (displayPnl >= 0.01) {
     return {
-      isLocked: mem.lockedNetUsd >= 0.01,
-      lockedNetUsd: Math.max(0.01, mem.lockedNetUsd || 0),
+      isLocked: false,
+      lockedNetUsd: 0,
       peakPnlUsdc: mem.peakPnlUsdc,
       netPnlUsdc,
       realRoundTripFeeUsdc,
-      statusLabel: `🛡️ EMPATE #00 (+$0.01 NETO)`,
+      statusLabel: `🛡️ EN VERDE (+$${displayPnl.toFixed(2)} NETO ➔ +$0.10)`,
       lockClass: "active-lock-tag be"
     };
   }
