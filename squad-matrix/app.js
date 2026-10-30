@@ -1449,12 +1449,10 @@ async function fetchHyperliquidState() {
           0, 0, 0, 0
         );
 
-        const CALIBRATION_V2_ANCHOR_MS = Date.UTC(
-          nowUtc.getUTCFullYear(),
-          nowUtc.getUTCMonth(),
-          nowUtc.getUTCDate(),
-          20, 52, 7, 0
-        ); // 20:52:07 UTC (Arranque limpio V2 sin quema de saldo)
+        const CALIBRATION_V2_ANCHOR_MS = Math.max(
+          Date.UTC(2026, 9, 30, 20, 52, 7, 0),
+          startOfTodayUtcMs
+        ); // 20:52:07 UTC del 30 Oct, y reinicio automático a las 00:00 UTC de cada nuevo día
 
         let postAnchorPnl = 0;
         let postAnchorSq1 = 0, postAnchorSq2 = 0, postAnchorSq3 = 0;

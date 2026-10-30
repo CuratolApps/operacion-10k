@@ -2980,17 +2980,39 @@ async function startAutonomousSquadDaemon() {
   let dailyOpsTodayCount = 35;
   let burnBallastSubsidyUsdc = 0.84;
   let sharedChCache = { ts: 0, data: null };
+  let sharedFillsCache = { ts: 0, data: [] };
 
   async function getSharedClearinghouseState(maxAgeMs = 1100) {
     const now = Date.now();
     if (sharedChCache.data && (now - sharedChCache.ts) < maxAgeMs) {
       return sharedChCache.data;
     }
-    const chData = await info.clearinghouseState({ user: VAULT_501 });
-    if (chData) {
-      sharedChCache = { ts: Date.now(), data: chData };
+    try {
+      const chData = await info.clearinghouseState({ user: VAULT_501 });
+      if (chData) {
+        sharedChCache = { ts: Date.now(), data: chData };
+      }
+      return chData || sharedChCache.data;
+    } catch (err) {
+      if (sharedChCache.data) return sharedChCache.data;
+      throw err;
     }
-    return chData;
+  }
+
+  async function getSharedUserFills(maxAgeMs = 4000) {
+    const now = Date.now();
+    if (sharedFillsCache.data && sharedFillsCache.data.length > 0 && (now - sharedFillsCache.ts) < maxAgeMs) {
+      return sharedFillsCache.data;
+    }
+    try {
+      const fillsData = await info.userFills({ user: VAULT_501 });
+      if (Array.isArray(fillsData)) {
+        sharedFillsCache = { ts: Date.now(), data: fillsData };
+      }
+      return sharedFillsCache.data;
+    } catch (_) {
+      return sharedFillsCache.data || [];
+    }
   }
 
   // Registrar PID del proceso actual para impedir demonios viejos duplicados en memoria
@@ -3189,14 +3211,16 @@ async function startAutonomousSquadDaemon() {
         }
       }
 
-      // Calcular Ganancia Neta Cerrada Real desde la calibración V2 (2026-10-30T20:52:07Z = 1793393527000) — 100% libre de comisiones y sin gastos de poda
+      // Calcular Ganancia Neta Cerrada Real desde la calibración V2 (2026-10-30T20:52:07Z) y reinicio 00:00 UTC — 100% libre de comisiones + Reconciliación Telegram garantizada
       if (cycleCounter === 1 || cycleCounter % 3 === 0) {
         try {
-          const fills = await info.userFills({ user: VAULT_501 });
+          const fills = await getSharedUserFills(4000);
           const nowD = new Date();
-          const CALIBRATION_V2_ANCHOR_MS = Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth(), nowD.getUTCDate(), 20, 52, 7, 0);
+          const startOfUtcDayMs = Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth(), nowD.getUTCDate(), 0, 0, 0, 0);
+          const CALIBRATION_V2_ANCHOR_MS = Math.max(Date.UTC(2026, 9, 30, 20, 52, 7, 0), startOfUtcDayMs);
           let sumClosedNetToday = 0;
           const todayOpsSet = new Set();
+          const recentWinFills = [];
           for (const f of (fills || [])) {
             const fTime = Number(f.time || 0);
             if (fTime < CALIBRATION_V2_ANCHOR_MS) continue;
@@ -3204,16 +3228,56 @@ async function startAutonomousSquadDaemon() {
             const cPnl = parseFloat(f.closedPnl || "0");
             const isClose = f.dir && f.dir.includes("Close");
             if (isClose && cPnl >= 0.01) {
-              const netTradeWin = Math.max(0.01, cPnl - fee);
+              const netTradeWin = Math.max(0.01, +(cPnl - fee).toFixed(4));
               sumClosedNetToday += netTradeWin;
               const opKey = f.oid ? `${f.coin}_OID_${f.oid}` : `${f.coin}_WIN_${Math.floor(fTime / 120000)}`;
               todayOpsSet.add(opKey);
+              recentWinFills.push({ f, netTradeWin, fee, cPnl, fTime });
             }
           }
           dailyClosedProfitTodayUsdc = Math.max(0, +sumClosedNetToday.toFixed(2));
-          dailyOpsTodayCount = Math.max(1, todayOpsSet.size);
+          dailyOpsTodayCount = todayOpsSet.size;
           latestEffectiveOpsTodayCount = dailyOpsTodayCount;
           burnBallastSubsidyUsdc = 0;
+
+          // Garantizar que CADA operación cerrada en verde (incluidas las cerradas por orden L1 o durante un pico 429) se envíe a Telegram sin falta
+          if (recentWinFills.length > 0) {
+            const tgState = loadTelegramTradeAlertsState();
+            const liveUnrealizedSum = openPositions.reduce((s, p) => s + parseFloat(p.position.unrealizedPnl || "0"), 0);
+            const closedFirmNow = +(accountValue - liveUnrealizedSum).toFixed(2);
+            for (const item of recentWinFills.slice(0, 5).reverse()) {
+              const { f, netTradeWin, fTime } = item;
+              const closeKey = f.tid ? `tid_${f.tid}` : `${f.coin}_close_${Math.floor(fTime / 15000)}`;
+              // Enviar si ocurrió en los últimos 30 minutos y aún no fue notificado en Telegram
+              if (!tgState.notifiedCloseTids[closeKey] && (Date.now() - fTime) <= 1800000) {
+                tgState.notifiedCloseTids[closeKey] = {
+                  coin: f.coin,
+                  virtualPair: null,
+                  netGain: netTradeWin,
+                  closedFirmNow,
+                  ts: new Date(fTime).toISOString()
+                };
+                saveTelegramTradeAlertsState(tgState);
+                const dispClosedCoin = f.coin === "kPEPE" ? "PEPE" : f.coin;
+                const sqKey = Object.keys(SQUADS_CONFIG).find(k => !SQUADS_CONFIG[k].isMacroOracleOnly && SQUADS_CONFIG[k].pairs.includes(f.coin)) || "ALFA";
+                const squadCfg = SQUADS_CONFIG[sqKey] || SQUADS_CONFIG.ALFA;
+                const wasShort = f.dir && f.dir.includes("Short");
+                const botBadge = wasShort ? "🐻O1" : "🐂T1";
+                const pacemakerNow = computeDaily1000Pacemaker(dailyClosedProfitTodayUsdc, new Date(), latestEffectiveOpsTodayCount);
+                const victoryTg = `🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE // ${botBadge}]</b>\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                  `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
+                  `📍 <b>Par:</b> <code>${dispClosedCoin}-USDC</code> (<b>${wasShort ? "🐻 SHORT" : "🐂 LONG"} · ${botBadge}</b>)\n` +
+                  `📥 <b>Precio de Salida L1:</b> <code>$${f.px}</code> (${f.sz} ${dispClosedCoin})\n` +
+                  `💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$${netTradeWin.toFixed(4)} USDC</b>\n` +
+                  `🏆 <b>HOY NETO (24H):</b> <b>+$${dailyClosedProfitTodayUsdc.toFixed(2)} USDC · ${latestEffectiveOpsTodayCount} Ops Ganadas (Promedio: +$${pacemakerNow.avgNetPerOpUsdc.toFixed(2)}/tiro)</b>\n` +
+                  `🏛️ <b>Cerrado Real L1:</b> <b>$${closedFirmNow.toFixed(2)} USDC</b> (Equity Viva: <code>$${accountValue.toFixed(2)} USDC</code>)\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                  `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>`;
+                await sendSquadTelegram(victoryTg);
+              }
+            }
+          }
         } catch (_) {}
       }
 
@@ -3338,7 +3402,7 @@ async function startAutonomousSquadDaemon() {
           });
 
           try {
-            const recentFills = await info.userFills({ user: VAULT_501 });
+            const recentFills = await getSharedUserFills(2500);
             const closeFill = recentFills.find(f => f.coin === closedCoin && f.dir && f.dir.includes("Close"));
             const closeKey = closeFill?.tid ? `tid_${closeFill.tid}` : `${closedCoin}_close_${Math.floor(Date.now() / 15000)}`;
             const rawGrossGain = closeFill ? parseFloat(closeFill.closedPnl || "0.14") : Math.max(0.12, Number((prevInfo.lockedNetUsd || 0.10) + 0.03));
