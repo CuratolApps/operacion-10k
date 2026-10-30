@@ -934,10 +934,31 @@ function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
   return 0;
 }
 
-function computeDaily1000PacemakerClient(realNetTodayUsdc = 0, now = new Date()) {
+let lastCompleted100BlockIdxClient = 0;
+let opsBaselineAtLast100ResetClient = 0;
+
+function computeDaily1000PacemakerClient(realNetTodayUsdc = 0, now = new Date(), totalOpsToday = appState.dailyWinsToday) {
   const netToday = Math.max(0, Number(realNetTodayUsdc || 0));
-  const pctDone = Math.min(100, +((netToday / 100.00) * 100).toFixed(1));
-  const remainingUsdc24h = Math.max(0, +(100.00 - netToday).toFixed(2));
+  const rawOps = Math.max(0, Number(totalOpsToday !== undefined ? totalOpsToday : (appState.dailyWinsToday || 35)));
+  const completed100BlocksCount = Math.floor(netToday / 100.00);
+  if (completed100BlocksCount > lastCompleted100BlockIdxClient) {
+    lastCompleted100BlockIdxClient = completed100BlocksCount;
+    opsBaselineAtLast100ResetClient = rawOps;
+  } else if (completed100BlocksCount === 0 && lastCompleted100BlockIdxClient > 0) {
+    lastCompleted100BlockIdxClient = 0;
+    opsBaselineAtLast100ResetClient = 0;
+  }
+
+  const cycleNetUsdc = completed100BlocksCount > 0
+    ? +(netToday - (completed100BlocksCount * 100.00)).toFixed(2)
+    : +netToday.toFixed(2);
+  const effectiveOpsCount = Math.max(0, rawOps - opsBaselineAtLast100ResetClient);
+  const avgNetPerOpUsdc = effectiveOpsCount > 0
+    ? +(cycleNetUsdc / effectiveOpsCount).toFixed(2)
+    : 0.00;
+
+  const pctDone = Math.min(100, +((cycleNetUsdc / 100.00) * 100).toFixed(1));
+  const remainingUsdc24h = Math.max(0, +(100.00 - cycleNetUsdc).toFixed(2));
 
   const utcH = now.getUTCHours();
   const utcM = now.getUTCMinutes();
@@ -955,6 +976,10 @@ function computeDaily1000PacemakerClient(realNetTodayUsdc = 0, now = new Date())
   return {
     dailyTargetNetUsdc: 100.00,
     realNetTodayUsdc: netToday,
+    cycleNetUsdc,
+    completed100BlocksCount,
+    effectiveOpsCount,
+    avgNetPerOpUsdc,
     pctDone,
     remainingUsdc24h,
     utcClockStr,
@@ -1176,7 +1201,7 @@ function computeClientLatentForce(symbol, currentPrice) {
 
 function formatBreatherCountdown(untilMs) {
   const rawRemSec = Math.max(0, Math.ceil((untilMs - Date.now()) / 1000));
-  const remSec = Math.min(120, rawRemSec);
+  const remSec = Math.min(180, rawRemSec);
   const mm = String(Math.floor(remSec / 60)).padStart(2, "0");
   const ss = String(remSec % 60).padStart(2, "0");
   return `⏳ RECALIBRANDO ${mm}:${ss}`;
@@ -1862,20 +1887,18 @@ function updateTopBarCards() {
   }
   setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
 
-  // 2. Tarjeta 2: Neto Diario ($100.00 USDC Netos) & Reloj 24H UTC (Actualizando cada 1000ms)
+  // 2. Tarjeta 2: Neto Diario ($100.00 USDC Netos), Odómetro de Operaciones Efectivas, Promedio/Tiro & Reloj 24H UTC (Actualizando cada 1000ms)
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
 
   const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 4.67).toFixed(2));
   const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 35;
   const dailyLosses = appState.dailyLossesToday !== undefined ? appState.dailyLossesToday : 0;
-  const cycle24h = computeDaily1000PacemakerClient(dailyProfit, new Date());
+  const cycle24h = computeDaily1000PacemakerClient(dailyProfit, new Date(), dailyWins);
 
-  const dailyHeadlineText = dailyProfit >= 100.00
-    ? `✅ META $100.00 CUMPLIDA (+$${dailyProfit.toFixed(2)} NETOS)`
-    : `HOY NETO: +$${dailyProfit.toFixed(2)} / $100.00 USDC (${cycle24h.pctDone.toFixed(1)}% · Faltan $${cycle24h.remainingUsdc24h.toFixed(2)})`;
-  const dailyOpsBadgeText = `${dailyWins}G - ${dailyLosses}P`;
+  const dailyHeadlineText = `HOY NETO: +$${cycle24h.cycleNetUsdc.toFixed(2)} / $100.00 USDC (${cycle24h.pctDone.toFixed(1)}% · Faltan $${cycle24h.remainingUsdc24h.toFixed(2)})`;
+  const dailyOpsBadgeText = `⚡ ${cycle24h.effectiveOpsCount} Ops · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
   const flowBreakdownText = `🕒 ${cycle24h.utcClockStr} · ⏳ Corte 24h (00:00 UTC): Faltan ${cycle24h.remainingTimeStr}`;
-  const card2CycleFootText = `Ciclo 24h: ${cycle24h.elapsedCycleStr} (${dailyProfit >= 100.00 ? "CUMPLIDO ✅" : "EN CURSO"}) · Acumulado Neto L1: +$${realNetAccumulatedProfit.toFixed(2)}`;
+  const card2CycleFootText = `⚡ ${cycle24h.effectiveOpsCount} Ops Efectivas · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro · Neto L1: +$${realNetAccumulatedProfit.toFixed(2)}`;
 
   setTextIfChanged(document.getElementById("topTotalProfit"), dailyHeadlineText);
   setTextIfChanged(document.getElementById("topTotalProfitPct"), dailyOpsBadgeText);
@@ -1895,7 +1918,7 @@ function updateTopBarCards() {
   let pnl3 = Number((Number(closedProfit.toFixed(1)) - pnl1 - pnl2).toFixed(1));
 
   // Renderizar marcador diario compacto en la insignia inferior de Card 2
-  const winStreakTextStr = `HOY ${dailyWins}G-${dailyLosses}P`;
+  const winStreakTextStr = `⚡ ${cycle24h.effectiveOpsCount} Ops · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
   const winStreakEl = document.getElementById("winStreakText");
   if (winStreakEl) {
     setTextIfChanged(winStreakEl, winStreakTextStr);
@@ -2044,17 +2067,20 @@ function updatePricesAndSignals() {
   const calibre = computeAutoCompoundCalibre(closedBase);
   const autoLine1Text = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} · 5X)`;
   const nowMs = Date.now();
-  const maxAllowedBreatherUntil = nowMs + POST_TRADE_BREATHER_MS;
+  const maxAllowedBreatherUntil = nowMs + (3 * 60 * 1000); // Hasta 3m (180s) en Vela de Descanso tras completar los 4 tiros de la vela de 3m
 
   const currentOpenSet = new Set(
     (appState.openPositions || []).map(p => p.position.coin === "kPEPE" ? "PEPE" : p.position.coin)
   );
   // Si una moneda que tenía posición abierta acaba de cerrar:
-  // - El enfriamiento de 120s (02:00) se aplica SOLO al sub-bot individual que acaba de cobrar (`T1`, `T2`, `O1` u `O2`).
-  // - Tras 5 segundos de asentamiento del libro L2, los otros 3 especialistas quedan en LUZ VERDE inmediata.
+  // - El enfriamiento de 120s (02:00) se aplica SOLO al sub-bot individual que acaba de cobrar (`T1`, `T2`, `O1` u `O2`),
+  //   o 180s (03:00) a los 4 bots si completó la Vela Activa de 3m.
+  // - Sincroniza inmediatamente la Tarjeta #2 para sumar el profit neto y el tiro efectivo en ese mismo segundo.
+  let anyPositionJustClosed = false;
   if (prevKnownOpenCoinSet !== null) {
     for (const prevCoin of prevKnownOpenCoinSet) {
       if (!currentOpenSet.has(prevCoin)) {
+        anyPositionJustClosed = true;
         clientPairBreatherUntil[prevCoin] = nowMs + PAIR_SETTLE_BREATHER_MS;
         const closedSubBot = clientActiveSubBotByCoin[prevCoin] || "T1";
         if (!clientSubBotBreatherByCoin[prevCoin]) {
@@ -2064,6 +2090,9 @@ function updatePricesAndSignals() {
         delete clientActiveSubBotByCoin[prevCoin];
       }
     }
+  }
+  if (anyPositionJustClosed) {
+    try { updateTopBarCards(); } catch (_) {}
   }
   // Liberar cualquier bloqueo general sobre AVAX, XRP o demás pares libres tras los 5s de asentamiento L2
   for (const symKey of Object.keys(clientPairBreatherUntil)) {
@@ -2256,25 +2285,26 @@ function formatPairPrice(px, symbol) {
   return `$${px.toFixed(4)}`;
 }
 
-// RELOJ UTC EN VIVO + CONTEO 24H EN TARJETA #2 Y #5 (setInterval cada 1000ms)
+// RELOJ UTC EN VIVO + CONTEO 24H + ODÓMETRO DE OPERACIONES EFECTIVAS Y PROMEDIO/TIRO EN TARJETA #2 Y #5 (setInterval cada 1000ms)
 function startUtcClock() {
   const clockEl = document.getElementById("liveUtcClock");
   function tick() {
     const now = new Date();
     if (clockEl) setTextIfChanged(clockEl, `${now.toISOString().slice(11, 19)} UTC`);
     const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 4.67).toFixed(2));
+    const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 35;
     const accumNet = Number((appState.totalProfitUsdc || 214.43).toFixed(2));
-    const cycle24h = computeDaily1000PacemakerClient(dailyProfit, now);
+    const cycle24h = computeDaily1000PacemakerClient(dailyProfit, now, dailyWins);
     setTextIfChanged(
       document.getElementById("topProfitFloatingPill"),
       `🕒 ${cycle24h.utcClockStr} · ⏳ Corte 24h (00:00 UTC): Faltan ${cycle24h.remainingTimeStr}`
     );
-    const footText = `Ciclo 24h: ${cycle24h.elapsedCycleStr} (${dailyProfit >= 100.00 ? "CUMPLIDO ✅" : "EN CURSO"}) · Acumulado Neto L1: +$${accumNet.toFixed(2)}`;
+    const footText = `⚡ ${cycle24h.effectiveOpsCount} Ops Efectivas · Prom: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro · Neto L1: +$${accumNet.toFixed(2)}`;
     setTextIfChanged(document.getElementById("topProfitLadderPill"), footText);
     setTextIfChanged(document.getElementById("card2CycleFooter"), footText);
     setTextIfChanged(
       document.getElementById("topRadarSubLabel"),
-      `META 24H: +$${dailyProfit.toFixed(2)} / $100.00 USDC NETOS · 🕒 ${cycle24h.utcShortStr}`
+      `META 24H: +$${cycle24h.cycleNetUsdc.toFixed(2)} / $100.00 USDC NETOS · 🕒 ${cycle24h.utcShortStr}`
     );
   }
   tick();
