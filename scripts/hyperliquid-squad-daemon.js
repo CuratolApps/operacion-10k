@@ -4037,6 +4037,27 @@ async function startAutonomousSquadDaemon() {
           continue;
         }
 
+        // 3.A Si es un micro-residuo de polvo (< $15.00 USD nocional, como 0.01 AAVE = $1.28) y ya está en verde (>= $0.00), cerrarlo inmediato para liberar a los 4 bots de esa tarjeta:
+        if (notionalVal > 0 && notionalVal < 15.0 && uPnlNum >= 0.00) {
+          console.log(`🧹💚 [LIMPIEZA DE POLVO EN VERDE] ${coin} (${totalSzStr} = $${notionalVal.toFixed(2)} nocional | +$${uPnlNum.toFixed(2)} USDC) -> Cerrando micro-residuo en verde para liberar a los 4 especialistas de ${coin}-USDC!`);
+          if (existingExitOrder) {
+            await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+          }
+          const dustClosePx = isShort ? (currentMid * 1.03) : (currentMid * 0.97);
+          await client.order({
+            orders: [{
+              a: ASSET_INDICES[coin],
+              b: isShort,
+              p: formatHlPrice(dustClosePx, coin),
+              s: totalSzStr,
+              r: true,
+              t: { limit: { tif: "Ioc" } }
+            }],
+            grouping: "na"
+          }).catch(() => {});
+          continue;
+        }
+
         // 3. Time-Stop de Empate Positivo Limpio de 180 segundos (+$0.10 USDC netos Post-Only Maker) si aún no ha clavado Candado #00:
         if (!ratchet.beLocked && ratchet.cleanEvacActive && notionalVal >= 10.5) {
           const evacPxStr = formatHlPrice(ratchet.cleanEvacMakerPx, coin);
@@ -4248,9 +4269,16 @@ async function startAutonomousSquadDaemon() {
 
       // 4. MOTOR ÚNICO DE ENTRADA `FIRST_WAVE_IGNITION` (ESTILO OP-USDC) + PUENTE DE EJECUCIÓN PROXY EN HYPERLIQUID L1 (#10 DELTA A #18 ROMEO):
       // - Cero perseguir velas estiradas: exige las 5 condiciones simultáneas de Nacimiento de Primera Ola + Spread < 0.03% + IOC al borde del libro L2.
-      const unfencedHuntersCount = openPositions.filter(p =>
-        !stuckRecoveryCoinsSet.has(p.position.coin) && !confirmedOpenByCoin[p.position.coin]?.beLocked
-      ).length + restingEntryCoins.filter(c => !stuckRecoveryCoinsSet.has(c)).length;
+      // - Solo cuenta como "cazador recién lanzado en vuelo" (unfencedHuntersCount) las posiciones abiertas en la vela actual (< 180s) que aún no tienen orden Maker de evacuación ni candado.
+      const nowLoopMs = Date.now();
+      const unfencedHuntersCount = openPositions.filter(p => {
+        const c = p.position.coin;
+        if (stuckRecoveryCoinsSet.has(c)) return false;
+        const meta = confirmedOpenByCoin[c];
+        if (meta?.beLocked || meta?.cleanEvacActive) return false;
+        const openedTs = positionOpenTimestamps[c] || meta?.openedAtMs || 0;
+        return openedTs > 0 && (nowLoopMs - openedTs) < 180000;
+      }).length + restingEntryCoins.filter(c => !stuckRecoveryCoinsSet.has(c)).length;
 
       const totalActiveHuntersCount = openPositions.filter(p => !stuckRecoveryCoinsSet.has(p.position.coin)).length +
         restingEntryCoins.filter(c => !stuckRecoveryCoinsSet.has(c)).length;
