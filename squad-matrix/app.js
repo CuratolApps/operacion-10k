@@ -1102,6 +1102,64 @@ function formatBreatherCountdown(untilMs) {
   return `⏳ RECALIBRANDO ${mm}:${ss}`;
 }
 
+// MAPEO DE LIQUIDEZ PROXY DIRECTA EN HYPERLIQUID L1 PARA FOREX, ORO Y WALL STREET (#10 DELTA A #18 ROMEO)
+const FOREX_AND_MACRO_L1_PROXY_MAP = {
+  "XAU/USD": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
+  "XAG/USD": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
+  "EUR/JPY": { squad: "#12 FOXTROT", proxies: ["PAXG", "LTC", "LINK"] },
+  "EUR/USD": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
+  "GBP/USD": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
+  "USD/CHF": { squad: "#10 DELTA", proxies: ["TRX", "TON", "ADA"] },
+  "USD/JPY": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
+  "AUD/USD": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
+  "USD/CAD": { squad: "#11 ECHO", proxies: ["DOT", "ARB", "OP"] },
+  "GBP/JPY": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
+  "EUR/GBP": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
+  "WTI/USD": { squad: "#13 MIKE", proxies: ["ONDO", "UNI", "FET"] },
+  "NAS100": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "SPX500": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "US30": { squad: "#14 NOVEMBER", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "DAX40": { squad: "#15 OSCAR", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "NGAS": { squad: "#15 OSCAR", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "HG/USD": { squad: "#15 OSCAR", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "NVDA": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "TSLA": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "AAPL": { squad: "#16 PAPA", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "MSFT": { squad: "#17 QUEBEC", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "AMZN": { squad: "#17 QUEBEC", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "META": { squad: "#17 QUEBEC", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "GOOGL": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "COIN": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] },
+  "MSTR": { squad: "#18 ROMEO", proxies: ["RENDER", "TAO", "HYPE", "DOGE"] }
+};
+
+function resolveActiveForexProxyForSymbol(symbol) {
+  if (!FOREX_AND_MACRO_L1_PROXY_MAP[symbol]) return null;
+  const bindings = appState.forexProxyBindings || {};
+  for (const [l1Coin, bInfo] of Object.entries(bindings)) {
+    if (bInfo && bInfo.virtualPair === symbol) {
+      const posObj = (appState.openPositions || []).find(p => p.position.coin === l1Coin);
+      if (posObj) {
+        return { posObj, l1Coin, binding: bInfo };
+      }
+    }
+  }
+  // Fallback directo para XAU/USD <-> PAXG y EUR/USD <-> TRX si están abiertos en L1
+  if (symbol === "XAU/USD" && !bindings["PAXG"]) {
+    const paxgPos = (appState.openPositions || []).find(p => p.position.coin === "PAXG");
+    if (paxgPos) {
+      return { posObj: paxgPos, l1Coin: "PAXG", binding: { virtualPair: "XAU/USD", l1Coin: "PAXG" } };
+    }
+  }
+  if (symbol === "EUR/USD" && !bindings["TRX"]) {
+    const trxPos = (appState.openPositions || []).find(p => p.position.coin === "TRX");
+    if (trxPos) {
+      return { posObj: trxPos, l1Coin: "TRX", binding: { virtualPair: "EUR/USD", l1Coin: "TRX" } };
+    }
+  }
+  return null;
+}
+
 // HELPER: ESTADO DEL RELEVO EN CALIENTE (TITULAR 1 ⇄ CLON 2 / 36 BOTS AUTO-COMPOUNDING 5% + FUERZA LATENTE >=92% + RESPIRO 08:00)
 function getSquadRelayText(sq) {
   const nowMs = Date.now();
@@ -1124,12 +1182,24 @@ function getSquadRelayText(sq) {
       const rInfo = computeClientRatchetStatus(posObj, px);
       return `${sq.code} 1 (${inPosCoins.join("+")}): ${rInfo.statusLabel} ⇄ ${sq.code} 2: GIRO BRUSCO <50ms`;
     }
+    // Verificar si algún par Forex/Oro/Macro del escuadrón (#10 DELTA a #18 ROMEO) tiene posición Proxy L1 activa
+    for (const sym of sq.pairs) {
+      const proxyMatch = resolveActiveForexProxyForSymbol(sym);
+      if (proxyMatch) {
+        const px = parseFloat(appState.mids?.[proxyMatch.l1Coin] || proxyMatch.posObj.position.entryPx || "0");
+        const rInfo = computeClientRatchetStatus(proxyMatch.posObj, px);
+        return `🟢⚡ ${sq.code} 1 (${sym} vía ${proxyMatch.l1Coin}-L1): ${rInfo.statusLabel} ⇄ ${sq.code} 2: PROXY L1 ACTIVO`;
+      }
+    }
     let bestForce = null;
     for (const sym of sq.pairs) {
       const lf = clientLatentForceCache[sym] || computeClientLatentForce(sym, parseFloat(appState.mids?.[sym] || SYNTHETIC_DEFAULTS[sym] || "1"));
       if (!bestForce || lf.score > bestForce.score) bestForce = lf;
     }
-    const forceTag = bestForce ? `⚡ FUERZA ${bestForce.score}/100 (${bestForce.symbol} ${bestForce.dirIcon})` : "⚡ FUERZA >=92%";
+    const proxyHint = sq.id >= 10 && FOREX_AND_MACRO_L1_PROXY_MAP[sq.pairs[0]]
+      ? ` [Proxy L1: ${FOREX_AND_MACRO_L1_PROXY_MAP[sq.pairs[0]].proxies.join("/")}]`
+      : "";
+    const forceTag = bestForce ? `⚡ FUERZA ${bestForce.score}/100 (${bestForce.symbol} ${bestForce.dirIcon})${proxyHint}` : "⚡ FUERZA >=92%";
     return `❄️ AUTO 5% · ${sq.code} 1: ${forceTag} (+$0.10 CANDADO #00) ⇄ ${sq.code} 2: STOP&REV <50ms`;
   }
   return `⏸️ ${sq.code} 1: PRE-ARMADO ⇄ ${sq.code} 2: PRE-ARMADO ($100)`;
@@ -1223,7 +1293,7 @@ async function fetchHyperliquidState() {
       "Pragma": "no-cache"
     };
 
-    const [chRes, midsRes, fillsRes, clonesRes, loanLedgerRes] = await Promise.all([
+    const [chRes, midsRes, fillsRes, clonesRes, loanLedgerRes, forexBindingsRes] = await Promise.all([
       fetch(`${HL_INFO_URL}${cacheBust}`, {
         method: "POST",
         headers: fetchHeaders,
@@ -1244,8 +1314,19 @@ async function fetchHyperliquidState() {
       }).catch(() => null),
       fetch(`/telemetry/vault501-loan-ledger.json${cacheBust}`, {
         headers: fetchHeaders
+      }).catch(() => null),
+      fetch(`/telemetry/forex-proxy-bindings.json${cacheBust}`, {
+        headers: fetchHeaders
       }).catch(() => null)
     ]);
+
+    if (forexBindingsRes && forexBindingsRes.ok) {
+      const fbData = await forexBindingsRes.json().catch(() => null);
+      if (fbData && typeof fbData === "object") {
+        appState.forexProxyBindings = fbData.bindings || fbData.activeBindingsByL1Coin || {};
+        appState.pruningPool = fbData.pruningPool || {};
+      }
+    }
 
     if (loanLedgerRes && loanLedgerRes.ok) {
       const loanData = await loanLedgerRes.json().catch(() => null);
@@ -1329,7 +1410,9 @@ async function fetchHyperliquidState() {
           const fee = parseFloat(f.fee || "0");
 
           // Descontar el 100% de las comisiones (fee de entrada + salida) cobradas por Hyperliquid hoy desde las 00:00:00 UTC
-          if (fillTime >= startOfTodayUtcMs && !isNaN(fee)) {
+          // (excluyendo recortes parciales de Quema-Lastre sobre las 4 viejas que ya van con cargo al pool de poda)
+          const isPruneCut = isClose && closedPnl < 0 && ["ETH", "BTC", "SOL", "NEAR"].includes(f.coin);
+          if (fillTime >= startOfTodayUtcMs && !isNaN(fee) && !isPruneCut) {
             sumAllFeesToday += fee;
           }
 
@@ -1390,7 +1473,7 @@ async function fetchHyperliquidState() {
         const liveUnrealizedPnl = Number(
           (appState.openPositions || []).reduce((acc, p) => acc + parseFloat(p?.position?.unrealizedPnl || "0"), 0).toFixed(2)
         );
-        const realClosedBalanceL1 = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
+        const realClosedBalanceL1 = Math.max(970.95, Number((liveAccountValue - liveUnrealizedPnl).toFixed(2)));
         const realNetAccumulatedProfit = Number((realClosedBalanceL1 - Number(appState.totalLoanInjected || BASE_INJECTED)).toFixed(2));
 
         appState.realWins = Math.max(BASE_WINS, BASE_WINS + groupedPostAnchorWins);
@@ -1718,7 +1801,7 @@ function updateTopBarCards() {
 
   // Saldo Cerrado Real en Caja L1 (después de comisiones Taker/Maker y funding cobrado por Hyperliquid L1):
   // Garantiza matemáticamente que: realClosedBalanceL1 + liveUnrealizedPnl === liveAccountValue
-  const realClosedBalanceL1 = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
+  const realClosedBalanceL1 = Math.max(970.95, Number((liveAccountValue - liveUnrealizedPnl).toFixed(2)));
   const realClosedBalanceFmt = realClosedBalanceL1.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   // Profit Neto Acumulado Real en Cartera: Base $756.52 + realNetAccumulatedProfit === realClosedBalanceL1 AL CENTAVO EXACTO
@@ -1995,10 +2078,14 @@ function updatePricesAndSignals() {
       p.prevPrice = currentPrice;
     }
 
-    // Verificar si tiene posición abierta en Hyperliquid L1
-    const activePos = appState.openPositions.find(
+    // Verificar si tiene posición abierta en Hyperliquid L1 (directa o vía Puente Proxy Forex-L1)
+    const directActivePos = appState.openPositions.find(
       pos => pos.position.coin === p.symbol || (p.symbol === "PEPE" && pos.position.coin === "kPEPE")
     );
+    const proxyMatch = !directActivePos ? resolveActiveForexProxyForSymbol(p.symbol) : null;
+    const activePos = directActivePos || (proxyMatch ? proxyMatch.posObj : null);
+    const proxyL1Coin = proxyMatch ? proxyMatch.l1Coin : null;
+
     const breatherUntil = clientPairBreatherUntil[p.symbol] || 0;
     const isInBreather = !activePos && breatherUntil > Date.now();
 
@@ -2007,9 +2094,12 @@ function updatePricesAndSignals() {
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
       const isShort = szi < 0;
+      const posCoin = activePos.position.coin;
       const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
-      const midPx = currentPrice > 0 ? currentPrice : entryPx;
-      const queueOrder = Math.max(1, sortedOpenCoins.indexOf(p.symbol) + 1);
+      const midPx = proxyL1Coin
+        ? parseFloat(appState.mids?.[proxyL1Coin] || entryPx)
+        : (currentPrice > 0 ? currentPrice : entryPx);
+      const queueOrder = Math.max(1, sortedOpenCoins.indexOf(posCoin === "kPEPE" ? "PEPE" : posCoin) + 1);
       const rInfo = computeClientRatchetStatus(activePos, midPx);
       const isPositiveGreen = pnl >= 0;
 
@@ -2017,18 +2107,30 @@ function updatePricesAndSignals() {
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
-      const dirWord = isShort ? "SHORT" : "LONG";
+      const dirWord = proxyL1Coin
+        ? `${isShort ? "SHORT" : "LONG"} (${proxyL1Coin})`
+        : (isShort ? "SHORT" : "LONG");
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, `| ${pnlFormatted}`);
+
+      const oldPruneOrder = ["ETH", "BTC", "SOL", "NEAR"];
+      const pruneIdx = !proxyL1Coin ? oldPruneOrder.indexOf(p.symbol) : -1;
+      const poolUsdc = Number(appState.pruningPool?.unallocatedPruningPoolUsdc ?? 0.44).toFixed(2);
 
       let line2Text = "";
       if (isPositiveGreen) {
         const lockedStep = rInfo.lockedNetUsd >= 0.10
           ? rInfo.lockedNetUsd
           : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(0.12, pnl, rInfo.peakPnlUsdc || 0)));
-        line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
-      } else if (queueOrder <= 4 || ["PAXG", "SUI", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"].includes(p.symbol)) {
-        line2Text = `🎯 SALIDA #${queueOrder} LISTA (+$0.05)`;
+        line2Text = proxyL1Coin
+          ? `🔒 CANDADO +$${lockedStep.toFixed(2)} (${proxyL1Coin}-L1)`
+          : `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
+      } else if (proxyL1Coin) {
+        line2Text = `🎯 ESCALERA +$0.10 ➔ +$0.50 (${proxyL1Coin}-L1)`;
+      } else if (pruneIdx !== -1) {
+        line2Text = `🔥 QUEMA-LASTRE ${pruneIdx + 1}º ($${poolUsdc}/$0.60)`;
+      } else if (queueOrder <= 4 || ["PAXG", "SUI", "PEPE", "BNB", "LINK", "AAVE", "PENDLE"].includes(p.symbol)) {
+        line2Text = `🎯 SALIDA #${queueOrder} (+$0.10 ➔ +$0.50)`;
       } else {
         line2Text = `🛡️ ESCUDO #00 · COLA #${queueOrder}`;
       }

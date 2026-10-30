@@ -1,0 +1,740 @@
+{
+  "updatedAt": "2026-10-30T15:11:43.972Z",
+  "architecture": "FOREX_AND_MACRO_L1_PROXY_BRIDGE_V1",
+  "proxyMap": {
+    "EUR/USD": {
+      "squadKey": "DELTA",
+      "squadId": 10,
+      "squadNum": "#10",
+      "squadName": "Escuadrón #10 Delta",
+      "specialist": "#1001 FX-Euro-Atlantic",
+      "proxyCoins": [
+        "TRX",
+        "TON",
+        "ADA"
+      ]
+    },
+    "GBP/USD": {
+      "squadKey": "DELTA",
+      "squadId": 10,
+      "squadNum": "#10",
+      "squadName": "Escuadrón #10 Delta",
+      "specialist": "#1001 FX-Euro-Atlantic",
+      "proxyCoins": [
+        "TON",
+        "ADA",
+        "TRX"
+      ]
+    },
+    "USD/CHF": {
+      "squadKey": "DELTA",
+      "squadId": 10,
+      "squadNum": "#10",
+      "squadName": "Escuadrón #10 Delta",
+      "specialist": "#1001 FX-Euro-Atlantic",
+      "proxyCoins": [
+        "ADA",
+        "TRX",
+        "TON"
+      ]
+    },
+    "USD/JPY": {
+      "squadKey": "ECHO",
+      "squadId": 11,
+      "squadNum": "#11",
+      "squadName": "Escuadrón #11 Echo",
+      "specialist": "#1101 FX-Tokyo-Pacific",
+      "proxyCoins": [
+        "DOT",
+        "ARB",
+        "OP"
+      ]
+    },
+    "AUD/USD": {
+      "squadKey": "ECHO",
+      "squadId": 11,
+      "squadNum": "#11",
+      "squadName": "Escuadrón #11 Echo",
+      "specialist": "#1101 FX-Tokyo-Pacific",
+      "proxyCoins": [
+        "ARB",
+        "OP",
+        "DOT"
+      ]
+    },
+    "USD/CAD": {
+      "squadKey": "ECHO",
+      "squadId": 11,
+      "squadNum": "#11",
+      "squadName": "Escuadrón #11 Echo",
+      "specialist": "#1101 FX-Tokyo-Pacific",
+      "proxyCoins": [
+        "OP",
+        "DOT",
+        "ARB"
+      ]
+    },
+    "XAU/USD": {
+      "squadKey": "FOXTROT",
+      "squadId": 12,
+      "squadNum": "#12",
+      "squadName": "Escuadrón #12 Foxtrot",
+      "specialist": "#1201 Bullion-Gold-Macro",
+      "proxyCoins": [
+        "PAXG",
+        "LTC",
+        "LINK"
+      ]
+    },
+    "XAG/USD": {
+      "squadKey": "FOXTROT",
+      "squadId": 12,
+      "squadNum": "#12",
+      "squadName": "Escuadrón #12 Foxtrot",
+      "specialist": "#1201 Bullion-Gold-Macro",
+      "proxyCoins": [
+        "LTC",
+        "LINK",
+        "PAXG"
+      ]
+    },
+    "EUR/JPY": {
+      "squadKey": "FOXTROT",
+      "squadId": 12,
+      "squadNum": "#12",
+      "squadName": "Escuadrón #12 Foxtrot",
+      "specialist": "#1201 Bullion-Gold-Macro",
+      "proxyCoins": [
+        "LINK",
+        "LTC",
+        "PAXG"
+      ]
+    },
+    "GBP/JPY": {
+      "squadKey": "MIKE",
+      "squadId": 13,
+      "squadNum": "#13",
+      "squadName": "Escuadrón #13 Mike",
+      "specialist": "#1301 London-Cross-Crude",
+      "proxyCoins": [
+        "ONDO",
+        "UNI",
+        "FET"
+      ]
+    },
+    "EUR/GBP": {
+      "squadKey": "MIKE",
+      "squadId": 13,
+      "squadNum": "#13",
+      "squadName": "Escuadrón #13 Mike",
+      "specialist": "#1301 London-Cross-Crude",
+      "proxyCoins": [
+        "UNI",
+        "FET",
+        "ONDO"
+      ]
+    },
+    "WTI/USD": {
+      "squadKey": "MIKE",
+      "squadId": 13,
+      "squadNum": "#13",
+      "squadName": "Escuadrón #13 Mike",
+      "specialist": "#1301 London-Cross-Crude",
+      "proxyCoins": [
+        "FET",
+        "ONDO",
+        "UNI"
+      ]
+    },
+    "NAS100": {
+      "squadKey": "NOVEMBER",
+      "squadId": 14,
+      "squadNum": "#14",
+      "squadName": "Escuadrón #14 November",
+      "specialist": "#1401 WallStreet-Index",
+      "proxyCoins": [
+        "RENDER",
+        "TAO",
+        "HYPE",
+        "DOGE"
+      ]
+    },
+    "SPX500": {
+      "squadKey": "NOVEMBER",
+      "squadId": 14,
+      "squadNum": "#14",
+      "squadName": "Escuadrón #14 November",
+      "specialist": "#1401 WallStreet-Index",
+      "proxyCoins": [
+        "TAO",
+        "HYPE",
+        "RENDER",
+        "DOGE"
+      ]
+    },
+    "US30": {
+      "squadKey": "NOVEMBER",
+      "squadId": 14,
+      "squadNum": "#14",
+      "squadName": "Escuadrón #14 November",
+      "specialist": "#1401 WallStreet-Index",
+      "proxyCoins": [
+        "HYPE",
+        "DOGE",
+        "RENDER",
+        "TAO"
+      ]
+    },
+    "DAX40": {
+      "squadKey": "OSCAR",
+      "squadId": 15,
+      "squadNum": "#15",
+      "squadName": "Escuadrón #15 Oscar",
+      "specialist": "#1501 Frankfurt-Commodities",
+      "proxyCoins": [
+        "RENDER",
+        "TAO",
+        "HYPE",
+        "DOGE"
+      ]
+    },
+    "NGAS": {
+      "squadKey": "OSCAR",
+      "squadId": 15,
+      "squadNum": "#15",
+      "squadName": "Escuadrón #15 Oscar",
+      "specialist": "#1501 Frankfurt-Commodities",
+      "proxyCoins": [
+        "DOGE",
+        "RENDER",
+        "TAO",
+        "HYPE"
+      ]
+    },
+    "HG/USD": {
+      "squadKey": "OSCAR",
+      "squadId": 15,
+      "squadNum": "#15",
+      "squadName": "Escuadrón #15 Oscar",
+      "specialist": "#1501 Frankfurt-Commodities",
+      "proxyCoins": [
+        "TAO",
+        "RENDER",
+        "HYPE",
+        "DOGE"
+      ]
+    },
+    "NVDA": {
+      "squadKey": "PAPA",
+      "squadId": 16,
+      "squadNum": "#16",
+      "squadName": "Escuadrón #16 Papa",
+      "specialist": "#1601 Silicon-AI-Titans",
+      "proxyCoins": [
+        "RENDER",
+        "TAO",
+        "HYPE",
+        "DOGE"
+      ]
+    },
+    "TSLA": {
+      "squadKey": "PAPA",
+      "squadId": 16,
+      "squadNum": "#16",
+      "squadName": "Escuadrón #16 Papa",
+      "specialist": "#1601 Silicon-AI-Titans",
+      "proxyCoins": [
+        "DOGE",
+        "HYPE",
+        "RENDER",
+        "TAO"
+      ]
+    },
+    "AAPL": {
+      "squadKey": "PAPA",
+      "squadId": 16,
+      "squadNum": "#16",
+      "squadName": "Escuadrón #16 Papa",
+      "specialist": "#1601 Silicon-AI-Titans",
+      "proxyCoins": [
+        "HYPE",
+        "RENDER",
+        "TAO",
+        "DOGE"
+      ]
+    },
+    "MSFT": {
+      "squadKey": "QUEBEC",
+      "squadId": 17,
+      "squadNum": "#17",
+      "squadName": "Escuadrón #17 Quebec",
+      "specialist": "#1701 Cloud-Hyperscalers",
+      "proxyCoins": [
+        "TAO",
+        "RENDER",
+        "HYPE",
+        "DOGE"
+      ]
+    },
+    "AMZN": {
+      "squadKey": "QUEBEC",
+      "squadId": 17,
+      "squadNum": "#17",
+      "squadName": "Escuadrón #17 Quebec",
+      "specialist": "#1701 Cloud-Hyperscalers",
+      "proxyCoins": [
+        "RENDER",
+        "HYPE",
+        "TAO",
+        "DOGE"
+      ]
+    },
+    "META": {
+      "squadKey": "QUEBEC",
+      "squadId": 17,
+      "squadNum": "#17",
+      "squadName": "Escuadrón #17 Quebec",
+      "specialist": "#1701 Cloud-Hyperscalers",
+      "proxyCoins": [
+        "HYPE",
+        "TAO",
+        "RENDER",
+        "DOGE"
+      ]
+    },
+    "GOOGL": {
+      "squadKey": "ROMEO",
+      "squadId": 18,
+      "squadNum": "#18",
+      "squadName": "Escuadrón #18 Romeo",
+      "specialist": "#1801 Institutional-Equities",
+      "proxyCoins": [
+        "RENDER",
+        "TAO",
+        "HYPE",
+        "DOGE"
+      ]
+    },
+    "COIN": {
+      "squadKey": "ROMEO",
+      "squadId": 18,
+      "squadNum": "#18",
+      "squadName": "Escuadrón #18 Romeo",
+      "specialist": "#1801 Institutional-Equities",
+      "proxyCoins": [
+        "HYPE",
+        "DOGE",
+        "RENDER",
+        "TAO"
+      ]
+    },
+    "MSTR": {
+      "squadKey": "ROMEO",
+      "squadId": 18,
+      "squadNum": "#18",
+      "squadName": "Escuadrón #18 Romeo",
+      "specialist": "#1801 Institutional-Equities",
+      "proxyCoins": [
+        "TAO",
+        "HYPE",
+        "DOGE",
+        "RENDER"
+      ]
+    }
+  },
+  "activeBindingsByL1Coin": {
+    "TRX": {
+      "virtualPair": "EUR/USD",
+      "l1Coin": "TRX",
+      "squadKey": "DELTA",
+      "squadId": 10,
+      "squadNum": "#10",
+      "squadName": "Escuadrón #10 Delta",
+      "specialist": "#1001 FX-Euro-Atlantic",
+      "direction": "LONG",
+      "szi": 743,
+      "entryPx": 0.33923,
+      "unrealizedPnlUsdc": -1.76834,
+      "openedAt": "2026-10-30T15:05:16.994Z"
+    },
+    "PAXG": {
+      "virtualPair": "XAU/USD",
+      "l1Coin": "PAXG",
+      "squadKey": "FOXTROT",
+      "squadId": 12,
+      "squadNum": "#12",
+      "squadName": "Escuadrón #12 Foxtrot",
+      "specialist": "#1201 Bullion-Gold-Macro",
+      "direction": "LONG",
+      "szi": 0.01,
+      "entryPx": 4031,
+      "unrealizedPnlUsdc": -1.09268,
+      "openedAt": "2026-10-30T15:05:16.994Z"
+    }
+  },
+  "activeBindingsByVirtualPair": {
+    "EUR/USD": {
+      "virtualPair": "EUR/USD",
+      "l1Coin": "TRX",
+      "squadKey": "DELTA",
+      "squadId": 10,
+      "squadNum": "#10",
+      "squadName": "Escuadrón #10 Delta",
+      "specialist": "#1001 FX-Euro-Atlantic",
+      "direction": "LONG",
+      "szi": 743,
+      "entryPx": 0.33923,
+      "unrealizedPnlUsdc": -1.76834,
+      "openedAt": "2026-10-30T15:05:16.994Z"
+    },
+    "XAU/USD": {
+      "virtualPair": "XAU/USD",
+      "l1Coin": "PAXG",
+      "squadKey": "FOXTROT",
+      "squadId": 12,
+      "squadNum": "#12",
+      "squadName": "Escuadrón #12 Foxtrot",
+      "specialist": "#1201 Bullion-Gold-Macro",
+      "direction": "LONG",
+      "szi": 0.01,
+      "entryPx": 4031,
+      "unrealizedPnlUsdc": -1.09268,
+      "openedAt": "2026-10-30T15:05:16.994Z"
+    }
+  },
+  "recentClosedBindings": [],
+  "pruningPool": {
+    "engine": "PROFIT_OFFSET_PRUNER",
+    "pruningRatio": 0.4,
+    "minPruneThresholdUsdc": 0.6,
+    "targetOrder": [
+      "ETH",
+      "BTC",
+      "SOL",
+      "NEAR"
+    ],
+    "unallocatedPruningPoolUsdc": 0.0015,
+    "totalCreditedTodayUsdc": 3.3647,
+    "totalPrunedTodayUsdc": 4.2032,
+    "lastResetDateUtc": "2026-10-30",
+    "processedCloseFillTids": {
+      "737378770233524": {
+        "coin": "HYPE",
+        "netGain": 0.2133,
+        "contribution40Pct": 0.0853,
+        "ts": "2026-10-30T14:45:39.687Z"
+      },
+      "724564416108734": {
+        "coin": "ONDO",
+        "netGain": 1.0463,
+        "contribution40Pct": 0.4185,
+        "ts": "2026-10-30T14:41:05.265Z"
+      },
+      "1116274769334697": {
+        "coin": "OP",
+        "netGain": 0.0254,
+        "contribution40Pct": 0.0102,
+        "ts": "2026-10-30T14:40:03.037Z"
+      },
+      "319746465483117": {
+        "coin": "OP",
+        "netGain": 0.0254,
+        "contribution40Pct": 0.0102,
+        "ts": "2026-10-30T14:40:03.037Z"
+      },
+      "803312913647790": {
+        "coin": "OP",
+        "netGain": 0.045,
+        "contribution40Pct": 0.018,
+        "ts": "2026-10-30T14:40:03.037Z"
+      },
+      "690180934837199": {
+        "coin": "ARB",
+        "netGain": 0.6695,
+        "contribution40Pct": 0.2678,
+        "ts": "2026-10-30T14:39:17.307Z"
+      },
+      "335419236842284": {
+        "coin": "ARB",
+        "netGain": 1.0486,
+        "contribution40Pct": 0.4194,
+        "ts": "2026-10-30T14:39:17.307Z"
+      },
+      "251757544189406": {
+        "coin": "PENDLE",
+        "netGain": 0.0805,
+        "contribution40Pct": 0.0322,
+        "ts": "2026-10-30T14:38:56.690Z"
+      },
+      "1095870757318559": {
+        "coin": "XRP",
+        "netGain": 0.1459,
+        "contribution40Pct": 0.0584,
+        "ts": "2026-10-30T14:32:33.121Z"
+      },
+      "329427064071078": {
+        "coin": "kPEPE",
+        "netGain": 0.161,
+        "contribution40Pct": 0.0644,
+        "ts": "2026-10-30T14:13:32.622Z"
+      },
+      "596366968637462": {
+        "coin": "ARB",
+        "netGain": 0.4285,
+        "contribution40Pct": 0.1714,
+        "ts": "2026-10-30T13:54:40.223Z"
+      },
+      "562569853278799": {
+        "coin": "ONDO",
+        "netGain": 0.1377,
+        "contribution40Pct": 0.0551,
+        "ts": "2026-10-30T13:48:50.990Z"
+      },
+      "762504164522028": {
+        "coin": "LINK",
+        "netGain": 0.291,
+        "contribution40Pct": 0.1164,
+        "ts": "2026-10-30T13:42:57.252Z"
+      },
+      "943008917236199": {
+        "coin": "ARB",
+        "netGain": 0.1175,
+        "contribution40Pct": 0.047,
+        "ts": "2026-10-30T13:42:22.252Z"
+      },
+      "248223971945561": {
+        "coin": "AVAX",
+        "netGain": 0.4094,
+        "contribution40Pct": 0.1637,
+        "ts": "2026-10-30T13:34:31.522Z"
+      },
+      "707766525656493": {
+        "coin": "HYPE",
+        "netGain": 0.2144,
+        "contribution40Pct": 0.0857,
+        "ts": "2026-10-30T13:33:01.576Z"
+      },
+      "921567794659709": {
+        "coin": "SUI",
+        "netGain": 0.1623,
+        "contribution40Pct": 0.0649,
+        "ts": "2026-10-30T13:32:42.198Z"
+      },
+      "462785185227328": {
+        "coin": "LTC",
+        "netGain": 0.2641,
+        "contribution40Pct": 0.1057,
+        "ts": "2026-10-30T13:31:38.414Z"
+      },
+      "383507423354395": {
+        "coin": "XRP",
+        "netGain": 0.1642,
+        "contribution40Pct": 0.0657,
+        "ts": "2026-10-30T13:30:15.361Z"
+      },
+      "158419270514629": {
+        "coin": "XRP",
+        "netGain": 0.0405,
+        "contribution40Pct": 0.0162,
+        "ts": "2026-10-30T13:30:13.415Z"
+      },
+      "268114958485176": {
+        "coin": "OP",
+        "netGain": 0.0281,
+        "contribution40Pct": 0.0112,
+        "ts": "2026-10-30T13:18:10.933Z"
+      },
+      "926454089405743": {
+        "coin": "OP",
+        "netGain": 0.0505,
+        "contribution40Pct": 0.0202,
+        "ts": "2026-10-30T13:18:10.933Z"
+      },
+      "1095871676945965": {
+        "coin": "OP",
+        "netGain": 0.0601,
+        "contribution40Pct": 0.0241,
+        "ts": "2026-10-30T13:18:10.933Z"
+      },
+      "1109868638564691": {
+        "coin": "kPEPE",
+        "netGain": 0.078,
+        "contribution40Pct": 0.0312,
+        "ts": "2026-10-30T12:50:13.100Z"
+      },
+      "1015784995523133": {
+        "coin": "kPEPE",
+        "netGain": 0.0757,
+        "contribution40Pct": 0.0303,
+        "ts": "2026-10-30T12:50:11.338Z"
+      },
+      "923376573706281": {
+        "coin": "HYPE",
+        "netGain": 0.1924,
+        "contribution40Pct": 0.077,
+        "ts": "2026-10-30T12:17:36.325Z"
+      },
+      "915508173289803": {
+        "coin": "LTC",
+        "netGain": 0.049,
+        "contribution40Pct": 0.0196,
+        "ts": "2026-10-30T12:15:40.897Z"
+      },
+      "902103901115216": {
+        "coin": "ARB",
+        "netGain": 0.1433,
+        "contribution40Pct": 0.0573,
+        "ts": "2026-10-30T12:10:29.854Z"
+      },
+      "447798898328111": {
+        "coin": "AAVE",
+        "netGain": 0.4867,
+        "contribution40Pct": 0.1947,
+        "ts": "2026-10-30T12:10:16.049Z"
+      },
+      "254497946623855": {
+        "coin": "AVAX",
+        "netGain": 0.4561,
+        "contribution40Pct": 0.1825,
+        "ts": "2026-10-30T12:07:34.349Z"
+      },
+      "1101944984276622": {
+        "coin": "ARB",
+        "netGain": 0.1666,
+        "contribution40Pct": 0.0667,
+        "ts": "2026-10-30T12:03:42.872Z"
+      },
+      "730236576207184": {
+        "coin": "HYPE",
+        "netGain": 0.0503,
+        "contribution40Pct": 0.0201,
+        "ts": "2026-10-30T12:00:53.206Z"
+      },
+      "61907555648255": {
+        "coin": "AVAX",
+        "netGain": 0.0567,
+        "contribution40Pct": 0.0227,
+        "ts": "2026-10-30T11:58:10.984Z"
+      },
+      "627142104030086": {
+        "coin": "AVAX",
+        "netGain": 0.4308,
+        "contribution40Pct": 0.1723,
+        "ts": "2026-10-30T11:58:10.984Z"
+      },
+      "323163146254936": {
+        "coin": "TRX",
+        "netGain": 0.0445,
+        "contribution40Pct": 0.0178,
+        "ts": "2026-10-30T11:56:31.791Z"
+      },
+      "645893839953831": {
+        "coin": "TAO",
+        "netGain": 0.043,
+        "contribution40Pct": 0.0172,
+        "ts": "2026-10-30T11:54:28.585Z"
+      },
+      "662639933380289": {
+        "coin": "TAO",
+        "netGain": 0.02,
+        "contribution40Pct": 0.008,
+        "ts": "2026-10-30T11:54:28.585Z"
+      },
+      "711177791261078": {
+        "coin": "TAO",
+        "netGain": 0.0221,
+        "contribution40Pct": 0.0088,
+        "ts": "2026-10-30T11:54:28.585Z"
+      },
+      "1045245586766779": {
+        "coin": "ONDO",
+        "netGain": 0.0169,
+        "contribution40Pct": 0.0068,
+        "ts": "2026-10-30T11:52:11.001Z"
+      },
+      "994836475820422": {
+        "coin": "AVAX",
+        "netGain": 0.1177,
+        "contribution40Pct": 0.0471,
+        "ts": "2026-10-30T10:24:05.271Z"
+      },
+      "650475716115117": {
+        "coin": "LINK",
+        "netGain": 0.0145,
+        "contribution40Pct": 0.0058,
+        "ts": "2026-10-30T08:23:54.296Z"
+      },
+      "261598558153712": {
+        "coin": "LINK",
+        "netGain": 0.0222,
+        "contribution40Pct": 0.0089,
+        "ts": "2026-10-30T08:23:54.296Z"
+      },
+      "661869507965060": {
+        "coin": "DOGE",
+        "netGain": 0.069,
+        "contribution40Pct": 0.0276,
+        "ts": "2026-10-30T07:38:33.708Z"
+      },
+      "153844747563077": {
+        "coin": "HYPE",
+        "netGain": 0.0264,
+        "contribution40Pct": 0.0106,
+        "ts": "2026-10-30T07:35:51.295Z"
+      }
+    },
+    "pruneHistory": [
+      {
+        "coin": "ETH",
+        "prunedSz": 0.0773,
+        "remainingSz": 0.001,
+        "prunedNotionalUsd": 173.75,
+        "paidFromPoolUsdc": 3.8,
+        "remainingPoolUsdc": 0,
+        "timestamp": "2026-10-30T15:05:18.493Z"
+      }
+    ],
+    "utcDay": "2026-10-30",
+    "lastProcessedNetTodayUsdc": 2.09,
+    "pruneCountToday": 1,
+    "pruningPoolRatio": 0.4,
+    "targetsOrder": [
+      "ETH",
+      "BTC",
+      "SOL",
+      "NEAR"
+    ],
+    "history": []
+  },
+  "engine": "FOREX_AND_MACRO_L1_PROXY_MAP_AND_PROFIT_OFFSET_PRUNER",
+  "bindings": {
+    "TRX": {
+      "virtualPair": "EUR/USD",
+      "l1Coin": "TRX",
+      "squadKey": "DELTA",
+      "squadId": 10,
+      "squadNum": "#10",
+      "squadName": "Escuadrón #10 Delta",
+      "specialist": "#1001 FX-Euro-Atlantic",
+      "direction": "LONG",
+      "szi": 743,
+      "entryPx": 0.33923,
+      "unrealizedPnlUsdc": -1.76834,
+      "openedAt": "2026-10-30T15:05:16.994Z"
+    },
+    "PAXG": {
+      "virtualPair": "XAU/USD",
+      "l1Coin": "PAXG",
+      "squadKey": "FOXTROT",
+      "squadId": 12,
+      "squadNum": "#12",
+      "squadName": "Escuadrón #12 Foxtrot",
+      "specialist": "#1201 Bullion-Gold-Macro",
+      "direction": "LONG",
+      "szi": 0.01,
+      "entryPx": 4031,
+      "unrealizedPnlUsdc": -1.09268,
+      "openedAt": "2026-10-30T15:05:16.994Z"
+    }
+  }
+}
