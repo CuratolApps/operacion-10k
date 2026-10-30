@@ -875,7 +875,7 @@ function render54PairsGrid() {
     const initPxText = formatPairPrice(initPxNum, p.symbol);
     const initLine1Left = "⚡ AUTO 5% ($50.45 · 5X)";
     const initLine1Right = "";
-    const initLine2 = "🔒 CANDADO +$0.30 ➔ +$0.40 ➔ +$0.50+";
+    const initLine2 = "🔒 CANDADO +$0.10 ➔ +$0.50+";
 
     cell.innerHTML = `
       <div class="pair-header-row">
@@ -921,11 +921,16 @@ function persistClientRatchetMemory() {
     localStorage.setItem("area501_ratchet_peaks_v2", JSON.stringify(clientRatchetMemory));
   } catch (_) {}
 }
-function computeCorneringRatchetStepClient(peakPnlUsdc) {
-  const peak = Number(peakPnlUsdc || 0);
-  if (peak >= 0.32) {
-    return +(Math.floor(((peak - 0.02) + 1e-9) * 10) / 10).toFixed(2);
+function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
+  const peak = Number(peakNetPnlUsdc || 0);
+  if (peak >= 0.52) {
+    return +(Math.floor(((peak - 0.01) + 1e-9) * 10) / 10).toFixed(2);
   }
+  if (peak >= 0.42) return 0.40;
+  if (peak >= 0.32) return 0.30;
+  if (peak >= 0.22) return 0.20;
+  if (peak >= 0.12) return 0.10;
+  if (peak >= 0.02) return 0.01;
   return 0;
 }
 
@@ -965,7 +970,8 @@ function computeClientRatchetStatus(activePos, currentPrice) {
       isLocked: false,
       lockedNetUsd: 0,
       peakPnlUsdc: 0,
-      statusLabel: "🔒 CANDADO +$0.30 ➔ +$0.40 ➔ +$0.50+",
+      netPnlUsdc: 0,
+      statusLabel: "🔒 CANDADO +$0.10 ➔ +$0.50+",
       lockClass: "active-lock-tag shield"
     };
   }
@@ -974,12 +980,14 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const szi = parseFloat(pos.szi || "0");
   const absSz = Math.abs(szi);
   const entryPx = parseFloat(pos.entryPx || "0");
-  const notional = absSz * entryPx;
+  const refPx = currentPrice > 0 ? currentPrice : entryPx;
+  const notional = absSz * refPx;
 
-  // NUEVA ESCALERA DE CANDADOS DESDE +$0.30 (`+$0.30 ➔ +$0.40 ➔ +$0.50+`):
-  // Prohibido activar candados en +$0.10 o +$0.20. Entre $0.00 y +$0.31 deja respirar el tiro.
+  // REGLA DE HIERRO CONTABLE (netPnlUsdc 1:1 en Pantalla y en el Motor de Candados):
+  const realRoundTripFeeUsdc = Number((notional * 0.00045).toFixed(4));
   const rawPnl = parseFloat(pos.unrealizedPnl || "0");
-  const displayPnl = rawPnl;
+  const netPnlUsdc = Number((rawPnl - realRoundTripFeeUsdc).toFixed(4));
+  const displayPnl = netPnlUsdc;
   const gainPct = notional > 0 ? (displayPnl / notional) * 100 : 0;
 
   if (!clientRatchetMemory[coin] || Math.abs((clientRatchetMemory[coin].entryPx || 0) - entryPx) > 1e-8) {
@@ -997,14 +1005,10 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const mem = clientRatchetMemory[coin];
   let memChanged = false;
 
-  // Purgar cualquier pico corrupto (> $25.0), candado antiguo < $0.30, o si la posición cayó en negativo (< -$0.25)
-  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < -0.25) {
+  // Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< -$0.35 netos)
+  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < -0.35) {
     mem.peakPnlUsdc = displayPnl;
     mem.peakNetAfterFee = displayPnl;
-    mem.lockedNetUsd = 0;
-    memChanged = true;
-  }
-  if ((mem.lockedNetUsd || 0) > 0 && (mem.lockedNetUsd || 0) < 0.30) {
     mem.lockedNetUsd = 0;
     memChanged = true;
   }
@@ -1016,30 +1020,34 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   if (displayPnl > mem.peakNetAfterFee) mem.peakNetAfterFee = displayPnl;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Escalera Continua desde +$0.30 (+$0.32 -> +$0.30 | +$0.42 -> +$0.40 | +$0.52 -> +$0.50 | +$0.62 -> +$0.60...)
+  // Escalera Exacta 1:1 Neta (+$0.02 -> +$0.01 | +$0.12 -> +$0.10 | +$0.22 -> +$0.20 | +$0.32 -> +$0.30 | +$0.42 -> +$0.40 | +$0.52 -> +$0.50+...)
   const corneredStep = displayPnl >= -0.05 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
-  if (displayPnl >= -0.05 && corneredStep >= 0.30 && corneredStep > (mem.lockedNetUsd || 0)) {
+  if (displayPnl >= -0.05 && corneredStep >= 0.01 && corneredStep > (mem.lockedNetUsd || 0)) {
     mem.lockedNetUsd = corneredStep;
     memChanged = true;
   }
   if (memChanged) persistClientRatchetMemory();
 
-  if (displayPnl >= -0.05 && mem.lockedNetUsd >= 0.30) {
+  if (displayPnl >= -0.05 && mem.lockedNetUsd >= 0.10) {
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
       peakPnlUsdc: mem.peakPnlUsdc,
+      netPnlUsdc,
+      realRoundTripFeeUsdc,
       statusLabel: `🔒 CANDADO +$${mem.lockedNetUsd.toFixed(2)} ACTIVO`,
       lockClass: "active-lock-tag be"
     };
   }
 
-  if (displayPnl >= 0) {
+  if (displayPnl >= 0 || mem.lockedNetUsd >= 0.01) {
     return {
-      isLocked: false,
-      lockedNetUsd: 0,
+      isLocked: mem.lockedNetUsd >= 0.01,
+      lockedNetUsd: Math.max(0.01, mem.lockedNetUsd || 0),
       peakPnlUsdc: mem.peakPnlUsdc,
-      statusLabel: `🚀 BUSCANDO CANDADO +$0.30`,
+      netPnlUsdc,
+      realRoundTripFeeUsdc,
+      statusLabel: `🛡️ EMPATE #00 (+$0.01 NETO)`,
       lockClass: "active-lock-tag be"
     };
   }
@@ -1956,7 +1964,7 @@ function updateTopBarCards() {
   const nominaHarvested = Math.max(0, Number(dailyProfit.toFixed(2)));
 
   const topPillText = `27 PARES L1 · 15 CANALES ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
-  const readySquadsText = `🟢 ${openCount} / 15 CANALES ACTIVOS · CANDADO +$0.30 ➔ +$0.40 ➔ +$0.50+`;
+  const readySquadsText = `🟢 ${openCount} / 15 ACTIVOS · CANDADO NETO +$0.10 ➔ +$0.50+`;
   const subLabelText = `META 24H: +$${nominaHarvested.toFixed(2)} / $100.00 USDC NETOS · 🕒 ${cycle24h.utcShortStr}`;
   const bottomBannerText = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} · 5X)`;
 
@@ -2155,18 +2163,22 @@ function updatePricesAndSignals() {
     }
 
     if (activePos) {
-      const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
+      const grossPnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
       const isShort = szi < 0;
       const entryPx = parseFloat(activePos.position.entryPx || currentPrice);
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
       const rInfo = computeClientRatchetStatus(activePos, midPx);
-      const isPositiveGreen = pnl >= 0 || rInfo.isLocked;
+      const netPnlUsdc = rInfo.netPnlUsdc !== undefined
+        ? rInfo.netPnlUsdc
+        : Number((grossPnl - Math.abs(szi * midPx) * 0.00045).toFixed(4));
+      const isPositiveGreen = netPnlUsdc >= 0 || rInfo.isLocked;
 
       const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
-      const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
+      // SINCERIDAD ABSOLUTA EN PANTALLA (1:1 NETO): El marcador muestra netPnlUsdc (100% libre de comisiones L1)
+      const pnlFormatted = (netPnlUsdc >= 0 ? "+" : "-") + "$" + Math.abs(netPnlUsdc).toFixed(2);
       const dirWord = isShort ? "SHORT" : "LONG";
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, pnlFormatted);
@@ -2174,21 +2186,21 @@ function updatePricesAndSignals() {
       const isBallastBurn = ["ETH", "BTC", "SOL", "NEAR"].includes(p.symbol);
       let line2Text = "";
       if (isPositiveGreen) {
-        // 🟩 ESTADO 1 — Posición Abierta y ARRIBA: Entre $0.00 y +$0.31 busca candado +$0.30; en >= +$0.32 muestra candado activo
-        const lockedStep = rInfo.lockedNetUsd >= 0.30
+        // 🟩 ESTADO 1 — Posición Abierta y ARRIBA (1:1 NETO): +$0.01 Empate #00 -> +$0.10 -> +$0.20 -> +$0.30 -> +$0.40 -> +$0.50+
+        const lockedStep = rInfo.lockedNetUsd >= 0.01
           ? rInfo.lockedNetUsd
-          : computeCorneringRatchetStepClient(Math.max(pnl, rInfo.peakPnlUsdc || 0));
-        if (lockedStep >= 0.30) {
+          : computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0));
+        if (lockedStep >= 0.10) {
           line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
         } else {
-          line2Text = `🚀 BUSCANDO CANDADO +$0.30`;
+          line2Text = `🛡️ EMPATE #00 (+$0.01 NETO)`;
         }
       } else if (isBallastBurn) {
         // 🟧 ESTADO 2B — En poda Quema-Lastre
         line2Text = "🛡️ QUEMA-LASTRE ACTIVO";
       } else {
         // 🟧 ESTADO 2A — En salida rápida
-        line2Text = "🎯 META SALIDA: +$0.30";
+        line2Text = "🎯 META SALIDA: +$0.10";
       }
       setTextIfChanged(sigLockText, line2Text);
     } else {
@@ -2215,7 +2227,7 @@ function updatePricesAndSignals() {
         if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
         setTextIfChanged(sigText, autoLine1Text);
         setTextIfChanged(sigRight1, "");
-        setTextIfChanged(sigLockText, "🔒 CANDADO +$0.30 ➔ +$0.40 ➔ +$0.50+");
+        setTextIfChanged(sigLockText, "🔒 CANDADO +$0.10 ➔ +$0.50+");
       }
     }
   });
