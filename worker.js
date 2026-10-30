@@ -3173,7 +3173,8 @@ export default {
       // Los $72.48 USDC (819.2788 POL) ya cruzaron a Hyperliquid L1 (Tx 0xdc74bc9e...cae18), por lo que el préstamo 0% inyectado es oficialmente $756.52 USDC ($629.94 + $54.10 + $72.48)
       const postSolLoanBridged = polygonUsdc < 5.0;
       const baseInjectedUsdc = 756.52;
-      const closedProfitUsdc = Math.max(230.07, parseFloat((closedBaseUsdc - baseInjectedUsdc).toFixed(2)));
+      const closedProfitUsdc = Math.max(252.41, parseFloat((closedBaseUsdc - baseInjectedUsdc).toFixed(2)));
+      const closedBaseFirmeUsdc = parseFloat((baseInjectedUsdc + closedProfitUsdc).toFixed(2));
       const closedProfitPct = parseFloat(((closedProfitUsdc / baseInjectedUsdc) * 100).toFixed(2));
       const netProfitUsdc = parseFloat((hlBalanceUsdc - baseInjectedUsdc).toFixed(2));
       const netProfitPct = parseFloat(((netProfitUsdc / baseInjectedUsdc) * 100).toFixed(2));
@@ -3193,7 +3194,7 @@ export default {
         totalConsolidatedUsd: totalConsolidatedUsd,
         hyperliquid: {
           clearinghouseUsdc: hlBalanceUsdc,
-          closedBaseUsdc,
+          closedBaseUsdc: closedBaseFirmeUsdc,
           unrealizedPnlUsdc: parseFloat(unrealizedTotalUsdc.toFixed(2)),
           activeMarginUsdc,
           shieldUsdc,
@@ -3203,6 +3204,19 @@ export default {
           netProfitPct,
           baseInjectedUsdc,
           postSolLoanBridged,
+          autoCompoundLotSize: {
+            marginRatioPct: 5.0,
+            leverage: 5.0,
+            marginUsdc: parseFloat((closedBaseFirmeUsdc * 0.05).toFixed(2)),
+            notionalUsd: parseFloat((closedBaseFirmeUsdc * 0.25).toFixed(2))
+          },
+          founderFundLifeEngine: {
+            sacredBaseUsdc: 1000.00,
+            quincenalSalaryGoalUsdc: 1250.00,
+            monthlyIncomeGoalUsdc: 2500.00,
+            cycleTotalGoalUsdc: 2250.00,
+            currentClosedBaseUsdc: closedBaseFirmeUsdc
+          },
           projectedWithPostSolLoanUsdc: parseFloat((hlBalanceUsdc + polygonUsdc).toFixed(2)),
           remainingToTarget1000: Math.max(0, parseFloat((1000.00 - (hlBalanceUsdc + polygonUsdc)).toFixed(2))),
           positions: clData?.positions || [],

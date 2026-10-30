@@ -2609,7 +2609,7 @@ footer,
 
 .matrix-nav-tabs {
   display: flex !important;
-  gap: 5px !important;
+  gap: 4px !important;
   align-items: center !important;
   flex: 0 1 auto !important;
 }
@@ -2623,13 +2623,13 @@ footer,
   color: #1E293B !important;
   border: 1px solid #CBD5E1 !important;
   border-radius: 7px !important;
-  padding: 4px 8px !important;
-  font-size: 0.62rem !important;
+  padding: 4px 6px !important;
+  font-size: 0.57rem !important;
   font-weight: 700 !important;
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 4px !important;
+  gap: 3px !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
   white-space: nowrap !important;
@@ -3279,4 +3279,479 @@ footer,
   border: 1px solid #A7F3D0 !important;
   padding: 1.5px 6px !important;
   border-radius: 4px !important;
+}
+
+/* ==============================================================================
+   TAB 7: 7. MOTOR DE VIDA & PROYECTOS (FONDO FUNDADOR // SUELDO QUINCENAL $1,250)
+   100vh CERO SCROLL EXTERIOR · 4 TARJETAS EJECUTIVAS + ESCALERA 16 ESCALONES (4x4)
+   ============================================================================== */
+#paneLifeEngine {
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#paneLifeEngine.active {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.life-engine-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.life-engine-header-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 65%, #ECFDF5 100%) !important;
+  border: 1.5px solid #FFFFFF !important;
+  border-radius: 9px !important;
+  padding: 6px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+  flex: 0 0 auto !important;
+}
+
+.life-engine-title-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  min-width: 0 !important;
+}
+
+.life-engine-main-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  letter-spacing: 0.015em !important;
+  white-space: nowrap !important;
+}
+
+.life-engine-icon {
+  font-size: 17px !important;
+  color: #059669 !important;
+}
+
+.life-engine-sub-banner {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.56rem !important;
+  font-weight: 700 !important;
+  color: #1E40AF !important;
+  background: #EFF6FF !important;
+  border: 1px solid #BFDBFE !important;
+  padding: 2px 8px !important;
+  border-radius: 5px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.life-engine-header-badges {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+}
+
+.life-badge-pill {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.56rem !important;
+  font-weight: 800 !important;
+  padding: 3.5px 8px !important;
+  border-radius: 6px !important;
+  white-space: nowrap !important;
+}
+
+.life-badge-pill.gold {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  border: 1px solid #FCD34D !important;
+}
+
+.life-badge-pill.emerald {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  border: 1px solid #6EE7B7 !important;
+}
+
+/* Fila Superior: 4 Tarjetas Ejecutivas del Fondo Fundador */
+.life-top-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  width: 100% !important;
+  flex: 0 0 auto !important;
+}
+
+.life-exec-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+  border: 1.5px solid #FFFFFF !important;
+  border-radius: 9px !important;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.11) !important;
+  padding: 6px 9px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.life-exec-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+}
+
+.life-exec-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.56rem !important;
+  font-weight: 800 !important;
+  color: #1E293B !important;
+  letter-spacing: 0.01em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.life-exec-chip {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.50rem !important;
+  font-weight: 800 !important;
+  padding: 2px 5px !important;
+  border-radius: 4px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.life-exec-chip.chip-emerald {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  border: 1px solid #6EE7B7 !important;
+}
+
+.life-exec-chip.chip-blue {
+  background: #DBEAFE !important;
+  color: #1E40AF !important;
+  border: 1px solid #93C5FD !important;
+}
+
+.life-exec-chip.chip-amber {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  border: 1px solid #FCD34D !important;
+}
+
+.life-exec-main-val {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.life-exec-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.54rem !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  line-height: 1.25 !important;
+}
+
+.life-progress-track {
+  width: 100% !important;
+  height: 5px !important;
+  background: #E2E8F0 !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+}
+
+.life-progress-fill {
+  height: 100% !important;
+  background: linear-gradient(90deg, #2563EB 0%, #10B981 100%) !important;
+  border-radius: 999px !important;
+  transition: width 0.35s ease !important;
+}
+
+.life-tracks-mini-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 3px !important;
+}
+
+.life-track-pill {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.49rem !important;
+  font-weight: 700 !important;
+  color: #0F172A !important;
+  background: #F8FAFC !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 4px !important;
+  padding: 2px 4px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.life-track-pill b {
+  color: #1D4ED8 !important;
+}
+
+.life-exec-foot {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.51rem !important;
+  font-weight: 700 !important;
+  color: #047857 !important;
+  background: #ECFDF5 !important;
+  border: 1px solid #A7F3D0 !important;
+  border-radius: 4px !important;
+  padding: 2px 5px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.life-exec-foot.foot-snow {
+  color: #1E40AF !important;
+  background: #EFF6FF !important;
+  border-color: #BFDBFE !important;
+}
+
+/* Cuerpo Central: Escalera de los 16 Escalones del Ciclo Quincenal (4x4) */
+.life-ladder-section {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 10px !important;
+  padding: 6px 9px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.life-ladder-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
+}
+
+.life-ladder-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.life-ladder-title .material-symbols-rounded {
+  font-size: 15px !important;
+  color: #1D4ED8 !important;
+}
+
+.life-ladder-legend {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+}
+
+.legend-item {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.50rem !important;
+  font-weight: 800 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+.legend-item.done {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  border: 1px solid #6EE7B7 !important;
+}
+
+.legend-item.active {
+  background: #DBEAFE !important;
+  color: #1E40AF !important;
+  border: 1px solid #93C5FD !important;
+}
+
+.legend-item.next {
+  background: #F1F5F9 !important;
+  color: #475569 !important;
+  border: 1px solid #CBD5E1 !important;
+}
+
+.life-steps-grid-16 {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
+  gap: 5px !important;
+}
+
+.life-step-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  padding: 4px 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  transition: all 0.2s ease !important;
+}
+
+.life-step-card.step-completed {
+  background: linear-gradient(145deg, #0D9488 0%, #059669 55%, #047857 100%) !important;
+  border-color: #6EE7B7 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25) !important;
+}
+
+.life-step-card.step-completed * {
+  color: #FFFFFF !important;
+}
+
+.life-step-card.step-in-fire {
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%) !important;
+  border: 2px solid #2563EB !important;
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.28) !important;
+}
+
+.life-step-card.step-mid-cycle {
+  border-color: #38BDF8 !important;
+  background: linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 100%) !important;
+}
+
+.life-step-card.step-payday-gold {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%) !important;
+  border: 2px solid #D97706 !important;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.22) !important;
+}
+
+.l-step-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+}
+
+.l-step-day {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.54rem !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.l-step-status {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.48rem !important;
+  font-weight: 800 !important;
+  padding: 1.5px 5px !important;
+  border-radius: 4px !important;
+  background: #F1F5F9 !important;
+  color: #475569 !important;
+  border: 1px solid #CBD5E1 !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.life-step-card.step-in-fire .l-step-status {
+  background: #1D4ED8 !important;
+  color: #FFFFFF !important;
+  border-color: #1E40AF !important;
+}
+
+.life-step-card.step-completed .l-step-status {
+  background: rgba(6, 78, 59, 0.55) !important;
+  color: #ECFDF5 !important;
+  border-color: rgba(167, 243, 208, 0.6) !important;
+}
+
+.life-step-card.step-payday-gold .l-step-status {
+  background: #D97706 !important;
+  color: #FFFFFF !important;
+  border-color: #B45309 !important;
+}
+
+.l-step-goal {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.64rem !important;
+  font-weight: 700 !important;
+  color: #0F172A !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.l-step-goal b {
+  font-weight: 800 !important;
+  color: #059669 !important;
+}
+
+.life-step-card.step-in-fire .l-step-goal b {
+  color: #1D4ED8 !important;
+}
+
+.life-step-card.step-payday-gold .l-step-goal b {
+  color: #B45309 !important;
+}
+
+.l-step-gain {
+  font-size: 0.54rem !important;
+  font-weight: 800 !important;
+  color: #059669 !important;
+}
+
+.l-step-meta {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.51rem !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  border-radius: 4px !important;
+  padding: 2px 5px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.life-step-card.step-payday-gold .l-step-meta {
+  background: #FEF3C7 !important;
+  border-color: #FCD34D !important;
+  color: #92400E !important;
 }
