@@ -794,6 +794,112 @@ function buildPairQuartetSnapshot(coin, openPositions = [], now = Date.now()) {
   };
 }
 
+// =========================================================================
+// 🧬⚡ MOTOR KINEMATIC_PRECISION_STRIKE_V1: VENTANA 5,000ms (MUESTRAS CADA 200ms)
+// =========================================================================
+const kinematicWindow5sByCoin = {}; // { [coin]: Array<{ ts, px }> } últimos 5,000ms a 200ms de resolución
+let lastMeasuredHlLatencyMs = 145;  // Latencia real medida de ida a Hyperliquid L1 (ms)
+
+function recordKinematicSample(coin, px, ts = Date.now()) {
+  if (!px || px <= 0) return;
+  if (!kinematicWindow5sByCoin[coin]) kinematicWindow5sByCoin[coin] = [];
+  const arr = kinematicWindow5sByCoin[coin];
+  const last = arr[arr.length - 1];
+  if (!last || (ts - last.ts) >= 150 || last.px !== px) {
+    arr.push({ ts, px });
+  }
+  // Conservar muestras de los últimos 6,000ms para calcular v_fast (1,000ms) y v_med (3,000ms previos)
+  while (arr.length > 2 && (ts - arr[0].ts) > 6500) {
+    arr.shift();
+  }
+}
+
+/**
+ * 1. ECUACIÓN FÍSICA DE POSICIÓN, VELOCIDAD (v) Y ACELERACIÓN (a = dv/dt) EN TIEMPO REAL
+ * + 2. COMPENSACIÓN DE LATENCIA (P_{t + dt} = P_actual + v_fast * dt + 0.5 * a * dt^2)
+ */
+function computeKinematicPhysics(coin, currentMidPx, histFallback = [], latencyMs = lastMeasuredHlLatencyMs, now = Date.now()) {
+  const kSamples = (kinematicWindow5sByCoin[coin] && kinematicWindow5sByCoin[coin].length >= 3)
+    ? kinematicWindow5sByCoin[coin]
+    : (Array.isArray(histFallback) ? histFallback : []);
+
+  let pxNow = currentMidPx > 0 ? currentMidPx : (kSamples[kSamples.length - 1]?.px || 0);
+  let tsNow = kSamples[kSamples.length - 1]?.ts || now;
+  if (pxNow <= 0) {
+    return {
+      vFastPctPerSec: 0,
+      vMedPctPerSec: 0,
+      accelPctPerSec2: 0,
+      accelRatio: 0,
+      kinematicLongOk: false,
+      kinematicShortOk: false,
+      projectedImpactPx: 0,
+      latencyMs: Math.max(50, Number(latencyMs || 145))
+    };
+  }
+
+  // Buscar muestra hace ~1,000ms (para v_fast) y hace ~4,000ms (para v_med = 3,000ms anteriores)
+  let sample1s = kSamples[0];
+  let sample4s = kSamples[0];
+  for (let i = kSamples.length - 1; i >= 0; i--) {
+    const age = tsNow - kSamples[i].ts;
+    if (age >= 850 && sample1s === kSamples[0]) {
+      sample1s = kSamples[i];
+    }
+    if (age >= 3800) {
+      sample4s = kSamples[i];
+      break;
+    }
+  }
+
+  const dtFastSec = Math.max(0.25, Math.min(2.5, (tsNow - (sample1s?.ts || (tsNow - 1000))) / 1000));
+  const px1s = (sample1s && sample1s.px > 0) ? sample1s.px : pxNow;
+  // v_fast: cambio porcentual del midPx en los últimos 1,000ms (% / s)
+  const vFastPctPerSec = px1s > 0 ? (((pxNow - px1s) / px1s) * 100) / dtFastSec : 0;
+
+  const dtMedSec = Math.max(0.8, Math.min(5.0, ((sample1s?.ts || tsNow) - (sample4s?.ts || (tsNow - 4000))) / 1000));
+  const px4s = (sample4s && sample4s.px > 0) ? sample4s.px : px1s;
+  // v_med: cambio porcentual por segundo durante los 3,000ms anteriores (% / s)
+  let vMedPctPerSec = (px4s > 0 && sample4s !== sample1s)
+    ? (((px1s - px4s) / px4s) * 100) / dtMedSec
+    : (vFastPctPerSec * 0.75);
+
+  // Si v_med tiene el mismo signo que v_fast pero magnitud casi 0 (arranque explosivo desde reposo), usar piso positivo/negativo mínimo
+  if (vFastPctPerSec > 0 && vMedPctPerSec >= 0 && vMedPctPerSec < 0.0001) {
+    vMedPctPerSec = 0.0001;
+  } else if (vFastPctPerSec < 0 && vMedPctPerSec <= 0 && vMedPctPerSec > -0.0001) {
+    vMedPctPerSec = -0.0001;
+  }
+
+  // Vector de Aceleración: a = dv / dt
+  const accelPctPerSec2 = vFastPctPerSec - vMedPctPerSec;
+  const accelRatio = Math.abs(vMedPctPerSec) > 1e-6 ? (Math.abs(vFastPctPerSec) / Math.abs(vMedPctPerSec)) : (Math.abs(vFastPctPerSec) > 0 ? 1.50 : 0);
+
+  // Regla Física 1:
+  // - LONG: v_fast > 0, v_med > 0 Y v_fast > v_med * 1.25 (Aceleración Positiva estricta)
+  // - SHORT: v_fast < 0, v_med < 0 Y Math.abs(v_fast) > Math.abs(v_med) * 1.25 (Aceleración Bajista estricta)
+  const kinematicLongOk = Boolean(vFastPctPerSec > 0 && vMedPctPerSec > 0 && vFastPctPerSec > (vMedPctPerSec * 1.25));
+  const kinematicShortOk = Boolean(vFastPctPerSec < 0 && vMedPctPerSec < 0 && Math.abs(vFastPctPerSec) > (Math.abs(vMedPctPerSec) * 1.25));
+
+  // Regla Física 2: Precio Proyectado al Impacto tras descontar latencia real (dt = latencyMs / 1000)
+  // P_{t + dt} = P_actual + (v_fast * dt) + 0.5 * a * dt^2
+  const clampedLatencyMs = Math.max(60, Math.min(350, Number(latencyMs || 145)));
+  const dtLatSec = clampedLatencyMs / 1000;
+  const projectedDeltaPct = (vFastPctPerSec * dtLatSec) + (0.5 * accelPctPerSec2 * dtLatSec * dtLatSec);
+  const projectedImpactPx = pxNow * (1 + (projectedDeltaPct / 100));
+
+  return {
+    vFastPctPerSec: +vFastPctPerSec.toFixed(6),
+    vMedPctPerSec: +vMedPctPerSec.toFixed(6),
+    accelPctPerSec2: +accelPctPerSec2.toFixed(6),
+    accelRatio: +accelRatio.toFixed(2),
+    kinematicLongOk,
+    kinematicShortOk,
+    projectedImpactPx: +projectedImpactPx.toFixed(8),
+    latencyMs: clampedLatencyMs
+  };
+}
+
 function computeWindowRocPct(hist, windowMs, fallbackCloses = []) {
   if (Array.isArray(hist) && hist.length >= 2) {
     const latest = hist[hist.length - 1];
@@ -922,9 +1028,14 @@ async function evaluateLatentForceForPair({
 
     const ema9 = calculateEMA(combinedSeries, Math.min(9, combinedSeries.length));
     const ema20 = calculateEMA(combinedSeries, Math.min(20, combinedSeries.length));
+    const ema21 = calculateEMA(combinedSeries, Math.min(21, combinedSeries.length));
     const rsiNow = calculateRSI(combinedSeries, Math.min(6, Math.max(2, combinedSeries.length - 1)));
     const prevSeries = combinedSeries.length > 2 ? combinedSeries.slice(0, -1) : combinedSeries;
     const rsiPrev = calculateRSI(prevSeries, Math.min(6, Math.max(2, prevSeries.length - 1)));
+
+    // Registrar muestra cinemática actual y calcular Física (v_fast, v_med, aceleración a = dv/dt y P_{t + dt})
+    recordKinematicSample(coin, midPx, now);
+    const kinematic = computeKinematicPhysics(coin, midPx, hist, lastMeasuredHlLatencyMs, now);
 
     const roc5sPct = computeWindowRocPct(hist, 5000, closes1m);
     const roc15sPct = computeWindowRocPct(hist, 15000, closes1m);
@@ -937,26 +1048,61 @@ async function evaluateLatentForceForPair({
     const absDistFromEma9Pct = Math.abs(distFromEma9Pct);
     const absRoc20sPct = Math.abs(roc20sPct);
 
-    // Determinar dirección tentativa por libro L2 y arranque respecto a EMA-9
-    const bullBias = (bidRatio >= 0.50 && distFromEma9Pct >= 0) || bidRatio >= 0.65;
+    // Determinar dirección tentativa por libro L2, pendiente EMA-9/EMA-21 y vector de velocidad cinemática
+    const bullBias = (bidRatio >= 0.50 && distFromEma9Pct >= 0 && kinematic.vFastPctPerSec >= 0) || bidRatio >= 0.76;
     const direction = bullBias ? "LONG" : "SHORT";
     const isLong = direction === "LONG";
 
     // =========================================================================
-    // CONDICIÓN 1: FILTRO ANTI-PERSECUCIÓN (`Anti-Chase Extension Cap`)
-    // - PROHIBIDO entrar si el precio ya se alejó > 0.10% de EMA-9 o si ya corrió > 0.14% en los últimos 20s.
-    // - SOLO es válida cuando despega desde cerca de la EMA-9 (distancia entre 0.015% y 0.085% a favor de la ruptura).
+    // COMPENSACIÓN DE LATENCIA (P_{t + dt}) Y ESPACIO LIMPIO (>= 0.14% RUNWAY):
     // =========================================================================
-    const isOverExtended = absDistFromEma9Pct > 0.10 || absRoc20sPct > 0.14;
-    const antiChaseValidLong = !isOverExtended && distFromEma9Pct >= 0.015 && distFromEma9Pct <= 0.085 && roc20sPct > 0 && roc20sPct <= 0.14;
-    const antiChaseValidShort = !isOverExtended && distFromEma9Pct <= -0.015 && distFromEma9Pct >= -0.085 && roc20sPct < 0 && roc20sPct >= -0.14;
+    const atr1mPct = (Array.isArray(candles1m) && candles1m.length >= 5)
+      ? (candles1m.slice(-5).reduce((s, c) => {
+          const cHigh = parseFloat(c.h || c.c || midPx);
+          const cLow = parseFloat(c.l || c.c || midPx);
+          const cClose = Math.max(1e-9, parseFloat(c.c || midPx));
+          return s + (((cHigh - cLow) / cClose) * 100);
+        }, 0) / 5)
+      : 0.25;
+    const bandMultPct = Math.max(0.22, atr1mPct * 1.35);
+    let opposingWallPx = isLong
+      ? ema9 * (1 + (bandMultPct / 100))
+      : ema9 * (1 - (bandMultPct / 100));
+
+    // Inspeccionar niveles 2..10 del libro L2 opuesto por si existe un muro pesado (> 65% del volumen Top-5) antes de la banda ATR-1m
+    const oppLevels = isLong ? asks : bids;
+    for (let i = 1; i < Math.min(10, oppLevels.length); i++) {
+      const lvlPx = parseFloat(oppLevels[i]?.px || 0);
+      const lvlVolUsd = lvlPx * parseFloat(oppLevels[i]?.sz || 0);
+      if (lvlPx > 0 && lvlVolUsd > (totalBookVol * 0.65)) {
+        if (isLong && lvlPx > kinematic.projectedImpactPx && lvlPx < opposingWallPx) {
+          opposingWallPx = lvlPx;
+        } else if (!isLong && lvlPx < kinematic.projectedImpactPx && lvlPx > opposingWallPx) {
+          opposingWallPx = lvlPx;
+        }
+        break;
+      }
+    }
+
+    const cleanRunwayPct = kinematic.projectedImpactPx > 0
+      ? (isLong
+          ? (((opposingWallPx - kinematic.projectedImpactPx) / kinematic.projectedImpactPx) * 100)
+          : (((kinematic.projectedImpactPx - opposingWallPx) / kinematic.projectedImpactPx) * 100))
+      : 0;
+    const cleanRunwayOk = cleanRunwayPct >= 0.14;
+
+    // =========================================================================
+    // CONDICIÓN 1: VECTOR 2 — PENDIENTE EMA-9 > EMA-21 Y DESPEGUE < 0.06% DE EMA-9
+    // - PROHIBIDO entrar si el precio se alejó > 0.06% de EMA-9 (cero perseguir velas estiradas).
+    // - Exige EMA-9 > EMA-21 en LONG (o EMA-9 < EMA-21 en SHORT) y despegue entre 0.008% y 0.060%.
+    // =========================================================================
+    const isOverExtended = absDistFromEma9Pct > 0.060 || absRoc20sPct > 0.14;
+    const antiChaseValidLong = !isOverExtended && ema9 > ema21 && distFromEma9Pct >= 0.008 && distFromEma9Pct <= 0.060 && roc20sPct > 0 && roc20sPct <= 0.14;
+    const antiChaseValidShort = !isOverExtended && ema9 < ema21 && distFromEma9Pct <= -0.008 && distFromEma9Pct >= -0.060 && roc20sPct < 0 && roc20sPct >= -0.14;
     const cond1AntiChaseOk = isLong ? antiChaseValidLong : antiChaseValidShort;
 
     // =========================================================================
-    // CONDICIÓN 2: CONFIRMACIÓN DE 3 MICRO-TICKS CONSECUTIVOS (`3-Tick Micro-Ignition`)
-    // - Muestrea t-2, t-1, t0:
-    //   * LONG: mid(t0) > mid(t-1) >= mid(t-2) Y bestBid subiendo de escalón sin que bestAsk baje
-    //   * SHORT: mid(t0) < mid(t-1) <= mid(t-2) Y bestAsk bajando presionando al bestBid
+    // CONDICIÓN 2: CONFIRMACIÓN DE 3 MICRO-TICKS CONSECUTIVOS + ACELERACIÓN FÍSICA (v_fast > v_med * 1.25)
     // =========================================================================
     const t0Tick = bookTicks[bookTicks.length - 1] || { midPx, bestBid, bestAsk };
     const t1Tick = bookTicks.length >= 2 ? bookTicks[bookTicks.length - 2] : {
@@ -975,14 +1121,18 @@ async function evaluateLatentForceForPair({
       t1Tick.midPx >= t2Tick.midPx &&
       t0Tick.bestBid >= t1Tick.bestBid &&
       t0Tick.bestBid > t2Tick.bestBid &&
-      t0Tick.bestAsk >= t1Tick.bestAsk
+      t0Tick.bestAsk >= t1Tick.bestAsk &&
+      kinematic.kinematicLongOk &&
+      cleanRunwayOk
     );
     const threeTicksShortOk = (
       t0Tick.midPx < t1Tick.midPx &&
       t1Tick.midPx <= t2Tick.midPx &&
       t0Tick.bestAsk <= t1Tick.bestAsk &&
       t0Tick.bestAsk < t2Tick.bestAsk &&
-      t0Tick.bestBid <= t1Tick.bestBid
+      t0Tick.bestBid <= t1Tick.bestBid &&
+      kinematic.kinematicShortOk &&
+      cleanRunwayOk
     );
     const cond2ThreeTicksOk = isLong ? threeTicksLongOk : threeTicksShortOk;
 
@@ -996,76 +1146,71 @@ async function evaluateLatentForceForPair({
     const cond3FreshRsiOk = isLong ? rsiFreshLongOk : rsiFreshShortOk;
 
     // =========================================================================
-    // CONDICIÓN 4: PRESIÓN REAL DEL LIBRO L2 (>= 72% TOP-5) + LEAD-LAG CEX
+    // CONDICIÓN 4: VECTOR 3 — PRESIÓN DE ABSORCIÓN L2 (>= 0.76 TOP-5) + LEAD-LAG CEX
     // =========================================================================
+    const KINEMATIC_MIN_L2_RATIO = 0.76;
     const favRatio = isLong ? bidRatio : askRatio;
     const leaderRoc = Math.abs(leaderPulse.btcRoc15s) >= Math.abs(leaderPulse.ethRoc15s)
       ? leaderPulse.btcRoc15s
       : leaderPulse.ethRoc15s;
     const leaderAligned = isLong ? leaderRoc > 0 : leaderRoc < 0;
-    const cond4L2AndLeadLagOk = favRatio >= MIN_L2_FORCE_RATIO && leaderAligned;
+    const cond4L2AndLeadLagOk = favRatio >= KINEMATIC_MIN_L2_RATIO && leaderAligned;
 
     // =========================================================================
-    // CONDICIÓN 5: VETO INSTANTÁNEO DEL DIRECTOR `BTC-USDC` (3 SEGUNDOS EN VIVO)
-    // - Prohibido LONG si btcDelta3s < -0.005% | Prohibido SHORT si btcDelta3s > +0.005%
+    // CONDICIÓN 5: VECTOR 1 — ALINEACIÓN MACRO INSTANTÁNEA DE `BTC-USDC` EN LOS ÚLTIMOS 3,000ms
+    // - Prohibido abrir LONG en altcoins si BTC está cayendo en los últimos 3s (btcDelta3sPct <= 0)
+    // - Prohibido abrir SHORT si BTC está subiendo en los últimos 3s (btcDelta3sPct >= 0)
     // =========================================================================
     const btcDelta3sPct = Number(leaderPulse.btcDelta3s || 0);
-    const btcDirectorVetoed = isLong ? (btcDelta3sPct < -0.005) : (btcDelta3sPct > 0.005);
-    const cond5BtcDirectorOk = !btcDirectorVetoed;
+    const btcVectorLongOk = btcDelta3sPct > 0;
+    const btcVectorShortOk = btcDelta3sPct < 0;
+    const cond5BtcDirectorOk = isLong ? btcVectorLongOk : btcVectorShortOk;
 
     // =========================================================================
-    // PUNTUACIÓN COMPUESTA DE IGNICIÓN DE PRIMERA OLA (FIRST_WAVE_IGNITION_SCORE 0..100)
+    // PUNTUACIÓN COMPUESTA KINEMATIC_PRECISION_STRIKE_V1 (0..100)
     // =========================================================================
-    // 1) Puntos por Arranque Comprimido EMA-9 + 3 Micro-Ticks (máx 35 pts)
     let velocityScore35 = 0;
     if (cond1AntiChaseOk && cond2ThreeTicksOk) {
-      // Premia estar en el punto dulce de ignición (0.02% a 0.06% de EMA-9) con 3 ticks consecutivos
-      const sweetSpotBonus = (absDistFromEma9Pct >= 0.018 && absDistFromEma9Pct <= 0.065) ? 5 : 3;
+      const sweetSpotBonus = (absDistFromEma9Pct >= 0.010 && absDistFromEma9Pct <= 0.055 && kinematic.accelRatio >= 1.30) ? 5 : 3;
       velocityScore35 = 30 + sweetSpotBonus;
     } else if (cond1AntiChaseOk || cond2ThreeTicksOk) {
-      velocityScore35 = 22;
+      velocityScore35 = 20;
     } else if (!isOverExtended) {
-      velocityScore35 = 14;
+      velocityScore35 = 12;
     } else {
-      velocityScore35 = 5; // Penalización severa si la vela ya se estiró (>0.10% EMA9 o >0.14% en 20s)
+      velocityScore35 = 4;
     }
 
-    // 2) Puntos por Presión L2 Top-5 >= 72% (máx 35 pts)
     const wallShiftOk = cond2ThreeTicksOk;
     let l2Score35 = 0;
-    if (favRatio >= MIN_L2_FORCE_RATIO) {
-      const l2Norm = Math.min(1, (favRatio - MIN_L2_FORCE_RATIO) / 0.15);
+    if (favRatio >= KINEMATIC_MIN_L2_RATIO) {
+      const l2Norm = Math.min(1, (favRatio - KINEMATIC_MIN_L2_RATIO) / 0.15);
       l2Score35 = 31 + (l2Norm * 2) + (wallShiftOk ? 2 : 0);
     } else {
-      l2Score35 = Math.max(0, ((favRatio - 0.50) / 0.22) * 26);
+      l2Score35 = Math.max(0, ((favRatio - 0.50) / 0.26) * 26);
     }
 
-    // 3) Puntos por Director BTC 3s + Lead-Lag (máx 15 pts)
     const lagDiffPct = Math.abs(leaderRoc - roc15sPct);
     let leadLagScore15 = 0;
-    if (cond5BtcDirectorOk && cond4L2AndLeadLagOk) {
+    if (cond5BtcDirectorOk && cond4L2AndLeadLagOk && cleanRunwayOk) {
       leadLagScore15 = 15;
     } else if (cond5BtcDirectorOk && leaderAligned) {
-      leadLagScore15 = 12;
+      leadLagScore15 = 10;
     } else {
-      leadLagScore15 = 4;
+      leadLagScore15 = 3;
     }
 
-    // 4) Puntos por Tanque RSI-6 Fresco (46-61 subiendo / 39-54 bajando) + Spread < 0.03% (máx 15 pts)
     let exhaustionScore15 = 0;
-    if (cond3FreshRsiOk && isSpreadClean) {
+    if (cond3FreshRsiOk && isSpreadClean && cleanRunwayOk) {
       exhaustionScore15 = 15;
     } else if (cond3FreshRsiOk) {
-      exhaustionScore15 = 9;
+      exhaustionScore15 = 8;
     } else {
-      exhaustionScore15 = 4;
+      exhaustionScore15 = 3;
     }
 
     // =========================================================================
-    // CALIBRACIÓN QUIRÚRGICA DEL CUARTETO POR MONEDA (`2 TOROS 🐂 + 2 OSOS 🐻`):
-    // - Regla Anti-Choque (`pairMutexLock[coin]`): solo 1 de los 4 bots puede tener posición abierta.
-    // - El enfriamiento de 2m (120s) aplica al sub-bot individual (`subBotCooldownsByCoin[coin][botId]`),
-    //   NO bloquea a los otros 3 especialistas del mismo par si aparece la jugada de relevo.
+    // CALIBRACIÓN QUIRÚRGICA DEL CUARTETO POR MONEDA (`2 TOROS 🐂 + 2 OSOS 🐻`) CON 4 VECTORES ALINEADOS:
     // =========================================================================
     if (!subBotCooldownsByCoin[coin]) {
       subBotCooldownsByCoin[coin] = { T1: 0, T2: 0, O1: 0, O2: 0 };
@@ -1077,27 +1222,29 @@ async function evaluateLatentForceForPair({
     const isO2InCooldown = (coinCdMap.O2 || 0) > now;
     const isMutexLocked = Boolean(pairMutexLock[coin]?.locked);
 
-    // 1. 🐂 TORO #1 (BULL-IGNITION — Primera Ola Alcista)
+    // 1. 🐂 TORO #1 (BULL-IGNITION — Primera Ola Alcista con Aceleración Positiva + 4 Vectores)
     const t1Qualified = Boolean(
       !isMutexLocked &&
       !isT1InCooldown &&
       antiChaseValidLong &&
       threeTicksLongOk &&
       rsiFreshLongOk &&
-      bidRatio >= MIN_L2_FORCE_RATIO &&
+      bidRatio >= KINEMATIC_MIN_L2_RATIO &&
       (leaderRoc > 0) &&
-      btcDelta3sPct >= -0.005 &&
+      btcVectorLongOk &&
+      cleanRunwayOk &&
       isSpreadClean
     );
 
-    // 2. 🐂 TORO #2 (BULL-SPRING — Rebote de Resorte en Piso & Relevo de Segunda Ola Alcista)
+    // 2. 🐂 TORO #2 (BULL-SPRING — Rebote de Resorte en Piso & Relevo de Segunda Ola Alcista con Aceleración Positiva)
     const t2ExhaustionDipOk = Boolean(
       !isMutexLocked &&
       !isT2InCooldown &&
       rsiNow <= 20.0 &&
-      bidRatio >= 0.68 &&
-      (t0Tick.midPx > t1Tick.midPx || rsiNow > rsiPrev) &&
-      btcDelta3sPct >= -0.008 &&
+      bidRatio >= KINEMATIC_MIN_L2_RATIO &&
+      threeTicksLongOk &&
+      btcVectorLongOk &&
+      cleanRunwayOk &&
       isSpreadClean
     );
     const t2SecondWaveRelayOk = Boolean(
@@ -1107,33 +1254,36 @@ async function evaluateLatentForceForPair({
       antiChaseValidLong &&
       threeTicksLongOk &&
       rsiFreshLongOk &&
-      bidRatio >= MIN_L2_FORCE_RATIO &&
-      btcDelta3sPct >= -0.005 &&
+      bidRatio >= KINEMATIC_MIN_L2_RATIO &&
+      btcVectorLongOk &&
+      cleanRunwayOk &&
       isSpreadClean
     );
     const t2Qualified = Boolean(t2ExhaustionDipOk || t2SecondWaveRelayOk);
 
-    // 3. 🐻 OSO #1 (BEAR-IGNITION — Primera Ola Bajista)
+    // 3. 🐻 OSO #1 (BEAR-IGNITION — Primera Ola Bajista con Aceleración Bajista + 4 Vectores)
     const o1Qualified = Boolean(
       !isMutexLocked &&
       !isO1InCooldown &&
       antiChaseValidShort &&
       threeTicksShortOk &&
       rsiFreshShortOk &&
-      askRatio >= MIN_L2_FORCE_RATIO &&
+      askRatio >= KINEMATIC_MIN_L2_RATIO &&
       (leaderRoc < 0) &&
-      btcDelta3sPct <= 0.005 &&
+      btcVectorShortOk &&
+      cleanRunwayOk &&
       isSpreadClean
     );
 
-    // 4. 🐻 OSO #2 (BEAR-REVERSAL — Giro Brusco en Techo & Relevo de Segunda Ola Bajista)
+    // 4. 🐻 OSO #2 (BEAR-REVERSAL — Giro Brusco en Techo & Relevo de Segunda Ola Bajista con Aceleración Bajista)
     const o2TopReversalOk = Boolean(
       !isMutexLocked &&
       !isO2InCooldown &&
       (rsiNow >= 76.0 || ((isT1InCooldown || isT2InCooldown) && rsiNow >= 68.0)) &&
-      askRatio >= MIN_L2_FORCE_RATIO &&
+      askRatio >= KINEMATIC_MIN_L2_RATIO &&
       threeTicksShortOk &&
-      btcDelta3sPct <= 0.008 &&
+      btcVectorShortOk &&
+      cleanRunwayOk &&
       isSpreadClean
     );
     const o2SecondWaveRelayOk = Boolean(
@@ -1143,8 +1293,9 @@ async function evaluateLatentForceForPair({
       antiChaseValidShort &&
       threeTicksShortOk &&
       rsiFreshShortOk &&
-      askRatio >= MIN_L2_FORCE_RATIO &&
-      btcDelta3sPct <= 0.005 &&
+      askRatio >= KINEMATIC_MIN_L2_RATIO &&
+      btcVectorShortOk &&
+      cleanRunwayOk &&
       isSpreadClean
     );
     const o2Qualified = Boolean(o2TopReversalOk || o2SecondWaveRelayOk);
@@ -1184,6 +1335,7 @@ async function evaluateLatentForceForPair({
         cond3FreshRsiOk &&
         cond4L2AndLeadLagOk &&
         cond5BtcDirectorOk &&
+        cleanRunwayOk &&
         isSpreadClean
       )
     );
@@ -1192,17 +1344,17 @@ async function evaluateLatentForceForPair({
     if (anyQuartetSpecialistQualified && rawTotalScore < 93) {
       rawTotalScore = 94;
     } else if (!allFiveFirstWaveConditionsMet) {
-      rawTotalScore = Math.min(rawTotalScore, 89); // NUNCA alcanza >=92 si ningún especialista del Cuarteto 4X cumple sus condiciones
+      rawTotalScore = Math.min(rawTotalScore, 89); // NUNCA alcanza >=92 si falla cualquiera de los 4 vectores o la aceleración positiva
     }
     const latentForceScore = Math.max(0, Math.min(100, rawTotalScore));
-    const auditLatencyMs = Math.max(12, Math.min(145, Date.now() - t0));
+    const auditLatencyMs = Math.max(12, Math.min(220, Date.now() - t0));
     const displayCoin = coin === "kPEPE" ? "PEPE" : coin;
     const qualifiesTopForce = Boolean(latentForceScore >= MIN_LATENT_FORCE_SCORE && allFiveFirstWaveConditionsMet && !isMutexLocked);
     const l2ImbalancePct = +((finalIsLong ? bidRatio : askRatio) * 100).toFixed(1);
     const subBotMeta = getSubBotMeta(selectedSubBotId);
 
-    // Precio preciso al borde real del libro (bestAsk * 1.0002 en LONG / bestBid * 0.9998 en SHORT para ejecución IOC sin regalar spread)
-    const preciseIocEntryPx = finalIsLong ? +(bestAsk * 1.0002).toFixed(8) : +(bestBid * 0.9998).toFixed(8);
+    // Precio de Cruce Controlado IOC (maxSlippage = 0.015%: bestAsk * 1.00015 en LONG / bestBid * 0.99985 en SHORT)
+    const preciseIocEntryPx = finalIsLong ? +(bestAsk * 1.00015).toFixed(8) : +(bestBid * 0.99985).toFixed(8);
 
     return {
       coin,
@@ -1239,12 +1391,24 @@ async function evaluateLatentForceForPair({
       roc20sPct: +roc20sPct.toFixed(4),
       btcDelta3sPct: +btcDelta3sPct.toFixed(4),
       rsiPrev: +rsiPrev.toFixed(1),
+      kinematicPhysics: {
+        vFastPctPerSec: kinematic.vFastPctPerSec,
+        vMedPctPerSec: kinematic.vMedPctPerSec,
+        accelPctPerSec2: kinematic.accelPctPerSec2,
+        accelRatio: kinematic.accelRatio,
+        projectedImpactPx: kinematic.projectedImpactPx,
+        opposingWallPx: +opposingWallPx.toFixed(8),
+        cleanRunwayPct: +cleanRunwayPct.toFixed(4),
+        cleanRunwayOk,
+        latencyMs: kinematic.latencyMs
+      },
       firstWaveConditions: {
         cond1AntiChaseOk,
         cond2ThreeTicksOk,
         cond3FreshRsiOk,
         cond4L2AndLeadLagOk,
         cond5BtcDirectorOk,
+        cleanRunwayOk,
         isSpreadClean
       },
       firstWaveIgnition: allFiveFirstWaveConditionsMet,
@@ -1265,8 +1429,9 @@ async function evaluateLatentForceForPair({
       leadLagDiffPct: +lagDiffPct.toFixed(4),
       ema9: +ema9.toFixed(6),
       ema20: +ema20.toFixed(6),
+      ema21: +ema21.toFixed(6),
       rsi6: +rsiNow.toFixed(1),
-      exhaustionGuardPassed: cond3FreshRsiOk && cond1AntiChaseOk,
+      exhaustionGuardPassed: cond3FreshRsiOk && cond1AntiChaseOk && cleanRunwayOk,
       isLateralStagnant: !cond2ThreeTicksOk,
       auditLatencyMs,
       evalLatencyMs: auditLatencyMs
@@ -2724,6 +2889,53 @@ async function startAutonomousSquadDaemon() {
   }, 180);
   if (typeof fastGuardTimer.unref === "function") fastGuardTimer.unref();
 
+  // =========================================================================
+  // 🧬⚡ MUESTREADOR CINEMÁTICO DE ALTA RESOLUCIÓN (5,000ms @ 200ms) + MEDICIÓN DE LATENCIA L1
+  // =========================================================================
+  let kinematicSamplerInFlight = false;
+  let sharedMidsCache = { ts: 0, data: {} };
+  const kinematicTrackedCoins = new Set([
+    "BTC", "ETH", "SOL", "SUI", "AVAX", "PAXG", "LINK", "BNB", "AAVE",
+    "XRP", "DOGE", "ADA", "TRX", "TON", "DOT", "LTC", "RENDER", "TAO",
+    "FET", "NEAR", "ARB", "OP", "UNI", "ONDO", "HYPE", "PENDLE", "POL", "kPEPE"
+  ]);
+  const kinematicSamplerTimer = setInterval(async () => {
+    if (kinematicSamplerInFlight) return;
+    kinematicSamplerInFlight = true;
+    const tStart = Date.now();
+    try {
+      const liveMids = await info.allMids().catch(() => null);
+      const rttMs = Date.now() - tStart;
+      if (rttMs > 10 && rttMs < 1500) {
+        // Latencia de ida estimada = ~55% del RTT HTTP a Hyperliquid L1 (típicamente 120ms-220ms)
+        lastMeasuredHlLatencyMs = Math.round((lastMeasuredHlLatencyMs * 0.6) + (Math.max(60, Math.min(320, rttMs * 0.55)) * 0.4));
+      }
+      if (liveMids && typeof liveMids === "object") {
+        const nowSampleTs = Date.now();
+        sharedMidsCache = { ts: nowSampleTs, data: liveMids };
+        for (const cKey of kinematicTrackedCoins) {
+          const pxVal = liveMids[cKey];
+          if (!pxVal) continue;
+          const pxNum = parseFloat(pxVal);
+          if (pxNum > 0) {
+            recordKinematicSample(cKey, pxNum, nowSampleTs);
+            if (!rollingMidsHistory[cKey]) rollingMidsHistory[cKey] = [];
+            const rArr = rollingMidsHistory[cKey];
+            const lastR = rArr[rArr.length - 1];
+            if (!lastR || (nowSampleTs - lastR.ts) >= 800 || lastR.px !== pxNum) {
+              rArr.push({ ts: nowSampleTs, px: pxNum });
+              if (rArr.length > 120) rArr.shift();
+            }
+          }
+        }
+      }
+    } catch (_) {
+    } finally {
+      kinematicSamplerInFlight = false;
+    }
+  }, 200);
+  if (typeof kinematicSamplerTimer.unref === "function") kinematicSamplerTimer.unref();
+
   while (true) {
     cycleCounter++;
     try {
@@ -3892,8 +4104,20 @@ async function startAutonomousSquadDaemon() {
           const isLong = bestCand.direction === "LONG";
           const bestBidPx = bestCand.bestBid > 0 ? bestCand.bestBid : bestCand.entryPrice;
           const bestAskPx = bestCand.bestAsk > 0 ? bestCand.bestAsk : bestCand.entryPrice;
-          // ENTRADA MAKER (0.015% = $0.037): En FIRST_WAVE_IGNITION, entrar con tif: "Alo" (Post-Only Maker)
-          // pegado al bestBid (LONG) o bestAsk (SHORT) durante 1500ms para ahorrar el 66% de comisión de entrada
+          const kin = bestCand.kinematicPhysics || {};
+
+          // VERIFICACIÓN ESTRICTA KINEMATIC_PRECISION_STRIKE_V1 ANTES DE ENVIAR ORDEN:
+          // 1) Aceleración positiva (|v_fast| > |v_med| * 1.25)
+          // 2) Espacio limpio >= 0.14% desde P_{t + dt} (compensación de latencia)
+          if (kin.cleanRunwayOk === false || (kin.accelRatio !== undefined && kin.accelRatio < 1.25)) {
+            console.log(`⚠️ [KINEMATIC VETO] ${dispCoin} abortado: accelRatio=${kin.accelRatio ?? 0} (<1.25) o Runway=${kin.cleanRunwayPct ?? 0}% (<0.14%).`);
+            continue;
+          }
+
+          // ENTRADA CON FILTRO ANTI-SELECCIÓN ADVERSA (NO_ADVERSE_FILL_GUARD):
+          // Coloca ALO en bestBid (LONG) / bestAsk (SHORT) vigilada durante 350ms;
+          // - Si bestAsk/bestBid o BTC retrocede 1 tick en contra en esos 350ms -> cancela en <100ms antes de llenarse.
+          // - Si rompe bestAsk (LONG) / bestBid (SHORT) con aceleración positiva -> cruza con Limit IOC (maxSlippage = 0.015%).
           const rawMakerEdgePx = isLong ? bestBidPx : bestAskPx;
           const entryPxStr = formatHlPrice(rawMakerEdgePx, coin);
           const entryPxNum = parseFloat(entryPxStr);
@@ -3908,12 +4132,14 @@ async function startAutonomousSquadDaemon() {
           const level1LockPxNum = isLong ? (entryPxNum + level1DeltaPx) : (entryPxNum - level1DeltaPx);
           const level1LockPxStr = formatHlPrice(level1LockPxNum, coin);
 
-          const openLogPrefix = `🟢⚡ [CUARTETO 4X // ${subBotMeta.badge} // CARRIL #${laneNumber} // ${squadKey}] ${dispCoin}-USDC`;
+          const openLogPrefix = `🟢⚡ [KINEMATIC STRIKE V1 // ${subBotMeta.badge} // CARRIL #${laneNumber} // ${squadKey}] ${dispCoin}-USDC`;
           console.log(`\n${openLogPrefix} // SCORE ${bestCand.latentForceScore}/100 // JUGADA ${bestCand.selectedSubBotPlay || "WAVE_IGNITION"} (${bestCand.direction}):`);
-          console.log(`   • Especialista Activo: ${subBotMeta.name} (Mutex Lock Exclusivo en ${dispCoin}) | Dist EMA9 ${bestCand.distFromEma9Pct ?? 0}% | ROC20s ${bestCand.roc20sPct ?? bestCand.roc15sPct}% | RSI6 ${bestCand.rsi6} | L2 ${bestCand.l2RatioPct}% | BTC 3s ${bestCand.btcDelta3sPct ?? 0}% | Spread ${bestCand.spreadPct ?? 0.01}% (<0.03%)`);
-          console.log(`   • Entrada Maker ALO (0.015% · 1500ms): ${szFormatted} ${dispCoin} @ $${entryPxStr} ($${notional.toFixed(2)} Nocional / $${autoLot.marginUsdc.toFixed(2)} Margen) -> Candado Neto +$0.10 @ $${level1LockPxStr} | Respiro Sub-Bot 120s`);
+          console.log(`   • Física Cinemática: v_fast=${kin.vFastPctPerSec ?? 0}%/s | v_med=${kin.vMedPctPerSec ?? 0}%/s | AccelRatio=${kin.accelRatio ?? 1.3}x (>1.25x) | Latencia=${kin.latencyMs ?? lastMeasuredHlLatencyMs}ms | P_impact=$${kin.projectedImpactPx ?? entryPxStr} | Runway=${kin.cleanRunwayPct ?? 0.20}% (>=0.14%)`);
+          console.log(`   • 4 Vectores Alineados: BTC 3s ${bestCand.btcDelta3sPct ?? 0}% | EMA9>EMA21 Dist ${bestCand.distFromEma9Pct ?? 0}% (<0.06%) | L2 ${bestCand.l2RatioPct}% (>=76%) | Spread ${bestCand.spreadPct ?? 0.01}% (<0.03%)`);
+          console.log(`   • Entrada Anti-Selección Adversa (350ms Guard + IOC 0.015%): ${szFormatted} ${dispCoin} @ $${entryPxStr} ($${notional.toFixed(2)} Nocional) -> Candado Neto +$0.10 @ $${level1LockPxStr}`);
 
           try {
+            const initialBtcPx = parseFloat(sharedMidsCache.data?.["BTC"] || mids["BTC"] || "0");
             let orderRes = await client.order({
               orders: [{
                 a: ASSET_INDICES[coin],
@@ -3924,34 +4150,111 @@ async function startAutonomousSquadDaemon() {
                 t: { limit: { tif: "Alo" } }
               }],
               grouping: "na"
-            });
-            let status = orderRes.response?.data?.statuses?.[0] || {};
+            }).catch(() => null);
+            let status = orderRes?.response?.data?.statuses?.[0] || {};
 
-            // Si la orden ALO quedó resting en el libro L1, esperar hasta 1500ms para que tome liquidez Maker (0.015%);
-            // si tras 1500ms no se llenó, cancelarla limpiamente para jamás perseguir una vela tarde
             let entryFilledOrActive = Boolean(status.filled);
             let finalOid = status.filled?.oid || status.resting?.oid || null;
+            let executionModeLabel = "MAKER ALO (0.015%)";
+            let adverseTickAborted = false;
+
             if (status.resting?.oid && !status.filled) {
               const restingOid = status.resting.oid;
+              let breakoutConfirmed = false;
+              let latestLiveAsk = bestAskPx;
+              let latestLiveBid = bestBidPx;
+
+              // Ventana crítica de 350ms (3 micro-chequeos de ~110ms) para NO_ADVERSE_FILL_GUARD
               for (let w = 1; w <= 3; w++) {
-                await new Promise(r => setTimeout(r, 500));
-                const chWait = await info.clearinghouseState({ user: VAULT_501 }).catch(() => null);
+                await new Promise(r => setTimeout(r, 110));
+                const [l2Now, chWait] = await Promise.all([
+                  info.l2Book({ coin }).catch(() => null),
+                  info.clearinghouseState({ user: VAULT_501 }).catch(() => null)
+                ]);
                 const liveOpen = (chWait?.assetPositions || []).find(p => p.position?.coin === coin && parseFloat(p.position?.szi || "0") !== 0);
                 if (liveOpen) {
                   entryFilledOrActive = true;
                   break;
                 }
-              }
-              if (!entryFilledOrActive) {
-                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: restingOid }] }).catch(() => {});
-                // Verificar una última vez si se llenó justo antes de cancelar
-                const chAfter = await info.clearinghouseState({ user: VAULT_501 }).catch(() => null);
-                const liveOpenAfter = (chAfter?.assetPositions || []).find(p => p.position?.coin === coin && parseFloat(p.position?.szi || "0") !== 0);
-                if (liveOpenAfter) {
-                  entryFilledOrActive = true;
-                } else {
-                  console.log(`   ⏱️ [MAKER ALO 1500ms EXPIRADO] ${dispCoin}-USDC no se llenó en 1500ms @ $${entryPxStr} -> Orden ALO cancelada limpiamente (Cero Persecución).`);
+
+                const bidsNow = l2Now?.levels?.[0] || [];
+                const asksNow = l2Now?.levels?.[1] || [];
+                if (bidsNow.length > 0 && asksNow.length > 0) {
+                  latestLiveBid = parseFloat(bidsNow[0].px);
+                  latestLiveAsk = parseFloat(asksNow[0].px);
                 }
+                const liveBtcPx = parseFloat(sharedMidsCache.data?.["BTC"] || initialBtcPx);
+
+                // Detectar Selección Adversa: si bestAsk (LONG) o BTC retrocede 1 tick en contra, cancelar en <100ms!
+                const adverseTickLong = isLong && ((latestLiveAsk < bestAskPx) || (initialBtcPx > 0 && liveBtcPx < initialBtcPx * 0.99995));
+                const adverseTickShort = !isLong && ((latestLiveBid > bestBidPx) || (initialBtcPx > 0 && liveBtcPx > initialBtcPx * 1.00005));
+                if (adverseTickLong || adverseTickShort) {
+                  adverseTickAborted = true;
+                  await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: restingOid }] }).catch(() => {});
+                  console.log(`   🚫🛡️ [NO_ADVERSE_FILL_GUARD <100ms] ${dispCoin}-USDC: detectado retroceso adverso de 1 tick en ${w * 110}ms (Bid $${latestLiveBid} / Ask $${latestLiveAsk}) -> Orden ALO cancelada antes de llenarse!`);
+                  break;
+                }
+
+                // Detectar Ruptura Activa a favor con aceleración positiva:
+                if ((isLong && latestLiveAsk > bestAskPx) || (!isLong && latestLiveBid < bestBidPx)) {
+                  breakoutConfirmed = true;
+                  break;
+                }
+              }
+
+              if (!entryFilledOrActive && !adverseTickAborted) {
+                // Cancelar la orden ALO pasiva tras los 350ms
+                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: restingOid }] }).catch(() => {});
+                const chAfterCancel = await info.clearinghouseState({ user: VAULT_501 }).catch(() => null);
+                const liveOpenAfterCancel = (chAfterCancel?.assetPositions || []).find(p => p.position?.coin === coin && parseFloat(p.position?.szi || "0") !== 0);
+                if (liveOpenAfterCancel) {
+                  entryFilledOrActive = true;
+                } else if (breakoutConfirmed) {
+                  // Entrar únicamente con Limit IOC de Cruce Controlado (maxSlippage = 0.015%) en el milisegundo exacto de ruptura con aceleración positiva
+                  const controlledCrossPx = isLong ? (latestLiveAsk * 1.00015) : (latestLiveBid * 0.99985);
+                  const crossEntryPxStr = formatHlPrice(controlledCrossPx, coin);
+                  const iocRes = await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isLong,
+                      p: crossEntryPxStr,
+                      s: szFormatted,
+                      r: false,
+                      t: { limit: { tif: "Ioc" } }
+                    }],
+                    grouping: "na"
+                  }).catch(() => null);
+                  const iocSt = iocRes?.response?.data?.statuses?.[0] || {};
+                  if (iocSt.filled) {
+                    entryFilledOrActive = true;
+                    finalOid = iocSt.filled.oid || `${coin}_${Date.now()}`;
+                    executionModeLabel = "IOC CRUCE CONTROLADO (maxSlippage 0.015%)";
+                  }
+                } else {
+                  console.log(`   ⏱️ [NO_ADVERSE_FILL_GUARD 350ms] ${dispCoin}-USDC sin ruptura activa en 350ms -> Orden ALO retirada limpiamente (Cero Selección Adversa).`);
+                }
+              }
+            } else if (!entryFilledOrActive && !adverseTickAborted) {
+              // Si ALO rechazó por cruce inmediato (el precio ya está rompiendo el bestAsk/bestBid a nuestro favor con aceleración positiva),
+              // disparar Limit IOC de Cruce Controlado (maxSlippage = 0.015%)
+              const controlledCrossPx = isLong ? (bestAskPx * 1.00015) : (bestBidPx * 0.99985);
+              const crossEntryPxStr = formatHlPrice(controlledCrossPx, coin);
+              const iocRes = await client.order({
+                orders: [{
+                  a: ASSET_INDICES[coin],
+                  b: isLong,
+                  p: crossEntryPxStr,
+                  s: szFormatted,
+                  r: false,
+                  t: { limit: { tif: "Ioc" } }
+                }],
+                grouping: "na"
+              }).catch(() => null);
+              const iocSt = iocRes?.response?.data?.statuses?.[0] || {};
+              if (iocSt.filled) {
+                entryFilledOrActive = true;
+                finalOid = iocSt.filled.oid || `${coin}_${Date.now()}`;
+                executionModeLabel = "IOC CRUCE CONTROLADO (maxSlippage 0.015%)";
               }
             }
 
@@ -3969,7 +4272,7 @@ async function startAutonomousSquadDaemon() {
               confirmedOpenByCoin[coin].activeSubBotId = activeSubBotId;
               const oid = finalOid || `${coin}_${Date.now()}`;
               const openKey = `oid_${oid}`;
-              console.log(`   ✔ [${squadKey} // ${subBotMeta.badge}] Orden Maker ALO #${oid} ejecutada en Hyperliquid L1 (0.015% Maker Fee) -> ${dispCoin}-USDC.`);
+              console.log(`   ✔ [${squadKey} // ${subBotMeta.badge}] Orden #${oid} ejecutada en Hyperliquid L1 (${executionModeLabel}) -> ${dispCoin}-USDC.`);
 
               recentOrderSentCoins[coin] = Date.now();
               positionOpenTimestamps[coin] = Date.now();
@@ -3989,17 +4292,17 @@ async function startAutonomousSquadDaemon() {
                 };
                 saveTelegramTradeAlertsState(tgState);
 
-                const tgHeader = `🛰️ <b>SALA DE MANDO 10K // 🎯⚡ [CUARTETO 4X // ${subBotMeta.badge}] ${dispCoin}-USDC</b>`;
+                const tgHeader = `🛰️ <b>SALA DE MANDO 10K // 🧬⚡ [KINEMATIC STRIKE V1 // ${subBotMeta.badge}] ${dispCoin}-USDC</b>`;
                 const pairLine = `📍 <b>Par Nativo L1 &amp; Especialista:</b> <code>${dispCoin}-USDC</code> (<b>${subBotMeta.badge} · ${isLong ? "🐂 LONG" : "🐻 SHORT"}</b> · ${szFormatted} ${dispCoin})`;
 
                 const orderTg = `${tgHeader}\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🔰 <b>Escuadrón &amp; Sub-Motor:</b> <b>${squadCfg.name} — ${subBotMeta.name}</b>\n` +
                   `${pairLine}\n` +
-                  `📥 <b>Entrada Maker ALO (0.015% · Spread ${bestCand.spreadPct ?? 0.01}% &lt; 0.03%):</b> <code>$${entryPxStr}</code>\n` +
-                  `❄️ <b>Calibre Compuesto (5% a 5x):</b> <code>$${autoLot.marginUsdc.toFixed(2)} USDC Margen ($${notional.toFixed(2)} USD Nocional)</code>\n` +
-                  `🎯 <b>Puntería Cuarteto (${bestCand.latentForceScore}/100):</b> <code>Dist EMA9: ${bestCand.distFromEma9Pct ?? 0}% · RSI6: ${bestCand.rsi6} · L2: ${bestCand.l2RatioPct}% · BTC 3s: ${bestCand.btcDelta3sPct ?? 0}%</code>\n` +
-                  `🔒 <b>Doble Gatillo &amp; Escalera 1:1 Neta:</b> <code>Mutex 1/4 · Candado Neto +$0.10 ➔ +$0.50+ (ALO 400ms + IOC) + Respiro 02:00</code>\n` +
+                  `📥 <b>Ejecución (${executionModeLabel} · Spread ${bestCand.spreadPct ?? 0.01}% &lt; 0.03%):</b> <code>$${entryPxStr}</code>\n` +
+                  `🧬 <b>Física Cinemática (a &gt; 0):</b> <code>v_fast: ${kin.vFastPctPerSec ?? 0}%/s · Accel: ${kin.accelRatio ?? 1.3}x · Runway: ${kin.cleanRunwayPct ?? 0.20}% (&gt;=0.14%) · Latencia: ${kin.latencyMs ?? lastMeasuredHlLatencyMs}ms</code>\n` +
+                  `🎯 <b>4 Vectores (${bestCand.latentForceScore}/100):</b> <code>BTC 3s: ${bestCand.btcDelta3sPct ?? 0}% · EMA9&gt;21: ${bestCand.distFromEma9Pct ?? 0}% (&lt;0.06%) · L2: ${bestCand.l2RatioPct}% (&gt;=76%)</code>\n` +
+                  `🔒 <b>Doble Gatillo &amp; Escalera 1:1 Neta:</b> <code>Empate #00 (+$0.01) ➔ Candado Neto +$0.10 ➔ +$0.50+ + Respiro 02:00</code>\n` +
                   `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                   `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;
                 await sendSquadTelegram(orderTg);

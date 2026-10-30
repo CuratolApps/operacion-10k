@@ -4125,24 +4125,31 @@ export default {
                     const open1m = parseFloat(lastC.o || closes[closes.length - 1]);
                     const close1m = parseFloat(lastC.c || closes[closes.length - 1]);
                     const prevClose = closes[Math.max(0, closes.length - 2)];
+                    const prev2Close = closes[Math.max(0, closes.length - 3)];
                     const rocPct = prevClose > 0 ? ((close1m - prevClose) / prevClose) * 100 : 0;
+                    const prevRocPct = prev2Close > 0 ? ((prevClose - prev2Close) / prev2Close) * 100 : (rocPct * 0.7);
+                    const accelOk = isLong
+                      ? (rocPct > 0 && prevRocPct >= 0 && rocPct > prevRocPct * 1.25)
+                      : (rocPct < 0 && prevRocPct <= 0 && Math.abs(rocPct) > Math.abs(prevRocPct) * 1.25);
 
                     const ema9 = closes.slice(-9).reduce((a, b) => a + b, 0) / Math.min(9, closes.length);
+                    const ema21 = closes.slice(-21).reduce((a, b) => a + b, 0) / Math.min(21, closes.length);
+                    const emaAligned = isLong ? (ema9 > ema21) : (ema9 < ema21);
                     const distFromEma9Pct = ema9 > 0 ? ((midPx - ema9) / ema9) * 100 : 0;
                     const signedDistEma9 = isLong ? distFromEma9Pct : -distFromEma9Pct;
-                    // Condición 1: Anti-Persecución (0.015% a 0.085% de EMA9, prohibido >0.10% o |roc| > 0.14%)
-                    const cond1AntiChaseOk = signedDistEma9 >= 0.015 && signedDistEma9 <= 0.085 && Math.abs(distFromEma9Pct) <= 0.10 && Math.abs(rocPct) <= 0.14;
+                    // Condición 1: KINEMATIC_PRECISION_STRIKE_V1 (< 0.06% de EMA9, EMA9 > EMA21, aceleración > 1.25x, L2 >= 0.76)
+                    const cond1AntiChaseOk = emaAligned && accelOk && signedDistEma9 >= 0.008 && signedDistEma9 <= 0.060 && Math.abs(distFromEma9Pct) <= 0.060 && Math.abs(rocPct) <= 0.14;
                     // Condición 2 y 3: arranque fresco (sin agotamiento)
                     const candle1mAligned = isLong ? (close1m > open1m && close1m >= prevClose) : (close1m < open1m && close1m <= prevClose);
-                    const structOk = cond1AntiChaseOk && candle1mAligned && domRatio >= 0.72;
+                    const structOk = cond1AntiChaseOk && candle1mAligned && domRatio >= 0.76;
 
-                    const l2Pts = domRatio >= 0.72 ? 35 : Math.round((domRatio / 0.72) * 28);
+                    const l2Pts = domRatio >= 0.76 ? 35 : Math.round((domRatio / 0.76) * 28);
                     const velPts = cond1AntiChaseOk ? 35 : 14;
                     const leadLagPts = candle1mAligned ? 15 : 6;
                     const exhaustionPts = structOk ? 15 : 6;
                     const latentForceScore = Math.min(100, l2Pts + velPts + leadLagPts + exhaustionPts);
 
-                    const preciseIocPx = isLong ? (bestAsk * 1.0002) : (bestBid * 0.9998);
+                    const preciseIocPx = isLong ? (bestAsk * 1.00015) : (bestBid * 0.99985);
 
                     allScoredCandidates.push({
                       unit,
@@ -4167,10 +4174,10 @@ export default {
                 const longTop3Count = top3Cloud.filter(c => c.isLong).length;
                 const dominantIsLong = longTop3Count >= 2;
 
-                // Filtrar únicamente candidatos FIRST_WAVE_IGNITION con Score >= 92/100, L2 >= 72%, Spread < 0.03% y alineados con la Marea
+                // Filtrar únicamente candidatos KINEMATIC_PRECISION_STRIKE_V1 con Score >= 92/100, L2 >= 76%, Spread < 0.03% y alineados con la Marea
                 const qualifiedCandidates = allScoredCandidates.filter(c =>
                   c.latentForceScore >= 92 &&
-                  c.domRatio >= 0.72 &&
+                  c.domRatio >= 0.76 &&
                   c.spreadPct < 0.03 &&
                   c.alignedRoc &&
                   c.candle1mAligned &&
