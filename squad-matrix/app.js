@@ -869,15 +869,23 @@ function render54PairsGrid() {
 // HELPER: ESCALERA UNIVERSAL CONTINUA DE +$0.10 EN +$0.10 (`peakPnl >= 0.12 -> +$0.10`, `>= 0.20 -> +$0.20`, `+$0.30`, `+$0.40`, `+$0.50`...)
 const clientRatchetMemory = (() => {
   try {
-    const raw = localStorage.getItem("area501_ratchet_peaks_v1");
-    return raw ? JSON.parse(raw) : {};
+    // Purgar versión anterior con pico corrupto de nocional en kPEPE (+$251.70)
+    localStorage.removeItem("area501_ratchet_peaks_v1");
+    const raw = localStorage.getItem("area501_ratchet_peaks_v2");
+    const parsed = raw ? JSON.parse(raw) : {};
+    for (const k of Object.keys(parsed)) {
+      if (!parsed[k] || Number(parsed[k].peakPnlUsdc) > 25.0 || Number(parsed[k].lockedNetUsd) > 25.0 || Number(parsed[k].peakPnlUsdc) < 0) {
+        delete parsed[k];
+      }
+    }
+    return parsed;
   } catch (_) {
     return {};
   }
 })();
 function persistClientRatchetMemory() {
   try {
-    localStorage.setItem("area501_ratchet_peaks_v1", JSON.stringify(clientRatchetMemory));
+    localStorage.setItem("area501_ratchet_peaks_v2", JSON.stringify(clientRatchetMemory));
   } catch (_) {}
 }
 function computeCorneringRatchetStepClient(peakPnlUsdc) {
@@ -903,22 +911,19 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const coin = pos.coin;
   const szi = parseFloat(pos.szi || "0");
   const absSz = Math.abs(szi);
-  const entryPx = parseFloat(pos.entryPx || currentPrice || "0");
-  const midPx = currentPrice > 0 ? currentPrice : entryPx;
-  const isShort = szi < 0;
+  const entryPx = parseFloat(pos.entryPx || "0");
   const notional = absSz * entryPx;
 
   // Comisión real Hyperliquid L1: 0.015% Maker + 0.045% Taker = 0.060% ida y vuelta
   const rtFeeUsd = notional * 0.00060;
+  // REGLA 1.2: Leer currentPnlUsdc ÚNICA Y EXCLUSIVAMENTE de parseFloat(pos.unrealizedPnl) de clearinghouseState (Cero cálculo manual que divida kPEPE/1000)
   const rawPnl = parseFloat(pos.unrealizedPnl || "0");
-  const priceDiff = isShort ? (entryPx - midPx) : (midPx - entryPx);
-  const grossPnl = entryPx > 0 ? priceDiff * absSz : rawPnl;
-  const displayPnl = Math.max(rawPnl, grossPnl);
+  const displayPnl = rawPnl;
   const netAfterFee = displayPnl - rtFeeUsd;
-  const gainPct = entryPx > 0 ? (priceDiff / entryPx) * 100 : 0;
+  const gainPct = notional > 0 ? (displayPnl / notional) * 100 : 0;
 
   if (!clientRatchetMemory[coin] || Math.abs((clientRatchetMemory[coin].entryPx || 0) - entryPx) > 1e-8) {
-    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR", "DOGE", "SUI", "LINK"]);
+    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR", "DOGE", "SUI", "LINK", "kPEPE"]);
     clientRatchetMemory[coin] = {
       entryPx,
       openedAt: initialRecoveryCoins.has(coin) ? (Date.now() - 240000) : Date.now(),
@@ -931,7 +936,15 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   }
   const mem = clientRatchetMemory[coin];
   let memChanged = false;
-  if (displayPnl > mem.peakPnlUsdc) {
+
+  // REGLA 1.1 y 1.3: Purgar cualquier pico corrupto (> $25.0) o si la posición está en negativo (< $0.00)
+  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < 0) {
+    mem.peakPnlUsdc = displayPnl;
+    mem.lockedNetUsd = 0;
+    memChanged = true;
+  }
+
+  if (displayPnl > mem.peakPnlUsdc && displayPnl <= 25.0) {
     mem.peakPnlUsdc = displayPnl;
     memChanged = true;
   }
@@ -939,14 +952,14 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
   // Escalera Continua de +$0.10 en +$0.10 por PnL Visible (`>=0.12 -> +$0.10` | `>=0.20 -> +$0.20` | `>=0.30 -> +$0.30` | `>=0.40 -> +$0.40` | `>=0.50 -> +$0.50+`)
-  const corneredStep = computeCorneringRatchetStepClient(mem.peakPnlUsdc);
-  if (corneredStep > (mem.lockedNetUsd || 0)) {
+  const corneredStep = displayPnl >= 0 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
+  if (displayPnl >= 0 && corneredStep > (mem.lockedNetUsd || 0)) {
     mem.lockedNetUsd = corneredStep;
     memChanged = true;
   }
   if (memChanged) persistClientRatchetMemory();
 
-  if (mem.lockedNetUsd >= 0.10) {
+  if (displayPnl >= 0 && mem.lockedNetUsd >= 0.10) {
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
@@ -1960,7 +1973,7 @@ function updatePricesAndSignals() {
     const isInBreather = !activePos && breatherUntil > Date.now();
 
     if (activePos) {
-      // ESTADO A — Posición Abierta (CASO 1 Naranja si abajo / CASO 2 Verde Esmeralda si arriba o Candado #00)
+      // ESTADO A — Posición Abierta (REGLA VISUAL ESTRICTA: Naranja si pnl < 0 / Verde Esmeralda SOLO cuando pnl >= 0)
       const pnl = parseFloat(activePos.position.unrealizedPnl || "0");
       const szi = parseFloat(activePos.position.szi);
       const isShort = szi < 0;
@@ -1968,9 +1981,9 @@ function updatePricesAndSignals() {
       const midPx = currentPrice > 0 ? currentPrice : entryPx;
       const queueOrder = Math.max(1, sortedOpenCoins.indexOf(p.symbol) + 1);
       const rInfo = computeClientRatchetStatus(activePos, midPx);
-      const isUpOrLocked = pnl >= 0 || rInfo.isLocked;
+      const isPositiveGreen = pnl >= 0;
 
-      const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isUpOrLocked ? "pair-cell-green" : "pair-cell-amber");
+      const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       const pnlFormatted = (pnl >= 0 ? "+" : "-") + "$" + Math.abs(pnl).toFixed(2);
@@ -1979,20 +1992,21 @@ function updatePricesAndSignals() {
       setTextIfChanged(sigRight1, `| ${pnlFormatted}`);
 
       let line2Text = "";
-      if (isUpOrLocked) {
+      if (isPositiveGreen) {
         const lockedStep = rInfo.lockedNetUsd >= 0.10
           ? rInfo.lockedNetUsd
           : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(0.12, pnl, rInfo.peakPnlUsdc || 0)));
         line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} ACTIVO`;
-      } else if (queueOrder <= 4) {
-        line2Text = `🎯 SALIDA #${queueOrder} LISTA`;
+      } else if (queueOrder <= 4 || ["PAXG", "SUI", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"].includes(p.symbol)) {
+        line2Text = `🎯 SALIDA #${queueOrder} LISTA (+$0.05)`;
       } else {
         line2Text = `🛡️ ESCUDO #00 · COLA #${queueOrder}`;
       }
       setTextIfChanged(sigLockText, line2Text);
     } else if (isInBreather) {
-      if (clientRatchetMemory[p.symbol]) {
+      if (clientRatchetMemory[p.symbol] || clientRatchetMemory["kPEPE"]) {
         delete clientRatchetMemory[p.symbol];
+        if (p.symbol === "PEPE") delete clientRatchetMemory["kPEPE"];
         persistClientRatchetMemory();
       }
       // ESTADO B (CASO 3) — En Respiro Táctico de 8 Minutos (Azul Cielo / Índigo Suave)

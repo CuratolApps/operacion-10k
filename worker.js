@@ -3830,7 +3830,8 @@ export default {
               // 1. BLINDAJE ANTI-ESCAPE DEL CANDADO #00 (`displayPnl >= $0.50` Estricto + Stop-Market L1 + IOC 3% Slippage):
               for (const pos of openPositions) {
                 const p = pos.position || pos;
-                const coin = p.coin;
+                const rawCoin = p.coin === "PEPE" ? "kPEPE" : p.coin;
+                const coin = rawCoin;
                 const szNum = parseFloat(p.szi || "0");
                 const absSz = Math.abs(szNum);
                 const isShort = szNum < 0;
@@ -3843,12 +3844,16 @@ export default {
                 const hasReduceOrder = !!existingReduceOrder;
 
                 const memKey = `${coin}_${entryPx.toFixed(6)}`;
-                const prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakPnl || -999;
-                const prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedFloor || 0;
+                let prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakPnl ?? -999;
+                let prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedFloor ?? 0;
+                if (prevPeak > 25.0 || prevLocked > 25.0 || uPnl < -0.15) {
+                  prevPeak = uPnl;
+                  prevLocked = 0;
+                }
                 const prevTriggerOid = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerOid || null;
                 const prevTriggerFloor = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerFloor || 0;
                 const peakPnl = Math.max(prevPeak, uPnl);
-                const lockedProfitUsdc = Math.max(prevLocked, computeCorneringStepCloud(peakPnl));
+                const lockedProfitUsdc = uPnl < -0.15 ? 0 : Math.max(prevLocked, computeCorneringStepCloud(peakPnl));
                 globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = {
                   peakPnl,
                   lockedFloor: lockedProfitUsdc,

@@ -136,11 +136,21 @@ const MIN_L2_FORCE_RATIO = 0.72;   // 72%+ Presión Real en Libro de Órdenes L2
 const MIN_ROC_15S_PCT = 0.025;     // |ROC_15s| >= 0.025% (Descarta monedas laterales o estancadas)
 
 let ratchetPeaksMemoryCache = null;
+function sanitizeRatchetPeaksObj(obj) {
+  if (!obj || typeof obj !== "object") return {};
+  for (const k of Object.keys(obj)) {
+    const entry = obj[k];
+    if (!entry || typeof entry !== "object" || Number(entry.peakPnlUsdc) > 25.0 || Number(entry.lockedFloorUsdc) > 25.0 || Number(entry.peakPnlUsdc) < 0) {
+      delete obj[k];
+    }
+  }
+  return obj;
+}
 function loadRatchetPeaksState() {
-  if (ratchetPeaksMemoryCache) return ratchetPeaksMemoryCache;
+  if (ratchetPeaksMemoryCache) return sanitizeRatchetPeaksObj(ratchetPeaksMemoryCache);
   try {
     if (fs.existsSync(RATCHET_PEAKS_STATE_FILE)) {
-      ratchetPeaksMemoryCache = JSON.parse(fs.readFileSync(RATCHET_PEAKS_STATE_FILE, "utf8")) || {};
+      ratchetPeaksMemoryCache = sanitizeRatchetPeaksObj(JSON.parse(fs.readFileSync(RATCHET_PEAKS_STATE_FILE, "utf8")) || {});
       return ratchetPeaksMemoryCache;
     }
   } catch (_) {}
@@ -150,7 +160,7 @@ function loadRatchetPeaksState() {
 
 function saveRatchetPeaksState(state) {
   try {
-    ratchetPeaksMemoryCache = state || {};
+    ratchetPeaksMemoryCache = sanitizeRatchetPeaksObj(state || {});
     fs.writeFileSync(RATCHET_PEAKS_STATE_FILE, JSON.stringify(ratchetPeaksMemoryCache, null, 2), "utf8");
   } catch (_) {}
 }
@@ -809,24 +819,39 @@ const activeClosingMutex = {};
  * - Si tras `150ms` la posición sigue con `szi !== 0`, reintentar inmediatamente con `8%` de margen de cruce hasta confirmar `szi === 0`.
  */
 async function executeGuaranteedMarketClose(client, info, coin, szi, currentMid, reasonLabel = "CANDADO_00") {
-  if (activeClosingMutex[coin]) return false;
-  activeClosingMutex[coin] = true;
+  // REGLA DE HIERRO: Usar SIEMPRE el rawCoin exacto de Hyperliquid L1 ("kPEPE", "SOL", "PAXG", etc.)
+  const rawCoin = coin === "PEPE" ? "kPEPE" : coin;
+  if (activeClosingMutex[rawCoin]) return false;
+  activeClosingMutex[rawCoin] = true;
   try {
     const isShort = parseFloat(szi) < 0;
     let remSz = Math.abs(parseFloat(szi));
-    if (remSz <= 0 || ASSET_INDICES[coin] === undefined || !ASSET_DECIMALS[coin]) return false;
+    if (remSz <= 0 || ASSET_INDICES[rawCoin] === undefined || !ASSET_DECIMALS[rawCoin]) return false;
+
+    // Si currentMid es inválido o vino escalado por error en kPEPE (< 0.0005), leer directamente allMids[rawCoin] sin dividir entre 1000
+    let unscaledMid = Number(currentMid || 0);
+    if ( unscaledMid <= 0 || (rawCoin === "kPEPE" && unscaledMid < 0.0005) ) {
+      try {
+        const liveMids = await info.allMids();
+        if (liveMids && liveMids[rawCoin]) {
+          unscaledMid = parseFloat(liveMids[rawCoin]);
+        } else if (rawCoin === "kPEPE" && unscaledMid > 0 && unscaledMid < 0.0005) {
+          unscaledMid = unscaledMid * 1000;
+        }
+      } catch (_) {}
+    }
 
     for (let attempt = 1; attempt <= 3; attempt++) {
       const slipMult = attempt === 1 ? 0.05 : 0.08;
-      const refPx = currentMid > 0 ? currentMid : 1;
+      const refPx = unscaledMid > 0 ? unscaledMid : 1;
       const crossPx = isShort ? (refPx * (1 + slipMult)) : (refPx * (1 - slipMult));
-      const crossPxStr = formatHlPrice(crossPx, coin);
-      const szStr = formatHlSize(remSz, ASSET_DECIMALS[coin].sz);
+      const crossPxStr = formatHlPrice(crossPx, rawCoin);
+      const szStr = formatHlSize(remSz, ASSET_DECIMALS[rawCoin].sz);
 
-      console.log(`🚨⚡ [CIERRE GARANTIZADO IOC ${Math.round(slipMult * 100)}% // INTENTO #${attempt}] ${coin} (${reasonLabel}) -> Cerrando ${szStr} @ límite de cruce $${crossPxStr}`);
+      console.log(`🚨⚡ [CIERRE GARANTIZADO IOC ${Math.round(slipMult * 100)}% // INTENTO #${attempt}] ${rawCoin} (${reasonLabel}) -> Cerrando ${szStr} @ límite de cruce $${crossPxStr} (mid L1: $${refPx})`);
       const res = await client.order({
         orders: [{
-          a: ASSET_INDICES[coin],
+          a: ASSET_INDICES[rawCoin],
           b: isShort,
           p: crossPxStr,
           s: szStr,
@@ -835,29 +860,31 @@ async function executeGuaranteedMarketClose(client, info, coin, szi, currentMid,
         }],
         grouping: "na"
       }).catch(err => {
-        console.error(`   ⚠️ Error en orden IOC de ${coin}:`, err.message);
+        console.error(`   ⚠️ Error en orden IOC de ${rawCoin}:`, err.message);
         return null;
       });
 
       const st = res?.response?.data?.statuses?.[0] || {};
       if (st.filled) {
-        console.log(`   ✅ [CIERRE 100% EJECUTADO EN L1] ${coin} cerrado en intento #${attempt} (avgPx: $${st.filled.avgPx || crossPxStr})`);
+        console.log(`   ✅ [CIERRE 100% EJECUTADO EN L1] ${rawCoin} cerrado en intento #${attempt} (avgPx: $${st.filled.avgPx || crossPxStr})`);
+      } else if (st.error) {
+        console.error(`   ⚠️ Respuesta L1 en intento #${attempt} de ${rawCoin}: ${st.error}`);
       }
 
       // Verificar tras 150ms si queda saldo abierto en Clearinghouse
       await new Promise(r => setTimeout(r, 150));
       const chCheck = await info.clearinghouseState({ user: VAULT_501 }).catch(() => null);
       if (!chCheck || !Array.isArray(chCheck.assetPositions)) break;
-      const stillPos = chCheck.assetPositions.find(p => p.position?.coin === coin && parseFloat(p.position?.szi || "0") !== 0);
+      const stillPos = chCheck.assetPositions.find(p => p.position?.coin === rawCoin && parseFloat(p.position?.szi || "0") !== 0);
       if (!stillPos) {
         return true; // szi === 0 confirmado en L1!
       }
       remSz = Math.abs(parseFloat(stillPos.position.szi));
-      console.log(`   🔄 [RETRY 150ms // 8% CROSSING] Queda szi=${remSz} en ${coin}, re-disparando cierre inmediato a mercado...`);
+      console.log(`   🔄 [RETRY 150ms // 8% CROSSING] Queda szi=${remSz} en ${rawCoin}, re-disparando cierre inmediato a mercado...`);
     }
     return false;
   } finally {
-    activeClosingMutex[coin] = false;
+    activeClosingMutex[rawCoin] = false;
   }
 }
 
@@ -918,10 +945,11 @@ async function placeOrUpdateNativeStopMarketL1(client, coin, isShort, absSz, ent
 }
 
 function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMeta = {}, openTs = Date.now(), isRecoveryMode = false) {
+  const rawCoin = coin === "PEPE" ? "kPEPE" : coin;
   const absSz = Math.abs(szNum);
   const isShort = szNum < 0;
   const notional = absSz * entryPx;
-  const isExpressPriorityCoin = PRIORITY_EVAC_TARGETS.includes(coin);
+  const isExpressPriorityCoin = PRIORITY_EVAC_TARGETS.includes(rawCoin) || PRIORITY_EVAC_TARGETS.includes(coin);
 
   // Comisiones reales Hyperliquid L1: 0.015% Maker / 0.045% Taker (solo informativas; la escalera 10c usa el PnL visible)
   const makerRoundTripFeeUsd = +(notional * (HL_MAKER_FEE_RATE * 2)).toFixed(4);
@@ -931,29 +959,58 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     ? (isShort ? ((entryPx - currentMid) / entryPx) * 100 : ((currentMid - entryPx) / entryPx) * 100)
     : 0;
 
-  // PnL en vivo por precio mid actual (250ms) + PnL visible de Clearinghouse (SIN restar comisiones teóricas que impidan subir el candado)
-  const hasValidLiveMid = currentMid > 0 && !(Math.abs(currentMid - entryPx) < 1e-12 && uPnlNum !== undefined && Math.abs(Number(uPnlNum)) > 0.01);
-  const rawMidPnlUsdc = +(absSz * (isShort ? (entryPx - currentMid) : (currentMid - entryPx))).toFixed(4);
-  const visiblePnlUsdc = (uPnlNum !== undefined && uPnlNum !== null) ? Number(uPnlNum) : rawMidPnlUsdc;
-  const instantPnlUsdc = hasValidLiveMid ? rawMidPnlUsdc : visiblePnlUsdc;
-  const currentPnlUsdc = instantPnlUsdc;
-  const candidatePeakPnl = hasValidLiveMid ? Math.max(instantPnlUsdc, visiblePnlUsdc) : visiblePnlUsdc;
+  // REGLA 1.2: Leer currentPnlUsdc ÚNICA Y EXCLUSIVAMENTE de parseFloat(pos.position.unrealizedPnl) de clearinghouseState (uPnlNum)
+  const currentPnlUsdc = (uPnlNum !== undefined && uPnlNum !== null && Number.isFinite(Number(uPnlNum)))
+    ? Number(uPnlNum)
+    : 0;
 
-  // Memoria de pico inborrable en RAM (`positionPeakPnlMap`) y en disco (`telemetry/ratchet-peaks-state.json`)
+  // Memoria de pico en RAM (`positionPeakPnlMap`) y en disco (`telemetry/ratchet-peaks-state.json`)
   const peaksState = loadRatchetPeaksState();
-  const posKey = `${coin}_${entryPx.toFixed(6)}`;
-  const persistedPeak = Math.max(
-    peaksState[posKey]?.peakPnlUsdc ?? -999,
-    peaksState[coin]?.peakPnlUsdc ?? -999,
-    positionPeakPnlMap[coin]?.peakPnlUsdc ?? -999
-  );
-  const persistedFloor = Math.max(
-    peaksState[posKey]?.lockedFloorUsdc ?? 0,
-    peaksState[coin]?.lockedFloorUsdc ?? 0,
-    positionPeakPnlMap[coin]?.lockedFloorUsdc ?? 0
-  );
+  const posKey = `${rawCoin}_${entryPx.toFixed(6)}`;
 
-  const peakPnlUsdc = Math.max(posMeta.peakPnlUsdc ?? -999, persistedPeak, candidatePeakPnl);
+  // REGLA 1.1 y 1.3: Purgar cualquier valor corrupto donde peakPnlUsdc > 25.0 o si la posición cayó en negativo (< -$0.15 USDC o < 0 sin candado real)
+  if ((positionPeakPnlMap[rawCoin]?.peakPnlUsdc || 0) > 25.0) delete positionPeakPnlMap[rawCoin];
+  if ((positionPeakPnlMap[coin]?.peakPnlUsdc || 0) > 25.0) delete positionPeakPnlMap[coin];
+  if ((posMeta.peakPnlUsdc || 0) > 25.0) {
+    posMeta.peakPnlUsdc = currentPnlUsdc;
+    posMeta.lockedNetUsd = 0;
+    posMeta.beLocked = false;
+  }
+
+  if (currentPnlUsdc < -0.15) {
+    // Si cae por debajo de -$0.15 USDC (ej. PEPE en -$1.64), resetear candado fantasma y poner en evacuación limpia en empate (+$0.05 USDC)
+    posMeta.beLocked = false;
+    posMeta.lockedNetUsd = 0;
+    posMeta.peakPnlUsdc = currentPnlUsdc;
+    posMeta.cleanEvacActive = true;
+    delete positionPeakPnlMap[rawCoin];
+    delete positionPeakPnlMap[coin];
+    if (peaksState[posKey] || peaksState[rawCoin] || peaksState[coin]) {
+      delete peaksState[posKey];
+      delete peaksState[rawCoin];
+      delete peaksState[coin];
+      saveRatchetPeaksState(peaksState);
+    }
+  }
+
+  const persistedPeakRaw = Math.max(
+    peaksState[posKey]?.peakPnlUsdc ?? -999,
+    peaksState[rawCoin]?.peakPnlUsdc ?? -999,
+    positionPeakPnlMap[rawCoin]?.peakPnlUsdc ?? -999
+  );
+  const persistedPeak = (persistedPeakRaw > 25.0 || currentPnlUsdc < -0.15) ? currentPnlUsdc : persistedPeakRaw;
+
+  const persistedFloorRaw = Math.max(
+    peaksState[posKey]?.lockedFloorUsdc ?? 0,
+    peaksState[rawCoin]?.lockedFloorUsdc ?? 0,
+    positionPeakPnlMap[rawCoin]?.lockedFloorUsdc ?? 0
+  );
+  const persistedFloor = (persistedFloorRaw > 25.0 || currentPnlUsdc < -0.15) ? 0 : persistedFloorRaw;
+
+  const prevMetaPeak = (posMeta.peakPnlUsdc !== undefined && posMeta.peakPnlUsdc <= 25.0 && currentPnlUsdc >= -0.15)
+    ? posMeta.peakPnlUsdc
+    : currentPnlUsdc;
+  const peakPnlUsdc = Math.max(prevMetaPeak, persistedPeak, currentPnlUsdc);
   posMeta.peakPnlUsdc = peakPnlUsdc;
   posMeta.peakGainPct = Math.max(posMeta.peakGainPct || 0, gainPct);
   posMeta.peakNetUsd = peakPnlUsdc;
@@ -962,7 +1019,7 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
   const deltaPxLevel1 = absSz > 0 ? (0.10 / absSz) : 0;
   const level1LockPx = isShort ? (entryPx - deltaPxLevel1) : (entryPx + deltaPxLevel1);
 
-  // Precio de Evacuación Rápida (PAXG, SUI, ETH, LINK o Time-Stop 180s): empate positivo limpio (+$0.05 a +$0.10 USDC)
+  // Precio de Evacuación Rápida (PAXG, SUI, kPEPE, ETH, LINK o Time-Stop 180s): empate positivo limpio (+$0.05 a +$0.10 USDC)
   const evacTargetNetUsd = isExpressPriorityCoin ? EXPRESS_EVAC_NET_USDC : CLEAN_EVAC_NET_USDC;
   const deltaPxEvac = absSz > 0
     ? ((makerRoundTripFeeUsd + evacTargetNetUsd) / absSz)
@@ -971,9 +1028,9 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
 
   // ESCALERA CONTINUA DE +$0.10 EN +$0.10 SIN HUECOS:
   // `>= +$0.12` -> `+$0.10` | `>= +$0.20` -> `Math.floor(peakPnlUsdc * 10) / 10` (`+$0.20`, `+$0.30`, `+$0.40`, `+$0.50`...)
-  const corneredStepUsd = computeCorneringRatchetStep(peakPnlUsdc);
-  const lockedFloorUsdc = Math.max(posMeta.lockedNetUsd || 0, persistedFloor, corneredStepUsd);
-  positionPeakPnlMap[coin] = { peakPnlUsdc, lockedFloorUsdc };
+  const corneredStepUsd = currentPnlUsdc < -0.15 ? 0 : computeCorneringRatchetStep(peakPnlUsdc);
+  const lockedFloorUsdc = currentPnlUsdc < -0.15 ? 0 : Math.max(posMeta.lockedNetUsd || 0, persistedFloor, corneredStepUsd);
+  positionPeakPnlMap[rawCoin] = { peakPnlUsdc, lockedFloorUsdc };
 
   if (lockedFloorUsdc >= 0.10) {
     const prevLockedFloor = Math.max(posMeta.lockedNetUsd || 0, persistedFloor);
@@ -1661,34 +1718,40 @@ async function startAutonomousSquadDaemon() {
     if (trackedCoins.length === 0) return;
     fastGuardInFlight = true;
     try {
-      const fastMids = await info.allMids();
-      if (!fastMids || typeof fastMids !== "object") return;
+      const [fastCh, fastMids] = await Promise.all([
+        info.clearinghouseState({ user: VAULT_501 }).catch(() => null),
+        info.allMids().catch(() => null)
+      ]);
+      if (!fastCh || !Array.isArray(fastCh.assetPositions) || !fastMids || typeof fastMids !== "object") return;
 
-      for (const coin of trackedCoins) {
-        if (closingInProgressCoins.has(coin)) continue;
-        const posMeta = confirmedOpenByCoin[coin];
-        if (!posMeta || posMeta.closedByFastGuard || !posMeta.szi || !posMeta.entryPx) continue;
+      for (const pObj of fastCh.assetPositions) {
+        const pos = pObj?.position;
+        if (!pos) continue;
+        const rawCoin = pos.coin; // Ej: "kPEPE", "SOL", "PAXG" (100% nativo de clearinghouseState)
+        const szi = parseFloat(pos.szi || "0");
+        if (szi === 0 || closingInProgressCoins.has(rawCoin)) continue;
 
-        const currentMid = parseFloat(fastMids[coin] || "0");
+        const posMeta = confirmedOpenByCoin[rawCoin];
+        if (!posMeta || posMeta.closedByFastGuard) continue;
+
+        const currentMid = parseFloat(fastMids[rawCoin] || pos.entryPx || "0");
         if (!currentMid || currentMid <= 0) continue;
 
-        const szi = parseFloat(posMeta.szi);
         const absSz = Math.abs(szi);
         const isShort = szi < 0;
-        const entryPx = parseFloat(posMeta.entryPx);
-        const instantPnlUsdc = isShort
-          ? (entryPx - currentMid) * absSz
-          : (currentMid - entryPx) * absSz;
+        const entryPx = parseFloat(pos.entryPx || "0");
+        // REGLA 1.2: Leer currentPnlUsdc ÚNICA Y EXCLUSIVAMENTE de parseFloat(pos.unrealizedPnl) de clearinghouseState
+        const liveUnrealizedPnl = parseFloat(pos.unrealizedPnl || "0");
 
         const rFast = computeFeeAwareRatchet(
-          coin,
+          rawCoin,
           entryPx,
           szi,
           currentMid,
-          instantPnlUsdc,
+          liveUnrealizedPnl,
           posMeta,
-          positionOpenTimestamps[coin] || Date.now(),
-          stuckRecoveryCoinsSet.has(coin)
+          positionOpenTimestamps[rawCoin] || Date.now(),
+          stuckRecoveryCoinsSet.has(rawCoin)
         );
         posMeta.ratchetStatusLabel = rFast.ratchetStatusLabel;
 
@@ -1696,7 +1759,7 @@ async function startAutonomousSquadDaemon() {
         if (rFast.beLocked && rFast.lockedNetUsd >= 0.20 && !rFast.hitRatchetStop) {
           await placeOrUpdateNativeStopMarketL1(
             client,
-            coin,
+            rawCoin,
             isShort,
             absSz,
             entryPx,
@@ -1706,24 +1769,24 @@ async function startAutonomousSquadDaemon() {
         }
 
         // Si tocó el piso del Candado Universal de 10 en 10 centavos (hitRatchetStop) O si es objetivo de desalojo rápido Wall Street en +$0.05 USDC:
-        const isWallStreetExpressEvac = PRIORITY_EVAC_TARGETS.includes(coin) && rFast.currentPnlUsdc >= EXPRESS_EVAC_NET_USDC && rFast.lockedNetUsd < 0.20;
+        const isWallStreetExpressEvac = PRIORITY_EVAC_TARGETS.includes(rawCoin) && rFast.currentPnlUsdc >= EXPRESS_EVAC_NET_USDC && rFast.lockedNetUsd < 0.20;
         if ((rFast.beLocked && rFast.hitRatchetStop) || isWallStreetExpressEvac) {
-          closingInProgressCoins.add(coin);
+          closingInProgressCoins.add(rawCoin);
           try {
             const closeReason = isWallStreetExpressEvac && !(rFast.beLocked && rFast.hitRatchetStop)
               ? `WALL_STREET_EXPRESS_EVAC_+$${rFast.currentPnlUsdc.toFixed(2)}_NET`
               : `FAST_250MS_CANDADO_10C_+$${rFast.lockedNetUsd.toFixed(2)}`;
-            console.log(`🚨⚡ [FAST-GUARD 250ms // ${closeReason}] ${coin} (Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)} | Escalón: +$${rFast.lockedNetUsd.toFixed(2)}) -> Disparo IOC 5% Inmediato!`);
+            console.log(`🚨⚡ [FAST-GUARD 250ms // ${closeReason}] ${rawCoin} (Pico: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual: +$${rFast.currentPnlUsdc.toFixed(2)} | Escalón: +$${rFast.lockedNetUsd.toFixed(2)}) -> Disparo IOC 5% Inmediato!`);
             if (posMeta.nativeSlOid || posMeta.nativeSlTriggerOid) {
               const slOid = posMeta.nativeSlOid || posMeta.nativeSlTriggerOid;
-              await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: slOid }] }).catch(() => {});
+              await client.cancel({ cancels: [{ a: ASSET_INDICES[rawCoin], o: slOid }] }).catch(() => {});
               posMeta.nativeSlOid = null;
               posMeta.nativeSlTriggerOid = null;
             }
             const closedOk = await executeGuaranteedMarketClose(
               client,
               info,
-              coin,
+              rawCoin,
               szi,
               currentMid,
               closeReason
@@ -1732,7 +1795,7 @@ async function startAutonomousSquadDaemon() {
               posMeta.closedByFastGuard = true;
             }
           } finally {
-            closingInProgressCoins.delete(coin);
+            closingInProgressCoins.delete(rawCoin);
           }
         }
       }
