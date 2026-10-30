@@ -1047,9 +1047,11 @@ async function evaluateLatentForceForPair({
     const now = Date.now();
     const cachedL2 = l2BookCacheByCoin[coin];
     const cachedCandles = candles1mCacheByCoin[coin];
-    const allowL2Fetch = (!cachedL2 || (now - cachedL2.ts) >= 5000) && cycleL2FetchCount < 3;
+    const allowL2Fetch = (!cachedL2 && cycleL2FetchCount < 6) ||
+      ((!cachedL2 || (now - cachedL2.ts) >= 12000) && cycleL2FetchCount < 5);
     if (allowL2Fetch) cycleL2FetchCount++;
-    const allowCandleFetch = (!cachedCandles || (now - cachedCandles.ts) >= 90000) && cycleCandleFetchCount < 2;
+    const allowCandleFetch = (!cachedCandles && cycleCandleFetchCount < 6) ||
+      ((!cachedCandles || (now - cachedCandles.ts) >= 90000) && cycleCandleFetchCount < 4);
     if (allowCandleFetch) cycleCandleFetchCount++;
 
     const l2Promise = !allowL2Fetch
@@ -1656,12 +1658,16 @@ async function rankFreePairsByLatentForce({
       return hasAtLeastOneSubBotReady;
     })
     .sort((a, b) => {
+      const noCacheA = !l2BookCacheByCoin[a.coin] || !candles1mCacheByCoin[a.coin] ? 200 : 0;
+      const noCacheB = !l2BookCacheByCoin[b.coin] || !candles1mCacheByCoin[b.coin] ? 200 : 0;
+      const staleA = l2BookCacheByCoin[a.coin] && (now - l2BookCacheByCoin[a.coin].ts) >= 12000 ? 80 : 0;
+      const staleB = l2BookCacheByCoin[b.coin] && (now - l2BookCacheByCoin[b.coin].ts) >= 12000 ? 80 : 0;
       const kinA = computeKinematicPhysics(a.coin, parseFloat(mids[a.coin] || "0"), rollingMidsHistory[a.coin] || [], lastMeasuredHlLatencyMs, now);
       const kinB = computeKinematicPhysics(b.coin, parseFloat(mids[b.coin] || "0"), rollingMidsHistory[b.coin] || [], lastMeasuredHlLatencyMs, now);
       const whipA = (candle3mStateByCoin[a.coin]?.whipRelayArmedUntilMs || 0) > now ? 50 : 0;
       const whipB = (candle3mStateByCoin[b.coin]?.whipRelayArmedUntilMs || 0) > now ? 50 : 0;
-      const scoreA = whipA + (Math.abs(kinA.vFastPctPerSec) * 10000) + ((kinA.kinematicLongOk || kinA.kinematicShortOk) ? 25 : 0);
-      const scoreB = whipB + (Math.abs(kinB.vFastPctPerSec) * 10000) + ((kinB.kinematicLongOk || kinB.kinematicShortOk) ? 25 : 0);
+      const scoreA = noCacheA + staleA + whipA + (Math.abs(kinA.vFastPctPerSec) * 10000) + ((kinA.kinematicLongOk || kinA.kinematicShortOk) ? 25 : 0);
+      const scoreB = noCacheB + staleB + whipB + (Math.abs(kinB.vFastPctPerSec) * 10000) + ((kinB.kinematicLongOk || kinB.kinematicShortOk) ? 25 : 0);
       return scoreB - scoreA;
     });
 
