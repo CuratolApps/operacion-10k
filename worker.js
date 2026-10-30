@@ -3759,12 +3759,23 @@ export default {
             const FAST_SCALP_LANES = 2;
             const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 10;
             const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
-            const FAST_LANE_LOCK_NET_USDC = 0.08;
-            const EXPRESS_EVAC_DELTA_RATIO = 0.00035;
-            const EXPRESS_EVAC_NET_USDC = 0.02;
+            const FAST_LANE_LOCK_NET_USDC = 0.10;
+            const CORNERING_HALF_DOLLAR_USDC = 0.50;
+            const CORNERING_BREATH_BUFFER_USDC = 0.02;
+            const EXPRESS_EVAC_DELTA_RATIO = 0.00040;
+            const EXPRESS_EVAC_NET_USDC = 0.05;
             const POST_TRADE_COOLDOWN_MS = 8 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00060; // 0.015% Maker + 0.045% Taker
             const priorityEvacSet = new Set(["PAXG", "SUI", "ETH", "LINK"]);
+            const computeCorneringStepCloud = (peakNet) => {
+              const p = Number(peakNet || 0);
+              if (p >= CORNERING_HALF_DOLLAR_USDC) return +(Math.floor((p + 1e-9) * 10) / 10).toFixed(2);
+              if (p >= 0.40) return 0.35;
+              if (p >= 0.30) return 0.25;
+              if (p >= 0.20) return 0.15;
+              if (p >= 0.10) return 0.10;
+              return 0;
+            };
 
             console.log(`[CLOUD SQUAD GUARD] 🛡️ NEXUS APEX-36 Activo · ${openPositions.length}/${MAX_OPEN_POSITIONS} posiciones abiertas (MAX_RECOVERY=${MAX_CONCURRENT_POSITIONS_DURING_RECOVERY} · ${openCoins.join(", ") || "ninguna"}) · NO_RED_EXIT=${NO_RED_EXIT}`);
             let unfencedCount = 0;
@@ -3779,7 +3790,8 @@ export default {
 
               if (entryPx > 0 && positionVal > 0) {
                 if (netAfterFee >= 0.10) {
-                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Nivel 1/2 #00 ACTIVO para ${coin} (Neto +$${netAfterFee.toFixed(3)} USDC >= +$0.10). Bot 🟢 LIGERO.`);
+                  const stepUsd = computeCorneringStepCloud(netAfterFee);
+                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Acorralamiento #00 ACTIVO para ${coin} (Escalón +$${stepUsd.toFixed(2)} | Neto +$${netAfterFee.toFixed(3)} USDC). Bot 🟢 LIGERO.`);
                 } else {
                   unfencedCount++;
                 }
@@ -3787,7 +3799,7 @@ export default {
             }
 
             // Regla de Independencia en Cloud 24/7 (Computadora Apagada):
-            // NEXUS APEX-36: Cero Pérdidas (NO_RED_EXIT = true) + Evacuación Prioritaria PAXG/SUI/ETH/LINK en +$0.10 USDC + Market Tide Lock
+            // NEXUS APEX-36: Cero Pérdidas (NO_RED_EXIT = true) + Candado Acorralamiento #00 (+$0.10 -> +$0.50+) + Market Tide Lock
             if (env.HL_AGENT_PRIVATE_KEY) {
               const { ExchangeClient, InfoClient, HttpTransport } = await import("@nktkas/hyperliquid");
               const { ethers } = await import("ethers");
@@ -3811,11 +3823,9 @@ export default {
               if (!globalThis.__NOTIFIED_LOCK00_COINS__) globalThis.__NOTIFIED_LOCK00_COINS__ = {};
               if (!globalThis.__NOTIFIED_OPEN_OIDS__) globalThis.__NOTIFIED_OPEN_OIDS__ = {};
               if (!globalThis.__NOTIFIED_GREEN_CLOSE_COINS__) globalThis.__NOTIFIED_GREEN_CLOSE_COINS__ = {};
+              if (!globalThis.__CLOUD_RATCHET_PEAKS__) globalThis.__CLOUD_RATCHET_PEAKS__ = {};
 
-              // 1. FEE-AWARE RATCHET #00 EN L1 + EVACUACIÓN PRIORITARIA PAXG, SUI, ETH & LINK:
-              // - Si aún no tiene orden Reduce-Only, colocar Evacuación Limpia Post-Only Maker en (Entrada + Comisión + $0.10 USDC)
-              // - Si supera Nivel 1 (+$0.10 USDC netos), asegurar Candado #00 y notificar a Telegram (🛰️ SALA DE MANDO 10K)
-              // - Si es PAXG, SUI, ETH o LINK y toca +$0.10 USDC netos con presión L2 a favor < 72%, cobrar de inmediato a USDC y enviar 🏁💵 [OPERACIÓN CERRADA EN VERDE]
+              // 1. NUEVA LEY DE CANDADO DE ACORRALAMIENTO (`CORNERING_RATCHET_00`: +$0.10 -> +$0.50 Estricto -> 10c en 10c):
               for (const pos of openPositions) {
                 const p = pos.position || pos;
                 const coin = p.coin;
@@ -3827,22 +3837,27 @@ export default {
                 const notional = absSz * entryPx;
                 const rtFeeUsd = notional * HL_ROUNDTRIP_FEE_RATE;
                 const netAfterFee = uPnl - rtFeeUsd;
-                const gainPct = notional > 0 ? (uPnl / notional) * 100 : 0;
                 const existingReduceOrder = openOrders.find(o => o.coin === coin && o.reduceOnly === true);
                 const hasReduceOrder = !!existingReduceOrder;
 
-                if (netAfterFee >= 0.10 && botToken && chatId) {
-                  const lockKey = `${coin}_${entryPx.toFixed(6)}`;
-                  if (!globalThis.__NOTIFIED_LOCK00_COINS__[lockKey]) {
-                    globalThis.__NOTIFIED_LOCK00_COINS__[lockKey] = true;
-                    const lockUsd = rtFeeUsd + Math.max(0.10, netAfterFee * 0.82);
+                const memKey = `${coin}_${entryPx.toFixed(6)}`;
+                const prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakNet || -999;
+                const prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedNet || 0;
+                const peakNet = Math.max(prevPeak, netAfterFee);
+                const lockedProfitUsdc = Math.max(prevLocked, computeCorneringStepCloud(peakNet));
+                globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = { peakNet, lockedNet: lockedProfitUsdc };
+
+                if (lockedProfitUsdc >= 0.10 && botToken && chatId) {
+                  if (!globalThis.__NOTIFIED_LOCK00_COINS__[memKey]) {
+                    globalThis.__NOTIFIED_LOCK00_COINS__[memKey] = true;
+                    const lockUsd = rtFeeUsd + lockedProfitUsdc;
                     const lockedPx = isShort ? entryPx - (lockUsd / absSz) : entryPx + (lockUsd / absSz);
                     const lockMsg = `🛰️ <b>SALA DE MANDO 10K // 🔒🛡️ [CANDADO #00 CLAVADO]</b>\n` +
                       `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                       `📍 <b>Par:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
                       `📥 <b>Precio Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code>\n` +
-                      `🔒 <b>Candado #00 Asegurado:</b> <code>$${fmtPx(lockedPx, coin)}</code> (<b>+$${Math.max(0.10, netAfterFee * 0.82).toFixed(2)} USDC Netos · $0.00 Riesgo</b>)\n` +
-                      `🌊 <b>Estado Motor:</b> <code>🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)</code>\n` +
+                      `🔒 <b>Candado #00 Asegurado:</b> <code>$${fmtPx(lockedPx, coin)}</code> (<b>+$${lockedProfitUsdc.toFixed(2)} USDC Netos · $0.00 Riesgo</b>)\n` +
+                      `🌊 <b>Escalera Acorralamiento #00:</b> <code>+$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)</code>\n` +
                       `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                       `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
                     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -3853,8 +3868,15 @@ export default {
                   }
                 }
 
-                // Evacuación Ultra-Rápida para PAXG, SUI, ETH y LINK en Breakeven Neto Exacto (entryPx ± 0.035% = +$0.02 USDC libres de comisión)
-                if (priorityEvacSet.has(coin) && netAfterFee >= EXPRESS_EVAC_NET_USDC && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
+                // Verificar si el precio retrocedió y tocó el escalón acorralado (con $0.02 USDC de respiro sobre el último escalón)
+                const hitCorneredStop = lockedProfitUsdc >= 0.10 && (
+                  (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC && peakNet >= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC) && netAfterFee <= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC)) ||
+                  (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC && netAfterFee <= lockedProfitUsdc && peakNet > netAfterFee) ||
+                  (lockedProfitUsdc >= 0.15 && netAfterFee <= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC)) ||
+                  (lockedProfitUsdc >= 0.10 && peakNet >= 0.12 && netAfterFee <= 0.10)
+                );
+
+                if ((hitCorneredStop || (priorityEvacSet.has(coin) && netAfterFee >= 0.10 && lockedProfitUsdc < CORNERING_HALF_DOLLAR_USDC)) && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
                   let favorRatio = 0.50;
                   let currentBookPx = entryPx;
                   try {
@@ -3873,7 +3895,7 @@ export default {
                     }
                   } catch (_) {}
 
-                  if (favorRatio < 0.72) {
+                  if (hitCorneredStop || favorRatio < 0.72) {
                     if (existingReduceOrder) {
                       await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
                     }
@@ -3893,12 +3915,14 @@ export default {
                     const closeKey = `${coin}_${entryPx.toFixed(6)}_CLOSED`;
                     if ((cSt.filled || cSt.resting) && botToken && chatId && !globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey]) {
                       globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey] = true;
+                      const stepCollected = Math.max(0.10, lockedProfitUsdc);
                       const closeMsg = `🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                        `📍 <b>Par Evacuado:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
+                        `📍 <b>Par Cobrado:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
                         `📥 <b>Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code> ➔ 📤 <b>Salida:</b> <code>$${fmtPx(currentBookPx, coin)}</code>\n` +
-                        `💰 <b>Ganancia Neta Realizada:</b> <b>+$${netAfterFee.toFixed(4)} USDC</b> (Libre de comisión · L2 ${(favorRatio * 100).toFixed(1)}% &lt; 72%)\n` +
-                        `🔓 <b>Margen Liberado:</b> <code>Listo para descomprimir cola #00 (8 en Guardia + 2 Carriles Rápidos)</code>\n` +
+                        `🔒 <b>Escalón Acorralado #00:</b> <b>+$${stepCollected.toFixed(2)} USDC</b>\n` +
+                        `💰 <b>Ganancia Neta Realizada:</b> <b>+$${Math.max(stepCollected, netAfterFee).toFixed(4)} USDC</b>\n` +
+                        `🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO ${coin})</code>\n` +
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                         `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
                       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -3911,11 +3935,12 @@ export default {
                   }
                 }
 
-                if (ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
-                  // Para PAXG, SUI, ETH y LINK: Breakeven Neto Exacto (entryPx ± 0.035%, +$0.02 USDC libres de comisión)
+                if (ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0 && lockedProfitUsdc < 0.10) {
+                  // Para PAXG, SUI, ETH y LINK: Reduce-Only ALO a empate positivo limpio (+$0.05 a +$0.10 USDC netos)
                   const isPriorityCoin = priorityEvacSet.has(coin);
-                  const evacUsd = rtFeeUsd + FAST_LANE_LOCK_NET_USDC;
-                  const deltaPx = isPriorityCoin ? (entryPx * EXPRESS_EVAC_DELTA_RATIO) : (evacUsd / absSz);
+                  const targetNet = isPriorityCoin ? EXPRESS_EVAC_NET_USDC : FAST_LANE_LOCK_NET_USDC;
+                  const evacUsd = rtFeeUsd + targetNet;
+                  const deltaPx = evacUsd / absSz;
                   const evacPx = isShort ? entryPx - deltaPx : entryPx + deltaPx;
                   const evacPxStr = fmtPx(evacPx, coin);
                   const currentReducePxStr = existingReduceOrder ? fmtPx(parseFloat(existingReduceOrder.limitPx || "0"), coin) : null;

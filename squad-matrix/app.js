@@ -858,7 +858,7 @@ function render54PairsGrid() {
           <span id="sigRight1_${cleanId}"></span>
         </div>
         <div class="status-line-2" id="sigLine2_${cleanId}">
-          <span id="sigLockText_${cleanId}">🔒 CANDADO #00 (+$0.10)</span>
+          <span id="sigLockText_${cleanId}">🔒 ESCALERA +$0.10 ➔ +$0.50+</span>
         </div>
       </div>
     `;
@@ -866,14 +866,26 @@ function render54PairsGrid() {
   });
 }
 
-// HELPER: FEE-AWARE RATCHET #00 + PLAN C (+$0.10 CANDADO BASE + RATCHET 80%-90% + QUEMA-LASTRE 50%) EN CLIENTE
+// HELPER: NUEVA LEY DE CANDADO DE ACORRALAMIENTO (`CORNERING_RATCHET_00`: +$0.10..+$0.35 ➔ +$0.50 ESTRICTO + ESCALONES DE +$0.10) EN CLIENTE
 const clientRatchetMemory = {};
+function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
+  const peak = Number(peakNetPnlUsdc || 0);
+  if (peak >= 0.50) {
+    return +(Math.floor((peak + 1e-9) * 10) / 10).toFixed(2);
+  }
+  if (peak >= 0.40) return 0.35;
+  if (peak >= 0.30) return 0.25;
+  if (peak >= 0.20) return 0.15;
+  if (peak >= 0.10) return 0.10;
+  return 0;
+}
+
 function computeClientRatchetStatus(activePos, currentPrice) {
   if (!activePos || !activePos.position) {
     return {
       isLocked: false,
       lockedNetUsd: 0,
-      statusLabel: "🔓 BUSCANDO CANDADO NETO +$0.10",
+      statusLabel: "🔒 ESCALERA +$0.10 ➔ +$0.50+",
       lockClass: "active-lock-tag shield"
     };
   }
@@ -896,7 +908,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const gainPct = entryPx > 0 ? (priceDiff / entryPx) * 100 : 0;
 
   if (!clientRatchetMemory[coin] || clientRatchetMemory[coin].entryPx !== entryPx) {
-    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR", "DOGE"]);
+    const initialRecoveryCoins = new Set(["ETH", "PAXG", "XRP", "SOL", "BTC", "NEAR", "DOGE", "SUI", "LINK"]);
     clientRatchetMemory[coin] = {
       entryPx,
       openedAt: initialRecoveryCoins.has(coin) ? (Date.now() - 240000) : Date.now(),
@@ -909,17 +921,10 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   if (netAfterFee > mem.peakNetAfterFee) mem.peakNetAfterFee = netAfterFee;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Candado Base #00 en +$0.10 USDC Netos y Escalera de Candados (80% / 85% / 90% del High-Water Mark)
-  if (mem.peakNetAfterFee >= 0.10) {
-    let lockNet = 0.10;
-    if (mem.peakGainPct > 0.80) {
-      lockNet = Math.max(0.10, mem.peakNetAfterFee * 0.90);
-    } else if (mem.peakGainPct >= 0.25) {
-      lockNet = Math.max(0.10, mem.peakNetAfterFee * 0.85);
-    } else if (mem.peakGainPct >= 0.10) {
-      lockNet = Math.max(0.10, mem.peakNetAfterFee * 0.80);
-    }
-    if (lockNet > mem.lockedNetUsd) mem.lockedNetUsd = lockNet;
+  // Escalera Exacta en Dólares Netos (`CORNERING_RATCHET_00`: +$0.10 -> +$0.15 -> +$0.25 -> +$0.35 -> +$0.50 -> +$0.60, +$0.70, $1, $2, $3+)
+  const corneredStep = computeCorneringRatchetStepClient(mem.peakNetAfterFee);
+  if (corneredStep >= 0.10) {
+    if (corneredStep > mem.lockedNetUsd) mem.lockedNetUsd = corneredStep;
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
@@ -1929,8 +1934,11 @@ function updatePricesAndSignals() {
       setTextIfChanged(sigRight1, pnlFormatted);
 
       let line2Text = "";
-      if (pnl >= 0.10 || rInfo.isLocked) {
-        line2Text = "🔒 CANDADO #00 ACTIVO";
+      if (rInfo.isLocked || pnl >= 0.10) {
+        const lockedStep = rInfo.lockedNetUsd >= 0.10
+          ? rInfo.lockedNetUsd
+          : computeCorneringRatchetStepClient(Math.max(0.10, pnl));
+        line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)}`;
       } else if (queueOrder <= 4) {
         line2Text = `🎯 SALIDA #${queueOrder} LISTA`;
       } else {
@@ -1955,7 +1963,7 @@ function updatePricesAndSignals() {
       } else if (p.block === 4 || p.block === 5) {
         isMarketOpenForPair = isFxCommoditiesOpen;
       }
-      setTextIfChanged(sigLockText, isMarketOpenForPair ? "🔒 CANDADO #00 (+$0.10)" : "⏸️ STANDBY · FUERZA L2");
+      setTextIfChanged(sigLockText, isMarketOpenForPair ? "🔒 ESCALERA +$0.10 ➔ +$0.50+" : "⏸️ STANDBY · FUERZA L2");
     }
   });
 }

@@ -37,22 +37,25 @@ process.on("uncaughtException", (err) => {
   console.error("⚠️ [DAEMON] Excepción no capturada (resiliente, continuando):", err?.message || err);
 });
 
-// --- ARQUITECTURA DEFINITIVA "NEXUS APEX-36 // MOTOR UNIFICADO FUERZA LATENTE (>=92/100) + MARKET TIDE LOCK + 2 CARRILES RÁPIDOS (MAX_OPEN=10)" ---
+// --- ARQUITECTURA DEFINITIVA "NEXUS APEX-36 // MOTOR UNIFICADO FUERZA LATENTE (>=92/100) + CORNERING RATCHET #00 (+$0.10 -> +$0.50+) + 2 CARRILES RÁPIDOS (MAX_OPEN=10)" ---
 const STRICT_RECOVERY_LOCK = false;     // Operación bajo Motor Unificado LATENT_FORCE_ENGINE
 const PLAN_C_ACTIVE_HARVEST = true;     // Subordinado 100% a LATENT_FORCE_ENGINE (Score >= 92/100 + Market Tide Lock + 2 Carriles Rápidos)
 const IMMEDIATE_SNOWBALL_START = true;  // Arranque con pares libres en los 2 Carriles Rápidos (#9 y #10) mientras freeMargin >= $320 USDC
-const NO_RED_EXIT = true;               // Prohibido cerrar en pérdida (100% salidas en verde o Breakeven Neto +0.035%)
+const NO_RED_EXIT = true;               // Prohibido cerrar en pérdida (100% salidas en verde con Candado de Acorralamiento #00)
 const MAX_OPEN_POSITIONS = 10;          // Tope real = 10 (8 en guardia de recuperación + 2 Carriles Rápidos #9 y #10)
-const FAST_SCALP_LANES = 2;             // 2 Carriles Rápidos Dinámicos (#9 y #10) con Score >= 92/100 + Time-Stop 180s + Candado +$0.08
+const FAST_SCALP_LANES = 2;             // 2 Carriles Rápidos Dinámicos (#9 y #10) con Score >= 92/100 + Candado Acorralamiento 10c
 const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 10; // Habilitados los Carriles #9 y #10 mientras freeMargin >= $320 USDC
-const PRIORITY_EVAC_TARGETS = ["PAXG", "SUI", "ETH", "LINK"]; // Evacuación Ultra-Rápida en Breakeven Neto Exacto (entryPx ± 0.035%, +$0.02 USDC netos)
-const EXPRESS_EVAC_DELTA_RATIO = 0.00035; // entryPx + 0.035% (LONG) / entryPx - 0.035% (SHORT) = +$0.02 USDC libres de comisión
-const EXPRESS_EVAC_NET_USDC = 0.02;     // +$0.02 USDC libres de comisión para salida inmediata en PAXG, SUI, ETH y LINK
+const PRIORITY_EVAC_TARGETS = ["PAXG", "SUI", "ETH", "LINK"]; // Evacuación Rápida en empate positivo limpio (+$0.05 a +$0.10 USDC netos) o Candado #00
+const EXPRESS_EVAC_DELTA_RATIO = 0.00040; // Empate positivo limpio (+$0.05 a +$0.10 USDC libres de comisión)
+const EXPRESS_EVAC_NET_USDC = 0.05;     // +$0.05 USDC netos libres de comisión para Reduce-Only ALO en PAXG, SUI, ETH y LINK
 const MARKET_TIDE_LOCK_ENABLED = true;  // Filtro de Marea Global: Prohibido disparar SHORT si Top 3 es LONG (y viceversa)
 const MAX_ACTIVE_HUNTERS = FAST_SCALP_LANES; // 2 Carriles Rápidos simultáneos (#9 y #10)
 const MAX_UNFENCED_POSITIONS = FAST_SCALP_LANES;
-const FAST_LANE_LOCK_NET_USDC = 0.08;   // Regla de Velocidad Carriles #9 y #10: Candado #00 inmediato en +$0.08 USDC netos
-const PLAN_C_MIN_LOCK_NET_USDC = 0.08;  // Candado Base #00 en +$0.08 USDC Netos ($0.00 riesgo tras clavar)
+const FAST_LANE_LOCK_NET_USDC = 0.10;   // Candado Base #00 inicial en +$0.10 USDC netos (Fase 1 -> Fase 2 en +$0.50 USDC)
+const PLAN_C_MIN_LOCK_NET_USDC = 0.10;  // Candado Base #00 en +$0.10 USDC Netos ($0.00 riesgo tras clavar)
+const CORNERING_HALF_DOLLAR_USDC = 0.50; // Fase 2 Acorralamiento Estricto desde +$0.50 USDC netos
+const CORNERING_STEP_USDC = 0.10;        // Escalones de +$0.10 en +$0.10 USDC (+$0.50, +$0.60, +$0.70, $1, $2, $3+)
+const CORNERING_BREATH_BUFFER_USDC = 0.02; // $0.02 USDC de margen de respiro sobre el último escalón conquistado
 const AUTO_COMPOUND_MARGIN_RATIO = 0.05; // Calibre Compuesto Automático = 5% del Saldo Cerrado Firme L1 (recalculado cada +$25 USDC)
 const AUTO_COMPOUND_LEVERAGE = 5.0;     // 5x Apalancamiento -> $50.45 Margen = $252.25 USD Nocional en $1,009.05 USDC
 const PLAN_C_HUNTER_MARGIN_USDC = 50.45; // 5% de $1,009.05 USDC = $50.45 USDC Margen por Bot
@@ -176,11 +179,14 @@ function loadRecoveryControlConfig() {
     NO_RED_EXIT: true,
     MAX_ACTIVE_HUNTERS: 2,
     MAX_UNFENCED_POSITIONS: 2,
-    PLAN_C_MIN_LOCK_NET_USDC: 0.08,
-    FAST_LANE_LOCK_NET_USDC: 0.08,
+    PLAN_C_MIN_LOCK_NET_USDC: 0.10,
+    FAST_LANE_LOCK_NET_USDC: 0.10,
+    CORNERING_STEP_HALF_DOLLAR_USDC: 0.50,
+    CORNERING_STEP_INCREMENT_USDC: 0.10,
+    CORNERING_BREATH_BUFFER_USDC: 0.02,
     FAST_LANE_TIME_STOP_MS: 180000,
-    EXPRESS_EVAC_DELTA_RATIO: 0.00035,
-    EXPRESS_EVAC_NET_USDC: 0.02,
+    EXPRESS_EVAC_DELTA_RATIO: 0.00040,
+    EXPRESS_EVAC_NET_USDC: 0.05,
     AUTO_COMPOUND_MARGIN_RATIO: 0.05,
     AUTO_COMPOUND_LEVERAGE: 5.0,
     PLAN_C_HUNTER_MARGIN_USDC: 50.45,
@@ -198,7 +204,7 @@ function loadRecoveryControlConfig() {
     IMMEDIATE_SNOWBALL_START: true,
     POST_TRADE_COOLDOWN_MS: 480000,
     CASCADE_PLAN_B_ENABLED: true,
-    CASCADE_STAGE_LABEL: "🟢 8 EN GUARDIA + 2 CARRILES RÁPIDOS ACTIVOS (MAX_OPEN=10 · CANDADO +$0.08 · PAXG/SUI/ETH/LINK BE +0.035%)",
+    CASCADE_STAGE_LABEL: "🟢 8 EN GUARDIA + 2 CARRILES RÁPIDOS ACTIVOS (MAX_OPEN=10 · ESCALERA CANDADO +$0.10 ➔ +$0.50+)",
     RECOVERY_PRIORITY_EVAC_TARGETS: ["PAXG", "SUI", "ETH", "LINK"],
     RECOVERY_CASCADE_ORDER: ["PAXG", "SUI", "ETH", "LINK", "BTC", "XRP", "SOL", "NEAR"]
   };
@@ -738,19 +744,37 @@ async function rankFreePairsByLatentForce({
 }
 
 /**
- * NEXUS APEX-36 // PLAN C LEY DE HIERRO ("O +$0.10 USDC NETO O EXPRIMIDO CON CANDADO SIN TECHO"):
- * CERO TAKE PROFIT FIJO + ESCALERA DE CANDADOS NETOS (FEE-AWARE RATCHET #00 EN +$0.10 USDC)
- * + TRAILING RATCHET (80% A 90% DEL HIGH-WATER MARK)
- * + EVACUACIÓN A LOS 180 SEGUNDOS (+$0.10 USDC POST-ONLY MAKER)
+ * NUEVA LEY DE CANDADO DE ACORRALAMIENTO (`CORNERING_RATCHET_00`: MEDIO DÓLAR ESTRICTO + ESCALONES DE +$0.10):
+ * Escalera Exacta en Dólares Netos (`netUnrealizedPnlUsdc`, ya descontando la comisión real de cierre de Hyperliquid L1):
+ * - Fase 1 (Escalado Inicial +$0.10 a +$0.49 USDC netos):
+ *   * Al tocar +$0.10 USDC netos ➔ Clava el Candado #00 en +$0.10 USDC (Riesgo $0.00).
+ *   * Al tocar +$0.20 USDC netos ➔ Sube el Candado #00 a +$0.15 USDC.
+ *   * Al tocar +$0.30 USDC netos ➔ Sube el Candado #00 a +$0.25 USDC.
+ *   * Al tocar +$0.40 USDC netos ➔ Sube el Candado #00 a +$0.35 USDC.
+ * - Fase 2 (Acorralamiento Estricto de +$0.10 en +$0.10 desde Medio Dólar >= +$0.50 USDC netos):
+ *   * En el milisegundo exacto en que toca +$0.50 USDC netos ➔ Candado Estricto en +$0.50 USDC netos.
+ *   * De +$0.50 USDC hacia arriba (Sin Take Profit fijo — Escalera de 10 en 10 centavos):
+ *     lockedProfitUsdc = Math.floor(peakNetPnlUsdc * 10) / 10
+ *     (+$0.50 -> +$0.50; +$0.60 -> +$0.60; +$0.70 -> +$0.70; +$1.20 -> +$1.20; +$2.80 -> +$2.80)
  */
+function computeCorneringRatchetStep(peakNetPnlUsdc) {
+  const peak = Number(peakNetPnlUsdc || 0);
+  if (peak >= CORNERING_HALF_DOLLAR_USDC) {
+    return +(Math.floor((peak + 1e-9) * 10) / 10).toFixed(2);
+  }
+  if (peak >= 0.40) return 0.35;
+  if (peak >= 0.30) return 0.25;
+  if (peak >= 0.20) return 0.15;
+  if (peak >= 0.10) return 0.10;
+  return 0;
+}
+
 function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMeta = {}, openTs = Date.now(), isRecoveryMode = false) {
   const absSz = Math.abs(szNum);
   const isShort = szNum < 0;
   const notional = absSz * entryPx;
   const isExpressPriorityCoin = PRIORITY_EVAC_TARGETS.includes(coin);
-  const targetLevel1NetUsd = isExpressPriorityCoin
-    ? EXPRESS_EVAC_NET_USDC
-    : (!isRecoveryMode ? FAST_LANE_LOCK_NET_USDC : LEVEL1_NET_LOCK_USDC);
+  const targetLevel1NetUsd = LEVEL1_NET_LOCK_USDC; // +$0.10 USDC netos
 
   // Comisiones reales Hyperliquid L1: 0.015% Maker / 0.045% Taker
   const makerRoundTripFeeUsd = +(notional * (HL_MAKER_FEE_RATE * 2)).toFixed(4);
@@ -760,79 +784,89 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     ? (isShort ? ((entryPx - currentMid) / entryPx) * 100 : ((currentMid - entryPx) / entryPx) * 100)
     : 0;
   const grossMoveUsd = absSz * (isShort ? (entryPx - currentMid) : (currentMid - entryPx));
-  const netAfterFeesUsd = +(grossMoveUsd - realRoundTripFeeUsd).toFixed(4);
+  const effectiveGrossUsd = Math.max(grossMoveUsd, Number(uPnlNum || -999));
+  const netAfterFeesUsd = +(effectiveGrossUsd - realRoundTripFeeUsd).toFixed(4);
 
-  // Precio exacto de Candado Nivel 1:
-  // - Para PAXG, SUI, ETH y LINK: Breakeven Neto Exacto (entryPx ± 0.035%, +$0.02 USDC libres de comisión)
-  // - Para Carriles Rápidos #9 y #10: Entrada + Comisión + $0.08 USDC
-  const deltaPxLevel1 = isExpressPriorityCoin
-    ? (entryPx * EXPRESS_EVAC_DELTA_RATIO)
-    : (absSz > 0 ? ((realRoundTripFeeUsd + targetLevel1NetUsd) / absSz) : 0);
+  // Precio base de Candado Nivel 1 (+$0.10 USDC netos):
+  const deltaPxLevel1 = absSz > 0 ? ((realRoundTripFeeUsd + targetLevel1NetUsd) / absSz) : 0;
   const level1LockPx = isShort ? (entryPx - deltaPxLevel1) : (entryPx + deltaPxLevel1);
 
-  // Precio exacto de Time-Stop de Empate 180s (Carriles #9 y #10) / Evacuación Express: entryPx ± 0.035% (+$0.02 USDC libres de comisión)
-  const deltaPxEvac = (isExpressPriorityCoin || !isRecoveryMode)
-    ? (entryPx * EXPRESS_EVAC_DELTA_RATIO)
-    : (absSz > 0 ? ((makerRoundTripFeeUsd + CLEAN_EVAC_NET_USDC) / absSz) : 0);
+  // Precio de Evacuación Rápida (PAXG, SUI, ETH, LINK o Time-Stop 180s): empate positivo limpio (+$0.05 a +$0.10 USDC netos)
+  const evacTargetNetUsd = isExpressPriorityCoin ? EXPRESS_EVAC_NET_USDC : CLEAN_EVAC_NET_USDC;
+  const deltaPxEvac = absSz > 0
+    ? ((makerRoundTripFeeUsd + evacTargetNetUsd) / absSz)
+    : (entryPx * EXPRESS_EVAC_DELTA_RATIO);
   const cleanEvacMakerPx = isShort ? (entryPx - deltaPxEvac) : (entryPx + deltaPxEvac);
 
   posMeta.peakGainPct = Math.max(posMeta.peakGainPct || 0, gainPct);
   posMeta.peakNetUsd = Math.max(posMeta.peakNetUsd ?? -999, netAfterFeesUsd);
 
-  // 1) CANDADO NIVEL 1 — LIGEREZA NETA REAL (🟢 LIGERO, $0.00 riesgo)
-  if (!posMeta.beLocked && (netAfterFeesUsd >= targetLevel1NetUsd || (!isShort && currentMid >= level1LockPx) || (isShort && currentMid <= level1LockPx))) {
+  // ESCALERA EXACTA EN DÓLARES NETOS (`CORNERING_RATCHET_00`: Fase 1 +$0.10..+$0.35 ➔ Fase 2 >=+$0.50 de +$0.10 en +$0.10)
+  const corneredStepUsd = computeCorneringRatchetStep(posMeta.peakNetUsd);
+  if (corneredStepUsd >= 0.10) {
+    const prevLockedNet = posMeta.lockedNetUsd || 0;
+    const lockedProfitUsdc = Math.max(prevLockedNet, corneredStepUsd);
     posMeta.beLocked = true;
     posMeta.isLight = true;
-    posMeta.ratchetLevel = Math.max(posMeta.ratchetLevel || 0, 1);
-    posMeta.lockedNetUsd = Math.max(posMeta.lockedNetUsd || 0, targetLevel1NetUsd);
-    posMeta.lockedPx = level1LockPx;
     posMeta.cleanEvacActive = false;
-  }
+    posMeta.ratchetLevel = posMeta.peakNetUsd >= CORNERING_HALF_DOLLAR_USDC ? 2 : 1;
+    posMeta.lockedNetUsd = lockedProfitUsdc;
 
-  // 2) CANDADO NIVEL 2 — TRAILING RATCHET SIN TECHO (80% AL 90% DEL HIGH-WATER MARK)
-  const peakPct = posMeta.peakGainPct || 0;
-  if (peakPct >= RATCHET_TIER_1_MIN_PCT && posMeta.peakNetUsd > targetLevel1NetUsd) {
-    posMeta.beLocked = true;
-    posMeta.isLight = true;
-    posMeta.ratchetLevel = 2;
-    let retentionRatio = 0.80; // +0.10% a +0.25% -> 80% High-Water Mark
-    if (peakPct > RATCHET_TIER_3_MIN_PCT) {
-      retentionRatio = 0.90;   // > +0.80% -> 90% High-Water Mark
-    } else if (peakPct >= RATCHET_TIER_2_MIN_PCT) {
-      retentionRatio = 0.85;   // +0.25% a +0.80% -> 85% High-Water Mark
-    }
-    posMeta.retentionRatio = retentionRatio;
-    const targetLockedNet = Math.max(targetLevel1NetUsd, +(posMeta.peakNetUsd * retentionRatio).toFixed(4));
-    if (targetLockedNet >= (posMeta.lockedNetUsd || 0)) {
-      posMeta.lockedNetUsd = targetLockedNet;
-      const deltaRatchetPx = absSz > 0 ? ((realRoundTripFeeUsd + targetLockedNet) / absSz) : 0;
-      posMeta.lockedPx = isShort ? (entryPx - deltaRatchetPx) : (entryPx + deltaRatchetPx);
+    const deltaLockedPx = absSz > 0 ? ((realRoundTripFeeUsd + lockedProfitUsdc) / absSz) : 0;
+    posMeta.lockedPx = isShort ? (entryPx - deltaLockedPx) : (entryPx + deltaLockedPx);
+
+    // Precio de orden de protección / gatillo con $0.02 USDC de margen de respiro sobre el último escalón conquistado
+    const triggerBufferNetUsd = lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC
+      ? +(lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC).toFixed(4)
+      : lockedProfitUsdc;
+    const deltaTriggerPx = absSz > 0 ? ((realRoundTripFeeUsd + triggerBufferNetUsd) / absSz) : 0;
+    posMeta.ratchetTriggerPx = isShort ? (entryPx - deltaTriggerPx) : (entryPx + deltaTriggerPx);
+
+    if (lockedProfitUsdc > prevLockedNet) {
+      console.log(`🔒⚡ [CORNERING RATCHET #00 // ${coin}] Nuevo escalón conquistado: +$${lockedProfitUsdc.toFixed(2)} USDC netos (Pico: +$${posMeta.peakNetUsd.toFixed(2)} USDC | LockPx: $${formatHlPrice(posMeta.lockedPx, coin)})`);
     }
   }
 
-  // 3) LEY 2 — PROTOCOLO DE TIME-STOP DE EMPATE A LOS 180 SEGUNDOS (entryPx ± 0.035% POST-ONLY MAKER)
+  // PROTOCOLO DE TIME-STOP DE EMPATE A LOS 180 SEGUNDOS (Post-Only Maker en empate positivo limpio)
   const elapsedMs = Math.max(0, Date.now() - (openTs || Date.now()));
-  if (!posMeta.beLocked && (posMeta.ratchetLevel || 0) < 2 && (elapsedMs >= CLEAN_EVAC_TIMEOUT_MS || isRecoveryMode)) {
+  if (!posMeta.beLocked && (elapsedMs >= CLEAN_EVAC_TIMEOUT_MS || isRecoveryMode)) {
     posMeta.cleanEvacActive = true;
   }
 
-  // Determinar si el precio retrocedió y tocó el Candado Positivo (Prohibido cerrar en rojo: NO_RED_EXIT = true)
-  const hitRatchetStop = Boolean(
-    posMeta.beLocked &&
-    posMeta.lockedPx &&
-    netAfterFeesUsd >= targetLevel1NetUsd &&
-    ((!isShort && currentMid <= posMeta.lockedPx) || (isShort && currentMid >= posMeta.lockedPx))
-  );
+  // Determinar si el precio retrocedió y tocó el candado acorralado (dando $0.02 USDC de margen de respiro sobre el último escalón de $0.10):
+  let hitRatchetStop = false;
+  if (posMeta.beLocked && posMeta.lockedNetUsd >= 0.10) {
+    const lockedProfitUsdc = posMeta.lockedNetUsd;
+    if (lockedProfitUsdc >= CORNERING_HALF_DOLLAR_USDC) {
+      // Fase 2 (>= +$0.50 USDC): Prohibido cobrar menos del escalón conquistado (+$0.50, +$0.60, +$0.70, $1, $2, $3+)
+      const steppedAboveBuffer = posMeta.peakNetUsd >= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC);
+      if (steppedAboveBuffer && netAfterFeesUsd <= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC)) {
+        hitRatchetStop = true;
+      } else if (netAfterFeesUsd <= lockedProfitUsdc && posMeta.peakNetUsd > netAfterFeesUsd) {
+        hitRatchetStop = true;
+      }
+    } else if (lockedProfitUsdc >= 0.15) {
+      // Escalones +$0.15 (en +$0.20), +$0.25 (en +$0.30), +$0.35 (en +$0.40)
+      if (netAfterFeesUsd <= (lockedProfitUsdc + CORNERING_BREATH_BUFFER_USDC)) {
+        hitRatchetStop = true;
+      }
+    } else {
+      // Escalón inicial +$0.10 USDC
+      if (posMeta.peakNetUsd >= (0.10 + CORNERING_BREATH_BUFFER_USDC) && netAfterFeesUsd <= 0.10) {
+        hitRatchetStop = true;
+      }
+    }
+  }
 
   // Etiqueta oficial de telemetría para /squad-matrix/
-  let ratchetStatusLabel = `🔓 BUSCANDO CANDADO NETO +$${targetLevel1NetUsd.toFixed(2)}`;
+  let ratchetStatusLabel = `🔓 ESCALERA +$0.10 ➔ +$0.50+`;
   if (posMeta.beLocked) {
-    const lockedDisp = Math.max(targetLevel1NetUsd, posMeta.lockedNetUsd || targetLevel1NetUsd).toFixed(2);
-    ratchetStatusLabel = `🔒 CANDADO ACTIVO +$${lockedDisp} | EXPRIMIENDO OLA 🌊`;
+    const lockedDisp = Math.max(0.10, posMeta.lockedNetUsd || 0.10).toFixed(2);
+    ratchetStatusLabel = `🔒 CANDADO +$${lockedDisp}`;
   } else if (posMeta.cleanEvacActive) {
     ratchetStatusLabel = isExpressPriorityCoin
-      ? "🎯 SALIDA EXPRESS BE +0.035% (+$0.02 NETO)"
-      : "🎯 TIME-STOP EMPATE 180S (+0.035% MAKER)";
+      ? `🎯 SALIDA LISTA (+$${EXPRESS_EVAC_NET_USDC.toFixed(2)} NETO)`
+      : "🎯 TIME-STOP 180S (+$0.10 MAKER)";
   }
 
   return {
@@ -851,6 +885,7 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     retentionRatio: posMeta.retentionRatio || 0,
     lockedNetUsd: posMeta.lockedNetUsd || 0,
     lockedPx: posMeta.lockedPx || level1LockPx,
+    ratchetTriggerPx: posMeta.ratchetTriggerPx || posMeta.lockedPx || level1LockPx,
     cleanEvacActive: Boolean(posMeta.cleanEvacActive),
     hitRatchetStop,
     ratchetStatusLabel
@@ -1581,6 +1616,7 @@ async function startAutonomousSquadDaemon() {
               saveTelegramTradeAlertsState(tgState);
 
               const dispClosedCoin = closedCoin === "kPEPE" ? "PEPE" : closedCoin;
+              const conqueredStepUsdc = Math.max(0.10, Number(prevInfo.lockedNetUsd || computeCorneringRatchetStep(netGain) || 0.10));
               const step1Line = step1ProgressUsdc >= step1GoalUsdc
                 ? `✅ <b>META CUMPLIDA: +$52.00 / +$52.00 USDC</b> | 🔥 <b>EXTRA: +$${step1ExtraUsdc.toFixed(2)} USDC</b>`
                 : `<b>+$${step1ProgressUsdc.toFixed(2)} / +$52.00 USDC</b> (Faltan $${step1RemainingUsdc.toFixed(2)} | Extra: +$0.00)`;
@@ -1590,11 +1626,12 @@ async function startAutonomousSquadDaemon() {
                 `🔰 <b>Escuadrón:</b> <b>${squadCfg.name}</b> (${squadCfg.specialist})\n` +
                 `📍 <b>Par:</b> <code>${dispClosedCoin}-USDC</code> (<b>${prevInfo.isShort ? "🐻 SHORT" : "🐂 LONG"}</b>)\n` +
                 `📥 <b>Entrada ➔ Salida:</b> <code>$${formatHlPrice(prevInfo.entryPx || 0, closedCoin)}</code> ➔ <code>$${exitPxStr}</code>\n` +
+                `🔒 <b>Escalón Acorralado #00:</b> <b>+$${conqueredStepUsdc.toFixed(2)} USDC</b>\n` +
                 `💰 <b>GANANCIA NETA (Libre de Comisión):</b> <b>+$${netGain.toFixed(4)} USDC</b>\n` +
                 `🏆 <b>Marcador Diario (00:00 UTC):</b> <b>${todayWinsCount}G - 0P (+$${dailyClosedProfitTodayUsdc.toFixed(2)} USDC)</b>\n` +
                 `📈 <b>Escalón 1 (30–31 Oct):</b> ${step1Line}\n` +
                 `🏛️ <b>Saldo Cerrado Firme L1:</b> <b>$${closedFirmNow.toFixed(2)} USDC</b> (Equity Viva: <code>$${accountValue.toFixed(2)} USDC</code>)\n` +
-                `🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>RESPIRO 08:00 (RECALIBRANDO ${dispClosedCoin})</code>\n` +
+                `🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO ${dispClosedCoin})</code>\n` +
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                 `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver Recibo en Hypurrscan (Sin conectar Wallet)</a>`;
               await sendSquadTelegram(victoryTg);
@@ -1898,7 +1935,7 @@ async function startAutonomousSquadDaemon() {
               `📍 <b>Par:</b> <code>${dispLockCoin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${Math.abs(szNum)})\n` +
               `📥 <b>Precio Entrada:</b> <code>$${formatHlPrice(entryPx, coin)}</code> ➔ <b>Actual:</b> <code>$${formatHlPrice(currentMid, coin)}</code>\n` +
               `🔒 <b>Candado #00 Asegurado:</b> <code>$${formatHlPrice(ratchet.lockedPx, coin)}</code> (<b>+$${Math.max(0.10, ratchet.lockedNetUsd).toFixed(2)} USDC Netos · $0.00 Riesgo</b>)\n` +
-              `🌊 <b>Estado Motor:</b> <code>🟢 LIGERO — Exprimiendo la fuerza institucional sin TP fijo (Ratchet 80%-90%)</code>\n` +
+              `🌊 <b>Escalera Acorralamiento #00:</b> <code>+$0.10 ➔ +$0.50 Estricto ➔ +$0.60 / +$0.70 / $1 / $2 / $3+ (10c en 10c)</code>\n` +
               `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
               `🌐 <a href="https://hypurrscan.io/address/${VAULT_501}">Ver en Hypurrscan (Sin conectar Wallet)</a>`;
             await sendSquadTelegram(lockTg);
@@ -1911,44 +1948,23 @@ async function startAutonomousSquadDaemon() {
         const totalSzStr = formatHlSize(absSz, ASSET_DECIMALS[coin].sz);
 
         // =========================================================================
-        // A) POSICIONES EN COLA DE EXTRACCIÓN #00 + EVACUACIÓN ULTRA-RÁPIDA EN PAXG, SUI, ETH Y LINK (entryPx ± 0.035% = +$0.02 USDC NETOS)
+        // A) POSICIONES EN COLA DE EXTRACCIÓN #00 + EVACUACIÓN RÁPIDA EN PAXG, SUI, ETH Y LINK (+$0.05 A +$0.10 USDC NETOS O CANDADO #00)
         // =========================================================================
         if (isStuckRecoveryPos) {
-          // 1. EVACUACIÓN ULTRA-RÁPIDA DE PAXG (-$0.49), SUI (-$2.93), ETH (-$3.90) Y LINK EN BREAKEVEN NETO EXACTO (entryPx ± 0.035%, +$0.02 USDC LIBRES DE COMISIÓN)
+          // 1. EVACUACIÓN RÁPIDA DE PAXG, SUI, ETH Y LINK: Reduce-Only ALO a empate positivo limpio (+$0.05 a +$0.10 USDC netos) o enganche al Candado #00 apenas crucen +$0.10
           if (tier1Set.has(coin)) {
             const isExpressEvacCoin = PRIORITY_EVAC_TARGETS.includes(coin);
-            const minTriggerNetUsd = isExpressEvacCoin ? EXPRESS_EVAC_NET_USDC : LEVEL1_NET_LOCK_USDC;
-            posMeta.ratchetStatusLabel = isExpressEvacCoin
-              ? `🎯 SALIDA EXPRESS (${coin}) · BE NETO +0.035% (+$0.02 USDC)`
-              : `1º BLOQUE CERCANO (${coin}) · SALIDA NETA +$0.10`;
+            posMeta.ratchetStatusLabel = ratchet.beLocked
+              ? `🔒 CANDADO +$${ratchet.lockedNetUsd.toFixed(2)}`
+              : (isExpressEvacCoin
+                  ? `🎯 SALIDA LISTA (${coin} · +$0.05 A +$0.10 NETO)`
+                  : `1º BLOQUE CERCANO (${coin}) · SALIDA NETA +$0.10`);
 
-            if (ratchet.beLocked && ratchet.netAfterFeesUsd >= minTriggerNetUsd) {
-              // Verificar presión en L2 a su favor: si L2 >= 72% y NO ha tocado el trinquete, exprimir la vela con Candado #00 clavado;
-              // si la presión L2 a su favor es < 72%, cobrar de inmediato a USDC para liberar margen!
-              let squeezeL2Active = false;
-              let favPressPct = 50;
-              if (!ratchet.hitRatchetStop) {
-                try {
-                  const l2Check = await info.l2Book({ coin });
-                  const bLv = l2Check?.levels?.[0] || [], aLv = l2Check?.levels?.[1] || [];
-                  let bV = 0, aV = 0;
-                  for (let i = 0; i < 5; i++) {
-                    bV += parseFloat(bLv[i]?.px || 0) * parseFloat(bLv[i]?.sz || 0);
-                    aV += parseFloat(aLv[i]?.px || 0) * parseFloat(aLv[i]?.sz || 0);
-                  }
-                  favPressPct = (bV + aV) > 0 ? ((isShort ? aV : bV) / (bV + aV)) * 100 : 50;
-                  if (favPressPct >= 72.0) {
-                    squeezeL2Active = true;
-                    posMeta.ratchetStatusLabel = `🌊 EXPRIMIENDO VELA #00 (${coin} · L2 ${favPressPct.toFixed(1)}% >= 72% · CANDADO +$${ratchet.lockedNetUsd.toFixed(2)})`;
-                    if (existingExitOrder) {
-                      await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
-                    }
-                  }
-                } catch (_) {}
-              }
-
-              if (!squeezeL2Active && (ratchet.hitRatchetStop || ratchet.netAfterFeesUsd >= minTriggerNetUsd)) {
-                console.log(`💰🔒 [EVACUACIÓN ULTRA-RÁPIDA EN VERDE] ${coin} alcanzó +$${ratchet.netAfterFeesUsd.toFixed(4)} USDC netos (L2 ${favPressPct.toFixed(1)}% < 72%) -> Cobrando inmediato a USDC para desocupar la fila!`);
+            if (ratchet.beLocked) {
+              // Apenas cruza +$0.10 USDC netos queda enganchada al Candado de Acorralamiento #00:
+              // Si toca el candado acorralado (hitRatchetStop), cobra de inmediato a USDC!
+              if (ratchet.hitRatchetStop) {
+                console.log(`💰🔒 [CANDADO ACORRALAMIENTO #00 // EVACUACIÓN] ${coin} tocó candado acorralado (+$${ratchet.lockedNetUsd.toFixed(2)} USDC | Neto: +$${ratchet.netAfterFeesUsd.toFixed(4)}) -> Cobrando inmediato a USDC!`);
                 if (existingExitOrder) {
                   await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
                 }
@@ -1966,13 +1982,51 @@ async function startAutonomousSquadDaemon() {
                 }).catch(() => {});
                 continue;
               }
-              if (squeezeL2Active) continue;
+
+              // Si está en Fase 1 (+$0.10 a +$0.49) y L2 < 72%, evacuar en verde de inmediato para liberar margen rápido
+              if (isExpressEvacCoin && ratchet.lockedNetUsd < CORNERING_HALF_DOLLAR_USDC) {
+                let favPressPct = 50;
+                try {
+                  const l2Check = await info.l2Book({ coin });
+                  const bLv = l2Check?.levels?.[0] || [], aLv = l2Check?.levels?.[1] || [];
+                  let bV = 0, aV = 0;
+                  for (let i = 0; i < 5; i++) {
+                    bV += parseFloat(bLv[i]?.px || 0) * parseFloat(bLv[i]?.sz || 0);
+                    aV += parseFloat(aLv[i]?.px || 0) * parseFloat(aLv[i]?.sz || 0);
+                  }
+                  favPressPct = (bV + aV) > 0 ? ((isShort ? aV : bV) / (bV + aV)) * 100 : 50;
+                } catch (_) {}
+
+                if (favPressPct < 72.0) {
+                  console.log(`💰🔒 [EVACUACIÓN RÁPIDA EN VERDE] ${coin} cruzó +$0.10 (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC | L2 ${favPressPct.toFixed(1)}% < 72%) -> Cobrando inmediato a USDC para liberar margen!`);
+                  if (existingExitOrder) {
+                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+                  }
+                  const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
+                  await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isShort,
+                      p: formatHlPrice(closePx, coin),
+                      s: totalSzStr,
+                      r: true,
+                      t: { limit: { tif: "Ioc" } }
+                    }],
+                    grouping: "na"
+                  }).catch(() => {});
+                  continue;
+                }
+              }
+
+              // Si la vela sigue empujando con fuerza hacia arriba, quitar límite fijo inferior para que escale de +$0.10 en +$0.10 (+$0.50, +$0.60, +$0.70, $1, $2, $3+)
+              if (existingExitOrder) {
+                await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
+              }
+              continue;
             }
 
-            // Para PAXG, SUI, ETH y LINK: orden Reduce-Only ALO exacta en entryPx ± 0.035% (+$0.02 USDC libres de comisión)
-            const expressBePx = isExpressEvacCoin
-              ? (isShort ? (entryPx * (1 - EXPRESS_EVAC_DELTA_RATIO)) : (entryPx * (1 + EXPRESS_EVAC_DELTA_RATIO)))
-              : ratchet.level1LockPx;
+            // Antes de cruzar +$0.10: mantener Reduce-Only ALO en empate positivo limpio (+$0.05 a +$0.10 USDC netos)
+            const expressBePx = isExpressEvacCoin ? ratchet.cleanEvacMakerPx : ratchet.level1LockPx;
             const targetLockPxStr = formatHlPrice(expressBePx, coin);
             const existingOrderPxStr = existingExitOrder ? formatHlPrice(parseFloat(existingExitOrder.limitPx || "0"), coin) : null;
 
@@ -1980,7 +2034,7 @@ async function startAutonomousSquadDaemon() {
               if (existingExitOrder) {
                 await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
               }
-              console.log(`🎯 [SALIDA EXPRESS BE +0.035%] ${coin}: Reduce-Only ALO armado en $${targetLockPxStr} (+$0.02 USDC libres de comisión)`);
+              console.log(`🎯 [SALIDA LIMPIA +$0.05..+$0.10] ${coin}: Reduce-Only ALO armado en $${targetLockPxStr}`);
               const alores = await client.order({
                 orders: [{
                   a: ASSET_INDICES[coin],
@@ -2306,11 +2360,14 @@ async function startAutonomousSquadDaemon() {
         }
 
         // =========================================================================
-        // B) REGLA DE VELOCIDAD EN CARRILES RÁPIDOS #9 Y #10 ("CANDADO #00 EN +$0.08 USDC NETOS + TIME-STOP DE EMPATE DE 180S"):
+        // B) NUEVA LEY DE CANDADO DE ACORRALAMIENTO (`CORNERING_RATCHET_00`) EN CARRILES RÁPIDOS #9 Y #10:
+        //    - Fase 1 (+$0.10 -> +$0.10 | +$0.20 -> +$0.15 | +$0.30 -> +$0.25 | +$0.40 -> +$0.35)
+        //    - Fase 2 (>= +$0.50 USDC -> lockedProfitUsdc = Math.floor(peakNetPnlUsdc * 10) / 10: +$0.50, +$0.60, +$0.70, $1, $2, $3+)
         // =========================================================================
-        // 1. Si el Candado Nivel 1 (+$0.08 USDC) o Nivel 2 (80% al 90% High-Water Mark) está activo y el precio retrocede tocando el candado:
-        if (ratchet.beLocked && ratchet.hitRatchetStop && NO_RED_EXIT && ratchet.netAfterFeesUsd >= FAST_LANE_LOCK_NET_USDC) {
-          console.log(`💰🌊 [CARRIL RÁPIDO // CANDADO #00 NIVEL ${ratchet.ratchetLevel}] ${coin} tocó candado (+$${ratchet.netAfterFeesUsd.toFixed(4)} USDC netos) -> Cobrando ola en verde hacia el Día 1 (+$9.17 / +$52.00)!`);
+        // 1. Apenas el precio retroceda y toque ese candado acorralado (dando $0.02 USDC de respiro sobre el último escalón),
+        //    cobra inmediatamente a USDC (`tif: "Ioc", r: true`), dispara `🏁💵 [OPERACIÓN CERRADA EN VERDE]` y envía al bot a 🧘‍♂️ RESPIRO 08:00:
+        if (ratchet.beLocked && ratchet.hitRatchetStop && NO_RED_EXIT) {
+          console.log(`💰🔒 [CANDADO ACORRALAMIENTO #00 COBRADO] ${coin} tocó escalón acorralado (+$${ratchet.lockedNetUsd.toFixed(2)} USDC | Neto: +$${ratchet.netAfterFeesUsd.toFixed(4)} USDC) -> Cobrando inmediato a USDC y activando 🧘‍♂️ RESPIRO 08:00!`);
           if (existingExitOrder) {
             await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
           }
@@ -2329,53 +2386,24 @@ async function startAutonomousSquadDaemon() {
           continue;
         }
 
-        // 2. Si el Candado #00 ya está clavado en +$0.08 USDC (🟢 LIGERO, $0.00 riesgo) y la presión L2 es < 72%, cobrar inmediato a USDC para rotar rápido; si L2 >= 72%, exprimir la ola:
-        if (ratchet.beLocked && ratchet.netAfterFeesUsd >= FAST_LANE_LOCK_NET_USDC) {
-          let fastLaneFavPct = 50;
-          try {
-            const l2Fast = await info.l2Book({ coin });
-            const bF = l2Fast?.levels?.[0] || [], aF = l2Fast?.levels?.[1] || [];
-            let bVF = 0, aVF = 0;
-            for (let i = 0; i < 5; i++) {
-              bVF += parseFloat(bF[i]?.px || 0) * parseFloat(bF[i]?.sz || 0);
-              aVF += parseFloat(aF[i]?.px || 0) * parseFloat(aF[i]?.sz || 0);
-            }
-            fastLaneFavPct = (bVF + aVF) > 0 ? ((isShort ? aVF : bVF) / (bVF + aVF)) * 100 : 50;
-          } catch (_) {}
-
-          if (fastLaneFavPct < 72.0) {
-            console.log(`💰⚡ [CARRIL RÁPIDO // COBRO INMEDIATO +$0.08] ${coin} aseguró +$${ratchet.netAfterFeesUsd.toFixed(4)} USDC netos (L2 ${fastLaneFavPct.toFixed(1)}% < 72%) -> Cobrando inmediato para sumar al Día 1 y liberar carril!`);
-            if (existingExitOrder) {
-              await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
-            }
-            const closePx = isShort ? currentMid * 1.0004 : currentMid * 0.9996;
-            await client.order({
-              orders: [{
-                a: ASSET_INDICES[coin],
-                b: isShort,
-                p: formatHlPrice(closePx, coin),
-                s: totalSzStr,
-                r: true,
-                t: { limit: { tif: "Ioc" } }
-              }],
-              grouping: "na"
-            }).catch(() => {});
-            continue;
-          } else if (existingExitOrder) {
+        // 2. Mientras el Candado de Acorralamiento #00 está activo y la vela sigue subiendo (+$0.10 ➔ +$0.50 ➔ +$0.60 ➔ $1 ➔ $2 ➔ $3+):
+        //    Sin Take Profit fijo: cancelamos cualquier límite de salida fijo inferior para dejar correr la escalera de 10 en 10 centavos:
+        if (ratchet.beLocked && !ratchet.hitRatchetStop) {
+          if (existingExitOrder) {
             await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
-            console.log(`🌊🔓 [CARRIL RÁPIDO // ${coin}] Candado #00 Activo (+$${ratchet.lockedNetUsd.toFixed(2)}) con L2 ${fastLaneFavPct.toFixed(1)}% >= 72% -> Exprimiendo la ola sin techo.`);
-            continue;
+            console.log(`🌊🔒 [ESCALERA ACORRALAMIENTO #00 // ${coin}] Escalón +$${ratchet.lockedNetUsd.toFixed(2)} asegurado (Pico: +$${(posMeta.peakNetUsd || 0).toFixed(2)}) -> Sin TP fijo, escalando de +$0.10 en +$0.10.`);
           }
+          continue;
         }
 
-        // 3. Time-Stop de Empate de 180 segundos: ajusta su salida Post-Only Maker a Breakeven Neto Exacto (entryPx ± 0.035%, +$0.02 USDC) para salir en el primer toque y nunca quedarse estancada:
+        // 3. Time-Stop de Empate Positivo Limpio de 180 segundos (+$0.10 USDC netos Post-Only Maker) si aún no ha clavado Candado #00:
         if (!ratchet.beLocked && ratchet.cleanEvacActive) {
           const evacPxStr = formatHlPrice(ratchet.cleanEvacMakerPx, coin);
           if (!existingExitOrder || posMeta.evacOrderPlacedPx !== evacPxStr) {
             if (existingExitOrder) {
               await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingExitOrder.oid }] }).catch(() => {});
             }
-            console.log(`🎯 [CARRIL RÁPIDO // TIME-STOP EMPATE 180S] ${coin} cumplió 180s -> Salida Breakeven Neto Exacto (+0.035% / +$0.02 USDC) @ $${evacPxStr}`);
+            console.log(`🎯 [CARRIL RÁPIDO // TIME-STOP 180S] ${coin} cumplió 180s -> Salida Empate Positivo Limpio (+$0.10 USDC) @ $${evacPxStr}`);
             await client.order({
               orders: [{
                 a: ASSET_INDICES[coin],
