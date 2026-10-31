@@ -3808,31 +3808,31 @@ export default {
             });
             const openCoins = openPositions.map(p => (p.position || p).coin);
 
-            const STRICT_RECOVERY_LOCK = false;
+            const STRICT_RECOVERY_LOCK = openPositions.length >= 6;
             const IMMEDIATE_SNOWBALL_START = true;
             const NO_RED_EXIT = true;
-            const MAX_OPEN_POSITIONS = 15;
-            const FAST_SCALP_LANES = 11;
-            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 15;
-            const MAX_UNFENCED_POSITIONS = 3;
+            const MAX_OPEN_POSITIONS = 6;
+            const FAST_SCALP_LANES = 6;
+            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 6;
+            const MAX_UNFENCED_POSITIONS = 6;
             const FAST_LANE_LOCK_NET_USDC = 0.10;
             const CORNERING_HALF_DOLLAR_USDC = 0.50;
-            const CORNERING_BREATH_BUFFER_USDC = 0.02;
+            const CORNERING_BREATH_BUFFER_USDC = 0.01;
             const EXPRESS_EVAC_DELTA_RATIO = 0.00040;
             const EXPRESS_EVAC_NET_USDC = 0.10;
             const POST_TRADE_COOLDOWN_MS = 2 * 60 * 1000;
-            const HL_ROUNDTRIP_FEE_RATE = 0.00045; // Real roundtrip fee rate L1 (0.015% Maker entry + hybrid/Maker exit)
+            const HL_ROUNDTRIP_FEE_RATE = 0.00090; // Real roundtrip Taker fee rate L1 (0.045% entry + 0.045% exit)
             const DAILY_TARGET_NET_USDC = 100.00;
             const priorityEvacSet = new Set(["PAXG", "SUI", "kPEPE", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"]);
-            // ESCALERA DE CANDADOS EXACTA 1:1 NETA (`+$0.10 ➔ +$0.20 ➔ +$0.30 ➔ +$0.40 ➔ +$0.50+` NETOS)
+            // ESCALERA DE CANDADOS EXACTA 1:1 NETA (`🔒 +$0.10 ➔ +$0.15 ➔ +$0.20 ➔ +$0.30 ➔ +$0.40 ➔ +$0.50+` NETOS)
             const computeCorneringStepCloud = (peakNetPnlUsdc) => {
               const peak = Number(peakNetPnlUsdc || 0);
-              if (peak >= 0.52) return +(Math.floor(((peak - 0.01) + 1e-9) * 10) / 10).toFixed(2);
-              if (peak >= 0.42) return 0.40;
-              if (peak >= 0.32) return 0.30;
-              if (peak >= 0.22) return 0.20;
+              if (peak >= 0.52) return +(Math.floor(((peak - 0.02) + 1e-9) * 10) / 10).toFixed(2);
+              if (peak >= 0.43) return 0.40;
+              if (peak >= 0.33) return 0.30;
+              if (peak >= 0.23) return 0.20;
+              if (peak >= 0.17) return 0.15;
               if (peak >= 0.12) return 0.10;
-              if (peak >= 0.02) return 0.01;
               return 0;
             };
 
@@ -3902,15 +3902,15 @@ export default {
                 const memKey = `${coin}_${entryPx.toFixed(6)}`;
                 let prevPeak = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.peakPnl ?? -999;
                 let prevLocked = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.lockedFloor ?? 0;
-                if (prevPeak > 25.0 || prevLocked > 25.0 || netAfterFee < -0.35) {
+                if (prevPeak > 25.0 || prevLocked > 25.0 || netAfterFee < 0) {
                   prevPeak = netAfterFee;
                   prevLocked = 0;
                 }
                 const prevTriggerOid = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerOid || null;
                 const prevTriggerFloor = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerFloor || 0;
                 const peakPnl = Math.max(prevPeak, netAfterFee);
-                const validPrevLocked = prevLocked >= 0.01 ? prevLocked : 0;
-                const lockedProfitUsdc = netAfterFee < -0.35 ? 0 : Math.max(validPrevLocked, computeCorneringStepCloud(peakPnl));
+                const validPrevLocked = prevLocked >= 0.10 ? prevLocked : 0;
+                const lockedProfitUsdc = netAfterFee < 0.10 ? 0 : Math.max(validPrevLocked, computeCorneringStepCloud(peakPnl));
                 globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = {
                   peakPnl,
                   lockedFloor: lockedProfitUsdc,
@@ -3974,8 +3974,8 @@ export default {
                   }
                 }
 
-                // Gatillo Anti-Escape 1:1 Neto: se activa cuando lockedProfitUsdc >= 0.01 y netAfterFee <= lockedProfitUsdc
-                const hitCorneredStop = lockedProfitUsdc >= 0.01 && (
+                // Gatillo Anti-Escape 1:1 Neto: exige estrictamente lockedProfitUsdc >= 0.10 y netAfterFee >= 0.10
+                const hitCorneredStop = lockedProfitUsdc >= 0.10 && netAfterFee >= 0.10 && (
                   (netAfterFee < lockedProfitUsdc) || (peakPnl > lockedProfitUsdc + 0.001 && netAfterFee <= lockedProfitUsdc)
                 );
 
@@ -4002,8 +4002,10 @@ export default {
                     if (existingReduceOrder) {
                       await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
                     }
-                    // PROHIBIDO ALO AL COBRAR CANDADO: IOC agresivo con 5% de margen de cruce (1.05 / 0.95)
-                    const closePx = isShort ? currentBookPx * 1.05 : currentBookPx * 0.95;
+                    const minProfitDeltaPx = (rtFeeUsd + 0.10) / absSz;
+                    const minProfitClosePx = isShort ? (entryPx - minProfitDeltaPx) : (entryPx + minProfitDeltaPx);
+                    const rawClosePx = isShort ? currentBookPx * 1.0005 : currentBookPx * 0.9995;
+                    const closePx = isShort ? Math.min(rawClosePx, minProfitClosePx) : Math.max(rawClosePx, minProfitClosePx);
                     const closeRes = await client.order({
                       orders: [{
                         a: ASSET_INDICES[coin],
@@ -4039,43 +4041,36 @@ export default {
                   }
                 }
 
-                if (ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0 && lockedProfitUsdc < 0.10) {
-                  // Para PAXG, SUI, ETH y LINK: Reduce-Only ALO a empate positivo limpio (+$0.05 a +$0.10 USDC netos)
-                  const isPriorityCoin = priorityEvacSet.has(coin);
-                  const targetNet = isPriorityCoin ? EXPRESS_EVAC_NET_USDC : FAST_LANE_LOCK_NET_USDC;
-                  const evacUsd = rtFeeUsd + targetNet;
-                  const deltaPx = evacUsd / absSz;
-                  const evacPx = isShort ? entryPx - deltaPx : entryPx + deltaPx;
-                  const evacPxStr = fmtPx(evacPx, coin);
-                  const currentReducePxStr = existingReduceOrder ? fmtPx(parseFloat(existingReduceOrder.limitPx || "0"), coin) : null;
-                  if (!hasReduceOrder || (isPriorityCoin && currentReducePxStr !== evacPxStr)) {
-                    if (existingReduceOrder) {
-                      await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
-                    }
-                    await client.order({
-                      orders: [{
-                        a: ASSET_INDICES[coin],
-                        b: isShort,
-                        p: evacPxStr,
-                        s: fmtSz(absSz, ASSET_DEC[coin]),
-                        r: true,
-                        t: { limit: { tif: "Alo" } }
-                      }],
-                      grouping: "na"
-                    }).catch(() => {});
+                // PROHIBIDO BARRER FRACCIONES EN PÉRDIDA: Solo en verde con >= +$0.10 USDC netos
+                if (ASSET_INDICES[coin] !== undefined && notional > 0 && notional < 65.0 && netAfterFee >= 0.10 && entryPx > 0 && absSz > 0) {
+                  if (existingReduceOrder) {
+                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
                   }
+                  const minProfitDeltaPx = (rtFeeUsd + 0.10) / absSz;
+                  const sweepPx = isShort ? (entryPx - minProfitDeltaPx) : (entryPx + minProfitDeltaPx);
+                  await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isShort,
+                      p: fmtPx(sweepPx, coin),
+                      s: fmtSz(absSz, ASSET_DEC[coin] ?? 1),
+                      r: true,
+                      t: { limit: { tif: "Ioc" } }
+                    }],
+                    grouping: "na"
+                  }).catch(() => {});
                 }
               }
 
               // 2. ARQUITECTURA CUARTETO TÁCTICO 4X POR PAR (`2 TOROS 🐂 + 2 OSOS 🐻` × 27 PARES L1 = 108 UNIDADES) + MUTEX SIN CHOQUES (TOPE 15 CANALES)
               const stuckSetCloud = new Set(["ETH", "BTC", "SOL", "NEAR"]);
               const cloudUnits = [
-                { name: "#01 ALFA (Auto 5% · 4X)", pairs: ["AVAX", "SUI"], notional: 252.25 },
-                { name: "#02 BRAVO (Auto 5% · 4X)", pairs: ["PAXG", "LINK"], notional: 252.25 },
-                { name: "#03 CHARLIE (Auto 5% · 4X)", pairs: ["BNB", "AAVE"], notional: 252.25 },
-                { name: "#04 GOLF / #05 HOTEL (Auto 5% · 4X)", pairs: ["XRP", "DOGE", "ADA", "TRX", "TON"], notional: 252.25 },
-                { name: "#06 INDIA / #08 KILO (Auto 5% · 4X)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 252.25 },
-                { name: "#07 JULIET / #09 LIMA (Auto 5% · 4X)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE", "PENDLE", "kPEPE"], notional: 252.25 }
+                { name: "#01 ALFA (Auto 5% · 4X)", pairs: ["AVAX", "SUI"], notional: 250.00 },
+                { name: "#02 BRAVO (Auto 5% · 4X)", pairs: ["PAXG", "LINK"], notional: 250.00 },
+                { name: "#03 CHARLIE (Auto 5% · 4X)", pairs: ["BNB", "AAVE"], notional: 250.00 },
+                { name: "#04 GOLF / #05 HOTEL (Auto 5% · 4X)", pairs: ["XRP", "DOGE", "ADA", "TRX", "TON"], notional: 250.00 },
+                { name: "#06 INDIA / #08 KILO (Auto 5% · 4X)", pairs: ["DOT", "LTC", "ARB", "OP"], notional: 250.00 },
+                { name: "#07 JULIET / #09 LIMA (Auto 5% · 4X)", pairs: ["RENDER", "TAO", "FET", "ONDO", "UNI", "HYPE", "PENDLE", "kPEPE"], notional: 250.00 }
               ];
 
               const unfencedHuntersCloud = openPositions.filter(pos => {
@@ -4086,7 +4081,8 @@ export default {
                 return (unrealizedPnl - positionVal * HL_ROUNDTRIP_FEE_RATE) < 0.10;
               }).length;
 
-              const isUnderRecoveryCapCloud = (openPositions.length < MAX_CONCURRENT_POSITIONS_DURING_RECOVERY) && (openPositions.length < MAX_OPEN_POSITIONS);
+              const PRIMARY_LOCAL_DAEMON_EXCLUSIVE = true; // Mando exclusivo de entradas en el demonio cinemático local (evita colisión de isolates en Cloudflare)
+              const isUnderRecoveryCapCloud = !PRIMARY_LOCAL_DAEMON_EXCLUSIVE && (openPositions.length < MAX_CONCURRENT_POSITIONS_DURING_RECOVERY) && (openPositions.length < MAX_OPEN_POSITIONS);
               let slotsLeft = isUnderRecoveryCapCloud ? Math.max(0, MAX_UNFENCED_POSITIONS - unfencedHuntersCloud) : 0;
               if (slotsLeft > 0) {
                 const nowMsCloud = Date.now();

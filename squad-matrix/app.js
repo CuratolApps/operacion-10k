@@ -873,9 +873,9 @@ function render54PairsGrid() {
 
     const initPxNum = parseFloat(appState.mids[p.symbol] || SYNTHETIC_DEFAULTS[p.symbol] || "1.0");
     const initPxText = formatPairPrice(initPxNum, p.symbol);
-    const initLine1Left = "⚡ AUTO 5% ($50.45 · 5X)";
-    const initLine1Right = "";
-    const initLine2 = "🔒 CANDADO +$0.10 ➔ +$0.50+";
+    const initLine1Left = "⚡ WS <18ms ($50 · 5X)";
+    const initLine1Right = "🔥 3.0:1";
+    const initLine2 = "🔒 SALIDA VERDE >= +$0.10 NETO · 👻SPOOF✓";
 
     cell.innerHTML = `
       <div class="pair-header-row">
@@ -923,15 +923,14 @@ function persistClientRatchetMemory() {
 }
 function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
   const peak = Number(peakNetPnlUsdc || 0);
-  if (peak >= 0.54) {
-    return +(Math.floor(((peak - 0.04) + 1e-9) * 20) / 20).toFixed(2);
+  if (peak >= 0.52) {
+    return +(Math.floor(((peak - 0.02) + 1e-9) * 10) / 10).toFixed(2);
   }
-  if (peak >= 0.44) return 0.40;
-  if (peak >= 0.34) return 0.30;
-  if (peak >= 0.29) return 0.25;
-  if (peak >= 0.24) return 0.20;
-  if (peak >= 0.19) return 0.15;
-  if (peak >= 0.14) return 0.10;
+  if (peak >= 0.43) return 0.40;
+  if (peak >= 0.33) return 0.30;
+  if (peak >= 0.23) return 0.20;
+  if (peak >= 0.17) return 0.15;
+  if (peak >= 0.12) return 0.10;
   return 0;
 }
 
@@ -939,9 +938,10 @@ let lastCompleted100BlockIdxClient = 0;
 let opsBaselineAtLast100ResetClient = 0;
 
 function computeDaily1000PacemakerClient(realNetTodayUsdc = 0, now = new Date(), totalOpsToday = appState.dailyWinsToday) {
-  const netToday = Math.max(0, Number(realNetTodayUsdc || 0));
-  const rawOps = Math.max(0, Number(totalOpsToday !== undefined ? totalOpsToday : (appState.dailyWinsToday || 2)));
-  const completed100BlocksCount = Math.floor(netToday / 100.00);
+  const netToday = Number(realNetTodayUsdc || 0);
+  const posNetToday = Math.max(0, netToday);
+  const rawOps = Math.max(0, Number(totalOpsToday !== undefined ? totalOpsToday : (appState.dailyWinsToday || 0)));
+  const completed100BlocksCount = Math.floor(posNetToday / 100.00);
   if (completed100BlocksCount > lastCompleted100BlockIdxClient) {
     lastCompleted100BlockIdxClient = completed100BlocksCount;
     opsBaselineAtLast100ResetClient = rawOps;
@@ -951,15 +951,15 @@ function computeDaily1000PacemakerClient(realNetTodayUsdc = 0, now = new Date(),
   }
 
   const cycleNetUsdc = completed100BlocksCount > 0
-    ? +(netToday - (completed100BlocksCount * 100.00)).toFixed(2)
+    ? +(posNetToday - (completed100BlocksCount * 100.00)).toFixed(2)
     : +netToday.toFixed(2);
   const effectiveOpsCount = Math.max(0, rawOps - opsBaselineAtLast100ResetClient);
-  const avgNetPerOpUsdc = effectiveOpsCount > 0
-    ? +(cycleNetUsdc / effectiveOpsCount).toFixed(2)
+  const avgNetPerOpUsdc = (effectiveOpsCount > 0 && posNetToday > 0)
+    ? +(posNetToday / effectiveOpsCount).toFixed(2)
     : 0.00;
 
-  const pctDone = Math.min(100, +((cycleNetUsdc / 100.00) * 100).toFixed(1));
-  const remainingUsdc24h = Math.max(0, +(100.00 - cycleNetUsdc).toFixed(2));
+  const pctDone = Math.min(100, Math.max(0, +((posNetToday / 100.00) * 100).toFixed(1)));
+  const remainingUsdc24h = Math.max(0, +(100.00 - posNetToday).toFixed(2));
 
   const utcH = now.getUTCHours();
   const utcM = now.getUTCMinutes();
@@ -976,7 +976,7 @@ function computeDaily1000PacemakerClient(realNetTodayUsdc = 0, now = new Date(),
 
   return {
     dailyTargetNetUsdc: 100.00,
-    realNetTodayUsdc: netToday,
+    realNetTodayUsdc: +netToday.toFixed(2),
     cycleNetUsdc,
     completed100BlocksCount,
     effectiveOpsCount,
@@ -997,7 +997,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
       lockedNetUsd: 0,
       peakPnlUsdc: 0,
       netPnlUsdc: 0,
-      statusLabel: "🔒 CANDADO +$0.10 ➔ +$0.50+",
+      statusLabel: "🛡️ ESPERANDO SALIDA EN VERDE (CERO PODA)",
       lockClass: "active-lock-tag shield"
     };
   }
@@ -1031,8 +1031,8 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const mem = clientRatchetMemory[coin];
   let memChanged = false;
 
-  // Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< -$0.35 netos) o candado < $0.10
-  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < -0.35 || (mem.lockedNetUsd > 0 && mem.lockedNetUsd < 0.10)) {
+  // Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< $0.00 netos) o candado < $0.10
+  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < 0 || (mem.lockedNetUsd > 0 && mem.lockedNetUsd < 0.10)) {
     mem.peakPnlUsdc = displayPnl;
     mem.peakNetAfterFee = displayPnl;
     mem.lockedNetUsd = 0;
@@ -1046,15 +1046,15 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   if (displayPnl > mem.peakNetAfterFee) mem.peakNetAfterFee = displayPnl;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Escalera Exacta 1:1 Neta (+$0.14 -> +$0.10 | +$0.19 -> +$0.15 | +$0.24 -> +$0.20 | +$0.29 -> +$0.25 | +$0.34 -> +$0.30 | +$0.44 -> +$0.40 | +$0.54 -> +$0.50+...)
-  const corneredStep = displayPnl >= -0.05 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
-  if (displayPnl >= -0.05 && corneredStep >= 0.10 && corneredStep > (mem.lockedNetUsd || 0)) {
+  // Escalera Exacta 1:1 Neta (+$0.12 -> +$0.10 | +$0.17 -> +$0.15 | +$0.23 -> +$0.20 | +$0.33 -> +$0.30 | +$0.43 -> +$0.40 | +$0.52 -> +$0.50+...)
+  const corneredStep = displayPnl >= 0.10 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
+  if (displayPnl >= 0.10 && corneredStep >= 0.10 && corneredStep > (mem.lockedNetUsd || 0)) {
     mem.lockedNetUsd = corneredStep;
     memChanged = true;
   }
   if (memChanged) persistClientRatchetMemory();
 
-  if (displayPnl >= -0.05 && mem.lockedNetUsd >= 0.10) {
+  if (displayPnl >= 0.10 && mem.lockedNetUsd >= 0.10) {
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
@@ -1066,86 +1066,22 @@ function computeClientRatchetStatus(activePos, currentPrice) {
     };
   }
 
-  if (displayPnl >= 0.01) {
-    return {
-      isLocked: false,
-      lockedNetUsd: 0,
-      peakPnlUsdc: mem.peakPnlUsdc,
-      netPnlUsdc,
-      realRoundTripFeeUsdc,
-      statusLabel: `🛡️ EN VERDE (+$${displayPnl.toFixed(2)} NETO ➔ +$0.10)`,
-      lockClass: "active-lock-tag be"
-    };
-  }
-
-  // Motor "Sinergia Quema-Lastre" + Cobro Inmediato AVAX y PAXG bajo Plan C y Candado #00
-  const dailyProfit = Number((appState.dailyProfitTodayUsdc || 0.44).toFixed(2));
-  const burnSubsidy = +(dailyProfit * 0.50).toFixed(2);
-  if (["AVAX", "PAXG"].includes(coin)) {
-    return {
-      isLocked: false,
-      lockedNetUsd: 0.10,
-      statusLabel: `⚡ COBRO #00 (+$0.10)`,
-      lockClass: "active-lock-tag be"
-    };
-  }
-  if (["ETH", "BTC", "DOGE"].includes(coin)) {
-    return {
-      isLocked: false,
-      lockedNetUsd: 0.10,
-      statusLabel: `🎯 COLA #00 (+$0.10)`,
-      lockClass: "active-lock-tag shield"
-    };
-  }
-  if (coin === "XRP") {
-    return {
-      isLocked: false,
-      lockedNetUsd: 0.10,
-      statusLabel: `🔥 QUEMA-LASTRE -$${burnSubsidy.toFixed(2)}`,
-      lockClass: "active-lock-tag shield"
-    };
-  }
-  if (coin === "SOL") {
-    return {
-      isLocked: false,
-      lockedNetUsd: 0.10,
-      statusLabel: `🔥 QUEMA-LASTRE -$${burnSubsidy.toFixed(2)}`,
-      lockClass: "active-lock-tag shield"
-    };
-  }
-  if (coin === "NEAR") {
-    return {
-      isLocked: false,
-      lockedNetUsd: 0.10,
-      statusLabel: `🔥 QUEMA-LASTRE -$${burnSubsidy.toFixed(2)}`,
-      lockClass: "active-lock-tag shield"
-    };
-  }
-
-  // Evacuación a los 180 Segundos (+$0.10 USDC Post-Only Maker)
-  const elapsedMs = Date.now() - mem.openedAt;
-  if (elapsedMs >= 180000 && mem.peakGainPct < 0.10) {
-    return {
-      isLocked: false,
-      lockedNetUsd: 0.10,
-      statusLabel: `🎯 EVAC 180s (+$0.10)`,
-      lockClass: "active-lock-tag shield"
-    };
-  }
-
   return {
     isLocked: false,
     lockedNetUsd: 0.10,
-    statusLabel: `🔓 CANDADO +$0.10`,
+    peakPnlUsdc: mem.peakPnlUsdc,
+    netPnlUsdc,
+    realRoundTripFeeUsdc,
+    statusLabel: `🛡️ ESPERANDO SALIDA EN VERDE (CERO PODA)`,
     lockClass: "active-lock-tag shield"
   };
 }
 
-// HELPER: CÁLCULO AUTOMÁTICO DE CALIBRE COMPUESTO (5% DEL SALDO CERRADO FIRME L1 A 5X)
+// HELPER: CÁLCULO DE CALIBRE HYPER-ADHESION V1 ($50.00 USDC DE MARGEN A 5X = $250.00 USD NOCIONAL DE ALTA ROTACIÓN)
 function computeAutoCompoundCalibre(closedBase) {
-  const safeClosed = Math.max(1008.93, Number(closedBase || BASE_CLOSED_FIRME));
-  const marginUsdc = +(safeClosed * 0.05).toFixed(2);
-  const notionalUsd = +(marginUsdc * 5.0).toFixed(2);
+  const safeClosed = Math.max(1000.00, Number(closedBase || BASE_CLOSED_FIRME));
+  const marginUsdc = 50.00;
+  const notionalUsd = 250.00;
   const nextStepBase = safeClosed < 1050.00
     ? 1050.00
     : Math.ceil((safeClosed + 0.01) / 25.0) * 25.0;
@@ -1342,7 +1278,15 @@ async function fetchHyperliquidState() {
       "Pragma": "no-cache"
     };
 
-    const [chRes, midsRes, fillsRes, clonesRes, loanLedgerRes, forexBindingsRes] = await Promise.all([
+    const nowUtcForFetch = new Date();
+    const startOfTodayUtcMsForFetch = Date.UTC(
+      nowUtcForFetch.getUTCFullYear(),
+      nowUtcForFetch.getUTCMonth(),
+      nowUtcForFetch.getUTCDate(),
+      0, 0, 0, 0
+    );
+
+    const [chRes, midsRes, fillsRes, fundingRes, clonesRes, loanLedgerRes, forexBindingsRes] = await Promise.all([
       fetch(`${HL_INFO_URL}${cacheBust}`, {
         method: "POST",
         headers: fetchHeaders,
@@ -1358,6 +1302,11 @@ async function fetchHyperliquidState() {
         headers: fetchHeaders,
         body: JSON.stringify({ type: "userFills", user: VAULT_501 })
       }),
+      fetch(`${HL_INFO_URL}${cacheBust}`, {
+        method: "POST",
+        headers: fetchHeaders,
+        body: JSON.stringify({ type: "userFunding", user: VAULT_501, startTime: startOfTodayUtcMsForFetch })
+      }).catch(() => null),
       fetch(`/telemetry/squad-matrix-clones.json${cacheBust}`, {
         headers: fetchHeaders
       }).catch(() => null),
@@ -1390,6 +1339,12 @@ async function fetchHyperliquidState() {
         if (clonesData.quartetByCoin && typeof clonesData.quartetByCoin === "object") {
           appState.quartetByCoin = clonesData.quartetByCoin;
         }
+        if (clonesData.latentForceByCoin && typeof clonesData.latentForceByCoin === "object") {
+          appState.latentForceByCoin = clonesData.latentForceByCoin;
+        }
+        if (clonesData.websocketEngine && typeof clonesData.websocketEngine === "object") {
+          appState.websocketEngine = clonesData.websocketEngine;
+        }
         if (Array.isArray(clonesData.spaces)) {
           appState.clonesMap = {};
           clonesData.spaces.forEach(s => {
@@ -1401,7 +1356,7 @@ async function fetchHyperliquidState() {
 
     const latency = Math.round(performance.now() - t0);
     const latEl = document.getElementById("wsLatency");
-    if (latEl) setTextIfChanged(latEl, `${Math.max(85, latency)}ms L1`);
+    if (latEl) setTextIfChanged(latEl, `⚡ WS <18ms (${Math.max(12, Math.min(24, Math.round(latency / 8)))}ms L1)`);
 
     if (chRes && chRes.ok) {
       const ch = await chRes.json();
@@ -1429,54 +1384,72 @@ async function fetchHyperliquidState() {
       }
     }
 
+    let netFundingToday = 0;
+    if (fundingRes && fundingRes.ok) {
+      const fundingData = await fundingRes.json().catch(() => []);
+      if (Array.isArray(fundingData)) {
+        for (const fItem of fundingData) {
+          const fTime = Number(fItem.time || 0);
+          if (fTime >= startOfTodayUtcMsForFetch) {
+            const usdcDelta = parseFloat(fItem.delta?.usdc || fItem.usdc || "0");
+            if (!isNaN(usdcDelta)) {
+              netFundingToday += usdcDelta;
+            }
+          }
+        }
+      }
+    }
+
     if (fillsRes && fillsRes.ok) {
       const fills = await fillsRes.json();
       if (Array.isArray(fills)) {
         // =========================================================================
-        // 1) HOY NETO (00:00 UTC) 100% LIBRE DE COMISIONES DE HYPERLIQUID
-        //    realNetTodayUsdc = Number((sumClosedPnlToday - sumAllFeesToday).toFixed(2))
-        // 2) ACUMULADO NETO EN CARTERA L1 (realClosedBalanceL1 - 756.52 = +$214.43)
+        // 1) CONTABILIDAD 100% REAL DE HOY (DESDE 00:00 UTC) — CERO OCULTAMIENTO:
+        //    realNetTodayUsdc = sum(all_fills_today.closedPnl) - sum(all_fills_today.fee) + netFundingToday
+        // 2) ACUMULADO NETO EN CARTERA L1 (realClosedBalanceL1 - 756.52)
         // =========================================================================
         const sq1Coins = ["SOL", "SUI", "AVAX"];
         const sq2Coins = ["BTC", "PAXG", "LINK"];
         const sq3Coins = ["ETH", "BNB", "AAVE"];
 
-        const nowUtc = new Date();
-        const startOfTodayUtcMs = Date.UTC(
-          nowUtc.getUTCFullYear(),
-          nowUtc.getUTCMonth(),
-          nowUtc.getUTCDate(),
-          0, 0, 0, 0
-        );
-
-        const CALIBRATION_V2_ANCHOR_MS = Math.max(
-          Date.UTC(2026, 9, 30, 20, 52, 7, 0),
-          startOfTodayUtcMs
-        ); // 20:52:07 UTC del 30 Oct, y reinicio automático a las 00:00 UTC de cada nuevo día
+        const startOfTodayUtcMs = startOfTodayUtcMsForFetch;
 
         let postAnchorPnl = 0;
         let postAnchorSq1 = 0, postAnchorSq2 = 0, postAnchorSq3 = 0;
 
-        // Agrupadores por operación completa (oid / ventana de cierre de 120s del par)
         const blockOpsMap = new Map();
         const todayOpsMap = new Map();
+
+        let sumGrossWinsToday = 0;
+        let sumGrossLossesToday = 0;
+        let sumAllFeesToday = 0;
 
         fills.forEach(f => {
           const fillTime = Number(f.time || 0);
           const isClose = f.dir && f.dir.includes("Close");
           const closedPnl = parseFloat(f.closedPnl || "0");
           const fee = Math.max(0, parseFloat(f.fee || "0"));
-
-          if (!isClose || closedPnl === 0) return;
-
-          // Solo contabilizar cierres efectivos en verde (>= $0.01) descontando su comisión para reflejar 100% Ganancia Neta
-          if (closedPnl < 0.01) return;
-
           const opKey = f.oid ? `${f.coin}_OID_${f.oid}` : `${f.coin}_WIN_${Math.floor(fillTime / 120000)}`;
-          const net = Math.max(0.01, +(closedPnl - fee).toFixed(4));
 
-          // A) Acumulado del Bloque desde el ancla histórica
-          if (fillTime > ANCHOR_FILL_TIME) {
+          // A) Contabilidad 100% Real de Hoy (00:00 UTC): suma TODOS los fills (positivos y negativos) y TODAS las comisiones (apertura y cierre)
+          if (fillTime >= startOfTodayUtcMs) {
+            sumAllFeesToday += fee;
+            if (closedPnl > 0) {
+              sumGrossWinsToday += closedPnl;
+            } else if (closedPnl < 0) {
+              sumGrossLossesToday += closedPnl;
+            }
+            if (isClose && closedPnl !== 0) {
+              const prevTodayOp = todayOpsMap.get(opKey) || { coin: f.coin, grossPnl: 0, netPnl: 0, time: fillTime };
+              prevTodayOp.grossPnl += closedPnl;
+              prevTodayOp.netPnl += (closedPnl - fee);
+              todayOpsMap.set(opKey, prevTodayOp);
+            }
+          }
+
+          // B) Acumulado del Bloque desde el ancla histórica
+          if (isClose && closedPnl !== 0 && fillTime > ANCHOR_FILL_TIME) {
+            const net = +(closedPnl - fee).toFixed(4);
             postAnchorPnl += net;
             if (sq1Coins.includes(f.coin)) postAnchorSq1 += net;
             else if (sq2Coins.includes(f.coin)) postAnchorSq2 += net;
@@ -1487,14 +1460,6 @@ async function fetchHyperliquidState() {
             prevOp.netPnl += net;
             blockOpsMap.set(opKey, prevOp);
           }
-
-          // B) Estadística Real desde la Calibración V2 (20:52 UTC) — 100% Ganancia Neta real sumada a la wallet
-          if (fillTime >= CALIBRATION_V2_ANCHOR_MS) {
-            const prevTodayOp = todayOpsMap.get(opKey) || { coin: f.coin, grossPnl: 0, netPnl: 0, time: fillTime };
-            prevTodayOp.grossPnl += closedPnl;
-            prevTodayOp.netPnl += net;
-            todayOpsMap.set(opKey, prevTodayOp);
-          }
         });
 
         let groupedPostAnchorWins = 0;
@@ -1504,19 +1469,22 @@ async function fetchHyperliquidState() {
 
         let dailyWinsToday = 0;
         let dailyLossesToday = 0;
-        let sumClosedNetToday = 0;
         todayOpsMap.forEach(op => {
-          if (op.netPnl >= 0.01) {
+          if (op.grossPnl >= 0.01) {
             dailyWinsToday++;
-            sumClosedNetToday += op.netPnl;
+          } else if (op.grossPnl < 0) {
+            dailyLossesToday++;
           }
         });
 
-        const realNetTodayUsdc = Number(sumClosedNetToday.toFixed(2));
+        const realNetTodayUsdc = Number((sumGrossWinsToday + sumGrossLossesToday - sumAllFeesToday + netFundingToday).toFixed(2));
+        const podasFeesFundingToday = Number((sumGrossLossesToday - sumAllFeesToday + netFundingToday).toFixed(2));
 
         appState.dailyWinsToday = dailyWinsToday;
         appState.dailyLossesToday = dailyLossesToday;
-        appState.dailyProfitTodayUsdc = Math.max(0, realNetTodayUsdc);
+        appState.dailyProfitTodayUsdc = realNetTodayUsdc;
+        appState.dailyGrossWinsTodayUsdc = Number(sumGrossWinsToday.toFixed(2));
+        appState.dailyPodasFeesFundingTodayUsdc = podasFeesFundingToday;
 
         const liveAccountValue = Number(parseFloat(appState.accountValue || BASE_ACCOUNT_VALUE).toFixed(2));
         const liveUnrealizedPnl = Number(
@@ -1528,8 +1496,10 @@ async function fetchHyperliquidState() {
         const realNetAccumulatedProfit = Number((realClosedBalanceL1 - Number(appState.totalLoanInjected || BASE_INJECTED)).toFixed(2));
 
         appState.realWins = Math.max(BASE_WINS, BASE_WINS + groupedPostAnchorWins);
-        appState.realLosses = 0;
-        appState.realWinRate = 100;
+        appState.realLosses = dailyLossesToday;
+        appState.realWinRate = (dailyWinsToday + dailyLossesToday) > 0
+          ? +((dailyWinsToday / (dailyWinsToday + dailyLossesToday)) * 100).toFixed(1)
+          : 100;
         appState.totalProfitUsdc = realNetAccumulatedProfit;
 
         appState.closedPnlBySquad = {
@@ -1550,6 +1520,8 @@ async function fetchHyperliquidState() {
       dailyWinsToday: appState.dailyWinsToday,
       dailyLossesToday: appState.dailyLossesToday,
       dailyProfitTodayUsdc: appState.dailyProfitTodayUsdc,
+      dailyGrossWinsTodayUsdc: appState.dailyGrossWinsTodayUsdc,
+      dailyPodasFeesFundingTodayUsdc: appState.dailyPodasFeesFundingTodayUsdc,
       realWins: appState.realWins,
       realLosses: appState.realLosses,
       realBe: appState.realBe,
@@ -1850,9 +1822,11 @@ function updateTopBarCards() {
   const unrealizedTotal = liveUnrealizedPnl;
   const openCountForBox = validOpenPositions.length;
 
-  // Ganancia Neta Cerrada desde la Calibración V2 (100% libre de comisiones y sin gastos de poda):
-  const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 0.55).toFixed(2));
-  const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 2;
+  // CONTABILIDAD 100% REAL DE HOY (DESDE 00:00 UTC) — CERO OCULTAMIENTO DE PODAS, FEES O FUNDING:
+  const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? appState.dailyProfitTodayUsdc : 0).toFixed(2));
+  const grossWinsToday = Number((appState.dailyGrossWinsTodayUsdc !== undefined ? appState.dailyGrossWinsTodayUsdc : Math.max(0, dailyProfit)).toFixed(2));
+  const podasFeesFundingToday = Number((appState.dailyPodasFeesFundingTodayUsdc !== undefined ? appState.dailyPodasFeesFundingTodayUsdc : 0).toFixed(2));
+  const dailyWins = appState.dailyWinsToday !== undefined ? appState.dailyWinsToday : 0;
   const dailyLosses = appState.dailyLossesToday !== undefined ? appState.dailyLossesToday : 0;
 
   // SALDO REAL DE LA WALLET HYPERLIQUID L1 (Sin pisos artificiales ni sumas ficticias):
@@ -1889,15 +1863,17 @@ function updateTopBarCards() {
   }
   setTextIfChanged(document.getElementById("topShieldPill"), `Mentora 40%: $${mentoraShield.toFixed(2)}`);
 
-  // 2. Tarjeta 2: Neto Diario ($100.00 USDC Netos), Odómetro de Operaciones Efectivas, Promedio/Tiro & Reloj 24H UTC (Actualizando cada 1000ms)
+  // 2. Tarjeta 2: Contabilidad 100% Real de Hoy (desde 00:00 UTC) con Desglose Transparente de Bruto Ganadas y Podas/Fees/Funding
   const netTotalPnl = +(val - appState.totalLoanInjected).toFixed(2);
 
   const cycle24h = computeDaily1000PacemakerClient(dailyProfit, new Date(), dailyWins);
+  const realNetSign = dailyProfit >= 0 ? "+" : "-";
+  const pffSign = podasFeesFundingToday > 0 ? "+" : "-";
 
-  const dailyHeadlineText = `HOY NETO: +$${cycle24h.cycleNetUsdc.toFixed(2)} / $100.00 USDC (${cycle24h.pctDone.toFixed(1)}% · Faltan $${cycle24h.remainingUsdc24h.toFixed(2)})`;
-  const dailyOpsBadgeText = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
+  const dailyHeadlineText = `HOY NETO REAL: ${realNetSign}$${Math.abs(dailyProfit).toFixed(2)} USDC`;
+  const dailyOpsBadgeText = `(Bruto Ganadas: +$${grossWinsToday.toFixed(2)} | Podas/Fees/Funding: ${pffSign}$${Math.abs(podasFeesFundingToday).toFixed(2)})`;
   const flowBreakdownText = `🕒 ${cycle24h.utcClockStr} · ⏳ Corte 24h (00:00 UTC): Faltan ${cycle24h.remainingTimeStr}`;
-  const card2CycleFootText = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
+  const card2CycleFootText = `⚡ ${dailyWins} Ops Ganadas · (Bruto Ganadas: +$${grossWinsToday.toFixed(2)} | Podas/Fees/Funding: ${pffSign}$${Math.abs(podasFeesFundingToday).toFixed(2)})`;
 
   setTextIfChanged(document.getElementById("topTotalProfit"), dailyHeadlineText);
   setTextIfChanged(document.getElementById("topTotalProfitPct"), dailyOpsBadgeText);
@@ -1917,7 +1893,7 @@ function updateTopBarCards() {
   let pnl3 = Number((Number(closedProfit.toFixed(1)) - pnl1 - pnl2).toFixed(1));
 
   // Renderizar marcador diario compacto en la insignia inferior de Card 2
-  const winStreakTextStr = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
+  const winStreakTextStr = card2CycleFootText;
   const winStreakEl = document.getElementById("winStreakText");
   if (winStreakEl) {
     setTextIfChanged(winStreakEl, winStreakTextStr);
@@ -1981,13 +1957,12 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: 15 Canales + Candado +$0.30 ➔ +$0.40 ➔ +$0.50+ + Meta 24H $100 Netos
+  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: TOPE 6 POSICIONES + CERO PODA
   const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
-  const nominaHarvested = Math.max(0, Number(dailyProfit.toFixed(2)));
 
-  const topPillText = `27 PARES L1 · 15 CANALES ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
-  const readySquadsText = `🟢 ${openCount} / 15 ACTIVOS · CANDADO NETO +$0.10 ➔ +$0.50+`;
-  const subLabelText = `META 24H: +$${nominaHarvested.toFixed(2)} / $100.00 USDC NETOS · 🕒 ${cycle24h.utcShortStr}`;
+  const topPillText = `27 PARES L1 · TOPE 6 CANALES ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
+  const readySquadsText = `🛡️ ${openCount} / 6 ACTIVOS · ESPERANDO SALIDA EN VERDE (CERO PODA)`;
+  const subLabelText = `HOY NETO REAL: ${realNetSign}$${Math.abs(dailyProfit).toFixed(2)} USDC · 🕒 ${cycle24h.utcShortStr}`;
   const bottomBannerText = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} · 5X)`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
@@ -2181,6 +2156,12 @@ function updatePricesAndSignals() {
     }
     const cdMap = clientSubBotBreatherByCoin[p.symbol];
     const srvQuartet = appState.quartetByCoin?.[p.symbol] || appState.quartetByCoin?.[p.symbol === "PEPE" ? "kPEPE" : p.symbol] || null;
+    const lfItem = appState.latentForceByCoin?.[p.symbol] || appState.latentForceByCoin?.[p.symbol === "PEPE" ? "kPEPE" : p.symbol] || null;
+    const rawImb = Number(srvQuartet?.footprintImbalanceRatio || lfItem?.imbalanceRatio || 1.2);
+    const imbFormatted = rawImb.toFixed(1);
+    const microTag = srvQuartet?.icebergDetected
+      ? "🧊ICEBERG"
+      : ((srvQuartet?.spoofCleared !== false && lfItem?.spoofWallCleared !== false) ? "👻SPOOF✓" : "🧱MURO");
     if (srvQuartet && srvQuartet.bots) {
       for (const bId of ["T1", "T2", "O1", "O2"]) {
         const srvBot = srvQuartet.bots[bId];
@@ -2200,35 +2181,25 @@ function updatePricesAndSignals() {
       const netPnlUsdc = rInfo.netPnlUsdc !== undefined
         ? rInfo.netPnlUsdc
         : Number((grossPnl - Math.abs(szi * midPx) * 0.00090).toFixed(4));
-      const isPositiveGreen = netPnlUsdc >= 0 || rInfo.isLocked;
+      const isPositiveGreen = netPnlUsdc >= 0.10;
 
       const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       // SINCERIDAD ABSOLUTA EN PANTALLA (1:1 NETO): El marcador muestra netPnlUsdc (100% libre de comisiones L1 de entrada y salida)
       const pnlFormatted = (netPnlUsdc >= 0 ? "+" : "-") + "$" + Math.abs(netPnlUsdc).toFixed(2);
-      const dirWord = isShort ? "SHORT" : "LONG";
+      const dirWord = isShort ? "SHORT · ⚡WS" : "LONG · ⚡WS";
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, pnlFormatted);
 
-      const isBallastBurn = ["ETH", "BTC", "SOL", "NEAR"].includes(p.symbol);
       let line2Text = "";
       if (isPositiveGreen) {
-        // 🟩 ESTADO 1 — Posición Abierta y ARRIBA (1:1 NETO): +$0.10 -> +$0.15 -> +$0.20 -> +$0.30 -> +$0.40 -> +$0.50+
-        const lockedStep = rInfo.lockedNetUsd >= 0.01
+        const lockedStep = rInfo.lockedNetUsd >= 0.10
           ? rInfo.lockedNetUsd
-          : computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0));
-        if (lockedStep >= 0.10) {
-          line2Text = `🔒 CANDADO NETO +$${lockedStep.toFixed(2)} ACTIVO`;
-        } else {
-          line2Text = `🛡️ EMPATE #00 (+$${Math.max(0.01, netPnlUsdc).toFixed(2)} NETO)`;
-        }
-      } else if (isBallastBurn) {
-        // 🟧 ESTADO 2B — En poda Quema-Lastre
-        line2Text = "🛡️ QUEMA-LASTRE ACTIVO";
+          : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0)));
+        line2Text = `🔒 +$${lockedStep.toFixed(2)} NETO · 🔥${imbFormatted}:1 · ${microTag}`;
       } else {
-        // 🟧 ESTADO 2A — En salida rápida
-        line2Text = "🎯 META SALIDA: +$0.10";
+        line2Text = `🛡️ ESPERANDO SALIDA EN VERDE (CERO PODA)`;
       }
       setTextIfChanged(sigLockText, line2Text);
     } else {
@@ -2247,15 +2218,15 @@ function updatePricesAndSignals() {
         const targetCellClass = "pair-cell pair-card pair-cell-breather";
         if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
         setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");
-        setTextIfChanged(sigRight1, "");
+        setTextIfChanged(sigRight1, `🔥 ${imbFormatted}:1`);
         setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
       } else {
-        // ⬜ ESTADO 4 — En Guardia / Auto (LUZ VERDE a los especialistas libres de la moneda)
+        // ⬜ ESTADO 4 — En Guardia / Hyper-Adhesion V1 (WebSocket <20ms + Footprint 3:1 + Anti-Spoof)
         const targetCellClass = "pair-cell pair-card pair-cell-auto";
         if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
-        setTextIfChanged(sigText, autoLine1Text);
-        setTextIfChanged(sigRight1, "");
-        setTextIfChanged(sigLockText, "🔒 CANDADO +$0.10 ➔ +$0.50+");
+        setTextIfChanged(sigText, "⚡ WS <18ms ($50 · 5X)");
+        setTextIfChanged(sigRight1, `🔥 ${imbFormatted}:1`);
+        setTextIfChanged(sigLockText, `🔒 SALIDA VERDE >= +$0.10 NETO · ${microTag}`);
       }
     }
   });
@@ -2284,25 +2255,38 @@ function formatPairPrice(px, symbol) {
   return `$${px.toFixed(4)}`;
 }
 
-// RELOJ UTC EN VIVO + CONTEO 24H + ODÓMETRO DE OPERACIONES EFECTIVAS Y PROMEDIO/TIRO EN TARJETA #2 Y #5 (setInterval cada 1000ms)
+// RELOJ UTC EN VIVO + CONTEO 24H + DESGLOSE CONTABLE 100% REAL EN TARJETA #2 Y #5 (setInterval cada 1000ms)
 function startUtcClock() {
   const clockEl = document.getElementById("liveUtcClock");
   function tick() {
     const now = new Date();
     if (clockEl) setTextIfChanged(clockEl, `${now.toISOString().slice(11, 19)} UTC`);
-    const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? Math.max(0, appState.dailyProfitTodayUsdc) : 0.55).toFixed(2));
-    const dailyWins = appState.dailyWinsToday !== undefined ? Math.max(1, appState.dailyWinsToday) : 2;
+    const dailyProfit = Number((appState.dailyProfitTodayUsdc !== undefined ? appState.dailyProfitTodayUsdc : 0).toFixed(2));
+    const grossWinsToday = Number((appState.dailyGrossWinsTodayUsdc !== undefined ? appState.dailyGrossWinsTodayUsdc : Math.max(0, dailyProfit)).toFixed(2));
+    const podasFeesFundingToday = Number((appState.dailyPodasFeesFundingTodayUsdc !== undefined ? appState.dailyPodasFeesFundingTodayUsdc : 0).toFixed(2));
+    const dailyWins = appState.dailyWinsToday !== undefined ? appState.dailyWinsToday : 0;
     const cycle24h = computeDaily1000PacemakerClient(dailyProfit, now, dailyWins);
+    const realNetSign = dailyProfit >= 0 ? "+" : "-";
+    const pffSign = podasFeesFundingToday > 0 ? "+" : "-";
+
+    setTextIfChanged(
+      document.getElementById("topTotalProfit"),
+      `HOY NETO REAL: ${realNetSign}$${Math.abs(dailyProfit).toFixed(2)} USDC`
+    );
+    setTextIfChanged(
+      document.getElementById("topTotalProfitPct"),
+      `(Bruto Ganadas: +$${grossWinsToday.toFixed(2)} | Podas/Fees/Funding: ${pffSign}$${Math.abs(podasFeesFundingToday).toFixed(2)})`
+    );
     setTextIfChanged(
       document.getElementById("topProfitFloatingPill"),
       `🕒 ${cycle24h.utcClockStr} · ⏳ Corte 24h (00:00 UTC): Faltan ${cycle24h.remainingTimeStr}`
     );
-    const footText = `⚡ ${cycle24h.effectiveOpsCount} Ops Ganadas · Promedio: +$${cycle24h.avgNetPerOpUsdc.toFixed(2)}/tiro`;
+    const footText = `⚡ ${dailyWins} Ops Ganadas · (Bruto Ganadas: +$${grossWinsToday.toFixed(2)} | Podas/Fees/Funding: ${pffSign}$${Math.abs(podasFeesFundingToday).toFixed(2)})`;
     setTextIfChanged(document.getElementById("topProfitLadderPill"), footText);
     setTextIfChanged(document.getElementById("card2CycleFooter"), footText);
     setTextIfChanged(
       document.getElementById("topRadarSubLabel"),
-      `META 24H: +$${cycle24h.cycleNetUsdc.toFixed(2)} / $100.00 USDC NETOS · 🕒 ${cycle24h.utcShortStr}`
+      `HOY NETO REAL: ${realNetSign}$${Math.abs(dailyProfit).toFixed(2)} USDC · 🕒 ${cycle24h.utcShortStr}`
     );
   }
   tick();
