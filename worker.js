@@ -3808,35 +3808,36 @@ export default {
             });
             const openCoins = openPositions.map(p => (p.position || p).coin);
 
-            const STRICT_RECOVERY_LOCK = openPositions.length >= 6;
+            const STRICT_RECOVERY_LOCK = false;
             const IMMEDIATE_SNOWBALL_START = true;
             const NO_RED_EXIT = true;
-            const MAX_OPEN_POSITIONS = 6;
-            const FAST_SCALP_LANES = 6;
-            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 6;
-            const MAX_UNFENCED_POSITIONS = 6;
-            const FAST_LANE_LOCK_NET_USDC = 0.10;
-            const CORNERING_HALF_DOLLAR_USDC = 0.50;
+            const MAX_FRESH_IN_WATER = 5;
+            const MAX_OPEN_POSITIONS = 14;
+            const FAST_SCALP_LANES = 5;
+            const MAX_CONCURRENT_POSITIONS_DURING_RECOVERY = 14;
+            const MAX_UNFENCED_POSITIONS = 5;
+            const FAST_LANE_LOCK_NET_USDC = 0.02;
+            const CORNERING_HALF_DOLLAR_USDC = 0.45;
             const CORNERING_BREATH_BUFFER_USDC = 0.01;
             const EXPRESS_EVAC_DELTA_RATIO = 0.00040;
-            const EXPRESS_EVAC_NET_USDC = 0.10;
-            const POST_TRADE_COOLDOWN_MS = 2 * 60 * 1000;
+            const EXPRESS_EVAC_NET_USDC = 0.05;
+            const POST_TRADE_COOLDOWN_MS = 5 * 60 * 1000;
             const HL_ROUNDTRIP_FEE_RATE = 0.00090; // Real roundtrip Taker fee rate L1 (0.045% entry + 0.045% exit)
             const DAILY_TARGET_NET_USDC = 100.00;
             const priorityEvacSet = new Set(["PAXG", "SUI", "kPEPE", "PEPE", "ETH", "LINK", "AAVE", "PENDLE"]);
-            // ESCALERA DE CANDADOS EXACTA 1:1 NETA (`🔒 +$0.10 ➔ +$0.15 ➔ +$0.20 ➔ +$0.30 ➔ +$0.40 ➔ +$0.50+` NETOS)
+            // ESCALERA DE CANDADOS PROMEDIO +$0.25 A +$0.30 (`🛡️ #00 +$0.02 ➔ 🔒 +$0.10 ➔ +$0.18 ➔ +$0.25 ➔ +$0.30 ➔ +$0.45+` NETOS)
             const computeCorneringStepCloud = (peakNetPnlUsdc) => {
               const peak = Number(peakNetPnlUsdc || 0);
-              if (peak >= 0.52) return +(Math.floor(((peak - 0.02) + 1e-9) * 10) / 10).toFixed(2);
-              if (peak >= 0.43) return 0.40;
-              if (peak >= 0.33) return 0.30;
-              if (peak >= 0.23) return 0.20;
-              if (peak >= 0.17) return 0.15;
-              if (peak >= 0.12) return 0.10;
+              if (peak >= 0.45) return +(Math.floor(((peak - 0.02) + 1e-9) * 20) / 20).toFixed(2);
+              if (peak >= 0.30) return 0.30;
+              if (peak >= 0.25) return 0.25;
+              if (peak >= 0.18) return 0.18;
+              if (peak >= 0.10) return 0.10;
+              if (peak >= 0.02) return 0.02;
               return 0;
             };
 
-            console.log(`[CLOUD SQUAD GUARD] 🛡️ NEXUS APEX-36 Activo · ${openPositions.length}/${MAX_OPEN_POSITIONS} posiciones abiertas (MAX_RECOVERY=${MAX_CONCURRENT_POSITIONS_DURING_RECOVERY} · ${openCoins.join(", ") || "ninguna"}) · NO_RED_EXIT=${NO_RED_EXIT}`);
+            console.log(`[CLOUD SQUAD GUARD] 🎡 CARRUSEL 54 BOTS Activo · ${openPositions.length} posiciones abiertas (MAX_FRESH_IN_WATER=${MAX_FRESH_IN_WATER} · ${openCoins.join(", ") || "ninguna"}) · NO_RED_EXIT=${NO_RED_EXIT}`);
             let unfencedCount = 0;
             for (const pos of openPositions) {
               const p = pos.position || pos;
@@ -3847,9 +3848,9 @@ export default {
               const netPnlUsdc = Number((unrealizedPnl - positionVal * HL_ROUNDTRIP_FEE_RATE).toFixed(4));
 
               if (entryPx > 0 && positionVal > 0) {
-                if (netPnlUsdc >= 0.12) {
-                  const stepUsd = Math.max(0.10, computeCorneringStepCloud(netPnlUsdc));
-                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Neto +$0.10+ ACTIVO para ${coin} (Escalón Neto +$${stepUsd.toFixed(2)} | Neto Visible +$${netPnlUsdc.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
+                if (netPnlUsdc >= 0.02) {
+                  const stepUsd = Math.max(0.02, computeCorneringStepCloud(netPnlUsdc));
+                  console.log(`[CLOUD SQUAD GUARD] 🔒 Candado Neto ACTIVO para ${coin} (Escalón Neto +$${stepUsd.toFixed(2)} | Neto Visible +$${netPnlUsdc.toFixed(2)} USDC). Bot 🟢 LIGERO.`);
                 } else {
                   unfencedCount++;
                 }
@@ -3909,8 +3910,8 @@ export default {
                 const prevTriggerOid = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerOid || null;
                 const prevTriggerFloor = globalThis.__CLOUD_RATCHET_PEAKS__[memKey]?.triggerFloor || 0;
                 const peakPnl = Math.max(prevPeak, netAfterFee);
-                const validPrevLocked = prevLocked >= 0.10 ? prevLocked : 0;
-                const lockedProfitUsdc = netAfterFee < 0.10 ? 0 : Math.max(validPrevLocked, computeCorneringStepCloud(peakPnl));
+                const validPrevLocked = prevLocked >= 0.02 ? prevLocked : 0;
+                const lockedProfitUsdc = netAfterFee < 0.02 ? 0 : Math.max(validPrevLocked, computeCorneringStepCloud(peakPnl));
                 globalThis.__CLOUD_RATCHET_PEAKS__[memKey] = {
                   peakPnl,
                   lockedFloor: lockedProfitUsdc,

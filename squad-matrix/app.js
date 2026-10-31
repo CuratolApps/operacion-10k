@@ -923,14 +923,14 @@ function persistClientRatchetMemory() {
 }
 function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
   const peak = Number(peakNetPnlUsdc || 0);
-  if (peak >= 0.52) {
-    return +(Math.floor(((peak - 0.02) + 1e-9) * 10) / 10).toFixed(2);
+  if (peak >= 0.45) {
+    return +(Math.floor(((peak - 0.02) + 1e-9) * 20) / 20).toFixed(2);
   }
-  if (peak >= 0.43) return 0.40;
-  if (peak >= 0.33) return 0.30;
-  if (peak >= 0.23) return 0.20;
-  if (peak >= 0.17) return 0.15;
-  if (peak >= 0.12) return 0.10;
+  if (peak >= 0.30) return 0.30;
+  if (peak >= 0.25) return 0.25;
+  if (peak >= 0.18) return 0.18;
+  if (peak >= 0.10) return 0.10;
+  if (peak >= 0.02) return 0.02;
   return 0;
 }
 
@@ -1017,7 +1017,7 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const gainPct = notional > 0 ? (displayPnl / notional) * 100 : 0;
 
   if (!clientRatchetMemory[coin] || Math.abs((clientRatchetMemory[coin].entryPx || 0) - entryPx) > 1e-8) {
-    const initialRecoveryCoins = new Set(["ETH", "SOL", "BTC", "NEAR"]);
+    const initialRecoveryCoins = new Set(["SOL", "AVAX", "BTC", "PAXG", "ETH", "BNB", "XRP", "TRX", "RENDER", "NEAR"]);
     clientRatchetMemory[coin] = {
       entryPx,
       openedAt: initialRecoveryCoins.has(coin) ? (Date.now() - 240000) : Date.now(),
@@ -1031,8 +1031,8 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   const mem = clientRatchetMemory[coin];
   let memChanged = false;
 
-  // Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< $0.00 netos) o candado < $0.10
-  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < 0 || (mem.lockedNetUsd > 0 && mem.lockedNetUsd < 0.10)) {
+  // Purgar cualquier pico corrupto (> $25.0) o si la posición cayó en negativo (< $0.00 netos) o candado < $0.02
+  if ((mem.peakPnlUsdc || 0) > 25.0 || (mem.lockedNetUsd || 0) > 25.0 || displayPnl < 0 || (mem.lockedNetUsd > 0 && mem.lockedNetUsd < 0.02)) {
     mem.peakPnlUsdc = displayPnl;
     mem.peakNetAfterFee = displayPnl;
     mem.lockedNetUsd = 0;
@@ -1046,33 +1046,35 @@ function computeClientRatchetStatus(activePos, currentPrice) {
   if (displayPnl > mem.peakNetAfterFee) mem.peakNetAfterFee = displayPnl;
   if (gainPct > mem.peakGainPct) mem.peakGainPct = gainPct;
 
-  // Escalera Exacta 1:1 Neta (+$0.12 -> +$0.10 | +$0.17 -> +$0.15 | +$0.23 -> +$0.20 | +$0.33 -> +$0.30 | +$0.43 -> +$0.40 | +$0.52 -> +$0.50+...)
-  const corneredStep = displayPnl >= 0.10 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
-  if (displayPnl >= 0.10 && corneredStep >= 0.10 && corneredStep > (mem.lockedNetUsd || 0)) {
+  // Escalera Neta Promedio +$0.25 a +$0.30 (🛡️ #00 +$0.02 -> 🔒 +$0.10 -> +$0.18 -> +$0.25 -> +$0.30 -> +$0.45+)
+  const corneredStep = displayPnl >= 0.02 ? computeCorneringRatchetStepClient(mem.peakPnlUsdc) : 0;
+  if (displayPnl >= 0.02 && corneredStep >= 0.02 && corneredStep > (mem.lockedNetUsd || 0)) {
     mem.lockedNetUsd = corneredStep;
     memChanged = true;
   }
   if (memChanged) persistClientRatchetMemory();
 
-  if (displayPnl >= 0.10 && mem.lockedNetUsd >= 0.10) {
+  if (displayPnl >= 0.02 && mem.lockedNetUsd >= 0.02) {
     return {
       isLocked: true,
       lockedNetUsd: mem.lockedNetUsd,
       peakPnlUsdc: mem.peakPnlUsdc,
       netPnlUsdc,
       realRoundTripFeeUsdc,
-      statusLabel: `🔒 CANDADO +$${mem.lockedNetUsd.toFixed(2)} ACTIVO`,
+      statusLabel: mem.lockedNetUsd < 0.10
+        ? `🛡️ EMPATE #00 (+$${mem.lockedNetUsd.toFixed(2)} NETO)`
+        : `🔒 CANDADO +$${mem.lockedNetUsd.toFixed(2)} ACTIVO`,
       lockClass: "active-lock-tag be"
     };
   }
 
   return {
     isLocked: false,
-    lockedNetUsd: 0.10,
+    lockedNetUsd: 0.02,
     peakPnlUsdc: mem.peakPnlUsdc,
     netPnlUsdc,
     realRoundTripFeeUsdc,
-    statusLabel: `🛡️ ESPERANDO SALIDA EN VERDE (CERO PODA)`,
+    statusLabel: `🔒 EN CUARENTENA (CERO PODA · SALIDA >= +$0.05 NETO)`,
     lockClass: "active-lock-tag shield"
   };
 }
@@ -1344,6 +1346,9 @@ async function fetchHyperliquidState() {
         }
         if (clonesData.websocketEngine && typeof clonesData.websocketEngine === "object") {
           appState.websocketEngine = clonesData.websocketEngine;
+        }
+        if (clonesData.carousel54 && typeof clonesData.carousel54 === "object") {
+          appState.carousel54 = clonesData.carousel54;
         }
         if (Array.isArray(clonesData.spaces)) {
           appState.clonesMap = {};
@@ -1957,13 +1962,31 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: TOPE 6 POSICIONES + CERO PODA
-  const openCount = appState.openPositions.length > 0 ? appState.openPositions.length : 8;
+  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: 19 PISCINAS LIBRES EN FUEGO + CARRUSEL #01➔#54 (X/5 EN AGUA) + 8 EN CUARENTENA (CERO PODA)
+  const legacyQuarantineCoinsSet = new Set(["SOL", "AVAX", "BTC", "PAXG", "ETH", "BNB", "XRP", "TRX", "RENDER", "NEAR"]);
+  let quarantineCount = 0;
+  let freshInWaterCount = 0;
+  validOpenPositions.forEach(p => {
+    const c = p.position.coin;
+    const uPnl = parseFloat(p.position.unrealizedPnl || "0");
+    const qInfo = appState.quartetByCoin?.[c] || null;
+    if (qInfo?.isLegacyQuarantineHold || (uPnl < 0 && legacyQuarantineCoinsSet.has(c) && !qInfo?.botSeqId)) {
+      quarantineCount++;
+    } else {
+      freshInWaterCount++;
+    }
+  });
+  if (validOpenPositions.length === 0) {
+    quarantineCount = appState.carousel54?.quarantineHoldCount ?? 8;
+    freshInWaterCount = appState.carousel54?.freshInWaterCount ?? 0;
+  }
+  const freePoolsCount = Math.max(0, 27 - validOpenPositions.length);
+  const nextTurnBadge = appState.carousel54?.nextBotBadge || "#01";
 
-  const topPillText = `27 PARES L1 · TOPE 6 CANALES ($${calibre.marginUsdc.toFixed(2)} A 5X)`;
-  const readySquadsText = `🛡️ ${openCount} / 6 ACTIVOS · ESPERANDO SALIDA EN VERDE (CERO PODA)`;
+  const topPillText = `27 PARES L1 · CARRUSEL 54 BOTS (${nextTurnBadge} · $${calibre.marginUsdc.toFixed(2)} A 5X)`;
+  const readySquadsText = `🟢 ${freePoolsCount} PISCINAS LIBRES EN FUEGO (FILA #01➔#54: ${freshInWaterCount}/5 EN AGUA) | 🔒 ${quarantineCount} EN CUARENTENA (CERO PODA)`;
   const subLabelText = `HOY NETO REAL: ${realNetSign}$${Math.abs(dailyProfit).toFixed(2)} USDC · 🕒 ${cycle24h.utcShortStr}`;
-  const bottomBannerText = `⚡ AUTO 5% ($${calibre.marginUsdc.toFixed(2)} · 5X)`;
+  const bottomBannerText = `🎡 FILA 54 (${freshInWaterCount}/5 EN AGUA · TURNO ${nextTurnBadge}) · $${calibre.marginUsdc.toFixed(2)} A 5X`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
   setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
@@ -2181,25 +2204,34 @@ function updatePricesAndSignals() {
       const netPnlUsdc = rInfo.netPnlUsdc !== undefined
         ? rInfo.netPnlUsdc
         : Number((grossPnl - Math.abs(szi * midPx) * 0.00090).toFixed(4));
-      const isPositiveGreen = netPnlUsdc >= 0.10;
+      const legacyQuarantineCoinsSet = new Set(["SOL", "AVAX", "BTC", "PAXG", "ETH", "BNB", "XRP", "TRX", "RENDER", "NEAR"]);
+      const isQuarantineHold = Boolean(
+        srvQuartet?.isLegacyQuarantineHold ||
+        (grossPnl < 0 && legacyQuarantineCoinsSet.has(p.symbol) && !srvQuartet?.botSeqId)
+      );
+      const isPositiveGreen = isQuarantineHold ? (netPnlUsdc >= 0.05) : (netPnlUsdc >= 0.02);
 
       const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       // SINCERIDAD ABSOLUTA EN PANTALLA (1:1 NETO): El marcador muestra netPnlUsdc (100% libre de comisiones L1 de entrada y salida)
       const pnlFormatted = (netPnlUsdc >= 0 ? "+" : "-") + "$" + Math.abs(netPnlUsdc).toFixed(2);
-      const dirWord = isShort ? "SHORT · ⚡WS" : "LONG · ⚡WS";
+      const botSeqTag = srvQuartet?.botSeqBadge ? ` · 🤖${srvQuartet.botSeqBadge}` : "";
+      const dirWord = isShort ? `SHORT · ⚡WS${botSeqTag}` : `LONG · ⚡WS${botSeqTag}`;
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, pnlFormatted);
 
       let line2Text = "";
-      if (isPositiveGreen) {
-        const lockedStep = rInfo.lockedNetUsd >= 0.10
+      if (isQuarantineHold && !isPositiveGreen) {
+        line2Text = `🔒 EN CUARENTENA (CERO PODA · SALIDA >= +$0.05 NETO)`;
+      } else if (isPositiveGreen) {
+        const lockedStep = rInfo.lockedNetUsd >= 0.02
           ? rInfo.lockedNetUsd
-          : Math.max(0.10, computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0)));
-        line2Text = `🔒 +$${lockedStep.toFixed(2)} NETO · 🔥${imbFormatted}:1 · ${microTag}`;
+          : Math.max(0.02, computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0)));
+        const stepPrefix = lockedStep < 0.10 ? `🛡️ EMPATE #00 (+$${lockedStep.toFixed(2)} NETO)` : `🔒 +$${lockedStep.toFixed(2)} NETO`;
+        line2Text = `${stepPrefix} · 🔥${imbFormatted}:1 · ${microTag}`;
       } else {
-        line2Text = `🛡️ ESPERANDO SALIDA EN VERDE (CERO PODA)`;
+        line2Text = `🛡️ FUEGO FRESCO (30S ANTI-TRAMPA ➔ META +$0.25/+$0.30)`;
       }
       setTextIfChanged(sigLockText, line2Text);
     } else {
@@ -2213,6 +2245,7 @@ function updatePricesAndSignals() {
       const breatherUntil = allFourCooling
         ? Math.min(cdMap.T1, cdMap.T2, cdMap.O1, cdMap.O2)
         : settleUntil;
+      const nextTurnBadge = appState.carousel54?.nextBotBadge || srvQuartet?.carousel54?.nextBotBadge || "#01";
       if (breatherUntil > nowMs) {
         // 🟦 ESTADO 3 — En Respiro Táctico
         const targetCellClass = "pair-cell pair-card pair-cell-breather";
@@ -2221,12 +2254,12 @@ function updatePricesAndSignals() {
         setTextIfChanged(sigRight1, `🔥 ${imbFormatted}:1`);
         setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
       } else {
-        // ⬜ ESTADO 4 — En Guardia / Hyper-Adhesion V1 (WebSocket <20ms + Footprint 3:1 + Anti-Spoof)
+        // ⬜ ESTADO 4 — Piscina Libre en Fuego (Carrusel Secuencial 54 Bots #01➔#54)
         const targetCellClass = "pair-cell pair-card pair-cell-auto";
         if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
         setTextIfChanged(sigText, "⚡ WS <18ms ($50 · 5X)");
         setTextIfChanged(sigRight1, `🔥 ${imbFormatted}:1`);
-        setTextIfChanged(sigLockText, `🔒 SALIDA VERDE >= +$0.10 NETO · ${microTag}`);
+        setTextIfChanged(sigLockText, `🎡 FILA 54 · LISTA PARA TURNO ${nextTurnBadge} · META NETA +$0.25/+$0.30`);
       }
     }
   });

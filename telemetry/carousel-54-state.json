@@ -1,0 +1,548 @@
+{
+  "nextBotSeqId": 5,
+  "lapNumber": 1,
+  "totalDispatched": 4,
+  "updatedAt": "2026-10-31T15:01:09.859Z",
+  "bots": {
+    "1": {
+      "seqId": 1,
+      "badge": "#01",
+      "status": "IN_WATER",
+      "poolCoin": "ARB",
+      "direction": "SHORT",
+      "turnsRemaining": 0,
+      "lastFiredAt": "2026-10-31T15:00:32.822Z",
+      "lastClosedAt": null
+    },
+    "2": {
+      "seqId": 2,
+      "badge": "#02",
+      "status": "IN_WATER",
+      "poolCoin": "HYPE",
+      "direction": "LONG",
+      "turnsRemaining": 0,
+      "lastFiredAt": "2026-10-31T15:00:52.199Z",
+      "lastClosedAt": null
+    },
+    "3": {
+      "seqId": 3,
+      "badge": "#03",
+      "status": "IN_WATER",
+      "poolCoin": "BNB",
+      "direction": "SHORT",
+      "turnsRemaining": 0,
+      "lastFiredAt": "2026-10-31T15:01:03.061Z",
+      "lastClosedAt": null
+    },
+    "4": {
+      "seqId": 4,
+      "badge": "#04",
+      "status": "IN_WATER",
+      "poolCoin": "PENDLE",
+      "direction": "LONG",
+      "turnsRemaining": 0,
+      "lastFiredAt": "2026-10-31T15:01:09.859Z",
+      "lastClosedAt": null
+    },
+    "5": {
+      "seqId": 5,
+      "badge": "#05",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "6": {
+      "seqId": 6,
+      "badge": "#06",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "7": {
+      "seqId": 7,
+      "badge": "#07",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "8": {
+      "seqId": 8,
+      "badge": "#08",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "9": {
+      "seqId": 9,
+      "badge": "#09",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "10": {
+      "seqId": 10,
+      "badge": "#10",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "11": {
+      "seqId": 11,
+      "badge": "#11",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "12": {
+      "seqId": 12,
+      "badge": "#12",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "13": {
+      "seqId": 13,
+      "badge": "#13",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "14": {
+      "seqId": 14,
+      "badge": "#14",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "15": {
+      "seqId": 15,
+      "badge": "#15",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "16": {
+      "seqId": 16,
+      "badge": "#16",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "17": {
+      "seqId": 17,
+      "badge": "#17",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "18": {
+      "seqId": 18,
+      "badge": "#18",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "19": {
+      "seqId": 19,
+      "badge": "#19",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "20": {
+      "seqId": 20,
+      "badge": "#20",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "21": {
+      "seqId": 21,
+      "badge": "#21",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "22": {
+      "seqId": 22,
+      "badge": "#22",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "23": {
+      "seqId": 23,
+      "badge": "#23",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "24": {
+      "seqId": 24,
+      "badge": "#24",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "25": {
+      "seqId": 25,
+      "badge": "#25",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "26": {
+      "seqId": 26,
+      "badge": "#26",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "27": {
+      "seqId": 27,
+      "badge": "#27",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "28": {
+      "seqId": 28,
+      "badge": "#28",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "29": {
+      "seqId": 29,
+      "badge": "#29",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "30": {
+      "seqId": 30,
+      "badge": "#30",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "31": {
+      "seqId": 31,
+      "badge": "#31",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "32": {
+      "seqId": 32,
+      "badge": "#32",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "33": {
+      "seqId": 33,
+      "badge": "#33",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "34": {
+      "seqId": 34,
+      "badge": "#34",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "35": {
+      "seqId": 35,
+      "badge": "#35",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "36": {
+      "seqId": 36,
+      "badge": "#36",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "37": {
+      "seqId": 37,
+      "badge": "#37",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "38": {
+      "seqId": 38,
+      "badge": "#38",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "39": {
+      "seqId": 39,
+      "badge": "#39",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "40": {
+      "seqId": 40,
+      "badge": "#40",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "41": {
+      "seqId": 41,
+      "badge": "#41",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "42": {
+      "seqId": 42,
+      "badge": "#42",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "43": {
+      "seqId": 43,
+      "badge": "#43",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "44": {
+      "seqId": 44,
+      "badge": "#44",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "45": {
+      "seqId": 45,
+      "badge": "#45",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "46": {
+      "seqId": 46,
+      "badge": "#46",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "47": {
+      "seqId": 47,
+      "badge": "#47",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "48": {
+      "seqId": 48,
+      "badge": "#48",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "49": {
+      "seqId": 49,
+      "badge": "#49",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "50": {
+      "seqId": 50,
+      "badge": "#50",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "51": {
+      "seqId": 51,
+      "badge": "#51",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "52": {
+      "seqId": 52,
+      "badge": "#52",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "53": {
+      "seqId": 53,
+      "badge": "#53",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    },
+    "54": {
+      "seqId": 54,
+      "badge": "#54",
+      "status": "READY",
+      "poolCoin": null,
+      "direction": null,
+      "turnsRemaining": 0,
+      "lastFiredAt": null,
+      "lastClosedAt": null
+    }
+  }
+}
