@@ -1514,7 +1514,7 @@ async function fetchHyperliquidState() {
 
         const realNetTodayUsdc = Number(sumClosedNetToday.toFixed(2));
 
-        appState.dailyWinsToday = Math.max(1, dailyWinsToday);
+        appState.dailyWinsToday = dailyWinsToday;
         appState.dailyLossesToday = dailyLossesToday;
         appState.dailyProfitTodayUsdc = Math.max(0, realNetTodayUsdc);
 

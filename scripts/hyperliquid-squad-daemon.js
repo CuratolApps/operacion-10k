@@ -1882,11 +1882,11 @@ async function executeProfitOffsetPruner({
 const DAILY_TARGET_NET_USDC = 100.00;
 let lastCompleted100BlockIdx = 0;
 let opsBaselineAtLast100Reset = 0;
-let latestEffectiveOpsTodayCount = 35;
+let latestEffectiveOpsTodayCount = 0;
 
 function computeDaily1000Pacemaker(realNetTodayUsdc = 0, now = new Date(), totalOpsToday = latestEffectiveOpsTodayCount) {
   const netToday = Math.max(0, Number(realNetTodayUsdc || 0));
-  const rawOps = Math.max(0, Number(totalOpsToday || latestEffectiveOpsTodayCount || 0));
+  const rawOps = Math.max(0, Number(totalOpsToday ?? latestEffectiveOpsTodayCount ?? 0));
   const completed100BlocksCount = Math.floor(netToday / DAILY_TARGET_NET_USDC);
   if (completed100BlocksCount > lastCompleted100BlockIdx) {
     lastCompleted100BlockIdx = completed100BlocksCount;
@@ -2216,13 +2216,17 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
   const netPnlUsdc = Number((rawUnrealizedPnlUsdc - realRoundTripFeeUsdc).toFixed(4));
   const currentPnlUsdc = netPnlUsdc;
 
-  // Memoria de pico en RAM (`positionPeakPnlMap`) y en disco (`telemetry/ratchet-peaks-state.json`)
+  // Memoria de pico en RAM (`positionPeakPnlMap`) y en disco (`telemetry/ratchet-peaks-state.json`) indexada ESTRICTAMENTE por `posKey` (`coin_entryPx`)
   const peaksState = loadRatchetPeaksState();
   const posKey = `${rawCoin}_${entryPx.toFixed(6)}`;
 
-  // Purgar cualquier valor corrupto donde peakPnlUsdc > 25.0 o si la posición cayó en negativo (< -$0.35 USDC netos)
-  if ((positionPeakPnlMap[rawCoin]?.peakPnlUsdc || 0) > 25.0) delete positionPeakPnlMap[rawCoin];
-  if ((positionPeakPnlMap[coin]?.peakPnlUsdc || 0) > 25.0) delete positionPeakPnlMap[coin];
+  // Purgar cualquier clave antigua sin entryPx o valor corrupto donde peakPnlUsdc > 25.0 o si la posición cayó en negativo (< -$0.35 USDC netos)
+  if (peaksState[rawCoin] || peaksState[coin]) {
+    delete peaksState[rawCoin];
+    delete peaksState[coin];
+    saveRatchetPeaksState(peaksState);
+  }
+  if ((positionPeakPnlMap[posKey]?.peakPnlUsdc || 0) > 25.0) delete positionPeakPnlMap[posKey];
   if ((posMeta.peakPnlUsdc || 0) > 25.0) {
     posMeta.peakPnlUsdc = currentPnlUsdc;
     posMeta.lockedNetUsd = 0;
@@ -2234,27 +2238,22 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     posMeta.lockedNetUsd = 0;
     posMeta.peakPnlUsdc = currentPnlUsdc;
     posMeta.cleanEvacActive = true;
-    delete positionPeakPnlMap[rawCoin];
-    delete positionPeakPnlMap[coin];
-    if (peaksState[posKey] || peaksState[rawCoin] || peaksState[coin]) {
+    delete positionPeakPnlMap[posKey];
+    if (peaksState[posKey]) {
       delete peaksState[posKey];
-      delete peaksState[rawCoin];
-      delete peaksState[coin];
       saveRatchetPeaksState(peaksState);
     }
   }
 
   const persistedPeakRaw = Math.max(
     peaksState[posKey]?.peakPnlUsdc ?? -999,
-    peaksState[rawCoin]?.peakPnlUsdc ?? -999,
-    positionPeakPnlMap[rawCoin]?.peakPnlUsdc ?? -999
+    positionPeakPnlMap[posKey]?.peakPnlUsdc ?? -999
   );
   const persistedPeak = (persistedPeakRaw > 25.0 || currentPnlUsdc < -0.35) ? currentPnlUsdc : persistedPeakRaw;
 
   const persistedFloorRaw = Math.max(
     peaksState[posKey]?.lockedFloorUsdc ?? 0,
-    peaksState[rawCoin]?.lockedFloorUsdc ?? 0,
-    positionPeakPnlMap[rawCoin]?.lockedFloorUsdc ?? 0
+    positionPeakPnlMap[posKey]?.lockedFloorUsdc ?? 0
   );
   const persistedFloor = (persistedFloorRaw > 25.0 || currentPnlUsdc < -0.35 || persistedFloorRaw < 0.10) ? 0 : persistedFloorRaw;
 
@@ -2275,7 +2274,7 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
   const corneredStepUsd = currentPnlUsdc < -0.35 ? 0 : computeCorneringRatchetStep(peakPnlUsdc);
   const prevValidLocked = (posMeta.lockedNetUsd || 0) >= 0.10 ? posMeta.lockedNetUsd : 0;
   const lockedFloorUsdc = currentPnlUsdc < -0.35 ? 0 : Math.max(prevValidLocked, persistedFloor, corneredStepUsd);
-  positionPeakPnlMap[rawCoin] = { peakPnlUsdc, lockedFloorUsdc };
+  positionPeakPnlMap[posKey] = { peakPnlUsdc, lockedFloorUsdc };
 
   if (lockedFloorUsdc >= 0.10) {
     const prevLockedFloor = Math.max(prevValidLocked, persistedFloor);
@@ -2299,7 +2298,6 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
         updatedAt: new Date().toISOString()
       };
       peaksState[posKey] = record;
-      peaksState[coin] = record;
       saveRatchetPeaksState(peaksState);
     }
 
@@ -3425,7 +3423,7 @@ async function startAutonomousSquadDaemon() {
             const squadCfg = (fxMeta && SQUADS_CONFIG[fxMeta.squadKey]) || SQUADS_CONFIG[prevInfo.squadKey] || SQUADS_CONFIG.ALFA;
             // SUMA INMEDIATA 1:1 DEL PROFIT REAL NETO AL CERRAR Y ACTUALIZACIÓN DEL ODÓMETRO DE OPERACIONES EFECTIVAS
             dailyClosedProfitTodayUsdc = +(dailyClosedProfitTodayUsdc + netGain).toFixed(2);
-            dailyOpsTodayCount = (dailyOpsTodayCount || 35) + 1;
+            dailyOpsTodayCount = (dailyOpsTodayCount ?? 0) + 1;
             latestEffectiveOpsTodayCount = dailyOpsTodayCount;
             burnBallastSubsidyUsdc = +(dailyClosedProfitTodayUsdc * PRUNING_POOL_RATIO).toFixed(4);
 
