@@ -1962,13 +1962,13 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: PARADA TOTAL DE APERTURAS + RECUPERANDO X POSICIONES CON CANDADO (EMPATE ➔ +$0.10 ➔ +$0.20+)
+  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: PARADA TOTAL DE APERTURAS + RECUPERACIÓN DIRECTA A MERCADO (IOC)
   const openPosCount = validOpenPositions.length;
 
   const topPillText = `🛑 FREEZE_ALL_NEW_ENTRIES = TRUE · 0 NUEVOS DISPAROS`;
-  const readySquadsText = `🛑 APERTURAS EN PAUSA TOTAL | 🔒 RECUPERANDO ${openPosCount} POSICIONES CON CANDADO (EMPATE ➔ +$0.10 ➔ +$0.20+)`;
+  const readySquadsText = `🛑 APERTURAS EN PAUSA TOTAL | 🎯 RECUPERANDO ${openPosCount} POSICIONES (CIERRE DIRECTO EN +$0.02 NETO)`;
   const subLabelText = `HOY NETO REAL: ${realNetSign}$${Math.abs(dailyProfit).toFixed(2)} USDC · 🕒 ${cycle24h.utcShortStr}`;
-  const bottomBannerText = `🛑 APERTURAS EN PAUSA TOTAL | 🔒 RECUPERANDO ${openPosCount} POSICIONES CON CANDADO`;
+  const bottomBannerText = `🛑 APERTURAS EN PAUSA TOTAL | 🎯 RECUPERANDO ${openPosCount} POSICIONES`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
   setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
@@ -2186,31 +2186,25 @@ function updatePricesAndSignals() {
       const netPnlUsdc = rInfo.netPnlUsdc !== undefined
         ? rInfo.netPnlUsdc
         : Number((grossPnl - Math.abs(szi * midPx) * 0.00090).toFixed(4));
-      const lockedStep = rInfo.isLocked && rInfo.lockedNetUsd >= 0.02
-        ? rInfo.lockedNetUsd
-        : computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0));
-      const isPositiveGreen = lockedStep >= 0.02 || netPnlUsdc >= 0.04;
+      const isPositiveGreen = netPnlUsdc >= 0.02;
+      const notionalValUsd = Math.round(Math.abs(szi * entryPx));
 
       const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
-      // SINCERIDAD ABSOLUTA EN PANTALLA (1:1 NETO): El marcador muestra netPnlUsdc (100% libre de comisiones L1 de entrada y salida)
+      // Línea 1: LONG / SHORT · $250 · -$X.XX
       const pnlFormatted = (netPnlUsdc >= 0 ? "+" : "-") + "$" + Math.abs(netPnlUsdc).toFixed(2);
-      const dirWord = isShort ? `SHORT · ⚡250ms` : `LONG · ⚡250ms`;
+      const dirWord = isShort ? `SHORT · $${notionalValUsd}` : `LONG · $${notionalValUsd}`;
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, pnlFormatted);
 
+      // Línea 2: 🎯 FALTAN $X.XX PARA RECUPERAR Y CERRAR
       let line2Text = "";
-      if (lockedStep >= 0.10) {
-        const nextStepTarget = +(lockedStep + 0.12).toFixed(2);
-        const centsToNext = Math.max(0.01, +(nextStepTarget - netPnlUsdc).toFixed(2));
-        line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} NETO · ⬆️ A $${centsToNext.toFixed(2)} DE +$${(lockedStep + 0.10).toFixed(2)}`;
-      } else if (lockedStep >= 0.02 || netPnlUsdc >= 0.04) {
-        const centsTo10 = Math.max(0.01, +(0.12 - netPnlUsdc).toFixed(2));
-        line2Text = `🛡️ CANDADO EMPATE (+$0.02) ACTIVO · ⬆️ A $${centsTo10.toFixed(2)} DE 🔒 +$0.10`;
+      if (isPositiveGreen) {
+        line2Text = `✅ RECUPERADA (+$${netPnlUsdc.toFixed(2)} NETO) · CERRANDO A MERCADO...`;
       } else {
-        const centsToEmpate = Math.max(0.01, +(0.04 - netPnlUsdc).toFixed(2));
-        line2Text = `⏳ A $${centsToEmpate.toFixed(2)} DE 🛡️ CANDADO EMPATE (+$0.02) · ESCALÓN: $0.00`;
+        const missingToRecover = Math.max(0.01, +(0.02 - netPnlUsdc).toFixed(2));
+        line2Text = `🎯 FALTAN $${missingToRecover.toFixed(2)} PARA RECUPERAR Y CERRAR`;
       }
       setTextIfChanged(sigLockText, line2Text);
     } else {
@@ -2223,7 +2217,7 @@ function updatePricesAndSignals() {
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
       setTextIfChanged(sigText, "⏸️ PAUSA TOTAL");
       setTextIfChanged(sigRight1, "0 TIROS");
-      setTextIfChanged(sigLockText, `⏸️ EN PAUSA · ESPERANDO LIBERACIÓN TOTAL DEL CAPITAL`);
+      setTextIfChanged(sigLockText, `⏸️ PAUSA TOTAL · POSICIÓN RECUPERADA`);
     }
   });
 }

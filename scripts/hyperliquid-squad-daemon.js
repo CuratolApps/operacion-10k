@@ -2671,12 +2671,6 @@ async function executeGuaranteedMarketClose(client, info, coin, szi, currentMid,
       return false;
     }
 
-    // Precio límite mínimo que garantiza matemáticamente >= +minRequiredNetUsdc tras pagar el 0.090% de comisión ida y vuelta:
-    const minNetProfitDeltaPx = (realRoundTripFeeUsdc + minRequiredNetUsdc) / remSz;
-    const minProfitClosePx = isShort
-      ? (entryPx - minNetProfitDeltaPx)
-      : (entryPx + minNetProfitDeltaPx);
-
     // Cancelar cualquier orden reduceOnly existente en el libro para evitar rechazo de Hyperliquid al cerrar con IOC
     try {
       const openOrds = await info.openOrders({ user: VAULT_501 }).catch(() => []);
@@ -2689,17 +2683,14 @@ async function executeGuaranteedMarketClose(client, info, coin, szi, currentMid,
     } catch (_) {}
 
     for (let attempt = 1; attempt <= 2; attempt++) {
-      const slipMult = attempt === 1 ? 0.0025 : 0.0045;
+      // DIRECT_RECOVERY_EXIT: 5% de margen de cruce a mercado (tif: "Ioc", reduce_only: true) para cerrar el 100% en el acto
+      const slipMult = 0.05;
       const refPx = unscaledMid > 0 ? unscaledMid : entryPx;
-      const rawCrossPx = isShort ? (refPx * (1 + slipMult)) : (refPx * (1 - slipMult));
-      // BLINDAJE DE PRECIO LÍMITE: jamás permitir que crossPx cruce más allá de minProfitClosePx
-      const safeCrossPx = isShort
-        ? Math.min(rawCrossPx, minProfitClosePx)
-        : Math.max(rawCrossPx, minProfitClosePx);
-      const crossPxStr = formatHlPrice(safeCrossPx, rawCoin);
+      const crossPx = isShort ? (refPx * (1 + slipMult)) : (refPx * (1 - slipMult));
+      const crossPxStr = formatHlPrice(crossPx, rawCoin);
       const szStr = formatHlSize(remSz, ASSET_DECIMALS[rawCoin].sz);
 
-      console.log(`🚨⚡ [CIERRE EN VERDE PROTEGIDO IOC // INTENTO #${attempt}] ${rawCoin} (${reasonLabel}) -> Cerrando ${szStr} @ $${crossPxStr} (mid L1: $${refPx} | Piso +$${minRequiredNetUsdc.toFixed(2)} Neto: $${formatHlPrice(minProfitClosePx, rawCoin)} | Neto Est.: +$${liveNetPnlUsdc.toFixed(2)} USDC)`);
+      console.log(`🎯🔓 [DIRECT_RECOVERY_EXIT IOC // INTENTO #${attempt}] ${rawCoin} (${reasonLabel}) -> Cerrando 100% a mercado (${szStr} @ $${crossPxStr} con 5% cruce | mid L1: $${refPx} | Neto: +$${liveNetPnlUsdc.toFixed(2)} USDC)`);
       const res = await client.order({
         orders: [{
           a: ASSET_INDICES[rawCoin],
@@ -2949,35 +2940,24 @@ function computeFeeAwareRatchet(coin, entryPx, szNum, currentMid, uPnlNum, posMe
     posMeta.lockedNetUsd = 0;
   }
 
-  // En modo RECOVERY_TRAILING_RATCHET: NO cerrar de golpe en +$0.02 mientras la vela sigue empujando a favor!
-  // Sube el candado escalón por escalón (+$0.02 ➔ +$0.10 ➔ +$0.20 ➔ +$0.30 ➔ +$0.40 ➔ +$0.50+) y SOLO dispara Reduce-Only IOC
-  // cuando el precio retrocede hasta el escalón del candado (`currentPnlUsdc <= lockedFloorUsdc` con `currentPnlUsdc >= 0.02`):
+  // DIRECT_RECOVERY_EXIT: En el milisegundo exacto en que la posición recupere su entrada + comisión dejando >= +$0.02 USDC netos
+  // (`unrealizedPnlUsdc >= roundTripFeeUsdc + 0.02`), dispara cierre directo a mercado (`tif: "Ioc", reduce_only: true` con 5% margen de cruce):
   posMeta.zeroNewTraps30sArmed = false;
   posMeta.cleanEvacActive = false;
   const zeroNewTraps30sArmed = false;
   const instantMomentumLossHarvest = false;
   const is45sLightningEvac = false;
 
-  let hitRatchetStop = false;
-  if (posMeta.beLocked && lockedFloorUsdc >= 0.02 && currentPnlUsdc >= 0.02) {
-    if ((currentPnlUsdc <= lockedFloorUsdc) && (peakPnlUsdc >= (lockedFloorUsdc + 0.02))) {
-      hitRatchetStop = true;
-    }
+  const hitRatchetStop = Boolean(currentPnlUsdc >= 0.02);
+  if (hitRatchetStop) {
+    posMeta.beLocked = true;
+    posMeta.lockedNetUsd = +currentPnlUsdc.toFixed(2);
   }
 
-  // Distancia exacta en centavos hasta activar el 🛡️ CANDADO EMPATE (+$0.02) (se activa al tocar +$0.04 netos)
-  const centsToEmpateLock = Math.max(0, +(0.04 - currentPnlUsdc).toFixed(2));
-  let ratchetStatusLabel = "";
-  if (posMeta.beLocked && lockedFloorUsdc >= 0.10) {
-    const nextStepTarget = +(lockedFloorUsdc + 0.10 + 0.02).toFixed(2);
-    const centsToNext = Math.max(0.01, +(nextStepTarget - currentPnlUsdc).toFixed(2));
-    ratchetStatusLabel = `🔒 CANDADO +$${lockedFloorUsdc.toFixed(2)} NETO ACTIVO · ⬆️ A $${centsToNext.toFixed(2)} DE +$${(lockedFloorUsdc + 0.10).toFixed(2)}`;
-  } else if (posMeta.beLocked && lockedFloorUsdc >= 0.02) {
-    const centsTo10 = Math.max(0.01, +(0.12 - currentPnlUsdc).toFixed(2));
-    ratchetStatusLabel = `🛡️ CANDADO EMPATE #00 (+$0.02 NETO) · ⬆️ A $${centsTo10.toFixed(2)} DE 🔒 +$0.10`;
-  } else {
-    ratchetStatusLabel = `⏳ A $${centsToEmpateLock.toFixed(2)} DE 🛡️ CANDADO EMPATE (+$0.02) · ESCALÓN: $0.00`;
-  }
+  const missingToRecoverUsd = Math.max(0.01, +(0.02 - currentPnlUsdc).toFixed(2));
+  const ratchetStatusLabel = hitRatchetStop
+    ? `✅ RECUPERADA (+$${currentPnlUsdc.toFixed(2)} NETO) · CERRANDO A MERCADO...`
+    : `🎯 FALTAN $${missingToRecoverUsd.toFixed(2)} PARA RECUPERAR Y CERRAR`;
 
   return {
     absSz,
@@ -3806,26 +3786,13 @@ async function startAutonomousSquadDaemon() {
         );
         posMeta.ratchetStatusLabel = rFast.ratchetStatusLabel;
 
-        // Si alcanzó >= +$0.20 netos, asegurar Stop-Market Reduce-Only nativo en el servidor Hyperliquid L1
-        if (rFast.beLocked && rFast.lockedNetUsd >= 0.20 && !rFast.hitRatchetStop) {
-          await placeOrUpdateNativeStopMarketL1(
-            client,
-            rawCoin,
-            isShort,
-            absSz,
-            entryPx,
-            rFast.lockedNetUsd,
-            posMeta
-          );
-        }
-
-        // Gatillo Único de Escalera de Candados en el Regreso (🛡️ EMPATE #00 +$0.02 ➔ 🔒 +$0.10 ➔ +$0.20 ➔ +$0.30 ➔ +$0.40 ➔ +$0.50+):
-        // SOLO dispara salida Reduce-Only IOC cuando la vela intenta devolverse al escalón asegurado (`hitRatchetStop === true` y `currentPnlUsdc >= 0.02`):
-        if (rFast.beLocked && rFast.lockedNetUsd >= 0.02 && rFast.hitRatchetStop && rFast.currentPnlUsdc >= 0.02) {
+        // DIRECT_RECOVERY_EXIT (250ms): En el mismo milisegundo en que recupere entrada + comisión dejando >= +$0.02 USDC netos,
+        // dispara inmediatamente tif: "Ioc", reduce_only: true a mercado con 5% de margen de cruce:
+        if (rFast.currentPnlUsdc >= 0.02) {
           closingInProgressCoins.add(rawCoin);
           try {
-            const closeReason = `RECOVERY_RATCHET_NETO_+$${rFast.lockedNetUsd.toFixed(2)}`;
-            console.log(`🚨⚡ [RECOVERY_TRAILING_RATCHET 250ms // ${closeReason}] ${rawCoin} (Pico Neto: +$${rFast.peakPnlUsdc.toFixed(2)} | Actual Neto: +$${rFast.currentPnlUsdc.toFixed(2)} | Escalón Asegurado: +$${rFast.lockedNetUsd.toFixed(2)}) -> Cobrando en Verde con Reduce-Only IOC!`);
+            const closeReason = `DIRECT_RECOVERY_EXIT_+$${rFast.currentPnlUsdc.toFixed(2)}`;
+            console.log(`🎯🔓 [DIRECT_RECOVERY_EXIT 250ms // ${closeReason}] ${rawCoin} recuperó Entrada + Comisión (+$${rFast.currentPnlUsdc.toFixed(2)} USDC netos) -> Cerrando 100% a mercado con IOC (5% cruce)!`);
             if (posMeta.nativeSlOid || posMeta.nativeSlTriggerOid) {
               const slOid = posMeta.nativeSlOid || posMeta.nativeSlTriggerOid;
               await client.cancel({ cancels: [{ a: ASSET_INDICES[rawCoin], o: slOid }] }).catch(() => {});
@@ -4607,8 +4574,8 @@ async function startAutonomousSquadDaemon() {
           posMeta.evacOrderPlacedPx = null;
         }
 
-        if (ratchet.beLocked && ratchet.hitRatchetStop && ratchet.currentPnlUsdc >= 0.02 && NO_RED_EXIT) {
-          console.log(`💰🔒 [RECOVERY_TRAILING_RATCHET COBRADO] ${coin} retrocedió al escalón asegurado (+$${ratchet.lockedNetUsd.toFixed(2)} USDC | Actual: +$${ratchet.currentPnlUsdc.toFixed(2)} USDC) -> Cobrando inmediato a USDC (Reduce-Only IOC)!`);
+        if (ratchet.currentPnlUsdc >= 0.02 && NO_RED_EXIT) {
+          console.log(`🎯🔓 [DIRECT_RECOVERY_EXIT COBRADO] ${coin} recuperó Entrada + Comisión (+$${ratchet.currentPnlUsdc.toFixed(2)} USDC netos) -> Cerrando 100% a mercado con IOC (5% cruce)!`);
           if (posMeta.nativeSlTriggerOid || posMeta.nativeSlOid) {
             const slOid = posMeta.nativeSlOid || posMeta.nativeSlTriggerOid;
             await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: slOid }] }).catch(() => {});
@@ -4621,7 +4588,7 @@ async function startAutonomousSquadDaemon() {
             coin,
             szNum,
             currentMid,
-            `RECOVERY_RATCHET_+$${ratchet.lockedNetUsd.toFixed(2)}`
+            `DIRECT_RECOVERY_EXIT_+$${ratchet.currentPnlUsdc.toFixed(2)}`
           );
           continue;
         }

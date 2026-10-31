@@ -3976,71 +3976,53 @@ export default {
                   }
                 }
 
-                // Gatillo Anti-Escape 1:1 Neto: exige estrictamente lockedProfitUsdc >= 0.10 y netAfterFee >= 0.10
-                const hitCorneredStop = lockedProfitUsdc >= 0.10 && netAfterFee >= 0.10 && (
-                  (netAfterFee < lockedProfitUsdc) || (peakPnl > lockedProfitUsdc + 0.001 && netAfterFee <= lockedProfitUsdc)
-                );
+                // DIRECT_RECOVERY_EXIT: En el milisegundo exacto en que recupere entrada + comisión (>= +$0.02 USDC netos), cierra 100% a mercado con IOC (5% cruce)
+                const hitCorneredStop = netAfterFee >= 0.02;
 
                 if (hitCorneredStop && ASSET_INDICES[coin] !== undefined && entryPx > 0 && absSz > 0) {
-                  let favorRatio = 0.50;
                   let currentBookPx = entryPx;
                   try {
                     const l2 = await info.l2Book({ coin });
                     const bids = l2?.levels?.[0] || [], asks = l2?.levels?.[1] || [];
-                    let bv = 0, av = 0;
-                    for (let i = 0; i < 5; i++) {
-                      bv += parseFloat(bids[i]?.px || 0) * parseFloat(bids[i]?.sz || 0);
-                      av += parseFloat(asks[i]?.px || 0) * parseFloat(asks[i]?.sz || 0);
-                    }
-                    if ((bv + av) > 0) {
-                      favorRatio = isShort ? (av / (bv + av)) : (bv / (bv + av));
-                    }
                     if (bids.length > 0 && asks.length > 0) {
                       currentBookPx = (parseFloat(bids[0].px) + parseFloat(asks[0].px)) / 2;
                     }
                   } catch (_) {}
 
-                  if (hitCorneredStop || favorRatio < 0.72) {
-                    if (existingReduceOrder) {
-                      await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
-                    }
-                    const minProfitDeltaPx = (rtFeeUsd + 0.10) / absSz;
-                    const minProfitClosePx = isShort ? (entryPx - minProfitDeltaPx) : (entryPx + minProfitDeltaPx);
-                    const rawClosePx = isShort ? currentBookPx * 1.0005 : currentBookPx * 0.9995;
-                    const closePx = isShort ? Math.min(rawClosePx, minProfitClosePx) : Math.max(rawClosePx, minProfitClosePx);
-                    const closeRes = await client.order({
-                      orders: [{
-                        a: ASSET_INDICES[coin],
-                        b: isShort,
-                        p: fmtPx(closePx, coin),
-                        s: fmtSz(absSz, ASSET_DEC[coin] ?? 1),
-                        r: true,
-                        t: { limit: { tif: "Ioc" } }
-                      }],
-                      grouping: "na"
-                    }).catch(() => null);
-                    const cSt = closeRes?.response?.data?.statuses?.[0] || {};
-                    const closeKey = `${coin}_${entryPx.toFixed(6)}_CLOSED`;
-                    if ((cSt.filled || cSt.resting) && botToken && chatId && !globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey]) {
-                      globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey] = true;
-                      const stepCollected = Math.max(0.10, lockedProfitUsdc);
-                      const closeMsg = `🛰️ <b>SALA DE MANDO 10K // 🏁💵 [OPERACIÓN CERRADA EN VERDE]</b>\n` +
-                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                        `📍 <b>Par Cobrado:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
-                        `📥 <b>Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code> ➔ 📤 <b>Salida:</b> <code>$${fmtPx(currentBookPx, coin)}</code>\n` +
-                        `🔒 <b>Escalón Acorralado #00:</b> <b>+$${stepCollected.toFixed(2)} USDC</b>\n` +
-                        `💰 <b>Ganancia Neta Realizada:</b> <b>+$${Math.max(stepCollected, netAfterFee).toFixed(4)} USDC</b>\n` +
-                        `🧘‍♂️ <b>Protocolo Anti-Fatiga:</b> <code>🧘‍♂️ RESPIRO 08:00 (RECALIBRANDO ${coin})</code>\n` +
-                        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                        `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
-                      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ chat_id: chatId, text: closeMsg, parse_mode: "HTML" })
-                      }).catch(() => {});
-                    }
-                    continue;
+                  if (existingReduceOrder) {
+                    await client.cancel({ cancels: [{ a: ASSET_INDICES[coin], o: existingReduceOrder.oid }] }).catch(() => {});
                   }
+                  const closePx = isShort ? currentBookPx * 1.05 : currentBookPx * 0.95;
+                  const closeRes = await client.order({
+                    orders: [{
+                      a: ASSET_INDICES[coin],
+                      b: isShort,
+                      p: fmtPx(closePx, coin),
+                      s: fmtSz(absSz, ASSET_DEC[coin] ?? 1),
+                      r: true,
+                      t: { limit: { tif: "Ioc" } }
+                    }],
+                    grouping: "na"
+                  }).catch(() => null);
+                  const cSt = closeRes?.response?.data?.statuses?.[0] || {};
+                  const closeKey = `${coin}_${entryPx.toFixed(6)}_CLOSED`;
+                  if ((cSt.filled || cSt.resting) && botToken && chatId && !globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey]) {
+                    globalThis.__NOTIFIED_GREEN_CLOSE_COINS__[closeKey] = true;
+                    const closeMsg = `🛰️ <b>SALA DE MANDO 10K // 🎯🔓 [POSICIÓN RECUPERADA Y CERRADA]</b>\n` +
+                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                      `📍 <b>Par Recuperado:</b> <code>${coin}-USDC</code> (<b>${isShort ? "🐻 SHORT" : "🐂 LONG"}</b> · ${absSz})\n` +
+                      `📥 <b>Entrada:</b> <code>$${fmtPx(entryPx, coin)}</code> ➔ 📤 <b>Salida:</b> <code>$${fmtPx(currentBookPx, coin)}</code>\n` +
+                      `💰 <b>Ganancia Neta Realizada:</b> <b>+$${Math.max(0.02, netAfterFee).toFixed(4)} USDC</b>\n` +
+                      `⏸️ <b>Estado:</b> <code>⏸️ PAUSA TOTAL · POSICIÓN RECUPERADA</code>\n` +
+                      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                      `🛡️ <b>Squad Matrix:</b> <a href="https://area-501.curatolapps.workers.dev/squad-matrix/">Ver en Vivo</a>`;
+                    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ chat_id: chatId, text: closeMsg, parse_mode: "HTML" })
+                    }).catch(() => {});
+                  }
+                  continue;
                 }
 
                 // PROHIBIDO BARRER FRACCIONES EN PÉRDIDA: Solo en verde con >= +$0.10 USDC netos
