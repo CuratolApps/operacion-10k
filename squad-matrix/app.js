@@ -324,8 +324,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const dailyLosses = Number(appState.dailyLossesToday || 0);
       updateLifeEngineTab(closedBase, closedProfit, dailyProfit, dailyWins, dailyLosses);
       updatePricesAndSignals();
+      updateRewardHarvesterTab();
     } catch (_) {}
   }, 1000);
+  try { fetchHarvesterNetworkRates(); } catch (e) {}
+  setInterval(() => { try { fetchHarvesterNetworkRates(); } catch (e) {} }, 6000);
   try { fetchMatrixWaveIntelligence(); } catch (e) {}
   setInterval(() => { try { fetchMatrixWaveIntelligence(); } catch (e) {} }, 45000);
   setInterval(() => { try { updateWaveRelativeTimestamps(); } catch (e) {} }, 15000);
@@ -1390,6 +1393,10 @@ async function fetchHyperliquidState() {
     }
 
     let netFundingToday = 0;
+    let positiveFundingTodayUsdc = 0;
+    let positiveFundingCountToday = 0;
+    const collectedEventsToday = [];
+
     if (fundingRes && fundingRes.ok) {
       const fundingData = await fundingRes.json().catch(() => []);
       if (Array.isArray(fundingData)) {
@@ -1397,13 +1404,27 @@ async function fetchHyperliquidState() {
           const fTime = Number(fItem.time || 0);
           if (fTime >= startOfTodayUtcMsForFetch) {
             const usdcDelta = parseFloat(fItem.delta?.usdc || fItem.usdc || "0");
+            const coinName = fItem.delta?.coin || fItem.coin || "L1";
             if (!isNaN(usdcDelta)) {
               netFundingToday += usdcDelta;
+              if (usdcDelta > 0) {
+                positiveFundingTodayUsdc += usdcDelta;
+                positiveFundingCountToday++;
+                collectedEventsToday.push({
+                  time: fTime,
+                  coin: coinName,
+                  type: "ALQUILER_HORA",
+                  label: "Pago de Red por Hora (Alquiler)",
+                  amountUsdc: +usdcDelta.toFixed(4)
+                });
+              }
             }
           }
         }
       }
     }
+    appState.positiveFundingTodayUsdc = +positiveFundingTodayUsdc.toFixed(2);
+    appState.positiveFundingCountToday = positiveFundingCountToday;
 
     if (fillsRes && fillsRes.ok) {
       const fills = await fillsRes.json();
@@ -1477,10 +1498,19 @@ async function fetchHyperliquidState() {
         todayOpsMap.forEach(op => {
           if (op.grossPnl >= 0.01) {
             dailyWinsToday++;
+            collectedEventsToday.push({
+              time: op.time,
+              coin: op.coin,
+              type: "POSICION_RECUPERADA",
+              label: "Posición Recuperada y Cerrada en Verde",
+              amountUsdc: +Math.max(0.01, op.netPnl > 0 ? op.netPnl : op.grossPnl).toFixed(2)
+            });
           } else if (op.grossPnl < 0) {
             dailyLossesToday++;
           }
         });
+        collectedEventsToday.sort((a, b) => (b.time || 0) - (a.time || 0));
+        appState.collectedEventsToday = collectedEventsToday;
 
         const realNetTodayUsdc = Number((sumGrossWinsToday + sumGrossLossesToday - sumAllFeesToday + netFundingToday).toFixed(2));
         const podasFeesFundingToday = Number((sumGrossLossesToday - sumAllFeesToday + netFundingToday).toFixed(2));
@@ -2593,6 +2623,217 @@ function updateWaveRelativeTimestamps() {
     });
   } catch (e) {}
 }
+
+// ================================================================================
+// 8. PESTAÑA SENCILLA: 🌾 RECOLECTOR DE RECOMPENSAS EN VIVO
+// ================================================================================
+let harvesterTopRatesCache = [];
+
+async function fetchHarvesterNetworkRates() {
+  try {
+    const res = await fetch(HL_INFO_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "metaAndAssetCtxs" })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length < 2) return;
+    const universe = data[0]?.universe || [];
+    const ctxs = data[1] || [];
+    const allowedSet = new Set(PAIRS_27_L1.map(p => p.symbol === "PEPE" ? "kPEPE" : p.symbol));
+    const list = [];
+    for (let i = 0; i < universe.length; i++) {
+      const name = universe[i]?.name;
+      if (!name || !allowedSet.has(name)) continue;
+      const fundingRateHourly = parseFloat(ctxs[i]?.funding || "0");
+      const absHourlyPct = Math.abs(fundingRateHourly) * 100;
+      const dailyUsdPer1000 = Math.abs(fundingRateHourly) * 24 * 1000;
+      const annualizedPct = absHourlyPct * 24 * 365;
+      const sideThatCollects = fundingRateHourly >= 0
+        ? "Cobras entrando a la BAJA (los compradores te pagan cada hora)"
+        : "Cobras entrando al ALZA (los vendedores te pagan cada hora)";
+      list.push({
+        coin: name === "kPEPE" ? "PEPE" : name,
+        fundingRateHourly,
+        absHourlyPct,
+        dailyUsdPer1000,
+        annualizedPct,
+        sideThatCollects
+      });
+    }
+    list.sort((a, b) => b.absHourlyPct - a.absHourlyPct);
+    harvesterTopRatesCache = list.slice(0, 5);
+    updateRewardHarvesterTab();
+  } catch (_) {}
+}
+
+function updateRewardHarvesterTab() {
+  try {
+    const now = new Date();
+    const minsRem = 59 - now.getUTCMinutes();
+    const secsRem = 59 - now.getUTCSeconds();
+    setTextIfChanged(
+      document.getElementById("harvesterNextHourCountdown"),
+      `⏳ Próximo pago por hora en: ${String(minsRem).padStart(2, "0")}m ${String(secsRem).padStart(2, "0")}s`
+    );
+
+    const openPos = Array.isArray(appState.openPositions) ? appState.openPositions : [];
+    const openCount = openPos.length;
+    const recoveredCount = Math.max(0, 27 - openCount);
+    const withdrawableUsdc = Number(appState.withdrawable || 0);
+    const liveAccountValue = Number(parseFloat(appState.accountValue || BASE_ACCOUNT_VALUE).toFixed(2));
+    const liveUnrealizedPnl = Number(
+      openPos.reduce((acc, p) => acc + parseFloat(p?.position?.unrealizedPnl || "0"), 0).toFixed(2)
+    );
+    const closedBase = Number((liveAccountValue - liveUnrealizedPnl).toFixed(2));
+
+    // Buscar cuál de las posiciones abiertas está más cerca de recuperarse ahora mismo
+    let closestCoin = null;
+    let closestMissing = Infinity;
+    openPos.forEach(p => {
+      const coin = p.position?.coin === "kPEPE" ? "PEPE" : (p.position?.coin || "");
+      const szi = parseFloat(p.position?.szi || "0");
+      const entryPx = parseFloat(p.position?.entryPx || "0");
+      const rawPnl = parseFloat(p.position?.unrealizedPnl || "0");
+      const fee = Math.abs(szi) * entryPx * 0.00090;
+      const net = rawPnl - fee;
+      const missing = Math.max(0.01, +(0.02 - net).toFixed(2));
+      if (missing < closestMissing) {
+        closestMissing = missing;
+        closestCoin = coin;
+      }
+    });
+
+    const whatIsHappeningEl = document.getElementById("harvesterWhatIsHappening");
+    if (whatIsHappeningEl) {
+      if (openCount > 0) {
+        const closestText = closestCoin ? ` · La más cercana a cerrarse en verde es ${closestCoin} (a solo $${closestMissing.toFixed(2)})` : "";
+        setTextIfChanged(
+          whatIsHappeningEl,
+          `Recuperando ${openCount} posiciones abiertas (se venden solas apenas tocan +$0.02 de ganancia)${closestText}. Mientras tanto, el Recolector cobra pagos por hora en automático.`
+        );
+      } else {
+        setTextIfChanged(
+          whatIsHappeningEl,
+          `¡100% del capital liberado en efectivo ($${closedBase.toFixed(2)} USDC)! El Recolector está listo para cobrar pagos por hora y rebotes de liquidación sin riesgo.`
+        );
+      }
+    }
+
+    // Tarjeta 1: Total Recogido Hoy (Alquiler por hora + Salidas en verde de hoy)
+    const posFundingToday = Number(appState.positiveFundingTodayUsdc || 0);
+    const posFundingCount = Number(appState.positiveFundingCountToday || 0);
+    const grossWinsToday = Number(appState.dailyGrossWinsTodayUsdc || 0);
+    const winsCountToday = Number(appState.dailyWinsToday || 0);
+    const totalCollectedToday = +(posFundingToday + grossWinsToday).toFixed(2);
+    const totalEventsCount = posFundingCount + winsCountToday;
+
+    setTextIfChanged(
+      document.getElementById("harvesterTotalCollectedToday"),
+      `+$${totalCollectedToday.toFixed(2)} USDC`
+    );
+    setTextIfChanged(
+      document.getElementById("harvesterTotalCollectedSub"),
+      `${totalEventsCount} cobros hoy (${winsCountToday} posiciones recuperadas + ${posFundingCount} pagos por hora)`
+    );
+
+    // Tarjeta 2: Pagos de Red por Hora
+    setTextIfChanged(
+      document.getElementById("harvesterFundingCount"),
+      `${posFundingCount} pagos hoy`
+    );
+    setTextIfChanged(
+      document.getElementById("harvesterFundingSub"),
+      `Cobrado por alquiler de red hoy: +$${posFundingToday.toFixed(2)} USDC`
+    );
+
+    // Tarjeta 3: Capital Libre en Caja
+    setTextIfChanged(
+      document.getElementById("harvesterFreeCapital"),
+      `$${withdrawableUsdc.toFixed(2)} USDC`
+    );
+    setTextIfChanged(
+      document.getElementById("harvesterRecoveryProgress"),
+      `Total Cerrado: $${closedBase.toFixed(2)} · Faltan liberar ${openCount} monedas (${recoveredCount}/27 libres)`
+    );
+
+    // Tarjeta 4 y Columna Izquierda: Mejores Recompensas en la Red Ahora
+    if (harvesterTopRatesCache.length > 0) {
+      const best = harvesterTopRatesCache[0];
+      setTextIfChanged(
+        document.getElementById("harvesterBestNetworkRate"),
+        `${best.coin} · +${best.annualizedPct.toFixed(1)}% anual`
+      );
+      setTextIfChanged(
+        document.getElementById("harvesterBestNetworkSub"),
+        `Paga aprox. +$${best.dailyUsdPer1000.toFixed(2)} al día por cada $1,000 (cada 1 hora)`
+      );
+
+      const oppListEl = document.getElementById("harvesterOpportunitiesList");
+      if (oppListEl) {
+        const oppHtml = harvesterTopRatesCache.map((it, idx) => `
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; background: ${idx === 0 ? "#F0FDF4" : "#F8FAFC"}; border: 1px solid ${idx === 0 ? "#86EFAC" : "#E2E8F0"};">
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 800; color: #0F172A;">
+                #${idx + 1} · ${it.coin} <span style="font-size: 0.66rem; font-weight: 700; color: #059669; margin-left: 6px;">+${it.annualizedPct.toFixed(1)}% anual</span>
+              </div>
+              <div style="font-size: 0.66rem; font-weight: 600; color: #475569; margin-top: 2px;">
+                ${it.sideThatCollects}
+              </div>
+            </div>
+            <div style="text-align: right; font-family: 'JetBrains Mono', monospace;">
+              <div style="font-size: 0.78rem; font-weight: 800; color: #059669;">+$${it.dailyUsdPer1000.toFixed(2)} / día</div>
+              <div style="font-size: 0.62rem; color: #64748B;">por cada $1,000</div>
+            </div>
+          </div>
+        `).join("");
+        if (oppListEl.innerHTML !== oppHtml) oppListEl.innerHTML = oppHtml;
+      }
+    }
+
+    // Columna Derecha: Historial en vivo de recompensas y recuperaciones cobradas
+    const histListEl = document.getElementById("harvesterCollectedHistoryList");
+    const events = Array.isArray(appState.collectedEventsToday) ? appState.collectedEventsToday : [];
+    const badgeEl = document.getElementById("harvesterFeedCounterBadge");
+    if (badgeEl) {
+      setTextIfChanged(badgeEl, `${events.length} cobros registrados hoy`);
+    }
+    if (histListEl) {
+      if (events.length === 0) {
+        const emptyHtml = `
+          <div style="padding: 12px; border-radius: 8px; background: #F8FAFC; color: #475569; font-size: 0.74rem; font-weight: 600;">
+            Vigilando la red... Apenas se cierre la siguiente posición recuperada o caiga el pago de la hora en punto, aparecerá aquí mismo.
+          </div>
+        `;
+        if (histListEl.innerHTML !== emptyHtml) histListEl.innerHTML = emptyHtml;
+      } else {
+        const itemsHtml = events.slice(0, 20).map(ev => {
+          const dt = new Date(ev.time || Date.now());
+          const hm = dt.toISOString().slice(11, 19) + " UTC";
+          const isFunding = ev.type === "ALQUILER_HORA";
+          return `
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 8px; background: ${isFunding ? "#F0F9FF" : "#ECFDF5"}; border: 1px solid ${isFunding ? "#BAE6FD" : "#A7F3D0"};">
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 800; color: #0F172A;">
+                  ${isFunding ? "💧" : "🔓"} ${ev.coin} · ${ev.label}
+                </div>
+                <div style="font-size: 0.64rem; font-weight: 600; color: #64748B;">
+                  🕒 Cobrado a las ${hm}
+                </div>
+              </div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.80rem; font-weight: 900; color: #059669;">
+                +$${Number(ev.amountUsdc || 0).toFixed(isFunding && ev.amountUsdc < 0.05 ? 3 : 2)} USDC
+              </div>
+            </div>
+          `;
+        }).join("");
+        if (histListEl.innerHTML !== itemsHtml) histListEl.innerHTML = itemsHtml;
+      }
+    }
+  } catch (_) {}
+}
+
 
 
 
