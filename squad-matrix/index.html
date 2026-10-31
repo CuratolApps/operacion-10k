@@ -1172,97 +1172,91 @@
         </div>
       </section>
 
-      <!-- TAB NUEVA SENCILLA: 8. 🌾 RECOLECTOR DE RECOMPENSAS (VISTA SIMPLE EN TIEMPO REAL) -->
-      <section class="tab-pane" id="paneRewardHarvester">
-        <div style="display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 6px 4px; overflow-y: auto; box-sizing: border-box;">
+      <!-- TAB NUEVA SENCILLA: 8. 🌾 RECOLECTOR DE RECOMPENSAS (CERO SCROLL GENERAL · SOLO SCROLL EN LAS 2 LISTAS) -->
+      <section class="tab-pane" id="paneRewardHarvester" style="height: 100% !important; max-height: 100% !important; overflow: hidden !important;">
+        <div style="display: flex; flex-direction: column; gap: 8px; height: 100%; max-height: 100%; padding: 4px 4px; overflow: hidden !important; box-sizing: border-box;">
 
-          <!-- 1. BANNER PRINCIPAL: ¿QUÉ ESTÁ SUCEDIENDO AHORA MISMO? -->
-          <div style="background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%); border: 2px solid #34D399; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <div style="width: 42px; height: 42px; border-radius: 10px; background: #059669; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; flex-shrink: 0;">
+          <!-- 1. BANNER PRINCIPAL FIJO (FLEX-SHRINK: 0) -->
+          <div style="flex-shrink: 0; background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%); border: 2px solid #34D399; border-radius: 10px; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: nowrap; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.08);">
+            <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: #059669; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; flex-shrink: 0;">
                 🌾
               </div>
-              <div>
-                <div style="font-size: 0.92rem; font-weight: 800; color: #064E3B; letter-spacing: -0.01em;" id="harvesterMainHeadline">
-                  RECOLECTOR AUTOMÁTICO DE RECOMPENSAS · VIGILANCIA EN VIVO 24/7
+              <div style="min-width: 0;">
+                <div style="font-size: 0.84rem; font-weight: 800; color: #064E3B; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="harvesterMainHeadline">
+                  🟢 RECOLECTOR DE RECOMPENSAS ACTIVO · TRABAJANDO EN VIVO 24/7
                 </div>
-                <div style="font-size: 0.76rem; font-weight: 600; color: #047857; margin-top: 2px;" id="harvesterWhatIsHappening">
-                  Liberando posiciones actuales en automático y escaneando la red para cobrar alquiler por hora y rebotes de liquidación sin quedar atrapado.
+                <div style="font-size: 0.72rem; font-weight: 600; color: #047857; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="harvesterWhatIsHappening">
+                  Conectado en vivo: cobrando pagos de red cada hora y cazando liquidaciones en monedas libres sin quedar atrapado.
                 </div>
               </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <span id="harvesterNextHourCountdown" style="background: #FFFFFF; border: 1px solid #6EE7B7; color: #065F46; padding: 6px 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 800;">
-                ⏳ Próximo pago por hora en: --m --s
+            <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+              <span id="harvesterNextHourCountdown" style="background: #FFFFFF; border: 1px solid #6EE7B7; color: #065F46; padding: 5px 10px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.70rem; font-weight: 800; white-space: nowrap;">
+                ⏳ Próximo pago en: --m --s
               </span>
-              <span id="harvesterModePill" style="background: #FEF3C7; border: 1px solid #F59E0B; color: #92400E; padding: 6px 12px; border-radius: 8px; font-size: 0.72rem; font-weight: 800;">
-                🔒 CERO RIESGO · SIN APUESTAS
+              <span id="harvesterModePill" style="background: #ECFDF5; border: 1px solid #10B981; color: #065F46; padding: 5px 10px; border-radius: 8px; font-size: 0.68rem; font-weight: 800; white-space: nowrap;">
+                🟢 EN TRABAJANDO · DESDE $0.00
               </span>
             </div>
           </div>
 
-          <!-- 2. 4 TARJETAS GRANDES Y SENCILLAS DE MÉTRICAS -->
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-            <!-- Tarjeta A: Recompensas Recogidas -->
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #10B981; border-radius: 10px; padding: 12px 14px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
-              <div style="font-size: 0.66rem; font-weight: 800; color: #64748B; text-transform: uppercase;">1. RECOMPENSAS RECOGIDAS (HOY)</div>
-              <div style="font-size: 1.35rem; font-weight: 900; color: #059669; margin: 4px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterTotalCollectedToday">+$0.00 USDC</div>
-              <div style="font-size: 0.68rem; font-weight: 700; color: #475569;" id="harvesterTotalCollectedSub">0 cobros registrados hoy en tu cuenta</div>
+          <!-- 2. 4 TARJETAS FIJAS SIN SCROLL (FLEX-SHRINK: 0) -->
+          <div style="flex-shrink: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            <!-- Tarjeta A: Recompensas Recogidas desde encendido ($0.00 sincerado) -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #10B981; border-radius: 10px; padding: 8px 12px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
+              <div style="font-size: 0.62rem; font-weight: 800; color: #64748B; text-transform: uppercase;">1. RECOMPENSAS RECOGIDAS (NUEVO)</div>
+              <div style="font-size: 1.20rem; font-weight: 900; color: #059669; margin: 2px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterTotalCollectedToday">+$0.00 USDC</div>
+              <div style="font-size: 0.64rem; font-weight: 700; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="harvesterTotalCollectedSub">0 cobros desde que se encendió ahora</div>
             </div>
 
-            <!-- Tarjeta B: Pagos de Alquiler por Hora (Red) -->
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #0EA5E9; border-radius: 10px; padding: 12px 14px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
-              <div style="font-size: 0.66rem; font-weight: 800; color: #64748B; text-transform: uppercase;">2. PAGOS DE RED POR HORA RECIBIDOS</div>
-              <div style="font-size: 1.35rem; font-weight: 900; color: #0284C7; margin: 4px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterFundingCount">0 pagos</div>
-              <div style="font-size: 0.68rem; font-weight: 700; color: #475569;" id="harvesterFundingSub">Acumulado reciente: +$0.00 USDC</div>
+            <!-- Tarjeta B: Próximo Pago que Viene (Corte de la Hora) -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #0EA5E9; border-radius: 10px; padding: 8px 12px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
+              <div style="font-size: 0.62rem; font-weight: 800; color: #64748B; text-transform: uppercase;">2. PRÓXIMO PAGO QUE VIENE (CORTE :00)</div>
+              <div style="font-size: 1.20rem; font-weight: 900; color: #0284C7; margin: 2px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterFundingCount">+$0.000 USDC</div>
+              <div style="font-size: 0.64rem; font-weight: 700; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="harvesterFundingSub">Calculando lo que te toca en el corte...</div>
             </div>
 
-            <!-- Tarjeta C: Capital Libre vs En Recuperación -->
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #F59E0B; border-radius: 10px; padding: 12px 14px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
-              <div style="font-size: 0.66rem; font-weight: 800; color: #64748B; text-transform: uppercase;">3. CAPITAL LIBRE EN CAJA (USDC)</div>
-              <div style="font-size: 1.35rem; font-weight: 900; color: #0F172A; margin: 4px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterFreeCapital">$0.00 USDC</div>
-              <div style="font-size: 0.68rem; font-weight: 700; color: #B45309;" id="harvesterRecoveryProgress">Liberando posiciones abiertas...</div>
+            <!-- Tarjeta C: Capital Libre Trabajando -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #F59E0B; border-radius: 10px; padding: 8px 12px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
+              <div style="font-size: 0.62rem; font-weight: 800; color: #64748B; text-transform: uppercase;">3. CAPITAL LIBRE PUESTO A TRABAJAR</div>
+              <div style="font-size: 1.20rem; font-weight: 900; color: #0F172A; margin: 2px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterFreeCapital">$0.00 USDC</div>
+              <div style="font-size: 0.64rem; font-weight: 700; color: #B45309; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="harvesterRecoveryProgress">Liberando posiciones abiertas...</div>
             </div>
 
             <!-- Tarjeta D: Mejor Recompensa Activa en la Red -->
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #8B5CF6; border-radius: 10px; padding: 12px 14px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
-              <div style="font-size: 0.66rem; font-weight: 800; color: #64748B; text-transform: uppercase;">4. MEJOR RECOMPENSA EN LA RED AHORA</div>
-              <div style="font-size: 1.35rem; font-weight: 900; color: #6D28D9; margin: 4px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterBestNetworkRate">Escaneando...</div>
-              <div style="font-size: 0.68rem; font-weight: 700; color: #475569;" id="harvesterBestNetworkSub">Buscando la moneda que más paga hoy</div>
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-top: 4px solid #8B5CF6; border-radius: 10px; padding: 8px 12px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
+              <div style="font-size: 0.62rem; font-weight: 800; color: #64748B; text-transform: uppercase;">4. MEJOR OPORTUNIDAD ACTIVA AHORA</div>
+              <div style="font-size: 1.20rem; font-weight: 900; color: #6D28D9; margin: 2px 0; font-family: 'JetBrains Mono', monospace;" id="harvesterBestNetworkRate">Escaneando...</div>
+              <div style="font-size: 0.64rem; font-weight: 700; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="harvesterBestNetworkSub">Buscando la moneda que más paga hoy</div>
             </div>
           </div>
 
-          <!-- 3. DOS COLUMNAS CLARAS: OPORTUNIDADES EN LA RED Y REGISTRO DE RECOMPENSAS COBRADAS -->
-          <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 12px; flex: 1; min-height: 260px;">
+          <!-- 3. DOS COLUMNAS CON SCROLL INTERNO EXCLUSIVO EN LAS LISTAS (FLEX: 1; MIN-HEIGHT: 0) -->
+          <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 10px; flex: 1; min-height: 0; overflow: hidden !important;">
             
-            <!-- Columna Izquierda: ¿Dónde está pagando más la red ahora mismo? -->
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
-              <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
-                <span style="font-size: 0.78rem; font-weight: 800; color: #0F172A;">📡 DONDE MÁS PAGA LA RED AHORA MISMO (EN VIVO)</span>
-                <span style="font-size: 0.64rem; font-weight: 700; color: #059669; background: #ECFDF5; padding: 2px 8px; border-radius: 99px;">Actualizado cada 5s</span>
+            <!-- Columna Izquierda: Operaciones Activas y Pagos que Vienen (CON SCROLL INTERNO) -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; min-height: 0; height: 100%; overflow: hidden; box-sizing: border-box; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
+              <div style="flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 6px;">
+                <span style="font-size: 0.74rem; font-weight: 800; color: #0F172A;">📡 OPERACIONES Y PAGOS QUE VIENEN EN EL PRÓXIMO CORTE</span>
+                <span style="font-size: 0.62rem; font-weight: 700; color: #059669; background: #ECFDF5; padding: 2px 8px; border-radius: 99px;">Scroll interno ↕</span>
               </div>
-              <div style="font-size: 0.68rem; color: #64748B; font-weight: 600;">
-                Estas son las monedas que más recompensa por hora están pagando en la red en este momento, sin necesidad de adivinar hacia dónde va el precio:
-              </div>
-              <div id="harvesterOpportunitiesList" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px; overflow-y: auto;">
-                <div style="padding: 12px; border-radius: 8px; background: #F8FAFC; color: #64748B; font-size: 0.74rem; font-weight: 600;">
-                  Cargando tasas en vivo de la red...
+              <div id="harvesterOpportunitiesList" style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto !important; padding-right: 4px;">
+                <div style="padding: 10px; border-radius: 8px; background: #F8FAFC; color: #64748B; font-size: 0.72rem; font-weight: 600;">
+                  Cargando operaciones y pagos en vivo...
                 </div>
               </div>
             </div>
 
-            <!-- Columna Derecha: Historial en vivo de recompensas y recuperaciones cobradas -->
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
-              <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
-                <span style="font-size: 0.78rem; font-weight: 800; color: #0F172A;">✅ ÚLTIMAS RECOMPENSAS Y RECUPERACIONES RECOGIDAS</span>
-                <span id="harvesterFeedCounterBadge" style="font-size: 0.64rem; font-weight: 700; color: #1E40AF; background: #EFF6FF; padding: 2px 8px; border-radius: 99px;">Cuenta #501 en vivo</span>
+            <!-- Columna Derecha: Recompensas Recogidas desde Cero (CON SCROLL INTERNO) -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; min-height: 0; height: 100%; overflow: hidden; box-sizing: border-box; box-shadow: 0 1px 4px rgba(15,23,42,0.04);">
+              <div style="flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 6px;">
+                <span style="font-size: 0.74rem; font-weight: 800; color: #0F172A;">✅ RECOMPENSAS RECOGIDAS (ARRANQUE EN $0.00)</span>
+                <span id="harvesterFeedCounterBadge" style="font-size: 0.62rem; font-weight: 700; color: #1E40AF; background: #EFF6FF; padding: 2px 8px; border-radius: 99px;">0 cobros · Scroll ↕</span>
               </div>
-              <div style="font-size: 0.68rem; color: #64748B; font-weight: 600;">
-                Cada centavo que entra por alquiler por hora o por posiciones recuperadas en verde aparece aquí automáticamente:
-              </div>
-              <div id="harvesterCollectedHistoryList" style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px; overflow-y: auto; max-height: 270px;">
-                <div style="padding: 12px; border-radius: 8px; background: #F8FAFC; color: #64748B; font-size: 0.74rem; font-weight: 600;">
-                  Consultando historial real de tu billetera...
+              <div id="harvesterCollectedHistoryList" style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto !important; padding-right: 4px;">
+                <div style="padding: 10px; border-radius: 8px; background: #F8FAFC; color: #64748B; font-size: 0.72rem; font-weight: 600;">
+                  Contador iniciado en $0.00. Aquí irán cayendo en vivo los pagos de la hora y las recompensas nuevas.
                 </div>
               </div>
             </div>
@@ -1428,6 +1422,6 @@
 
   </div>
 
-  <script src="app.js?v=20261031v50"></script>
+  <script src="app.js?v=20261031v51"></script>
 </body>
 </html>
