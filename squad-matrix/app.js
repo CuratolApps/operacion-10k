@@ -923,14 +923,14 @@ function persistClientRatchetMemory() {
 }
 function computeCorneringRatchetStepClient(peakNetPnlUsdc) {
   const peak = Number(peakNetPnlUsdc || 0);
-  if (peak >= 0.45) {
-    return +(Math.floor(((peak - 0.02) + 1e-9) * 20) / 20).toFixed(2);
+  if (peak >= 0.52) {
+    return +(Math.floor(((peak - 0.02) + 1e-9) * 10) / 10).toFixed(2);
   }
-  if (peak >= 0.30) return 0.30;
-  if (peak >= 0.25) return 0.25;
-  if (peak >= 0.18) return 0.18;
-  if (peak >= 0.10) return 0.10;
-  if (peak >= 0.02) return 0.02;
+  if (peak >= 0.42) return 0.40;
+  if (peak >= 0.32) return 0.30;
+  if (peak >= 0.22) return 0.20;
+  if (peak >= 0.12) return 0.10;
+  if (peak >= 0.04) return 0.02;
   return 0;
 }
 
@@ -1962,31 +1962,13 @@ function updateTopBarCards() {
   setTextIfChanged(document.getElementById("topLoanRemaining"), `$${(appState.totalLoanInjected - appState.totalLoanRepaid).toFixed(2)}`);
   setTextIfChanged(document.getElementById("topLoanBreakdownSub"), `Base #501: $629.94 + $54.10 + $72.48 = $${appState.totalLoanInjected.toFixed(2)} (0% Int.)`);
 
-  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: 19 PISCINAS LIBRES EN FUEGO + CARRUSEL #01➔#54 (X/5 EN AGUA) + 8 EN CUARENTENA (CERO PODA)
-  const legacyQuarantineCoinsSet = new Set(["SOL", "AVAX", "BTC", "PAXG", "ETH", "BNB", "XRP", "TRX", "RENDER", "NEAR"]);
-  let quarantineCount = 0;
-  let freshInWaterCount = 0;
-  validOpenPositions.forEach(p => {
-    const c = p.position.coin;
-    const uPnl = parseFloat(p.position.unrealizedPnl || "0");
-    const qInfo = appState.quartetByCoin?.[c] || null;
-    if (qInfo?.isLegacyQuarantineHold || (uPnl < 0 && legacyQuarantineCoinsSet.has(c) && !qInfo?.botSeqId)) {
-      quarantineCount++;
-    } else {
-      freshInWaterCount++;
-    }
-  });
-  if (validOpenPositions.length === 0) {
-    quarantineCount = appState.carousel54?.quarantineHoldCount ?? 8;
-    freshInWaterCount = appState.carousel54?.freshInWaterCount ?? 0;
-  }
-  const freePoolsCount = Math.max(0, 27 - validOpenPositions.length);
-  const nextTurnBadge = appState.carousel54?.nextBotBadge || "#01";
+  // 5. Radar Matrix (Tarjeta Superior #5) & Barra Inferior: PARADA TOTAL DE APERTURAS + RECUPERANDO X POSICIONES CON CANDADO (EMPATE ➔ +$0.10 ➔ +$0.20+)
+  const openPosCount = validOpenPositions.length;
 
-  const topPillText = `27 PARES L1 · CARRUSEL 54 BOTS (${nextTurnBadge} · $${calibre.marginUsdc.toFixed(2)} A 5X)`;
-  const readySquadsText = `🟢 ${freePoolsCount} PISCINAS LIBRES EN FUEGO (FILA #01➔#54: ${freshInWaterCount}/5 EN AGUA) | 🔒 ${quarantineCount} EN CUARENTENA (CERO PODA)`;
+  const topPillText = `🛑 FREEZE_ALL_NEW_ENTRIES = TRUE · 0 NUEVOS DISPAROS`;
+  const readySquadsText = `🛑 APERTURAS EN PAUSA TOTAL | 🔒 RECUPERANDO ${openPosCount} POSICIONES CON CANDADO (EMPATE ➔ +$0.10 ➔ +$0.20+)`;
   const subLabelText = `HOY NETO REAL: ${realNetSign}$${Math.abs(dailyProfit).toFixed(2)} USDC · 🕒 ${cycle24h.utcShortStr}`;
-  const bottomBannerText = `🎡 FILA 54 (${freshInWaterCount}/5 EN AGUA · TURNO ${nextTurnBadge}) · $${calibre.marginUsdc.toFixed(2)} A 5X`;
+  const bottomBannerText = `🛑 APERTURAS EN PAUSA TOTAL | 🔒 RECUPERANDO ${openPosCount} POSICIONES CON CANDADO`;
 
   setTextIfChanged(document.getElementById("topActiveSquadsText"), topPillText);
   setTextIfChanged(document.getElementById("topReadySquadsText"), readySquadsText);
@@ -2204,34 +2186,31 @@ function updatePricesAndSignals() {
       const netPnlUsdc = rInfo.netPnlUsdc !== undefined
         ? rInfo.netPnlUsdc
         : Number((grossPnl - Math.abs(szi * midPx) * 0.00090).toFixed(4));
-      const legacyQuarantineCoinsSet = new Set(["SOL", "AVAX", "BTC", "PAXG", "ETH", "BNB", "XRP", "TRX", "RENDER", "NEAR"]);
-      const isQuarantineHold = Boolean(
-        srvQuartet?.isLegacyQuarantineHold ||
-        (grossPnl < 0 && legacyQuarantineCoinsSet.has(p.symbol) && !srvQuartet?.botSeqId)
-      );
-      const isPositiveGreen = isQuarantineHold ? (netPnlUsdc >= 0.05) : (netPnlUsdc >= 0.02);
+      const lockedStep = rInfo.isLocked && rInfo.lockedNetUsd >= 0.02
+        ? rInfo.lockedNetUsd
+        : computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0));
+      const isPositiveGreen = lockedStep >= 0.02 || netPnlUsdc >= 0.04;
 
       const targetCellClass = "pair-cell pair-card pair-cell-active-pos " + (isPositiveGreen ? "pair-cell-green" : "pair-cell-amber");
       if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
 
       // SINCERIDAD ABSOLUTA EN PANTALLA (1:1 NETO): El marcador muestra netPnlUsdc (100% libre de comisiones L1 de entrada y salida)
       const pnlFormatted = (netPnlUsdc >= 0 ? "+" : "-") + "$" + Math.abs(netPnlUsdc).toFixed(2);
-      const botSeqTag = srvQuartet?.botSeqBadge ? ` · 🤖${srvQuartet.botSeqBadge}` : "";
-      const dirWord = isShort ? `SHORT · ⚡WS${botSeqTag}` : `LONG · ⚡WS${botSeqTag}`;
+      const dirWord = isShort ? `SHORT · ⚡250ms` : `LONG · ⚡250ms`;
       setTextIfChanged(sigText, dirWord);
       setTextIfChanged(sigRight1, pnlFormatted);
 
       let line2Text = "";
-      if (isQuarantineHold && !isPositiveGreen) {
-        line2Text = `🔒 EN CUARENTENA (CERO PODA · SALIDA >= +$0.05 NETO)`;
-      } else if (isPositiveGreen) {
-        const lockedStep = rInfo.lockedNetUsd >= 0.02
-          ? rInfo.lockedNetUsd
-          : Math.max(0.02, computeCorneringRatchetStepClient(Math.max(netPnlUsdc, rInfo.peakPnlUsdc || 0)));
-        const stepPrefix = lockedStep < 0.10 ? `🛡️ EMPATE #00 (+$${lockedStep.toFixed(2)} NETO)` : `🔒 +$${lockedStep.toFixed(2)} NETO`;
-        line2Text = `${stepPrefix} · 🔥${imbFormatted}:1 · ${microTag}`;
+      if (lockedStep >= 0.10) {
+        const nextStepTarget = +(lockedStep + 0.12).toFixed(2);
+        const centsToNext = Math.max(0.01, +(nextStepTarget - netPnlUsdc).toFixed(2));
+        line2Text = `🔒 CANDADO +$${lockedStep.toFixed(2)} NETO · ⬆️ A $${centsToNext.toFixed(2)} DE +$${(lockedStep + 0.10).toFixed(2)}`;
+      } else if (lockedStep >= 0.02 || netPnlUsdc >= 0.04) {
+        const centsTo10 = Math.max(0.01, +(0.12 - netPnlUsdc).toFixed(2));
+        line2Text = `🛡️ CANDADO EMPATE (+$0.02) ACTIVO · ⬆️ A $${centsTo10.toFixed(2)} DE 🔒 +$0.10`;
       } else {
-        line2Text = `🛡️ FUEGO FRESCO (30S ANTI-TRAMPA ➔ META +$0.25/+$0.30)`;
+        const centsToEmpate = Math.max(0.01, +(0.04 - netPnlUsdc).toFixed(2));
+        line2Text = `⏳ A $${centsToEmpate.toFixed(2)} DE 🛡️ CANDADO EMPATE (+$0.02) · ESCALÓN: $0.00`;
       }
       setTextIfChanged(sigLockText, line2Text);
     } else {
@@ -2240,27 +2219,11 @@ function updatePricesAndSignals() {
         if (p.symbol === "PEPE") delete clientRatchetMemory["kPEPE"];
         persistClientRatchetMemory();
       }
-      const allFourCooling = (cdMap.T1 > nowMs) && (cdMap.T2 > nowMs) && (cdMap.O1 > nowMs) && (cdMap.O2 > nowMs);
-      const settleUntil = clientPairBreatherUntil[p.symbol] || 0;
-      const breatherUntil = allFourCooling
-        ? Math.min(cdMap.T1, cdMap.T2, cdMap.O1, cdMap.O2)
-        : settleUntil;
-      const nextTurnBadge = appState.carousel54?.nextBotBadge || srvQuartet?.carousel54?.nextBotBadge || "#01";
-      if (breatherUntil > nowMs) {
-        // 🟦 ESTADO 3 — En Respiro Táctico
-        const targetCellClass = "pair-cell pair-card pair-cell-breather";
-        if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
-        setTextIfChanged(sigText, "🧘‍♂️ RESPIRO TÁCTICO");
-        setTextIfChanged(sigRight1, `🔥 ${imbFormatted}:1`);
-        setTextIfChanged(sigLockText, formatBreatherCountdown(breatherUntil));
-      } else {
-        // ⬜ ESTADO 4 — Piscina Libre en Fuego (Carrusel Secuencial 54 Bots #01➔#54)
-        const targetCellClass = "pair-cell pair-card pair-cell-auto";
-        if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
-        setTextIfChanged(sigText, "⚡ WS <18ms ($50 · 5X)");
-        setTextIfChanged(sigRight1, `🔥 ${imbFormatted}:1`);
-        setTextIfChanged(sigLockText, `🎡 FILA 54 · LISTA PARA TURNO ${nextTurnBadge} · META NETA +$0.25/+$0.30`);
-      }
+      const targetCellClass = "pair-cell pair-card pair-cell-auto";
+      if (cell && cell.className !== targetCellClass) cell.className = targetCellClass;
+      setTextIfChanged(sigText, "⏸️ PAUSA TOTAL");
+      setTextIfChanged(sigRight1, "0 TIROS");
+      setTextIfChanged(sigLockText, `⏸️ EN PAUSA · ESPERANDO LIBERACIÓN TOTAL DEL CAPITAL`);
     }
   });
 }
